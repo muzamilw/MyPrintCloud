@@ -469,10 +469,10 @@ namespace MPC.Repository.Repositories
             return oResult;
 
         }
-        public long GetContactCompanyID(string sStoreCode)
+        public long GetContactCompanyID(string sStoreCode,string CompanyName,long OrganisationID)
         {
             long iCompanyId = 0;
-            var comp = db.Companies.Where(c => c.WebAccessCode == sStoreCode).FirstOrDefault();
+            var comp = db.Companies.Where(c => c.WebAccessCode == sStoreCode && c.Name.Equals(CompanyName) && c.OrganisationId == OrganisationID).FirstOrDefault();
             if (comp != null)
                 iCompanyId = comp.CompanyId;
             return iCompanyId;
@@ -496,6 +496,7 @@ namespace MPC.Repository.Repositories
         }
         public bool UpdateListingData(ListingProperty objProperty, MPC.Models.DomainModels.Listing listing)
         {
+
             try
             {
                 bool dataAdded = false;
@@ -516,7 +517,7 @@ namespace MPC.Repository.Repositories
 
                 long updatedListingID = UpdateListing(objProperty.Listing, listing);
                 UpdateListingCustomCopy(updatedListingID, objProperty.Listing.CustomCopy);
-               UpdateListingImages(updatedListingID, objProperty.ListingImages, objProperty.Listing.ContactCompanyID);
+                UpdateListingImages(updatedListingID, objProperty.ListingImages, objProperty.Listing.ContactCompanyID);
                 UpdateListingOFIs(updatedListingID, objProperty.ListingOFIs);
                 UpdateListingFloorPlans(updatedListingID, objProperty.ListingFloorplans);
                 UpdateListingLinks(updatedListingID, objProperty.ListingLinks);

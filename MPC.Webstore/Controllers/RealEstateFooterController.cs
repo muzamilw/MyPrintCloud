@@ -22,6 +22,7 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
             ViewBag.Company = StoreBaseResopnse.Company;
             return View("PartialViews/RealEstateFooter");
+            
         }
     }
 }

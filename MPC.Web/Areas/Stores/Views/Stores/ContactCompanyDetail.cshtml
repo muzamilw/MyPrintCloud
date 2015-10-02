@@ -2289,6 +2289,25 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </div>
                                         <!--/ko-->
+
+                                        <div class="form-group">
+                                            <div class="col-md-3"></div>
+
+                                            <div class="col-md-6" style="padding-top:5px;">
+                                                <label style="padding:0px;margin-top:5px;" for="switchRegistrationFromWebsite">PO Number required on webstore</label>
+
+                                            </div>
+                                            <div class="col-md-3" style="padding-left:6px;">
+                                                <div class="onoffswitch" style="margin-right:0px;">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swithPONumberRequired" data-bind="checked: $root.selectedStore().poNumberRequired">
+                                                    <label class="onoffswitch-label" for="swithPONumberRequired">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--ko if: $root.selectedStore().type() == 3 -->

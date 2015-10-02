@@ -10,6 +10,7 @@
 
 }
 function d1ToCanvas(src, x, y, IW, IH) {
+ 
     var canvasHeight = Math.floor(canvas.height);
     var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
@@ -2130,10 +2131,10 @@ function l2(event) {
             }
         }
     }
-    if (event.keyCode == 46 || event.keyCode == 8) {
+    if (event.keyCode == 46) {//|| event.keyCode == 8
         if (N1LA != 1 && IsInputSelected == false) {
             var D1AO = canvas.getActiveObject();
-            var D1AG = canvas.getActiveGroup();
+            var D1AG = canvas.getActiveGroup(); alert();
             if (D1AG) {
                 if (confirm("Are you sure you want to Remove this Group from the canvas.")) {
                     var objectsInGroup = D1AG.getObjects();
@@ -2180,10 +2181,23 @@ function l3(e) {
         return false
     }
     var sObj = canvas.getActiveObject();
+    var askCnfrmation = false;
     if (!sObj) {
+        askCnfrmation = true;
+    } else {
+        if (sObj.type != 'text' || sObj.type != 'i-text') {
+            askCnfrmation = true;
+        }
+    }
+   
+  
+    if (askCnfrmation)
+    {
         if (e.keyCode == 8 && IsInputSelected == false) {
             if (IsDesignModified) {
                 if (!confirm("You have unsaved changes. Do you want to leave without saving changes ?")) {
+                    e.stopPropagation();
+                    e.preventDefault();
                     return false;
                 }
             }
@@ -2432,7 +2446,6 @@ function pcL02_main2() {
     pcL36('toggle', '#DivColorPickerDraggable');
 }
 function pcL03() {
-   
         var D1AO = canvas.getActiveObject(),
         D1AG = canvas.getActiveGroup();
         if (D1AO) {
@@ -3194,13 +3207,94 @@ function pcl42_UpdateTO(isFirstLoad) {
     }
     if ($("#optionRadioOtherProfile").is(':checked')) {
         $.each(TO, function (i, IT) {
-            $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
-              //  if (obj.ObjectType == 3)  // replacing variables
-                //    {
-                if (obj.Value == null) {
-                    obj.Value = "";
-                }
-                if (obj.Value != null ) {
+            if (IT.ObjectType == 2) {
+                $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
+                    //  if (obj.ObjectType == 3)  // replacing variables
+                    //    {
+                    if (obj.Value == null) {
+                        obj.Value = "";
+                    }
+                    if (obj.Value != null) {
+                        var variableTag = obj.FieldVariable.VariableTag;
+                        var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (obj.FieldVariable.VariableTag != null) {
+                            variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                            variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                        }
+                        var prefix = "", post = "", value = "";
+
+                        $.each(lstVariableExtensions, function (i, objExt) {
+                            if (obj.FieldVariable.VariableId == objExt.FieldVariableId) {
+                                if (objExt.VariablePrefix != null && objExt.VariablePrefix != "") {
+                                    prefix = objExt.VariablePrefix;
+                                    if (objExt.CollapsePrefix == true && obj.Value == "") {
+                                        prefix = "";
+                                    }
+                                }
+                                if (objExt.VariablePostfix != null && objExt.VariablePostfix != "") {
+                                    post = objExt.VariablePostfix;
+                                    if (objExt.CollapsePostfix == true && obj.Value == "") {
+                                        post = "";
+                                    }
+                                }
+                            }
+                        });
+                        value = obj.Value;//value = prefix + obj.Value + post;
+                        // add variable icon 
+                        if (obj.VariableIconUrl != null && obj.VariableIconUrl != "") {
+                            AddPortFolioIcon(obj.VariableIconUrl, IT, variableTag);
+                            // ExField1
+                        }
+                        while (IT.ContentString.indexOf(variableTag) != -1)
+                            updateTOWithStyles(IT, variableTag, value);
+                        while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
+                            updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
+                        while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
+                            updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
+                        // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+
+                        var tag = variableTag.replace("{{", "");
+                        tag = tag.replace("}}", "");
+                        var prefixVar = "{{" + tag + "_pre}}";
+                        var postfixVar = "{{" + tag + "_post}}";
+
+                        var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (obj.FieldVariable.VariableTag != null) {
+                            prefixVarUpperCase = prefixVar.toUpperCase();
+                            prefixVarLowerCase = prefixVar.toLowerCase();
+                            postfixVarUpperCase = postfixVar.toUpperCase();
+                            postfixVarLowerCase = postfixVar.toLowerCase();
+                        }
+                        while (IT.ContentString.indexOf(prefixVar) != -1)
+                            updateTOWithStyles(IT, prefixVar, prefix);
+                        while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                            updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                        while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                            updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+
+                        while (IT.ContentString.indexOf(postfixVar) != -1)
+                            updateTOWithStyles(IT, postfixVar, post);
+                        while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                            updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                        while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                            updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+
+
+
+                    }
+                    //  }
+                });
+            }
+        });
+    }
+    else {
+        $.each(TO, function (i, IT) {
+            if (IT.ObjectType == 2) {
+                $.each(smartFormData.scopeVariables, function (i, obj) {
                     var variableTag = obj.FieldVariable.VariableTag;
                     var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
                     var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
@@ -3208,155 +3302,75 @@ function pcl42_UpdateTO(isFirstLoad) {
                         variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
                         variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
                     }
-                    var prefix = "", post = "", value = "";
+                    if (obj.Value == null) {
+                        obj.Value = "";
+                    }
+                    if (obj.Value != null) {
+                        var prefix = "", post = "", value = "";
 
-                    $.each(lstVariableExtensions, function (i, objExt) {
-                        if (obj.FieldVariable.VariableId == objExt.FieldVariableId) {
-                            if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" ) {
-                                prefix = objExt.VariablePrefix;
-                                if (objExt.CollapsePrefix == true && obj.Value == "") {
-                                    prefix = "";
+                        $.each(lstVariableExtensions, function (i, objExt) {
+                            if (obj.FieldVariable.VariableId == objExt.FieldVariableId) {
+                                if (objExt.VariablePrefix != null && objExt.VariablePrefix != "") {
+                                    prefix = objExt.VariablePrefix;
+                                    if (objExt.CollapsePrefix == true && obj.Value == "") {
+                                        prefix = "";
+                                    }
+                                }
+                                if (objExt.VariablePostfix != null && objExt.VariablePostfix != "") {
+                                    post = objExt.VariablePostfix;
+                                    if (objExt.CollapsePostfix == true && obj.Value == "") {
+                                        post = "";
+                                    }
                                 }
                             }
-                            if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" ) {
-                                post = objExt.VariablePostfix;
-                                if (objExt.CollapsePostfix == true && obj.Value == "") {
-                                    post = "";
-                                }
-                            }
+                        });
+                        value = obj.Value;//value = prefix + obj.Value + post;
+                        // add variable icon 
+                        if (obj.VariableIconUrl != null && obj.VariableIconUrl != "") {
+                            AddPortFolioIcon(obj.VariableIconUrl, IT, variableTag);
+                            // ExField1
                         }
-                    });
-                    value = obj.Value;//value = prefix + obj.Value + post;
-                    // add variable icon 
-                    if (obj.VariableIconUrl != null && obj.VariableIconUrl != "") {
-                        AddPortFolioIcon(obj.VariableIconUrl, IT, variableTag);
-                        // ExField1
-                    }
-                    while (IT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(IT, variableTag, value);
-                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
-                        updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
-                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
-                        updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
-                    // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
-
-                    var tag = variableTag.replace("{{", "");
-                    tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}}";
-                    var postfixVar = "{{" + tag + "_post}}";
-                  
-                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    if (obj.FieldVariable.VariableTag != null) {
-                        prefixVarUpperCase = prefixVar.toUpperCase();
-                        prefixVarLowerCase = prefixVar.toLowerCase();
-                        postfixVarUpperCase = postfixVar.toUpperCase();
-                        postfixVarLowerCase = postfixVar.toLowerCase();
-                    }
-                    while (IT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(IT, prefixVar, prefix);
-                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
-
-                    while (IT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(IT, postfixVar, post);
-                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
-                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
-
-
-                   
-                }
-              //  }
-            });
-        });
-    }
-    else {
-        $.each(TO, function (i, IT) {
-            
-            $.each(smartFormData.scopeVariables, function (i, obj) {
-                var variableTag = obj.FieldVariable.VariableTag;
-                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                if (obj.FieldVariable.VariableTag != null) {
-                    variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
-                    variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
-                }
-                if (obj.Value == null) {
-                    obj.Value = "";
-                }
-                if (obj.Value != null) {
-                    var prefix = "", post = "", value = "";
-                    
-                    $.each(lstVariableExtensions, function (i, objExt) {
-                        if(obj.FieldVariable.VariableId  ==  objExt.FieldVariableId)
-                        {
-                            if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" )
-                            {
-                                prefix = objExt.VariablePrefix;
-                                if (objExt.CollapsePrefix == true && obj.Value == "") {
-                                    prefix = "";
-                                }
-                            }
-                            if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" ) {
-                                post = objExt.VariablePostfix;
-                                if (objExt.CollapsePostfix == true && obj.Value == "") {
-                                    post = "";
-                                }
-                            }
+                        while (IT.ContentString.indexOf(variableTag) != -1) {
+                            updateTOWithStyles(IT, variableTag, value);
                         }
-                    });
-                    value = obj.Value;//value = prefix + obj.Value + post;
-                    // add variable icon 
-                    if (obj.VariableIconUrl != null && obj.VariableIconUrl != "") {
-                        AddPortFolioIcon(obj.VariableIconUrl, IT, variableTag);
-                        // ExField1
-                    }
-                    while (IT.ContentString.indexOf(variableTag) != -1) {
-                        updateTOWithStyles(IT, variableTag, value);
-                    }
-                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
-                        updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
-                    }
-                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
-                        updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
-                    }
-                    //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
-                    var tag = variableTag.replace("{{", "");
-                    tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}}";
-                    var postfixVar = "{{" + tag + "_post}}";
-                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    if (obj.FieldVariable.VariableTag != null) {
-                        prefixVarUpperCase = prefixVar.toUpperCase();
-                        prefixVarLowerCase = prefixVar.toLowerCase();
-                        postfixVarUpperCase = postfixVar.toUpperCase();
-                        postfixVarLowerCase = postfixVar.toLowerCase();
-                    }
-                    while (IT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(IT, prefixVar, prefix);
-                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+                        while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
+                            updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
+                        }
+                        while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
+                            updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
+                        }
+                        //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                        var tag = variableTag.replace("{{", "");
+                        tag = tag.replace("}}", "");
+                        var prefixVar = "{{" + tag + "_pre}}";
+                        var postfixVar = "{{" + tag + "_post}}";
+                        var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (obj.FieldVariable.VariableTag != null) {
+                            prefixVarUpperCase = prefixVar.toUpperCase();
+                            prefixVarLowerCase = prefixVar.toLowerCase();
+                            postfixVarUpperCase = postfixVar.toUpperCase();
+                            postfixVarLowerCase = postfixVar.toLowerCase();
+                        }
+                        while (IT.ContentString.indexOf(prefixVar) != -1)
+                            updateTOWithStyles(IT, prefixVar, prefix);
+                        while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                            updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                        while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                            updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
 
-                    while (IT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(IT, postfixVar, post);
-                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
-                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
-                  
-                }
-            });
+                        while (IT.ContentString.indexOf(postfixVar) != -1)
+                            updateTOWithStyles(IT, postfixVar, post);
+                        while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                            updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                        while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                            updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+
+                    }
+                });
+            }
         }); 
     }
   
@@ -3393,43 +3407,44 @@ function pcl42_updateTemplate(DT) {
                     // ExField1
                 }
                 $.each(DT, function (i, objDT) {
-                    while (objDT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(objDT, variableTag, value);
-                    while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
-                        updateTOWithStyles(objDT, variableTag.toLowerCase(), value.toLowerCase());
-                    while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
-                        updateTOWithStyles(objDT, variableTag.toUpperCase(), value.toUpperCase());
+                    if (objDT.ObjectType == 2) {
+                        while (objDT.ContentString.indexOf(variableTag) != -1)
+                            updateTOWithStyles(objDT, variableTag, value);
+                        while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
+                            updateTOWithStyles(objDT, variableTag.toLowerCase(), value.toLowerCase());
+                        while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
+                            updateTOWithStyles(objDT, variableTag.toUpperCase(), value.toUpperCase());
 
 
 
-                    var tag = variableTag.replace("{{", "");
-                    tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}}";
-                    var postfixVar = "{{" + tag + "_post}}";
-                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    if (vari.FieldVariable.VariableTag != null) {
-                        prefixVarUpperCase = prefixVar.toUpperCase();
-                        prefixVarLowerCase = prefixVar.toLowerCase();
-                        postfixVarUpperCase = postfixVar.toUpperCase();
-                        postfixVarLowerCase = postfixVar.toLowerCase();
+                        var tag = variableTag.replace("{{", "");
+                        tag = tag.replace("}}", "");
+                        var prefixVar = "{{" + tag + "_pre}}";
+                        var postfixVar = "{{" + tag + "_post}}";
+                        var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (vari.FieldVariable.VariableTag != null) {
+                            prefixVarUpperCase = prefixVar.toUpperCase();
+                            prefixVarLowerCase = prefixVar.toLowerCase();
+                            postfixVarUpperCase = postfixVar.toUpperCase();
+                            postfixVarLowerCase = postfixVar.toLowerCase();
+                        }
+                        while (objDT.ContentString.indexOf(prefixVar) != -1)
+                            updateTOWithStyles(objDT, prefixVar, prefix);
+                        while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                            updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
+                        while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                            updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
+
+                        while (objDT.ContentString.indexOf(postfixVar) != -1)
+                            updateTOWithStyles(objDT, postfixVar, post);
+                        while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                            updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
+                        while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                            updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
                     }
-                    while (objDT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(objDT, prefixVar, prefix);
-                    while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
-
-                    while (objDT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(objDT, postfixVar, post);
-                    while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
-                    while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
-                    
                 });
             } else {
                 var variableTag = vari.FieldVariable.VariableTag;
@@ -3454,47 +3469,48 @@ function pcl42_updateTemplate(DT) {
                 });
                 value = prefix + "" + post;
                 $.each(DT, function (i, objDT) {
-                    while (objDT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(objDT, variableTag, value);
-                    while (objDT.ContentString.indexOf(variableTagUpperCase) != -1)
-                        updateTOWithStyles(objDT, variableTagUpperCase, value);
-                    while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
-                        updateTOWithStyles(objDT, variableTagLowerCase, value);
+                    if (objDT.ObjectType == 2) {
+                        while (objDT.ContentString.indexOf(variableTag) != -1)
+                            updateTOWithStyles(objDT, variableTag, value);
+                        while (objDT.ContentString.indexOf(variableTagUpperCase) != -1)
+                            updateTOWithStyles(objDT, variableTagUpperCase, value);
+                        while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
+                            updateTOWithStyles(objDT, variableTagLowerCase, value);
 
-                    var tag = variableTag.replace("{{", "");
-                    tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}}";
-                    var postfixVar = "{{" + tag + "_post}}";
-                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    if (vari.FieldVariable.VariableTag != null) {
-                        prefixVarUpperCase = prefixVar.toUpperCase();
-                        prefixVarLowerCase = prefixVar.toLowerCase();
-                        postfixVarUpperCase = postfixVar.toUpperCase();
-                        postfixVarLowerCase = postfixVar.toLowerCase();
+                        var tag = variableTag.replace("{{", "");
+                        tag = tag.replace("}}", "");
+                        var prefixVar = "{{" + tag + "_pre}}";
+                        var postfixVar = "{{" + tag + "_post}}";
+                        var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (vari.FieldVariable.VariableTag != null) {
+                            prefixVarUpperCase = prefixVar.toUpperCase();
+                            prefixVarLowerCase = prefixVar.toLowerCase();
+                            postfixVarUpperCase = postfixVar.toUpperCase();
+                            postfixVarLowerCase = postfixVar.toLowerCase();
+                        }
+                        while (objDT.ContentString.indexOf(prefixVar) != -1)
+                            updateTOWithStyles(objDT, prefixVar, prefix);
+                        while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                            updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
+                        while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                            updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
+
+                        while (objDT.ContentString.indexOf(postfixVar) != -1)
+                            updateTOWithStyles(objDT, postfixVar, post);
+                        while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                            updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
+                        while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                            updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
+
+                        // add variable icon  not needed as variable value is null
+                        //if (vari.VariableIconUrl != null && vari.VariableIconUrl != "") {
+                        //    AddPortFolioIcon(vari.VariableIconUrl, objDT);
+                        //    // ExField1
+                        //}
                     }
-                    while (objDT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(objDT, prefixVar, prefix);
-                    while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
-
-                    while (objDT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(objDT, postfixVar, post);
-                    while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
-                    while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
-
-                    // add variable icon  not needed as variable value is null
-                    //if (vari.VariableIconUrl != null && vari.VariableIconUrl != "") {
-                    //    AddPortFolioIcon(vari.VariableIconUrl, objDT);
-                    //    // ExField1
-                    //}
-
                 });
             }
         });

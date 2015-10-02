@@ -12,6 +12,7 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        long OrganisationThroughSystemUserEmail(string Email);
         void AddDataSystemUser(CompanyContact Contact);
         void UpdateDataSystemUser(CompanyContact Contact);
         CompanyContactRole GetRoleByID(int RoleID);

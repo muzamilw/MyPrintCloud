@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using MPC.Common;
+using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace MPC.Interfaces.Repository
 
         bool UpdateImgTerritories(long imgID, string territory);
         List<ImagePermission> getImgTerritories(long imgID);
+
+        List<RealEstateImage> getPropertyImages(long propertyId);
 
     }
 }

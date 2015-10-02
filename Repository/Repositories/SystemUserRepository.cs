@@ -103,6 +103,16 @@ namespace MPC.Repository.Repositories
         {
             return db.SystemUsers.Where(c => c.OrganizationId == OrganisationId).FirstOrDefault();
         }
+        public long OrganisationThroughSystemUserEmail(string Email)
+        {
+            long OrgID = 0;
+           SystemUser SUser= db.SystemUsers.Where(i => i.Email.Equals(Email)).FirstOrDefault();
+           if (SUser != null)
+           {
+               OrgID = (long)SUser.OrganizationId;
+           }
+            return OrgID;
+        }
         #endregion
     }
 }
