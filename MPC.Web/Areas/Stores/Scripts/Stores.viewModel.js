@@ -3380,12 +3380,15 @@ define("stores/stores.viewModel",
                                                         }
                                                         count = count + 1;
                                                     });
-                                                }
+                                                        }
 
 
 
                                                 var storeGotChanges = selectedStore().hasChanges();
                                                 //var user = getCompanyContactByIdFromListView(companyContact.contactId());
+                                                //if (user) {
+                                                //    selectedStore().users.remove(user);
+                                                //}
                                                 //if (user) {
                                                 //    selectedStore().users.remove(user);
                                                 //}

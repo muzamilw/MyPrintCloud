@@ -1,4 +1,6 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System.IO;
+using System.Text;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
@@ -7,6 +9,7 @@ using System.Web;
 using System.Web.Http;
 using MPC.WebBase.Mvc;
 using MPC.Interfaces.Data;
+using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -73,7 +76,28 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
+            PostDataToZapier(request);
             return invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
+        }
+
+        private void PostDataToZapier(Invoice invoice)
+        {
+
+            var resp = invoiceService.GetZapierInvoiceDetail(invoice.InvoiceId);
+            string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+
+            //string sData = string.Empty;
+            var request = System.Net.WebRequest.Create("https://zapier.com/hooks/catch/3hqi47/");
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+            request.ContentLength = byteArray.Length;
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                var response = request.GetResponse();
+            }
+
         }
         #endregion
     }

@@ -425,4 +425,10 @@
 .archiveButton {
   float: left;
 }
+.activeProduct {
+  color: #00DB3B;
+}
+.inactiveProduct {
+  color: red;
+}
 /*# sourceMappingURL=Store.css.map */

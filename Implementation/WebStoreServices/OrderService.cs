@@ -605,5 +605,9 @@ namespace MPC.Implementation.WebStoreServices
        {
            _OrderRepository.SaveChanges();
        }
+       public void UpdateOrderForDel(Estimate Order)
+       {
+           _OrderRepository.UpdateOrderForDel(Order);
+       }
     }
 }
