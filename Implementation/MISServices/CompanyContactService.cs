@@ -1140,5 +1140,7 @@ namespace MPC.Implementation.MISServices
         {
             return companyContactRepository.GetStoreContactForZapier(organisationId);
         }
+
+        
     }
 }

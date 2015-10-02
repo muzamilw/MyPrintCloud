@@ -24,6 +24,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
         private readonly ICompanyService companyService;
         private readonly ICompanyContactService companyContactService;
+        private readonly IMyOrganizationService organisationService;
 
         #endregion
         #region Constructor
@@ -31,10 +32,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public CompanyContactController(ICompanyService companyService, ICompanyContactService companyContactService)
+        public CompanyContactController(ICompanyService companyService, ICompanyContactService companyContactService, IMyOrganizationService myOrganizationService)
         {
             this.companyService = companyService;
             this.companyContactService = companyContactService;
+            this.organisationService = myOrganizationService;
         }
 
         #endregion
@@ -66,8 +68,9 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            PostDataToZapier(companyContact);
-            return companyContactService.Save(companyContact.Createfrom()).CreateFrom();
+            var savedContact = companyContactService.Save(companyContact.Createfrom()).CreateFrom();
+            PostDataToZapier(savedContact);
+            return savedContact;
         }
 
 
@@ -89,20 +92,23 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         private void PostDataToZapier(CompanyContact companyContact)
         {
-
-           var resp =  companyContactService.GetStoreContactForZapier(companyContact.ContactId);
-           string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-
-            //string sData = string.Empty;
-           var request = System.Net.WebRequest.Create("https://zapier.com/hooks/catch/3hqi47/");
-            request.ContentType = "application/json";
-            request.Method = "POST";
-            byte[] byteArray = Encoding.UTF8.GetBytes(sData);
-            request.ContentLength = byteArray.Length;
-            using (Stream dataStream = request.GetRequestStream())
+            string sPostUrl = organisationService.GetZapierPostUrl();
+            if (!string.IsNullOrEmpty(sPostUrl))
             {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-                var response = request.GetResponse();
+                var resp = companyContactService.GetStoreContactForZapier(companyContact.ContactId);
+                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+
+                //string sData = string.Empty;
+                var request = System.Net.WebRequest.Create(sPostUrl);
+                request.ContentType = "application/json";
+                request.Method = "POST";
+                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                request.ContentLength = byteArray.Length;
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    var response = request.GetResponse();
+                }
             }
 
         }

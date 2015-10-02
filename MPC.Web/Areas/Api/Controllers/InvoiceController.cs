@@ -21,16 +21,17 @@ namespace MPC.MIS.Areas.Api.Controllers
        #region Private
 
         private readonly IInvoiceService invoiceService;
-
+        private readonly IMyOrganizationService organisationService;
         #endregion
        #region Constructor
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public InvoiceController(IInvoiceService invoiceService)
+        public InvoiceController(IInvoiceService invoiceService, IMyOrganizationService myOrganizationService)
         {
             this.invoiceService = invoiceService;
+            this.organisationService = myOrganizationService;
         }
 
         #endregion
@@ -75,28 +76,33 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
-
-            PostDataToZapier(request);
-            return invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
+            var savedInvoice = invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
+            PostDataToZapier(savedInvoice);
+            return savedInvoice;
         }
 
         private void PostDataToZapier(Invoice invoice)
         {
 
-            var resp = invoiceService.GetZapierInvoiceDetail(invoice.InvoiceId);
-            string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-
-            //string sData = string.Empty;
-            var request = System.Net.WebRequest.Create("https://zapier.com/hooks/catch/3hqi47/");
-            request.ContentType = "application/json";
-            request.Method = "POST";
-            byte[] byteArray = Encoding.UTF8.GetBytes(sData);
-            request.ContentLength = byteArray.Length;
-            using (Stream dataStream = request.GetRequestStream())
+            string sPostUrl = organisationService.GetZapierPostUrl();
+            if (!string.IsNullOrEmpty(sPostUrl))
             {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-                var response = request.GetResponse();
+                var resp = invoiceService.GetZapierInvoiceDetail(invoice.InvoiceId);
+                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+
+                //string sData = string.Empty;
+                var request = System.Net.WebRequest.Create(sPostUrl);
+                request.ContentType = "application/json";
+                request.Method = "POST";
+                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                request.ContentLength = byteArray.Length;
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    var response = request.GetResponse();
+                }
             }
+           
 
         }
         #endregion
