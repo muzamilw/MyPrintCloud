@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="btn-group" style="float:left;margin-left:16px;">
+                <div class="btn-group" style="float:left;margin-left:14px;">
                     @*<button type="button" class="btn btn-primary">Actions</button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
@@ -48,8 +48,8 @@
                         <li><a href="#" data-bind="click:$root.openExternalEmailPurchaseReport">Email Purchase Order</a></li>
 
                     </ul>*@
-                    <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;" data-bind="click:$root.openExternalReportsPurchase">Print</button>
-                    <button class="btn btn-primary" style="margin-top:-10px;" data-bind="click:$root.openExternalEmailPurchaseReport">Email</button>
+                    <button class="btn btn-primary" style="margin-top:0px;margin-right:5px;border-radius:5px;" data-bind="click:$root.openExternalReportsPurchase">Print</button>
+                    <button class="btn btn-primary" style="margin-top:0px;border-radius:5px;" data-bind="click:$root.openExternalEmailPurchaseReport">Email</button>
                 </div>
                 
             </div>
@@ -60,7 +60,7 @@
                 @*<button class="btn btn-primary" data-bind="visible:$root.selectedPurchaseOrder().id()!==undefined,click: $root.openReport.bind($data, true) " style="margin-right:5px">
                     Print
                 </button>*@
-                <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float:right;margin-bottom:10px;margin-right: 15px;display:inline;margin-top:0px;">&nbsp;Cancel</button>
+                <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float:right;margin-bottom:10px;margin-right: 12px;display:inline;margin-top:0px;">&nbsp;Cancel</button>
                 <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31,click:$root.onSavePurchaseOrder, enable: $root.selectedPurchaseOrder().hasChanges(),css: { 'btn-warning': $root.selectedPurchaseOrder().hasChanges() }">
                     &nbsp;Save
                 </button>
@@ -73,10 +73,10 @@
         </div>
     </div>
     <div class="row" id="user-profile" data-bind="with: selectedPurchaseOrder" style="padding-left: 18px; padding-right: 20px;">
-        <div class="col-sm-12">
+        <div class="col-sm-12" style="padding-left:5px;padding-right:5px;">
             <div class="main-box clearfix">
-                <div class="col-sm-12 form-horizontal" style="margin-top: 3%;">
-                    <h3 class="group-header">General Information</h3>
+                <div class="col-sm-12 form-horizontal" style="margin-top:20px;">
+                    <h3 class="group-header" style="margin-left:10px; margin-right:9px;">General Information</h3>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-4 text-right">
@@ -89,8 +89,8 @@
                             <div class="col-sm-6">
                                 <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: supplierId, click: !$root.selectedPurchaseOrder().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Supplier" class="form-control font24px" id="txtCompany" />
                             </div>
-                            <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
-                                <button data-bind="click: $root.openCompanyDialog, enable: (id() <= 0) || (id()===undefined)" class="btn btn-primary pull-right">
+                            <div class="col-sm-1" style="padding-top:10px;padding-left:0px;">
+                                <button data-bind="click: $root.openCompanyDialog, enable: (id() <= 0) || (id()===undefined)" class="btn btn-primary">
                                     <i class="fa fa-user"></i>
                                 </button>
                             </div>
@@ -113,8 +113,8 @@
                                 <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
-                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
-                                <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
+                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="padding-left:0px">
+                                <a class="btn btn-primary" id="addresspull" onclick="addAddress()">
                                     <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                                 </a>
                             </div>
