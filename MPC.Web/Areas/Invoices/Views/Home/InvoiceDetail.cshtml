@@ -14,9 +14,9 @@
                             <li><a href="#" data-bind="click:$root.openExternalEmailInvoiceReport">Email Invoice</a></li>
                             <li><a href="#">Archive Invoice</a></li>
                         </ul>*@
-                        <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;" data-bind="click:$root.openExternalReportsInvoice">Print</button>
-                        <button class="btn btn-primary" style="margin-top:-10px;" data-bind="click:$root.openExternalEmailInvoiceReport">Email</button>
-                        <button class="btn" style="margin-top:-10px;margin-left:5px;">Archive</button>
+                        <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;border-radius:5px;" data-bind="click:$root.openExternalReportsInvoice">Print</button>
+                        <button class="btn btn-primary" style="margin-top:-10px;border-radius:5px;" data-bind="click:$root.openExternalEmailInvoiceReport">Email</button>
+                        <button class="btn" style="margin-top:-10px;margin-left:5px;border-radius:5px;">Archive</button>
                     </div>
                    
                     
@@ -81,8 +81,8 @@
                                                     <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedInvoice().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-1" style="padding-top: 10px; margin-left: 10px">
-                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedInvoice().id() <= 0) || ($root.selectedInvoice().id()===undefined) " href="#" class="btn btn-primary pull-right">
+                                            <div class="col-sm-1" style="padding-top: 10px; margin-left:0px;padding-left:0px;">
+                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedInvoice().id() <= 0) || ($root.selectedInvoice().id()===undefined) " href="#" class="btn btn-primary">
                                                     <i class="fa fa-user"></i>
                                                 </button>
                                             </div>
@@ -104,8 +104,8 @@
                                                 <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
-                                                <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
+                                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left:0px;padding-left:0px;">
+                                                <a class="btn btn-primary" id="addresspull" onclick="addAddress()">
                                                     <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                                                 </a>
                                             </div>
