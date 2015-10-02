@@ -1726,5 +1726,14 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _SystemUserRepository.OrganisationThroughSystemUserEmail(Email);
         }
+
+        public void DeleteItems(List<Item> ItemList)
+        {
+            foreach (var item in ItemList)
+            {
+                _itemRepository.Delete(item);
+            }
+            _itemRepository.SaveChanges();
+        }
     }
 }

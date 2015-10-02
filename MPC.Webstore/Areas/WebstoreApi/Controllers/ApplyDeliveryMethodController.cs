@@ -39,6 +39,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [System.Web.Http.HttpGet]
         public HttpResponseMessage AddDelivery(long DeliveryMethodId, long FreeShippingVoucherId)
         {
+
             List<string> messages = new List<string>();
 
             //string CacheKeyName = "CompanyBaseResponse";
@@ -66,14 +67,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 {
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
-                       
-                            //if (!string.IsNullOrEmpty(ShipPostCode) && Convert.ToInt32(SelecteddeliveryCostCenter.DeliveryType) == Convert.ToInt32(DeliveryCarriers.Fedex))
-                            //{
 
-                            //   // serviceResult = GetFedexResponse(out Baseamount, out SurchargeAmount, out Taxamount, out CostOfDelivery, BaseResponseOrganisation, baseResponseCompany, model);
+                        //if (!string.IsNullOrEmpty(ShipPostCode) && Convert.ToInt32(SelecteddeliveryCostCenter.DeliveryType) == Convert.ToInt32(DeliveryCarriers.Fedex))
+                        //{
 
-                            //}
-                       
+                        //   // serviceResult = GetFedexResponse(out Baseamount, out SurchargeAmount, out Taxamount, out CostOfDelivery, BaseResponseOrganisation, baseResponseCompany, model);
+
+                        //}
+
                     }
                     else
                     {
@@ -124,6 +125,15 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     }
 
                 }
+            }
+            else
+            {
+                List<Item> DeliveryItemList = _ItemService.GetListOfDeliveryItemByOrderID(UserCookieManager.WEBOrderId);
+                _myCompanyService.DeleteItems(DeliveryItemList);
+                Estimate Order = _orderService.GetOrderByID(UserCookieManager.WEBOrderId);
+                Order.DeliveryCost=0;
+                Order.DeliveryCostCenterId=0;
+                _orderService.UpdateOrderForDel(Order);
             }
 
             messages.Add("");

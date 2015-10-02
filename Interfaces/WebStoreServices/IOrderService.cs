@@ -10,6 +10,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IOrderService
     {
+        void UpdateOrderForDel(Estimate Order);
         List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
 
         int GetFirstItemIDByOrderId(int orderId);

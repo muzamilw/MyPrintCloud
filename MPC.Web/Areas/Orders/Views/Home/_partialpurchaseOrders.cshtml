@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="btn-group" style="float:left;margin-left:16px;">
-                    <button type="button" class="btn btn-primary">Actions</button>
+                    @*<button type="button" class="btn btn-primary">Actions</button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
@@ -47,8 +47,11 @@
                         <li><a href="#" data-bind="click:$root.openExternalReportsPurchase">Print Purchase Order</a></li>
                         <li><a href="#" data-bind="click:$root.openExternalEmailPurchaseReport">Email Purchase Order</a></li>
 
-                    </ul>
+                    </ul>*@
+                    <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;" data-bind="click:$root.openExternalReportsPurchase">Print</button>
+                    <button class="btn btn-primary" style="margin-top:-10px;" data-bind="click:$root.openExternalEmailPurchaseReport">Email</button>
                 </div>
+                
             </div>
         </div>
         <div class="row" id="prefixesdata" style="float:right;">
