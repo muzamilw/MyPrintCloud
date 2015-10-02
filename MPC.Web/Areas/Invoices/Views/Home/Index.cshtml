@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
-                    <ol class="breadcrumb" style="padding-left:3px;">
+                    <ol class="breadcrumb" style="padding-left:6px;">
                         <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text: $root.selectedInvoice() != undefined && $root.selectedInvoice().id() ? 'Home': ''"></a></li>
                         <li data-bind="css:'active' ,click:$root.onCloseInvoiceEditor,visible: isDetailsVisible()" style="cursor:pointer;display: none"><span>Invoices</span></li>
                         <li data-bind="css:'active', visible:$root.pageCode()!=='',visible: isDetailsVisible()" style="display: none"><span data-bind="text:$root.pageCode"></span></li>
