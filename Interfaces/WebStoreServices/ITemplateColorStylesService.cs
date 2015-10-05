@@ -11,7 +11,7 @@ namespace MPC.Interfaces.WebStoreServices
     {
         List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerID);
         List<TemplateColorStyle> GetColorStyle(long ProductId);
-        int SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID);
+        string SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID);
         string UpdateCorpColor(long id, string type);
     }
 }
