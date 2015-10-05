@@ -11,7 +11,7 @@ namespace MPC.Interfaces.Repository
     {
         List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerId);
         List<TemplateColorStyle> GetColorStyle(long ProductId);
-        int SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID);
+        string SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID);
         string UpdateCorpColor(long id, string type);
     }
 }

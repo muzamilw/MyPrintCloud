@@ -20,6 +20,7 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
 
         private readonly IItemService _itemService;
+        
 
         #endregion
 
@@ -55,6 +56,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.isUserLoggedIn = true;
                 ViewBag.LoginUserName = UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName;//Response.Cookies["WEBFirstName"].Value; 
                 ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_webstoreclaimHelper.loginContactID(), 0, _webstoreclaimHelper.loginContactCompanyID()).ToString());
+               
             }
             else
             {
