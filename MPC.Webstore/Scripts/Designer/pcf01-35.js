@@ -641,7 +641,6 @@ function f2(c, m, y, k, ColorHex, Sname) {
                 }
             });
             $("#imgThumbPreview").attr("src", D1AO.toDataURL());
-            //alert();
         }
 
         canvas.renderAll();
@@ -688,21 +687,29 @@ function f5(c, m, y, k) {
 }
 function f6(c, m, y, k, Color) {
     var Sname = "";
+    var updateColor = true;
     if (IsCalledFrom == 2 || IsCalledFrom == 4) {
         Sname = window.prompt("Enter Spot Color Name Here! (Once a color is created, you cannot change its name or color)", "Spot Color 1");
         if (Sname == null || Sname == "") {
             return false;
         } else {
+            updateColor = false;
             $.getJSON("/designerapi/TemplateColorStyles/SaveCorpColor/" + Sname + "/" + c + "/" + m + "/" + y + "/" + k + "/" + CustomerID,
 				function (DT) {
-				    var PID = DT;
-				    var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
-				    $('#tabsActiveColors').append(html);
-
+				    if (DT == "Already Exsist") {
+				        
+				        alert("A spot color with same name already exist please try again with different name");
+				    } else {
+				        var PID = DT;
+				        var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+				        $('#tabsActiveColors').append(html);
+				        f2(c, m, y, k, Color, Sname);
+				    }
 				});
         }
     }
-    f2(c, m, y, k, Color, Sname);
+    if (updateColor)
+        f2(c, m, y, k, Color, Sname);
 }
 function f6_1() {
     pcL36('toggle', '#DivAdvanceColorPanel');
@@ -1843,48 +1850,15 @@ function h1(left, top) {
     }
     D1NTO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
     lAObj = D1NTO.ObjectID;
-    var ROL = new fabric.Rect({
-        left: 0,
-        top: 0,
-        fill: '#000000',
-        width: 100 * dfZ1l,
-        height: 100 * dfZ1l,
-        opacity: 1
-    })
+    D1NTO.DisplayOrderPdf = canvas.getObjects().length + 1;
 
-    ROL.maxWidth = 200;
-    ROL.maxHeight = 200;
-    ROL.set({
-        borderColor: 'red',
-        cornerColor: 'orange',
-        cornersize: 10
-    });
-
-    ROL.ObjectID = D1NTO.ObjectID;
-    canvas.add(ROL);
-
-    var index;
-    var OBS = canvas.getObjects();
-    $.each(OBS, function (i, IT) {
-        if (IT.ObjectID == ROL.ObjectID) {
-            index = i;
-        }
-    });
-    D1NTO.DisplayOrderPdf = index;
-
-    ROL.top = top;
-    ROL.left = left;
-    D1NTO.PositionX = ROL.left - ROL.maxWidth / 2;
-    D1NTO.PositionY = ROL.top - ROL.maxHeight / 2;
-    ROL.setCoords();
-
-    ROL.C = "0";
-    ROL.M = "0";
-    ROL.Y = "0";
-    ROL.K = "100";
+    D1NTO.PositionX = left - 100;
+    D1NTO.PositionY = top - 100;
+   
     canvas.renderAll();
     TO.push(D1NTO);
-    canvas.setActiveObject(ROL);
+   
+    canvas.setActiveObject( c9(canvas, D1NTO));
 }
 function h2(left, top) {
     var NewCircleObejct = {};
@@ -2134,7 +2108,7 @@ function l2(event) {
     if (event.keyCode == 46) {//|| event.keyCode == 8
         if (N1LA != 1 && IsInputSelected == false) {
             var D1AO = canvas.getActiveObject();
-            var D1AG = canvas.getActiveGroup(); alert();
+            var D1AG = canvas.getActiveGroup(); 
             if (D1AG) {
                 if (confirm("Are you sure you want to Remove this Group from the canvas.")) {
                     var objectsInGroup = D1AG.getObjects();
@@ -3623,7 +3597,6 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                 {
                     if (objs[i] == "")
                     {
-                     //   alert();
                         objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length);
                      //   console.log(objs[i + 1]);
                         variableLength += 1;

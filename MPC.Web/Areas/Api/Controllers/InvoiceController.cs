@@ -77,34 +77,11 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
             var savedInvoice = invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
-            PostDataToZapier(savedInvoice);
+            invoiceService.PostDataToZapier(savedInvoice.InvoiceId);
             return savedInvoice;
         }
 
-        private void PostDataToZapier(Invoice invoice)
-        {
-
-            string sPostUrl = organisationService.GetZapierPostUrl();
-            if (!string.IsNullOrEmpty(sPostUrl))
-            {
-                var resp = invoiceService.GetZapierInvoiceDetail(invoice.InvoiceId);
-                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-
-                //string sData = string.Empty;
-                var request = System.Net.WebRequest.Create(sPostUrl);
-                request.ContentType = "application/json";
-                request.Method = "POST";
-                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
-                request.ContentLength = byteArray.Length;
-                using (Stream dataStream = request.GetRequestStream())
-                {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    var response = request.GetResponse();
-                }
-            }
-           
-
-        }
+        
         #endregion
     }
 }
