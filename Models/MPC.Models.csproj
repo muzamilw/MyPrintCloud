@@ -182,6 +182,7 @@
     <Compile Include="Common\ZapierInvoiceDetail.cs" />
     <Compile Include="Common\ZapierInvoiceItem.cs" />
     <Compile Include="Common\ZapierInvoiceItemSupplier.cs" />
+    <Compile Include="Common\ZapierPostResponse.cs" />
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />

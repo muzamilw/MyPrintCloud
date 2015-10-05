@@ -3288,5 +3288,18 @@ namespace MPC.Repository.Repositories
             }
             SaveChanges();
         }
+
+        public void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
+        {
+            Organisation org = GetOrganizatiobByID(organisationId);
+            if (org != null)
+            {
+                if (zapTargetType == 1)
+                    org.CreateContactZapTargetUrl = sTargetUrl;
+                else if (zapTargetType == 2)
+                    org.CreateInvoiceZapTargetUrl = sTargetUrl;
+            }
+            SaveChanges();
+        }
     }
 }
