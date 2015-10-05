@@ -7029,6 +7029,14 @@ namespace MPC.Repository.Repositories
                 
             
         }
+
+        public void UpdateOrderForDel(Estimate Order)
+        {
+            db.Estimates.Attach(Order);
+
+            db.Entry(Order).State = EntityState.Modified;
+            db.SaveChanges();
+        }
     }
 }
 

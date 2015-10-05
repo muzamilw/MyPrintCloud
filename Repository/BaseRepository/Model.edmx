@@ -2694,6 +2694,8 @@
           <Property Name="MisOrdersCount" Type="int" />
           <Property Name="BillingDate" Type="datetime" />
           <Property Name="OfflineStoreClicks" Type="int" />
+          <Property Name="CreateContactZapTargetUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateInvoiceZapTargetUrl" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -8701,6 +8703,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="MisOrdersCount" Type="Int32" />
           <Property Name="BillingDate" Type="DateTime" Precision="3" />
           <Property Name="OfflineStoreClicks" Type="Int32" />
+          <Property Name="CreateContactZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateInvoiceZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -15570,6 +15574,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="CreateInvoiceZapTargetUrl" ColumnName="CreateInvoiceZapTargetUrl" />
+                <ScalarProperty Name="CreateContactZapTargetUrl" ColumnName="CreateContactZapTargetUrl" />
                 <ScalarProperty Name="OfflineStoreClicks" ColumnName="OfflineStoreClicks" />
                 <ScalarProperty Name="BillingDate" ColumnName="BillingDate" />
                 <ScalarProperty Name="MisOrdersCount" ColumnName="MisOrdersCount" />

@@ -2121,12 +2121,12 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId)
+        public List<ZapierInvoiceDetail> GetStoreContactForZapier(long contactId)
         {
             try
             {
                 List<ZapierInvoiceDetail> zapContact = new List<ZapierInvoiceDetail>();
-                var companycontact = DbSet.Where(c => c.IsEmailSubscription == false && c.OrganisationId == organisationId).FirstOrDefault();
+                var companycontact = DbSet.FirstOrDefault(c => c.ContactId == contactId); //DbSet.Where(c => c.IsEmailSubscription == false && c.OrganisationId == organisationId).FirstOrDefault();
                 if (companycontact != null)
                 {
                     zapContact.Add(new ZapierInvoiceDetail

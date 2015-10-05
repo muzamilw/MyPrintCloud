@@ -1,72 +1,47 @@
 ﻿using MPC.Interfaces.WebStoreServices;
-using MPC.Models.DomainModels;
+using MPC.Models.Common;
+using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MPC.Webstore.Common;
-using Microsoft.Owin.Security;
-using System.Threading;
-using MPC.Models.Common;
 
 namespace MPC.Webstore.Controllers
 {
-    public class LoginBarController : Controller
+    public class LoginBarWithCountersController : Controller
     {
-
-        #region Private
 
         private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
 
         private readonly IItemService _itemService;
-        
-
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public LoginBarController(IWebstoreClaimsHelperService webstoreClaimHelper, IItemService itemService)
+        private readonly ICompanyService _Companyservice;
+        // GET: LoginBarWithCounters
+        public LoginBarWithCountersController(IWebstoreClaimsHelperService webstoreClaimHelper, IItemService itemService, ICompanyService _Companyservice)
         {
-
-            if (webstoreClaimHelper == null)
-            {
-                throw new ArgumentNullException("webstoreClaimHelper");
-            }
-            this._webstoreclaimHelper = webstoreClaimHelper;
-
-            if (itemService == null)
-            {
-                throw new ArgumentNullException("itemService");
-            }
-            this._itemService = itemService;
+           
+         this._webstoreclaimHelper = webstoreClaimHelper;
+           this._itemService = itemService;
+           this._Companyservice = _Companyservice;
         }
-
-        #endregion
-
-
-        // GET: LoginBar
         public ActionResult Index()
         {
-
             if (_webstoreclaimHelper.isUserLoggedIn())
             {
                 ViewBag.isUserLoggedIn = true;
                 ViewBag.LoginUserName = UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName;//Response.Cookies["WEBFirstName"].Value; 
                 ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_webstoreclaimHelper.loginContactID(), 0, _webstoreclaimHelper.loginContactCompanyID()).ToString());
-               
+                ViewBag.totalSAveItmes = _Companyservice.GetSavedDesignCountByContactId(_webstoreclaimHelper.loginContactID());
             }
             else
             {
                 ViewBag.isUserLoggedIn = false;
                 ViewBag.LoginUserName = "";
                 ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(0, UserCookieManager.TemporaryCompanyId, 0).ToString());
+                ViewBag.totalSAveItmes = _Companyservice.GetSavedDesignCountByContactId(_webstoreclaimHelper.loginContactID());
             }
-            return PartialView("PartialViews/LoginBar");
+            return PartialView("PartialViews/LoginBarWithCounters");
         }
-
         public ActionResult LogOut()
         {
             System.Web.HttpContext.Current.Response.Cookies["ShowPrice"].Expires = DateTime.Now.AddDays(-1);

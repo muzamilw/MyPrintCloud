@@ -3,6 +3,8 @@ using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
@@ -723,8 +725,44 @@ namespace MPC.Implementation.MISServices
             
             
         }
-        
 
+        public void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
+        {
+            organisationRepository.UpdateOrganisationZapTargetUrl(organisationId, sTargetUrl, zapTargetType);
+        }
+
+        public string GetActiveOrganisationId(string param)
+        {
+            string responsestr = string.Empty;
+            string credentials = param.Substring(param.IndexOf("username="),
+                    param.Length - param.IndexOf("username="));
+            if (!string.IsNullOrEmpty(credentials))
+                credentials = credentials.Replace("username=", "email=");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://myprintcloud.com");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var uri = "/Account/GetCustomerId?" + credentials;
+                var response = client.GetAsync(uri);
+                if (response.Result.IsSuccessStatusCode)
+                {
+                    responsestr = response.Result.Content.ReadAsStringAsync().Result;
+                }
+                else
+                {
+                    throw new MPCException("Service Not Authenticated!", 0);
+                }
+
+            }
+
+            return responsestr;
+        }
+
+        public string GetZapierPostUrl()
+        {
+            return organisationRepository.GetOrganizatiobByID().CreateContactZapTargetUrl;
+        }
 
         #endregion
 
