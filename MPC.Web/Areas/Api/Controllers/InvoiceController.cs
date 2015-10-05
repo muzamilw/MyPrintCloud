@@ -1,4 +1,6 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System.IO;
+using System.Text;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
@@ -7,6 +9,7 @@ using System.Web;
 using System.Web.Http;
 using MPC.WebBase.Mvc;
 using MPC.Interfaces.Data;
+using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -18,16 +21,17 @@ namespace MPC.MIS.Areas.Api.Controllers
        #region Private
 
         private readonly IInvoiceService invoiceService;
-
+        private readonly IMyOrganizationService organisationService;
         #endregion
        #region Constructor
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public InvoiceController(IInvoiceService invoiceService)
+        public InvoiceController(IInvoiceService invoiceService, IMyOrganizationService myOrganizationService)
         {
             this.invoiceService = invoiceService;
+            this.organisationService = myOrganizationService;
         }
 
         #endregion
@@ -72,8 +76,34 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
+            var savedInvoice = invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
+            PostDataToZapier(savedInvoice);
+            return savedInvoice;
+        }
 
-            return invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
+        private void PostDataToZapier(Invoice invoice)
+        {
+
+            string sPostUrl = organisationService.GetZapierPostUrl();
+            if (!string.IsNullOrEmpty(sPostUrl))
+            {
+                var resp = invoiceService.GetZapierInvoiceDetail(invoice.InvoiceId);
+                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+
+                //string sData = string.Empty;
+                var request = System.Net.WebRequest.Create(sPostUrl);
+                request.ContentType = "application/json";
+                request.Method = "POST";
+                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                request.ContentLength = byteArray.Length;
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    var response = request.GetResponse();
+                }
+            }
+           
+
         }
         #endregion
     }

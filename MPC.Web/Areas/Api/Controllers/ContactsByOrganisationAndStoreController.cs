@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using System.Web;
 using System.Web.Http;
-using GrapeCity.ActiveReports.PageReportModel;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
-using MPC.Models.Common;
 using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
 
@@ -44,7 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 long organisationId = 1;
                 string param = string.Empty;
                 param = Request.RequestUri.Query;
-                
+
                 string responsestr = GetActiveOrganisationId(param);
                 
                 if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
@@ -70,11 +69,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
-
+        
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)
         {

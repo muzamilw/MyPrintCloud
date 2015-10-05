@@ -151,9 +151,9 @@
                                                     </div>
                                                     <div class="profile-details">
                                                         <ul class="fa-ul">
-                                                            <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa" data-bind="css: {'fa-check': isPublished() == true, 'fa-times': isPublished() != true}"></i></li>
+                                                            <li><i class="fa" style="font-size: 20px;" data-bind="css: {'fa-check activeProduct': isPublished() == true, 'fa-times inactiveProduct': isPublished() != true}"></i> Published on Web Store</li>
 
-                                                            <li><i class="fa-li fa fa-archive"></i>Enabled: <i class="fa" data-bind="css: {'fa-check': isEnabled() == true, 'fa-times': isEnabled() != true}"></i></li>
+                                                            <li><i class="fa" style="font-size: 20px;" data-bind="css: {'fa-check activeProduct': isEnabled() == true, 'fa-times inactiveProduct': isEnabled() != true}"></i> Enabled in MIS</li>
                                                         </ul>
                                                     </div>
                                                     @* <div class="profile-message-btn center-block text-center">
