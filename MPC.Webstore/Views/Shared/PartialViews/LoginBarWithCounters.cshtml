@@ -1,7 +1,6 @@
-﻿
 
+﻿@using MPC.Models.Common;
 @using MPC.Webstore.Common;
-@using MPC.Models.Common;
 @{
     Layout = null;
 }
@@ -17,7 +16,7 @@
                 &nbsp;
             </div>
       if (!ViewBag.isUserLoggedIn)
-                {
+      {
         <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
             <ul id="menu-my-account" class="navM">
                 <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
@@ -54,13 +53,13 @@
                     <span id="MainContent_ctl00_lblUserInfo" class="LoginBarColor liUserInfo">Hi, @ViewBag.LoginUserName</span>
                 </li>
                 <li class="classicthemeMenu olsonfaIcon MetroMania">
-                    <a onclick="ShowLoader();" href="/DashBoard"><i class="fa fa-cog  loginusercolorSize"></i>Profile</a>
+                    <a onclick="ShowLoader();" href="/DashBoard"><i class="fa fa-cog  loginusercolorSize"></i></a>
                 </li>
                 <li class="classicthemeMenu olsonfaIcon MetroMania">
-                    <a href="/SavedDesigns"><i class="fa fa-pencil-square-o loginusercolorSize"></i>Saved</a>
+                    <a href="/SavedDesigns"><i class="fa fa-pencil-square-o loginusercolorSize"></i></a>
                 </li>
                 <li class="classicthemeMenu olsonfaIcon MetroMania">
-                    <a onclick="ShowLoader();" href="/ShopCart"><i class="fa fa-shopping-cart loginusercolorSize"></i>Cart</a>
+                    <a onclick="ShowLoader();" href="/ShopCart"><i class="fa fa-shopping-cart loginusercolorSize"></i></a>
                 </li>
 
                 <li class="liMarginRight responsiveMenu olsonspriteIcon">
@@ -91,6 +90,7 @@
             <div class="clearBoth">
                 &nbsp;
             </div>
+}
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -99,4 +99,8 @@
     <div class="clearBoth">
         &nbsp;
     </div>
-</div>
+
+﻿
+
+
+

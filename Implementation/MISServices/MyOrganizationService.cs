@@ -15,6 +15,7 @@ using MPC.Models.ResponseModels;
 using System.Resources;
 using MPC.Models.Common;
 using System.Configuration;
+using Newtonsoft.Json;
 
 
 namespace MPC.Implementation.MISServices
@@ -249,6 +250,7 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.XeroApiId = organisation.XeroApiId;
             organisationDbVersion.XeroApiKey = organisation.XeroApiKey;
             organisationDbVersion.isXeroIntegrationRequired = organisation.isXeroIntegrationRequired;
+            organisationDbVersion.IsZapierEnable = organisation.IsZapierEnable;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;
@@ -761,8 +763,15 @@ namespace MPC.Implementation.MISServices
 
         public string GetZapierPostUrl()
         {
-            return organisationRepository.GetOrganizatiobByID().CreateContactZapTargetUrl;
+            var org = organisationRepository.GetOrganizatiobByID();
+            if(org.IsZapierEnable == true)
+                return organisationRepository.GetOrganizatiobByID().CreateContactZapTargetUrl;
+            else
+            {
+                return string.Empty;
+            }
         }
+        
 
         #endregion
 

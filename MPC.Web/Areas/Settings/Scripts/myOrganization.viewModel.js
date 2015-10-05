@@ -83,6 +83,7 @@ define("myOrganization/myOrganization.viewModel",
                     isLanguageEditorVisible = ko.observable(false),
                     isApiDetailVisible = ko.observable(false),
                     isUnleashedApiDetailVisible = ko.observable(false),
+                    isZapierlVisible = ko.observable(false),
                     // for specifice name of screan
                     HeadingName = ko.observable(),
                     // #region Utility Functions
@@ -123,6 +124,10 @@ define("myOrganization/myOrganization.viewModel",
                         else if (page == "xeroapi") {
                             HeadingName("Unleashed API for Xero");
                             isUnleashedApiDetailVisible(true);
+                        }
+                        else if (page == "zapier") {
+                            HeadingName("Zapier Integration");
+                            isZapierlVisible(true);
                         }
                         
                         getBase();
@@ -788,7 +793,7 @@ define("myOrganization/myOrganization.viewModel",
                     isApiDetailVisible: isApiDetailVisible,
                     isUnleashedApiDetailVisible:isUnleashedApiDetailVisible,
                     isRegionalSettingVisible: isRegionalSettingVisible,
-
+                    isZapierlVisible:isZapierlVisible,
                     isLanguageEditorVisible: isLanguageEditorVisible,
 
                     HeadingName: HeadingName,

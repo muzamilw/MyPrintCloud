@@ -69,7 +69,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
             var savedContact = companyContactService.Save(companyContact.Createfrom()).CreateFrom();
-            PostDataToZapier(savedContact);
+            companyContactService.PostDataToZapier(savedContact.ContactId);
             return savedContact;
         }
 
@@ -90,28 +90,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             return companyContactService.Delete(request.CompanyContactId).CreateFrom();
         }
 
-        private void PostDataToZapier(CompanyContact companyContact)
-        {
-            string sPostUrl = organisationService.GetZapierPostUrl();
-            if (!string.IsNullOrEmpty(sPostUrl))
-            {
-                var resp = companyContactService.GetStoreContactForZapier(companyContact.ContactId);
-                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-
-                //string sData = string.Empty;
-                var request = System.Net.WebRequest.Create(sPostUrl);
-                request.ContentType = "application/json";
-                request.Method = "POST";
-                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
-                request.ContentLength = byteArray.Length;
-                using (Stream dataStream = request.GetRequestStream())
-                {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    var response = request.GetResponse();
-                }
-            }
-
-        }
+        
         #endregion
 	}
 }
