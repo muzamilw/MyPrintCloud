@@ -77,6 +77,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                XeroApiKey = source.XeroApiKey,
                isXeroIntegrationRequired = source.isXeroIntegrationRequired,
                TaxRegistrationNo = source.TaxRegistrationNo,
+               IsZapierEnable = source.IsZapierEnable,
                Image = bytes,
                LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : new List<LanguageEditor>(),
            };
