@@ -220,6 +220,9 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public DateTime? BillingDate { get; set; }
         public int? OfflineStoreClicks { get; set; }
+
+        public string CreateContactZapTargetUrl { get; set; }
+        public string CreateInvoiceZapTargetUrl { get; set; }
         #endregion
         
         #region Reference Properties

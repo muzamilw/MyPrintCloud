@@ -8475,3 +8475,6 @@ FROM dbo.Items AS i INNER JOIN ProductCategoryItem pci ON pci.ItemId = i.ItemId 
  AND i.IsRealStateProduct = 1 AND i.IsPublished = 1 AND i.IsEnabled = 1 AND (i.IsArchived = 0 or i.IsArchived is null)
 
 END
+
+alter table Organisation add CreateContactZapTargetUrl nvarchar(500)
+alter table Organisation add CreateInvoiceZapTargetUrl nvarchar(500)
