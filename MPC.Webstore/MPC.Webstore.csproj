@@ -538,6 +538,7 @@
     <Content Include="Content\download.png" />
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
+    <Content Include="Content\home.png" />
     <Content Include="Content\HomeBannerS4.js" />
     <Content Include="Content\Images\20304_Checkmark.png" />
     <Content Include="Content\Images\artwork_light_icons.png" />
