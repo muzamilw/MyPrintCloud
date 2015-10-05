@@ -5,11 +5,11 @@
 }
 @if (Model != null && Model.Count > 0)
 {
-    <div class="top_sub_section TopMenuH60W100Px container content_area" id="all-categoryHeader-pg">
-        <div class="">
+    <div class="top_sub_section TopMenuH60W100Pxcontainer" id="all-categoryHeader-pg">
+        <div class="content_area">
             <div class="left_right_padding">
                 <div id="divMenu" class="menu">
-                    <ul id="menu-main-menu" class="navM neg_left_margin_5 cursor_pointer">
+                    <ul id="menu-main-menu" class="navM neg_left_margin_5 cursor_pointer Dornot">
                         <li>
                             <a id="anchorHomeImage">
                                 <div id="btnHome" class="homeIconImge">
@@ -18,14 +18,14 @@
                         </li>
                         <li>
                             <a id="lnkHomePage" href="@ViewBag.DefaultUrl" class="top_sub_section_links HomeIconBox">
-                                <img width="25" alt="" src="~/App_Themes/S6/Images/home.png" />
+                                <img width="25" alt="" src="~/Content/Images/home.png" />
                             </a>
                         </li>
 
                         <li>
                             @foreach (var category in Model)
                             {
-                                <a class="float_left_simple Fsize15 CategoryMenuColor marginRght" href="/Category/@category.CategoryName/@category.ProductCategoryId" onclick="ShowLoader();">@category.CategoryName</a>
+                            <a class="float_left_simple Fsize15 CategoryMenuColor marginRght" href="/Category/@category.CategoryName/@category.ProductCategoryId" onclick="ShowLoader();">@category.CategoryName</a>
 
                             }
 
