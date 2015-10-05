@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -11,6 +12,7 @@ using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Models.DomainModels;
+using Newtonsoft.Json;
 
 namespace MPC.Implementation.MISServices
 {
@@ -391,10 +393,36 @@ namespace MPC.Implementation.MISServices
             target.FootNotes = source.FootNotes;
         }
 
-        public List<ZapierInvoiceDetail> GetZapierInvoiceDetail(long organizationId)
+        public List<ZapierInvoiceDetail> GetZapierInvoiceDetail(long invoiceId)
         {
-            var invDetails = invoiceRepository.GetZapierInvoiceDetails(organizationId);
+            var invDetails = invoiceRepository.GetZapierInvoiceDetails(invoiceId);
             return invDetails;
+        }
+        public void PostDataToZapier(long invoiceId)
+        {
+
+            var org = organisationRepository.GetOrganizatiobByID();
+            string sPostUrl = string.Empty;
+            sPostUrl = org.IsZapierEnable == true ? org.CreateContactZapTargetUrl : string.Empty;
+            if (!string.IsNullOrEmpty(sPostUrl))
+            {
+                var resp = GetZapierInvoiceDetail(invoiceId);
+                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+
+                //string sData = string.Empty;
+                var request = System.Net.WebRequest.Create(sPostUrl);
+                request.ContentType = "application/json";
+                request.Method = "POST";
+                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                request.ContentLength = byteArray.Length;
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    var response = request.GetResponse();
+                }
+            }
+
+
         }
         #endregion
     }

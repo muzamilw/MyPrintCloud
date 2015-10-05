@@ -252,6 +252,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// XeroApiKey
         /// </summary>
         public string XeroApiKey { get; set; }
+        public bool? IsZapierEnable { get; set; }
 
         /// <summary>
         /// Image Source
