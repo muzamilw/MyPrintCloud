@@ -408,8 +408,6 @@ namespace MPC.Implementation.MISServices
             {
                 var resp = GetZapierInvoiceDetail(invoiceId);
                 string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-
-                //string sData = string.Empty;
                 var request = System.Net.WebRequest.Create(sPostUrl);
                 request.ContentType = "application/json";
                 request.Method = "POST";
