@@ -69,21 +69,29 @@ namespace MPC.Repository.Repositories
             return oStyles;
         }
         // add new corporate color // added by saqib ali
-        public int SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID)
+        public string SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID)
         {
-            TemplateColorStyle obj = new TemplateColorStyle();
-            obj.ColorC =C;
-            obj.ColorM = M;
-            obj.ColorY = Y;
-            obj.ColorK = K;
-            obj.IsSpotColor = true;
-            obj.SpotColor = Name;
-            obj.IsColorActive = true;
-            obj.CustomerId = CustomerID;
-
-            db.TemplateColorStyles.Add(obj);
-            db.SaveChanges();
-            return (int)obj.PelleteId;
+            var color = db.TemplateColorStyles.Where(g => g.SpotColor == Name && g.CustomerId == CustomerID).FirstOrDefault();
+            if (color == null)
+            {
+                TemplateColorStyle obj = new TemplateColorStyle();
+                obj.ColorC = C;
+                obj.ColorM = M;
+                obj.ColorY = Y;
+                obj.ColorK = K;
+                obj.IsSpotColor = true;
+                obj.SpotColor = Name;
+                obj.IsColorActive = true;
+                obj.CustomerId = CustomerID;
+                db.TemplateColorStyles.Add(obj);
+                db.SaveChanges();
+                return obj.PelleteId.ToString();
+            }
+            else
+            {
+                return "Already Exsist";
+            }
+         
         }
         // activate or deactivate corporate color // // added by saqib ali
         public string UpdateCorpColor(long id, string type)

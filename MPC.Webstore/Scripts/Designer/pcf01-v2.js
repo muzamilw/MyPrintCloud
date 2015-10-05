@@ -593,6 +593,7 @@ function c9(cCanvas, RO) {
     ROL.ObjectID = RO.ObjectID;
     canvas.insertAt(ROL, RO.DisplayOrderPdf);
     canvas.renderAll();
+    return ROL;
 }
 function d1SvgOl(cCanvas, IO) {
     TIC += 1;

@@ -223,6 +223,7 @@ namespace MPC.Models.DomainModels
 
         public string CreateContactZapTargetUrl { get; set; }
         public string CreateInvoiceZapTargetUrl { get; set; }
+        public bool? IsZapierEnable { get; set; }
         #endregion
         
         #region Reference Properties

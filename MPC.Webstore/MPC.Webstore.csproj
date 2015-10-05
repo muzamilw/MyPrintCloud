@@ -685,6 +685,7 @@
     <Content Include="Content\Images\footer_bg.jpg" />
     <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
+    <Content Include="Content\Images\home.png" />
     <Content Include="Content\Images\IcoIllustrator.png" />
     <Content Include="Content\Images\Icoindesign.png" />
     <Content Include="Content\Images\icoJPG.png" />
