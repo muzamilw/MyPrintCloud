@@ -395,6 +395,7 @@
     <Compile Include="Controllers\HeaderWithCategoriesAndProducts.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
+    <Compile Include="Controllers\LoginBarWithCountersController.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
     <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
@@ -684,6 +685,7 @@
     <Content Include="Content\Images\footer_bg.jpg" />
     <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
+    <Content Include="Content\Images\home.png" />
     <Content Include="Content\Images\IcoIllustrator.png" />
     <Content Include="Content\Images\Icoindesign.png" />
     <Content Include="Content\Images\icoJPG.png" />
@@ -1038,6 +1040,7 @@
     <Content Include="Views\ReceiptPlain\ReceiptPlain.cshtml" />
     <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
     <Content Include="Views\Shared\PartialViews\DescriptiveFooter.cshtml" />
+    <Content Include="Views\Shared\PartialViews\LoginBarWithCounters.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1051,6 +1054,7 @@
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\DescriptiveFooter\" />
     <Folder Include="Views\FutureFormHeader\" />
+    <Folder Include="Views\LoginBarWithCounters\" />
     <Folder Include="Views\UserManager\" />
   </ItemGroup>
   <ItemGroup>

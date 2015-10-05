@@ -14767,7 +14767,6 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
     _render: function(ctx, noTransform) {
-
       // optimize 1x1 case (used in spray brush)
       if (this.width === 1 && this.height === 1) {
         ctx.fillRect(0, 0, 1, 1);

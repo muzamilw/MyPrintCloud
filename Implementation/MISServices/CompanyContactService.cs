@@ -15,6 +15,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System.Text;
 using Ionic.Zip;
+using Newtonsoft.Json;
 
 namespace MPC.Implementation.MISServices
 {
@@ -27,6 +28,7 @@ namespace MPC.Implementation.MISServices
         private readonly IAddressRepository addressRepository;
         private readonly IStateRepository stateRepository;
         private readonly IScopeVariableRepository scopeVariableRepository;
+        private readonly IOrganisationRepository organisationRepository;
         private CompanyContact Create(CompanyContact companyContact)
         {
             UpdateDefaultBehaviourOfContactCompany(companyContact);
@@ -119,7 +121,7 @@ namespace MPC.Implementation.MISServices
 
         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository,
-            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository)
+            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository, IOrganisationRepository organisationRepository)
         {
             this.companyContactRepository = companyContactRepository;
             this.companyTerritoryRepository = companyTerritoryRepository;
@@ -128,6 +130,7 @@ namespace MPC.Implementation.MISServices
             this.addressRepository = addressRepository;
             this.stateRepository = stateRepository;
             this.scopeVariableRepository = scopeVariableRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -1136,9 +1139,33 @@ namespace MPC.Implementation.MISServices
             }
             return dbCompanyContact;
         }
-        public List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId)
+        public List<ZapierInvoiceDetail> GetStoreContactForZapier(long contactId)
         {
-            return companyContactRepository.GetStoreContactForZapier(organisationId);
+            return companyContactRepository.GetStoreContactForZapier(contactId);
+        }
+
+        public void PostDataToZapier(long contactId)
+        {
+            var org = organisationRepository.GetOrganizatiobByID();
+            string sPostUrl = string.Empty;
+            sPostUrl = org.IsZapierEnable == true ? org.CreateContactZapTargetUrl : string.Empty;
+            
+            if (!string.IsNullOrEmpty(sPostUrl))
+            {
+                var resp = GetStoreContactForZapier(contactId);
+                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+                var request = System.Net.WebRequest.Create(sPostUrl);
+                request.ContentType = "application/json";
+                request.Method = "POST";
+                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                request.ContentLength = byteArray.Length;
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    var response = request.GetResponse();
+                }
+            }
+
         }
 
         
