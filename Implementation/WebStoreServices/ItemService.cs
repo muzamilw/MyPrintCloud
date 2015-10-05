@@ -138,10 +138,7 @@ namespace MPC.Implementation.WebStoreServices
                 Item ActualItem = _ItemRepository.GetActualItemToClone(itemID);
                 //******************new item*********************
                 newItem = _ItemRepository.Clone<Item>(ActualItem);
-                if (PropertyId > 0)
-                {
-                    clonedTemplate.realEstateId = PropertyId;
-                }
+             
                 newItem.ItemId = 0;
 
                 newItem.IsPublished = false;
@@ -260,8 +257,11 @@ namespace MPC.Implementation.WebStoreServices
 
                         var oCutomer = _CompanyRepository.Find(CustomerID); //db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
                         clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
-                       
 
+                        if (PropertyId > 0)
+                        {
+                            clonedTemplate.realEstateId = PropertyId;
+                        }
                         if (oCutomer != null)
                         {
                             clonedTemplate.TempString = oCutomer.WatermarkText;
