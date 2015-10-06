@@ -3,11 +3,10 @@
 @{
     Layout = null;
 }
-@if (Model != null && Model.Count > 0)
-{
-    <div class="top_sub_section TopMenuH60W100Pxcontainer" id="all-categoryHeader-pg">
-        <div class="content_area">
-            <div class="left_right_padding">
+
+    <div class="top_sub_section TopMenuH60W100Pxcontainer container" id="all-categoryHeader-pg">
+        <div class="left_right_padding">
+         
                 <div id="divMenu" class="menu">
                     <ul id="menu-main-menu" class="navM neg_left_margin_5 cursor_pointer Dornot">
                         <li>
@@ -21,15 +20,16 @@
                                 <img width="25" alt="" src="~/Content/Images/home.png" />
                             </a>
                         </li>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            <li>
+                                @foreach (var category in Model)
+                                {
+                                    <a class="float_left_simple Fsize15 CategoryMenuColor marginRght" href="/Category/@category.CategoryName/@category.ProductCategoryId" onclick="ShowLoader();">@category.CategoryName</a>
 
-                        <li>
-                            @foreach (var category in Model)
-                            {
-                            <a class="float_left_simple Fsize15 CategoryMenuColor marginRght" href="/Category/@category.CategoryName/@category.ProductCategoryId" onclick="ShowLoader();">@category.CategoryName</a>
+                                }
 
-                            }
-
-                        </li>
+                            </li>}
                     </ul>
                 </div>
                 <div class="float_right Fsize15 lnkContactUS" style="padding-top: 10.5px;">
@@ -40,13 +40,12 @@
                     </ul>
                 </div>
 
-            </div>
             <div style="clear: both;">
             </div>
         </div>
-    </div>
+</div>
     <div class="top_sub_section_bottom_space">
         <br />
     </div>
 
-}
+

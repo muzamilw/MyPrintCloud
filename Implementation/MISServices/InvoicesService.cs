@@ -403,7 +403,7 @@ namespace MPC.Implementation.MISServices
 
             var org = organisationRepository.GetOrganizatiobByID();
             string sPostUrl = string.Empty;
-            sPostUrl = org.IsZapierEnable == true ? org.CreateContactZapTargetUrl : string.Empty;
+            sPostUrl = org.IsZapierEnable == true ? org.CreateInvoiceZapTargetUrl : string.Empty;
             if (!string.IsNullOrEmpty(sPostUrl))
             {
                 var resp = GetZapierInvoiceDetail(invoiceId);
