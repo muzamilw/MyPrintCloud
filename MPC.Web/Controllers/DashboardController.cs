@@ -42,9 +42,10 @@ namespace MPC.MIS.Controllers
        public void TargetUrlFromZapier()
        {
            long organisationId = 1;
+           int eventId = 1;
            string param = HttpContext.Request.Url.Query;
            string responsestr = _organizationService.GetActiveOrganisationId(param);
-           responsestr = "1"; //Temporarily set for local testing
+          // responsestr = Temporarily set for local testing
            if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
            {
                throw new MPCException("Service Not Authenticated!", organisationId);
@@ -55,19 +56,23 @@ namespace MPC.MIS.Controllers
            }
            StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream());
            string scont = reader.ReadToEndAsync().Result;
-           ZapierPostResponse listingProperty = JsonConvert.DeserializeObject<ZapierPostResponse>(scont);
-           _organizationService.UpdateOrganisationZapTargetUrl(organisationId, listingProperty.subscription_url, 1);
+           ZapierPostResponse zapierResponse = JsonConvert.DeserializeObject<ZapierPostResponse>(scont);
+           if (zapierResponse.Event == "contact_created")
+               eventId = 1;
+           else if (zapierResponse.Event == "invoice_created")
+               eventId = 2;
+           _organizationService.UpdateOrganisationZapTargetUrl(organisationId, zapierResponse.subscription_url, eventId);
            
        }
-       [System.Web.Http.AcceptVerbs("POST")]
-       [HttpPost]
+       [System.Web.Http.AcceptVerbs("DELETE")]
+       [HttpDelete]
        [AllowAnonymous]
-       public void PostInvoiceUrlFromZapier()
+       public void UnsubscribeUrlFromZapier()
        {
            long organisationId = 1;
            StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream());
            string scont = reader.ReadToEndAsync().Result;
-           _organizationService.UpdateOrganisationZapTargetUrl(organisationId, "https://zapier.com/hooks/standard/4PwB04shgS2o8z7vnVguLyXu1SFYboIo/", 2);
+
 
 
        }

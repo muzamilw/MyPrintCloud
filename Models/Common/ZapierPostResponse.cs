@@ -10,6 +10,7 @@ namespace MPC.Models.Common
     {
         public string subscription_url { get; set; }
         public string target_url { get; set; }
+        public string Event { get; set; }
         
     }
 }
