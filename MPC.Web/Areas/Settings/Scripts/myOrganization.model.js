@@ -355,7 +355,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.unleashedApiId(source.XeroApiId);
         companySites.unleashedApiKey(source.XeroApiKey);
         companySites.isUnleashedApiActive(source.isXeroIntegrationRequired);
-        companySites.isZapierActive(source.IsZapierActive);
+        companySites.isZapierActive(source.IsZapierEnable);
         return companySites;
     };
     //Convert Server To Client
@@ -404,7 +404,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.XeroApiId = source.unleashedApiId() === undefined ? null : source.unleashedApiId();
         result.XeroApiKey = source.unleashedApiKey() === undefined ? null : source.unleashedApiKey();
         result.isXeroIntegrationRequired = source.isUnleashedApiActive() === undefined ? null : source.isUnleashedApiActive();
-        result.IsZapierActive = source.isZapierActive() === undefined ? null : source.isZapierActive();
+        result.IsZapierEnable = source.isZapierActive() === undefined ? null : source.isZapierActive();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

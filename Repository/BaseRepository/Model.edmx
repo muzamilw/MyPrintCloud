@@ -8184,10 +8184,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
             <Parameter Name="EstimateID" Mode="In" Type="Int64" />
           </FunctionImport>
-          <FunctionImport Name="usp_InvoiceReport" ReturnType="Collection(DomainModels.usp_InvoiceReport_Result)">
-            <Parameter Name="Organisationid" Mode="In" Type="Int64" />
-            <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
-          </FunctionImport>
           <FunctionImport Name="usp_PurchaseOrderReport" ReturnType="Collection(DomainModels.usp_PurchaseOrderReport_Result)">
             <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
             <Parameter Name="PurchaseID" Mode="In" Type="Int64" />
@@ -8404,6 +8400,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="vw_RealEstateProperties" EntityType="DomainModels.vw_RealEstateProperties" />
           <EntitySet Name="vw_CompanyVariableIcons" EntityType="DomainModels.vw_CompanyVariableIcons" />
           <EntitySet Name="CompanyVariableIcons" EntityType="DomainModels.CompanyVariableIcon" />
+          <FunctionImport Name="usp_InvoiceReport" ReturnType="Collection(DomainModels.usp_InvoiceReport_Result)">
+            <Parameter Name="Organisationid" Mode="In" Type="Int64" />
+            <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -14346,54 +14346,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="CurrencySymbol2" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="CurrencySymbol3" Nullable="true" MaxLength="5" />
         </ComplexType>
-        <ComplexType Name="usp_InvoiceReport_Result">
-          <Property Type="Int64" Name="InvoiceID" Nullable="false" />
-          <Property Type="String" Name="InvoiceCode" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="OrderNo" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="InvoiceTotal" Nullable="true" />
-          <Property Type="DateTime" Name="InvoiceDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="AccountNumber" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="HeadNotes" Nullable="true" MaxLength="2000" />
-          <Property Type="String" Name="FootNotes" Nullable="true" MaxLength="2000" />
-          <Property Type="Double" Name="TaxValue" Nullable="true" />
-          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="AddressName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Address1" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Address2" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Address3" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="StateName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="StatePostCode" Nullable="false" MaxLength="131" />
-          <Property Type="String" Name="URL" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="30" />
-          <Property Type="Double" Name="Quantity" Nullable="false" />
-          <Property Type="Double" Name="ItemTaxValue" Nullable="false" />
-          <Property Type="String" Name="InvoiceDescription" Nullable="true" MaxLength="Max" />
-          <Property Type="Double" Name="Qty1BaseCharge1" Nullable="true" />
-          <Property Type="Double" Name="Qty1Tax1Value" Nullable="true" />
-          <Property Type="Double" Name="TotalPrice" Nullable="true" />
-          <Property Type="Double" Name="GrandTotal" Nullable="true" />
-          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="BannerPath" Nullable="true" MaxLength="400" />
-          <Property Type="String" Name="ReportBanner" Nullable="true" MaxLength="700" />
-          <Property Type="String" Name="ReportFootNotes" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="TaxLabel" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="CurrencySymbol" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="OrderCode" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Estimate_Code" Nullable="false" MaxLength="100" />
-          <Property Type="DateTime" Name="FinishDeliveryDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="BAddressName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="BAddress1" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="BAddress2" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="BCity" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="BState" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="BPostCode" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="BCountry" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="EstimateCodeLabel" Nullable="true" MaxLength="14" />
-          <Property Type="String" Name="OrderCodeLabel" Nullable="true" MaxLength="11" />
-        </ComplexType>
         <ComplexType Name="usp_PurchaseOrderReport_Result">
           <Property Type="Int32" Name="PurchaseID" Nullable="false" />
           <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
@@ -15355,6 +15307,54 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="Icon" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ContactCompanyId" Type="Int64" />
         </EntityType>
+        <ComplexType Name="usp_InvoiceReport_Result">
+          <Property Type="Int64" Name="InvoiceID" Nullable="true" />
+          <Property Type="String" Name="InvoiceCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="OrderNo" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="InvoiceTotal" Nullable="true" />
+          <Property Type="DateTime" Name="InvoiceDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AccountNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HeadNotes" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="FootNotes" Nullable="true" MaxLength="2000" />
+          <Property Type="Double" Name="TaxValue" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AddressName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Address2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Address3" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="StateName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CountryName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="StatePostCode" Nullable="true" MaxLength="131" />
+          <Property Type="String" Name="URL" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="30" />
+          <Property Type="Double" Name="Quantity" Nullable="false" />
+          <Property Type="Double" Name="ItemTaxValue" Nullable="false" />
+          <Property Type="String" Name="InvoiceDescription" Nullable="true" MaxLength="Max" />
+          <Property Type="Double" Name="Qty1BaseCharge1" Nullable="true" />
+          <Property Type="Double" Name="Qty1Tax1Value" Nullable="true" />
+          <Property Type="Double" Name="TotalPrice" Nullable="true" />
+          <Property Type="Double" Name="GrandTotal" Nullable="true" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ReportBanner" Nullable="true" MaxLength="700" />
+          <Property Type="String" Name="BannerPath" Nullable="true" MaxLength="400" />
+          <Property Type="String" Name="ReportFootNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="TaxLabel" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CurrencySymbol" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="OrderCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Estimate_Code" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="FinishDeliveryDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="BAddressName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BAddress1" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="BAddress2" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="BCity" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BState" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BPostCode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="BCountry" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EstimateCodeLabel" Nullable="true" MaxLength="14" />
+          <Property Type="String" Name="OrderCodeLabel" Nullable="true" MaxLength="11" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19625,58 +19625,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_InvoiceReport" FunctionName="DomainModels.Store.usp_InvoiceReport">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DomainModels.usp_InvoiceReport_Result">
-                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
-                <ScalarProperty Name="InvoiceCode" ColumnName="InvoiceCode" />
-                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
-                <ScalarProperty Name="InvoiceTotal" ColumnName="InvoiceTotal" />
-                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
-                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
-                <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
-                <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
-                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="StateName" ColumnName="StateName" />
-                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="StatePostCode" ColumnName="StatePostCode" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ItemTaxValue" ColumnName="ItemTaxValue" />
-                <ScalarProperty Name="InvoiceDescription" ColumnName="InvoiceDescription" />
-                <ScalarProperty Name="Qty1BaseCharge1" ColumnName="Qty1BaseCharge1" />
-                <ScalarProperty Name="Qty1Tax1Value" ColumnName="Qty1Tax1Value" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="BannerPath" ColumnName="BannerPath" />
-                <ScalarProperty Name="ReportBanner" ColumnName="ReportBanner" />
-                <ScalarProperty Name="ReportFootNotes" ColumnName="ReportFootNotes" />
-                <ScalarProperty Name="TaxLabel" ColumnName="TaxLabel" />
-                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
-                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
-                <ScalarProperty Name="Estimate_Code" ColumnName="Estimate_Code" />
-                <ScalarProperty Name="FinishDeliveryDate" ColumnName="FinishDeliveryDate" />
-                <ScalarProperty Name="BAddressName" ColumnName="BAddressName" />
-                <ScalarProperty Name="BAddress1" ColumnName="BAddress1" />
-                <ScalarProperty Name="BAddress2" ColumnName="BAddress2" />
-                <ScalarProperty Name="BCity" ColumnName="BCity" />
-                <ScalarProperty Name="BState" ColumnName="BState" />
-                <ScalarProperty Name="BPostCode" ColumnName="BPostCode" />
-                <ScalarProperty Name="BCountry" ColumnName="BCountry" />
-                <ScalarProperty Name="EstimateCodeLabel" ColumnName="EstimateCodeLabel" />
-                <ScalarProperty Name="OrderCodeLabel" ColumnName="OrderCodeLabel" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_PurchaseOrderReport" FunctionName="DomainModels.Store.usp_PurchaseOrderReport">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DomainModels.usp_PurchaseOrderReport_Result">
@@ -20261,6 +20209,58 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_InvoiceReport" FunctionName="DomainModels.Store.usp_InvoiceReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_InvoiceReport_Result">
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="InvoiceCode" ColumnName="InvoiceCode" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="InvoiceTotal" ColumnName="InvoiceTotal" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
+                <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
+                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="StatePostCode" ColumnName="StatePostCode" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemTaxValue" ColumnName="ItemTaxValue" />
+                <ScalarProperty Name="InvoiceDescription" ColumnName="InvoiceDescription" />
+                <ScalarProperty Name="Qty1BaseCharge1" ColumnName="Qty1BaseCharge1" />
+                <ScalarProperty Name="Qty1Tax1Value" ColumnName="Qty1Tax1Value" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ReportBanner" ColumnName="ReportBanner" />
+                <ScalarProperty Name="BannerPath" ColumnName="BannerPath" />
+                <ScalarProperty Name="ReportFootNotes" ColumnName="ReportFootNotes" />
+                <ScalarProperty Name="TaxLabel" ColumnName="TaxLabel" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="Estimate_Code" ColumnName="Estimate_Code" />
+                <ScalarProperty Name="FinishDeliveryDate" ColumnName="FinishDeliveryDate" />
+                <ScalarProperty Name="BAddressName" ColumnName="BAddressName" />
+                <ScalarProperty Name="BAddress1" ColumnName="BAddress1" />
+                <ScalarProperty Name="BAddress2" ColumnName="BAddress2" />
+                <ScalarProperty Name="BCity" ColumnName="BCity" />
+                <ScalarProperty Name="BState" ColumnName="BState" />
+                <ScalarProperty Name="BPostCode" ColumnName="BPostCode" />
+                <ScalarProperty Name="BCountry" ColumnName="BCountry" />
+                <ScalarProperty Name="EstimateCodeLabel" ColumnName="EstimateCodeLabel" />
+                <ScalarProperty Name="OrderCodeLabel" ColumnName="OrderCodeLabel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
