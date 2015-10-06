@@ -659,9 +659,10 @@
     }
 
     function ifNoAnEnterKay(event){
-        if (e.keyCode == 13) {
+        if (event.keyCode == 13) {
             return false;
         }else{
+            $("#hfIsCallFrom").val("Checkout");
             ShowLoader();
             return true;
         }
