@@ -68,7 +68,7 @@ input, select, table, textarea {
     box-sizing: border-box;
     padding: 15px 30px 15px 100px;
     background-color: #272c33;
-    color: #fff;
+    color: black;
     /*box-shadow: 2px 0 0 rgba(255,255,255,0.333);*/
     -webkit-transform: translate3d(0,0,0);
     -webkit-transition: -webkit-transform .6s ease-out;
@@ -80,13 +80,13 @@ input, select, table, textarea {
 }
 
 body:not(.compactHeader) .searchBtn {
-    box-shadow: inset 3px 3px 12px rgba(0,0,0,0.25), 0 2px 8px #3f4652;
+    box-shadow: inset 3px 3px 13px rgba(0,0,0,0.25), 0 2px 8px #9FA3AB;
 }
 
 .searchBtn {
     position: relative;
     z-index: 12;
-    width: 100%;
+    width: 99%;
     margin: 0;
     box-sizing: border-box;
     border: 0 none #fff;
@@ -105,7 +105,7 @@ body:not(.compactHeader) .searchBtn {
     z-index: 0;
     width: 70px;
     height: 70px;
-    background-color: #3f4652;
+    background-color: #DADBDC;
     -webkit-transition: all .3s ease-out;
     transition: all .3s ease-out;
 }
@@ -401,7 +401,7 @@ body:not(.compactHeader) .searchBtn {
     bottom: 0;
     overflow: hidden;
     padding: 20px 18px 20px 0;
-    background-color: #3f4652;
+    background-color: white;
     text-align: left;
 }
 
@@ -1397,7 +1397,7 @@ body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu
 
 .textControls a {
     text-decoration: none;
-    color: #fff;
+    color: black;
 }
 
 .textControls:not(.clone) {
@@ -1408,14 +1408,14 @@ body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu
 }
 
 .ThemeColor {
-    color: #ffffff !important;
+    color: black !important;
 }
 
 .qTextInput {
-    box-shadow: inset 3px 3px 12px rgba(0,0,0,0.25), 0 2px 8px #3f4652;
+    box-shadow: inset 3px 3px 12px rgba(0,0,0,0.25), 0 2px 8px #DADADA;
     position: relative;
     z-index: 12;
-    width: 100%;
+    width: 99%;
     margin: 0;
     box-sizing: border-box;
     border: 0 none #fff;
@@ -4284,7 +4284,7 @@ h2 + .gallery {
 }
 
 .buttonDesigner {
-    background-color: #fc813b;
+    background-color: #1CA51C;
     border: 2px solid transparent;
     border-radius: 5px;
     box-sizing: border-box;
@@ -4318,11 +4318,11 @@ h2 + .gallery {
     }
 
     .buttonDesigner:active, .buttonDesigner:focus {
-        border-color: rgba(252, 162, 111, 0.85);
+        border-color: #1EBF1E;
     }
 
     .buttonDesigner:hover {
-        background-color: #fca26f;
+        background-color: #1EBF1E;
     }
 
     .buttonDesigner::-moz-focus-inner {
@@ -4986,9 +4986,10 @@ h2 + .gallery {
 }
 
 .OpacityBtn {
-    background-color: transparent;
+    background-color: #EBECED;
     border-width: 0px;
-    padding-top: 10px;
+    /* padding-top: 10px; */
+    color: black;
 }
 
 .closeBtnMenus {
@@ -5641,7 +5642,7 @@ h2 + .gallery {
 }
 
 .bkbtnIphone {
-    background: url('assets-v2/back.png');
+    background: url('assets-v2/back_black.png');
     background-repeat: no-repeat;
     border: none;
     width: 32px;
@@ -6039,7 +6040,7 @@ h2 + .gallery {
     bottom: 178px /*142px*/;
     overflow: hidden;
     padding: 20px 18px 20px 2px;
-    background-color: #3f4652;
+    background-color: white;
     text-align: left;
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
@@ -6077,9 +6078,9 @@ h2 + .gallery {
     border-radius: 50%;
     width: 54px;
     height: 54px;
-    color: #fff;
+    color: black;
     margin: 5px;
-    background-color: rgb(39, 44, 51);
+    background-color: rgb(235, 236, 237);
     font-size: 11px;
 }
 
@@ -7033,6 +7034,7 @@ input[type="radio"] {
 
 .SelectBkColorPanel {
     background-color: black !important;
+    color:white !important;
 }
 
 /*Multi back styles*/
@@ -7281,4 +7283,8 @@ input[type="radio"] {
 .listingImgBtn{
     margin-top: 14px;
     font-size: 11px !important; 
+}
+.CaseModeSlider {
+        margin-top: 36px;
+    margin-bottom: 15px;
 }

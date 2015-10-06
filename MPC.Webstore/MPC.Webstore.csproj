@@ -506,6 +506,7 @@
     <Content Include="Content\Designer\assets-v2\arrowMoveUp.png" />
     <Content Include="Content\Designer\assets-v2\back-hover.png" />
     <Content Include="Content\Designer\assets-v2\back.png" />
+    <Content Include="Content\Designer\assets-v2\back_black.png" />
     <Content Include="Content\Designer\assets-v2\deactive.png" />
     <Content Include="Content\Designer\assets-v2\dummyclose_button.png" />
     <Content Include="Content\Designer\assets-v2\homeIcon.png" />
