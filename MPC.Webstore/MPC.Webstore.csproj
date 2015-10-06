@@ -538,6 +538,7 @@
     <Content Include="Content\download.png" />
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
+    <Content Include="Content\home.png" />
     <Content Include="Content\HomeBannerS4.js" />
     <Content Include="Content\Images\20304_Checkmark.png" />
     <Content Include="Content\Images\artwork_light_icons.png" />
@@ -758,6 +759,7 @@
     <Content Include="Content\style.css" />
     <Content Include="Content\Sunny.css" />
     <Content Include="Content\TFEHotels.css" />
+    <Content Include="Content\Valleyedge.css" />
     <Content Include="Content\zoomslider.css" />
     <Content Include="HtmlJsonPage\RealEstateJsonPage.html" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
