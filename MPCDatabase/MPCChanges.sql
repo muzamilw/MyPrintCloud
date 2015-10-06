@@ -8478,3 +8478,212 @@ END
 
 alter table Organisation add CreateContactZapTargetUrl nvarchar(500)
 alter table Organisation add CreateInvoiceZapTargetUrl nvarchar(500)
+
+
+------------------------------------------------- usp_invoiceReport -----------------
+
+USE [MPCLive]
+GO
+
+/****** Object:  StoredProcedure [dbo].[usp_InvoiceReport]    Script Date: 10/6/2015 12:09:42 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+ALTER procedure [dbo].[usp_InvoiceReport]
+ @Organisationid bigint,
+ @InvoiceId bigint
+AS
+Begin
+
+
+declare @InvoiceDetailCount as int
+select @InvoiceDetailCount = count(*) from invoicedetail where invoiceid = @InvoiceId
+
+
+declare @InvoiceItemsCount as int
+select @InvoiceItemsCount = count(*) from items where invoiceid = @InvoiceId
+
+
+if(@InvoiceDetailCount > 0 and @InvoiceItemsCount > 0) -- record exists in both items or invoice detail table
+begin
+   
+		SELECT     dbo.Invoice.InvoiceID, dbo.Invoice.InvoiceCode, dbo.Invoice.OrderNo, dbo.Invoice.InvoiceTotal, dbo.Invoice.InvoiceDate, 
+                      dbo.Invoice.AccountNumber, dbo.Invoice.HeadNotes, dbo.Invoice.FootNotes, dbo.Invoice.TaxValue, dbo.Company.Name, dbo.Address.AddressName, dbo.Address.Address1, 
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City,(select statename from state where stateid = dbo.Address.AddressId) as StateName,(select CountryName from Country where stateid = dbo.Address.AddressId) as CountryName, dbo.Address.Email, (select statename from state where stateid = dbo.Address.AddressId) + ' ' + isnull(dbo.Address.PostCode, '') As StatePostCode,
+                      dbo.Address.URL,Address.PostCode, isnull(dbo.invoicedetail.Quantity,0) as Quantity, isnull(dbo.invoicedetail.ItemTaxValue,0) as ItemTaxValue, dbo.items.InvoiceDescription, dbo.items.Qty1BaseCharge1, 
+                      dbo.Items.Qty1Tax1Value, (dbo.Items.Qty1BaseCharge1 +  dbo.Items.Qty1Tax1Value) as TotalPrice , dbo.Invoice.GrandTotal, dbo.items.ProductName,
+                     
+					   CASE 
+						  WHEN dbo.Company.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.CompanyId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  WHEN (dbo.Company.IsCustomer = 4 or dbo.Company.IsCustomer = 1 or dbo.Company.IsCustomer = 0 or dbo.Company.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.StoreId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  
+				       END As ReportBanner,
+					 
+					 
+					  (select top 1 ReportBanner from ReportNote where ReportCategoryID=13) as BannerPath,
+                      --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=13) as ReportBanner,
+                       (select Top 1 FootNotes  from ReportNote where ReportCategoryID=13 and isdefault = 1) as ReportFootNotes,
+                      dbo.Company.TaxLabel As TaxLabel, (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					  isnull((select isnull(order_code,'') from Estimate where estimateid = Invoice.estimateid),'') as OrderCode,	
+					  isnull((select isnull(Estimate_Code,'') from Estimate where estimateid = Invoice.estimateid),'') as Estimate_Code,	
+				( select FinishDeliveryDate from Estimate where estimateid = invoice.estimateid) as FinishDeliveryDate,
+					 ISNULL((select AddressName from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddressName,
+                    ISNULL((select address1 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress1,
+					ISNULL((select address2 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress2,
+					ISNULL((select city from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BCity,
+					ISNULL((select statename from State where StateId in (select StateId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BState,
+					
+					
+					--ISNULL(State.StateName,'N/A') as BState,
+					ISNULL((select top 1 PostCode from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BPostCode,
+					ISNULL((select CountryName from Country where CountryId in (select CountryId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BCountry,
+					--ISNULL(Country.CountryName,'N/A') as BCountry,
+					case when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is not null then 'Estimate Code:'
+					     when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as EstimateCodeLabel,
+					case when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is not null then 'Order Code:'
+					     when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as OrderCodeLabel
+					
+FROM         dbo.invoice 
+right JOIN            dbo.invoicedetail ON dbo.invoicedetail.InvoiceID = dbo.invoice.InvoiceID 
+INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId INNER JOIN
+                      dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID left JOIN
+                      dbo.items ON dbo.invoice.InvoiceId = dbo.items.InvoiceId
+                     -- inner join dbo.state on Address.StateId = dbo.State.StateId
+					 -- inner join dbo.Country on Address.CountryId = dbo.Country.CountryID
+
+					  where Company.OrganisationId = @Organisationid and dbo.Invoice.InvoiceId = @InvoiceId
+
+
+end
+else if (@InvoiceDetailCount > 0 and @InvoiceItemsCount = 0) -- if invoice exist in only invoice detail
+begin
+		SELECT     dbo.Invoice.InvoiceID, dbo.Invoice.InvoiceCode, dbo.Invoice.OrderNo, dbo.Invoice.InvoiceTotal, dbo.Invoice.InvoiceDate, 
+                      dbo.Invoice.AccountNumber, dbo.Invoice.HeadNotes, dbo.Invoice.FootNotes, dbo.Invoice.TaxValue, dbo.Company.Name, dbo.Address.AddressName, dbo.Address.Address1, 
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City,(select statename from state where stateid = dbo.Address.AddressId) as StateName,(select CountryName from Country where stateid = dbo.Address.AddressId) as CountryName, dbo.Address.Email, (select statename from state where stateid = dbo.Address.AddressId) + ' ' + isnull(dbo.Address.PostCode, '') As StatePostCode,
+                      dbo.Address.URL,Address.PostCode, isnull(dbo.invoicedetail.Quantity,0) as Quantity, isnull(dbo.invoicedetail.ItemTaxValue,0) as ItemTaxValue, invoicedetail.Description as InvoiceDescription, invoicedetail.itemcharge as Qty1BaseCharge1, 
+                      dbo.invoicedetail.itemtaxvalue as Qty1Tax1Value, (dbo.invoicedetail.itemcharge +  dbo.invoicedetail.itemtaxvalue) as TotalPrice , dbo.Invoice.GrandTotal, dbo.invoicedetail.invoicetitle as ProductName,
+                     
+					   CASE 
+						  WHEN dbo.Company.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.CompanyId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  WHEN (dbo.Company.IsCustomer = 4 or dbo.Company.IsCustomer = 1 or dbo.Company.IsCustomer = 0 or dbo.Company.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.StoreId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  
+				       END As ReportBanner,
+					 
+					 
+					  (select top 1 ReportBanner from ReportNote where ReportCategoryID=13) as BannerPath,
+                      --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=13) as ReportBanner,
+                       (select Top 1 FootNotes  from ReportNote where ReportCategoryID=13 and isdefault = 1) as ReportFootNotes,
+                      dbo.Company.TaxLabel As TaxLabel, (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					  isnull((select isnull(order_code,'') from Estimate where estimateid = Invoice.estimateid),'') as OrderCode,	
+					  isnull((select isnull(Estimate_Code,'') from Estimate where estimateid = Invoice.estimateid),'') as Estimate_Code,	
+				( select FinishDeliveryDate from Estimate where estimateid = invoice.estimateid) as FinishDeliveryDate,
+					 ISNULL((select AddressName from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddressName,
+                    ISNULL((select address1 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress1,
+					ISNULL((select address2 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress2,
+					ISNULL((select city from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BCity,
+					ISNULL((select statename from State where StateId in (select StateId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BState,
+					
+					
+					--ISNULL(State.StateName,'N/A') as BState,
+					ISNULL((select top 1 PostCode from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BPostCode,
+					ISNULL((select CountryName from Country where CountryId in (select CountryId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BCountry,
+					--ISNULL(Country.CountryName,'N/A') as BCountry,
+					case when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is not null then 'Estimate Code:'
+					     when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as EstimateCodeLabel,
+					case when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is not null then 'Order Code:'
+					     when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as OrderCodeLabel
+					
+FROM         dbo.invoice 
+				inner JOIN            dbo.invoicedetail ON dbo.invoicedetail.InvoiceID = dbo.invoice.InvoiceID 
+				INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId INNER JOIN
+                      dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID --INNER JOIN
+                     -- dbo.items ON dbo.invoice.InvoiceId = dbo.items.InvoiceId
+                     -- inner join dbo.state on Address.StateId = dbo.State.StateId
+					 -- inner join dbo.Country on Address.CountryId = dbo.Country.CountryID
+
+					  where Company.OrganisationId = @Organisationid and dbo.Invoice.InvoiceId = @InvoiceId
+
+end
+
+
+else if (@InvoiceItemsCount > 0 and  @InvoiceDetailCount = 0) -- if invoice only exist in items
+begin
+	
+	SELECT     dbo.Invoice.InvoiceID, dbo.Invoice.InvoiceCode, dbo.Invoice.OrderNo, dbo.Invoice.InvoiceTotal, dbo.Invoice.InvoiceDate, 
+                      dbo.Invoice.AccountNumber, dbo.Invoice.HeadNotes, dbo.Invoice.FootNotes, dbo.Invoice.TaxValue, dbo.Company.Name, dbo.Address.AddressName, dbo.Address.Address1, 
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City,(select statename from state where stateid = dbo.Address.AddressId) as StateName,(select CountryName from Country where stateid = dbo.Address.AddressId) as CountryName, dbo.Address.Email, (select statename from state where stateid = dbo.Address.AddressId) + ' ' + isnull(dbo.Address.PostCode, '') As StatePostCode,
+                      dbo.Address.URL,Address.PostCode, isnull(CAST(dbo.items.qty1 AS float),0) as Quantity, isnull(CAST(dbo.items.tax1 AS float),0) as ItemTaxValue, dbo.items.InvoiceDescription, dbo.items.Qty1BaseCharge1, 
+                      dbo.Items.Qty1Tax1Value, (dbo.Items.Qty1BaseCharge1 +  dbo.Items.Qty1Tax1Value) as TotalPrice , dbo.Invoice.GrandTotal, dbo.items.ProductName,
+                     
+					   CASE 
+						  WHEN dbo.Company.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.CompanyId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  WHEN (dbo.Company.IsCustomer = 4 or dbo.Company.IsCustomer = 1 or dbo.Company.IsCustomer = 0 or dbo.Company.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.StoreId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  
+				       END As ReportBanner,
+					 
+					 
+					  (select top 1 ReportBanner from ReportNote where ReportCategoryID=13) as BannerPath,
+                      --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=13) as ReportBanner,
+                       (select Top 1 FootNotes  from ReportNote where ReportCategoryID=13 and isdefault = 1) as ReportFootNotes,
+                      dbo.Company.TaxLabel As TaxLabel, (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					  isnull((select isnull(order_code,'') from Estimate where estimateid = Invoice.estimateid),'') as OrderCode,	
+					  isnull((select isnull(Estimate_Code,'') from Estimate where estimateid = Invoice.estimateid),'') as Estimate_Code,	
+				( select FinishDeliveryDate from Estimate where estimateid = invoice.estimateid) as FinishDeliveryDate,
+					 ISNULL((select AddressName from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddressName,
+                    ISNULL((select address1 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress1,
+					ISNULL((select address2 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress2,
+					ISNULL((select city from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BCity,
+					ISNULL((select statename from State where StateId in (select StateId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BState,
+					
+					
+					--ISNULL(State.StateName,'N/A') as BState,
+					ISNULL((select top 1 PostCode from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BPostCode,
+					ISNULL((select CountryName from Country where CountryId in (select CountryId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BCountry,
+					--ISNULL(Country.CountryName,'N/A') as BCountry,
+					case when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is not null then 'Estimate Code:'
+					     when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as EstimateCodeLabel,
+					case when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is not null then 'Order Code:'
+					     when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as OrderCodeLabel
+					
+FROM         dbo.invoice 
+INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId INNER JOIN
+                      dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID INNER JOIN
+                      dbo.items ON dbo.invoice.InvoiceId = dbo.items.InvoiceId
+                     -- inner join dbo.state on Address.StateId = dbo.State.StateId
+					 -- inner join dbo.Country on Address.CountryId = dbo.Country.CountryID
+
+					  where Company.OrganisationId = @Organisationid and dbo.Invoice.InvoiceId = @InvoiceId
+
+end
+end
+
+
+
+
+
+
+
+GO
+
+

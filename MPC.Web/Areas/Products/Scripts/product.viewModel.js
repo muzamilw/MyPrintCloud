@@ -249,17 +249,35 @@ define("product/product.viewModel",
                         }
                         // Set SRA2 Sheet Size
                         var paperSize = getPaperByName('SRA2');
+                        
+
                         if (paperSize) {
                             selectedProduct().activeItemSection().sectionSizeId(paperSize.id);
                             setSectionSizeForSection(paperSize, true);
                             setItemSizeForSection(paperSize);
                         }
+                        else
+                        {
+                            paperSize = paperSizes()[0];
+                            selectedProduct().activeItemSection().sectionSizeId(paperSize.id);
+                            setSectionSizeForSection(paperSize, true);
+                            setItemSizeForSection(paperSize);
+
+                        }
                         // Set 85*22 Item Size
                         var paperSizeItem = getPaperByName('85*22');
+                       
                         if (paperSizeItem) {
                             selectedProduct().activeItemSection().itemSizeId(paperSizeItem.id);
                             setItemSizeForSection(paperSize);
                         }
+                        else
+                        {
+                            paperSizeItem = paperSizes()[0];
+                            selectedProduct().activeItemSection().itemSizeId(paperSizeItem.id);
+                            setItemSizeForSection(paperSize);
+                        }
+
                         // Set First Press from Presses List
                         if (presses() && presses().length > 0) {
                             if (selectedProduct().itemSections().length > 0) {
