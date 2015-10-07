@@ -12,6 +12,7 @@
     var AllListingImages = ViewBag.AllListingImages as List<MPC.Models.DomainModels.ListingImage>;
 }
 <link href="/Content/carousel.css" rel="stylesheet" />
+<link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
 <link href="/Content/content.css" rel="stylesheet" />
 <div class="container">
     <div class="sidebar-offcanvas sidebar realEs-myProfile-leftPanel" id="sidebar-left" role="navigation" style="">
@@ -20,17 +21,17 @@
         <div class="reales-profile-pad10">
 
             <div class="float_left_simple Fsize18">
-                <label style="color: #bebab8;font-family:Times New Roman;">@Html.Raw(Html.GetKeyValueFromResourceFile("myprofile",UserCookieManager.WBStoreId,"My Profile"))</label>
+                <label >@Html.Raw(Html.GetKeyValueFromResourceFile("myprofile",UserCookieManager.WBStoreId,"My Profile"))</label>
             </div>
 
             <div class="float_right relEst-profile-sigout">
                 @Html.ActionLink(" ", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "icon-text-signout" })
             </div>
             <div class="float_right relEst-profile-saved">
-                <a class="icon-text-cog" href="/DashBoard" style="color:#bebab8"></a>
+                <a class="icon-text-cog" href="/DashBoard"></a>
             </div>
             <div class="float_right relEst-profile-dashb">
-                <a class="icon-text-file" href="/SavedDesigns" style="color:#bebab8"></a>
+                <a class="icon-text-file" href="/SavedDesigns"></a>
 
             </div>
 

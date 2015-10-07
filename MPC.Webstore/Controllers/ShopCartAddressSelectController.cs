@@ -817,7 +817,7 @@ namespace MPC.Webstore.Controllers
             if (isPageValid)
             {
 
-                Double ServiceTaxRate = GetTAXRateFromService(AddLine1, city, PostCode, model);
+                //Double ServiceTaxRate = GetTAXRateFromService(AddLine1, city, PostCode, model);
 
                 bool result = false;
 
