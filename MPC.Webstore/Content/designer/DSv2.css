@@ -4295,7 +4295,7 @@ h2 + .gallery {
     }
 
     .buttonDesigner:active, .buttonDesigner:focus {
-        border-color: #1EBF1E;
+        border-color: #FF9051;
     }
 
     .buttonDesigner:hover {
@@ -4946,7 +4946,7 @@ h2 + .gallery {
 }
 
 .OpacityBtn {
-    background-color: #EBECED;
+    background-color: transparent;
     border-width: 0px;
     /* padding-top: 10px; */
     color: black;
@@ -5535,23 +5535,21 @@ h2 + .gallery {
 
     #documentMenuPaste > button {
         background: #000000 no-repeat center / 14px;
-        background-image: url('assets-v2/paste.png');
         min-width: 0;
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 10px;
-        visibility: hidden;
+        border-radius: 10px;    line-height: 9px;
+        visibility: hidden;font-size:11px;
     }
 
         #documentMenuPaste > button:hover {
             background: #3F4652 no-repeat center / 14px;
-            background-image: url('assets-v2/paste.png');
         }
 
     #documentMenuCopy > button {
         background: #000000 no-repeat center / 14px;
-        background-image: url('assets-v2/copy.png');
+      
         min-width: 0;
         padding: 0;
         text-align: center;
@@ -5559,11 +5557,11 @@ h2 + .gallery {
         border-radius: 10px;
         visibility: hidden;
         margin-right: 3px;
+        font-size:11px;    line-height: 9px;
     }
 
         #documentMenuCopy > button:hover {
             background: #3F4652 no-repeat center / 14px;
-            background-image: url('assets-v2/copy.png');
         }
 
 #zoomIn, #zoomOut {

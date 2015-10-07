@@ -72,6 +72,21 @@ $("#btnAdd").click(function (event) {
         $("#FrontBackOptionPanal").css("display", "none");
     }
     $("#pnlAddMain").css("top", "0px");
+    try {
+
+        if (canvas && canvas != undefined) {
+            var a0 = canvas.getActiveObject();
+            if (a0) {
+                if (a0.type != "image") {
+                    canvas.discardActiveObject();
+                }
+
+            }
+        } $(".collapseDesignerMenu").css("display", "list-item");
+    }
+    catch (err) {
+
+    } SelAddCat = "";
 });
 $(".backgrounds").click(function (event) {
     var D1AO = canvas.getActiveObject();
@@ -879,7 +894,6 @@ $(".btnAtext").click(function (event) {
 
 });
 $(".btnBackFromImgs").click(function (event) {
-    debugger;
     fu13(2, 4, 1, 3);
     pcL29_pcRestore(2); spPanel = "";
 });
