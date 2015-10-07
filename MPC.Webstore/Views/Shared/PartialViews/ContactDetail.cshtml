@@ -562,7 +562,7 @@
                 success: function (response) {
 
                     $("#messgetodisply").css('display', 'block');
-                    $("#messgetodisply").html('Profile Updated Sucessfuly!');
+                    $("#messgetodisply").html('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlProfleUpdatedMessage", UserCookieManager.WBStoreId, "Profile Updated successfully!"))');
 
                     createCookie("WEBFirstName", FirstName);
                     createCookie("WEBLastName", LastName);
