@@ -1398,13 +1398,12 @@ button, .buttonDesigner {
 }
 
 .qTextInput {
-    box-shadow: inset 3px 3px 12px rgba(0,0,0,0.25), 0 2px 8px #DADADA;
+        border: 2px solid #acb0b5;
     position: relative;
     z-index: 12;
     width: 99%;
     margin: 0;
     box-sizing: border-box;
-    border: 0 none #fff;
     border-radius: 5px;
     outline: none;
     padding: 11px 15px;
@@ -3075,7 +3074,6 @@ div.fontSelector {
     cursor: pointer;
     margin-bottom: 15px;
 }
-
 #DivLblMoveSlider {
     text-align: left;
     margin: 6px;
@@ -3405,7 +3403,7 @@ h2 + .gallery {
     -webkit-transition: top .1s linear,background-color .3s linear;
     transition: top .1s linear,background-color .3s linear;
     -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);    box-shadow: 0 7px 6px -6px #666;margin-bottom:5px !important;
 }
 
     .photoGallery a.reappearing, .infoPanelGallery a.reappearing {
@@ -4375,7 +4373,6 @@ h2 + .gallery {
     margin: 5px;
     width: 39px;
     border-radius: 8px;
-    box-shadow: inset 2px 2px 1px rgba(0,0,0,.15),inset -1px -1px 0 rgba(0,0,0,.25);
     z-index: 2001;
     -webkit-animation: appearingElement .3s;
     animation: appearingElement .3s;
@@ -7245,4 +7242,7 @@ input[type="radio"] {
 .CaseModeSlider {
         margin-top: 36px;
     margin-bottom: 15px;
+}
+#FrontBackOptionPanalSection{
+        box-shadow: 5px 5px 5px -5px #666;
 }
