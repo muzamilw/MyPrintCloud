@@ -272,32 +272,64 @@ define("common/addProduct.viewModel",
                         }
                         // ReSharper disable once NotAllPathsReturnValue
                     },
-                    getPriceWithoutTax = function (listElementNumber, count) {
-                        if (count == 1) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
-                        } else if (count == 2) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType2();
-                        } else if (count == 3) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType3();
-                        } else if (count == 4) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType4();
-                        } else if (count == 5) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType5();
-                        } else if (count == 6) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType6();
-                        } else if (count == 7) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType7();
-                        } else if (count == 8) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType8();
-                        } else if (count == 9) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType9();
-                        } else if (count == 10) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType10();
-                        } else if (count == 11) {
-                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
+                    getPriceWithoutTax = function (listElementNumber, count, isRanged, Quantity) {
+                        if (isRanged)
+                        {
+                            if (count == 1) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
+                            } else if (count == 2) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType2();
+                            } else if (count == 3) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType3();
+                            } else if (count == 4) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].priceStockType4();
+                            } else if (count == 5) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].priceStockType5();
+                            } else if (count == 6) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].priceStockType6();
+                            } else if (count == 7) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].priceStockType7();
+                            } else if (count == 8) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].priceStockType8();
+                            } else if (count == 9) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].priceStockType9();
+                            } else if (count == 10) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].priceStockType10();
+                            } else if (count == 11) {
+                                return Quantity * selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
+                            }
                         }
+                        else
+                        {
+                            if (count == 1) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
+                            } else if (count == 2) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType2();
+                            } else if (count == 3) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType3();
+                            } else if (count == 4) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType4();
+                            } else if (count == 5) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType5();
+                            } else if (count == 6) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType6();
+                            } else if (count == 7) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType7();
+                            } else if (count == 8) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType8();
+                            } else if (count == 9) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType9();
+                            } else if (count == 10) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType10();
+                            } else if (count == 11) {
+                                return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
+                            }
+                        }
+                       
                         // ReSharper disable once NotAllPathsReturnValue
                     },
+
+
                     // #region Cost Centre Execution
                     isQueueExist = false,
                     questionQueueObject = null,
@@ -418,8 +450,8 @@ define("common/addProduct.viewModel",
                                 if (priceMatrix.quantity() == selectedProductQuanity()) {
                                     totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
                                     selectedProductQuanityPrice(getPrice(counter - 1, selectedStockOptionSequenceNumber()));
-                                    totalPriceWithoutTax = getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber());
-                                    selectedProductQuanityPriceWithoutTax(getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber()));                                    isQuantitySelected(true);
+                                    totalPriceWithoutTax = getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber(),false,0);
+                                    selectedProductQuanityPriceWithoutTax(getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber(),false,0));                                    isQuantitySelected(true);
                                 }
                             });
                             if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
@@ -443,8 +475,8 @@ define("common/addProduct.viewModel",
                                 if (priceMatrix.qtyRangedFrom() <= parseInt(selectedProductQuanity()) && priceMatrix.qtyRangedTo() >= parseInt(selectedProductQuanity())) {
                                     totalPrice = (parseInt(selectedProductQuanity()) * getPrice(counter - 1, selectedStockOptionSequenceNumber()));
                                     selectedProductQuanityPrice(parseInt(selectedProductQuanity())*(getPrice(counter - 1, selectedStockOptionSequenceNumber())));
-                                    selectedProductQuanityPriceWithoutTax(getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber()));
-                                    totalPriceWithoutTax = getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber());
+                                    selectedProductQuanityPriceWithoutTax(getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber(), true, selectedProductQuanity()));
+                                    totalPriceWithoutTax = getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber(),true, selectedProductQuanity());
                                     isQuantitySelected(true);
                                     //  isTraversed = true;
                                 }
