@@ -8479,11 +8479,9 @@ END
 alter table Organisation add CreateContactZapTargetUrl nvarchar(500)
 alter table Organisation add CreateInvoiceZapTargetUrl nvarchar(500)
 
-
+alter table organisation add IsZapierEnable bit
 ------------------------------------------------- usp_invoiceReport -----------------
 
-USE [MPCLive]
-GO
 
 /****** Object:  StoredProcedure [dbo].[usp_InvoiceReport]    Script Date: 10/6/2015 12:09:42 PM ******/
 SET ANSI_NULLS ON
