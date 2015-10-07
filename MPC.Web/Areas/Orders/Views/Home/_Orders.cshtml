@@ -108,7 +108,7 @@
                                                 <th class="col-sm-2"><span>Order Date</span></th>
                                                 <th class="col-sm-1"><span>Flag</span></th>
                                                 <th class="col-sm-1"><span>Status</span></th>
-                                                <th class="col-sm-1" style="text-align: right"><span>Order Total</span></th>
+                                                <th class="col-sm-2" style="text-align:right;"><span>Order Total</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -206,7 +206,7 @@
                 <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
             </td>
 
-            <td style="text-align:right; padding-right:84px;">
+            <td style="text-align:right;">
                 <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() :''"></span>
                 <span data-bind="numberInput:estimateTotal()!==undefined ? estimateTotal():''"></span>
             </td>
@@ -279,7 +279,7 @@
                             <th class="col-sm-2"><span>Order Code</span></th>
                             <th class="col-sm-2"><span>Order Date</span></th>
                             <th class="col-sm-2"><span>Flag</span></th>
-                            <th class="col-sm-2"><span>Order Total</span></th>
+                            <th class="col-sm-2" style="text-align:right;"><span>Order Total</span></th>
                         </tr>
                     </thead>
                     <tbody>
