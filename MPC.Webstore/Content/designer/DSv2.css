@@ -369,7 +369,7 @@ body:not(.compactHeader) .searchBtn {
 }
 
 #zoomer a:hover {
-    background-color: #048489; /*rgba(63, 70, 82, 1);*/
+    background-color: #FC813B; /*rgba(63, 70, 82, 1);*/
 }
 
 #zoomer a:active {
@@ -1248,11 +1248,11 @@ body:not(.compactHeader) .documentMenu {
     }
 
         .compactHeader #documentTitleAndMenu button:focus, .compactHeader #documentTitleAndMenu button:hover, .compactHeader #documentTitleAndMenu a:focus, .compactHeader #documentTitleAndMenu a:hover {
-            background-color: #048489;
+            background-color: #FC813B;
         }
 
         .compactHeader #documentTitleAndMenu button.on, .compactHeader #documentTitleAndMenu button:active, .compactHeader #documentTitleAndMenu a.on, .compactHeader #documentTitleAndMenu a:active {
-            background-color: #02727a;
+            background-color: #FC813B;
             -webkit-transition: none;
             transition: none;
         }

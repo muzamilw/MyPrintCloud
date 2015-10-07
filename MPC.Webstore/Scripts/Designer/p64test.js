@@ -17570,11 +17570,11 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           var dHeight = parseFloat(imageMargins.height);
           var dx = x + imageMargins.marginX;
           var dy = y + imageMargins.marginY;
-          if ($.browser.mozilla)  //firefox fix
-          {
-              if (swidth > dWidth) swidth = dWidth;
-              if (sheight > dHeight) sheight = dHeight;
-          }
+          //if ($.browser.mozilla)  //firefox fix
+          //{
+          //    if (swidth > dWidth) swidth = dWidth;
+          //    if (sheight > dHeight) sheight = dHeight;
+          //}
           elementToDraw && ctx.drawImage(elementToDraw,sx, sy, swidth, sheight,
                                   dx,
                                   dy,
