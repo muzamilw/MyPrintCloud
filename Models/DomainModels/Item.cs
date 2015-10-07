@@ -921,6 +921,7 @@ namespace MPC.Models.DomainModels
             target.Qty3GrossTotal = Qty3GrossTotal;
             target.InvoiceDescription = InvoiceDescription;
             target.ItemNotes = ItemNotes;
+            target.Tax1 = Tax1;
         }
 
         #endregion
