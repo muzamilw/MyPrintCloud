@@ -27,5 +27,7 @@ namespace MPC.Interfaces.Repository
         long GetInvoieFlag();
         List<ZapierInvoiceDetail> GetZapierInvoiceDetails(long organisationId);
 
+        void ArchiveInvoice(int InvoiceId);
+
     }
 }
