@@ -834,7 +834,7 @@ namespace MPC.Webstore.Controllers
                 CompanyContact user = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
                 if (user != null)
                 {
-                    if (!string.IsNullOrEmpty(yourRefNumber))
+                    if (!string.IsNullOrEmpty(model.RefNumber))
                     {
 
                         yourRefNumber = model.RefNumber;
