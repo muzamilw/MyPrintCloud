@@ -276,16 +276,16 @@
                                                     <tr>
                                                         <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 2-->
                                                         <th class="col-sm-8"><span>Detail</span></th>
-                                                        <th class="col-sm-2"><span>Packed Price</span></th>
-                                                        <th class="col-sm-2"><span>Total Price</span></th>
+                                                        <th class="col-sm-2" style="text-align:right;"><span>Packed Price</span></th>
+                                                        <th class="col-sm-2" style="text-align:right;"><span>Total Price</span></th>
                                                         <!-- /ko -->
                                                         <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 1-->
                                                         <th class="col-sm-2"><span>Code</span></th>
                                                         <th class="col-sm-3"><span>Detail</span></th>
-                                                        <th class="col-sm-2"><span>Packed In</span></th>
-                                                        <th class="col-sm-2"><span>Packed Price</span></th>
-                                                        <th class="col-sm-1"><span>Required</span></th>
-                                                        <th class="col-sm-2"><span>Total Price</span></th>
+                                                        <th class="col-sm-2" style="text-align:right;"><span>Packed In</span></th>
+                                                        <th class="col-sm-2" style="text-align:right;"><span>Packed Price</span></th>
+                                                        <th class="col-sm-1" style="text-align:right;"><span>Required</span></th>
+                                                        <th class="col-sm-2" style="text-align:right;"><span>Total Price</span></th>
                                                         <!-- /ko -->
                                                     </tr>
                                                 </thead>
@@ -340,25 +340,16 @@
 
                         <div class="col-sm-3">
                             <div class="form-group">
+                                
                                 <div class="col-sm-4 text-right">
                                     <label class="control-label text-right tooltip-float" style="padding-left:12px; float: left;">Net Total :</label>
                                 </div>
-                                <div class="col-sm-6" style="font-weight:bold;font-size:20px;padding-left: 0px; text-align: left; padding-top: 1px;">
+                                <div class="col-sm-5" style="font-weight:bold;font-size:20px;text-align: right;padding-right:0px;">
                                     <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:netTotal"></span>
                                 </div>
+                                <div class="col-lg-3"></div>
                             </div>
-                            @*<div class="form-group">
-                                    <div class="col-sm-3 text-right">
-                                        <label class="control-label text-right tooltip-float">Discount</label>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value:discount">
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.discountTypes, optionsText: 'name', optionsValue: 'id',value:discountType"></select>
-
-                                    </div>
-                                </div>*@
+                           
                         </div>
                     </div>
                     <div class="form-group">
@@ -443,12 +434,12 @@
     <tr style="cursor: pointer">
         <td data-bind="text: itemCode,click:$root.editPurchaseDetail"></td>
         <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
-        <td style="text-align:right;padding-right:50px;" data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
-        <td style="text-align:right;padding-right:25px;">
+        <td style="text-align:right;" data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
+        <td style="text-align:right;">
             <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price,click:$root.editPurchaseDetail"></span>
         </td>
         <td style="text-align:right;" data-bind="text: quantity,click:$root.editPurchaseDetail"></td>
-        <td style="text-align:right;padding-right:40px;">
+        <td style="text-align:right;">
             <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></span>
         </td>
         <td style="width: 5%">
