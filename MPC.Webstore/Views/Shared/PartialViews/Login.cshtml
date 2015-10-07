@@ -12,9 +12,9 @@
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 @if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
                 {
-                    <div id="lblSignWithSM" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsigninwithaccount", UserCookieManager.WBStoreId, "Sign in to ")) @ViewBag.CompanyName</div>
+                   <div id="lblSignWithSM" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsigninwithaccount", UserCookieManager.WBStoreId, "Sign in to ")) @ViewBag.CompanyName</div>
                     <br />
-                   
+                
 
                     <div id="cntSocialLink" class="cntSignInWithSocialinks">
                         @if (ViewBag.ShowFacebookSignInLink == 1)

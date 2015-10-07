@@ -1041,7 +1041,7 @@
             }
 
             if (QuantityOrdered < JsonFirstObject.QtyRangeFrom || QuantityOrdered > JsonLastObject.QtyRangeTo) {
-                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlqunatityexceeds", UserCookieManager.WBStoreId, "Your quantity exceeds the normal amount, please contact us for a special price."))');
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlqunatityexceeds", UserCookieManager.WBStoreId, "Your quantity exceed the normal amount, please contact us for a special price."))');
                 return false;
             } else {
                 count = $(JsonData).length;
