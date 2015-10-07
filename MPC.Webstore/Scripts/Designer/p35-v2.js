@@ -62,36 +62,16 @@ $(".QuickTxt").click(function (event) {
     } $(".collapseDesignerMenu").css("display", "list-item");
 });
 $("#btnAdd").click(function (event) {
-    isBKpnl = false;
-    $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    if (spPanel != "") {
-        $(spPanel).click();
-        spPanel = "";
-    }
+    //  oldAddFunctionality();
+    $(".AddBrowserCategories").removeClass("folderExpanded");
+    $(".AddBrowserCategories .UlAddMain li").removeClass("folderExpanded");
+    $(".AddPanels").addClass("disappearing");
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage4");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    try {
-
-        if (canvas && canvas != undefined) {
-            var a0 = canvas.getActiveObject();
-            if (a0) {
-                if (a0.type != "image") {
-                    canvas.discardActiveObject();
-                }
-
-            }
-        } $(".collapseDesignerMenu").css("display", "list-item");
-    }
-    catch (err) {
-      
-    }
-    //var D1AO = canvas.getActiveObject();
-    //var D1AG = canvas.getActiveGroup();
-    //if (D1AG) canvas.discardActiveGroup();
-    //if (D1AO) canvas.discardActiveObject();
+    $("#pnlAddMain").css("top", "0px");
 });
 $(".backgrounds").click(function (event) {
     var D1AO = canvas.getActiveObject();
@@ -899,6 +879,7 @@ $(".btnAtext").click(function (event) {
 
 });
 $(".btnBackFromImgs").click(function (event) {
+    debugger;
     fu13(2, 4, 1, 3);
     pcL29_pcRestore(2); spPanel = "";
 });
@@ -1002,8 +983,9 @@ $('#btnaddbody').click(function () {
 $('#btnReplaceImage').click(function () {
     //fu13(2, 4, 1, 3);
     //pcL29_pcMove(2);
-    $('.btnAdd').click();
-    $('.btnAFrames').click();
+    oldAddFunctionality();
+     $('.btnAFrames').click();
+     $("#divAddImgPanel").removeClass("disappearing");
 
 });
 $('#editorLogo').click(function () {
@@ -1194,7 +1176,7 @@ $("#btnUpdateImgProp").click(function (event) {
 	    //} else {
 	    //    $(".uploads").click();
 	    //}
-	    $("#btnAdd").click();
+	    oldAddFunctionality();
 	});
 
     return false;
@@ -1208,7 +1190,7 @@ $(".returnToLib").click(function (event) {
         if (isBkPnlUploads){
             $(".backgrounds").click();
         } else {
-            $('.btnAdd').click();
+            oldAddFunctionality();
             $('.btnAFrames').click();
             $(".btnIllustrations").click();
         }
@@ -1777,7 +1759,7 @@ $("#BtnTxtCanvasAlignRight").click(function (ev) {
 var removeSelectedEl = document.getElementById('BtnDeleteTxtObj');
 removeSelectedEl.onclick = function () {
     pcL03();
-    $(".btnAdd").click();
+    oldAddFunctionality();
 };
 $("#BtnImgScaleIN").click(function (event) {
     pcL14();
@@ -1894,7 +1876,7 @@ $('#BtnImgCanvasAlignMiddle').click(function (event) {
 //}
 $('#btnDeleteImage').click(function (event) {
     pcL21();
-    $(".btnAdd").click();
+    oldAddFunctionality();
 });
 //var removeSelectedEl = document.getElementById('btnDeleteImage');
 //removeSelectedEl.onclick = function () {
@@ -2304,3 +2286,33 @@ $("#BtnValignTxt2").click(function (ev) {
 $("#BtnValignTxt3").click(function (ev) {
     pcL07_vAl(3);
 });
+function oldAddFunctionality() {
+
+    isBKpnl = false;
+    $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
+    if (spPanel != "") {
+        $(spPanel).click();
+        spPanel = "";
+    }
+
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage4");
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
+    try {
+
+        if (canvas && canvas != undefined) {
+            var a0 = canvas.getActiveObject();
+            if (a0) {
+                if (a0.type != "image") {
+                    canvas.discardActiveObject();
+                }
+
+            }
+        } $(".collapseDesignerMenu").css("display", "list-item");
+    }
+    catch (err) {
+
+    }
+}
