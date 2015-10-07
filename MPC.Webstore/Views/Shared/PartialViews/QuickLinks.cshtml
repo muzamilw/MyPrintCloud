@@ -40,10 +40,10 @@
                         <div class="footer_portion themeFontColor">
                             <div class="footer_left_portion_division float_left_simple">
                                 <label id="lbl_ContactInformation" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUserProfile", UserCookieManager.WBStoreId))</label>
-
+                               
                                 <ul class="uSecPageList  themeFontColor">
                                     <li>
-                                        <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.Address1</a>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white;"></a>
                                     </li>
                                     @if (Model.Address2 != null)
                                     {
@@ -55,11 +55,9 @@
                                         <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.City, @Model.State</a>
                                     </li>
                                     <li>
-                                        <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.Country</a>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.ZipCode @Model.Country</a>
                                     </li>
-                                    <li>
-                                        <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.ZipCode</a>
-                                    </li>
+                                 
                                     @if (Model.Tel != null)
                                     {
                                         <li>

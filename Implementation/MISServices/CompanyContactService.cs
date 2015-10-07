@@ -1147,24 +1147,28 @@ namespace MPC.Implementation.MISServices
         public void PostDataToZapier(long contactId)
         {
             var org = organisationRepository.GetOrganizatiobByID();
-            string sPostUrl = string.Empty;
-            sPostUrl = org.IsZapierEnable == true ? org.CreateContactZapTargetUrl : string.Empty;
-            
-            if (!string.IsNullOrEmpty(sPostUrl))
+            if (org != null)
             {
-                var resp = GetStoreContactForZapier(contactId);
-                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-                var request = System.Net.WebRequest.Create(sPostUrl);
-                request.ContentType = "application/json";
-                request.Method = "POST";
-                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
-                request.ContentLength = byteArray.Length;
-                using (Stream dataStream = request.GetRequestStream())
+                string sPostUrl = string.Empty;
+                sPostUrl = org.IsZapierEnable == true ? org.CreateContactZapTargetUrl : string.Empty;
+
+                if (!string.IsNullOrEmpty(sPostUrl))
                 {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    var response = request.GetResponse();
+                    var resp = GetStoreContactForZapier(contactId);
+                    string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+                    var request = System.Net.WebRequest.Create(sPostUrl);
+                    request.ContentType = "application/json";
+                    request.Method = "POST";
+                    byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                    request.ContentLength = byteArray.Length;
+                    using (Stream dataStream = request.GetRequestStream())
+                    {
+                        dataStream.Write(byteArray, 0, byteArray.Length);
+                        var response = request.GetResponse();
+                    }
                 }
             }
+            
 
         }
 

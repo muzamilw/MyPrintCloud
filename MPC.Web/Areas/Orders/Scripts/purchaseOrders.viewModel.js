@@ -622,6 +622,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         selectedPurchaseOrderDetail().serviceDetail(stockItem.name);
                         selectedPurchaseOrderDetail().packqty(stockItem.packageQty);
                         selectedPurchaseOrderDetail().refItemId(stockItem.id);
+                        selectedPurchaseOrderDetail().price(stockItem.price);
                         view.showPurchaseDetailDialog();
                         view.initializeLabelPopovers();
 

@@ -102,7 +102,7 @@ namespace MPC.Repository.Repositories
             var item = db.Items.Where(g => g.TemplateId == templateId).SingleOrDefault();
             if(item != null)
             {
-                fonts = db.TemplateFonts.Where(g => g.CustomerId == item.CompanyId).ToList();
+                fonts = db.TemplateFonts.Where(g => g.CustomerId == item.CompanyId || g.CustomerId == null).ToList();
             }
             return fonts;
         }

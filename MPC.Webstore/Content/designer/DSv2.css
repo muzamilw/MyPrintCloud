@@ -68,7 +68,7 @@ input, select, table, textarea {
     box-sizing: border-box;
     padding: 15px 30px 15px 100px;
     background-color: #272c33;
-    color: #fff;
+    color: black;
     /*box-shadow: 2px 0 0 rgba(255,255,255,0.333);*/
     -webkit-transform: translate3d(0,0,0);
     -webkit-transition: -webkit-transform .6s ease-out;
@@ -80,13 +80,13 @@ input, select, table, textarea {
 }
 
 body:not(.compactHeader) .searchBtn {
-    box-shadow: inset 3px 3px 12px rgba(0,0,0,0.25), 0 2px 8px #3f4652;
+    box-shadow: inset 3px 3px 13px rgba(0,0,0,0.25), 0 2px 8px #9FA3AB;
 }
 
 .searchBtn {
     position: relative;
     z-index: 12;
-    width: 100%;
+    width: 99%;
     margin: 0;
     box-sizing: border-box;
     border: 0 none #fff;
@@ -105,7 +105,7 @@ body:not(.compactHeader) .searchBtn {
     z-index: 0;
     width: 70px;
     height: 70px;
-    background-color: #3f4652;
+    background-color: #DADBDC;
     -webkit-transition: all .3s ease-out;
     transition: all .3s ease-out;
 }
@@ -369,7 +369,7 @@ body:not(.compactHeader) .searchBtn {
 }
 
 #zoomer a:hover {
-    background-color: #048489; /*rgba(63, 70, 82, 1);*/
+    background-color: #FC813B; /*rgba(63, 70, 82, 1);*/
 }
 
 #zoomer a:active {
@@ -401,7 +401,7 @@ body:not(.compactHeader) .searchBtn {
     bottom: 0;
     overflow: hidden;
     padding: 20px 18px 20px 0;
-    background-color: #3f4652;
+    background-color: white;
     text-align: left;
 }
 
@@ -1214,7 +1214,7 @@ body:not(.compactHeader) .documentMenu {
         margin: 0;
         border-radius: 17px;
         padding: 0 1em;
-        color: #fff;
+        color: white;
         line-height: 36px;
         text-decoration: none;
         -webkit-transition: color .1s linear, background-color .1s linear;
@@ -1248,11 +1248,11 @@ body:not(.compactHeader) .documentMenu {
     }
 
         .compactHeader #documentTitleAndMenu button:focus, .compactHeader #documentTitleAndMenu button:hover, .compactHeader #documentTitleAndMenu a:focus, .compactHeader #documentTitleAndMenu a:hover {
-            background-color: #048489;
+            background-color: #FC813B;
         }
 
         .compactHeader #documentTitleAndMenu button.on, .compactHeader #documentTitleAndMenu button:active, .compactHeader #documentTitleAndMenu a.on, .compactHeader #documentTitleAndMenu a:active {
-            background-color: #02727a;
+            background-color: #FC813B;
             -webkit-transition: none;
             transition: none;
         }
@@ -1347,20 +1347,6 @@ button, .buttonDesigner {
         line-height: inherit;
     }
 
-body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu button {
-    display: inline-block;
-    position: relative;
-    height: 34px;
-    margin: 0;
-    border-radius: 17px;
-    padding: 0 1em;
-    color: rgba(63,70,82, .5);
-    line-height: 36px;
-    text-decoration: none;
-    -webkit-transition: color .1s linear, background-color .1s linear;
-    transition: color .1s linear, background-color .1s linear;
-}
-
 .addTxtHeading {
     font-family: Arial;
     font-weight: normal;
@@ -1397,7 +1383,7 @@ body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu
 
 .textControls a {
     text-decoration: none;
-    color: #fff;
+    color: black;
 }
 
 .textControls:not(.clone) {
@@ -1408,17 +1394,16 @@ body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu
 }
 
 .ThemeColor {
-    color: #ffffff !important;
+    color: black !important;
 }
 
 .qTextInput {
-    box-shadow: inset 3px 3px 12px rgba(0,0,0,0.25), 0 2px 8px #3f4652;
+        border: 2px solid #acb0b5;
     position: relative;
     z-index: 12;
-    width: 100%;
+    width: 99%;
     margin: 0;
     box-sizing: border-box;
-    border: 0 none #fff;
     border-radius: 5px;
     outline: none;
     padding: 11px 15px;
@@ -2889,13 +2874,15 @@ div.fontSelector {
     z-index: 2002;
     width: 216px;
     height: 112px;
-    background-color: #3f4652;
+       background-color: white;
     border-radius: 8px;
-    box-shadow: 0 0 0 2px rgba(255,255,255,0.333);
+    box-shadow: 0 0 0 2px rgb(235, 236, 237);
     -webkit-animation: appearingElement .3s;
     animation: appearingElement .3s;
     -webkit-backface-visibility: hidden;
     margin-top: 2px;
+    color:black;
+
 }
 
 .paletteToolbarWedge {
@@ -2989,21 +2976,6 @@ div.fontSelector {
     width: calc(100% + 12px);
 }
 
-.paletteToolbar li, .paletteToolbarCloneItem {
-    cursor: pointer;
-    position: relative;
-    height: 40px;
-    float: left;
-    text-indent: -9999em;
-    margin: 6px;
-    width: 40px;
-    border-radius: 40px;
-    box-shadow: inset 2px 2px 1px rgba(0, 0, 0, .15), inset -1px -1px 0 rgba(255, 255, 255, .25);
-    z-index: 2001;
-    -webkit-animation: appearingElement .3s;
-    animation: appearingElement .3s;
-}
-
 .paletteToolbarCloneItem {
     position: absolute;
     border: 2px solid rgba(255, 255, 255 .2);
@@ -3024,7 +2996,7 @@ div.fontSelector {
     line-height: 38px;
     text-align: center;
     font-weight: 100;
-    color: rgba(255,255,255, 1);
+    color: black;
     z-index: 2002;
 }
 
@@ -3063,16 +3035,20 @@ div.fontSelector {
     display: none;
     opacity: 0;
 }
-
+#tabs{
+        background-color: transparent;
+    border: none;
+    background: none;
+}
 .colorPicker {
     position: absolute;
     z-index: 3003;
     width: 226px;
     height: 241px;
     border-radius: 8px;
-    background-color: rgba(63,70,82,0.93);
-    color: #fff;
-    box-shadow: 0 0 0 2px rgba(255,255,255,0.333);
+       background-color: white;
+    color: black;
+    box-shadow: 0 0 0 2px rgb(218, 219, 220);
     -webkit-animation: appearingElement .3s;
     animation: appearingElement .3s;
     -webkit-transition: height .3s ease-out;
@@ -3098,7 +3074,6 @@ div.fontSelector {
     cursor: pointer;
     margin-bottom: 15px;
 }
-
 #DivLblMoveSlider {
     text-align: left;
     margin: 6px;
@@ -3204,7 +3179,7 @@ div.fontSelector {
     text-indent: -9999em;
     margin: 6px;
     width: 40px;
-    border-radius: 40px;
+    border-radius: 8px;
     box-shadow: inset 2px 2px 1px rgba(0, 0, 0, .15), inset -1px -1px 0 rgba(255, 255, 255, .25);
     z-index: 2001;
     margin-top: -12px;
@@ -3428,7 +3403,7 @@ h2 + .gallery {
     -webkit-transition: top .1s linear,background-color .3s linear;
     transition: top .1s linear,background-color .3s linear;
     -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);    box-shadow: 0 7px 6px -6px #666;margin-bottom:5px !important;
 }
 
     .photoGallery a.reappearing, .infoPanelGallery a.reappearing {
@@ -4284,7 +4259,7 @@ h2 + .gallery {
 }
 
 .buttonDesigner {
-    background-color: #fc813b;
+    background-color: #1CA51C;
     border: 2px solid transparent;
     border-radius: 5px;
     box-sizing: border-box;
@@ -4301,7 +4276,7 @@ h2 + .gallery {
     position: relative;
     text-align: center;
     text-decoration: none;
-    height: 35px;
+    height: 40px;
     transition: background-color .15s,border-color .15s,color .15s;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -4318,11 +4293,11 @@ h2 + .gallery {
     }
 
     .buttonDesigner:active, .buttonDesigner:focus {
-        border-color: rgba(252, 162, 111, 0.85);
+        /*border-color: #FF9051;*/
     }
 
     .buttonDesigner:hover {
-        background-color: #fca26f;
+        background-color: #1EBF1E;
     }
 
     .buttonDesigner::-moz-focus-inner {
@@ -4390,15 +4365,14 @@ h2 + .gallery {
 }
 
 .paletteToolbar li, .paletteToolbarCloneItem {
-    cursor: pointer;
+ cursor: pointer;
     position: relative;
     height: 39px;
     float: left;
     text-indent: -9999em;
     margin: 5px;
     width: 39px;
-    border-radius: 40px;
-    box-shadow: inset 2px 2px 1px rgba(0,0,0,.15),inset -1px -1px 0 rgba(255,255,255,.25);
+    border-radius: 8px;
     z-index: 2001;
     -webkit-animation: appearingElement .3s;
     animation: appearingElement .3s;
@@ -4410,23 +4384,6 @@ h2 + .gallery {
     margin: 0;
 }
 
-.paletteToolbar li.picker:after {
-    cursor: pointer;
-    content: '+';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 40px;
-    height: 40px;
-    text-indent: 0;
-    font-size: 28px;
-    line-height: 38px;
-    text-align: center;
-    font-weight: 100;
-    color: #fff;
-    z-index: 2002;
-}
 
 .paletteToolbar li.appearing {
     opacity: 0;
@@ -4946,7 +4903,7 @@ h2 + .gallery {
 
 
 .BtnChngeClr, .OpacityBtn {
-    border-radius: 50%;
+    border-radius: 8px;
     color: #fff;
     vertical-align: bottom;
     margin-right: 58px;
@@ -4988,7 +4945,8 @@ h2 + .gallery {
 .OpacityBtn {
     background-color: transparent;
     border-width: 0px;
-    padding-top: 10px;
+    /* padding-top: 10px; */
+    color: black;
 }
 
 .closeBtnMenus {
@@ -5574,23 +5532,21 @@ h2 + .gallery {
 
     #documentMenuPaste > button {
         background: #000000 no-repeat center / 14px;
-        background-image: url('assets-v2/paste.png');
         min-width: 0;
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 10px;
-        visibility: hidden;
+        border-radius: 10px;    line-height: 9px;
+        visibility: hidden;font-size:11px;
     }
 
         #documentMenuPaste > button:hover {
             background: #3F4652 no-repeat center / 14px;
-            background-image: url('assets-v2/paste.png');
         }
 
     #documentMenuCopy > button {
         background: #000000 no-repeat center / 14px;
-        background-image: url('assets-v2/copy.png');
+      
         min-width: 0;
         padding: 0;
         text-align: center;
@@ -5598,11 +5554,11 @@ h2 + .gallery {
         border-radius: 10px;
         visibility: hidden;
         margin-right: 3px;
+        font-size:11px;    line-height: 9px;
     }
 
         #documentMenuCopy > button:hover {
             background: #3F4652 no-repeat center / 14px;
-            background-image: url('assets-v2/copy.png');
         }
 
 #zoomIn, #zoomOut {
@@ -5641,7 +5597,7 @@ h2 + .gallery {
 }
 
 .bkbtnIphone {
-    background: url('assets-v2/back.png');
+    background: url('assets-v2/back_black.png');
     background-repeat: no-repeat;
     border: none;
     width: 32px;
@@ -6039,7 +5995,7 @@ h2 + .gallery {
     bottom: 178px /*142px*/;
     overflow: hidden;
     padding: 20px 18px 20px 2px;
-    background-color: #3f4652;
+    background-color: white;
     text-align: left;
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
@@ -6077,9 +6033,9 @@ h2 + .gallery {
     border-radius: 50%;
     width: 54px;
     height: 54px;
-    color: #fff;
+    color: black;
     margin: 5px;
-    background-color: rgb(39, 44, 51);
+    background-color: rgb(235, 236, 237);
     font-size: 11px;
 }
 
@@ -6814,7 +6770,7 @@ input[type="radio"] {
     display: block;
     text-align: center;
     border-top-width: 0px;
-    color: white;
+    color: black;
     font-size: 13px;
 }
 
@@ -7033,6 +6989,7 @@ input[type="radio"] {
 
 .SelectBkColorPanel {
     background-color: black !important;
+    color:white !important;
 }
 
 /*Multi back styles*/
@@ -7281,4 +7238,46 @@ input[type="radio"] {
 .listingImgBtn{
     margin-top: 14px;
     font-size: 11px !important; 
+}
+.CaseModeSlider {
+        margin-top: 36px;
+    margin-bottom: 15px;
+}
+#FrontBackOptionPanalSection{
+        box-shadow: 5px 5px 5px -5px #666;
+}
+body {
+          -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+         -o-animation: fadein 2s; /* Opera < 12.1 */
+            animation: fadein 2s;
+}
+keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

@@ -1,5 +1,5 @@
-
-/*@font-face {
+ï»¿
+@font-face {
     font-family: 'Poiret One';
     font-style: normal;
     font-weight: 400;
@@ -21,7 +21,7 @@
     font-weight: normal;
     src: url("fonts/avenirnextltpro-demi.eot");
     src: url("fonts/avenirnextltpro-demi.eot?#iefix") format("embedded-opentype"),url("fonts/avenirnextltpro-demi.woff") format("woff"),url("fonts/avenirnextltpro-demi.ttf") format("truetype"),url("fonts/avenirnextltpro-demi.svg#avenirnextltpro-demi") format("svg");
-}*/
+}
 
 
 
@@ -30,10 +30,12 @@
 }
 
 html, body {
-  
+    /* font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;*/
     background-position-x: center;
     background-position-y: top;
-  font-family: Raleway, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+    /*font-family: 'Open Sans Condensed' , sans-serif;*/
+    /*font-family:'Poiret One';*/
     font-style: normal;
     font-weight: normal !important;
     font-size: 12px;
@@ -2223,7 +2225,7 @@ span.radioBtnPaperTypeClass input {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: white;
-   
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -6989,7 +6991,7 @@ div.wrapper {
 
 .s5TxtStyle {
     color: #4b4b4b;
-    
+    font-family: Verdana, Geneva, sans-serif;
     font-size: 20px;
 }
 
@@ -7209,7 +7211,7 @@ div.wrapper {
 
     .allproducts_col_cat_ul li {
         padding-bottom: 5px;
-      
+        /*font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;*/
     }
 
         .allproducts_col_cat_ul li a {
@@ -8150,6 +8152,7 @@ PnkCrdsDfltClr {
     font-weight: normal;
     margin-bottom: 10px;
     line-height: 1em;
+    font-family: 'Avenir Next LT W01 Bold';
     font-size: 71px;
     margin: 0;
     font-weight: normal;
@@ -8270,7 +8273,9 @@ PnkCrdsDfltClr {
 .PinkRegP {
     line-height: 1.8;
     font-size: 15px;
-    
+    /* margin-top: 10px; */
+    /* width: 217px; */
+    font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     line-height: 24.619999px;
@@ -8862,7 +8867,7 @@ a.PinkRegBack:active {
 }
 
 .text_box334 {
-   
+    /*font-family: 'Lato', Calibri, Arial, sans-serif; */ /*Trebuchet MS, Arial, Helvetica, sans-serif;*/
     border: 1px solid #c1c6cc;
     font-size: 13px;
     padding: 5px;
@@ -9028,7 +9033,7 @@ a.PinkRegBack:active {
     color: black !important;
     font-size: 21px;
     font-weight: bold;
-    
+    font-family: 'museo_slab500',Arial, Helvetica, sans-serif;
     margin-top: 10px;
     float: left;
     margin-left: 10px;
@@ -9045,7 +9050,7 @@ a.PinkRegBack:active {
 
 .QuickPriceBtn {
     background: url('sprite.png') -378px -1710px;
-   
+    font-family: 'museo_slab500',Arial, Helvetica, sans-serif;
     font-size: 14px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -9817,7 +9822,7 @@ a.PinkRegBack:active {
 
 .lblToolTip {
     color: #8888A8;
-   
+    font-family: 'Arial';
     font-size: 12px;
 }
 
@@ -10257,7 +10262,7 @@ a.PinkRegBack:active {
 }
 
 .OptionsContainer {
-    
+    font-family: 'Lato', Calibri, Arial, sans-serif;
     font-size: 17px !important;
     font-weight: bold;
     padding: 10px;
@@ -10324,7 +10329,7 @@ a.PinkRegBack:active {
 .ContactNumberlb {
     margin-left: 17px;
     color: #333333;
-     
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
@@ -10340,7 +10345,7 @@ a.PinkRegBack:active {
 .SpecialNotesContainer {
     margin-left: 97px;
     color: #333333;
-    
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
@@ -10351,7 +10356,7 @@ a.PinkRegBack:active {
 
 .lbAddressLinesWithPadding {
     color: #333333;
- 
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     padding-left: 0px;
@@ -10361,7 +10366,7 @@ a.PinkRegBack:active {
 
 .lbAddressLines {
     color: #333333;
-    
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
@@ -10692,11 +10697,18 @@ border-bottom: 3px solid #cacaca;*/
     border: 1px solid transparent;
 }
 
+@font-face {
+    font-family: "AvantGardeGothicITCBook";
+    src: url("webfont/AvantGardeGothicITCBook?iefix") format("eot");
+    src: url("webfont/AvantGardeGothicITCBook.woff") format("woff"), url("webfont/AvantGardeGothicITCBook.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
 
 .twitter-feed {
     width: 1000px;
     margin: auto;
-  
+    font-family: "AvantGardeGothicITCBook", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     margin-bottom: 50px;
     clear: both;
 }
@@ -10746,7 +10758,7 @@ border-bottom: 3px solid #cacaca;*/
     font-size: 30px;
     margin: 0;
     padding: 20px 19px;
-    
+    font-family: arial;
     color: black;
     font-weight: normal;
     text-align: left;
@@ -10754,7 +10766,7 @@ border-bottom: 3px solid #cacaca;*/
 
 
     .RSSWidget h2 strong {
-        
+        font-family: arial;
         color: #6e4366;
     }
 
@@ -10765,7 +10777,7 @@ border-bottom: 3px solid #cacaca;*/
 
 
 .feedEkList LI {
-   
+    font-family: "AvantGardeGothicITCBook", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     min-height: 37px;
     -webkit-transition: background 0.3s ease-in-out;
     -moz-transition: background 0.3s ease-in-out;
@@ -10776,7 +10788,15 @@ border-bottom: 3px solid #cacaca;*/
     margin-left: -40px;
 }
 
- 
+
+@font-face {
+    font-family: "AvantGardeGothicITCDemiBold";
+    src: url("webfont/AvantGardeGothicITCDemiBold.eot?iefix") format("eot");
+    src: url("webfont/AvantGardeGothicITCDemiBold.woff") format("woff"), url("webfont/AvantGardeGothicITCDemiBold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
 .feedEkList LI a:focus {
     outline: dotted;
 }
@@ -10905,7 +10925,7 @@ border-bottom: 3px solid #cacaca;*/
 }
 
 .spanRetURl {
-   
+    font-family: 'Lato', Calibri, Arial, sans-serif; /*Trebuchet MS, Arial, Helvetica, sans-serif;*/
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -10930,7 +10950,7 @@ border-bottom: 3px solid #cacaca;*/
     font-size: 30px;
     margin: 0;
     padding: 20px 10px;
-   
+    font-family: arial;
     color: black;
     font-weight: normal;
     text-align: left;
@@ -10938,7 +10958,7 @@ border-bottom: 3px solid #cacaca;*/
 }
 
     .SavedDesignsWidget H2 strong {
-      
+        font-family: arial;
         color: #6e4366; /*#ff5595; */
     }
 
@@ -11629,7 +11649,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-   
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 50px;
     margin-top: 33px;
     line-height: 2;
@@ -11872,7 +11892,7 @@ ul.LogBar li a {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: white;
-   
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -11896,7 +11916,7 @@ ul.LogBar li a {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: white;
-    
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -11916,7 +11936,7 @@ ul.LogBar li a {
 
 
 .newfontstyle {
-   
+    font-family: "AvenirNextLTW01-Regular";
     color: #66615b;
     font-size: 20px;
 }
@@ -11974,7 +11994,7 @@ ul.LogBar li a {
     text-align: left;
     margin-bottom: 20px;
     text-shadow: none;
-    
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #a4c200;
     font-size: 17px !important;
 }
@@ -11983,7 +12003,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: black;
     text-shadow: none;
-   
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 50px;
     margin-top: 15px;
     width: 130px;
@@ -11994,7 +12014,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: black;
     text-shadow: none;
-    
+    /*font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;*/
     margin-right: 50px;
     margin-top: 15px;
     width: 160px;
@@ -12006,7 +12026,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: black;
     text-shadow: none;
-   
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 50px;
     margin-top: 15px;
     width: 160px;
@@ -12019,7 +12039,8 @@ ul.LogBar li a {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-  
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+    /*margin-right: 50px;*/
     margin-top: 16px;
     width: 203px;
     text-align: left;
@@ -12030,7 +12051,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-    
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-top: 26px;
     text-align: left;
 }
@@ -12083,7 +12104,7 @@ ul.LogBar li a {
     color: #042F42;
     font-size: 21px !important;
     margin-bottom: 15px;
-   
+    font-family: sans-serif !important;
     font-weight: normal;
     text-align: left;
 }
@@ -12135,7 +12156,7 @@ ul.LogBar li a {
 
 .tabItemMenu {
     line-height: 1.4;
-     
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 90%;
     list-style-type: disc;
     margin: 0;
@@ -12243,7 +12264,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-    
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 10px;
     margin-top: 7px;
     width: 105px;
@@ -12269,7 +12290,7 @@ ul.LogBar li a {
     border-top-width: 0px;
     color: #a4c200;
     display: block;
-  
+    font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
     font-size: 20px;
     font-style: normal;
     font-variant: normal;
@@ -12312,7 +12333,7 @@ ul.LogBar li a {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: #ccc5b9;
-   
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -12913,7 +12934,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-        
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 15px;
         padding: 13px 18px !important;
@@ -13333,7 +13354,7 @@ ul.LogBar li a {
         color: #868585;
         font-size: 12px;
         margin-top: 18px;
-       
+        font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
         font-style: normal;
         font-weight: normal;
         line-height: 21.619999px;
@@ -13828,7 +13849,7 @@ ul.LogBar li a {
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-        
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 25px;
         font-style: normal;
         font-weight: normal !important;
@@ -14161,7 +14182,7 @@ ul.LogBar li a {
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-         
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 21px;
         font-style: normal;
         font-weight: normal !important;
@@ -14174,7 +14195,7 @@ ul.LogBar li a {
         color: #042F42;
         float: left;
         font-size: 13px !important;
-        
+        font-family: sans-serif !important;
     }
 
     .full_img_ThumbnailPath {
@@ -14784,7 +14805,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -15006,7 +15027,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-        
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -15157,7 +15178,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-        
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -15441,7 +15462,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-      
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -15857,7 +15878,7 @@ ul.LogBar li a {
         color: #868585;
         font-size: 12px;
         margin-top: 10px;
-       
+        font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
         font-style: normal;
         font-weight: normal;
         line-height: 21.619999px;
@@ -16418,7 +16439,7 @@ ul.LogBar li a {
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-       
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 31px;
         font-style: normal;
         font-weight: normal !important;
@@ -16931,7 +16952,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -17105,7 +17126,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-       
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -17216,7 +17237,8 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-       
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+        color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
         outline: none !important;
@@ -17466,7 +17488,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-      
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -17898,7 +17920,7 @@ ul.LogBar li a {
         color: #868585;
         font-size: 12px;
         margin-top: 10px;
-        
+        font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
         font-style: normal;
         font-weight: normal;
         line-height: 21.619999px;
@@ -18747,7 +18769,7 @@ ul.LogBar li a {
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-       
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 31px;
         font-style: normal;
         font-weight: normal !important;
@@ -19295,7 +19317,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-    
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -19457,7 +19479,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-    
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -19577,7 +19599,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-       
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -19800,6 +19822,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -20193,7 +20216,7 @@ ul.LogBar li a {
         color: #868585;
         font-size: 12px;
         margin-top: 10px;
-        
+        font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
         font-style: normal;
         font-weight: normal;
         line-height: 21.619999px;
@@ -20876,7 +20899,7 @@ ul.LogBar li a {
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-        
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 31px;
         font-style: normal;
         font-weight: normal !important;
@@ -21066,7 +21089,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-        
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -21312,7 +21335,7 @@ ul.LogBar li a {
         color: #042F42;
         float: left;
         font-size: 14px !important;
-        
+        font-family: sans-serif !important;
         text-decoration: none;
     }
 
@@ -21884,7 +21907,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -22060,7 +22083,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-       
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -22357,7 +22380,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-         
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -22782,7 +22805,7 @@ ul.LogBar li a {
         color: #868585;
         font-size: 12px;
         margin-top: 10px;
-        
+        font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
         font-style: normal;
         font-weight: normal;
         line-height: 21.619999px;
@@ -23463,7 +23486,7 @@ ul.LogBar li a {
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-        
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 31px;
         font-style: normal;
         font-weight: normal !important;
@@ -23652,7 +23675,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-       
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -23899,7 +23922,7 @@ ul.LogBar li a {
         color: #042F42;
         float: left;
         font-size: 14px !important;
-        
+        font-family: sans-serif !important;
         text-decoration: none;
     }
 
@@ -24471,7 +24494,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-       
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -24647,7 +24670,7 @@ ul.LogBar li a {
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: white;
-        
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -25229,7 +25252,7 @@ ul.LogBar li a {
     background-color: #FFFFFF;
     padding-top: 25px;
     text-align: center;
-  
+    font-family: 'Lato';
     position: fixed;
     padding: 5px;
     color: White;
@@ -25367,7 +25390,18 @@ border: 8px solid rgb(237, 239, 240);
     float: right;
     margin-right: 10px;
     width: 121px;
-  
+    /*
+    background-repeat: no-repeat;
+    width: 121px;
+    height: 35px;
+    margin-top: 13px;
+    font-size: 16px;
+    float: right;
+    color: White;
+    background-color: #666666;
+    margin-right: 10px;
+    background-image: none !important;*/
+    font-family: 'Lato';
 }
 
     .btnBlueProofing:hover {
@@ -26161,7 +26195,7 @@ a.btn-watch span:after {
 }
 
 .ItemdetailDesc {
- 
+    font-family: 'Lato', Calibri, Arial, sans-serif;
     color: rgb(102,102,102);
 }
 
@@ -26427,7 +26461,7 @@ a.btn-watch span:after {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: white;
-    
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -26452,7 +26486,7 @@ a.btn-watch span:after {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-     
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     display: none;
 }
 
@@ -27352,14 +27386,14 @@ font-weight: bold;line-height: 2; margin-bottom: 0px;
 
 
 
-                      /*color menú */
+                      /*color menÃº */
 #divTopHeaderMenu .iconHover{
     color:#858584!important;
     text-shadow: 0 0 3px  #d4d4d4!important;
 }
 
 
- /*sacar icono del menú  */
+ /*sacar icono del menÃº  */
 #lnkAllProducts::before, #lnkContactUs::before, #lnkRequestQuote::before {
  content:"";
 }

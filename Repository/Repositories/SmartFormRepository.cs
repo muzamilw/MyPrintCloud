@@ -1699,7 +1699,7 @@ namespace MPC.Repository.Repositories
                     if (list.Count < count)
                         contact = list[0];
                     else
-                        contact = list[count];
+                        contact = list[count-1];
                     if (obj.VariableTag.Contains("Name}}"))
                     {
                         fieldValue = contact.FirstName;

@@ -1031,6 +1031,7 @@ function fu13(op, type, r, c) {
             $(".AddBrowserCategories .UlAddMain li").removeClass("folderExpanded");
             $(".AddPanels").addClass("disappearing");
             isAddPaCl = false;
+            
         }
         if (SelAddCat == ("" + r + "" + c)) {
             SelAddCat = "00";
@@ -1051,6 +1052,13 @@ function fu13(op, type, r, c) {
         }
 
 
+    } else if (type == 6)
+    {
+        // close all panels and goto add button 
+        $(".AddBrowserCategories").removeClass("folderExpanded");
+        $(".AddBrowserCategories .UlAddMain li").removeClass("folderExpanded");
+        $(".AddPanels").addClass("disappearing");
+        isAddPaCl = false;
     }
 }
 function g0(left, top, IsQT, QTName, QTSequence, QTWatermark, txt, fontSize, isBold) {
