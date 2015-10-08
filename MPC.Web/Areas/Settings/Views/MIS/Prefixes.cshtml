@@ -32,21 +32,20 @@
             </div>
             <div class="row" id="prefixesdata" style="padding-left:7px;padding-right:7px;">
                 <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;">Close</a>
-                <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn" data-bind="click: $root.onSavePrefixes, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right:5px;" id="saveBtn" data-bind="click: $root.onSavePrefixes, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <div class="col-lg-12 main-box clearfix">
-                    <div class="main-box-body">
-                        <br />
-                        <span>Set Starting numbers used on Invoices, estimates etc which are used to generate unique codes.</span>
-                        <div style="height:20px;">
-                            &nbsp;
+                    <div class="main-box-body" style="padding-left:14px !important;">
+                     
+                        <div class="tabsdescriptions" style="margin-left:0px;">
+                            <p class="group-header-description">Set Starting numbers used on Invoices, estimates etc which are used to generate unique codes.</p>
                         </div>
-
+                        
                         <div class="col-lg-12 form-horizontal">
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <div class="col-lg-3 text-right">
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><label class="control-label">Prefix</label></div>
                                         <div class="col-lg-3"><label class="control-label">Start Number</label></div>
                                     </div>
@@ -62,9 +61,9 @@
                                         </div>
                                         <label for="txtenquiryPrefix" class="control-label text-right tooltip-float">Inquiry</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtenquiryPrefix" placeholder="Enter Inquiry Prefix" data-bind="value: enquiryPrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtenquiryNext" placeholder="Enter Enquiry Next Number" data-bind="value: enquiryNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtenquiryNext" style="text-align:right;" placeholder="Enter Enquiry Next Number" data-bind="value: enquiryNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -76,9 +75,9 @@
                                         </div>
                                         <label for="txtPOPrefix" class="control-label text-right tooltip-float">Purchase Order</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtPOPrefix" placeholder="Enter Purchae Order Prefix" data-bind="value: poPrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtPONext" placeholder="Enter Purchase Order Next Number" data-bind="value: poNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtPONext" style="text-align:right;" placeholder="Enter Purchase Order Next Number" data-bind="value: poNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -90,9 +89,9 @@
                                         </div>
                                         <label for="txtPOPrefix" class="control-label text-right tooltip-float">Estimate</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtPOPrefix" placeholder="Enter Estimate Prefix" data-bind="value: estimatePrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtPONext" placeholder="Enter Estimate Next Number" data-bind="value: estimateNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtPONext" style="text-align:right;" placeholder="Enter Estimate Next Number" data-bind="value: estimateNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -104,9 +103,9 @@
                                         </div>
                                         <label for="txtOrderP" class="control-label text-right tooltip-float">Order</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtOrderP" placeholder="Enter Order Prefix" data-bind="value: orderPrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtOrderN" placeholder="Enter Order Next Number" data-bind="value: orderNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtOrderN" style="text-align:right;" placeholder="Enter Order Next Number" data-bind="value: orderNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -118,9 +117,9 @@
                                         </div>
                                         <label for="txtJobP" class="control-label text-right tooltip-float">Job</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtJobP" placeholder="Enter Job Prefix" data-bind="value: jobPrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtJobN" placeholder="Enter Job Next Number" data-bind="value: jobNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" style="text-align:right;" id="txtJobN" placeholder="Enter Job Next Number" data-bind="value: jobNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -132,9 +131,9 @@
                                         </div>
                                         <label for="txtInvoiceP" class="control-label text-right tooltip-float">Invoice</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtInvoiceP" placeholder="Enter Invoice Prefix" data-bind="value: invoicePrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtInvoiceN" placeholder="Enter Invoice Next Number" data-bind="value: invoiceNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" style="text-align:right;" id="txtInvoiceN" placeholder="Enter Invoice Next Number" data-bind="value: invoiceNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -146,9 +145,9 @@
                                         </div>
                                         <label for="txtStockItemP" class="control-label text-right tooltip-float">Stock Item</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtStockItemP" placeholder="Enter Stock Item Prefix" data-bind="value: stockItemPrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtStockItemN" placeholder="Enter Stock Item Next Number" data-bind="value: stockItemNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" style="text-align:right;" id="txtStockItemN" placeholder="Enter Stock Item Next Number" data-bind="value: stockItemNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -160,9 +159,9 @@
                                         </div>
                                         <label for="txtProductP" class="control-label text-right tooltip-float">Products</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtProductP" placeholder="Enter Product Prefix" data-bind="value: productPrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtProductsN" placeholder="Enter Product Next Number" data-bind="value: productNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" style="text-align:right;" id="txtProductsN" placeholder="Enter Product Next Number" data-bind="value: productNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -174,9 +173,9 @@
                                         </div>
                                         <label for="txtDeliveryP" class="control-label text-right tooltip-float">Delivery Notes</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtDeliveryP" placeholder="Enter Delivery Prefix" data-bind="value: deliveryNPrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtDeliveryN" placeholder="Enter Delivery Next Number" data-bind="value: deliveryNNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" style="text-align:right;" id="txtDeliveryN" placeholder="Enter Delivery Next Number" data-bind="value: deliveryNNext"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -188,9 +187,9 @@
                                         </div>
                                         <label for="txtGrnP" class="control-label text-right tooltip-float">GRN</label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="col-lg-3"><input type="text" class="form-control" id="txtGrnP" placeholder="Enter GRN Prefix" data-bind="value: grnPrefix"></div>
-                                        <div class="col-lg-3"><input type="text" class="form-control" id="txtGrnN" placeholder="Enter GRN Next Number" data-bind="value: grnNext"></div>
+                                        <div class="col-lg-3"><input type="text" class="form-control" style="text-align:right;" id="txtGrnN" placeholder="Enter GRN Next Number" data-bind="value: grnNext"></div>
                                     </div>
                                 </div>
                             </div>
