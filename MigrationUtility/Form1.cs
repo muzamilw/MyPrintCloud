@@ -2008,6 +2008,7 @@ namespace MigrationUtility
                             Preview.CmsPage oCmsPage = Mapper.Map<tbl_cmsPages, CmsPage>(item);
                             oCmsPage.OrganisationId = OrganizationId;
                             oCmsPage.CompanyId = CorpStoreId;
+                            oCmsPage.CategoryId = null;
 
 
                             MPCContext.CmsPages.Add(oCmsPage);

@@ -98,8 +98,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierCompanyName = source.Company != null ? source.Company.Name : string.Empty,
                 Region = source.Region,
                 PackageQty = source.PackageQty,
-                PackCostPrice = obj != null ? (obj.CostPrice / source.PerQtyQty) * source.PackageQty :
-                null
+               // PackCostPrice = obj != null ? obj.CostPrice : 0
+                PackCostPrice = obj != null ? (obj.CostPrice / source.PerQtyQty) * source.PackageQty : 0,
+                CostPrice = obj != null ? obj.CostPrice : 0
             };
 
         }
