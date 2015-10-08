@@ -663,15 +663,15 @@ h5 {
     }
     /*Change four 'top' values below to rotate (top/right/bottom/left)*/
     .Chevron:before {
-        top: 6px;
+        top:9px;
         border-top-color: #bebab8;
-        left: -35px;
+        left: -30px;
     }
 
     .Chevron:after {
-        top: 5px;
+        top: 8px;
         border-top-color: #564e4b;
-        margin-left: -35px;
+        margin-left: -30px;
     }
 .category-heading a {
     display: block;

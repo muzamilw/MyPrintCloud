@@ -66,14 +66,22 @@
                                 var anchorId = "linkParentCategoryName" + @ParentCategory.ProductCategoryId;
                                 var iconId = "linkChevronIcon" + @ParentCategory.ProductCategoryId;
                                     }
-                                    <a id="@anchorId" href="/Category/@Utils.specialCharactersEncoder(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
-                                    @if (filteredChildCategories != null && filteredChildCategories.Count() > 0)
-                                    {
-                                        <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
-                                            <i class="Chevron"></i>
-                                        </a>
-                                    }
-                                    <a class="clearBoth" style="height: 0px;"></a>
+                                    <div class="float_left_simple">
+                                        <a id="@anchorId" href="/Category/@Utils.specialCharactersEncoder(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
+                                    </div>
+                                    <div class="float_right">
+                                        @if (filteredChildCategories != null && filteredChildCategories.Count() > 0)
+                                        {
+                                            <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
+                                                <i class="Chevron"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="clearBoth" style="height: 0px;"></a>
+                                        }
+                                    </div>
+                                    <div class="clearboth"></div>
                                 </div>
                                 <div class="sideMenuItems panel-collapse collapse">
                                     <div class="panel-body">
@@ -171,42 +179,20 @@
 <script src="/Scripts/sample01.js"></script>
 <script type="text/javascript">
   
-       
-        //var carousel = $(".carousel").featureCarousel({
-        //    // include options like this:
-        //    // (use quotes only for string values, and no trailing comma after last option)
-        //    // option: value,
-        //    // option: value
-           
-        //});
-
-        //$("#but_prev").click(function () {
-        //    carousel.prev();
-        //});
-        //$("#but_pause").click(function () {
-        //    carousel.pause();
-        //});
-        //$("#but_start").click(function () {
-        //    carousel.start();
-        //});
-        //$("#but_next").click(function () {
-        //    carousel.next();
-        //});
-
 
     function ExpandCollapseCategory(dataid) {
 
         var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
-        if ($("#" + idOfCatPro + "").parent().next().hasClass('in')) {
-            $("#" + idOfCatPro + "").parent().next().removeClass('in');
-            $("#" + idOfCatPro + "").parent().next().addClass('collapse');
-            $("#" + idOfCatPro + "").parent().next().css("display", "none");
-            $("#" + idOfCatPro + "").parent().next().css("opacity", "0");
-        } else if ($("#" + idOfCatPro + "").parent().next().hasClass('collapse')) {
-            $("#" + idOfCatPro + "").parent().next().removeClass('collapse');
-            $("#" + idOfCatPro + "").parent().next().addClass('in');
-            $("#" + idOfCatPro + "").parent().next().css("display", "block");
-            $("#" + idOfCatPro + "").parent().next().css("opacity", "1");
+        if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('in')) {
+            $("#" + idOfCatPro + "").parent().parent().next().removeClass('in');
+            $("#" + idOfCatPro + "").parent().parent().next().addClass('collapse');
+            $("#" + idOfCatPro + "").parent().parent().next().css("display", "none");
+            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "0");
+        } else if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('collapse')) {
+            $("#" + idOfCatPro + "").parent().parent().next().removeClass('collapse');
+            $("#" + idOfCatPro + "").parent().parent().next().addClass('in');
+            $("#" + idOfCatPro + "").parent().parent().next().css("display", "block");
+            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "1");
         }
 
     }
