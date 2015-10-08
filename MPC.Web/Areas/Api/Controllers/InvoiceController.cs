@@ -82,6 +82,18 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         
+        [ApiException]
+        [CompressFilterAttribute]
+        public void Delete(ArchiveInvoiceRequestModel model)
+        {
+            if (model.InvoiceId == 0 || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+
+            invoiceService.ArchiveInvoice(model.InvoiceId);
+        }
+
         #endregion
     }
 }

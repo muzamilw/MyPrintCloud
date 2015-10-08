@@ -195,7 +195,7 @@
             this.txtPinkCardsStoredImagesBasePath.Name = "txtPinkCardsStoredImagesBasePath";
             this.txtPinkCardsStoredImagesBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtPinkCardsStoredImagesBasePath.TabIndex = 13;
-            this.txtPinkCardsStoredImagesBasePath.Text = "D:\\wwwRoot\\directmailworks\\mis\\StoredImages\\";
+            this.txtPinkCardsStoredImagesBasePath.Text = "D:\\wwwRoot\\yolkpm\\mis\\StoredImages\\";
             // 
             // label2
             // 
@@ -236,7 +236,7 @@
             this.txtOrganisationId.Name = "txtOrganisationId";
             this.txtOrganisationId.Size = new System.Drawing.Size(100, 20);
             this.txtOrganisationId.TabIndex = 17;
-            this.txtOrganisationId.Text = "1240";
+            this.txtOrganisationId.Text = "499";
             // 
             // label3
             // 
@@ -263,7 +263,7 @@
             this.txtDesignerBasePath.Name = "txtDesignerBasePath";
             this.txtDesignerBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtDesignerBasePath.TabIndex = 20;
-            this.txtDesignerBasePath.Text = "D:\\wwwRoot\\directmailworks\\DesignEngine\\designer\\products\\";
+            this.txtDesignerBasePath.Text = "D:\\wwwRoot\\yolkpm\\DesignEngine\\designer\\products\\";
             // 
             // label4
             // 
