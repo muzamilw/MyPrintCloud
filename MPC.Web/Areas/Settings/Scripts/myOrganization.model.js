@@ -57,6 +57,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              unleashedApiId = ko.observable(),
              unleashedApiKey = ko.observable(),
              isUnleashedApiActive = ko.observable(),
+             isZapierActive = ko.observable(),
             //Markup ID
             markupId = ko.observable().extend({ required: true }),
             //markups In My Organization
@@ -107,7 +108,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  isAgileApiActive: isAgileApiActive,
                  unleashedApiId: unleashedApiId,
                  unleashedApiKey: unleashedApiKey,
-                 isUnleashedApiActive: isUnleashedApiActive
+                 isUnleashedApiActive: isUnleashedApiActive,
+                 isZapierActive: isZapierActive
 
              }),
              // Has Changes
@@ -152,6 +154,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              unleashedApiId: unleashedApiId,
              unleashedApiKey: unleashedApiKey,
              isUnleashedApiActive: isUnleashedApiActive,
+             isZapierActive:isZapierActive,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -352,6 +355,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.unleashedApiId(source.XeroApiId);
         companySites.unleashedApiKey(source.XeroApiKey);
         companySites.isUnleashedApiActive(source.isXeroIntegrationRequired);
+        companySites.isZapierActive(source.IsZapierEnable);
         return companySites;
     };
     //Convert Server To Client
@@ -400,6 +404,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.XeroApiId = source.unleashedApiId() === undefined ? null : source.unleashedApiId();
         result.XeroApiKey = source.unleashedApiKey() === undefined ? null : source.unleashedApiKey();
         result.isXeroIntegrationRequired = source.isUnleashedApiActive() === undefined ? null : source.isUnleashedApiActive();
+        result.IsZapierEnable = source.isZapierActive() === undefined ? null : source.isZapierActive();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

@@ -619,8 +619,10 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
                         selectedPurchaseOrderDetail().itemCode(stockItem.code);
+                        selectedPurchaseOrderDetail().serviceDetail(stockItem.name);
                         selectedPurchaseOrderDetail().packqty(stockItem.packageQty);
                         selectedPurchaseOrderDetail().refItemId(stockItem.id);
+                        selectedPurchaseOrderDetail().price(stockItem.price);
                         view.showPurchaseDetailDialog();
                         view.initializeLabelPopovers();
 

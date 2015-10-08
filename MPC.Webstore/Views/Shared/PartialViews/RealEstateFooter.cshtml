@@ -1,14 +1,17 @@
-﻿@{
+﻿@using MPC.Webstore.Common;
+@{
     Layout = null;
 }
-@using MPC.Webstore.Common;
-<link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
-
+@{
+     var Company = ViewBag.Company as MPC.Models.DomainModels.Company;
+}
+<head>
+    <link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
+</head>
 <div class="content_area" style="width:100%; height:170px; box-shadow: 0 -4px 22px -1px lightgray; position: absolute; background-color: #a5a6a5; padding-top:20px; text-align:center;z-index:100;">
         <div class="Contact-Main-Div">
             <div class="controlDivStyle">
                 <input type="text" id="txtName" class="footerControl" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlname", UserCookieManager.WBStoreId, "Name"))" />
-                      
             </div>
 
             <div class="controlDivStyle">
@@ -38,18 +41,31 @@
         </div>
 
         <div class="SocialMedia-Main-Div">
+            @if (!string.IsNullOrEmpty(Company.LinkedinURL))
+            { 
             <div>
-                <img src="~/Content/Images/linkedin.png" class="socialImages" />
+                <a href="@Company.LinkedinURL">
+                    <img src="/Content/Images/LinkedInNew.png" class="socialImages" />
+               </a>
             </div>
+            }
+            @if(!string.IsNullOrEmpty(Company.TwitterURL))
+            { 
             <div>
-                <img src="~/Content/Images/Twitter.png" class="socialImages" />
+                <a href="@Company.TwitterURL">
+                    <img src="/Content/Images/TwitterNew.png" class="socialImages" />
+                </a>
             </div>
+            }
+            @if (!string.IsNullOrEmpty(Company.FacebookURL))
+            {
             <div>
-                <img src="~/Content/Images/Facebook.png" class="socialImages" />
+                <a href="@Company.FacebookURL">
+                    <img src="/Content/Images/facebookNew.png" class="socialImages" />
+                </a>
             </div>
-            <div>
-                <img src="~/Content/Images/googlePlus.png" class="socialImages" />
-            </div>
+            }
+            
         </div>
 
         <div class="SocialMedia-Message-Main-Div">

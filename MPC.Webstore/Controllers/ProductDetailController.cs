@@ -77,7 +77,7 @@ namespace MPC.Webstore.Controllers
                         loadfinishedGoodsImages(ItemRecord, ItemID, ItemRecord.ImagePath);
                     }
 
-                    if (ItemRecord.TemplateId != null && ItemRecord.TemplateId > 0)
+                    if (ItemRecord.TemplateId != null && ItemRecord.TemplateId > 0 && ItemRecord.ProductType == (int)ProductType.PrintProduct)
                     {
                         ViewBag.TemplateID = ItemRecord.TemplateId;
                         SetLastItemTemplateMatchingSets(ItemRecord, StoreBaseResopnse, Convert.ToInt64(ItemRecord.TemplateId), IsShowPrices);
@@ -599,7 +599,7 @@ namespace MPC.Webstore.Controllers
                     html = "  <div id='slider' style='height:450px;'> ";
                     for (int i = 1; i <= count; i++)
                     {
-                        string path = "MPC_Content/Designer/Organisation" + OID + "/Templates/" + TempID + "/p" + i + ".png";
+                        string path = "/MPC_Content/Designer/Organisation" + OID + "/Templates/" + TempID + "/p" + i + ".png";
                         //  string drURL = System.Web.HttpContext.Current.Server.MapPath(path);
                         // string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
                         if (LstTempPages != null)

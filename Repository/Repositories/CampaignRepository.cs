@@ -191,16 +191,16 @@ namespace MPC.Repository.Repositories
                             }
                         }
 
-                        if (string.IsNullOrEmpty(To) || string.IsNullOrEmpty(smtpUserName) || string.IsNullOrEmpty(smtpServer))
-                        {
-                            if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
-                            {
-                                CountOfEmailsFailed += 1;
-                            }
-                            return false;
-                        }
-                        else
-                        {
+                        //if (string.IsNullOrEmpty(To) || string.IsNullOrEmpty(smtpUserName) || string.IsNullOrEmpty(smtpServer))
+                        //{
+                        //    if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
+                        //    {
+                        //        CountOfEmailsFailed += 1;
+                        //    }
+                        //    return false;
+                        //}
+                        //else
+                        //{
 
                             if (ValidatEmail(To))
                             {
@@ -231,7 +231,7 @@ namespace MPC.Repository.Repositories
                             }
 
                             return result;
-                        }
+                        //}
                     }
                 }
                 else
@@ -555,7 +555,7 @@ namespace MPC.Repository.Repositories
 
                                                         if (orderid > 0)
                                                         {
-                                                            tagValue = "";// "mis/Services/OrderSvc.svc/DownloadOrderXMLByID?OrderID=" + orderid + "&Format=1";
+                                                            tagValue = "/mis/api/DownloadArtwork?OrderId=" + orderid + "&OrganisationId=" + OrganizationRec.OrganisationId + "&formatxml=1"; // "mis/Services/OrderSvc.svc/DownloadOrderXMLByID?OrderID=" + orderid + "&Format=1";
 
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
 
@@ -567,7 +567,7 @@ namespace MPC.Repository.Repositories
                                                         int orderid = Convert.ToInt32(propertyInfo.GetValue(variablValues, null));
                                                         if (orderid > 0)
                                                         {
-                                                            tagValue = "";// "mis/Services/OrderSvc.svc/GenerateOrderArtworkArchive?OrderID=" + orderid;
+                                                            tagValue = "/mis/api/DownloadArtwork?OrderId=" + orderid + "&OrganisationId=" + OrganizationRec.OrganisationId;
 
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
                                                         }
@@ -948,35 +948,45 @@ namespace MPC.Repository.Repositories
                         }
                         if (isCampaignPaused != Convert.ToInt32(ScheduledStatus.Paused))
                         {
-                            if (SendEmail(record, hcontext, out ErrorMsg))
+                            if (string.IsNullOrEmpty(record.SMTPPassword) || string.IsNullOrEmpty(record.SMTPUserName) || string.IsNullOrEmpty(record.SMTPServer))
                             {
-                                if (record.FileAttachment != null)
-                                {
-                                    res = true;
-                                }
-
-                                if (res)
-                                {
-
-                                    string filePath = string.Empty;
-                                    string[] Allfiles = record.FileAttachment.Split('|');
-                                    foreach (var file in Allfiles)
-                                    {
-                                        filePath = hcontext.Server.MapPath(file);
-                                        if (File.Exists(filePath))
-                                            File.Delete(filePath);
-                                    }
-
-                                }
-                                db.CampaignEmailQueues.Remove(record);
-                                db.SaveChanges();
-                            }
-                            else
-                            {
-                                record.ErrorResponse = ErrorMsg;
+                                record.ErrorResponse = "smtp Settings not found.";
                                 record.AttemptCount++;
                                 db.SaveChanges();
                             }
+                            else 
+                            {
+                                if (SendEmail(record, hcontext, out ErrorMsg))
+                                {
+                                    if (record.FileAttachment != null)
+                                    {
+                                        res = true;
+                                    }
+
+                                    if (res)
+                                    {
+
+                                        string filePath = string.Empty;
+                                        string[] Allfiles = record.FileAttachment.Split('|');
+                                        foreach (var file in Allfiles)
+                                        {
+                                            filePath = hcontext.Server.MapPath(file);
+                                            if (File.Exists(filePath))
+                                                File.Delete(filePath);
+                                        }
+
+                                    }
+                                    db.CampaignEmailQueues.Remove(record);
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    record.ErrorResponse = ErrorMsg;
+                                    record.AttemptCount++;
+                                    db.SaveChanges();
+                                }
+                            }
+                           
                         }
                         else
                         {

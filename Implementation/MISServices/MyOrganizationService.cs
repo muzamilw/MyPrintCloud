@@ -3,6 +3,8 @@ using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
@@ -13,6 +15,7 @@ using MPC.Models.ResponseModels;
 using System.Resources;
 using MPC.Models.Common;
 using System.Configuration;
+using Newtonsoft.Json;
 
 
 namespace MPC.Implementation.MISServices
@@ -231,6 +234,7 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.Email = organisation.Email;
             organisationDbVersion.Fax = organisation.Fax;
             organisationDbVersion.VATRegNumber = organisation.VATRegNumber;
+            organisationDbVersion.TaxRegistrationNo = organisation.TaxRegistrationNo;
             organisationDbVersion.BleedAreaSize = organisation.BleedAreaSize;
             organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
             organisationDbVersion.CurrencyId = organisation.CurrencyId;
@@ -246,6 +250,7 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.XeroApiId = organisation.XeroApiId;
             organisationDbVersion.XeroApiKey = organisation.XeroApiKey;
             organisationDbVersion.isXeroIntegrationRequired = organisation.isXeroIntegrationRequired;
+            organisationDbVersion.IsZapierEnable = organisation.IsZapierEnable;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;
@@ -409,8 +414,7 @@ namespace MPC.Implementation.MISServices
             }
             #endregion
 
-            organisation.MISLogo = SaveMiSLogo(organisation);
-            organisationRepository.Update(organisation);
+            organisationDbVersion.MISLogo = SaveMiSLogo(organisation);
             organisationRepository.SaveChanges();
             UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
@@ -709,14 +713,65 @@ namespace MPC.Implementation.MISServices
             var livestores = _companyRepository.GetLiveStoresCount(organisationRepository.OrganisationId);
             var org = organisationRepository.GetOrganizatiobByID();
 
-            if (livestores < (org.LiveStoresCount ?? 0))
-                return true;
+            if (org.isTrial == false)
+            {
+                if (livestores < (org.LiveStoresCount ?? 0))
+                    return true;
+                else
+                    return false;
+            }
             else
-                return false;
+            {
+                return true;
+            }
+            
             
         }
-        
 
+        public void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
+        {
+            organisationRepository.UpdateOrganisationZapTargetUrl(organisationId, sTargetUrl, zapTargetType);
+        }
+
+        public string GetActiveOrganisationId(string param)
+        {
+            string responsestr = string.Empty;
+            string credentials = param.Substring(param.IndexOf("username="),
+                    param.Length - param.IndexOf("username="));
+            if (!string.IsNullOrEmpty(credentials))
+                credentials = credentials.Replace("username=", "email=");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://myprintcloud.com");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var uri = "/Account/GetCustomerId?" + credentials;
+                var response = client.GetAsync(uri);
+                if (response.Result.IsSuccessStatusCode)
+                {
+                    responsestr = response.Result.Content.ReadAsStringAsync().Result;
+                }
+                else
+                {
+                    throw new MPCException("Service Not Authenticated!", 0);
+                }
+
+            }
+
+            return responsestr;
+        }
+
+        public string GetZapierPostUrl()
+        {
+            var org = organisationRepository.GetOrganizatiobByID();
+            if(org.IsZapierEnable == true)
+                return organisationRepository.GetOrganizatiobByID().CreateContactZapTargetUrl;
+            else
+            {
+                return string.Empty;
+            }
+        }
+        
 
         #endregion
 

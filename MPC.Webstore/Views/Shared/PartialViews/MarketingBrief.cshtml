@@ -211,19 +211,22 @@
                                 @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFiles", UserCookieManager.WBStoreId))
                             </div>
                             <div class="MB_UploadContainer">
-                                <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.WBStoreId))</label><br />
+                                <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.WBStoreId, "Upload your design"))</label><br />
                                 <br />
                                 <div class="MB_GLContainer">
-                                    <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.WBStoreId))</label>
-                                    <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.WBStoreId, "File formats: "))</label>
+                                    <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.WBStoreId, "png, gif, pdf and jpg file formats."))</label>
                                 </div>
                                 <div class="MB_GLContainer">
-                                    <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.WBStoreId))</label>
-                                    <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.WBStoreId, "file size: "))</label>
+                                    <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.WBStoreId, "file greater than 10mb is not permitted for upload."))</label>
                                 </div>
                             </div>
                             <div class="MB_fileUploadContainer">
-                                <input type="file" id="fuImageUpload" name="fuImageUpload" class="file_upload_box185" />
+                                <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" class="file_upload_box185" />
+                                <br />
+                                <div id="selectedFiles"></div>
+                                <input id="listOfFileName" name="listOfFileName"  type="hidden"/>
                             </div>
                         </div>
                     </div>
@@ -284,46 +287,28 @@
     </div>
 </div>
 
-
-    <script src="~/Scripts/PopUp.js"></script>
-    <script src="~/Scripts/jquery.MultiFile.js"></script>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <script src="/Scripts/PopUp.js"></script>
+  
     <script>
 
-    $(document).ready(function () {
-        CreateMultipleUpload();
+    var mbImagesFiles = new FormData();
+    var storedFiles = [];
 
-    });
-
-    function CreateMultipleUpload() {
-        //set up the file upload
-        $("#fuImageUpload").MultiFile(
-          {
-              max: 4,
-              accept: 'jpg,png,pdf,gif,jpeg',
-              afterFileSelect: function (element, value, master_element) {
-
-              },
-              afterFileRemove: function (element, value, master_element) {
-
-              }
-          });
-    }
-
-    function ShowUploader() {
-        $("#fuImageUpload").click();
-    }
+    var formData;
+    var postedFiles = [];
 
     function GetAllinputElementIDS() {
-
+        ShowLoader();
         var selectedradioBtnsCount = 0;
         var groupCount = $("#hfGroupsCount").val();
         var txtVal = "";
         var idList = "";
         var AdditionalAnsList = "";
-
+        debugger;
         var AllAnswers = $("#hfHaveNoAns").val();
 
-        if (AllAnswers != '') {
+        if (AllAnswers != '' && AllAnswers != undefined) {
             var EachAnswer = AllAnswers.split(',');
 
             $.each(EachAnswer, function (i, element) {
@@ -346,7 +331,7 @@
                         var GroupName = $('.' + element + '').children().children().attr("name");
 
                         $('input:checkbox[name=' + GroupName + ']').each(function () {
-                            debugger;
+
                             if ($(this).attr('checked') == "checked") {
                                 if (AnswerList == "") {
                                     AnswerList = $(this).next().text();
@@ -387,6 +372,17 @@
                 }
 
             });
+        } else {
+            $('.MB_QtnsCont').each(function (i, val) {
+                if ($(this).next().next().next().children().next().val() != '' && $(this).next().next().next().children().next().val() != undefined) {
+                    if (AdditionalAnsList == "") {
+                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).text() + " \n "  + "Additional Information :  " + $(this).next().next().next().children().next().val();
+                    } else {
+                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).text() + " \n " + "Additional Information :  " + $(this).next().next().next().children().next().val();
+                    }
+                }
+            });
+
         }
 
         if (selectedradioBtnsCount < groupCount) {
@@ -422,12 +418,69 @@
                     }
                 }
             });
+            HideLoader();
             return false;
         } else {
 
+
             $("#hfInqueryMesg").val(AdditionalAnsList);
 
-            return true;
+            var url = "/mpc_content/EmailAttachments/";
+
+            while (url.indexOf('/') != -1)
+                url = url.replace("/", "__");
+            formData = new FormData();
+            debugger;
+            // formData.append("file" + i, files[i]);
+            for (i = 0; i < postedFiles.length; i++) {
+                var isRemovedFile = false;
+                for (var d = 0; d < removedFiles.length; d++) {
+                    if (postedFiles[i].fname == removedFiles[d])
+                        isRemovedFile = true;
+                }
+                if (!isRemovedFile) {
+                    formData.append("file" + i, postedFiles[i].fObj);
+                }
+            }
+            if (storedFiles.length > 0) {
+                var fileData = JSON.stringify(storedFiles, null, 2);
+                var to;
+                to = "/webstoreapi/FileUpload/PostAsync/";
+                var options = {
+                    type: "POST",
+                    url: to,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (response) {
+                        var values = "";
+                        $(response).each(function (i, val) {
+                            if (values == "") {
+                                values = val;
+                            } else {
+                                values = values + "|" + val;
+                            }
+                          
+                        });
+                        $("#listOfFileName").val(values);
+                        console.log($("#listOfFileName").val());
+                        return true;
+
+                    },
+                    error: function(msg) {
+
+                        console.log(msg);
+                        ShowPopUp("Error", "'"+ msg.responseText + "'");
+                        return false;
+                    }
+                };
+                var returnText = $.ajax(options).responseText;
+              
+            } else {
+                return true;
+            }
+
         }
     }
 
@@ -476,3 +529,97 @@
 
     </script>
 
+
+<script>
+
+
+    var removedFiles = [];
+    $(function () {
+
+        $(":file").attr('title', '  ');
+        var $loading = $('#loadingDiv').hide();
+
+        $("input[id^='fileToUpload']").change(function (e) {
+            //  removedFiles = [];
+            doReCreate();
+        });
+
+
+    });
+
+
+    function doReCreate() {
+        selDiv = document.querySelector("#selectedFiles");
+        //formData = new FormData();
+        storedFiles = [];
+        var FileName = "";
+        var files = $("#fileToUpload").get(0).files;
+        if (files.length > 0) {
+            console.log(postedFiles.length < (4 + removedFiles.length));
+            if (files.length > 4) {
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
+            } else {
+                debugger;
+                var isAddfile = 1;
+                for (i = 0; i < files.length; i++) {
+               
+                    var fileext = files[i].name.split('.');
+                    var lastIndex = fileext.length;
+                    var extname = fileext[lastIndex - 1];
+                    if (files[i].size != null && files[i].size > 10000000) {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 10 MB are allowed only !");
+                        isAddfile = 0;
+                    }
+                    if (extname != "png" && extname != "jpg" && extname != "jpeg" && extname != "pdf" && extname != "gif") {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "File format is not allowed!");
+                        isAddfile = 0;
+                    } else {
+                        isAddfile = 1;
+                    }
+                }
+                if (isAddfile == 1) {
+
+                    for (i = 0; i < files.length; i++) {
+                        var isRemovedFile = false;
+                        for (var d = 0; d < removedFiles.length; d++) {
+                            if (files[i].name == removedFiles[d])
+                                isRemovedFile = true;
+                        }
+                        if (!isRemovedFile) {
+                            postedFiles.push({ fname: files[i].name, fObj: files[i] });
+                            // formData.append("file" + i, files[i]);
+                            mbImagesFiles.append("file" + i, files[i]);
+                            selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
+                            FileName = files[i].name;
+                            while (files[i].name.indexOf('/') != -1)
+                                FileName = files[i].name.replace("/", "__")
+                            storedFiles.push(FileName);
+                        }
+                    }
+                }
+               
+            }
+
+
+        }
+        if (postedFiles.length > (3 + removedFiles.length)) {
+            $("#fileToUpload").css("display", "none");
+        }
+    }
+
+
+
+    function removeAtt(name,t) {
+
+        removedFiles.push(name);
+        storedFiles = $.grep(storedFiles, function (n, i) {
+            return (n != name);
+        });
+
+        $(t).parent().remove();
+        if (postedFiles.length < (4 + removedFiles.length)) {
+            $("#fileToUpload").css("display", "block");
+        }
+       // doReCreate();
+    }
+</script>

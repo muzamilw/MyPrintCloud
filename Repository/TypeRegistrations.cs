@@ -146,6 +146,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICampaignImageRepository, CampaignImageRepository>();
             unityContainer.RegisterType<ICmsSkinPageWidgetParamRepository, CmsSkinPageWidgetParamRepository>();
             unityContainer.RegisterType<ICMSOfferRepository, CMSOfferRepository>();
+            unityContainer.RegisterType<IReportNoteRepository, ReportNoteRepository>();
+            unityContainer.RegisterType<IVariableExtensionRespository, VariableExtensionRespository>();
         }
     }
 }

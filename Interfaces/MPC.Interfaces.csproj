@@ -99,6 +99,7 @@
     <Compile Include="MISServices\IItemJobStatusService.cs" />
     <Compile Include="MISServices\IItemSectionService.cs" />
     <Compile Include="MISServices\ILengthConversionService.cs" />
+    <Compile Include="MISServices\IListingService.cs" />
     <Compile Include="MISServices\ILiveJobsService.cs" />
     <Compile Include="MISServices\ILookupMethodService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Repository\IProductMarketBriefAnswerRepository.cs" />
     <Compile Include="Repository\IProductMarketBriefQuestionRepository.cs" />
     <Compile Include="Repository\IPurchaseDetailRepository.cs" />
+    <Compile Include="Repository\IReportNoteRepository.cs" />
     <Compile Include="Repository\ISectionCostCentreDetailRepository.cs" />
     <Compile Include="Repository\IShippingInformationRepository.cs" />
     <Compile Include="Repository\ISectionInkCoverageRepository.cs" />
@@ -235,6 +237,7 @@
     <Compile Include="Repository\ISystemUserRepository.cs" />
     <Compile Include="Repository\ITemplateVariableRepository.cs" />
     <Compile Include="Repository\IUserManagerRepository.cs" />
+    <Compile Include="Repository\IVariableExtensionRespository.cs" />
     <Compile Include="Repository\IVariableOptionRepository.cs" />
     <Compile Include="Repository\IWeightUnitRepository.cs" />
     <Compile Include="Repository\IWidgetRepository.cs" />

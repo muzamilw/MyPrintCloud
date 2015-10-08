@@ -304,8 +304,8 @@
                                         <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
-                                            <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay",UserCookieManager.WBStoreId,"Discount"))
-:</label>
+                                            <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label>
+
                                         }
                                         
                                         <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label>
@@ -316,7 +316,7 @@
                                         <label  class="Fsize13 colorBlack displayClear">@subtotal</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
-                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), ViewBag.Currency)</label>
+                                            <label id="lblVoucherCodeDiscAmount_shopCart" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), ViewBag.Currency)</label>
                                         }
                                         
                                         @if (Model.DeliveryCostCenterID == 0)

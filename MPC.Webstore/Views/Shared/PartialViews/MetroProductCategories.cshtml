@@ -21,7 +21,7 @@
 
                 <div id="MainDiv" class="MetroProCats">
                     <h2 class="Metrowidth_allPro">
-                        <a id="ltrlParentCatName" class="MetroParent_Cat_allPro" href="/Category/@Html.ResolveString(ParentProduct.CategoryName)/@ParentProduct.ProductCategoryId">@ParentProduct.CategoryName</a>
+                        <a id="ltrlParentCatName" class="MetroParent_Cat_allPro" href="/Category/@Utils.specialCharactersEncoder(ParentProduct.CategoryName)/@ParentProduct.ProductCategoryId">@ParentProduct.CategoryName</a>
                     </h2>
                     @if (count > 0)
                     {
@@ -34,7 +34,7 @@
                                     <ul style="list-style: inherit; margin-left: -20px;">
                                         @foreach (var Chcategory in ChildCategories)
                                         {
-                                            <li><a href="/Category/@Html.ResolveString(Chcategory.CategoryName)/@Chcategory.ProductCategoryId">@Chcategory.CategoryName</a></li>
+                                            <li><a href="/Category/@Utils.specialCharactersEncoder(Chcategory.CategoryName)/@Chcategory.ProductCategoryId">@Chcategory.CategoryName</a></li>
                                         }
                                     </ul>
                                 </div>

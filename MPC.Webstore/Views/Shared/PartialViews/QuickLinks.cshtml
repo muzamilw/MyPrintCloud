@@ -17,7 +17,7 @@
                             @foreach (var item in ViewData["PageCategory"] as List<MPC.Models.DomainModels.PageCategory>)
                             {
                                 <div class="footer_left_portion_division float_left_simple">
-                                    <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@item.CategoryName</label>
+                                    <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white;">@item.CategoryName</label>
                                 @if (ViewData["CmsPage"] != null)
                                 {
                                     foreach (var page in ViewData["CmsPage"] as List<MPC.Models.Common.CmsPageModel>)
@@ -26,7 +26,7 @@
                                         {
                                             <ul class="uSecPageList  themeFontColor">
                                                 <li>
-                                                    <a href="/pages/@Utils.specialCharactersEncoder(page.PageTitle)/@page.PageId" id="secPages" class="uSecPageList" style="color:white !important;">@page.PageTitle</a>
+                                                    <a href="/pages/@Utils.specialCharactersEncoder(page.PageTitle)/@page.PageId" id="secPages" class="uSecPageList" style="color:white;">@page.PageTitle</a>
                                                 </li>
                                             </ul>
                                         }
@@ -39,37 +39,35 @@
                         @if (Model != null) {
                         <div class="footer_portion themeFontColor">
                             <div class="footer_left_portion_division float_left_simple">
-                                <label id="lbl_ContactInformation" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUserProfile", UserCookieManager.WBStoreId))</label>
-
+                                <label id="lbl_ContactInformation" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUserProfile", UserCookieManager.WBStoreId))</label>
+                               
                                 <ul class="uSecPageList  themeFontColor">
                                     <li>
-                                        <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Address1</a>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white;"></a>
                                     </li>
                                     @if (Model.Address2 != null)
                                     {
                                         <li>
-                                            <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Address2</a>
+                                            <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.Address2</a>
                                         </li>
                                     }
                                     <li>
-                                        <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.City, @Model.State</a>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.City, @Model.State</a>
                                     </li>
                                     <li>
-                                        <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Country</a>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.ZipCode @Model.Country</a>
                                     </li>
-                                    <li>
-                                        <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.ZipCode</a>
-                                    </li>
+                                 
                                     @if (Model.Tel != null)
                                     {
                                         <li>
-                                            <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Tel</a>
+                                            <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.Tel</a>
                                         </li>
                                     }
                                     @if (Model.Email != null)
                                     {
                                         <li>
-                                            <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Email</a>
+                                            <a href="#" id="secPages" class="uSecPageList" style="color:white;">@Model.Email</a>
                                         </li>
                                     }
                                 </ul>

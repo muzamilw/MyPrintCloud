@@ -421,7 +421,14 @@ namespace MPC.Repository.Repositories
                             
                             prodItem = CreateProductItem(item, StockName);
                             prodItem.Attatchment = this.ExtractAttachment(item);
-
+                            if (item.ItemAttachments != null)
+                            {
+                                prodItem.OtherItemAttatchments = item.ItemAttachments.Where(attatchment => attatchment.ItemId == item.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
+                            }
+                            else 
+                            {
+                                prodItem.OtherItemAttatchments = null;
+                            }
                             productItemsList.Add(prodItem);
                             allItemsAddOnsList.AddRange(this.ExtractAdditionalAddons(item)); //Collects the addons for each item
 
@@ -510,7 +517,7 @@ namespace MPC.Repository.Repositories
 
                 List<ItemAttachment> newlistAttach = tblItem.ItemAttachments.Where(attatchment => attatchment.ItemId == tblItem.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).Take(2).ToList();
                 tblItemAttchment = newlistAttach[0];
-
+                
                 if (tblItemAttchment != null)
                 {
                     if (tblItemAttchment.FileName.Contains("overlay"))
@@ -1360,7 +1367,7 @@ namespace MPC.Repository.Repositories
 
             tblOrder.Items.ToList().ForEach(item =>
             {
-                if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
+                if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value == true)
                 {
                     if (orderStatus != OrderStatus.ShoppingCart)
                         item.StatusId = (short)itemStatus;
@@ -7021,6 +7028,14 @@ namespace MPC.Repository.Repositories
            
                 
             
+        }
+
+        public void UpdateOrderForDel(Estimate Order)
+        {
+            db.Estimates.Attach(Order);
+
+            db.Entry(Order).State = EntityState.Modified;
+            db.SaveChanges();
         }
     }
 }

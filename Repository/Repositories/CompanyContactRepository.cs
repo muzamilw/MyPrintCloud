@@ -725,7 +725,7 @@ namespace MPC.Repository.Repositories
             {
                 if (regContact != null)
                 {
-
+                    Company oCompanyRec = db.Companies.Where(c => c.CompanyId == CustomerId).FirstOrDefault();
                     CompanyTerritory companyTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CustomerId).FirstOrDefault();
                     CompanyContact Contact = new CompanyContact(); // ContactManager.PopulateContactsObject(CustomerId, defaultAddressID, false);
 
@@ -743,18 +743,8 @@ namespace MPC.Repository.Repositories
                     Contact.AuthentifiedBy = regContact.AuthentifiedBy;
                     Contact.isArchived = false;
                     Contact.twitterScreenName = TwitterScreenName;
-                    if (isAutoRegister == true)
-                    {
-                        Contact.isWebAccess = true;
-                    }
-                    else
-                    {
-                        Contact.isWebAccess = false;
-                    }
-
                     Contact.ContactRoleId = Convert.ToInt32(Roles.User);
                     Contact.OrganisationId = OrganisationId;
-                    Contact.isPlaceOrder = true;
 
                     //Quick Text Fields
                     Contact.quickAddress1 = regContact.quickAddress1;
@@ -771,6 +761,24 @@ namespace MPC.Repository.Repositories
                     Contact.IsPricingshown = true;
                     Contact.AddressId = 0;
                     Contact.ShippingAddressId = 0;
+                    if(oCompanyRec != null)
+                    {
+                        Contact.isWebAccess = oCompanyRec.IsRegisterAccessWebStore;
+                        Contact.isPlaceOrder = oCompanyRec.IsRegisterPlaceOrder;
+                        Contact.IsPayByPersonalCreditCard = oCompanyRec.IsRegisterPayOnlyByCreditCard;
+                        Contact.canPlaceDirectOrder = oCompanyRec.IsRegisterPlaceDirectOrder;
+                        Contact.canUserPlaceOrderWithoutApproval = oCompanyRec.IsRegisterPlaceOrderWithoutApproval;
+                    }
+                    //if (isAutoRegister == true)
+                    //{
+                    //    Contact.isWebAccess = true;
+                    //}
+                    //else
+                    //{
+                    //    Contact.isWebAccess = false;
+                    //}
+
+                    
                     if (companyTerritory != null)
                     {
                         Contact.TerritoryId = companyTerritory.TerritoryId;
@@ -873,7 +881,7 @@ namespace MPC.Repository.Repositories
                       (s.FirstName.Contains(request.SearchFilter)) ||
                        (s.LastName.Contains(request.SearchFilter)) ||
                      (s.quickFullName.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.isArchived != true && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId  && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
@@ -1699,9 +1707,13 @@ namespace MPC.Repository.Repositories
 
             //db.Configuration.LazyLoadingEnabled = false;
             var contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
-            contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
-            if (string.IsNullOrEmpty(contact.Company.StoreName))
-                contact.Company.StoreName = contact.Company.Name;
+            if(contact != null)
+            {
+                contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
+                if (string.IsNullOrEmpty(contact.Company.StoreName))
+                    contact.Company.StoreName = contact.Company.Name;
+            }
+           
             return contact;
 
 
@@ -1790,6 +1802,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                
                 CompanyContact con = db.CompanyContacts.Where(i => i.ContactId == Contact.ContactId).FirstOrDefault();
                 con.FileName = Contact.FirstName;
                 con.LastName = Contact.LastName;
@@ -1821,6 +1834,8 @@ namespace MPC.Repository.Repositories
                 con.TerritoryId = Contact.TerritoryId;
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
+                con.OrganisationId = Contact.OrganisationId;
+                
                 if (Contact.Password == null)
                 {
                     
@@ -1868,6 +1883,9 @@ namespace MPC.Repository.Repositories
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
                 con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
+                con.IsDefaultContact = 0;
+                con.OrganisationId = Contact.OrganisationId;
+                con.SecretQuestion = Contact.QuestionId.ToString();
                 db.CompanyContacts.Add(con);
                 db.SaveChanges();
             }
@@ -2101,6 +2119,50 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+        }
+
+        public List<ZapierInvoiceDetail> GetStoreContactForZapier(long contactId)
+        {
+            try
+            {
+                List<ZapierInvoiceDetail> zapContact = new List<ZapierInvoiceDetail>();
+                var companycontact = DbSet.FirstOrDefault(c => c.ContactId == contactId); //DbSet.Where(c => c.IsEmailSubscription == false && c.OrganisationId == organisationId).FirstOrDefault();
+                if (companycontact != null)
+                {
+                    zapContact.Add(new ZapierInvoiceDetail
+                    {
+                        CustomerName = companycontact.Company.Name,
+                        Address1 = companycontact.Address != null ? companycontact.Address.Address1 : string.Empty,
+                        Address2 = companycontact.Address != null ? companycontact.Address.Address2 : string.Empty,
+                        AddressCity = companycontact.Address != null ? companycontact.Address.City : string.Empty,
+                        AddressCountry = companycontact.Address != null ? companycontact.Address.Country != null ? companycontact.Address.Country.CountryName : string.Empty : string.Empty,
+                        AddressState = companycontact.Address != null ? companycontact.Address.State != null ? companycontact.Address.State.StateName : string.Empty : string.Empty,
+                        AddressName = companycontact.Address != null ? companycontact.Address.AddressName : string.Empty,
+                        AddressPostalCode = companycontact.Address != null ? companycontact.Address.PostCode : string.Empty,
+
+                        ContactId = companycontact.ContactId,
+                        ContactFirstName = companycontact.FirstName,
+                        ContactLastName = companycontact.LastName,
+                        ContactEmail = companycontact.Email,
+                        ContactPhone = companycontact.HomeTel1,
+                        VatNumber = companycontact.Company.VATRegNumber,
+                        CustomerUrl = companycontact.Company.URL,
+                        TaxRate = companycontact.Company.TaxRate ?? 0
+                    });
+
+                    companycontact.IsEmailSubscription = true;
+                    Update(companycontact);
+                    SaveChanges();
+                }
+
+                return zapContact;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
         }
 
     }

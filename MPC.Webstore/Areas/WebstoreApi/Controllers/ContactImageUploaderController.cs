@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.Repository;
+﻿using MPC.Common;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -27,6 +28,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         private readonly ICampaignService _campaignService;
         private readonly IUserManagerService _usermanagerService;
         private readonly ICompanyContactRepository _companyContact;
+        private readonly IListingService listingService;
+        private readonly MPC.Implementation.MISServices.CompanyService myCompanyService;
         #endregion
         #region Constructor
 
@@ -35,7 +38,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// </summary>
         /// <param name="companyService"></param>
         private readonly IOrderService _orderService;
-        public ContactImageUploaderController(IItemService ItemService, IOrderService _orderService, ICompanyService companyService, IWebstoreClaimsHelperService _webstoreAuthorizationChecker, ICampaignService _campaignService, IUserManagerService _usermanagerService, ICompanyContactRepository _companyContact)
+        public ContactImageUploaderController(IItemService ItemService, IOrderService _orderService, ICompanyService companyService, IWebstoreClaimsHelperService _webstoreAuthorizationChecker, ICampaignService _campaignService, IUserManagerService _usermanagerService, ICompanyContactRepository _companyContact, IListingService listingService)
         {
             
             this._ItemService = ItemService;
@@ -45,6 +48,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             this._campaignService = _campaignService;
             this._usermanagerService = _usermanagerService;
             this._companyContact = _companyContact;
+            this.listingService = listingService;
+           
         }
 
         #endregion
@@ -180,37 +185,140 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public void UpdateDataForSystemUser(long? CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool ?isWebAccess, bool ?isPlaceOrder, bool ?IsPayByPersonalCreditCard, bool ?IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
+        public HttpResponseMessage UpdateDataForSystemUser(long? CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId, bool IsSymoblicPhoneNumber, bool IsSymobolicDirectLine, bool IsSymbolicMobile, bool CheckEmail)
         {
             try
             {
-                var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
-                CompanyContact con = new CompanyContact();
-                con.FirstName = FirstName;
-                con.LastName = LastName;
-                con.ContactId = ContactId;
-                con.image = UpdateImage(httpPostedFile);
-                con.CreditLimit = CreditLimit;
-                con.ContactRoleId = ContactRoleId;
-                con.Email = Email;
-                con.FAX = Fax;
-                con.FirstName = FirstName;
-                con.HomeTel1 = HomeTel1;
-                con.isWebAccess = isWebAccess;
-                con.isArchived = false;
-                con.isPlaceOrder = isPlaceOrder;
-                con.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
-                con.IsPricingshown = IsPricingshown;
-                con.JobTitle = JobTitle;
-                con.Mobile = Mobile;
-                con.Notes = Notes;
-                con.QuestionId = QuestionId;
-                con.SecretAnswer = SecretAnswer;
-                con.TerritoryId = TerritoryId;
-                con.AddressId = AddressId;
-                con.ShippingAddressId = ShippingAddressId;
-                con.Password = Password;
-                _companyService.UpdateDataSystemUser(con);
+                string Message = string.Empty;
+                CompanyContact ExistingContact = _companyService.GetCorporateContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                if (CheckEmail == true)
+                {
+                    if (ExistingContact != null)
+                    {
+                        var formatter = new JsonMediaTypeFormatter();
+                        var json = formatter.SerializerSettings;
+                        json.Formatting = Newtonsoft.Json.Formatting.Indented;
+                        json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        Message = Utils.GetKeyValueFromResourceFile("ltrlExistsContact", UserCookieManager.WBStoreId, "Sorry, There is already Exits a contact with this Email");
+
+                        return Request.CreateResponse(HttpStatusCode.OK, Message, formatter);
+                    }
+                    else
+                    {
+                        Message = "Ok";
+                        var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+                        CompanyContact con = new CompanyContact();
+                        con.FirstName = FirstName;
+                        con.LastName = LastName;
+                        con.ContactId = ContactId;
+                        con.image = UpdateImage(httpPostedFile);
+                        con.CreditLimit = CreditLimit;
+                        con.ContactRoleId = ContactRoleId;
+                        con.Email = Email;
+                        if (IsSymoblicPhoneNumber == true)
+                        {
+                            con.FAX = "+" + Fax;
+                        }
+                        else
+                        {
+                            con.FAX = Fax;
+
+                        }
+                        con.FirstName = FirstName;
+                        if (IsSymobolicDirectLine == true)
+                        {
+                            con.HomeTel1 = "+" + HomeTel1;
+                        }
+                        else
+                        {
+                            con.HomeTel1 = HomeTel1;
+                        }
+                        con.isWebAccess = isWebAccess;
+                        con.isArchived = false;
+                        con.isPlaceOrder = isPlaceOrder;
+                        con.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
+                        con.IsPricingshown = IsPricingshown;
+                        con.JobTitle = JobTitle;
+                        if (IsSymbolicMobile == true)
+                        {
+                            con.Mobile = "+" + Mobile;
+                        }
+                        else
+                        {
+                            con.Mobile = Mobile;
+                        }
+                        con.Notes = Notes;
+                        con.QuestionId = QuestionId;
+                        con.SecretAnswer = SecretAnswer;
+                        con.TerritoryId = TerritoryId;
+                        con.AddressId = AddressId;
+                        con.ShippingAddressId = ShippingAddressId;
+                        con.Password = Password;
+                        con.SecretQuestion = QuestionId.ToString();
+                        con.OrganisationId = UserCookieManager.WEBOrganisationID;
+                        _companyService.UpdateDataSystemUser(con);
+                    }
+                }
+                else
+                {
+                    Message = "Ok";
+                    var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+                    CompanyContact con = new CompanyContact();
+                    con.FirstName = FirstName;
+                    con.LastName = LastName;
+                    con.ContactId = ContactId;
+                    con.image = UpdateImage(httpPostedFile);
+                    con.CreditLimit = CreditLimit;
+                    con.ContactRoleId = ContactRoleId;
+                    con.Email = Email;
+                    if (IsSymoblicPhoneNumber == true)
+                    {
+                        con.FAX = "+" + Fax;
+                    }
+                    else
+                    {
+                        con.FAX = Fax;
+
+                    }
+                    con.FirstName = FirstName;
+                    if (IsSymobolicDirectLine == true)
+                    {
+                        con.HomeTel1 = "+" + HomeTel1;
+                    }
+                    else
+                    {
+                        con.HomeTel1 = HomeTel1;
+                    }
+                    con.isWebAccess = isWebAccess;
+                    con.isArchived = false;
+                    con.isPlaceOrder = isPlaceOrder;
+                    con.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
+                    con.IsPricingshown = IsPricingshown;
+                    con.JobTitle = JobTitle;
+                    if (IsSymbolicMobile == true)
+                    {
+                        con.Mobile = "+" + Mobile;
+                    }
+                    else
+                    {
+                        con.Mobile = Mobile;
+                    }
+                    con.Notes = Notes;
+                    con.QuestionId = QuestionId;
+                    con.SecretAnswer = SecretAnswer;
+                    con.TerritoryId = TerritoryId;
+                    con.AddressId = AddressId;
+                    con.ShippingAddressId = ShippingAddressId;
+                    con.Password = Password;
+                    con.SecretQuestion = QuestionId.ToString();
+                    con.OrganisationId = UserCookieManager.WEBOrganisationID;
+                    _companyService.UpdateDataSystemUser(con);
+                }
+                var formatter1 = new JsonMediaTypeFormatter();
+                var json1 = formatter1.SerializerSettings;
+                json1.Formatting = Newtonsoft.Json.Formatting.Indented;
+                json1.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                return Request.CreateResponse(HttpStatusCode.OK, Message, formatter1);
             }
             catch (Exception ex)
             {
@@ -219,11 +327,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage AddDataForSystemUser(long? CreditLimit, int? ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int? QuestionId, string SecretAnswer, long? TerritoryId, long AddressId, long? ShippingAddressId, string Password, long ContactId)
+        public HttpResponseMessage AddDataForSystemUser(long? CreditLimit, int? ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int? QuestionId, string SecretAnswer, long? TerritoryId, long AddressId, long? ShippingAddressId, string Password, long ContactId, bool IsSymoblicPhoneNumber, bool IsSymobolicDirectLine, bool IsSymbolicMobile)
         {
             
             string Message = string.Empty;
-            CompanyContact ExistingContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+            
+           CompanyContact ExistingContact= _companyService.GetCorporateContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
             var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
             if (ExistingContact!= null)
             {
@@ -240,14 +349,30 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Message = "Ok";
                 CompanyContact NewContact = new CompanyContact();
                 NewContact.CompanyId = UserCookieManager.WBStoreId;
+                NewContact.OrganisationId = UserCookieManager.WEBOrganisationID;
                 NewContact.isWebAccess = true;
                 NewContact.image = UpdateImage(httpPostedFile);
                 NewContact.CreditLimit = CreditLimit;
                 NewContact.ContactRoleId = ContactRoleId;
                 NewContact.Email = Email;
-                NewContact.FAX = Fax;
+                if (IsSymoblicPhoneNumber == true)
+                {
+                    NewContact.FAX = "+" + Fax;
+                }
+                else
+                {
+                    NewContact.FAX = Fax;
+                }
+                
                 NewContact.FirstName = FirstName;
-                NewContact.HomeTel1 = HomeTel1;
+                if (IsSymobolicDirectLine == true)
+                {
+                    NewContact.HomeTel1 = "+" + HomeTel1;
+                }
+                else
+                {
+                    NewContact.HomeTel1 = HomeTel1;
+                }
                 NewContact.isWebAccess = isWebAccess;
                 NewContact.isArchived = false;
                 NewContact.isPlaceOrder = isPlaceOrder;
@@ -255,7 +380,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 NewContact.IsPricingshown = IsPricingshown;
                 NewContact.JobTitle = JobTitle;
                 NewContact.LastName = LastName;
-                NewContact.Mobile = Mobile;
+                if (IsSymbolicMobile == true)
+                {
+                    NewContact.Mobile = "+" + Mobile;
+                }
+                else
+                {
+                    NewContact.Mobile = "+" + Mobile;
+                }
                 NewContact.Notes = Notes;
                 NewContact.QuestionId = QuestionId;
                 NewContact.SecretAnswer = SecretAnswer;
@@ -263,6 +395,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 NewContact.AddressId = AddressId;
                 NewContact.ShippingAddressId = ShippingAddressId;
                 NewContact.Password = Password;
+                
                 _companyService.AddDataSystemUser(NewContact);
                 if (isWebAccess == true)
                 {
@@ -297,6 +430,18 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 return Request.CreateResponse(HttpStatusCode.OK, Message, formatterr);
             }
+        }
+
+      [HttpPost]
+        public void SaveListing(string obj)
+        {
+            ListingProperty listingProperty = JsonConvert.DeserializeObject<ListingProperty>(obj);
+            var result = listingService.UpdateListingData(listingProperty);
+            //var formatter = new JsonMediaTypeFormatter();
+            //var json = formatter.SerializerSettings;
+            //json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            //return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
     }
 }

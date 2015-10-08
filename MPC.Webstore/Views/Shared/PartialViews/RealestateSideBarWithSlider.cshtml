@@ -11,7 +11,8 @@
     var ChildCategories = ViewBag.AllCategories as List<MPC.Models.DomainModels.ProductCategory>;
     var AllListingImages = ViewBag.AllListingImages as List<MPC.Models.DomainModels.ListingImage>;
 }
-
+<link href="/Content/carousel.css" rel="stylesheet" />
+<link href="/Content/content.css" rel="stylesheet" />
 <div class="container">
     <div class="sidebar-offcanvas sidebar realEs-myProfile-leftPanel" id="sidebar-left" role="navigation" style="">
         <div style="height: 10px;">
@@ -62,7 +63,7 @@
                             var anchorId = "linkParentCategoryName" + @ParentCategory.ProductCategoryId;
                             var iconId = "linkChevronIcon" + @ParentCategory.ProductCategoryId;
                                 }
-                                <a id="@anchorId" href="/Category/@Html.ResolveString(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
+                                <a id="@anchorId" href="/Category/@Utils.specialCharactersEncoder(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
                                 @if (filteredChildCategories != null && filteredChildCategories.Count() > 0)
                                 {
                                     <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
@@ -76,7 +77,7 @@
                                     <ul id="mycarasoulList" class="submenu list-unstyled" style="padding-left: 15px; line-height: 2; margin-top: 5px;">
                                         @foreach (var ChildCategory in filteredChildCategories)
                                         {
-                                            <li><a id="linkChildCatLink" href="/Category/@Html.ResolveString(ChildCategory.CategoryName)/@ChildCategory.ProductCategoryId" onclick="ShowLoader();"><span id="childCatName" style="color: #bebab8;">@ChildCategory.CategoryName</span></a></li>
+                                            <li><a id="linkChildCatLink" href="/Category/@Utils.specialCharactersEncoder(ChildCategory.CategoryName)/@ChildCategory.ProductCategoryId" onclick="ShowLoader();"><span id="childCatName" style="color: #bebab8;">@ChildCategory.CategoryName</span></a></li>
                                         }
                                     </ul>
                                 </div>
@@ -90,7 +91,60 @@
             </div>
         </div>
     </div>
+    <div class="realEs-myProfile-rightPanel">
+        <div class="carousel">
+            <!-- BEGIN CONTAINER -->
+            <div class="slides">
+                <!-- BEGIN CAROUSEL -->
+                @foreach (var property in Properties)
+                {
+                    var FilteredLImages = AllListingImages.Where(i => i.ListingId == property.ListingId).ToList();
+                    var ImagSrc = string.Empty;
+                    <div class="realEs-carousal-evolution">
+                        <!-- SLIDE ITEM -->
+                        @{
 
+                    var ProductUrl = "/RealEstateProducts/" + property.ListingId;
+
+                        }
+                        <a href="@ProductUrl" id=" hlproductdetail">
+
+                            @if (FilteredLImages.Count > 0)
+                            {
+                                if (!string.IsNullOrEmpty(FilteredLImages[0].ImageURL))
+                                {
+                                    string imagePath = FilteredLImages[0].ImageURL;
+                                    //string filenameWithOutEx = Path.GetFileNameWithoutExtension(FilteredLImages[0].ImageURL);
+                                    //string Extensn = Path.GetExtension(FilteredLImages[0].ImageURL);
+                                    //string filename = Path.GetFileName(FilteredLImages[0].ImageURL);
+                                    //int indexof = imagePath.IndexOf(filename);
+                                    //string serverPAth = imagePath.Substring(0, indexof);
+                                    //string newfilename = filenameWithOutEx + "_thumb" + Extensn;
+                                    //imagePath = serverPAth + newfilename;
+                                    ImagSrc = imagePath;
+                                }
+                                else
+                                {
+                                    ImagSrc = "../" + FilteredLImages[0].ImageURL;
+                                }
+                                <img id="imgThumbnail" src="@ImagSrc" style="width:auto !important; height:185px !important;" />
+                            }
+                            <br />
+                            <label id="lblpropertyLabel">@property.AddressDisplay</label>
+                        </a>
+                    </div>
+
+                }
+            </div>
+            <!-- END SLIDES -->
+
+        </div>
+        <!-- END CAROUSEL -->
+    </div>
+
+    <div class="clearBoth">
+        &nbsp;
+    </div>
 
     </div>
 
@@ -99,54 +153,37 @@
 
     <!--/Left Panel-->
     <!--Center Part-->
-    <div class="realEs-myProfile-rightPanel">
-       
-        <div class="carousel-container">
-            <div id="carousel">
-              @foreach (var parent in ParentCategories)
-              { 
-                <div class="carousel-feature">
-                        <a href="#"><img class="carousel-image" alt="Image Caption" src="@Html.GetAppBasePath()@parent.ThumbnailPath"></a>
-                </div>
-              }
-            </div>
-        </div>
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
+
     
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
- <link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
-<script src="/Content/RealEstateSlider/js/jquery-1.7.min.js"></script>
-<script src="/Content/RealEstateSlider/js/jquery.featureCarousel.js"></script>
-<script src="/Content/RealEstateSlider/js/jquery.featureCarousel.min.js"></script>
- <link href="/Content/RealEstateSlider/css/feature-carousel.css" rel="stylesheet" />
-
+<script src="/Scripts/jquery.mousewheel.min.js"></script>
+<script src="/Scripts/jquery.carousel-1.1.min.js"></script>
+<script src="/Scripts/sample01.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
+  
        
-        var carousel = $("#carousel").featureCarousel({
-            // include options like this:
-            // (use quotes only for string values, and no trailing comma after last option)
-            // option: value,
-            // option: value
+        //var carousel = $(".carousel").featureCarousel({
+        //    // include options like this:
+        //    // (use quotes only for string values, and no trailing comma after last option)
+        //    // option: value,
+        //    // option: value
            
-        });
+        //});
 
-        $("#but_prev").click(function () {
-            carousel.prev();
-        });
-        $("#but_pause").click(function () {
-            carousel.pause();
-        });
-        $("#but_start").click(function () {
-            carousel.start();
-        });
-        $("#but_next").click(function () {
-            carousel.next();
-        });
-    });
+        //$("#but_prev").click(function () {
+        //    carousel.prev();
+        //});
+        //$("#but_pause").click(function () {
+        //    carousel.pause();
+        //});
+        //$("#but_start").click(function () {
+        //    carousel.start();
+        //});
+        //$("#but_next").click(function () {
+        //    carousel.next();
+        //});
+
 
     function ExpandCollapseCategory(dataid) {
 

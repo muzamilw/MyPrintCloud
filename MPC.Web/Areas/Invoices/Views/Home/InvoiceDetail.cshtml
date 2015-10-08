@@ -3,8 +3,8 @@
         <div class="col-sm-12 PaddingZero">
             <div class="col-sm-12 PaddingZero">
                 <div class="col-sm-3">
-                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:11px">
-                        <button type="button" class="btn btn-primary" style="margin-top:-10px;">Actions</button>
+                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px">
+                        @*<button type="button" class="btn btn-primary" style="margin-top:-10px;">Actions</button>
                         <button type="button" style="margin-top:-10px;" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -13,13 +13,16 @@
                             <li><a href="#" data-bind="click:$root.openExternalReportsInvoice">Print Invoice</a></li>
                             <li><a href="#" data-bind="click:$root.openExternalEmailInvoiceReport">Email Invoice</a></li>
                             <li><a href="#">Archive Invoice</a></li>
-                        </ul>
+                        </ul>*@
+                        <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;border-radius:5px;" data-bind="click:$root.openExternalReportsInvoice">Print</button>
+                        <button class="btn btn-primary" style="margin-top:-10px;border-radius:5px;" data-bind="click:$root.openExternalEmailInvoiceReport">Email</button>
+                        <button class="btn btn-danger" style="margin-top:-10px;margin-left:5px;border-radius:5px;" data-bind="click:$root.onArchiveInvoice">Archive</button>
                     </div>
+                   
+                    
                 </div>
                 <div data-bind="with: selectedInvoice" style="text-align:right; padding-right:19px;margin-bottom:10px;">
-                    @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
-                            Print
-                        </button>*@
+                   
                     <button class="btn btn-primary" style="margin-top:-10px;" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" style="margin-top:-10px;" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>
@@ -78,8 +81,8 @@
                                                     <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedInvoice().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-1" style="padding-top: 10px; margin-left: 10px">
-                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedInvoice().id() <= 0) || ($root.selectedInvoice().id()===undefined) " href="#" class="btn btn-primary pull-right">
+                                            <div class="col-sm-1" style="padding-top: 10px; margin-left:0px;padding-left:0px;">
+                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedInvoice().id() <= 0) || ($root.selectedInvoice().id()===undefined) " href="#" class="btn btn-primary">
                                                     <i class="fa fa-user"></i>
                                                 </button>
                                             </div>
@@ -101,8 +104,8 @@
                                                 <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
-                                                <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
+                                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left:0px;padding-left:0px;">
+                                                <a class="btn btn-primary" id="addresspull" onclick="addAddress()">
                                                     <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                                                 </a>
                                             </div>

@@ -315,7 +315,7 @@ namespace MPC.Models.DomainModels
 
 
             target.AccountNumber = AccountNumber;
-            target.Name = Name;
+            target.Name = Name + "-Copy";
             target.URL = URL;
             target.CreditReference = CreditReference;
             target.CreditLimit = CreditLimit;
@@ -388,6 +388,7 @@ namespace MPC.Models.DomainModels
             target.facebookAppId = facebookAppId;
             target.facebookAppKey = facebookAppKey;
             target.twitterAppId = twitterAppId;
+            target.twitterAppKey = twitterAppKey;
             target.isStoreModePrivate = isStoreModePrivate;
             target.CustomCSS = CustomCSS;
 

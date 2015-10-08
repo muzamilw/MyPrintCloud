@@ -19,7 +19,7 @@
                         @{
                             var categoryLinkId = "aC" + categories.ProductCategoryId;
                         }
-                        <a id="@categoryLinkId" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
+                        <a id="@categoryLinkId" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
                             <div class="PDTC_TL FI_TL H4B_TL">
                                 <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="/@Html.GetAppBasePath()@categories.ThumbnailPath" />
                             </div>
@@ -36,7 +36,7 @@
                                        if (ProductDescription.Length > 250)
                                        {
                                            ProductDescription = ProductDescription.Substring(0, 250);
-                                           ProductDescription = ProductDescription + "<a class=morelink href=/Category/" + @Html.ResolveString(categories.CategoryName) + "/" + @categories.ProductCategoryId + ">more...</a>";
+                                           ProductDescription = ProductDescription + "<a class=morelink href=/Category/" + Utils.specialCharactersEncoder(categories.CategoryName) + "/" + @categories.ProductCategoryId + "> more...</a>";
                                        }
                                        else
                                        {
@@ -46,7 +46,7 @@
                                }
                             @Html.Raw(ProductDescription)
                         </div>
-                        <a id="ShopNowFuture" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">Shop Now</a>
+                        <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">Shop Now</a>
                     </div>
                 </div>
             }

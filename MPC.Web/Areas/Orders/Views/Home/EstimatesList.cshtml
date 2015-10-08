@@ -166,7 +166,7 @@
                                 </td>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 || $root.currentScreen() == 1 || $root.currentScreen() == undefined-->
-                                <th class="col-sm-2" style="padding-top: 29px;padding-right:66px;"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></th>
+                                <td class="col-sm-2" style="padding-right:66px;"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></td>
                                 <!--/ko-->
                             </tr>
                         </script>
@@ -315,7 +315,7 @@
         });
 
         $(document).ready(function () {
-            var page = Request.QueryString("to");
+            var page = Request.QueryString("status");
             if (page != null) {
                 if (page == 'est') {
                     $("#all-orders").removeClass("active");

@@ -150,6 +150,144 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.FirstOrDefault(i => i.EstimateId == Id);
         }
+
+        /// <summary>
+        /// Get flag for INVOICE
+        /// </summary>
+        public long GetInvoieFlag()
+        {
+            return db.SectionFlags.Where(c => c.SectionId == (int)SectionEnum.Invoices).Select(c => c.SectionFlagId).FirstOrDefault();
+        }
+
+        public List<ZapierInvoiceDetail> GetZapierInvoiceDetails(long invoiceId)
+        {
+            List<ZapierInvoiceDetail> lstInvoiceDetails = new List<ZapierInvoiceDetail>();
+            var inv = DbSet.FirstOrDefault(i => i.InvoiceId == invoiceId);
+
+            if (inv != null)
+            {
+                var address = inv.Company != null
+                    ? inv.Company.Addresses.FirstOrDefault(a => a.AddressId == (inv.AddressId ?? 0)): null;
+                lstInvoiceDetails.Add(new ZapierInvoiceDetail
+                {
+                    CustomerName = inv.Company != null ? inv.Company.Name : string.Empty,
+                    Address1 = address != null ? address.Address1 : "",
+                    Address2 = address != null ? address.Address2 : "",
+                    AddressCity = address != null ? address.City : "",
+                    AddressCountry = address != null ? address.Country != null ? address.Country.CountryName : "" : "",
+                    AddressName = address != null ? address.AddressName : "",
+                    AddressState = address != null ? address.State != null ? address.State.StateName : "" : "",
+                    AddressPostalCode = address != null ? address.PostCode : "",
+                    VatNumber = inv.Company != null ? inv.Company.VATRegNumber : string.Empty,
+                    CustomerUrl = inv.Company != null ? inv.Company.URL : string.Empty,
+                    ContactFirstName = inv.CompanyContact != null ? inv.CompanyContact.FirstName : string.Empty,
+                    ContactLastName = inv.CompanyContact != null ? inv.CompanyContact.LastName : string.Empty,
+                    ContactEmail = inv.CompanyContact != null ? inv.CompanyContact.Email : string.Empty,
+                    ContactPhone = inv.CompanyContact != null ? inv.CompanyContact.HomeTel1 : string.Empty,
+                    TaxRate = inv.Company != null ? inv.Company.TaxRate??0 : 0,
+                    InvoiceCode = inv.InvoiceCode,
+                    InvoiceDate = inv.InvoiceDate ?? DateTime.Now,
+                    InvoiceId = inv.InvoiceId,
+                    ContactId = inv.CompanyContact != null ? inv.CompanyContact.ContactId : 0,
+                    InvoiceItems = inv.Items.Select(p => new ZapierInvoiceItem
+                    {
+                        ProductCode = p.ProductCode,
+                        ProductDescription = p.ProductSpecification,
+                        Quantity = p.Qty1 ?? 0,
+                        NetTotal = p.Qty1NetTotal ?? 0,
+                        TaxValue = p.Qty1Tax1Value ?? 0,
+                        GrossTotal = p.Qty1GrossTotal ?? 0,
+                        ProductName = p.ProductName
+
+                    }).ToList()
+                });
+            }
+            return lstInvoiceDetails;    
+            ////var invd = DbSet
+            ////    .Where(i => i.OrganisationId == organizationId && i.IsRead == false).ToList();
+            ////if (invd.Any())
+            ////{
+            ////   var zapDetail = invd.Select(i => new
+            ////    {
+            ////        CustomerName = i.Company != null? i.Company.Name : string.Empty,
+            ////        URL = i.Company != null? i.Company.URL : string.Empty,
+            ////        TaxRate = i.Company != null ? i.Company.TaxRate??0 : 0,
+            ////        VatNumber = i.Company != null ? i.Company.VATRegNumber: string.Empty,
+            ////        FirstName = i.CompanyContact != null ? i.CompanyContact.FirstName : string.Empty,
+            ////        LastName = i.CompanyContact != null ?i.CompanyContact.LastName: string.Empty,
+            ////        Email = i.CompanyContact != null ?i.CompanyContact.Email:string.Empty,
+            ////        Phone = i.CompanyContact != null ?i.CompanyContact.HomeTel1:string.Empty,
+            ////        ContactId = i.CompanyContact != null ? i.CompanyContact.ContactId : 0,
+            ////        BillingAddresss = i.Company != null ? i.Company.Addresses.Where(a => a.AddressId == (i.AddressId?? 0)).FirstOrDefault() : null,
+            ////        InvoiceCode = i.InvoiceCode,
+            ////        InvoiceDate = i.InvoiceDate,
+            ////        InvoiceId = i.InvoiceId,
+            ////        InvoicedItems = i.Items.Select(p => new ZapierInvoiceItem
+            ////        {
+            ////            ProductCode = p.ProductCode,
+            ////            ProductDescription = p.ProductSpecification,
+            ////            Quantity = p.Qty1?? 0,
+            ////            NetTotal = p.Qty1NetTotal ?? 0,
+            ////            TaxValue = p.Qty1Tax1Value ?? 0,
+            ////            GrossTotal = p.Qty1GrossTotal?? 0,
+            ////            ProductName = p.ProductName
+                        
+            ////        }).ToList()
+                    
+
+            ////    }).ToList().Select(c => new ZapierInvoiceDetail
+            ////    {
+            ////        CustomerName = c.CustomerName,
+            ////        Address1 = c.BillingAddresss != null ? c.BillingAddresss.Address1 : "",
+            ////        Address2 = c.BillingAddresss != null ? c.BillingAddresss.Address2 : "",
+            ////        AddressCity = c.BillingAddresss != null ? c.BillingAddresss.City : "",
+            ////        AddressCountry = c.BillingAddresss != null ? c.BillingAddresss.Country != null ? c.BillingAddresss.Country.CountryName: "" : "",
+            ////        AddressName = c.BillingAddresss != null ? c.BillingAddresss.AddressName : "",
+            ////        AddressState = c.BillingAddresss != null ? c.BillingAddresss.State != null ? c.BillingAddresss.State.StateName: "" : "",
+            ////        AddressPostalCode = c.BillingAddresss != null ? c.BillingAddresss.PostCode : "",
+            ////        VatNumber = c.VatNumber,
+            ////        CustomerUrl = c.URL,
+            ////        ContactFirstName = c.FirstName,
+            ////        ContactLastName = c.LastName,
+            ////        ContactEmail = c.Email,
+            ////        ContactPhone = c.Phone,
+            ////        TaxRate = c.TaxRate,
+            ////        InvoiceItems = c.InvoicedItems,
+            ////        InvoiceCode = c.InvoiceCode,
+            ////        InvoiceDate = c.InvoiceDate ?? DateTime.Now,
+            ////        InvoiceId = c.InvoiceId,
+            ////        ContactId = c.ContactId
+
+            ////    }).ToList();
+            //    return zapDetail;
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+            
+
+        }
+
+
+        public void ArchiveInvoice(int InvoiceId)
+        {
+            try
+            {
+                Invoice targetInvoice = db.Invoices.Where(c => c.InvoiceId == InvoiceId).FirstOrDefault();
+                if(targetInvoice != null)
+                {
+                    targetInvoice.InvoiceStatus = (int)InvoiceStatuses.Archived;
+                    db.SaveChanges();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
     }
 }

@@ -113,12 +113,14 @@ namespace MPC.Implementation.MISServices
             this.PayPalRepsoitory = PayPalRepsoitory;
         }
 
-        public string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam, long WebStoreOrganisationId = 0)
+        public string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam, long WebStoreOrganisationId = 0,bool isFromExternal = true)
         {
             string sFilePath = string.Empty;
+              long OrganisationID = 0;
+            string InternalPath = string.Empty;
             try
             {
-                long OrganisationID = 0;
+              
                 if (WebStoreOrganisationId > 0)
                 {
                     OrganisationID = WebStoreOrganisationId;
@@ -195,6 +197,7 @@ namespace MPC.Implementation.MISServices
                         currReport.Run();
                         GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport pdf = new GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport();
                         pdf.ImageQuality = ImageQuality.Highest;
+                        pdf.ImageResolution = 770 * 140;
                         string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {
@@ -202,7 +205,7 @@ namespace MPC.Implementation.MISServices
                         }
                         // PdfExport pdf = new PdfExport();
                         sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
-
+                        InternalPath = "/" + ImagePathConstants.ReportPath + OrganisationID + "/" + sFileName;
                         pdf.Export(currReport.Document, sFilePath);
                         ms.Close();
                         currReport.Document.Dispose();
@@ -214,7 +217,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw e;
             }
-            return sFilePath;
+            if (isFromExternal)
+                return sFilePath;
+            else
+                return InternalPath;
         }
 
         public string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat, long WebStoreOrganisationId = 0)
@@ -1558,9 +1564,10 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam , long WebStoreOrganisationId = 0)
+        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam , long WebStoreOrganisationId = 0,bool isFromExternal = true)
         {
             string sFilePath = string.Empty;
+             string InternalPath = string.Empty;
             try
             {
                 long OrganisationID = 0;
@@ -1622,7 +1629,7 @@ namespace MPC.Implementation.MISServices
                         }
                         // PdfExport pdf = new PdfExport();
                         sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
-
+                           InternalPath = "/" + ImagePathConstants.ReportPath + OrganisationID + "/" + sFileName;
                         xls.Export(currReport.Document, sFilePath);
                         ms.Close();
                         currReport.Document.Dispose();
@@ -1634,7 +1641,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw e;
             }
-            return sFilePath;
+              if (isFromExternal)
+                return sFilePath;
+            else
+                return InternalPath;
         }
 
 

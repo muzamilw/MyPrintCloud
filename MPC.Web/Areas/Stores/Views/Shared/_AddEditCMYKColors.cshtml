@@ -1,109 +1,85 @@
 ﻿
 
 <div class="modal fade" id="myCMYKColorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog">
+    <div style="width: 800px;" class="modal-dialog">
         <div class="modal-content" data-bind="with: $root.selectedCompanyCMYKColor">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add/Edit Spot Colors</h4>
             </div>
-            <div class="col-lg-12 form-horizontal outerDiv-Padding">
-                <div class=" form-group">
-                    <div class="col-lg-2 text-right" style="width: 149px">
-                        @*<div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of Color" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>*@
-                        <label for="txtColorName" class="control-label text-right tooltip-float">Color Name</label>
+            <div class="row">
+                <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                    <div class=" form-group">
+                        <div class="col-lg-2 text-right" style="width: 149px">
+                            <label for="txtColorName" class="control-label text-right tooltip-float">Color Name</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" id="txtColorName" data-bind="value:colorName, validationTooltip: colorName ">
+                        </div>
                     </div>
-                    <div class="col-lg-3">
-                        <input type="text" class="form-control" id="txtColorName" data-bind="value:colorName, validationTooltip: colorName ">
-                    </div>
-                </div>
-                <div class="col-lg-6 form-horizontal">
+                    <div class="col-lg-6 form-horizontal">
 
 
-                    <div class="form-group">
-                        <div class="col-lg-4 text-right">
-                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Color C" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>*@
-                            @*style="width:35%;"*@
-                            <label for="txtCCode" class="control-label text-right tooltip-float">Color Cyan</label>
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="number" class="form-control" id="txtCCode" data-bind="value: $root.calculateCyanValue, validationDependsOn: colorC" min="0" max="200">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 text-right">
-                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Color M" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>*@
-                            <label for="txtMCode" class="control-label text-right tooltip-float">Color Magenta</label>
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="number" class="form-control" id="txtMCode" data-bind="value: $root.calculateMagentaValue, validationDependsOn: colorM" min="0" max="200">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 text-right">
-                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Color Y" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>*@
-                            <label for="txtYCode" class="control-label text-right tooltip-float">Color Yellow</label>
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="number" class="form-control" id="txtYCode" data-bind="value: $root.calculateYellowValue, validationDependsOn: colorY" min="0" max="200">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 text-right">
-                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Color K" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>*@
-                            <label for="txtKCode" class="control-label text-right tooltip-float">Color Black</label>
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="number" class="form-control" id="txtKCode" data-bind="value: $root.calculateBlackValue, validationDependsOn: colorK" min="0" max="200">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 text-right">
-                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Active" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>*@
-                            <label for="txtKCode" class="control-label text-right tooltip-float" style="padding-top:4px;">Is Active</label>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="checkbox-nice">
-                                <input type="checkbox" id="enableEmailCompaign" data-bind="checked:isActive">
-                                <label for="enableEmailCompaign">&nbsp;</label>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <label for="txtCCode" class="control-label text-right tooltip-float">Color Cyan</label>
                             </div>
+                            <div class="col-lg-6">
+                                <input type="number" class="form-control" id="txtCCode" data-bind="value: $root.calculateCyanValue, validationDependsOn: colorC" min="0" max="200">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
 
-                            @*<input type="checkbox" class="form-control" style="width:8%;float:left;" data-bind="checked: isActive" />*@
+                                <label for="txtMCode" class="control-label text-right tooltip-float">Color Magenta</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="number" class="form-control" id="txtMCode" data-bind="value: $root.calculateMagentaValue, validationDependsOn: colorM" min="0" max="200">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <label for="txtYCode" class="control-label text-right tooltip-float">Color Yellow</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="number" class="form-control" id="txtYCode" data-bind="value: $root.calculateYellowValue, validationDependsOn: colorY" min="0" max="200">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <label for="txtKCode" class="control-label text-right tooltip-float">Color Black</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="number" class="form-control" id="txtKCode" data-bind="value: $root.calculateBlackValue, validationDependsOn: colorK" min="0" max="200">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <label for="txtKCode" class="control-label text-right tooltip-float" style="padding-top:4px;">Is Active</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkbox-nice">
+                                    <input type="checkbox" id="enableEmailCompaign" data-bind="checked:isActive">
+                                    <label for="enableEmailCompaign">&nbsp;</label>
+                                </div>
+
+                                @*<input type="checkbox" class="form-control" style="width:8%;float:left;" data-bind="checked: isActive" />*@
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-2 form-horizontal">
-                    <div id="haxColorValue" style="height: 85px;  height: 89px;margin-left: -61px;padding-left: -1px; width: 98px;  border: dotted;border-width: 1px;" data-bind="style: {'background-color': $root.selectedHexValue}">
+                    <div class="col-lg-2 form-horizontal">
+                        <div id="haxColorValue" style="height: 85px;  height: 89px;margin-left: -61px;padding-left: -1px; width: 98px;  border: dotted;border-width: 1px;" data-bind="style: {'background-color': $root.selectedHexValue}">
+                        </div>
+                        <div class="col-lg-2 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;width: 98px;margin-left: -61px;">Spot Color</div>
                     </div>
-                    <div class="col-lg-2 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;width: 98px;margin-left: -61px;">Spot Color</div>
                 </div>
             </div>
-            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
-                <hr style="margin-bottom:15px;" />
+            
+            <div class="modal-footer" style="padding-left:0;padding-right:0;">
                 <div style="padding-left:3px;padding-right:8px;">
                     <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyCMYKColor, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
                     <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyCMYKColor" style="margin-left: 0px;">Close</button>

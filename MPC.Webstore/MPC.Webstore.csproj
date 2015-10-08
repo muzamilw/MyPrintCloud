@@ -366,6 +366,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\DownloadArtworkController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\FileAttachmentsController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\FileUploadController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RFQController.cs" />
@@ -387,12 +388,14 @@
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DescriptiveFooterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\HeaderWithCategoriesAndProducts.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
+    <Compile Include="Controllers\LoginBarWithCountersController.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
     <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
@@ -491,6 +494,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\carousel.css" />
+    <Content Include="Content\cbre.css" />
+    <Content Include="Content\clublinks.css" />
     <Content Include="Content\content.css" />
     <Content Include="Content\Designer\assets-v2\active.png" />
     <Content Include="Content\Designer\assets-v2\addlist.png" />
@@ -501,19 +506,42 @@
     <Content Include="Content\Designer\assets-v2\arrowMoveUp.png" />
     <Content Include="Content\Designer\assets-v2\back-hover.png" />
     <Content Include="Content\Designer\assets-v2\back.png" />
+    <Content Include="Content\Designer\assets-v2\back_black.png" />
     <Content Include="Content\Designer\assets-v2\deactive.png" />
     <Content Include="Content\Designer\assets-v2\dummyclose_button.png" />
     <Content Include="Content\Designer\assets-v2\homeIcon.png" />
     <Content Include="Content\Designer\assets-v2\homeIcon_hover.png" />
     <Content Include="Content\Designer\assets-v2\Imageplaceholder_sim.png" />
     <Content Include="Content\Designer\assets-v2\loadingSlider.gif" />
+    <Content Include="Content\Designer\assets-v2\placeholder1.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder10.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder11.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder12.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder13.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder14.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder15.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder16.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder17.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder18.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder19.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder2.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder20.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder3.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder4.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder5.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder6.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder7.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder8.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder9.png" />
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
     <Content Include="Content\download.png" />
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
+    <Content Include="Content\home.png" />
     <Content Include="Content\HomeBannerS4.js" />
+    <Content Include="Content\Images\20304_Checkmark.png" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
@@ -522,6 +550,7 @@
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\download-icon.png" />
+    <Content Include="Content\Images\edit.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
     <Content Include="Content\Designer\assets-v2\bold.png" />
@@ -564,6 +593,7 @@
     <Content Include="Content\Designer\assets-v2\valign2.png" />
     <Content Include="Content\Designer\assets-v2\valign3.png" />
     <Content Include="Content\Images\artwork_arrow_icons.png" />
+    <Content Include="Content\Images\facebookNew.png" />
     <Content Include="Content\Images\fancybox_loading.gif" />
     <Content Include="Content\Designer\assets-v2\bkColor.jpg" />
     <Content Include="Content\Designer\assets-v2\bleed_area.png" />
@@ -657,12 +687,14 @@
     <Content Include="Content\Images\footer_bg.jpg" />
     <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
+    <Content Include="Content\Images\home.png" />
     <Content Include="Content\Images\IcoIllustrator.png" />
     <Content Include="Content\Images\Icoindesign.png" />
     <Content Include="Content\Images\icoJPG.png" />
     <Content Include="Content\Images\IcoPhotoshop.png" />
     <Content Include="Content\Images\icoPNG.png" />
     <Content Include="Content\Images\linkedin.png" />
+    <Content Include="Content\Images\LinkedInNew.png" />
     <Content Include="Content\Images\linkInShare.PNG" />
     <Content Include="Content\Images\Listing-next-horizoltal.png" />
     <Content Include="Content\Images\Listing-prev-horizoltal.png" />
@@ -693,6 +725,7 @@
     <Content Include="Content\Images\Telephone-Icon-Blue.png" />
     <Content Include="Content\Images\tiger.jpg" />
     <Content Include="Content\Images\topnav_bg.jpg" />
+    <Content Include="Content\Images\TwitterNew.png" />
     <Content Include="Content\Images\Van-Icon-Blue.png" />
     <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa_49x31.jpg" />
@@ -709,6 +742,7 @@
     <Content Include="Content\mp-loading.gif" />
     <Content Include="Content\NewBootstrapClass.css" />
     <Content Include="Content\oxfordtestimonial.css" />
+    <Content Include="Content\PosterBanner.css" />
     <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />
     <Content Include="Content\RealEstateSlider\images\arrow-left.png" />
     <Content Include="Content\RealEstateSlider\images\arrow-right.png" />
@@ -726,7 +760,9 @@
     <Content Include="Content\style.css" />
     <Content Include="Content\Sunny.css" />
     <Content Include="Content\TFEHotels.css" />
+    <Content Include="Content\Valleyedge.css" />
     <Content Include="Content\zoomslider.css" />
+    <Content Include="HtmlJsonPage\RealEstateJsonPage.html" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
     <Content Include="LightBox\Images\blank.gif" />
     <Content Include="LightBox\Images\fancybox_buttons.png" />
@@ -1005,6 +1041,9 @@
     <Content Include="Views\Shared\PartialViews\BlackAndWhiteHeaderMenu.cshtml" />
     <Content Include="Views\Shared\PartialViews\UserManager.cshtml" />
     <Content Include="Views\ReceiptPlain\ReceiptPlain.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
+    <Content Include="Views\Shared\PartialViews\DescriptiveFooter.cshtml" />
+    <Content Include="Views\Shared\PartialViews\LoginBarWithCounters.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1016,7 +1055,9 @@
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
+    <Folder Include="Views\DescriptiveFooter\" />
     <Folder Include="Views\FutureFormHeader\" />
+    <Folder Include="Views\LoginBarWithCounters\" />
     <Folder Include="Views\UserManager\" />
   </ItemGroup>
   <ItemGroup>
@@ -1100,9 +1141,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>30630</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://mpc/</IISUrl>
+          <IISUrl>http://mpc</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://mpc/about</IISAppRootUrl>
+          <IISAppRootUrl>http://mpc</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

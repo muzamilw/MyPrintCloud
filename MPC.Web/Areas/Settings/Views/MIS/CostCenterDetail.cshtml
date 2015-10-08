@@ -29,21 +29,24 @@
 
 
                 <div class="col-lg-12">
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb" style="padding-left:8px;">
                         <li><a href="~/Dashboard/Index">Home</a></li>
                         <li><span>Settings</span></li>
                         <li><a href="~/Settings/MIS/CostCenters">Cost Centers</a></li>
                         <li class="active"><span>Cost Center Detail</span></li>
                     </ol>
                     <div class="col-lg-12">
-                        <h1 class="pull-left" data-bind="text: name()"></h1>
+                        <h1 class="pull-left" style="padding-left:0px;" data-bind="text: name()"></h1>
                     </div>
                     <div class="col-lg-12">
                         &nbsp;
                     </div>
                     <div class="clearfix" style="margin-bottom:20px;margin-right:8px;">
                         
-                        <div class="pull-right top-page-ui">
+                        <div class="pull-right top-page-ui" style="margin-top:-30px;">
+
+                            <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedCostCenter().costCentreId() > 0">Delete</button>
+
                             <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
                                 Save
                             </button>
@@ -55,7 +58,7 @@
                     </div>
                 </div>
                 <div class="row" id="divCostCenterDetail" style="margin-left:1px;margin-right:0px;">
-                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:18px;padding-right:18px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:18px;padding-right:18px;margin-top:10px;">
                         <div class="main-box clearfix">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
@@ -522,7 +525,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{mDec:2, wEmpty: 'zero'}, validationTooltip: minimumCost">
+                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{ aDec: '.', mDec:5, wEmpty: 'zero'}, validationTooltip: minimumCost">
                                                         @*<span class="help-block text-right">minimum cost</span>*@
                                                     </div>
                                                 </div>
@@ -622,12 +625,9 @@
                                                         <label for="rdioPromptInputQty">
                                                             &nbsp;
                                                         </label>
-                                                        @*</div>
-                                                <div class="col-md-1 text-left  label-radio">*@
-
                                                     </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="text" style="  width: 321px;  margin-left: -7px;" class="form-control" id="txtInputPrompt" placeholder="Type the question you want to ask the Estimator." data-bind="value: quantityQuestionString,validationOnElement:quantityQuestionString, validationTooltip: quantityQuestionString, visible: isQtyVariable() === '2'">
+                                                    <div class="col-lg-7" style="padding-left:0px">
+                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Type the question you want to ask the Estimator." data-bind="value: quantityQuestionString,validationOnElement:quantityQuestionString, validationTooltip: quantityQuestionString, visible: isQtyVariable() === '2'">
                                                     </div>
                                                 </div>
                                                 <div class="form-group" data-bind="visible: isQtyVariable() === '2'">
@@ -658,7 +658,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{mDec:2, wEmpty: 'zero'}, validationTooltip: minimumCost">
+                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{aDec: '.',mDec: 5, wEmpty: 'zero'}, validationTooltip: minimumCost">
                                                         @*<span class="help-block text-right">minimum cost</span>*@
                                                     </div>
                                                 </div>
@@ -673,7 +673,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{mDec:2, wEmpty: 'zero'}, validationTooltip: setupCost">
+                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{aDec: '.',mDec: 5, wEmpty: 'zero'}, validationTooltip: setupCost">
                                                         @*<span class="help-block text-right"> setup time</span>*@
                                                     </div>
                                                 </div>
@@ -702,7 +702,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtPricePerUnitHr" placeholder="Enter Price" data-bind="autoNumeric:perHourPrice, settings:{mDec:2, wEmpty: 'zero'}, validationTooltip: perHourPrice">
+                                                        <input type="text" class="form-control" id="txtPricePerUnitHr" placeholder="Enter Price" data-bind="autoNumeric:perHourPrice, settings:{aDec: '.',mDec: 5, wEmpty: 'zero'}, validationTooltip: perHourPrice">
                                                         @*<span class="help-block text-right">Per Hour Price</span>*@
                                                     </div>
                                                 </div>
@@ -768,8 +768,8 @@
                                                             &nbsp;
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="text" style="width: 321px;  margin-left: -7px;" class="form-control" id="txtInputPrompt" placeholder="Type the question you want to ask the Estimator." data-bind="value: timeQuestionString, validationOnElement: timeQuestionString, validationTooltip: timeQuestionString, visible: isTimeVariable() === '2'">
+                                                    <div class="col-lg-7" style="padding-left:0px">
+                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Type the question you want to ask the Estimator." data-bind="value: timeQuestionString, validationOnElement: timeQuestionString, validationTooltip: timeQuestionString, visible: isTimeVariable() === '2'">
                                                     </div>
                                                 </div>
                                                 <div class="form-group" data-bind="visible: isTimeVariable() === '2'">
@@ -1301,7 +1301,7 @@
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-WorkInstruction">
                                         <div class="col-lg-12 form-horizontal">
 
-                                            <div class="table-bordered col-md-9 form-horizontal">
+                                            <div class="form-horizontal">
                                                 <div class="filter-block pull-right">
                                                     <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createWorkInstruction">
                                                         Add Instruction
@@ -1312,8 +1312,8 @@
                                                         <table id="costTablle" class="table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width: 75%"> <span>Instructions</span></th>
-                                                                    <th style="width: 10%">&nbsp;</th>
+                                                                    <th> <span>Instructions</span></th>
+                                                                    <th>&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -1351,12 +1351,7 @@
 <script id="WorkInstructionTemplate" type="text/html">
     <tr>
         <td style="width: 75%">
-            <!-- ko if:instruction() == 'Type the Question that will be prompted to the user' -->
-            <input class="form-control" style="padding-right: 0px;padding-left: 5px;" placeholder="Type the Question that will be prompted to the user" />
-            <!-- /ko --> 
-            <!-- ko if:instruction() != 'Type the Question that will be prompted to the user' -->
-            <input class="form-control" style="padding-right: 0px;padding-left: 5px;" data-bind="value: instruction, validationTooltip: instruction" />
-            <!-- /ko -->
+            <input class="form-control" style="padding-right: 0px;padding-left: 5px;" placeholder="Type the Question that will be prompted to the user" data-bind="value: instruction, validationTooltip: instruction" />
            <br />
             <table id="costTablle" class="table table-striped table-hover">
                 <thead>
@@ -1396,13 +1391,8 @@
 </script>
 <script id="InstructionChoiceTemplate" type="text/html">
     <tr>
-        <td style="width: 75%">
-            <!-- ko if:choice() == 'Type the answer' -->
-            <input class="form-control" style="padding-right: 0px;padding-left: 10px;" placeholder="Type the answer" />
-            <!-- /ko -->
-            <!-- ko if:choice() != 'Type the answer' -->
-            <input class="form-control" style="padding-right: 0px;padding-left: 10px;" data-bind="value: choice, validationTooltip: choice" />
-            <!-- /ko -->
+        <td>
+           <input class="form-control" style="padding-right: 0px;padding-left: 10px;" placeholder="Add An Answer" data-bind="value: choice, validationTooltip: choice" />
         </td>
         <td style="width: 25%">
             <a href="#" class="table-link danger" title="Delete Choice" data-bind="click: $root.deleteWorkInstructionChoice">

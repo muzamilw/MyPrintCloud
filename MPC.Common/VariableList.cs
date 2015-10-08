@@ -12,15 +12,20 @@ namespace MPC.Common
         public long VariableID { get; set; }
         public string VariableName { get; set; }
         public string VariableTag { get; set; }
-        public int? VariableType { get; set; } 
+        public int? VariableType { get; set; }
 
-        public VariableList(string sectionName, long variableId, string variableName, string variableTag, int? variableType)
+        public bool? CollapsePostfix { get; set; }
+        public bool? CollapsePrefix { get; set; }
+
+        public VariableList(string sectionName, long variableId, string variableName, string variableTag, int? variableType, bool? CollapsePrefix, bool? CollapsePostfix)
         {
             this.SectionName = sectionName;
             this.VariableID = variableId;
             this.VariableTag = variableTag;
             this.VariableName = variableName;
             this.VariableType = variableType;
+            this.CollapsePostfix = CollapsePostfix;
+            this.CollapsePrefix = CollapsePrefix;
         }
     }
     public class TemplateVariablesObj
@@ -51,5 +56,9 @@ namespace MPC.Common
         }
     }
 
-
+    public class RealEstateImage
+    {
+        public long ImageId { get; set; }
+        public string ImageUrl { get; set; }
+    }
 }

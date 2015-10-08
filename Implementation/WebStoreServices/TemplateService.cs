@@ -296,6 +296,10 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         if (ooBject.IsSpotColor.HasValue == true && ooBject.IsSpotColor.Value == true)
                         {
+                            if (ooBject.SpotColorName == "null" || ooBject.SpotColorName == null)
+                            {
+                                ooBject.SpotColorName = ooBject.ColorC.ToString() +  ooBject.ColorM.ToString() +  ooBject.ColorY.ToString() + ooBject.ColorK.ToString();
+                            }
                             oPdf.ColorSpace = oPdf.AddColorSpaceSpot(ooBject.SpotColorName, ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString());
                             oPdf.Color.Gray = 255;
                         }else
@@ -343,10 +347,13 @@ namespace MPC.Implementation.WebStoreServices
                 oPdf.TextStyle.Size = ooBject.FontSize.Value;
                 if (ooBject.IsUnderlinedText.HasValue)
                     oPdf.TextStyle.Underline = ooBject.IsUnderlinedText.Value;
-                oPdf.TextStyle.Bold = ooBject.IsBold.Value;
-
-                oPdf.TextStyle.Italic = ooBject.IsItalic.Value;
-                double linespacing = ooBject.LineSpacing.Value - 1;
+                if(ooBject.IsBold.HasValue)
+                    oPdf.TextStyle.Bold = ooBject.IsBold.Value;
+                if(ooBject.IsItalic.HasValue)
+                    oPdf.TextStyle.Italic = ooBject.IsItalic.Value;
+                double linespacing = 0;
+                if (ooBject.LineSpacing.HasValue)
+                    linespacing = ooBject.LineSpacing.Value - 1;
                 linespacing = (linespacing * ooBject.FontSize.Value);
                 oPdf.TextStyle.LineSpacing = linespacing;
                 if (ooBject.Allignment == 1)
@@ -418,11 +425,12 @@ namespace MPC.Implementation.WebStoreServices
                                 string pid = "";
                                 if (objStyle.fontName != null)
                                 {
+                                    int inlineFontId = 0;
                                     var oFont = oFonts.Where(g => g.FontName == objStyle.fontName).FirstOrDefault();
                                     if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
-                                        FontID = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
+                                        inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
                                     // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
-                                    pid = "pid ='" + FontID.ToString() + "' ";
+                                    pid = "pid ='" + inlineFontId.ToString() + "' ";
                                 }
                                 string lineSpacingString = "";
                                 if (ooBject.LineSpacing != null)
@@ -432,9 +440,9 @@ namespace MPC.Implementation.WebStoreServices
 
                                 if (objStyle.fontSize != null)
                                 {
-                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
-                                    fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
-                                    fontTag += " fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
+                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
+                                    fontSize += "<StyleRun fontsize='" + Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
+                                    fontTag += " fontsize='" + Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
                                 } 
                                 if (objStyle.fontStyle != null)
                                 {
@@ -467,8 +475,12 @@ namespace MPC.Implementation.WebStoreServices
                                         // fontTag += " color='#FF' csid=" + csInlineID;
                                         if(isTemplateSpot)
                                         {
+                                            if(objStyle.spotColorName == "null")
+                                            {
+                                                objStyle.spotColorName = objStyle.textCMYK.Replace(" ","");
+                                            }
                                             int csInlineID = oPdf.AddColorSpaceSpot(objStyle.spotColorName, objStyle.textCMYK);
-                                            oPdf.Color.Gray = 255;
+                                            //oPdf.Color.Gray = 255;
                                             fontTag += " color='#FF' csid=" + csInlineID;
                                         }else
                                         {
@@ -1265,7 +1277,7 @@ namespace MPC.Implementation.WebStoreServices
             Doc doc = new Doc();
             try
             {
-                var FontsList = _templateFontService.GetFontList();
+                var FontsList = _templateFontService.GetFontListForTemplate(objProduct.ProductId);
                 doc.TopDown = true;
 
                 try
@@ -1421,14 +1433,22 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 foreach (var objObjects in oParentObjects)
                 {
-
+                    if (objObjects.PositionY == null)
+                        objObjects.PositionY = 0;
+                    if (objObjects.PositionX == null)
+                        objObjects.PositionX = 0;
                     if (XFactor != objObjects.PositionX)
                     {
-                        if (objObjects.ContentString == "")
-                            YFactor = objObjects.PositionY.Value - 7;
+                        if (objObjects.ContentString == ""){
+                            if(objObjects.PositionY.HasValue)
+                                YFactor = objObjects.PositionY.Value - 7;
+                            else
+                                YFactor = 0;
+                        }
                         else
                             YFactor = 0;
-                        XFactor = objObjects.PositionX.Value;
+                        if(objObjects.PositionX.HasValue)
+                          XFactor = objObjects.PositionX.Value;
                     }
 
 
@@ -1610,7 +1630,7 @@ namespace MPC.Implementation.WebStoreServices
             Doc doc = new Doc();
             try
             {
-                var FontsList = _templateFontService.GetFontList();
+                var FontsList = _templateFontService.GetFontListForTemplate(objProduct.ProductId);
                 doc.TopDown = true;
                 foreach (var objProductPage in productPages)
                 {
@@ -1745,11 +1765,22 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     foreach (var objObjects in oParentObjects)
                     {
-
+                        if (objObjects.PositionX == null)
+                            objObjects.PositionX = 0;
+                        if (objObjects.PositionY == null)
+                            objObjects.PositionY = 0;
+                        if (objObjects.MaxHeight == null)
+                            objObjects.MaxHeight = 0;
+                        if (objObjects.MaxWidth == null)
+                            objObjects.MaxWidth = 0;
                         if (XFactor != objObjects.PositionX)
                         {
-                            if (objObjects.ContentString == "")
-                                YFactor = objObjects.PositionY.Value - 7;
+                            if (objObjects.ContentString == ""){
+                                  if(objObjects.PositionY.HasValue)
+                                      YFactor = objObjects.PositionY.Value - 7;
+                            else
+                                YFactor = 0;
+                            }
                             else
                                 YFactor = 0;
                             if (objObjects.PositionX.HasValue)
@@ -1773,7 +1804,7 @@ namespace MPC.Implementation.WebStoreServices
                             double currentX = objObjects.PositionX.Value, currentY = objObjects.PositionY.Value;
 
 
-                            if (VAlign == 1 || VAlign == 2)
+                            if (VAlign == 1 || VAlign == 2 || VAlign == 3)
                                 currentY = objObjects.PositionY.Value + objObjects.MaxHeight.Value;
                             bool isTemplateSpot = false;
                             if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
@@ -2882,7 +2913,7 @@ namespace MPC.Implementation.WebStoreServices
            GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false, bleedAreaSize, isMultipageProduct);
 
         }
-        // called from webstore to save template locally // added by saqib ali // not tested yet
+        // called from webstore to save template locally // added by saqib ali =
         // base path = F:\Development\Github\MyprintCloud-dev\MPC.Web\MPC_Content\Designer\Organisation2\
         // mode = 1 => create a new template from v2 objects
         // mode =2 => update an existing template  from v2 objects
@@ -2987,6 +3018,7 @@ namespace MPC.Implementation.WebStoreServices
             {
 
                 long productID = 0;
+                List<TemplateObject> objsToRemove = new List<TemplateObject>();
                // List<TemplateObject> objsToAdd = new List<TemplateObject>();
                 if (lstTemplatesObjects.Count > 0)
                 {
@@ -2994,8 +3026,21 @@ namespace MPC.Implementation.WebStoreServices
                     productID = lstTemplatesObjects[0].ProductId.Value;
                     foreach (var oObject in lstTemplatesObjects)
                     {
-                        if (oObject.ObjectId != -999)
+                        if (oObject.ObjectId != -999 )
                         {
+                            if (oObject.PositionX == null && oObject.PositionY == null && oObject.MaxHeight == null && oObject.MaxWidth == null)
+                                objsToRemove.Add(oObject);
+
+                            if (oObject.PositionX == null)
+                                oObject.PositionX = 0;
+                            if (oObject.PositionY == null)
+                                oObject.PositionY = 0;
+                            if (oObject.MaxHeight == null)
+                                oObject.MaxHeight = 0;
+                            if (oObject.MaxWidth == null)
+                                oObject.MaxWidth = 0;
+
+                           
                             if(oObject.PositionX.HasValue)
                                 oObject.PositionX = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionX.Value), 6);
                             if(oObject.PositionY.HasValue)
@@ -3025,6 +3070,10 @@ namespace MPC.Implementation.WebStoreServices
                             oObject.ProductId = productID;
 
                         }
+                    }
+                    foreach(var objR in objsToRemove)
+                    {
+                        lstTemplatesObjects.Remove(objR);
                     }
 
                 }
@@ -3345,6 +3394,10 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 throw e;
                 return null;
+            }
+            finally
+            {
+                theDoc.Dispose();
             }
         }
 

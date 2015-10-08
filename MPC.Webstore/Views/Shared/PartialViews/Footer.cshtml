@@ -3,6 +3,7 @@
 @using MPC.Models.Common;
 @{
     Layout = null;
+    
 }
 <div class="clearBoth">
 
@@ -18,11 +19,30 @@
                             </a>
                         </div>
                         <div class="txtAlignLeft col-md-6 col-sm-5 col-xs-12 col-lg-6 payment_sec NoPadding">
+
+                            @{
+                                string privacyAndTermsHtml = "";
+
+                                if (ViewBag.PrivacyPolicy != null)
+                                {
+                                    privacyAndTermsHtml = privacyAndTermsHtml + " <a id='lbl_CopyRightMessage' onclick='ShowLoader();' style='font-size: 12px;  font-weight: normal;' href=/pages/" + Utils.specialCharactersEncoder(ViewBag.PrivacyPolicy.PageTitle) + "/" + ViewBag.PrivacyPolicy.PageId + ">" + Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId, "Privacy Policy")) + "</a>";
+
+                                }
+                                
+                                if (ViewBag.TermAndCondition != null)
+                                {
+
+                                    privacyAndTermsHtml = privacyAndTermsHtml + " <a id='lnkTermsCondtions' class='small_gray_hyperlink S6FooterMLCs hyperTermCond'  href=/pages/" + Utils.specialCharactersEncoder(ViewBag.TermAndCondition.PageTitle) + "/" + ViewBag.TermAndCondition.PageId + " onclick='ShowLoader();'>" + Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions",  UserCookieManager.WBStoreId , "Terms And Conditions"))+ "</a>";
+                                    
+                                }
+
+                               
+                            }
+
+                            
                             <div class="copyTerms">
-                                <a id="lbl_CopyRightMessage" onclick="ShowLoader();" style="  font-size: 12px;
-  font-weight: normal;" href="/pages/@SecondryPagesInfo.PrivacyPolicy/@Convert.ToInt32(SecondryPagesInfo.PrivacyPolicy)">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId,"Privacy Policy"))</a>
-                                <a id="lnkTermsCondtions" class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
-                                   href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId, "Terms And Conditions"))</a>
+                               
+                               @Html.Raw(privacyAndTermsHtml)
                             </div>
 
                             <div class="powerPrivacy">
@@ -39,26 +59,35 @@
                             </div>
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
+                                    @if(Model.FacebookURL!=null&&Model.FacebookURL!=string.Empty)
+                                    { 
                                     <td valign="top">
-                                        <a id="linkFollowUs1">
-                                            <img id="imgFollowUs1" class="imgFollowUs" height="20" />
+                                        <a id="linkFollowUs1" href="@Model.FacebookURL">
+                                            <img id="imgFollowUs1" src="/Content/Images/facebookNew.png" class="imgFollowUs" height="20" />
                                         </a>
                                     </td>
+                                    }
+                                    @if (Model.TwitterURL != null && Model.TwitterURL != string.Empty)
+                                    { 
                                     <td valign="top">
-                                        <a id="linkFollowUs2">
-                                            <img id="imgFollowUs2" class="imgFollowUs" height="20" />
+                                        <a id="linkFollowUs2" href="@Model.TwitterURL">
+                                            <img id="imgFollowUs2" class="imgFollowUs" height="20" src="/Content/Images/TwitterNew.png" />
                                         </a>
                                     </td>
+                                    }
+                                    @if (Model.LinkedinURL != null && Model.TwitterURL != string.Empty)
+                                    { 
                                     <td valign="top">
-                                        <a id="linkFollowUs3">
-                                            <img id="imgFollowUs3" class="imgFollowUs" height="20" />
+                                        <a id="linkFollowUs3" href="@Model.LinkedinURL">
+                                            <img id="imgFollowUs3" class="imgFollowUs" height="20" src="/Content/Images/LinkedInNew.png" />
                                         </a>
                                     </td>
-                                    <td valign="top">
+                                    }
+                                    @*<td valign="top">
                                         <a id="linkFollowUs4">
                                             <img id="imgFollowUs4" class="imgFollowUs" height="20" />
                                         </a>
-                                    </td>
+                                    </td>*@
                                 </tr>
                             </table>
                         </div>

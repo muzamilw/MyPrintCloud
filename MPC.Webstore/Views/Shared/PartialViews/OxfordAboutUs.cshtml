@@ -25,39 +25,43 @@
                 </div>
             </div>
             <div class="col-xs-12 col-md-9" id="parentCatsContainer">
-                <div class="page-header">
-                    <div class="panel panel-info" id="product_list_footer">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("pctg", UserCookieManager.WBStoreId, "Product Category"))</h3>
-                        </div>
-                        <div class="panel-body">
-                            <ul class="nav nav-pills">
-                                @foreach (var PCategory in AllRetailCAt)
-                                { 
-                                    //var ChildCategories = AllChildCategories.Where(g => g.ParentCategoryId == PCategory.ProductCategoryId).ToList();
-                                     var childCats = AllRetailCAt.Where(i => i.ParentCategoryId == PCategory.ProductCategoryId).OrderBy(o => o.DisplayOrder).ToList();
-                                     int count = AllRetailCAt.Where(i => i.ParentCategoryId == PCategory.ProductCategoryId).OrderBy(o => o.DisplayOrder).Count();
-                                     if (count>0)
-                                     { 
-                                        <li>
-                                            <a id="ParentCateLink" style="width: 100%;" href="/Category/@Html.ResolveString(PCategory.CategoryName)/@PCategory.ProductCategoryId">
-                                                <i class="icon-th-large"></i>
-                                                <span><b id="parentCatName">@PCategory.CategoryName</b></span>
-                                            </a><br />
-                                            <ul>
-                                                @foreach (var childs in childCats)
-                                                { 
-                                                 <li style="width:100%;"><a id="subCatLink" style="width: 100%;" href="/Category/@Html.ResolveString(childs.CategoryName)/@childs.ProductCategoryId"><span id="subCatName">@childs.CategoryName</span></a></li>
-                                                 <br/>
-                                                }
-                                            </ul>
-                                        </li>
-                                }
-                                }
-                            </ul>
+                @if (AllRetailCAt != null)
+                {
+                    <div class="page-header">
+                        <div class="panel panel-info" id="product_list_footer">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("pctg", UserCookieManager.WBStoreId, "Product Category"))</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="nav nav-pills">
+                                    @foreach (var PCategory in AllRetailCAt)
+                                    {
+                                        //var ChildCategories = AllChildCategories.Where(g => g.ParentCategoryId == PCategory.ProductCategoryId).ToList();
+                                        var childCats = AllRetailCAt.Where(i => i.ParentCategoryId == PCategory.ProductCategoryId).OrderBy(o => o.DisplayOrder).ToList();
+                                        int count = AllRetailCAt.Where(i => i.ParentCategoryId == PCategory.ProductCategoryId).OrderBy(o => o.DisplayOrder).Count();
+                                        if (count > 0)
+                                        {
+                                            <li>
+                                                <a id="ParentCateLink" style="width: 100%;" href="/Category/@Utils.specialCharactersEncoder(PCategory.CategoryName)/@PCategory.ProductCategoryId">
+                                                    <i class="icon-th-large"></i>
+                                                    <span><b id="parentCatName">@PCategory.CategoryName</b></span>
+                                                </a><br />
+                                                <ul>
+                                                    @foreach (var childs in childCats)
+                                                    {
+                                                        <li style="width:100%;"><a id="subCatLink" style="width: 100%;" href="/Category/@Utils.specialCharactersEncoder(childs.CategoryName)/@childs.ProductCategoryId"><span id="subCatName">@childs.CategoryName</span></a></li>
+
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+               
             </div>
         </div>
        

@@ -54,6 +54,8 @@ namespace MPC.Common
         public string MailState { get; set; }
         public string MailPostCode { get; set; }
         public string Image { get; set; }
+        public string StoreCode { get; set; }
+        public string SystemUserEmail { get; set; }
     }
     public class ListingCustomCopy
     {

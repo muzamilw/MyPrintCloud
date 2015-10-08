@@ -8,10 +8,7 @@
     <div class="col-lg-12" data-bind="visible: !isInventoryEditorVisible()">
         <div class="row">
             <div class="col-lg-12" id="topArea">
-                @*<ol class="breadcrumb">
-                        <li><a href="~/Dashboard/Index">Home</a></li>
-                        <li class="active"><span>Inventories</span></li>
-                    </ol>*@
+                
                 <div class="clearfix">
                     <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">Paper, Boards, Inks...</h1>
 
@@ -45,7 +42,7 @@
                                         <th class="col-lg-3"><span>Name</span></th>
                                         <th class="col-lg-2"><span>Category</span></th>
                                         <th class="col-lg-2"><span>Flag</span></th>
-                                        <th class="col-lg-2">Selling Pack Price</th>
+                                        <th class="col-lg-2" style="text-align:right;">Selling Pack Price</th>
                                         <th class="col-lg-2">&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -139,7 +136,7 @@
         <td>
             <span class="label label-success" data-bind="style: { background: colour }"><i class="fa fa-flag"></i></span>
         </td>
-        <td>
+        <td style="text-align:right;">
             <span data-bind="text: packCostPrice()!=='' && packCostPrice()!==null  ? $root.currencySymbol:''"></span>
             <span data-bind="numberInput: packCostPrice()!=='' && packCostPrice()!==0 ? packCostPrice() :' '"></span>
         </td>

@@ -15,6 +15,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System.Text;
 using Ionic.Zip;
+using Newtonsoft.Json;
 
 namespace MPC.Implementation.MISServices
 {
@@ -27,6 +28,7 @@ namespace MPC.Implementation.MISServices
         private readonly IAddressRepository addressRepository;
         private readonly IStateRepository stateRepository;
         private readonly IScopeVariableRepository scopeVariableRepository;
+        private readonly IOrganisationRepository organisationRepository;
         private CompanyContact Create(CompanyContact companyContact)
         {
             UpdateDefaultBehaviourOfContactCompany(companyContact);
@@ -119,7 +121,7 @@ namespace MPC.Implementation.MISServices
 
         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository,
-            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository)
+            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository, IOrganisationRepository organisationRepository)
         {
             this.companyContactRepository = companyContactRepository;
             this.companyTerritoryRepository = companyTerritoryRepository;
@@ -128,6 +130,7 @@ namespace MPC.Implementation.MISServices
             this.addressRepository = addressRepository;
             this.stateRepository = stateRepository;
             this.scopeVariableRepository = scopeVariableRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -150,16 +153,17 @@ namespace MPC.Implementation.MISServices
                 CompanyTerritories = companyTerritoryRepository.GetCompanyTerritory(new CompanyTerritoryRequestModel { CompanyId = request.CompanyId }).CompanyTerritories
             };
         }
-        public bool Delete(long companyContactId)
+        public CompanyContact Delete(long companyContactId)
         {
             var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
             if (dbCompanyContact != null)
             {
-                companyContactRepository.Delete(dbCompanyContact);
+                //companyContactRepository.Delete(dbCompanyContact);
+                dbCompanyContact.isArchived = true;
                 companyContactRepository.SaveChanges();
-                return true;
+                
             }
-            return false;
+            return dbCompanyContact;
         }
 
         /// <summary>
@@ -1123,7 +1127,51 @@ namespace MPC.Implementation.MISServices
 
         }
 
-    
+        public CompanyContact UnArchiveCompanyContact(long ContactId)
+        {
+            var dbCompanyContact = companyContactRepository.GetContactByID(ContactId);
+            if (dbCompanyContact != null)
+            {
+                //companyContactRepository.Delete(dbCompanyContact);
+                dbCompanyContact.isArchived = false;
+                companyContactRepository.SaveChanges();
 
+            }
+            return dbCompanyContact;
+        }
+        public List<ZapierInvoiceDetail> GetStoreContactForZapier(long contactId)
+        {
+            return companyContactRepository.GetStoreContactForZapier(contactId);
+        }
+
+        public void PostDataToZapier(long contactId)
+        {
+            var org = organisationRepository.GetOrganizatiobByID();
+            if (org != null)
+            {
+                string sPostUrl = string.Empty;
+                sPostUrl = org.IsZapierEnable == true ? org.CreateContactZapTargetUrl : string.Empty;
+
+                if (!string.IsNullOrEmpty(sPostUrl))
+                {
+                    var resp = GetStoreContactForZapier(contactId);
+                    string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+                    var request = System.Net.WebRequest.Create(sPostUrl);
+                    request.ContentType = "application/json";
+                    request.Method = "POST";
+                    byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                    request.ContentLength = byteArray.Length;
+                    using (Stream dataStream = request.GetRequestStream())
+                    {
+                        dataStream.Write(byteArray, 0, byteArray.Length);
+                        var response = request.GetResponse();
+                    }
+                }
+            }
+            
+
+        }
+
+        
     }
 }

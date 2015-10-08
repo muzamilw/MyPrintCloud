@@ -84,7 +84,7 @@ namespace MPC.Models.DomainModels
           target.Email = Email;
             target.URL = URL;
             target.Tel1 = Tel1;
-          target.Tel2 = Tel2;
+          //target.Tel2 = Tel2;
             target.Extension1 = Extension1;
           target.Extension2 = Extension2;
             target.Reference = Reference;
@@ -101,6 +101,7 @@ namespace MPC.Models.DomainModels
          target.isDefaultTerrorityShipping = isDefaultTerrorityShipping;
          target.OrganisationId = OrganisationId;
          target.DisplayOnContactUs = DisplayOnContactUs;
+         target.TerritoryId = TerritoryId;
 
 
         }

@@ -851,9 +851,15 @@ namespace MPC.Models.DomainModels
             target.IsUploadImage = IsUploadImage;
             target.IsDigitalDownload = IsDigitalDownload;
             target.IsRealStateProduct = IsRealStateProduct;
-            target.SmartFormId = SmartFormId;
+           
             target.ItemType = ItemType;
-            
+            target.drawWaterMarkTxt = drawWaterMarkTxt;
+            target.isAddCropMarks = isAddCropMarks;
+            target.drawBleedArea = drawBleedArea;
+            target.allowImageDownload = allowImageDownload;
+            target.printCropMarks = printCropMarks;
+            target.isMultipagePDF = isMultipagePDF;
+            target.allowPdfDownload = allowPdfDownload;
             // Copy Internal Descriptions
             CloneInternalDescriptions(target);
         }
@@ -915,6 +921,7 @@ namespace MPC.Models.DomainModels
             target.Qty3GrossTotal = Qty3GrossTotal;
             target.InvoiceDescription = InvoiceDescription;
             target.ItemNotes = ItemNotes;
+            target.Tax1 = Tax1;
         }
 
         #endregion

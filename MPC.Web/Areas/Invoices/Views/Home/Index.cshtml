@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
-                    <ol class="breadcrumb" style="padding-left:3px;">
+                    <ol class="breadcrumb" style="padding-left:6px;">
                         <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text: $root.selectedInvoice() != undefined && $root.selectedInvoice().id() ? 'Home': ''"></a></li>
                         <li data-bind="css:'active' ,click:$root.onCloseInvoiceEditor,visible: isDetailsVisible()" style="cursor:pointer;display: none"><span>Invoices</span></li>
                         <li data-bind="css:'active', visible:$root.pageCode()!=='',visible: isDetailsVisible()" style="display: none"><span data-bind="text:$root.pageCode"></span></li>
@@ -46,7 +46,7 @@
                                             <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(0);}">All Invoices</a></li>
                                             <li><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(19);}">Awaiting</a></li>
                                             <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(20);}">Posted</a></li>
-                                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(21);}">Cancelled</a></li>
+                                            @*<li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(21);}">Cancelled</a></li>*@
                                             <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(22);}">Archived</a></li>
                                             @*<li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(30);}">Proforma</a></li>*@
                                         </ul>
@@ -119,7 +119,9 @@
 
                         @* List View Template *@
                         <script id="invoiceListViewTemplate" type="text/html">
+                            <!-- ko if: status()!="Archived" -->
                             <tr data-bind=" click: $root.editInvoice" style="cursor: pointer">
+                          
                                 <td>
                                     <!-- ko if: isDirectSale()==true -->
                                     <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />
@@ -153,6 +155,44 @@
                                     <span data-bind="text:invoiceTotal()!==undefined ? $root.currencySymbol:''"></span><span data-bind="numberInput:invoiceTotal "></span>
                                 </td>
                             </tr>
+                            <!-- /ko -->
+                            <!-- ko if: status()=="Archived" -->
+                            <tr>
+
+                                <td>
+                                    <!-- ko if: isDirectSale()==true -->
+                                    <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />
+                                    <!-- /ko -->
+                                    <!-- ko if: isDirectSale()==false -->
+                                    <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/arrow_down.png")" alt="" />
+                                    <!-- /ko -->
+                                </td>
+
+                                <td>
+                                    <a data-bind="text: companyName"  class="user-link"></a>
+                                    <span class="user-subhead">
+                                        <span data-bind="text: name"></span>
+                                        <span data-bind="text: ' '"></span>
+                                        <span data-bind="text: noOfItemsUi"></span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: code"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="dateString: invoiceDate, datePattern: 'DD/MM/YYYY'"></span>
+                                </td>
+                                <td>
+                                    <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
+                                </td>
+                                <td data-bind="visible:$root.isShowStatusCloumn">
+                                    <span data-bind="text: status"></span>
+                                </td>
+                                <td style="text-align: right;padding-right:76px;">
+                                    <span data-bind="text:invoiceTotal()!==undefined ? $root.currencySymbol:''"></span><span data-bind="numberInput:invoiceTotal "></span>
+                                </td>
+                            </tr>
+                            <!-- /ko -->
                         </script>
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">

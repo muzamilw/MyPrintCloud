@@ -392,7 +392,7 @@
                                 <div class="smallContctUsAvenior float_left_simple">
                                     &nbsp;
                                 </div>
-                                <div class="TTL widthAvenior">
+                                <div class="TTL widthAvenior" id="ContactDetail_checks">
 
                                     @if (Model.IsEmailSubscription == true)
                                     {
@@ -413,7 +413,7 @@
                                 <div class="smallContctUsAvenior float_left_simple">
                                     &nbsp;
                                 </div>
-                                <div class="TTL widthAvenior">
+                                <div class="TTL widthAvenior" id="ContactDetails_letterSup">
 
                                     @if (Model.IsNewsLetterSubscription == true)
                                     {
@@ -562,7 +562,7 @@
                 success: function (response) {
 
                     $("#messgetodisply").css('display', 'block');
-                    $("#messgetodisply").html('Profile Updated Sucessfuly!');
+                    $("#messgetodisply").html('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlProfleUpdatedMessage", UserCookieManager.WBStoreId, "Profile Updated successfully!"))');
 
                     createCookie("WEBFirstName", FirstName);
                     createCookie("WEBLastName", LastName);

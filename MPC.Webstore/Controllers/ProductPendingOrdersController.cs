@@ -132,7 +132,7 @@ namespace MPC.Webstore.Controllers
             {
               
                 CampaignEmailParams CPE = new CampaignEmailParams();
-                CPE.OrganisationId = 1;
+                CPE.OrganisationId = UserCookieManager.WEBOrganisationID;
                 CPE.CompanyId = _myClaimHelper.loginContactCompanyID();
                 CPE.ContactId = userID;
                 CPE.SalesManagerContactID = userID; // this is only dummy data these variables replaced with organization values 
@@ -157,7 +157,7 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
  
             long ID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.RejectOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-             approveOrRejectEmailToUser(ID, OrderID, (int)Events.Order_Approval_By_Manager);
+             approveOrRejectEmailToUser(ID, OrderID, (int)Events.RejectOrder);
              ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
         }
         [HttpPost]
@@ -172,7 +172,7 @@ namespace MPC.Webstore.Controllers
             if (UserCookieManager.WEBStoreMode ==(int) StoreMode.Corp)
             {
                 int ManagerID = (int) _CompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
-                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager,_myClaimHelper.loginContactID(),_myClaimHelper.loginContactCompanyID(), 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
             }
              approveOrRejectEmailToUser(ContactID, OrderID, (int)Events.Order_Approval_By_Manager);
              ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);

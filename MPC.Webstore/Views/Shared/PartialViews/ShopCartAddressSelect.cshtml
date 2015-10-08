@@ -154,7 +154,7 @@
                     </div>
                     <div class="clearBoth">
                     </div>
-                    @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    @if (ViewBag.isPoRequired == 1)
                     {
                         <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                             <label id="ltrlcheckoutfirstdiv" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcheckoutfirstdiv",UserCookieManager.WBStoreId,"Your Ref / PO"))</label>
@@ -565,37 +565,38 @@
                                                 <div class="cnttotalPayablesAS">
 
                                                     <div class="cntsubHeadingsAS">
-                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</label>
+                                                        <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</label></div>
                                                         @if (_DiscountAmountTotal > 0)
                                                         {
-                                                            <label id="lblVoucherDiscPercentageDisplay" class="clrRed LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label>
+                                                            <div><label id="lblVoucherDiscPercentageDisplay" class="clrRed LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label></div>
                                                         }
-                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label>
-                                                        <label class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
-                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("spntotal", UserCookieManager.WBStoreId, "Total:"))</label>
+                                                        <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label></div>
+                                                        <div><label class=" LightGrayLabels displayClear">@Model.TaxLabel</label></div>
+                                                        <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("spntotal", UserCookieManager.WBStoreId, "Total:"))</label></div>
                                                     </div>
 
                                                     <div class="cnttotalsAS" id="cntRightPricing1">
 
-                                                        <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(SubTotal.ToString(), Model.Currency)</label>
+                                                        <div><label id="lblSubTotal_add" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(SubTotal.ToString(), Model.Currency)</label></div>
 
                                                         @if (_DiscountAmountTotal > 0)
                                                         {
-                                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), Model.Currency)</label>
+                                                            <div><label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), Model.Currency)</label></div>
                                                         }
                                                         @if (Model.DeliveryDiscountVoucherID == null)
                                                         {
-                                                            <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label>
-
+                                                            <div><label id="AddressSelectDelTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label></div>
                                                         }
                                                         else
                                                         {
-                                                            <label class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
-                                                             <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                                            <div><label id="Addres_slect_del" class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label></div>
+                                                            <div><label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label></div>
                                                         }
-                                                        <label class="Fsize13 colorBlack displayClear">@deliveryTax</label>
-                                                        <label class="Fsize13 colorBlack displayClear">@GrandTotal</label>
-                                                    </div>
+                                                        <div><label id="ShopCart_Deltax" class="Fsize13 colorBlack displayClear">@deliveryTax</label></div>
+                                                        <div>
+                                                            <label id="Shopcart_Add_Total"class="Fsize13 colorBlack displayClear">@GrandTotal</label>
+                                                        </div>
+                                                        </div>
 
                                                     <div class="clearBoth">
                                                     </div>
@@ -766,11 +767,11 @@
 
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" language="javascript">
-
-
+    var CurrencySymobol='';
     $(document).ready(function () {
         window.onkeydown = keydown;
         initialize();
+        CurrencySymobol = '@Model.Currency';
         var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
 
         if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
@@ -794,9 +795,10 @@
             ValidateCheckout();
         }
         if(@Model.SelectedDeliveryCostCentreId > 0){
-
+           
             $('#ddlDeliveyCostCenter option').each(function () {
                 var deliverySelectedId = @Model.SelectedDeliveryCostCentreId;
+
                 if ($(this).val() == deliverySelectedId){
                     $(this).attr('selected', 'selected');
                 }
@@ -1214,7 +1216,7 @@
                 $("#MessgeToDisply").css("display", "block");
                 $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
                 $('html, body').animate({
-                    scrollTop: $("#maincntCheckout").offset().top
+                    scrollTop: $("#ShopCartAddressSelect").offset().top
                 }, 500);
             } else {
                 $("#hfPageIsValid").val(1);
@@ -1227,8 +1229,8 @@
                 $("#hfPageIsValid").val(0);
                 isValid = false;
                 $('html, body').animate({
-                    scrollTop: $("#maincntCheckout").offset().top
-                }, 500);
+                    scrollTop: $("#ShopCartAddressSelect").offset().top
+                },500);
                 $("#MessgeToDisply").css("display", "block");
                 $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
             } else if (isContainBlanksInShipping == 1) {
@@ -1237,7 +1239,7 @@
                 $("#MessgeToDisply").css("display", "block");
                 $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
                 $('html, body').animate({
-                    scrollTop: $("#maincntCheckout").offset().top
+                    scrollTop: $("#ShopCartAddressSelect").offset().top
                 }, 500);
             } else {
                 $("#hfPageIsValid").val(1);
@@ -1516,10 +1518,27 @@
 
     function ApplyDeliveryMethod() {
 
+        //if($("#ddlDeliveyCostCenter option:selected").val()=='')
+        //{
+        //     $('label[id*="AddressSelectDelTotal"]').text('');
+        //      var DefaultVal=0;
+        //      $('label[id*="AddressSelectDelTotal"]').text(CurrencySymobol+parseFloat(DefaultVal).toFixed(2));
+        //  }
+        // else
+        // {
+        var SelectedValue;
+        if( $("#ddlDeliveyCostCenter option:selected").val()=='')
+        {
+            SelectedValue=0;
+        }
+        else
+        {
+            SelectedValue=$("#ddlDeliveyCostCenter option:selected").val();
+        }
         ShowLoader();
         console.log(@UserCookieManager.FreeShippingVoucherId);
         var to;
-        to = "/webstoreapi/ApplyDeliveryMethod/AddDelivery?DeliveryMethodId=" + $("#ddlDeliveyCostCenter option:selected").val() + "&FreeShippingVoucherId=" + @UserCookieManager.FreeShippingVoucherId;
+        to = "/webstoreapi/ApplyDeliveryMethod/AddDelivery?DeliveryMethodId=" +SelectedValue+ "&FreeShippingVoucherId=" + @UserCookieManager.FreeShippingVoucherId;
         var options = {
             type: "POST",
             url: to,
@@ -1537,6 +1556,7 @@
         };
         var returnText = $.ajax(options).responseText;
 
+        // }
     }
 </script>
 

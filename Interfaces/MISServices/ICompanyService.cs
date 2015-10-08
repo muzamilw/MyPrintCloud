@@ -33,6 +33,8 @@ namespace MPC.Interfaces.MISServices
         void SaveFile(string filePath, long companyId);
 
         Company SaveCompany(CompanySavingModel company);
+
+        void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
         long GetOrganisationId();
 
         /// <summary>
@@ -174,6 +176,9 @@ namespace MPC.Interfaces.MISServices
         string GetCompanyCss(long companyId);
         void UpdateCompanyCss(string sCustomCss, long oCompanyId);
 
+        RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request);
+        
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
@@ -184,6 +189,8 @@ namespace MPC.Interfaces.MISServices
         bool ImportStore(long OrganisationId, string StoreName, string SubDomain);
 
         Company CloneStore(long companyId);
+
+        void DeleteCompanyVariableIcon(long iconId);
         #endregion
 
 

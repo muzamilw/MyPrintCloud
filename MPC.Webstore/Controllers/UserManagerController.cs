@@ -35,14 +35,14 @@ namespace MPC.Webstore.Controllers
             else
             {
                 contacts = _mycompanyservice.GetContactsByTerritory(UserCookieManager.WBStoreId, 0);
-                foreach (var conta in contacts)
-                {
-                    var a = conta.isPlaceOrder.HasValue;
-                }
+                //foreach (var conta in contacts)
+                //{
+                //    var a = conta.isPlaceOrder.HasValue;
+                //}
             }
             
             ViewBag.Contacts = contacts;
-            ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found"));
+            ViewBag.TotalRecords = contacts.Count.ToString() +" "+ Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found"));
             if (contacts.Count == 0 || contacts == null)
             {
                 TempData["HeaderStatus"] = false;
@@ -53,6 +53,7 @@ namespace MPC.Webstore.Controllers
             }
             ViewBag.totalcount = contacts.Count;
             ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
+            ViewBag.TempText = null;
             return View("PartialViews/UserManager", contacts);
 
         }
@@ -72,7 +73,7 @@ namespace MPC.Webstore.Controllers
 
            
             ViewBag.Contacts = contacts;
-            ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found");
+            ViewBag.TotalRecords = contacts.Count.ToString() +" "+ Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found");
             if (contacts.Count == 0 || contacts == null)
             {
                 TempData["HeaderStatus"] = false;
@@ -81,6 +82,7 @@ namespace MPC.Webstore.Controllers
             {
                 TempData["HeaderStatus"] = true;
             }
+            ViewBag.TempText = SearchString;
             ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
             return View("PartialViews/UserManager",contacts);
         }
@@ -194,6 +196,12 @@ namespace MPC.Webstore.Controllers
             //}
 
             return Json(sb.ToString(), JsonRequestBehavior.DenyGet);
+        }
+         [HttpGet]
+        public JsonResult GetCompanyFlags()
+        {
+            Company Company = _mycompanyservice.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
+            return Json(Company, JsonRequestBehavior.AllowGet);
         }
         
     }

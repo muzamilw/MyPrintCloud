@@ -108,10 +108,23 @@ namespace MPC.Interfaces.Repository
 
         Company LoadCompanyWithItems(long StoreId);
 
-        void InsertItem(List<Item> items,Company objCompany);
+        void InsertItem(Company objCompany, long OldCompanyId);
 
-        void InsertProductCategories(List<ProductCategory> prodCats, Company objCompany);
+        void InsertProductCategories(Company objCompany, long OldCompanyId);
 
         void InsertProductCategoryItems(Company NewCompany, Company OldCompany);
+
+        void SetTerritoryIdAddress(Company objCompany, long OldCompanyId);
+        long GetStoreIdByAccessCode(string sWebAccessCode);
+
+        RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request);
+
+        void DeleteCompanyVariableIcon(long iconId);
+
+        void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
+
+        void SaveSystemVariableExtension(long oldCompanyId, long NewCompanyid);
+        
+
     }
 }

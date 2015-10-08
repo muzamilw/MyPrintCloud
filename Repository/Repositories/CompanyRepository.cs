@@ -217,6 +217,11 @@ namespace MPC.Repository.Repositories
                         c.includeEmailArtworkOrderJobCard,
                         c.StoreBackgroundImage,
                         c.makeEmailArtworkOrderProductionReady,
+                        c.IsRegisterAccessWebStore,
+                        c.IsRegisterPlaceOrder,
+                        c.IsRegisterPayOnlyByCreditCard,
+                        c.IsRegisterPlaceDirectOrder,
+                        c.IsRegisterPlaceOrderWithoutApproval,
                         c.CompanyType,
                         c.PickupAddressId,
                         c.WebAnalyticCode,
@@ -322,6 +327,11 @@ namespace MPC.Repository.Repositories
                         isDisplaySiteFooter = c.isDisplaySiteFooter,
                         isDisplaySiteHeader = c.isDisplaySiteHeader,
                         isShowGoogleMap = c.isShowGoogleMap,
+                        IsRegisterAccessWebStore = c.IsRegisterAccessWebStore,
+                        IsRegisterPlaceOrder = c.IsRegisterPlaceOrder,
+                        IsRegisterPayOnlyByCreditCard = c.IsRegisterPayOnlyByCreditCard,
+                        IsRegisterPlaceDirectOrder = c.IsRegisterPlaceDirectOrder,
+                        IsRegisterPlaceOrderWithoutApproval=c.IsRegisterPlaceOrderWithoutApproval,
                         RedirectWebstoreURL = c.RedirectWebstoreURL,
                         isTextWatermark = c.isTextWatermark,
                         WatermarkText = c.WatermarkText,
@@ -4389,8 +4399,34 @@ namespace MPC.Repository.Repositories
                         {
                             if (!string.IsNullOrEmpty(pages.PageBanner))
                             {
+                               // string name = Path.GetFileName(pages.PageBanner);
+                                string OldMediaID = string.Empty;
+                                string newMediaID = string.Empty;
                                 string name = Path.GetFileName(pages.PageBanner);
-                                pages.PageBanner = "/MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + name;
+
+                                string[] SplitMain = name.Split('_');
+
+                                if (SplitMain != null)
+                                {
+                                    if (SplitMain[0] != string.Empty)
+                                    {
+                                        OldMediaID = SplitMain[0];
+
+                                    }
+                                }
+
+                                if (dictionaryMediaIds != null && dictionaryMediaIds.Count > 0)
+                                {
+                                    var dec = dictionaryMediaIds.Where(s => s.Key == OldMediaID).Select(s => s.Value).FirstOrDefault();
+                                    if (dec != null)
+                                    {
+                                        newMediaID = dec.ToString();
+                                    }
+                                }
+
+
+                                string newCMSPageName = name.Replace(OldMediaID + "_", newMediaID + "_");
+                                pages.PageBanner = "/MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + newCMSPageName;
                             }
 
                         }
@@ -5748,56 +5784,242 @@ namespace MPC.Repository.Repositories
            }
        }
 
-       public void InsertItem(List<Item> items,Company objCompany)
+       public void InsertItem(Company objCompany,long OldCompanyId)
        {
            try
            {
-               
+              
+               List<Item> items = new List<Item>();
+               items = db.Items.Where(c => c.CompanyId == OldCompanyId && c.EstimateId == null && (c.IsArchived == null || c.IsArchived == false)).ToList();
+               List<SmartForm> smartFormsNew = db.SmartForms.Where(c => c.CompanyId == objCompany.CompanyId).ToList();
+               List<SmartForm> smartFormsOld = db.SmartForms.Where(c => c.CompanyId == OldCompanyId).ToList();
                if (items != null && items.Count > 0)
                {
                    foreach (var item in items)
                    {
+                       Item newItem = new Item();
+                       item.Clone(newItem);
+                       long smartFormId = 0;
+                       string smartFormName = smartFormsOld.Where(c => c.SmartFormId == item.SmartFormId).Select(c => c.Name).FirstOrDefault();
+                       if(!string.IsNullOrEmpty(smartFormName))
+                       {
+                           smartFormId = smartFormsNew.Where(c => c.Name == smartFormName).Select(c => c.SmartFormId).FirstOrDefault();
 
-                       item.OrganisationId = OrganisationId;
-                       item.CompanyId = objCompany.CompanyId;
-                       item.Tax3 = (int)item.ItemId;
+                           
+                       }
 
-                       //if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
-                       //{
-                       //    foreach (var pci in item.ProductCategoryItems)
-                       //    {
-                       //        if (objCompany.ProductCategories != null && objCompany.ProductCategories.Count > 0)
-                       //        {
-                                  
-                       //            long PID = objCompany.ProductCategories.Where(c => c.Sides == pci.CategoryId).Select(x => x.ProductCategoryId).FirstOrDefault();
-                       //            if (PID > 0)
-                       //            {
-                       //                pci.CategoryId = PID;
-                       //            }
-                       //            else
-                       //            {
-                       //                // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                       //                pci.CategoryId = null;
+                       newItem.SmartFormId = smartFormId;
+
+                       newItem.TemplateId = item.TemplateId;
+                       newItem.OrganisationId = OrganisationId;
+                       newItem.CompanyId = objCompany.CompanyId;
+                       newItem.Tax3 = (int)item.ItemId;
+                       newItem.ProductCategoryItems = null;
+
+                       // for price matrix
+                       if (item.ItemPriceMatrices != null && item.ItemPriceMatrices.Count > 0)
+                       {
+                           newItem.ItemPriceMatrices = new List<ItemPriceMatrix>();
+                           foreach (var price in item.ItemPriceMatrices)
+                           {
+                               ItemPriceMatrix ipm = new ItemPriceMatrix();
+                               price.Clone(ipm);
+                               ipm.Item = newItem;
+                               ipm.ItemId = newItem.ItemId;
+                               newItem.ItemPriceMatrices.Add(ipm);
+                           }
+                       }
+
+                       // for price matrix
+                       if (item.ItemImages != null && item.ItemImages.Count > 0)
+                       {
+                           newItem.ItemImages = new List<ItemImage>();
+                           foreach (var images in item.ItemImages)
+                           {
+                               ItemImage im = new ItemImage();
+                               images.Clone(im);
+                               im.Item = newItem;
+                               im.ItemId = newItem.ItemId;
+                               newItem.ItemImages.Add(im);
+                           }
+                       }
+
+                       // for relateditems
+                       if (item.ItemRelatedItems != null && item.ItemRelatedItems.Count > 0)
+                       {
+                           newItem.ItemRelatedItems = new List<ItemRelatedItem>();
+                           foreach (var relatedItems in item.ItemRelatedItems)
+                           {
+                               ItemRelatedItem iri = new ItemRelatedItem();
+                               relatedItems.Clone(iri);
+                               iri.Item = newItem;
+                               iri.ItemId = newItem.ItemId;
+                               newItem.ItemRelatedItems.Add(iri);
+                           }
+                       }
+
+                       // for item videos
+                       if (item.ItemVideos != null && item.ItemVideos.Count > 0)
+                       {
+                           newItem.ItemVideos = new List<ItemVideo>();
+                           foreach (var videos in item.ItemVideos)
+                           {
+                               ItemVideo vid = new ItemVideo();
+                               vid.VideoLink = videos.VideoLink;
+                               vid.Caption = videos.Caption;
+                               vid.Item = newItem;
+                               vid.ItemId = newItem.ItemId;
+                               newItem.ItemVideos.Add(vid);
+                           }
+                       }
+
+                       // for state taxes
 
 
-                       //            }
-                       //        }
+                       if (item.ItemStateTaxes != null && item.ItemStateTaxes.Count > 0)
+                       {
+                           newItem.ItemStateTaxes = new List<ItemStateTax>();
+                           foreach (var statetaxes in item.ItemStateTaxes)
+                           {
+                               ItemStateTax ist = new ItemStateTax();
+                               statetaxes.Clone(ist);
+                               ist.Item = newItem;
+                               ist.ItemId = newItem.ItemId;
+                               newItem.ItemStateTaxes.Add(ist);
+                           }
+                       }
 
-                       //    }
-                       //}
-                       //if (item.ItemRelatedItems != null && item.ItemRelatedItems.Count > 0)
-                       //{
-                       //    foreach (var pci in item.ItemRelatedItems)
-                       //    {
-                       //        pci.RelatedItemId = item.ItemId;
-                       //    }
-                       //}
-                      
-                       db.Items.Add(item);
+
+                       // for vdp prices
+                       if (item.ItemVdpPrices != null && item.ItemVdpPrices.Count > 0)
+                       {
+                           newItem.ItemVdpPrices = new List<ItemVdpPrice>();
+                           foreach (var cdpPrices in item.ItemVdpPrices)
+                           {
+                               ItemVdpPrice idp = new ItemVdpPrice();
+                               cdpPrices.Clone(idp);
+                               idp.Item = newItem;
+                               idp.ItemId = newItem.ItemId;
+                               newItem.ItemVdpPrices.Add(idp);
+                           }
+                       }
+
+
+
+                       if (item.ItemSections != null && item.ItemSections.Count > 0)
+                       {
+                           newItem.ItemSections = new List<ItemSection>();
+                           foreach (var section in item.ItemSections)
+                           {
+                               ItemSection iss = new ItemSection();
+                               section.Clone(iss);
+                               iss.Item = newItem;
+                               iss.ItemId = newItem.ItemId;
+                              
+                               if (section.SectionInkCoverages != null && section.SectionInkCoverages.Count > 0)
+                               {
+                                   iss.SectionInkCoverages = new List<SectionInkCoverage>();
+                                   foreach (var sectionInk in section.SectionInkCoverages)
+                                   {
+                                       
+                                       SectionInkCoverage sic = new SectionInkCoverage();
+                                       sectionInk.Clone(sic);
+                                       sic.ItemSection = iss;
+                                       sic.SectionId = iss.ItemSectionId;
+
+                                       iss.SectionInkCoverages.Add(sic);
+                                   }
+
+                               }
+                               newItem.ItemSections.Add(iss);
+                           }
+                       }
+
+
+                       if (item.ItemStockOptions != null && item.ItemStockOptions.Count > 0)
+                       {
+                           newItem.ItemStockOptions = new List<ItemStockOption>();
+                           foreach (var sectionOption in item.ItemStockOptions)
+                           {
+                               ItemStockOption iso = new ItemStockOption();
+                               sectionOption.Clone(iso);
+                               iso.Item = newItem;
+                               iso.ItemId = newItem.ItemId;
+
+                               if (sectionOption.ItemAddonCostCentres != null && sectionOption.ItemAddonCostCentres.Count > 0)
+                               {
+                                   iso.ItemAddonCostCentres = new List<ItemAddonCostCentre>();
+                                   foreach (var addsOn in sectionOption.ItemAddonCostCentres)
+                                   {
+                                       ItemAddonCostCentre IACC = new ItemAddonCostCentre();
+                                       addsOn.Clone(IACC);
+                                       IACC.ItemStockOption = iso;
+                                       IACC.ItemStockOptionId = iso.ItemStockOptionId;
+
+                                       iso.ItemAddonCostCentres.Add(IACC);
+                                   }
+
+                               }
+
+                               newItem.ItemStockOptions.Add(iso);
+                           }
+                       }
+
+
+
+                       if (item.ItemProductDetails != null && item.ItemProductDetails.Count > 0)
+                       {
+                           newItem.ItemProductDetails = new List<ItemProductDetail>();
+                           foreach (var productDetail in item.ItemProductDetails)
+                           {
+                               ItemProductDetail ipd = new ItemProductDetail();
+                               productDetail.Clone(ipd);
+                               ipd.Item = newItem;
+                               ipd.ItemId = newItem.ItemId;
+
+                               newItem.ItemProductDetails.Add(ipd);
+                           }
+                       }
+
+
+
+
+                       if (item.ProductMarketBriefQuestions != null && item.ProductMarketBriefQuestions.Count > 0)
+                       {
+                           newItem.ProductMarketBriefQuestions = new List<ProductMarketBriefQuestion>();
+                           foreach (var questions in item.ProductMarketBriefQuestions)
+                           {
+                               ProductMarketBriefQuestion pmbq = new ProductMarketBriefQuestion();
+                               questions.Clone(pmbq);
+                               pmbq.Item = newItem;
+                               pmbq.ItemId = newItem.ItemId;
+
+                               if (questions.ProductMarketBriefAnswers != null && questions.ProductMarketBriefAnswers.Count > 0)
+                               {
+                                   pmbq.ProductMarketBriefAnswers = new List<ProductMarketBriefAnswer>();
+                                   foreach (var ans in questions.ProductMarketBriefAnswers)
+                                   {
+                                       ProductMarketBriefAnswer sia = new ProductMarketBriefAnswer();
+                                       ans.Clone(sia);
+                                       sia.ProductMarketBriefQuestion = pmbq;
+                                       sia.MarketBriefQuestionId = pmbq.MarketBriefQuestionId;
+
+                                       pmbq.ProductMarketBriefAnswers.Add(sia);
+                                   }
+
+                               }
+
+                               newItem.ProductMarketBriefQuestions.Add(pmbq);
+                           }
+                       }
+
+
+
+                       db.Items.Add(newItem);
 
                    }
 
-                  // db.SaveChanges();
+                   db.SaveChanges();
 
                }
            }
@@ -5807,13 +6029,14 @@ namespace MPC.Repository.Repositories
            }
        }
 
-       public void InsertProductCategories(List<ProductCategory> prodCats, Company objCompany)
+       public void InsertProductCategories(Company objCompany,long OldCompanyId)
        {
            try
            {
                long TerritoryId = 0;
                // product categories
 
+               List<ProductCategory> prodCats = db.ProductCategories.Where(c => c.CompanyId == OldCompanyId).ToList();
                if (objCompany != null)
                {
                    if (objCompany.CompanyTerritories != null)
@@ -5837,22 +6060,63 @@ namespace MPC.Repository.Repositories
                        cat.Sides = (int)cat.ProductCategoryId;
                        cat.OrganisationId = OrganisationId;
                        cat.CompanyId = objCompany.CompanyId;
-                       if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
-                       {
-                           foreach (var territory in cat.CategoryTerritories)
-                           {
-                               territory.CompanyId = objCompany.CompanyId;
-                               territory.OrganisationId = OrganisationId;
-
-                               territory.TerritoryId = TerritoryId;
-                           }
-                       }
+                       cat.ProductCategoryItems = null;
+                       cat.CategoryTerritories = null;
+                       //if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
+                       //{
+                       //    foreach (var territory in cat.CategoryTerritories)
+                       //    {
+                       //        territory.CompanyId = objCompany.CompanyId;
+                       //        territory.OrganisationId = OrganisationId;
+                       //        //territory.ProductCategoryId = 
+                       //        territory.TerritoryId = TerritoryId;
+                       //    }
+                       //}
                        db.ProductCategories.Add(cat);
-                   
+                      
 
                    }
+                   db.SaveChanges();
+
+                   // set category territory
+                   List<ProductCategory> categories = db.ProductCategories.Where(c => c.CompanyId == objCompany.CompanyId).ToList();
+
+                   List<CategoryTerritory> territories = db.CategoryTerritories.Where(c => c.CompanyId == OldCompanyId).ToList();
 
 
+                   if (territories != null && territories.Count > 0)
+                   {
+
+
+                       foreach (var ct in territories)
+                       {
+                               string OldCatId = string.Empty;
+                               if (ct.ProductCategoryId != null)
+                                   OldCatId = Convert.ToString(ct.ProductCategoryId);
+
+                               long NewprodId = categories.Where(c => c.ContentType == OldCatId).Select(c => c.ProductCategoryId).FirstOrDefault();
+
+                              
+
+
+                               CategoryTerritory objCatTerritory = new CategoryTerritory();
+                               objCatTerritory.CompanyId = objCompany.CompanyId;
+                               if (NewprodId > 0)
+                                   objCatTerritory.ProductCategoryId = NewprodId;
+                               else
+                                   objCatTerritory.ProductCategoryId = null;
+                               objCatTerritory.TerritoryId = TerritoryId;
+                               objCatTerritory.OrganisationId = OrganisationId;
+                               db.CategoryTerritories.Add(objCatTerritory);
+                        }
+
+                           db.SaveChanges();
+                         
+                    }
+                      
+
+                   
+                  
 
                }
            }
@@ -5867,11 +6131,12 @@ namespace MPC.Repository.Repositories
        {
             try
             {
-
-                if (OldCompany.Items != null && OldCompany.Items.Count > 0)
+                List<Item> items = new List<Item>();
+                items = db.Items.Where(c => c.CompanyId == OldCompany.CompanyId).ToList();
+                if (items != null && items.Count > 0)
                 {
 
-                    foreach (var item in OldCompany.Items)
+                    foreach (var item in items)
                     {
                         if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
                         {
@@ -5880,13 +6145,18 @@ namespace MPC.Repository.Repositories
                             {
                                 Item NewItemId = NewCompany.Items != null ? NewCompany.Items.Where(c => c.Tax3 == pc.ItemId).FirstOrDefault() : null;
                                 ProductCategory NewCatId = NewCompany.ProductCategories != null ? NewCompany.ProductCategories.Where(c => c.ContentType == Convert.ToString(pc.CategoryId)).FirstOrDefault() : null;
-                                ProductCategoryItem pci = new ProductCategoryItem();
-                              //  pci = pc;
 
-                                pci.ItemId = NewItemId.ItemId;
-                                pci.CategoryId = NewCatId.ProductCategoryId;
+                                if (NewItemId != null && NewCatId != null)
+                                {
+                                    ProductCategoryItem pci = new ProductCategoryItem();
+                                    //  pci = pc;
 
-                                db.ProductCategoryItems.Add(pci);
+                                    pci.ItemId = NewItemId.ItemId;
+                                    pci.CategoryId = NewCatId.ProductCategoryId;
+
+                                    db.ProductCategoryItems.Add(pci);
+                                }
+                               
                             }
                             
 
@@ -5894,29 +6164,213 @@ namespace MPC.Repository.Repositories
                     }
 
                 }
+                //List<ProductCategory> categories = db.ProductCategories.Where(c => c.CompanyId == OldCompany.CompanyId).ToList();
+                //if (categories != null && categories.Count > 0)
+                //{
 
-                if (OldCompany.ProductCategories != null && OldCompany.ProductCategories.Count > 0)
+                //    foreach (var item in categories)
+                //    {
+                //        if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
+                //        {
+
+                //            foreach (var pc in item.ProductCategoryItems)
+                //            {
+                //                long NewItemId = NewCompany.Items != null ? NewCompany.Items.Where(c => c.Tax3 == pc.ItemId).Select(c => c.ItemId).FirstOrDefault() : 0;
+                //                long NewCatId = NewCompany.ProductCategories != null ? NewCompany.ProductCategories.Where(c => c.ContentType == Convert.ToString(pc.CategoryId)).Select(c => c.ProductCategoryId).FirstOrDefault() : 0;
+
+
+                //                if (NewItemId != null && NewCatId != null)
+                //                {
+                //                    ProductCategoryItem pci = new ProductCategoryItem();
+                //                    // pci = pc;
+                //                    pci.ItemId = NewItemId;
+                //                    pci.CategoryId = NewCatId;
+
+                //                    db.ProductCategoryItems.Add(pci);
+                //                }
+                              
+                //            }
+
+
+                //        }
+                //    }
+
+                //}
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+       }
+
+        public void SetTerritoryIdAddress(Company objCompany, long OldCompanyId)
+        {
+            try
+            {
+                List<CompanyTerritory> oldTerritories = db.CompanyTerritories.Where(c => c.CompanyId == OldCompanyId).ToList();
+                if(objCompany != null)
                 {
-
-                    foreach (var item in OldCompany.ProductCategories)
+                    if (objCompany.Addresses != null && objCompany.Addresses.Count > 0)
                     {
-                        if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
+                        foreach (var add in objCompany.Addresses)
                         {
-
-                            foreach (var pc in item.ProductCategoryItems)
+                            if(oldTerritories != null && oldTerritories.Count > 0)
                             {
-                                long NewItemId = NewCompany.Items != null ? NewCompany.Items.Where(c => c.Tax3 == pc.ItemId).Select(c => c.ItemId).FirstOrDefault() : 0;
-                                long NewCatId = NewCompany.ProductCategories != null ? NewCompany.ProductCategories.Where(c => c.ContentType == Convert.ToString(pc.CategoryId)).Select(c => c.ProductCategoryId).FirstOrDefault() : 0;
-                                ProductCategoryItem pci = new ProductCategoryItem();
-                               // pci = pc;
-                                pci.ItemId = NewItemId;
-                                pci.CategoryId = NewCatId;
+                                CompanyTerritory OldTerritory = oldTerritories.Where(c => c.TerritoryId == add.TerritoryId).FirstOrDefault();
 
-                                db.ProductCategoryItems.Add(pci);
+                                if(OldTerritory != null)
+                                {
+                                    string OldTerritoryName = OldTerritory.TerritoryName;
+                                    string OldTerritoryCode = OldTerritory.TerritoryCode;
+
+                                    long NewTerritoryId = objCompany.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == OldTerritoryCode).Select(c => c.TerritoryId).FirstOrDefault();
+
+                                    if (NewTerritoryId > 0)
+                                    {
+                                        add.TerritoryId = NewTerritoryId;
+                                    }
+                                    else
+                                    {
+                                        add.TerritoryId = null;
+                                    }
+
+                                }
+                                else
+                                {
+                                    add.TerritoryId = null;
+                                }
+
+                                
                             }
+                            else
+                            {
+                                add.TerritoryId = null;
+                            }
+                          
+                           
 
 
                         }
+                    }
+
+                    if (objCompany.CompanyContacts != null && objCompany.CompanyContacts.Count > 0)
+                    {
+                        foreach (var con in objCompany.CompanyContacts)
+                        {
+                            if (oldTerritories != null && oldTerritories.Count > 0)
+                            {
+                                CompanyTerritory OldTerritory = oldTerritories.Where(c => c.TerritoryId == con.TerritoryId).FirstOrDefault();
+
+
+                                string OldTerritoryName = OldTerritory.TerritoryName;
+                                string OldTerritoryCode = OldTerritory.TerritoryCode;
+
+                                long NewTerritoryId = objCompany.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == OldTerritoryCode).Select(c => c.TerritoryId).FirstOrDefault();
+
+
+                                if (NewTerritoryId > 0)
+                                {
+                                    con.TerritoryId = NewTerritoryId;
+                                }
+                                else
+                                {
+                                    con.TerritoryId = null;
+                                }
+                            }
+                            else
+                            {
+                                con.TerritoryId = null;
+                            }
+                         
+
+                        }
+                    }
+                    db.SaveChanges();
+                }
+               
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public long GetStoreIdByAccessCode(string sWebAccessCode)
+        {
+           return DbSet.Where(c => c.WebAccessCode == sWebAccessCode && c.OrganisationId == OrganisationId).Select(c => c.CompanyId).FirstOrDefault();
+        }
+
+        
+
+
+
+        public RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request)
+        {
+            // return db.vw_RealEstateProperties.ToList();
+
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isString = !string.IsNullOrEmpty(request.SearchString);
+
+
+
+            List<vw_CompanyVariableIcons> companyVariableIcons = db.vw_CompanyVariableIcons.ToList();
+
+            return new RealEstateVariableIconsListViewResponse { RealEstatesVariableIcons = companyVariableIcons, RowCount = companyVariableIcons.Count() };
+
+        }
+
+        public void DeleteCompanyVariableIcon(long iconId)
+        {
+            try
+            {
+
+                CompanyVariableIcon objIcon = db.CompanyVariableIcons.Where(c => c.VariableIconId == iconId).FirstOrDefault();
+
+                db.CompanyVariableIcons.Remove(objIcon);
+
+                if(db.SaveChanges() > 0)
+                {
+                    string currFile = HttpContext.Current.Server.MapPath("~/" + objIcon.Icon);
+                    if (File.Exists(currFile))
+                        File.Delete(currFile);
+                }
+
+
+
+              
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request)
+        {
+            try
+            {
+                if(request.VariableId > 0)
+                {
+                    CompanyVariableIcon CVI = db.CompanyVariableIcons.Where(c => c.VariableId == request.VariableId).FirstOrDefault();
+
+                    // means add new company variabel icon
+                    if (CVI == null)
+                    {
+                        CompanyVariableIcon objcvi = new CompanyVariableIcon();
+                        objcvi.VariableId = request.VariableId;
+                        objcvi.ContactCompanyId = request.CompanyId;
+                        objcvi.Icon = SaveVariableIcon(request.IconBytes, request.CompanyId, request.VariableId, request.VariableName);
+                        db.CompanyVariableIcons.Add(objcvi);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        CVI.Icon = SaveVariableIcon(request.IconBytes, request.CompanyId, request.VariableId, request.VariableName);
+
+                        db.SaveChanges();
+
                     }
 
                 }
@@ -5925,6 +6379,65 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-       }
+        }
+
+        private string SaveVariableIcon(string IconByte, long companyId,long VariableId,string VariableName)
+        {
+            if (!string.IsNullOrEmpty(IconByte))
+            {
+                if (!string.IsNullOrEmpty(VariableName))
+                    VariableName = VariableName.Replace(" ", "");
+                string base64 = IconByte.Substring(IconByte.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/RealEstateIcons/" + OrganisationId + "/" + companyId + "/Icons");
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                Random r = new Random();
+                int n = r.Next();
+                string savePath = directoryPath + "\\" + VariableId + "_" + VariableName + ".png";
+               
+                File.WriteAllBytes(savePath, data);
+
+              
+
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                return savePath;
+            }
+            return null;
+        }
+
+        public void SaveSystemVariableExtension(long oldCompanyId,long NewCompanyid)
+        {
+            try
+            {
+
+                List<long> systemVariableIds = db.FieldVariables.Where(c => c.IsSystem == true && c.OrganisationId == null).Select(c => c.VariableId).ToList();
+                List<VariableExtension> variableExtensions = db.VariableExtensions.Where(c => systemVariableIds.Contains((int)c.FieldVariableId) && c.CompanyId == oldCompanyId).ToList();
+
+                if (variableExtensions != null && variableExtensions.Count > 0)
+                {
+                    foreach (var ext in variableExtensions)
+                    {
+                        VariableExtension objVE = new VariableExtension();
+                        objVE = ext;
+                        objVE.CompanyId = (int)NewCompanyid;
+                        db.VariableExtensions.Add(objVE);
+                    }
+                    db.SaveChanges();
+                }
+
+
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+     
     }
 }

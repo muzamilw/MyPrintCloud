@@ -15,7 +15,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pull-right top-page-ui" style="margin-bottom:19px;margin-top:-21px;">
+                    <div class="pull-right top-page-ui" style="margin-bottom:19px;margin-top:0px;">
                         <button class="btn btn-yellow" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
                         <button class="btn btn-danger"  data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
                         <button class="btn" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
@@ -42,9 +42,9 @@
                             <!-- ko if: isFinishedGoodsUi() != '2' && itemProductDetail().isInternalActivity() -->
                             <li><a href="#tab-supplierPrice" data-toggle="tab">Supplier Prices</a></li>
                             <!-- /ko -->
-                            <!-- ko if: isFinishedGoodsUi() != '2' -->
+                            
                             <li><a href="#tab-internalDescription" data-toggle="tab">Internal Descriptions</a></li>
-                            <!-- /ko -->
+                            
                             <!-- ko if: isTemplateTabsVisible -->
                             <li><a href="#tab-tempProperties" id="tabTempProperties" data-toggle="tab">Template Properties</a></li>
                             <li><a href="#tab-tempPages" data-toggle="tab" data-bind="visible: template().canAddTemplatePages">Template Pages</a></li>
@@ -109,7 +109,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" style="height:60px;" class="form-control height60 font24px" id="txtProductName" name="Product Name" placeholder="Enter Product Name" maxlength="500" data-bind="value: productName, validationTooltip: productName, validationOnElement: productName">
+                                                <input type="text" style="height:60px;" class="form-control height60 font24px" id="txtProductName" name="Product Name" placeholder="Enter Product Name" maxlength="500" data-bind="value: productName, validationTooltip: productName">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -146,7 +146,7 @@
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Sort Order</label>
 
                                             </div>
-                                            <div class="col-lg-2">
+                                            <div class="col-lg-3">
                                                 <input type="text" class="form-control" id="txtSortOrder" style="text-align:right;" placeholder="Enter Sort Order" data-bind="value: sortOrder">
 
                                             </div>
@@ -164,7 +164,10 @@
 
                                             </div>
                                             <div id="estProductionTimeContainer" class="col-lg-3">
-                                                <input type="text" style="text-align:right;width:120px;" class="form-control pull-left marginR5" data-bind="value: estimateProductionTime" id="txtEstProductionTime">
+                                                <input type="text" style="text-align:right;" class="form-control pull-left marginR5" data-bind="value: estimateProductionTime" id="txtEstProductionTime">
+                                                
+                                            </div>
+                                            <div class="col-lg-1">
                                                 <span class="help-block marginT7">day(s)</span>
                                             </div>
                                         </div>
@@ -208,8 +211,8 @@
 
                                                 <div class="margintop10">
                                                     <ul class="fa-ul">
-                                                        <li><i class="fa" data-bind="css:{ 'fa-check': isPublished, 'fa-times': !isPublished() }"></i> Published on Web Store </li>
-                                                        <li><i class="fa" data-bind="css:{ 'fa-check': isEnabled, 'fa-times': !isEnabled() }"></i> Enabled in MIS </li>
+                                                        <li><i style="font-size: 20px;" class="fa" data-bind="css:{ 'fa-check activeProduct': isPublished, 'fa-times inactiveProduct': !isPublished() }"></i> Published on Web Store </li>
+                                                        <li><i style="font-size: 20px;" class="fa" data-bind="css:{ 'fa-check activeProduct': isEnabled, 'fa-times inactiveProduct': !isEnabled() }"></i> Enabled in MIS </li>
 
                                                     </ul>
                                                 </div>
@@ -504,7 +507,7 @@
                                 </div>
 
 
-                                <div class="col-lg-12 form-horizontal" id="VDPTable" data-bind="visible: isVdpProduct">
+                                @*<div class="col-lg-12 form-horizontal" id="VDPTable" data-bind="visible: isVdpProduct">
                                     <h3 class="group-header">VDP Price Table</h3>
                                     <header class="clearfix">
                                         <div class="filter-block pull-right">
@@ -514,8 +517,8 @@
                                         </div>
                                     </header>
                                     <div>&nbsp;</div>
-                                    <div class="main-box no-header clearfix">
-                                        <div class="main-box-body clearfix">
+                                    <div>
+                                        <div>
                                             <div class="table-responsive">
                                                 <table class="table table-striped table-hover">
                                                     <thead>
@@ -534,7 +537,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
 
                             </div>
 
@@ -1185,7 +1188,7 @@
                                             </div>*@
 
                                     </div>
-                                    <div class="col-lg-12" style="margin-top: 30px;padding-left:3px;padding-right:0px;">
+                                    <div class="col-lg-12" style="margin-top:0px;margin-bottom:10px; padding-left:3px;padding-right:0px;">
                                         <div style="background-color:gainsboro; border-radius:3px">
                                             <header class="main-box-header clearfix">
                                                 <div style="float:left;" class="group-header-description">
@@ -1358,7 +1361,7 @@
                             <div class="tab-pane fade" id="tab-supplierPrice" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
 
-                                    <div class="col-lg-12 form-horizontal">
+                                    <div class="col-lg-12 form-horizontal" style="padding-left:0px;padding-right:0px;">
 
 
                                         <h3 class="group-header">Activity Options</h3>
@@ -1559,7 +1562,7 @@
                                                                 <div class="form-group">
                                                                     <div class="col-lg-3 text-right">
                                                                     </div>
-                                                                    <div class="col-lg-9">
+                                                                    <div class="col-lg-12">
                                                                         <div class="clearfix">
                                                                             <div class="table-responsive">
                                                                                 <span class="input-group-addon" style="float:left;font-weight: bold;font-size: 19px;padding-left: 5px;" data-bind="text: $root.currencyUnit"></span>
@@ -1584,7 +1587,7 @@
                                                                 <div class="form-group">
                                                                     <div class="col-lg-3 text-right">
                                                                     </div>
-                                                                    <div class="col-lg-9">
+                                                                    <div class="col-lg-12">
                                                                         <div class="clearfix">
                                                                             <div class="table-responsive">
                                                                                 <div class="table-responsive">
@@ -2898,7 +2901,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div>
-                            <input type="text" disabled="disabled" style="height:60px;" class="form-control font24px" data-bind="value: stockItemName, click: $parent.chooseStockItem">
+                            <input type="text" disabled="disabled" style="height:60px;" class="form-control font24px" data-bind="value: stockItemName, validationTooltip: stockItemName, click: $parent.chooseStockItem">
 
                         </div>
 
@@ -2995,7 +2998,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;margin-top:20px;">
+                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left:-8px;margin-top:15px;">
                     <button type="button" class="btn btn-primary" data-bind="click: $parent.onAddItemCostCentre">Add Refining Option</button>
                 </div>
             </div>
@@ -3361,10 +3364,10 @@
 
             <td class="text-center">
                 <!-- ko if: $index() < $parent.productMarketBriefQuestions().length - 1 -->
-                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowDown.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionDown" />
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowDown.png")" style="width: 30px;cursor: pointer;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionDown" />
                 <!-- /ko-->
                 <!-- ko if: $index() >= 1 -->
-                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowUp.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionUp" />
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowUp.png")" style="width: 30px;cursor: pointer;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionUp" />
                 <!-- /ko-->
             </td>
         </tr>

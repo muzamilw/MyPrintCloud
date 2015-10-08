@@ -7,17 +7,17 @@
     <div class="col-lg-12" data-bind="with: selectedMachine()">
         <div class="row">
             <div class="col-lg-12">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb" style="padding-left:6px;">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="/mis/Settings" class="my-navigator">Settings</a></li>
                     <li><a href="/Settings/Home/MachinesList">Machine List</a></li>
                     <li class="active"><span>Machine Detail</span></li>
                 </ol>
-                <h1 data-bind="text:MachineName"></h1>
+                <h1 style="padding-left:5px;" data-bind="text:MachineName"></h1>
             </div>
         </div>
         <div class="row" id="user-profile" style="margin-left:1px;margin-right:1px;">
-            <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
+            <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom:10px;">
                 <div class="clearfix ">
                     <div class="col-xs-4 pull-left validationSummaryContainer">
                         <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
@@ -34,9 +34,11 @@
                     <div class="col-xs-4">
                     </div>
                     <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
-                        <button class="btn btn-danger" data-bind="click : $root.onArchiveMachine, visible:!$root.isGuillotineList()">Delete</button>
-                        <button class="btn btn-info" id="saveBtn" data-bind="click: $root.saveMachine, css: { 'btn-warning': hasChanges }, enable: $root.machinehasChanges">Save</button>
-                        <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseMachineEditor">Close</button>
+                        <div style="margin-top:-10px;">
+                            <button class="btn btn-danger" data-bind="click : $root.onArchiveMachine, visible:!$root.isGuillotineList()">Delete</button>
+                            <button class="btn btn-info" id="saveBtn" data-bind="click: $root.saveMachine, css: { 'btn-warning': hasChanges }, enable: $root.machinehasChanges">Save</button>
+                            <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseMachineEditor">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,7 +65,7 @@
                     </div>
                 </div>*@
             @*<button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtnMachine" data-bind="click: $root.saveMachine, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>*@
-            <div class="col-lg-12 col-md-8 col-sm-8" style="margin-top:8px;">
+            <div class="col-lg-12 col-md-8 col-sm-8" style="margin-top:18px;padding-left:6px;">
                 <div class="main-box clearfix machineDetailsHeader">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
@@ -101,7 +103,7 @@
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosCorporate" value="false" data-bind="checked: isSheetFed">
                                                         <label for="optionsRadiosCorporate">
-                                                            Role Fed
+                                                            Roll Fed
                                                         </label>
                                                         <span class="help-block text-right"></span>
                                                     </div>
@@ -156,7 +158,7 @@
                                                 @*<span class="input-group-addon">%</span>*@
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <div class="col-xs-4" style="padding:0">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: SetupCharge , settings:{mDec:2}" />
                                                     </div>
                                                 </div>
@@ -175,7 +177,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <div class="col-xs-4" style="padding:0">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Volume of Ink Duct Per Head" data-bind="autoNumeric: MinimumCharge, settings:{mDec:2}">
                                                     </div>
                                                 </div>
@@ -208,7 +210,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <div class="col-xs-4" style="padding:0">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
                                                     </div>
                                                 </div>
@@ -257,7 +259,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <div class="col-xs-4" style="padding:0">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: CostPerCut , settings:{mDec:2}" />
                                                     </div>
                                                 </div>
@@ -276,7 +278,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <div class="col-xs-4" style="padding:0">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: PricePerCut , settings:{mDec:2}" />
                                                     </div>
                                                 </div>
@@ -821,9 +823,9 @@
                             <div class="tab-pane fade PressControls" id="tab-lookup">
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header" data-bind="visible: !$root.isGuillotineList()">Lookup Methods</h3>
-                                    <div class="col-md-9" data-bind="visible: !$root.isGuillotineList()">
+                                    <div class="col-md-12" data-bind="visible: !$root.isGuillotineList()">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Setup Spoilage is the average number of sheets required to be printed in order to get to the first chargeable sheet." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -859,7 +861,7 @@
 
                                             </div>*@
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Running Spoilages the average percentage of spoils or jams while a press is running." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -879,7 +881,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Passes Multiply the press calculations, mainly used in roll and UV large format where the quality mode determines the number of passes the heads make before advancing down the sheet" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -894,7 +896,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage multiplies the cost of ink and clicks, uplifting the ink calculations by this amount.  Black and White impressions may multiply by 1, while CMYK multiply by 3.5 up to 6 (heavy)" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -919,10 +921,10 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="padding-left:0px;padding-right:0px;">
                                         <!-- ko stopBinding: true -->
                                         @*<h3 style="padding-right:10px;margin:0px;">Specify values for the click charge Zone Calculation</h3>*@
-                                        <div class="col-lg-12 form-horizontal" id="divlookupMethodBinding">
+                                        <div class="col-lg-12 form-horizontal" style="padding-right:0px;padding-left:0px;" id="divlookupMethodBinding">
                                             <div id="clickChargeZoneSection">
                                                 @Html.Partial("_ClickChargeZone")
                                             </div>

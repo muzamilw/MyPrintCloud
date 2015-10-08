@@ -1,12 +1,12 @@
 ﻿
 <div class="main-box-body clearfix" data-bind="visible: $root.isMarkupVisible" style="display:none;">
-    <div class="col-md-12 form-horizontal">
+    <div class="col-md-12" style="padding-left:0px;padding-right:0px;">
     <h3>Set default markup values applied when estimating</h3>
-    <span>When creating estimates you have the option to markup that estimate or cost centers within that estimate by a percentage set the available options here remembering this is default markup not margin</span>
+        <p class="group-header-description">When creating estimates you have the option to markup that estimate or cost centers within that estimate by a percentage set the available options here remembering this is default markup not margin</p>
     <div style="height:20px;">
         &nbsp;
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding-left:0px;padding-right:0px;">
         <div class="clearfix">
             <header class="main-box-header clearfix" style="padding-right:0px;">
                 <div class="filter-block pull-right">
@@ -24,9 +24,12 @@
                     <table id="markupTablle" class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th> <span>Markup Code<span></span></span></th>
-                                <th> <span>% Rate<span></span></span></th>
-                                <th>&nbsp;</th>
+                                <th class="col-lg-1"></th>
+                                <th class="col-lg-3"><span>Markup Code</span></th>
+                                <th class="col-lg-2"><span>% Rate</span></th>
+                                <th class="col-lg-2">&nbsp;</th>
+                                <th class="col-lg-2">&nbsp;</th>
+                                <th class="col-lg-2">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,7 +45,7 @@
                 <select id="language" class="form-control" data-bind="options: $root.markupsForDropDown,optionsCaption:'Select Markup', optionsText: 'MarkUpName', optionsValue: 'MarkUpId' ,value:markupId,validationtooltip:markupId, validationOnElement:markupId"></select>
             </div>*@
             <div class="col-lg-12">
-                <div class="col-lg-4">
+                <div class="col-lg-4" style="padding-top:10px;">
 
                    
                 <label for="txtCompanyName" class="control-label text-right tooltip-float">
@@ -51,7 +54,7 @@
 
             </div>
 
-            <div class="col-lg-2">
+            <div class="col-lg-6">
                 <select id="language" class="form-control" data-bind="options: $root.markupsForDropDown,optionsCaption:'Select Markup', optionsText: 'MarkUpName', optionsValue: 'MarkUpId' ,value:markupId,validationtooltip:markupId, validationOnElement:markupId"></select>
                 <span class="help-block text-right"></span>
             </div>
@@ -60,4 +63,4 @@
 
     </div>
 </div>
-    </div>
+</div>

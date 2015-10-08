@@ -39,7 +39,7 @@
                                             {
                                                 if (child.ParentCategoryId == category.ProductCategoryId)
                                                 {
-                                                    <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(child.CategoryName)/@child.ProductCategoryId"><span>@child.CategoryName</span></a></li>
+                                                    <li><a id="ltrlSubCatName" href="/Category/@Utils.specialCharactersEncoder(child.CategoryName)/@child.ProductCategoryId"><span>@child.CategoryName</span></a></li>
                                                 }
 
                                             }
@@ -66,41 +66,47 @@
                     </div>
                     <div class="middle_inner_section">
                         <div class="row" id="home_page">
-
-                            @foreach (var feature in featureProducts)
+                            @if (featureProducts != null)
                             {
-
-                                if (feature.ProductType == (int)ProductType.MarketingBrief)
+                                foreach (var feature in featureProducts)
                                 {
 
-                                    RedirectURL = "/MarketingBrief/" + feature.ProductName + "/" + feature.ItemId;
+                                    if (feature.ProductType == (int)ProductType.MarketingBrief)
+                                    {
 
-                                }
-                                else if (feature.ProductType == (int)ProductType.PrintProduct)
-                                {
+                                        RedirectURL = "/MarketingBrief/" + feature.ProductName + "/" + feature.ItemId;
 
-                                    RedirectURL = "/CloneProducts/" + feature.ItemId;
+                                    }
+                                    else if (feature.ProductType == (int)ProductType.PrintProduct)
+                                    {
 
-                                }
-                                else if (feature.ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                {
-                                    RedirectURL = "/ProductOptions/" + 0 + "/" + feature.ItemId + "/UploadDesign";
-                                }
-                                <div class="col-sm-6 col-md-4 col-xs-12 product-box">
-                                    <div class="hover-box-shadow">
-                                        <p class="text-center">
-                                            <a href="@RedirectURL" class='thumbnail'>
-                                                <img id="imgFP" src="@feature.ThumbnailPath" class="img-responsive" itemprop="image" />
-                                            </a>
-                                        </p>
-                                        <h3 id="h3FP" itemprop="name">@feature.ProductName</h3>
-                                        <div class="product-desc">
-                                            <p id="paraDescTitle"><strong>@feature.ProductName</strong></p>
-                                            @*<p id="paraDes">@feature.WebDescription</p>*@
-                                            <p class="text-center"><a id="viewDetaillink" href="@RedirectURL" class='btn btn-info'>View details <i class="fa fa-angle-double-right"></i></a></p>
+                                        RedirectURL = "/CloneProducts/" + feature.ItemId;
+
+                                    }
+                                    else if (feature.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                    {
+                                        RedirectURL = "/ProductOptions/" + 0 + "/" + feature.ItemId + "/UploadDesign";
+                                    }
+                                    <div class="col-sm-6 col-md-4 col-xs-12 product-box">
+                                        <div class="hover-box-shadow">
+                                            <p class="text-center">
+                                                <a href="@RedirectURL" class='thumbnail'>
+                                                    <img id="imgFP" src="@feature.ThumbnailPath" class="img-responsive" itemprop="image" />
+                                                </a>
+                                            </p>
+                                            <h3 id="h3FP" itemprop="name">@feature.ProductName</h3>
+                                            <div class="product-desc">
+                                                <p id="paraDescTitle"><strong>@feature.ProductName</strong></p>
+                                                @*<p id="paraDes">@feature.WebDescription</p>*@
+                                                <p class="text-center"><a id="viewDetaillink" href="@RedirectURL" class='btn btn-info'>View details <i class="fa fa-angle-double-right"></i></a></p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="clrRed col-xs-12 col-sm-12">No item found.</p>
                             }
 
 

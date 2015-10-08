@@ -95,7 +95,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Address = AddressList;
                 ViewBag.TotalAddresses = AddressList.Count;
             }
-
+            ViewBag.TempText = null;
             return View("PartialViews/BillingShippingAddressManager");
         }
 
@@ -119,6 +119,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Address = AddressList;
                 ViewBag.TotalAddresses = AddressList.Count;
             }
+            ViewBag.TempText = SearchString;
             return View("PartialViews/BillingShippingAddressManager");
         }
 

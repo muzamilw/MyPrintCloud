@@ -19,6 +19,7 @@ namespace MPC.Models.Common
     {
         Awaiting = 19,
         Posted = 20,
+        Archived = 22
     }
 
     public enum FieldVariableScopeType : int

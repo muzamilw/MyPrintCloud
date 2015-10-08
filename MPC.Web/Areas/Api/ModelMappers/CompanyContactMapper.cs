@@ -121,6 +121,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] bytes = null;
             string fileName = string.Empty;
+
             if (!string.IsNullOrEmpty(source.image))
             {
                 string path =
@@ -128,6 +129,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 if (File.Exists(path))
                 {
                     bytes = File.ReadAllBytes(path);
+
                 }
             }
             return new CompanyContact
@@ -164,6 +166,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        IsEmailSubscription = source.IsEmailSubscription,
                        IsNewsLetterSubscription = source.IsNewsLetterSubscription,
                        Image = bytes,
+                       //Bytes = source.image,
                        quickFullName = source.quickFullName,
                        quickTitle = source.quickTitle,
                        quickCompanyName = source.quickCompanyName,
@@ -218,6 +221,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        OrganisationId = source.OrganisationId,
                        RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
                        FileName = fileName,
+                       ImageBytes = source.image,
                        SecondaryEmail = source.SecondaryEmail,
                        StoreName = source.Company != null ? source.Company.StoreName: string.Empty
 

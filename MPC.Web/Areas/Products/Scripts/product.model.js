@@ -1511,6 +1511,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         var labelElement = itemStockOptionInvalid.label.domElement;
                         validationSummaryList.push({ name: labelElement.name + " is required", element: labelElement });
                     }
+                    if (itemStockOptionInvalid.stockItemName.error) {
+                        var labelElement = itemStockOptionInvalid.stockItemName.domElement;
+                        validationSummaryList.push({ name: "Inventory Item is required", element: labelElement });
+                    }
                 }
                 // Show Template Errors
                 if (!template().isValid()) {
@@ -2612,7 +2616,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Stock Item Id
             stockItemId = ko.observable(specifiedStockId || undefined),
             // Stock Item Name
-            stockItemName = ko.observable(specifiedStockItemName || undefined),
+            stockItemName = ko.observable(specifiedStockItemName || undefined).extend({ required: true }),
             // Stock Item Description
             stockItemDescription = ko.observable(specifiedStockItemDescription || undefined),
             // image
@@ -2683,7 +2687,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Errors
             errors = ko.validation.group({
-                label: label
+                label: label,
+                stockItemName: stockItemName
             }),
             // Is Valid
             isValid = ko.computed(function () {

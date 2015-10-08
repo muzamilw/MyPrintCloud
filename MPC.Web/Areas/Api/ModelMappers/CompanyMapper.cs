@@ -150,9 +150,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isWhiteLabel = source.isWhiteLabel,
                 PriceFlagId = source.PriceFlagId,
                 StoreId = source.StoreId,
-               isStoreLive = source.isStoreLive,
-               CanUserUpdateAddress = source.CanUserUpdateAddress,
-               IsClickReached = source.IsClickReached,
+                isStoreLive = source.isStoreLive,
+                IsRegisterAccessWebStore = source.IsRegisterAccessWebStore,
+                IsRegisterPlaceOrder = source.IsRegisterPlaceOrder,
+                IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard,
+                IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder,
+                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval,
+                CanUserUpdateAddress = source.CanUserUpdateAddress,
+                IsClickReached = source.IsClickReached,
                MarketingBriefRecipient = source.MarketingBriefRecipient,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
@@ -188,14 +193,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] bytes = null;
             string imagePath;
-            if (!string.IsNullOrEmpty(source.Image))
-            {
-                imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-                if (File.Exists(imagePath))
-                {
-                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-                }
-            }
+            //if (!string.IsNullOrEmpty(source.Image))
+            //{
+            //    imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            //    if (File.Exists(imagePath))
+            //    {
+            //        bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+            //    }
+            //}
             byte[] storeBackgroundImageBytes = null;
             if (!string.IsNullOrEmpty(source.StoreBackgroundImage))
             {
@@ -430,7 +435,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null,
                 FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(x => x.CreateFrom()).ToList() : null,
                 SmartForms = source.SmartForms != null ? source.SmartForms.Select(x => x.CreateFrom()).ToList() : null,
-                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
+                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null,
+                
+                // Regiter Settings Flags
+                IsRegisterAccessWebStore = source.IsRegisterAccessWebStore == true ? true : false,
+                IsRegisterPlaceOrder = source.IsRegisterPlaceOrder == true ? true : false,
+                IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard == true ? true : false,
+                IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder == true ? true : false,
+                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval == true ? true : false
+ 
             };
 
             return company;

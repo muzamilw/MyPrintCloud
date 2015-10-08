@@ -179,6 +179,10 @@
     <Compile Include="Common\USTaxInfo.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\ValidationInfo.cs" />
+    <Compile Include="Common\ZapierInvoiceDetail.cs" />
+    <Compile Include="Common\ZapierInvoiceItem.cs" />
+    <Compile Include="Common\ZapierInvoiceItemSupplier.cs" />
+    <Compile Include="Common\ZapierPostResponse.cs" />
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
@@ -372,6 +376,8 @@
     <Compile Include="DomainModels\TemplateVariable.cs" />
     <Compile Include="DomainModels\usp_GetRealEstateProducts_Result.cs" />
     <Compile Include="DomainModels\VariableSection.cs" />
+    <Compile Include="DomainModels\vw_CompanyVariableIcons.cs" />
+    <Compile Include="DomainModels\vw_RealEstateProperties.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
     <Compile Include="LanguageResources.Designer.cs">
@@ -425,6 +431,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\ArchiveInvoiceRequestModel.cs" />
+    <Compile Include="RequestModels\CompanyVariableIconRequestModel.cs" />
     <Compile Include="RequestModels\DiscountVoucherRequestModel.cs" />
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
@@ -464,6 +472,7 @@
     <Compile Include="RequestModels\PTVRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseOrderSearchRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
+    <Compile Include="RequestModels\RealEstateRequestModel.cs" />
     <Compile Include="RequestModels\ReportEmailRequestModel.cs" />
     <Compile Include="RequestModels\ReportNoteRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
@@ -531,6 +540,8 @@
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
     <Compile Include="ResponseModels\PurchaseBaseResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
+    <Compile Include="ResponseModels\RealEstateListViewResponse.cs" />
+    <Compile Include="ResponseModels\RealEstateVariableIconsListViewResponse.cs" />
     <Compile Include="ResponseModels\ReportEmailResponse.cs" />
     <Compile Include="ResponseModels\ReportEmailResponseModel.cs" />
     <Compile Include="ResponseModels\ReportparamResponse.cs" />

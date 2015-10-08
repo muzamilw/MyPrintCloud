@@ -24,6 +24,6 @@ namespace MPC.Interfaces.Repository
 
         bool GetImpericalFlagbyOrganisationId();
         void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int MisOrdersCount, int WebStoreOrdersCount, DateTime billingDate);
-        //Estimate GetOrderByOrderID(long OrderID);
+        void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType);
     }
 }

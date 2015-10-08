@@ -38,7 +38,7 @@
                                 {
                                     <ul class="allproducts_col_cat_ul ">
                                         <li>
-                                            <a href="/Category/@Html.ResolveString(child.CategoryName)/@child.ProductCategoryId">@child.CategoryName</a>
+                                            <a href="/Category/@Utils.specialCharactersEncoder(child.CategoryName)/@child.ProductCategoryId">@child.CategoryName</a>
                                         </li>
                                     </ul>
                                 }

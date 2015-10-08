@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <div><input type="button" onclick="GetJsonData();" value="Send" /></div>
+        <div><textarea id="Jsontext" ></textarea></div>
+    </div>
+</body>
+</html>
+
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+    function GetJsonData() {
+
+        var obj = $("#Jsontext").val();
+        
+        
+        var data = { obj: obj};
+        //$.getJSON("/webstoreapi/RealEstate/SaveListing?obj=" + val + "",
+        //                                function (xdata) {
+        //                                    alert(xdata);
+
+        //   });   
+    
+        //$.post("/webstoreapi/RealEstate/SaveListing", data, function (data, textStatus) {
+
+            
+        //}, "json");
+
+        $.ajax({
+            type: "POST",
+            url: "http://staging.myprintcloud.com/webstoreapi/RealEstate/SaveListing",
+            data: { "": obj },
+            success: function (exists) {
+                //if (exists) {
+                //    fileExists = true;
+                //} else {
+                //    fileExists = false;
+                //}
+            }
+        });
+
+
+
+   
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/webstoreapi/ContactImageUploader/SaveListing?obj=" + val + "",
+        //    contentType: 'application/json; charset=utf-8',
+        //    data: JSON.stringify(data),
+        //    async: true,
+        //    success: function (response) {
+        //        // var PHtml = $("#UpdateModelPopUp").html();
+        //    }
+
+        //});
+    }
+    </script> 

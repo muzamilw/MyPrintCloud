@@ -1,0 +1,99 @@
+﻿@using MPC.Models.Common;
+@using MPC.Webstore.Common;
+@{
+    Layout = null;
+}
+
+@if ((UserCookieManager.WEBStoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+{
+    <div id="MainContent_ctl00_TopLoginBar" class="PDTCWB LoginBarContainer">
+        <div class="container content_area">
+
+            <div class="row left_right_padding">
+
+                <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
+                    &nbsp;
+                </div>
+                @if (!ViewBag.isUserLoggedIn)
+                {
+                    <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
+                        <ul id="menu-my-account" class="navM">
+                            <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
+                                <a onclick="ShowLoader();" href="/Login" class="usercolorSize">
+                                    <i class="fa fa-user"></i> @Html.Raw(Html.GetKeyValueFromResourceFile("SignInlbl", UserCookieManager.WBStoreId, "Sign In"))
+                                </a>
+                                <a onclick="ShowLoader();" href="/Signup" class="usercolorSize">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("SignUplbl", UserCookieManager.WBStoreId, "Sign Up"))
+                                </a>
+                            </li>
+                            <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
+                                <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.WBStoreId, "Login/Register"))</a>
+                            </li>
+                            <li class="ZeroRightMargin BlackBtnCS">
+                                <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
+                                    @*<i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>*@
+                                    <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</span>
+                                    <div class="lblCartCounter" id="lblCartCount">
+                                        @ViewBag.CartCount
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                }
+                else
+                {
+                    <div id="MainContent_ctl00_USerInfoContainer" class="float_right">
+                        <ul class="LogBar">
+
+                            <li class="liUserInfo">
+
+                                <span id="MainContent_ctl00_lblUserInfo" class="LoginBarColor liUserInfo">Hi, @ViewBag.LoginUserName</span>
+                            </li>
+                            <li class="classicthemeMenu olsonfaIcon MetroMania">
+                                <a onclick="ShowLoader();" href="/DashBoard"><i class="fa fa-cog  loginusercolorSize"></i></a>
+                            </li>
+                            <li class="classicthemeMenu olsonfaIcon MetroMania">
+                                <a href="/SavedDesigns"><i class="fa fa-pencil-square-o loginusercolorSize"></i></a>
+                            </li>
+                            <li class="classicthemeMenu olsonfaIcon MetroMania">
+                                <a onclick="ShowLoader();" href="/ShopCart"><i class="fa fa-shopping-cart loginusercolorSize"></i></a>
+                            </li>
+
+                            <li class="liMarginRight responsiveMenu olsonspriteIcon">
+
+                                <div class="ProfileSetingbtn">
+                                    <a id="MainContent_ctl00_hyperlink1" class="top_sub_section_links hyperlinkCart" href="/DashBoard"></a>
+                                </div>
+                            </li>
+                            <li class="liMarginRight responsiveMenu olsonspriteIcon">
+                                @*cartcout*@
+                                <div class="SavedDesignBtn">
+                                    <a id="MainContent_ctl00_hyperlink2" class="top_sub_section_links hyperlinkCart" href="/SavedDesigns"><div id="MainContent_ctl00_lblSavedDesignCount" class="lblSDCounter">@ViewBag.totalSAveItmes</div></a>
+                                </div>
+
+                            </li>
+                            <li class="liMarginRight responsiveMenu olsonspriteIcon">
+
+                                <div class="CartBtn">
+                                    <a id="MainContent_ctl00_hyperlinkCart" class="top_sub_section_links hyperlinkCart" href="/ShopCart" onclick="ShowLoader();"><div id="MainContent_ctl00_lblCartCounter" class="lblItemsCartCounter">@ViewBag.CartCount</div></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LogOut", "LoginBar")">@Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign Out"))</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+
+

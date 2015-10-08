@@ -30,6 +30,7 @@ using System.Net.Http.Headers;
 using MPC.Common;
 using Newtonsoft.Json.Linq;
 using Scope = System.IdentityModel.Scope;
+using System.Text;
 
 
 namespace MPC.Implementation.MISServices
@@ -112,6 +113,8 @@ namespace MPC.Implementation.MISServices
         private readonly IProductCategoryVoucherRepository productcategoryvoucherRepository;
         private readonly ItemsVoucherRepository itemsVoucherRepository;
         private readonly ICMSOfferRepository cmsofferRepository;
+        private readonly IReportNoteRepository reportNoteRepository;
+        private readonly IVariableExtensionRespository variableExtensionRespository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -3006,7 +3009,7 @@ namespace MPC.Implementation.MISServices
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
-            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository)
+            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository)
         {
             if (bannerSetRepository == null)
             {
@@ -3087,6 +3090,8 @@ namespace MPC.Implementation.MISServices
             this.productcategoryvoucherRepository = productcategoryvoucherRepository;
             this.itemsVoucherRepository = itemsVoucherRepository;
             this.cmsofferRepository = cmsofferRepository;
+            this.reportNoteRepository = reportNoteRepository;
+            this.variableExtensionRespository = variableExtensionRespository;
 
 
         }
@@ -3575,6 +3580,21 @@ namespace MPC.Implementation.MISServices
             string source =
                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
             ApplyThemeFonts(source, target);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                string url = "WebstoreApi/StoreCache/Get?id=" + companyId;
+                var response = client.GetAsync(url);
+                if (!response.Result.IsSuccessStatusCode)
+                {
+                    //throw new MPCException("Failed to clear store cache", companyRepository.OrganisationId);
+                }
+            }
+
         }
 
         private void DeleteMediaFiles(long companyId)
@@ -3824,7 +3844,24 @@ namespace MPC.Implementation.MISServices
             return defaultCss;
         }
 
-        
+
+        public RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request)
+        {
+            return companyRepository.GetCompanyVariableIcons(request);
+        }
+
+        public void DeleteCompanyVariableIcon(long iconId)
+        {
+            companyRepository.DeleteCompanyVariableIcon(iconId);
+        }
+
+
+        public void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request)
+        {
+            companyRepository.SaveCompanyVariableIcon(request);
+        }
+
+       
         #endregion
 
         #region ExportOrganisation
@@ -6333,6 +6370,8 @@ namespace MPC.Implementation.MISServices
                 throw ex;
             }
         }
+
+       
         #endregion
 
         #region ImportOrganisation
@@ -6895,7 +6934,7 @@ namespace MPC.Implementation.MISServices
                 // insert product categories and items
                // companyRepository.CopyProductByStore(NewCompanyId, companyId);
 
-               
+          
 
 
                 // insert discount voucher
@@ -6903,16 +6942,23 @@ namespace MPC.Implementation.MISServices
 
                 // insert template fonts
                 CloneTemplateFonts(companyId, NewCompanyId);
+
+                CloneReportBanners(companyId, NewCompanyId);
                 // update data
                 Company objCompany = companyRepository.LoadCompanyWithItems(NewCompanyId);
 
-                companyRepository.InsertProductCategories(source.ProductCategories != null ? source.ProductCategories.ToList() : null, objCompany);
-                companyRepository.InsertItem(source.Items != null ? source.Items.ToList() : null, objCompany);
+                companyRepository.SetTerritoryIdAddress(objCompany,source.CompanyId);
+                companyRepository.InsertProductCategories(objCompany,source.CompanyId);
+                companyRepository.InsertItem(objCompany,source.CompanyId);
+
+                // insert reports
                 if (objCompany != null)
                 {
                     string SetName = source.CompanyBannerSets.Where(c => c.CompanySetId == source.ActiveBannerSetId).Select(c => c.SetName).FirstOrDefault();
-                    SetValuesAfterClone(objCompany, SetName);
+                    SetValuesAfterClone(objCompany, SetName,source.CompanyId);
 
+                    // copy variable extension of system variables
+                    companyRepository.SaveSystemVariableExtension(companyId, objCompany.CompanyId);
                     companyRepository.InsertProductCategoryItems(objCompany, source);
                     // copy All files or images
                     CopyCompanyFiles(objCompany, companyId);
@@ -7024,26 +7070,7 @@ namespace MPC.Implementation.MISServices
                 return target.CompanyId;
                
 
-                // clone cms offer after submet changes because itsm not addup
-
-
-                //// Save Changes
-                //itemRepository.SaveChanges();
-
-                //// Copy Files and place them under new Product folder
-                //CloneProductImages(target);
-
-                //// Clone Template - Call CloneTemplate from TemplateService
-                //// That will clone Template deeply
-                //if (source.TemplateId.HasValue)
-                //{
-                //    long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ?
-                //        target.OrganisationId.Value : itemRepository.OrganisationId);
-
-                //    target.TemplateId = templateId;
-                //}
-
-                // Save Changes
+               
              
 
 
@@ -7292,6 +7319,7 @@ namespace MPC.Implementation.MISServices
                 CompanyTerritory targetCompanyTerritory = companyTerritoryRepository.Create();
                 companyTerritoryRepository.Add(targetCompanyTerritory);
                 targetCompanyTerritory.CompanyId = target.CompanyId;
+                targetCompanyTerritory.Addresses = null;
                 target.CompanyTerritories.Add(targetCompanyTerritory);
                 companyTerritory.Clone(targetCompanyTerritory);
             }
@@ -7316,19 +7344,21 @@ namespace MPC.Implementation.MISServices
             foreach (Address addresses in source.Addresses)
             {
 
-                string OldTerritoryName = addresses.CompanyTerritory.TerritoryName;
-                string oldTerritoryCode = addresses.CompanyTerritory.TerritoryCode;
+                //string OldTerritoryName = addresses.CompanyTerritory.TerritoryName;
+                //string oldTerritoryCode = addresses.CompanyTerritory.TerritoryCode;
 
-                CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
+                //CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
 
 
                 Address targetAddress = addressRepository.Create();
                 addressRepository.Add(targetAddress);
                 targetAddress.CompanyId = target.CompanyId;
-                targetAddress.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
+                targetAddress.Tel2 = Convert.ToString(addresses.AddressId);
+               // targetAddress.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
                 target.Addresses.Add(targetAddress);
                 addresses.Clone(targetAddress);
             }
+           
         }
 
         /// <summary>
@@ -7357,7 +7387,7 @@ namespace MPC.Implementation.MISServices
 
                 string OldShippingAddressName = contacts.Address.AddressName;
 
-                CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
+               // CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
 
                 Address NewAddressObj = target.Addresses.Where(c => c.AddressName == OldAddressName).FirstOrDefault();
 
@@ -7366,7 +7396,7 @@ namespace MPC.Implementation.MISServices
                 CompanyContact targetCompanyContact = companyContactRepository.Create();
                 companyContactRepository.Add(targetCompanyContact);
                 targetCompanyContact.CompanyId = target.CompanyId;
-                targetCompanyContact.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
+               // targetCompanyContact.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
                
                 
                 if (NewAddressObj != null)
@@ -7379,6 +7409,7 @@ namespace MPC.Implementation.MISServices
                     targetCompanyContact.ShippingAddress = NewShipingAdd;
                     targetCompanyContact.ShippingAddressId = NewShipingAdd.AddressId;
                 }
+                targetCompanyContact.quickAddress3 = Convert.ToString(contacts.ContactId);
                 target.CompanyContacts.Add(targetCompanyContact);
                 contacts.Clone(targetCompanyContact);
             }
@@ -7425,9 +7456,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void CloneCampaignImages(Campaign campaigns, Campaign targetcampaigns)
         {
-            if (campaigns.CampaignImages == null)
+            if (targetcampaigns.CampaignImages == null)
             {
-                campaigns.CampaignImages = new List<CampaignImage>();
+                targetcampaigns.CampaignImages = new List<CampaignImage>();
             }
 
             foreach (CampaignImage objcampaignImages in campaigns.CampaignImages.ToList())
@@ -7548,16 +7579,17 @@ namespace MPC.Implementation.MISServices
                 SmartFormDetail targetsmartFormDetail = smartFormDetailRepository.Create();
                 smartFormDetailRepository.Add(targetsmartFormDetail);
                 targetsmartFormDetail.SmartFormId = targetsmartForm.SmartFormId;
-                string oldVariableName = objsmartFormDetails.FieldVariable != null ? objsmartFormDetails.FieldVariable.VariableName : "";
 
-                FieldVariable objNewFieldVariable = targetCompany.FieldVariables.Where(c => c.VariableName == oldVariableName).FirstOrDefault();
+                //string oldVariableName = objsmartFormDetails.FieldVariable != null ? objsmartFormDetails.FieldVariable.VariableName : "";
+
+                //FieldVariable objNewFieldVariable = targetCompany.FieldVariables.Where(c => c.VariableName == oldVariableName).FirstOrDefault();
                
-                if(objNewFieldVariable != null)
-                {
-                    targetsmartFormDetail.FieldVariable = objNewFieldVariable;
-                    targetsmartFormDetail.VariableId = objNewFieldVariable != null ? objNewFieldVariable.VariableId : 0;
+                //if(objNewFieldVariable != null)
+                //{
+                //    targetsmartFormDetail.FieldVariable = objNewFieldVariable;
+                //    targetsmartFormDetail.VariableId = objNewFieldVariable != null ? objNewFieldVariable.VariableId : 0;
 
-                }
+                //}
                 
 
                 targetsmartForm.SmartFormDetails.Add(targetsmartFormDetail);
@@ -7587,6 +7619,7 @@ namespace MPC.Implementation.MISServices
                 FieldVariable targetfieldVariables = fieldVariableRepository.Create();
                 fieldVariableRepository.Add(targetfieldVariables);
                 targetfieldVariables.CompanyId = target.CompanyId;
+               
                 target.FieldVariables.Add(targetfieldVariables);
                 companyFielVariables.Clone(targetfieldVariables);
 
@@ -7620,6 +7653,15 @@ namespace MPC.Implementation.MISServices
 
                 // Clone scope variable
                 CloneTemplateVariables(companyFielVariables, targetfieldVariables);
+
+                // Clone variable extension
+                if (companyFielVariables.VariableExtensions == null)
+                {
+                    continue;
+                }
+
+                // Clone variable extension
+                CloneVariableExtension(companyFielVariables, targetfieldVariables);
 
 
 
@@ -7683,7 +7725,22 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        public void CloneVariableExtension(FieldVariable fieldVariables, FieldVariable targetfieldVariables)
+        {
+            if (targetfieldVariables.VariableExtensions == null)
+            {
+                targetfieldVariables.VariableExtensions = new List<MPC.Models.DomainModels.VariableExtension>();
+            }
 
+            foreach (MPC.Models.DomainModels.VariableExtension objVariableExtension in fieldVariables.VariableExtensions.ToList())
+            {
+                MPC.Models.DomainModels.VariableExtension targetVariableExtension =  variableExtensionRespository.Create();
+                variableExtensionRespository.Add(targetVariableExtension);
+                targetVariableExtension.FieldVariableId = targetfieldVariables.VariableId;
+                targetfieldVariables.VariableExtensions.Add(targetVariableExtension);
+                objVariableExtension.Clone(targetVariableExtension);
+            }
+        }
 
         /// <summary>
         /// Copy color palletes
@@ -7881,13 +7938,145 @@ namespace MPC.Implementation.MISServices
 
         }
 
-        public void SetValuesAfterClone(Company company,string OldSelectedSetName)
+        // clone report banners
+        public void CloneReportBanners(long OldCompanyid, long NewCompanyId)
+        {
+
+            List<ReportNote> reportNotes = reportNoteRepository.GetReportNotesByCompanyId(OldCompanyid);
+
+            if (reportNotes != null && reportNotes.Count > 0)
+            {
+                foreach (var note in reportNotes)
+                {
+                    ReportNote reportNote = reportNoteRepository.Create();
+                    reportNote = note;
+                    reportNote.CompanyId = NewCompanyId;
+                    if(!string.IsNullOrEmpty(note.ReportBanner))
+                    {
+                      
+                        // update reportbanner path
+                        string name = Path.GetFileName(note.ReportBanner);
+                        string BannerPath = "MPC_Content/Reports/Banners/" + companyRepository.OrganisationId + "/" + NewCompanyId + "/" + name;
+                      
+
+
+                        string DestinationBannerPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + companyRepository.OrganisationId + "/" + NewCompanyId + "/" + name);
+
+                        string DestinationBannerDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + companyRepository.OrganisationId + "/" + NewCompanyId);
+                        string BannerSourcePath = HttpContext.Current.Server.MapPath("~/" + note.ReportBanner);
+                        if (!System.IO.Directory.Exists(DestinationBannerDirectory))
+                        {
+                            Directory.CreateDirectory(DestinationBannerDirectory);
+                            if (Directory.Exists(DestinationBannerDirectory))
+                            {
+                                if (File.Exists(BannerSourcePath))
+                                {
+                                    if (!File.Exists(DestinationBannerPath))
+                                        File.Copy(BannerSourcePath, DestinationBannerPath);
+                                }
+
+
+                            }
+
+                        }
+                        else
+                        {
+                            if (File.Exists(BannerSourcePath))
+                            {
+                                if (!File.Exists(DestinationBannerPath))
+                                    File.Copy(BannerSourcePath, DestinationBannerPath);
+
+                            }
+                        }
+
+
+                        reportNote.ReportBanner = BannerPath;
+                    }
+
+
+                    reportNoteRepository.Add(reportNote);
+
+                    // 
+                }
+            }
+
+
+        }
+
+        public void SetValuesAfterClone(Company company,string OldSelectedSetName,long OldcompanyId)
         {
             // set active banner set id in company
 
             company.ActiveBannerSetId = company.CompanyBannerSets.Where(c => c.SetName == OldSelectedSetName).Select(c => c.CompanySetId).FirstOrDefault();
 
+            // set pickupaddress in company
+            if(company.PickupAddressId > 0)
+            {
+                long NewId = company.Addresses.Where(c => c.Tel2 == Convert.ToString(company.PickupAddressId)).Select(c => c.AddressId).FirstOrDefault();
 
+                company.PickupAddressId = NewId;
+
+               
+            }
+           
+            // set ids of contact , address and store in scopevariables
+          
+            IEnumerable<CompanyTerritory> companyTerritory = companyTerritoryRepository.GetAllCompanyTerritories(OldcompanyId);
+            if(company.FieldVariables != null && company.FieldVariables.Count > 0)
+            {
+                foreach(var fv in company.FieldVariables)
+                {
+                    if(fv.ScopeVariables != null && fv.ScopeVariables.Count > 0)
+                    {
+                        foreach(var sv in fv.ScopeVariables)
+                        {
+                            // store
+                            if(sv.Scope == 1)
+                            {
+                                sv.Id = company.CompanyId;
+                            }
+                            // contact
+                            if(sv.Scope == 2)
+                            {
+                                long NewId = company.CompanyContacts.Where(c => c.quickAddress3 == Convert.ToString(sv.Id)).Select(c => c.ContactId).FirstOrDefault();
+                                sv.Id = NewId;
+                            }
+                            // addresses
+                            if (sv.Scope == 3)
+                            {
+                                long NewId = company.Addresses.Where(c => c.Tel2 == Convert.ToString(sv.Id)).Select(c => c.AddressId).FirstOrDefault();
+                                sv.Id = NewId;
+                            }
+                            // territory
+                            if (sv.Scope == 4)
+                            {
+                                string TerritoryName = companyTerritory.Where(c => c.TerritoryId == sv.Id).Select(c => c.TerritoryName).FirstOrDefault();
+                                if(!string.IsNullOrEmpty(TerritoryName))
+                                {
+                                    long nEWiD = company.CompanyTerritories.Where(c => c.TerritoryName == TerritoryName).Select(c => c.TerritoryId).FirstOrDefault();
+                                    sv.Id = nEWiD;
+                                }
+                              
+                            }
+                        }
+                    }
+                    if(fv.VariableExtensions != null && fv.VariableExtensions.Count > 0)
+                    {
+                        foreach (var ve in fv.VariableExtensions)
+                        {
+                            ve.CompanyId = (int)company.CompanyId;
+                        }
+                    }
+                }
+            }
+            // set itemid in cmsoffer
+            if (company.CmsOffers != null && company.CmsOffers.Count > 0)
+            {
+                foreach (var offer in company.CmsOffers)
+                {
+                    offer.ItemId = company.Items.Where(c => c.Tax3 == offer.ItemId).Select(c => (int)c.ItemId).FirstOrDefault();
+                }
+            }
 
             // set parent category id in productcategories
             if (company.ProductCategories != null && company.ProductCategories.Count > 0)
@@ -7929,7 +8118,16 @@ namespace MPC.Implementation.MISServices
 
                     //    }
                     //}
+                 
+
+                  
                 }
+
+               
+
+               
+               
+
             }
 
 
@@ -8064,10 +8262,10 @@ namespace MPC.Implementation.MISServices
                         OldContactImage = Path.GetFileName(contact.image);
                         NewContactImage = OldContactImage.Replace(OldContactID + "_", contact.ContactId + "_");
 
-                        string DestinationContactFilesPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage);
+                        string DestinationContactFilesPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts/" + "/" + NewContactImage);
                         DestinationsPath.Add(DestinationContactFilesPath);
-                        string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts/" + contact.ContactId);
-                        string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + OldCompanyID + "/Contacts/" + OldContactID + "/" + OldContactImage);
+                        string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts");
+                        string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + OldCompanyID + "/Contacts/" + OldContactImage);
                         if (!System.IO.Directory.Exists(DestinationContactFilesDirectory))
                         {
                             Directory.CreateDirectory(DestinationContactFilesDirectory);
@@ -8094,7 +8292,7 @@ namespace MPC.Implementation.MISServices
                             }
 
                         }
-                        contact.image = "/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage;
+                        contact.image = "/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts/" + NewContactImage;
                     }
                 }
             }
@@ -8123,7 +8321,7 @@ namespace MPC.Implementation.MISServices
                         if (media.MediaId > 0)
                             NewMediaID = Convert.ToString(media.MediaId);
 
-
+                        dictionaryMediaIds.Add(OldMediaID, NewMediaID);
 
                         // DestinationsPath.Add(OldMediaID, NewMediaID);
 
@@ -8218,8 +8416,35 @@ namespace MPC.Implementation.MISServices
                 {
                     if (!string.IsNullOrEmpty(pages.PageBanner))
                     {
+                        string OldMediaID = string.Empty;
+                        string newMediaID = string.Empty;
                         string name = Path.GetFileName(pages.PageBanner);
-                        pages.PageBanner = "/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + oCID + "/" + name;
+
+                        string[] SplitMain = name.Split('_');
+
+                        if (SplitMain != null)
+                        {
+                            if (SplitMain[0] != string.Empty)
+                            {
+                                OldMediaID = SplitMain[0];
+
+                            }
+                        }
+
+                        if (dictionaryMediaIds != null && dictionaryMediaIds.Count > 0)
+                        {
+                            var dec = dictionaryMediaIds.Where(s => s.Key == OldMediaID).Select(s => s.Value).FirstOrDefault();
+                            if (dec != null)
+                            {
+                                newMediaID = dec.ToString();
+                            }
+                        }
+
+
+                        string newCMSPageName = name.Replace(OldMediaID + "_", newMediaID + "_");
+
+
+                        pages.PageBanner = "/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + oCID + "/" + newCMSPageName;
                     }
 
                 }
@@ -8467,18 +8692,18 @@ namespace MPC.Implementation.MISServices
 
                         string name = Path.GetFileName(item.GridImage);
                         string[] SplitMain = name.Split('_');
-                        if (SplitMain[1] != string.Empty)
+                        if (SplitMain[0] != string.Empty)
                         {
-                            ItemID = SplitMain[1];
+                            ItemID = SplitMain[0];
 
                         }
-                        //int i = 0;
-                        //// string s = "108";
-                        //bool result = int.TryParse(ItemID, out i);
-                        //if (!result)
-                        //{
-                        //    ItemID = SplitMain[0];
-                        //}
+                        int i = 0;
+                        // string s = "108";
+                        bool result = int.TryParse(ItemID, out i);
+                        if (!result)
+                        {
+                            ItemID = SplitMain[1];
+                        }
 
                         OldGridPath = Path.GetFileName(item.GridImage);
                         NewGridPath = OldGridPath.Replace(ItemID + "_", item.ItemId + "_");
@@ -9167,6 +9392,8 @@ namespace MPC.Implementation.MISServices
             }        
         }
         #endregion
+
+        
 
 
 

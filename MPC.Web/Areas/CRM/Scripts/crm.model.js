@@ -1262,7 +1262,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
-    var Store = function (specifiedStoreId,specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+    var Store = function (specifiedStoreId, specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
         specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
         specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
@@ -1482,8 +1482,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 result.URL = source.url();
                 result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
                 result.AccountManagerId = source.accountManagerId();
-                result.AvatRegNumber = source.avatRegNumber();
-                result.PvatRegReference = source.avatRegReference();
+                result.VATRegNumber = source.avatRegNumber();
+                result.VATRegReference = source.avatRegReference();
                 result.PhoneNo = source.phoneNo();
                 result.IsCustomer = source.isCustomer();
                 //result.IsCustomer = source.type();
@@ -1738,8 +1738,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.URL,
             source.AccountOpenDate,
             source.AccountManagerId,
-            source.AvatRegNumber,
-            source.AvatRegReference,
+            source.VATRegNumber,
+            source.VATRegReference,
             source.PhoneNo,
             source.IsCustomer,
             source.Notes,

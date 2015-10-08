@@ -77,8 +77,9 @@ namespace MPC.Webstore.Controllers
                 List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
 
                 List<ProductMarketBriefQuestion> QuestionsList = _IItemService.GetMarketingInquiryQuestionsByItemID(ItemID);
-                if (QuestionsList.Count > 0)
+                if (QuestionsList != null && QuestionsList.Count > 0)
                 {
+                    QuestionsList = QuestionsList.OrderBy(g => g.SortOrder).ToList();
                     ViewData["QuestionsList"] = QuestionsList;
                     if (QuestionsList != null)
                     {
@@ -116,7 +117,7 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(ProductItem Model, string hfInqueryMesg, HttpPostedFileBase fuImageUpload)
+        public ActionResult Index(ProductItem Model, string hfInqueryMesg)
         {
             MyCompanyDomainBaseReponse StoreBaseResopnse = _ICompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
@@ -127,29 +128,14 @@ namespace MPC.Webstore.Controllers
                 Model.ProductCategoryName = _IItemService.GetCategoryNameById(0, Model.ItemID);
                 ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Model.ProductCategoryName) + "/" + _IItemService.GetCategoryIdByItemId(Model.ItemID);
 
-                if (Request.Files.Count > 0)
+                string filesData = Request.Form["listOfFileName"];
+                if (!string.IsNullOrEmpty(filesData))
                 {
-                    List<string> filesNamesPaths = new List<string>();
-
-                    if (Request.Files != null)
+                    List<string> filesNamesPaths = filesData.Split('|').ToList();
+                    Attachments = new List<string>();
+                    foreach(string fi in filesNamesPaths)
                     {
-                        Attachments = new List<string>();
-                        string folderPath = ""; // from file table // @Components.ImagePathConstants.EmailAttachmentPath;
-                        string virtualFolderPth = string.Empty;
-
-                        virtualFolderPth = @Server.MapPath(folderPath);
-                        if (!System.IO.Directory.Exists(virtualFolderPth))
-                            System.IO.Directory.CreateDirectory(virtualFolderPth);
-
-                        for (int i = 0; i < Request.Files.Count; i++)
-                        {
-                            HttpPostedFileBase postedFile = Request.Files[i];
-
-                            string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(postedFile.FileName));
-
-                            Attachments.Add(folderPath + fileName);
-                            postedFile.SaveAs(virtualFolderPth + fileName);
-                        }
+                         Attachments.Add("/mpc_content/EmailAttachments/" + fi);
                     }
                 }
                 string MEsg = string.Empty;
@@ -229,21 +215,27 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     string Email = string.Empty;
-                    SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-                    if (SalesMagerRec != null)
-                    {
-                        EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
-                        Email = SalesMagerRec.Email;
-                    }
-                   
                     EmailParams.StoreId = UserCookieManager.WBStoreId;
                     EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
 
+                    if (StoreBaseResopnse.Company.MarketingBriefRecipient != null)
+                    {
+                        _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, (int)org.OrganisationId, "", "", "", StoreBaseResopnse.Company.MarketingBriefRecipient, StoreBaseResopnse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                    }
+                    else
+                    {
+                        SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                        if (SalesMagerRec != null)
+                        {
+                            EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
+                            Email = SalesMagerRec.Email;
+                        }
 
-                    int OID = (int)org.OrganisationId;
-                    _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                        _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail,(int)org.OrganisationId, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
 
 
+                    }
+                   
                 }
 
 

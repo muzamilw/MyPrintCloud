@@ -36,7 +36,7 @@
                 <div class="main-box no-header clearfix">
                     <div class="main-box-body clearfix">
                         <h3>Create and set sheets sizes widths and lengths</h3>
-                        <span>Create and Manage sheet sizes for use within estimates and products.Enter width and length as well as unit of preferred measurement</span>
+                        <span class="group-header-description">Create and Manage sheet sizes for use within estimates and products.Enter width and length as well as unit of preferred measurement</span>
                         <div style="height:20px;">
                             &nbsp;
                         </div>
@@ -46,10 +46,11 @@
                                     <tr>
                                         <th class="col-lg-1"></th>
                                         <th class="col-lg-3"><span id="0">Sheet Size</span></th>
-                                        <th class="col-lg-2"><span id="1">Sheet Height</span></th>
-                                        <th class="col-lg-2"><span id="2">Sheet Width</span></th>
+                                        <th class="col-lg-2" style="text-align:right;"><span id="1">Sheet Height</span></th>
+                                        <th class="col-lg-2" style="text-align:right;"><span id="2">Sheet Width</span></th>
+                                        <th class="col-lg-1"></th>
                                         <th class="col-lg-2"><span id="3">Unit</span></th>
-                                        <th class="col-lg-2">&nbsp;</th>
+                                        <th class="col-lg-1">&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,8 +93,9 @@
         <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
             <td>&nbsp;</td>
             <td><a href="#" class="store-user-link" data-bind="text: name, click : $root.onEditItem"></a></td>
-            <td data-bind="text: height" style="text-align:right;padding-right:80px;"></td>
-            <td data-bind="text: width" style="text-align:right;padding-right:90px;"></td>
+            <td data-bind="text: height" style="text-align:right;"></td>
+            <td data-bind="text: width" style="text-align:right;"></td>
+            <td>&nbsp;</td>
             <!-- ko if: IsImperical() -->
             <td>inch</td>
             <!-- /ko -->

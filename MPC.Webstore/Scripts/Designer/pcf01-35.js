@@ -10,6 +10,7 @@
 
 }
 function d1ToCanvas(src, x, y, IW, IH) {
+ 
     var canvasHeight = Math.floor(canvas.height);
     var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
@@ -487,13 +488,14 @@ function e3() {
         canvas.backgroundImage.originX = 'left';
         canvas.backgroundImage.originY = 'top';
     }
-    $("#zoomText").html(Math.floor(D1CS * 100) + "%");
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
     $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
     $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
     var val = $("#canvasDocument").width() - $(".page").width();
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
 }
 
 function e5() {
@@ -530,14 +532,14 @@ function e5() {
         canvas.backgroundImage.maxHeight = canvas.getHeight();
         canvas.backgroundImage.originX = 'left';
         canvas.backgroundImage.originY = 'top';
-    } $("#zoomText").html(Math.floor(D1CS * 100) + "%");
-    $("#zoomText").html(Math.floor(D1CS * 100) + "%");
+    } 
     $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
     $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
     var val = $("#canvasDocument").width() - $(".page").width();
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
 }
 function f2_ChangeSVGColor(pathIndex) {
     selectedPathIndex = pathIndex;
@@ -639,7 +641,6 @@ function f2(c, m, y, k, ColorHex, Sname) {
                 }
             });
             $("#imgThumbPreview").attr("src", D1AO.toDataURL());
-            //alert();
         }
 
         canvas.renderAll();
@@ -686,21 +687,29 @@ function f5(c, m, y, k) {
 }
 function f6(c, m, y, k, Color) {
     var Sname = "";
+    var updateColor = true;
     if (IsCalledFrom == 2 || IsCalledFrom == 4) {
         Sname = window.prompt("Enter Spot Color Name Here! (Once a color is created, you cannot change its name or color)", "Spot Color 1");
         if (Sname == null || Sname == "") {
             return false;
         } else {
+            updateColor = false;
             $.getJSON("/designerapi/TemplateColorStyles/SaveCorpColor/" + Sname + "/" + c + "/" + m + "/" + y + "/" + k + "/" + CustomerID,
 				function (DT) {
-				    var PID = DT;
-				    var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
-				    $('#tabsActiveColors').append(html);
-
+				    if (DT == "Already Exsist") {
+				        
+				        alert("A spot color with same name already exist please try again with different name");
+				    } else {
+				        var PID = DT;
+				        var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+				        $('#tabsActiveColors').append(html);
+				        f2(c, m, y, k, Color, Sname);
+				    }
 				});
         }
     }
-    f2(c, m, y, k, Color, Sname);
+    if (updateColor)
+        f2(c, m, y, k, Color, Sname);
 }
 function f6_1() {
     pcL36('toggle', '#DivAdvanceColorPanel');
@@ -1022,6 +1031,7 @@ function fu13(op, type, r, c) {
             $(".AddBrowserCategories .UlAddMain li").removeClass("folderExpanded");
             $(".AddPanels").addClass("disappearing");
             isAddPaCl = false;
+            
         }
         if (SelAddCat == ("" + r + "" + c)) {
             SelAddCat = "00";
@@ -1042,6 +1052,13 @@ function fu13(op, type, r, c) {
         }
 
 
+    } else if (type == 6)
+    {
+        // close all panels and goto add button 
+        $(".AddBrowserCategories").removeClass("folderExpanded");
+        $(".AddBrowserCategories .UlAddMain li").removeClass("folderExpanded");
+        $(".AddPanels").addClass("disappearing");
+        isAddPaCl = false;
     }
 }
 function g0(left, top, IsQT, QTName, QTSequence, QTWatermark, txt, fontSize, isBold) {
@@ -1351,6 +1368,7 @@ function g2(e) {
 
 }
 function g2_1(e) {
+
     var D1AO = canvas.getActiveObject();
     var D1AG = canvas.getActiveGroup();
     var lastPanelLocal = D1LP;
@@ -1556,6 +1574,7 @@ function g2_22(mode) {
     $("#textPropertyPanel").css("display", "none");
     $("#objPropertyPanel").css("display", "block");
     $(".inputObjectAlphaSlider").slider("option", "value", (D1AO.getOpacity() * 100));
+    $(".lblObjectOpacity").html((D1AO.getOpacity() * 100) + "%");
     if (D1AO.IsEditable) {
         $("#LockImgProperties").prop('checked', true);
 
@@ -1597,7 +1616,7 @@ function g2_22(mode) {
                 //DisplayDiv('1');
             }
             $(".svgColorPanel").css("display", "none");
-            $(".inputObjectAlphaSlider ").css("display", "inline-block");
+            $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
 
         // }
           
@@ -1616,7 +1635,7 @@ function g2_22(mode) {
                 m0();
             } 
         }
-        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden"); $(".inputObjectAlphaSlider ").css("display", "none");
+        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden"); $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "none");
         $(".svgColorContainer").html("");
         var lstClrs = [];
         if (D1AO.customStyles != null) {
@@ -1633,7 +1652,7 @@ function g2_22(mode) {
         } 
     } else {
         $("#AddColorShape").css("visibility", "visible");
-        $(".svgColorPanel").css("display", "none"); $(".inputObjectAlphaSlider ").css("display", "inline-block");
+        $(".svgColorPanel").css("display", "none"); $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
             $(".rotateSlider").slider("option", "value", D1AO.getAngle());
@@ -1839,48 +1858,15 @@ function h1(left, top) {
     }
     D1NTO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
     lAObj = D1NTO.ObjectID;
-    var ROL = new fabric.Rect({
-        left: 0,
-        top: 0,
-        fill: '#000000',
-        width: 100 * dfZ1l,
-        height: 100 * dfZ1l,
-        opacity: 1
-    })
+    D1NTO.DisplayOrderPdf = canvas.getObjects().length + 1;
 
-    ROL.maxWidth = 200;
-    ROL.maxHeight = 200;
-    ROL.set({
-        borderColor: 'red',
-        cornerColor: 'orange',
-        cornersize: 10
-    });
-
-    ROL.ObjectID = D1NTO.ObjectID;
-    canvas.add(ROL);
-
-    var index;
-    var OBS = canvas.getObjects();
-    $.each(OBS, function (i, IT) {
-        if (IT.ObjectID == ROL.ObjectID) {
-            index = i;
-        }
-    });
-    D1NTO.DisplayOrderPdf = index;
-
-    ROL.top = top;
-    ROL.left = left;
-    D1NTO.PositionX = ROL.left - ROL.maxWidth / 2;
-    D1NTO.PositionY = ROL.top - ROL.maxHeight / 2;
-    ROL.setCoords();
-
-    ROL.C = "0";
-    ROL.M = "0";
-    ROL.Y = "0";
-    ROL.K = "100";
+    D1NTO.PositionX = left - 100;
+    D1NTO.PositionY = top - 100;
+   
     canvas.renderAll();
     TO.push(D1NTO);
-    canvas.setActiveObject(ROL);
+   
+    canvas.setActiveObject( c9(canvas, D1NTO));
 }
 function h2(left, top) {
     var NewCircleObejct = {};
@@ -2127,10 +2113,10 @@ function l2(event) {
             }
         }
     }
-    if (event.keyCode == 46 || event.keyCode == 8) {
+    if (event.keyCode == 46) {//|| event.keyCode == 8
         if (N1LA != 1 && IsInputSelected == false) {
             var D1AO = canvas.getActiveObject();
-            var D1AG = canvas.getActiveGroup();
+            var D1AG = canvas.getActiveGroup(); 
             if (D1AG) {
                 if (confirm("Are you sure you want to Remove this Group from the canvas.")) {
                     var objectsInGroup = D1AG.getObjects();
@@ -2177,10 +2163,23 @@ function l3(e) {
         return false
     }
     var sObj = canvas.getActiveObject();
+    var askCnfrmation = false;
     if (!sObj) {
+        askCnfrmation = true;
+    } else {
+        if (sObj.type != 'text' || sObj.type != 'i-text') {
+            askCnfrmation = true;
+        }
+    }
+   
+  
+    if (askCnfrmation)
+    {
         if (e.keyCode == 8 && IsInputSelected == false) {
             if (IsDesignModified) {
                 if (!confirm("You have unsaved changes. Do you want to leave without saving changes ?")) {
+                    e.stopPropagation();
+                    e.preventDefault();
                     return false;
                 }
             }
@@ -2199,7 +2198,7 @@ function l3(e) {
             if (!lockedObjectFound) {
                 pcL13();   // show group property panel and hide others
                 pcL36('hide', '#textPropertPanel ,#DivAdvanceColorPanel , #DivColorPallet , #DivColorPallet , #ShapePropertyPanel ,#ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText');
-                k4();
+                k4(); 
                 pcL36('show', "#DivAlignObjs");
             } else {
                 // hide all panels 
@@ -2429,7 +2428,6 @@ function pcL02_main2() {
     pcL36('toggle', '#DivColorPickerDraggable');
 }
 function pcL03() {
-   
         var D1AO = canvas.getActiveObject(),
         D1AG = canvas.getActiveGroup();
         if (D1AO) {
@@ -3126,7 +3124,8 @@ function pcl42() {
         d5_sub(SP,true);
     } else
     {
-        alert("Variable validation failed");
+        alert("Please enter valid information in all highlighted fields to continue.");
+        smartFormClicked = false;
     } 
 
     clearInterval(var2);
@@ -3190,13 +3189,94 @@ function pcl42_UpdateTO(isFirstLoad) {
     }
     if ($("#optionRadioOtherProfile").is(':checked')) {
         $.each(TO, function (i, IT) {
-            $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
-              //  if (obj.ObjectType == 3)  // replacing variables
-                //    {
-                if (obj.Value == null) {
-                    obj.Value = "";
-                }
-                if (obj.Value != null ) {
+            if (IT.ObjectType == 2) {
+                $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
+                    //  if (obj.ObjectType == 3)  // replacing variables
+                    //    {
+                    if (obj.Value == null) {
+                        obj.Value = "";
+                    }
+                    if (obj.Value != null) {
+                        var variableTag = obj.FieldVariable.VariableTag;
+                        var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (obj.FieldVariable.VariableTag != null) {
+                            variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                            variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                        }
+                        var prefix = "", post = "", value = "";
+
+                        $.each(lstVariableExtensions, function (i, objExt) {
+                            if (obj.FieldVariable.VariableId == objExt.FieldVariableId) {
+                                if (objExt.VariablePrefix != null && objExt.VariablePrefix != "") {
+                                    prefix = objExt.VariablePrefix;
+                                    if (objExt.CollapsePrefix == true && obj.Value == "") {
+                                        prefix = "";
+                                    }
+                                }
+                                if (objExt.VariablePostfix != null && objExt.VariablePostfix != "") {
+                                    post = objExt.VariablePostfix;
+                                    if (objExt.CollapsePostfix == true && obj.Value == "") {
+                                        post = "";
+                                    }
+                                }
+                            }
+                        });
+                        value = obj.Value;//value = prefix + obj.Value + post;
+                        // add variable icon 
+                        if (obj.VariableIconUrl != null && obj.VariableIconUrl != "") {
+                            AddPortFolioIcon(obj.VariableIconUrl, IT, variableTag);
+                            // ExField1
+                        }
+                        while (IT.ContentString.indexOf(variableTag) != -1)
+                            updateTOWithStyles(IT, variableTag, value);
+                        while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
+                            updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
+                        while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
+                            updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
+                        // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+
+                        var tag = variableTag.replace("{{", "");
+                        tag = tag.replace("}}", "");
+                        var prefixVar = "{{" + tag + "_pre}}";
+                        var postfixVar = "{{" + tag + "_post}}";
+
+                        var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (obj.FieldVariable.VariableTag != null) {
+                            prefixVarUpperCase = prefixVar.toUpperCase();
+                            prefixVarLowerCase = prefixVar.toLowerCase();
+                            postfixVarUpperCase = postfixVar.toUpperCase();
+                            postfixVarLowerCase = postfixVar.toLowerCase();
+                        }
+                        while (IT.ContentString.indexOf(prefixVar) != -1)
+                            updateTOWithStyles(IT, prefixVar, prefix);
+                        while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                            updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                        while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                            updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+
+                        while (IT.ContentString.indexOf(postfixVar) != -1)
+                            updateTOWithStyles(IT, postfixVar, post);
+                        while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                            updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                        while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                            updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+
+
+
+                    }
+                    //  }
+                });
+            }
+        });
+    }
+    else {
+        $.each(TO, function (i, IT) {
+            if (IT.ObjectType == 2) {
+                $.each(smartFormData.scopeVariables, function (i, obj) {
                     var variableTag = obj.FieldVariable.VariableTag;
                     var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
                     var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
@@ -3204,143 +3284,75 @@ function pcl42_UpdateTO(isFirstLoad) {
                         variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
                         variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
                     }
-                    var prefix = "", post = "", value = "";
+                    if (obj.Value == null) {
+                        obj.Value = "";
+                    }
+                    if (obj.Value != null) {
+                        var prefix = "", post = "", value = "";
 
-                    $.each(lstVariableExtensions, function (i, objExt) {
-                        if (obj.FieldVariable.VariableId == objExt.FieldVariableId) {
-                            if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" ) {
-                                prefix = objExt.VariablePrefix;
-                                if (objExt.CollapsePrefix == true && obj.Value == "") {
-                                    prefix = "";
+                        $.each(lstVariableExtensions, function (i, objExt) {
+                            if (obj.FieldVariable.VariableId == objExt.FieldVariableId) {
+                                if (objExt.VariablePrefix != null && objExt.VariablePrefix != "") {
+                                    prefix = objExt.VariablePrefix;
+                                    if (objExt.CollapsePrefix == true && obj.Value == "") {
+                                        prefix = "";
+                                    }
+                                }
+                                if (objExt.VariablePostfix != null && objExt.VariablePostfix != "") {
+                                    post = objExt.VariablePostfix;
+                                    if (objExt.CollapsePostfix == true && obj.Value == "") {
+                                        post = "";
+                                    }
                                 }
                             }
-                            if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" ) {
-                                post = objExt.VariablePostfix;
-                                if (objExt.CollapsePostfix == true && obj.Value == "") {
-                                    post = "";
-                                }
-                            }
+                        });
+                        value = obj.Value;//value = prefix + obj.Value + post;
+                        // add variable icon 
+                        if (obj.VariableIconUrl != null && obj.VariableIconUrl != "") {
+                            AddPortFolioIcon(obj.VariableIconUrl, IT, variableTag);
+                            // ExField1
                         }
-                    });
-                    value = obj.Value;//value = prefix + obj.Value + post;
-
-                    while (IT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(IT, variableTag, value);
-                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
-                        updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
-                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
-                        updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
-                    // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
-
-                    var tag = variableTag.replace("{{", "");
-                    tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}}";
-                    var postfixVar = "{{" + tag + "_post}}";
-                  
-                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    if (obj.FieldVariable.VariableTag != null) {
-                        prefixVarUpperCase = prefixVar.toUpperCase();
-                        prefixVarLowerCase = prefixVar.toLowerCase();
-                        postfixVarUpperCase = postfixVar.toUpperCase();
-                        postfixVarLowerCase = postfixVar.toLowerCase();
-                    }
-                    while (IT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(IT, prefixVar, prefix);
-                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
-
-                    while (IT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(IT, postfixVar, post);
-                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
-                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
-
-                }
-              //  }
-            });
-        });
-    }
-    else {
-        $.each(TO, function (i, IT) {
-            
-            $.each(smartFormData.scopeVariables, function (i, obj) {
-                var variableTag = obj.FieldVariable.VariableTag;
-                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                if (obj.FieldVariable.VariableTag != null) {
-                    variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
-                    variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
-                }
-                if (obj.Value == null) {
-                    obj.Value = "";
-                }
-                if (obj.Value != null) {
-                    var prefix = "", post = "", value = "";
-                    
-                    $.each(lstVariableExtensions, function (i, objExt) {
-                        if(obj.FieldVariable.VariableId  ==  objExt.FieldVariableId)
-                        {
-                            if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" )
-                            {
-                                prefix = objExt.VariablePrefix;
-                                if (objExt.CollapsePrefix == true && obj.Value == "") {
-                                    prefix = "";
-                                }
-                            }
-                            if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" ) {
-                                post = objExt.VariablePostfix;
-                                if (objExt.CollapsePostfix == true && obj.Value == "") {
-                                    post = "";
-                                }
-                            }
+                        while (IT.ContentString.indexOf(variableTag) != -1) {
+                            updateTOWithStyles(IT, variableTag, value);
                         }
-                    });
-                    value = obj.Value ;//value = prefix + obj.Value + post;
-                    while (IT.ContentString.indexOf(variableTag) != -1) {
-                        updateTOWithStyles(IT, variableTag, value);
-                    }
-                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
-                        updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
-                    }
-                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
-                        updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
-                    }
-                    //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
-                    var tag = variableTag.replace("{{", "");
-                    tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}}";
-                    var postfixVar = "{{" + tag + "_post}}";
-                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    if (obj.FieldVariable.VariableTag != null) {
-                        prefixVarUpperCase = prefixVar.toUpperCase();
-                        prefixVarLowerCase = prefixVar.toLowerCase();
-                        postfixVarUpperCase = postfixVar.toUpperCase();
-                        postfixVarLowerCase = postfixVar.toLowerCase();
-                    }
-                    while (IT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(IT, prefixVar, prefix);
-                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+                        while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
+                            updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
+                        }
+                        while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
+                            updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
+                        }
+                        //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                        var tag = variableTag.replace("{{", "");
+                        tag = tag.replace("}}", "");
+                        var prefixVar = "{{" + tag + "_pre}}";
+                        var postfixVar = "{{" + tag + "_post}}";
+                        var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (obj.FieldVariable.VariableTag != null) {
+                            prefixVarUpperCase = prefixVar.toUpperCase();
+                            prefixVarLowerCase = prefixVar.toLowerCase();
+                            postfixVarUpperCase = postfixVar.toUpperCase();
+                            postfixVarLowerCase = postfixVar.toLowerCase();
+                        }
+                        while (IT.ContentString.indexOf(prefixVar) != -1)
+                            updateTOWithStyles(IT, prefixVar, prefix);
+                        while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                            updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                        while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                            updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
 
-                    while (IT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(IT, postfixVar, post);
-                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
-                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
-                }
-            });
+                        while (IT.ContentString.indexOf(postfixVar) != -1)
+                            updateTOWithStyles(IT, postfixVar, post);
+                        while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                            updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                        while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                            updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+
+                    }
+                });
+            }
         }); 
     }
   
@@ -3370,44 +3382,51 @@ function pcl42_updateTemplate(DT) {
                         }
                     }
                 });
-                value =  vari.Value ;//prefix + vari.Value + post;
+                value = vari.Value;//prefix + vari.Value + post;
+                // add variable icon 
+                if (vari.VariableIconUrl != null && vari.VariableIconUrl != "") {
+                    AddPortFolioIcon(vari.VariableIconUrl, objDT, variableTag);
+                    // ExField1
+                }
                 $.each(DT, function (i, objDT) {
-                    while (objDT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(objDT, variableTag, value);
-                    while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
-                        updateTOWithStyles(objDT, variableTag.toLowerCase(), value.toLowerCase());
-                    while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
-                        updateTOWithStyles(objDT, variableTag.toUpperCase(), value.toUpperCase());
+                    if (objDT.ObjectType == 2) {
+                        while (objDT.ContentString.indexOf(variableTag) != -1)
+                            updateTOWithStyles(objDT, variableTag, value);
+                        while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
+                            updateTOWithStyles(objDT, variableTag.toLowerCase(), value.toLowerCase());
+                        while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
+                            updateTOWithStyles(objDT, variableTag.toUpperCase(), value.toUpperCase());
 
 
 
-                    var tag = variableTag.replace("{{", "");
-                    tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}}";
-                    var postfixVar = "{{" + tag + "_post}}";
-                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    if (vari.FieldVariable.VariableTag != null) {
-                        prefixVarUpperCase = prefixVar.toUpperCase();
-                        prefixVarLowerCase = prefixVar.toLowerCase();
-                        postfixVarUpperCase = postfixVar.toUpperCase();
-                        postfixVarLowerCase = postfixVar.toLowerCase();
+                        var tag = variableTag.replace("{{", "");
+                        tag = tag.replace("}}", "");
+                        var prefixVar = "{{" + tag + "_pre}}";
+                        var postfixVar = "{{" + tag + "_post}}";
+                        var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (vari.FieldVariable.VariableTag != null) {
+                            prefixVarUpperCase = prefixVar.toUpperCase();
+                            prefixVarLowerCase = prefixVar.toLowerCase();
+                            postfixVarUpperCase = postfixVar.toUpperCase();
+                            postfixVarLowerCase = postfixVar.toLowerCase();
+                        }
+                        while (objDT.ContentString.indexOf(prefixVar) != -1)
+                            updateTOWithStyles(objDT, prefixVar, prefix);
+                        while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                            updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
+                        while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                            updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
+
+                        while (objDT.ContentString.indexOf(postfixVar) != -1)
+                            updateTOWithStyles(objDT, postfixVar, post);
+                        while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                            updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
+                        while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                            updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
                     }
-                    while (objDT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(objDT, prefixVar, prefix);
-                    while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
-
-                    while (objDT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(objDT, postfixVar, post);
-                    while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
-                    while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
                 });
             } else {
                 var variableTag = vari.FieldVariable.VariableTag;
@@ -3432,44 +3451,101 @@ function pcl42_updateTemplate(DT) {
                 });
                 value = prefix + "" + post;
                 $.each(DT, function (i, objDT) {
-                    while (objDT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(objDT, variableTag, value);
-                    while (objDT.ContentString.indexOf(variableTagUpperCase) != -1)
-                        updateTOWithStyles(objDT, variableTagUpperCase, value);
-                    while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
-                        updateTOWithStyles(objDT, variableTagLowerCase, value);
+                    if (objDT.ObjectType == 2) {
+                        while (objDT.ContentString.indexOf(variableTag) != -1)
+                            updateTOWithStyles(objDT, variableTag, value);
+                        while (objDT.ContentString.indexOf(variableTagUpperCase) != -1)
+                            updateTOWithStyles(objDT, variableTagUpperCase, value);
+                        while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
+                            updateTOWithStyles(objDT, variableTagLowerCase, value);
 
-                    var tag = variableTag.replace("{{", "");
-                    tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}}";
-                    var postfixVar = "{{" + tag + "_post}}";
-                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
-                    if (vari.FieldVariable.VariableTag != null) {
-                        prefixVarUpperCase = prefixVar.toUpperCase();
-                        prefixVarLowerCase = prefixVar.toLowerCase();
-                        postfixVarUpperCase = postfixVar.toUpperCase();
-                        postfixVarLowerCase = postfixVar.toLowerCase();
+                        var tag = variableTag.replace("{{", "");
+                        tag = tag.replace("}}", "");
+                        var prefixVar = "{{" + tag + "_pre}}";
+                        var postfixVar = "{{" + tag + "_post}}";
+                        var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                        if (vari.FieldVariable.VariableTag != null) {
+                            prefixVarUpperCase = prefixVar.toUpperCase();
+                            prefixVarLowerCase = prefixVar.toLowerCase();
+                            postfixVarUpperCase = postfixVar.toUpperCase();
+                            postfixVarLowerCase = postfixVar.toLowerCase();
+                        }
+                        while (objDT.ContentString.indexOf(prefixVar) != -1)
+                            updateTOWithStyles(objDT, prefixVar, prefix);
+                        while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                            updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
+                        while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                            updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
+
+                        while (objDT.ContentString.indexOf(postfixVar) != -1)
+                            updateTOWithStyles(objDT, postfixVar, post);
+                        while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                            updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
+                        while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                            updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
+
+                        // add variable icon  not needed as variable value is null
+                        //if (vari.VariableIconUrl != null && vari.VariableIconUrl != "") {
+                        //    AddPortFolioIcon(vari.VariableIconUrl, objDT);
+                        //    // ExField1
+                        //}
                     }
-                    while (objDT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(objDT, prefixVar, prefix);
-                    while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
-
-                    while (objDT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(objDT, postfixVar, post);
-                    while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
-                    while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
-
                 });
             }
         });
+    }
+}
+function AddPortFolioIcon(url,objTO,tag)
+{
+    var alreadyHI = false;
+    var oJobj = null;
+    $.each(TO, function (i, IT) {
+        if (IT.ExField1 == objTO.ObjectID + "")
+            alreadyHI = true;
+        if (IT.ObjectID == objTO.ObjectID && IT.ContentString.toLowerCase().indexOf(tag.toLowerCase()) != -1)
+            oJobj = IT;
+    });
+
+    if (!alreadyHI && oJobj != null) {
+        var pic_real_width, pic_real_height;
+        $("<img/>") 
+            .attr("src", "/" + url)
+            .load(function () {
+                pic_real_width = this.width;  
+                pic_real_height = this.height;
+
+                var D1NIO = {};
+                D1NIO = fabric.util.object.clone(TO[0]);
+                D1NIO.ObjectID = --NCI;
+                D1NIO.ColorHex = "#000000";
+                D1NIO.IsBold = false;
+                D1NIO.IsItalic = false;
+                D1NIO.ProductPageId = objTO.ProductPageId;
+                D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+
+                D1NIO.ObjectType = 3;
+
+                D1NIO.MaxHeight = oJobj.MaxHeight;
+                D1NIO.MaxWidth = oJobj.MaxHeight * parseFloat(pic_real_width / pic_real_height);
+
+                D1NIO.PositionX = oJobj.PositionX - D1NIO.MaxWidth;
+                D1NIO.PositionY = oJobj.PositionY;
+
+
+                D1NIO.ExField1 = objTO.ObjectID;
+                D1NIO.IsQuickText = true;
+                D1NIO.ContentString = "/" + url;//"./assets/Imageplaceholder.png";
+                D1NIO.DisplayOrder = TO.length + 1;
+                d1(canvas, D1NIO);
+                var OBS = canvas.getObjects();
+
+                D1NIO.DisplayOrderPdf = OBS.length;
+                canvas.renderAll();
+                TO.push(D1NIO);
+            });
     }
 }
 function getObjectToRemove(stylesCopy,objStyle){
@@ -3529,7 +3605,6 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                 {
                     if (objs[i] == "")
                     {
-                     //   alert();
                         objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length);
                      //   console.log(objs[i + 1]);
                         variableLength += 1;

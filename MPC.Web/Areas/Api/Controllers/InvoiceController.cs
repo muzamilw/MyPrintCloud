@@ -1,4 +1,6 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System.IO;
+using System.Text;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
@@ -7,6 +9,7 @@ using System.Web;
 using System.Web.Http;
 using MPC.WebBase.Mvc;
 using MPC.Interfaces.Data;
+using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -18,16 +21,17 @@ namespace MPC.MIS.Areas.Api.Controllers
        #region Private
 
         private readonly IInvoiceService invoiceService;
-
+        private readonly IMyOrganizationService organisationService;
         #endregion
        #region Constructor
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public InvoiceController(IInvoiceService invoiceService)
+        public InvoiceController(IInvoiceService invoiceService, IMyOrganizationService myOrganizationService)
         {
             this.invoiceService = invoiceService;
+            this.organisationService = myOrganizationService;
         }
 
         #endregion
@@ -72,9 +76,24 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
-
-            return invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
+            var savedInvoice = invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
+            invoiceService.PostDataToZapier(savedInvoice.InvoiceId);
+            return savedInvoice;
         }
+
+        
+        [ApiException]
+        [CompressFilterAttribute]
+        public void Delete(ArchiveInvoiceRequestModel model)
+        {
+            if (model.InvoiceId == 0 || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+
+            invoiceService.ArchiveInvoice(model.InvoiceId);
+        }
+
         #endregion
     }
 }

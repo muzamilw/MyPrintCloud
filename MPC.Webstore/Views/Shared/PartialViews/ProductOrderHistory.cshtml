@@ -32,7 +32,6 @@
             <div class="clearBoth">
             </div>
         </div>
-
         <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="Width100Percent">
                 <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners hidden-xs">
@@ -150,6 +149,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <br />
     <br />
@@ -651,9 +651,48 @@
                         InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th></th><th></th><th></th></tr></thead>";
                       
                     }
+                    var otherAttachmentLink = "";
                     $.each(GridItems, function (i, IT) {
                         { 
-                            var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + IT.Attatchment._fileName + "Thumb.png";
+                            if(IT.OtherItemAttatchments != null){
+
+                             if(IT.OtherItemAttatchments.length > 1){
+
+                                $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
+                                   
+                                    if(otherAttachVal.FileName == IT.Attatchment._fileName){
+                                    }else{
+                                        var OtherAttachFileName = otherAttachVal.FileName;
+                                        while (OtherAttachFileName.indexOf(" ") > 0)
+                                        {
+                                            OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                        }
+
+                                        var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                        otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                    }
+
+                                });
+                             }
+                            }
+                           
+                           
+                           
+                           
+                            var AttachFileName = IT.Attatchment._fileName;
+                            
+                            if(AttachFileName != "" && AttachFileName != null){
+                                while (AttachFileName.indexOf(" ") > 0)
+                                {
+                                    AttachFileName = AttachFileName.replace(" ", "%20");
+                                }
+                            }
+                           
+
+                          
+
+                            var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
+                            
                             //InnerHtml += '<tr>';
                             if("@ViewBag.IsShowPrices" == "True")
                             {
@@ -668,7 +707,7 @@
                             
                         }
                     });
-                    InnerHtml += '</table>';
+                    InnerHtml += '</table>' + otherAttachmentLink;
                     $("#GridTable").html(InnerHtml);
                     var panelHtml = $("#Vorder").html();
 

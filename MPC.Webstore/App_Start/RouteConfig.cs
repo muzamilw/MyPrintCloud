@@ -78,6 +78,13 @@ namespace MPC.Webstore
                "UserManager/GetContactsIntellicence",
                new { controller = "UserManager", action = "GetContactsIntellicence", id = UrlParameter.Optional }
            );
+       
+
+            routes.MapRoute(
+              "GetCompanyFlags",
+              "UserManager/GetCompanyFlags",
+              new { controller = "UserManager", action = "GetCompanyFlags", id = UrlParameter.Optional }
+          );
             routes.MapRoute(
                 "BillingShippingIntellisenceData",
                 "BillingShippingAddressManager/IntellisenceData",
@@ -348,6 +355,11 @@ namespace MPC.Webstore
                 "CloneProducts/{id}",
                 new { controller = "CategoriesAndProducts", action = "CloneProducts", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+               "CloneRealEstateProducts",
+               "CloneRealEstateItem/{id}",
+               new { controller = "RealEstateProducts", action = "CloneRealEstateItem", id = UrlParameter.Optional }
+           );
 
             routes.MapRoute(
                 "CloneItem",
@@ -410,11 +422,11 @@ namespace MPC.Webstore
                 new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                "ReceiptPlain",
-                "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
-                new { controller = "ReceiptPlain", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
-            );
+            //routes.MapRoute(
+            //    "ReceiptPlain",
+            //    "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
+            //    new { controller = "ReceiptPlain", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
+            //);
 
             routes.MapRoute(
                 "autologin",
