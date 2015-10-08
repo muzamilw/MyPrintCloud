@@ -335,8 +335,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         return Request.CreateResponse(HttpStatusCode.OK, _CostCentreParamsArray);
                     }
 
-
-
                 }
                 catch (Exception ex)
                 {
