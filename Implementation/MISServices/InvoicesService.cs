@@ -422,6 +422,11 @@ namespace MPC.Implementation.MISServices
 
 
         }
+        public void ArchiveInvoice(int InvoiceId)
+        {
+            invoiceRepository.ArchiveInvoice(InvoiceId);
+        }
         #endregion
+
     }
 }

@@ -133,6 +133,8 @@ define("invoice/invoice.viewModel",
                     isAddProductForSectionCostCenter = ko.observable(false),
                     //Is Cost Center dialog open for shipping
                     isCostCenterDialogForShipping = ko.observable(false),
+
+                    currentTabid = ko.observable(0),
                     //#endregion
 
                     //#region Utility Functions
@@ -263,6 +265,22 @@ define("invoice/invoice.viewModel",
 
                     },
 
+                     archiveInvoice = function (id) {
+                        
+                         dataservice.archiveInvoicePermanently({ InvoiceId: id }, {
+                             success: function () {
+                                 toastr.success("Invoice Archive successfully!");
+                                 isDetailsVisible(false);
+                                 getInvoicesOnTabChange(currentTabid());
+                             },
+                             error: function (response) {
+                                 toastr.error("Failed to archive invoice. Error: " + response, "", ist.toastrOptions);
+                             }
+                         });
+                     },
+
+                
+
                 // Close Editor
                 closeInvoiceEditor = function () {
                     selectedInvoice(model.Invoice.Create({}));
@@ -270,10 +288,10 @@ define("invoice/invoice.viewModel",
                     errorList.removeAll();
                 },
                 // On Archive
-                onArchiveInvoice = function (invoice) {
-                    confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                onArchiveInvoice = function () {
+                    confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                     confirmation.afterProceed(function () {
-                        // archiveInvoice(invoice.id());
+                        archiveInvoice(selectedInvoice().id());
                     });
                     confirmation.show();
                 },
@@ -784,6 +802,7 @@ define("invoice/invoice.viewModel",
                     },
                     //Get Order Tab Changed Event
                     getInvoicesOnTabChange = function (currentTab) {
+                        currentTabid(currentTab);
                         pager().reset();
                         if (currentTab === 0) {
                             isShowStatusCloumn(true);
@@ -1366,7 +1385,8 @@ define("invoice/invoice.viewModel",
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
                     onAddFinishedGoods: onAddFinishedGoods,
                     onDeleteShippingItem: onDeleteShippingItem,
-                    getInvoices: getInvoices
+                    getInvoices: getInvoices,
+                    onArchiveInvoice: onArchiveInvoice
                     //#endregion
                 };
             })()

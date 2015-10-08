@@ -22,5 +22,7 @@ namespace MPC.Interfaces.MISServices
         Invoice SaveInvoice(Invoice request);
         List<ZapierInvoiceDetail> GetZapierInvoiceDetail(long organisationId);
         void PostDataToZapier(long invoiceId);
+
+        void ArchiveInvoice(int InvoiceId);
     }
 }

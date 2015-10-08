@@ -268,6 +268,26 @@ namespace MPC.Repository.Repositories
             
 
         }
+
+
+        public void ArchiveInvoice(int InvoiceId)
+        {
+            try
+            {
+                Invoice targetInvoice = db.Invoices.Where(c => c.InvoiceId == InvoiceId).FirstOrDefault();
+                if(targetInvoice != null)
+                {
+                    targetInvoice.InvoiceStatus = (int)InvoiceStatuses.Archived;
+                    db.SaveChanges();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
     }
 }
