@@ -1512,124 +1512,303 @@ namespace MPC.Repository.Repositories
             {
                 foreach(var variable in lstVariables)
                 {
-                    if (variable != null)
+                    if (obj.ObjectType == 2)
                     {
-
-                        obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
-                        if(variable.VariableIconUrl != null && variable.VariableIconUrl != "")
+                        if (variable != null)
                         {
-                            variable.VariableIconUrl = variable.VariableIconUrl.Replace("/MPC_Content", "");
-                            string contentStringPath = @"/" + variable.VariableIconUrl;
-
-                            System.Drawing.Image objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath("~/MPC_Content" + contentStringPath));
-                            int ImageWidth = objImage.Width;
-                            int ImageHeight = objImage.Height;
-                            if (ImageWidth > ImageHeight)
+                            List<InlineTextStyles> styles = new List<InlineTextStyles>();
+                            List<InlineTextStyles> stylesCopy = new List<InlineTextStyles>();
+                            if (obj.textStyles != null)
                             {
-                                //  templateObject.MaxHeight = templateObject.MaxWidth * Convert.ToDouble(ImageHeight / ImageWidth);
+                                styles = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
+                                stylesCopy = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
+                            }
+                            if (variable.Value != null && variable.Value != "")
+                            {
+                                if (obj.ContentString.Contains(variable.FieldVariable.VariableTag))
+                                {
+                                    if (styles.Count > 0)
+                                    {
+                                        string[] objs = obj.ContentString.Split(new string[] { variable.FieldVariable.VariableTag }, StringSplitOptions.None);
+                                        int variableLength = variable.FieldVariable.VariableTag.Length;
+                                        int lengthCount = 0;
+                                        string content = "";
+                                        for (int i = 0; i < objs.Length; i++)
+                                        {
+                                            stylesCopy = new List<InlineTextStyles>(styles);
+                                            content += objs[i];
+                                            if ((i + 1) != objs.Length)
+                                            {
+                                                content += variable.Value;
+                                            }
+                                            lengthCount += objs[i].Length;
+                                            int toMove = (i + 1) * variableLength;
+                                            int toCopy = lengthCount;
+                                            bool styleExist = false;
+                                            int stylesRemoved = 0;
+                                            InlineTextStyles StyleToCopy = null;
+                                            foreach (var objStyle in styles)
+                                            {
+                                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                                {
+                                                    styleExist = true;
+                                                    StyleToCopy = objStyle;
+                                                }
+                                                if (Convert.ToInt32(objStyle.characterIndex) <= (lengthCount + variableLength) && Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                                {
+                                                    InlineTextStyles objToRemove = stylesCopy.Where(g => g.characterIndex == objStyle.characterIndex).SingleOrDefault();
+                                                    stylesCopy.Remove(objToRemove);
+                                                    stylesRemoved++;
+                                                }
+                                            }
+
+                                            int diff = variable.Value.Length - (variableLength);
+                                            foreach (var objStyle in stylesCopy)
+                                            {
+                                                if (Convert.ToInt32(objStyle.characterIndex) > (lengthCount + variable.FieldVariable.VariableTag.Length))
+                                                    objStyle.characterIndex = Convert.ToString((Convert.ToInt32(objStyle.characterIndex) + diff));
+                                            }
+                                            if (styleExist)
+                                            {
+                                                for (int z = 0; z < variable.Value.Length; z++)
+                                                {
+                                                    InlineTextStyles objToAdd = new InlineTextStyles();
+                                                    objToAdd.fontName = StyleToCopy.fontName;
+                                                    objToAdd.fontSize = StyleToCopy.fontSize;
+                                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
+                                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
+                                                    objToAdd.textColor = StyleToCopy.textColor;
+                                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
+                                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
+                                                    stylesCopy.Add(objToAdd);
+
+                                                }
+                                            }
+                                            styles = new List<InlineTextStyles>(stylesCopy);
+                                            lengthCount += variable.Value.Length;
+                                        }
+                                        obj.ContentString = content;
+
+                                    }
+                                    else
+                                    {
+                                        obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                                    }
+
+                                }
                             }
                             else
                             {
-                                //  templateObject.MaxWidth = templateObject.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);
-                            }
-                            objImage.Dispose();
-
-                            //entery in template object
-                            TemplateObject variableIconTemp = new TemplateObject();
-                            variableIconTemp.ObjectType = 3;
-                            variableIconTemp.Name = "Variable Icon";
-                            variableIconTemp.IsEditable = true;// templateObject.IsEditable;
-                            variableIconTemp.IsHidden = false;// templateObject.IsHidden;
-                            variableIconTemp.IsMandatory = false;// templateObject.IsMandatory;
-                            variableIconTemp.AutoShrinkText = obj.AutoShrinkText;
-                            variableIconTemp.IsPositionLocked = false;// templateObject.IsPositionLocked;
-                            variableIconTemp.DisplayOrderPdf = obj.DisplayOrderPdf;
-                            variableIconTemp.ProductId = obj.ProductId;
-                            variableIconTemp.ContentString = contentStringPath;
-
-                            variableIconTemp.MaxHeight = obj.MaxHeight;
-                            variableIconTemp.MaxWidth = obj.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);//templateObject.MaxWidth;
-                            variableIconTemp.PositionX = obj.PositionX - variableIconTemp.MaxWidth;
-                            variableIconTemp.PositionY = obj.PositionY; //  -ImageWidth; ;
-
-
-                            variableIconTemp.MaxCharacters = 0;
-                            variableIconTemp.RotationAngle = 0;
-                            variableIconTemp.IsFontCustom = false;
-                            variableIconTemp.IsFontNamePrivate = false;
-                            variableIconTemp.FontName = string.Empty;
-                            variableIconTemp.FontSize = 0;
-                            variableIconTemp.IsBold = false;
-                            variableIconTemp.IsItalic = false;
-                            variableIconTemp.Allignment = 0;
-                            variableIconTemp.VAllignment = 0;
-                            variableIconTemp.Indent = 0;
-                            variableIconTemp.IsUnderlinedText = false;
-                            variableIconTemp.ColorType = 0;
-                            variableIconTemp.ColorName = string.Empty;
-                            variableIconTemp.ColorC = 0;
-                            variableIconTemp.ColorM = 0;
-                            variableIconTemp.ColorY = 0;
-                            variableIconTemp.ColorK = 0;
-                            variableIconTemp.Tint = 0;
-                            variableIconTemp.IsSpotColor = false;
-                            variableIconTemp.SpotColorName = string.Empty;
-                            variableIconTemp.ContentCaseType = 0;
-                            variableIconTemp.DisplayOrderTxtControl = 0;
-                            variableIconTemp.RColor = 0;
-                            variableIconTemp.GColor = 0;
-                            variableIconTemp.BColor = 0;
-                            variableIconTemp.LineSpacing = 0;
-                            variableIconTemp.ProductPageId = obj.ProductPageId;
-                            variableIconTemp.ParentId = 0;
-                            variableIconTemp.CircleRadiusX = 0;
-                            variableIconTemp.Opacity = 1;
-                            variableIconTemp.ExField1 = string.Empty;
-                            variableIconTemp.ExField2 = string.Empty;
-                            variableIconTemp.ColorHex = string.Empty;
-                            variableIconTemp.CircleRadiusY = 0;
-                            variableIconTemp.IsTextEditable = false;
-                            variableIconTemp.QuickTextOrder = 0;
-                            variableIconTemp.IsQuickText = false;
-                            variableIconTemp.CharSpacing = 0;
-                            variableIconTemp.watermarkText = string.Empty;
-                            variableIconTemp.textStyles = string.Empty;
-                            variableIconTemp.IsOverlayObject = false;
-                            variableIconTemp.ClippedInfo = null;
-
-                            db.TemplateObjects.Add(variableIconTemp);
-                            db.SaveChanges();
-                        }
-                        if (variable.FieldVariable != null)
-                        {
-                            // replace prefix and postFixes 
-                            if (variable.FieldVariable.VariableTag != null)
-                            {
-                                string tag = variable.FieldVariable.VariableTag.Replace("{{", "").Replace("}}", "");
-                                string preFix = "{{" + tag + "_pre}}"; ;
-                                string postFix = "{{" + tag + "_post}}";
-
-
-                                if (contact != null)
+                                if (obj.ContentString.Contains(variable.FieldVariable.VariableTag))
                                 {
-                                    var ext = db.VariableExtensions.Where(g => g.CompanyId == contact.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
-                                    if (ext != null)
+                                    if (styles.Count > 0)
                                     {
-                                        if (ext.VariablePrefix != null && ext.VariablePrefix != "")
+                                        variable.Value = "";
+                                        string[] objs = obj.ContentString.Split(new string[] { variable.FieldVariable.VariableTag }, StringSplitOptions.None);
+                                        int variableLength = variable.FieldVariable.VariableTag.Length;
+                                        int lengthCount = 0;
+                                        string content = "";
+                                        for (int i = 0; i < objs.Length; i++)
                                         {
-                                            obj.ContentString = obj.ContentString.Replace(preFix, ext.VariablePrefix);
+                                            stylesCopy = new List<InlineTextStyles>(styles);
+                                            content += objs[i];
+                                            if ((i + 1) != objs.Length)
+                                            {
+                                                content += variable.Value;
+                                            }
+                                            lengthCount += objs[i].Length;
+                                            int toMove = (i + 1) * variableLength;
+                                            int toCopy = lengthCount;
+                                            bool styleExist = false;
+                                            int stylesRemoved = 0;
+                                            InlineTextStyles StyleToCopy = null;
+                                            foreach (var objStyle in styles)
+                                            {
+                                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                                {
+                                                    styleExist = true;
+                                                    StyleToCopy = objStyle;
+                                                }
+                                                if (Convert.ToInt32(objStyle.characterIndex) <= (lengthCount + variableLength) && Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                                {
+                                                    InlineTextStyles objToRemove = stylesCopy.Where(g => g.characterIndex == objStyle.characterIndex).SingleOrDefault();
+                                                    stylesCopy.Remove(objToRemove);
+                                                    stylesRemoved++;
+                                                }
+                                            }
+
+                                            int diff = variable.Value.Length - (variableLength);
+                                            foreach (var objStyle in stylesCopy)
+                                            {
+                                                if (Convert.ToInt32(objStyle.characterIndex) > (lengthCount + variable.FieldVariable.VariableTag.Length))
+                                                    objStyle.characterIndex = Convert.ToString((Convert.ToInt32(objStyle.characterIndex) + diff));
+                                            }
+                                            if (styleExist)
+                                            {
+                                                for (int z = 0; z < variable.Value.Length; z++)
+                                                {
+                                                    InlineTextStyles objToAdd = new InlineTextStyles();
+                                                    objToAdd.fontName = StyleToCopy.fontName;
+                                                    objToAdd.fontSize = StyleToCopy.fontSize;
+                                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
+                                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
+                                                    objToAdd.textColor = StyleToCopy.textColor;
+                                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
+                                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
+                                                    stylesCopy.Add(objToAdd);
+
+                                                }
+                                            }
+                                            styles = new List<InlineTextStyles>(stylesCopy);
+                                            lengthCount += variable.Value.Length;
                                         }
-                                        if (ext.VariablePostfix != null && ext.VariablePostfix != "")
+                                        obj.ContentString = content;
+
+                                    }
+                                    else
+                                    {
+                                        obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, "");
+                                    }
+
+                                }
+                            }
+                            if (styles != null && styles.Count != 0)
+                            {
+                                obj.textStyles = JsonConvert.SerializeObject(styles, Formatting.Indented);
+                            }
+
+
+                            // obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                            if (variable.VariableIconUrl != null && variable.VariableIconUrl != "")
+                            {
+                                variable.VariableIconUrl = variable.VariableIconUrl.Replace("/MPC_Content", "");
+                                string contentStringPath = @"/" + variable.VariableIconUrl;
+
+                                System.Drawing.Image objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath("~/MPC_Content" + contentStringPath));
+                                int ImageWidth = objImage.Width;
+                                int ImageHeight = objImage.Height;
+                                if (ImageWidth > ImageHeight)
+                                {
+                                    //  templateObject.MaxHeight = templateObject.MaxWidth * Convert.ToDouble(ImageHeight / ImageWidth);
+                                }
+                                else
+                                {
+                                    //  templateObject.MaxWidth = templateObject.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);
+                                }
+                                objImage.Dispose();
+
+                                //entery in template object
+                                TemplateObject variableIconTemp = new TemplateObject();
+                                variableIconTemp.ObjectType = 3;
+                                variableIconTemp.Name = "Variable Icon";
+                                variableIconTemp.IsEditable = true;// templateObject.IsEditable;
+                                variableIconTemp.IsHidden = false;// templateObject.IsHidden;
+                                variableIconTemp.IsMandatory = false;// templateObject.IsMandatory;
+                                variableIconTemp.AutoShrinkText = obj.AutoShrinkText;
+                                variableIconTemp.IsPositionLocked = false;// templateObject.IsPositionLocked;
+                                variableIconTemp.DisplayOrderPdf = obj.DisplayOrderPdf;
+                                variableIconTemp.ProductId = obj.ProductId;
+                                variableIconTemp.ContentString = contentStringPath;
+
+                                variableIconTemp.MaxHeight = obj.MaxHeight;
+                                variableIconTemp.MaxWidth = obj.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);//templateObject.MaxWidth;
+                                variableIconTemp.PositionX = obj.PositionX - variableIconTemp.MaxWidth;
+                                variableIconTemp.PositionY = obj.PositionY; //  -ImageWidth; ;
+
+
+                                variableIconTemp.MaxCharacters = 0;
+                                variableIconTemp.RotationAngle = 0;
+                                variableIconTemp.IsFontCustom = false;
+                                variableIconTemp.IsFontNamePrivate = false;
+                                variableIconTemp.FontName = string.Empty;
+                                variableIconTemp.FontSize = 0;
+                                variableIconTemp.IsBold = false;
+                                variableIconTemp.IsItalic = false;
+                                variableIconTemp.Allignment = 0;
+                                variableIconTemp.VAllignment = 0;
+                                variableIconTemp.Indent = 0;
+                                variableIconTemp.IsUnderlinedText = false;
+                                variableIconTemp.ColorType = 0;
+                                variableIconTemp.ColorName = string.Empty;
+                                variableIconTemp.ColorC = 0;
+                                variableIconTemp.ColorM = 0;
+                                variableIconTemp.ColorY = 0;
+                                variableIconTemp.ColorK = 0;
+                                variableIconTemp.Tint = 0;
+                                variableIconTemp.IsSpotColor = false;
+                                variableIconTemp.SpotColorName = string.Empty;
+                                variableIconTemp.ContentCaseType = 0;
+                                variableIconTemp.DisplayOrderTxtControl = 0;
+                                variableIconTemp.RColor = 0;
+                                variableIconTemp.GColor = 0;
+                                variableIconTemp.BColor = 0;
+                                variableIconTemp.LineSpacing = 0;
+                                variableIconTemp.ProductPageId = obj.ProductPageId;
+                                variableIconTemp.ParentId = 0;
+                                variableIconTemp.CircleRadiusX = 0;
+                                variableIconTemp.Opacity = 1;
+                                variableIconTemp.ExField1 = string.Empty;
+                                variableIconTemp.ExField2 = string.Empty;
+                                variableIconTemp.ColorHex = string.Empty;
+                                variableIconTemp.CircleRadiusY = 0;
+                                variableIconTemp.IsTextEditable = false;
+                                variableIconTemp.QuickTextOrder = 0;
+                                variableIconTemp.IsQuickText = false;
+                                variableIconTemp.CharSpacing = 0;
+                                variableIconTemp.watermarkText = string.Empty;
+                                variableIconTemp.textStyles = string.Empty;
+                                variableIconTemp.IsOverlayObject = false;
+                                variableIconTemp.ClippedInfo = null;
+
+                                db.TemplateObjects.Add(variableIconTemp);
+                                db.SaveChanges();
+                            }
+                            if (variable.FieldVariable != null)
+                            {
+                                // replace prefix and postFixes 
+                                if (variable.FieldVariable.VariableTag != null)
+                                {
+                                    string tag = variable.FieldVariable.VariableTag.Replace("{{", "").Replace("}}", "");
+                                    string preFix = "{{" + tag + "_pre}}"; ;
+                                    string postFix = "{{" + tag + "_post}}";
+
+
+                                    if (contact != null)
+                                    {
+                                        var ext = db.VariableExtensions.Where(g => g.CompanyId == contact.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
+                                        if (ext != null)
                                         {
-                                            obj.ContentString = obj.ContentString.Replace(postFix, ext.VariablePostfix);
+                                            if (ext.VariablePrefix == null )
+                                            {
+                                                ext.VariablePrefix = "";
+                                               // obj.ContentString = obj.ContentString.Replace(preFix, ext.VariablePrefix);
+                                            }
+                                            TemplateObject upObj = updateStyledContentString( obj, preFix, ext.VariablePrefix);
+                                            obj.ContentString = upObj.ContentString;
+                                            obj.textStyles = upObj.textStyles;
+                                            if (ext.VariablePostfix == null )
+                                            {
+                                                ext.VariablePostfix = "";
+                                            }
+                                            TemplateObject upObj2 = updateStyledContentString(obj, postFix, ext.VariablePostfix);
+                                            obj.ContentString = upObj2.ContentString;
+                                            obj.textStyles = upObj2.textStyles;
+                                        }else
+                                        {
+                                            TemplateObject upObj = updateStyledContentString(obj, preFix, "");
+                                            obj.ContentString = upObj.ContentString;
+                                            obj.textStyles = upObj.textStyles;
+                                           
+                                            TemplateObject upObj2 = updateStyledContentString(obj, postFix, "");
+                                            obj.ContentString = upObj2.ContentString;
+                                            obj.textStyles = upObj2.textStyles;
                                         }
                                     }
                                 }
                             }
                         }
+
                     }
-                   
-                    
                 }
                 if (obj.ObjectType == 8)
                 {
@@ -1650,6 +1829,171 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
             result = true;
             return result;
+        }
+        private TemplateObject updateStyledContentString(TemplateObject obj, string variable, string value)
+        {
+            List<InlineTextStyles> styles = new List<InlineTextStyles>();
+            List<InlineTextStyles> stylesCopy = new List<InlineTextStyles>();
+            if (obj.textStyles != null)
+            {
+                styles = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
+                stylesCopy = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
+            }
+            if (value != null && value != "")
+            {
+                if (obj.ContentString.Contains(variable))
+                {
+                    if (styles.Count > 0)
+                    {
+                        string[] objs = obj.ContentString.Split(new string[] { variable }, StringSplitOptions.None);
+                        int variableLength = variable.Length;
+                        int lengthCount = 0;
+                        string content = "";
+                        for (int i = 0; i < objs.Length; i++)
+                        {
+                            stylesCopy = new List<InlineTextStyles>(styles);
+                            content += objs[i];
+                            if ((i + 1) != objs.Length)
+                            {
+                                content += value;
+                            }
+                            lengthCount += objs[i].Length;
+                            int toMove = (i + 1) * variableLength;
+                            int toCopy = lengthCount;
+                            bool styleExist = false;
+                            int stylesRemoved = 0;
+                            InlineTextStyles StyleToCopy = null;
+                            foreach (var objStyle in styles)
+                            {
+                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                {
+                                    styleExist = true;
+                                    StyleToCopy = objStyle;
+                                }
+                                if (Convert.ToInt32(objStyle.characterIndex) <= (lengthCount + variableLength) && Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                {
+                                    InlineTextStyles objToRemove = stylesCopy.Where(g => g.characterIndex == objStyle.characterIndex).SingleOrDefault();
+                                    stylesCopy.Remove(objToRemove);
+                                    stylesRemoved++;
+                                }
+                            }
+
+                            int diff = value.Length - (variableLength);
+                            foreach (var objStyle in stylesCopy)
+                            {
+                                if (Convert.ToInt32(objStyle.characterIndex) > (lengthCount + variable.Length))
+                                    objStyle.characterIndex = Convert.ToString((Convert.ToInt32(objStyle.characterIndex) + diff));
+                            }
+                            if (styleExist)
+                            {
+                                for (int z = 0; z < value.Length; z++)
+                                {
+                                    InlineTextStyles objToAdd = new InlineTextStyles();
+                                    objToAdd.fontName = StyleToCopy.fontName;
+                                    objToAdd.fontSize = StyleToCopy.fontSize;
+                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
+                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
+                                    objToAdd.textColor = StyleToCopy.textColor;
+                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
+                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
+                                    stylesCopy.Add(objToAdd);
+
+                                }
+                            }
+                            styles = new List<InlineTextStyles>(stylesCopy);
+                            lengthCount += value.Length;
+                        }
+                        obj.ContentString = content;
+
+                    }
+                    else
+                    {
+                        obj.ContentString = obj.ContentString.Replace(variable, value);
+                    }
+
+                }
+            }
+            else
+            {
+                if (obj.ContentString.Contains(variable))
+                {
+                    if (styles.Count > 0)
+                    {
+                        value = "";
+                        string[] objs = obj.ContentString.Split(new string[] { variable }, StringSplitOptions.None);
+                        int variableLength = variable.Length;
+                        int lengthCount = 0;
+                        string content = "";
+                        for (int i = 0; i < objs.Length; i++)
+                        {
+                            stylesCopy = new List<InlineTextStyles>(styles);
+                            content += objs[i];
+                            if ((i + 1) != objs.Length)
+                            {
+                                content += value;
+                            }
+                            lengthCount += objs[i].Length;
+                            int toMove = (i + 1) * variableLength;
+                            int toCopy = lengthCount;
+                            bool styleExist = false;
+                            int stylesRemoved = 0;
+                            InlineTextStyles StyleToCopy = null;
+                            foreach (var objStyle in styles)
+                            {
+                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                {
+                                    styleExist = true;
+                                    StyleToCopy = objStyle;
+                                }
+                                if (Convert.ToInt32(objStyle.characterIndex) <= (lengthCount + variableLength) && Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                {
+                                    InlineTextStyles objToRemove = stylesCopy.Where(g => g.characterIndex == objStyle.characterIndex).SingleOrDefault();
+                                    stylesCopy.Remove(objToRemove);
+                                    stylesRemoved++;
+                                }
+                            }
+
+                            int diff = value.Length - (variableLength);
+                            foreach (var objStyle in stylesCopy)
+                            {
+                                if (Convert.ToInt32(objStyle.characterIndex) > (lengthCount + variable.Length))
+                                    objStyle.characterIndex = Convert.ToString((Convert.ToInt32(objStyle.characterIndex) + diff));
+                            }
+                            if (styleExist)
+                            {
+                                for (int z = 0; z < value.Length; z++)
+                                {
+                                    InlineTextStyles objToAdd = new InlineTextStyles();
+                                    objToAdd.fontName = StyleToCopy.fontName;
+                                    objToAdd.fontSize = StyleToCopy.fontSize;
+                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
+                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
+                                    objToAdd.textColor = StyleToCopy.textColor;
+                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
+                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
+                                    stylesCopy.Add(objToAdd);
+
+                                }
+                            }
+                            styles = new List<InlineTextStyles>(stylesCopy);
+                            lengthCount += value.Length;
+                        }
+                        obj.ContentString = content;
+
+                    }
+                    else
+                    {
+                        obj.ContentString = obj.ContentString.Replace(variable, "");
+                    }
+
+                }
+            }
+
+            if (styles != null && styles.Count != 0)
+            {
+                obj.textStyles = JsonConvert.SerializeObject(styles, Formatting.Indented);
+            }
+            return obj;
         }
         public List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
         {
