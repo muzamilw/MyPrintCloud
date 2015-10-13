@@ -55,7 +55,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return itemService.GetStockItems(request).CreateFrom();
+            InventorySearchResponse resp = itemService.GetStockItems(request).CreateFrom();
+            return resp;
         }        
         #endregion
     }

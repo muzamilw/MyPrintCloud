@@ -6,7 +6,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // #region __________________  Purchase List View   ______________________
         PurchaseListView = function (specifiedPurchaseId, specifiedCode, specifiedPurchaseDate, specifiedRefNo,
-            specifiedCompanyName, specifiedFlagColor, specifiedStatus) {
+            specifiedCompanyName, specifiedFlagColor, specifiedStatus, specifiedTotalPrice) {
 
             var self,
                 id = ko.observable(specifiedPurchaseId),
@@ -27,6 +27,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return "Cancelled";
                     }
                 });
+            totalnetPrice = ko.observable(specifiedTotalPrice)
 
             return {
                 id: id,
@@ -37,6 +38,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 refNo: refNo,
                 status: status,
                 statusName: statusName,
+                totalnetPrice: totalnetPrice
             };
 
         },
@@ -616,7 +618,7 @@ CompanyContact = function (specifiedId, specifiedName, specifiedEmail, specified
     // Purchase List View Factory
     PurchaseListView.Create = function (source) {
         return new PurchaseListView(source.PurchaseId, source.Code, source.DatePurchase, source.RefNo,
-             source.SupplierName, source.FlagColor, source.Status);
+             source.SupplierName, source.FlagColor, source.Status, source.TotalPrice);
     };
     // Goods Received Note Factory
     GoodsReceivedNote.Create = function (source) {

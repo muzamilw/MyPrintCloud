@@ -141,5 +141,7 @@ namespace MPC.MIS.Areas.Api.Models
                 return string.Empty;
             }
         }
+
+        public double CostPrice { get; set; }
     }
 }

@@ -427,6 +427,11 @@ namespace MPC.Implementation.MISServices
             return invoiceRepository.GetInvoiceDetailForZapierPolling(organisationId);
             
         }
+        public void ArchiveInvoice(int InvoiceId)
+        {
+            invoiceRepository.ArchiveInvoice(InvoiceId);
+        }
         #endregion
+
     }
 }

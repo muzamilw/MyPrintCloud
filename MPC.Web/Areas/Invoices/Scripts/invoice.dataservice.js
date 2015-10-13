@@ -45,6 +45,14 @@ define("invoice/invoice.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    
+                    // Define request to archive invoice Permanently
+                    amplify.request.define('archiveInvoicePermanently', 'ajax', {
+                        url: ist.siteUrl + '/Api/Invoice',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
                     isInitialized = true;
                 }
             },
@@ -97,25 +105,24 @@ define("invoice/invoice.dataservice", function () {
                 });
             },
 
-            // Archive Invoice
-            archiveInvoice = function (param, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'archiveInvoice',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: param
-                });
-            };
-         
-        
+           archiveInvoicePermanently = function (param, callbacks) {
+               initialize();
+               return amplify.request({
+                   resourceId: 'archiveInvoicePermanently',
+                   success: callbacks.success,
+                   error: callbacks.error,
+                   data: param
+               });
+           }
+            
 
         return {
             getInvoices: getInvoices,
             getBaseData: getBaseData,
             getInvoice: getInvoice,
             getBaseDataForCompany: getBaseDataForCompany,
-            saveInvoice: saveInvoice
+            saveInvoice: saveInvoice,
+            archiveInvoicePermanently: archiveInvoicePermanently
         };
     })();
 

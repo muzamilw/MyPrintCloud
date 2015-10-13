@@ -145,7 +145,7 @@ namespace MPC.MIS.Areas.Api.Models
                 Sequence = source.Sequence,
                 WidgetId = source.WidgetId,
                 Html = source.Widget != null ? ReadCshtml(source.Widget) : string.Empty,
-                WidgetName = source.Widget != null ? source.Widget.WidgetName : string.Empty,
+                WidgetName = source.Widget != null ? source.Widget.WidgetControlName : string.Empty,
                 CmsSkinPageWidgetParams = source.CmsSkinPageWidgetParams != null ? source.CmsSkinPageWidgetParams.Select(pw => pw.CreateFrom()) : null
             };
         }

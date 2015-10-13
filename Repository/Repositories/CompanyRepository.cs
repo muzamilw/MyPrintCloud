@@ -6438,6 +6438,22 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-     
+
+        /// <summary>
+        /// Check if product code provided already exists
+        /// </summary>
+        public bool IsDuplicateWebAccessCode(string webCode,long? companyId)
+        {
+            try
+            {
+
+                return db.Companies.Any(comp => comp.WebAccessCode == webCode && comp.OrganisationId == OrganisationId &&
+                     (!companyId.HasValue || comp.CompanyId != companyId));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

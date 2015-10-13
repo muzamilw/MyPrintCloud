@@ -44,6 +44,7 @@ $.widget('oal.fontSelector', {
         });
     },
     _toggleOpen: function () {
+        pcL36('hide', '#DivColorPickerDraggable');
         var _this = this;
         if (this.dropdown.attr("disabled") == "disabled") return;
         if (this.list.is(':visible')) {
