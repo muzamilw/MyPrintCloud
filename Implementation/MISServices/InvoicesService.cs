@@ -422,6 +422,11 @@ namespace MPC.Implementation.MISServices
 
 
         }
+        public List<ZapierInvoiceDetail> GetInvoiceDetailForZapierPooling(long organisationId)
+        {
+            return invoiceRepository.GetInvoiceDetailForZapierPolling(organisationId);
+            
+        }
         public void ArchiveInvoice(int InvoiceId)
         {
             invoiceRepository.ArchiveInvoice(InvoiceId);

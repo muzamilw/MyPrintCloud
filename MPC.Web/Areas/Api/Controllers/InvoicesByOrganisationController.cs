@@ -47,24 +47,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             try
             {
-                long organisationId = 0;
-                string param = string.Empty;
-                param = Request.RequestUri.Query;
-                string responsestr = GetActiveOrganisationId(param);
-
-                if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
-                {
-                    throw new MPCException("Service Not Authenticated!", organisationId);
-                }
-                else
-                {
-                    organisationId = Convert.ToInt64(responsestr);
-                    var formatter = new JsonMediaTypeFormatter();
-                    var json = formatter.SerializerSettings;
-                    json.Formatting = Newtonsoft.Json.Formatting.Indented;
-                    json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetZapierInvoiceDetail(organisationId), formatter);
-                }
+                var formatter = new JsonMediaTypeFormatter();
+                var json = formatter.SerializerSettings;
+                json.Formatting = Newtonsoft.Json.Formatting.Indented;
+                json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetInvoiceDetailForZapierPooling(0), formatter);
 
             }
             catch (Exception ex)

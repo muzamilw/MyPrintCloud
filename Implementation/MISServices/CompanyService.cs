@@ -3285,7 +3285,7 @@ namespace MPC.Implementation.MISServices
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
                 PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                 EmailEvents = emailEventRepository.GetAll(),
-                Widgets = widgetRepository.GetAll(),
+                Widgets = widgetRepository.GetAll().OrderBy(o => o.WidgetControlName),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
@@ -3343,11 +3343,17 @@ namespace MPC.Implementation.MISServices
 
         public Company SaveCompany(CompanySavingModel companyModel)
         {
+
+           
             if (!CanSaveStore(companyModel.Company))
             {
                 companyModel.Company.IsClickReached = true;
                 return companyModel.Company;
             }
+            if (companyRepository.IsDuplicateWebAccessCode(companyModel.Company.WebAccessCode, companyModel.Company.CompanyId))
+             {
+                 throw new MPCException("Web Access Code already exist.", companyRepository.OrganisationId);
+             }
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
             
 
