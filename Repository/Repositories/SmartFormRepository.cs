@@ -1516,167 +1516,9 @@ namespace MPC.Repository.Repositories
                     {
                         if (variable != null)
                         {
-                            List<InlineTextStyles> styles = new List<InlineTextStyles>();
-                            List<InlineTextStyles> stylesCopy = new List<InlineTextStyles>();
-                            if (obj.textStyles != null)
-                            {
-                                styles = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
-                                stylesCopy = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
-                            }
-                            if (variable.Value != null && variable.Value != "")
-                            {
-                                if (obj.ContentString.Contains(variable.FieldVariable.VariableTag))
-                                {
-                                    if (styles.Count > 0)
-                                    {
-                                        string[] objs = obj.ContentString.Split(new string[] { variable.FieldVariable.VariableTag }, StringSplitOptions.None);
-                                        int variableLength = variable.FieldVariable.VariableTag.Length;
-                                        int lengthCount = 0;
-                                        string content = "";
-                                        for (int i = 0; i < objs.Length; i++)
-                                        {
-                                            stylesCopy = new List<InlineTextStyles>(styles);
-                                            content += objs[i];
-                                            if ((i + 1) != objs.Length)
-                                            {
-                                                content += variable.Value;
-                                            }
-                                            lengthCount += objs[i].Length;
-                                            int toMove = (i + 1) * variableLength;
-                                            int toCopy = lengthCount;
-                                            bool styleExist = false;
-                                            int stylesRemoved = 0;
-                                            InlineTextStyles StyleToCopy = null;
-                                            foreach (var objStyle in styles)
-                                            {
-                                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
-                                                {
-                                                    styleExist = true;
-                                                    StyleToCopy = objStyle;
-                                                }
-                                                if (Convert.ToInt32(objStyle.characterIndex) <= (lengthCount + variableLength) && Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
-                                                {
-                                                    InlineTextStyles objToRemove = stylesCopy.Where(g => g.characterIndex == objStyle.characterIndex).SingleOrDefault();
-                                                    stylesCopy.Remove(objToRemove);
-                                                    stylesRemoved++;
-                                                }
-                                            }
-
-                                            int diff = variable.Value.Length - (variableLength);
-                                            foreach (var objStyle in stylesCopy)
-                                            {
-                                                if (Convert.ToInt32(objStyle.characterIndex) > (lengthCount + variable.FieldVariable.VariableTag.Length))
-                                                    objStyle.characterIndex = Convert.ToString((Convert.ToInt32(objStyle.characterIndex) + diff));
-                                            }
-                                            if (styleExist)
-                                            {
-                                                for (int z = 0; z < variable.Value.Length; z++)
-                                                {
-                                                    InlineTextStyles objToAdd = new InlineTextStyles();
-                                                    objToAdd.fontName = StyleToCopy.fontName;
-                                                    objToAdd.fontSize = StyleToCopy.fontSize;
-                                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
-                                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
-                                                    objToAdd.textColor = StyleToCopy.textColor;
-                                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
-                                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
-                                                    stylesCopy.Add(objToAdd);
-
-                                                }
-                                            }
-                                            styles = new List<InlineTextStyles>(stylesCopy);
-                                            lengthCount += variable.Value.Length;
-                                        }
-                                        obj.ContentString = content;
-
-                                    }
-                                    else
-                                    {
-                                        obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
-                                    }
-
-                                }
-                            }
-                            else
-                            {
-                                if (obj.ContentString.Contains(variable.FieldVariable.VariableTag))
-                                {
-                                    if (styles.Count > 0)
-                                    {
-                                        variable.Value = "";
-                                        string[] objs = obj.ContentString.Split(new string[] { variable.FieldVariable.VariableTag }, StringSplitOptions.None);
-                                        int variableLength = variable.FieldVariable.VariableTag.Length;
-                                        int lengthCount = 0;
-                                        string content = "";
-                                        for (int i = 0; i < objs.Length; i++)
-                                        {
-                                            stylesCopy = new List<InlineTextStyles>(styles);
-                                            content += objs[i];
-                                            if ((i + 1) != objs.Length)
-                                            {
-                                                content += variable.Value;
-                                            }
-                                            lengthCount += objs[i].Length;
-                                            int toMove = (i + 1) * variableLength;
-                                            int toCopy = lengthCount;
-                                            bool styleExist = false;
-                                            int stylesRemoved = 0;
-                                            InlineTextStyles StyleToCopy = null;
-                                            foreach (var objStyle in styles)
-                                            {
-                                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
-                                                {
-                                                    styleExist = true;
-                                                    StyleToCopy = objStyle;
-                                                }
-                                                if (Convert.ToInt32(objStyle.characterIndex) <= (lengthCount + variableLength) && Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
-                                                {
-                                                    InlineTextStyles objToRemove = stylesCopy.Where(g => g.characterIndex == objStyle.characterIndex).SingleOrDefault();
-                                                    stylesCopy.Remove(objToRemove);
-                                                    stylesRemoved++;
-                                                }
-                                            }
-
-                                            int diff = variable.Value.Length - (variableLength);
-                                            foreach (var objStyle in stylesCopy)
-                                            {
-                                                if (Convert.ToInt32(objStyle.characterIndex) > (lengthCount + variable.FieldVariable.VariableTag.Length))
-                                                    objStyle.characterIndex = Convert.ToString((Convert.ToInt32(objStyle.characterIndex) + diff));
-                                            }
-                                            if (styleExist)
-                                            {
-                                                for (int z = 0; z < variable.Value.Length; z++)
-                                                {
-                                                    InlineTextStyles objToAdd = new InlineTextStyles();
-                                                    objToAdd.fontName = StyleToCopy.fontName;
-                                                    objToAdd.fontSize = StyleToCopy.fontSize;
-                                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
-                                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
-                                                    objToAdd.textColor = StyleToCopy.textColor;
-                                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
-                                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
-                                                    stylesCopy.Add(objToAdd);
-
-                                                }
-                                            }
-                                            styles = new List<InlineTextStyles>(stylesCopy);
-                                            lengthCount += variable.Value.Length;
-                                        }
-                                        obj.ContentString = content;
-
-                                    }
-                                    else
-                                    {
-                                        obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, "");
-                                    }
-
-                                }
-                            }
-                            if (styles != null && styles.Count != 0)
-                            {
-                                obj.textStyles = JsonConvert.SerializeObject(styles, Formatting.Indented);
-                            }
-
+                            TemplateObject upObj3 = updateStyledContentString(obj, variable.FieldVariable.VariableTag, variable.Value);
+                            obj.ContentString = upObj3.ContentString;
+                            obj.textStyles = upObj3.textStyles;
 
                             // obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
                             if (variable.VariableIconUrl != null && variable.VariableIconUrl != "")
@@ -1849,7 +1691,7 @@ namespace MPC.Repository.Repositories
                         int variableLength = variable.Length;
                         int lengthCount = 0;
                         string content = "";
-                        for (int i = 0; i < objs.Length; i++)
+                        for (int i = 0; i < objs.Length-1; i++)
                         {
                             stylesCopy = new List<InlineTextStyles>(styles);
                             content += objs[i];
@@ -1865,7 +1707,7 @@ namespace MPC.Repository.Repositories
                             InlineTextStyles StyleToCopy = null;
                             foreach (var objStyle in styles)
                             {
-                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy+1)
                                 {
                                     styleExist = true;
                                     StyleToCopy = objStyle;
@@ -1903,6 +1745,7 @@ namespace MPC.Repository.Repositories
                             styles = new List<InlineTextStyles>(stylesCopy);
                             lengthCount += value.Length;
                         }
+                        content += objs[objs.Length-1];
                         obj.ContentString = content;
 
                     }
