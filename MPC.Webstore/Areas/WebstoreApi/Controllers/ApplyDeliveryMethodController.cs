@@ -39,6 +39,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [System.Web.Http.HttpGet]
         public HttpResponseMessage AddDelivery(long DeliveryMethodId, long FreeShippingVoucherId)
         {
+            string deliveryCharges = string.Empty;
+            string Subtotal = string.Empty;
 
             List<string> messages = new List<string>();
 
@@ -135,6 +137,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Order.DeliveryCostCenterId=0;
                 _orderService.UpdateOrderForDel(Order);
             }
+
 
             messages.Add("");
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
