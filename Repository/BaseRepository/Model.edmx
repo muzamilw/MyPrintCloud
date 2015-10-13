@@ -15357,6 +15357,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="Int32" Name="TemplateType" Nullable="true" />
           <Property Type="Int32" Name="ProductType" Nullable="true" />
           <Property Type="Int32" Name="isTemplateDesignMode" Nullable="true" />
+          <Property Type="Int64" Name="TemplateId" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -20264,6 +20265,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="isTemplateDesignMode" ColumnName="isTemplateDesignMode" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

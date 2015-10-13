@@ -14,5 +14,6 @@ namespace MPC.Models.DomainModels
         public Nullable<int> TemplateType { get; set; }
         public Nullable<int> ProductType { get; set; }
         public Nullable<int> isTemplateDesignMode { get; set; }
+        public Nullable<long> TemplateId { get; set; }
     }
 }
