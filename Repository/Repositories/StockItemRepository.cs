@@ -166,6 +166,8 @@ namespace MPC.Repository.Repositories
                    .Take(toRow)
                    .ToList();
 
+            
+
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = DbSet.Count(query) };
         }
 

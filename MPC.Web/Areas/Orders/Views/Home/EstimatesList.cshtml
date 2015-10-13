@@ -166,8 +166,9 @@
                                 </td>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 || $root.currentScreen() == 1 || $root.currentScreen() == undefined-->
-                                <td class="col-sm-2" style="padding-right:66px;"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></td>
+                                <td class="col-sm-2"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></td>
                                 <!--/ko-->
+                                
                             </tr>
                         </script>
                         @* inquiries List View Template *@
@@ -231,7 +232,7 @@
                                                 <th class="col-sm-2"><span>Status</span></th>
                                                 <!--/ko-->
                                                 <!--ko if: $root.currentScreen() == 0  || $root.currentScreen() == 1  || $root.currentScreen() == undefined-->
-                                                <th class="col-sm-2"><span>Estimate Total</span></th>
+                                                <th class="col-sm-2" style="text-align:right;"><span>Estimate Total</span></th>
                                                 <!--/ko-->
                                                 
                                             </tr>
