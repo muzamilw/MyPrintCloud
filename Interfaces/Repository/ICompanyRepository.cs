@@ -124,6 +124,8 @@ namespace MPC.Interfaces.Repository
         void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
 
         void SaveSystemVariableExtension(long oldCompanyId, long NewCompanyid);
+
+        bool IsDuplicateWebAccessCode(string webCode, long? companyId);
         
 
     }
