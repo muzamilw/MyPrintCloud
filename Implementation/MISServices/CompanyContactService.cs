@@ -1165,6 +1165,10 @@ namespace MPC.Implementation.MISServices
                     {
                         dataStream.Write(byteArray, 0, byteArray.Length);
                         var response = request.GetResponse();
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                           string responseFromServer = reader.ReadToEnd();
+                        }
                     }
                 }
             }
@@ -1172,6 +1176,9 @@ namespace MPC.Implementation.MISServices
 
         }
 
-        
+        public List<ZapierInvoiceDetail> GetContactForZapierPooling(long organisationId)
+        {
+            return companyContactRepository.GetContactForZapierPooling(organisationId);
+        }
     }
 }

@@ -682,7 +682,7 @@ namespace MPC.Implementation.MISServices
             //Update Purchase Orders
             //Req. Whenever Its Status is inProduction Update Purchase Orders
             
-            if (orderStatusId != (int)OrderStatus.InProduction && estimate.StatusId == (int)OrderStatus.InProduction)
+            if (estimate.StatusId == (int)OrderStatus.InProduction)
             {
                 try
                 {
@@ -696,8 +696,10 @@ namespace MPC.Implementation.MISServices
 
             //Delete Purchase Orders
             //Req. Whenever Its Status is Cancelled Call Delete Stored Procedure or delete sp if reversing from in production to below statuses
-            if ((orderStatusId != (int)OrderStatus.CancelledOrder && estimate.StatusId == (int)OrderStatus.CancelledOrder) ||
-                (orderStatusId == (int)OrderStatus.InProduction && (estimate.StatusId == (int)OrderStatus.PendingOrder || estimate.StatusId == (int)OrderStatus.ConfirmedOrder)))
+            //if ((estimate.StatusId == (int)OrderStatus.CancelledOrder) ||
+            //    (orderStatusId == (int)OrderStatus.InProduction && (estimate.StatusId == (int)OrderStatus.PendingOrder || estimate.StatusId == (int)OrderStatus.ConfirmedOrder)))
+            //{
+            if (estimate.StatusId == (int)OrderStatus.CancelledOrder || estimate.StatusId == (int)OrderStatus.PendingOrder || estimate.StatusId == (int)OrderStatus.ConfirmedOrder)
             {
                 try
                 {
