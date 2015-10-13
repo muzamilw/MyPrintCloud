@@ -48,6 +48,7 @@ namespace MPC.Interfaces.MISServices
 
         CompanyContact UnArchiveCompanyContact(long ContactId);
         void PostDataToZapier(long contactId);
+        List<ZapierInvoiceDetail> GetContactForZapierPooling(long organisationId);
 
     }
 }

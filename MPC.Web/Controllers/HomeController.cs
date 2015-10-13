@@ -298,10 +298,10 @@ namespace MPC.MIS.Controllers
             return PartialView();
         }
 
-        public ActionResult Viewer(int id, int itemId)
+        public ActionResult Viewer(int? id, int? itemId)
         {
 
-            ReportDescriptor model = new ReportDescriptor() { Id = id, ItemId = itemId };
+            ReportDescriptor model = new ReportDescriptor() { Id = id ?? 0, ItemId = itemId ?? 0 };
 
 
             return View(model);

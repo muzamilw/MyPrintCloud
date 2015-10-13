@@ -1222,7 +1222,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     ColorM: colorM(),
                     ColorY: colorY(),
                     ColorK: colorK(),
-                    SpotColor: !spotColor() ? colorName() : spotColor(),
+                    SpotColor:colorName() ,
                     IsSpotColor: isSpotColor(),
                     IsColorActive: isActive()
                 };
