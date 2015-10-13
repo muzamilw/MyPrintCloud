@@ -1,4 +1,5 @@
 ﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
 @{
     Layout = null;
 }
@@ -29,16 +30,62 @@
                             <div id="Maincontainer" class="CAT_Body rounded_corners">
                                 <div class="LCLB">
                                    
+                                    @if (cat.ProductType == (int)ProductType.MarketingBrief)
+                                    {
 
-                                    <a href="@Url.Action("CloneRealEstateItem", "RealEstateProducts", new { id = cat.ItemId, PropertyId=ListingId})" onclick="ShowLoader();">
-                                        <div class="PDTC_CAT FI_CAT">
-                                            @{
+                                        var RedirectURL = "/MarketingBrief/" + cat.ProductName + "/" + cat.ItemId + "/" + cat.CategoryId;
+                                        <a href="@RedirectURL" onclick="ShowLoader();">
+                                            <div class="PDTC_CAT FI_CAT">
+                                                @{
 
-                                                <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
-                                            }
+                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                                }
 
-                                        </div>
-                                    </a>
+                                            </div>
+                                        </a>
+                                    }
+                                    else if (cat.ProductType == (int)ProductType.PrintProduct)
+                                    {
+                                        if (cat.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
+                                        {
+                                            var SkipDesignerPopUp = " StartDesignerLoader(); SkipDesignerGenerateProof(" + cat.ItemId + ", " + cat.TemplateId + ", " + ViewBag.ContactId + ",'" + cat.ProductName + "');";
+                                            <a id="hlProductDetail" href="#" onclick="ShowLoader(); @SkipDesignerPopUp">
+
+                                                <div class="PDTC_CatProd FI_CatProd">
+                                                    @{
+
+                                                        <img id="imgProduct" src="/@cat.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+
+                                                    }
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("CloneRealEstateItem", "RealEstateProducts", new { id = cat.ItemId, PropertyId=ListingId})" onclick="ShowLoader();">
+                                                <div class="PDTC_CAT FI_CAT">
+                                                    @{
+
+                                                        <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                                    }
+
+                                                </div>
+                                            </a>
+                                        }
+                                    }
+                                    else if (cat.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                    {
+                                        var RedirectURL = "/ProductOptions/" + cat.CategoryId + "/" + cat.ItemId + "/UploadDesign";
+                                        <a href="@RedirectURL" onclick="ShowLoader();">
+                                            <div class="PDTC_CAT FI_CAT">
+                                                @{
+
+                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                                }
+
+                                            </div>
+                                        </a>
+                                    }
                                 </div>
                                 <div class="product_detail_image_heading_CAT">
                                     <label id="lblProductName">@cat.ProductName</label>
