@@ -2149,10 +2149,7 @@ namespace MPC.Repository.Repositories
                         CustomerUrl = companycontact.Company.URL,
                         TaxRate = companycontact.Company.TaxRate ?? 0
                     });
-
-                    companycontact.IsEmailSubscription = true;
-                    Update(companycontact);
-                    SaveChanges();
+                   
                 }
 
                 return zapContact;
@@ -2163,6 +2160,40 @@ namespace MPC.Repository.Repositories
 
             }
 
+        }
+
+        public List<ZapierInvoiceDetail> GetContactForZapierPooling(long organisationId)
+        {
+            try
+            {
+                List<ZapierInvoiceDetail> zapContact = new List<ZapierInvoiceDetail>();
+                zapContact.Add(new ZapierInvoiceDetail
+                {
+                    CustomerName = "Sample Company My Print Store",
+                    Address1 = "Sample Address 1",
+                    Address2 = "Sample Address 2",
+                    AddressCity = "Sydney",
+                    AddressCountry = "Australia",
+                    AddressState = "Australian Capital Territory (ACT)",
+                    AddressName = "Head Offiec Address",
+                    AddressPostalCode = "1234",
+                    ContactId = 121,
+                    ContactFirstName = "John",
+                    ContactLastName = "Doe",
+                    ContactEmail = "john_doe@myprintstore.com",
+                    ContactPhone = "+61 121 234 4567",
+                    VatNumber = "ATG101",
+                    CustomerUrl = "http://www.myprintstore.com",
+                    TaxRate = 0
+                });
+
+                return zapContact;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
         }
 
     }
