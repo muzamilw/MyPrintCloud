@@ -3285,7 +3285,7 @@ namespace MPC.Implementation.MISServices
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
                 PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                 EmailEvents = emailEventRepository.GetAll(),
-                Widgets = widgetRepository.GetAll(),
+                Widgets = widgetRepository.GetAll().OrderBy(o => o.WidgetControlName),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
