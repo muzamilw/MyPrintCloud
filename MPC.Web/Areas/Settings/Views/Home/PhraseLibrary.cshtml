@@ -11,14 +11,14 @@
         <div class="clearfix" style="margin-top:38px;">
             <h1 class="pull-left" style="padding-left:7px;">Phrase Library</h1>
         </div>
-            <div class="btn-group pull-right top-page-ui" style="margin-bottom:7px;margin-right:15px;">
-                <button data-bind="click:$root.addPhrase,visible:$root.isOpenFromPhraseLibrary" class="btn btn-primary" style="margin-right:10px;">
+            <div class="btn-group pull-right top-page-ui" style="margin-bottom:7px;margin-right:10px;">
+                <button data-bind="click:$root.addPhrase,visible:$root.isOpenFromPhraseLibrary" class="btn btn-primary" style="margin-right:5px;border-radius:5px;">
                     Add New Phrase
                 </button>
 
         
-                <button type="button" class="btn btn-primary" data-bind="click:$root.savePhraseLibrary,visible:$root.isOpenFromPhraseLibrary" style="margin-right:10px;">Save</button>
-                <a href="~/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;">Close</a>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.savePhraseLibrary,visible:$root.isOpenFromPhraseLibrary" style="margin-right:5px;border-radius:5px;">Save</button>
+                <a href="~/Settings" class="btn btn-default" style="float:right;margin-bottom:10px;border-radius:5px;">Close</a>
             </div>
         </div>
         @Html.Partial("~/Areas/Common/Views/Shared/_PhraseLibrary.cshtml")
