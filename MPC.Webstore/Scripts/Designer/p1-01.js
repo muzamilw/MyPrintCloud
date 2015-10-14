@@ -20,6 +20,7 @@ $(".btnAUploadFont").click(function () {
          
 
 $('#imageUploader').change(function () {
+    debugger;
     StartLoader();
     var uploadPath = "Organisation" + organisationId + "/Templates/";
     if (IsCalledFrom == "1" || IsCalledFrom == "2")
@@ -89,6 +90,9 @@ $('#imageUploader').change(function () {
                 alert(thrownError);
             }
         });
+    }else 
+    {
+        StopLoader();
     }
 });
 $('#fontUploader').change(function () {
