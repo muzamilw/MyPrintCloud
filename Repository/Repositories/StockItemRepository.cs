@@ -66,9 +66,19 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public StockItem GetA4PaperStock()
         {
-            return
-                DbSet.FirstOrDefault(stock => stock.ItemName.Contains("A4") && stock.OrganisationId == OrganisationId &&
+
+            StockItem objStockItem = new StockItem();
+                
+            objStockItem = DbSet.FirstOrDefault(stock => stock.ItemName.Contains("A4") && stock.OrganisationId == OrganisationId &&
                                               stock.CategoryId == (int) StockCategoryEnum.Paper);
+
+
+            if(objStockItem == null)
+            {
+               objStockItem = db.StockItems.Where(c => c.OrganisationId == OrganisationId && c.CategoryId == (int)StockCategoryEnum.Paper).FirstOrDefault();
+            }
+
+            return objStockItem;
         }
 
         /// <summary>

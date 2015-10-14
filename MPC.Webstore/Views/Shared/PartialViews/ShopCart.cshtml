@@ -230,7 +230,7 @@
                                                 <br>
                                                 <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
                                                 <br />
-                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
+                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
 
                                                 <br />
                                                 <br />
@@ -379,7 +379,7 @@
                                             }
                                             else
                                             {
-                                                <button id="btnRemoveVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveVoucherCode(event);">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlremovevouchercode", UserCookieManager.WBStoreId, "Remove voucher code")));</button>
+                                                <button id="btnRemoveVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveVoucherCode(event);">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlremovevouchercode", UserCookieManager.WBStoreId, "Remove voucher code"))</button>
                                             }
                                         </div>
                                        
@@ -659,9 +659,10 @@
     }
 
     function ifNoAnEnterKay(event){
-        if (e.keyCode == 13) {
+        if (event.keyCode == 13) {
             return false;
         }else{
+            $("#hfIsCallFrom").val("Checkout");
             ShowLoader();
             return true;
         }

@@ -146,7 +146,7 @@ namespace MPC.Webstore.Controllers
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
                     ViewBag.ShowUploadArkworkPanel = true;
-                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName);
+                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
                 }
                 else
                 {
@@ -213,7 +213,7 @@ namespace MPC.Webstore.Controllers
                         OrderID = clonedItem.EstimateId ?? 0;
                         UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
                     }
-                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName);
+                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
                     referenceItemId = clonedItem.RefItemId ?? 0;
                     if (clonedItem.ItemSections != null)
                     {
@@ -900,7 +900,7 @@ namespace MPC.Webstore.Controllers
 
             referenceItem = null;
         }
-        private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId, string ProductName)
+        private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId, string ProductName, int isTemplateDesignMode)
         {
             List<TemplateViewData> Templates = new List<TemplateViewData>();
             Template Template = _template.GetTemplate(TemplateId);// _templatePages.GetTemplatePages(TemplateId).ToList();
@@ -909,8 +909,8 @@ namespace MPC.Webstore.Controllers
                 attachmentList = attachmentList.Take(2).ToList();
             }
 
-
             TemplateViewData objTemplate = null;
+
             foreach (var attach in attachmentList)
             {
                 objTemplate = new TemplateViewData();
@@ -953,7 +953,7 @@ namespace MPC.Webstore.Controllers
                 }
 
                 objTemplate.printCropMarks = true;
-
+                objTemplate.isTemplateDesignMode = isTemplateDesignMode;
                 Templates.Add(objTemplate);
             }
 

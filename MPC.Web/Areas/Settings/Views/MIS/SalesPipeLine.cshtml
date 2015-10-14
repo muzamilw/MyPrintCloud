@@ -14,7 +14,7 @@
                                     <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                                 </ol>
                                 <div class="clearfix">
-                                    <h1 class="pull-left">Sales Pipelines</h1>
+                                    <h1 class="pull-left" style="padding-left:0px;">Sales Pipelines</h1>
                                     <div style="display:none;">
                                         <p> Please corresct these errors.</p>
                                         <table id="table">
@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" id="prefixesdata">
+                        <div id="prefixesdata">
                             <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;">Close</a>
                             <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn" data-bind="click: $root.onSavePrefixes, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                             <div class="col-lg-12 main-box clearfix" style="padding-left:0px;">
@@ -46,23 +46,20 @@
                                     </div>
                                     <div class="tab-content">
                                         <div class="tab-pane fade active in" id="tab-SalesTarget">
-                                            <div class="main-box-body clearfix">
-                                                <br />
-                                                <h3>Set sale targets for your Account Managers</h3>
+                                            <div class="main-box-body clearfix" style="padding-right:12px;">
+                                               <h3>Set sale targets for your Account Managers</h3>
                                                 <p class="group-header-description">A sales pipeline describes an approach to selling, founded on the underlying principles of the sales process. It describes the individual steps salespeople take from initial contact with a potential customer, or prospect, to qualifying that prospect into a lead, and further validating that lead into a sales opportunity.  This is usually defined by percentage and therefore with MyPRINTCloud you can define the likelihood of a estimate turning into a job</p>
-                                                
-                                              
-                                                <div class="col-md-12 form-horizontal">
+                                                <div class="col-md-12 form-horizontal" style="padding-left:0px;padding-right:0px;">
                                                     <h3>Sales Target</h3>
                                                 </div>
                                                 <br />
-                                                <div class="col-md-6 form-horizontal">
+                                                <div class="col-md-12 form-horizontal" style="padding-left:0px;padding-right:0px;">
                                                     <div class="form-group">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-2 text-right">
                                                             
                                                             <label for="txtCompanyName" class="control-label text-right tooltip-float">Sales Person</label>
                                                         </div>
-                                                        <div class="col-lg-6">
+                                                        <div class="col-lg-3">
                                                             <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"><option value="1">Lucas Padolsiki</option><option value="1">Bastin Schwenstigier</option></select>
                                                             <span class="help-block text-right"></span>
                                                         </div>
@@ -70,11 +67,11 @@
 
                                                     
                                                         <div class="form-group">
-                                                            <div class="col-lg-5 text-right">
+                                                            <div class="col-lg-2 text-right">
                                                                 
                                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Sales Year</label>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-3">
                                                                 <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"><option value="1">2011</option><option value="1">2012</option><option value="1">2013</option><option value="1">2014</option><option value="1">2015</option><option value="1">2016</option><option value="1">2011</option><option value="1">2017</option><option value="1">2018</option><option value="1">2019</option><option value="1">2020</option><option value="1">2021</option><option value="1">2022</option><option value="1">2023</option><option value="1">2024</option><option value="1">2025</option></select>
                                                                 <span class="help-block text-right"></span>
                                                             </div>
@@ -90,17 +87,22 @@
                                                         <table id="chartOfAccountTablle" class="table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <td align="left" class="text-style" style="width:45%;">
+                                                                    <th class="col-lg-1"></th>
+                                                                    <th align="left" class="col-lg-3">
                                                                         MONTS
-                                                                    </td>
-                                                                    <td align="left" class="text-style" style="width:45%;">
+                                                                    </th>
+                                                                    <th align="left" class="col-lg-5">
                                                                         SALES TARGET
-                                                                    </td>
+                                                                    </th>
+                                                                    <th class="col-lg-1"></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td>
+
+                                                                    </td>
+                                                                    <td>
                                                                         January
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -122,10 +124,11 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td></td>
+                                                                    <td>
                                                                         Febuary
                                                                     </td>
-                                                                    <td style="width:100%;">
+                                                                    <td>
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon" tabindex="-1">$</span>
                                                                             <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
@@ -145,7 +148,8 @@
                                                                 </tr>
 
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td></td>
+                                                                    <td>
                                                                         March
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -167,10 +171,11 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td></td>
+                                                                    <td>
                                                                         April
                                                                     </td>
-                                                                    <td style="width:100%;">
+                                                                    <td>
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon" tabindex="-1">$</span>
                                                                             <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
@@ -189,7 +194,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td></td>
+                                                                    <td>
                                                                         May
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -211,7 +217,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td></td>
+                                                                    <td>
                                                                         June
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -233,7 +240,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td></td>
+                                                                    <td>
                                                                         July
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -255,7 +263,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td></td>
+                                                                    <td>
                                                                         August
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -277,7 +286,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%;">
+                                                                    <td></td>
+                                                                    <td>
                                                                         September
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -299,7 +309,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%">
+                                                                    <td></td>
+                                                                    <td>
                                                                         Octuber
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -321,7 +332,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%">
+                                                                    <td></td>
+                                                                    <td>
                                                                         November
                                                                     </td>
                                                                     <td style="width:100%;">
@@ -343,7 +355,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:30%">
+                                                                    <td></td>
+                                                                    <td>
                                                                         December
                                                                     </td>
                                                                     <td style="width:100%;">

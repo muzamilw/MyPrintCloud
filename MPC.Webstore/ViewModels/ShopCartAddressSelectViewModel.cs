@@ -122,5 +122,37 @@ namespace MPC.Webstore.ViewModels
 
         public long SelectedDeliveryCostCentreId { get; set; }
         public long? DeliveryDiscountVoucherID { get; set; }
+
+        public CalculatedCartValues calcultedValuesOfCart { get; set; }
+    }
+
+    public class CalculatedCartValues 
+    {
+        public string DeliveryCost
+        {
+            get;
+            set;
+        }
+        public string DiscountAmount
+        {
+            get;
+            set;
+        }
+        public string Tax
+        {
+            get;
+            set;
+        }
+        public string SubTotal
+        {
+            get;
+            set;
+        }
+
+        public string GrandTotal
+        {
+            get;
+            set;
+        }
     }
 }
