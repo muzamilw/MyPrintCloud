@@ -2616,7 +2616,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Stock Item Id
             stockItemId = ko.observable(specifiedStockId || undefined),
             // Stock Item Name
-            stockItemName = ko.observable(specifiedStockItemName || undefined).extend({ required: true }),
+            stockItemName = ko.observable(specifiedStockItemName || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && parseInt(specifiedItem.productType()) !== 2);
+                    }
+                }
+            }),
             // Stock Item Description
             stockItemDescription = ko.observable(specifiedStockItemDescription || undefined),
             // image
