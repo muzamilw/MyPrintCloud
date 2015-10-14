@@ -123,7 +123,7 @@ namespace MPC.Webstore.Controllers
                         FreeShippingVoucherId = _ItemService.IsStoreHaveFreeShippingDiscountVoucher(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, OrderId);
                         if (FreeShippingVoucherId == 0)
                         {
-
+                            UserCookieManager.FreeShippingVoucherId = 0;
                             _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
                         }
                         else
