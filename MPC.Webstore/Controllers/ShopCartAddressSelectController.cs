@@ -87,6 +87,8 @@ namespace MPC.Webstore.Controllers
 
         }
 
+
+
         private void LoadPageData(ShopCartAddressSelectViewModel AddressSelectModel, long OrderID) 
         {
             List<CostCentre> deliveryCostCentersList = null;
@@ -130,6 +132,7 @@ namespace MPC.Webstore.Controllers
 
             BindGridView(shopCart, AddressSelectModel);
 
+            AddressSelectModel.calcultedValuesOfCart = CartModel(shopCart);
             BindCountriesDropDownData(baseresponseOrg, baseresponseComp, AddressSelectModel);
 
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
@@ -438,6 +441,52 @@ namespace MPC.Webstore.Controllers
             ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, baseresponseComp.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
             
 
+        }
+
+        private CalculatedCartValues CartModel(ShoppingCart shopcart) 
+        {
+            double _priceTotal = 0;
+            double VatTotal = 0;
+            double _DiscountAmountTotal = 0;
+            CalculatedCartValues oValues = new CalculatedCartValues();
+            foreach (ProductItem itm in shopcart.CartItemsList)
+            {
+                _priceTotal += Convert.ToDouble(itm.Qty1BaseCharge1 ?? 0);
+                _DiscountAmountTotal += itm.DiscountedAmount ?? 0;
+                VatTotal += itm.Qty1Tax1Value ?? 0;
+            }
+
+            oValues.SubTotal =  Convert.ToString(_priceTotal);
+            oValues.DiscountAmount =  Convert.ToString(_DiscountAmountTotal);
+            if (shopcart.DeliveryCost > 0)
+            {
+                oValues.DeliveryCost = shopcart.DeliveryCost.ToString();
+            }
+            else
+            {
+
+                oValues.DeliveryCost = Convert.ToString(0);
+            }
+
+            if (shopcart.DeliveryTaxValue > 0)
+            {
+                oValues.Tax = Convert.ToString(shopcart.DeliveryTaxValue + VatTotal);
+            }
+            else
+            {
+                oValues.Tax =  Convert.ToString(VatTotal);
+            }
+
+            if (shopcart.DeliveryCost > 0)
+            {
+                oValues.GrandTotal =  Convert.ToString(_priceTotal + (shopcart.DeliveryTaxValue + VatTotal) + shopcart.DeliveryCost);
+                
+            }
+            else
+            {
+                oValues.GrandTotal =  Convert.ToString(_priceTotal + VatTotal);
+            }
+            return oValues;
         }
 
         private List<CostCentre> GetDeliveryCostCenterList()
@@ -817,7 +866,7 @@ namespace MPC.Webstore.Controllers
             if (isPageValid)
             {
 
-                Double ServiceTaxRate = GetTAXRateFromService(AddLine1, city, PostCode, model);
+                //Double ServiceTaxRate = GetTAXRateFromService(AddLine1, city, PostCode, model);
 
                 bool result = false;
 
@@ -834,7 +883,7 @@ namespace MPC.Webstore.Controllers
                 CompanyContact user = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
                 if (user != null)
                 {
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    if (!string.IsNullOrEmpty(model.RefNumber))
                     {
 
                         yourRefNumber = model.RefNumber;
