@@ -158,6 +158,8 @@ var lstVariableExtensions = null;
 var productDimensionUpdated = false;
 var objectsSelectable = true;
 var selectedPathIndex = 0;
+var conversionRatio = 1;
+var conversionUnit = "Points";
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];

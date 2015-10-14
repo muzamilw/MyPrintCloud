@@ -136,6 +136,13 @@ namespace MPC.Implementation.WebStoreServices
 
 
                 Item ActualItem = _ItemRepository.GetActualItemToClone(itemID);
+
+                if (ActualItem == null) 
+                {
+                    throw new Exception("Critcal Error, No item to clone.", null);
+                    return null;
+                   
+                }
                 //******************new item*********************
                 newItem = _ItemRepository.Clone<Item>(ActualItem);
              
