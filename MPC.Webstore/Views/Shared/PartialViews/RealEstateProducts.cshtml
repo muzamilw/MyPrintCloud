@@ -1,39 +1,110 @@
 ﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
 @{
     Layout = null;
 }
 @{
     var ListingId = ViewBag.ListingID;
-    
+
 }
-<div class="container content_area">
-    <div class="left_right_padding row">
-        @foreach (var cat in ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>)
-        {
-            <div id="Maincontainer" class="CAT_Body rounded_corners">
-                <div class="LCLB">
-                           @{
+<div class="container content_area" id="all-category-pg">
 
-                       var RedirectURL = "/RealEstateProducts/CloneRealEstateItem/" + cat.ItemId;
+    <div class="left_right_padding">
 
-                    <a id="hlCategory" href="@Url.Action("CloneRealEstateItem", "RealEstateProducts", new { id = cat.ItemId, PropertyId=ListingId})">
+        <div class="signin_heading_div Categorytitle col-md-12 col-lg-12 col-xs-12">
+            <h1>
+                <label id="lblTitle" class="sign_in_catheading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRelEstatePropertyHeading", UserCookieManager.WBStoreId, "Properties"))</label>
+            </h1>
 
-                            <div class=" pdtc_cat fi_cat">
-                        @{
-                            <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@Html.GetAppBasePath()@cat.ThumbnailPath' />
+        </div>
+
+        <div id="CategoryDisplay responsivePad15">
+
+            <div class="rounded_corners clearBoth col-md-12 col-lg-12 col-xs-12">
+                @if (ViewData["RealEstateProducts"] != null)
+                {
+
+                    <div id="pnlCatList" class="padd_bottom_30 ">
+                        @foreach (var cat in ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>)
+                        {
+                            <div id="Maincontainer" class="CAT_Body rounded_corners">
+                                <div class="LCLB">
+                                   
+                                    @if (cat.ProductType == (int)ProductType.MarketingBrief)
+                                    {
+
+                                        var RedirectURL = "/MarketingBrief/" + cat.ProductName + "/" + cat.ItemId + "/" + cat.CategoryId;
+                                        <a href="@RedirectURL" onclick="ShowLoader();">
+                                            <div class="PDTC_CAT FI_CAT">
+                                                @{
+
+                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                                }
+
+                                            </div>
+                                        </a>
+                                    }
+                                    else if (cat.ProductType == (int)ProductType.PrintProduct)
+                                    {
+                                        if (cat.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
+                                        {
+                                            var SkipDesignerPopUp = " StartDesignerLoader(); SkipDesignerGenerateProof(" + cat.ItemId + ", " + cat.TemplateId + ", " + ViewBag.ContactId + ",'" + cat.ProductName + "');";
+                                            <a id="hlProductDetail" href="#" onclick="ShowLoader(); @SkipDesignerPopUp">
+
+                                                <div class="PDTC_CatProd FI_CatProd">
+                                                    @{
+
+                                                        <img id="imgProduct" src="/@cat.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+
+                                                    }
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("CloneRealEstateItem", "RealEstateProducts", new { id = cat.ItemId, PropertyId=ListingId})" onclick="ShowLoader();">
+                                                <div class="PDTC_CAT FI_CAT">
+                                                    @{
+
+                                                        <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                                    }
+
+                                                </div>
+                                            </a>
+                                        }
+                                    }
+                                    else if (cat.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                    {
+                                        var RedirectURL = "/ProductOptions/" + cat.CategoryId + "/" + cat.ItemId + "/UploadDesign";
+                                        <a href="@RedirectURL" onclick="ShowLoader();">
+                                            <div class="PDTC_CAT FI_CAT">
+                                                @{
+
+                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                                }
+
+                                            </div>
+                                        </a>
+                                    }
+                                </div>
+                                <div class="product_detail_image_heading_CAT">
+                                    <label id="lblProductName">@cat.ProductName</label>
+                                </div>
+
+
+                            </div>
                         }
 
+                        <div class="clearBoth">
+
+                        </div>
                     </div>
-                        </a>
-                    }
-                </div>
-                <div class="product_detail_image_heading_CAT">
-                    <label id="lblProductName">@cat.ProductName</label>
-                </div>
-                <div class="topcat_desc_CAT">
-                    <label id="lblDescription1">@cat.ProductCode</label>
-                </div>
+                }
+
+
             </div>
-        }
+
+        </div>
     </div>
 </div>
+

@@ -4803,6 +4803,8 @@ function togglePage(pId) {
             var res = item.TemplateDimensionConvertionRatio.split("__");
             w = w * res[0];
             h = h * res[0];
+            conversionUnit = res[1];
+            conversionRatio = parseFloat(res[0]);
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");

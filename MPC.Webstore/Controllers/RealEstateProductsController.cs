@@ -29,6 +29,7 @@ namespace MPC.Webstore.Controllers
 
             ViewData["RealEstateProducts"] = lstRealEstateProducts;
             ViewBag.ListingID = Lid;
+            ViewBag.ContactId = _myClaimHelper.loginContactID();
             return View("PartialViews/RealEstateProducts");
         }
         public ActionResult CloneRealEstateItem(long id,long PropertyId)
