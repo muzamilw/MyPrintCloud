@@ -475,7 +475,7 @@ namespace MPC.Implementation.WebStoreServices
                                         // fontTag += " color='#FF' csid=" + csInlineID;
                                         if(isTemplateSpot)
                                         {
-                                            if(objStyle.spotColorName == "null")
+                                            if(objStyle.spotColorName == "null" || objStyle.spotColorName == null)
                                             {
                                                 objStyle.spotColorName = objStyle.textCMYK.Replace(" ","");
                                             }
