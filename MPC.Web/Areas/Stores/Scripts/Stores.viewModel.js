@@ -5412,7 +5412,7 @@ define("stores/stores.viewModel",
                                         if (widget.widgetId() === 14) {
                                             _.each(item.CmsSkinPageWidgetParams, function (params) {
                                                 widget.cmsSkinPageWidgetParam(model.CmsSkinPageWidgetParam.Create(params));
-                                                //widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                                                widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
                                             });
                                         }
                                         pageSkinWidgets.push(widget);
@@ -5485,7 +5485,7 @@ define("stores/stores.viewModel",
                                 var newWidget = new model.CmsSkingPageWidget();
                                 //newWidget.htmlData(data);
                                 newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
-                                newWidget.widgetName(widget.widgetName());
+                                newWidget.widgetName(widget.widgetControlName());
                                 newWidget.pageId(selectedCurrentPageId());
                                 newWidget.widgetId(widget.widgetId());
                                 pageSkinWidgets.splice(0, 0, newWidget);
@@ -5507,7 +5507,7 @@ define("stores/stores.viewModel",
                                 if (data !== "" && data !== null) {
                                     var newWidget = new model.CmsSkingPageWidget();
                                     newWidget.htmlData(data);
-                                    newWidget.widgetName(widget.widgetName());
+                                    newWidget.widgetName(widget.widgetControlName());
                                     newWidget.pageId(selectedCurrentPageId());
                                     newWidget.widgetId(widget.widgetId());
                                     pageSkinWidgets.splice(0, 0, newWidget);
