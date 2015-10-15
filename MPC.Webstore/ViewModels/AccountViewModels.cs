@@ -255,6 +255,8 @@ namespace MPC.Webstore.Models
         public bool printCropMarks { get; set; }
         public bool printWaterMark { get; set; }
         public bool isEmbedded { get; set; }
+        public int isTemplateDesignMode { get; set; }
+        
     }
 
     public class ItemViewModel

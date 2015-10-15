@@ -131,6 +131,7 @@
             // rdRetailStoreTargetNew
             // 
             this.rdRetailStoreTargetNew.AutoSize = true;
+            this.rdRetailStoreTargetNew.Checked = true;
             this.rdRetailStoreTargetNew.Location = new System.Drawing.Point(6, 20);
             this.rdRetailStoreTargetNew.Name = "rdRetailStoreTargetNew";
             this.rdRetailStoreTargetNew.Size = new System.Drawing.Size(105, 17);
@@ -142,12 +143,10 @@
             // rdRetailStoreTargetExisting
             // 
             this.rdRetailStoreTargetExisting.AutoSize = true;
-            this.rdRetailStoreTargetExisting.Checked = true;
             this.rdRetailStoreTargetExisting.Location = new System.Drawing.Point(117, 19);
             this.rdRetailStoreTargetExisting.Name = "rdRetailStoreTargetExisting";
             this.rdRetailStoreTargetExisting.Size = new System.Drawing.Size(192, 17);
             this.rdRetailStoreTargetExisting.TabIndex = 9;
-            this.rdRetailStoreTargetExisting.TabStop = true;
             this.rdRetailStoreTargetExisting.Text = "Existing Retail Store. Enter Store ID";
             this.rdRetailStoreTargetExisting.UseVisualStyleBackColor = true;
             // 
@@ -178,7 +177,7 @@
             this.txtMPCContentBasePath.Name = "txtMPCContentBasePath";
             this.txtMPCContentBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtMPCContentBasePath.TabIndex = 11;
-            this.txtMPCContentBasePath.Text = "D:\\wwwRoot\\australia.myprintcloud.com\\mis\\MPC_Content\\";
+            this.txtMPCContentBasePath.Text = "D:\\Websites\\datamanagement.myprintcloud.com\\mis\\MPC_Content";
             // 
             // label1
             // 
@@ -195,7 +194,7 @@
             this.txtPinkCardsStoredImagesBasePath.Name = "txtPinkCardsStoredImagesBasePath";
             this.txtPinkCardsStoredImagesBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtPinkCardsStoredImagesBasePath.TabIndex = 13;
-            this.txtPinkCardsStoredImagesBasePath.Text = "D:\\wwwRoot\\yolkpm\\mis\\StoredImages\\";
+            this.txtPinkCardsStoredImagesBasePath.Text = "D:\\Websites\\DataManagement\\mis\\StoredImages\\";
             // 
             // label2
             // 
@@ -236,7 +235,7 @@
             this.txtOrganisationId.Name = "txtOrganisationId";
             this.txtOrganisationId.Size = new System.Drawing.Size(100, 20);
             this.txtOrganisationId.TabIndex = 17;
-            this.txtOrganisationId.Text = "499";
+            this.txtOrganisationId.Text = "635";
             // 
             // label3
             // 
@@ -263,7 +262,7 @@
             this.txtDesignerBasePath.Name = "txtDesignerBasePath";
             this.txtDesignerBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtDesignerBasePath.TabIndex = 20;
-            this.txtDesignerBasePath.Text = "D:\\wwwRoot\\yolkpm\\DesignEngine\\designer\\products\\";
+            this.txtDesignerBasePath.Text = "D:\\Websites\\DataManagement\\DesignEngine\\designer\\products\\";
             // 
             // label4
             // 

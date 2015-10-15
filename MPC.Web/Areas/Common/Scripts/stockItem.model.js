@@ -16,7 +16,6 @@
             inStock: specifyInStock,
             allocated: specifyAllocated,
             code: specifyItemCode
-
         };
     };
 
@@ -27,7 +26,7 @@
             source.ItemWeight,
             source.PackageQty,
             source.PerQtyQty || 0,
-            source.PackCostPrice === -9999 ? 0 : source.PackCostPrice,
+            source.CostPrice === -9999 ? 0 : source.CostPrice,
             source.CompanyTaxRate,
             source.InStock,
             source.Allocated,
