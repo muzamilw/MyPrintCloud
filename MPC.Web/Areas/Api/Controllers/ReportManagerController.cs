@@ -33,12 +33,12 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         public void getParamsById(long Id)
         {
-           // return null;
+            // return null;
         }
 
         //public List<ReportparamResponse> getParamsById(long Id)
         //{
-        //    return null;
+        //    return _IReportService.getParamsById(Id).Select(c => c.CreateFrom()).ToList();
         //}
         
        
