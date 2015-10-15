@@ -41,7 +41,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            companyService.DeleteCompanyPermanently(model.CompanyId);
+            companyService.DeleteCompanyPermanently(model.CompanyId,model.Comment);
         }
 
     }

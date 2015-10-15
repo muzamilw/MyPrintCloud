@@ -71,16 +71,55 @@ namespace MPC.Repository.Repositories
         }
         public List<ReportparamResponse> getParamsById(long Id)
         {
+            string connectionString = string.Empty;
+            SqlConnection oConn = new SqlConnection();
+
             List<Reportparam> Reportparams = db.Reportparams.Where(g => g.ReportId == Id).ToList();
             List<ReportparamResponse> ReportparamsList = new List<ReportparamResponse>();
+
+            oConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ReportConnectiontring"].ConnectionString);
+
+            oConn.Open();
+
+
             foreach (var item in Reportparams)
             {
                 ReportparamResponse reportpar = new ReportparamResponse();
                 reportpar.param = item;
+                // for drop down
                if(item.ControlType == 1){
-                   string query = "select * from " + item.ComboTableName + item.CriteriaFieldName;
-                  // var result = db.Database.SqlQuery(query);
+                  
+                   string queryString = "select * from " + item.ComboTableName + item.CriteriaFieldName;
+
+                   SqlCommand command = new SqlCommand(queryString, oConn);
+                   SqlDataReader reader = command.ExecuteReader();
+
+                   DataTable dtrpt = new DataTable();
+
+                   dtrpt.Load(reader);
+
+                    DataColumnCollection columns = dtrpt.Columns;
+                    DataColumn colId = dtrpt.Columns["YourColumnName"];
+                    DataColumn colName = dtrpt.Columns["YourColumnName"];
+
+                    if (columns.Contains("CompanyId")) // company records
+                    {
+                        reportpar.ComboList = new List<ReportparamComboCollection>();
+
+                        foreach (DataRow row in dtrpt.Rows) // Loop over the rows.
+                        {
+                           ReportparamComboCollection objCombo = new ReportparamComboCollection();
+
+                           objCombo.ComboId = row[colId].ToString();
+
+                           objCombo.ComboText = row[colName].ToString();
+
+                           reportpar.ComboList.Add(objCombo);
+                        }
+                    }
+   
                }
+
                 
             }
             return ReportparamsList;
