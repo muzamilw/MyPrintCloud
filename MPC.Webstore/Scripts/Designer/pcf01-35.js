@@ -454,7 +454,7 @@ function d8_chk(Pid) {
 }
 
 function e3() {
-    if (D1CS < 2.9) {
+   // if (D1CS < 2.9) {
         D1CS = D1CS * D1SF;
         canvas.setHeight(canvas.getHeight() * D1SF);
         canvas.setWidth(canvas.getWidth() * D1SF);
@@ -477,7 +477,7 @@ function e3() {
                 dfZ1l = OBS[i].scaleX;
             }
         }
-    }
+  //  }
     if (canvas.backgroundImage) {
         canvas.backgroundImage.left = 0;
         canvas.backgroundImage.top = 0;
@@ -499,7 +499,7 @@ function e3() {
 }
 
 function e5() {
-    if (D1CS > 0.61) {
+  //  if (D1CS > 0.61) {
         D1CS = D1CS / D1SF;
         canvas.setHeight(canvas.getHeight() * (1 / D1SF));
         canvas.setWidth(canvas.getWidth() * (1 / D1SF));
@@ -522,7 +522,7 @@ function e5() {
                 dfZ1l = OBS[i].scaleX;
             }
         }
-    }
+   // }
     if (canvas.backgroundImage) {
         canvas.backgroundImage.left = 0;
         canvas.backgroundImage.top = 0;
