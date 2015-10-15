@@ -3300,6 +3300,7 @@ namespace MPC.Implementation.WebStoreServices
             string unit = "mm";
             double height = h;
             double scaledHeight = h;
+            double scaleFactor = 1;
             double resultDimentions = h; // current height or width 
             var organisation = _organisationRepository.GetOrganizatiobByID(organisationID);
             var item = _itemRepository.GetItemByIdDesigner(itemID);
@@ -3310,6 +3311,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     scaledHeight = 1;
                 }
+                scaleFactor = scaledHeight;
             }
 
 
@@ -3336,7 +3338,7 @@ namespace MPC.Implementation.WebStoreServices
             }
 
 
-            return resultDimentions + "__" + unit;
+            return resultDimentions + "__" + unit+ "__" + (resultDimentions/scaleFactor) ;
         }
 
         public string OrderConfirmationPDF(long OrderId, long StoreId)

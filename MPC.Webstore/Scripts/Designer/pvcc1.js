@@ -158,7 +158,7 @@ var lstVariableExtensions = null;
 var productDimensionUpdated = false;
 var objectsSelectable = true;
 var selectedPathIndex = 0;
-var conversionRatio = 1;
+var conversionRatio = 1; // from points to system unit 
 var conversionUnit = "Points";
 function buildParams() {
   
