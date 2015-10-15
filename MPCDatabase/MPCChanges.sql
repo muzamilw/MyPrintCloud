@@ -8697,3 +8697,41 @@ FROM dbo.Items AS i INNER JOIN ProductCategoryItem pci ON pci.ItemId = i.ItemId 
  AND i.IsRealStateProduct = 1 AND i.IsPublished = 1 AND i.IsEnabled = 1 AND (i.IsArchived = 0 or i.IsArchived is null)
 
 END
+
+
+-------------------------------
+
+
+
+/****** Object:  Table [dbo].[UserActionsLog]    Script Date: 10/14/2015 2:48:49 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[UserActionsLog](
+	[LogId] [bigint] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](100) NULL,
+	[ActionDate] [datetime] NULL,
+	[TableName] [varchar](100) NULL,
+	[RecordId] [bigint] NULL,
+	[UserId] [uniqueidentifier] NULL,
+	[DomainId] [varchar](500) NULL,
+	[Comments] [ntext] NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_UserActionsLog] PRIMARY KEY CLUSTERED 
+(
+	[LogId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
