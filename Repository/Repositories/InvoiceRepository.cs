@@ -197,7 +197,8 @@ namespace MPC.Repository.Repositories
                         NetTotal = p.Qty1NetTotal ?? 0,
                         TaxValue = p.Qty1Tax1Value ?? 0,
                         GrossTotal = p.Qty1GrossTotal ?? 0,
-                        ProductName = p.ProductName
+                        ProductName = p.ProductName,
+                        PricePerUnit = (p.Qty1GrossTotal??0 / p.Qty1 ?? 0)
 
                     }).ToList()
                 });
