@@ -4805,7 +4805,7 @@ function togglePage(pId) {
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
-            conversionRatio = parseFloat(res[2]) * 2.834645669  ;
+          //  conversionRatio = parseFloat(res[2]) * 2.834645669  ;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
