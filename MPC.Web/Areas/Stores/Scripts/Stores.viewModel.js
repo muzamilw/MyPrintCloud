@@ -7377,11 +7377,40 @@ define("stores/stores.viewModel",
                 },
                 // On Delete Store Permanently
                 onDeletePermanent = function () {
-                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
-                    confirmation.afterProceed(function () {
-                        deleteCompanyPermanently(selectedStore().companyId());
-                    });
-                    confirmation.show();
+
+                    if (selectedStore().isStoreSetLive())
+                    {
+                        confirmation.headingText("Alert");
+                        confirmation.yesBtnText("OK");
+                        confirmation.noBtnText("Cancel");
+                        confirmation.IsCancelVisible(false);
+                        confirmation.messageText("Important !! Store is live if u want to delete it please make it offline.");
+
+                        confirmation.show();
+                    }
+                    else
+                    {
+
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+
+                            confirmation.hide();
+                            var sMessage = "Please enter reason to delete a store.";
+                            confirmation.messageText("Important !! " + sMessage);
+                            confirmation.afterActionProceed(function () {
+                                //confirmation.hideActionPopup();
+                                var coment = confirmation.comment() + " " + "RandomNumber : " + confirmation.UserRandomNum();
+                                    deleteCompanyPermanently(selectedStore().companyId(),coment);
+                                });
+
+                                confirmation.showActionPopup();
+                               
+                            
+                           
+                        });
+                        confirmation.show();
+                    }
+                    
                 },
                 // On Copy Store
                 onCopyStore = function () {
@@ -7399,10 +7428,27 @@ define("stores/stores.viewModel",
                     });
                 },
 
+
+                //// Delete Company Permanently
+                //saveUserActions = function (id) {
+                //    dataservice.saveUserActionLog({ CompanyId: id, Commen }, {
+                //        success: function () {
+                //            deleteCompanyPermanently(selectedStore().companyId());
+                //        },
+                //        error: function (response) {
+                //            toastr.error("Failed to save user action log. Error: " + response, "", ist.toastrOptions);
+                //        }
+                //    });
+                //};
+
+
                 // Delete Company Permanently
-                deleteCompanyPermanently = function (id) {
-                    dataservice.deleteCompanyPermanent({ CompanyId: id }, {
+                deleteCompanyPermanently = function (id,comment) {
+                    dataservice.deleteCompanyPermanent({ CompanyId: id, Comment: comment }, {
                         success: function () {
+                            confirmation.comment("");
+                            confirmation.UserRandomNum("");
+
                             toastr.success("Store deleted successfully!");
                             isEditorVisible(false);
                             if (selectedStore()) {

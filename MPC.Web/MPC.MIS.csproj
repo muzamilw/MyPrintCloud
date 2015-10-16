@@ -511,7 +511,9 @@
     <Compile Include="Areas\Api\ModelMappers\PurchaseDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportEmailResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportParamComboMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportParamResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />

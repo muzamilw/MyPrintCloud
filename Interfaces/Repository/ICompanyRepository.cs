@@ -126,6 +126,8 @@ namespace MPC.Interfaces.Repository
         void SaveSystemVariableExtension(long oldCompanyId, long NewCompanyid);
 
         bool IsDuplicateWebAccessCode(string webCode, long? companyId);
+
+        bool SaveUserActionLog(string Comment, long CompanyId);
         
 
     }
