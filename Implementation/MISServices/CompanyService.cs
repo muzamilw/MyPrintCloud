@@ -6926,7 +6926,7 @@ namespace MPC.Implementation.MISServices
         #region CopyStore
 
         /// <summary>
-        /// Clone Product
+        /// Clone Store
         /// </summary>
         public Company CloneStore(long companyId)
         {
@@ -9408,6 +9408,7 @@ namespace MPC.Implementation.MISServices
             }        
         }
         #endregion
+
 
         
 
