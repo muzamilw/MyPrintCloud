@@ -197,7 +197,8 @@ namespace MPC.Repository.Repositories
                         NetTotal = p.Qty1NetTotal ?? 0,
                         TaxValue = p.Qty1Tax1Value ?? 0,
                         GrossTotal = p.Qty1GrossTotal ?? 0,
-                        ProductName = p.ProductName
+                        ProductName = p.ProductName,
+                        PricePerUnit = (p.Qty1GrossTotal??0 / p.Qty1 ?? 0)
 
                     }).ToList()
                 });
@@ -234,7 +235,9 @@ namespace MPC.Repository.Repositories
                 InvoiceDueDate = DateTime.Now.AddDays(1),
                 InvoiceId = 1144
             });
-            lstInvoiceDetails.FirstOrDefault().InvoiceItems.Add(new ZapierInvoiceItem
+            List<ZapierInvoiceItem> zapInvItems = new List<ZapierInvoiceItem>();
+
+            zapInvItems.Add(new ZapierInvoiceItem
             {
                 ProductCode = "ITM-001-1144",
                 ProductDescription = "This is sample product pooling to Zapier sample data",
@@ -246,7 +249,7 @@ namespace MPC.Repository.Repositories
                 ProductName = "Sample Business Cards"
 
             });
-            lstInvoiceDetails.FirstOrDefault().InvoiceItems.Add(new ZapierInvoiceItem
+            zapInvItems.Add(new ZapierInvoiceItem
             {
                 ProductCode = "ITM-001-1145",
                 ProductDescription = "This is second sample product pooling to Zapier sample data",
@@ -258,6 +261,7 @@ namespace MPC.Repository.Repositories
                 ProductName = "Sample Gloss Matt Business Cards"
 
             });
+            lstInvoiceDetails.FirstOrDefault().InvoiceItems = zapInvItems;
             return lstInvoiceDetails; 
         }
 

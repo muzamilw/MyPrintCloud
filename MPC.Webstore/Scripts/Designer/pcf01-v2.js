@@ -1816,7 +1816,7 @@ function fu04_callBack(DT) {
     }
     Template.TemplatePages = [];
     fu04_01();
-    fu14();
+   
     b3_1();
     if (!productDimensionUpdated)
     {
@@ -2034,7 +2034,8 @@ function fu06_SvcCallback(DT, fname,mode) {
         a0(IT.FontName, IT.FontFile, IT.FontPath);
         h8(IT.FontName, IT.FontFile, IT.FontPath);
     });
-    h9();
+    if(mode != false )
+        h9();
     var selName = "#" + fname;
     $(selName).fontSelector({
 
@@ -2901,22 +2902,22 @@ function togglePage(pId) {
             t = Math.round(t);
             var w;
             var h;
-            $("#inputPositionX").val(l/( dfZ1l));
-            $("#inputPositionY").val(t /(  dfZ1l));
+            $("#inputPositionX").val((l / (conversionRatio)) /dfZ1l );
+            $("#inputPositionY").val((t / (conversionRatio)) / dfZ1l);
             if (D1AO.type === 'text' || D1AO.type === 'i-text') {
                 w = (D1AO.maxWidth);
                 h = (D1AO.maxHeight);
-                $("#inputObjectWidthTxt").val(w /(1));
-                $("#inputObjectHeightTxt").val(h /(1));
-                $("#inputPositionXTxt").val(l /(dfZ1l));
-                $("#inputPositionYTxt").val(t / (dfZ1l));
+                $("#inputObjectWidthTxt").val(((w / (1)) ) / conversionRatio);
+                $("#inputObjectHeightTxt").val((h / (1)) / conversionRatio);
+                $("#inputPositionXTxt").val((l / (dfZ1l)) / conversionRatio);
+                $("#inputPositionYTxt").val((t / (dfZ1l)) / conversionRatio);
             } else {
                 // animatedcollapse.show('divPositioningPanel');
                 w =(D1AO.getWidth());
                 h =(D1AO.getHeight());
                 o = D1AO.getOpacity() * 100;
-                $("#inputObjectWidth").val(w /(dfZ1l));
-                $("#inputObjectHeight").val(h /(dfZ1l));
+                $("#inputObjectWidth").val((w / (dfZ1l)) / conversionRatio);
+                $("#inputObjectHeight").val((h / (dfZ1l)) / conversionRatio);
                 $("#inputObjectAlpha").val(o);
                 $(".transparencySlider").slider("option", "value", o);
 
@@ -2945,12 +2946,11 @@ function togglePage(pId) {
         if (!D1AO) return;
         var l = D1AO.left - D1AO.getWidth() / 2;
       //  l = Math.round(l);
-        var dL = ($("#inputPositionX").val() *(  dfZ1l)) - l;
+        var dL = ($("#inputPositionX").val() * (dfZ1l * conversionRatio)) - l;
         if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-            dL = ($("#inputPositionXTxt").val()*(  dfZ1l)) - l;
+            dL = ($("#inputPositionXTxt").val() * (dfZ1l * conversionRatio)) - l;
         }
         D1AO.left += dL;
-        // c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
     }
     function k5_y() {
@@ -2964,12 +2964,12 @@ function togglePage(pId) {
         if (!D1AO) return;
         var t = D1AO.top - D1AO.getHeight() / 2;
       //  t = Math.round(t);
-        var dT = ($("#inputPositionY").val() * (dfZ1l)) - t;
+        var dT = ($("#inputPositionY").val() * (dfZ1l * conversionRatio)) - t;
         if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-            dT = ($("#inputPositionYTxt").val() * (dfZ1l)) - t;
+            dT = ($("#inputPositionYTxt").val() * (dfZ1l * conversionRatio)) - t;
         }
+      //  dT *= 1;
         D1AO.top += dT;
-        // c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
     }
     function k6() {
@@ -2983,7 +2983,7 @@ function togglePage(pId) {
         if (!D1AO) return;
         var oldH1 = D1AO.getHeight();
         if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-            var h = $("#inputObjectHeightTxt").val() * (1);
+            var h = $("#inputObjectHeightTxt").val() * (1) * conversionRatio;
             var oldH = D1AO.getHeight();
             D1AO.maxHeight = h;
             var newScaleY = D1AO.maxHeight / D1AO.height;
@@ -2995,7 +2995,8 @@ function togglePage(pId) {
             D1AO.top = D1AO.top + dif;
 
         } else {
-            var h = $("#inputObjectHeight").val() *(dfZ1l);
+            var h = $("#inputObjectHeight").val() * conversionRatio;
+            h *= (dfZ1l);
             var oldH = D1AO.getHeight();
             D1AO.maxHeight = h;
             D1AO.scaleY = D1AO.maxHeight / D1AO.height;
@@ -3003,7 +3004,6 @@ function togglePage(pId) {
             dif = dif / 2
             D1AO.top = D1AO.top + dif;
         }
-        //  c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
      //   k4();
     }
@@ -3018,7 +3018,7 @@ function togglePage(pId) {
         if (!D1AO) return;
         var oldW1 = D1AO.getWidth();
         if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-            var w = $("#inputObjectWidthTxt").val() * (1);
+            var w = $("#inputObjectWidthTxt").val() * (1) * conversionRatio;
             var oldW = D1AO.getWidth();
             D1AO.maxWidth = w;
             var scaleX = D1AO.maxWidth / D1AO.width;
@@ -3029,7 +3029,8 @@ function togglePage(pId) {
             dif = dif / 2
             D1AO.left = D1AO.left + dif;
         } else {
-            var w = $("#inputObjectWidth").val() *(dfZ1l);
+            var w = $("#inputObjectWidth").val() * conversionRatio;
+            w = w * (dfZ1l);
             var oldW = D1AO.getWidth();
             D1AO.maxWidth = w;
             D1AO.scaleX = D1AO.maxWidth / D1AO.width;
@@ -4803,6 +4804,8 @@ function togglePage(pId) {
             var res = item.TemplateDimensionConvertionRatio.split("__");
             w = w * res[0];
             h = h * res[0];
+            conversionUnit = res[1];
+            conversionRatio = parseFloat(res[2]) * 2.834645669  ;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");

@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Runtime.Caching;
 using System.Web.Http;
 using MPC.Models.ResponseModels;
+using MPC.Webstore.ViewModels;
 namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 {
     public class ApplyDeliveryMethodController : ApiController
@@ -42,12 +43,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             string deliveryCharges = string.Empty;
             string Subtotal = string.Empty;
 
-            List<string> messages = new List<string>();
+            CalculatedCartValues messages = new CalculatedCartValues();
 
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             double Baseamount = 0;
@@ -56,9 +53,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             double CostOfDelivery = 0;
             bool serviceResult = true;
 
-
-
-            //string ShipPostCode = model.ShippingAddress.PostCode;
             CostCentre SelecteddeliveryCostCenter = null;
 
             if (DeliveryMethodId > 0)
@@ -139,7 +133,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
 
 
-            messages.Add("");
+            ShoppingCart shopCart = _orderService.GetShopCartOrderAndDetails(UserCookieManager.WEBOrderId, OrderStatus.ShoppingCart);
+            messages = CartModel(shopCart, StoreBaseResopnse);
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
             return Request.CreateResponse(HttpStatusCode.OK, messages);
@@ -171,5 +166,50 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
         }
 
+        private CalculatedCartValues CartModel(ShoppingCart shopcart, MyCompanyDomainBaseReponse StoreBaseResopnse)
+        {
+            double _priceTotal = 0;
+            double VatTotal = 0;
+            double _DiscountAmountTotal = 0;
+            CalculatedCartValues oValues = new CalculatedCartValues();
+            foreach (ProductItem itm in shopcart.CartItemsList)
+            {
+                _priceTotal += Convert.ToDouble(itm.Qty1BaseCharge1 ?? 0);
+                _DiscountAmountTotal += itm.DiscountedAmount ?? 0;
+                VatTotal += itm.Qty1Tax1Value ?? 0;
+            }
+
+            oValues.SubTotal = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_priceTotal), StoreBaseResopnse.Currency);
+            oValues.DiscountAmount = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_DiscountAmountTotal), StoreBaseResopnse.Currency);
+            if (shopcart.DeliveryCost > 0)
+            {
+                oValues.DeliveryCost = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(shopcart.DeliveryCost), StoreBaseResopnse.Currency);
+            }
+            else
+            {
+
+                oValues.DeliveryCost = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(0), StoreBaseResopnse.Currency);
+            }
+
+            if (shopcart.DeliveryTaxValue > 0)
+            {
+                oValues.Tax = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString((shopcart.DeliveryTaxValue + VatTotal)), StoreBaseResopnse.Currency);
+            }
+            else
+            {
+                oValues.Tax = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(VatTotal), StoreBaseResopnse.Currency);
+            }
+
+            if (shopcart.DeliveryCost > 0)
+            {
+                oValues.GrandTotal = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString((_priceTotal + (shopcart.DeliveryTaxValue + VatTotal) + shopcart.DeliveryCost)), StoreBaseResopnse.Currency);
+
+            }
+            else
+            {
+                oValues.GrandTotal = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString((_priceTotal + VatTotal)), StoreBaseResopnse.Currency);
+            }
+            return oValues;
+        }
     }
 }

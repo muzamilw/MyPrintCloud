@@ -17,7 +17,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Deletes a company permanently
         /// </summary>
-        void DeleteCompanyPermanently(long companyId);
+        void DeleteCompanyPermanently(long companyId,string Comment);
 
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);

@@ -182,14 +182,7 @@
                             @Html.DropDownListFor(model => model.SelectedCostCentre, (IEnumerable<SelectListItem>)@Model.DDDeliveryCostCenters, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlchoosedeloptionsss", UserCookieManager.WBStoreId, "Choose Delivery Option")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlDeliveyCostCenter", @onchange = "ApplyDeliveryMethod();" })
 
                         </div>
-                        @*<div class="clearBoth">
-                            </div>
-
-                            <div id="pickUpaddressContainer"  class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                <label ID="Label5"  class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Pickup Address</label>
-                                @Html.TextBoxFor(model => model.PickUpAddress, new { id = "txtPickUpAddressDetail", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12", onblur = "ChangeNotesTxt();", style = "height:80px;", TextMode = "MultiLine", disabled = "true" })
-
-                            </div>*@
+                      
                     </div>
                     <div class="clearBoth">
                         &nbsp;
@@ -408,7 +401,7 @@
                                             {
                                                 foreach (var shopcart in Model.ProductItems as List<ProductItem>)
                                                 {
-                                                    VatTotal += shopcart.Qty1Tax1Value ?? 0;
+                                                   
                                                     <tr class="gridViewCheckoutRowStyle" align="top">
                                                         <td class="PadTop5 shopCartFirstCol hidden-xs">
                                                             <div class="cart_grid_image_container gallery">
@@ -513,60 +506,18 @@
                                         </tbody>
                                     </table>
                                     <br />
-                                    @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
+                                    @if (Model.calcultedValuesOfCart != null)
                                     {
                                         if (ViewBag.IsShowPrices)
                                         {
                                             <div id="PnalTotalBox">
-                                               
-                                                @{
-                                            string price1 = Convert.ToString(_priceTotal);
-                                            SubTotal = Convert.ToDouble(price1);
-
-                                            if (deliveryCost > 0)
-                                            {
-                                                deliveryTotal = Convert.ToDouble(deliveryCost);
-                                            }
-                                            else
-                                            {
-
-                                                deliveryTotal = Convert.ToDouble(0);
-                                            }
-                                            if (deliveryCostTaxVal > 0)
-                                            {
-                                                double TotalTax = deliveryCostTaxVal + VatTotal;
-                                                deliveryTax = Utils.FormatDecimalValueToTwoDecimal(TotalTax.ToString(), Model.Currency);
-                                            }
-                                            else
-                                            {
-                                                string vat = Convert.ToString(VatTotal);
-
-                                                string dTax = Utils.FormatDecimalValueToTwoDecimal(vat, Model.Currency);
-                                                deliveryTax = dTax;
-                                            }
-                                            if (deliveryCost > 0)
-                                            {
-                                                double objgross = _priceTotal + (deliveryCostTaxVal + VatTotal) + deliveryCost;
-                                                string gross = Convert.ToString(objgross);
-                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
-                                                GrandTotal = GT;
-                                                Model.GrandTotal = GrandTotal;
-                                            }
-                                            else
-                                            {
-                                                double objgross = _priceTotal + VatTotal;
-                                                string gross = Convert.ToString(objgross);
-                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
-                                                GrandTotal = GT;
-                                                Model.GrandTotal = GrandTotal;
-                                            }
-                                                }
+                                            
 
                                                 <div class="cnttotalPayablesAS">
 
                                                     <div class="cntsubHeadingsAS">
                                                         <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</label></div>
-                                                        @if (_DiscountAmountTotal > 0)
+                                                        @if (Model.calcultedValuesOfCart.DiscountAmount != "0")
                                                         {
                                                             <div><label id="lblVoucherDiscPercentageDisplay" class="clrRed LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label></div>
                                                         }
@@ -577,24 +528,24 @@
 
                                                     <div class="cnttotalsAS" id="cntRightPricing1">
 
-                                                        <div><label id="lblSubTotal_add" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(SubTotal.ToString(), Model.Currency)</label></div>
+                                                        <div><label id="lblSubTotal_add" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Model.calcultedValuesOfCart.SubTotal.ToString(), Model.Currency)</label></div>
 
-                                                        @if (_DiscountAmountTotal > 0)
+                                                        @if (Model.calcultedValuesOfCart.DiscountAmount != "0")
                                                         {
-                                                            <div><label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), Model.Currency)</label></div>
+                                                            <div><label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(Model.calcultedValuesOfCart.DiscountAmount.ToString(), Model.Currency)</label></div>
                                                         }
                                                         @if (Model.DeliveryDiscountVoucherID == null)
                                                         {
-                                                            <div><label id="AddressSelectDelTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label></div>
+                                                            <div><label id="AddressSelectDelTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Model.calcultedValuesOfCart.DeliveryCost.ToString(), Model.Currency)</label></div>
                                                         }
                                                         else
                                                         {
                                                             <div><label id="Addres_slect_del" class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label></div>
                                                             <div><label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label></div>
                                                         }
-                                                        <div><label id="ShopCart_Deltax" class="Fsize13 colorBlack displayClear">@deliveryTax</label></div>
+                                                        <div><label id="ShopCart_Deltax" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Model.calcultedValuesOfCart.Tax.ToString(), Model.Currency)</label></div>
                                                         <div>
-                                                            <label id="Shopcart_Add_Total"class="Fsize13 colorBlack displayClear">@GrandTotal</label>
+                                                            <label id="Shopcart_Add_Total"class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Model.calcultedValuesOfCart.GrandTotal.ToString(), Model.Currency)</label>
                                                         </div>
                                                         </div>
 
@@ -795,7 +746,7 @@
             ValidateCheckout();
         }
         if(@Model.SelectedDeliveryCostCentreId > 0){
-           
+
             $('#ddlDeliveyCostCenter option').each(function () {
                 var deliverySelectedId = @Model.SelectedDeliveryCostCentreId;
 
@@ -1518,14 +1469,7 @@
 
     function ApplyDeliveryMethod() {
 
-        //if($("#ddlDeliveyCostCenter option:selected").val()=='')
-        //{
-        //     $('label[id*="AddressSelectDelTotal"]').text('');
-        //      var DefaultVal=0;
-        //      $('label[id*="AddressSelectDelTotal"]').text(CurrencySymobol+parseFloat(DefaultVal).toFixed(2));
-        //  }
-        // else
-        // {
+        console.log(@UserCookieManager.FreeShippingVoucherId);
         var SelectedValue;
         if( $("#ddlDeliveyCostCenter option:selected").val()=='')
         {
@@ -1536,7 +1480,6 @@
             SelectedValue=$("#ddlDeliveyCostCenter option:selected").val();
         }
         ShowLoader();
-        console.log(@UserCookieManager.FreeShippingVoucherId);
         var to;
         to = "/webstoreapi/ApplyDeliveryMethod/AddDelivery?DeliveryMethodId=" +SelectedValue+ "&FreeShippingVoucherId=" + @UserCookieManager.FreeShippingVoucherId;
         var options = {
@@ -1546,8 +1489,14 @@
             contentType: "application/json",
             async: true,
             success: function (response) {
-                window.location.reload();
-
+                // window.location.reload();
+                console.log(response.GrandTotal);
+                $("#Shopcart_Add_Total").text(response.GrandTotal);
+                $("#ShopCart_Deltax").text(response.Tax);
+                $("#AddressSelectDelTotal").text(response.DeliveryCost);
+                $("#lblVoucherCodeDiscAmount").text(response.DiscountAmount);
+                $("#lblSubTotal_add").text(response.SubTotal);
+                HideLoader();
             },
             error: function (msg) {
                 alert("Error occured ");

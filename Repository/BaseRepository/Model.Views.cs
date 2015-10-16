@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsB3E70CB4F0692D8B0D24363DB267640410627A9B849B531DE7DB899A69FB0AAA))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets2D60C59F45C8A173E2503C7E306FF6EFCDD73624F606813576D0918CBAF797BD))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsB3E70CB4F0692D8B0D24363DB267640410627A9B849B531DE7DB899A69FB0AAA : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets2D60C59F45C8A173E2503C7E306FF6EFCDD73624F606813576D0918CBAF797BD : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsB3E70CB4F0692D8B0D24363DB267640410627A9B849B531DE7DB899A69FB0AAA()
+        public ViewsForBaseEntitySets2D60C59F45C8A173E2503C7E306FF6EFCDD73624F606813576D0918CBAF797BD()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "117d6a66f4ef623332a4da1953501fbcb881d3b5feab897b4588f5f84dc7d659";
-            this.HashOverAllExtentViews = "6228838803cf9f30b761250b21830d05f7c5653b3ba27c6c5feb31f4c6e769a5";
-            this.ViewCount = 354;
+            this.HashOverMappingClosure = "225c53416a5ed4e137ae630105c3b0eeeee859ebe72dddbe21600deb6e1015f1";
+            this.HashOverAllExtentViews = "45b6f3a7d3023992175c72cb2d2f2ee9210828f0d680b73665f9a4ff36d81c9d";
+            this.ViewCount = 356;
         }
         
         /// <Summary>
@@ -1452,6 +1452,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 353))
             {
                 return GetView353();
+            }
+            if ((index == 354))
+            {
+                return GetView354();
+            }
+            if ((index == 355))
+            {
+                return GetView355();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -13776,6 +13784,54 @@ namespace Edm_EntityMappingGeneratedViews
             T.ContactCompanyId AS CompanyVariableIcon_ContactCompanyId, 
             True AS _from0
         FROM DomainModelsStoreContainer.CompanyVariableIcon AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.UserActionsLog
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView354()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.UserActionsLog", @"
+    SELECT VALUE -- Constructing UserActionsLog
+        [DomainModels.Store.UserActionsLog](T1.UserActionsLog_LogId, T1.UserActionsLog_Action, T1.UserActionsLog_ActionDate, T1.UserActionsLog_TableName, T1.UserActionsLog_RecordId, T1.UserActionsLog_UserId, T1.UserActionsLog_DomainId, T1.UserActionsLog_Comments, T1.UserActionsLog_OrganisationId)
+    FROM (
+        SELECT 
+            T.LogId AS UserActionsLog_LogId, 
+            T.Action AS UserActionsLog_Action, 
+            T.ActionDate AS UserActionsLog_ActionDate, 
+            T.TableName AS UserActionsLog_TableName, 
+            T.RecordId AS UserActionsLog_RecordId, 
+            T.UserId AS UserActionsLog_UserId, 
+            T.DomainId AS UserActionsLog_DomainId, 
+            T.Comments AS UserActionsLog_Comments, 
+            T.OrganisationId AS UserActionsLog_OrganisationId, 
+            True AS _from0
+        FROM BaseDbContext.UserActionsLogs AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.UserActionsLogs
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView355()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.UserActionsLogs", @"
+    SELECT VALUE -- Constructing UserActionsLogs
+        [DomainModels.UserActionsLog](T1.UserActionsLog_LogId, T1.UserActionsLog_Action, T1.UserActionsLog_ActionDate, T1.UserActionsLog_TableName, T1.UserActionsLog_RecordId, T1.UserActionsLog_UserId, T1.UserActionsLog_DomainId, T1.UserActionsLog_Comments, T1.UserActionsLog_OrganisationId)
+    FROM (
+        SELECT 
+            T.LogId AS UserActionsLog_LogId, 
+            T.Action AS UserActionsLog_Action, 
+            T.ActionDate AS UserActionsLog_ActionDate, 
+            T.TableName AS UserActionsLog_TableName, 
+            T.RecordId AS UserActionsLog_RecordId, 
+            T.UserId AS UserActionsLog_UserId, 
+            T.DomainId AS UserActionsLog_DomainId, 
+            T.Comments AS UserActionsLog_Comments, 
+            T.OrganisationId AS UserActionsLog_OrganisationId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.UserActionsLog AS T
     ) AS T1");
         }
     }

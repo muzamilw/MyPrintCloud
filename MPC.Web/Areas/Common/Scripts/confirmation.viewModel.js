@@ -31,12 +31,27 @@ define("common/confirmation.viewModel",
                    IsCancelVisible = ko.observable(defaultIsCancelVisible),
                     // On Proceed
                     afterProceed = ko.observable(),
+                // On Proceed
+                    afterActionProceed = ko.observable(),
+
                     // On Cancel
                     afterCancel = ko.observable(),
                     // On No
                     afterNo = ko.observable(),
                     // Is Proceed Visible
                     isProceedVisible = ko.observable(true),
+
+
+                     // Comments for logs
+                    comment = ko.observable(),
+
+                    UserRandomNum = ko.observable(),
+
+                    RandomNumber = ko.observable(),
+                     //errors = ko.validation.group({
+                     //    comment: comment,
+                     //    UserRandomNum: UserRandomNum
+                     //}),
                     // Proceed with the request
                     proceed = function () {
                         if (typeof afterProceed() === "function") {
@@ -45,10 +60,39 @@ define("common/confirmation.viewModel",
                         hide();
                         
                     },
+                    // Proceed with the request
+                    proceedAction = function () {
+
+                        if (comment() == "" || comment() == undefined)
+                        {
+                            toastr.error("Please enter comment to submit!");
+                            return false;
+                        }
+                        if (UserRandomNum() == "" || UserRandomNum() == undefined) {
+                            toastr.error("Please enter number to submit!");
+                            return false;
+                        }
+
+                        if (UserRandomNum() == RandomNumber())
+                        {
+                           
+                            if (typeof afterActionProceed() === "function") {
+                                afterActionProceed()();
+                            }
+                            hideActionPopup();
+                        }
+                        else
+                        {
+                            toastr.error("Number not match!");
+                            return false;
+                        }
+
+                    },
                     // Reset Dialog
                     resetDialog = function () {
                         afterCancel(undefined);
                         afterProceed(undefined);
+                        
                         afterNo(undefined);
                         isProceedVisible(true);
                         headingText(defaultHeaderText);
@@ -78,12 +122,27 @@ define("common/confirmation.viewModel",
                         isLoading(true);
                         view.showUpgradePopup();
                     },
+                    showActionPopup = function () {
+                        isLoading(true);
+                        var num = Math.floor(Math.random() * 90000) + 10000;
+                        RandomNumber(num);
+                       
+                          view.showActionPopup();
+                      },
 
                     // Hide the dialog
                     hideWarningPopup = function () {
                         // Reset Call Backs
                         resetDialog();
                         view.hideWarningPopup();
+                        view.hide();
+                    },
+
+                     // Hide the dialog
+                    hideActionPopup = function () {
+                        // Reset Call Backs
+                        resetDialog();
+                        view.hideActionPopup();
                         view.hide();
                     },
                     // Cancel 
@@ -100,6 +159,13 @@ define("common/confirmation.viewModel",
                         }
                         hideWarningPopup();
                     },
+             
+                    ActionPopupCancel = function () {
+                        if (typeof afterCancel() === "function") {
+                            afterCancel()();
+                        }
+                        hideActionPopup();
+                    },
                     // No
                     no = function () {
                         if (typeof afterNo() === "function") {
@@ -113,6 +179,7 @@ define("common/confirmation.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         ko.applyBindings(view.viewModel, view.bindingRootq);
                         ko.applyBindings(view.viewModel, view.bindingRootupgrade);
+                        ko.applyBindings(view.viewModel, view.bindingRootaction);
                     };
 
                 return {
@@ -123,8 +190,10 @@ define("common/confirmation.viewModel",
                     cancel: cancel,
                     Warningcancel: Warningcancel,
                     proceed: proceed,
+                    proceedAction: proceedAction,
                     no: no,
                     afterProceed: afterProceed,
+                    afterActionProceed: afterActionProceed,
                     afterCancel: afterCancel,
                     afterNo: afterNo,
                     isProceedVisible: isProceedVisible,
@@ -136,7 +205,13 @@ define("common/confirmation.viewModel",
                     hide: hide,
                     showWarningPopup: showWarningPopup,
                     hideWarningPopup: hideWarningPopup,
-                    showUpgradePopup: showUpgradePopup
+                    showUpgradePopup: showUpgradePopup,
+                    showActionPopup: showActionPopup,
+                    hideActionPopup: hideActionPopup,
+                    comment: comment,
+                    ActionPopupCancel: ActionPopupCancel,
+                    //errors: errors,
+                    UserRandomNum: UserRandomNum
                 };
             })()
         };

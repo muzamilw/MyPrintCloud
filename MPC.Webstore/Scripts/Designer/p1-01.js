@@ -20,7 +20,6 @@ $(".btnAUploadFont").click(function () {
          
 
 $('#imageUploader').change(function () {
-    StartLoader();
     var uploadPath = "Organisation" + organisationId + "/Templates/";
     if (IsCalledFrom == "1" || IsCalledFrom == "2")
     {
@@ -40,12 +39,11 @@ $('#imageUploader').change(function () {
     
     var files = $("#imageUploader").get(0).files;
     if (files.length > 0) {
+        StartLoader();
         var data = new FormData();
         for (i = 0; i < files.length; i++) {
             data.append("file" + i, files[i]);
         }
-       // data.append("pid", "1");
-      //  data.append("ItemID", "21");
         $.ajax({
             type: "POST",
             url: "/designerapi/Upload/PostAsync/" + url,
@@ -54,7 +52,6 @@ $('#imageUploader').change(function () {
             data: data,
             success: function (messages) {
                 for (i = 0; i < messages.length; i++) {
-                  //  alert(messages[i]);
                     var panelType = 1;
                     if (isBkPnlUploads) {
                         panelType = 3;
@@ -89,6 +86,9 @@ $('#imageUploader').change(function () {
                 alert(thrownError);
             }
         });
+    }else 
+    {
+       
     }
 });
 $('#fontUploader').change(function () {
