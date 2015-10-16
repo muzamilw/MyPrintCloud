@@ -1150,7 +1150,7 @@
         </td>
         <td>
             <div data-bind="visible:type() === 2">
-                <input type="text" class="form-control" id="abc" data-bind="attr: {placeholder: waterMark, value: value}">
+                <input type="text" class="form-control" id="abc" data-bind="value: value, attr:{placeholder: waterMark}">
             </div>
             <div data-bind="visible:type() === 1">
                 <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
