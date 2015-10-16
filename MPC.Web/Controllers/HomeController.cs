@@ -316,9 +316,7 @@ namespace MPC.MIS.Controllers
            
             ViewBag.Report = report;
 
-
-
-                  return PartialView("WebViewer");
+            return PartialView("WebViewer");
 
         }
     }

@@ -927,10 +927,10 @@ require(["ko", "knockout-validation"], function (ko) {
     //Validation Rules
     ko.validation.rules['variableTagRule'] = {
         validator: function (val) {
-            var regExp = new RegExp("^{{[a-zA-Z0-9_]*}}$");
+            var regExp = new RegExp("^{{.*[a-zA-Z0-9][^a-zA-Z0-9]*}}$");
             return regExp.test(val);
         },
-        message: 'Tag must start with {{ and end with }}, cannot contain spaces and special characters except "_" '
+        message: 'Tag must start with {{ and end with }}. There must be atleast one character inside but cannot contain spaces and special characters except "_" '
     };
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {
