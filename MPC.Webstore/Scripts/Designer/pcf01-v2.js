@@ -1816,7 +1816,7 @@ function fu04_callBack(DT) {
     }
     Template.TemplatePages = [];
     fu04_01();
-    fu14();
+   
     b3_1();
     if (!productDimensionUpdated)
     {
@@ -2034,7 +2034,8 @@ function fu06_SvcCallback(DT, fname,mode) {
         a0(IT.FontName, IT.FontFile, IT.FontPath);
         h8(IT.FontName, IT.FontFile, IT.FontPath);
     });
-    h9();
+    if(mode != false )
+        h9();
     var selName = "#" + fname;
     $(selName).fontSelector({
 
