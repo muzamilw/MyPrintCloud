@@ -1156,7 +1156,7 @@
                     <label for="abc" class="control-label text-right tooltip-float" data-bind="text:title"></label>
                 </div>
                 <div class="col-lg-5" data-bind="visible:type() === 2">
-                    <input type="text" class="form-control" id="abc" data-bind="value: value">
+                    <input type="text" class="form-control" id="abc" data-bind="attr: {placeholder: waterMark, value: value}">
                 </div>
                 <div class="col-lg-5" data-bind="visible:type() === 1">
                     <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
