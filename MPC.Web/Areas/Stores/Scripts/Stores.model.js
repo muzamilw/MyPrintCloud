@@ -4486,7 +4486,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             scopeName = ko.observable(),
             typeName = ko.observable(),
             fakeId = ko.observable(),
-            variableTitle = ko.observable(specifiedVariableTitle),
+            variableTitle = ko.observable(specifiedVariableTitle).extend({
+                required: {
+                    onlyIf: function () {
+                        return !isSystem();
+                    }
+                }
+            }),
             variableExtension = ko.observable(VariableExtension()),
             variableOptions = ko.observableArray([]),
 
@@ -4494,7 +4500,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             errors = ko.validation.group({
                 variableName: variableName,
                 waterMark: waterMark,
-                variableTag: variableTag
+                variableTag: variableTag,
+                variableTitle: variableTitle
             }),
             // Is Valid 
             isValid = ko.computed(function () {
