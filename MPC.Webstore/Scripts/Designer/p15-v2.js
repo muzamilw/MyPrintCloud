@@ -310,6 +310,11 @@ function fu04() {
       function (DT) {
           fu04_1(DT);   
       });
+    if (IsCalledFrom == 2) { // load all async calls here 
+        k28();
+    }
+    fu14();
+    fu06(false);
 }
 function fu04_01() {
     $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
@@ -357,9 +362,9 @@ function fu04_01() {
           if(smartFormData != null)
               pcl42_UpdateTO(true);
           fu07();
-          fu06();
+          h9();
           // if (firstLoad) {
-          fu05();
+        //  fu05();
           //   }
           $.each(TO, function (i, IT) {
               var obj = fabric.util.object.clone(IT);
@@ -367,9 +372,7 @@ function fu04_01() {
           });
       });
     k0();
-    if (IsCalledFrom == 2) {
-        k28();
-    }
+
 }
 function fu05_Clload() {
     var Cid = 0;
