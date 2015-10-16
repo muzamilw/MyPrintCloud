@@ -3136,16 +3136,26 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Delete Company Permanently
         /// </summary>
-        public void DeleteCompanyPermanently(long companyId)
+        public void DeleteCompanyPermanently(long companyId,string Comment)
         {
-            Company company = companyRepository.Find(companyId);
 
-            if (company == null)
-            {
-                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Company with id {0} not found", companyId), companyRepository.OrganisationId);
-            }
+           if(companyRepository.SaveUserActionLog(Comment, companyId))
+           {
 
-            companyRepository.DeleteStoryBySP(companyId);
+               Company company = companyRepository.Find(companyId);
+
+               if (company == null)
+               {
+                   throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Company with id {0} not found", companyId), companyRepository.OrganisationId);
+               }
+
+               companyRepository.DeleteStoryBySP(companyId);
+           }
+           else
+           {
+               throw new MPCException("Failed to delete User action not save.", companyRepository.OrganisationId);
+           }
+
         }
         /// <summary>
         /// Delete CRM Company Permanently

@@ -9,5 +9,11 @@
         /// Company Id
         /// </summary>
         public int CompanyId { get; set; }
+
+        /// <summary>
+        /// Comment to delete
+        /// </summary>
+        public string Comment { get; set; }
+
     }
 }

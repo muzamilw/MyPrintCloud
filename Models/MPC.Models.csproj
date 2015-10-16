@@ -237,6 +237,7 @@
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\StagingImportCompanyContactAddress.cs" />
     <Compile Include="DomainModels\TemplateVariableExtension.cs" />
+    <Compile Include="DomainModels\UserActionsLog.cs" />
     <Compile Include="DomainModels\usp_ChartEstimateToOrderConversionCount_Result.cs" />
     <Compile Include="DomainModels\usp_ChartEstimateToOrderConversion_Result.cs" />
     <Compile Include="DomainModels\usp_ChartMonthlyEarningsbyStore_Result.cs" />

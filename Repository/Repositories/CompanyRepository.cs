@@ -6455,5 +6455,36 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public bool SaveUserActionLog(string Comment,long CompanyId)
+        {
+            try
+            {
+                UserActionsLog objActionLog = new UserActionsLog();
+                objActionLog.Action = "Delete";
+                objActionLog.ActionDate = DateTime.Now;
+                objActionLog.Comments = Comment;
+                objActionLog.DomainId = HttpContext.Current.Request.UserHostName;
+                objActionLog.OrganisationId = OrganisationId;
+                objActionLog.RecordId = CompanyId;
+                objActionLog.TableName = "Company";
+                objActionLog.UserId = LoggedInUserId;
+
+                db.UserActionLogs.Add(objActionLog);
+                if(db.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
     }
 }

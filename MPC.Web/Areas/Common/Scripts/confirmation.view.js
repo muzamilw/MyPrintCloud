@@ -15,6 +15,10 @@ define("common/confirmation.view",
                 bindingRootq = $("#dialog-ok")[0],
                  // Binding root used with knockout for upgrade dialog
                 bindingRootupgrade = $("#dialog-okLicensing")[0],
+
+                 // Binding root used with knockout for user actions log
+                bindingRootaction = $("#dialog-okUserActionLog")[0],
+
                 // Show the dialog
                 show = function() {
                     $("#dialog-confirm").modal("show");
@@ -34,18 +38,30 @@ define("common/confirmation.view",
                 showUpgradePopup = function() {
                     $("#dialog-okLicensing").modal("show");
                 };
+                // Show Upgrade Plan dialog
+                showActionPopup = function () {
+                    $("#dialog-okUserActionLog").modal("show");
+                };
+
+           
+                hideActionPopup = function () {
+                    $("#dialog-okUserActionLog").modal("hide");
+                };
 
 
             return {
                 bindingRoot: bindingRoot,
                 bindingRootq: bindingRootq,
-                bindingRootupgrade:bindingRootupgrade,
+                bindingRootupgrade: bindingRootupgrade,
+                bindingRootaction: bindingRootaction,
                 viewModel: viewModel,
                 show: show,
                 hide: hide,
                 showWarningPopup: showWarningPopup,
                 hideWarningPopup: hideWarningPopup,
-                showUpgradePopup: showUpgradePopup
+                showUpgradePopup: showUpgradePopup,
+                showActionPopup: showActionPopup,
+                hideActionPopup: hideActionPopup
             };
         })(ist.confirmation.viewModel);
 
