@@ -303,7 +303,7 @@ namespace MPC.Implementation.MISServices
         }
         public List<ReportparamResponse> getParamsById(long Id)
         {
-            return new List<ReportparamResponse>();
+            return ReportRepository.getParamsById(Id);
         }
 
         public ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request)

@@ -342,6 +342,7 @@
         <EntityTypeShape EntityType="DomainModels.vw_RealEstateProperties" Width="1.5" PointX="43.375" PointY="42.75" />
         <EntityTypeShape EntityType="DomainModels.vw_CompanyVariableIcons" Width="1.5" PointX="43.375" PointY="31" />
         <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="44.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.UserActionsLog" Width="1.5" PointX="44.375" PointY="4.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
