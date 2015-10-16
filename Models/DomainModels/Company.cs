@@ -119,6 +119,7 @@ namespace MPC.Models.DomainModels
         public bool? IsRegisterPlaceDirectOrder { get; set; }
         public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
 
+        public bool? IsAllowRequestaQuote { get; set; }
         /// <summary>
         /// Map Image Url
         /// </summary>
@@ -433,6 +434,7 @@ namespace MPC.Models.DomainModels
             target.isCalculateTaxByService = isCalculateTaxByService;
             target.ActiveBannerSetId = ActiveBannerSetId;
             target.StoreName = StoreName;
+            target.IsAllowRequestaQuote = IsAllowRequestaQuote;
    
         }
 

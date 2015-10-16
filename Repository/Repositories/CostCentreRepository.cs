@@ -862,6 +862,10 @@ namespace MPC.Repository.Repositories
 			
 
 		}
+        public List<CostCentre> GetAllCentersByOrganisationId(long OID)
+        {
+            return db.CostCentres.Where(c => c.OrganisationId == OID).ToList();
+        }
 		public IEnumerable<CostCentre> GetAllCompanyCentersByOrganisationId()
 		{
 			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true).ToList();
