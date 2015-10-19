@@ -1098,8 +1098,8 @@
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col-lg-1"></th>
-                                                            <th class="col-lg-3" style="text-align:right;">Title</th>
+                                                            
+                                                            <th class="col-lg-3">Title</th>
                                                             <th class="col-lg-6">Value</th>
                                                             <th class="col-lg-1"></th>
                                                         </tr>
@@ -1144,13 +1144,13 @@
 
 <script id="companyContactVariableTemplate" type="text/html">
     <tr>
-        <td></td>
+        
         <td>
-           <label for="abc" class="control-label text-right tooltip-float" data-bind="text:title"></label>
+           <label for="abc" class="control-label" data-bind="text:title"></label>
         </td>
         <td>
             <div data-bind="visible:type() === 2">
-                <input type="text" class="form-control" id="abc" data-bind="attr: {placeholder: waterMark, value: value}">
+                <input type="text" class="form-control" id="abc" data-bind="value: value, attr:{placeholder: waterMark}">
             </div>
             <div data-bind="visible:type() === 1">
                 <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
