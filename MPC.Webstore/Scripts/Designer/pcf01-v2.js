@@ -1640,39 +1640,48 @@ function fu02UI() {
         });
         $("#inputObjectWidthTxt").spinner({
             change: k7,
-            stop: k7
+            step: 0.01,
+            stop: k7, numberFormat: "n"
         });
         $("#inputObjectHeightTxt").spinner({
             change: k6,
-            stop: k6
+            stop: k6, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputPositionXTxt").spinner({
             change: k5,
-            stop: k5
+            stop: k5, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputPositionYTxt").spinner({
             change: k5_y,
-            stop: k5_y
+            stop: k5_y, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputObjectWidth").spinner({
             change: k7,
-            stop: k7
+            stop: k7, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputObjectAlpha").spinner({
             change: k7_trans,
-            stop: k7_trans
+            stop: k7_trans, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputObjectHeight").spinner({
             change: k6,
-            stop: k6
+            stop: k6, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputPositionX").spinner({
             change: k5,
-            stop: k5
+            stop: k5, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputPositionY").spinner({
             change: k5_y,
-            stop: k5_y
+            stop: k5_y, step: 0.01,
+            numberFormat: "n"
         });
     }
 
@@ -4805,7 +4814,7 @@ function togglePage(pId) {
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
-          //  conversionRatio = parseFloat(res[2]) * 2.834645669  ;
+            conversionRatio = parseFloat(res[2]) * 2.834645669;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
