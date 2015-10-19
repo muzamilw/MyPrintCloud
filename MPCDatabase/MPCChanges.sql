@@ -8734,4 +8734,8 @@ GO
 SET ANSI_PADDING OFF
 GO
 
+-----------------------------------
 
+
+
+alter table company add IsAllowRequestaQuote bit

@@ -499,6 +499,7 @@
           <Property Name="IsRegisterPayOnlyByCreditCard" Type="bit" />
           <Property Name="IsRegisterPlaceDirectOrder" Type="bit" />
           <Property Name="IsRegisterPlaceOrderWithoutApproval" Type="bit" />
+          <Property Name="IsAllowRequestaQuote" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -8564,6 +8565,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRegisterPayOnlyByCreditCard" Type="Boolean" />
           <Property Name="IsRegisterPlaceDirectOrder" Type="Boolean" />
           <Property Name="IsRegisterPlaceOrderWithoutApproval" Type="Boolean" />
+          <Property Name="IsAllowRequestaQuote" Type="Boolean" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -15398,6 +15400,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="IsAllowRequestaQuote" ColumnName="IsAllowRequestaQuote" />
                 <ScalarProperty Name="IsRegisterPlaceOrderWithoutApproval" ColumnName="IsRegisterPlaceOrderWithoutApproval" />
                 <ScalarProperty Name="IsRegisterPlaceDirectOrder" ColumnName="IsRegisterPlaceDirectOrder" />
                 <ScalarProperty Name="IsRegisterPayOnlyByCreditCard" ColumnName="IsRegisterPayOnlyByCreditCard" />

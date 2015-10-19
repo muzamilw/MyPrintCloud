@@ -3267,7 +3267,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th></th>
+                                                            <th class="col-lg-3">Title</th>
+                                                            <th class="col-lg-3">Value</th>
+                                                            <th class="col-lg-1"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -4024,23 +4026,19 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="storeVariableTemplate" type="text/html">
     <tr>
-        <td class="modifyVariabletd">
-            <div class="form-group" style="padding-bottom: 32px;padding-top: 5px;">
-                <div class="col-lg-3 text-right" style="padding-top:6px;">
-                    <div class="bs-example-tooltips tooltip-float-width">
-                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                            @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
-                        </a>
-                    </div>
-                    <label for="abc" class="control-label text-right tooltip-float" data-bind="text:title"></label>
-                </div>
-                <div class="col-lg-5" data-bind="visible:type() === 2">
-                    <input type="text" class="form-control" id="abc" data-bind="value: value">
-                </div>
-                <div class="col-lg-5" data-bind="visible:type() === 1">
-                    <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
-                </div>
-            </div>
+        <td><label for="abc" class="control-label" data-bind="text:title"></label></td>
+          <td>
+              <div data-bind="visible:type() === 2">
+                  <input type="text" class="form-control" id="abc" data-bind="value: value">
+              </div>
+              <div data-bind="visible:type() === 1">
+                  <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
+              </div>
+          </td>  
+               
+           <td></td>         
+               
+           
     </tr>
 </script>
 
