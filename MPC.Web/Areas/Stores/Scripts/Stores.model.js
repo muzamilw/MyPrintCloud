@@ -3439,23 +3439,29 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region __________________  Widget   ______________________
 
     // ReSharper disable once InconsistentNaming
-    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName) {
+    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName, specifiedWidgetCss, specifiedThumbnailUrl, specifiedDescription) {
 
         var self,
             widgetId = ko.observable(specifiedWidgetId),
             widgetName = ko.observable(specifiedWidgetName),
             widgetCode = ko.observable(specifiedWidgetCode),
-            widgetControlName = ko.observable(specifiedWidgetControlName);
-        //id = ko.computed(function () {
-        //    ist.stores.viewModel.selectedWidget(widgetId);
+            widgetControlName = ko.observable(specifiedWidgetControlName),
 
-        //}, this);
+            widgetCss = ko.observable(specifiedWidgetCss),
+            thumbnailUrl = ko.observable(specifiedThumbnailUrl),
+            description = ko.observable(specifiedDescription)
+      
 
         self = {
             widgetId: widgetId,
             widgetName: widgetName,
             widgetCode: widgetCode,
             widgetControlName: widgetControlName,
+
+            widgetCss: widgetCss,
+            thumbnailUrl: thumbnailUrl,
+            description: description
+
         };
         return self;
     };
@@ -3465,8 +3471,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.WidgetId,
              source.WidgetName,
              source.WidgetCode,
-             source.WidgetControlName
-               );
+             source.WidgetControlName,
+             
+             source.WidgetCss,
+             source.ThumbnailUrl,
+             source.Description
+
+            );
 
     };
     // #endregion __________________  Widget   ______________________

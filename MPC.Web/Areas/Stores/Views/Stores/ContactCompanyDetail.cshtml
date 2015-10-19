@@ -2777,12 +2777,6 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                 </div>
                                             </div>
-
-
-
-
-
-
                                         </header>
                                         <div style="padding-right:5px;padding-left:3px;" id="widgetDiv">
                                             <ol class="dd-list" id="widgetList">
@@ -3861,6 +3855,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 @Html.Partial("~/Areas/Stores/Views/Shared/_ViewMediaLibImage.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_EditStoreCss.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_RealEstateCompaignDailog.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_StoreLayoutWidgetCss.cshtml")
 
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
@@ -3949,6 +3944,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <div class="dd-handle" style="height:auto;">
             <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index:1000;" title="Drag widget to add to the right panel"></span>
             <div class="nested-links">
+                <i class="fa fa-pencil cursorShape" data-bind="click:$root.getStoreLayoutWidgetsCss"></i>
+                &nbsp;&nbsp;
                 <a href="#" class="nested-link" title="Add Widget" data-bind="click:$root.addWidgetToPageLayout"><i class="fa fa-plus"></i></a>
             </div>
         </div>
