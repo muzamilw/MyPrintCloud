@@ -3360,10 +3360,14 @@ namespace MPC.Implementation.MISServices
                 companyModel.Company.IsClickReached = true;
                 return companyModel.Company;
             }
-            if (companyRepository.IsDuplicateWebAccessCode(companyModel.Company.WebAccessCode, companyModel.Company.CompanyId))
-             {
-                 throw new MPCException("Web Access Code already exist.", companyRepository.OrganisationId);
-             }
+           if(companyModel.Company.IsCustomer == 3 || companyModel.Company.IsCustomer == 4)
+           {
+               if (companyRepository.IsDuplicateWebAccessCode(companyModel.Company.WebAccessCode, companyModel.Company.CompanyId))
+               {
+                   throw new MPCException("Web Access Code already exist.", companyRepository.OrganisationId);
+               }
+           }
+           
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
             
 
