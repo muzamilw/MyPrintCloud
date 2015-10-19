@@ -180,6 +180,10 @@ function buildParams() {
 	while (tempName.indexOf('%20') != -1)
 	    tempName = tempName.replace("%20", " ");
 	$("#txtTemplateTitle").val(tempName);
+	//if(IsCalledFrom == 3)
+	//{
+	//    panelMode = 2;
+	//}
 	
 }
 function LoadBasicTemplateSettings() {
