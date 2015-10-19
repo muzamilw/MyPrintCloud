@@ -48,9 +48,7 @@ namespace MPC.Webstore.Controllers
             string voucherAppliedMesg = Request.QueryString["VCId"];
             long OrderId = 0;
             ShoppingCart shopCart = null;
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+          
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (string.IsNullOrEmpty(optionalOrderId)) // check if parameter have order id
@@ -165,7 +163,6 @@ namespace MPC.Webstore.Controllers
                 if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                     SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 
-
                 if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
                 {
                     ViewBag.isIncludeVAT = false;
@@ -199,16 +196,21 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.ANZErrorMes = null;
             }
-
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && UserCookieManager.CanPlaceOrder == false)
+            {
+                ViewBag.CanPlaceOrder = 0;
+            }
+            else 
+            {
+                ViewBag.CanPlaceOrder = 1;
+            }
             StoreBaseResopnse = null;
             return View("PartialViews/ShopCart", shopCart);
         }
         [HttpPost]
         public ActionResult Index()
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+         
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             string IsCallFrom = Request.Form["hfIsCallFrom"];

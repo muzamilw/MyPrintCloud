@@ -1654,6 +1654,7 @@ namespace MPC.Implementation.WebStoreServices
         public void AddDataSystemUser(CompanyContact Contact)
         {
             _CompanyContactRepository.AddDataSystemUser(Contact);
+            AddScopeVariables(Contact.ContactId, Contact.CompanyId);
         }
         public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
         {
