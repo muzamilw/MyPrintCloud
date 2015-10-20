@@ -222,6 +222,8 @@ namespace MPC.Repository.Repositories
                         c.IsRegisterPayOnlyByCreditCard,
                         c.IsRegisterPlaceDirectOrder,
                         c.IsRegisterPlaceOrderWithoutApproval,
+                        c.IsAllowRequestaQuote,
+                     
                         c.CompanyType,
                         c.PickupAddressId,
                         c.WebAnalyticCode,
@@ -331,7 +333,8 @@ namespace MPC.Repository.Repositories
                         IsRegisterPlaceOrder = c.IsRegisterPlaceOrder,
                         IsRegisterPayOnlyByCreditCard = c.IsRegisterPayOnlyByCreditCard,
                         IsRegisterPlaceDirectOrder = c.IsRegisterPlaceDirectOrder,
-                        IsRegisterPlaceOrderWithoutApproval=c.IsRegisterPlaceOrderWithoutApproval,
+                        IsRegisterPlaceOrderWithoutApproval = c.IsRegisterPlaceOrderWithoutApproval,
+                        IsAllowRequestaQuote = c.IsAllowRequestaQuote,
                         RedirectWebstoreURL = c.RedirectWebstoreURL,
                         isTextWatermark = c.isTextWatermark,
                         WatermarkText = c.WatermarkText,
