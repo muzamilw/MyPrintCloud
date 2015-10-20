@@ -62,9 +62,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 if (order.OrderDetails.CartItemsList != null && order.OrderDetails.CartItemsList.Count() > 0) 
                 {
                     order.OrderDetails.CartItemsList = order.OrderDetails.CartItemsList.Where(i => i.Status != (int)OrderStatus.ShoppingCart).ToList();
-                
                 }
             }
+           
             Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
             Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
             //string CacheKeyName = "CompanyBaseResponse";
@@ -83,15 +83,40 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 }
                
             }
-            
-            
-            obj.order = order;
+            obj.CartItemsList = order.OrderDetails.CartItemsList;
+            obj.OrderCode = order.OrderCode;
+           // obj.OrderDate = order.OrderDate;
+            obj.PlacedBy=order.PlacedBy;
+            obj.StatusName = order.StatusName;
+           //obj.DeliveryDate = order.DeliveryDate;
+
+            obj.CompanyName = order.CompanyName;
             obj.SubTotal = Utils.FormatDecimalValueToTwoDecimal(Subtotal.ToString(), obj.CurrencySymbol);
             obj.GrossTotal = Utils.FormatDecimalValueToTwoDecimal(GrandTotal.ToString(), obj.CurrencySymbol);
             obj.VAT = Utils.FormatDecimalValueToTwoDecimal(vat.ToString(), obj.CurrencySymbol);
+
             obj.DeliveryCostCharges = Utils.FormatDecimalValueToTwoDecimal(order.DeliveryCost.ToString(), obj.CurrencySymbol);
-            obj.billingAddress = BillingAddress;
-            obj.shippingAddress = ShippingAddress;
+            AddressModel BillingAddess = new AddressModel();
+            BillingAddess.AddressName = BillingAddress.AddressName;
+            BillingAddess.Address1 = BillingAddress.Address1;
+            BillingAddess.Address2 = BillingAddress.Address2;
+            BillingAddess.Address3 = BillingAddress.Address3;
+            BillingAddess.City = BillingAddress.City;
+            BillingAddess.Tel1 = BillingAddress.Tel1;
+            BillingAddess.PostCode = BillingAddress.PostCode;
+            obj.billingAddress = BillingAddess;
+
+            AddressModel ShippingAddresss = new AddressModel();
+
+            ShippingAddresss.AddressName = ShippingAddress.AddressName;
+            ShippingAddresss.Address1 = ShippingAddress.Address1;
+            ShippingAddresss.Address2 = ShippingAddress.Address2;
+            ShippingAddresss.Address3 = ShippingAddress.Address3;
+            ShippingAddresss.City = ShippingAddress.City;
+            ShippingAddresss.Tel1 = ShippingAddress.Tel1;
+            ShippingAddresss.PostCode = ShippingAddress.PostCode;
+            obj.shippingAddress = ShippingAddresss;
+
             if (BillingAddress.CountryId != null && BillingAddress.CountryId > 0)
             {
                 obj.BillingCountry = _companyService.GetCountryNameById(BillingAddress.CountryId ?? 0);
@@ -168,9 +193,19 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
   
         public class JasonResponseObject
         {
-            public Order order;
-            public Address billingAddress;
-            public Address shippingAddress;
+            //public Order order;
+            public AddressModel billingAddress { get; set;}
+            public AddressModel shippingAddress { get; set;}
+            public string OrderCode;
+            public string OrderDate;
+            public string CompanyName;
+            public string PlacedBy;
+            public string StatusName;
+            public string DeliveryDate;
+            public List<ProductItem> CartItemsList;
+
+
+
             public string GrossTotal;
             public string SubTotal;
             public string VAT;
@@ -182,6 +217,28 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             public string BillingState;
             public string ShippingCountry;
             public string ShippingState;
+        }
+        public class OrderDetails
+        {
+            public string OrderCode;
+            public string OrderDate;
+            public string PlacedBy;
+            public string StatusName;
+            public string DeliveryDate;
+            
+            public List<ProductItem> CartItemsList;
+
+        }
+
+        public class AddressModel
+        {
+            public string AddressName { get; set;}
+            public string Address1 { get; set; }
+            public string Address2 { get; set; }
+            public string Address3 { get; set; }
+            public string City { get; set; }
+            public string Tel1 { get; set; }
+            public string PostCode { get; set; }
         }
 
     }
