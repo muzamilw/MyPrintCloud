@@ -145,33 +145,6 @@
                                     </div>
                                 </div>
                                 <br />
-                                <div data-bind="with: SelectedPurchaseOrderReportNote">
-                                    <div class="form-group" style="margin-left:-7px;">
-
-                                        <div style="padding-left:7px;"><h3 class="group-header" style="border-bottom:none;margin-top:0px !important;float:left;">Purchase Order Report</h3>&nbsp;&nbsp;&nbsp;<span style="font-size:12px;vertical-align: bottom;">(770 pixels, PNG Format)</span></div>   
-                                      
-                                       @* <label style="font-weight:bold;margin-left:20px;float:left !important; margin-bottom:10px;" class="control-label text-right tooltip-float">Purchase Order (PNG 1000 pixels width)</label>*@
-                                        @*</div>*@
-
-                                        <div class="col-md-12">
-                                            <div class="clearfix">
-                                                <img style="width:560px;height:175px;" data-bind="visible:purchaseBannerBytes()==null,attr: { src: '@Url.Content("~/")' + reportBanner() }" />
-                                                <img style="width:560px;height:175px;" data-bind="visible:purchaseBannerBytes()!=null,attr: { src: purchaseBannerBytes }" />
-                                                <div class="pull-right">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>Upload Banner</span>
-                                                        <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.ImageFilesPurchaseLoadedCallback, fileFilter: 'image.*'}" />
-                                                    </div>
-                                                </div>
-                                                <div class="profile-stars">
-                                                    <span></span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
                                 <div data-bind="with: SelectedDeliveryReportNote">
                                     <div class="form-group" style="margin-left:-7px;">
                                         @*<div class="col-md-2 text-right">*@
@@ -186,6 +159,33 @@
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>Upload Banner</span>
                                                         <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.ImageFilesDeliveryLoadedCallback, fileFilter: 'image.*'}" />
+                                                    </div>
+                                                </div>
+                                                <div class="profile-stars">
+                                                    <span></span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div data-bind="with: SelectedPurchaseOrderReportNote">
+                                    <div class="form-group" style="margin-left:-7px;">
+
+                                        <div style="padding-left:7px;"><h3 class="group-header" style="border-bottom:none;margin-top:0px !important;float:left;">Purchase Order Report</h3>&nbsp;&nbsp;&nbsp;<span style="font-size:12px;vertical-align: bottom;">(770 pixels, PNG Format)</span></div>
+
+                                        @* <label style="font-weight:bold;margin-left:20px;float:left !important; margin-bottom:10px;" class="control-label text-right tooltip-float">Purchase Order (PNG 1000 pixels width)</label>*@
+                                        @*</div>*@
+
+                                        <div class="col-md-12">
+                                            <div class="clearfix">
+                                                <img style="width:560px;height:175px;" data-bind="visible:purchaseBannerBytes()==null,attr: { src: '@Url.Content("~/")' + reportBanner() }" />
+                                                <img style="width:560px;height:175px;" data-bind="visible:purchaseBannerBytes()!=null,attr: { src: purchaseBannerBytes }" />
+                                                <div class="pull-right">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>Upload Banner</span>
+                                                        <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.ImageFilesPurchaseLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
                                                 <div class="profile-stars">

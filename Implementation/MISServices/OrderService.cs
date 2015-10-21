@@ -399,20 +399,20 @@ namespace MPC.Implementation.MISServices
                     Company objCompany = companyRepository.GetCompanyByCompanyID(companyId);
                     SystemUser saleManager = systemUserRepository.GetUserrById(objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid());
 
-                    string salesManagerFile = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Key + "_PurchaseOrder.pdf";
+                    string salesManagerFile = "/" + ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Key + "PurchaseReport.pdf";
                     campaignRepository.POEmailToSalesManager(orderId, companyId, contactId, 250, purchase.Value, salesManagerFile, objCompany);
 
-                    if (objCompany.IsCustomer == (int)CustomerTypes.Corporate)
-                    {
-                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Corp, companyId, saleManager, itemIDs, "", "", 0);
-                    }
-                    else
-                    {
-                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Retail, companyId, saleManager, itemIDs, "", "", 0);
-                    }
+                    //if (objCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                    //{
+                    //    campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Corp, companyId, saleManager, itemIDs, "", "", 0);
+                    //}
+                    //else
+                    //{
+                    //    campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Retail, companyId, saleManager, itemIDs, "", "", 0);
+                    //}
 
                     string sourceFile = fileName;
-                    string destinationFileSupplier = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
+                    string destinationFileSupplier = "/" + ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
 
                     string oDirectory = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value);
 

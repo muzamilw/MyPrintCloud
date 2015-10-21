@@ -283,6 +283,7 @@
                     });
                     
 
+
                     // Define request to Get Discount Vouchers
                     amplify.request.define('getRealEstateCampaign', 'ajax', {
                         url: ist.siteUrl + '/Api/RealEstateCompaign',
@@ -778,7 +779,9 @@
                 });
             },
 
-               // get realEstate
+           
+
+            // get realEstate
             getRealEstateCampaigns = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -789,7 +792,7 @@
                 });
             },
 
-             // get companyVariable Icons
+            // get companyVariable Icons
             getCompanyVariableIcons = function (params, callbacks) {
                 initialize();
                 return amplify.request({
