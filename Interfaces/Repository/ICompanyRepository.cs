@@ -128,6 +128,8 @@ namespace MPC.Interfaces.Repository
         bool IsDuplicateWebAccessCode(string webCode, long? companyId);
 
         bool SaveUserActionLog(string Comment, long CompanyId);
+
+        ExportStore ExportStore(long CompanyId);
         
 
     }
