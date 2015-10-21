@@ -193,6 +193,12 @@ define("stores/stores.view",
                 hideCssDialog = function () {
                     $("#editStoreCssModal").modal("hide");
                 },
+                showStoreLayoutWidgetCss = function () {
+                     $("#myreadonlyStoreLayoutWidgetCss").modal("show");
+                },
+                hideStoreLayoutWidgetCss = function () {
+                    $("#myreadonlyStoreLayoutWidgetCss").modal("hide");
+                },
 
                
 
@@ -601,7 +607,8 @@ define("stores/stores.view",
                 showCssDialog: showCssDialog,
                 hideCssDialog: hideCssDialog,
                 //Show RealEstateCompaign VariableIcon Dialog
-                showVariableIconDialog: showVariableIconDialog
+                showVariableIconDialog: showVariableIconDialog,
+                showStoreLayoutWidgetCss: showStoreLayoutWidgetCss
             };
         })(storesViewModel);
 

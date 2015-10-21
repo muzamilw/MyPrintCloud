@@ -156,6 +156,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard,
                 IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder,
                 IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval,
+                IsAllowRequestaQuote = source.IsAllowRequestaQuote,
                 CanUserUpdateAddress = source.CanUserUpdateAddress,
                 IsClickReached = source.IsClickReached,
                MarketingBriefRecipient = source.MarketingBriefRecipient,
@@ -442,7 +443,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRegisterPlaceOrder = source.IsRegisterPlaceOrder == true ? true : false,
                 IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard == true ? true : false,
                 IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder == true ? true : false,
-                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval == true ? true : false
+                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval == true ? true : false,
+                IsAllowRequestaQuote = source.IsAllowRequestaQuote == true ? true : false
  
             };
 

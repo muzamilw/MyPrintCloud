@@ -19,7 +19,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WidgetId = source.WidgetId,
                 WidgetName = source.WidgetName,
                 WidgetCode = source.WidgetCode,
-                WidgetControlName = source.WidgetControlName
+                WidgetControlName = source.WidgetControlName,
+                WidgetCss = source.WidgetCss,
+                ThumbnailUrl = source.ThumbnailUrl,
+                Description = source.Description
+                
             };
         }
 

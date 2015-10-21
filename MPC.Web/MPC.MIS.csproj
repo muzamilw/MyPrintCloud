@@ -2293,6 +2293,7 @@
     <Content Include="Areas\Stores\Views\Stores\_EditStoreCss.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_RealEstateCompaignDailog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_Zapier.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreLayoutWidgetCss.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
