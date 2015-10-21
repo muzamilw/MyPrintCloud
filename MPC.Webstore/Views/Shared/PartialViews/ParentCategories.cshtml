@@ -3,6 +3,9 @@
 @{
     string ProductDescription = "";
 }
+@{
+    Layout = null;
+}
 <div class="parentCatsContainer">
     <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
         <div class="row left_right_padding cntTopLevelCategory">
@@ -10,12 +13,15 @@
 
             @foreach (var categories in Model)
             {
+                
                 <div id="MainContainer" class="Top_Cat_Body  rounded_corners">
                     <div class="LCLB">
-
-                        <a id="hlProductDetail" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
+                        @{
+                            var categoryLinkId = "aC" + categories.ProductCategoryId;
+                        }
+                        <a id="@categoryLinkId" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
                             <div class="PDTC_TL FI_TL H4B_TL">
-                                <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="@Html.GetAppBasePath()@categories.ThumbnailPath" />
+                                <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="/@Html.GetAppBasePath()@categories.ThumbnailPath" />
                             </div>
                         </a>
 
@@ -30,7 +36,7 @@
                                        if (ProductDescription.Length > 250)
                                        {
                                            ProductDescription = ProductDescription.Substring(0, 250);
-                                           ProductDescription = ProductDescription + "<a class=morelink href=/Category/" + @Html.ResolveString(categories.CategoryName) + "/" + @categories.ProductCategoryId + ">more...</a>";
+                                           ProductDescription = ProductDescription + "<a class=morelink href=/Category/" + Utils.specialCharactersEncoder(categories.CategoryName) + "/" + @categories.ProductCategoryId + "> more...</a>";
                                        }
                                        else
                                        {
@@ -40,8 +46,8 @@
                                }
                             @Html.Raw(ProductDescription)
                         </div>
+                        <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">Shop Now</a>
                     </div>
-
                 </div>
             }
             <div class="clearBoth">
@@ -58,3 +64,4 @@
     </div>
 </div>
 
+<script src="/Scripts/jquery-1.10.1.min.js"></script>

@@ -10,6 +10,7 @@ using MPC.Webstore.Common;
 using MPC.Webstore.Models;
 using MPC.Models.Common;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -59,11 +60,12 @@ namespace MPC.Webstore.Controllers
                 
                 if (subscriber == null)
                 {
-                    string CacheKeyName = "CompanyBaseResponse";
-                    ObjectCache cache = MemoryCache.Default;
+                    //string CacheKeyName = "CompanyBaseResponse";
+                    //ObjectCache cache = MemoryCache.Default;
 
 
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                    //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                     string SubscriberEmail = "";
                     string subscriptionCode = Guid.NewGuid().ToString();
@@ -113,7 +115,7 @@ namespace MPC.Webstore.Controllers
                     string sConfirmation = Utils.GetKeyValueFromResourceFile("ConfirmSubscriptionMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
-                        ViewBag.Message = "To confirm your subscription please follow instructions which have been sent to provided email.";
+                        ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlsubps", UserCookieManager.WBStoreId, "To confirm your subscription please follow instructions which have been sent to provided email.");
                     }
                     else
                     {
@@ -128,7 +130,8 @@ namespace MPC.Webstore.Controllers
                     string sConfirmation = Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
-                        ViewBag.Message = "Someone is already subscribed with provided email. Please use a different email.";
+                        ViewBag.Message = Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.WBStoreId, "Someone is already subscribed with provided email. Please use a different email.")
+;
                     }
                     else
                     {
@@ -138,7 +141,9 @@ namespace MPC.Webstore.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Error in subscription. Please try again.";
+                ViewBag.Message =
+Utils.GetKeyValueFromResourceFile("ltrlerrorinsubs", UserCookieManager.WBStoreId, "Error in subscription. Please try again.")
+;
                 throw ex;
 
             }

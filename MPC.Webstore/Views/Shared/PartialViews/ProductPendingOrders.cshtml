@@ -1,9 +1,5 @@
 ﻿
-<head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
 
-</head>
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
@@ -13,26 +9,20 @@
 
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
-
 @{
-    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
-        .Where(b => b.Path == "~/pageSpecific")
-        .First();
-
-    bundle.Include(
-                   "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js");
+    Layout = null;
 }
-<div class="content_area container" id="PendingOrders">
+<div class="content_area container" id="all-pendingOrder-pg">
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12 ">
             <div class="signin_heading_div float_left_simple ">
-                <label class="sign_in_heading" id="HistryBtn">Pending Orders For Approval</label>
+                <label class="sign_in_heading" id="HistryBtn">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitlePendingOrder",UserCookieManager.WBStoreId,"Pending Orders For Approval"))</label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
                     <h1>
                         <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                            Back to my dashboard
+                           @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId,"Back to my dashboard"))
                         </a>
                     </h1>
                     <div class="clearBoth"></div>
@@ -41,14 +31,14 @@
             <div class="clearBoth">
             </div>
         </div>
-       
+
         <div class="col-md-12 col-lg-12 col-xs-12 ">
             <div class="Width100Percent">
                 @*<div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
-                    <div class="heading_h8 cntFilteringCritariaLeft">
+                        <div class="heading_h8 cntFilteringCritariaLeft">
 
-                    </div>
-                </div>*@
+                        </div>
+                    </div>*@
             </div>
             <div class="white_back_div rounded_corners PddingForGridContent">
                 <div class="PadingTop textAlignLeft">
@@ -74,18 +64,18 @@
              alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
-    grid.Column("OrderCode","OrderCode"),
-    grid.Column("YourRef","Your PO reference"),
-    grid.Column("SOrderDate","Order Date"),
-    grid.Column("SOrderDeliveryDate","Estimated Delivery"),
-    grid.Column("StatusName","Status",style:"GridStatusColumnColor"),
-    grid.Column("CustomerName","Order Created By"),
-    grid.Column("Action(s)",format:@<text><input type="image" id="view" title="click to view order details" style="height: 28px; width: 28px;" src="Content/Images/view-order.png" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" /><input type="image" id="view" title="click to Approve Order " style="height: 28px; width: 28px;" src="Content/Images/accept.png" class="rounded_corners" onclick="ConfirmApprove(@item.OrderID)" /><input id="view" type="image" src="Content/Images/reject.png" title="click to Reject" style="height: 28px; width: 28px;" class="rounded_corners" onclick="ConfirmReject(@item.OrderID)" />
+    grid.Column("OrderCode",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderCode", UserCookieManager.WBStoreId, "Order Code")).ToString()),
+    grid.Column("YourRef",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlYourPoReference", UserCookieManager.WBStoreId, "Your PO reference")).ToString(),style:"hidden-xs"),
+    grid.Column("SOrderDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId, "Order Date")).ToString(),style:"hidden-xs "),
+    grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs "),
+    grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"GridStatusColumnColor hidden-xs"),
+    grid.Column("CustomerName",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderCreatedBy", UserCookieManager.WBStoreId, "Order Created By")).ToString()),
+    grid.Column("Action(s)",format:@<text><input type="image" id="view" title="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlclicktoviewOrderDetails", UserCookieManager.WBStoreId, "Click to View Order Details")).ToString()" style="height: 28px; width: 28px;" src="Content/Images/view-order.png" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" /><input type="image" id="view" title="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlclickToApproveOrder", UserCookieManager.WBStoreId, "Click to Approve Order")).ToString()" style="height: 28px; width: 28px;" src="Content/Images/accept.png" class="rounded_corners" onclick="ConfirmApprove(@item.OrderID)" /><input id="view" type="image" src="Content/Images/reject.png" title="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlClickToReject", UserCookieManager.WBStoreId, "click to Reject Order")).ToString()" style="height: 28px; width: 28px;" class="rounded_corners" onclick="ConfirmReject(@item.OrderID)" />
     </text>),
 
    }
 
-                        )
+            )
 
 
                         @if (Convert.ToInt32(ViewBag.TotalOrders) > 13)
@@ -104,7 +94,7 @@
     <br />
 </div>
 
-<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px; visibility:hidden">
+<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px; display:none;">
     <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable" style="background-color:#F6F6F7;">
         <tbody>
             <tr>
@@ -113,7 +103,7 @@
                         <tbody>
                             <tr>
                                 <td class="textAlignRight" style="width: 90px">
-                                    <span class="simpleTextBold" id="spnordernum">Order Number:</span>
+                                    <span class="simpleTextBold" id="spnordernum">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNumHeadingTxt", UserCookieManager.WBStoreId,"Order Number")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<label id="lblOrderNumber" class="txtBold" />*@
@@ -123,7 +113,7 @@
                                     &nbsp;
                                 </td>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderstatus">Status:</span>
+                                    <span class="simpleTextBold" id="spnorderstatus">@Html.Raw(Html.GetKeyValueFromResourceFile("lblStatusHeadingTxt", UserCookieManager.WBStoreId,"Status")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText" style="width: 200px">
                                     @*<label id="lblOrderStatus" class="txtBold clrOrderDetail" />*@
@@ -134,7 +124,7 @@
                             </tr>
                             <tr>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
+                                    <span class="simpleTextBold" id="spnorderdate">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId, "Order Date")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<asp:label id="lblOrderDate" class="txtBold" />*@
@@ -148,7 +138,7 @@
                                     </td>*@
 
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
+                                    <span class="simpleTextBold" id="spndileverydate">@Html.Raw(Html.GetKeyValueFromResourceFile("spndileverydate", UserCookieManager.WBStoreId, "Delivery Date:"))</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     <label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />
@@ -156,10 +146,10 @@
                                 </td>
 
                                 @*</td>*@
-                            </tr>
+                            
                             <tr>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="Span1">Placed By:</span>
+                                    <span class="simpleTextBold" id="Span1">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.WBStoreId, "Placed by:"))</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<Label ID="lblPlacedBy"  Class="txtBold" />*@
@@ -190,274 +180,282 @@
                     </div>
                 </td>
             </tr>
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <table width="99%">
+        <tbody>
             <tr id="PnalTotalBox">
                 <td align="right">
+                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText  height-140 margnLft">
+                        <div class="product_detail_sup_padding" style="width:50%;float:left;">
+                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" style="height: 25px; text-align: left;">
+
+                                            <label id="lblMainControlHeading" class="heading_small" style="margin-left:12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address"))</label>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 33%">
+                                            @*<span id="spnbillingname">Billing Name:</span>*@
+                                        </td>
+                                        <td style="width: 67%">
+
+                                            <span id="BillingAddressName"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrladdressline1">Address line 1:</span>*@
+                                        </td>
+                                        <td>
+
+                                            <span id="BillingAddressline1"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrladdressline2">Address line 2:</span>*@
+                                        </td>
+                                        <td>
+                                            <span id="BillingAddressline2"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlcity">City:</span>*@
+                                        </td>
+                                        <td>
+                                            @*<label id="lblCity" class="txtBold">*@<span id="BillingAddressCity"></span>&nbsp;<span id="BillingAddressState"></span>&nbsp;<span id="BillingAddressCountryName"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlstate">State:</span>*@
+                                        </td>
+                                        <td>
+                                            <span id="BillingAddressState"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlzipcodeP">Zip Code / Post Code:</span>*@
+                                        </td>
+                                        <td>
+                                            <span id="BillingAddressPostCode"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlcountry">Country:</span>*@
+                                        </td>
+                                        <td>
+                                            <span id="BillingAddressCountryName"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlcontactnum">Contact Number:</span>*@
+                                        </td>
+                                        <td>
+                                            <label id="lblContactNumber" class="txtBold"><span id="BillingAddressContactNumber"></span></label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="product_detail_sup_padding" style="width:50%;float:left;">
+
+
+                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" style="height: 25px; text-align: left;">
+                                            <label id="Label1" class="heading_small" style="margin-left:12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId,"Shipping Address"))</label>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 33%">
+                                            @*<span id="spnshppingname">Shipping Name:</span>*@
+                                        </td>
+                                        <td style="width: 67%">
+                                            @*@ViewBag.DeliveryAddress.AddressName*@<span id="DeliveryAddressName"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spnaddressline2nd">Address line 1:</span>*@
+                                        </td>
+                                        <td>
+                                            @*@ViewBag.DeliveryAddress.Address1*@<span id="DeliveryAddressline1"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spnaddressline2nd2">Address line 2:</span>*@
+                                        </td>
+                                        <td>
+                                            @*@ViewBag.DeliveryAddress.Address2*@<span id="DeliveryAddressline2"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spncity2">City:</span>*@
+                                        </td>
+                                        <td>
+                                            @*@ViewBag.DeliveryAddress.City*@<span id="DeliveryAddressCity"></span>&nbsp;<span id="DeliveryAddressState"></span>&nbsp;<span id="DeliveryAddressCountryName"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spnstate2">State:</span>*@
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spnzipcoeP2">Zip Code / Post Code:</span>*@
+                                        </td>
+                                        <td>
+                                            @*@ViewBag.DeliveryAddress.PostCode*@<span id="DeliveryAddressPost"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            @*@ViewBag.DeliveryAddress.Country.CountryName*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spncontactnum2">Contact Number:</span>*@
+                                        </td>
+                                        <td>
+                                            @*@ViewBag.DeliveryAddress.ContactMobile*@<span id="DeliveryAddressContactNo"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="clearBoth">
+                        </div>
+                    </div>
+                    <div class="clearBoth">
+                    </div>
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+               @if (ViewBag.IsShowPrices == true)
+               {
+                <td align="right" valign="top">
+
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                         <div class="padding10">
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">
                                 <tr>
                                     <td align="left">
-                                        <span id="spnsubtotal">Sub Total:</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblSubTotal"><span id="subtotal"></span></label>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" style="width: 80%">
-                                        <span id="spnDeliveryoptn">Deivery Cost:</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" style="width: 80%">
-                                        <span id="spnvattotal">Vat Total:</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblVatTotal"><span id="Vat"></span></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
-                                    </td>
-                                    <td>
-
-                                        <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        <table id="PnlAddresses" border="0" cellpadding="0" cellspacing="0"
-                               width="100%">
-                            <tr>
+                                        <span id="spnsubtotal">
+                                            @Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))
+                                    </span>
+                                </td>
                                 <td>
-                                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
-                                        <div class="product_detail_sup_padding">
-                                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="2" style="height: 25px; text-align: left;">
-
-                                                            <label id="lblMainControlHeading" class="heading_small">Billing Address</label>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 33%">
-                                                            <span id="spnbillingname">Billing Name:</span>
-                                                        </td>
-                                                        <td style="width: 67%">
-
-                                                            <label id="lblBillingName" class="txtBold"><span id="BillingAddressName"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="ltrladdressline1">Address line 1:</span>
-                                                        </td>
-                                                        <td>
-
-                                                            <label id="lblAddressLine1" class="txtBold"><span id="BillingAddressline1"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="ltrladdressline2">Address line 2:</span>
-                                                        </td>
-                                                        <td>
-
-                                                            <label id="lblAddressLine2" class="txtBold"><span id="BillingAddressline2"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="ltrlcity">City:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblCity" class="txtBold"><span id="BillingAddressCity"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="ltrlstate">State:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblState" class="txtBold"><span id="BillingAddressState"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="ltrlzipcodeP">Zip Code / Post Code:</span>
-                                                        </td>
-                                                        <td>
-                                                            <span id="BillingAddressPostCode"></span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="ltrlcountry">Country:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblCountry" class="txtBold"><span id="BillingAddressCountryName"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="ltrlcontactnum">Contact Number:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblContactNumber" class="txtBold"><span id="BillingAddressContactNumber"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    <label id="lblSubTotal"><span id="subtotal"></span></label>
 
                                 </td>
-                                <td></td>
-                                <td align="right">
+                            </tr>
+                            <tr>
+                                <td align="left" style="width: 80%">
+                                    <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("spnDeliveryoptn", UserCookieManager.WBStoreId, "Deivery Cost:"))</span>
+                                </td>
+                                <td>
+                                    <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="width: 80%">
+                                    <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnvattotal", UserCookieManager.WBStoreId, "Vat Total:"))</span>
+                                </td>
+                                <td>
+                                    <label id="lblVatTotal"><span id="Vat"></span></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left">
+                                    <span class="CartFonts" id="spngrndtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgrandtotal", UserCookieManager.WBStoreId, "Grand Total")):</span>
+                                </td>
+                                <td>
 
-                                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
-                                        <div class="product_detail_sup_padding">
-
-
-                                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="2" style="height: 25px; text-align: left;">
-                                                            <label id="Label1" class="heading_small">Shipping Address</label>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 33%">
-                                                            <span id="spnshppingname">Shipping Name:</span>
-                                                        </td>
-                                                        <td style="width: 67%">
-                                                            <label id="lblShipAddressName" class="txtBold">@*@ViewBag.DeliveryAddress.AddressName*@<span id="DeliveryAddressName"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="spnaddressline2nd">Address line 1:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblShipAddLine1" class="txtBold">@*@ViewBag.DeliveryAddress.Address1*@<span id="DeliveryAddressline1"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="spnaddressline2nd2">Address line 2:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblShipAddressLine2" class="txtBold">@*@ViewBag.DeliveryAddress.Address2*@<span id="DeliveryAddressline2"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="spncity2">City:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblShipAddCity" class="txtBold">@*@ViewBag.DeliveryAddress.City*@<span id="DeliveryAddressCity"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="spnstate2">State:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblShipState" class="txtBold"><span id="DeliveryAddressState"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="spnzipcoeP2">Zip Code / Post Code:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblShipPostCode" class="txtBold">@*@ViewBag.DeliveryAddress.PostCode*@<span id="DeliveryAddressPost"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="spncountry2">Country:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblShipCountry" class="txtBold">@*@ViewBag.DeliveryAddress.Country.CountryName*@<span id="DeliveryAddressCountryName"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span id="spncontactnum2">Contact Number:</span>
-                                                        </td>
-                                                        <td>
-                                                            <label id="lblShipContact" class="txtBold">@*@ViewBag.DeliveryAddress.ContactMobile*@<span id="DeliveryAddressContactNo"></span></label>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-                                    </div>
+                                    <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
                                 </td>
                             </tr>
                         </table>
                     </div>
-                </td>
+
+                </div>
+            </td>
+               }
+                
+
             </tr>
         </tbody>
     </table>
 </div>
-@section scripts{
-    <script>
-        var NewOrderID;
-        var SaveFlag=false;
+
+
+
+ @*<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+<link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
+<script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
+<script src="/LightBox/Js/jquery.fancybox.js"></script>*@      
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+<link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
+<script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
+<script src="/LightBox/Js/jquery.fancybox.js"></script>
+<script type="text/javascript">
+
+        $(".fancybox").fancybox();
         $(document).ready(function () {
 
             $("#txtFromDate").datepicker();
             $("#txtToDate").datepicker();
 
-            //else
-            //{
-            //    HideLoader();
-            //}
         });
 
-
-
+        var NewOrderID;
+        var SaveFlag = false;
 
         function ViewOrder(orderId) {
             ShowLoader();
             $.ajax({
                 type: "GET",
-                url: "/webstoreapi/CostCenter/GetData",
+                url: "/webstoreapi/Order/GetData",
                 contentType: "application/json",
                 data: { orderID: orderId },
                 async: true,
                 success: function (response) {
 
-                    $("#Grandtotal").text(response.CurrencySymbol + "" + response.GrossTotal);
-                    $("#subtotal").text(response.CurrencySymbol + "" + response.SubTotal);
-                    $("#Vat").text(response.CurrencySymbol + "" + response.VAT);
+                    $("#Grandtotal").text(response.GrossTotal);
+                    $("#subtotal").text(response.SubTotal);
+                    $("#Vat").text(response.VAT);
 
                     $("#OrderCode").text(response.order.OrderCode);
                     $("#OrderStatus").text(response.order.StatusName);
                     $("#OrderDate").text(response.OrderDateValue);
                     $("#OrderPlaceBy").text(response.order.PlacedBy + "" + '(' + response.order.CompanyName + ')');
                     $("#OrderDeliveryDate").text(response.DeliveryDateValue);
-                    $("#DelCharge").text(response.CurrencySymbol+""+response.DeliveryCostCharges);
+                    $("#DelCharge").text(response.DeliveryCostCharges);
                     $("#BillingAddressName").text(response.billingAddress.AddressName);
                     if (response.billingAddress.Address1 != null || response.billingAddress.Address1 != '') {
                         $("#BillingAddressline1").text(response.billingAddress.Address1);
@@ -475,7 +473,7 @@
                     // if ((response.billingAddress.State) != null) {
 
                     if (response.BillingState != '')
-                    { ("#BillingAddressState").val(response.BillingState);}
+                    { $("#BillingAddressState").text(response.BillingState);}
                     //}
                     // if (response.billingAddress.Country!= null)
                     //{
@@ -523,28 +521,72 @@
 
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
                     var GridItems = response.order.OrderDetails.CartItemsList;
-                    var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                    var InnerHtml = ""; //"<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                    if ('@ViewBag.IsShowPrices' == "True") {
+                        InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                       
+                    }
+                    else {
+                        InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th></th><th></th><th></th></tr></thead>";
+                       
+                    }
+                    var otherAttachmentLink = "";
                     $.each(GridItems, function (i, IT) {
                         {
-                            //InnerHtml += '<tr>';
+                            if (IT.OtherItemAttatchments != null) {
 
-                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + IT.ImagePath + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + IT.Qty1BaseCharge1, '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + IT.Qty1Tax1Value, '</label></td><td><label id="Total">', response.CurrencySymbol + "" + IT.Qty1GrossTotal, '</label></td></tr>')
-                            //'<td><img src=' + IT.ImagePath + ' /></td>' +
-                            //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
-                            //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +
-                            //  alert(IT.Qty1);
-                            // '<td><label id="Price">'+ IT.Qty1BaseCharge1+'</label></td>' +
-                            //  alert(IT.Qty1BaseCharge1);
-                            // '<td><label id="VAT">' + IT.Qty1Tax1Value + '</label></td>' +
-                            // '<td><label id="Total">' + IT.Qty1GrossTotal + '</label></td>'
-                            //+'</tr>'
+                                if (IT.OtherItemAttatchments.length > 1) {
+
+                                    $(IT.OtherItemAttatchments).each(function (i, otherAttachVal) {
+
+                                        if (otherAttachVal.FileName == IT.Attatchment._fileName) {
+                                        } else {
+                                            var OtherAttachFileName = otherAttachVal.FileName;
+                                            while (OtherAttachFileName.indexOf(" ") > 0) {
+                                                OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                            }
+
+                                            var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                        }
+
+                                    });
+                                }
+                            }
+
+
+
+
+                            var AttachFileName = IT.Attatchment._fileName;
+
+                            if (AttachFileName != "" && AttachFileName != null) {
+                                while (AttachFileName.indexOf(" ") > 0) {
+                                    AttachFileName = AttachFileName.replace(" ", "%20");
+                                }
+                            }
+                            //InnerHtml += '<tr>';
+                            var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
+
+                            if ('@ViewBag.IsShowPrices' == "True")
+                            {
+                                
+                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>');
+                               
+                            }
+                            else
+                            {
+                                
+                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">','', '</label></td> <td><label id="VAT">',"", '</label></td><td><label id="Total">', "", '</label></td></tr>');
+                              
+                            }
+                            
                         }
                     });
-                    InnerHtml += '</table>';
+                    InnerHtml += '</table>' + otherAttachmentLink;
                     $("#GridTable").html(InnerHtml);
                     var panelHtml = $("#Vorder").html();
                     console.log(panelHtml);
-                    ViewOrderPopUp("View Order", panelHtml);
+                    ViewOrderPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvieworder", UserCookieManager.WBStoreId, "View Order"))', panelHtml);
                 }
 
             });
@@ -558,6 +600,7 @@
         {
             ConfirmPopUpForApprove();
             NewOrderID = OrderID;
+           
         }
         function ConfirmReject(OrderID)
         {
@@ -589,7 +632,8 @@
 
         function Show()
         {
-            ShowPopUpForConfirmApprove();
+            OrderApprove(NewOrderID, "");
+            //ShowPopUpForConfirmApprove();
         }
         function oKApproveOrder()
         {
@@ -613,4 +657,4 @@
             HideLoader();
         }
     </script>
-}
+

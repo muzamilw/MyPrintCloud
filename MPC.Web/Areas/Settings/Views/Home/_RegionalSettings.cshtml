@@ -1,30 +1,22 @@
 ﻿
 
 <div class="main-box-body clearfix" data-bind="visible: $root.isRegionalSettingVisible" style="display:none;">
-    <div class="col-md-12 form-horizontal" style="margin-top:25px;">
-        <div style="margin-bottom:15px;">
+    <div class="col-md-12 form-horizontal" style="padding-left:0px;">
+        <div class="tabsdescriptions" style="margin-left:-2px;">
             <p class="group-header-description"> Configure the currency, units of lengths and weights</p>
-            
+           
+
             @*  <span style="margin-bottom:5px;font-size:12px;">Set your company’s name, address and logo for internal reports</span>*@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <div class="col-lg-5 text-right">
-
-                    @*<div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>*@
+                <div class="col-lg-4 text-right">
                     <label for="txtCompanyName" class="control-label text-right tooltip-float">
                         Currency Symbol
                     </label>
-
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <select id="currency" class="form-control" data-bind="options: $root.currencySymbols, optionsText: 'CurrencyName', optionsValue: 'CurrencyId' ,value:currencyId,validationtooltip:currencyId"></select>
                     <span class="help-block text-right"></span>
                 </div>
@@ -52,7 +44,7 @@
                 </div>*@
 
             <div class="form-group">
-                <div class="col-lg-5 text-right">
+                <div class="col-lg-4 text-right">
 
                     @*<div class="bs-example-tooltips tooltip-float-width">
 
@@ -70,7 +62,7 @@
                         <div class="radio" style="margin-bottom: 10px;">
                             <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosImperical" value="true" data-bind="checked: $root.selectedMyOrganization().isImperical">
                             <label for="optionsRadiosImperical">
-                                Empirical (US)
+                                Imperial (US)
                             </label>
                         </div>
                         <div class="radio">

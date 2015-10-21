@@ -1,0 +1,48 @@
+﻿@model MPC.Models.DomainModels.Company
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@using System;
+
+@{
+    Layout = null;
+}
+<header class="navbar navbar-default topnav" id="TopHeaderContainer" >
+    <div class="container" >
+        <div class="navbar-header col-md-3 col-lg-3 col-xs-12 col-sm-12" style=" height: 75px;">
+            <button type="button" class="navbar-toggle btn btn-darkblue hidden-lg hidden-md" id="darkCollapseBtn" onclick="ToggleOxfordHeader();"><span class="fa fa-bars fa-fw"></span></button>
+
+            <a class="navbar-brand" href='/'>
+                <img class="img-responsive" alt="Company" id="imgLogo" src="/@Model.Image">
+            </a>
+        </div>
+
+        <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12 visible-lg visible-md" style="
+  height: 75px;
+  padding-top: 17px;">
+
+            <ul class="nav navbar-nav navbar-right" style="width:100%;">
+                <li>
+                    <a href="/AllProducts" class="" target="_self"><i class="fa fa-list"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</span></a>
+                </li>
+                <li><a id="lnkRequestQuoteHeader" href="/RequestQuote" class="" target="_self"><i class="fa fa-pencil"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</span></a></li>
+                <li><a href="/ContactUs" class="" target="_self"><i class="fa fa-envelope-o"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</span></a></li>
+                <li><a id="psop7" href="/Login" title="" class="top_login_popup"><i class="fa fa-user"></i><span>Login / SignUp </span></a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse col-md-9 col-lg-9 col-xs-12 col-sm-12" style="display:none; " id="oxfordCollapedMenucnt">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/AllProducts" class="" target="_self"><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</span></a>
+                </li>
+                <li><a id="lnkRequestQuoteHeader" href="/RequestQuote" class="" target="_self"><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</span></a></li>
+                <li><a href="/ContactUs" class="" target="_self"><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</span></a></li>
+                <li><a id="psop7" href="/Login" title="" class="top_login_popup"><span>Login / SignUp </span></a></li>
+            </ul>
+        </div>
+
+    </div>
+</header>
+
+

@@ -61,6 +61,7 @@ namespace MPC.Repository.Repositories
 
         public Organisation GetOrganizatiobByID(long organisationId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return DbSet.FirstOrDefault(cs => cs.OrganisationId == organisationId);
         }
 
@@ -150,6 +151,7 @@ namespace MPC.Repository.Repositories
                      objOrg.TaxServiceUrl = objExpOrg.TaxServiceUrl;
                     objOrg.TaxServiceKey = objExpOrg.TaxServiceKey;
                     objOrg.SystemLengthUnit = objExpOrg.SystemLengthUnit;
+                    objOrg.IsImperical = objExpOrg.IsImperical;
 
                     db.SaveChanges();
                     ImportIDs.NewOrganisationID = OID;
@@ -164,9 +166,11 @@ namespace MPC.Repository.Repositories
                     {
                         foreach (var size in Sets.ExportOrganisationSet1.PaperSizes)
                         {
+                            int OldPaperId = size.PaperSizeId;
                             PaperSize Osize = new PaperSize();
                             Osize = size;
                             Osize.PaperSizeId = 0;
+                            Osize.SizeMeasure = OldPaperId;
                             size.OrganisationId = OrganisationID;
                             db.PaperSizes.Add(size);
 
@@ -855,11 +859,13 @@ namespace MPC.Repository.Repositories
                         foreach (var machine in Sets.ExportOrganisationSet3.Machines)
                         {
                             int oldMID = (int)machine.LookupMethodId;
+                            int oldMachineId = (int)machine.MachineId;
                             Machine Mac = new Machine();
                             Mac = machine;
                             Mac.MachineId = 0;
                             Mac.OrganisationId = (int)OrganisationID;
                             Mac.LockedBy = oldMID;
+                            Mac.SystemSiteId = oldMachineId;
                             if(stockItems != null)
                             {
                                 long paperID = stockItems.Where(s => s.RollStandards == machine.DefaultPaperId).Select(c => c.StockItemId).FirstOrDefault();
@@ -925,7 +931,8 @@ namespace MPC.Repository.Repositories
                                     objPh = phrase;
                                     objPh.PhraseId = 0;
                                     objPh.FieldId = objPF.FieldId;
-                                    objPh.CompanyId = OrganisationID;
+                                    objPh.CompanyId = null;
+                                    objPh.OrganisationId = OrganisationID;
                                     db.Phrases.Add(phrase);
                                     // PF.Phrases.Add(objPh);
 
@@ -1154,8 +1161,8 @@ namespace MPC.Repository.Repositories
                          List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
-                         
-
+                         List<Company> Suppliers = db.Companies.Where(s => s.OrganisationId == OrganisationID && s.IsCustomer == 2).ToList();
+                         List<PaperSize> paperSizes = db.PaperSizes.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<Item> items = Sets.ExportStore3;
                          if (items != null && items.Count > 0)
                          {
@@ -1164,6 +1171,7 @@ namespace MPC.Repository.Repositories
                                 
                                  item.OrganisationId = OrganisationID;
                                  item.CompanyId = oCID;
+                                 item.FlagId = FlagID;
                                  if(comp != null)
                                  {
                                      if(comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -1180,6 +1188,8 @@ namespace MPC.Repository.Repositories
                                  {
                                      foreach(var itm in item.ItemSections)
                                      {
+                                         itm.MachineSide2 = null;
+                                         
                                          if(stockitems != null && stockitems.Count > 0)
                                          {
                                              long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
@@ -1195,20 +1205,59 @@ namespace MPC.Repository.Repositories
 
                                              }
                                          }
+                                         if (paperSizes != null && paperSizes.Count > 0)
+                                         {
+                                             int PID = paperSizes.Where(c => c.SizeMeasure == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                             if (PID > 0)
+                                             {
+                                                 itm.SectionSizeId = PID;
+                                             }
+                                             else
+                                             {
+                                                 PID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                 itm.SectionSizeId = PID;
+
+
+                                             }
+                                             int ISID = paperSizes.Where(c => c.SizeMeasure == itm.ItemSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                             if (ISID > 0)
+                                             {
+                                                 itm.ItemSizeId = ISID;
+                                             }
+                                             else
+                                             {
+                                                 ISID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                 itm.ItemSizeId = ISID;
+
+
+                                             }
+
+                                         }
                                          if (machines != null && machines.Count > 0)
                                          {
-                                             long MID = machines.Where(c => c.LockedBy == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                             long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                             long MIDSide2 = machines.Where(c => c.SystemSiteId == itm.PressIdSide2).Select(s => s.MachineId).FirstOrDefault();
                                              if (MID > 0)
                                              {
                                                  itm.PressId = (int)MID;
                                              }
                                              else
                                              {
-                                                 MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                                 itm.PressId = (int)MID;
-
-
+                                                
+                                                 itm.PressId = null;
                                              }
+                                             if (MIDSide2 > 0)
+                                             {
+                                                 itm.PressIdSide2 = (int)MIDSide2;
+                                             }
+                                             else
+                                             {
+                                                // MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                 itm.PressIdSide2 = null;
+                                                 //itm.PressId = null;
+                                             }
+
+
                                          }
                                          
                                          
@@ -1296,6 +1345,12 @@ namespace MPC.Repository.Repositories
                                  {
                                      foreach(var price in item.ItemPriceMatrices)
                                      {
+                                         int OldSupId = price.SupplierId ?? 0;
+                                        if (price.SupplierId != null)
+                                        {
+                                            long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                            price.SupplierId = (int)SupId;
+                                        }
                                          price.FlagId = FlagID;
                                      }
                                  }
@@ -3218,6 +3273,33 @@ namespace MPC.Repository.Repositories
 
             }
 
+        }
+
+        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int MisOrdersCount, int WebStoreOrdersCount, DateTime billingDate)
+        {
+            Organisation org = GetOrganizatiobByID(organisationId);
+            if (org != null)
+            {
+                org.isTrial = isTrial;
+                org.LiveStoresCount = storesCount;
+                org.MisOrdersCount = MisOrdersCount;
+                org.WebStoreOrdersCount = WebStoreOrdersCount;
+                org.BillingDate = billingDate;
+            }
+            SaveChanges();
+        }
+
+        public void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
+        {
+            Organisation org = GetOrganizatiobByID(organisationId);
+            if (org != null)
+            {
+                if (zapTargetType == 1)
+                    org.CreateContactZapTargetUrl = sTargetUrl;
+                else if (zapTargetType == 2)
+                    org.CreateInvoiceZapTargetUrl = sTargetUrl;
+            }
+            SaveChanges();
         }
     }
 }

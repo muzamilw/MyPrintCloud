@@ -91,7 +91,9 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId);
 
         bool DeleteItem(long ItemID, long OrganisationID);
+        IEnumerable<ProductCategory> GetProductCategoriesIncludingArchived(long? companyId);
 
-       
+        IEnumerable<Item> GetProductsByCompanyId(long? companyId);
+
     }
 }

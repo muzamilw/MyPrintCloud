@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ViewModels;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -47,8 +48,8 @@ namespace MPC.Webstore.Controllers
         // GET: Category
         public ActionResult Index(string name, string id)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
             List<ProductPriceMatrixViewModel> ProductPriceMatrix = new List<ProductPriceMatrixViewModel>();
             string StockLabel = string.Empty;
             string Quantity = string.Empty;
@@ -59,19 +60,28 @@ namespace MPC.Webstore.Controllers
             bool includeVAT = false;
             List<ItemStockOptionList> StockOptions = new List<ItemStockOptionList>();
          
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-        
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             includeVAT = StoreBaseResopnse.Company.isIncludeVAT ?? false;
             TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
             ViewBag.organisationId = StoreBaseResopnse.Organisation.OrganisationId;
          
             ViewBag.CompanyID = _myClaimHelper.loginContactCompanyID();
-            long CategoryID = Convert.ToInt64(id);
-            ProductCategory Category = _myCompanyService.GetCategoryById(CategoryID);
+            long CategoryID = 0;
+            bool result = Int64.TryParse(id, out CategoryID);
+            
+            ProductCategory Category = null;
+            if (result)
+            {
+                CategoryID = Convert.ToInt64(id);
+                Category = _myCompanyService.GetCategoryById(CategoryID);
 
+            }
+           
             if (Category != null)
             {
-
+                SetCategoryMEtaTitle(Category, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
                 List<ProductCategory> subCategoryList = new List<ProductCategory>();
 
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp) // corporate case
@@ -157,11 +167,11 @@ namespace MPC.Webstore.Controllers
                                     {
                                         if (product.DefaultItemTax != null)
                                         {
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
                                         }
                                         else
                                         {
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
 
                                         }
 
@@ -170,7 +180,7 @@ namespace MPC.Webstore.Controllers
                                     else
                                     {
 
-                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+                                        Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
 
                                     }
                                 }
@@ -178,12 +188,12 @@ namespace MPC.Webstore.Controllers
                                 {// corp
                                     if (includeVAT)
                                     {
-                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                        Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
 
                                     }
                                     else
                                     {
-                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+                                        Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
 
                                     }
 
@@ -221,16 +231,16 @@ namespace MPC.Webstore.Controllers
                                         {
                                             if (product.DefaultItemTax != null)
                                             {
-                                                Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
+                                                Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
                                             }
                                             else
                                             {
-                                                Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
+                                                Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
                                             }
                                         }
                                         else
                                         {
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrix.PricePaperType1.ToString());
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(matrix.PricePaperType1.ToString());
                                         }
                                     }
                                     else
@@ -238,12 +248,12 @@ namespace MPC.Webstore.Controllers
                                         if (includeVAT)
                                         {
 
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
 
                                         }
                                         else
                                         {
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrix.PricePaperType1.ToString());
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(matrix.PricePaperType1.ToString());
 
                                         }
                                     }
@@ -287,8 +297,68 @@ namespace MPC.Webstore.Controllers
             }
 
             ViewBag.ContactId = _webstoreAuthorizationChecker.loginContactID();
+            ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
+            //if (StoreBaseResopnse.Company.ShowPrices == true)
+            //{
+            //    ViewBag.IsShowPrices = true;
+            //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+            //    {
+            //        if (_myClaimHelper.loginContactID() > 0)
+            //        {
+            //            if (UserCookieManager.ShowPriceOnWebstore == true)
+            //            {
+            //                ViewBag.IsShowPrices = true;
+            //            }
+            //            else
+            //            {
+            //                ViewBag.IsShowPrices = false;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            ViewBag.IsShowPrices = true;
+            //        }
+            //    }
 
+            //}
+            //else
+            //{
+            //    ViewBag.IsShowPrices = false;
+            //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+            //    {
+            //        if (_myClaimHelper.loginContactID() > 0)
+            //        {
+            //            if (UserCookieManager.ShowPriceOnWebstore == true)
+            //            {
+            //                ViewBag.IsShowPrices = true;
+            //            }
+            //            else
+            //            {
+            //                ViewBag.IsShowPrices = false;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            ViewBag.IsShowPrices = false;
+            //        }
+            //    }
+            //}
             return View("PartialViews/Category", Category);
+        }
+
+        private void SetCategoryMEtaTitle(ProductCategory productParentCategory, MPC.Models.DomainModels.Address DefaultAddress, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse CompanyObject)
+        {
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(productParentCategory.MetaTitle == null ? "" : productParentCategory.MetaTitle, productParentCategory.MetaDescription == null ? "" : productParentCategory.MetaDescription, productParentCategory.MetaKeywords == null ? "" : productParentCategory.MetaKeywords, CompanyObject.Company.Name, DefaultAddress);
+            TempData.Remove("MetaTitle");
+            TempData["MetaTitle"] = MetaTags[0];
+            TempData.Remove("MetaKeywords");
+            //ViewBag.MetaTitle  = MetaTags[0];
+            TempData["MetaKeywords"] = MetaTags[1];
+            TempData.Remove("MetaDescription");
+            //ViewBag.MetaKeywords = MetaTags[1];
+            TempData["MetaDescription"] = MetaTags[2];
+           
+            //ViewBag.MetaDescription = MetaTags[2];
         }
 
         public ActionResult CloneItem(long id)

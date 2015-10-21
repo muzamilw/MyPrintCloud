@@ -17,6 +17,8 @@ define("inventory/inventory.viewModel",
                     selectedInventoryCopy = ko.observable(),
                     //Active Cost Item
                     selectedCostItem = ko.observable(),
+                    // Active In stock item
+                    selectedItemStockUpdateHistory = ko.observable(),
                     //Active price Item
                     selectedPriceItem = ko.observable(),
                     //Is Loading Paper Sheet
@@ -45,6 +47,10 @@ define("inventory/inventory.viewModel",
                     subCategoryFilter = ko.observable(),
                     // bind Label
                     weightLabel = ko.observable(),
+                    // Logged In User Id
+                    loggedInUserId = ko.observable(),
+                    // Logged In User Identity
+                    loggedInUserIdentity = ko.observable(),
                     // #region Arrays
                     //Paper Sheets
                     inventories = ko.observableArray([]),
@@ -60,8 +66,16 @@ define("inventory/inventory.viewModel",
                     weightUnits = ko.observableArray([]),
                     //Length Units
                     lengthUnits = ko.observableArray([]),
+                    // is imperical for new Stock
+                    OrganisationImpirical = ko.observable(),
                     //Paper Basis Areas
                     paperBasisAreas = ko.observableArray([]),
+                    itemStockUpdateHistoryActions = ko.observableArray([
+                        { id: 1, name: "Added" },
+                        { id: 2, name: "Ordered" },
+                        { id: 3, name: "Threshold Order" },
+                        { id: 4, name: "Back Order" }
+                    ]),
                     //units
                     units = ko.observableArray([
                         { Id: 4, Text: 'Sq Meter' },
@@ -96,6 +110,12 @@ define("inventory/inventory.viewModel",
                         costPriceList: costPriceList,
 
                     }),
+                       formatSelection = function (state) {
+                           return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                       },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                      openReport = function (isFromEditor) {
                          reportManager.show(ist.reportCategoryEnums.Inventory, isFromEditor == true ? true : false, 0);
                      },
@@ -110,6 +130,7 @@ define("inventory/inventory.viewModel",
                             return;
                         }
                         // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deleteInventory(inventory);
                         });
@@ -117,11 +138,21 @@ define("inventory/inventory.viewModel",
                     },
                     //Delete Cost Item
                     onDeleteCostItem = function (costItem) {
-                        costPriceList.remove(costItem);
+                        // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            costPriceList.remove(costItem);
+                        });
+                        confirmation.show();
                     },
                     //Delete Price Item
                     onDeletePriceItem = function (priceItem) {
-                        costPriceList.remove(priceItem);
+                        // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            costPriceList.remove(priceItem);
+                        });
+                        confirmation.show();
                     },
                     // Delete Inventory
                     deleteInventory = function (inventory) {
@@ -157,13 +188,14 @@ define("inventory/inventory.viewModel",
                                         selectedInventory().paperType("Roll Paper");
                                     }
 
-                                    if (selectedInventory().IsImperical() == true)
-                                    {
-                                        weightLabel("lbs");
+                                    if (selectedInventory().IsImperical() == true) {
+                                        weightLabel("Basis Weight");
                                     }
                                     else {
-                                        weightLabel("kg");
+                                        weightLabel("gsm");
                                     }
+
+                                    
                                     selectedInventory().reset();
 
                                     inventoryHasChanges.reset();
@@ -245,14 +277,16 @@ define("inventory/inventory.viewModel",
 
                                 currencySymbol(data.CurrencySymbol);
                                 weightUnit(data.WeightUnit);
+                                loggedInUserId(data.LoggedInUserId);
+                                loggedInUserIdentity(data.LoggedInUserIdentity);
 
-                                if(data.IsImperical == true)
-                                {
+                                if (data.IsImperical == true) {
                                     weightLabel("lbs");
+                                    OrganisationImpirical(true);
                                 }
-                                else
-                                {
+                                else {
                                     weightLabel("kg");
+                                    OrganisationImpirical(false);
                                 }
                             },
                             error: function () {
@@ -302,9 +336,9 @@ define("inventory/inventory.viewModel",
                             return [];
                         }
                         return subCategories.filter(function (subCategory) {
-                            return subCategory.CategoryId === selectedInventory().categoryId();
+                            return subCategory.CategoryId === (selectedInventory() !== undefined ? selectedInventory().categoryId() : 0);
                         });
-                    });
+                    }),
                 //On select Supplier
                 selectedSupplier = ko.computed(function () {
                     if (supplierVm.selectedSupplier() !== undefined) {
@@ -343,7 +377,7 @@ define("inventory/inventory.viewModel",
                             selectedInventory().headerComputedValue("Sq Feet");
                         }
                         if (selectedInventory().perQtyType() === 6) {
-                            selectedInventory().headerComputedValue("Items)");
+                            selectedInventory().headerComputedValue("Item)");
                         }
                     }
                 }, this),
@@ -399,9 +433,9 @@ define("inventory/inventory.viewModel",
                     return flag;
                 },
                 // Go To Element
-              gotoElement = function (validation) {
-                  view.gotoElement(validation.element);
-              },
+               gotoElement = function (validation) {
+                   view.gotoElement(validation.element);
+               },
                 // Do Before Logic
                 doBeforeCostAndPrice = function () {
                     var flag = true;
@@ -446,8 +480,12 @@ define("inventory/inventory.viewModel",
                         });
                         supplierVm.selectedSupplier(undefined);
 
+                        var inventoryToServer = selectedInventory().convertToServerData(orgRegion());
+                        _.each(selectedInventory().itemStockUpdateHistories(), function (item) {
+                            inventoryToServer.ItemStockUpdateHistories.push(item.convertToServerData());
+                        });
 
-                        dataservice.saveInventory(selectedInventory().convertToServerData(orgRegion()), {
+                        dataservice.saveInventory(inventoryToServer, {
                             success: function (data) {
                                 //For Add New
                                 if (selectedInventory().itemId() === 0) {
@@ -494,6 +532,16 @@ define("inventory/inventory.viewModel",
                     costPriceList.removeAll();
                     errorList.removeAll();
                     selectedInventory(model.StockItem.Create());
+
+
+                    if (OrganisationImpirical() == true) {
+                        selectedInventory().IsImperical(true);
+                    }
+                    else {
+                        selectedInventory().IsImperical(false);
+                    }
+
+
                     //Add default cost and price rows
                     var cost = model.StockCostAndPrice.Create();
                     selectCostItem(cost);
@@ -502,8 +550,9 @@ define("inventory/inventory.viewModel",
                     price.costOrPriceIdentifier(-1);
                     selectedPriceItem(price);
                     costPriceList.splice(0, 0, price);
-                    // selectedInventory().reset();
+                     //selectedInventory().reset();
                     showInventoryEditor();
+                    
                     sharedNavigationVM.initialize(selectedInventory, function (saveCallback) { onSaveInventory(saveCallback); });
                 },
                 // close Inventory Editor
@@ -656,22 +705,43 @@ define("inventory/inventory.viewModel",
                     supplierVm.getSuppliers();
                     supplierVm.show();
                 },
-                onArchiveStock = function() {
+                onArchiveStock = function () {
                     // Ask for confirmation
+                    confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                     confirmation.afterProceed(function () {
                         var inventory = selectedInventory();
                         inventory.isDisabled(true);
-                        _.each(inventories(), function(itm) {
+                        _.each(inventories(), function (itm) {
                             if (itm.itemId() == inventory.itemId()) {
                                 inventories.remove(itm);
-                               pager().totalCount(inventories().length);
                             }
                         });
-                        
+
                         saveInventory();
                     });
                     confirmation.show();
                 },
+
+                // Add Stock Quantity
+                addStockQuantity = function () {
+                    var itemStockUpdateHistory = model.ItemStockUpdateHistory();
+                    selectedItemStockUpdateHistory(itemStockUpdateHistory);
+                    view.showAddStockQtyDialog();
+                },
+                // on Save Add Stock Quantity
+                saveAddStockQuantity = function (itemStockUpdateHistory) {
+                    if (selectedItemStockUpdateHistory().lastModifiedQty() !== undefined && selectedItemStockUpdateHistory().lastModifiedQty() > 0) {
+                        selectedItemStockUpdateHistory().lastModifiedDate(Date());
+                        selectedItemStockUpdateHistory().actionName(itemStockUpdateHistoryActions()[0].name);
+                        selectedItemStockUpdateHistory().modifyEvent(itemStockUpdateHistoryActions()[0].id);
+                        selectedItemStockUpdateHistory().lastModifiedByName(loggedInUserIdentity());
+                        selectedItemStockUpdateHistory().lastModifiedBy(loggedInUserId());
+                        selectedInventory().inStock(parseInt(selectedItemStockUpdateHistory().lastModifiedQty()) + parseInt(selectedInventory().inStock()));
+                        selectedInventory().itemStockUpdateHistories.push(selectedItemStockUpdateHistory());
+                        view.hideAddStockQtyDialog();
+                    }
+                },
+
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -747,7 +817,12 @@ define("inventory/inventory.viewModel",
                     weightLabel: weightLabel,
                     filteredSubCategoriesForDetail: filteredSubCategoriesForDetail,
                     openReport: openReport,
-                    onArchiveStock: onArchiveStock
+                    onArchiveStock: onArchiveStock,
+                    addStockQuantity: addStockQuantity,
+                    selectedItemStockUpdateHistory: selectedItemStockUpdateHistory,
+                    saveAddStockQuantity: saveAddStockQuantity,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult
                 };
             })()
         };

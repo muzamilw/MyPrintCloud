@@ -9,11 +9,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4>Add/Edit Contact</h4>
             </div>
-            <br />
-            <div class="col-lg-12 clearfix">
+            
+            <div class="col-lg-12 clearfix" style="margin-top:8px;">
                 <div class="row" id="user-profile">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="main-box clearfix" id="tabsHeader">
+                        <div class="main-box clearfix" id="tabsHeader" style="margin-bottom:10px;">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-UserProfileinfo" data-toggle="tab">Profile</a></li>
@@ -27,19 +27,7 @@
                                         <div class="col-lg-12">
                                             <div class=" form-horizontal clearfix">
                                                 <div class="col-lg-6">
-                                                    <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
-                                                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                </a>
-                                                            </div>*@
-                                                            <label for="txtEmail" class="control-label text-right tooltip-float">Secondary Email</label>
-                                                        </div>
-                                                        <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
-                                                        </div>
-                                                    </div>
+                                                    
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
@@ -50,7 +38,7 @@
                                                             <label for="txtFName" class="control-label text-right tooltip-float">First Name</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtFName" data-bind="value: firstName">
+                                                            <input type="text" class="form-control" id="txtFName" data-bind="value: firstName,validationTooltip:firstName">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -123,6 +111,19 @@
                                                             <input type="text" class="form-control" id="txtUFax" data-bind="value:fAX">
                                                         </div>
                                                     </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-5 text-right">
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+                                                            </div>*@
+                                                            <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>@*"req: ssecondary email to rename email"*@
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
+                                                        </div>
+                                                    </div>
                                                     <!--ko if: $root.selectedStore().type() != 4-->
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
@@ -141,7 +142,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
 
-                                                    <div class="form-group">
+                                                    <div class="form-group" style="margin-bottom: 7%">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
                                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Profile Image" data-original-title="" title="">
@@ -154,10 +155,12 @@
 
                                                             <div class="clearfix">
                                                                 <!-- ko ifnot: image() -->
-                                                                <img style="width:200px;height:180px;" src="/mis/Content/Images/imageplaceholder.png" />
+                                                                <img style="width:200px;height:180px; object-fit: contain" src="/mis/Content/Images/imageplaceholder.png" />
                                                                 <!-- /ko -->
                                                                 <!-- ko if: image() -->
-                                                                <img style="height: 130px; width: 220px;" data-bind="attr: { src: image }" />
+                                                                @*<img style="height: 130px; width: 220px;-o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image }" />*@
+                                                                <img class="photo-box image-link" style="width:220px;height:130px; object-fit: contain;" data-bind="visible:image()==undefined ,attr: { src: '@Url.Content("~/")' + imagePath() }" />
+                                                                <img class="photo-box image-link" style="width:220px;height:130px; object-fit: contain;" data-bind="visible:image()!==undefined,attr: { src: image }" />
                                                                 <!-- /ko -->
                                                                 <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:220px;">
                                                                     <div class="fileUpload btn btn-primary">
@@ -181,17 +184,17 @@
                                                             <span class="help-block text-right"></span>*@
                                                         </div>
                                                     </div>
-                                                    <div class="form-group ">
+                                                    <div class="form-group " style="margin-bottom: -1.8%">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
-                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                </a>
-                                                            </div>*@
-                                                            <label for="txtEmail" class="control-label text-right tooltip-float">UserName/Email</label>
+                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>*@
+                                                            <label for="txtEmail" class="control-label text-right tooltip-float">UserName</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: email,validationTooltip:email">
                                                         </div>
                                                     </div>
                                                     <div class="form-group" style="margin-top:24px;">
@@ -452,6 +455,7 @@
                                                     </div>
                                                 </div>
                                                 <h3 class="group-header">Additional Information</h3>
+                                                <p style="font-size: 12px; padding-bottom: 5px; margin-left: 5px; margin-top: 0px;">Additional Fields that can be used on Smart Forms & VDP templates</p>
                                                 <div class="col-lg-12 clearfix">
                                                     <div class="col-lg-6">
                                                         <div class="form-group ">
@@ -1089,16 +1093,15 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="tab-ModifyVariable">
-                                        <div class=" form-horizontal clearfix">
-                                            <div class="table-responsive">
+                                        <div class="col-lg-12 form-horizontal clearfix">
+                                            <div class="table-responsive" style="padding-left:8px;padding-right:8px;">
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th></th>
-
-                                                            <th>
-
-                                                            </th>
+                                                            
+                                                            <th class="col-lg-3">Title</th>
+                                                            <th class="col-lg-6">Value</th>
+                                                            <th class="col-lg-1"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1116,10 +1119,18 @@
                 </div>
             </div>
             <div class="modal-footer col-xs-12">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
+               
+               
              
-                <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
+                <!-- ko if: isArchived() == true -->
+                <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onUnArchiveCompanyContact, enable: !$root.isSavingNewCompanyContact()">UnArchive</button>
+                <!-- /ko -->
+                <!-- ko if: isArchived() == false || isArchived() == null -->
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                 <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
+                <!-- /ko -->
+            
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
             </div>
             <div class="clearfix">
             </div>
@@ -1133,22 +1144,16 @@
 
 <script id="companyContactVariableTemplate" type="text/html">
     <tr>
-        <td class="modifyVariabletd">
-            <div class="form-group ">
-                <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                            @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
-                        </a>
-                    </div>
-                    <label for="abc" class="control-label text-right tooltip-float" data-bind="text:title"></label>
-                </div>
-                <div class="col-lg-5" data-bind="visible:type() === 2">
-                    <input type="text" class="form-control" id="abc" data-bind="value: value">
-                </div>
-                <div class="col-lg-5" data-bind="visible:type() === 1">
-                    <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
-                </div>
+        
+        <td>
+           <label for="abc" class="control-label" data-bind="text:title"></label>
+        </td>
+        <td>
+            <div data-bind="visible:type() === 2">
+                <input type="text" class="form-control" id="abc" data-bind="value: value, attr:{placeholder: waterMark}">
+            </div>
+            <div data-bind="visible:type() === 1">
+                <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
             </div>
         </td>
         <td></td>

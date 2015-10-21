@@ -51,6 +51,8 @@ define("product/product.viewModel",
                     smartForms = ko.observableArray([]),
                     // Paper Sizes
                     paperSizes = ko.observableArray([]),
+                    // Section Paper Sizes - Sort Largest Area to lowest
+                    sectionPaperSizes = ko.observableArray([]),
                     // Impression Coverages
                     impressionCoverages = ko.observableArray([
                         {
@@ -68,6 +70,14 @@ define("product/product.viewModel",
                     ]),
                     // Inks
                     inks = ko.observableArray([]),
+                    // Black C stock Item
+                    blackCStockItem = ko.observable(),
+                    // Yellow C stock Item
+                    yellowCStockItem = ko.observable(),
+                    // Cyan C stock Item
+                    cyanCStockItem = ko.observable(),
+                    // Magneta C stock Item
+                    magnetaCStockItem = ko.observable(),
                     // Presses
                     presses = ko.observableArray([]),
                     itemPlan = ko.observable(),
@@ -83,7 +93,6 @@ define("product/product.viewModel",
                     // Length Unit fOr Organisation 
                     lengthUnit = ko.observable(),
                     weightUnit = ko.observable(),
-                    isStoreTax = ko.observable(),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -114,6 +123,8 @@ define("product/product.viewModel",
                     isProductDetailsVisible = ko.observable(false),
                     // Is Designer Category Base Data Loaded
                     isDesignerCategoryBaseDataLoaded = ko.observable(false),
+                    // Is Template Tab Shown Event wired
+                    isTemplateTabShownEventWired = false,
                     // #endregion Busy Indicators
                     // #region Observables
                     // Item File Types
@@ -218,13 +229,13 @@ define("product/product.viewModel",
                         isGridViewVisible(true);
                     },
                     // Get Paper by Name
-                    getPaperByName = function(name) {
-                        return paperSizes.find(function(paperSize) {
+                    getPaperByName = function (name) {
+                        return paperSizes.find(function (paperSize) {
                             return paperSize.name.indexOf(name) > -1;
                         });
                     },
                     // Set Defaults to New Product
-                    setDefaultsToNewProduct = function() {
+                    setDefaultsToNewProduct = function () {
                         // Set First Section Flag to Item
                         if (sectionFlags() && sectionFlags().length > 0) {
                             selectedProduct().flagId(sectionFlags()[0].id);
@@ -238,17 +249,35 @@ define("product/product.viewModel",
                         }
                         // Set SRA2 Sheet Size
                         var paperSize = getPaperByName('SRA2');
+                        
+
                         if (paperSize) {
                             selectedProduct().activeItemSection().sectionSizeId(paperSize.id);
                             setSectionSizeForSection(paperSize, true);
                             setItemSizeForSection(paperSize);
                         }
+                        else
+                        {
+                            paperSize = paperSizes()[0];
+                            selectedProduct().activeItemSection().sectionSizeId(paperSize.id);
+                            setSectionSizeForSection(paperSize, true);
+                            setItemSizeForSection(paperSize);
+
+                        }
                         // Set 85*22 Item Size
                         var paperSizeItem = getPaperByName('85*22');
+                       
                         if (paperSizeItem) {
                             selectedProduct().activeItemSection().itemSizeId(paperSizeItem.id);
                             setItemSizeForSection(paperSize);
                         }
+                        else
+                        {
+                            paperSizeItem = paperSizes()[0];
+                            selectedProduct().activeItemSection().itemSizeId(paperSizeItem.id);
+                            setItemSizeForSection(paperSize);
+                        }
+
                         // Set First Press from Presses List
                         if (presses() && presses().length > 0) {
                             if (selectedProduct().itemSections().length > 0) {
@@ -290,8 +319,11 @@ define("product/product.viewModel",
                         // Show Details
                         isProductDetailsVisible(true);
 
-                        // WIre up tab shown event
-                        view.wireUpTabShownEvent();
+                        if (selectedProduct().isFinishedGoodsUi() === '1') {
+                            // WIre up tab shown event
+                            view.wireUpTabShownEvent();
+                            isTemplateTabShownEventWired = true;
+                        }
 
                         // Wire Up Navigation Control - If has Changes and user navigates to another page
                         shared.initialize(selectedProduct, function (navigateCallback) {
@@ -300,6 +332,15 @@ define("product/product.viewModel",
 
                         // Initialize Label Popovers
                         view.initializeLabelPopovers();
+
+                        // Subscribe to Product Type Change
+                        selectedProduct().isFinishedGoods.subscribe(function (value) {
+                            // If Changing to Print Product
+                            if (value === 1 && !isTemplateTabShownEventWired) {
+                                // WIre up tab shown event
+                                view.wireUpTabShownEvent();
+                            }
+                        });
                     },
                     // Initialize Product Category Dialog
                     initializeProductCategoryDialog = function () {
@@ -345,9 +386,11 @@ define("product/product.viewModel",
                         selectedCategoryTypeId(undefined);
                         errorList.removeAll();
                         shared.reset();
+                        isTemplateTabShownEventWired = false;
                     },
                     // On Archive
                     onArchiveProduct = function (item) {
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             archiveProduct(item.id());
                         });
@@ -635,27 +678,28 @@ define("product/product.viewModel",
                     },
                     // On Delete Product
                     onDeleteProduct = function () {
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deleteProduct(selectedProduct().id());
                         });
                         confirmation.show();
                     },
                     onDeleteTemplatePage = function (templatePage) {
-                        confirmation.messageText("Do you want to proceed with the request?");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().template().removeTemplatePage(templatePage);
                         });
                         confirmation.show();
                     },
                     onDeleteItemAddonCostCentre = function () {
-                        confirmation.messageText("Do you want to proceed with the request?");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().activeStockOption().removeItemAddonCostCentre();
                         });
                         confirmation.show();
                     },
                     onDeleteItemStockOption = function (itemStockOption) {
-                        confirmation.messageText("Do you want to proceed with the request?");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().removeItemStockOption(itemStockOption);
                         });
@@ -695,7 +739,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Market Brief Question
                     onDeleteProductMarketBriefQuestion = function (onProceed) {
-                        confirmation.messageText("Do you want to delete this market brief question?");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -706,7 +750,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Market Brief Answer
                     onDeleteProductMarketBriefAnswer = function (onProceed) {
-                        confirmation.messageText("Do you want to delete this market brief answer?");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -716,11 +760,27 @@ define("product/product.viewModel",
                     },
                     // On Delete Item Related Item
                     onDeleteItemRelatedItem = function (onProceed) {
-                        confirmation.messageText("Do you want to delete this upsell product?");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
                             }
+                        });
+                        confirmation.show();
+                    },
+                    // On Delete File type 4 for Template Layouts
+                    onDeleteTemplateLayoutFile = function (fileSequenceNo) {
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            selectedProduct().removeTemplateLayoutFile(fileSequenceNo);
+                        });
+                        confirmation.show();
+                    },
+                    // On Delete Product Banner
+                    onDeleteProductBanner = function (banner) {
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            selectedProduct().removeItemImage(banner);
                         });
                         confirmation.show();
                     },
@@ -783,7 +843,7 @@ define("product/product.viewModel",
                         });
                     },
                     // Set Section Size Of Section
-                    setSectionSizeForSection = function(paperSize, dontCalculatePtv) {
+                    setSectionSizeForSection = function (paperSize, dontCalculatePtv) {
                         selectedProduct().activeItemSection().sectionSizeHeight(paperSize.height);
                         selectedProduct().activeItemSection().sectionSizeWidth(paperSize.width);
 
@@ -799,20 +859,42 @@ define("product/product.viewModel",
                         getPtvCalculation();
                     },
                     // Set Item Size of Section
-                    setItemSizeForSection = function(paperSize, dontCalculatePtv) {
+                    setItemSizeForSection = function (paperSize, dontCalculatePtv) {
                         selectedProduct().activeItemSection().itemSizeHeight(paperSize.height);
                         selectedProduct().activeItemSection().itemSizeWidth(paperSize.width);
 
                         if (selectedProduct().activeItemSection().printingTypeUi() === '2') {
                             return;
                         }
-                        
+
                         if (dontCalculatePtv) {
                             return;
                         }
 
                         // Get Ptv Calculation
                         getPtvCalculation();
+                    },
+                    // Get Color For Specified Sequence
+                    getInkColorForSpecifiedSequence = function (sequence) {
+                        var defaultInkId;
+                        switch (sequence) {
+                            case 0:
+                                defaultInkId = blackCStockItem() ? blackCStockItem().StockItemId : undefined;
+                                break;
+                            case 1:
+                                defaultInkId = yellowCStockItem() ? yellowCStockItem().StockItemId : undefined;
+                                break;
+                            case 2:
+                                defaultInkId = magnetaCStockItem() ? magnetaCStockItem().StockItemId : undefined;
+                                break;
+                            case 3:
+                                defaultInkId = cyanCStockItem() ? cyanCStockItem().StockItemId : undefined;
+                                break;
+                            default:
+                                defaultInkId = undefined;
+                                break;
+                        }
+                        return defaultInkId;
                     },
                     // Set Side 1 Press Section Ink Coverages
                     setSide1SectionInkCoverages = function (press) {
@@ -821,11 +903,14 @@ define("product/product.viewModel",
                         selectedProduct().activeItemSection().pressIdSide1IsSpotColor(press.isSpotColor || false);
                         // Update Section Ink Coverage
                         selectedProduct().activeItemSection().sectionInkCoverageList.removeAll(selectedProduct().activeItemSection().sectionInkCoveragesSide1());
+                        var defaultInkId;
                         for (var i = 0; i < press.colourHeads; i++) {
+                            defaultInkId = getInkColorForSpecifiedSequence(i);
                             selectedProduct().activeItemSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
                                 SectionId: selectedProduct().activeItemSection().id(),
                                 Side: 1,
-                                InkOrder: i + 1
+                                InkOrder: i + 1,
+                                InkId: defaultInkId
                             }));
                         }
                     },
@@ -953,6 +1038,19 @@ define("product/product.viewModel",
                             setSide1SectionInkCoverages(press);
                         });
 
+                        // Set Gutter Value
+                        selectedProduct().activeItemSection().itemGutterHorizontal.subscribe(function (value) {
+                            if (value !== selectedProduct().activeItemSection().itemGutterHorizontal()) {
+                                selectedProduct().activeItemSection().itemGutterHorizontal(value);
+                            }
+
+                            if (selectedProduct().activeItemSection().printingTypeUi() === '2') {
+                                return;
+                            }
+
+                            getPtvCalculation();
+                        });
+
                         // On Press Side 2 Change set Section Size Width to Press Max Width
                         selectedProduct().activeItemSection().pressIdSide2.subscribe(function (value) {
                             if (value !== selectedProduct().activeItemSection().pressIdSide2()) {
@@ -968,11 +1066,14 @@ define("product/product.viewModel",
                             selectedProduct().activeItemSection().pressIdSide2IsSpotColor(press.isSpotColor || false);
                             // Update Section Ink Coverage
                             selectedProduct().activeItemSection().sectionInkCoverageList.removeAll(selectedProduct().activeItemSection().sectionInkCoveragesSide2());
+                            var defaultInkId;
                             for (var i = 0; i < press.colourHeads; i++) {
+                                defaultInkId = getInkColorForSpecifiedSequence(i);
                                 selectedProduct().activeItemSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
                                     SectionId: selectedProduct().activeItemSection().id(),
                                     Side: 2,
-                                    InkOrder: i + 1
+                                    InkOrder: i + 1,
+                                    InkId: defaultInkId
                                 }));
                             }
                         });
@@ -983,6 +1084,8 @@ define("product/product.viewModel",
                     // Selected Category
                     selectedCategory = ko.observable(),
                     defaultTaxRate = ko.observable(),
+                    // Sub Categories
+                    subCategories = ko.observable(),
                     // Select Category
                     categorySelectedEventHandler = function (category) {
                         if (category && selectedCategory() !== category) {
@@ -990,6 +1093,19 @@ define("product/product.viewModel",
                             // Filter Items on This Category
                             resetFilter(true);
                         }
+                    },
+                    // Sub Categories Loaded EventHandler
+                    subCategoriesLoadedEventHandler = function (categories) {
+                        subCategories(categories || undefined);
+                    },
+                    // On Select Sub Category
+                    onSelectSubCategory = function (category) {
+                        view.subCategorySelectedEvent(category);
+                    },
+                    // Edit Sub Category
+                    editSubCategory = function (category, event) {
+                        view.subCategoryEditEvent(category);
+                        event.stopImmediatePropagation();
                     },
                     // Is Product Section Initialized
                     isProductSectionInitialized = false,
@@ -1258,6 +1374,17 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(paperSizes(), itemsList);
                         paperSizes.valueHasMutated();
                     },
+                    // Map Section Paper Sizes
+                    mapSectionPaperSizes = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.PaperSize.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(sectionPaperSizes(), itemsList);
+                        sectionPaperSizes.valueHasMutated();
+                    },
                     // Map Inks
                     mapInks = function (data) {
                         var itemsList = [];
@@ -1374,6 +1501,12 @@ define("product/product.viewModel",
                         // Return Callback
                         return callback;
                     },
+                    // Get Ink by name
+                    getInkByName = function(name) {
+                        return inks.find(function(ink) {
+                            return ink.ItemName.toLowerCase() === name.toLowerCase();
+                        });
+                    },
                     // Is Base Data Loaded
                     isBaseDataLoaded = false,
                     // Get Base Data
@@ -1425,10 +1558,32 @@ define("product/product.viewModel",
 
                                     // Map Paper Sizes
                                     mapPaperSizes(data.PaperSizes);
+                                    mapSectionPaperSizes(data.PaperSizes);
+                                    // Sort Descending For Section 
+                                    sectionPaperSizes.sort(function (paperA, paperB) {
+                                        return paperA.area < paperB.area ? 1 : -1;
+                                    });
 
                                     // Map Inks
                                     if (data.Inks) {
                                         mapInks(data.Inks);
+                                        // Set 4C colors - to be set as default in Ink Coverage Dialog
+                                        var blackColor = getInkByName("Black C");
+                                        if (blackColor) {
+                                            blackCStockItem(blackColor);
+                                        }
+                                        var yellowColor = getInkByName("Yellow C");
+                                        if (yellowColor) {
+                                            yellowCStockItem(yellowColor);
+                                        }
+                                        var magnetaColor = getInkByName("Magenta C");
+                                        if (magnetaColor) {
+                                            magnetaCStockItem(magnetaColor);
+                                        }
+                                        var cyanColor = getInkByName("Cyan C");
+                                        if (cyanColor) {
+                                            cyanCStockItem(cyanColor);
+                                        }
                                     }
 
                                     // Map Presses
@@ -1440,12 +1595,12 @@ define("product/product.viewModel",
                                     lengthUnit(data.LengthUnit || undefined);
                                     currencyUnit(data.CurrencyUnit || undefined);
                                     weightUnit(data.WeightUnit || undefined);
-                                    
+
                                     // Set A4 Paper Stock Item if exists
                                     if (data.A4PaperStockItem) {
                                         a4PaperStockItem(model.StockItem.Create(data.A4PaperStockItem));
                                     }
-                                    
+
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
                                     itemStateTaxConstructorParams.states = states();
@@ -1764,11 +1919,12 @@ define("product/product.viewModel",
                         if (isPtvCalculationInProgress()) {
                             return;
                         }
-// ReSharper disable DuplicatingLocalDeclaration
+                        // ReSharper disable DuplicatingLocalDeclaration
                         var selectedSection = selectedProduct().activeItemSection();
-// ReSharper restore DuplicatingLocalDeclaration
+                        // ReSharper restore DuplicatingLocalDeclaration
                         if (selectedSection.itemSizeHeight() == null || selectedSection.itemSizeWidth() == null || selectedSection.sectionSizeHeight() == null ||
                             selectedSection.sectionSizeWidth() == null) {
+                            isPtvCalculationInProgress(false);
                             return;
                         }
                         var orient;
@@ -1796,9 +1952,9 @@ define("product/product.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedSection.itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedSection.itemGutterHorizontal(),
+                            itemVerticalGutter: selectedSection.itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1840,9 +1996,9 @@ define("product/product.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedProduct().activeItemSection().itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedProduct().activeItemSection().itemGutterHorizontal(),
+                            itemVerticalGutter: selectedProduct().activeItemSection().itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1964,12 +2120,14 @@ define("product/product.viewModel",
                     onCloneProduct: onCloneProduct,
                     editTemplate: editTemplate,
                     onDeleteProduct: onDeleteProduct,
+                    onDeleteTemplateLayoutFile: onDeleteTemplateLayoutFile,
+                    onDeleteProductBanner: onDeleteProductBanner,
                     // For Store
                     initializeForStore: initializeForStore,
                     categorySelectedEventHandler: categorySelectedEventHandler,
+                    subCategoriesLoadedEventHandler: subCategoriesLoadedEventHandler,
                     smartForms: smartForms,
                     weightUnit: weightUnit,
-                    isStoreTax: isStoreTax,
                     defaultTaxRate: defaultTaxRate,
                     onDeleteTemplatePage: onDeleteTemplatePage,
                     onDeleteItemAddonCostCentre: onDeleteItemAddonCostCentre,
@@ -1988,8 +2146,12 @@ define("product/product.viewModel",
                     itemPlan: itemPlan,
                     presses: presses,
                     inks: inks,
+                    sectionPaperSizes: sectionPaperSizes,
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
-                    selectedSection: selectedSection
+                    selectedSection: selectedSection,
+                    subCategories: subCategories,
+                    onSelectSubCategory: onSelectSubCategory,
+                    editSubCategory: editSubCategory
                     // For Store
                     // Utility Methods
                 };

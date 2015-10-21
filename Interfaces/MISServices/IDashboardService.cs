@@ -18,6 +18,6 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get Total Earnings For Dashboard
         /// </summary>
-        IEnumerable<usp_TotalEarnings_Result> GetTotalEarningsForDashboard();
+        DashBoardChartsResponse GetChartsForDashboard();
     }
 }

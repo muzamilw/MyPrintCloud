@@ -1,4 +1,5 @@
-﻿using MPC.Models.Common;
+﻿using System;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -16,6 +17,7 @@ namespace MPC.Interfaces.Repository
         int UserCount(long? storeId, int numberOfDays);
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
+        Guid? GetStoreJobManagerId(long storeId);
         Company GetCustomer(int CompanyId);
         /// <summary>
         /// Get Suppliers For Inventories
@@ -30,7 +32,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="companyId"></param>
         /// <returns></returns>
         Company GetStoreById(long companyId);
-
+        Company GetStoreReceiptPage(long companyId);
         long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId,long StoreId, CompanyContact contact = null);
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore
@@ -94,5 +96,41 @@ namespace MPC.Interfaces.Repository
 
         List<StoresListResponse> GetStoresNameByOrganisationId();
         IEnumerable<Company> GetAllRetailStores();
+        // ReSharper disable once InconsistentNaming
+        void DeleteCrmCompanyBySP(long storeId);
+
+        void UpdateLiveStores(long organisationId, int storesCount);
+        int GetLiveStoresCount(long organisationId);
+        bool IsStoreLive(long storeId);
+        List<Company> GetLiveStoresList();
+
+        void CopyProductByStore(long NewStoreId, long OldStoreId);
+
+        Company LoadCompanyWithItems(long StoreId);
+
+        void InsertItem(Company objCompany, long OldCompanyId);
+
+        void InsertProductCategories(Company objCompany, long OldCompanyId);
+
+        void InsertProductCategoryItems(Company NewCompany, Company OldCompany);
+
+        void SetTerritoryIdAddress(Company objCompany, long OldCompanyId);
+        long GetStoreIdByAccessCode(string sWebAccessCode);
+
+        RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request);
+
+        void DeleteCompanyVariableIcon(long iconId);
+
+        void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
+
+        void SaveSystemVariableExtension(long oldCompanyId, long NewCompanyid);
+
+        bool IsDuplicateWebAccessCode(string webCode, long? companyId);
+
+        bool SaveUserActionLog(string Comment, long CompanyId);
+
+        ExportStore ExportStore(long CompanyId);
+        
+
     }
 }

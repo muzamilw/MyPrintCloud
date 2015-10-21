@@ -1,52 +1,29 @@
-﻿<head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
-    @*<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>*@
-    @*<link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="screen" />
-        <script type="text/javascript" src="/LightBox/Js/jquery.fancybox.pack.js"></script>
-        <script type="text/javascript" src="/LightBox/Js/jquery.fancybox.js"></script>*@
-
-
-    <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
-</head>
-@{
-    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
-        .Where(b => b.Path == "~/pageSpecific")
-        .First();
-
-    bundle.Include(
-                   "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js");
-}
+﻿
 @model MPC.Webstore.ViewModels.SearchOrderViewModel
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @{
-
-
-    var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 15);
-
-    grid.Pager(WebGridPagerModes.NextPrevious);
+    Layout = null;
 }
+
 @{
-
-
-    // bool PAgeheader=Convert.ToBoolean(TempData["HeaderStatus"]);
+    var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 15);
+    grid.Pager(WebGridPagerModes.NextPrevious);
     string Result = ViewBag.res;
-
 }
 
-<div class="content_area container" id="Orderhistory">
+<div class="content_area container" id="all-orderHistory-pg">
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="signin_heading_div float_left_simple ">
-                <label class="sign_in_heading" id="HistryBtn">Order History</label>
+                <label class="sign_in_heading" id="HistryBtn">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlorderhistory",UserCookieManager.WBStoreId,"Order history"))</label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
                     <h1>
                         <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                            Back to my dashboard
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl",UserCookieManager.WBStoreId,"Back to my dashboard"))
                         </a>
                     </h1>
                     <div class="clearBoth"></div>
@@ -55,7 +32,6 @@
             <div class="clearBoth">
             </div>
         </div>
-       
         <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="Width100Percent">
                 <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners hidden-xs">
@@ -68,16 +44,16 @@
 
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    <span id="spntdfromdate" class="heading_h8">From Date</span>
+                                    <span id="spntdfromdate" class="heading_h8">@Html.Raw(Html.GetKeyValueFromResourceFile("tdfromdate",UserCookieManager.WBStoreId,"From Date"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    <span id="spntodate" class="heading_h8">To Date</span>
+                                    <span id="spntodate" class="heading_h8">@Html.Raw(Html.GetKeyValueFromResourceFile("todate",UserCookieManager.WBStoreId,"To Date"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    <span id="spntdorderref" class="heading_h8">Order Ref</span>
+                                    <span id="spntdorderref" class="heading_h8">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlorderref", UserCookieManager.WBStoreId,"Order Ref"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    <span id="spntdorderstatus" class="heading_h8">Status</span>
+                                    <span id="spntdorderstatus" class="heading_h8">@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId,"Status"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
                                     <span id="spcClientStatus" class="heading_h8" style="visibility:hidden;">Client Status</span>
@@ -89,25 +65,25 @@
 
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-xs-1">
-                                    <span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>
+                                    <span id="HistryBtn" class="ltrlSearchOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsearchhhorder",UserCookieManager.WBStoreId,"Search Orders"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    @Html.TextBoxFor(model => model.FromData, new { id = "txtFromDate", @class = "text_box150 rounded_corners5", placeholder = "From Date", maxlength = 500, @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.FromData, new { id = "txtFromDate", @class = "text_box150 rounded_corners5", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("tdfromdate",UserCookieManager.WBStoreId,"From Date")), maxlength = 500, @readonly = "readonly" })
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    @Html.TextBoxFor(model => model.ToDate, new { id = "txtToDate", @class = "text_box150 rounded_corners5", placeholder = "To Date", maxlength = 500, @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.ToDate, new { id = "txtToDate", @class = "text_box150 rounded_corners5", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("todate",UserCookieManager.WBStoreId,"To Date")), maxlength = 500, @readonly = "readonly" })
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    @Html.TextBoxFor(model => model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = "PO Search", maxlength = 500 })
+                                    @Html.TextBoxFor(model => model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlposeach", UserCookieManager.WBStoreId,"PO Search")), maxlength = 500 })
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, "All", new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
+                                    @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, @Html.Raw(Html.GetKeyValueFromResourceFile("lblAll", UserCookieManager.WBStoreId,"All")).ToString(), new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
                                 </div>
                                 <div class="search-order-Go" style="">
-                                    <input type="submit" value="Go" id="btnSearchOrders" class="order_history_btn rounded_corners5" />
+                                    <input type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lrlGo", UserCookieManager.WBStoreId, "Go"))" id="btnSearchOrders" class="order_history_btn rounded_corners5" />
                                 </div>
                                 <div class="search-order-clear" style="">
-                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="Clear" />
+                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
                                 <div class="clearBoth">
 
@@ -119,7 +95,7 @@
                 </div>
             </div>
             <div class="white_back_div rounded_corners">
-              
+
                 <div class="Pad1020">
                     <div class="Width100Percent">
                         <div class="paddingBottom10px normalTextStyle">
@@ -139,27 +115,30 @@
     alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
-    grid.Column("OrderCode","OrderCode"),
-    grid.Column("YourRef","Your PO reference",style:"hidden-xs"),
-    grid.Column("SOrderDate","Order Date",style:"hidden-xs "),
-    grid.Column("SOrderDeliveryDate","Estimated Delivery",style:"hidden-xs "),
-    grid.Column("StatusName","Status",style:"hidden-xs "),
-      grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-      {<button id="Download" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
+    grid.Column("OrderCode",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderCode", UserCookieManager.WBStoreId, "Order Code")).ToString()),
+    grid.Column("YourRef",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlYourPoReference", UserCookieManager.WBStoreId, "Your PO reference")).ToString(),style:"hidden-xs"),
+    grid.Column("SOrderDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId, "Order Date")).ToString(),style:"hidden-xs "),
 
+    grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs "),
+
+    grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs "),
+      grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+      {
+        <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+          background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
       }</text>),
-     grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
+     grid.Column("View", format:@<text><button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
     </text>),
 
                         @*grid.Column("Download",format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp){*@
 
 
-    grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
+    grid.Column("Reorder", format:@<text><button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ReOrderBtn", UserCookieManager.WBStoreId, "ReOrder"))" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
     </text>),
 
           }
 
-                                         )
+                                                  )
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
                             <div id="footerr" class="pagination pagination-small pagination-right">
@@ -170,6 +149,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <br />
     <br />
@@ -185,7 +165,7 @@
                         <tbody>
                             <tr>
                                 <td class="textAlignRight" style="width: 149px">
-                                    <span class="simpleTextBold" id="spnordernum">Order Number:</span>
+                                    <span class="simpleTextBold" id="spnordernum">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNumHeadingTxt", UserCookieManager.WBStoreId,"Order Number")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
 
@@ -195,7 +175,7 @@
                                     &nbsp;
                                 </td>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderstatus">Status:</span>
+                                    <span class="simpleTextBold" id="spnorderstatus">@Html.Raw(Html.GetKeyValueFromResourceFile("lblStatusHeadingTxt", UserCookieManager.WBStoreId,"Status")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText" style="width: 200px">
 
@@ -205,7 +185,7 @@
                             </tr>
                             <tr>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
+                                    <span class="simpleTextBold" id="spnorderdate">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId,"Order Date")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
 
@@ -215,7 +195,7 @@
                                     &nbsp;
                                 </td>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
+                                    <span class="simpleTextBold" id="spndileverydate">@Html.Raw(Html.GetKeyValueFromResourceFile("spndileverydate", UserCookieManager.WBStoreId,"Delivery Date:"))</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />*@
@@ -226,7 +206,7 @@
                             </tr>
                             <tr>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="Span1">Placed By:</span>
+                                    <span class="simpleTextBold" id="Span1">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.WBStoreId, "Placed by:"))</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
 
@@ -263,12 +243,13 @@
                 <td align="left" valign="top">
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140 margnLft">
                         <div class="product_detail_sup_padding" style="width:50%;float:left;">
-                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                            <table border="0" cellpadding="2" cellspacing="0" width="100%" style="margin-right:5px;">
                                 <thead>
                                     <tr>
 
                                         <th>
-                                            <label id="lblMainControlHeading" class="heading_small">Billing Address:</label>
+                                            <label id="lblMainControlHeading" class="heading_small">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId,"Billing Address"))
+:</label>
                                         </th>
                                         <th style="height: 25px; text-align: left;">
 
@@ -337,10 +318,11 @@
                                     <tr>
                                         <td>
                                             @*<span id="ltrlcontactnum">Contact Number:</span>*@
-                                            <span id="BillingAddressContactNumber"></span>
+                                            
                                         </td>
                                         <td>
                                             @*<label id="lblContactNumber" class="txtBold">*@@*</label>*@
+                                            <span id="BillingAddressContactNumber"></span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -352,7 +334,7 @@
                                 <thead>
                                     <tr>
                                         <th style="height: 25px; text-align: left;">
-                                            <label id="Label1" class="heading_small">Shipping Address:</label>
+                                            <label id="Label1" class="heading_small">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address")):</label>
                                         </th>
                                         <th>
 
@@ -448,106 +430,137 @@
                 <td>
                     &nbsp;
                 </td>
-                <td align="right" valign="top">
-                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140">
-                        <div class="padding10">
-                            <table border="0" cellpadding="3" cellspacing="0" width="200px">
-                                <tr>
-                                    <td align="left">
-                                        <span id="spnsubtotal">Sub Total:</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblSubTotal"><span id="subtotal"></span></label>
+                @if (ViewBag.IsShowPrices == true)
+                {
+                    <td align="right" valign="top">
+                        <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140">
+                            <div class="padding10">
+                                <table border="0" cellpadding="3" cellspacing="0" width="200px" style="margin-right:5px;">
+                                    <tr>
+                                        <td align="left">
+                                            <span id="spnsubtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))</span>
+                                        </td>
+                                        <td>
+                                            <label id="lblSubTotal"><span id="subtotal"></span></label>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" style="width: 80%">
-                                        <span id="spnDeliveryoptn">Deivery Cost:</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" style="width: 80%">
-                                        <span id="spnvattotal">Vat:</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblVatTotal"><span id="Vat"></span></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
-                                    </td>
-                                    <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="width: 80%">
+                                            <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldelcost", UserCookieManager.WBStoreId, "Delivery Cost")):</span>
+                                        </td>
+                                        <td>
+                                            <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="width: 80%">
+                                            <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVatHeadingText", UserCookieManager.WBStoreId, "VAT")):</span>
+                                        </td>
+                                        <td>
+                                            <label id="lblVatTotal"><span id="Vat"></span></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left">
+                                            <span class="CartFonts" id="spngrndtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgrandtotal", UserCookieManager.WBStoreId, "Grand Total")):</span>
+                                        </td>
+                                        <td>
 
-                                        <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
+                                            <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
 
-                                    </td>
-                                </tr>
-                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </td>
+                    </td>
+                }
+           
             </tr>
         </tbody>
     </table>
 </div>
-@section scripts{
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+    <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
+<script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
+<script src="/LightBox/Js/jquery.fancybox.js"></script>
+
     <script type="text/javascript">
-        //var $=jQuery.noConflict();
+    //var $=jQuery.noConflict();
+    $(".fancybox").fancybox();
+    $(document).ready(function () {
 
-        $(document).ready(function () {
+        $("#txtFromDate").datepicker();
+        $("#txtToDate").datepicker();
 
-            $("#txtFromDate").datepicker();
-            $("#txtToDate").datepicker();
-            $(".fancybox").fancybox();
+    });
+
+    function ClearTextBoxes() {
+        $("#txtFromDate").val("");
+        $("#txtToDate").val("");
+        $("#txtOrderRefrence").val("");
+    }
+    function ReOrder(orderId) {
+        ShowLoader();
+        var d = { OrderId: orderId, OrderType: "ReOrder" }
+        $.ajax({
+            type: "POST",
+            url: "/ProductOrderHistory/OrderResult",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(d),
+            success: function (response) {
+
+                createCookie("WEBOrderId", response);
+                window.location.href = "/ShopCart";
+            }
         });
+    }
 
+    function DownLoadArtworkFile(orderId) {
+        ShowLoader();
+        $.get("/mis/api/DownloadArtwork?OrderId=" + orderId + "&OrganisationId=" + @UserCookieManager.WEBOrganisationID, function (DT) {
 
-        function ClearTextBoxes() {
-            $("#txtFromDate").val("");
-            $("#txtToDate").val("");
-            $("#txtOrderRefrence").val("");
-
-        }
-        function ReOrder(orderId) {
-            ShowLoader();
-            var d = { OrderId: orderId }
-            $.ajax({
-                type: "POST",
-                url: "/ProductOrderHistory/OrderResult",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(d),
-                success: function (response) {
-
-                    createCookie("WEBOrderId", response);
-                    window.location.href = "/ShopCart";
-                }
-            });
-        }
-
-        function DownLoad(orderId) {
-            $.ajax({
-                type: "POST",
-                url: "/ProductOrderHistory/DownLoadArtWork",
-                contentType: "application/json",
-                data: { OrderId: orderId },
-                async: true,
-                success: function (response) {
-                }
+                DT = DT.replace("\"","");
+                DT = DT.replace("\"","");
+                console.log(DT);
+                window.location.href = DT;
+                HideLoader();
             });
 
+            //var d = { OrderId: orderId, OrderType: "Download" }
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/ProductOrderHistory/OrderResult",
+            //    contentType: "application/json; charset=utf-8",
+            //    data: JSON.stringify(d),
+            //    success: function (response) {
+            //        HideLoader();
+            //        var indexOfException = response.indexOf("Exception");
+            //        if(indexOfException != -1){
+            //            console.log(response);
+            //            ShowPopUp("Error", response);
+            //        }else{
+            //            window.location.href = response;
+            //            //window.open(response,'_blank');
+            //        }
 
+            //    },
+            //    error: function(xhr, ajaxOptions, thrownError) {
+            //        //alert("Error while invoking the Web API");
+
+            //        alert(thrownError);
+            //        HideLoader();
+            //    }
+            //});
         }
 
         function ViewOrder(orderId) {
             ShowLoader();
             $.ajax({
                 type: "GET",
-                url: "/webstoreapi/CostCenter/GetData",
+                url: "/webstoreapi/Order/GetData",
                 contentType: "application/json",
                 data: { orderID: orderId },
                 async: true,
@@ -597,7 +610,7 @@
                     $("#DeliveryAddressName").text(response.shippingAddress.AddressName);
 
                     if (response.shippingAddress.Address1 == null) {
-                        $("#Delive  ryAddressline1").text('');
+                        $("#DeliveryAddressline1").text('');
                     }
                     else {
                         $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
@@ -625,35 +638,88 @@
 
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
                     var GridItems = response.order.OrderDetails.CartItemsList;
-                    var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                    console.log(GridItems);
+                    var InnerHtml = "";// "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                  
+                    if("@ViewBag.IsShowPrices" == "True")
+                    {
+                        InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                       
+                    }
+                    else
+                    {
+                        InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th></th><th></th><th></th></tr></thead>";
+                      
+                    }
+                    var otherAttachmentLink = "";
                     $.each(GridItems, function (i, IT) {
-                        {
-                            //InnerHtml += '<tr>';
+                        { 
+                            if(IT.OtherItemAttatchments != null){
 
-                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + IT.ImagePath + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
-                            //'<td><img src=' + IT.ImagePath + ' /></td>' +
-                            //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
-                            //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +
-                            //  alert(IT.Qty1);
-                            // '<td><label id="Price">'+ IT.Qty1BaseCharge1+'</label></td>' +
-                            //  alert(IT.Qty1BaseCharge1);
-                            // '<td><label id="VAT">' + IT.Qty1Tax1Value + '</label></td>' +
-                            // '<td><label id="Total">' + IT.Qty1GrossTotal + '</label></td>'
-                            //+'</tr>'
+                             if(IT.OtherItemAttatchments.length > 1){
+
+                                $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
+                                   
+                                    if(otherAttachVal.FileName == IT.Attatchment._fileName){
+                                    }else{
+                                        var OtherAttachFileName = otherAttachVal.FileName;
+                                        while (OtherAttachFileName.indexOf(" ") > 0)
+                                        {
+                                            OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                        }
+
+                                        var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                        otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                    }
+
+                                });
+                             }
+                            }
+                           
+                           
+                           
+                           
+                            var AttachFileName = IT.Attatchment._fileName;
+                            
+                            if(AttachFileName != "" && AttachFileName != null){
+                                while (AttachFileName.indexOf(" ") > 0)
+                                {
+                                    AttachFileName = AttachFileName.replace(" ", "%20");
+                                }
+                            }
+                           
+
+                          
+
+                            var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
+                            
+                            //InnerHtml += '<tr>';
+                            if("@ViewBag.IsShowPrices" == "True")
+                            {
+                                
+                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
+                            }
+                            else
+                            {
+                               
+                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
+                            }
+                            
                         }
                     });
-                    InnerHtml += '</table>';
+                    InnerHtml += '</table>' + otherAttachmentLink;
                     $("#GridTable").html(InnerHtml);
                     var panelHtml = $("#Vorder").html();
 
-                    ViewOrderPopUp("View Order", panelHtml);
+                    ViewOrderPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvieworder", UserCookieManager.WBStoreId, "View Order"))', panelHtml);
+
                 }
 
             });
 
         }
         function ShowImage(ImagePath) {
-           
+
         }
         function createCookie(name, value, days) {
             if (days) {
@@ -665,5 +731,4 @@
             document.cookie = name + "=" + value + expires + "; path=/";
         }
     </script>
-}
-
+  

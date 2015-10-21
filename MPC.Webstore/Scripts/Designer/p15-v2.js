@@ -150,13 +150,17 @@ function fu04_1GetItem(DT)
 
                      if (item.SmartFormId != 0) {
                          $(".QuickTxt").css("visibility", "hidden");
-                         $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
+                         $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId + "/" + tID,
                            function (DT2) {
                                $(".QuickTxt").css("visibility", "visible");
                                pcl41(DT2);
                                lstVariableExtensions = DT2.variableExtensions;
                                smartFormClicked = false;
                                fu04_TempCbkGen(DT);
+                               if (Template.contactId != null && Template.contactId != ContactID) {
+                                   $("#smartFormSelectUserProfile").val( Template.contactId);
+                                   $("#optionRadioOtherProfile").click();
+                               }
                            });
                      } else {
                          fu04_TempCbkGen(DT);
@@ -211,6 +215,82 @@ function fu04_TempCbkGen(DT) {
     if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
         restrictControls();
     }
+    if(DT.realEstateId != null && DT.realEstateId > 0)
+    {
+        $.getJSON("/designerapi/TemplateBackgroundImage/getPropertyImages/" + DT.realEstateId,
+        function (xdata) {
+            propertyImages = xdata;
+            $(".realEstateImgBtn").css("display", "block");
+            $.each(propertyImages, function (j, IT) {
+                var url = IT.ImageUrl;
+
+                var title = "LstImg" + IT.ImageId;
+                var draggable = '';
+                var urlThumbnail = url;
+                var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
+                                 '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
+
+                $("#divRealEstateImagesContainer").append(ahtml);
+                $("#" + title).click(function (event) {
+                    var n = url;
+                    while (n.indexOf('/') != -1)
+                        n = n.replace("/", "___");
+                    while (n.indexOf(':') != -1)
+                        n = n.replace(":", "@@");
+                    while (n.indexOf('%20') != -1)
+                        n = n.replace("%20", " ");
+                    while (n.indexOf('./') != -1)
+                        n = n.replace("./", "");
+                    StartLoader("Placing image on canvas");
+                    var imgtype = 2;
+                    if (isBKpnl) {
+                        imgtype = 4;
+                    }
+                    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
+                   function (DT) {
+                       StopLoader();
+                       k27();
+                       parts = DT.split("MPC_Content/");
+                       var imgName = parts[parts.length - 1];
+                       while (imgName.indexOf('%20') != -1)
+                           imgName = imgName.replace("%20", " ");
+
+                       var path = imgName;
+                       j9(event, path, title);
+                   });
+                });
+            });
+            $.each(TO, function (i, objTO) {
+                $.each(propertyImages, function (j, IT) {
+                    if (objTO.ContentString.indexOf("{{ListingImage" + (j+1) + "}}") != -1)
+                    {
+                        var n = IT.ImageUrl;
+                        while (n.indexOf('/') != -1)
+                            n = n.replace("/", "___");
+                        while (n.indexOf(':') != -1)
+                            n = n.replace(":", "@@");
+                        while (n.indexOf('%20') != -1)
+                            n = n.replace("%20", " ");
+                        while (n.indexOf('./') != -1)
+                            n = n.replace("./", "");
+                       
+                        var imgtype = 2;
+                        $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
+                       function (DT) {
+                           parts = DT.split("MPC_Content/");
+                           var imgName = parts[parts.length - 1];
+                           while (imgName.indexOf('%20') != -1)
+                               imgName = imgName.replace("%20", " ");
+
+                           var path = imgName;
+                           objTO.ContentString = path;
+                           objTO.originalContentString = path;
+                       });
+                    }
+                });
+            });
+        });
+    }
 }
 function fu04_1(DT) {
     if (IsCalledFrom == 2) {
@@ -230,6 +310,11 @@ function fu04() {
       function (DT) {
           fu04_1(DT);   
       });
+    if (IsCalledFrom == 2) { // load all async calls here 
+        k28();
+    }
+    fu14();
+    fu06(false);
 }
 function fu04_01() {
     $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
@@ -239,14 +324,35 @@ function fu04_01() {
               IT.ObjectID = IT.ObjectId;
               IT.ProductPageId = IT.ProductPageId;
               if (item != null) {
-
                   if (IT.ObjectType == 8) {
                       if (item.companyImage != "") {
                           IT.ContentString = item.companyImage;
                       }
+                      if (item.companyImageHeight != 0 && item.companyImageWidth != 0) {
+                          var obj = {
+                              BackgroundImageRelativePath: item.userImage,
+                              ImageName: item.userImage,
+                              Name: item.userImage,
+                              ImageWidth: item.companyImageWidth,
+                              ImageHeight: item.companyImageHeight
+                          }
+                          LiImgs.push(obj);
+                      }
+                      
                   } else if (IT.ObjectType == 12) {
                       if (item.userImage != "") {
                           IT.ContentString = item.userImage;
+                      }
+                      if (item.contactImageHeight != 0 && item.contactImageWidth != 0)
+                      {
+                          var obj = {
+                              BackgroundImageRelativePath: item.userImage,
+                              ImageName: item.userImage,
+                              Name: item.userImage,
+                              ImageWidth: item.contactImageWidth,
+                              ImageHeight: item.contactImageHeight
+                          }
+                          LiImgs.push(obj);
                       }
                   }
               }
@@ -254,18 +360,19 @@ function fu04_01() {
           pcl42_updateTemplate(DT);
           TO = DT;
           if(smartFormData != null)
-              pcl42_UpdateTO();
+              pcl42_UpdateTO(true);
           fu07();
-          fu06();
+          h9();
           // if (firstLoad) {
-          fu05();
+        //  fu05();
           //   }
-         
+          $.each(TO, function (i, IT) {
+              var obj = fabric.util.object.clone(IT);
+              TORestore.push(obj);
+          });
       });
     k0();
-    if (IsCalledFrom == 2) {
-        k28();
-    }
+
 }
 function fu05_Clload() {
     var Cid = 0;
@@ -298,6 +405,7 @@ function fu09() {
  });
 }
 function svcCall1(ca, gtID) {
+    globalTemplateId = gtID;
     $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
             //  console.log("call returned");
@@ -362,7 +470,7 @@ function c4_RS() {
         appendTo: "body",
         cursor: 'move'
     });
-    $.getJSON("/designerapi/SmartForm/GetVariablesList/" + isRealestateproduct + "/" + CustomerID + "/" + organisationId,
+    $.getJSON("/designerapi/SmartForm/GetVariablesList/" + ItemId + "/" + CustomerID + "/" + organisationId,
         function (xdata) {
             pcl40(xdata);
         });
@@ -413,8 +521,13 @@ function SvcLoad2ndTemplate() {
          Template = DT;
          tID = Template.ProductId;
          TP = [];
+         TPRestore = [];
          $.each(Template.TemplatePages, function (i, IT) {
              TP.push(IT);
+         });
+         $.each(TP, function (i, IT) {
+             var obj = fabric.util.object.clone(IT);
+             TPRestore.push(obj);
          });
          $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
         function (DT) {
@@ -424,8 +537,13 @@ function SvcLoad2ndTemplate() {
                 IT.ProductPageId = IT.ProductPageId;
             }); 
             TO = DT;
+            TORestore = [];
+            $.each(TO, function (i, IT) {
+                var obj = fabric.util.object.clone(IT);
+                TORestore.push(obj);
+            });
             fu06(true);
-            fu07();
+            fu07(true);
         });
          $(".additionalPages").css("visibility", "hidden");
          $.each(TP, function (i, IT) {

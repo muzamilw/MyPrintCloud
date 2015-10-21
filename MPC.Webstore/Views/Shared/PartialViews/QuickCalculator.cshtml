@@ -2,42 +2,45 @@
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
-    
-    
-}
+   Layout = null; 
+ }
+@using MPC.Webstore.Common;
+
+
 <div class="content_area container left_right_padding PDM7-CS  QCMainContainer">
     <div id="QuickCalcFrame" class=" QuickCalcFrame">
         <div id="QuickCalcFrameLoader" class="QuickCalcFrameLoader">
             <br />
            
             <img src="/Content/images/asdf.gif" alt="" /><br />
-            Loading...
+            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlloading", UserCookieManager.WBStoreId, "Loading..."))
         </div>
         <h1 id="lblQuickCalcHead" class="QuickCalcHead">
-            Quick Calculator
+            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlQuickcal", UserCookieManager.WBStoreId,"Quick Calculator"))
         </h1>
         <div class="QuickCalcBar">
             @*<asp:DropDownList ID="ddlProducts" Class="QuickCalcProducts">
             </asp:DropDownList>*@
             <select id="DDProduct" class="QuickCalcProducts"></select>
             <span id="lblQuickCalcQty" class="lblQuickCalcQty">
-                Qty
+                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrllllqtyyy", UserCookieManager.WBStoreId,"Qty"))
             </span>
             <select id="ddlQuantity" class="QuickCalcQty"></select>
             <div class="clear">
             </div>
         </div>
         <div id="QuickQtyRanged">
-            <span>Enter Quantity</span>
+            <span>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterqty", UserCookieManager.WBStoreId, "Enter Quantity"))</span>
             @*<asp:TextBox ID="txtRangedQty" runat="server"></asp:TextBox>*@
             <input type="text" id="txtRangedQty" />
         </div>
         <div id="QuickPriceBox" class="QuickCalcPriceBox">
             <div id="QuickCalcOnlinePrice" class="QuickCalcPriceLbl">
-                Online price
+                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOnlinePrice", UserCookieManager.WBStoreId, "Online price"))
             </div>
             <div id="QuickCalcFrom" class="QuickCalcPriceLbl" style="display:none;">
-                &nbsp;from&nbsp;
+                &nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("lblQtyFrom", UserCookieManager.WBStoreId,"From"))
+               &nbsp;
             </div>
             <div id="QuickPrice" class="QuickCalcPrice">
             </div>
@@ -54,7 +57,7 @@
         <input type="hidden" id="hlPriceData" />
     </div>
     <div class="float_right Need_aPrice_CS">
-        <a href="../RequestQuote.aspx" id="hfReqQ" >Need a price? </a>
+        <a href="../RequestQuote.aspx" id="hfReqQ" >@Html.Raw(Html.GetKeyValueFromResourceFile("lnkNeedaprice", UserCookieManager.WBStoreId, "Need a price?"))</a>
     </div>
     <div class="clearBoth">
         &nbsp;
@@ -64,6 +67,8 @@
 <div class="clearBoth">
     &nbsp;
 </div>
+@*<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>*@
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
     var temp;
     var PriceData = null;
@@ -78,11 +83,11 @@
     var TaxRate=@ViewBag.TaxRate;
     var SelectedMatrixID;
     var SelectedPriceMatrix;
-    $(document).ready(function () {
+    //$(document).ready(function () {
         $.getJSON("/QuickCalculator/GetAllProducts?cID=" + cID + "&mode=" + smode,
 		        function (xdata) {
 		            ProductData = xdata;
-		            
+
 		            $.getJSON("/QuickCalculator/GetQuantityPrises?cID=" + cID + "&mode=" + smode,
 		                function (xdata) {
 		                    PriceData = xdata;
@@ -92,7 +97,7 @@
 		                    $('#QuickCalcFrameLoader').hide();
 		                });
 		        });
-    });
+    //});
 
 
     function makeInitSelection() {
@@ -104,17 +109,9 @@
                SelectedProduct=p;
             }
                 $("#DDProduct").append($('<option></option>').val(p.ItemID).html(p.ProductName));
-           
-                //if (p.ItemID == ProductID) {
-
-                  
-                //    SelectedProduct=p;
-                //    return;
-                //}
-
             tm++;
         });
-        
+
         ShowPrice(SelectedPriceMatrix.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, SelectedPriceMatrix.QtyRangeFrom);
         Hide();
     }
@@ -134,13 +131,12 @@
 
         }
     function ShowSelectedQtyPrice() {
-       
+
         var SelectedMatrixID = $("#ddlQuantity").val();
-        var val=$('#ddlQuantity').find(":selected").val(); 
-      
-           
+        var val=$('#ddlQuantity').find(":selected").val();
+
         $.each(PriceData, function (i, p) {
-           
+
             if (p.PriceMatrixId == SelectedMatrixID) {
                 ShowPrice(p.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, p.QtyRangeFrom);
                 return;
@@ -165,21 +161,21 @@
     //});
 
     $("#ddlQuantity").change(function (sender) {
-        
+
       ShowSelectedQtyPrice();
-   
+
    });
 
     $("#DDProduct").change(function (sender) {
-   
+
         $('select[id$=ddlQuantity] > option').remove();
         ShowProductData();
 
     });
     function Hide()
     {
-        
-        if (SelectedProduct.IsQtyRanged== false) { 
+
+        if (SelectedProduct.IsQtyRanged== false) {
             $("#ddlQuantity").show();
             $("#lblQuickCalcQty").show();
             $("#QuickQtyRanged").hide();
@@ -190,13 +186,13 @@
             $("#lblQuickCalcQty").hide();
         }
     }
-    function ShowPrice(BasePrice, M1, M2, IsQtyRanged, PriceFrom) 
+    function ShowPrice(BasePrice, M1, M2, IsQtyRanged, PriceFrom)
     {
         var Tax =TaxRate;
         var FromClause ='';
         if (IsQtyRanged == true) {
             BasePrice = BasePrice / PriceFrom;
-            $('#QuickCalcOnlinePrice').html("Online Unit price");
+            $('#QuickCalcOnlinePrice').html('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlonlineunitprice", UserCookieManager.WBStoreId, "Online Unit price"))');
             $("#QuickCalcFrom").css("display", "block");
         }
         else {
@@ -210,6 +206,7 @@
         }
 
         $("#QuickPrice").html(currencySymbol + '' + BasePrice.toFixed(2));
+        
     }
 
     function ShowProductData() {
@@ -239,12 +236,12 @@
         var counter = 0;
         var bIsOverridedPriceFound = false;
         $.each(PriceData, function (i, p) {
-            
+
             if (p.ItemId== SelectedProductID) {
-               
+
                 $("#ddlQuantity").append("<option value='" + p.PriceMatrixId+"'>" + p.Quantity + "</option>");
-                    
-              
+
+
                 if (counter == 0) {
 
                     ShowPrice(p.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, p.QtyRangeFrom);

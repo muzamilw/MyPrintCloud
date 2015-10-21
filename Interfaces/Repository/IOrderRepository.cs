@@ -13,6 +13,8 @@ namespace MPC.Interfaces.Repository
 {
     public interface IOrderRepository : IBaseRepository<Estimate, long>
     {
+        void UpdateOrderForDel(Estimate Order);
+        double? GetOrderTotalById(long OrderId);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
         List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
@@ -38,17 +40,17 @@ namespace MPC.Interfaces.Repository
 
         Estimate GetOrderByID(long orderId);
         bool SetOrderCreationDateAndCode(long orderId);
-        bool IsVoucherValid(string voucherCode);
+        //bool IsVoucherValid(string voucherCode);
         bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode);
-        void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org);
-        Estimate CheckDiscountApplied(int orderId);
+        void updateStockAndSendNotification(long ItemId, long StockID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org);
+        //Estimate CheckDiscountApplied(int orderId);
 
-        bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
+        //bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
 
-        double SaveVoucherCodeAndRate(int orderId, string VCode);
-        double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
+        //double SaveVoucherCodeAndRate(int orderId, string VCode);
+        //double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
 
-        bool ResetOrderVoucherCode(int orderId);
+        //bool ResetOrderVoucherCode(int orderId);
         /// <summary>
         /// returns the order id of a logged in user if order exist in cart
         /// </summary>
@@ -123,7 +125,7 @@ namespace MPC.Interfaces.Repository
 
         Estimate GetOrderByIdforXml(long RecordID);
 
-        void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
+       // void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
 
         /// <summary>
         /// Search Estimates For Live Jobs
@@ -137,6 +139,12 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         List<Item> GetAllOrderItems(long OrderId);
         long GetStoreIdByOrderId(long OrderId);
+
+        bool UpdateItemAttachmentPath(List<Item> items);
+        List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus);
+        List<long> GetOrdersForBillingCycle(DateTime billingDate, bool isDirectOrder);
+        bool IsExtradOrderForBillingCycle(DateTime billingDate, bool isDirectOrder, int licensedCount, long orderId, long organisationId);
+
     }
 }
 

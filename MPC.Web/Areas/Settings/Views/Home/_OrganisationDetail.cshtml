@@ -1,9 +1,10 @@
 ﻿ 
 <div class="main-box-body clearfix" data-bind="visible: $root.isOrganisationVisible" style="display:none;">
-    <div class="col-md-12 form-horizontal" style="margin-top:20px;">
-        <div style="margin-bottom:15px;">
+    <div class="col-md-12 form-horizontal" style="padding-left:0px;">
+        <div class="tabsdescriptions" style="margin-left:-2px;">
             <p class="group-header-description">Set your company’s name, address and logo for internal reports</p>
-            @*  <span style="margin-bottom:5px;font-size:12px;">Set your company’s name, address and logo for internal reports</span>*@
+            
+           
         </div>
         <div class="col-md-6">
            
@@ -20,11 +21,20 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtCompanyName" placeholder="Enter Company Name" data-bind="value:name , validationTooltip:name">
                     <span class="help-block text-right"></span>
                 </div>
 
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 text-right">
+                    <label for="txtTaxRegNumber" class="control-label text-right tooltip-float">VAT Registration Number</label>
+                </div>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="txtTaxRegNumber" placeholder="Enter Company Name" data-bind="value:taxRegistrationNo , validationTooltip:taxRegistrationNo">
+                    
+                </div>
             </div>
 
             <div class="form-group">
@@ -41,7 +51,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtAddressLine1" placeholder="Enter Address Line 1" data-bind="value:address1 , validationTooltip:address1">
                     <span class="help-block text-right"></span>
                 </div>
@@ -61,7 +71,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtAddressLine2" placeholder="Enter Address Line 2" data-bind="value:address2 , validationTooltip:address2">
                     <span class="help-block text-right"></span>
                 </div>
@@ -82,7 +92,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtCity" placeholder="Enter City" data-bind="value:city , validationTooltip:city">
                     <span class="help-block text-right"></span>
                 </div>
@@ -104,7 +114,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <select id="country" class="form-control" data-bind="options: $root.countries , optionsText: 'CountryName', optionsValue: 'CountryId' ,value:country,validationtooltip:country"></select>
                     <span class="help-block text-right"></span>
                 </div>
@@ -124,7 +134,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"></select>
                     <span class="help-block text-right"></span>
                 </div>
@@ -144,7 +154,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtPostCode" placeholder="Enter Post Code" data-bind="value:zipCode,validationTooltip:zipCode">
                     <span class="help-block text-right"></span>
                 </div>
@@ -164,7 +174,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtMainTel" placeholder="Enter Telephone Number" data-bind="value:tel,validationTooltip:tel">
                     <span class="help-block text-right"></span>
                 </div>
@@ -184,7 +194,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtFax" placeholder="Enter Fax" data-bind="value:fax,validationTooltip:fax">
                     <span class="help-block text-right"></span>
                 </div>
@@ -204,7 +214,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtEmail" name="Email" placeholder="Enter Email" data-bind="value:email,validationTooltip:email, validationOnElement: email">
                     <span class="help-block text-right"></span>
                 </div>
@@ -224,7 +234,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtEmail" placeholder="Enter Mobile Number" data-bind="value:mobile,validationTooltip:mobile">
                     <span class="help-block text-right"></span>
                 </div>
@@ -244,7 +254,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="txtWebsite" placeholder="Enter WebSite URL" data-bind="value:url,validationTooltip:url">
                     <span class="help-block text-right"></span>
                 </div>
@@ -253,29 +263,29 @@
 
             </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <div class="col-lg-7">
+            <div class="col-lg-12">
+                <div class="col-lg-6">
+                    &nbsp;
                 </div>
-                <div class="col-lg-5" style="width:220px;">
+                <div class="col-lg-6" style="width:220px;">
                     <div style="padding-left:0px;text-align:right;">
                         <div>
                             <!-- ko if: orgnizationImage() -->
-                            <img id="orgImage" alt="" src="" style="width:220px;height:130px;" data-bind="attr:{ src: orgnizationImage() }" />
+                            <img id="orgImage" alt="" src="" style="width:220px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="attr:{ src: orgnizationImage() }" />
                             <!-- /ko -->
                             <!-- ko ifnot: orgnizationImage() -->
-                           
-                            <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:200px;height:180px;" />
+
+                            <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:200px;height:180px;-o-object-fit: contain; object-fit: contain;" />
                             <!-- /ko -->
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
-                    <div class="col-lg-7">
+            </div>
+            <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                    <div class="col-lg-6">
                         &nbsp;
-
                     </div>
-                    <div class="col-lg-4" style="margin-top:10px;width:220px;text-align:center;padding-right:0px;padding-left:20px;">
+                    <div class="col-lg-6" style="margin-top:10px;width:220px;text-align:center;padding-right:0px;padding-left:20px;">
                         <div class="fileUpload btn btn-primary">
                             <span>Upload</span>
                             <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -284,18 +294,14 @@
 
                     <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
                 </div>
-
-                <div class="col-lg-12" style="margin-top:10px;text-align:center;padding:0px;">
-                    <div class="col-lg-7">
+            <div class="col-lg-12" style="margin-top:2px;text-align:center;padding:0px;">
+                    <div class="col-lg-6">
                         &nbsp;
                     </div>
-                    <div class="col-lg-4" style="width:220px;text-align:center;padding-right:0px;">
-                        <span class="help-block">Company Logo for MIS Dashboard</span>
+                    <div class="col-lg-6" style="width:220px;text-align:center;padding-right:0px;">
+                        <span class="help-block">Upload a Company logo image (PNG,JPG,SVG) for MIS Dashboard<br />(108px w x 25px h) </span>
                     </div>
-                </div>
             </div>
-
-
         </div>
     </div>
 

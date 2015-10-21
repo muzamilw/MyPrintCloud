@@ -44,5 +44,9 @@ namespace MPC.Interfaces.WebStoreServices
         bool UpdateQuickTextTemplateSelection(QuickText objQText);
 
         string GetConvertedSizeWithUnits(long productId, long organisationID, long itemID);
+
+        string OrderConfirmationPDF(long OrderId, long StoreId);
+
+        bool updatecontactId(long templateId, long contactId);
     }
 }

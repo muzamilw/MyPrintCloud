@@ -7,27 +7,30 @@
     <div class="col-lg-12 clearfix" data-bind="with: selectedCostCenter()">
         <div class="row">
             <div class="col-lg-12">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb" style="padding-left:8px;">
                     <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li><a href="/mis/Settings" class="my-navigator">Settings</a></li>
                     <li><a href="~/Settings/Home/DeliveryCostCentres">Delivery Cost Centers</a></li>
-                    <li class="active"><span>Edit Shipping Cost Center</span></li>
+                    <li class="active"><span>Shipping Cost Center</span></li>
                 </ol>
 
             </div>
         </div>
         <div class="row" id="user-profile">
-            <div class="clearfix">
+            <div>
                 <h1 class="pull-left" style="min-height: 30px;" data-bind="text: name()"></h1>
-                <div class="pull-right top-page-ui" style="margin-right:8px;">
+            </div>
+            <div style="margin-top:42px;">
+                <div class="pull-right" style="margin-right:15px;">
                     <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
-                        <span class="fa fa-save"></span>&nbsp;Save
+                        &nbsp;Save
                     </button>
                     <button type="button" class="btn btn-primary" data-bind="click: $root.closeCostCenterDetail">
-                        <span class="fa fa-power-off"></span>&nbsp;Close
+                        &nbsp;Close
                     </button>
                 </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:17px;padding-right:17px;margin-top:28px;">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
@@ -42,48 +45,36 @@
 
                                         <div class="col-lg-6">
                                             <div class="form-group ">
-                                                <div class="col-lg-6 text-right">
+                                                <div class="col-lg-5 text-right">
 
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-
-                                                        </div>
-
-
-                                                        <label for="txtEmail" class="control-label text-right tooltip-float">Name</label>*@
+                                                    
 
                                                 </div>
 
-                                                <div class="col-lg-6">
-                                                    <input type="text" style="width: 300px;" class="form-control font24px height60" id="txtEmail" placeholder="Enter Cost Center name" data-bind="value: name, validationTooltip: name">
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control font24px height60" id="txtEmail" placeholder="Enter Cost Center name" data-bind="value: name, validationTooltip: name">
                                                 </div>
                                             </div>
 
                                             <div class="form-group ">
-                                                <div class="col-lg-6 text-right">
+                                                <div class="col-lg-5 text-right">
 
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
 
                                                         </div>
 
 
-                                                        <label for="txtLName" class="control-label text-right tooltip-float">Webstore Description</label>*@
+                                                    <label for="txtWebDesc" class="control-label text-right tooltip-float">Description</label>
 
                                                 </div>
 
-                                                <div class="col-lg-6">
-                                                    <textarea class="form-control" style="width: 300px;" id="txtWebDesc" placeholder="Enter Web Store Description" rows="5" data-bind="value: webStoreDesc"></textarea>
+                                                <div class="col-lg-7">
+                                                    <textarea class="form-control" id="txtWebDesc" placeholder="Enter Web Store Description" rows="5" data-bind="value: webStoreDesc"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-lg-6 text-right">
+                                                <div class="col-lg-5 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
@@ -98,31 +89,36 @@
 
                                                 </div>
 
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-7">
 
-                                                    <select class="form-control" style="width: 300px;" data-bind="options:$root.deliveryCarriers, optionsText:'CarrierName',optionsValue:'CarrierId', value: carrierId"></select>
+                                                    <select class="form-control" data-bind="options:$root.deliveryCarriers, optionsText:'CarrierName',optionsValue:'CarrierId', value: carrierId"></select>
 
                                                 </div>
 
                                             </div>
 
                                             <div class="form-group" data-bind="visible: carrierId() === 1">
-                                                <div class="col-lg-6 text-right">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
 
+
+                                                    </div>
                                                     
                                                     <label for="ddCarrier" class="control-label text-right tooltip-float">Fedex Service Type</label>
 
                                                 </div>
 
-                                                <div class="col-lg-6">
-                                                    <select class="form-control" style="width: 300px;" data-bind="options:$root.fedexServiceTypes, optionsText:'Text',optionsValue:'Text' ,value:deliveryServiceType"></select>
+                                                <div class="col-lg-7">
+                                                    <select class="form-control" data-bind="options:$root.fedexServiceTypes, optionsText:'Text',optionsValue:'Text' ,value:deliveryServiceType"></select>
                                                 </div>
                                             </div>
 
                                             <div class="form-group" data-bind="visible: carrierId() === 3">
-                                                <div class="col-lg-6 text-right">
+                                                <div class="col-lg-5 text-right">
 
-                                                    
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    </div>
 
 
                                                     <label for="txtDelcharges" class="control-label text-right tooltip-float">Fixed Shipping Price</label>
@@ -138,14 +134,16 @@
 
                                             </div>
                                             <div class="form-group" data-bind="visible: carrierId() === 3">
-                                                <div class="col-lg-6 text-right">
+                                                <div class="col-lg-5 text-right">
 
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    </div>
                                                     
                                                     <label for="txtDelvTime" class="control-label text-right tooltip-float">Fixed Delivery Time</label>
                                                 </div>
                                                 <div>
-                                                    <div class="col-md-4">
-                                                        <input type="text" class="form-control" style="width:178px" data-bind="value:estimateProductionTime">
+                                                    <div class="col-md-4" style="padding-right:0px;">
+                                                        <input type="text" class="form-control"  data-bind="value:estimateProductionTime">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <span class="help-block" style=" margin-top: 8px;">Day(s)</span>
@@ -153,11 +151,12 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-lg-6 text-right">
-                                                    
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    </div>
                                                     <label for="switchisDisabled" class="control-label text-right tooltip-float">Is Cost Center enable</label>
                                                 </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-7">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchisDisabled" data-bind="checked:isDisabled">
                                                         <label class="onoffswitch-label" for="switchisDisabled">
@@ -170,8 +169,9 @@
                                             </div>
                                             <div class="form-group">
 
-                                                <div class="col-lg-6 text-right">
-                                                   
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    </div>
                                                     <label for="switchIsPublished" class="control-label text-right tooltip-float">Is Cost Center Published on Webstore</label>
 
                                                 </div>
@@ -234,12 +234,12 @@
                                             <div class="form-group ">
                                                 <div class="col-lg-4 text-right">
 
-                                                   
+
 
                                                 </div>
 
                                                 <div class="col-lg-8">
-                                                    <textarea class="form-control notes" id="txtInternalDesc" style="position: relative; width: 220px;" placeholder="Notes" rows="5" data-bind="value: description"></textarea>
+                                                    <textarea class="form-control notes" id="txtInternalDesc" style="position: relative;" placeholder="Enter Notes" rows="5" data-bind="value: description"></textarea>
 
                                                 </div>
                                             </div>

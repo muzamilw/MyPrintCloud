@@ -11,7 +11,8 @@
                 <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
-                    <ol class="breadcrumb">
+                    <input type="hidden" name="ItemId" id="ItemId" value="@ViewBag.ItemId" />
+                    <ol class="breadcrumb" style="padding-left:6px;">
                         <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader() !== '' ? 'HOME':''"></a></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible:$root.orderCodeHeader() !== ''" style="cursor:pointer; display: none"><span data-bind="text:'ORDERS'"></span></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.orderCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.orderCodeHeader"></span></li>
@@ -29,9 +30,6 @@
             </div>
         </div>
     </div>
-    <div id="layer" class="opaqueLayer"></div>
-    <div id="innerLayer">
-    </div>
 </div>
 
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
@@ -40,6 +38,7 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportViaEmail.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")
 
 @section Scripts{
@@ -48,10 +47,28 @@
         require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view",
             "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
 
-        $(function () {
+        $(function() {
             $('#liorderprocessing').addClass('active');
             $('.bs-example-tooltips a').popover();
         });
 
+        $(document).ready(function() {
+            page = Request.QueryString("to").toString();
+            if (page != null) {
+                if (page == 'prd') {
+                    $("#pending-orders").removeClass("active");
+                    $("#tab-PendingOrders").removeClass("active");
+                    $("#in-production").addClass("active");
+                    $("#tab-InProduction").addClass("active");
+                }
+                else if (page == 'com') {
+                    $("#pending-orders").removeClass("active");
+                    $("#tab-PendingOrders").removeClass("active");
+                    $("#ready-shipping").addClass("active");
+                    $("#tab-ReadyForShipping").addClass("active");
+                }
+
+            }
+        });
     </script>
 }

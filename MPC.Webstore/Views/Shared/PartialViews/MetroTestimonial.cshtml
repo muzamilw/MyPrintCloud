@@ -6,15 +6,14 @@
     bundle.Include("~/Scripts/script.js");
                    
 }
-<head>
-    <link href="/Content/MetroStyles.css" rel="stylesheet" />
-
-  
-</head>
-<div class="Container">
+@{
+    Layout = null;
+}
+@using MPC.Webstore.Common;
+<div class="Container" id="all-metroTest-pg">
     <div class="panel panel-info" id="testimonial_sidebar">
         <div class="panel-heading">
-            <h3 class="panel-title">Testimonials</h3>
+            <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("testiiiii", UserCookieManager.WBStoreId, "Testimonials"))</h3>
         </div>
         <div class="panel-body">
             <div id="testimonial-sidebar-124726984" data-interval="6000" class="carousel slide testimonial-panel">
@@ -31,7 +30,6 @@
                         <blockquote>
                             <p>
                                 As a realtor I am in regular need of business cards. I would like to thank you for the artistic work you undertook for printing cards for my real estate business. I appeciate your professional service and fast delivery. Company online printing facility surely does away with all hassles involved in conventional printing.
-
                             </p>
                             <small>Kenneth</small>
                         </blockquote>
@@ -41,50 +39,53 @@
         </div>
         <div class="panel-footer"><span class="carousel-controls"><a href="#testimonial-sidebar-124726984" class='left' data-slide='prev'><span class="glyphicon glyphicon-chevron-left">&nbsp;</span></a><a href="#testimonial-sidebar-124726984" class='right' data-slide='next'><span class="glyphicon glyphicon-chevron-right">&nbsp;</span></a></span></div>
     </div>
-@using(Html.BeginForm())
-{
-    <div class="MetroSubscribe">
-        <label id="lblOurNews" class="NewsLtrHeadingCS">@ViewBag.lblOurNews</label>
-        <div class="NewsLtrTxtBxContCS col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
-            @*<asp:TextBox ID="txtEmailbox" runat="server" Text="Enter email address..." ValidationGroup="email"
-                         CausesValidation="false" CssClass="txtSubscribe-Subscribe SubscribeTxtBoxCS"
-                         ClientIDMode="Static">
-            </asp:TextBox>*@
+   
+        <div class="MetroSubscribe">
+            <label id="lblOurNews" class="NewsLtrHeadingCS">@ViewBag.lblOurNews</label>
+            <div class="NewsLtrTxtBxContCS col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
+                @*<asp:TextBox ID="txtEmailbox" runat="server" Text="Enter email address..." ValidationGroup="email"
+                                 CausesValidation="false" CssClass="txtSubscribe-Subscribe SubscribeTxtBoxCS"
+                                 ClientIDMode="Static">
+                    </asp:TextBox>*@
 
-            <input id="txtEmailbox" name="txtEmailbox" type="text" value="Enter email address..." class="txtSubscribe-Subscribe SubscribeTxtBoxCS" />
-        </div>
-        <div class="NewsDescCs col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <span id="Nwsdesc">@ViewBag.Nwsdesc</span>
-        </div>
-        <input type="submit" id="btnSendNews" class="btnSubscribe rounded_corners" value="@ViewBag.SendBtntext"/><br />
+                <input id="txtEmailbox" name="txtEmailbox" type="text" value="@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))" class="txtSubscribe-Subscribe SubscribeTxtBoxCS" />
+            </div>
+            <div class="NewsDescCs col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <span id="Nwsdesc">@ViewBag.Nwsdesc</span>
+            </div>
+            <input type="button" id="btnSendNews" onclick="Go();" class="btnSubscribe rounded_corners" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSend", UserCookieManager.WBStoreId,"Send"))" /><br />
 
-        @*<asp:Button ID="btnSendNews" runat="server" OnClientClick="return ValidateBottomSubscriberEmail();"
-                    OnClick="btnGo_Click" CssClass="btnSubscribe rounded_corners" Text="Send" /><br />*@
-        <div class="NewsLtrErrDesCS">
-            @*<asp:Label ID="errorMsg" runat="server" CssClass="NewsErrMesgCS"></asp:Label>*@
-            <label id="errorMsg" class="NewsErrMesgCS">@ViewBag.ErrorMessage</label>
+            @*<asp:Button ID="btnSendNews" runat="server" OnClientClick="return ValidateBottomSubscriberEmail();"
+                OnClick="btnGo_Click" CssClass="btnSubscribe rounded_corners" Text="Send" /><br />*@
+            <div class="NewsLtrErrDesCS">
+                @*<asp:Label ID="errorMsg" runat="server" CssClass="NewsErrMesgCS"></asp:Label>*@
+                <label id="errorMsg" class="NewsErrMesgCS"></label>
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
         </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-    </div>
-}
+    
 </div>
+
+ <link href="/Content/MetroStyles.css" rel="stylesheet" />
+<script src="/Scripts/script.js"></script>
 <script type="text/javascript">
     function Go()
     {
         var Email = $("#txtEmailbox").val();
-        alert(Email);
-        var data = { Email: Email};
+        
+        var data = { txtEmailbox: Email };
         $.ajax({
             type: "POST",
-            url: "/MetroTestimonial/SumbitData",
+            url:"/MetroTestimonial/SubmitTestimonialData",
             contentType: "application/json",
             dataType: "json",
-            data: data,
+            data:JSON.stringify(data),
             async: true,
             success: function (response) {
+                $("#errorMsg").text(response.ErrorMessage);
             }
         });
     }

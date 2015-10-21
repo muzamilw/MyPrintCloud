@@ -67,7 +67,23 @@ namespace MPC.Implementation.WebStoreServices
 
         public void SendEmailFromQueue(HttpContext context)
         {
-            _CampaignRepository.SendEmailFromQueue(context);
+            try 
+            {
+                _CampaignRepository.SendEmailFromQueue(context);
+            }
+            catch(Exception ex)
+            {
+                string virtualFolderPth = context.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+                
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+                
+            }
+            
         }
         
         public void MonitorScheduledEmails()
@@ -78,9 +94,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CampaignRepository.AddMsgToTblQueue(Toemail,CC,ToName,msgbody,fromName,fromEmail,smtpUserName,ServerPass,ServerName,subject,AttachmentList,CampaignReportID);
         }
-        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId)
+        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId, string SalesManagerEmail)
         {
-            _CampaignRepository.EmailsToCorpUser(orderID,contactID,ModeOfStore, loggedinTerritoryId, serverSettings, StoreId);
+            _CampaignRepository.EmailsToCorpUser(orderID, contactID, ModeOfStore, loggedinTerritoryId, serverSettings, StoreId, SalesManagerEmail);
         }
     }
 

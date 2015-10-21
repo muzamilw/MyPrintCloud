@@ -25,12 +25,16 @@ namespace MPC.Models.ModelMappers
             }
 
             target.ProductId = source.ProductId;
+            // If Dimensions get changed in case of custom
+            target.OldWidth = target.Width;
+            target.OldHeight = target.Height;
             target.Width = source.Width;
             target.Height = source.Height;
             target.PageName = source.PageName;
+            // Keep old page no if changes
+            target.OldPageNo = target.PageNo;
             target.PageNo = source.PageNo;
             target.Orientation = source.Orientation;
-            target.BackGroundType = 1;
         }
 
         #endregion

@@ -64,7 +64,7 @@
                                 <label class="control-label tooltip-float">&nbsp;</label>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: supplierId, click: !$root.selectedGRN().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
+                                <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: supplierId, click: !$root.selectedGRN().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Supplier" class="form-control font24px" id="txtCompany" />
                             </div>
                             <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
                                 <button data-bind="click: $root.openCompanyDialog, enable: (id() <= 0) || (id()===undefined)" class="btn btn-primary pull-right">
@@ -199,8 +199,12 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="enable:$root.selectedGRN().status()===31,options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId,validationOptions:flagId, validationOnElement:flagId"></select>
-                                <span class="help-block text-right"></span>
+                                <select style="width: 100% !important;" id="flag" data-bind="enable:$root.selectedGRN().status()===31,select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
+                                    <option style="width: 100% !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                                </select>
+                                   <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
+                                @*<select class="form-control" data-bind="enable:$root.selectedGRN().status()===31,options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId,validationOptions:flagId, validationOnElement:flagId"></select>
+                                <span class="help-block text-right"></span>*@
                             </div>
                         </div>
 
@@ -321,7 +325,7 @@
                     <div class="form-group">
                         <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Comments" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
@@ -359,7 +363,7 @@
                     <div class="form-group" style="margin-bottom: 0px;">
                         <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Created By" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>

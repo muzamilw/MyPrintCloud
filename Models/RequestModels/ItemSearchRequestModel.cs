@@ -17,6 +17,9 @@ namespace MPC.Models.RequestModels
         /// </summary>
         public long? CategoryId { get; set; }
 
+
+        public int? ProductType { get; set; }
+
         /// <summary>
         /// Item By Column for sorting
         /// </summary>

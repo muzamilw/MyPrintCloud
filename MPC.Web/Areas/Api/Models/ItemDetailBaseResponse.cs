@@ -60,6 +60,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// Machines
         /// </summary>
         public IEnumerable<Machine> Machines { get; set; }
+
+        /// <summary>
+        /// Markup id
+        /// </summary>
+        public long DefaultMarkUpId { get; set; }
         
     }
 }

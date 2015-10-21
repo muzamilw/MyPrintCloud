@@ -36,10 +36,11 @@ namespace MPC.MIS.Areas.Orders.Controllers
 
         // GET: Orders/Home
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, int? itemId)
         {
             ViewBag.CallingMethod = (string)TempData["CallingMethod"] != "" ? TempData["CallingMethod"] : "0";
             ViewBag.OrderId = id ?? 0;
+            ViewBag.ItemId = itemId ?? 0;
             return View();
         }
 
@@ -114,13 +115,21 @@ namespace MPC.MIS.Areas.Orders.Controllers
             {
                 contentType = "application/docx";
             }
-            else if (fileType == ".docx")
+            else if (fileType == ".doc")
             {
                 contentType = "application/docx";
             }
             else if (fileType == ".xlsx")
             {
                 contentType = "application/vnd.ms-excel";
+            }
+            else if (fileType == ".xls")
+            {
+                contentType = "application/vnd.ms-excel";
+            }
+            else if (fileType == ".rtf")
+            {
+                contentType = "application/rtf";
             }
             else if (fileType == ".png")
             {

@@ -39,5 +39,7 @@ namespace MPC.Interfaces.Repository
 
         ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request, string Path);
 
+        List<usp_DeliveryReport_Result> GetDeliveryNoteReport(long deliveryId);
+
     }
 }

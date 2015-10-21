@@ -43,7 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Product Categories for Company
         /// </summary>
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct  })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct })]
         [CompressFilterAttribute]
         public IEnumerable<ProductCategoryDropDown> Get(int id)
         {
@@ -52,7 +52,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-            long? companyId = id > 0 ? id : (long?) null;
+            long? companyId = id > 0 ? id : (long?)null;
             return itemService.GetProductCategoriesForCompany(companyId).CreateFrom();
         }
 

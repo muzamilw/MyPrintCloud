@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Data.Entity.Core.Objects;
 using System.Linq.Expressions;
 using AutoMapper;
+using MPC.ExceptionHandling;
 
 namespace MPC.Repository.Repositories
 {
@@ -81,6 +82,7 @@ namespace MPC.Repository.Repositories
                     (isSearchFilterSpecified && (s.Name.Contains(request.SearchString)) ||
                      (s.HeaderCode.Contains(request.SearchString)) ||
                      !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29)) &&
+                     (!request.Type.HasValue || s.Type == request.Type.Value) &&
                      s.OrganisationId == OrganisationId;
 
             int rowCount = DbSet.Count(query);
@@ -103,6 +105,11 @@ namespace MPC.Repository.Repositories
             };
 		}
 
+        public CostCentre GetFirstCostCentreByOrganisationId(long organisationId)
+        {
+            return db.CostCentres.Where(c => c.OrganisationId == organisationId & c.Type != (int)CostCenterTypes.Delivery).FirstOrDefault();
+
+        }
 		public bool Delete(long CostCentreID)
 		{
 			try
@@ -202,6 +209,32 @@ namespace MPC.Repository.Repositories
 			}
 
 		}
+
+        public long GetCostCentreIdByName(string costCenterName)
+        {
+
+            try
+            {
+
+                try
+                {
+                    db.Configuration.ProxyCreationEnabled = false;
+                    db.Configuration.LazyLoadingEnabled = false;
+                    return db.CostCentres.Where(c => c.Name == costCenterName).Select(c => c.CostCentreId).SingleOrDefault();
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("GetCostCentreByName", ex);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCostCentreByName", ex);
+            }
+
+        }
 
 		/// <summary>
 		/// returns the costcentre resources as datatable
@@ -685,6 +718,32 @@ namespace MPC.Repository.Repositories
 		}
 
 
+        /// <summary>
+        /// Get Code for CostCentre For a Company
+        /// </summary>
+        /// <returns></returns>
+        public List<CostCentre> GetAllCostCentresForRecompiling(long OrganisationId)
+        {
+            try
+            {
+                var query = (from ccType in db.CostCentreTypes
+                             join cc in db.CostCentres on ccType.TypeId equals cc.Type
+                             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
+                             where ((ccType.IsExternal == 1 && ccType.IsSystem == 0)
+                             && Org.OrganisationId == OrganisationId)
+                             select cc);
+
+                return query.ToList<CostCentre>();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
 		public bool ChangeFlag(int FlagID, long CostCentreID)
 		{
 			try
@@ -803,6 +862,10 @@ namespace MPC.Repository.Repositories
 			
 
 		}
+        public List<CostCentre> GetAllCentersByOrganisationId(long OID)
+        {
+            return db.CostCentres.Where(c => c.OrganisationId == OID).ToList();
+        }
 		public IEnumerable<CostCentre> GetAllCompanyCentersByOrganisationId()
 		{
 			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true).ToList();
@@ -873,7 +936,7 @@ namespace MPC.Repository.Repositories
             var types = db.CostCentreTypes.Where(c => c.TypeId == 2 || c.TypeId ==3).ToList();
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
             var nominalCodes = db.ChartOfAccounts.Where(u => u.SystemSiteId == this.OrganisationId).ToList();
-            var ccVariables = db.CostCentreVariables.ToList();   //Where(c => c.SystemSiteId == this.OrganisationId)   Commented by Muzzammil on 12th may 2015 as this is not needed.
+            var ccVariables = db.CostCentreVariables.OrderBy(v => v.Name).ToList();   //Where(c => c.SystemSiteId == this.OrganisationId)   Commented by Muzzammil on 12th may 2015 as this is not needed.
             var carriers = db.DeliveryCarriers.ToList();
             var markups = db.Markups.Where(m => m.OrganisationId == this.OrganisationId).ToList();
             return new CostCenterBaseResponse
@@ -887,6 +950,12 @@ namespace MPC.Repository.Repositories
                 CurrencySymbol = organisation == null ? null : organisation.Currency==null? null: organisation.Currency.CurrencySymbol
             };
         }
+
+        public CostCentre GetGlobalWebOrderCostCentre(long OrganisationId) 
+        {
+            return db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
+        } 
+
 		#endregion
 
 		#region "CostCentre Template"
@@ -1132,5 +1201,46 @@ namespace MPC.Repository.Repositories
         }
 		
 		#endregion
+
+
+        public void DeleteCostCentre(long CostCentreId)
+        {
+            try
+            {
+                int type = db.CostCentres.Where(c => c.CostCentreId == CostCentreId).Select(c => c.Type).FirstOrDefault();
+
+                if(type == (int)CostCenterTypes.Delivery)
+                {
+                    db.usp_DeleteCostCentre(CostCentreId);
+                }
+                else
+                {
+                    bool isSectionCostCentreExist = false;
+                    bool isItemAddOnCostCentre = false;
+                    bool isCompanyCostCentre = false;
+
+
+
+                    isSectionCostCentreExist = db.SectionCostcentres.Any(c => c.CostCentreId == CostCentreId);
+                    isItemAddOnCostCentre = db.ItemAddonCostCentres.Any(c => c.CostCentreId == CostCentreId);
+                    isCompanyCostCentre = db.CompanyCostCentres.Any(c => c.CostCentreId == CostCentreId);
+
+                    if(isSectionCostCentreExist || isItemAddOnCostCentre || isCompanyCostCentre)
+                        throw new MPCException("Cost Centre can't delete", OrganisationId);
+
+
+                    db.usp_DeleteCostCentre(CostCentreId);
+
+                }
+               
+
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 	}
 }

@@ -33,9 +33,13 @@ namespace MPC.Webstore.ViewModels
         public string amount4 { get; set; }
         public string item_name5 { get; set; }
         public string amount5 { get; set; }
-        public string pageOrderID { get; set; }
+        //public string pageOrderID { get; set; }
         public string txtJason { get; set; }
-        
 
+        public string custom { get; set; }
+        public string tax_cart { get; set; }
     }
+
+
+   
 }

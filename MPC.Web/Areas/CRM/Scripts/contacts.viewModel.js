@@ -91,6 +91,7 @@ define("crm/contacts.viewModel",
                 // Delete Contact button Handler 
                 deleteContactbuttonHandler = function (contact) {
                     // Ask for confirmation
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteContact({
                             CompanyContactId: contact.contactId(),
@@ -152,6 +153,7 @@ define("crm/contacts.viewModel",
                         toastr.error("Default Contact Cannot be deleted", "", ist.toastrOptions);
                         return;
                     }
+                    confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                     // Ask for confirmation
                     confirmation.afterProceed(function () {
                         //#region Db Saved Record Id > 0
@@ -344,8 +346,11 @@ define("crm/contacts.viewModel",
                                          var count = 0;
                                          _.each(companyContactsForListView(), function (user) {
                                              if (user.contactId() == savedCompanyContact.contactId()) {
-                                                 user.firstName(savedCompanyContact.firstName());
-                                                 user.email(savedCompanyContact.email());
+                                                 //user.firstName(savedCompanyContact.firstName());
+                                                 //user.email(savedCompanyContact.email());
+                                                 //user.image(savedCompanyContact.image());
+                                                 companyContactsForListView.remove(user);
+                                                 companyContactsForListView.splice(count, 0, savedCompanyContact);
                                              }
                                              count = count + 1;
                                          });
@@ -365,11 +370,47 @@ define("crm/contacts.viewModel",
                              });
                      }
                  },
+                    ExportCSVForCompanyContacts = function (file, data) {
+                        dataservice.exportCompanyContacts({
+                            id: 0
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
+
+                                }
+                                toastr.success("Company Contacts exported successfully!");
+                                searchCompanyContact();
+                            },
+                            error: function (response) {
+                                toastr.error("Company Contacts failed to export! " + response);
+                            }
+                        });
+                    },
+
                 // ReSharper disable once InconsistentNaming
                  UserProfileImageFileLoadedCallback = function (file, data) {
                      selectedCompanyContact().image(data);
                      selectedCompanyContact().fileName(file.name);
                  },
+                 // import companyContacts
+                  selectedCsvFileForCompanyContact = function (file, data) {
+                      dataservice.importCompanyContact({
+                          FileName: file.name,
+                          FileBytes: data,
+                          CompanyId: 0
+                      }, {
+                          success: function (successData) {
+                              toastr.success("Company Contacts imported successfully!");
+                              searchCompanyContact();
+                          },
+                          error: function (response) {
+                              toastr.error("Company Contacts failed to import! " + response);
+                          }
+                      });
+                  },
                 // Close contact button handerl
                  onCloseCompanyContact = function () {
                      selectedCompanyContact(undefined);
@@ -427,7 +468,9 @@ define("crm/contacts.viewModel",
                     allCompanyAddressesList: allCompanyAddressesList,
                     onDeleteCompanyContact: onDeleteCompanyContact,
                     addContact: addContact,
-                    initializeForCalendar: initializeForCalendar
+                    initializeForCalendar: initializeForCalendar,
+                    ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
+                    selectedCsvFileForCompanyContact: selectedCsvFileForCompanyContact
                 };
             })()
         };

@@ -191,16 +191,16 @@ namespace MPC.Repository.Repositories
                             }
                         }
 
-                        if (string.IsNullOrEmpty(To) || string.IsNullOrEmpty(smtpUserName) || string.IsNullOrEmpty(smtpServer))
-                        {
-                            if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
-                            {
-                                CountOfEmailsFailed += 1;
-                            }
-                            return false;
-                        }
-                        else
-                        {
+                        //if (string.IsNullOrEmpty(To) || string.IsNullOrEmpty(smtpUserName) || string.IsNullOrEmpty(smtpServer))
+                        //{
+                        //    if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
+                        //    {
+                        //        CountOfEmailsFailed += 1;
+                        //    }
+                        //    return false;
+                        //}
+                        //else
+                        //{
 
                             if (ValidatEmail(To))
                             {
@@ -231,7 +231,7 @@ namespace MPC.Repository.Repositories
                             }
 
                             return result;
-                        }
+                        //}
                     }
                 }
                 else
@@ -436,27 +436,25 @@ namespace MPC.Repository.Repositories
                                                 {
                                                     if (propertyInfo.Name == "ApprovarID")
                                                     {
-                                                        tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                        tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                     }
                                                     else if (Tag.Contains("StoreName"))
                                                     {
-                                                        if (Mode == StoreMode.Retail)
-                                                        {
-                                                            if (OrganizationRec != null)
-                                                            {
-                                                                tagValue = OrganizationRec.OrganisationName;
-                                                            }
-                                                            else
-                                                            {
-                                                                tagValue = "";
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
-                                                        }
-
-
+                                                        //if (Mode == StoreMode.Retail)
+                                                        //{
+                                                        //    if (OrganizationRec != null)
+                                                        //    {
+                                                        //        tagValue = OrganizationRec.OrganisationName;
+                                                        //    }
+                                                        //    else
+                                                        //    {
+                                                        //        tagValue = "";
+                                                        //    }
+                                                        //}
+                                                        //else
+                                                        //{
+                                                       tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                       // }
                                                     }
                                                     else if (propertyInfo.Name == "AddressId")
                                                     {
@@ -557,7 +555,7 @@ namespace MPC.Repository.Repositories
 
                                                         if (orderid > 0)
                                                         {
-                                                            tagValue = "";// "mis/Services/OrderSvc.svc/DownloadOrderXMLByID?OrderID=" + orderid + "&Format=1";
+                                                            tagValue = "/mis/api/DownloadArtwork?OrderId=" + orderid + "&OrganisationId=" + OrganizationRec.OrganisationId + "&formatxml=1"; // "mis/Services/OrderSvc.svc/DownloadOrderXMLByID?OrderID=" + orderid + "&Format=1";
 
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
 
@@ -569,7 +567,7 @@ namespace MPC.Repository.Repositories
                                                         int orderid = Convert.ToInt32(propertyInfo.GetValue(variablValues, null));
                                                         if (orderid > 0)
                                                         {
-                                                            tagValue = "";// "mis/Services/OrderSvc.svc/GenerateOrderArtworkArchive?OrderID=" + orderid;
+                                                            tagValue = "/mis/api/DownloadArtwork?OrderId=" + orderid + "&OrganisationId=" + OrganizationRec.OrganisationId;
 
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
                                                         }
@@ -846,6 +844,7 @@ namespace MPC.Repository.Repositories
                 emailQueue.SMTPPassword = ServerPass;
                 emailQueue.AttemptCount = 0;
                 emailQueue.CampaignReportId = CampaignReportID;
+                emailQueue.SendDateTime = DateTime.Now;
                 string fileAttachment = "";
                 if (AttachmentList != null)
                 {
@@ -949,29 +948,45 @@ namespace MPC.Repository.Repositories
                         }
                         if (isCampaignPaused != Convert.ToInt32(ScheduledStatus.Paused))
                         {
-                            if (SendEmail(record, hcontext, out ErrorMsg))
+                            if (string.IsNullOrEmpty(record.SMTPPassword) || string.IsNullOrEmpty(record.SMTPUserName) || string.IsNullOrEmpty(record.SMTPServer))
                             {
-                                if (record.FileAttachment != null)
+                                record.ErrorResponse = "smtp Settings not found.";
+                                record.AttemptCount++;
+                                db.SaveChanges();
+                            }
+                            else 
+                            {
+                                if (SendEmail(record, hcontext, out ErrorMsg))
                                 {
-                                    res = true;
-                                }
-
-                                if (res)
-                                {
-
-                                    string filePath = string.Empty;
-                                    string[] Allfiles = record.FileAttachment.Split('|');
-                                    foreach (var file in Allfiles)
+                                    if (record.FileAttachment != null)
                                     {
-                                        filePath = hcontext.Server.MapPath(file);
-                                        if (File.Exists(filePath))
-                                            File.Delete(filePath);
+                                        res = true;
                                     }
 
+                                    if (res)
+                                    {
+
+                                        string filePath = string.Empty;
+                                        string[] Allfiles = record.FileAttachment.Split('|');
+                                        foreach (var file in Allfiles)
+                                        {
+                                            filePath = hcontext.Server.MapPath(file);
+                                            if (File.Exists(filePath))
+                                                File.Delete(filePath);
+                                        }
+
+                                    }
+                                    db.CampaignEmailQueues.Remove(record);
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    record.ErrorResponse = ErrorMsg;
+                                    record.AttemptCount++;
+                                    db.SaveChanges();
                                 }
                             }
-                            db.CampaignEmailQueues.Remove(record);
-                            db.SaveChanges();
+                           
                         }
                         else
                         {
@@ -985,8 +1000,7 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-                throw ex;
-
+               throw ex;
             }
         }
 
@@ -996,6 +1010,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                bool isFileExists = true;
+
                 if (string.IsNullOrEmpty(oEmailBody.EmailFrom))
                 {
                     ErrorMsg = "";
@@ -1035,47 +1051,62 @@ namespace MPC.Repository.Repositories
                             }
 
                             string FilePath = context.Server.MapPath(temp);
-                            data = new Attachment(FilePath, MediaTypeNames.Application.Octet);
-                            ContentDisposition disposition = data.ContentDisposition;
-                            disposition.CreationDate = System.IO.File.GetCreationTime(FilePath);
-                            disposition.ModificationDate = System.IO.File.GetLastWriteTime(FilePath);
-                            disposition.ReadDate = System.IO.File.GetLastAccessTime(FilePath);
-                            disposition.FileName = fname;
-                            objMail.Attachments.Add(data);
+                            if (File.Exists(FilePath))
+                            {
+                                data = new Attachment(FilePath, MediaTypeNames.Application.Octet);
+                                ContentDisposition disposition = data.ContentDisposition;
+                                disposition.CreationDate = System.IO.File.GetCreationTime(FilePath);
+                                disposition.ModificationDate = System.IO.File.GetLastWriteTime(FilePath);
+                                disposition.ReadDate = System.IO.File.GetLastAccessTime(FilePath);
+                                disposition.FileName = fname;
+                                objMail.Attachments.Add(data);
+                            }
+                            else 
+                            {
+                                isFileExists = false;
+                            }
                         }
                     }
                 }
-
-                SmtpClient objSmtpClient = new SmtpClient(smtp);
-                objSmtpClient.Credentials = new NetworkCredential(SmtpUserName, SenderPassword);
-                objMail.From = new MailAddress(FromEmail, FromName);
-                objMail.To.Add(new MailAddress(MailTo, ToName));
-                if (!string.IsNullOrEmpty(CC))
+                if (isFileExists == true)
                 {
-                    if (!string.IsNullOrWhiteSpace(CC))
-                        objMail.CC.Add(new MailAddress(CC));
+                    SmtpClient objSmtpClient = new SmtpClient(smtp);
+                    objSmtpClient.Credentials = new NetworkCredential(SmtpUserName, SenderPassword);
+                    objMail.From = new MailAddress(FromEmail, FromName);
+                    objMail.To.Add(new MailAddress(MailTo, ToName));
+                    if (!string.IsNullOrEmpty(CC))
+                    {
+                        if (!string.IsNullOrWhiteSpace(CC))
+                            objMail.CC.Add(new MailAddress(CC));
+                    }
+
+                    objMail.IsBodyHtml = true;
+                    objMail.Body = oEmailBody.Body;
+                    objMail.Subject = oEmailBody.Subject;
+
+                    objSmtpClient.Send(objMail);
+
+                    if (data != null)
+                    {
+                        objMail.Attachments.Remove(data);
+                        data.Dispose();
+                    }
+                    retVal = true;
+                    ErrorMsg = "";
+
+
+                    objMail.Dispose();
+                    if (objMail != null)
+                        objMail = null;
+
+                    return retVal;
                 }
-
-                objMail.IsBodyHtml = true;
-                objMail.Body = oEmailBody.Body;
-                objMail.Subject = oEmailBody.Subject;
-
-                objSmtpClient.Send(objMail);
-
-                if (data != null)
+                else 
                 {
-                    objMail.Attachments.Remove(data);
-                    data.Dispose();
+                    ErrorMsg = "Attachment not found.";
+                    return false;
                 }
-                retVal = true;
-                ErrorMsg = "";
-
-
-                objMail.Dispose();
-                if (objMail != null)
-                    objMail = null;
-
-                return retVal;
+             
 
             }
             catch (Exception ex)
@@ -1182,7 +1213,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId)
+        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId, string SalesManagerEmail)
         {
             try
             {
@@ -1213,7 +1244,7 @@ namespace MPC.Repository.Repositories
                             obj.AddressId = ContactCompnyID;
                             obj.CompanyId = ContactCompnyID;
                             obj.OrganisationId = serverSettings.OrganisationId;
-                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore,"","", "", "", "", corpRec.Email);
+                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore, "", "", "", SalesManagerEmail, "", corpRec.Email);
                         }
                     }
                 
@@ -1284,7 +1315,7 @@ namespace MPC.Repository.Repositories
 
             // here is problem supplier user is null .. bcox in parameter we are sendin
 
-            CompanyContact supplieruser = db.CompanyContacts.Where(c => c.ContactId == supplierContactID).FirstOrDefault();
+            CompanyContact supplieruser = db.CompanyContacts.Where(c => c.CompanyId == supplierContactID && c.IsDefaultContact == 1).FirstOrDefault();
             Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
 
             SystemUser SalesManager = null;
@@ -1303,7 +1334,7 @@ namespace MPC.Repository.Repositories
                 CEP.OrganisationId = OrganisationId;
                 CEP.AddressId = companyID;
                 CEP.Id = reportNotesID;
-
+                CEP.EstimateId = orderID;
 
                 if (objCompany.IsCustomer == 3)
                 {
@@ -1319,6 +1350,40 @@ namespace MPC.Repository.Repositories
               //  emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser,StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList, "", null, "", "", null, "", "", "", 0, "", 0);
             }
         }
+        public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid, long StockItemId, long OrderId)
+        {
+            try
+            {
 
+                CampaignEmailParams obj = new CampaignEmailParams();
+
+                List<SystemUser> Managers = db.SystemUsers.Where(s => mangerList.Contains(s.SystemUserId)).ToList();
+                if (Managers.Count() > 0)
+                {
+                    Campaign stockCampaign = GetCampaignRecordByEmailEvent(emailevent, ServerSettings.OrganisationId, CompanyId);
+
+                    foreach (SystemUser stRec in Managers)
+                    {
+                        obj.SystemUserId = stRec.SystemUserId;
+                        obj.SalesManagerContactID = salesId;
+                        obj.StoreId = CompanyId;
+                        obj.CompanyId = CompanyId;
+                        obj.OrganisationId = ServerSettings.OrganisationId;
+                        obj.ItemId = itemId;
+                        obj.ContactId = contactId;
+                        obj.orderedItemID = (int)orderedItemid;
+                        obj.StockItemId = StockItemId;
+                        obj.EstimateId = OrderId;
+                        emailBodyGenerator(stockCampaign, ServerSettings, obj, null, ModeOfStore, "", "", "", stRec.Email, stRec.FullName);
+
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -16,7 +17,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Deletes a company permanently
         /// </summary>
-        void DeleteCompanyPermanently(long companyId);
+        void DeleteCompanyPermanently(long companyId,string Comment);
 
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);
@@ -32,6 +33,8 @@ namespace MPC.Interfaces.MISServices
         void SaveFile(string filePath, long companyId);
 
         Company SaveCompany(CompanySavingModel company);
+
+        void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
         long GetOrganisationId();
 
         /// <summary>
@@ -60,6 +63,8 @@ namespace MPC.Interfaces.MISServices
         /// Get Items For Widgets
         /// </summary>
         List<Item> GetItemsForWidgets();
+
+        List<Item> GetItemsForWidgetsByStoreId(long storeId);
 
         /// <summary>
         /// Save Field Variable
@@ -148,6 +153,32 @@ namespace MPC.Interfaces.MISServices
         /// <returns></returns>
         bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact);
 
+        bool SaveCRMImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact);
+
+        void DeleteCrmCompanyPermanently(long companyId);
+
+        /// <summary>
+        /// Get System Variables
+        /// </summary>
+        FieldVariableResponse GetSystemVariables(FieldVariableRequestModel request);
+
+        /// <summary>
+        /// Add/Update Discount Voucher
+        /// </summary>
+        DiscountVoucher SaveDiscountVoucher(DiscountVoucher discountVoucher);
+
+        /// <summary>
+        /// Get Discount Voucher By Id
+        /// </summary>
+        DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
+
+        List<LiveStoreDetails> GetLiveStoresJason();
+        string GetCompanyCss(long companyId);
+        void UpdateCompanyCss(string sCustomCss, long oCompanyId);
+
+        RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request);
+        
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
@@ -156,6 +187,12 @@ namespace MPC.Interfaces.MISServices
 
 
         bool ImportStore(long OrganisationId, string StoreName, string SubDomain);
+
+        Company CloneStore(long companyId);
+
+        void DeleteCompanyVariableIcon(long iconId);
+
+        bool ExportStoreZip(long CompanyId, long OrganisationId);
         #endregion
 
 

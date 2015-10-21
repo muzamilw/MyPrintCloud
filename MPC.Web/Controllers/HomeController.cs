@@ -70,15 +70,15 @@ namespace MPC.MIS.Controllers
              */
             
             ValidationInfo validationInfo = null;
-           
 
+            //|| System.Web.HttpContext.Current.Request.Url.Authority.Contains("ngrok")
             //For Development environment Set these values and comment code above starting from using...
             if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost" || System.Web.HttpContext.Current.Request.Url.Authority == "mpcmis")
             {
                 validationInfo = new ValidationInfo();
                 validationInfo.CustomerID = "1";
                 validationInfo.userId = "EA8D4A6B-E88C-41B0-A003-49827D447074";
-                validationInfo.FullName = "Naveed Zahid";
+                validationInfo.FullName = "Naveed Zahidx";
                 validationInfo.Plan = "light";
                 validationInfo.Email = "naveedmnz@hotmail.com";
                 validationInfo.IsTrial = true;
@@ -298,10 +298,10 @@ namespace MPC.MIS.Controllers
             return PartialView();
         }
 
-        public ActionResult Viewer(int id, int itemId)
+        public ActionResult Viewer(int? id, int? itemId)
         {
 
-            ReportDescriptor model = new ReportDescriptor() { Id = id, ItemId = itemId };
+            ReportDescriptor model = new ReportDescriptor() { Id = id ?? 0, ItemId = itemId ?? 0 };
 
 
             return View(model);
@@ -316,9 +316,7 @@ namespace MPC.MIS.Controllers
            
             ViewBag.Report = report;
 
-
-
-                  return PartialView("WebViewer");
+            return PartialView("WebViewer");
 
         }
     }

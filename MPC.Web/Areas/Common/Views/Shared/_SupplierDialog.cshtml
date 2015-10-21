@@ -19,7 +19,7 @@
                                     <table id="supplierTablle" class="table table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th> <span>Spplier Name<span></span></span></th>
+                                                <th> <span>Supplier Name<span></span></span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -46,10 +46,10 @@
     </div>
     @* Filter Template *@
     <script id="supplierFilterTemplate" type="text/html">
-        <div class="filter-body">
+        <div class="filter-body" style="margin-left:7px;margin-right:7px;">
             <form data-bind="submit: $root.searchSupplier">
                 <div class="filter-block pull-right">
-                    <div class="form-group pull-right">
+                    <div class="form-group pull-right" style="margin-right:0px;">
                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
                         <i class="fa fa-search search-icon" data-bind="click: $root.searchSupplier"></i>
                     </div>

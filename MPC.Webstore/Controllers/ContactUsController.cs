@@ -8,6 +8,7 @@ using MPC.Webstore.Models;
 using MPC.Models.DomainModels;
 using System.Runtime.Caching;
 using System.Collections.Generic;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -36,10 +37,11 @@ namespace MPC.Webstore.Controllers
         // GET: ContactUs
         public ActionResult Index()
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             SetDefaultAddress(StoreBaseResopnse);
             return PartialView("PartialViews/ContactUs");
@@ -48,8 +50,8 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ContactViewModel model)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
             try
             {
                 string smtpUser = null;
@@ -57,7 +59,9 @@ namespace MPC.Webstore.Controllers
                 string smtpPassword = null;
                 string fromName = null;
                 string fromEmail = null;
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
                 ViewBag.Organisation = StoreBaseResopnse.StoreDetaultAddress;
                 string MesgBody = "";
                 if (StoreBaseResopnse.Organisation != null)
@@ -78,14 +82,16 @@ namespace MPC.Webstore.Controllers
                 StoreName = StoreBaseResopnse.StoreDetaultAddress.AddressName;
 
 
-                MesgBody += "Dear " + salesManager.FullName + ",<br>";
-                MesgBody += "An enquiry has been submitted to you with the details:<br>";
-                MesgBody += "Name: " + model.YourName + "<br>";
-                MesgBody += "Company Name: " + model.CompanyName + "<br>";
-                MesgBody += "Store Name: " + StoreName + "<br>";
-                MesgBody += "Email: " + model.Email + "<br>";
-                MesgBody += "Nature of Enquiry: General <br>";
-                MesgBody += "Enquiry: " + model.YourEnquiry + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlDear", UserCookieManager.WBStoreId, "Dear") + salesManager.FullName + ",<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlinqsub", UserCookieManager.WBStoreId, "An enquiry has been submitted to you with the details:") + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlnamee", UserCookieManager.WBStoreId, "Name:") + model.YourName + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlcompanynamee", UserCookieManager.WBStoreId, "Company Name:") + model.CompanyName + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlStoreNamee", UserCookieManager.WBStoreId, "Store Name:") + StoreName + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlllEmail", UserCookieManager.WBStoreId, "Email:")
+ + model.Email + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlnaturofinq", UserCookieManager.WBStoreId, "Nature of Enquiry: General:") + "<br>"
+;
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlinqq", UserCookieManager.WBStoreId, "Enquiry:") + model.YourEnquiry + "<br>";
                 bool result = _myCompainservice.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, model.YourEnquiry + " Contact enquiry from " + StoreName, null, 0);
 
                  if (result)
@@ -94,7 +100,7 @@ namespace MPC.Webstore.Controllers
                     model.YourName = "";
                     model.CompanyName = "";
                     model.Email = "";
-                    ViewBag.Message = "Thank you for submitting a request. Someone will contact you shortly.";
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlsubmitt", UserCookieManager.WBStoreId, "Thank you for submitting a request. Someone will contact you shortly.");
                 }
                 else
                 {
@@ -162,7 +168,6 @@ namespace MPC.Webstore.Controllers
                     ViewBag.MapImage = StoreBaseResopnse.Company.MapImageUrl;
                 }
                 ViewBag.DefaultAddress = oAddress;
-               
             }
             else 
             {

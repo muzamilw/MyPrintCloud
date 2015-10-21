@@ -27,10 +27,11 @@
                 <div class="col-lg-12 modal-header" id="dialgHeaderPadding">
                     <h4 class="modal-title">Work Instructions</h4>
                 </div>
+                <div class="form-group col-lg-12 outerDiv-Padding form-horizontal" style="width: 96%;">
+                    <textarea class="form-control" rows="5" data-bind="text: $root.selectedQty() == 1 ? qty1WorkInstructions() :$root.selectedQty() == 2? qty2WorkInstructions() : qty3WorkInstructions()"></textarea>
+                </div>
                 <div class="col-lg-6 outerDiv-Padding form-horizontal">
-                    <div class="form-group col-lg-12">
-                        <textarea class="form-control" style="font-size: 16px;" rows="5" data-bind="text: $root.selectedQty() == 1 ? qty1WorkInstructions() :$root.selectedQty() == 2? qty2WorkInstructions() : qty3WorkInstructions()"></textarea>
-                    </div>
+                    
                     <div class="form-group col-lg-12" data-bind="visible: costCentreType() == '139' || costCentreType() == '1'">
                         <div class="tabs-wrapper profile-tabs main-box clearfix">
                             <ul class="nav nav-tabs">
@@ -51,7 +52,7 @@
 
                     <div id="stockItemRight">
                         @*class="col-lg-6"*@
-                        <div class="col-lg-12 form-group">
+                        @*<div class="col-lg-12 form-group">
                             <div class="checkbox-nice">
                                 <input type="checkbox" id="isDirectCostCheckbox" data-bind="checked: isDirectCost">
                                 <label for="isDirectCostCheckbox">
@@ -66,31 +67,28 @@
                                     Raise Purchase Order
                                 </label>
                             </div>
-                        </div>
+                        </div>*@
 
                         @*<div class="col-lg-6">*@
                         @* Hide it as discussed with mr. naveed *@
-                        @*<div class="form-group col-lg-12">
+                        <div class="form-group col-lg-12">
                             <div class="col-lg-4 text-right"><label class="control-label text-right">Quantity</label></div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-8">
                                 <!--ko if:  $root.selectedQty() == 1-->
-                                <input type="text" class="text-right form-control" data-bind="value: qty1, enable: costCentreType() != 1 ? true: false " />
+                                <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty1Ui, enable: costCentreType() != 1 ? true: false " />
                                 <!--/ko-->
                                 <!--ko if:  $root.selectedQty() == 2-->
-                                <input type="text" class="text-right form-control" data-bind="value: qty2, enable: costCentreType() != 1 ? true: false " />
-                                <!--/ko-->
-                                <!--ko if:  $root.selectedQty() == 3-->
-                                <input type="text" class="text-right form-control" data-bind="value: qty3, enable: costCentreType() != 1 ? true: false " />
+                                <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty2Ui, enable: costCentreType() != 1 ? true: false " />
                                 <!--/ko-->
 
                             </div>
-                            <div class="col-lg-3">
+                            @*<div class="col-lg-3">
                                 <button data-bind="click: $root.onResetButtonClick, enable: costCentreType() != 1" class="btn btn-primary pull-right">
                                     Reset
                                 </button>
-                            </div>
-                        </div>*@
-                        <div class="form-group col-lg-12">
+                            </div>*@
+                        </div>
+                        @*<div class="form-group col-lg-12">
                             <div class="col-lg-4 text-right"><label class="control-label text-right">Total Cost</label></div>
                             <div class="col-lg-8">
                                 <!--ko if:  $root.selectedQty() == 1-->
@@ -103,7 +101,7 @@
                                 <input type="text" class="text-right form-control" data-bind="value: qty3EstimatedStockCost " />
                                 <!--/ko-->
                             </div>
-                        </div>
+                        </div>*@
                         <div class="form-group col-lg-12">
                             <div class="col-lg-4 text-right"><label class="control-label text-right">Total Price</label></div>
                             <div class="col-lg-8">
@@ -120,9 +118,9 @@
                         </div>
                         <div class="form-group col-lg-12">
                             <div class="col-lg-4 text-right"><label class="control-label text-right">Markup</label></div>
-                            <div class="col-lg-8"><select class="form-control col-lg-4 form-control" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsValue:'MarkUpId', value:$root.selectedQty() == 1 ? $root.sectionCostCenterQty1MarkUpId :$root.selectedQty() == 2?  $root.sectionCostCenterQty2MarkUpId :  $root.sectionCostCenterQty3MarkUpId  "></select></div>
+                            <div class="col-lg-8"><select class="form-control col-lg-4 form-control" data-bind="options:$root.markups,optionsText:'MarkUpName', optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value:$root.selectedQty() == 1 ? $root.sectionCostCenterQty1MarkUpId :$root.selectedQty() == 2?  $root.sectionCostCenterQty2MarkUpId :  $root.sectionCostCenterQty3MarkUpId  "></select></div>
                         </div>
-                        <div class="form-group col-lg-12">
+                        @*<div class="form-group col-lg-12">
                             <div class="col-lg-4 text-right"><label class="control-label text-right">Markup Value</label></div>
                             <div class="col-lg-8">
                                 <!--ko if:  $root.selectedQty() == 1-->
@@ -135,7 +133,7 @@
                                 <input type="text" class="text-right form-control" data-bind="value: qty3MarkUpValue " readonly="readonly" />
                                 <!--/ko-->
                             </div>
-                        </div>
+                        </div>*@
                         <div class="form-group col-lg-12">
                             <div class="col-lg-4 text-right"><label class="control-label text-right">Net Total</label></div>
                             <div class="col-lg-8">
@@ -179,14 +177,19 @@
                         <tr>
                             <th class="col-lg-5"><span>Item</span></th>
                             <th class="col-lg-4"><span>Unit Price</span></th>
-                            <th class="col-lg-3"><span>Quantity</span></th>
+                            @*<th class="col-lg-3"><span>Quantity</span></th>*@
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: $root.selectedSectionCostCenter().sectionCostCentreDetails">
                         <tr>
                             <td data-bind="text: stockName"></td>
                             <td data-bind="text: $root.currencySymbol() + costPrice()"></td>
+                            @*<!--ko if:  $root.selectedQty() == 1-->
                             <td data-bind="text: qty1"></td>
+                            <!--/ko-->
+                            <!--ko if:  $root.selectedQty() == 2-->
+                            <td data-bind="text: qty2"></td>
+                            <!--/ko-->*@
                         </tr>
                     </tbody>
                 </table>

@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -18,5 +20,9 @@ namespace MPC.Interfaces.MISServices
         InvoiceBaseResponse GetInvoiceBaseResponse();
         Invoice GetInvoiceById(long Id);
         Invoice SaveInvoice(Invoice request);
+        List<ZapierInvoiceDetail> GetZapierInvoiceDetail(long organisationId);
+        void PostDataToZapier(long invoiceId);
+        List<ZapierInvoiceDetail> GetInvoiceDetailForZapierPooling(long organisationId);
+        void ArchiveInvoice(int InvoiceId);
     }
 }

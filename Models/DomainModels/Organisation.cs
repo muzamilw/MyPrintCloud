@@ -186,6 +186,44 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool? IsImperical { get; set; }
 
+        /// <summary>
+        /// Agile Api Key
+        /// </summary>
+        public string AgileApiKey { get; set; }
+
+        /// <summary>
+        /// Agile Api Url
+        /// </summary>
+        public string AgileApiUrl { get; set; }
+       /// <summary>
+       /// Agile Active Flag
+       /// </summary>
+        public bool? isAgileActive { get; set; }
+        /// <summary>
+        /// Trial Flag
+        /// </summary>
+        public bool? isTrial { get; set; }
+        /// <summary>
+        /// Live Stores Count
+        /// </summary>
+        public int? LiveStoresCount { get; set; }
+        /// <summary>
+        /// Web Store Orders Count
+        /// </summary>
+        public int? WebStoreOrdersCount { get; set; }
+        /// <summary>
+        /// MIS Order Count
+        /// </summary>
+        public int? MisOrdersCount { get; set; }
+        /// <summary>
+        /// Billing Date
+        /// </summary>
+        public DateTime? BillingDate { get; set; }
+        public int? OfflineStoreClicks { get; set; }
+
+        public string CreateContactZapTargetUrl { get; set; }
+        public string CreateInvoiceZapTargetUrl { get; set; }
+        public bool? IsZapierEnable { get; set; }
         #endregion
         
         #region Reference Properties

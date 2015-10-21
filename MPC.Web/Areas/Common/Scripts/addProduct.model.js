@@ -9,7 +9,7 @@
         specifiedJobActualCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
         specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
         specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-        specifiedTax1, specifiedItemType, specifiedEstimateId) {
+        specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedCompanyName, specifiedProductSpecification, specifiedThumbnail) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -106,23 +106,6 @@
             invoiceDescription = ko.observable(specifiedInvoiceDescription || undefined),
             // Product Categories
             productCategories = ko.observableArray(specifiedProductCategories || []),
-            // Product Categories Ui
-            productCategoriesUi = ko.computed(function() {
-                if (!productCategories || productCategories().length === 0) {
-                    return "";
-                }
-
-                var categories = "";
-                productCategories.each(function(category, index) {
-                    var pcname = category;
-                    if (index < productCategoryItems().length - 1) {
-                        pcname = pcname + " || ";
-                    }
-                    categories += pcname;
-                });
-
-                return categories;
-            }),
             // Item Stock options
             itemStockOptions = ko.observableArray([]),
             // Item Sections
@@ -192,90 +175,12 @@
             jobEstimatedStartDateTime = ko.observable(),
             // Job Estimated Completion Date Time
             jobEstimatedCompletionDateTime = ko.observable(),
-            //Item Attachments
-            itemAttachments = ko.observableArray([]),
-            // Errors
-            errors = ko.validation.group({
-                productCode: productCode,
-                productName: productName
-            }),
-            // Is Valid
-            isValid = ko.computed(function() {
-                return errors().length === 0 &&
-                    itemSections.filter(function(itemSection) {
-                        return !itemSection.isValid();
-                    }).length === 0;
-            }),
-            // Show All Error Messages
-            showAllErrors = function() {
-                // Show Item Errors
-                errors.showAllMessages();
-                // Show Item Section Errors
-                var itemSectionErrors = itemSections.filter(function(itemSection) {
-                    return !itemSection.isValid();
-                });
-                if (itemSectionErrors.length > 0) {
-                    _.each(itemSectionErrors, function(itemSection) {
-                        itemSection.errors.showAllMessages();
-                    });
-                }
-            },
-            // Set Validation Summary
-            setValidationSummary = function() {
-
-            },
-            // True if the product has been changed
-            // ReSharper disable InconsistentNaming
-            dirtyFlag = new ko.dirtyFlag({
-                name: name,
-                code: code,
-                productName: productName,
-                productCode: productCode,
-                itemAttachments: itemAttachments,
-                jobDescriptionTitle1: jobDescriptionTitle1,
-                jobDescriptionTitle2: jobDescriptionTitle2,
-                jobDescriptionTitle3: jobDescriptionTitle3,
-                jobDescriptionTitle4: jobDescriptionTitle4,
-                jobDescriptionTitle5: jobDescriptionTitle5,
-                jobDescriptionTitle6: jobDescriptionTitle6,
-                jobDescriptionTitle7: jobDescriptionTitle7,
-                jobDescription1: jobDescription1,
-                jobDescription2: jobDescription2,
-                jobDescription3: jobDescription3,
-                jobDescription4: jobDescription4,
-                jobDescription5: jobDescription5,
-                jobDescription6: jobDescription6,
-                jobDescription7: jobDescription7,
-                isQtyRanged: isQtyRanged,
-                defaultItemTax: defaultItemTax,
-                jobEstimatedStartDateTime: jobEstimatedStartDateTime,
-                jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
-                jobManagerId: jobManagerId,
-                itemSections: itemSections
-            }),
-            // Item Section Changes
-            itemSectionHasChanges = ko.computed(function() {
-                return itemSections.find(function(itemSection) {
-                    return itemSection.hasChanges();
-                }) != null;
-            }),
-            // Item Attachment Changes
-            itemAttachmentHasChanges = ko.computed(function() {
-                return itemAttachments.find(function(itemAttachment) {
-                    return itemAttachment.hasChanges();
-                }) != null;
-            }),
-            // Has Changes
-            hasChanges = ko.computed(function() {
-                return dirtyFlag.isDirty() || itemSectionHasChanges() || itemAttachmentHasChanges();
-            }),
-            // Reset
-            reset = function() {
-                itemSections.each(function(itemSection) {
-                    return itemSection.reset();
-                });
-                dirtyFlag.reset();
-            },
+            // Company Name
+            companyName = ko.observable(specifiedCompanyName || undefined),
+            //Product Specification
+            productSpecification = ko.observable(specifiedProductSpecification || undefined),
+            // thumbnail
+            thumbnail = ko.observable(specifiedThumbnail || undefined),
             // Convert To Server Data
             convertToServerData = function() {
                 return {
@@ -310,6 +215,7 @@
                         moment(jobEstimatedCompletionDateTime()).format(ist.utcFormat) + "Z" : undefined,
                     JobManagerId: jobManagerId(),
                     JobStatusId: jobStatusId(),
+                    CompanyName: companyName(),
                     ItemSections: itemSections.map(function(itemSection, index) {
                         var section = itemSection.convertToServerData(id() <= 0);
                         section.SectionNo = index + 1;
@@ -318,8 +224,7 @@
                             section.ItemId = 0;
                         }
                         return section;
-                    }),
-                    ItemAttachment: itemAttachments()
+                    })
                 };
             };
 
@@ -329,7 +234,6 @@
             code: code,
             productName: productName,
             productCode: productCode,
-            itemAttachments: itemAttachments,
             jobDescriptionTitle1: jobDescriptionTitle1,
             jobDescriptionTitle2: jobDescriptionTitle2,
             jobDescriptionTitle3: jobDescriptionTitle3,
@@ -351,7 +255,6 @@
             qty1NetTotal: qty1NetTotal,
             qty1NetTotalComputed: qty1NetTotalComputed,
             qty1: qty1,
-            productCategoriesUi: productCategoriesUi,
             jobCode: jobCode,
             itemNotes: itemNotes,
             jobCreationDateTime: jobCreationDateTime,
@@ -385,13 +288,9 @@
             taxRateIsDisabled: taxRateIsDisabled,
             itemStockOptions: itemStockOptions,
             itemPriceMatrices: itemPriceMatrices,
-            errors: errors,
-            isValid: isValid,
-            showAllErrors: showAllErrors,
-            dirtyFlag: dirtyFlag,
-            hasChanges: hasChanges,
-            reset: reset,
-            setValidationSummary: setValidationSummary,
+            companyName: companyName,
+            productSpecification: productSpecification,
+            thumbnail: thumbnail,
             convertToServerData: convertToServerData
         };
     },
@@ -1283,7 +1182,7 @@
         // Item Addon Cost Centre Entity
         ItemAddonCostCentre = function(specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
             specifiedCostCentreType, specifiedTotalPrice, callbacks, specifiedProductItemTax, specifiedCompanyTaxRate, specifiedCostCentreQuantitySourceType,
-            specifiedCostCentreTimeSourceType, specifiedCostCentreTypeId) {
+            specifiedCostCentreTimeSourceType, specifiedCostCentreTypeId, specifiedCalculationMethodType) {
             // ReSharper restore InconsistentNaming
             var // self reference
                 self,
@@ -1304,7 +1203,7 @@
                 // Cost Centre Time Source Type
                 costCentreTimeSourceType = ko.observable(specifiedCostCentreTimeSourceType || undefined),
                 // Total Price
-                totalPrice = ko.observable(specifiedTotalPrice || undefined).extend({ numberInput: ist.numberFormat }),
+                totalPrice = ko.observable(0).extend({ numberInput: ist.numberFormat }), // No need to show Price initially as they are calculated on selection
                  // Total Price With tax
                 totalPriceWithTax = ko.computed(function () {
                     if (specifiedProductItemTax != undefined && specifiedProductItemTax != null) {
@@ -1335,6 +1234,8 @@
                 itemStockOptionId = ko.observable(specifiedItemStockOptionId || 0),
                 //Is Selected 
                 isSelected = ko.observable(false),
+                // Calculation Method Type
+                calculationMethodType = ko.observable(specifiedCalculationMethodType || undefined),
                 // Errors
                 errors = ko.validation.group({                    
                     
@@ -1380,6 +1281,7 @@
                 totalPriceWithTax: totalPriceWithTax,
                 isMandatory: isMandatory,
                 isSelected: isSelected,
+                calculationMethodType: calculationMethodType,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -1654,7 +1556,8 @@
            source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobActtualStartDateTime,
            source.JobActualCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
            source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
-           source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId);
+           source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId,
+           source.CompanyName,source.ProductSpecification, source.ThumbnailImageSource);
 
        // Map Item Sections if any
        if (source.ItemSections && source.ItemSections.length > 0) {
@@ -1668,25 +1571,10 @@
            ko.utils.arrayPushAll(item.itemSections(), itemSections);
            item.itemSections.valueHasMutated();
        }
-
-       if (source.ItemAttachments && source.ItemAttachments.length > 0) {
-           item.itemAttachments.removeAll();
-           _.each(source.ItemAttachments, function (attachment) {
-               item.itemAttachments.push(ItemAttachment.Create(attachment));
-           });
-       }
-
-
-       // Return item with dirty state if New
-       if (!item.id()) {
-           return item;
-       }
-
-       // Reset State to Un-Modified
-       item.reset();
-
+       
        return item;
    };
+    
     // Item Stock Option Factory
    ItemStockOption.Create = function (source, callbacks) {
        var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
@@ -1782,7 +1670,7 @@
    ItemAddonCostCentre.Create = function (source, callbacks) {
        return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
            source.CostCentreTypeName, source.TotalPrice, callbacks, source.ProductItemTax, source.CompanyTaxRate, source.CostCentreQuantitySourceType, 
-           source.CostCentreTimeSourceType, source.CostCentreType);
+           source.CostCentreTimeSourceType, source.CostCentreType, source.CalculationMethodType);
    };
     // Section Cost Centre Factory
    SectionCostCenterDetail.Create = function (source) {

@@ -1,11 +1,13 @@
 ﻿@model  MPC.Webstore.Models.RegisterViewModel
 @using MPC.Webstore.Common;
-
-<div class="container content_area">
+@{
+    Layout = null;
+}
+<div class="container content_area" id="all-signUp-pg">
 
     <div class="row left_right_padding">
 
-       
+
         <div class="page_border_div rounded_corners col-md-12 col-lg-12 col-xs-12">
             <div class="sign_up_page_box">
                 <div class="SignUpLeftPanel col-md-6 col-lg-6 col-xs-12">
@@ -21,7 +23,7 @@
                                 <em id="emfacebook" class="emfb"></em>
 
 
-                                <input id="facebookbtn" type="button" value="Sign up with Facebook" class="connectWithfb" onclick="SocialSignUp(1)" /><br />
+                            <input id="facebookbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign up with Facebook"))" class="connectWithfb" onclick="SocialSignUp(1)" /><br />
 
 
                                 <script>
@@ -40,23 +42,23 @@
                             @if (ViewBag.ShowFacebookSignInLink == 1)
                             {
                                 <em id="emtwtter" class="emTw"></em>
-                                <input id="facebookbtn" type="button" value="Sign up with Twitter" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
+                            <input id="facebookbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign up with Twitter"))" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
                                 <br />
                             }
 
                             <br />
                             <div id="cntOrBottom">
-                                -OR-
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("orrr", UserCookieManager.WBStoreId, "-OR-"))
                             </div>
                         </div>
                     }
                     <div class="clearBoth">&nbsp;</div>
-                    <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
+                    <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId, "Register for")) @ViewBag.CompanyName</div>
                     @{
                         bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                         if (isSocialSignUp == true)
                         {
-                            <div id="lbl_CompleteYourRegisteration" class="errorMessage mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
+                            <div id="lbl_CompleteYourRegisteration" class="errorMessage mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId, "Register for")) @ViewBag.CompanyName</div>
                         }
 
                     }
@@ -65,10 +67,12 @@
                     {
                         <div class="errorMesgLoginPage">
                             <div>@ViewBag.Message</div>
-                            <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
-                            <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
-                        <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
-                        <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
+                            
+                                <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
+                                <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
+                                <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
+                                <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
+                            
                         </div>
                         <br />
 
@@ -85,22 +89,28 @@
                         }
 
 
-                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "txtBoxLoginPage", @placeholder = "First Name" })
-
-                      
-
-                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "txtBoxLoginPage", @placeholder = "Last Name" })
-
-                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = "Phone" })
-
-                        
-                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage", @placeholder = "Email" })
+                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")) })
 
 
-                        @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @placeholder = "Password" }) <br />
+
+                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
+
+                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
+
+
+                        @Html.TextBoxFor(model => model.Email, new
+                   {
+                       id = "txtEmail",
+                       @class = "txtBoxLoginPage",
+                       @placeholder =
+                           @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
+ })
+
+
+                        @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
 
                         @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
-                        <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="CREATE ACCOUNT" onclick="ShowLoader();" /><br />
+                    <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
 
                         <div class="clear">
                             &nbsp;
@@ -113,7 +123,7 @@
                 <div class="signup_width col-md-6 col-lg-6 col-xs-12">
                     <div class="BackgroundColor">
                         <div class="custom_color_heading" id="lbl_WhyRegister">
-                            @Html.Raw(Html.GetKeyValueFromResourceFile("divwhyregister", UserCookieManager.WBStoreId))
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("divwhyregister", UserCookieManager.WBStoreId, "Why Register?"))
                         </div>
                         <div>
                             &nbsp;
@@ -122,7 +132,7 @@
                         <div class="registering_item_register" id="divsaveurdeisgn">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_SaveDesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.WBStoreId))</p>
+                            <p id="lbl_SaveDesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.WBStoreId, "Save your designs"))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -130,7 +140,7 @@
                         <div class="registering_item_register">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_OrderHistory" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.WBStoreId))</p>
+                            <p id="lbl_OrderHistory" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.WBStoreId, "View and track order history"))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -138,7 +148,7 @@
                         <div class="registering_item_register">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_Reorder" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.WBStoreId))</p>
+                            <p id="lbl_Reorder" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.WBStoreId, "Re-order quickly"))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -146,7 +156,7 @@
                         <div class="registering_item_register">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_NewLetter" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.WBStoreId))</p>
+                            <p id="lbl_NewLetter" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.WBStoreId, "Subscribe to our Newsletters "))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -154,7 +164,7 @@
                         <div class="registering_item_register">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_RequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.WBStoreId))</p>
+                            <p id="lbl_RequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.WBStoreId, "Request a Quote"))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -163,7 +173,7 @@
                             <div class="tickImge">
                                 &nbsp;
                             </div>
-                            <p id="lbl_Voucher" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.WBStoreId))</p>
+                            <p id="lbl_Voucher" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.WBStoreId, "Get latest Voucher promotions"))</p>
                         </div>
                     </div>
                 </div>
@@ -177,15 +187,15 @@
         <br />
     </div>
 </div>
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script>
 
-        $(document).ready(function () {
-            $('#txtFirstName').val("First Name");
-            $('#txtLastName').val('Last Name');
-            $('#txtEmail').val("Email");
-            $('#txtPassword').val('Password');
-            $('#txtPhone').val("Phone");
+    $(document).ready(function () {
+        $('#txtFirstName').val('@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))');
+            $('#txtLastName').val('@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))');
+        $('#txtEmail').val('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))');
+        $('#txtPassword').val('@Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password"))');
+        $('#txtPhone').val('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrllphone", UserCookieManager.WBStoreId, "Phone"))');
         });
 
         $('#txtFirstName').focus(function () {
@@ -260,4 +270,3 @@
             }
         });
     </script>
-}

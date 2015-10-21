@@ -5,6 +5,23 @@ using System.Web;
 
 namespace MPC.Models.Common
 {
+
+
+    public enum StockLevelHistory : int
+    {
+        Added = 1,
+        Ordered = 2,
+        ThresholdOrder = 3,
+        BackOrder = 4
+    }
+
+    public enum InvoiceStatuses : int
+    {
+        Awaiting = 19,
+        Posted = 20,
+        Archived = 22
+    }
+
     public enum FieldVariableScopeType : int
     {
         Store = 1,
@@ -32,6 +49,23 @@ namespace MPC.Models.Common
         LineSeperator = 2,
         VariableField = 3,
     }
+
+    public enum DiscountTypes
+    {
+            DollarAmountOffProduct = 1,
+            DollaramountoffEntireorder=2,
+            PercentoffaProduct= 3,
+            PercentoffEntirorder =4,
+            FreeShippingonEntireorder = 5
+    }
+
+    public enum CouponUseType
+    {
+        UnlimitedUse = 1,
+        OneTimeUsePerCustomer = 2,
+        OneTimeUseCoupon = 3
+    }
+
     public enum CreditCardTypeType
     {
         Visa = 1,
@@ -146,7 +180,7 @@ namespace MPC.Models.Common
     {
         ThumbAndBanner = 1,
         ThumbWithMultipleBanners = 2
-        
+
 
     }
 
@@ -192,6 +226,7 @@ namespace MPC.Models.Common
 
 
         CancelledOrder = 9,
+        Invoice = 10,
 
 
         ArchivedOrder = 23,
@@ -300,7 +335,7 @@ namespace MPC.Models.Common
         Landscape = 1,
         Portrait = 0
     }
-    public enum GripSide :int
+    public enum GripSide : int
     {
         LongSide = 1,
         ShortSide = 2
@@ -464,6 +499,23 @@ namespace MPC.Models.Common
 
     }
 
+    public enum ReportCategoryEnum : int
+    {
+        CRM = 4,
+        Stores = 1,
+        Suppliers = 2,
+        PurchaseOrders = 5,
+        Delivery = 6,
+        Order = 12,
+        Estimate = 3,
+        Invoice = 13,
+        GRN = 15,
+        Inventory = 7,
+        JobCard = 9
+
+    }
+
+
     /// <summary>
     /// Impression Coverage (Used in Order - Item Section)
     /// </summary>
@@ -472,5 +524,49 @@ namespace MPC.Models.Common
         High = 1,
         Medium = 2,
         Low = 3
+    }
+    public enum PipelineSource : int
+    {
+       	WebtoPrintSite = 26,
+	    EmailCampaign = 27,
+	    Referral = 28,
+	    Mailingcampaign = 29,
+	    InternetSearch = 30,
+	    Radio = 53,
+	    TV = 54,
+	    Facebook = 55,
+	    LinkedIn = 56,
+	    Twitter = 57,
+	    SocialOther = 58
+    }
+
+    public enum DiscountVoucherChecks
+    {
+        RollBackVoucherIfApplied = -2,
+        ApplyVoucherOnDeliveryItem = -3,
+        
+    }
+    public enum DiscountVocherMessages
+    {
+        BetterVoucherApplied = -10,
+        MinOrderTotal = -9,
+        MaxOrderTotal = -8,
+        MinQtyProduct = -7,
+        MaxQtyProduct = -6
+    }
+
+    public enum RequestType
+    {
+        Xml = 0, 
+        Json = 1 
+    
+    }
+
+    public enum ProductOfferType
+    {
+        FeaturedProducts = 1,
+        PopularProducts = 2,
+        SpecialProducts = 3,
+        AllProducts = 4
     }
 }

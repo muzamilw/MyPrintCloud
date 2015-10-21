@@ -10,6 +10,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IOrderService
     {
+        void UpdateOrderForDel(Estimate Order);
         List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
 
         int GetFirstItemIDByOrderId(int orderId);
@@ -26,16 +27,16 @@ namespace MPC.Interfaces.WebStoreServices
         
 
         bool SetOrderCreationDateAndCode(long orderId);
-        bool IsVoucherValid(string voucherCode);
+        //bool IsVoucherValid(string voucherCode);
 
-        Estimate CheckDiscountApplied(int orderId);
+        //Estimate CheckDiscountApplied(int orderId);
 
-        bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
+        //bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
 
-        double SaveVoucherCodeAndRate(int orderId, string VCode);
-        double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
+        //double SaveVoucherCodeAndRate(int orderId, string VCode);
+        //double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
 
-        bool ResetOrderVoucherCode(int orderId);
+        //bool ResetOrderVoucherCode(int orderId);
          /// <summary>
         /// Get the OrderId by login User 
         /// </summary>
@@ -107,5 +108,9 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="OrderId"></param>
         /// <returns></returns>
         long GetStoreIdByOrderId(long OrderId);
+
+        Estimate GetOrderByOrderID(long OrderId);
+        List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus);
+        void SaveOrUpdateOrder();
     }
 }

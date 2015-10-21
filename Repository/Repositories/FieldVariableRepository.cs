@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using Edm_EntityMappingGeneratedViews;
+//using Edm_EntityMappingGeneratedViews;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -106,11 +106,36 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        /// Get System Field Variables
+        /// </summary>
+        public FieldVariableResponse GetSystemFieldVariable(FieldVariableRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<FieldVariable, bool>> query =
+            fv =>
+                (fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && (fv.Scope == (int)FieldVariableScopeType.SystemStore || fv.Scope == (int)FieldVariableScopeType.SystemContact || fv.Scope == (int)FieldVariableScopeType.SystemAddress || fv.Scope == (int)FieldVariableScopeType.SystemTerritory));
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<FieldVariable> fieldVariables = DbSet.Where(query)
+           .OrderBy(x => x.VariableName)
+               .Skip(fromRow)
+               .Take(toRow)
+               .ToList();
+
+            return new FieldVariableResponse
+            {
+                RowCount = rowCount,
+                FieldVariables = fieldVariables
+            };
+        }
+
+        /// <summary>
         /// Get System Variables
         /// </summary>
         public IEnumerable<FieldVariable> GetSystemVariables()
         {
-            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && (fv.Scope == (int)FieldVariableScopeType.SystemStore || fv.Scope == (int)FieldVariableScopeType.SystemContact || fv.Scope == (int)FieldVariableScopeType.SystemAddress || fv.Scope == (int)FieldVariableScopeType.SystemTerritory)).ToList();
+            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && (fv.Scope == (int)FieldVariableScopeType.SystemStore || fv.Scope == (int)FieldVariableScopeType.SystemContact || fv.Scope == (int)FieldVariableScopeType.SystemAddress || fv.Scope == (int)FieldVariableScopeType.SystemTerritory || fv.Scope == (int)FieldVariableScopeType.RealEstate || fv.Scope == (int)FieldVariableScopeType.RealEstateImages)).ToList();
         }
 
         /// <summary>
@@ -120,7 +145,7 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public List<FieldVariable> GetSystemAndCompanyVariables(long companyID)
         {
-            return db.FieldVariables.Where(g=>g.IsSystem == true || g.CompanyId == companyID).ToList();
+            return db.FieldVariables.Where(g => g.IsSystem == true || g.CompanyId == companyID).ToList();
         }
         #endregion
     }

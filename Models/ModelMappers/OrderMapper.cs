@@ -28,6 +28,7 @@ namespace MPC.Models.ModelMappers
             target.Estimate_Name = source.Estimate_Name;
             target.CompanyId = source.CompanyId;
             target.AddressId = source.AddressId;
+            target.BillingAddressId = source.AddressId;
             target.ContactId = source.ContactId;
             target.isDirectSale = source.isDirectSale;
             target.StatusId = source.StatusId;
@@ -91,6 +92,7 @@ namespace MPC.Models.ModelMappers
             target.SalesPersonId = source.SalesPersonId;
             target.SourceId = source.SourceId;
             target.OrderReportSignedBy = source.OrderReportSignedBy;
+            target.ReportSignedBy = source.ReportSignedBy;
         }
 
         #endregion Order Schedule
@@ -256,7 +258,7 @@ namespace MPC.Models.ModelMappers
         #endregion Delivery Schedule
 
         #region Order Product
-        
+
         /// <summary>
         /// True if the Item is new
         /// </summary>
@@ -337,7 +339,7 @@ namespace MPC.Models.ModelMappers
             // Delete
             DeleteItems(source, target, actions);
         }
-        
+
         /// <summary>
         /// Update Item 
         /// </summary>
@@ -352,7 +354,7 @@ namespace MPC.Models.ModelMappers
             // Update Item Attachments
             UpdateItemAttachments(source, target, actions);
         }
-        
+
         #endregion Order Product
 
         #region Product
@@ -496,7 +498,7 @@ namespace MPC.Models.ModelMappers
             // Delete
             DeleteSectionCostCentres(source, target, actions);
         }
-        
+
         #endregion Section Cost Centres
 
         #region Section Cost Centre Detail
@@ -534,7 +536,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update target Item Sections 
         /// </summary>
-        private static void UpdateOrAddSectionCostCentreDetail(SectionCostCentreDetail sourceSectionCostCentreDetail, SectionCostcentre target, 
+        private static void UpdateOrAddSectionCostCentreDetail(SectionCostCentreDetail sourceSectionCostCentreDetail, SectionCostcentre target,
             OrderMapperActions actions)
         {
             SectionCostCentreDetail targetLine;
@@ -545,7 +547,7 @@ namespace MPC.Models.ModelMappers
             }
             else
             {
-                targetLine = target.SectionCostCentreDetails.FirstOrDefault(vdp => vdp.SectionCostCentreDetailId == 
+                targetLine = target.SectionCostCentreDetails.FirstOrDefault(vdp => vdp.SectionCostCentreDetailId ==
                     sourceSectionCostCentreDetail.SectionCostCentreDetailId);
             }
 
@@ -558,7 +560,7 @@ namespace MPC.Models.ModelMappers
         private static void DeleteSectionCostCentreDetails(SectionCostcentre source, SectionCostcentre target, OrderMapperActions actions)
         {
             List<SectionCostCentreDetail> linesToBeRemoved = target.SectionCostCentreDetails.Where(
-                vdp => !IsNewSectionCostCentreDetail(vdp) && source.SectionCostCentreDetails.All(sourceVdp => 
+                vdp => !IsNewSectionCostCentreDetail(vdp) && source.SectionCostCentreDetails.All(sourceVdp =>
                     sourceVdp.SectionCostCentreDetailId != vdp.SectionCostCentreDetailId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -793,7 +795,8 @@ namespace MPC.Models.ModelMappers
             target.InvoiceDescription = source.InvoiceDescription;
             target.ItemNotes = source.ItemNotes;
             target.ItemId = source.ItemId;
-            
+            target.SupplierId = source.SupplierId;
+            target.SupplierId2 = source.SupplierId2;
             if (source.RefItemId != null)
             {
                 target.RefItemId = source.RefItemId;
@@ -861,7 +864,7 @@ namespace MPC.Models.ModelMappers
             target.JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime;
             target.JobCardPrintedBy = source.JobCardPrintedBy;
             target.JobCode = source.JobCode;
-            
+
             // If Job Code is Already Assigned then skip
             if (!assignJobCodes || !string.IsNullOrEmpty(target.JobCode))
             {
@@ -908,6 +911,54 @@ namespace MPC.Models.ModelMappers
             UpdateItems(source, target, actions);
         }
 
+        public static void AddInvoice(this Estimate source, Invoice target)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            UpdateInvoice(source, target);
+            UpdateItemsInvoiceIds(target, source);
+        }
+
+        public static void UpdateItemsInvoiceIds(Invoice source, Estimate target)
+        {
+            InitializeItems(target);
+            foreach (var item in target.Items)
+            {
+                item.InvoiceId = source.InvoiceId;
+            }
+        }
+
+        /// <summary>
+        /// Update the header
+        /// </summary>
+        private static void UpdateInvoice(Estimate source, Invoice target)
+        {
+            //target.Order_Date = source.Order_Date;
+            //target.FinishDeliveryDate = source.FinishDeliveryDate;
+            //target.CreationDate = (!source.CreationDate.HasValue || source.CreationDate.Value <= DateTime.MinValue) ? DateTime.Now : source.CreationDate;
+            //target.CreationTime = source.CreationTime <= DateTime.MinValue ? DateTime.Now : source.CreationTime;
+
+            target.CompanyId = source.CompanyId;
+            target.EstimateId = source.EstimateId;
+            target.ContactId = source.ContactId;
+            target.AddressId = source.AddressId;
+            target.InvoiceName = source.Estimate_Name;
+            target.InvoiceDate = DateTime.Now;
+            target.InvoiceTotal = source.Estimate_Total;
+            //target.FlagID = source.SectionFlagId;
+            target.AccountNumber = source.AccountNumber;
+            target.ReportSignedBy = source.OrderReportSignedBy;
+            //target.InvoicePostedBy = source.OrderReportSignedBy;
+            target.HeadNotes = source.HeadNotes;
+            target.FootNotes = source.FootNotes;
+        }
         #endregion
     }
 }

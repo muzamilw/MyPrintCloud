@@ -16,8 +16,8 @@ namespace MPC.Interfaces.WebStoreServices
         Item GetItemById(long ItemId);
         Item GetItemByIdDesigner(long ItemId);
 
-        
-        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
+
+        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false, long PropertyId = 0);
         List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId, long OrganisationId);
 
         string specialCharactersEncoder(string value);
@@ -89,7 +89,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ItemAttachment> GetArtwork(long ItemId);
 
         Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId);
-        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "");
+        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, long StoreId, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "");
 
         FavoriteDesign GetFavContactDesign(long templateID, long contactID);
         /// <summary>
@@ -121,7 +121,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         bool RemoveListOfDeliveryItemCostCenter(long OrderId);
 
-        bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
+        bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate, long FreeShippingVoucherId, Organisation Organisation);
 
         Item GetItemByOrderItemID(long ItemID, long OrderID);
 
@@ -205,13 +205,25 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="TemporaryRetailCompanyIdFromCookie"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId);
+        ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId, long PropertyId = 0);
          /// <summary>
         /// delete single attachment record
         /// </summary>
         /// <param name="ItemAttachmentId"></param>
         void DeleteItemAttachment(long ItemAttachmentId);
         long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId);
-        
+        List<ItemVideo> GetProductVideos(long ItemID);
+        List<ItemAttachment> GetItemAttactchments(long itemID);
+        double GetDiscountAmountByVoucher(DiscountVoucher storeDiscountVoucher, double itemTotal, long ItemId, double OrderedQty, long? DiscountIdAlreadyApplied, double OrderTotal, double discountRateAlreadyAppliedOnProduct, ref long FreeShippingVoucherId, ref string voucherErrorMesg);
+        bool ApplyDiscountOnCartProducts(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate, ref long FreeShippingVoucherId, ref string voucherErrorMesg);
+        void SaveOrUpdateDiscountVoucher(DiscountVoucher storeDiscountVoucher);
+        string ValidateDiscountVoucher(DiscountVoucher storeDiscountVoucher);//, ref string voucherErrorMesg
+        DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountCouponCode, long StoreId, long OrganisationId);
+        void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem);
+        long ApplyStoreDefaultDiscountRateOnCartItems(long OrderId, long StoreId, long OrganisationId, double StoreTaxRate,ref long FreeShippingVoucherId);
+        DiscountVoucher GetDiscountVoucherById(long DiscountVoucherId);
+        void ApplyDiscountOnDeliveryItemAlreadyAddedToCart(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate);
+        long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId, long OrderId);
+        void UpdateOrderIdInItem(long itemId, long OrderId);
     }
 }

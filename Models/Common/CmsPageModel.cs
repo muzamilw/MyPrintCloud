@@ -27,5 +27,7 @@ namespace MPC.Models.Common
         public bool? isEnabled { get; set; }
     
         public long? CompanyId { get; set; }
+
+        public bool? isDisplay { get; set; }
     }
 }

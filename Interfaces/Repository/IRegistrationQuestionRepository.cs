@@ -7,5 +7,6 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IRegistrationQuestionRepository : IBaseRepository<RegistrationQuestion, long>
     {
+        RegistrationQuestion GetSecretQuestionByID(int QuestionID);
     }
 }

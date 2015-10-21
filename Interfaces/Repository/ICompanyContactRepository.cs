@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
 using MPC.Models.Common;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System.Security.Cryptography;
 
 namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
+        
+        void AddDataSystemUser(CompanyContact Contact);
+        void UpdateDataSystemUser(CompanyContact Contact);
+        
+        List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
+        List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID);
         bool ValidatEmail(string email);
         CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "");
         //CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
@@ -21,6 +29,7 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetContactById(int contactId);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
+        ContactsResponseForOrder GetContactsForOrder(CompanyRequestModelForCalendar request);
         CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId, bool isAutoRegister);
         CompanyContact GetContactByID(Int64 ContactID);
 
@@ -128,6 +137,17 @@ namespace MPC.Interfaces.Repository
         /// <param name="companyId"></param>
         /// <returns></returns>
         CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
-        
+
+        CompanyContact GetContactByContactId(long ContactId);
+        List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
+        CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId);
+        /// <summary>
+        /// Load Property
+        /// </summary>
+        void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
+        CompanyContactResponse GetRetailContacts();
+        List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId);
+        List<ZapierInvoiceDetail> GetContactForZapierPooling(long organisationId);
     }
 }

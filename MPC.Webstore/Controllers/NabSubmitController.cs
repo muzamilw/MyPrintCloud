@@ -15,6 +15,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Web.Routing;
+using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Controllers
 {
     public class NabSubmitController : Controller
@@ -142,10 +143,11 @@ namespace MPC.Webstore.Controllers
         {
 
             
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             int typeid = GetCardTypeIdFromNumber(model.CardNumber);
             bool result = IsValidNumber(model.CardNumber);
@@ -399,11 +401,12 @@ namespace MPC.Webstore.Controllers
         }
         private OrderDetail OrderDetailModel(string OrderId)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
             if (StoreBaseResopnse.Company.ShowPrices ?? true)
@@ -453,42 +456,45 @@ namespace MPC.Webstore.Controllers
             {
                 case ErrorSummary.InvalidCardTypeNumber:
                     {
-                        ViewBag.ErrorMessage = "Sorry, your credit Card Type and Number is not valid";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlsorryinvalid", UserCookieManager.WBStoreId, "Sorry, your credit Card Type and Number is not valid");
                         break;
                     }
                 case ErrorSummary.InvalidCardType:
                     {
-                        ViewBag.ErrorMessage = "Sorry, Please Select Valid Card Type.";
+                        ViewBag.ErrorMessage =
+Utils.GetKeyValueFromResourceFile("lrlselectvalidcardtype", UserCookieManager.WBStoreId, "Sorry, Please Select Valid Card Type.")
+;
                         break;
                     }
                 case ErrorSummary.InvalidCardNumber:
                     {
-                        ViewBag.ErrorMessage = "Sorry, Please Enter a Valid Card Number.";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlentervalidcardnumber", UserCookieManager.WBStoreId, "Sorry, Please Enter a Valid Card Number.");
                         break;
                     }
                 case ErrorSummary.InvalidPaymentGateway:
                     {
-                        ViewBag.ErrorMessage = "Payment Gateway is not set.";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlpaymentgateway", UserCookieManager.WBStoreId, "Sorry,Payment Gateway is not set");
                         break;
                     }
                 case ErrorSummary.InvalidOrder:
                     {
-                        ViewBag.ErrorMessage = "Invalid Order";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlinvalidorder", UserCookieManager.WBStoreId, "Invalid Order");
                         break;
                     }
                 case ErrorSummary.statusResponseMessage:
                     {
-                        ViewBag.ErrorMessage = "statusResponseMessage.";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlstatusrespmessage", UserCookieManager.WBStoreId, "status Response Message.");
                         break;
                     }
                 case ErrorSummary.Error:
                     {
-                        ViewBag.ErrorMessage = "Error occurred while processing.";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrleror", UserCookieManager.WBStoreId, "Error occurred while processing.");
                         break;
                     }
                 default:
                     {
-                        ViewBag.ErrorMessage = "null";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlnull", UserCookieManager.WBStoreId, "null");
+
                         break;
                     }
 
@@ -579,9 +585,10 @@ namespace MPC.Webstore.Controllers
         private string OrderXmlData(int orderID, string ccNumber, string ccDate, string ccYear, string OrderAmount,
             string PONumber, string marchantID, string Password)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             int indexOdDecimal = OrderAmount.IndexOf(".");
             if (indexOdDecimal >= 0)

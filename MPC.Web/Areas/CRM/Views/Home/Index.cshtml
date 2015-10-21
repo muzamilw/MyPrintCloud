@@ -6,19 +6,22 @@
 <div class="row" id="crmBindingRoot">
     <div class="col-lg-12" >
         <div class="row">
-            <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
+            <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()" style="padding-left:6px;">
                 <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                 <input type="hidden" name="CompanyId" id="CompanyId" value="@ViewBag.CompanyId" />
-                <ol class="breadcrumb">
+                <ol class="breadcrumb" style="padding-left:8px;">
                     <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
                 <h1 style="padding-left:0px;">Companies</h1>
-                <div class="clearfix pull-left" style="padding-bottom: 1%">
-                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
+                <div class="clearfix pull-left">
+                    <p class="group-header-description">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</p>
+                </div>
+                <div style="clear: both;max-height: 14px;">
+                    &nbsp;
                 </div>
             </div>
-            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none">
-                <ol class="breadcrumb">
+            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none;">
+                <ol class="breadcrumb" style="padding-left:0px;">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="~/CRM/Home/Index">Companies</a></li>
                     <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
@@ -30,7 +33,7 @@
 
                 </ol>
                 <!--ko if: $root.selectedStore() != undefined -->
-                <h1 data-bind="text: $root.selectedStore().name()==undefined ? 'Store Name':$root.selectedStore().name()"></h1>
+                <h1 data-bind="text: $root.selectedStore().name()==undefined ? 'Store Name':$root.selectedStore().name()" style="padding-left:0px;"></h1>
                 <!-- /ko -->
 
 
@@ -42,7 +45,7 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
-                                @Html.ActionLink("All Contacts", "Contacts", "Home")
+                                @Html.ActionLink("Public Store Registered Users", "Contacts", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 <a href="#tab-Customers" data-toggle="tab">Companies</a>
@@ -52,17 +55,12 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
                                 @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
-
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
-                            </li>
-
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Customers">
@@ -71,7 +69,10 @@
                                     <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
                                     <div class="col-lg-12">
-                                        <div>
+                                        <div class="tabsdescriptions">
+                                            <p class="group-header-description">View, Find and Edit Business and Corporate Customer Information and Contacts.</p>
+                                        </div>
+                                        <div style="margin-left:10px;margin-right:10px;">
                                             <div>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-hover">
@@ -79,10 +80,10 @@
                                                             <tr>
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Company</span></th>
-                                                                <th class="col-lg-3"><span>Store</span></th>
-                                                                <th class="col-lg-1"><span>Created</span></th>
+                                                                <th class="col-lg-2"><span>Store</span></th>
+                                                                <th class="col-lg-2"><span>Created</span></th>
                                                                 <th class="col-lg-2"><span>Email</span></th>
-                                                                <th class="col-lg-1"><span>Type</span></th>
+                                                                <th class="col-lg-2"><span>Type</span></th>
 
                                                             </tr>
                                                         </thead>
@@ -90,8 +91,12 @@
                                                             <!-- ko foreach: $root.customersForListView -->
                                                             <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
                                                                 <td>
-                                                                    <img style="width: 70%; max-width: 70%;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
-
+                                                                    <!-- ko if: storeImageFileBinary()==='' -->
+                                                                    <img style="margin-bottom: -12px; margin-top: -12px; margin-left: -18%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: storeImageFileBinary()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">
+                                                                    <!--/ko-->
+                                                                    <!-- ko if: storeImageFileBinary()!=='' -->
+                                                                    <img style="width:50px; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+                                                                    <!--/ko-->
                                                                 </td>
                                                                 <td>
                                                                     <a href="#" class="store-user-link" data-bind="text:name"></a>
@@ -104,9 +109,7 @@
                                                                 <td>
                                                                     <p data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'"></p>
                                                                 </td>
-                                                                @*<td>
-                        <span data-bind="text:status, css:statusClass"></span>
-                    </td>*@
+                                                                
                                                                 <td>
                                                                     <a>
                                                                         <p data-bind="text:defaultContactEmail"></p>
@@ -134,19 +137,16 @@
                                 }
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-
             </div>
             <script id="filterTemplate" type="text/html">
-                <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
+                <div class="filter-body" id="filter" style=" margin-left:18px;margin-right:18px; margin-bottom: 4px;">
 
                     <form data-bind="submit:$root.filterHandler">
                         <div class="filter-block pull-right">
-                            <div class="pull-left" style="margin-right:16px">
-                                <select style="margin-right:70px" class="form-control" data-bind="options:['All','Prospects', 'Customer'], value:$root.companyDdSelector, event:{ change: $root.onChangeCompany}"></select>
+                            <div class="pull-left" style="margin-right: 16px; ">
+                                <select style="margin-right: 70px; height: 36px;" class="form-control" data-bind="options:['All','Prospects', 'Customer'], value:$root.companyDdSelector, event:{ change: $root.onChangeCompany}"></select>
                             </div>
                             <div class="form-group pull-left">
                                 <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
@@ -157,7 +157,7 @@
                                     Reports
                                 </a>
                                 <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
-                                    Add Customer
+                                    Add New Company
                                 </a>
                             </div>
                         </div>

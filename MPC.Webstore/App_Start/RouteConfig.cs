@@ -20,6 +20,11 @@ namespace MPC.Webstore
               new { controller = "Home", action = "Error", Message = UrlParameter.Optional }
            );
 
+            routes.MapRoute(
+                 "AllClear",
+                 "AllClear",
+                 new { controller = "Domain", action = "ClearCacheObject", Message = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 "NotFound",
@@ -36,6 +41,12 @@ namespace MPC.Webstore
             routes.MapRoute(
                 "Orderhistory"
               , "ProductOrderHistory"
+              , new { controller = "Home", action = "Index", name = "" 
+            });
+
+             routes.MapRoute(
+                "UserManager"
+              , "UserManager"
               , new { controller = "Home", action = "Index", name = "" 
             });
 
@@ -57,13 +68,55 @@ namespace MPC.Webstore
                 new { controller = "RealestateSideBarWithSlider", action = "LogOut", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+               "loadaddWithTerritory",
+               "UserManager/GetAddressesByTerritorID",
+               new { controller = "UserManager", action = "GetAddressesByTerritorID", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+               "loadaddContactsIntellicence",
+               "UserManager/GetContactsIntellicence",
+               new { controller = "UserManager", action = "GetContactsIntellicence", id = UrlParameter.Optional }
+           );
+       
 
+            routes.MapRoute(
+              "GetCompanyFlags",
+              "UserManager/GetCompanyFlags",
+              new { controller = "UserManager", action = "GetCompanyFlags", id = UrlParameter.Optional }
+          );
             routes.MapRoute(
                 "BillingShippingIntellisenceData",
                 "BillingShippingAddressManager/IntellisenceData",
                 new { controller = "BillingShippingAddressManager", action = "IntellisenceData", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+               "loadSystemUserData",
+               "UserManager/UserProfileData",
+               new { controller = "UserManager", action = "UserProfileData", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+             "loadSystemUserDataAddress",
+             "UserManager/getAddress",
+             new { controller = "UserManager", action = "getAddress", id = UrlParameter.Optional }
+         );
+
+            routes.MapRoute(
+                "OxfordTop",
+                "OxfordTopLevelCategories/SubmitSubscribeData",
+                new { controller = "OxfordTopLevelCategories", action = "SubmitSubscribeData", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                "metroCatggggggg",
+                "MetroTestimonial/SubmitTestimonialData",
+                new { controller = "MetroTestimonial", action = "SubmitTestimonialData", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                            "logdoggg",
+                            "BlackAndWhiteHeaderMenu/LogOut",
+                            new { controller = "BlackAndWhiteHeaderMenu", action = "LogOut", id = UrlParameter.Optional }
+                        );
             routes.MapRoute(
                 "QuickCAlculatorProducts",
                 "QuickCalculator/GetAllProducts",
@@ -257,8 +310,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                 "ShopCart",
-                "ShopCart/{optionalOrderId}",
-                new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional }
+                "ShopCart",
+                new { controller = "Home", action = "Index"}
             );
 
             routes.MapRoute(
@@ -302,6 +355,11 @@ namespace MPC.Webstore
                 "CloneProducts/{id}",
                 new { controller = "CategoriesAndProducts", action = "CloneProducts", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+               "CloneRealEstateProducts",
+               "CloneRealEstateItem/{id}",
+               new { controller = "RealEstateProducts", action = "CloneRealEstateItem", id = UrlParameter.Optional }
+           );
 
             routes.MapRoute(
                 "CloneItem",
@@ -364,11 +422,11 @@ namespace MPC.Webstore
                 new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                "ReceiptPlain",
-                "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
-                new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
-            );
+            //routes.MapRoute(
+            //    "ReceiptPlain",
+            //    "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
+            //    new { controller = "ReceiptPlain", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
+            //);
 
             routes.MapRoute(
                 "autologin",
@@ -382,6 +440,9 @@ namespace MPC.Webstore
                 new { controller = "ProductOptions", action = "DeleteArtworkAttachment", AttachmentID = UrlParameter.Optional}
             );
 
+
+
+            /////////////////////////////////////////////////////////////////////////////Payment gateway redirects
             routes.MapRoute(
                "PaypalHandler",
                "SignupPaypal/{OrderId}",
@@ -393,6 +454,38 @@ namespace MPC.Webstore
              "PaypalIPN",
              new { controller = "Payment", action = "PaypalIPN"}
             );
+
+            routes.MapRoute(
+               "oAuth",
+               "oAuth/{LoginWithId}/{isRegistrationProcess}/{StoreId}/{ReturnUrl}",
+               new { controller = "Home", action = "oAuth", LoginWithId = UrlParameter.Optional, isRegistrationProcess = UrlParameter.Optional, StoreId = UrlParameter.Optional, ReturnUrl = UrlParameter.Optional }
+           );
+
+
+            routes.MapRoute(
+             "ANZHandler",
+             "ANZSubmit/{OrderId}",
+             new { controller = "Payment", action = "ANZSubmit", OrderId = UrlParameter.Optional }
+         );
+
+            routes.MapRoute(
+              "FBAuth",
+              "FBAuth",
+              new { controller = "Home", action = "FBAuthentication", token = UrlParameter.Optional }
+          );
+            
+        routes.MapRoute(
+          "ANZResponse",
+          "ANZResponse",
+          new { controller = "Payment", action = "ANZResponse" }
+         );
+
+        routes.MapRoute(
+         "ApplyDelivery",
+         "ShopCartAddressSelect/AddDeliveryToOrder/{DeliveryMethodId}",
+         new { controller = "ShopCartAddressSelect", action = "AddDeliveryToOrder", DeliveryMethodId = UrlParameter.Optional }
+       );
+   
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

@@ -52,7 +52,7 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public override IEnumerable<Machine> GetAll()
         {
-            return DbSet.Where(machine => machine.OrganisationId == OrganisationId && machine.MachineCatId != (int)MachineCategories.Guillotin).OrderBy(machine => machine.MachineName).ToList();
+            return DbSet.Where(machine => machine.OrganisationId == OrganisationId && machine.MachineCatId != (int)MachineCategories.Guillotin && machine.IsDisabled != true).OrderBy(machine => machine.MachineName).ToList();
             
         }
 
@@ -852,7 +852,8 @@ namespace MPC.Repository.Repositories
             try
             {
                 Mapper.CreateMap<Machine, Machine>()
-               .ForMember(x => x.ItemSections, opt => opt.Ignore());
+               .ForMember(x => x.ItemSections, opt => opt.Ignore())
+               .ForMember(x => x.ItemSectionsSide2, opt => opt.Ignore());
 
 
                  Mapper.CreateMap<MachineInkCoverage, MachineInkCoverage>()

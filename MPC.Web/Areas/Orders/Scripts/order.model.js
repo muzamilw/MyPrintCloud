@@ -18,7 +18,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedTargetPrintDate, specifiedOrderCreationDateTime, specifiedOrderManagerId, specifiedSalesPersonId, specifiedSourceId,
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
-            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy) {
+            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy, specifiedReportSignedBy,
+            specifiedInvoiceStatus,specifiedStoreName) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -72,21 +73,21 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Start Delivery Date
                 startDeliveryDate = ko.observable(specifiedStartDeliveryDate ? moment(specifiedStartDeliveryDate).toDate() : undefined),
                 // Finish Delivery Date
-                finishDeliveryDate = ko.observable(specifiedFinishDeliveryDate ? moment(specifiedFinishDeliveryDate).toDate() : undefined),
+                finishDeliveryDate = ko.observable(specifiedFinishDeliveryDate ? moment(specifiedFinishDeliveryDate).toDate() : moment().toDate()),
                 // Head Notes
                 headNotes = ko.observable(specifiedHeadNotes || undefined),
                 // Artwork By Date
-                artworkByDate = ko.observable(specifiedArtworkByDate ? moment(specifiedArtworkByDate).toDate() : undefined),
+                artworkByDate = ko.observable(specifiedArtworkByDate ? moment(specifiedArtworkByDate).toDate() : moment().toDate()),
                 // Data By Date
-                dataByDate = ko.observable(specifiedDataByDate ? moment(specifiedDataByDate).toDate() : undefined),
+                dataByDate = ko.observable(specifiedDataByDate ? moment(specifiedDataByDate).toDate() : moment().toDate()),
                 // Paper By Date
-                paperByDate = ko.observable(specifiedPaperByDate ? moment(specifiedPaperByDate).toDate() : undefined),
+                paperByDate = ko.observable(specifiedPaperByDate ? moment(specifiedPaperByDate).toDate() : moment().toDate()),
                 // Target Bind Date
-                targetBindDate = ko.observable(specifiedTargetBindDate ? moment(specifiedTargetBindDate).toDate() : undefined),
+                targetBindDate = ko.observable(specifiedTargetBindDate ? moment(specifiedTargetBindDate).toDate() : moment().toDate()),
                 // Xero Access Code
                 xeroAccessCode = ko.observable(specifiedXeroAccessCode || undefined),
                 // Target Print Date
-                targetPrintDate = ko.observable(specifiedTargetPrintDate ? moment(specifiedTargetPrintDate).toDate() : undefined),
+                targetPrintDate = ko.observable(specifiedTargetPrintDate ? moment(specifiedTargetPrintDate).toDate() : moment().toDate()),
                 // Order Creation Date Time
                 orderCreationDateTime = ko.observable(specifiedOrderCreationDateTime ? moment(specifiedOrderCreationDateTime).toDate() : undefined),
                 // Order Manager Id
@@ -95,12 +96,14 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 salesPersonId = ko.observable(specifiedSalesPersonId || undefined),
                 // Source Id
                 sourceId = ko.observable(specifiedSourceId || undefined),
+                storeName = ko.observable(specifiedStoreName || undefined),
                 // Credit Limit For Job
                 creditLimitForJob = ko.observable(specifiedCreditLimitForJob || undefined),
                 // System Users
                 systemUsers = ko.observableArray([]),
                 // Credit Limit Set By
                 creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
+                isExtraOrder = ko.observable(),
                 // Get User by Id
                 getUserById = function (userId) {
                     return systemUsers.find(function (user) {
@@ -250,13 +253,16 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 inquiryItems = ko.observableArray([]),
                 //Is Inquiry Item Loaded Flag
                 isInquiryItemLoaded = ko.observable(false),
+                // original Status Id
+                originalStatusId = ko.observable(undefined),
                 // Status Id
                 statusId = ko.observable(undefined),
                 // Status
                 status = ko.observable(undefined),
-                // Order signed by
-                //orderReportSignedBy = ko.observable(undefined),
-                orderReportSignedBy = ko.observable(specifiedOrderReportSignedBy),
+                // Estimate signed by
+                reportSignedBy = ko.observable(specifiedReportSignedBy || undefined),
+                // Order Report Signed By
+                orderReportSignedBy = ko.observable(specifiedOrderReportSignedBy || undefined),
                 // Set Credit Limit Set By
                 setOrderReportSignedBy = function (userId) {
                     if (!userId) {
@@ -289,6 +295,14 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 }),
                 // Store Id
                 storeId = ko.observable(undefined),
+                // invoice Status
+                invoiceStatus = ko.observable(specifiedInvoiceStatus),
+                // Has Deleted Items
+                hasDeletedItems = ko.observable(false),
+                // Has Deleted PrePayments
+                hasDeletedPrepayments = ko.observable(false),
+                // Has Deleted Delivery Schedules
+                hasDeletedDeliverySchedules = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -312,16 +326,18 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     validationSummaryList.removeAll();
 
                     if (name.error) {
-                        validationSummaryList.push({ name: "Order Title", element: name.domElement });
+                        validationSummaryList.push({ name: "Enter Title", element: name.domElement });
                     }
                     if (companyId.error) {
-                        validationSummaryList.push({ name: "Customer", element: companyId.domElement });
+                        validationSummaryList.push({ name: "Select Customer", element: companyId.domElement });
                     }
                     if (sectionFlagId.error) {
-                        validationSummaryList.push({ name: "Order Flag ", element: sectionFlagId.domElement });
+                        validationSummaryList.push({ name: "Select Flag ", element: sectionFlagId.domElement });
                     }
-
-
+                    
+                    //if (items().length === 0) {
+                    //    validationSummaryList.push({ name: "Please add item to print. " });
+                    //}
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
                         return !item.isValid() && item.itemType() !== 2;
@@ -353,6 +369,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     addressId: addressId,
                     isDirectSale: isDirectSale,
                     orderReportSignedBy: orderReportSignedBy,
+                    reportSignedBy: reportSignedBy,
                     isOfficialOrder: isOfficialOrder,
                     isCreditApproved: isCreditApproved,
                     orderDate: orderDate,
@@ -380,28 +397,29 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                     footNotes: footNotes,
                     sectionFlagId: sectionFlagId,
+                    invoiceStatus:invoiceStatus,
                     statusId: statusId
                 }),
                 // Item Has Changes
-                itemHasChanges = function() {
-                    var itemChanges = items.find(function(item) {
+                itemHasChanges = function () {
+                    var itemChanges = items.find(function (item) {
                         return item.hasChanges();
                     });
-                    return itemChanges !== null && itemChanges !== undefined;
+                    return (itemChanges !== null && itemChanges !== undefined) || hasDeletedItems();
                 },
                 // Pre payment Has Changes
                 prepaymentHasChanges = function () {
                     var prepaymentChanges = prePayments.find(function (item) {
                         return item.hasChanges();
                     });
-                    return prepaymentChanges !== null && prepaymentChanges !== undefined;
+                    return (prepaymentChanges !== null && prepaymentChanges !== undefined) || hasDeletedPrepayments();
                 },
                 // Delivery Schedule Has Changes
                 deliveryScheduleHasChanges = function () {
                     var deliveryScheduleChange = deliverySchedules.find(function (item) {
                         return item.hasChanges();
                     });
-                    return deliveryScheduleChange !== null && deliveryScheduleChange !== undefined;
+                    return (deliveryScheduleChange !== null && deliveryScheduleChange !== undefined) || hasDeletedDeliverySchedules();
                 },
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -418,6 +436,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     deliverySchedules.each(function (item) {
                         return item.reset();
                     });
+                    hasDeletedItems(false);
+                    hasDeletedDeliverySchedules(false);
+                    hasDeletedPrepayments(false);
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -462,6 +483,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         OfficialOrderSetBy: officialOrderSetBy(),
                         OfficialOrderSetOnDateTime: officialOrderSetOnDateTime() ? moment(officialOrderSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
                         OrderReportSignedBy: orderReportSignedBy(),
+                        ReportSignedBy: reportSignedBy(),
                         IsEstimate: isEstimate(),
                         PrePayments: [],
                         ShippingInformations: [],
@@ -483,6 +505,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 companyName: companyName,
                 estimateTotal: estimateTotal,
                 orderReportSignedBy: orderReportSignedBy,
+                reportSignedBy: reportSignedBy,
                 contactId: contactId,
                 addressId: addressId,
                 sectionFlagId: sectionFlagId,
@@ -507,6 +530,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 orderManagerId: orderManagerId,
                 salesPersonId: salesPersonId,
                 sourceId: sourceId,
+                storeName:storeName,
                 creditLimitForJob: creditLimitForJob,
                 creditLimitSetBy: creditLimitSetBy,
                 creditLimitSetOnDateTime: creditLimitSetOnDateTime,
@@ -531,8 +555,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 setValidationSummary: setValidationSummary,
                 convertToServerData: convertToServerData,
                 statusId: statusId,
+                originalStatusId: originalStatusId,
                 refEstimateId: refEstimateId,
                 status: status,
+                isExtraOrder:isExtraOrder,
                 storeId: storeId,
                 setCreditiLimitSetBy: setCreditiLimitSetBy,
                 setAllowJobWoCreditCheckSetBy: setAllowJobWoCreditCheckSetBy,
@@ -544,7 +570,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 orderReportSignedByUser: orderReportSignedByUser,
                 inquiryItems: inquiryItems,
                 isInquiryItemLoaded: isInquiryItemLoaded,
-                systemUsers: systemUsers
+                systemUsers: systemUsers,
+                invoiceStatus: invoiceStatus,
+                hasDeletedItems: hasDeletedItems,
+                hasDeletedPrepayments: hasDeletedPrepayments,
+                hasDeletedDeliverySchedules: hasDeletedDeliverySchedules
             };
         },
 
@@ -795,10 +825,14 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.ArtworkByDate, source.DataByDate, source.PaperByDate, source.TargetBindDate, source.XeroAccessCode, source.TargetPrintDate,
         source.OrderCreationDateTime, source.OrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
-        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId, source.OrderReportSignedBy);
+        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId,
+        source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus,source.StoreName);
 
         estimate.statusId(source.StatusId);
+        estimate.originalStatusId(source.StatusId);
         estimate.status(source.Status);
+        estimate.isExtraOrder(source.IsExtraOrder);
+        
         estimate.systemUsers(constructorParams.SystemUsers);
         var total = (parseFloat((source.EstimateTotal === undefined || source.EstimateTotal === null) ? 0 : source.EstimateTotal)).toFixed(2);
         estimate.estimateTotal(total);
@@ -946,7 +980,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     //#region INQUIRIES
 
     var Inquiry = function (
-        specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName,specifiedRequireByDate,
+        specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName, specifiedRequireByDate,
         specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor, specifiedEstimateId, specifiedInquiryItemsCount
     ) {
         var self,
@@ -1103,7 +1137,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         reset = function () {
             dirtyFlag.reset();
         };
-        
+
         self = {
             inquiryId: inquiryId,
             title: title,
@@ -1175,7 +1209,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiry.inquiryAttachments.valueHasMutated();
         }
         if (source.InquiryItems && source.InquiryItems.length > 0) {
-             items = [];
+            items = [];
             _.each(source.InquiryItems, function (item) {
                 items.push(InquiryItem.Create(item));
             });
@@ -1188,7 +1222,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiry.systemUsers(constructorParams.SystemUsers);
             inquiry.pipelineSources(constructorParams.PipelineSources);
         }
-        
+
         return inquiry;
     };
     //#endregion
@@ -1367,7 +1401,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return inquiryItem;
     };
 
-    
+
     //#endregion 
 
     // Section Flag Factory

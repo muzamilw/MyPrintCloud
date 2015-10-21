@@ -49,15 +49,35 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<Section> GetSectionsForPhraseLibrary()
         {
-            return DbSet.OrderBy(s => s.SecOrder).ToList();
+            // Estimate=1, Invoices=13, Purchases=7,Delivery=10, Job Production=4
+            return DbSet.Where(s => s.SectionId == 1 || s.SectionId == 13 || s.SectionId == 7 || s.SectionId == 10 || s.SectionId == 4).OrderBy(s => s.SectionName).ToList();
         }
+
+
 
         /// <summary>
         /// Get Sections By Parent Id
         /// </summary>
         public IEnumerable<Section> GetSectionsByParentId(long parentId)
         {
-            return DbSet.Where(s => s.ParentId == parentId).OrderBy(s => s.SecOrder).ToList();
+            // to get sections which are using
+            List<int> SectionIds = new List<int>();
+           
+            SectionIds.Add(1);
+            SectionIds.Add(3);
+            SectionIds.Add(4);
+            SectionIds.Add(7);
+            SectionIds.Add(10);
+            SectionIds.Add(13);
+            SectionIds.Add(17);
+            SectionIds.Add(20);
+            SectionIds.Add(23);
+            SectionIds.Add(43);
+             SectionIds.Add(54);
+             SectionIds.Add(57);
+             SectionIds.Add(58);
+
+            return DbSet.Where(s => s.ParentId == parentId && SectionIds.Contains(s.SectionId)).OrderBy(s => s.SectionName).ToList();
         }
 
         /// <summary>

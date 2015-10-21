@@ -27,8 +27,14 @@ define("common/addCostCenter.viewModel",
                     isAddProductForSectionCostCenter = ko.observable(false),
                     //Is Cost Center dialog open for shipping
                     isCostCenterDialogForShipping = ko.observable(false),
+                    //Is Opened from Section Detail
+                    isOpenedFromSectionDetail = ko.observable(false),
+                    // Item Id - To be passed to Execution Api
+                    itemId = ko.observable(),
                     // Pagination For Press Dialog
                     costCentreDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, costCentres)),
+                    // Cost Center Type
+                    costCenterTypeFilter = ko.observable(),
                     // Search Stock Items
                     searchCostCenters = function () {
                         costCentreDialogPager().reset();
@@ -52,15 +58,17 @@ define("common/addCostCenter.viewModel",
                     },
                     // after selection
                     afterAddCostCenter = null,
+                    // After Cost Center Execution
+                    afterCostCenterExecution = null,
                     companyTaxRate = null,
                     // Reset Stock Dialog Filters
                     resetDialogFilters = function () {
                         // Reset Text 
                         costCenterDialogFilter(undefined);
-
                     },
                     // Show
-                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency, companyTaxRateParam) {
+                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency, companyTaxRateParam, costCenterType,
+                    isOpenedFromSection, productId) {
                         currencySmb(currency);
                         isAddProductForSectionCostCenter(false);
                         isAddProductFromInventory(false);
@@ -69,8 +77,12 @@ define("common/addCostCenter.viewModel",
                         resetCostCenters();
                         view.showDialog();
                         afterAddCostCenter = afterAddCostCenterCallback;
+                        afterCostCenterExecution = null;
                         companyTaxRate = companyTaxRateParam;
                         selectedCompanyId(companyId);
+                        costCenterTypeFilter(costCenterType || undefined);
+                        isOpenedFromSectionDetail(isOpenedFromSection || false);
+                        itemId(productId || "");
                         if (isCostCenterDialogForShipping()) {
                             getCostCenters();
                         } else {
@@ -83,8 +95,86 @@ define("common/addCostCenter.viewModel",
                         if (afterAddCostCenter && typeof afterAddCostCenter === "function") {
                             afterAddCostCenter(selectedCostCentre());
                         }
-                        hideCostCentreDialog();
+                        if (isCostCenterDialogForShipping()) {
+                            hideCostCentreDialog();
+                        }
                     },
+                    // #region Cost Centre Execution
+                    isQueueExist = false,
+                    questionQueueObject = null,
+                    inputQueueObject = null,
+                    workInstructions = null,
+                    addOnCostCenters = ko.observable(null),
+                    // Execute Cost Center
+                    executeCostCenter = function (afterExecutionCallback) {
+                        afterCostCenterExecution = afterExecutionCallback;
+                        if (selectedCostCentre().quantity1() === undefined || selectedCostCentre().quantity1() === null) {
+                            toastr.info("Please select quantity!");
+                            return;
+                        }
+                        dataservice.executeCostCenterForCostCenter({
+                            CostCentreId: selectedCostCentre().id(),
+                            QuantityOrdered: selectedCostCentre().quantity1(),
+                            ClonedItemId: itemId(),
+                            CallMode: 'New'
+                        }, {
+                            success: function (data) {
+                                questionQueueObject = data[2];
+                                inputQueueObject = data[7];
+                                workInstructions = data[3][0].WorkInstructions;
+                                var costCenterExecutedCallback = isOpenedFromSectionDetail() ? addCostCenter : null;
+                                var selectedElement = $(selectedCostCentre().isSelected.domElement).find("td")[0];
+                                if (selectedCostCentre().calculationMethodType() === 4) { // cost centres of calculation methode type 4 are formula based
+                                    if (questionQueueObject != null) { // process the question queue and prompt for values
+                                        //if (questionQueueObject.length > 0) {
+                                            isQueueExist = true;
+                                            
+                                            ShowCostCentrePopup(questionQueueObject, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
+                                                0, inputQueueObject.Items, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
+                                                selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                        //}
+                                        if (inputQueueObject.Items && inputQueueObject.Items.length === 3) { // do not process the queue for prompting values
+                                            isQueueExist = true;
+                                        }
+                                    }
+                                } else if (selectedCostCentre().calculationMethodType() === 3) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                                    if (selectedCostCentre().costCentreQuantitySourceType() === 1) { // do not process the queue for prompting values else execute it as it is of variable type
+                                        isQueueExist = true;
+                                        SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, selectedCostCentre().id(), selectedCostCentre().calculationMethodType(),
+                                            "", selectedElement, "", 0, currencySmb(), false, companyTaxRate, selectedCostCentre().quantity1(),
+                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                    } else { // process the input queue and prompt for values
+                                        isQueueExist = true;
+                                        ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
+                                            0, questionQueueObject, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
+                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                    }
+                                } else if (selectedCostCentre().calculationMethodType() === 2) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+
+                                    if (selectedCostCentre().costCentreTimeSourceType() === 1) { // do not process the queue for prompting values else execute it as it is of variable type
+                                        isQueueExist = true;
+                                        SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, selectedCostCentre().id(), selectedCostCentre().calculationMethodType(),
+                                            "", selectedCostCentre().isSelected.domElement, "", 0, currencySmb(),
+                                            false, companyTaxRate, selectedCostCentre().quantity1(),
+                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                    } else { // process the input queue and prompt for values
+                                        isQueueExist = true;
+                                        ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0,
+                                            selectedElement, "New", currencySmb(),
+                                            0, questionQueueObject, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
+                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                    }
+                                }
+                                //if (isQueueExist === false) {// queue is not populating
+                                //    toastr.error("Queue is not populating.");
+                                //}
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to execute cost center. Error: " + response);
+                            }
+                        });
+                    },
+                    // #endregion Cost Centre Execution
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -92,72 +182,81 @@ define("common/addCostCenter.viewModel",
                         costCentreDialogPager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCentersForProduct));
                     },
                     onSaveProductCostCenter = function () {
-                         if (afterAddCostCenter && typeof afterAddCostCenter === "function") {
-                             afterAddCostCenter(selectedCostCentre());
-                         }
-                         hideCostCentreDialog();
-                         hideCostCentreQuantityDialog();
-                         //toastr.success("test");
-                     },
+                        if ($root.isCostCenterDialogForShipping()) {
+                            addCostCenter();
+                            return;
+                        }
+                        executeCostCenter();
+                        hideCostCentreQuantityDialog();
+                    },
+                    // add Cost Center
+                    addCostCenter = function() {
+                        if (afterCostCenterExecution && typeof afterCostCenterExecution === "function") {
+                            afterCostCenterExecution(selectedCostCentre());
+                        }
+                        hideCostCentreDialog();
+                        hideCostCentreQuantityDialog();
+                    },
                     hideCostCentreDialog = function () {
-                          view.hideDialog();
-                      },
+                        view.hideDialog();
+                    },
                     hideCostCentreQuantityDialog = function () {
-                           view.hideCostCentersQuantityDialog();
-                       },
+                        view.hideCostCentersQuantityDialog();
+                    },
                     getCostCenters = function () {
-                             dataservice.getCostCenters({
-                                 CompanyId: selectedCompanyId(),
-                                 SearchString: costCenterDialogFilter(),
-                                 PageSize: costCentreDialogPager().pageSize(),
-                                 PageNo: costCentreDialogPager().currentPage(),
-                             }, {
-                                 success: function (data) {
-                                     if (data != null) {
-                                         costCentres.removeAll();
-                                         _.each(data.CostCentres, function (item) {
-                                             item.CompanyTaxRate = companyTaxRate;
-                                             var costCentre = new model.CostCentre.Create(item);
-                                             costCentres.push(costCentre);
-                                         });
-                                         costCentreDialogPager().totalCount(data.RowCount);
-                                     }
-                                 },
-                                 error: function (response) {
-                                     costCentres.removeAll();
-                                     toastr.error("Failed to Load Cost Centres. Error: " + response);
-                                 }
-                             });
-                         },
+                        dataservice.getCostCenters({
+                            CompanyId: selectedCompanyId(),
+                            SearchString: costCenterDialogFilter(),
+                            PageSize: costCentreDialogPager().pageSize(),
+                            PageNo: costCentreDialogPager().currentPage(),
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    costCentres.removeAll();
+                                    _.each(data.CostCentres, function (item) {
+                                        item.CompanyTaxRate = companyTaxRate;
+                                        var costCentre = new model.CostCentre.Create(item);
+                                        costCentres.push(costCentre);
+                                    });
+                                    costCentreDialogPager().totalCount(data.RowCount);
+                                }
+                            },
+                            error: function (response) {
+                                costCentres.removeAll();
+                                toastr.error("Failed to Load Cost Centres. Error: " + response);
+                            }
+                        });
+                    },
                     //Hide
                     hide = function () {
-                             view.hideDialog();
-                         },
+                        view.hideDialog();
+                    },
                     // Get Cost Centers
                     getCostCentersForProduct = function () {
-                           dataservice.getCostCentersForProduct({
-                               CompanyId: selectedCompanyId(),
-                               SearchString: costCenterDialogFilter(),
-                               PageSize: costCentreDialogPager().pageSize(),
-                               PageNo: costCentreDialogPager().currentPage(),
-                           }, {
-                               success: function (data) {
-                                   if (data != null) {
-                                       costCentres.removeAll();
-                                       _.each(data.CostCentres, function (item) {
-                                           item.CompanyTaxRate = companyTaxRate;
-                                           var costCentre = new model.CostCentre.Create(item);
-                                           costCentres.push(costCentre);
-                                       });
-                                       costCentreDialogPager().totalCount(data.RowCount);
-                                   }
-                               },
-                               error: function (response) {
-                                   costCentres.removeAll();
-                                   toastr.error("Failed to Load Cost Centres. Error: " + response);
-                               }
-                           });
-                       };
+                        dataservice.getCostCentersForProduct({
+                            CompanyId: selectedCompanyId(),
+                            SearchString: costCenterDialogFilter(),
+                            PageSize: costCentreDialogPager().pageSize(),
+                            PageNo: costCentreDialogPager().currentPage(),
+                            Type: costCenterTypeFilter()
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    costCentres.removeAll();
+                                    _.each(data.CostCentres, function (item) {
+                                        item.CompanyTaxRate = companyTaxRate;
+                                        var costCentre = new model.CostCentre.Create(item);
+                                        costCentres.push(costCentre);
+                                    });
+                                    costCentreDialogPager().totalCount(data.RowCount);
+                                }
+                            },
+                            error: function (response) {
+                                costCentres.removeAll();
+                                toastr.error("Failed to Load Cost Centres. Error: " + response);
+                            }
+                        });
+                    };
 
                 return {
                     //Arrays
@@ -177,7 +276,9 @@ define("common/addCostCenter.viewModel",
                     onSaveProductCostCenter: onSaveProductCostCenter,
                     selectedCostCentre: selectedCostCentre,
                     hide: hide,
-                    currencySmb: currencySmb
+                    currencySmb: currencySmb,
+                    addCostCenter: addCostCenter,
+                    executeCostCenter: executeCostCenter
                 };
             })()
         };

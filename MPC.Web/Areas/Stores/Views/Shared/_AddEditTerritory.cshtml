@@ -1,95 +1,94 @@
 ﻿
-<div class="modal fade" id="myTerritorySetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
+<div class="modal fade my-modal" id="myTerritorySetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content" data-bind="with: $root.selectedCompanyTerritory">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add/Edit Territory</h4>
             </div>
-            <div class="col-lg-12 clearfix" style="margin-top: 15px;" data-bind="with: $root.selectedCompanyTerritory">
-                <div class="row" id="user-profile">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="main-box clearfix" id="tabsHeader">
-                            <div class="tabs-wrapper profile-tabs">
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#tab-TerritoryDetail" data-toggle="tab">Territory Detail</a></li>
-                                    <li><a href="#tab-TerritoryVariables" data-toggle="tab">Territory Custom CRM defaults</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane fade in active" id="tab-TerritoryDetail">
-                                        <div class="col-lg-12">
-                                            <div class="form-horizontal clearfix">
-                                                <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="enter territory name" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>*@
-                                                        </div>
+            <div class="row" id="user-profile">
+                <div class="col-lg-12 col-md-12 col-sm-12 form-horizontal outerDiv-Padding" data-bind="with: $root.selectedCompanyTerritory">
+                    <div class="main-box clearfix" id="tabsHeader" style="margin:11px;">
+                        <div class="tabs-wrapper profile-tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab-TerritoryDetail" data-toggle="tab">Territory Detail</a></li>
+                                <li><a href="#tab-TerritoryVariables" data-toggle="tab">Territory Custom CRM defaults</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="tab-TerritoryDetail">
+                                    <div class="col-lg-12">
+                                        <div class="form-horizontal clearfix">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="enter territory name" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>*@
+                                                    </div>
 
-                                                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Territory Name</label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtTerritoryName" data-bind="value: territoryName, validationTooltip: territoryName">
-                                                    </div>
+                                                    <label for="txtSortOrder" class="control-label text-right tooltip-float">Territory Name</label>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Territory Code" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>*@
-                                                        </div>
-
-                                                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Territory Code</label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtTerritoryCode" data-bind="value: territoryCode, validationTooltip: territoryCode">
-                                                    </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="txtTerritoryName" data-bind="value: territoryName, validationTooltip: territoryName">
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This territory will be set as default for the store and any new users and addresses will be assigned this territory." data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchIsTDefault" class="control-label text-right tooltip-float">Is Default</label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsTDefault" data-bind="checked: isDefault, disable  : isDefault">
-                                                            <label class="onoffswitch-label" for="switchIsTDefault">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-
                                             </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-4 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Territory Code" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>*@
+                                                    </div>
+
+                                                    <label for="txtSortOrder" class="control-label text-right tooltip-float">Territory Code</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="txtTerritoryCode" data-bind="value: territoryCode, validationTooltip: territoryCode">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-4 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This territory will be set as default for the store and any new users and addresses will be assigned this territory." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="switchIsTDefault" class="control-label text-right tooltip-float">Is Default</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsTDefault" data-bind="checked: isDefault, disable  : isDefault">
+                                                        <label class="onoffswitch-label" for="switchIsTDefault">
+                                                            <div class="onoffswitch-inner"></div>
+                                                            <div class="onoffswitch-switch"></div>
+                                                        </label>
+                                                    </div>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="tab-TerritoryVariables">
-                                        <div class=" form-horizontal clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th></th>
+                                </div>
+                                <div class="tab-pane fade" id="tab-TerritoryVariables">
+                                    <div class=" form-horizontal clearfix">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-3">Title</th>
 
-                                                            <th>
-
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- ko template: { name: 'territoryVariableTemplate' , foreach: scopeVariables } -->
-                                                        <!-- /ko -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                        <th class="col-lg-6">
+                                                            Value
+                                                        </th>
+                                                        <th class="col-lg-1"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- ko template: { name: 'territoryVariableTemplate' , foreach: scopeVariables } -->
+                                                    <!-- /ko -->
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -99,11 +98,12 @@
                 </div>
             </div>
 
-            <div class="modal-footer" style="padding-left: 4px;padding-right: 8px;">
-                <hr />
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyTerritory" style="margin-left: 0px;">Close</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyTerritory, enable: $root.selectedCompanyTerritory().territoryId() != undefined">Archive</button>
+            <div class="modal-footer" style="padding-left: 0;padding-right:0;">
+                <div style="padding-right:8px;padding-left:3px;">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyTerritory" style="margin-left: 0px;">Close</button>
+                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyTerritory, enable: $root.selectedCompanyTerritory().territoryId() != undefined">Archive</button>
+                </div>
             </div>
         </div>
     </div>
@@ -114,22 +114,19 @@
 
 <script id="territoryVariableTemplate" type="text/html">
     <tr>
-        <td class="modifyVariabletd">
-            <div class="form-group ">
-                <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                            @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
-                        </a>
-                    </div>
-                    <label for="abc" class="control-label text-right tooltip-float" data-bind="text:title"></label>
-                </div>
-                <div class="col-lg-5" data-bind="visible:type() === 2">
-                    <input type="text" class="form-control" id="abc" data-bind="value: value">
-                </div>
-                <div class="col-lg-5" data-bind="visible:type() === 1">
-                    <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
-                </div>
-            </div>
+        <td class="modifyVariabletd"><label for="abc" class="control-label" style="padding-top:0px;" data-bind="text:title"></label></td>
+            
+           <td>
+
+               <div  data-bind="visible:type() === 2">
+                   <input type="text" class="form-control" id="abc" data-bind="value: value">
+               </div>
+               <div data-bind="visible:type() === 1">
+                   <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
+               </div>
+           </td>     
+             <td></td>       
+               
+           
     </tr>
 </script>

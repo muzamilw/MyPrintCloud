@@ -31,6 +31,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     isEditorVisible = ko.observable(false),
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
+                    deliveryNoteEditorHeader = ko.observable(),
                     currentTab = ko.observable(19),
                     // #region Observables
                     selectedDeliveryNote = ko.observable(model.DeliveryNote()),
@@ -48,6 +49,11 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     sortIsAsc = ko.observable(true),
                      // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
+
+                      // is open report
+                     isOpenReport = ko.observable(false),
+                      // is open report Email
+                     isOpenReportEmail = ko.observable(false),
                      // Tax Rate
                     selectedCompanyTaxRate = ko.observable(),
                       // Default Address
@@ -118,7 +124,12 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         }
                     });
                 },
-
+                  formatSelection = function (state) {
+                      return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                  },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                 // Get Delivery Note By ID
                 getDetaildeliveryNote = function (id) {
                     isCompanyBaseDataLoaded(false);
@@ -169,7 +180,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     onEditDeliverNote = function (item) {
                         selectedDeliveryNoteForListView(item);
                         getDetaildeliveryNote(item.deliveryNoteId());
+                        deliveryNoteEditorHeader('Modify Delivery Notes');
                         isEditorVisible(true);
+                        errorList.removeAll();
                     },
                     onCloseEditor = function () {
                         if (selectedDeliveryNote().hasChanges() && selectedDeliveryNote().isStatus() !== 20) {
@@ -185,9 +198,59 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         }
                         isEditorVisible(false);
                     },
+
+                     // report preview
+                    openExternalReportsDelivery = function () {
+
+                        reportManager.outputTo("preview");
+
+
+
+                       
+                        if (selectedDeliveryNote().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(false);
+                            onSaveDeliveryNotes();
+                        }
+                        else {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+                        }
+
+
+                        
+
+
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+                    openExternalEmailDeliveryReport = function () {
+                        reportManager.outputTo("email");
+
+                        if (selectedDeliveryNote().hasChanges()) {
+
+                            isOpenReport(true);
+                            isOpenReportEmail(true);
+                            onSaveDeliveryNotes();
+                        }
+                        else {
+                            reportManager.SetOrderData(selectedDeliveryNote().raisedBy(), selectedDeliveryNote().contactId(), selectedDeliveryNote().deliveryNoteId(), 5, selectedDeliveryNote().deliveryNoteId(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+
+                        }
+
+                       
+
+
+                    },
+
+
                      // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [0, 1, 3], true);
+                        companySelector.show(onSelectCompany, [0, 1, 3]);
                     },
                       // On Select Company
                     onSelectCompany = function (company) {
@@ -299,7 +362,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                          var deliveryNotes = model.DeliveryNote();
                          deliveryNotes.isStatus(19);
                          selectedDeliveryNote(deliveryNotes);
+                         deliveryNoteEditorHeader('Add Delivery Notes');
                          isEditorVisible(true);
+                         errorList.removeAll();
                      },
                      // add Delivery Note Detail
                      addDeliveryNoteDetail = function () {
@@ -316,7 +381,15 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     },
                     // Delete Delivery Notes
                     onDeleteDeliveryNoteDetail = function (deliveryNoteDetail) {
-                        selectedDeliveryNote().deliveryNoteDetails.remove(deliveryNoteDetail);
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo!");
+                        confirmation.afterProceed(function () {
+                            selectedDeliveryNote().deliveryNoteDetails.remove(deliveryNoteDetail);
+                        });
+                        confirmation.afterCancel(function () {
+
+                        });
+                        confirmation.show();
+                        return;
                     },
                     // Save Delivery Notes
                     onSaveDeliveryNotes = function (deliveryNote) {
@@ -351,6 +424,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     },
                     // Delete Delivry Notes
                 onDeleteDeliveryNote = function () {
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         deleteDeliveryNote(selectedDeliveryNote().convertToServerData());
                     });
@@ -375,28 +449,52 @@ define("deliveryNotes/deliveryNotes.viewModel",
                             }
                         }
                     });
-                }
+                },
                 // Save Delivery Notes
                 saveDeliveryNote = function (deliveryNote) {
                     dataservice.saveDeliveryNote(deliveryNote, {
                         success: function (data) {
-                            //For Add New
-                            if (selectedDeliveryNote().deliveryNoteId() === undefined || selectedDeliveryNote().deliveryNoteId() === 0) {
-                                deliverNoteListView.splice(0, 0, model.deliverNoteListView.Create(data));
-                            } else {
-                                selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
-                                selectedDeliveryNoteForListView().flagId(data.FlagId);
-                                selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
-                                selectedDeliveryNoteForListView().companyName(data.CompanyName);
-                                selectedDeliveryNoteForListView().flagColor(data.FlagColor);
-                                selectedDeliveryNoteForListView().orderReff(data.OrderReff);
-                                selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
-                                if (currentTab() !== data.IsStatus) {
-                                    deliverNoteListView.remove(selectedDeliveryNoteForListView());
+
+                            if (isOpenReport() == true) {
+                                if (isOpenReportEmail() == true) {
+                                    reportManager.SetOrderData(selectedDeliveryNote().raisedBy(), selectedDeliveryNote().contactId(), selectedDeliveryNote().deliveryNoteId(), 5, selectedDeliveryNote().deliveryNoteId(), "");
+                                    reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+                                    getDetaildeliveryNote(selectedDeliveryNote().deliveryNoteId());
                                 }
+                                else {
+                                    reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+                                    getDetaildeliveryNote(selectedDeliveryNote().deliveryNoteId());
+                                    
+                                }
+
+                                isOpenReport(false);
                             }
-                            isEditorVisible(false);
-                            toastr.success("Saved Successfully.");
+                            else {
+                                //For Add New
+
+                                if (selectedDeliveryNote().deliveryNoteId() === undefined || selectedDeliveryNote().deliveryNoteId() === 0) {
+                                    var dNote = model.deliverNoteListView.Create(data);
+                                    dNote.companyName(selectedDeliveryNote().companyName());
+                                    deliverNoteListView.splice(0, 0, dNote);
+                                } else {
+                                    selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
+                                    selectedDeliveryNoteForListView().flagId(data.FlagId);
+                                    selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
+                                    selectedDeliveryNoteForListView().companyName(data.CompanyName);
+                                    selectedDeliveryNoteForListView().flagColor(data.FlagColor);
+                                    selectedDeliveryNoteForListView().orderReff(data.OrderReff);
+                                    selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
+                                    if (currentTab() !== data.IsStatus) {
+                                        deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                                    }
+                                }
+                                isEditorVisible(false);
+                                toastr.success("Saved Successfully.");
+                            }
+
+
+
+                           
                         },
                         error: function (exceptionMessage, exceptionType) {
                             if (exceptionType === ist.exceptionType.MPCGeneralException) {
@@ -468,7 +566,13 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     onPostDeliveryNote: onPostDeliveryNote,
                     currentTab: currentTab,
                     getDeliveryNotesOnTabChange: getDeliveryNotesOnTabChange,
-                    openReport: openReport
+                    openReport: openReport,
+                    openExternalReportsDelivery: openExternalReportsDelivery,
+                    openExternalEmailDeliveryReport: openExternalEmailDeliveryReport,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult,
+                    deliveryNoteEditorHeader: deliveryNoteEditorHeader
+
                 };
             })()
         };

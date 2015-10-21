@@ -81,9 +81,11 @@ define("myOrganization/myOrganization.viewModel",
                     isRegionalSettingVisible = ko.observable(false),
 
                     isLanguageEditorVisible = ko.observable(false),
-
+                    isApiDetailVisible = ko.observable(false),
+                    isUnleashedApiDetailVisible = ko.observable(false),
+                    isZapierlVisible = ko.observable(false),
                     // for specifice name of screan
-                    HeadingName = ko.observable()
+                    HeadingName = ko.observable(),
                     // #region Utility Functions
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -115,7 +117,19 @@ define("myOrganization/myOrganization.viewModel",
                             HeadingName("Markups");
                             isMarkupVisible(true);
                         }
-                       
+                        else if (page == "api") {
+                            HeadingName("Agile API");
+                            isApiDetailVisible(true);
+                        }
+                        else if (page == "xeroapi") {
+                            HeadingName("Unleashed API for Xero");
+                            isUnleashedApiDetailVisible(true);
+                        }
+                        else if (page == "zapier") {
+                            HeadingName("Zapier Integration");
+                            isZapierlVisible(true);
+                        }
+                        
                         getBase();
                         view.initializeForm();
                     },
@@ -374,19 +388,23 @@ define("myOrganization/myOrganization.viewModel",
                         if (selectedMyOrganization().markupId() === markup.id()) {
                             toastr.error("Default Markup cannot be deleted.");
                         } else {
-                            filteredMarkups.remove(markup);
-                            _.each(markups(), function (item) {
-                                if ((item.id() === markup.id())) {
-                                    markups.remove(item);
+                            confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                            confirmation.afterProceed(function() {
+                                filteredMarkups.remove(markup);
+                                _.each(markups(), function (item) {
+                                    if ((item.id() === markup.id())) {
+                                        markups.remove(item);
+                                    }
+                                });
+                                selectedMyOrganization().flagForChanges("Changes occur");
+                                var markupForDelete = _.find(markupsForDropDown(), function (item) {
+                                    return item.MarkUpId === markup.id();
+                                });
+                                if (markupForDelete) {
+                                    markupsForDropDown.remove(markupForDelete);
                                 }
                             });
-                            selectedMyOrganization().flagForChanges("Changes occur");
-                            var markupForDelete = _.find(markupsForDropDown(), function (item) {
-                                return item.MarkUpId === markup.id();
-                            });
-                            if (markupForDelete) {
-                                markupsForDropDown.remove(markupForDelete);
-                            }
+                            confirmation.show();
                         }
                     },
                     //Get Organization By Id
@@ -459,7 +477,7 @@ define("myOrganization/myOrganization.viewModel",
                             });
                         }
 
-                        if (doBeforeSave() & doBeforeSaveMarkups() & doBeforeSaveChartOfAccounts()) {
+                        if (doBeforeSave() & doBeforeSaveMarkups()) {
                             //Markup List
                             if (selectedMyOrganization().markupsInMyOrganization.length !== 0) {
                                 selectedMyOrganization().markupsInMyOrganization.removeAll();
@@ -481,10 +499,12 @@ define("myOrganization/myOrganization.viewModel",
                             if (selectedMyOrganization().email.error != null) {
                                 errorList.push({ name: selectedMyOrganization().email.domElement.name, element: selectedMyOrganization().email.domElement });
                             }
-
-                            if (selectedMyOrganization().markupId.error != null) {
-                                errorList.push({ name: "Markup", element: selectedMyOrganization().markupId.domElement });
+                            if (isMarkupVisible) {
+                                if (selectedMyOrganization().markupId.error != null) {
+                                    errorList.push({ name: "Markup", element: selectedMyOrganization().markupId.domElement });
+                                }
                             }
+                           
                             flag = false;
                         }
                         return flag;
@@ -496,20 +516,23 @@ define("myOrganization/myOrganization.viewModel",
                     // Do Before Logic
                     doBeforeSaveMarkups = function () {
                         var flag = true;
-                        // Show Markup Item Errors
-                        var itemMarkupInvalid = markups.find(function (itemMarkup) {
-                            return !itemMarkup.isValid();
-                        });
-                        if (itemMarkupInvalid) {
-                            if (itemMarkupInvalid.name.error) {
-                                errorList.push({ name: "Name", element: itemMarkupInvalid.name.domElement });
-                                flag = false;
-                            }
-                            if (itemMarkupInvalid.rate.error) {
-                                errorList.push({ name: "Rate", element: itemMarkupInvalid.rate.domElement });
-                                flag = false;
+                        if (isMarkupVisible) {
+                            // Show Markup Item Errors
+                            var itemMarkupInvalid = markups.find(function (itemMarkup) {
+                                return !itemMarkup.isValid();
+                            });
+                            if (itemMarkupInvalid) {
+                                if (itemMarkupInvalid.name.error) {
+                                    errorList.push({ name: "Name", element: itemMarkupInvalid.name.domElement });
+                                    flag = false;
+                                }
+                                if (itemMarkupInvalid.rate.error) {
+                                    errorList.push({ name: "Rate", element: itemMarkupInvalid.rate.domElement });
+                                    flag = false;
+                                }
                             }
                         }
+                        
 
                         return flag;
                     },
@@ -604,6 +627,7 @@ define("myOrganization/myOrganization.viewModel",
                                 } else {
                                     selectedMyOrganization(), id(orgId);
                                 }
+                                selectedMyOrganization().flagForChanges(undefined);
                                 selectedMyOrganization().reset();
                                 toastr.success("Successfully save.");
                                 if (callback && typeof callback === "function") {
@@ -766,9 +790,10 @@ define("myOrganization/myOrganization.viewModel",
                     pager: pager,
                     isOrganisationVisible: isOrganisationVisible,
                     isMarkupVisible: isMarkupVisible,
-
+                    isApiDetailVisible: isApiDetailVisible,
+                    isUnleashedApiDetailVisible:isUnleashedApiDetailVisible,
                     isRegionalSettingVisible: isRegionalSettingVisible,
-
+                    isZapierlVisible:isZapierlVisible,
                     isLanguageEditorVisible: isLanguageEditorVisible,
 
                     HeadingName: HeadingName,

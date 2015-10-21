@@ -26,14 +26,21 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICostCentreVariableRepository _CostCentreVariableRepository;
         private readonly ICostCentreQuestionRepository _CostCentreQuestionRepository;
         private readonly ICostCentreMatrixRepository _CostCentreMatrixRepository;
+        private readonly IOrganisationRepository organisationRepository;
+
         public CostCentreService(ICostCentreRepository CostCentreRepository,
             ICostCentreVariableRepository CostCentreVariableRepository, ICostCentreQuestionRepository CostCentreQuestionRepository
-            , ICostCentreMatrixRepository CostCentreMatrixRepository)
+            , ICostCentreMatrixRepository CostCentreMatrixRepository, IOrganisationRepository organisationRepository)
         {
+            if (organisationRepository == null)
+            {
+                throw new ArgumentNullException("organisationRepository");
+            }
             this._CostCentreRepository = CostCentreRepository;
             this._CostCentreVariableRepository = CostCentreVariableRepository;
             this._CostCentreQuestionRepository = CostCentreQuestionRepository;
             this._CostCentreMatrixRepository = CostCentreMatrixRepository;
+            this.organisationRepository = organisationRepository;
         }
 
 
@@ -541,6 +548,21 @@ namespace MPC.Implementation.WebStoreServices
                 throw new Exception("Delete", ex);
             }
         }
+
+        /// <summary>
+        /// Get Organisation from db
+        /// </summary>
+        public Organisation GetOrganisation(long costCentreId)
+        {
+            CostCentre costCentre = GetCostCentreByID(costCentreId);
+            if (costCentre == null || !costCentre.OrganisationId.HasValue)
+            {
+                return null;
+            }
+
+            return organisationRepository.GetOrganizatiobByID(costCentre.OrganisationId.Value);
+        }
+
         /// <summary>
         ///     Compile the code with the source frovided (Source provided will be in the form of text string)and generate dll.
         /// </summary>
@@ -2109,6 +2131,8 @@ namespace MPC.Implementation.WebStoreServices
 
 
         }
+
+
 
 
         //public CostCentre GetCostCentersByID(long costCenterID)

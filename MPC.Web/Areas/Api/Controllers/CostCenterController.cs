@@ -76,6 +76,15 @@ namespace MPC.MIS.Areas.Api.Controllers
             throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
         }
 
+
+        public bool Get(int id,int id2)
+        {
+            return _costCenterService.ReCompileAllCostCentres(id);
+        }
+
+
+       
+      
        
         #endregion
     }

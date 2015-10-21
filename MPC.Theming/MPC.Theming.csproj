@@ -15,7 +15,7 @@
     <AssemblyName>MPC.Theming</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -246,6 +246,7 @@
     <Content Include="Global.asax" />
     <Content Include="MPC_Themes\classic.zip" />
     <Content Include="MPC_Themes\olson.rar" />
+    <Content Include="MPC_Themes\Oxford.zip" />
     <None Include="Properties\PublishProfiles\MPC_themes.pubxml" />
     <Content Include="MPC_Themes\summer.zip" />
     <None Include="Properties\PublishProfiles\Mpc_Theme_Saqib.pubxml" />
@@ -318,7 +319,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3948</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/MPC.Theming</IISUrl>
+          <IISUrl>http://localhost:55601/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

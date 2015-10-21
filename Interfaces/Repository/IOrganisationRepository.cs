@@ -1,4 +1,5 @@
-﻿using MPC.Models.Common;
+﻿using System;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
@@ -22,6 +23,7 @@ namespace MPC.Interfaces.Repository
         double GetBleedSize(long OrganisationID);
 
         bool GetImpericalFlagbyOrganisationId();
-        //Estimate GetOrderByOrderID(long OrderID);
+        void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int MisOrdersCount, int WebStoreOrdersCount, DateTime billingDate);
+        void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType);
     }
 }

@@ -36,6 +36,7 @@ namespace MPC.Implementation.WebStoreServices
                 List<FieldVariable> listFieldVariables = _fieldVariableRepository.GetSystemAndCompanyVariables(companyId);
                 List<TemplateObject> listTemplateObjects = _templateObjectRepository.GetProductObjects(templateId);
                 List<TemplateVariable> lstTempVariablestoAdd = new List<TemplateVariable>();
+                List<TemplateVariableExtension> lstVaraibaleExtensions = new List<TemplateVariableExtension>();
                 foreach (var obj in listFieldVariables)
                 {
                     if (obj.VariableTag != null)
@@ -44,6 +45,9 @@ namespace MPC.Implementation.WebStoreServices
                         string upperCaseVariable = obj.VariableTag.ToUpper();
                         string variable = obj.VariableTag;
 
+                        string variablePreFix ="{{"+ obj.VariableTag.Replace("{{","").Replace("}}","") + "_pre}}";
+                        string variablePostFix ="{{"+ obj.VariableTag.Replace("{{","").Replace("}}","") + "_post}}";
+                        
                         foreach (var templateObj in listTemplateObjects)
                         {
                             if (templateObj.ContentString.Contains(variable) || templateObj.ContentString.Contains(upperCaseVariable) || templateObj.ContentString.Contains(lowerCaseVariable))
@@ -57,13 +61,31 @@ namespace MPC.Implementation.WebStoreServices
                                     lstTempVariablestoAdd.Add(objNewVariable);
                                 }
                             }
+                            bool hasPreFix = false;
+                            bool hasPostFix = false;
+                            if (templateObj.ContentString.Contains(variablePreFix) || templateObj.ContentString.Contains(variablePreFix.ToUpper()) || templateObj.ContentString.Contains(variablePreFix.ToLower()))
+                            {
+                                hasPreFix = true;
+                            }
+                            if (templateObj.ContentString.Contains(variablePostFix) || templateObj.ContentString.Contains(variablePostFix.ToUpper()) || templateObj.ContentString.Contains(variablePostFix.ToLower()))
+                            {
+                                hasPostFix = true;
+                            }
+                            if (hasPreFix == true || hasPostFix == true)
+                            {
+                                TemplateVariableExtension objExt = new TemplateVariableExtension();
+                                objExt.HasPrefix = hasPreFix;
+                                objExt.HasPostFix = hasPostFix;
+                                objExt.TemplateId = templateId;
+                                objExt.FieldVariableId =obj.VariableId;
+                                lstVaraibaleExtensions.Add(objExt);
+                            }
                         }
                     }
                 }
-                if (lstTempVariablestoAdd != null && lstTempVariablestoAdd.Count != 0)
-                {
-                    _templateVariableRepository.InsertTemplateVariables(lstTempVariablestoAdd);
-                }
+
+                _templateVariableRepository.InsertTemplateVariables(lstTempVariablestoAdd, lstVaraibaleExtensions);
+
                 return true;
             }
             catch (Exception ex)

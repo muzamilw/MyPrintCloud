@@ -10,6 +10,6 @@ namespace MPC.Interfaces.Repository
     public interface ITemplateVariableRepository : IBaseRepository<TemplateVariable, long>
     {
         List<TemplateVariable> getVariablesList(long templateID);
-        void InsertTemplateVariables(List<TemplateVariable> lstTemplateVariables);
+        void InsertTemplateVariables(List<TemplateVariable> lstTemplateVariables,List<TemplateVariableExtension> lstVariableExtensions);
     }
 }

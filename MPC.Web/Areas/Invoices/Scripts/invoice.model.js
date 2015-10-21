@@ -76,6 +76,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
               isPostedInvoice = ko.observable(invoiceStatus() === 20 ? true : false),
               taxRate = ko.observable(),
+              statusId = ko.observable(),
               deliveryItems = ko.computed(function () {
                   if (items().length === 0) {
                       return [];
@@ -139,7 +140,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
                   if (itemInvalid) {
                       var nameElement = items.domElement;
-                      validationSummaryList.push({ name: itemInvalid.productName() + "has invalid data.", element: nameElement });
+                      validationSummaryList.push({ name: itemInvalid.productName() + " has invalid data.", element: nameElement });
                   }
               },
               // True if the order has been changed
@@ -247,6 +248,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               statusName: statusName,
               storeId: storeId,
               estimateTotal: estimateTotal,
+              statusId: statusId,
               errors: errors,
               isValid: isValid,
               showAllErrors: showAllErrors,
@@ -261,14 +263,22 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
           };
       };
-
+    //function to attain cancel button functionality 
+    Invoice.CreateFromClientModel = function (source) {
+        return new Invoice(source.invoiceId, source.invoiceCode, source.invoiceType, source.invoiceName, source.companyId, source.companyName, source.contactId, source.orderNo,
+            source.invoiceStatus, source.invoiceTotal, source.invoiceDate, source.accountNumber,
+            source.terms, source.addressId, source.isArchive,
+            source.taxValue, source.grandTotal, source.flagId, source.userNotes, source.estimateId,
+            source.isProformaInvoice, source.isPrinted, source.reportSignedBy, source.headNotes, source.footNotes,
+            source.invoicePostingDate, source.xeroAccessCode, source.status, source.invoicePostedBy);
+    };
     //  Invoice Detail Entity
     var InvoiceDetail = function (specifiedInvoiceDetailId, specifiedInvoiceTitle, specifiedItemCharge, specifiedQuantity, specifiedItemTaxValue,
     specifiedFlagId, specifiedDescription, specifiedDetailType, specifiedItemType, specifiedTaxValue, specifiedItemGrossTotal) {
         var self,
             id = ko.observable(specifiedInvoiceDetailId),
             // Invoice Title 
-            productName = ko.observable(specifiedInvoiceTitle),
+            productName = ko.observable(specifiedInvoiceTitle).extend({ required: true }),
             itemCharge = ko.observable(specifiedItemCharge).extend({ required: true, numberInput: ist.numberFormat }),
             // Quantity
             qty1 = ko.observable(specifiedQuantity).extend({
@@ -283,13 +293,14 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             description = ko.observable(specifiedDescription),
            // itemGrossTotal = ko.observable(specifiedItemGrossTotal),
             // For List View
-            qty1GrossTotal = ko.observable(specifiedItemGrossTotal).extend({ numberInput: ist.numberFormat }),
+            qty1GrossTotal = ko.observable(specifiedItemGrossTotal || 0).extend({ numberInput: ist.numberFormat }),
 
         // Errors
     errors = ko.validation.group({
         itemCharge: itemCharge,
         qty1: qty1,
-        tax: tax
+        tax: tax,
+        productName: productName
     }),
         // Is Valid 
     isValid = ko.computed(function () {
@@ -298,7 +309,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     dirtyFlag = new ko.dirtyFlag({
         productName: productName,
-        itemCharge: itemCharge,
+        qty1: qty1,
+        tax: tax,
+        qty1GrossTotal: qty1GrossTotal,
+        description: description,
     }),
         // Has Changes
     hasChanges = ko.computed(function () {
@@ -310,9 +324,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             var result = {};
             result.InvoiceDetailId = source.id();
             result.InvoiceTitle = source.productName();
-            result.ItemCharge = source.itemCharge() === null ? 0 : source.itemCharge();
+            result.ItemCharge = (source.itemCharge() === undefined || source.itemCharge()) === null ? 0 : source.itemCharge();
             result.Quantity = source.qty1();
-            result.ItemTaxValue = source.itemTaxValue();
+            result.ItemTaxValue = (source.itemTaxValue() === undefined || source.itemTaxValue() === null) ? 0 : source.itemTaxValue();
             result.TaxValue = source.tax();
             result.FlagId = source.flagId();
             result.Description = source.description();
@@ -354,6 +368,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return new InvoiceDetail(source.InvoiceDetailId, source.InvoiceTitle, source.ItemCharge, source.Quantity, source.ItemTaxValue,
             source.FlagId, source.Description, source.DetailType, source.ItemType, source.TaxValue, source.ItemGrossTotal);
     }
+    //function to attain cancel button functionality 
+    InvoiceDetail.CreateFromClientModel = function (source) {
+        return new InvoiceDetail(source.id, source.productName, source.itemCharge, source.qty1, source.itemTaxValue,
+            source.flagId, source.description, source.detailType, source.itemType, source.tax, source.qty1GrossTotal);
+    };
 
     // Address Entity
     Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefaultAddress) {
@@ -417,7 +436,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
 
     InvoicesListView = function (specifiedId, specifiedName, specifiedType, specifiedCode, specifiedCompanyName, specifiedInvoiceDate, specifiedItemsCount,
-                            specifiedFlagColor, specifiedInvoiceTotal, specifiedOrderNo, specifiedStatus) {
+                            specifiedFlagColor, specifiedInvoiceTotal, specifiedisDirectSale, specifiedStatus) {
         var
             self,
             //Unique ID
@@ -433,7 +452,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             flagColor = ko.observable(specifiedFlagColor),
             status = ko.observable(specifiedStatus),
             invoiceTotal = ko.observable(specifiedInvoiceTotal).extend({ numberInput: ist.numberFormat }),
-            isDirectSale = ko.observable(specifiedOrderNo === null ? true : false),
+            isDirectSale = ko.observable(specifiedisDirectSale),
                 // Number of Items UI
                 noOfItemsUi = ko.computed(function () {
                     return "( " + itemsCount() + " ) Items";
@@ -463,7 +482,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     InvoicesListView.Create = function (source) {
         return new InvoicesListView(source.InvoiceId, source.InvoiceName, source.InvoiceType, source.InvoiceCode,
-            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.InvoiceTotal, source.OrderNo, source.Status);
+            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.InvoiceTotal, source.isDirectSale, source.Status);
     };
 
     return {

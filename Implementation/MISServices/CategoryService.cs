@@ -177,6 +177,11 @@ namespace MPC.Implementation.MISServices
             var result = productCategoryRepository.GetChildCategories(categoryId);
             return result;
         }
+        public List<ProductCategory> GetChildCategoriesIncludingArchive(int categoryId)
+        {
+            var result = productCategoryRepository.GetChildCategoriesIncludingArchive(categoryId);
+            return result;
+        }
 
         public ProductCategory GetProductCategoryById(int categoryId)
         {

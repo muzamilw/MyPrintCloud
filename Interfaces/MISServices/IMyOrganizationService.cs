@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 
@@ -45,6 +46,12 @@ namespace MPC.Interfaces.MISServices
         bool DeleteOrganisation(long OrganisationID);
 
         IEnumerable<Markup> GetMarkups();
+        void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int misOrdersCount, int webStoreOrdersCount, DateTime billingDate);
+        bool CanStoreMakeLive();
+        void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType);
+        string GetActiveOrganisationId(string param);
+        string GetZapierPostUrl();
+
 
     }
 }

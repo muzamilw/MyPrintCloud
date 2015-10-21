@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Youtube Link" data-bind="value: videoLink">
+                        <textarea type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Youtube Link" data-bind="value: videoLink"></textarea>
 
 
                     </div>
@@ -48,10 +48,13 @@
 
             </div>
 
-            <div class="modal-footer">
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
                 <hr/>
-                <button type="button" class="btn btn-primary" data-bind="click: $root.saveVideo, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click: $root.closeVideoDialog" style="margin-left: 0;">Close</button>
+                <div style="padding-left:10px;padding-right:10px;">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.saveVideo, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                    <button type="button" class="btn btn-default" data-bind="click: $root.closeVideoDialog" style="margin-left: 0;">Close</button>
+                </div>
+
             </div>
         </div>
     </div>

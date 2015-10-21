@@ -106,7 +106,7 @@
                     }
                     // Ask for confirmation
 
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteLookup({
                             LookupMethodId: selectedlookup().MethodId()
@@ -273,7 +273,7 @@
                     }
                     // Ask for confirmation
 
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteLookup({
                             GuillotinePTVId: oGuillotinePTV.Id()
@@ -539,7 +539,7 @@
                     }, {
                         success: function (data) {
 
-                            
+                            CurrencySymbol(data.CurrencySymbol);
                             IsSelected(true);
                             if (MachineType == 1)
                             {

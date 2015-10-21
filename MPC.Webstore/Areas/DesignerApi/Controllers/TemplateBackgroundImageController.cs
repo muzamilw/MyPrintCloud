@@ -75,7 +75,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         // parameter 1 = imagename ID , parameter 2 = templateID, parameter3 = image type, parameter4 = organisationID 
         public HttpResponseMessage DownloadImageLocally(string parameter1, long parameter2, string parameter3,long parameter4)
         {
-            var result = templateBackgroundImages.DownloadImageLocally(parameter1, parameter2, parameter3,parameter4);
+            var result = templateBackgroundImages.DownloadImageLocally(parameter1, parameter2, parameter3,parameter4,true);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -171,6 +171,19 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public HttpResponseMessage updateImgTerritories(long parameter1,string parameter2)
         {
             var result = templateBackgroundImages.UpdateImgTerritories(parameter1, parameter2);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+
+        }
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        //contactCompanyID
+        public HttpResponseMessage getPropertyImages(long id)
+        {
+            var result = templateBackgroundImages.getPropertyImages(id) ;
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

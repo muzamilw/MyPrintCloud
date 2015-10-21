@@ -25,11 +25,12 @@ namespace MPC.Interfaces.Repository
 
         bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID);
 
-        void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId);
+        void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId, string SalesManagerEmail);
 
         void POEmailToSalesManager(long orderID, long companyID, long contactID, int reportNotesID, long supplierCompanyID, string AttachmentListStr, Company objCompany);
 
         void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany);
-        
+
+        void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid, long StockItemId, long orderID);
     }
 }

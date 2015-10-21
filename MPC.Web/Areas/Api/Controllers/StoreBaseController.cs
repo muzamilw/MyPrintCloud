@@ -99,15 +99,17 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             var result = companyService.GetBaseDataForNewCompany();
             byte[] bytes = null;
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
-            {
-                bytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
-            }
+            //Commented by Naveed on 20150827
+            //if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
+            //{
+            //    bytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            //}
             string defaultCss = string.Empty;
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css")))
-            {
-                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
-            }
+            //Commented by Naveed on 20150827
+            //if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css")))
+            //{
+            //    defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
+            //}
             string corporateStoreName = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
             string retailStoreName = ConfigurationManager.AppSettings["RetailStoreName"];
 

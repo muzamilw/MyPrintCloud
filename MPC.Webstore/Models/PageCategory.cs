@@ -5,9 +5,9 @@ using System.Web;
 
 namespace MPC.Webstore.Models
 {
-    public class PageCategory
-    {
-        public long CategoryId { get; set; }
-        public string CategoryName { get; set; }
-    }
+    //public class PageCategory
+    //{
+    //    public long CategoryId { get; set; }
+    //    public string CategoryName { get; set; }
+    //}
 }

@@ -12,6 +12,20 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void DeleteItems(List<Item> ItemList);
+        long OrganisationThroughSystemUserEmail(string Email);
+        void AddDataSystemUser(CompanyContact Contact);
+        void UpdateDataSystemUser(CompanyContact Contact);
+        CompanyContactRole GetRoleByID(int RoleID);
+        List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
+        List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
+        List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
+        List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID);
+        List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole);
+        List<CompanyContactRole> GetAllContactRoles();
+        IEnumerable<RegistrationQuestion> GetAllQuestions();
+        IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId);
+        int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
@@ -39,6 +53,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId);
         Company GetCompanyByCompanyID(Int64 companyID);
+        Company GetStoreReceiptPage(long companyId);
 
         CompanyContact GetContactByID(long contactID);
 
@@ -67,7 +82,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
-        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode,string StoreName, Address address = null);
+        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword,string StoreName, Address address = null);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
 
@@ -77,7 +92,7 @@ namespace MPC.Interfaces.WebStoreServices
         ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
-        string FormatDecimalValueToTwoDecimal(string valueToFormat);
+        //string FormatDecimalValueToTwoDecimal(string valueToFormat);
 
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 
@@ -228,5 +243,15 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetAllRetailPublishedCat();
         List<ProductCategory> GetAllCategories();
         string GetCurrencyCodeById(long currencyId);
+        List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
+        CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId);
+        string OrderConfirmationPDF(long OrderId, long StoreId);
+        bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId);
+        double? GetOrderTotalById(long OrderId);
+        void AddReedem(long contactId, long companyId, long DiscountVoucherId);
+        MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId);
+        RegistrationQuestion GetSecretQuestionByID(int QuestionID);
+        bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie);
+        string GetCurrencySymbolById(long currencyId);
     }
 }

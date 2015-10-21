@@ -10,6 +10,7 @@ using MPC.Webstore.Common;
 using MPC.Webstore.Models;
 using MPC.Models.Common;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Controllers
 {
     public class LoginController : Controller
@@ -55,11 +56,12 @@ namespace MPC.Webstore.Controllers
         // GET: Login
         public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
             {
@@ -75,10 +77,12 @@ namespace MPC.Webstore.Controllers
 
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
             {
+                ViewBag.FBInitTag = "<script>window.fbAsyncInit = function () {FB.init({appId: '" + StoreBaseResopnse.Company.facebookAppId + "',status: true, cookie: false, xfbml: true});};</script>";
                 ViewBag.ShowFacebookSignInLink = 1;
             }
             else
             {
+                ViewBag.FBInitTag = "";
                 ViewBag.ShowFacebookSignInLink = 0;
             }
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
@@ -92,7 +96,7 @@ namespace MPC.Webstore.Controllers
 
 
             if (string.IsNullOrEmpty(ReturnURL))
-                ViewBag.ReturnURL = "Social";
+                ViewBag.ReturnURL = "";
             else
                 ViewBag.ReturnURL = ReturnURL;
             
@@ -131,12 +135,11 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(AccountViewModel model)
         {
 
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-
-            string returnUrl = string.Empty;
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             if (ModelState.IsValid)
             {
                 CompanyContact user = null;
@@ -157,9 +160,9 @@ namespace MPC.Webstore.Controllers
                         UserCookieManager.isWritePresistentCookie = true;
                     else
                         UserCookieManager.isWritePresistentCookie = false;
-                    string ReturnURL = Request.Form["hfReturnURL"];
+                    string ReturnURL = Request.QueryString["ReturnURL"];
 
-                    return VerifyUser(user, returnUrl, StoreBaseResopnse);
+                    return VerifyUser(user, ReturnURL, StoreBaseResopnse);
                 }
                 else
                 {
@@ -202,7 +205,7 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.WEBContactFirstName = user.FirstName;
                     UserCookieManager.WEBContactLastName = user.LastName == null ? "" : user.LastName;
                     UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
-                    UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
+                    UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? false;
 
                     UserCookieManager.WEBEmail = user.Email;
 
@@ -213,22 +216,30 @@ namespace MPC.Webstore.Controllers
                         if (Orderid > 0)
                         {
                             UserCookieManager.TemporaryCompanyId = 0;
-                           // return RedirectToAction("ShopCart", new { optionalOrderId = Orderid });
-                           Response.Redirect("/ShopCart/" + Orderid);
+                            if (!string.IsNullOrEmpty(ReturnUrl))
+                            {
+                                RedirectToLocal(ReturnUrl);
+                            }
+                            else 
+                            {
+                                RedirectToLocal("/ShopCart?OrderId=" + Orderid);
+                                //RedirectToAction("ShopCart", new { OrderId = Orderid });
+                               // Response.Redirect("/ShopCart?OrderId=" + Orderid);
+                            }
+                            return null;
                         }
                     }
 
                    
-                    if (ReturnUrl == "Social")
+                    if (!string.IsNullOrEmpty(ReturnUrl))
                     {
                         RedirectToLocal(ReturnUrl);
                     }
                     else
                     {
-                        Response.Redirect("/");
-                     //Response.Redirect("/");
-                      //  ControllerContext.HttpContext.Response.Redirect("/");
-                      // return RedirectToAction("Index", "Home");
+                        RedirectToLocal("/");
+                        //Response.Redirect("/");
+                    
                     }
                     return null;
                 }

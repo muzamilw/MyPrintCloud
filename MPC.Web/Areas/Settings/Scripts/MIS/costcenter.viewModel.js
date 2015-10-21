@@ -176,6 +176,43 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
 
             },
+             onDeletePermanent = function () {
+                 confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                 confirmation.afterProceed(function () {
+                     deleteCostCentre(selectedCostCenter().costCentreId());
+                 });
+                 confirmation.show();
+             },
+               // Delete Company Permanently
+                deleteCostCentre = function (id) {
+                    dataservice.deleteCostCentre({ CostCentreId: id }, {
+                        success: function () {
+                            toastr.success("Cost Centre deleted successfully!");
+
+                            closeCostCenterDetail(false);
+                            //isEditorVisible(false);
+                            if (selectedCostCenter()) {
+                                var costCentre = getCostCentreById(selectedCostCenter().costCentreId());
+                                if (costCentre) {
+                                    costCentersList.remove(costCentre);
+                                }
+                            }
+                           
+                        },
+                        error: function (response) {
+                            toastr.error("Cost Centre is in use and can not delete.");
+                        }
+                    });
+                };
+
+            // Get Company By Id
+            getCostCentreById = function (id) {
+                return costCentersList.find(function (costcentre) {
+                    return costcentre.costCenterId() === id;
+                });
+            },
+
+
             OnEditMatrixVariable = function (oMatrix) {
                 if (oMatrix.MatrixId == undefined || oMatrix.MatrixId == null) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
@@ -205,11 +242,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 SelectedMatrixVariable(model.MatrixVariableClientMapper());
                 view.showCostCentreMatrixDialog();
                 SelectedMatrixVariable().reset();
-            }
+            },
             DeleteMatrixVariable = function (variable, event) {
                 if (event != undefined) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.DeleteMatrixVariable({
                             MatrixId: Id
@@ -236,6 +273,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 }
 
             },
+
+
 
             getvariableListItem = function () {
                 dataservice.getCostCentreAnswerList({
@@ -607,7 +646,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             OnDeleteAnswerStringofQuestionVariable = function (oAnswer) {
                 if (oAnswer.Id() > 0) {
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteQuestionVariable({
                             MCQsQuestionAnswerId: oAnswer.Id()
@@ -636,11 +675,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             addQuestionVariable = function () {
                 SelectedQuestionVariable(model.QuestionVariable());
                 view.showCostCentreQuestionDialog();
-            }
+            },
             DeleteQuestionVariable = function (variable, event) {
                 if (event != undefined) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteQuestionVariable({
                             QuestionId: Id
@@ -809,6 +848,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     return;
                 }
                 // Ask for confirmation
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     deleteCostCenter(oCostCenter);
                 });
@@ -929,15 +969,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             } else {
 
 
-                                selectedCostCenter().type(data.TypeName)
+                                selectedCostCenter().type(data.TypeName);
                                 selectedCostCenter().reset();
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].description(data.WebStoreDesc);
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].type(data.TypeName);
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].name(selectedCostCenter().name());
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].calculationMethodType(selectedCostCenter().calculationMethodType());
                             }
                             closeCostCenterDetail();
-                            //  getCostCenters();
+                            getCostCenters();
                             toastr.success("Successfully saved.");
                         } else {
                             toastr.error("Formula String is not valid.");
@@ -1377,7 +1413,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 variableDropdownList: variableDropdownList,
                 AddtoInputControl: AddtoInputControl,
                 RowscolCountList: RowscolCountList,
-                getCostCenterByFilter: getCostCenterByFilter
+                getCostCenterByFilter: getCostCenterByFilter,
+                onDeletePermanent: onDeletePermanent
 
             };
         })()

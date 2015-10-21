@@ -32,5 +32,6 @@ namespace MPC.Models.RequestModels
         public List<Campaign> NewAddedCampaigns { get; set; }
         public List<Campaign> EdittedCampaigns { get; set; }
         public List<Campaign> DeletedCampaigns { get; set; }
+        
     }
 }

@@ -15,6 +15,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     public static class StockItemMapper
     {
         #region Base Reposne Mapper
+
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
@@ -33,7 +34,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(q => q.CreateFromDropDown()) : new List<ApiModels.RegistrationQuestionDropDown>(),
                 CurrencySymbol = (source.Organisation != null && source.LengthUnits != null) ? source.Organisation.Currency.CurrencySymbol : string.Empty,
                 WeightUnit = source.WeightUnit,
-                IsImperical = source.IsImperical
+                IsImperical = source.IsImperical,
+                LoggedInUserId = source.LoggedInUserId,
+                LoggedInUserIdentity = source.LoggedInUserIdentity,
             };
         }
 
@@ -71,9 +74,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.StockItemForListView CreateFrom(this DomainModels.StockItem source)
         {
             StockCostAndPrice obj = null;
+            StockCostAndPrice objCost = null;
             if (source.StockCostAndPrices != null)
             {
                 obj = source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier == -1);
+            }
+            if (source.StockCostAndPrices != null)
+            {
+                objCost = source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier == 0);
             }
 
             return new ApiModels.StockItemForListView
@@ -95,8 +103,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierCompanyName = source.Company != null ? source.Company.Name : string.Empty,
                 Region = source.Region,
                 PackageQty = source.PackageQty,
-                PackCostPrice = obj != null ? (obj.CostPrice / source.PerQtyQty) * source.PackageQty :
-                null
+               // PackCostPrice = obj != null ? obj.CostPrice : 0
+                PackCostPrice = obj != null ? (obj.CostPrice / source.PerQtyQty) * source.PackageQty : 0,
+                CostPrice = obj != null ? obj.CostPrice : 0,
+                ActualCost = objCost != null? objCost.CostPrice : 0,
+                ActualPackCost = objCost != null ? (objCost.CostPrice / source.PerQtyQty) * source.PackageQty : 0
             };
 
         }
@@ -104,9 +115,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.StockItem CreateFrom(this ApiModels.StockItem source)
+        public static StockItem CreateFrom(this ApiModels.StockItem source)
         {
-            return new DomainModels.StockItem
+            return new StockItem
             {
                 StockItemId = source.StockItemId,
                 ItemName = source.ItemName,
@@ -145,13 +156,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemCoatedType = source.ItemCoatedType,
                 ItemWeightSelectedUnit = source.ItemWeightSelectedUnit,
                 IsImperical = source.IsImperical,
-                StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null
+                isAllowBackOrder = source.isAllowBackOrder,
+                ThresholdLevel = source.ThresholdLevel,
+                StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null,
+                ItemStockUpdateHistories = source.ItemStockUpdateHistories != null ? source.ItemStockUpdateHistories.Select(cp => cp.CreateFrom()).ToList() : null
             };
         }
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static ApiModels.StockItem CreateFromDetail(this DomainModels.StockItem source)
+        public static ApiModels.StockItem CreateFromDetail(this StockItem source)
         {
             return new ApiModels.StockItem
             {
@@ -193,10 +207,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemCoatedType = source.ItemCoatedType,
                 ItemWeightSelectedUnit = source.ItemWeightSelectedUnit,
                 IsImperical = source.IsImperical,
-                StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null
+                isAllowBackOrder = source.isAllowBackOrder,
+                ThresholdLevel = source.ThresholdLevel,
+                StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : new List<ApiModels.StockCostAndPrice>(),
+                ItemStockUpdateHistories = source.ItemStockUpdateHistories != null ? source.ItemStockUpdateHistories.Select(cp => cp.CreateFrom()).ToList() : new List<ApiModels.ItemStockUpdateHistory>()
             };
         }
-        public static ApiModels.StockItem CreateFromDetailForMachine(this DomainModels.StockItem source)
+        public static ApiModels.StockItem CreateFromDetailForMachine(this StockItem source)
         {
             return new ApiModels.StockItem
             {

@@ -126,3 +126,7 @@ MPC.Theming/MPC_Themes/classic.zip
 MPC.Theming/MPC_Themes/goldwell.zip
 MPC.Theming/MPC_Themes/London.zip
 MPC.Web/Web.config
+MPC.Webstore/Web.config
+MPC.Webstore/Web.config
+MPC.Webstore/ccAssembly/MPCSTAGINGUserCostCentres.dll
+MPC.Webstore/ccAssembly/PinkCardsMISUserCostCentres.dll

@@ -120,7 +120,8 @@
                             jobManagerId(undefined);
                             return;
                         }
-                        var userId = value.id;
+                        //var userId = value.id;
+                        var userId = value;
                         if (userId === jobManagerId()) {
                             return;
                         }
@@ -284,6 +285,10 @@
                 refItemId = ko.observable(specifiedRefItemId || undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
+                // Has Deleted Sections
+                hasDeletedSections = ko.observable(false),
+                // Has Deleted Attachments
+                hasDeletedAttachments = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     productName: productName
@@ -323,14 +328,44 @@
                         if (itemSectionInvalid.stockItemId.error) {
                             validationSummaryList.push({ name: "Section Paper / Board / Substrate", element: itemSectionInvalid.stockItemId.domElement });
                         }
-                        if (itemSectionInvalid.itemSizeId.error) {
-                            validationSummaryList.push({ name: "Section Press Feed Sheet Size", element: itemSectionInvalid.itemSizeId.domElement });
-                        }
                         if (itemSectionInvalid.sectionSizeId.error) {
-                            validationSummaryList.push({ name: "Section Trimed Item Size (flat)", element: itemSectionInvalid.sectionSizeId.domElement });
+                            validationSummaryList.push({ name: "Section Press Feed Sheet Size", element: itemSectionInvalid.sectionSizeId.domElement });
+                        }
+                        if (itemSectionInvalid.itemSizeId.error) {
+                            validationSummaryList.push({ name: "Section Trimed Item Size (flat)", element: itemSectionInvalid.itemSizeId.domElement });
                         }
                         if (itemSectionInvalid.pressId.error) {
                             validationSummaryList.push({ name: "Section Side 1 Press", element: itemSectionInvalid.pressId.domElement });
+                        }
+                        if (itemSectionInvalid.itemGutterHorizontal.error) {
+                            validationSummaryList.push({
+                                name: "Gutter value must be a number from 0 to 99",
+                                element: itemSectionInvalid.itemGutterHorizontal.domElement
+                            });
+                        }
+                        if (itemSectionInvalid.sectionSizeHeight.error) {
+                            validationSummaryList.push({
+                                name: "Press Feed Size Height",
+                                element: itemSectionInvalid.sectionSizeHeight.domElement
+                            });
+                        }
+                        if (itemSectionInvalid.sectionSizeWidth.error) {
+                            validationSummaryList.push({
+                                name: "Press Feed Size Width",
+                                element: itemSectionInvalid.sectionSizeWidth.domElement
+                            });
+                        }
+                        if (itemSectionInvalid.itemSizeHeight.error) {
+                            validationSummaryList.push({
+                                name: "Trimmed Size Height",
+                                element: itemSectionInvalid.itemSizeHeight.domElement
+                            });
+                        }
+                        if (itemSectionInvalid.itemSizeWidth.error) {
+                            validationSummaryList.push({
+                                name: "Trimmed Size Width",
+                                element: itemSectionInvalid.itemSizeWidth.domElement
+                            });
                         }
                     }
                 },
@@ -360,21 +395,28 @@
                     defaultItemTax: defaultItemTax,
                     jobEstimatedStartDateTime: jobEstimatedStartDateTime,
                     jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
-                    jobManagerId: jobManagerId
+                    jobManagerId: jobManagerId,
+                    jobStatusId: jobStatusId,
+                    jobSignedBy: jobSignedBy,
+                    qty1NetTotal: qty1NetTotal,
+                    qty2NetTotal: qty2NetTotal,
+                    qty1Tax1Value: qty1Tax1Value,
+                    qty2Tax1Value: qty2Tax1Value,
+                    tax1: tax1
                 }),
                 // Item Section Changes
                 itemSectionHasChanges = ko.computed(function () {
                     var itemSectionChange = itemSections.find(function (itemSection) {
                         return itemSection.hasChanges();
                     });
-                    return itemSectionChange !== null && itemSectionChange !== undefined;
+                    return (itemSectionChange !== null && itemSectionChange !== undefined) || hasDeletedSections();
                 }),
                 // Item Attachment Changes
                 itemAttachmentHasChanges = ko.computed(function () {
                     var attachmentChange = itemAttachments.find(function (itemAttachment) {
                         return itemAttachment.hasChanges();
                     });
-                    return attachmentChange !== null && attachmentChange !== undefined;
+                    return (attachmentChange !== null && attachmentChange !== undefined) || hasDeletedAttachments();
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -388,6 +430,8 @@
                     itemAttachments.each(function (itemAttachment) {
                         return itemAttachment.reset();
                     });
+                    hasDeletedSections(false);
+                    hasDeletedAttachments(false);
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -430,6 +474,12 @@
                         Qty1Tax1Value: qty1Tax1Value(),
                         Qty1GrossTotal: qty1GrossTotal(),
                         Qty1NetTotal: qty1NetTotal(),
+                        Qty2Tax1Value: qty2Tax1Value(),
+                        Qty2GrossTotal: qty2GrossTotal(),
+                        Qty2NetTotal: qty2NetTotal(),
+                        Qty3Tax1Value: qty3Tax1Value(),
+                        Qty3GrossTotal: qty3GrossTotal(),
+                        Qty3NetTotal: qty3NetTotal(),
                         Qty1: qty1(),
                         Qty2: qty2(),
                         Qty3: qty3(),
@@ -522,6 +572,8 @@
                 setJobProgressedBy: setJobProgressedBy,
                 jobSignedByUser: jobSignedByUser,
                 refItemId: refItemId,
+                hasDeletedSections: hasDeletedSections,
+                hasDeletedAttachments: hasDeletedAttachments,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -543,7 +595,7 @@
             specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim, specifiedQty1MarkUpID,
             specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedProductType, specifiedPressIdSide2, specifiedImpressionCoverageSide1, specifiedImpressionCoverageSide2,
             specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
-            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty) {
+            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -552,13 +604,13 @@
                 // name
                 name = ko.observable(specifiedSectionName || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Stock Item Id
-                stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
+                stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function () { return (productType() != 2 && productType() != 3); } } }),
                 // Stock Item Name
                 stockItemName = ko.observable(specifiedStockItemName || undefined),
                 // Stock Item Package Qty
                 stockItemPackageQty = ko.observable(specifiedStockItemPackageQty || undefined),
                 // Press Id
-                pressId = ko.observable(specifiedPressId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
+                pressId = ko.observable(specifiedPressId || undefined).extend({ required: { onlyIf: function () { return (productType() != 2 && productType() != 3); } } }),
                 // Press Id Side 2
                 pressIdSide2 = ko.observable(specifiedPressIdSide2 || undefined),
                 // Press Name
@@ -582,10 +634,48 @@
                         if (printingValue === 2) { // Hide Number Up and set it as 1
                             printViewLayoutPortrait(0);
                             printViewLayoutLandscape(1);
-                           // If Initialized
-                           if (isDoubleSidedUi) {
-                               isDoubleSidedUi(false);
-                           }
+                            // If Initialized
+                            if (isDoubleSidedUi) {
+                                isDoubleSidedUi(false);
+                            }
+                        }
+                    }
+                }),
+                // Is Section Size Custom
+                isSectionSizeCustom = ko.observable(specifiedIsSectionSizeCustom || undefined),
+                // Is Item Size Custom
+                isItemSizeCustom = ko.observable(specifiedIsItemSizeCustom || undefined),
+                // Section Size Height
+                sectionSizeHeight = ko.observable(specifiedSectionSizeHeight || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (productType() != 2 && productType() != 3) &&
+                                ((isSectionSizeCustom() && printingTypeUi() !== '2') || (!isSectionSizeCustom() && printingTypeUi() === '2'));
+                        }
+                    }
+                }),
+                // Section Size Width
+                sectionSizeWidth = ko.observable(specifiedSectionSizeWidth || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (productType() != 2 && productType() != 3) &&
+                                ((isSectionSizeCustom() && printingTypeUi() !== '2') || (!isSectionSizeCustom() && printingTypeUi() === '2'));
+                        }
+                    }
+                }),
+                // Item Size Height
+                itemSizeHeight = ko.observable(specifiedItemSizeHeight || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (productType() != 2 && productType() != 3) && isItemSizeCustom() && printingTypeUi() !== '2';
+                        }
+                    }
+                }),
+                // Item Size Width
+                itemSizeWidth = ko.observable(specifiedItemSizeWidth || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (productType() != 2 && productType() != 3) && isItemSizeCustom() && printingTypeUi() !== '2';
                         }
                     }
                 }),
@@ -593,7 +683,7 @@
                 sectionSizeId = ko.observable(specifiedSectionSizeId || undefined).extend({
                     required: {
                         onlyIf: function () {
-                            return productType() != 2 && printingType() !== 2;
+                            return (productType() != 2 && productType() != 3) && !isSectionSizeCustom() && printingTypeUi() === '1';
                         }
                     }
                 }),
@@ -601,24 +691,12 @@
                 itemSizeId = ko.observable(specifiedItemSizeId || undefined).extend({
                     required: {
                         onlyIf: function () {
-                            return productType() != 2 && printingType() !== 2;
+                            return (productType() != 2 && productType() != 3) && !isItemSizeCustom() && printingTypeUi() === '1';
                         }
                     }
                 }),
                 // Section No
                 sectionNo = ko.observable(specifiedSectionNo || undefined),
-                // Is Section Size Custom
-                isSectionSizeCustom = ko.observable(specifiedIsSectionSizeCustom || undefined),
-                // Is Item Size Custom
-                isItemSizeCustom = ko.observable(specifiedIsItemSizeCustom || undefined),
-                // Section Size Height
-                sectionSizeHeight = ko.observable(specifiedSectionSizeHeight || undefined),
-                // Section Size Width
-                sectionSizeWidth = ko.observable(specifiedSectionSizeWidth || undefined),
-                // Item Size Height
-                itemSizeHeight = ko.observable(specifiedItemSizeHeight || undefined),
-                // Item Size Width
-                itemSizeWidth = ko.observable(specifiedItemSizeWidth || undefined),
                 // Guillotine Id
                 guillotineId = ko.observable(specifiedGuillotineId || undefined),
                 // Qty1
@@ -666,7 +744,7 @@
                         if (value === isDoubleSided()) {
                             return;
                         }
-                        
+
                         // Single Side
                         if (!value) {
                             isWorknTurn(false);
@@ -704,20 +782,20 @@
                 // Section Ink Coverage List
                 sectionInkCoverageList = ko.observableArray([]),
                 // section Ink Coverage Side1
-                sectionInkCoveragesSide1 = ko.computed(function() {
+                sectionInkCoveragesSide1 = ko.computed(function () {
                     if (sectionInkCoverageList().length === 0) {
                         return [];
                     }
-                    return sectionInkCoverageList.filter(function(sectionInkCoverage) {
+                    return sectionInkCoverageList.filter(function (sectionInkCoverage) {
                         return sectionInkCoverage.side() === 1;
                     });
                 }),
                 // section Ink Coverage Side2
-                sectionInkCoveragesSide2 = ko.computed(function() {
+                sectionInkCoveragesSide2 = ko.computed(function () {
                     if (sectionInkCoverageList().length === 0) {
                         return [];
                     }
-                    return sectionInkCoverageList.filter(function(sectionInkCoverage) {
+                    return sectionInkCoverageList.filter(function (sectionInkCoverage) {
                         return sectionInkCoverage.side() === 2;
                     });
                 }),
@@ -742,6 +820,8 @@
                 pressIdSide1IsSpotColor = ko.observable(specifiedPressSide1IsSpotColor || false),
                 // Press Id Side 2 Is Spot Color
                 pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false),
+                // Item Gutter Horizontal
+                itemGutterHorizontal = ko.observable(specifiedItemGutterHorizontal || 0).extend({ number: true, min: 0, max: 99 }),
                 // Select Stock Item
                 selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
@@ -773,15 +853,30 @@
                     itemSizeHeight(itemSizeWidth());
                     itemSizeWidth(itemHeight);
                 },
+                //Show number of signatures
+                sectionsMultiplier = ko.computed(function () {
+                    if (similarSections() <= 1) {
+                        return similarSections();
+                    } else {
+                        return "X " + similarSections();
+                    }
+                }),
                 // Add Section icon to show also in list of sections, For Add Section Item set to True
                 flagForAdd = ko.observable(false),
+                // Has Deleted Section Cost Center
+                hasDeletedSectionCostCentres = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
                     stockItemId: stockItemId,
                     sectionSizeId: sectionSizeId,
                     itemSizeId: itemSizeId,
-                    pressId: pressId
+                    pressId: pressId,
+                    itemGutterHorizontal: itemGutterHorizontal,
+                    sectionSizeHeight: sectionSizeHeight,
+                    sectionSizeWidth: sectionSizeWidth,
+                    itemSizeHeight: itemSizeHeight,
+                    itemSizeWidth: itemSizeWidth
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -821,14 +916,14 @@
                     passesSide1: passesSide1,
                     passesSide2: passesSide2,
                     printingType: printingType,
-                    sectionCostCentres: sectionCostCentres
+                    itemGutterHorizontal: itemGutterHorizontal
                 }),
                 // SectionCostCentres Has Changes
                 sectionCostCentresHasChanges = function () {
                     var sectionCostCentresChange = sectionCostCentres.find(function (item) {
                         return item.hasChanges();
                     });
-                    return sectionCostCentresChange !== null && sectionCostCentresChange !== undefined;
+                    return (sectionCostCentresChange !== null && sectionCostCentresChange !== undefined) || hasDeletedSectionCostCentres();
                 },
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -839,6 +934,7 @@
                     sectionCostCentres.find(function (item) {
                         return item.reset();
                     });
+                    hasDeletedSectionCostCentres(false);
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -892,8 +988,8 @@
                         PrintingType: printingType(),
                         // #region For Client Side Only
                         // to be used in Default Section, that will be used to create new sections // For Client Side Only
-                        StockItemId1: stockItemId(), 
-                        StockItem1Name: stockItemName(), 
+                        StockItemId1: stockItemId(),
+                        StockItem1Name: stockItemName(),
                         PressSide1ColourHeads: pressIdSide1ColourHeads(),
                         PressSide1IsSpotColor: pressIdSide1IsSpotColor(),
                         PressSide2ColourHeads: pressIdSide2ColourHeads(),
@@ -901,6 +997,7 @@
                         StockItemPackageQty: stockItemPackageQty(),
                         // to be used in Default Section, that will be used to create new sections // For Client Side Only
                         // #endregion
+                        ItemGutterHorizontal: itemGutterHorizontal(),
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
                             var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
@@ -984,12 +1081,15 @@
                 printingTypeUi: printingTypeUi,
                 isFirstTrim: isFirstTrim,
                 isSecondTrim: isSecondTrim,
+                itemGutterHorizontal: itemGutterHorizontal,
                 pressIdSide1ColourHeads: pressIdSide1ColourHeads,
                 pressIdSide2ColourHeads: pressIdSide2ColourHeads,
                 pressIdSide1IsSpotColor: pressIdSide1IsSpotColor,
                 pressIdSide2IsSpotColor: pressIdSide2IsSpotColor,
                 sectionInkCoveragesSide1: sectionInkCoveragesSide1,
                 sectionInkCoveragesSide2: sectionInkCoveragesSide2,
+                sectionsMultiplier: sectionsMultiplier,
+                hasDeletedSectionCostCentres: hasDeletedSectionCostCentres,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -1106,8 +1206,7 @@
                     qty3WorkInstructions: qty3WorkInstructions,
                     isDirectCost: isDirectCost,
                     isPurchaseOrderRaised: isPurchaseOrderRaised,
-                    qty1EstimatedStockCost: qty1EstimatedStockCost,
-                    sectionCostCentreDetails: sectionCostCentreDetails
+                    qty1EstimatedStockCost: qty1EstimatedStockCost
                 }),
                 // SectionCostCentreDetails Has Changes
                 sectionCostCentreDetailsHasChanges = function () {
@@ -1143,9 +1242,9 @@
                         Qty1NetTotal: qty1NetTotal(),
                         Qty2NetTotal: qty2NetTotal(),
                         Qty3NetTotal: qty3NetTotal(),
-                        Qty1MarkUpId: qty1MarkUpId(),
-                        Qty2MarkUpId: qty2MarkUpId(),
-                        Qty3MarkUpId: qty3MarkUpId(),
+                        Qty1MarkUpID: qty1MarkUpId(),
+                        Qty2MarkUpID: qty2MarkUpId(),
+                        Qty3MarkUpID: qty3MarkUpId(),
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
                         Qty3MarkUpValue: qty3MarkUpValue(),
@@ -2021,13 +2120,14 @@
         },
         //#endregion
         //#region Paper Size Entity
-        PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth) {
+        PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth, specifiedArea) {
             // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
                 name: specifiedName,
                 height: specifiedHeight,
-                width: specifiedWidth
+                width: specifiedWidth,
+                area: specifiedArea
             };
         },
         //#endregion
@@ -2168,8 +2268,9 @@
             source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
             source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks,
             source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim, source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.ProductType,
-            source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType, 
-            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty);
+            source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType,
+            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
+            source.ItemGutterHorizontal);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
@@ -2331,7 +2432,7 @@
     //#endregion
     //#region Paper Size Factory
     PaperSize.Create = function (source) {
-        return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width);
+        return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width, source.Area);
     };
     //#endregion
     //#region Ink Plate Side Factory

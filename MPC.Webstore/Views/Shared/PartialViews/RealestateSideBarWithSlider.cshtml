@@ -1,18 +1,9 @@
 ﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @using System;
-
-<head>
-    <link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
-    <link href="/Content/RealEstateSlider/css/normalize.css" rel="stylesheet" />
-    <link href="/Content/RealEstateSlider/css/foundation.min.css" rel="stylesheet" />
-
-    <link href="/Content/RealEstateSlider/css/style.css" rel="stylesheet" />
-    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-    <link href="/Content/RealEstateSlider/css/jquery.circular-carousel.css" rel="stylesheet" />
-
-</head>
+@{
+    Layout = null;
+}
 
 @{
     var ParentCategories = ViewBag.rptParentCategoryNames as List<MPC.Models.DomainModels.ProductCategory>;
@@ -20,12 +11,9 @@
     var ChildCategories = ViewBag.AllCategories as List<MPC.Models.DomainModels.ProductCategory>;
     var AllListingImages = ViewBag.AllListingImages as List<MPC.Models.DomainModels.ListingImage>;
 }
-@{
-    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
-        .Where(b => b.Path == "~/pageSpecific")
-        .First();
-    bundle.Include("~/Content/RealEstateSlider/js/jquery.circular-carousel.js", "~/Content/RealEstateSlider/js/script.js");
-}
+<link href="/Content/carousel.css" rel="stylesheet" />
+<link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
+<link href="/Content/content.css" rel="stylesheet" />
 <div class="container">
     <div class="sidebar-offcanvas sidebar realEs-myProfile-leftPanel" id="sidebar-left" role="navigation" style="">
         <div style="height: 10px;">
@@ -33,17 +21,17 @@
         <div class="reales-profile-pad10">
 
             <div class="float_left_simple Fsize18">
-                <label style="color: #bebab8;font-family:Times New Roman;">My Profile</label>
+                <label >@Html.Raw(Html.GetKeyValueFromResourceFile("myprofile",UserCookieManager.WBStoreId,"My Profile"))</label>
             </div>
 
             <div class="float_right relEst-profile-sigout">
                 @Html.ActionLink(" ", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "icon-text-signout" })
             </div>
             <div class="float_right relEst-profile-saved">
-                <a class="icon-text-cog" href="/DashBoard" style="color:#bebab8"></a>
+                <a class="icon-text-cog" href="/DashBoard"></a>
             </div>
             <div class="float_right relEst-profile-dashb">
-                <a class="icon-text-file" href="/SavedDesigns" style="color:#bebab8"></a>
+                <a class="icon-text-file" href="/SavedDesigns"></a>
 
             </div>
 
@@ -61,50 +49,119 @@
         </div>
         <div class="reales-profile-border">
         </div>
-        <div class="" id="togglemenu_sidebar">
+        @if (ParentCategories != null)
+        {
+            <div class="" id="togglemenu_sidebar">
 
-            <div class="panel-body">
-                <div class="" id="accordionmenu">
+                <div class="panel-body">
+                    <div class="" id="accordionmenu">
 
-                    <div id="parentCatsContainer" class="">
-                        @foreach (var ParentCategory in ParentCategories)
-                        {
-                            var filteredChildCategories = ChildCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == ParentCategory.ProductCategoryId && (category.isArchived == false || category.isArchived == null) && category.isEnabled == true && category.isPublished == true && category.CompanyId == UserCookieManager.WBStoreId).ToList().OrderBy(x => x.DisplayOrder);
+                        <div id="parentCatsContainer" class="">
+                            @foreach (var ParentCategory in ParentCategories)
+                            {
+                                var filteredChildCategories = ChildCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == ParentCategory.ProductCategoryId && (category.isArchived == false || category.isArchived == null) && category.isEnabled == true && category.isPublished == true && category.CompanyId == UserCookieManager.WBStoreId).ToList().OrderBy(x => x.DisplayOrder);
 
-                            <div class="category-heading">
-                                @{
-                            var anchorId = "linkParentCategoryName" + @ParentCategory.ProductCategoryId;
-                            var iconId = "linkChevronIcon" + @ParentCategory.ProductCategoryId;
-                                }
-                                <a id="@anchorId" href="/Category/@Html.ResolveString(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
-                                @if (filteredChildCategories != null && filteredChildCategories.Count() > 0)
-                                {
-                                    <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
-                                        <i class="Chevron"></i>
-                                    </a>
-                                }
-                                <a class="clearBoth" style="height: 0px;"></a>
-                            </div>
-                            <div class="sideMenuItems panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul id="mycarasoulList" class="submenu list-unstyled" style="padding-left: 15px; line-height: 2; margin-top: 5px;">
-                                        @foreach (var ChildCategory in filteredChildCategories)
+                                <div class="category-heading">
+                                    @{
+                                var anchorId = "linkParentCategoryName" + @ParentCategory.ProductCategoryId;
+                                var iconId = "linkChevronIcon" + @ParentCategory.ProductCategoryId;
+                                    }
+                                    <div class="float_left_simple">
+                                        <a id="@anchorId" href="/Category/@Utils.specialCharactersEncoder(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
+                                    </div>
+                                    <div class="float_right">
+                                        @if (filteredChildCategories != null && filteredChildCategories.Count() > 0)
                                         {
-                                            <li><a id="linkChildCatLink" href="/Category/@Html.ResolveString(ChildCategory.CategoryName)/@ChildCategory.ProductCategoryId" onclick="ShowLoader();"><span id="childCatName" style="color: #bebab8;">@ChildCategory.CategoryName</span></a></li>
+                                            <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
+                                                <i class="Chevron"></i>
+                                            </a>
                                         }
-                                    </ul>
+                                        else
+                                        {
+                                            <a class="clearBoth" style="height: 0px;"></a>
+                                        }
+                                    </div>
+                                    <div class="clearboth"></div>
                                 </div>
-                            </div>
+                                <div class="sideMenuItems panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul id="mycarasoulList" class="submenu list-unstyled" style="padding-left: 15px; line-height: 2; margin-top: 5px;">
+                                            @foreach (var ChildCategory in filteredChildCategories)
+                                            {
+                                                <li><a id="linkChildCatLink" href="/Category/@Utils.specialCharactersEncoder(ChildCategory.CategoryName)/@ChildCategory.ProductCategoryId" onclick="ShowLoader();"><span id="childCatName" style="color: #bebab8;">@ChildCategory.CategoryName</span></a></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
 
 
-                        }
+                            }
+                        </div>
+
                     </div>
-
                 </div>
             </div>
-        </div>
+        }
+      
     </div>
+    @if (Properties != null)
+    {
+        <div class="realEs-myProfile-rightPanel">
+            <div class="carousel">
+                <!-- BEGIN CONTAINER -->
+                <div class="slides">
+                    <!-- BEGIN CAROUSEL -->
+                    @foreach (var property in Properties)
+                    {
+                        var FilteredLImages = AllListingImages.Where(i => i.ListingId == property.ListingId).ToList();
+                        var ImagSrc = string.Empty;
+                        <div class="realEs-carousal-evolution">
+                            <!-- SLIDE ITEM -->
+                            @{
 
+                        var ProductUrl = "/RealEstateProducts/" + property.ListingId;
+
+                            }
+                            <a href="@ProductUrl" id=" hlproductdetail">
+
+                                @if (FilteredLImages.Count > 0)
+                                {
+                                    if (!string.IsNullOrEmpty(FilteredLImages[0].ImageURL))
+                                    {
+                                        string imagePath = FilteredLImages[0].ImageURL;
+                                        //string filenameWithOutEx = Path.GetFileNameWithoutExtension(FilteredLImages[0].ImageURL);
+                                        //string Extensn = Path.GetExtension(FilteredLImages[0].ImageURL);
+                                        //string filename = Path.GetFileName(FilteredLImages[0].ImageURL);
+                                        //int indexof = imagePath.IndexOf(filename);
+                                        //string serverPAth = imagePath.Substring(0, indexof);
+                                        //string newfilename = filenameWithOutEx + "_thumb" + Extensn;
+                                        //imagePath = serverPAth + newfilename;
+                                        ImagSrc = imagePath;
+                                    }
+                                    else
+                                    {
+                                        ImagSrc = "../" + FilteredLImages[0].ImageURL;
+                                    }
+                                    <img id="imgThumbnail" src="@ImagSrc" style="width:auto !important; height:185px !important;" />
+                                }
+                                <br />
+                                <label id="lblpropertyLabel">@property.AddressDisplay</label>
+                            </a>
+                        </div>
+
+                    }
+                </div>
+                <!-- END SLIDES -->
+
+            </div>
+            <!-- END CAROUSEL -->
+        </div>
+    }
+    
+
+    <div class="clearBoth">
+        &nbsp;
+    </div>
 
     </div>
 
@@ -113,113 +170,34 @@
 
     <!--/Left Panel-->
     <!--Center Part-->
-    <div class="realEs-myProfile-rightPanel">
-        <div class="row">
-            <ul class="carousel">
-                @foreach (var parent in ParentCategories)
-                {
-                <li class="item"><img src="@Html.GetAppBasePath()@parent.ThumbnailPath" width="350" height="250" /></li>
-                }
-            </ul>
-        </div>
-        <div class="controls">
-            @*<a href="#" class="previous">Previous</a>*@
-            <label id="previous" class="previous">Previous</label>
-            <label id="next" class="next">Next</label>
-            @*<a href="#" class="next">Next</a>*@
-        </div>
-      </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-    
 
+    
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<script src="/Scripts/jquery.mousewheel.min.js"></script>
+<script src="/Scripts/jquery.carousel-1.1.min.js"></script>
+<script src="/Scripts/sample01.js"></script>
 <script type="text/javascript">
+  
+
     function ExpandCollapseCategory(dataid) {
 
         var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
-        if ($("#" + idOfCatPro + "").parent().next().hasClass('in')) {
-            $("#" + idOfCatPro + "").parent().next().removeClass('in');
-            $("#" + idOfCatPro + "").parent().next().addClass('collapse');
-            $("#" + idOfCatPro + "").parent().next().css("display", "none");
-            $("#" + idOfCatPro + "").parent().next().css("opacity", "0");
-        } else if ($("#" + idOfCatPro + "").parent().next().hasClass('collapse')) {
-            $("#" + idOfCatPro + "").parent().next().removeClass('collapse');
-            $("#" + idOfCatPro + "").parent().next().addClass('in');
-            $("#" + idOfCatPro + "").parent().next().css("display", "block");
-            $("#" + idOfCatPro + "").parent().next().css("opacity", "1");
+        if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('in')) {
+            $("#" + idOfCatPro + "").parent().parent().next().removeClass('in');
+            $("#" + idOfCatPro + "").parent().parent().next().addClass('collapse');
+            $("#" + idOfCatPro + "").parent().parent().next().css("display", "none");
+            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "0");
+        } else if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('collapse')) {
+            $("#" + idOfCatPro + "").parent().parent().next().removeClass('collapse');
+            $("#" + idOfCatPro + "").parent().parent().next().addClass('in');
+            $("#" + idOfCatPro + "").parent().parent().next().css("display", "block");
+            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "1");
         }
 
     }
 
-    $(function () {
-        var _center = {
-            width: 300,
-            height: 200,
-            marginLeft: 0,
-            marginTop: 0,
-            marginRight: 0
-        };
-        var _left = {
-            width: 150,
-            height: 100,
-            marginLeft: 0,
-            marginTop: 150,
-            marginRight: -150
-        };
-        var _right = {
-            width: 150,
-            height: 100,
-            marginLeft: -150,
-            marginTop: 150,
-            marginRight: 0
-        };
-        var _outLeft = {
-            width: 75,
-            height: 50,
-            marginLeft: 150,
-            marginTop: 200,
-            marginRight: -200
-        };
-        var _outRight = {
-            width: 75,
-            height: 500,
-            marginLeft: -200,
-            marginTop: 200,
-            marginRight: 50
-        };
-        $('#carousel').carouFredSel({
-            width: 450,
-            height: 400,
-            align: false,
-            items: {
-                visible: 3,
-                width: 100
-            },
-            scroll: {
-                items: 1,
-                duration: 400,
-                onBefore: function (data) {
-                    data.items.old.eq(0).animate(_outLeft);
-                    data.items.visible.eq(0).animate(_left);
-                    data.items.visible.eq(1).animate(_center);
-                    data.items.visible.eq(2).animate(_right).css({ zIndex: 1 });
-                    data.items.visible.eq(2).next().css(_outRight).css({ zIndex: 0 });
-
-                    setTimeout(function () {
-                        data.items.old.eq(0).css({ zIndex: 1 });
-                        data.items.visible.eq(0).css({ zIndex: 2 });
-                        data.items.visible.eq(1).css({ zIndex: 3 });
-                        data.items.visible.eq(2).css({ zIndex: 2 });
-                    }, 200);
-                }
-            }
-        });
-        $('#carousel').children().eq(0).css(_left).css({ zIndex: 2 });
-        $('#carousel').children().eq(1).css(_center).css({ zIndex: 3 });
-        $('#carousel').children().eq(2).css(_right).css({ zIndex: 2 });
-        $('#carousel').children().eq(3).css(_outRight).css({ zIndex: 1 });
-    });
+    
 
 </script>
 

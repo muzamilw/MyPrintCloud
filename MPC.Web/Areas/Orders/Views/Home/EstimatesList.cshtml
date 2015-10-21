@@ -10,14 +10,14 @@
                 <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
-                    <ol class="breadcrumb">
-                        <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader()!=='' ? 'HOME' :''"></a></li>
-                        <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible :$root.orderCodeHeader()!==''" style="cursor:pointer"><span data-bind="text:'Estimates'"></span></li>
+                    <ol class="breadcrumb" style="padding-left:5px;">
+                        <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader()!=='' ? 'Home' :''"></a></li>
+                        <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible :$root.orderCodeHeader()!==''" style="cursor:pointer; display: none"><span data-bind="text:'Estimates'"></span></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.orderCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.orderCodeHeader"></span></li>
                         <li data-bind="css: $root.itemCodeHeader() != '' ?  'active'   :   '', visible:$root.itemCodeHeader() !== ''" style="display: none; cursor:pointer"><span data-bind="text:$root.itemCodeHeader()+'  '+$root.selectedOrder().companyName() + ' '+ $root.orderCodeHeader()"></span></li>
                     </ol>
                     <div class="clearfix">
-                        <h1 style="padding-left:7px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
+                        <h1 style="padding-left:6px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
                         
                         <div style="display: none" data-bind=" visible:  $root.currentScreen() == 8">
                             <h1 style="padding-left:7px !important;">Inquiry</h1>
@@ -25,11 +25,11 @@
                         @*<h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Estimates</h1>*@
                     </div>
                     <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="margin-bottom:15px;">
                             <div class="pull-left">
-                                <h5 style="padding-left: 7px;">Create Estimates for direct Inquiries and progress Estimates to Orders.</h5>
+                                <p class="group-header-description" style="padding-left:7px;">Create Estimates for direct Inquiries and progress Estimates to Orders.</p>
                             </div>
-                            <div class="pull-right" style="margin-right:10px;">
+                            <div class="pull-right" style="margin-right:5px;margin-top:-10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
                                     Add New Estimate
                                 </button>
@@ -38,19 +38,16 @@
                                 </button>
                             </div>
                         </div>
+                       
                         <div>
-                            &nbsp;
-                        </div>
-                        <div>
-                            <div class="col-sm-12" style="padding-right: 17px;padding-left:15px;">
+                            <div class="col-sm-12" style="padding-right: 16px;padding-left:15px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
-                                <div class=" clearfix">
-                                </div>
+                                
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs" id="estimateListTabs">
-                                            <li id="pending-orders" class="active"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Live Estimates(Pipeline)</a></li>
+                                            <li id="pending-orders" class="active"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Live Estimates (Pipeline)</a></li>
                                             <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.inqiriesTabClick();}">Inquiries</a></li>
                                             <li id="all-orders"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
 
@@ -89,15 +86,18 @@
                                     <div class="clearfix">
                                     </div>
                                 </div>
+                                <!--ko template: {name: 'pagers'}-->
+                                <!--/ko-->
                             </div>
                         </div>
                         @* Filter Template *@
                         <script id="orderFilterTemplate" type="text/html">
-                            <div class="filter-body">
+                            <div class="filter-body" style="padding-top:12px;padding-bottom:12px;">
                                 <form data-bind="submit: $root.getOrdersOfCurrentScreen">
-                                    <div class="filter-block pull-right">
+                                    <div class="filter-block pull-right" style=" margin-top: 0px; margin-right: -10px;">
                                         <div class="form-group pull-left">
                                             <!--ko if: currentScreen() != 8 -->
+                                            
                                             <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                                             <!--/ko-->
                                             <!--ko if: currentScreen() == 8 -->
@@ -139,6 +139,9 @@
                         <script id="orderListViewTemplate" type="text/html">
                             <tr data-bind=" click: $root.editOrder" style="cursor:pointer;">
                                 <td>
+                                    &nbsp;
+                                </td>
+                                <td>
                                     <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
                                         <span data-bind="text: name"></span>
@@ -147,26 +150,31 @@
                                     </span>
                                 </td>
                                 <td>
+                                    <!--ko if: $root.currentScreen() != 8-->
+                                    <span data-bind="text: code"></span>
+                                    <!--/ko-->
+                                </td>
+                                <td>
                                     <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span>
                                 </td>
                                 <td>
                                     <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
                                 </td>
-                                <!--ko if:  $root.currentScreen() == 0 || $root.currentScreen() == undefined-->
+                                <!--ko if:  $root.currentScreen() == 0 -->
                                 <td>
                                     <span data-bind="text: status()"></span>@*statusId() == 1 ? 'UnProcessed Inquiry':*@
                                 </td>
                                 <!--/ko-->
-                                <td>
-                                    <!--ko if: $root.currentScreen() != 8-->
-                                    <span data-bind="text: code"></span>
-                                    <!--/ko-->
-                                </td>
+                                <!--ko if: $root.currentScreen() == 0 || $root.currentScreen() == 1 || $root.currentScreen() == undefined-->
+                                <td class="col-sm-2"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></td>
+                                <!--/ko-->
+                                
                             </tr>
                         </script>
                         @* inquiries List View Template *@
                         <script id="inquiriesListViewTemplate" type="text/html">
                             <tr data-bind="click: $root.editInquiry" style="cursor:pointer;">
+                                <td>&nbsp;</td>
                                 <td>
                                     <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
@@ -184,27 +192,49 @@
                                     @*<span data-bind="text: ' '"></span>
                                     <span data-bind="text: noOfInquiryItems"></span>*@
                                 </td>
-
+                                <td>
+                                    &nbsp;
+                                </td>
                             </tr>
                         </script>
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">
                             <div>
-                                <div class="table-responsive">
+                                <!--ko if: $root.currentScreen() == undefined-->
+                                <div class="tabsdescriptions" style="margin-left:9px;">
+                                    <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
+                                </div>
+                                <!--/ko-->
+                                <!--ko if: $root.currentScreen() == 0 -->
+                                <div class="tabsdescriptions" style="margin-left:9px;">
+                                    <p class="group-header-description" style="margin-left:2px;">View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </p>
+                                </div>
+                                <!--/ko-->
+                                <!--ko if: $root.currentScreen() == 1 -->
+                                <div class="tabsdescriptions" style="margin-left:8px;">
+                                    <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
+                                </div>
+                                <!--/ko-->
+                                <div class="table-responsive" style="padding-right:10px;padding-left:10px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-sm-4"><span>Customer</span></th>
-                                                <th class="col-sm-2"><span>Creation Date</span></th>
-                                                <th class="col-sm-2"><span>Flag</span></th>
-                                                <!--ko if: $root.currentScreen() == 0|| $root.currentScreen() == undefined-->
-                                                <th class="col-sm-2"><span>Status</span></th>
-                                                <!--/ko-->
+                                                <th class="col-sm-1">&nbsp;</th>
+                                                <th class="col-sm-3"><span>Customer</span></th>
                                                 <th class="col-sm-2">
                                                     <!--ko if: $root.currentScreen() != 8-->
                                                     <span>Estimate Code</span>
                                                     <!--/ko-->
                                                 </th>
+                                                <th class="col-sm-2"><span>Estimate Date</span></th>
+                                                <th class="col-sm-2"><span>Flag</span></th>
+                                                <!--ko if: $root.currentScreen() == 0-->
+                                                <th class="col-sm-2"><span>Status</span></th>
+                                                <!--/ko-->
+                                                <!--ko if: $root.currentScreen() == 0  || $root.currentScreen() == 1  || $root.currentScreen() == undefined-->
+                                                <th class="col-sm-2" style="text-align:right;"><span>Estimate Total</span></th>
+                                                <!--/ko-->
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -214,6 +244,14 @@
                                     </table>
                                 </div>
                             </div>
+                            @*<div id="pagerDiv" class="pull-right">
+                                <!-- ko with: pager -->
+                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                <!-- /ko -->
+                            </div>*@
+                        </script>
+                        
+                        <script id="pagers" type="text/html">
                             <div id="pagerDiv" class="pull-right">
                                 <!-- ko with: pager -->
                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -223,14 +261,19 @@
                         @* Inquiry Items List*@
                         <script id="inquiryItemsList" type="text/html">
                             <div>
-                                <div class="table-responsive">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.</p> 
+                                </div>
+                                <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
+                                                <th class="col-sm-1">&nbsp;</th>
                                                 <th class="col-sm-3"><span>Customer</span></th>
-                                                <th class="col-sm-3"><span>Require By Date</span></th>
+                                                <th class="col-sm-2"><span>Require By Date</span></th>
                                                 <th class="col-sm-2"><span>Flag</span></th>
-                                                <th class="col-sm-3">Status</th>
+                                                <th class="col-sm-2">Status</th>
+                                                <th class="col-sm-2"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -241,9 +284,9 @@
                                 </div>
                             </div>
                             <div id="pagerDiv" class="pull-right">
-                                <!-- ko with: pager -->
+                                @*<!-- ko with: pager -->
                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                <!-- /ko -->
+                                <!-- /ko -->*@
                             </div>
                         </script>
                     </div>
@@ -260,19 +303,20 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_AddCostCenters.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 @section Scripts{
     <script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
     <script>
 
         require(["order/estimate.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view",
-        "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
+            "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
         $(function () {
             $('#liestimating').addClass('active');
             $('.bs-example-tooltips a').popover();
         });
 
         $(document).ready(function () {
-            var page = Request.QueryString("to");
+            var page = Request.QueryString("status");
             if (page != null) {
                 if (page == 'est') {
                     $("#all-orders").removeClass("active");

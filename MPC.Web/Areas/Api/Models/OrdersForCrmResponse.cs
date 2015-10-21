@@ -11,7 +11,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Row Count
         /// </summary>
         public int RowCount { get; set; }
-
+        public string CurrencySymbol { get; set; }
         /// <summary>
         /// List of Companies
         /// </summary>

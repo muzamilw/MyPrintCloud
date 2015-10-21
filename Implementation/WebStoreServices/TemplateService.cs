@@ -6,12 +6,15 @@ using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using Newtonsoft.Json;
+using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,6 +34,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public string characterIndex { get; set; }
         public string textCMYK { get; set; }
+        public string spotColorName { get; set; }
     }
     class TemplateService : ITemplateService
     {
@@ -96,6 +100,7 @@ namespace MPC.Implementation.WebStoreServices
               obj.Height = objtemplate.PDFTemplateWidth;
               obj.Width = objtemplate.PDFTemplateHeight;
           }
+           
            return obj;
         }
         private TemplateObject returnLocalObject(GlobalTemplateDesigner.TemplateObjects tempObj)
@@ -291,6 +296,10 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         if (ooBject.IsSpotColor.HasValue == true && ooBject.IsSpotColor.Value == true)
                         {
+                            if (ooBject.SpotColorName == "null" || ooBject.SpotColorName == null)
+                            {
+                                ooBject.SpotColorName = ooBject.ColorC.ToString() +  ooBject.ColorM.ToString() +  ooBject.ColorY.ToString() + ooBject.ColorK.ToString();
+                            }
                             oPdf.ColorSpace = oPdf.AddColorSpaceSpot(ooBject.SpotColorName, ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString());
                             oPdf.Color.Gray = 255;
                         }else
@@ -338,10 +347,13 @@ namespace MPC.Implementation.WebStoreServices
                 oPdf.TextStyle.Size = ooBject.FontSize.Value;
                 if (ooBject.IsUnderlinedText.HasValue)
                     oPdf.TextStyle.Underline = ooBject.IsUnderlinedText.Value;
-                oPdf.TextStyle.Bold = ooBject.IsBold.Value;
-
-                oPdf.TextStyle.Italic = ooBject.IsItalic.Value;
-                double linespacing = ooBject.LineSpacing.Value - 1;
+                if(ooBject.IsBold.HasValue)
+                    oPdf.TextStyle.Bold = ooBject.IsBold.Value;
+                if(ooBject.IsItalic.HasValue)
+                    oPdf.TextStyle.Italic = ooBject.IsItalic.Value;
+                double linespacing = 0;
+                if (ooBject.LineSpacing.HasValue)
+                    linespacing = ooBject.LineSpacing.Value - 1;
                 linespacing = (linespacing * ooBject.FontSize.Value);
                 oPdf.TextStyle.LineSpacing = linespacing;
                 if (ooBject.Allignment == 1)
@@ -356,7 +368,23 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     oPdf.HPos = 1.0;
                 }
-
+                if (ooBject.VAllignment.HasValue)
+                {
+                    if (ooBject.VAllignment == 1)
+                    {
+                        oPdf.VPos = 0.0;
+                    }
+                    else if (ooBject.VAllignment == 2)
+                    {
+                        oPdf.VPos = 0.5;
+                    }
+                    else if (ooBject.VAllignment == 3)
+                    {
+                        
+                      //  OPosY += DesignerUtils.PixelToPoint(Convert.ToDouble(ooBject.TextPaddingTop));
+                        oPdf.VPos = 1.0;
+                    }
+                }
                 if (ooBject.RotationAngle != 0)
                 {
 
@@ -368,7 +396,9 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     styles = JsonConvert.DeserializeObject<List<objTextStyles>>(ooBject.textStyles);
                 }
+
                 string StyledHtml = "<p>";
+
                 if (styles.Count != 0)
                 {
                     styles = styles.OrderBy(g => g.characterIndex).ToList();
@@ -379,21 +409,28 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             if (objStyle.fontName == null && objStyle.fontSize == null && objStyle.fontStyle == null && objStyle.fontWeight == null && objStyle.textColor == null)
                             {
-                                StyledHtml += ooBject.ContentString[i];
+                                string content = ooBject.ContentString[i].ToString();
+                                content = content.Replace("<", "&#60;");
+                                content = content.Replace(">", "&#62;");
+                                StyledHtml += content;
                             }
                             else
                             {
-                                string toApplyStyle = ooBject.ContentString[i].ToString();
+                                string content = ooBject.ContentString[i].ToString();
+                                content = content.Replace("<", "&#60;");
+                                content = content.Replace(">", "&#62;");
+                                string toApplyStyle = content;
                                 string fontTag = "<font";
                                 string fontSize = "";
                                 string pid = "";
                                 if (objStyle.fontName != null)
                                 {
+                                    int inlineFontId = 0;
                                     var oFont = oFonts.Where(g => g.FontName == objStyle.fontName).FirstOrDefault();
                                     if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
-                                        FontID = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
+                                        inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
                                     // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
-                                    pid = "pid ='" + FontID.ToString() + "' ";
+                                    pid = "pid ='" + inlineFontId.ToString() + "' ";
                                 }
                                 string lineSpacingString = "";
                                 if (ooBject.LineSpacing != null)
@@ -403,9 +440,9 @@ namespace MPC.Implementation.WebStoreServices
 
                                 if (objStyle.fontSize != null)
                                 {
-                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
-                                    fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
-                                    fontTag += " fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
+                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
+                                    fontSize += "<StyleRun fontsize='" + Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
+                                    fontTag += " fontsize='" + Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
                                 } 
                                 if (objStyle.fontStyle != null)
                                 {
@@ -436,7 +473,20 @@ namespace MPC.Implementation.WebStoreServices
                                         // int csInlineID = oPdf.AddColorSpaceSpot("InlineStyle" + i.ToString(), objStyle.textCMYK);
                                         //oPdf.Color.Gray = 255;
                                         // fontTag += " color='#FF' csid=" + csInlineID;
-                                        fontTag += " color='" + hex + "' ";
+                                        if(isTemplateSpot)
+                                        {
+                                            if(objStyle.spotColorName == "null" || objStyle.spotColorName == null)
+                                            {
+                                                objStyle.spotColorName = objStyle.textCMYK.Replace(" ","");
+                                            }
+                                            int csInlineID = oPdf.AddColorSpaceSpot(objStyle.spotColorName, objStyle.textCMYK);
+                                            //oPdf.Color.Gray = 255;
+                                            fontTag += " color='#FF' csid=" + csInlineID;
+                                        }else
+                                        {
+                                            fontTag += " color='" + hex + "' ";
+                                        }
+                                       
                                     }
                                     else
                                     {
@@ -490,19 +540,43 @@ namespace MPC.Implementation.WebStoreServices
                         }
                         else
                         {
-                            StyledHtml += ooBject.ContentString[i];
+                            string content = ooBject.ContentString[i].ToString();
+                            content = content.Replace("<", "&#60;");
+                            content = content.Replace(">", "&#62;");
+                            StyledHtml += content;
                         }
                     }
 
                 }
                 else
                 {
+                    ooBject.ContentString = ooBject.ContentString.Replace("<", "&#60;");
+                    ooBject.ContentString = ooBject.ContentString.Replace(">", "&#62;");
+
                     StyledHtml += ooBject.ContentString;
                 }
                 StyledHtml += "</p>";
+
                 string sNewLineNormalized = Regex.Replace(StyledHtml, @"\r(?!\n)|(?<!\r)\n", "<BR>");
                 sNewLineNormalized = sNewLineNormalized.Replace("  ", "&nbsp;&nbsp;");
 
+                if (ooBject.isBulletPoint.HasValue && ooBject.isBulletPoint.Value == true)
+                {
+                    string normalizedBulletPoints = "<ul>";
+
+                    string[] textLines = sNewLineNormalized.Split(new string[] { "<BR>" }, StringSplitOptions.None);
+                    foreach(var line in textLines)
+                    {
+                        string nline = line.Replace("<p>", "");  nline = nline.Replace("</p>", "");
+                        normalizedBulletPoints += "<li>" + nline + "</li>";
+                    }
+                    normalizedBulletPoints += "</ul>";
+                    double offset = DesignerUtils.PixelToPoint(4.5) + (ooBject.FontSize.Value * (ooBject.LineSpacing.Value));
+                    OPosX -= offset;
+                    OWidth += offset;
+                    sNewLineNormalized = normalizedBulletPoints;
+
+                }
                 if (ooBject.AutoShrinkText == true)
                 {
                     oPdf.Rect.Position(OPosX, OPosY);
@@ -659,9 +733,9 @@ namespace MPC.Implementation.WebStoreServices
                     logoPath = ""; //since path is already in filenm
                     string[] vals;
                     FilePath = "";
-                    if (oObject.ContentString.ToLower().Contains("/mpc_content/"))
+                    if (oObject.ContentString.ToLower().Contains("mpc_content"))
                     {
-                        vals = oObject.ContentString.ToLower().Split(new string[] { "/mpc_content/" }, StringSplitOptions.None);
+                        vals = oObject.ContentString.ToLower().Split(new string[] { "mpc_content" }, StringSplitOptions.None);
                         FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/" + vals[vals.Length - 1]);
                      //   FilePath = logoPath + oObject.ContentString;
                         bFileExists = System.IO.File.Exists((FilePath));
@@ -964,17 +1038,6 @@ namespace MPC.Implementation.WebStoreServices
                 bFileExists = System.IO.File.Exists(FilePath);
                 if (bFileExists)
                 {
-                    //DesignerSvgParser.MaximumSize = new Size(Convert.ToInt32(oObject.MaxWidth), Convert.ToInt32(oObject.MaxHeight));
-                   // img = DesignerSvgParser.GetBitmapFromSVG(FilePath, oObject.ColorHex);
-                    //if (oObject.Opacity != null)
-                    //{
-                    //    // float opacity =float.Parse( oObject.Tint.ToString()) /100;
-                    //    if (oObject.Opacity != 1)
-                    //    {
-                    //        img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
-                    //    }
-                    //}
-                    //oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
 
                     var posY = oObject.PositionY + oObject.MaxHeight;
 
@@ -989,33 +1052,36 @@ namespace MPC.Implementation.WebStoreServices
                             oPdf.Transform.Rotate(360 - oObject.RotationAngle.Value, oObject.PositionX.Value + oObject.MaxWidth.Value / 2, oPdf.MediaBox.Height - posY.Value + oObject.MaxHeight.Value / 2);
                         }
                     }
-                  
-                   // }
-
-
-                  //  oBook = new tblBook();
-                   // oBook.bookid = Guid.Empty;
-
-                  //  oBook.book_title = BookNode.Attributes["book_title"].Value;
-
-
-                    //int id = oPdf.AddImageObject(oImg, true);
                     //oPdf.Transform.Reset();
                     oPdf.HtmlOptions.HideBackground = true;
                     oPdf.HtmlOptions.Engine = EngineType.Gecko;
              
                     float width =(float)oObject.MaxWidth.Value, height = (float)oObject.MaxHeight.Value;
-                   // string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
-                    ////int id = oPdf.AddImageUrl(URl);
-                    List<svgColorData> styles = new List<svgColorData>();
-                    if (oObject.textStyles != null)
-                    {
-                        styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
-                    }
-                    string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
-                    string html = File.ReadAllText(file);
-                    html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>" ;
-                    oPdf.AddImageHtml(html);
+                    string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
+                    //if (oObject.originalContentString != null)
+                    //{
+
+
+
+                    //    string svgProp = DesignerSvgParser.UpdateSvgData(FilePath, height, width);//
+                    //    string html = "<svg " + svgProp + "> " + oObject.originalContentString + " </svg>";
+                    //    html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>";
+                    //    oPdf.AddImageHtml(html);
+                    //}
+                    //else
+                    //{
+
+                        List<svgColorData> styles = new List<svgColorData>();
+                        if (oObject.textStyles != null)
+                        {
+                            styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
+                        }
+
+                        string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
+                        string html = File.ReadAllText(file);
+                        html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>";
+                        oPdf.AddImageHtml(html);
+                    //}
                     oPdf.Transform.Reset();
                 }
             }
@@ -1211,7 +1277,7 @@ namespace MPC.Implementation.WebStoreServices
             Doc doc = new Doc();
             try
             {
-                var FontsList = _templateFontService.GetFontList();
+                var FontsList = _templateFontService.GetFontListForTemplate(objProduct.ProductId);
                 doc.TopDown = true;
 
                 try
@@ -1341,22 +1407,22 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (isoverLayMode == true)
                     {
-                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == true)).OrderBy(g => g.DisplayOrderPdf).ToList();
+                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == true) && (g.hasClippingPath == false || g.hasClippingPath == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
                     }
                     else
                     {
-                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == false || g.IsOverlayObject == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
+                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == false || g.IsOverlayObject == null) && (g.hasClippingPath == false || g.hasClippingPath == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
                     }
                 }
                 else
                 {
                     if (isoverLayMode == true)
                     {
-                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && g.IsHidden == IsDrawHiddenObjects && (g.IsOverlayObject == true)).OrderBy(g => g.DisplayOrderPdf).ToList();
+                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && g.IsHidden == IsDrawHiddenObjects && (g.IsOverlayObject == true) && (g.hasClippingPath == false || g.hasClippingPath == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
                     }
                     else
                     {
-                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && g.IsHidden == IsDrawHiddenObjects && (g.IsOverlayObject == false || g.IsOverlayObject == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
+                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && g.IsHidden == IsDrawHiddenObjects && (g.IsOverlayObject == false || g.IsOverlayObject == null) && (g.hasClippingPath == false || g.hasClippingPath == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
                     }
                 }
                 int count = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == true)).Count();
@@ -1367,14 +1433,22 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 foreach (var objObjects in oParentObjects)
                 {
-
+                    if (objObjects.PositionY == null)
+                        objObjects.PositionY = 0;
+                    if (objObjects.PositionX == null)
+                        objObjects.PositionX = 0;
                     if (XFactor != objObjects.PositionX)
                     {
-                        if (objObjects.ContentString == "")
-                            YFactor = objObjects.PositionY.Value - 7;
+                        if (objObjects.ContentString == ""){
+                            if(objObjects.PositionY.HasValue)
+                                YFactor = objObjects.PositionY.Value - 7;
+                            else
+                                YFactor = 0;
+                        }
                         else
                             YFactor = 0;
-                        XFactor = objObjects.PositionX.Value;
+                        if(objObjects.PositionX.HasValue)
+                          XFactor = objObjects.PositionX.Value;
                     }
 
 
@@ -1392,7 +1466,7 @@ namespace MPC.Implementation.WebStoreServices
                         double currentX = objObjects.PositionX.Value, currentY = objObjects.PositionY.Value;
 
 
-                        if (VAlign == 1 || VAlign == 2)
+                        if (VAlign == 1 || VAlign == 2 || VAlign == 3)
                             currentY = objObjects.PositionY.Value + objObjects.MaxHeight.Value;
                         bool isTemplateSpot = false;
                         if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
@@ -1556,7 +1630,7 @@ namespace MPC.Implementation.WebStoreServices
             Doc doc = new Doc();
             try
             {
-                var FontsList = _templateFontService.GetFontList();
+                var FontsList = _templateFontService.GetFontListForTemplate(objProduct.ProductId);
                 doc.TopDown = true;
                 foreach (var objProductPage in productPages)
                 {
@@ -1691,14 +1765,28 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     foreach (var objObjects in oParentObjects)
                     {
-
+                        if (objObjects.PositionX == null)
+                            objObjects.PositionX = 0;
+                        if (objObjects.PositionY == null)
+                            objObjects.PositionY = 0;
+                        if (objObjects.MaxHeight == null)
+                            objObjects.MaxHeight = 0;
+                        if (objObjects.MaxWidth == null)
+                            objObjects.MaxWidth = 0;
                         if (XFactor != objObjects.PositionX)
                         {
-                            if (objObjects.ContentString == "")
-                                YFactor = objObjects.PositionY.Value - 7;
+                            if (objObjects.ContentString == ""){
+                                  if(objObjects.PositionY.HasValue)
+                                      YFactor = objObjects.PositionY.Value - 7;
                             else
                                 YFactor = 0;
-                            XFactor = objObjects.PositionX.Value;
+                            }
+                            else
+                                YFactor = 0;
+                            if (objObjects.PositionX.HasValue)
+                                XFactor = objObjects.PositionX.Value;
+                            else
+                                XFactor = 0;
                         }
 
 
@@ -1716,7 +1804,7 @@ namespace MPC.Implementation.WebStoreServices
                             double currentX = objObjects.PositionX.Value, currentY = objObjects.PositionY.Value;
 
 
-                            if (VAlign == 1 || VAlign == 2)
+                            if (VAlign == 1 || VAlign == 2 || VAlign == 3)
                                 currentY = objObjects.PositionY.Value + objObjects.MaxHeight.Value;
                             bool isTemplateSpot = false;
                             if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
@@ -1804,7 +1892,7 @@ namespace MPC.Implementation.WebStoreServices
                         }
                     }
                     //crop marks or margins
-                    if (objProduct.CuttingMargin != null && objProduct.CuttingMargin != 0 && drawCuttingMargins)
+                    if (objProduct.CuttingMargin != null && objProduct.CuttingMargin != 0 )
                     {
                         //doc.CropBox.Height = doc.MediaBox.Height;
                         //doc.CropBox.Width = doc.MediaBox.Width;
@@ -1909,6 +1997,53 @@ namespace MPC.Implementation.WebStoreServices
                         theDoc.Dispose();
                     if(str != null)
                        str.Dispose();
+                }
+            }
+
+        }
+        private string generatePagePreview(string PDFDoc, string savePath, string PreviewFileName, double CuttingMargin, int DPI, bool RoundCorners)
+        {
+            CuttingMargin = DesignerUtils.PixelToPoint(CuttingMargin);
+            using (Doc theDoc = new Doc())
+            {
+                Stream str = null;
+                try
+                {
+                    theDoc.Read(PDFDoc);
+                    theDoc.PageNumber = 1;
+                    theDoc.Rect.String = theDoc.CropBox.String;
+                    theDoc.Rect.Inset(CuttingMargin, CuttingMargin);
+
+                    if (System.IO.Directory.Exists(savePath) == false)
+                    {
+                        System.IO.Directory.CreateDirectory(savePath);
+                    }
+                    string filePath = savePath + PreviewFileName + ".png";
+                    theDoc.Rendering.DotsPerInch = DPI;
+                    theDoc.Rendering.Save(filePath);
+                    theDoc.Dispose();
+                    //if (RoundCorners)
+                    //{
+                    //    generateRoundCorners(filePath, filePath,str);
+                    //}
+
+
+
+                    return PreviewFileName + ".png";
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("generatePagePreview", ex);
+                }
+                finally
+                {
+                    if (theDoc != null)
+                        theDoc.Dispose();
+                    if (str != null)
+                        str.Dispose();
                 }
             }
 
@@ -2087,7 +2222,31 @@ namespace MPC.Implementation.WebStoreServices
                                 TemplatePage objPage = new TemplatePage();
                                 objPage.PageNo = i;
                                 objPage.ProductId = ProductID;
-                                objPage.PageName = "Front";
+                                objPage.PageName = "Page " + i;
+                                if (theDoc.PageCount == 2 && i == 1)
+                                {
+                                    objPage.PageName = "Front";
+                                }
+                                else if (theDoc.PageCount == 2 && i == 2)
+                                {
+                                    objPage.PageName = "Back";
+                                }
+                                else if (theDoc.PageCount == 4 && i == 1)
+                                {
+                                    objPage.PageName = "Front";
+                                }
+                                else if (theDoc.PageCount == 4 && i == 2)
+                                {
+                                    objPage.PageName = "Inside Front";
+                                }
+                                else if (theDoc.PageCount == 4 && i == 3)
+                                {
+                                    objPage.PageName = "Inside Back";
+                                }
+                                else if (theDoc.PageCount == 4 && i == 2)
+                                {
+                                    objPage.PageName = "Back";
+                                }
                                 objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
                                 listNewTemplatePages.Add(objPage);
                                
@@ -2193,7 +2352,31 @@ namespace MPC.Implementation.WebStoreServices
                             TemplatePage objPage = new TemplatePage();
                             objPage.PageNo = i;
                             objPage.ProductId = ProductID;
-                            objPage.PageName = "Front";
+                            objPage.PageName = "Page " + i;
+                            if (theDoc.PageCount == 2 && i == 1)
+                            {
+                                objPage.PageName = "Front";
+                            }
+                            else if (theDoc.PageCount == 2 && i == 2)
+                            {
+                                objPage.PageName = "Back";
+                            }
+                            else if (theDoc.PageCount == 4 && i == 1)
+                            {
+                                objPage.PageName = "Front";
+                            }
+                            else if (theDoc.PageCount == 4 && i == 2)
+                            {
+                                objPage.PageName = "Inside Front";
+                            }
+                            else if (theDoc.PageCount == 4 && i == 3)
+                            {
+                                objPage.PageName = "Inside Back";
+                            }
+                            else if (theDoc.PageCount == 4 && i == 2)
+                            {
+                                objPage.PageName = "Back";
+                            }
                             objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
                             listPages.Add(objPage);
                             //int templatePage = SaveTemplatePage(i, TemplateID, "Front", TemplateID + "/Side" + (i).ToString() + ".pdf");
@@ -2298,6 +2481,32 @@ namespace MPC.Implementation.WebStoreServices
                         System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
                         //generate and write overlay image to FS 
                         generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        List<TemplateObject> clippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject != true).ToList();
+                        if (clippingPaths.Count > 0)
+                        {
+                            // ClippingPathService objService = new ClippingPathService();
+                            double height, width = 0;
+                            if (objPage.Height.HasValue)
+                            {
+                                height = objPage.Height.Value;
+                            }
+                            else
+                            {
+                                height = objProduct.PDFTemplateHeight.Value;
+                            }
+                            if (objPage.Width.HasValue)
+                            {
+                                width = objPage.Width.Value;
+                            }
+                            else
+                            {
+                                width = objProduct.PDFTemplateWidth.Value;
+                            }
+                            generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + ".pdf", clippingPaths, drURL + productID + "/p" + objPage.PageNo + "clip.pdf", width, height);
+                            File.Copy(drURL + productID + "/p" + objPage.PageNo + "clip.pdf", drURL + productID + "/p" + objPage.PageNo + ".pdf", true);
+                            File.Delete(drURL + productID + "/p" + objPage.PageNo + "clip.pdf");
+                            generatePagePreview(drURL + productID + "/p" + objPage.PageNo + ".pdf", drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        }
                         if (hasOverlayObject)
                         {
                             // generate overlay PDF 
@@ -2306,6 +2515,31 @@ namespace MPC.Implementation.WebStoreServices
                             System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
                             // generate and write overlay image to FS 
                             generatePagePreview(overlayPDFFile, drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                            List<TemplateObject> overlayClippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject == true).ToList();
+                            if (clippingPaths.Count > 0)
+                            {
+                                double height, width = 0;
+                                if (objPage.Height.HasValue)
+                                {
+                                    height = objPage.Height.Value;
+                                }
+                                else
+                                {
+                                    height = objProduct.PDFTemplateHeight.Value;
+                                }
+                                if (objPage.Width.HasValue)
+                                {
+                                    width = objPage.Width.Value;
+                                }
+                                else
+                                {
+                                    width = objProduct.PDFTemplateWidth.Value;
+                                }
+                                generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayClippingPaths, drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", width, height);
+                                File.Copy(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", true);
+                                File.Delete(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf");
+                                generatePagePreview(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                            }
                         }
                     }
                     result = true;
@@ -2317,7 +2551,71 @@ namespace MPC.Implementation.WebStoreServices
             }
             return result;
         }
+        public void generateClippingPaths(string path, List<TemplateObject> lstObjs, string outputPath, double width, double height)
+        {
+            PDFlib p;
+            int image;
 
+
+            p = new PDFlib();
+
+            try
+            {
+                p.set_option("errorpolicy=return");
+                p.set_parameter("license", "W900202-010530-800852-ZTBG52-RBSR22");
+
+                if (p.begin_document(outputPath, "") == -1)
+                {
+                    Console.WriteLine("Error: {0}\n", p.get_errmsg());
+                    return;
+                }
+                var oldDoc = p.open_pdi_document(path, "");
+                var oldPage = p.open_pdi_page(oldDoc, 1, "");
+
+                p.begin_page_ext(width, height, "");
+                p.fit_pdi_page(oldPage, 0, 0, "");
+                p.close_pdi_page(oldPage);
+
+                foreach (var obj in lstObjs)
+                {
+                    string imgName = obj.ContentString.Replace("__clip_mpc.png", ".jpg");
+                    string imagefile = System.Web.Hosting.HostingEnvironment.MapPath("~/Mpc_Content") + "/" + imgName;
+                    image = p.load_image("auto", imagefile, "");
+
+                    if (image == -1)
+                    {
+                        Console.WriteLine("Error: {0}\n", p.get_errmsg());
+                        return;
+                    }
+                    var posY = height - obj.PositionY - obj.MaxHeight;
+                    p.fit_image(image, (float)obj.PositionX, (float)posY, "boxsize={" + obj.MaxWidth + " " + obj.MaxHeight + "} " +"fitmethod=entire");
+
+                    p.close_image(image);
+                }
+
+
+                p.end_page_ext("");
+
+                p.end_document("");
+                p.close_pdi_document(oldDoc);
+            }
+
+            catch (PDFlibException e)
+            {
+                // caught exception thrown by PDFlib
+                Console.WriteLine("PDFlib exception occurred in image sample:");
+                Console.WriteLine("[{0}] {1}: {2}\n", e.get_errnum(),
+                        e.get_apiname(), e.get_errmsg());
+            }
+            finally
+            {
+                if (p != null)
+                {
+                    p.Dispose();
+                }
+            }
+        }
+ 
         
         #endregion
         #region constructor
@@ -2615,7 +2913,7 @@ namespace MPC.Implementation.WebStoreServices
            GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false, bleedAreaSize, isMultipageProduct);
 
         }
-        // called from webstore to save template locally // added by saqib ali // not tested yet
+        // called from webstore to save template locally // added by saqib ali =
         // base path = F:\Development\Github\MyprintCloud-dev\MPC.Web\MPC_Content\Designer\Organisation2\
         // mode = 1 => create a new template from v2 objects
         // mode =2 => update an existing template  from v2 objects
@@ -2720,6 +3018,7 @@ namespace MPC.Implementation.WebStoreServices
             {
 
                 long productID = 0;
+                List<TemplateObject> objsToRemove = new List<TemplateObject>();
                // List<TemplateObject> objsToAdd = new List<TemplateObject>();
                 if (lstTemplatesObjects.Count > 0)
                 {
@@ -2727,21 +3026,54 @@ namespace MPC.Implementation.WebStoreServices
                     productID = lstTemplatesObjects[0].ProductId.Value;
                     foreach (var oObject in lstTemplatesObjects)
                     {
-                        if (oObject.ObjectId != -999)
+                        if (oObject.ObjectId != -999 )
                         {
-                            oObject.PositionX = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionX.Value), 6);
-                            oObject.PositionY = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionY.Value), 6);
-                            oObject.FontSize = Math.Round(DesignerUtils.PixelToPoint(oObject.FontSize.Value), 6);
-                            oObject.MaxWidth = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxWidth.Value), 6);
-                            oObject.MaxHeight = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxHeight.Value), 6);
+                            if (oObject.PositionX == null && oObject.PositionY == null && oObject.MaxHeight == null && oObject.MaxWidth == null)
+                                objsToRemove.Add(oObject);
+
+                            if (oObject.PositionX == null)
+                                oObject.PositionX = 0;
+                            if (oObject.PositionY == null)
+                                oObject.PositionY = 0;
+                            if (oObject.MaxHeight == null)
+                                oObject.MaxHeight = 0;
+                            if (oObject.MaxWidth == null)
+                                oObject.MaxWidth = 0;
+
+                           
+                            if(oObject.PositionX.HasValue)
+                                oObject.PositionX = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionX.Value), 6);
+                            if(oObject.PositionY.HasValue)
+                                oObject.PositionY = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionY.Value), 6);
+                            if(oObject.FontSize.HasValue)
+                              oObject.FontSize = Math.Round(DesignerUtils.PixelToPoint(oObject.FontSize.Value), 6);
+                            if(oObject.MaxWidth.HasValue)
+                                 oObject.MaxWidth = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxWidth.Value), 6);
+                            if(oObject.MaxHeight.HasValue)
+                                oObject.MaxHeight = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxHeight.Value), 6);
                             if (oObject.CharSpacing != null)
                             {
                                 oObject.CharSpacing = Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(oObject.CharSpacing.Value)));
+                            }
+                            if (oObject.ObjectType == 3)
+                            {
+                                if (oObject.ContentString.Contains("__clip_mpc"))
+                                {
+                                    oObject.hasClippingPath = true;
+                                }
+                                else
+                                {
+                                    oObject.hasClippingPath = false;
+                                }
                             }
 
                             oObject.ProductId = productID;
 
                         }
+                    }
+                    foreach(var objR in objsToRemove)
+                    {
+                        lstTemplatesObjects.Remove(objR);
                     }
 
                 }
@@ -2795,11 +3127,15 @@ namespace MPC.Implementation.WebStoreServices
                     // added for 2 sided business cards 
                     if (oTemplateV2.TemplateType == 2)
                     {
-                        GlobalTemplateDesigner.TemplatePages[] oTemp = new GlobalTemplateDesigner.TemplatePages[2];
-                        oTemp[0] = oTemplatePagesV2[0];
-                        oTemp[1] = oTemplatePagesV2[1];
-                        oTemplatePagesV2 = oTemp;
+                        if (oTemplatePagesV2.Length >= 2)
+                        {
+                            GlobalTemplateDesigner.TemplatePages[] oTemp = new GlobalTemplateDesigner.TemplatePages[2];
+                            oTemp[0] = oTemplatePagesV2[0];
+                            oTemp[1] = oTemplatePagesV2[1];
+                            oTemplatePagesV2 = oTemp;
+                        }
                     }
+                    //template type 3 for multiback business cards 
                     Template oTemplate = returnLocalTemplate(oTemplateV2);
                     List<TemplatePage> oTemplatePages = new List<TemplatePage>();
                     foreach(var obj in oTemplatePagesV2)
@@ -2964,6 +3300,7 @@ namespace MPC.Implementation.WebStoreServices
             string unit = "mm";
             double height = h;
             double scaledHeight = h;
+            double scaleFactor = 1;
             double resultDimentions = h; // current height or width 
             var organisation = _organisationRepository.GetOrganizatiobByID(organisationID);
             var item = _itemRepository.GetItemByIdDesigner(itemID);
@@ -2974,6 +3311,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     scaledHeight = 1;
                 }
+                scaleFactor = scaledHeight;
             }
 
 
@@ -3000,9 +3338,75 @@ namespace MPC.Implementation.WebStoreServices
             }
 
 
-            return resultDimentions + "__" + unit;
+            return resultDimentions + "__" + unit+ "__" + (resultDimentions/scaleFactor) ;
         }
-        
+
+        public string OrderConfirmationPDF(long OrderId, long StoreId)
+        {
+            Doc theDoc = new Doc();
+            try
+            {
+
+
+//                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/OrderReceipt/" + OrderId + "/" + StoreId + "/0";
+                string FileName = OrderId + "_OrderReceipt.pdf";
+                string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
+                string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
+
+                string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
+                if (AddGeckoKey == "1")
+                {
+                    theDoc.HtmlOptions.Engine = EngineType.Gecko;
+                }
+
+                theDoc.FontSize = 22;
+                int objid = theDoc.AddImageUrl(URl);
+
+
+                while (true)
+                {
+                    theDoc.FrameRect();
+                    if (!theDoc.Chainable(objid))
+                        break;
+                    theDoc.Page = theDoc.AddPage();
+                    objid = theDoc.AddImageToChain(objid);
+                }
+                string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
+                if (!Directory.Exists(physicalFolderPath))
+                    Directory.CreateDirectory(physicalFolderPath);
+                theDoc.Save(FilePath);
+                theDoc.Clear();
+
+                if (System.IO.File.Exists(FilePath))
+                    return AttachmentPath;
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+                theDoc.Clear();
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + e.Message + "<br/>" + Environment.NewLine + "StackTrace :" + e.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+                throw e;
+                return null;
+            }
+            finally
+            {
+                theDoc.Dispose();
+            }
+        }
+
+        public bool updatecontactId(long templateId, long contactId)
+        {
+           return _templateRepository.updatecontactId(templateId, contactId);
+        }
         #endregion
     }
 

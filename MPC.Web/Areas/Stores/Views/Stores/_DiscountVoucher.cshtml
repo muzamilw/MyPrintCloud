@@ -1,0 +1,91 @@
+﻿<div class="col-lg-12 clearfix" style="padding-left:6px;">
+    <div class="tabsdescriptions" style="margin-left:3px;">
+        <p class="group-header-description">The featured products wizard is part of a widget that can be added to a retail store, it allows for products to be more prominently displayed, to enable this feature add the widget to the page layout tool.</p>
+    </div>
+    <div style="background-color:gainsboro;border-radius:3px;margin-left:5px;margin-right:5px;">
+       
+        <header class="main-box-header clearfix">
+            <div><span style="font-size:24px">Coupons & Discounts</span></div>
+        </header>
+        <div class="main-box-body clearfix">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-lg-2"><span>Discount Name</span></th>
+                            <th class="col-lg-2" style="width: 11%;"><span>Coupon Code</span></th>
+                            <th class="col-lg-2"><span>Discount Type</span></th>
+                            <th class="col-lg-2" style="width: 13%; text-align: right;"><span style="margin-left:10px">Discount Value</span></th>
+                            <th class="col-lg-1"></th>
+                            <th class="col-lg-2" style="text-align:left;"><span>Coupon Usage</span></th>
+                            <th class="text-center"><span>Status</span></th>
+                            @*<th>&nbsp;</th>*@
+                        </tr>
+                    </thead>
+
+                    <tbody style="cursor:pointer;">
+                        <!-- ko  foreach: $root.discountVouuchers() -->
+                        <tr data-bind="click:$root.editDiscountVoucher">
+                           
+                            <td><a class="store-user-link" data-bind="text:name"></a></td>
+                         
+
+                            <td>
+                                <!-- ko if: hasCoupon() === true -->
+                            <span data-bind="text:couponCode"></span>
+                                <!-- /ko -->
+                            </td>
+                           
+                            <td data-bind="text:discountType"></td>
+                          
+                            <td style="text-align: right;" >
+                                <!-- ko if: discountTypeId() != 5 -->
+
+                                      <!-- ko if: discountTypeId() === 3 ||  discountTypeId() === 4 -->
+                                        <span data-bind="text:discountRate()+'%'"></span>
+                                     <!-- /ko -->
+                                    <!-- ko if: discountTypeId() === 1 ||  discountTypeId() === 2 -->
+                                <span data-bind="text: $root.currencySymbol() + ' ' + discountRate()"></span>
+                                    <!-- /ko -->
+
+                                <!-- /ko -->
+                            </td>
+                            <td>
+                              
+                            </td>
+                            <td style="text-align: left;">
+                                <!-- ko if: hasCoupon() === true -->
+                                <span data-bind="text:couponUseType"></span>
+                                <!-- /ko -->
+                            </td>
+                            <td class="text-center">
+                                <span class="label" data-bind="text: isEnabled() ? 'Enable' : 'Disable', css:{ 'label-success': isEnabled, 'label-danger': !isEnabled() }"></span>
+                            </td>
+                           
+                        </tr>
+                        <!-- /ko -->
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div id="pagerDiv">
+            <ul class="pagination pull-right" style="margin-top:9px;">
+                <!-- ko with: $root.discountVoucherpager -->
+                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                <!-- /ko -->
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-7 btn-group" style="float: left; margin-top:11px;margin-left:-5px;">
+        <div class="filter-block" data-bind="">
+            <a class="btn btn-primary" data-bind="click:$root.createDiscountVoucher">
+                Add New Voucher
+            </a>
+        </div>
+    </div>
+
+   
+
+</div>

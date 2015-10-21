@@ -24,11 +24,10 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
 
-        [CompressFilter]
         public IEnumerable<Section> getSectionLibray()
         {
 
-            return _SectionService.GetSectionsForPhraseLibrary().Select(g => g.CreateFromCampaign()).ToList();
+            return _SectionService.GetSectionsForSectionFlags().Select(g => g.CreateFromCampaign()).ToList();
 
         }
     }

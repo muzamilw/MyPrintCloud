@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -16,5 +17,35 @@ namespace MPC.Models.DomainModels
 
         [NotMapped]
         public long? FakeVariableId { get; set; }
+
+        [NotMapped]
+        public string VariableIconUrl { get; set; }
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(ScopeVariable target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.Id = Id;
+            target.Value = Value;
+            target.Scope = Scope;
+            
+            target.FakeVariableId = FakeVariableId;
+
+
+
+        }
+
+        #endregion
     }
 }

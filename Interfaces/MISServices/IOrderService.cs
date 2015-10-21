@@ -52,7 +52,7 @@ namespace MPC.Interfaces.MISServices
         /// <returns></returns>
         OrderMenuCount GetOrderScreenMenuItemCount();
 
-        string DownloadOrderArtwork(int OrderID, string sZipName);
+        string DownloadOrderArtwork(int OrderID, string sZipName, long WebStoreOrganisationId = 0);
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
 
         //string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
@@ -65,12 +65,27 @@ namespace MPC.Interfaces.MISServices
         InquiryBaseResponse GetBaseDataForInquiries();
 
         OrderBaseResponse GetBaseDataForEstimate();
-        
+
         /// <summary>
         /// Download Attachment
         /// </summary>
         string DownloadAttachment(long id, out string fileName, out string fileType);
 
-        bool MakeOrderArtworkProductionReady(Estimate oOrder);
+        bool MakeOrderArtworkProductionReady(Estimate oOrder, long WebStoreOrganisationId = 0);
+        /// <summary>
+        /// Clone Estimate
+        /// </summary>
+        /// <param name="estimateId"></param>
+        /// <returns></returns>
+        Estimate CloneEstimate(long estimateId);
+
+        /// <summary>
+        /// Clone Order
+        /// </summary>
+        Estimate CloneOrder(long estimateId);
+
+        List<Item> GetOrderItems(long EstimateId);
+        string DownloadOrderXml(int orderId, long organisationId);
+
     }
 }

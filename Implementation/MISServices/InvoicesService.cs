@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Web;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Models.DomainModels;
+using Newtonsoft.Json;
 
 namespace MPC.Implementation.MISServices
 {
@@ -25,6 +30,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
         private readonly IInvoiceDetailRepository invoiceDetailRepository;
+        private readonly IOrganisationRepository organisationRepository;
 
         /// <summary>
         /// Creates New Item and assigns new generated code
@@ -252,7 +258,7 @@ namespace MPC.Implementation.MISServices
         public InvoicesService(IInvoiceRepository invoiceRepository, ICostCentreRepository costCentreRepository, IItemRepository itemRepository,
             IPrefixRepository prefixRepository, IItemAttachmentRepository itemAttachmentRepository, IItemSectionRepository itemsectionRepository,
             ISectionCostCentreRepository sectionCostCentreRepository, ISectionInkCoverageRepository sectionInkCoverageRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IInvoiceDetailRepository invoiceDetailRepository)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IInvoiceDetailRepository invoiceDetailRepository, IOrganisationRepository organisationRepository)
         {
             this.invoiceRepository = invoiceRepository;
             CostCentreRepository = costCentreRepository;
@@ -265,6 +271,7 @@ namespace MPC.Implementation.MISServices
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
             this.invoiceDetailRepository = invoiceDetailRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -351,6 +358,7 @@ namespace MPC.Implementation.MISServices
         {
             string invoiceCode = prefixRepository.GetNextInvoiceCodePrefix();
             invoice.InvoiceCode = invoiceCode;
+            invoice.InvoiceType = 0;
             invoiceRepository.Add(invoice);
             invoiceRepository.SaveChanges();
 
@@ -384,6 +392,46 @@ namespace MPC.Implementation.MISServices
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
         }
+
+        public List<ZapierInvoiceDetail> GetZapierInvoiceDetail(long invoiceId)
+        {
+            var invDetails = invoiceRepository.GetZapierInvoiceDetails(invoiceId);
+            return invDetails;
+        }
+        public void PostDataToZapier(long invoiceId)
+        {
+
+            var org = organisationRepository.GetOrganizatiobByID();
+            string sPostUrl = string.Empty;
+            sPostUrl = org.IsZapierEnable == true ? org.CreateInvoiceZapTargetUrl : string.Empty;
+            if (!string.IsNullOrEmpty(sPostUrl))
+            {
+                var resp = GetZapierInvoiceDetail(invoiceId);
+                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+                var request = System.Net.WebRequest.Create(sPostUrl);
+                request.ContentType = "application/json";
+                request.Method = "POST";
+                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                request.ContentLength = byteArray.Length;
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    var response = request.GetResponse();
+                }
+            }
+
+
+        }
+        public List<ZapierInvoiceDetail> GetInvoiceDetailForZapierPooling(long organisationId)
+        {
+            return invoiceRepository.GetInvoiceDetailForZapierPolling(organisationId);
+            
+        }
+        public void ArchiveInvoice(int InvoiceId)
+        {
+            invoiceRepository.ArchiveInvoice(InvoiceId);
+        }
         #endregion
+
     }
 }

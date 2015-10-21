@@ -277,6 +277,8 @@ namespace MPC.Models.ModelMappers
             if (IsNewTemplatePage(sourceTemplatePage))
             {
                 targetLine = actions.CreateTemplatePage();
+                // Used this to Set the Default BackgroundFileName - that is to be set only for new ones
+                targetLine.IsNewlyAdded = true;
                 target.Template.TemplatePages.Add(targetLine);
             }
             else
@@ -295,6 +297,12 @@ namespace MPC.Models.ModelMappers
                 vdp => !IsNewTemplatePage(vdp) && source.Template.TemplatePages.All(sourceVdp => sourceVdp.ProductPageId != vdp.ProductPageId))
                   .ToList();
             
+            // If template pages are deleted then regenerate pdf
+            if (linesToBeRemoved.Count > 0)
+            {
+                target.Template.HasDeletedTemplatePages = true;
+            }
+
             // Remove Template Object related to Template Pages going to be deleted
             actions.DeleteTemplateObject(linesToBeRemoved);
             
@@ -323,15 +331,24 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static void UpdateTemplate(Item source, Item target, ItemMapperActions actions)
         {
+            // Initialize Template
             if (target.Template == null)
             {
-                // Start Template with designer empty
-                if (source.Template == null || (source.TemplateType.HasValue && source.TemplateType.Value == 3))
+                if (source.TemplateType.HasValue && source.TemplateType.Value != 3)
                 {
-                    return;
+                    target.Template = actions.CreateTemplate();    
                 }
+            }
 
-                target.Template = actions.CreateTemplate();
+            // Start Template with designer empty
+            if ((source.Template == null || target.Template == null) || (source.TemplateType.HasValue && source.TemplateType.Value == 3))
+            {
+                if (target.TemplateId.HasValue && target.TemplateId.Value > 0)
+                {
+                    target.OldTemplateId = target.TemplateId;
+                    target.TemplateId = null;
+                }
+                return;
             }
 
             // Update Template
@@ -1228,6 +1245,11 @@ namespace MPC.Models.ModelMappers
             target.File4Byte = source.File4Byte;
             target.File5Name = source.File5Name;
             target.File5Byte = source.File5Byte;
+            target.File1Deleted = source.File1Deleted;
+            target.File2Deleted = source.File2Deleted;
+            target.File3Deleted = source.File3Deleted;
+            target.File4Deleted = source.File4Deleted;
+            target.File5Deleted = source.File5Deleted;
         }
 
         /// <summary>
@@ -1350,6 +1372,11 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static void UpdateTemplatePropertiesHeader(Item source, Item target)
         {
+            // If Template Type changed to Custom
+            if (target.TemplateType != 1 && source.TemplateType == 1)
+            {
+                target.HasTemplateChangedToCustom = true;
+            }
             target.TemplateType = source.TemplateType;
             target.IsCmyk = source.IsCmyk;
             target.IsTemplateDesignMode = source.IsTemplateDesignMode;

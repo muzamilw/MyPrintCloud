@@ -41,7 +41,6 @@ namespace MPC.Models.ModelMappers
             target.ContactId = source.ContactId;
             target.discountType = source.discountType;
             target.GoodsReceivedId = source.GoodsReceivedId;
-            target.code = source.Comments;
             target.date_Received = source.date_Received;
             target.grandTotal = source.grandTotal;
             target.isProduct = source.isProduct;

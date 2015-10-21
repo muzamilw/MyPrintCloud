@@ -70,6 +70,15 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Find(id);
         }
+
+        /// <summary>
+        /// Delete Template using Stored Procedure
+        /// </summary>
+        public int DeleteTemplate(long templateId)
+        {
+            return db.usp_DeleteTemplate(templateId);
+        }
+
         /// <summary>
         ///  Get template object by template id // added by saqib ali
         /// </summary>
@@ -102,7 +111,7 @@ namespace MPC.Repository.Repositories
             listTemplateObjs = null;
             if(template != null)
             {
-                listPages = db.TemplatePages.Where(g => g.ProductId == productID).ToList();
+                listPages = db.TemplatePages.Where(g => g.ProductId == productID && g.IsPrintable != false).ToList();
                 listTemplateObjs = db.TemplateObjects.Where(g => g.ProductId == productID).ToList();
             }
             // add default cutting margin if not available 
@@ -323,7 +332,7 @@ namespace MPC.Repository.Repositories
                     {
                         string[] content = item.ContentString.Split('/');
                         string fileName = content[content.Length - 1];
-                        if (!item.ContentString.Contains("assets/Imageplaceholder"))
+                        if (!item.ContentString.Contains("assets-v2/Imageplaceholder_sim"))
                         {
                             item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
                         }
@@ -437,7 +446,7 @@ namespace MPC.Repository.Repositories
                             template.Orientation = oTemplate.Orientation;
                             template.PDFTemplateHeight = oTemplate.PDFTemplateHeight;
                             template.PDFTemplateWidth = oTemplate.PDFTemplateWidth;
-
+                            template.TemplateType = oTemplate.TemplateType;
                         }
                         db.SaveChanges();
                         newProductID = template.ProductId;
@@ -577,7 +586,7 @@ namespace MPC.Repository.Repositories
                     }
                     db.SaveChanges();
 
-                    foreach(TemplateObject obj in listObjects)
+                    foreach (TemplateObject obj in listObjects.Where(g => g.ProductPageId != null))
                     {
                         db.TemplateObjects.Add(obj);
                     }
@@ -631,6 +640,7 @@ namespace MPC.Repository.Repositories
                 oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(5));
                 oTemplate.PDFTemplateHeight =(DesignerUtils.MMToPoint(height));
                 oTemplate.PDFTemplateWidth = (DesignerUtils.MMToPoint(width));
+                oTemplate.isSpotTemplate = false;
                 db.Templates.Add(oTemplate);
                 db.SaveChanges();
 
@@ -777,6 +787,21 @@ namespace MPC.Repository.Repositories
             try
             {
                 long result = db.sp_cloneTemplate(TempID, 0, "");
+                // copy template variable mapping table 
+                List<MPC.Models.DomainModels.TemplateVariable> listOldVariables = db.TemplateVariables.Where(g => g.TemplateId == TempID).ToList();
+                if(listOldVariables != null && listOldVariables.Count > 0 && result != 0 )
+                {
+                    foreach(var item in listOldVariables)
+                    {
+                        MPC.Models.DomainModels.TemplateVariable objNewVariable = new Models.DomainModels.TemplateVariable();
+                        objNewVariable.FieldVariable = item.FieldVariable;
+                        objNewVariable.TemplateId = result;
+                        objNewVariable.VariableId = item.VariableId;
+                        objNewVariable.VariableText = item.VariableText;
+                        db.TemplateVariables.Add(objNewVariable);
+                    }
+                    db.SaveChanges();
+                }
                 return result;
             }
             catch (Exception ex)
@@ -973,6 +998,21 @@ namespace MPC.Repository.Repositories
 
         }
 
+        public bool updatecontactId(long templateId, long contactId)
+        {
+            var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
+            if(template != null)
+            {
+                template.contactId = contactId;
+            }
+            if(db.SaveChanges() >0 )
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
 
     #endregion
      

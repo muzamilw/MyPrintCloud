@@ -15,5 +15,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="CompanyID"></param>
         /// <returns></returns>
         List<SectionCostcentre> GetAllSectionCostCentres(long ItemSetionId);
+
+        void RemoveCostCentreOfFirstSection(long ItemSetionId);
     }
 }

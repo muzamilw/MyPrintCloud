@@ -65,7 +65,7 @@ namespace MPC.Models.Common
             get;
             set;
         }
-        public int DiscountVoucherID
+        public long DiscountVoucherID
         {
             get;
             set;
@@ -82,6 +82,11 @@ namespace MPC.Models.Common
         }
 
         public string TaxLabel
+        {
+            get;
+            set;
+        }
+        public long? DeliveryDiscountVoucherID
         {
             get;
             set;

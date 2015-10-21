@@ -1,26 +1,31 @@
-﻿
+﻿@{
+    Layout = null;
+}
 <div class="clearBoth">
 </div>
-<div class="container RaveReview content_area">
-    <div id="controlBodyDiv"  class="row">
-        <div class="p_dl_s_box_60 rounded_corners ligtGreyBack col-md-12 col-lg-12 col-xs-12 ">
-            <div class="cntRRBox">
+@if (ViewBag.RaveReview != null)
+{
+    <div class="container RaveReview content_area">
+        <div id="controlBodyDiv">
+            <div class="p_dl_s_box_60 rounded_corners ligtGreyBack col-md-12 col-lg-12 col-xs-12 ">
+                <div class="cntRRBox">
 
-                <img src="/Content/Images/Speech.png" />
+                    <img src="/Content/Images/Speech.png" />
 
-                <p class="p_box_600_width paraRaveReview">
-                    <label id="lblRaveReview" class="raveReviewText">@ViewBag.RaveReview.Review</label><br />
-                    <label id="lblReviewBy" class="MLeft145 float_right  raveReviewName">@ViewBag.RaveReview.ReviewBy</label>
-                </p>
+                    <p class="p_box_600_width paraRaveReview">
+                        <label id="lblRaveReview" class="raveReviewText">@ViewBag.RaveReview.Review</label><br />
+                        <label id="lblReviewBy" class="MLeft145 float_right  raveReviewName">@ViewBag.RaveReview.ReviewBy</label>
+                    </p>
 
-                <img class="flipedImg" src="/Content/Images/Speech.png" />
+                    <img class="flipedImg" src="/Content/Images/Speech.png" />
 
-                <div class="clearBoth">
-                    &nbsp;
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
                 </div>
+
             </div>
 
         </div>
-
     </div>
-</div>
+}

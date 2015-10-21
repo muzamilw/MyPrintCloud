@@ -15,6 +15,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     // #region Arrays
                     //Items
                     purchaseOrders = ko.observableArray([]),
+                                        loggedInUser = ko.observable(),
                     // company contacts
                     companyContacts = ko.observableArray([]),
                     // Company Addresses
@@ -47,6 +48,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     isEditorVisible = ko.observable(false),
                     // GRN Editor visiblek
                     isGRNEditorVisible = ko.observable(false),
+                     // is open report
+                     isOpenReport = ko.observable(false),
+                      // is open report Email
+                     isOpenReportEmail = ko.observable(false),
+
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
                     // Default Status of first tab i-e All Purchased Orders
@@ -143,6 +149,12 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             }
                         });
                     },
+                      formatSelection = function (state) {
+                          return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                      },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                     // Get Purchase Order By Id
                     getPurchaseOrderById = function (id) {
                         isCompanyBaseDataLoaded(false);
@@ -168,9 +180,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                         getBaseForCompany(data.SupplierId, storeId);
                                     }
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function () {
-                                toastr.error("Failed to Items.");
+                                toastr.error("Failed to load Purchase Order Detail.");
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -198,9 +212,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                         getBaseForCompany(data.SupplierId, storeId);
                                     }
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function () {
-                                toastr.error("Failed to Items.");
+                                toastr.error("Failed to load GRN Detail.");
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -222,6 +238,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             isEditorVisible(false);
                             isGRNEditorVisible(true);
                         }
+                        view.initializeLabelPopovers();
                     },
                     // Close PO editor
                     onCloseEditor = function () {
@@ -240,7 +257,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [2], true);
+                        companySelector.show(onSelectCompany, [2]);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -286,17 +303,19 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                         setDefaultContactForCompany();
                                     }
                                     if (purchaseOrderTypeFilter() === 1) {
-                                        selectedPurchaseOrder().reset();
+                                        //selectedPurchaseOrder().reset();
                                     } else {
-                                        selectedGRN().reset();
+                                       // selectedGRN().reset();
                                     }
 
                                 }
                                 isCompanyBaseDataLoaded(true);
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 isCompanyBaseDataLoaded(true);
                                 toastr.error("Failed to load details for selected company" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -351,9 +370,12 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 }
 
                                 currencySymbol(data.CurrencySymbol);
+                                loggedInUser(data.LoggedInUser || '');
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 toastr.error("Failed to load base data" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -363,7 +385,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         var purchase = model.Purchase();
                         purchase.status(31);
                         selectedPurchaseOrder(purchase);
+                        selectedPurchaseOrder().createdBy(loggedInUser());
                         isEditorVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Save Purchase Order
                     onSavePurchaseOrder = function (purchase) {
@@ -371,20 +395,25 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         if (!dobeforeSave()) {
                             return;
                         }
+                        if (isOpenReport() == true) {
 
-                        if (selectedPurchaseOrder().id() !== undefined && selectedPurchaseOrder().status() === 31) {
-                            confirmation.messageText("Do you want to Post the Purchase Order?");
-                            confirmation.afterProceed(function () {
-                                selectedPurchaseOrder().status(32);
-
-                            });
-                            confirmation.afterCancel(function () {
-                                savePurchaseOrder();
-                            });
-                            confirmation.show();
-                            return;
-                        } else {
                             savePurchaseOrder();
+                        }
+                        else {
+                            if (selectedPurchaseOrder().id() !== undefined && selectedPurchaseOrder().status() === 31) {
+                                confirmation.messageText("Do you want to Post the Purchase Order?");
+                                confirmation.afterProceed(function () {
+                                    selectedPurchaseOrder().status(32);
+
+                                });
+                                confirmation.afterCancel(function () {
+                                    savePurchaseOrder();
+                                });
+                                confirmation.show();
+                                return;
+                            } else {
+                                savePurchaseOrder();
+                            }
                         }
                     },
                     // Post PO
@@ -403,6 +432,52 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         });
                         confirmation.show();
                         return;
+                    },
+
+                    //  report preview
+                      // report preview
+                    openExternalReportsPurchase = function () {
+
+                        reportManager.outputTo("preview");
+
+                        
+
+
+                        if (selectedPurchaseOrder().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(false);
+                            onSavePurchaseOrder();
+                        }
+                        else {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+                        }
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+                    openExternalEmailPurchaseReport = function () {
+                        reportManager.outputTo("email");
+
+
+                        
+                        if (selectedPurchaseOrder().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(true);
+                            onSavePurchaseOrder();
+                        }
+                        else {
+                            reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+                        }
+
+
+                       
+
+
                     },
 
                     // Cancel purchase Order
@@ -424,6 +499,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     // Delete Purchase Order
                     onDeletePurchase = function () {
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deletePurchaseOrder(selectedPurchaseOrder().convertToServerData());
                         });
@@ -457,23 +533,47 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         });
                         dataservice.savePurchase(purchaseOrder, {
                             success: function (data) {
-                                //For Add New and selected category PO and tab must be ALL or Open
-                                if (purchaseOrderTypeFilter() === 1 && (currentTab() === 0 || currentTab() === 31)) {
-                                    if (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) {
-                                        purchaseOrders.splice(0, 0, model.PurchaseListView.Create(data));
-                                    } else {
-                                        selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
-                                        selectedPurchaseOrderForListView().flagColor(data.FlagColor);
-                                        selectedPurchaseOrderForListView().refNo(data.RefNo);
 
-                                        if (currentTab() !== 0 && currentTab() !== data.Status) {
-                                            purchaseOrders.remove(selectedPurchaseOrderForListView());
+                                if (isOpenReport() == true) {
+                                    if (isOpenReportEmail() == true) {
+                                       
+                                        reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
+                                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+                                       
+                                       
+                                    }
+                                    else {
+
+                                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+                                      
+                                    }
+                                    getPurchaseOrderById(selectedPurchaseOrder().id());
+                                    isOpenReport(false);
+                                }
+                                else {
+
+                                    //For Add New and selected category PO and tab must be ALL or Open
+                                    if (purchaseOrderTypeFilter() === 1 && (currentTab() === 0 || currentTab() === 31)) {
+                                        if (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) {
+                                            purchaseOrders.splice(0, 0, model.PurchaseListView.Create(data));
+                                        } else {
+                                            selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
+                                            selectedPurchaseOrderForListView().flagColor(data.FlagColor);
+                                            selectedPurchaseOrderForListView().refNo(data.RefNo);
+                                            selectedPurchaseOrderForListView().refNo(data.RefNo);
+                                            selectedPurchaseOrderForListView().status(data.Status);
+
+                                            if (currentTab() !== 0 && currentTab() !== data.Status) {
+                                                purchaseOrders.remove(selectedPurchaseOrderForListView());
+                                            }
                                         }
                                     }
-                                }
 
-                                isEditorVisible(false);
-                                toastr.success("Saved Successfully.");
+                                    isEditorVisible(false);
+                                    toastr.success("Saved Successfully.");
+                                    view.initializeLabelPopovers();
+                                }
+                               
                             },
                             error: function (exceptionMessage, exceptionType) {
                                 if (exceptionType === ist.exceptionType.MPCGeneralException) {
@@ -481,6 +581,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 } else {
                                     toastr.error("Failed to save.");
                                 }
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -518,9 +619,12 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
                         selectedPurchaseOrderDetail().itemCode(stockItem.code);
+                        selectedPurchaseOrderDetail().serviceDetail(stockItem.name);
                         selectedPurchaseOrderDetail().packqty(stockItem.packageQty);
                         selectedPurchaseOrderDetail().refItemId(stockItem.id);
+                        selectedPurchaseOrderDetail().price(stockItem.price);
                         view.showPurchaseDetailDialog();
+                        view.initializeLabelPopovers();
 
                     },
                     // Add Purchase Detail
@@ -536,6 +640,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                             } else {
                                 view.showPurchaseDetailDialog();
+                                view.initializeLabelPopovers();
                             }
                         } else {
                             toastr.error("Please select customer");
@@ -566,6 +671,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onDeletePurchaseDetail = function (purchaseDetail) {
                         // Delete only in case Opend PO
                         if (selectedPurchaseOrder().status() === 31) {
+                            confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(function () {
                                 selectedPurchaseOrder().purchaseDetails.remove(purchaseDetail);
                             });
@@ -583,7 +689,10 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         if (selectedPurchaseOrder().status() === 31) {
                             selectedPurchaseOrderDetail(item);
                             view.showPurchaseDetailDialog();
+                            view.initializeLabelPopovers();
+                            view.initializeLabelPopovers();
                         }
+
                     },
                     // 
                     setTaxValue = ko.computed(function () {
@@ -745,7 +854,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                     isGRNEditorVisible(false);
                                 }
                                 isEditorVisible(false);
-
+                                view.initializeLabelPopovers();
                                 toastr.success("Saved Successfully.");
                             },
                             error: function (exceptionMessage, exceptionType) {
@@ -754,6 +863,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 } else {
                                     toastr.error("Failed to save.");
                                 }
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -807,6 +917,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         if (selectedGRN().status() === 31) {
                             selectedGRNDetail(item);
                             view.showGRNDetailDialog();
+                            view.initializeLabelPopovers();
                         }
                     },
                     // Save GRN Detail
@@ -817,6 +928,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onDeleteGRNDetail = function (grnDetail) {
                         // Delete only in case Opend GRN
                         if (selectedGRN().status() === 31) {
+                            confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(function () {
                                 selectedGRN().goodsReceivedNoteDetails.remove(grnDetail);
                             });
@@ -895,7 +1007,12 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     editGRNDetail: editGRNDetail,
                     deliveryCarriers: deliveryCarriers,
                     saveGRNDetail: saveGRNDetail,
-                    onDeleteGRNDetail: onDeleteGRNDetail
+                    onDeleteGRNDetail: onDeleteGRNDetail,
+                    openExternalReportsPurchase: openExternalReportsPurchase,
+                    openExternalEmailPurchaseReport: openExternalEmailPurchaseReport,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult,
+                    loggedInUser: loggedInUser
                 };
             })()
         };

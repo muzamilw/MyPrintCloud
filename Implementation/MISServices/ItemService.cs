@@ -413,9 +413,13 @@ namespace MPC.Implementation.MISServices
             {
                 if (itemTarget.Template.TemplatePages != null)
                 {
-                    foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+                    List<TemplatePage> newlyAddedTemplatePages = 
+                        itemTarget.Template.TemplatePages.Where(tmp => ((tmp.IsNewlyAdded.HasValue && tmp.IsNewlyAdded.Value) || 
+                            (tmp.OldPageNo != tmp.PageNo))).ToList();
+                    foreach (TemplatePage templatePage in newlyAddedTemplatePages)
                     {
                         templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
+                        templatePage.BackGroundType = 1;
                     }
                 }
 
@@ -461,9 +465,19 @@ namespace MPC.Implementation.MISServices
                     templatePage.Height = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Height.Value, organisation.LengthUnit);
                 }
 
+                if (templatePage.OldHeight.HasValue && templatePage.OldHeight.Value > 0)
+                {
+                    templatePage.OldHeight = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.OldHeight.Value, organisation.LengthUnit);
+                }
+
                 if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
                 {
                     templatePage.Width = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Width.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.OldWidth.HasValue && templatePage.OldWidth.Value > 0)
+                {
+                    templatePage.OldWidth = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.OldWidth.Value, organisation.LengthUnit);
                 }
             }
         }
@@ -520,7 +534,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Save Product Images
         /// </summary>
-        private void SaveProductImages(Item target)
+        private void SaveProductImages(Item target, List<ItemImage> itemImagesRemoved)
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
@@ -548,7 +562,7 @@ namespace MPC.Implementation.MISServices
             SaveItemFiles(target, mapPath);
 
             // Item Images
-            SaveItemImages(target, mapPath);
+            SaveItemImages(target, itemImagesRemoved, mapPath);
         }
 
         /// <summary>
@@ -583,13 +597,16 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Saves Item Images
         /// </summary>
-        private void SaveItemImages(Item target, string mapPath)
+        private void SaveItemImages(Item target, List<ItemImage> itemImagesRemoved, string mapPath)
         {
             foreach (ItemImage itemImage in target.ItemImages)
             {
                 // Write Image
                 SaveItemImage(mapPath, itemImage);
             }
+
+            // Delete Files From File System that have been removed from Db
+            itemImagesRemoved.ForEach(DeleteItemImageFile);
         }
 
         /// <summary>
@@ -607,6 +624,18 @@ namespace MPC.Implementation.MISServices
             {
                 itemImage.ImageURL = imageUrl;
             }
+        }
+
+        /// <summary>
+        /// Delete Item Image
+        /// </summary>
+        private void DeleteItemImageFile(ItemImage itemImage)
+        {
+            SaveImage(string.Empty, itemImage.ImageURL,
+                itemImage.ProductImageId + "_ItemImage_",
+                itemImage.FileName,
+                itemImage.FileSource,
+                itemImage.FileSourceBytes, true);
         }
 
         /// <summary>
@@ -672,7 +701,7 @@ namespace MPC.Implementation.MISServices
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
                 target.File1Name,
                 target.File1Byte,
-                target.File1SourceBytes);
+                target.File1SourceBytes, target.File1Deleted.HasValue && target.File1Deleted.Value);
 
             if (path != null)
             {
@@ -684,7 +713,7 @@ namespace MPC.Implementation.MISServices
               target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File2_",
                 target.File2Name,
                 target.File2Byte,
-                target.File2SourceBytes);
+                target.File2SourceBytes, target.File2Deleted.HasValue && target.File2Deleted.Value);
 
             if (path != null)
             {
@@ -696,7 +725,7 @@ namespace MPC.Implementation.MISServices
                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File3_",
                 target.File3Name,
                 target.File3Byte,
-                target.File3SourceBytes);
+                target.File3SourceBytes, target.File3Deleted.HasValue && target.File3Deleted.Value);
 
             if (path != null)
             {
@@ -708,7 +737,7 @@ namespace MPC.Implementation.MISServices
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File4_",
                 target.File4Name,
                 target.File4Byte,
-                target.File4SourceBytes);
+                target.File4SourceBytes, target.File4Deleted.HasValue && target.File4Deleted.Value);
 
             if (path != null)
             {
@@ -720,7 +749,7 @@ namespace MPC.Implementation.MISServices
               target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File5_",
                 target.File5Name,
                 target.File5Byte,
-                target.File5SourceBytes);
+                target.File5SourceBytes, target.File5Deleted.HasValue && target.File5Deleted.Value);
 
             if (path != null)
             {
@@ -738,11 +767,12 @@ namespace MPC.Implementation.MISServices
         /// <param name="fileName">Name of file being saved</param>
         /// <param name="fileSource">Base64 representation of file being saved</param>
         /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <param name="fileDeleted">True if file has been deleted</param>
         /// <returns>Path of File being saved</returns>
         private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
-            string fileSource, byte[] fileSourceBytes)
+            string fileSource, byte[] fileSourceBytes, bool fileDeleted = false)
         {
-            if (!string.IsNullOrEmpty(fileSource))
+            if (!string.IsNullOrEmpty(fileSource) || fileDeleted)
             {
                 // Look if file already exists then replace it
                 if (!string.IsNullOrEmpty(existingImage))
@@ -765,6 +795,13 @@ namespace MPC.Implementation.MISServices
                         }
                     }
 
+                }
+
+                // If File has been deleted then set the specified field as empty
+                // Used for File1, File2, File3, File4, File5
+                if (fileDeleted)
+                {
+                    return string.Empty;
                 }
 
                 // First Time Upload
@@ -806,7 +843,7 @@ namespace MPC.Implementation.MISServices
                     if (itemTarget.TemplateType.Value == 1)
                     {
                         // Generates Pdf from Template Pages
-                        GeneratePdfFromTemplatePages(template, organisationId);
+                        GeneratePdfFromTemplatePages(itemTarget, template, organisationId);
                     }
                     else if (itemTarget.TemplateType.Value == 2)
                     {
@@ -855,16 +892,26 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Genereate Pdf From Template Pages
         /// </summary>
-        private void GeneratePdfFromTemplatePages(Template template, long organisationId)
+        private void GeneratePdfFromTemplatePages(Item itemTarget, Template template, long organisationId)
         {
             try
             {
                 List<TemplatePage> templatePagesWithSameDimensions = template.TemplatePages.Where(tempPage =>
-                    (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth))
+                    (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth) &&
+                    ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) || 
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value) ||
+                    (tempPage.OldPageNo != tempPage.PageNo) ||
+                    (template.HasDeletedTemplatePages.HasValue && template.HasDeletedTemplatePages.Value)))
                     .ToList();
 
+                // Pages with different dimensions - Added New Or have Updated the dimensions
                 List<TemplatePage> templatePagesWithCustomDimensions = template.TemplatePages.Where(tempPage =>
-                    (tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth))
+                    ((tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth)) &&
+                    ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) ||
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value) || 
+                    (tempPage.OldHeight != tempPage.Height || tempPage.OldWidth != tempPage.Width) ||
+                    (tempPage.OldPageNo != tempPage.PageNo) ||
+                    (template.HasDeletedTemplatePages.HasValue && template.HasDeletedTemplatePages.Value)))
                     .ToList();
 
                 templatePageService.CreateBlankBackgroundPDFsByPages(template.ProductId,
@@ -924,6 +971,14 @@ namespace MPC.Implementation.MISServices
             itemTarget.ItemCode = itemCode;
             itemTarget.OrganisationId = itemRepository.OrganisationId;
             return itemTarget;
+        }
+
+        /// <summary>
+        /// True Is Item Image New
+        /// </summary>
+        private bool IsNewItemImage(ItemImage source)
+        {
+            return source.ProductImageId == 0;
         }
 
         /// <summary>
@@ -2162,6 +2217,17 @@ namespace MPC.Implementation.MISServices
                 throw new MPCException(LanguageResources.ItemService_ProductCodeDuplicated, itemRepository.OrganisationId);
             }
 
+            // Item Images that are being removed
+// ReSharper disable SuggestUseVarKeywordEvident
+            List<ItemImage> itemImagesToBeRemoved = new List<ItemImage>();
+// ReSharper restore SuggestUseVarKeywordEvident
+            if (itemTarget.ItemImages != null && item.ItemImages != null)
+            {
+                itemImagesToBeRemoved = itemTarget.ItemImages.Where(
+                ii => !IsNewItemImage(ii) && item.ItemImages.All(image => image.ProductImageId != ii.ProductImageId))
+                  .ToList();
+            }
+            
             // Update
             item.UpdateTo(itemTarget, new ItemMapperActions
             {
@@ -2202,13 +2268,26 @@ namespace MPC.Implementation.MISServices
             itemRepository.SaveChanges();
 
             // Save Images and Update Item
-            SaveProductImages(itemTarget);
+            SaveProductImages(itemTarget, itemImagesToBeRemoved);
 
             // Update Template Pages Background Image
             UpdateTemplatePagesBackgroundFileNames(itemTarget);
 
             // Save Changes
             itemRepository.SaveChanges();
+
+            // If Template Type is Designer then delete the template & all its related objects
+            if (itemTarget.TemplateType == 3 && itemTarget.OldTemplateId.HasValue && itemTarget.OldTemplateId.Value > 0)
+            {
+                try
+                {
+                    templateRepository.DeleteTemplate(itemTarget.OldTemplateId.Value);
+                }
+                catch (Exception)
+                {
+                    throw new MPCException("Saved Successfully but " + LanguageResources.ItemService_TemplateDeleteFailed, itemRepository.OrganisationId);
+                }
+            }
 
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
@@ -2280,7 +2359,8 @@ namespace MPC.Implementation.MISServices
                     RegionId = category.RegionID,
                     CategoryTypeId = category.CatagoryTypeID,
                     ZoomFactor = category.ZoomFactor,
-                    ScaleFactor = category.ScaleFactor
+                    ScaleFactor = category.ScaleFactor,
+                    OrganisationId = category.CreatedBy
                 }).ToList();
                 categoryRegions = pSc.getCategoryRegions().Select(category => new CategoryRegion
                 {
@@ -2308,7 +2388,7 @@ namespace MPC.Implementation.MISServices
 
             return new ItemDesignerTemplateBaseResponse
             {
-                TemplateCategories = templateCategories,
+                TemplateCategories = templateCategories.Where(c => c.OrganisationId == organizationRepository.OrganisationId || c.OrganisationId == null).ToList(),
                 CategoryRegions = categoryRegions,
                 CategoryTypes = categoryTypes,
                 SmartForms = smartForms
@@ -2345,6 +2425,9 @@ namespace MPC.Implementation.MISServices
             // Get Updated Minimum Price
             target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
 
+            // convert template length to system unit 
+            ConvertTemplateLengthToSystemUnit(target);
+
             // Return Product
             return target;
         }
@@ -2375,7 +2458,7 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
-            return itemRepository.GetItemsByCompanyId(request);
+            return itemRepository.GetAllStoreProducts(request);
         }
 
         /// <summary>
@@ -2384,6 +2467,13 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId)
         {
             return productCategoryRepository.GetParentCategories(companyId);
+        }
+        /// <summary>
+        /// Get Product Categories for Company Including Archived once also
+        /// </summary>
+        public IEnumerable<ProductCategory> GetProductCategoriesIncludingArchived(long? companyId)
+        {
+            return productCategoryRepository.GetParentCategoriesIncludingArchived(companyId);
         }
 
         /// <summary>
@@ -2394,6 +2484,10 @@ namespace MPC.Implementation.MISServices
             DeleteItem(itemId, itemRepository.OrganisationId);
         }
 
+        public IEnumerable<Item> GetProductsByCompanyId(long? companyId)
+        {
+           return itemRepository.GetProductsByCompanyID(companyId ?? 0);
+        }
         #endregion
 
         #region DeleteProducts

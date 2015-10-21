@@ -31,18 +31,27 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             byte[] spriteBytes = null;
             string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
-            if (File.Exists(spritePath))
-            {
-                spriteBytes = File.ReadAllBytes(spritePath);
-            }
+            string spriteRelativePath = "MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId +
+                                        "/sprite.png?" + DateTime.Now.ToString();
+            //Code Commented by Naveed on 20150827
+            //if (File.Exists(spritePath))
+            //{
+            //    spriteBytes = File.ReadAllBytes(spritePath);
+            //}
+            string defaultSpritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png");
+            
             byte[] defaultSpriteBytes = null;
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
-            {
-                defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
-            }
+            //Code Commented by Naveed on 20150827
+            //if (File.Exists(defaultSpritePath))
+            //{
+            //    defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            //}
             string defaultCss = string.Empty;
+            string defaultCssPath =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" +
+                                                   source.CompanyId + "/site.css");
 
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css")))
+            if (File.Exists(defaultCssPath))
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css"));
             }
@@ -75,7 +84,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
                 CurrentThemeId = source.CurrentThemeId,
-                CustomCSS = defaultCss,
+                //CustomCSS = defaultCss,
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
@@ -141,6 +150,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isWhiteLabel = source.isWhiteLabel,
                 PriceFlagId = source.PriceFlagId,
                 StoreId = source.StoreId,
+                isStoreLive = source.isStoreLive,
+                IsRegisterAccessWebStore = source.IsRegisterAccessWebStore,
+                IsRegisterPlaceOrder = source.IsRegisterPlaceOrder,
+                IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard,
+                IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder,
+                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval,
+                IsAllowRequestaQuote = source.IsAllowRequestaQuote,
+                CanUserUpdateAddress = source.CanUserUpdateAddress,
+                IsClickReached = source.IsClickReached,
+               MarketingBriefRecipient = source.MarketingBriefRecipient,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =
@@ -159,7 +178,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null && x.isArchived != true).Select(x => x.ListViewModelCreateFrom()).ToList().OrderBy(x => x.DisplayOrder).ToList() : null,
                 StoreBackgroundImage = source.StoreBackgroundImage,
-                DefaultSpriteImage = defaultSpriteBytes,
+                DefaultSpriteSource = spriteRelativePath,
+                //DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
@@ -174,14 +194,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] bytes = null;
             string imagePath;
-            if (!string.IsNullOrEmpty(source.Image))
-            {
-                imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-                if (File.Exists(imagePath))
-                {
-                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-                }
-            }
+            //if (!string.IsNullOrEmpty(source.Image))
+            //{
+            //    imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            //    if (File.Exists(imagePath))
+            //    {
+            //        bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+            //    }
+            //}
             byte[] storeBackgroundImageBytes = null;
             if (!string.IsNullOrEmpty(source.StoreBackgroundImage))
             {
@@ -321,7 +341,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate ?? DateTime.Now,
                 CurrentThemeId = source.CurrentThemeId,
                 Terms = source.Terms,
-                CustomCSS = source.CustomCSS,
+               // CustomCSS = source.CustomCSS,
                 TypeId = 52,
                 DefaultNominalCode = source.DefaultNominalCode,
                 DefaultMarkUpId = source.DefaultMarkUpId,
@@ -394,6 +414,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isWhiteLabel = source.isWhiteLabel,
                 PriceFlagId = source.PriceFlagId,
                 StoreId = source.StoreId,
+                isStoreLive = source.isStoreLive,
+                CanUserUpdateAddress = source.CanUserUpdateAddress,
+                MarketingBriefRecipient = source.MarketingBriefRecipient,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =
@@ -413,7 +436,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null,
                 FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(x => x.CreateFrom()).ToList() : null,
                 SmartForms = source.SmartForms != null ? source.SmartForms.Select(x => x.CreateFrom()).ToList() : null,
-                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
+                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null,
+                
+                // Regiter Settings Flags
+                IsRegisterAccessWebStore = source.IsRegisterAccessWebStore == true ? true : false,
+                IsRegisterPlaceOrder = source.IsRegisterPlaceOrder == true ? true : false,
+                IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard == true ? true : false,
+                IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder == true ? true : false,
+                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval == true ? true : false,
+                IsAllowRequestaQuote = source.IsAllowRequestaQuote == true ? true : false
+ 
             };
 
             return company;

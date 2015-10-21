@@ -62,17 +62,16 @@ $(".QuickTxt").click(function (event) {
     } $(".collapseDesignerMenu").css("display", "list-item");
 });
 $("#btnAdd").click(function (event) {
-    isBKpnl = false;
-    $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    if (spPanel != "") {
-        $(spPanel).click();
-        spPanel = "";
-    }
+    //  oldAddFunctionality();
+    $(".AddBrowserCategories").removeClass("folderExpanded");
+    $(".AddBrowserCategories .UlAddMain li").removeClass("folderExpanded");
+    $(".AddPanels").addClass("disappearing");
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage4");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
+    $("#pnlAddMain").css("top", "0px");
     try {
 
         if (canvas && canvas != undefined) {
@@ -86,12 +85,8 @@ $("#btnAdd").click(function (event) {
         } $(".collapseDesignerMenu").css("display", "list-item");
     }
     catch (err) {
-      
-    }
-    //var D1AO = canvas.getActiveObject();
-    //var D1AG = canvas.getActiveGroup();
-    //if (D1AG) canvas.discardActiveGroup();
-    //if (D1AO) canvas.discardActiveObject();
+
+    } SelAddCat = "";
 });
 $(".backgrounds").click(function (event) {
     var D1AO = canvas.getActiveObject();
@@ -823,6 +818,7 @@ $(".templateBackgrounds").click(function (event) {
 });
 $(".BkColors").click(function (event) {
     fu13(2, 2, 2, 1); spBkPanel = ".BkColors";
+    $(".BkColors").toggleClass("SelectBkColorPanel");
 });
 $(".btnFreeImgs").click(function (event) {
     fu13(2, 1, 1, 1);
@@ -867,6 +863,15 @@ $(".btnLogos").click(function (event) {
 $(".btnTemplateImages").click(function (event) {
     fu13(2, 1, 3, 1);
     pcL29_pcMove(6); spPanel = ".btnBackFromImgs , .btnBackTimgs";
+});
+$(".btnPropertyImages").click(function (event) {
+    fu13(2, 1, 2, 1);
+    pcL29_pcMove(6); spPanel = ".btnBackMyProperty , .btnBackFromImgs";
+});
+$(".btnBackMyProperty").click(function (event) {
+    //   fu13(2, 1, 1, 1);
+    $(".realEstateContainer").addClass("disappearing"); selCat = "00";
+    pcL29_pcRestore(4); spPanel = "";
 });
 $(".btnBackTimgs").click(function (event) {
     fu13(2, 1, 3, 1);
@@ -992,8 +997,9 @@ $('#btnaddbody').click(function () {
 $('#btnReplaceImage').click(function () {
     //fu13(2, 4, 1, 3);
     //pcL29_pcMove(2);
-    $('.btnAdd').click();
-    $('.btnAFrames').click();
+    oldAddFunctionality();
+     $('.btnAFrames').click();
+     $("#divAddImgPanel").removeClass("disappearing");
 
 });
 $('#editorLogo').click(function () {
@@ -1184,7 +1190,7 @@ $("#btnUpdateImgProp").click(function (event) {
 	    //} else {
 	    //    $(".uploads").click();
 	    //}
-	    $("#btnAdd").click();
+	    oldAddFunctionality();
 	});
 
     return false;
@@ -1198,7 +1204,7 @@ $(".returnToLib").click(function (event) {
         if (isBkPnlUploads){
             $(".backgrounds").click();
         } else {
-            $('.btnAdd').click();
+            oldAddFunctionality();
             $('.btnAFrames').click();
             $(".btnIllustrations").click();
         }
@@ -1339,11 +1345,11 @@ $("#BtnAlignObjLeft").click(function (ev) {
             var left = 0
             mintop = D1AG[0].top;
             minID = D1AG[0].ObjectID;
-            left = D1AG[0].left - D1AG[0].currentWidth / 2;
+            left = D1AG[0].left - D1AG[0].getWidth() / 2;
             if (D1AG) {
                 for (i = 0; i < D1AG.length; i++) {
                     if (D1AG[i].ObjectID != minID) {
-                        D1AG[i].left = left + D1AG[i].currentWidth / 2;
+                        D1AG[i].left = left + D1AG[i].getWidth() / 2;
                     }
                 }
                 canvas.discardActiveGroup();
@@ -1361,12 +1367,12 @@ $("#BtnAlignObjRight").click(function (ev) {
             var left = 0
             mintop = D1AG[0].top;
             minID = D1AG[0].ObjectID;
-            left = D1AG[0].left + D1AG[0].currentWidth / 2;
+            left = D1AG[0].left + D1AG[0].getWidth() / 2;
 
             if (D1AG) {
                 for (i = 0; i < D1AG.length; i++) {
                     if (D1AG[i].ObjectID != minID) {
-                        D1AG[i].left = left - D1AG[i].currentWidth / 2;
+                        D1AG[i].left = left - D1AG[i].getWidth() / 2;
                     }
                 }
                 canvas.discardActiveGroup();
@@ -1384,11 +1390,11 @@ $("#BtnAlignObjTop").click(function (ev) {
             var top = 0
             minLeft = D1AG[0].left;
             minID = D1AG[0].ObjectID;
-            top = D1AG[0].top - D1AG[0].currentHeight / 2;
+            top = D1AG[0].top - D1AG[0].getHeight() / 2;
             if (D1AG) {
                 for (i = 0; i < D1AG.length; i++) {
                     if (D1AG[i].ObjectID != minID) {
-                        D1AG[i].top = top + D1AG[i].currentHeight / 2;
+                        D1AG[i].top = top + D1AG[i].getHeight() / 2;
                     }
                 }
                 canvas.discardActiveGroup();
@@ -1428,11 +1434,11 @@ $("#BtnAlignObjBottom").click(function (ev) {
             var top = 0
             minLeft = D1AG[0].left;
             minID = D1AG[0].ObjectID;
-            top = D1AG[0].top + D1AG[0].currentHeight / 2;
+            top = D1AG[0].top + D1AG[0].getHeight() / 2;
             if (D1AG) {
                 for (i = 0; i < D1AG.length; i++) {
                     if (D1AG[i].ObjectID != minID) {
-                        D1AG[i].top = top - D1AG[i].currentHeight / 2;
+                        D1AG[i].top = top - D1AG[i].getHeight() / 2;
                     }
                 }
                 canvas.discardActiveGroup();
@@ -1621,18 +1627,18 @@ $("#BtnTxtCanvasAlignLeft").click(function (ev) {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type == "text" || D1AO.type === 'i-text')) {
         if (!IsBC) {
-            D1AO.left = Template.CuttingMargin + D1AO.width / 2 + 8.49;
+            D1AO.left = (Template.CuttingMargin * dfZ1l )+ (D1AO.maxWidth * dfZ1l) / 2 + 8.49;
         } else {
-            D1AO.left = Template.CuttingMargin + D1AO.width / 2 + 8.49 + 5;
+            D1AO.left = (Template.CuttingMargin * dfZ1l) + (D1AO.maxWidth * dfZ1l) / 2 + 8.49 + 5;
         }
         D1AO.setCoords();
         canvas.renderAll();
     } else {
         if (D1AO) {
             if (!IsBC) {
-                D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+                D1AO.left = (Template.CuttingMargin * dfZ1l )+ (D1AO.currentWidth * dfZ1l) / 2 + 8.49;
             } else {
-                D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+                D1AO.left = (Template.CuttingMargin * dfZ1l) + (D1AO.currentWidth * dfZ1l) / 2 + 8.49;
             }
             D1AO.setCoords();
             canvas.renderAll();
@@ -1724,9 +1730,9 @@ $("#BtnTxtCanvasAlignRight").click(function (ev) {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type == "text" || D1AO.type === 'i-text')) {
         if (!IsBC) {
-            D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.width / 2 - 8.49;
+            D1AO.left = canvas.getWidth() - (Template.CuttingMargin * dfZ1l ) - (D1AO.width* dfZ1l ) / 2 - 8.49;
         } else {
-            D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.width / 2 - 8.49 - 5;
+            D1AO.left = canvas.getWidth() - (Template.CuttingMargin * dfZ1l) - (D1AO.width * dfZ1l) / 2 - 8.49 - 5;
         }
         D1AO.setCoords();
         canvas.renderAll();
@@ -1767,7 +1773,7 @@ $("#BtnTxtCanvasAlignRight").click(function (ev) {
 var removeSelectedEl = document.getElementById('BtnDeleteTxtObj');
 removeSelectedEl.onclick = function () {
     pcL03();
-    $(".btnAdd").click();
+    oldAddFunctionality();
 };
 $("#BtnImgScaleIN").click(function (event) {
     pcL14();
@@ -1804,7 +1810,7 @@ $('#BtnImgCanvasAlignCenter').click(function (event) {
 $('#btnImgCanvasAlignLeft').click(function (event) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
-        D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+        D1AO.left = (Template.CuttingMargin * dfZ1l) + (D1AO.getWidth()) / 2 + 8.49;
         D1AO.setCoords();
         canvas.renderAll();
     }
@@ -1812,7 +1818,7 @@ $('#btnImgCanvasAlignLeft').click(function (event) {
 $('#BtnImgCanvasAlignRight').click(function (event) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
-        D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.currentWidth / 2 - 8.49;
+        D1AO.left = canvas.getWidth() - (Template.CuttingMargin * dfZ1l) - (D1AO.getWidth()) / 2 - 8.49;
         D1AO.setCoords();
         canvas.renderAll();
     }
@@ -1884,13 +1890,14 @@ $('#BtnImgCanvasAlignMiddle').click(function (event) {
 //}
 $('#btnDeleteImage').click(function (event) {
     pcL21();
-    $(".btnAdd").click();
+    oldAddFunctionality();
 });
 //var removeSelectedEl = document.getElementById('btnDeleteImage');
 //removeSelectedEl.onclick = function () {
 
 //};
 $("#clearBackground").click(function (event) {
+    $(".BkColors").removeClass("SelectBkColorPanel");
     $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
     $(".BkImgPanels").addClass("disappearing");
     isBkPaCl = false; SelBkCat = "00";
@@ -1900,13 +1907,19 @@ $("#clearBackground").click(function (event) {
     canvas.renderAll(); StopLoader();
     $.each(TP, function (op, IT) {
         if (IT.ProductPageID == SP) {
-            if (Template.isCreatedManual == false) {
-                IT.BackgroundFileName = tID + "//" + "Side" + IT.PageNo + ".pdf";
-                canvas.setBackgroundImage("Designer/Products/" + tID + "//" + "templatImgBk" + IT.PageNo + ".jpg", function (IOL) { canvas.renderAll(); StopLoader(); });
-            } else {
-                IT.BackgroundFileName = tID + "//" + "Side" + IT.PageNo + ".pdf";// IT.BackgroundFileName = tID + "//" + IT.PageName + IT.PageNo + ".pdf";
-            }
-            IT.BackGroundType = 1;
+            //if (Template.isCreatedManual == false) {
+            //    IT.BackgroundFileName = tID + "//" + "Side" + IT.PageNo + ".pdf";
+            //    canvas.setBackgroundImage("Designer/Products/" + tID + "//" + "templatImgBk" + IT.PageNo + ".jpg", function (IOL) { canvas.renderAll(); StopLoader(); });
+            //} else {
+            //    IT.BackgroundFileName = tID + "//" + "Side" + IT.PageNo + ".pdf";// IT.BackgroundFileName = tID + "//" + IT.PageName + IT.PageNo + ".pdf";
+            //}
+            //IT.BackGroundType = 1;
+
+            IT.ColorC = 0;
+            IT.ColorM = 0;
+            IT.ColorY = 0;
+            IT.ColorK = 0;
+            IT.BackGroundType = 2;
             return;
         }
     });
@@ -2238,9 +2251,12 @@ $("#smartFormSelectUserProfile").change(function () {
     pcl40_InsertUserData(data);
 });
 $("#BtnSmartFormSave").click(function () {
+    smartFormClicked = true;
     pcl42();
-    smartFormClicked = true; $(".messageSmartForm").css("display", "none");
+     $(".messageSmartForm").css("display", "none");
     $("#collapseDesignerMenu").click();
+    if(IsCalledFrom != 2)
+       pcl45_upData();
 });
 $("#btnCompanyLogo").click(function () {
     d1CompanyLogoToCanvas();
@@ -2260,3 +2276,57 @@ $("#btnImagePlaceHolderUser").click(function () {
 $("#Homebtn2").click(function () {
     window.location.href = "/";
 });
+$("#BtnBulletedLstTxt").click(function () {
+    pcl43_bullet();
+});
+$('#BtnReload').click(function (event) {
+    undoArry = [];
+    redoArry = [];
+    pcl44_rLoad();
+});
+$(".mainLeftMenu li").click(function (event) {
+    $(".multiBackCarouselContainer").css("display", "none");
+});
+$("#btnDeleteGroupObjs").click(function (event) {
+    pcL03();
+});
+
+$("#BtnValignTxt1").click(function (ev) {
+    pcL07_vAl(1);
+});
+$("#BtnValignTxt2").click(function (ev) {
+    pcL07_vAl(2);
+});
+$("#BtnValignTxt3").click(function (ev) {
+    pcL07_vAl(3);
+});
+function oldAddFunctionality() {
+
+    isBKpnl = false;
+    $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
+    if (spPanel != "") {
+        $(spPanel).click();
+        spPanel = "";
+    }
+
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage4");
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
+    try {
+
+        if (canvas && canvas != undefined) {
+            var a0 = canvas.getActiveObject();
+            if (a0) {
+                if (a0.type != "image") {
+                    canvas.discardActiveObject();
+                }
+
+            }
+        } $(".collapseDesignerMenu").css("display", "list-item");
+    }
+    catch (err) {
+
+    }
+}

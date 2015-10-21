@@ -66,9 +66,19 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public StockItem GetA4PaperStock()
         {
-            return
-                DbSet.FirstOrDefault(stock => stock.ItemName.Contains("A4") && stock.OrganisationId == OrganisationId &&
+
+            StockItem objStockItem = new StockItem();
+                
+            objStockItem = DbSet.FirstOrDefault(stock => stock.ItemName.Contains("A4") && stock.OrganisationId == OrganisationId &&
                                               stock.CategoryId == (int) StockCategoryEnum.Paper);
+
+
+            if(objStockItem == null)
+            {
+               objStockItem = db.StockItems.Where(c => c.OrganisationId == OrganisationId && c.CategoryId == (int)StockCategoryEnum.Paper).FirstOrDefault();
+            }
+
+            return objStockItem;
         }
 
         /// <summary>
@@ -81,7 +91,7 @@ namespace MPC.Repository.Repositories
             bool isImperical = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(c => c.IsImperical ?? false).FirstOrDefault();
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-            Expression<Func<StockItem, bool>> query =
+            Expression<Func<StockItem,bool>> query =
                 stockItem =>
                     (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
                      (stockItem.AlternateName.Contains(request.SearchString))) && (
@@ -155,6 +165,8 @@ namespace MPC.Repository.Repositories
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
+
+            
 
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = DbSet.Count(query) };
         }

@@ -14,7 +14,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedTargetPrintDate, specifiedOrderCreationDateTime, specifiedOrderManagerId, specifiedSalesPersonId, specifiedSourceId,
         specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
         specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
-        specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedStatus) {
+        specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedStatus, specifiedEstimateTotal) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -41,7 +41,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Flag Color
             flagColor = ko.observable(specifiedFlagColor || undefined),
              // Estimate Total
-            estimateTotal = ko.observable(undefined).extend({ numberInput: ist.numberFormat }),
+            estimateTotal = ko.observable(specifiedEstimateTotal || undefined).extend({ numberInput: ist.numberFormat }),
             // Flag Id
             sectionFlagId = ko.observable(specifiedSectionFlagId || undefined),
             // Order Code
@@ -293,7 +293,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
     },
           // #region ______________  CUSTOMER LIST VIEW MODEL   _________________
-     customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary) {
+     customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary,cusStoreName) {
          var
              self,
              id = ko.observable(companytId),
@@ -306,6 +306,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              email = ko.observable(custEmail),
              defaultContact = ko.observable(undefined),
              defaultContactEmail = ko.observable(undefined),
+             storeName = ko.observable(cusStoreName),
              // Errors
              errors = ko.validation.group({
              }),
@@ -338,6 +339,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              defaultContact: defaultContact,
              defaultContactEmail: defaultContactEmail,
              storeImageFileBinary: storeImageFileBinary,
+             storeName: storeName,
              isValid: isValid,
              errors: errors,
              dirtyFlag: dirtyFlag,
@@ -370,10 +372,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         customer.defaultContact(source.DefaultContactName);
         customer.defaultContactEmail(source.DefaultContactEmail);
         customer.customerTYpe(source.CustomerType);
+        customer.storeName(source.StoreName);
         return customer;
     };
 
     // #endregion;
+
 
     TotalEarnings = function (specifiedMonth, specifiedOrders, specifiedTotal, specifiedmonthname, specifiedyear, specifiedstore) {
         //var //
@@ -395,9 +399,32 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
     };
 
-    TotalEarnings.Create = function (source) {
+    TotalEarnings.Create = function(source) {
         return new TotalEarnings(source.Month, source.Orders, source.Total, source.monthname, source.year, source.store);
-    }
+    };
+    
+    //Registered Users Model
+    RegisteredUser = function (specifiedMonth, specifiedTotalStore1, specifiedTotalStore2, specifiedTotalStore3,specifiedTotalStore4,specifiedTotalStore5, specifiedmonthname, specifiedyear, specifiedstore) {
+        
+            
+        return {
+            month: specifiedMonth || 0,
+            totalStore1: specifiedTotalStore1 || 0,
+            totalStore2: specifiedTotalStore2 || 0,
+            totalStore3: specifiedTotalStore3 || 0,
+            totalStore4: specifiedTotalStore4 || 0,
+            totalStore5: specifiedTotalStore5 || 0,
+            monthname: specifiedmonthname || "",
+            year: specifiedyear || 0,
+            store: specifiedstore || ""
+        };
+    };
+    
+    RegisteredUser.Create = function (source, valOrder) {
+        return new RegisteredUser(source.Month, source.TotalContacts, valOrder, source.MonthName, source.Year, source.Name);
+    };
+
+
     // Estimate Factory
     // Estimate Factory
     Estimate.Create = function (source) {
@@ -407,7 +434,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.ArtworkByDate, source.DataByDate, source.PaperByDate, source.TargetBindDate, source.XeroAccessCode, source.TargetPrintDate,
         source.OrderCreationDateTime, source.SalesAndOrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
-        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
+        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.Status, source.EstimateTotal);
         estimate.statusId(source.StatusId);
         estimate.status(source.Status || undefined);
         estimate.flagColor(source.SectionFlagColor || undefined);
@@ -440,6 +467,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     return {
         Estimate: Estimate,
         TotalEarnings: TotalEarnings,
+        RegisteredUser:RegisteredUser,
         customerViewListModel: customerViewListModel
     };
 });

@@ -81,7 +81,10 @@ namespace MPC.Repository.Repositories
 
         public List<ProductCategory> GetChildCategories(long categoryId, long CompanyId)
         {
-            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && (category.isArchived == false || category.isArchived == null) && category.isEnabled == true && category.isPublished == true && category.CompanyId == CompanyId).ToList().OrderBy(x => x.DisplayOrder).ToList();
+            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && 
+                category.ParentCategoryId.Value == categoryId && category.isPublished == true && category.isEnabled == true &&
+                (category.isArchived == false || category.isArchived == null) && 
+                category.CompanyId == CompanyId).ToList().OrderBy(x => x.DisplayOrder).ToList();
             return childCategoresList;
         }
 
@@ -153,22 +156,59 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                long catID = db.ProductCategoryItems.Where(p => p.ItemId == ItemID).Select(s => s.CategoryId ?? 0).FirstOrDefault();
-                List<ProductCategory> LstCategories = this.GetPublicCategories(); //get all the categories
-
-                ProductCategory currCategory = LstCategories.Find(category => category.ProductCategoryId == catID); //finds itself
-                CurrentProductCategoryName = currCategory.CategoryName;
-                if (currCategory != null)
+                ProductCategoryItem productCatItem = db.ProductCategoryItems.Where(p => p.ItemId == ItemID).FirstOrDefault();
+                if (productCatItem != null)
                 {
+                    long catID =productCatItem.CategoryId ?? 0;
+                    if (catID > 0) 
+                    {
+                        List<ProductCategory> LstCategories = this.GetPublicCategories(); //get all the categories
 
-                    if ((currCategory.ParentCategoryId ?? 0) > 0)
-                        currCategory = LstCategories.Find(cat => cat.ProductCategoryId == currCategory.ParentCategoryId.Value); // finds the first parent
+                        ProductCategory currCategory = LstCategories.Find(category => category.ProductCategoryId == catID); //finds itself
+                        if (currCategory != null)
+                        {
+                            CurrentProductCategoryName = currCategory.CategoryName;
+                            if (currCategory != null)
+                            {
+                                if (LstCategories != null && LstCategories.Count > 0)
+                                {
+                                    if ((currCategory.ParentCategoryId ?? 0) > 0)
+                                    {
+                                        currCategory = LstCategories.Find(cat => cat.ProductCategoryId == currCategory.ParentCategoryId.Value); // finds the first parent
+                                    }
+                                }
+                                else 
+                                {
+                                    CurrentProductCategoryName = "";
+                                    return string.Empty;
+                                }
+                                    
+                            }
+                            if (currCategory != null)
+                                return currCategory.CategoryName;
+                            else
+                                return string.Empty;
+
+                        }
+                        else 
+                        {
+                            CurrentProductCategoryName = "";
+                            return string.Empty;
+                        }
+                       
+                    }
+                    else
+                    {
+                        CurrentProductCategoryName = "";
+                        return string.Empty;
+                    }
+                   
                 }
-                if (currCategory != null)
-                    return currCategory.CategoryName;
-                else
+                else 
+                {
+                    CurrentProductCategoryName = "";
                     return string.Empty;
-
+                }
             }
             catch (Exception ex)
             {
@@ -183,6 +223,14 @@ namespace MPC.Repository.Repositories
         public IEnumerable<ProductCategory> GetParentCategories(long? companyId)
         {
             return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue && productCategory.OrganisationId == OrganisationId &&
+                (!companyId.HasValue || productCategory.CompanyId == companyId)).OrderBy(v => v.CategoryName).ToList();
+        }
+        /// <summary>
+        /// Get Parent Categories For Organisation including archived once also
+        /// </summary>
+        public IEnumerable<ProductCategory> GetParentCategoriesIncludingArchived(long? companyId)
+        {
+            return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue && productCategory.OrganisationId == OrganisationId &&
                 (!companyId.HasValue || productCategory.CompanyId == companyId)).ToList();
         }
 
@@ -190,6 +238,15 @@ namespace MPC.Repository.Repositories
         {
             List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && 
                 category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true && 
+                category.OrganisationId == OrganisationId).ToList().OrderBy(x => x.DisplayOrder).ToList();
+            return childCategoresList;
+
+        }
+
+        public List<ProductCategory> GetChildCategoriesIncludingArchive(long categoryId)
+        {
+            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && 
+                category.ParentCategoryId.Value == categoryId && category.isEnabled == true && category.isPublished == true && 
                 category.OrganisationId == OrganisationId).ToList().OrderBy(x => x.DisplayOrder).ToList();
             return childCategoresList;
 

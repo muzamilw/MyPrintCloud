@@ -5,70 +5,74 @@
     string FromMinPrice = string.Empty;
     string MinPrice = string.Empty;
 }
+@{
+    Layout = null;
+}
 @if (Model.ProductItems != null && Model.ProductItems.Count > 0)
-{ <div class="container content_area">
-      <div id="controlBodyDiv" class="row">
-          <div class="feature_product_main_heading  col-md-12 col-lg-12 col-xs-12">
+{ <div class="container content_area" id="all-relatedItem-pg">
+        <div id="controlBodyDiv" class="row">
+            <div class="feature_product_main_heading  col-md-12 col-lg-12 col-xs-12">
 
-              <label id="lblHeading">If you like @Model.ProductName , you might like</label>
-              <label id="lblYoumightLke"></label>
-          </div>
-          @{
+                <label id="lblHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlifulike", UserCookieManager.WBStoreId,"If you like")) @Model.ProductName , @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlmighlike", UserCookieManager.WBStoreId,"you might like"))
+</label>
+                <label id="lblYoumightLke"></label>
+            </div>
+            @{
 
     foreach (var item in Model.ProductItems as List<ProductItem>)
     {
-      <div class="col-md-3 col-lg-3 col-xs-12 BD rounded_corners">
-          <div class="pad5">
-              <div class="LCLB">
+        <div class="col-md-3 col-lg-3 col-xs-12 BD rounded_corners">
+            <div class="pad5">
+                <div class="LCLB">
 
-                  <a id="hlProductDetail" href="/ProductDetail/@MPC.Webstore.Common.Utils.specialCharactersEncoder(item.ProductName)/0/@item.ItemID/@item.TemplateID/0/UploadDesign" onclick="ShowLoader();">
-                      <div class="PDTC FI">
+                    <a id="hlProductDetail" href="/ProductDetail/@MPC.Webstore.Common.Utils.specialCharactersEncoder(item.ProductName)/0/@item.ItemID/@item.TemplateID/0/UploadDesign" onclick="ShowLoader();">
+                        <div class="PDTC FI">
 
-                          <img id="imgThumbnail" class="full_img_ThumbnailPath" src='/@item.ThumbnailPath' />
-                      </div>
-                  </a>
+                            <img id="imgThumbnail" class="full_img_ThumbnailPath" src='/@item.ThumbnailPath' />
+                        </div>
+                    </a>
 
 
 
-              </div>
-              <div class="product_detail_image_heading_IRI">
-                  <label id="lblProductName" class="themeFontColor">@item.ProductName</label>
-              </div>
+                </div>
+                <div class="product_detail_image_heading_IRI">
+                    <label id="lblProductName" class="themeFontColor">@item.ProductName</label>
+                </div>
 
-              <div class="product_detail_image_Pricing">
-                  @if (Model.isShowPrices == true)
-                  {
-                      double calculatedPrice = item.MinPrice;
-                      FromMinPrice = Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
-                      MinPrice = "Starts From " + Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
-                      <label id="lblPrice">@MinPrice</label>
-                  }
+                <div class="product_detail_image_Pricing">
+                    @if (Model.isShowPrices == true)
+                    {
+                        double calculatedPrice = item.MinPrice;
+                        FromMinPrice = Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
+                        MinPrice = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlstartsfrom", UserCookieManager.WBStoreId, "Starts From")).ToString() + Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
+                        <label id="lblPrice">@MinPrice</label>
+                    }
 
-              </div>
-          </div>
-          @if (Model.isShowPrices == true)
-          {
-              <div id="PriceCircle" class="blue_cicle_container ">
-                  <div class="BC">
-                      <div class="all_padding3">
-                          <div class="paddingTop2px">
-                              &nbsp;
-                          </div>
-                          FROM
-                          <br />
-                          <label id="lblFromMinPrice" style="font-weight:bold;font-size:16px;">@FromMinPrice</label>
-                      </div>
-                  </div>
-              </div>
-          }
-      </div>
+                </div>
+            </div>
+            @if (Model.isShowPrices == true)
+            {
+                <div id="PriceCircle" class="blue_cicle_container ">
+                    <div class="BC">
+                        <div class="all_padding3">
+                            <div class="paddingTop2px">
+                                &nbsp;
+                            </div>
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlformcaps", UserCookieManager.WBStoreId,"FROM"))
+                            <br />
+                            <label id="lblFromMinPrice" style="font-weight:bold;font-size:16px;">@FromMinPrice</label>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     }
-          }
-          <div class="clearBoth">
-              &nbsp;
-          </div>
-      </div>
+            }
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+        </div>
 
     </div>
-  
+
 }

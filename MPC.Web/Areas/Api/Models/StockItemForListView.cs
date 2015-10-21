@@ -98,6 +98,9 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public double? PackCostPrice { get; set; }
 
+        public double? ActualCost { get; set; }
+        public double? ActualPackCost { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -141,5 +144,7 @@ namespace MPC.MIS.Areas.Api.Models
                 return string.Empty;
             }
         }
+
+        public double CostPrice { get; set; }
     }
 }

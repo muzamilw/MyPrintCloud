@@ -10,19 +10,19 @@
                 <ol class="breadcrumb">
                     <li><a href="#">&nbsp;</a></li>
                 </ol>
-                <h1 style="padding-left:0px;">Calendar</h1>
-                <div class="clearfix pull-left" style="padding-bottom: 1%">
-                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
+                <h1 style="padding-left:0px;margin-left:-2px;">Calendar</h1>
+                <div style="margin-left:-2px;padding-top:0px;padding-top:1px;">
+                    <p class="group-header-description">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</p>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top:13px;">
             <div class="col-lg-12">
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs" style="margin-bottom:0px;">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
-                                @Html.ActionLink("All Contacts", "Contacts", "Home")
+                                @Html.ActionLink("Public Store Registered Users", "Contacts", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 @Html.ActionLink("Companies", "Index", "Home")
@@ -31,37 +31,32 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @*@Html.ActionLink("Calendar", "Calendar", "Home",)*@
                                 <a href="#tab-Calendar" data-toggle="tab">Calendar</a>
                             </li>
-
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @*@Html.ActionLink("
-                                    ", "" , "Home")*@
-                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
-                            </li>
-                            
-                            
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Calendar">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div>
+                                        <div class="tabsdescriptions">
+                                            <p class="group-header-description">A group Calendar is a great way to stay up to date with the items assigned to each team member.</p>
+                                        </div>
+                                        <div style="margin-left:10px;margin-right:10px;">
                                             <div>
                                                 <div class="col-md-12 form-horizontal">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <div class="col-lg-4 text-right">
+                                                            <div class="col-lg-4" style=" margin-left: -9px;">
                                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                                     <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Owner" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                     </a>
                                                                 </div>
-                                                                <label for="owner" class="control-label text-right tooltip-float">Show</label>
+                                                                <label for="owner" style="  float: left;" class="control-label text-right tooltip-float">Show Calendar For</label>
                                                             </div>
                                                             <div class="col-lg-8" style="padding-right:20px;">
                                                                 <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsText: 'FullName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>

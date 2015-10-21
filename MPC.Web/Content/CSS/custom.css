@@ -162,58 +162,48 @@ body {
 }
 
 .iconplus {
-    background: url(OperatorIcons.png) -3px -4px no-repeat;
-    width:21px;
+    background: url(OperatorIcons.png) -3px -3px no-repeat;
 }
 
 .iconsubtract {
-    background: url(OperatorIcons.png) -26px -4px no-repeat;
-    width:21px;
+    background: url(OperatorIcons.png) -25px -4px no-repeat;
 }
 
 .iconmultiply {
-    background: url(OperatorIcons.png) -49px -4px no-repeat;
-    width: 21px;
+    background: url(OperatorIcons.png) -47px -4px no-repeat;
 }
 
 .icondivide {
-    background: url(OperatorIcons.png) -72px -4px no-repeat;
-    width: 21px;
+    background: url(OperatorIcons.png) -71px -3px no-repeat;
 }
 
 .iconif {
-    background: url(OperatorIcons.png) -95px -4px no-repeat;
-    width: 21px;
+    background: url(OperatorIcons.png) -94px -4px no-repeat;
 }
 
 .iconifelse {
-    background: url(OperatorIcons.png) -118px -4px no-repeat;
-    width: 63px;
+    background: url(OperatorIcons.png) -117px -4px no-repeat;
 }
 
 .iconmode {
-    background: url(OperatorIcons.png) -182px -4px no-repeat;
-    width: 42px;
+    background: url(OperatorIcons.png) -181px -4px no-repeat;
 }
 
 .iconpercent {
-    background: url(OperatorIcons.png) -225px -4px no-repeat;
-    width: 21px;
+    background: url(OperatorIcons.png) -224px -4px no-repeat;
 }
 
 .iconstartbrace {
-    background: url(OperatorIcons.png) -248px -4px no-repeat;
-    width: 21px;
+    background: url(OperatorIcons.png) -247px -4px no-repeat;
 }
 
 .iconendbrace {
     background: url(OperatorIcons.png) -271px -4px no-repeat;
-    width: 21px;
 }
 
 .iconFormulaCost {
     height: 21px;
-    
+    width: 23px;
     margin: 6px 0 0 5px;
     cursor: pointer;
 }
@@ -326,4 +316,14 @@ a.reportAnchor a:hover {
 }
 .bluecolor{
     color:blue;
+}
+.sectionmultiplier {
+    bottom: 63px;
+    margin-left: 10%;
+    position: absolute;
+}
+.sectionmultiplierindex {
+    bottom: 43px;
+    margin-left: 10%;
+    position: absolute;
 }

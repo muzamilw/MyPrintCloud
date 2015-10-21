@@ -1,8 +1,11 @@
 ﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
-<head>
+@{
+    Layout = null;
+}
+
+
     <link href="/Content/ErrorPage/font-awesome.css" rel="stylesheet" />
-</head>
 
 <div id="FooterContainer" class="PDTCWB" style="background:#3E3936 !important;">
     <div class="footer_sub">
@@ -44,10 +47,10 @@
 
 
             <div class="textAlignCenter float_left_simple realEst-footer-PrivacyPolicy">
-                <a id="hlPrivacyPolicy" class="realEstFooterTxtColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId))</a>
+                <a id="hlPrivacyPolicy" class="realEstFooterTxtColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId, "Privacy Policy"))</a>
             </div>
             <div class="textAlignCenter float_left_simple realEst-footer-terms">
-                <a id="hplinkTermsCondition" class="realEstFooterTxtColor" href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId))</a>
+                <a id="hplinkTermsCondition" class="realEstFooterTxtColor" href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId, "Terms And Conditions"))</a>
             </div>
             <div class="textAlignCenter float_left_simple realEstFooterTxtColor realEst-footer-copyright">
                 <label id="ltrlcopyrite">@Html.Raw(Html.GetKeyValueFromResourceFile("lrl20copyrite", UserCookieManager.WBStoreId))</label>

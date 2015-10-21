@@ -23,6 +23,8 @@ namespace MPC.Webstore.Common
     {
         private readonly ICompanyService _myCompanyService;
         private static XmlDocument rexcFiel = null;
+        private static string CacheKeyName = "CompanyBaseResponse";
+        
         public Utils(ICompanyService myCompanyService)
         {
             if (myCompanyService == null)
@@ -42,7 +44,7 @@ namespace MPC.Webstore.Common
         {
             if (!string.IsNullOrEmpty(valueToFormat))
             {
-                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat), 2, MidpointRounding.AwayFromZero)); //Math.Round(, 2));
             }
             else
             {
@@ -54,7 +56,17 @@ namespace MPC.Webstore.Common
             return WebConfigurationManager.AppSettings["AppBasePath"];
         }
 
-       
+        public static string FormatDateValue(DateTime? dateTimeValue, string formatString = null)
+        {
+            const string defaultFormat = "MMMM d, yyyy";
+
+            if (dateTimeValue.HasValue)
+                return dateTimeValue.Value.ToString(string.IsNullOrWhiteSpace(formatString) ? defaultFormat : formatString);
+            else
+                return string.Empty;
+        }
+
+
         public static string FormatDecimalValueToTwoDecimal(string valueToFormat, string currenctySymbol)
         {
             return string.Format("{0}{1}", currenctySymbol, Utils.FormatDecimalValueToTwoDecimal(valueToFormat));
@@ -63,12 +75,20 @@ namespace MPC.Webstore.Common
         {
             if (!string.IsNullOrEmpty(valueToFormat))
             {
-                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat), 2, MidpointRounding.AwayFromZero));
+                //return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
             }
             else
             {
                 return "";
             }
+        }
+
+        public static double FormatDecimalValueToTwoDecimal(double? valueToFormat)
+        {
+            return Math.Round(Convert.ToDouble(valueToFormat), 2, MidpointRounding.AwayFromZero);
+           //     return Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2);
+           
         }
 
         public static DateTime AddBusinessdays(decimal ProductionDays, DateTime StartingDay)
@@ -113,36 +133,52 @@ namespace MPC.Webstore.Common
         {
             return string.Format("{0}{1}{2}{3}{4}{5}{6}", Folder, "Organisation" + OrganisationId, "/", CompanyId, "/", ImageURl);
         }
-        public static string GetKeyValueFromResourceFile(string key, long StoreId)
+        public static string GetKeyValueFromResourceFile(string key, long StoreId, string KeyValue = "")
         {
-            string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[StoreId];
-
-            XmlDocument resxFile = null;
-
-            if (stores != null)
+            MyCompanyDomainBaseReponse stores = null;
+               
+            if (StoreId > 0)
             {
-                resxFile = stores.ResourceFile;
-            }
-            
-            if (resxFile != null) 
-            {
-                XmlNode loRoot = resxFile.SelectSingleNode("root/data[@name='" + key + "']/value");
+                Dictionary<long, MyCompanyDomainBaseReponse> cachedObject = (cache.Get("CompanyBaseResponse")) as Dictionary<long, MyCompanyDomainBaseReponse>;
 
-                if (loRoot != null)
+                if (cachedObject != null)
                 {
-                    return (loRoot).InnerXml;
+                    if (cachedObject.ContainsKey(StoreId))
+                    {
+                        stores = cachedObject.Where(i => i.Key == StoreId).FirstOrDefault().Value;
+                    }
+                }
+                
+                XmlDocument resxFile = null;
+
+                if (stores != null)
+                {
+                    resxFile = stores.ResourceFile;
+                }
+
+                if (resxFile != null)
+                {
+                    XmlNode loRoot = resxFile.SelectSingleNode("root/data[@name='" + key + "']/value");
+
+                    if (loRoot != null)
+                    {
+                        return (loRoot).InnerXml;
+                    }
+                    else
+                    {
+                        return KeyValue;
+                    }
                 }
                 else
                 {
-                    return "";
+                    return KeyValue;
                 }
             }
-            else
+            else 
             {
-                return "";
+                return KeyValue; 
             }
         }
 
@@ -229,7 +265,7 @@ namespace MPC.Webstore.Common
             queryString += string.Format("{0}{1}{2}", CategoryName, "/", CategoryId);
             return queryString;
         }
-      
+        
     }
 
     public static class CloneList
@@ -259,9 +295,9 @@ namespace MPC.Webstore.Common
             return WebConfigurationManager.AppSettings["AppBasePath"];
         }
 
-        public static string GetKeyValueFromResourceFile(this HtmlHelper htmlHelper, string Key, long StoreId)
+        public static string GetKeyValueFromResourceFile(this HtmlHelper htmlHelper, string Key, long StoreId, string KeyValue = "")
         {
-            return Utils.GetKeyValueFromResourceFile(Key, StoreId);
+            return Utils.GetKeyValueFromResourceFile(Key, StoreId, KeyValue);
         }
 
         public static string GetAttachmentFileName(this HtmlHelper htmlHelper, string ProductCode, string OrderCode, string ItemCode, string SideCode, string extension, DateTime OrderCreationDate)
@@ -269,6 +305,10 @@ namespace MPC.Webstore.Common
             string FileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
 
             return FileName;
+        }
+        public static string GetFileExtension(this HtmlHelper htmlHelper, string fileName)
+        {
+            return System.IO.Path.GetExtension(fileName);
         }
     //    static Assembly FindGlobalResAssembly()
     //    {

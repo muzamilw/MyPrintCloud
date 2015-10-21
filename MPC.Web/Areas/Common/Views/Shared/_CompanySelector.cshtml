@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select Customers / Stores</h4>
+                <h4 class="modal-title" data-bind="text: isOpenedFromOrder() ? 'Select Contact' : 'Select Customers / Stores'">Select Customers / Stores</h4>
             </div>
 
             <div class="col-lg-12">
@@ -18,19 +18,30 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
+                                        <!-- ko if: !isOpenedFromOrder() -->
                                         <th><span>Company Name</span></th>
-                                        
+                                        <!-- /ko -->
+                                        <!-- ko if: isOpenedFromOrder -->
+                                        <th><span>Contact Name</span></th>
+                                        <th><span>Company Name</span></th>
+                                        <th><span>Store Name</span></th>
+                                        <!-- /ko -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!--ko if: companies().length==0-->
+                                    
+                                    <!-- ko if: (isOpenedFromOrder() && companyContacts().length === 0) || (!isOpenedFromOrder() && companies().length === 0) -->
                                     <tr>
-                                        <td >
+                                        <td>
                                             <span data-bind="text: 'No Items found!'"></span>
                                         </td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <!-- /ko -->
-                                    <!-- ko template: { name: 'companySelectorItemTemplate' , foreach: companies } -->
+                                    <!-- ko template: { if: !isOpenedFromOrder(), name: 'companySelectorItemTemplate' , foreach: companies } -->
+                                    <!-- /ko -->
+                                    <!-- ko template: { if: isOpenedFromOrder, name: 'companyContactSelectorItemTemplate' , foreach: companyContacts } -->
                                     <!-- /ko -->
                                 </tbody>
                             </table>
@@ -39,8 +50,15 @@
                     </div>
                     <footer class="main-box-header pull-right">
                         <div id="pagerDiv">
+                            <!-- ko if: !isOpenedFromOrder() -->
                             <!-- ko with: companyDialogPager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                            <!-- /ko -->
+                            <!-- /ko -->
+                            <!-- ko if: isOpenedFromOrder -->
+                            <!-- ko with: companyContactDialogPager -->
+                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                            <!-- /ko -->
                             <!-- /ko -->
                         </div>
                     </footer>
@@ -62,13 +80,29 @@
     </tr>
 </script>
 
+<script id="companyContactSelectorItemTemplate" type="text/html">
+    <tr data-bind="click: $root.onSelectCompany" style="cursor:pointer;">
+        <td>
+            <a class="user-link font20px">
+                <span data-bind="text: name"></span>
+            </a>
+        </td>
+        <td>
+            <span data-bind="text: companyName"></span>
+        </td>
+        <td>
+            <span data-bind="text: storeName"></span>
+        </td>
+    </tr>
+</script>
+
 @* Filter Template *@
 <script id="companySelectorFilterTemplate" type="text/html">
     <div class="filter-body">
         <form data-bind="submit: $root.searchCompanies">
             <div class="filter-block pull-right">
                 <div class="form-group pull-right">
-                    <input type="text" class="form-control" placeholder="Search company" data-bind="value: companyDialogFilter">
+                    <input type="text" class="form-control" id="companySearchFilter" placeholder="Search" data-bind="value:$root.companyDialogFilter" autofocus>
                     <i class="fa fa-search search-icon" data-bind="click: $root.searchCompanies"></i>
                 </div>
             </div>

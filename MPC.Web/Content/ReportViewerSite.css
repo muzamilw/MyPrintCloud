@@ -354,4 +354,6 @@ input[type="checkbox"].input-validation-error {
 div.viewer-layout-container{
     border: none !important;
 }
-
+.marginLeft {
+    margin-left:58px;
+}

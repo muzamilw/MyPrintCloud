@@ -23,7 +23,7 @@
                      Attachment = ko.observable(),
                      AttachmentPath = ko.observable(),
                      Signature = ko.observable(),
-                     
+                     SelectedEmailReport = ko.observable(),
                      SignedBy = ko.observable(),
                      ContactId = ko.observable(),
                      RecordId = ko.observable(),
@@ -42,9 +42,60 @@
 
                        ckEditorOpenFrom = ko.observable("stores"),
                     hTmlMessageA = ko.observable(),
+
+
+                OpenExternalReport = function(CategoryId, IsExternal, ItemId)
+                {
+                    selectedItemId(ItemId);
+
+
+                    $("#ReportViewerIframid").attr("src", "/mis/Home/Viewer?id=0&itemId=0");
+                    if (CategoryId != undefined && CategoryId != null && CategoryId != 0) {
+                        dataservice.getreportcategories({
+                            CategoryId: CategoryId,
+                            IsExternal: IsExternal,
+
+                        }, {
+                            success: function (data) {
+
+                                reportcategoriesList.push(model.ReportCategory(data));
+                                SelectReportById(model.ReportCategory(data).reports()[0]);
+
+                                if (selectedReportId() > 0) {
+                                    //  getParams();
+
+                                    if (outputTo() == "preview") {
+                                        view.hide();
+                                        showProgress();
+                                        view.showWebViewer();
+                                        hideProgress();
+                                    } else if (outputTo() == "email") {
+                                        showEmailView();
+                                    } else if (outputTo() == "pdf") {
+
+                                    } else if (outputTo() == "excel") {
+
+                                    }
+                                } else {
+                                    errorList.push({ name: "Please Select a Report to View", element: null });
+
+                                }
+                               
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Load . Error: " + response);
+                            }
+                        });
+
+
+                    }
+                },
+
+
                     OpenReport = function () {
+
                         if (selectedReportId() > 0) {
-                          //  getParams();
+                            getParams();
 
                             if (outputTo() == "preview") {
                                 view.hide();
@@ -54,14 +105,15 @@
                             } else if (outputTo() == "email") {
                                 showEmailView();
                             } else if (outputTo() == "pdf") {
-
+                                downloadPDFReport();
                             } else if (outputTo() == "excel") {
-
+                                downloadExcelReport();
                             }
                         } else {
                             errorList.push({ name: "Please Select a Report to View", element: null });
 
                         }
+                       
                     },
                     getParams = function () {
                         if (selectedReportId() > 0) {
@@ -94,23 +146,74 @@
                                  CriteriaParam: CriteriaParam()
                              }, {
                                  success: function (data) {
-                                     To(data.To);
-                                     CC(data.CC);
-                                     Subject(data.Subject);
-                                     Attachment(data.Attachment);
-                                     AttachmentPath(data.AttachmentPath);
-                                     Signature(data.Signature);
+                                     //To(data.To);
+                                     //CC(data.CC);
+                                     //Subject(data.Subject);
+                                     //Attachment(data.Attachment);
+                                     //AttachmentPath(data.AttachmentPath);
+                                     //Signature(data.Signature);
 
+                                     SelectedEmailReport().emailTo(data.To);
+                                     SelectedEmailReport().emailCC(data.CC);
+                                     SelectedEmailReport().emailSubject(data.Subject);
+                                     SelectedEmailReport().emailAttachment(data.Attachment);
+                                     SelectedEmailReport().emailAttachmentPath(data.AttachmentPath);
+                                     SelectedEmailReport().emailSignature(data.Signature);
+
+                                     view.show();
                                      view.showEmailView();
+                                    
                                  },
                                  error: function (response) {
 
                                  }
                              });
                              isLoading(true);
-                            
+                             
                          }
                      },
+
+
+                     sendEmailReport = function()
+                     {
+                         
+
+                         if (SelectedEmailReport() != null) {
+                             var emailMessage = CKEDITOR.instances.content.getData();
+                             SelectedEmailReport().emailSignature(emailMessage);
+
+                             dataservice.sendEmail({
+                                 To: SelectedEmailReport().emailTo(),
+                                 CC: SelectedEmailReport().emailCC(),
+                                 Subject: SelectedEmailReport().emailSubject(),
+                                 Attachment: SelectedEmailReport().emailAttachment(),
+                                 AttachmentPath: SelectedEmailReport().emailAttachmentPath(),
+                                 Signature: SelectedEmailReport().emailSignature(),
+                                 ContactId: ContactId(),
+                                 SignedBy: SignedBy(),
+                             
+                             }, {
+                                 success: function (data) {
+                                  
+                                     view.hide();
+                                     view.hideEmailView();
+
+                                     
+
+                                 },
+                                 error: function (response) {
+
+                                 }
+                             });
+                             isLoading(true);
+
+                         }
+
+                     },
+
+
+
+
                     SelectReportById = function (report) {
                         $(".dd-handle").removeClass("selectedReport")
                         $("#" + report.ReportId()).addClass("selectedReport");
@@ -171,14 +274,64 @@
                         view.hide();
                     },
                     showEmailView = function () {
-
-
-
-                      
-                        getReportEmailBaseData();
+                        
+                       getReportEmailBaseData();
                     },
-                    hideEmailView= function() {
+                    
+                    downloadPDFReport = function () {
+                        if (selectedReportId() > 0) {
+                            dataservice.downloadExternalReport({
+                                ReportId: selectedReportId(),
+                                Mode: true                               
+                            }, {
+                                success: function (data) {
+                                    if (data != null) {
+                                        var host = window.location.host;
+                                        var path = "http://" + host + data;
+                                        //var uri = encodeURI("http://" + host + data);
+                                        window.open(path, "_blank");
+                                    }
+                                    isLoading(false);
+
+                                },
+                                error: function (response) {
+
+                                }
+                            });
+                            isLoading(true);
+
+                        }
+                    },
+
+                     downloadExcelReport = function () {
+                         if (selectedReportId() > 0) {
+                             dataservice.downloadExternalReport({
+                                 ReportId: selectedReportId(),
+                                 Mode: false
+                             }, {
+                                 success: function (data) {
+                                     if (data != null) {
+                                         var host = window.location.host;
+                                         var path = "http://" + host + data;
+                                         //var uri = encodeURI("http://" + host + data);
+                                         window.open(path, "_blank");
+                                     }
+                                     isLoading(false);
+
+                                 },
+                                 error: function (response) {
+
+                                 }
+                             });
+                             isLoading(true);
+
+                         }
+                     },
+
+                    hideEmailView = function () {
+                        view.hide();
                         view.hideEmailView();
+
                     },
                     
                     // set order values
@@ -210,6 +363,10 @@
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
+
+                        SelectedEmailReport(new model.EmailFields());
+                       
+
                     };
 
                 return {
@@ -218,6 +375,7 @@
                     outputTo: outputTo,
                     initialize: initialize,
                     OpenReport: OpenReport,
+                    OpenExternalReport: OpenExternalReport,
                     selectedItemId: selectedItemId,
                     IsExternalReport:IsExternalReport,
                     selectedReportId: selectedReportId,
@@ -226,7 +384,11 @@
                     selectedItemCode :selectedItemCode,
                     selectedItemTitle: selectedItemTitle,
                     SetOrderData: SetOrderData,
-                    errorList:errorList,
+                    To: To,
+                    CC: CC,
+                    Subject: Subject,           
+                    errorList: errorList,
+                    SelectedEmailReport: SelectedEmailReport,
                     show: show,
                     ReportTitle: ReportTitle,
                     hide: hide,
@@ -234,7 +396,8 @@
                     hideEmailView: hideEmailView,
                     hTmlMessageA: hTmlMessageA,
                     droppedEmailSection: droppedEmailSection,
-                    ckEditorOpenFrom: ckEditorOpenFrom
+                    ckEditorOpenFrom: ckEditorOpenFrom,
+                    sendEmailReport: sendEmailReport
                 };
             })()
         };

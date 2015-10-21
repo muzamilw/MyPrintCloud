@@ -12,6 +12,10 @@
     string htmlVal = string.Empty;
     string lblTaxLabel = string.Empty;
     stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
+
+}
+@{
+    Layout = null;
 }
 @Styles.Render("~/Content/js-image-slider-detail")
 
@@ -35,9 +39,10 @@
     }
 }
 <link href="~/Content/jquery.rating.css" rel="stylesheet" />
+
 @using (Html.BeginForm())
 {
-    <div class="container content_area">
+    <div class="container content_area" id="all-productDetail-pg">
 
 
         <div class="left_right_padding">
@@ -74,40 +79,24 @@
                                 @if (ViewBag.TemplateID > 0)
                                 {
                                     <div id="divFaourites" class="">
-                                        @if (ViewBag.isAllowBackOrder)
+                                       
+                                                <input id="btnEditThisDesign" value="Design Now" type="button"
+                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" onclick="return OpenDesigner(0);" />
+                                        @if (Model.IsUploadImage == true)
                                         {
 
-                                            <a onclick="return ShowDesignNow();">
-                                                <input id="btnEditThisDesign" value="Design Now" type="button"
-                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
-                                            </a>
-
+                                        <a href="@ViewBag.btnUploadDesignPath">
+                                            <input id="btnUploadDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" type="button"
+                                                   class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
+                                        </a>
 
                                         }
-                                        else
-                                        {
-                                            <a onclick="return ShowDesignNow();">
-                                                <input id="btnEditThisDesign" value="Design Now" type="button"
-                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
-                                            </a>
-                                        }
-
-                                        @*@if (ViewBag.Count > 0)
-                                            {
-                                            templateCountLabel = ViewBag.Count + " other template(s)";
-                                            }
-                                            else
-                                            {
-                                            templateCountLabel = "";
-                                            }
-                                            <label id="lblTemplateCount" class="lblTemplateCount">@templateCountLabel</label>*@
+                                       
                                         <div class="clear">
                                         </div>
                                     </div>
 
-                                    @*<button id="btnStartCreating" value="Other designs"
-                                        class="start_creating_btn_prodDetail_blk rounded_corners5 marginBtm10" onclick="btnStartCreating_Click"
-                                         >Design Now</button>*@
+
                                 }
                                 else
                                 {
@@ -115,6 +104,15 @@
                                         <input id="btnEditThisDesign" value="Design Now" type="button"
                                                class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
                                     </a>
+                                    if (Model.IsUploadImage == true)
+                                    {
+
+                                        <a href="@ViewBag.btnUploadDesignPath">
+                                            <input id="btnUploadDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" type="button"
+                                                   class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
+                                        </a>
+
+                                    }
                                 }
 
 
@@ -124,18 +122,18 @@
                         {
                             <div id="finishedGoodSpecs" class="box_specFinisedGood">
                                 <div class="mrginBtm">
-                                    <label id="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId, "Specification"))</label>
                                 </div>
                                 <label id="lblCategoryCode2" class="marginall5">@ViewBag.lblCategoryCode2</label>
                                 <br />
                                 <p class="marginall5">
-                                    <label id="ltrlCatDesc2">@ViewBag.ltrlCatDesc2</label>
+                                    <label id="ltrlCatDesc2">@Html.Raw(ViewBag.ltrlCatDesc2)</label>
                                 </p>
                                 <br />
                                 @if (ViewData["CostCentersList"] != null)
                                 {
                                     <label id="lbl_RefiningOptions" class="marginall5 ProductDetailH2">
-                                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.WBStoreId))
+                                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.WBStoreId, "Refining Options"))
                                     </label>
                                 }
                                 <div class="marginall5 ProductDetailRefOptions">
@@ -157,25 +155,21 @@
                         }
                         @if (Model.ProductType == (int)ProductType.NonPrintProduct)
                         {
-                            if (ViewBag.TemplateID == 0)
+                            if (Model.IsUploadImage == true)
                             {
-                                if (ViewBag.isAllowBackOrder)
-                                {
+                                
                                     <a href="@ViewBag.btnUploadDesignPath">
-                                        <input id="btnUploadDesign" value="Add to Cart" type="button"
+                                        <input id="btnUploadDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" type="button"
                                                class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
                                     </a>
 
-                                }
-                                else
-                                {
-                                    <a href="@ViewBag.btnUploadDesignPath">
-                                        <input id="btnUploadDesign" value="Add to Cart" type="button"
-                                               class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
-                                    </a>
-
-                                }
-
+                            }
+                            else
+                            {
+                                <a href="@ViewBag.btnUploadDesignPath">
+                                    <input id="btnUploadDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart", UserCookieManager.WBStoreId, "Add to Cart"))" type="button"
+                                           class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
+                                </a>
                             }
                         }
                         else if (Model.ProductType == (int)ProductType.MarketingBrief)
@@ -183,15 +177,15 @@
                             if (ViewBag.IsUserLogin == 1) // check if user login or not ??
                             {
                                 <a href="/MarketingBrief/@Model.ProductName/@Model.ItemId/@ViewBag.hfCategoryId" onclick="ShowLoader();">
-                                    <input id="btnBrief" value="Submit Inquiry" type="button"
+                                    <input id="btnBrief" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" type="button"
                                            class="MB_SendINqBtn rounded_corners5 padding0imp" />
                                 </a>
                             }
                             else
                             {
-                                <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Model.ProductName','@Model.ItemId','@ViewBag.hfCategoryId');">
-                                    
-                                    <input id="btnBrief" value="Submit Inquiry" type="button"
+                                <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(Model.ProductName)','@Model.ItemId','@ViewBag.hfCategoryId');">
+
+                                    <input id="btnBrief" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" type="button"
                                            class="MB_SendINqBtn rounded_corners5 padding0imp" />
                                 </a>
                             }
@@ -246,7 +240,7 @@
                     @if (ViewBag.IsTemplateProductWithBanner == true)
                     {
                         <div id="bannnerContainer">
-                            <img id="templBannerImg" class="product-detail-banner-slider" src="@ViewBag.TempBannerImgURL" style="" />
+                            <img id="templBannerImg" class="product-detail-banner-slider" src="/@ViewBag.TempBannerImgURL" style="    width: 74%;" />
                         </div>
                     }
                     else
@@ -342,7 +336,7 @@
                                 <label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
                                 <br />
                                 <p class="marginall5" style="width: 285px;">
-                                    <label id="lblCatDes">@ViewBag.lblCatDes</label>
+                                    <label id="lblCatDes">@Html.Raw(ViewBag.lblCatDes)</label>
                                 </p>
                                 <br />
                                 @if (ViewData["CostCentersList"] != null)
@@ -396,7 +390,7 @@
                         if (!string.IsNullOrEmpty(Model.TipsAndHints))
                         {
                             <div id="handyInfoFinisedGood" class="white_background rounded_corners" style="padding: 10px;">
-                                <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId))</label>
+                                <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId, "Additional Information"))</label>
                                 <div class="rounded_corners paddingLeft10px paddingBottom10px handyInfocnt">
                                     <br />
                                     <label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints</label>
@@ -421,191 +415,194 @@
                                                 <div class="mrginBtm" style="text-align:left;">
                                                     <label id="lbl_Product_SelectOption" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdSelectOption", UserCookieManager.WBStoreId))</label>
                                                 </div>
+                                                @if (ViewData["PriceMatrix"] != null)
+                                                {
+                                                    <table class="cntwidthProductDetailOnlinePrice" cellpadding="5" cellspacing="0">
 
-                                                <table class="cntwidthProductDetailOnlinePrice" cellpadding="5" cellspacing="0">
 
 
 
-
-                                                    @if (stockOptions != null && stockOptions.Count > 0)
-                                                    {
-                                                        <tr>
-                                                            <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp" id="lbl_Quantity">
-                                                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId))
-                                                            </td>
-
-                                                            @foreach (var stock in stockOptions)
-                                                            {
-
-                                                                <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <span id="lblHeaderText1">@stock.StockLabel</span>
+                                                        @if (stockOptions != null && stockOptions.Count > 0)
+                                                        {
+                                                            <tr>
+                                                                <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp" id="lbl_Quantity">
+                                                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))
                                                                 </td>
-                                                            }
 
-
-                                                        </tr>
-
-
-                                                    }
-
-
-
-                                                    @foreach (var ObjPriceMatrix in ViewData["PriceMatrix"] as List<ItemPriceMatrix>)
-                                                    {
-
-                                                        <tr>
-                                                            <td class="product_detail_item_cell procu_detail_grid_cell">
-                                                                <input type="hidden" id="txtHiddenPriceMatrixID" value='@ObjPriceMatrix.PriceMatrixId' />
-
-                                                                @if (ViewBag.txtIsQuantityRanged == "false")
+                                                                @foreach (var stock in stockOptions)
                                                                 {
-                                                                    <span id="spanFixedQuantity">
-                                                                        @ObjPriceMatrix.Quantity
-                                                                    </span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span id="spanRangedQuantity">
-                                                                        @ObjPriceMatrix.QtyRangeFrom
-                                                                        -
-                                                                        @ObjPriceMatrix.QtyRangeTo
-                                                                    </span>
+
+                                                                    <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
+                                                                        style="text-align: right;">
+                                                                        <span id="lblHeaderText1">@stock.StockLabel</span>
+                                                                    </td>
                                                                 }
 
-                                                            </td>
 
-                                                            @if (stockOptions.Count > 0)
-                                                            {
-                                                                <td id="td1" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn1">
-                                                                        <span id='Matt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType1'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType1.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
+                                                            </tr>
 
-                                                            @if (stockOptions.Count > 1)
-                                                            {
-                                                                <td id="td2" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn2">
-                                                                        <span id='Glossy_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType2'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType2.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
 
-                                                            @if (stockOptions.Count > 2)
-                                                            {
-                                                                <td id="td3" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn3">
-                                                                        <span id='PremiumMatt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType3'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType3.ToString())
+                                                        }
+
+
+
+                                                        @foreach (var ObjPriceMatrix in ViewData["PriceMatrix"] as List<ItemPriceMatrix>)
+                                                        {
+
+                                                            <tr>
+                                                                <td class="product_detail_item_cell procu_detail_grid_cell">
+                                                                    <input type="hidden" id="txtHiddenPriceMatrixID" value='@ObjPriceMatrix.PriceMatrixId' />
+
+                                                                    @if (ViewBag.txtIsQuantityRanged == "false")
+                                                                    {
+                                                                        <span id="spanFixedQuantity">
+                                                                            @ObjPriceMatrix.Quantity
                                                                         </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 3)
-                                                            {
-                                                                <td id="td4" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='4_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType4'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType4.ToString())
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span id="spanRangedQuantity">
+                                                                            @ObjPriceMatrix.QtyRangeFrom
+                                                                            -
+                                                                            @ObjPriceMatrix.QtyRangeTo
                                                                         </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 4)
-                                                            {
-                                                                <td id="td5" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='5_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType5'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType5.ToString())
-                                                                        </span>
-                                                                    </div>
+                                                                    }
+
                                                                 </td>
 
-                                                            }
+                                                                @if (stockOptions.Count > 0)
+                                                                {
+                                                                    <td id="td1" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn1">
+                                                                            <span id='Matt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType1'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType1.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
 
-                                                            @if (stockOptions.Count > 5)
-                                                            {
-                                                                <td id="td6" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='6_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType6'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType6.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
+                                                                @if (stockOptions.Count > 1)
+                                                                {
+                                                                    <td id="td2" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn2">
+                                                                            <span id='Glossy_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType2'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType2.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
 
-                                                            @if (stockOptions.Count > 6)
-                                                            {
-                                                                <td id="td7" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='7_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType7'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType7.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
+                                                                @if (stockOptions.Count > 2)
+                                                                {
+                                                                    <td id="td3" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn3">
+                                                                            <span id='PremiumMatt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType3'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType3.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 3)
+                                                                {
+                                                                    <td id="td4" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='4_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType4'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType4.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 4)
+                                                                {
+                                                                    <td id="td5" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='5_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType5'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType5.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
 
-                                                            @if (stockOptions.Count > 7)
-                                                            {
-                                                                <td id="td8" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='8_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType8'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType8.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 8)
-                                                            {
-                                                                <td id="td9" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='9_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType9'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType9.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 9)
-                                                            {
-                                                                <td id="td10" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='10_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType10'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType10.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 10)
-                                                            {
-                                                                <td id="td11" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='11_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType11'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType11.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                        </tr>
-                                                    }
+                                                                }
 
-                                                </table>
+                                                                @if (stockOptions.Count > 5)
+                                                                {
+                                                                    <td id="td6" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='6_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType6'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType6.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+
+                                                                @if (stockOptions.Count > 6)
+                                                                {
+                                                                    <td id="td7" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='7_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType7'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType7.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+
+                                                                @if (stockOptions.Count > 7)
+                                                                {
+                                                                    <td id="td8" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='8_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType8'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType8.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 8)
+                                                                {
+                                                                    <td id="td9" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='9_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType9'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType9.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 9)
+                                                                {
+                                                                    <td id="td10" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='10_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType10'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType10.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 10)
+                                                                {
+                                                                    <td id="td11" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='11_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType11'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType11.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                            </tr>
+                                                        }
+
+                                                    </table>
+                                                }
+                                             
                                                 <div class="product_detail_note">
 
                                                     <label id="lblTaxLabel" class="lblTxtProdDet">@ViewBag.VATLabel</label>
@@ -629,7 +626,7 @@
 
                             <div class="whitebackground">
 
-                                <label id="lbl_Product_Description" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdDescHeadingText", UserCookieManager.WBStoreId))</label>
+                                <label id="lbl_Product_Description" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdDescHeadingText", UserCookieManager.WBStoreId, "Product Description"))</label>
                                 <div class="displayBlock rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 
                                     <label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification</label>
@@ -647,7 +644,7 @@
 
                             <div class="whitebackground">
 
-                                <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId))</label>
+                                <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId, "Additional Information"))</label>
                                 <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 
                                     <label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints</label>
@@ -658,48 +655,68 @@
                     }
 
 
-                    @if (!string.IsNullOrEmpty(Model.LayoutGridContent))
+                    @if (!string.IsNullOrEmpty(Model.GridImage) || !string.IsNullOrEmpty(Model.File1) || !string.IsNullOrEmpty(Model.File2) || !string.IsNullOrEmpty(Model.File3) || !string.IsNullOrEmpty(Model.File4))
                     {
                         <div id="LyoutGridCont"
                              class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
 
                             <div class="whitebackground">
 
-                                <label id="lbl_KeyFeatures" text="" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId))</label>
+                                <label id="lbl_KeyFeatures" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId, "Key Features"))</label>
                                 <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
-                                    <br />
-                                    <label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
-                                    <br />
-                                    <br />
+                                    @*<br />
+                                        <label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
+                                        <br />
+                                        <br />*@
                                     <div class="float_left_simple">
                                         @if (!string.IsNullOrEmpty(Model.GridImage))
                                         {
-                                            <img id="GridImg" class="ImageHW" src="@Model.GridImage" />
+                                            <img id="GridImg" class="ImageHW" src="/@Model.GridImage" />
                                         }
 
                                     </div>
                                     <div class="float_left_simple MLftTop">
                                         @if (!string.IsNullOrEmpty(Model.File1))
                                         {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconPs" href="@Model.File1" target="_blank"><img id="ImgIconPss" class="ImageHW" src="@path" /></a>
+
+
+                                            <a id="IcoPhotoshop" href="/@Model.File1" target="_blank" class="DownloadImages">
+                                                <img src="@ViewBag.File1Url" />
+                                            </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File2))
                                         {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconAi" href="@Model.File2" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
+
+
+                                            <a id="IcoIllustrator" href="/@Model.File2" target="_blank" class="DownloadImages">
+                                                <img src="@ViewBag.File2Url" />
+                                            </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File3))
                                         {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconId" href="@Model.File3" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
+
+
+
+
+                                            <a id="Icoindesign" href="/@Model.File3" target="_blank" class="DownloadImages">
+                                                <img src="@ViewBag.File3Url" />
+                                            </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File4))
                                         {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
-                                        }
 
+
+                                            <a id="IcoPdf" href="/@Model.File4" target="_blank" class="DownloadImages">
+                                                <img src="@ViewBag.File4Url" />
+                                            </a>
+                                        }
+                                        @if (!string.IsNullOrEmpty(Model.File5))
+                                        {
+
+                                            <a id="IcoPdf" href="/@Model.File5" target="_blank" class="DownloadImages">
+                                                <img src="@ViewBag.File4Url" />
+                                            </a>
+                                        }
 
 
                                     </div>
@@ -710,7 +727,30 @@
                             </div>
                         </div>
                     }
+                    @if (ViewData["ItemVideo"] != null)
+                    {
+                        <div id="LyoutGridCont"
+                             class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
 
+                            <div class="whitebackground">
+
+                                <label id="lbl_KeyFeatures" class="ProductDetailH2">Video(s)</label>
+                                @foreach (var videoLink in ViewData["ItemVideo"] as List<MPC.Models.DomainModels.ItemVideo>)
+                                {
+                                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 paddingLeft10px paddingBottom10px ">
+
+                                        @*<iframe width="100%"
+                                                height="315"
+                                                src="@videoLink.VideoLink"
+                                                frameborder="0"
+                                                allowfullscreen></iframe>*@
+                                        @Html.Raw(videoLink.VideoLink)
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    }
 
                 </div>
                 <div class="clearBoth">
@@ -752,8 +792,8 @@
             <div class="product_detail_sup_padding">
                 <div id="tabs" class="float_left_simple width93per" style="text-align: left !important;">
                     <ul class="MLeft40 MBtm marginbtm5Imp" style="display: none;">
-                        <li id="lbl_HowToVideo" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top PaddingtopCentreAlign" onclick="tabify('tabs4','MainContent_btnHowToVideo')">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHowToVideo", UserCookieManager.WBStoreId))</li>
-                        <li id="lbl_MatchingSets" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top " onclick="tabify('tabs5','MainContent_btnMatchingSets')">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlmatchingset", UserCookieManager.WBStoreId))</li>
+                        <li id="lbl_HowToVideo" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top PaddingtopCentreAlign" onclick="tabify('tabs4','MainContent_btnHowToVideo')">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHowToVideo", UserCookieManager.WBStoreId, "How To Video"))</li>
+                        <li id="lbl_MatchingSets" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top " onclick="tabify('tabs5','MainContent_btnMatchingSets')">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlmatchingset", UserCookieManager.WBStoreId, "Matching Sets"))</li>
                     </ul>
 
                 </div>
@@ -781,558 +821,126 @@
 
     </div>
 }
-@section scripts
-			{
-    @Scripts.Render("~/bundles/SliderDetail")
-
-    <script src="~/Scripts/PopUp.js"></script>
-    <script src="~/Scripts/jquery.rating.js"></script>
-    <script type="text/javascript">
-
-        function displayFileUploadPopup(btnUploadFile) {
-
-            var result = false;
-            result = validateFileSelection();
-            if (result == false)
-                alert("Please select file");
-            else {
-
-                var overLay = $("#lblFileProgressOverlay");
-                $(overLay).addClass("overlay");
-                $("#lblFileLoader").css('visibility', "visible");
-            }
-
-
-            return result;
-
-        }
-
-        function validateFileSelection() {
-
-            //debugger;
-            var addedFileDivsList = $("div .MultiFile-label");
-
-            if (addedFileDivsList.length > 0)
-                return true;
-            else
-                return false;
-        }
-
-        var productTotal = 0;
-
-        var prouctTotalSavings = 0;
-        var addonTotalSavings = 0;
-
-        function checkUnCheckRadio(radionButton) {
-            var radiosList = $(".radioBtnQtyGroupClass");
-
-            if (radiosList != null) {
-
-                $(radiosList).each(function (indx, objVal) {
-
-                    //debugger;
-                    if ($(this).attr("id") != $(radionButton).attr("id")) {
-                        $(this).attr("checked", false);
-                    }
-                });
-            }
-
-            //Finally make selecten changes
-            makePaperSelectection();
-        } //checkUnCheckRadio
-
-
-
-        /*Adon Pricess methods*/
-        function calculateAdOnPrices() {
-
-            //Set the AddonTotals on Global Variable
-            this.displayTotalPrice(productTotal, goThroughAdOnPricesChkBoxesForTotal());
-        }
-
-        function goThroughAdOnPricesChkBoxesForTotal() {
-
-
-            var checkedPriceTotal = 0;
-            var addonSaving = 0;
-            var checkBoxJasonData = null;
-
-            $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
-
-                if ($(this).attr("checked") == "checked") {
-                    //Gets the Jason Data associated with it
-                    checkBoxJasonData = jQuery.parseJSON($(this).attr("CheckBoxJasonData"));
-
-                    if (checkBoxJasonData != null) {
-
-                        if (checkBoxJasonData.IsDiscounted == false) {
-
-                            checkedPriceTotal = checkedPriceTotal + parseFloat(checkBoxJasonData.ActualPrice); //Gets Actual non discounted Price
-                        }
-                        else {
-                            checkedPriceTotal = checkedPriceTotal + parseFloat(checkBoxJasonData.DiscountedPrice); //Gets Actual non discounted Price
-                            addonSaving = addonSaving + (parseFloat(checkBoxJasonData.ActualPrice) - parseFloat(checkBoxJasonData.DiscountedPrice));
-                        }
-                    }
-                }
-                checkBoxJasonData = null;
-            });
-
-            addonTotalSavings = addonSaving; //global variable
-            return checkedPriceTotal;
-        }
-
-        /*End Adon Pricess methods*/
-
-
-        function displayTotalPrice(productPrice, addOnPrice) {
-
-            //debugger;
-            var productPriceTotal = productPrice;
-            var addonPriceTotal = addOnPrice;
-
-
-            this.displayProductItemTotal(productPriceTotal.toFixed(2));
-            this.displayAddOnTotal(addonPriceTotal.toFixed(2))
-
-            var total = productPriceTotal + addonPriceTotal;
-            $("#lblGrossTotal").text(getCurrencySymbol() + (total).toFixed(2));
-
-            //Dispaly the savings as well
-            $("#lblYouHaveSave").text('You have saved ' + getCurrencySymbol() + (prouctTotalSavings + addonTotalSavings).toFixed(2));
-        }
-
-
-        function displayProductItemTotal(price) {
-
-
-        }
-
-        function displayAddOnTotal(totalPrice) {
-
-
-
-        }
-
-
-        function makePaperSelectection() {
-
-            var paperTypeRadioList = $(".radioBtnPaperTypeClass");
-
-            if (paperTypeRadioList !== null && paperTypeRadioList.length > 0) {
-                //get the checked paper radio
-                //debugger;
-                var selectedRadio = findSelectedPaperTypeRadio(paperTypeRadioList);
-
-                if ($(selectedRadio).length > 0) {
-                    if ($(selectedRadio).attr("id").search(/rbPaperPremiumMatt/) != -1) {
-                        calculateProductItemPrice('PremiumMatt');
-                    }
-                    else if ($(selectedRadio).attr("id").search(/rbPaperMatt/) != -1) {
-                        calculateProductItemPrice('Matt');
-                    }
-                    else if ($(selectedRadio).attr("id").search(/rbPaperGlossy/) != -1) {
-
-                        calculateProductItemPrice('Glossy');
-                    }
-                }
-            }
-        } //makePaperSelectection
-
-
-
-        function ShowMessage() {
-            var type = $('#hfEditTempType').val();
-            // alert(type);
-            if (type == "NoTemplate") {
-                showProgress();
-                return true;
-            } else if (type == "SameTemplate") {
-                //alert("2");
-                ShowPopup2("Alert!", "You already have the same template in designer mode Would you like to resume your design or start from scratch ?");
-                return false;
-            } else if (type == "SameItem") {
-                // alert();
-                ShowPopup2("Alert!", "you already have another template in designer mode. Would you like to continue modifiing the design or create new ");
-                return false;
-            }
-            return false;
-            //
-        }
-        function calculateProductItemPrice(selectedPaperType) {
-
-            //debugger;
-            var qtyJsonData = null;
-            var radioQty = this.findSelectedQtyRadio();
-            var selectedPrice = null;
-            var savings = 0;
-
-            if ($(radioQty).length > 0) {
-                qtyJsonData = jQuery.parseJSON($(radioQty).attr("QtyJason"));
-
-                selectedPaperType = selectedPaperType + '_PriceMatrixID_' + qtyJsonData.PriceMatrixID.toString();
-
-                if (qtyJsonData.IsDiscounted == false)
-                    selectedPrice = parseFloat($('#' + selectedPaperType).attr("title")); // pick non discounted price
-                else {
-
-                    var actualPrice = parseFloat($('#' + selectedPaperType).attr("title")); // pick non discounted price
-                    //get the discounted Price for this search the span having disconted Price
-                    selectedPrice = triverseForDiscountedPrice(selectedPaperType);
-                    //save ammount
-                    savings = actualPrice - selectedPrice;
-                }
-
-                //alert(savings);
-                //debugger;
-                productTotal = selectedPrice; //global variables
-                prouctTotalSavings = savings; //global variables
-                this.displayTotalPrice(productTotal, goThroughAdOnPricesChkBoxesForTotal());
-            }
-        } //calculateProductItemPrice
-
-
-        function triverseForDiscountedPrice(selectedPaperType) {
-
-            //debugger;
-            //var spanDiscounted = $($('#' + selectedPaperType).children()[1]).text().toString().replace(/^[$]/, '');
-            var currSymbol = getCurrencySymbol();
-            var spanDiscounted = $($('#' + selectedPaperType).children()[1]).text().toString().replace(/^[currSymbol]/, '');
-
-            var arr = spanDiscounted.split(currSymbol);
-
-            return parseFloat(arr[1]); //one will hve the numeric value
-
-        } //triverseForDiscountedPrice
-
-        function findSelectedPaperTypeRadio(paperTypeRadioList) {
-
-            var selectedPaperRadio = null;
-
-            $(paperTypeRadioList).each(function (indx, obj) {
-                if ($(this).attr("checked") == "checked" && selectedPaperRadio == null) {
-
-                    selectedPaperRadio = $(this);
-                }
-            });
-
-            return selectedPaperRadio;
-
-        } //findSelectedPaperTypeRadio
-
-        function LoginPopUp() {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="/Scripts/js-image-slider-detail.js"></script>
+<script src="~/Scripts/PopUp.js"></script>
+<script src="~/Scripts/jquery.rating.js"></script>
+<script type="text/javascript">
+
+
+    function ShowMessage() {
+        var type = $('#hfEditTempType').val();
+        // alert(type);
+        if (type == "NoTemplate") {
+            showProgress();
             return true;
-        }
+        } else if (type == "SameTemplate") {
+            //alert("2");
+            ShowPopup2('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalert", UserCookieManager.WBStoreId, "Alert!"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgg", UserCookieManager.WBStoreId, "You already have the same template in designer mode Would you like to resume your design or start from scratch ?"))');
+            return false;
+        } else if (type == "SameItem") {
+            // alert();
+            ShowPopup2('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalert", UserCookieManager.WBStoreId, "Alert!"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldescreatnew", UserCookieManager.WBStoreId, "you already have another template in designer mode. Would you like to continue modifiing the design or create new"))');
 
-        function findSelectedQtyRadio() {
-
-            var radiosList = $(".radioBtnQtyGroupClass");
-            var selectedQty = null;
-
-            if (radiosList != null) {
-                $(radiosList).each(function (indx, objVal) {
-                    if ($(this).attr("checked") == "checked" && selectedQty == null) {
-
-                        selectedQty = $(this);
-                    }
-                });
-            }
-
-            return selectedQty;
-        }
-
-
-
-
-
-        function clearMsgLabel() {
-
-
-        }
-
-        function CreateMultipleUpload() {
-            //set up the file upload
-
-        }
-
-        function FileUploaderShow() {
-
-            $find('mpeUploadYourDesignPopup').show();
-        }
-
-        function FileUploaderHide() {
-
-            $find('mpeUploadYourDesignPopup').hide();
-            $('input:file').MultiFile('reset');
-
-            clearMsgLabel();
-        }
-
-
-
-
-    </script>
-
-    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
-
-    <div id="fb-root"></div>
-    <script>
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1421343758131537&version=v2.0";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-    <script type="text/javascript">
-        function OpenNewWindowToSahre() {
-            var WindHref = window.location.href;
-            while (WindHref.indexOf(";") > 0) {
-                WindHref = WindHref.replace(";", "%3B");
-
-            }
-
-            var w = 620;
-            var h = 360;
-            var left = (screen.width / 2) - (w / 2);
-            var top = (screen.height / 2) - (h / 2);
-            window.open("https://twitter.com/intent/tweet?original_referer=" + WindHref + "&related=jasoncosta&text=-%20UK&tw_p=tweetbutton&url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
             return false;
         }
-
-        function OpenNewWindowToSahreWithFaceBook() {
-
-            var WindHref = $("#hfFbShareLink").val();
-            while (WindHref.indexOf(";") > 0) {
-                WindHref = WindHref.replace(";", "%3B");
-
-            }
-            WindHref = WindHref.replace(":", "%3A");
-            while (WindHref.indexOf("/") > 0) {
-                WindHref = WindHref.replace("/", "%2F");
-
-            }
-            while (WindHref.indexOf("=") > 0) {
-                WindHref = WindHref.replace("=", "%3D");
-
-            }
-            while (WindHref.indexOf("&") > 0) {
-                WindHref = WindHref.replace("&", "%26");
-
-            }
-            WindHref = WindHref.replace("?", "%3F");
-            //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-            var w = 620;
-            var h = 360;
-            var left = (screen.width / 2) - (w / 2);
-            var top = (screen.height / 2) - (h / 2);
-            window.open("https://www.facebook.com/sharer.php?app_id=1421343758131537&sdk=joey&u=" + WindHref + "&display=popup", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-            return false;
-        }
-
-        function ShareOnLinkIn() {
-
-            var WindHref = $("#hfFbShareLink").val();
-            while (WindHref.indexOf(";") > 0) {
-                WindHref = WindHref.replace(";", "%3B");
-
-            }
-            WindHref = WindHref.replace(":", "%3A");
-            while (WindHref.indexOf("/") > 0) {
-                WindHref = WindHref.replace("/", "%2F");
-
-            }
-            while (WindHref.indexOf("=") > 0) {
-                WindHref = WindHref.replace("=", "%3D");
-
-            }
-            while (WindHref.indexOf("&") > 0) {
-                WindHref = WindHref.replace("&", "%26");
-
-            }
-            WindHref = WindHref.replace("?", "%3F");
-            //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-            var w = 620;
-            var h = 360;
-            var left = (screen.width / 2) - (w / 2);
-            var top = (screen.height / 2) - (h / 2);
-            window.open("http://www.linkedin.com/cws/share?url=" + WindHref + "&original_referer=" + WindHref + "&token=&isFramed=false&lang=en_US&_ts=1401271443305.631", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-            return false;
-        }
+        return false;
+        //
+    }
 
 
-        function ShareOnGooglePl() {
-
-            var WindHref = $("#hfFbShareLink").val();
-            while (WindHref.indexOf(";") > 0) {
-                WindHref = WindHref.replace(";", "%3B");
-
-            }
-            WindHref = WindHref.replace(":", "%3A");
-            while (WindHref.indexOf("/") > 0) {
-                WindHref = WindHref.replace("/", "%2F");
-
-            }
-            while (WindHref.indexOf("=") > 0) {
-                WindHref = WindHref.replace("=", "%3D");
-
-            }
-            while (WindHref.indexOf("&") > 0) {
-                WindHref = WindHref.replace("&", "%26");
-
-            }
-            WindHref = WindHref.replace("?", "%3F");
-            //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-            var w = 620;
-            var h = 360;
-            var left = (screen.width / 2) - (w / 2);
-            var top = (screen.height / 2) - (h / 2);
-            window.open("https://plus.google.com/share?url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-            return false;
-        }
+    function LoginPopUp() {
+        return true;
+    }
 
 
 
-        $(document).ready(function () {
+    function FileUploaderShow() {
 
-            var hiddenFieldID1 = "input[id$=txtTemplateID]";
-            var templateId = @ViewBag.TemplateID;
+        $find('mpeUploadYourDesignPopup').show();
+    }
 
-            var itemId = $('#hfItemId').val();
-            var templatename = $('#hfTemplateName').val();
-            var categoryId = $('#hfCategoryId').val();
+    function FileUploaderHide() {
 
-            //                tabify('tabs1', 'MainContent_btnProductDetails')
-            //  $("#ifrm").attr("src", 'matchingsetpopup.aspx?templatename=' + templatename + "&ProductCategoryId=" + categoryId + "&ItemID=" + itemId);
-            var type = "@ViewBag.hfEditTempType";
+        $find('mpeUploadYourDesignPopup').hide();
+        $('input:file').MultiFile('reset');
 
-            if (type != "FinishedGood") {
-                $('.passive_star').toggle(function () {
-
-                    if (LoginPopUp()) {
-
-                        $(this).removeClass('passive_star').addClass('active_star');
-                        $(this).attr('title', 'Click to remove favorite');
-                        $(".spanFavouriteItem").html("Unmark as favorite");
-                        //var templateId = $(this).next().val();
-                        SavedFarorite(templateId, true);
-                        var FavcountValu = $('.FavCount').text();
-                        var ReplceFav = FavcountValu.replace("(", " ");
-                        var FinalFavCount = ReplceFav.replace(")", " ");
-                        var Count = "(" + (parseInt(FinalFavCount, 10) + 1) + ")";
-                        $('.FavCount').html(Count);
-                    }
-                }, function () {
-                    if (LoginPopUp()) {
-                        $(this).removeClass('active_star').addClass('passive_star');
-                        $(this).attr('title', 'Click to add favorite');
-                        //var templateId = $(this).next().val();
-                        $(".spanFavouriteItem").html("Mark as favorite");
-                        SavedFarorite(templateId, false);
-                        var FavcountValu = $('.FavCount').text();
-                        var ReplceFav = FavcountValu.replace("(", " ");
-                        var FinalFavCount = ReplceFav.replace(")", " ");
-                        var Count = "(" + (parseInt(FinalFavCount, 10) - 1) + ")";
-                        $('.FavCount').html(Count);
-                    }
-                }
-            );
-
-                $('.active_star').toggle(function () {
-                    if (LoginPopUp()) {
-                        $(this).removeClass('active_star').addClass('passive_star');
-                        $(this).attr('title', 'Click to add favorite');
-                        //var templateId = $(this).next().val();
-                        $(".spanFavouriteItem").html("Mark as favorite");
-                        SavedFarorite(templateId, false);
-                        var FavcountValu = $('.FavCount').text();
-                        var ReplceFav = FavcountValu.replace("(", " ");
-                        var FinalFavCount = ReplceFav.replace(")", " ");
-                        var Count = "(" + (parseInt(FinalFavCount, 10) - 1) + ")";
-                        $('.FavCount').html(Count);
-                    }
-                }, function () {
-                    if (LoginPopUp()) {
-                        $(this).removeClass('passive_star').addClass('active_star');
-                        $(this).attr('title', 'Click to remove favorite');
-                        $(".spanFavouriteItem").html("Unmark as favorite");
-                        //var templateId = $(this).next().val();
-                        SavedFarorite(templateId, true);
-                        var FavcountValu = $('.FavCount').text();
-                        var ReplceFav = FavcountValu.replace("(", " ");
-                        var FinalFavCount = ReplceFav.replace(")", " ");
-                        var Count = "(" + (parseInt(FinalFavCount, 10) + 1) + ")";
-                        $('.FavCount').html(Count);
-                    }
-                }
-                );
-            }
-            var type = $('#hfEditTempType').val();
-
-            if (type != "FinishedGood") {
-                var ratingIndex = @ViewBag.ratingControlUserSelectedIndex;
-
-                $("."+ ratingIndex).removeClass('ui-rating-empty').addClass('ui-rating-full');
-                //$("#ratingControlUser").val(3);
-                //$.noConflict();
-                //$(".ratingDisabled").rating({ showCancel: false, disabled: true });
-                //                tabify("tabs5", "MainContent_btnMatchingSets");
-                $(".width93per").css("width", "98%");
-            } else if (type == "FinishedGood") {
-            
-                $(".width93per").css("width", "98%");
-            }
-
-        });
+    }
 
 
 
-        function SavedFarorite(templateId, isFavorite) {
 
-            var contactId = $('#hfContactId').val();
-            var itemId = $('#hfItemId').val();
-            var categoryId = $('#hfCategoryId').val();
+</script>
 
-            //alert(templateId + "  " + itemId + " " + categoryId);
-            if (parseInt(contactId) > 0) {
+<script>
 
-                Web2Print.UI.Services.WebStoreUtility.AddUpdateFavDesign(templateId, itemId, contactId, categoryId, isFavorite, OnSuccess);
-            }
-        }
 
-        function OnSuccess(responce) {
+    function UploadDesign(path) {
 
-        }
+        window.location.href = path;
+        return true;
+    }
 
-        function UploadDesign(path) {
-   
-            window.location.href = path;
-            return true;
-        }
-        function ShowDesignNow()
-        {
+    function OpenDesigner(CheckTemplateOptions) {
+    
 
+        if (CheckTemplateOptions != -1) {
             var EditType = "@ViewBag.hfEditTempType";
             var ItemID = "@Model.ItemId";
             var TempID = "@ViewBag.TemplateID";
+            if (EditType == "NoTemplate" || EditType == "") {
 
-            if (EditType == "NoTemplate") {
                 window.location.href = "/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
 
             } else if (EditType == "SameTemplate") {
                 //alert("2");
-                ShowPopUpDesignNow('Alert!', 'You already have the same template in designer mode Would you like to resume your design or start from scratch ?','SameTemplate',ItemID,TempID)
+                ShowPopUpDesignNow('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalert", UserCookieManager.WBStoreId, "Alert!"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgg", UserCookieManager.WBStoreId, "You already have the same template in designer mode Would you like to resume your design or start from scratch ?"))', 'SameTemplate', ItemID, TempID)
 
 
             } else if (EditType == "SameItem") {
                 // alert();
-                ShowPopUpDesignNow('Alert!', 'you already have another template in designer mode. Would you like to continue modifiing the design or create new','SameItem',ItemID,TempID)
+                ShowPopUpDesignNow('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalert", UserCookieManager.WBStoreId, "Alert!"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrllllffdf", UserCookieManager.WBStoreId, "you already have another template in designer mode. Would you like to continue modifying the design or create new"))', 'SameItem', ItemID, TempID)
 
             }
             return false;
-
         }
+    }
+    function GoToDesigner(Header, Message) {
+        var ItemID = "@Model.ItemId";
+        var Path = "/Category/CloneItem/" + ItemID;
+        Header = "Alert!";
+        Message = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsureremveitemfromcart", UserCookieManager.WBStoreId, "Are you sure you want to remove this item from your cart?"))';
+        var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Header + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=ConfirmRemove(' + ItemID + ',' + OrderID + '); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
 
+        var bws = getBrowserHeight();
+        var shadow = document.getElementById("innerLayer");
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
 
-    </script>
-}
+        var left = 0;
+        var top = parseInt((bws.height - 170) / 2);
+
+        if (bws.width < 640) {
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+
+        } else {
+            left = parseInt((bws.width - 500) / 2);
+            document.getElementById("innerLayer").style.width = "500px";
+        }
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.top = top + "px";
+        document.getElementById("innerLayer").style.left = left + "px";
+
+        document.getElementById("innerLayer").style.width = "500px";
+        document.getElementById("innerLayer").style.height = "170px";
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+
+        return false;
+    }
+</script>
+

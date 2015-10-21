@@ -1,7 +1,10 @@
 ﻿@using MPC.Models.Common
 @using MPC.Webstore.Common
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+}
+@{
+    
     var featureProducts = ViewData["FeaturedProducts"] as List<MPC.Models.DomainModels.Item>;
     var Categories = ViewData["Categories"] as List<MPC.Models.DomainModels.ProductCategory>;
     var childs = ViewData["childCategory"] as List<MPC.Models.DomainModels.ProductCategory>;
@@ -10,42 +13,42 @@
     string CatName = "ParentCat";
 }
 
-<div class="container body-container spacer-top " id="categoryandProducts">
+<div class="container body-container spacer-top " id="all-categoryProducts-pg">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3  sidebar-offcanvas sidebar" id="sidebar-left" role="navigation">
             <div class="panel panel-info" id="togglemenu_sidebar">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Product Category
+                       @Html.Raw(Html.GetKeyValueFromResourceFile("pctg", UserCookieManager.WBStoreId, "Product Category"))
                     </h3>
                 </div>
                 <div class="panel-body">
                     <div class="panel-group" id="accordionmenu">
-                      @foreach (var category in Categories)
-                      {
-                          <div id="parentCatsContainer"   class="panel panel-default">
-                              <div class="panel-heading">
-                                  <a id="@CatName@count" data-toggle="collapse" data-parent="#accordionmenu" data-id="@count" onclick="sideBarClick('@count');">
-                                      @category.CategoryName
-                                  </a>
-                              </div>
-                              <div id="sidebar_menu_collapse1" class="sideMenuItems panel-collapse collapse ">
-                                  <div class="panel-body">
-                                      <ul class="submenu list-unstyled">
-                                          @foreach (var child in childs)
-                                          {
-                                              if (child.ParentCategoryId == category.ProductCategoryId)
-                                              {
-                                                  <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(child.CategoryName)/@child.ProductCategoryId"><span>@child.CategoryName</span></a></li>
-                                              }
+                        @foreach (var category in Categories)
+                        {
+                            <div id="parentCatsContainer" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a id="@CatName@count" data-toggle="collapse" data-parent="#accordionmenu" data-id="@count" onclick="sideBarClick('@count');">
+                                        @category.CategoryName
+                                    </a>
+                                </div>
+                                <div id="sidebar_menu_collapse1" class="sideMenuItems panel-collapse collapse ">
+                                    <div class="panel-body">
+                                        <ul class="submenu list-unstyled">
+                                            @foreach (var child in childs)
+                                            {
+                                                if (child.ParentCategoryId == category.ProductCategoryId)
+                                                {
+                                                    <li><a id="ltrlSubCatName" href="/Category/@Utils.specialCharactersEncoder(child.CategoryName)/@child.ProductCategoryId"><span>@child.CategoryName</span></a></li>
+                                                }
 
-                                          }    
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
-                          count++;
-                      }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                                            count++;
+                        }
                     </div>
                 </div>
             </div>
@@ -59,48 +62,54 @@
 
                 <div class="col-md-12 col-xs-12">
                     <div class="page-header">
-                        <h1>FEATURED PRODUCTS</h1>
+                        <h1>@Html.Raw(Html.GetKeyValueFromResourceFile("fetProducts", UserCookieManager.WBStoreId, "FEATURED PRODUCTS"))</h1>
                     </div>
                     <div class="middle_inner_section">
                         <div class="row" id="home_page">
-                            
-                           @foreach (var feature in featureProducts)
-                           {
+                            @if (featureProducts != null)
+                            {
+                                foreach (var feature in featureProducts)
+                                {
 
-                               if (feature.ProductType == (int)ProductType.MarketingBrief)
-                               {
+                                    if (feature.ProductType == (int)ProductType.MarketingBrief)
+                                    {
 
-                                   RedirectURL = "/MarketingBrief/" + feature.ProductName + "/" + feature.ItemId;
+                                        RedirectURL = "/MarketingBrief/" + feature.ProductName + "/" + feature.ItemId;
 
-                               }
-                               else if (feature.ProductType == (int)ProductType.PrintProduct)
-                               {
-                                   
-                                       RedirectURL = "/CloneProducts/" + feature.ItemId;
-                                  
-                               }
-                               else if (feature.ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                               {
-                                   RedirectURL = "/ProductOptions/" + 0 + "/" + feature.ItemId + "/UploadDesign";
-                               }
-                            <div class="col-sm-6 col-md-4 col-xs-12 product-box">
-                                <div class="hover-box-shadow">
-                                    <p class="text-center">
-                                        <a href="@RedirectURL" class='thumbnail'>
-                                            <img id="imgFP" src="@feature.ThumbnailPath" class="img-responsive" itemprop="image" />
-                                        </a>
-                                    </p>
-                                    <h3 id="h3FP" itemprop="name">@feature.ProductName</h3>
-                                    <div class="product-desc">
-                                        <p id="paraDescTitle"><strong>@feature.ProductName</strong></p>
-                                        @*<p id="paraDes">@feature.WebDescription</p>*@
-                                        <p class="text-center"><a id="viewDetaillink" href="@RedirectURL" class='btn btn-info'>View details <i class="fa fa-angle-double-right"></i></a></p>
+                                    }
+                                    else if (feature.ProductType == (int)ProductType.PrintProduct)
+                                    {
+
+                                        RedirectURL = "/CloneProducts/" + feature.ItemId;
+
+                                    }
+                                    else if (feature.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                    {
+                                        RedirectURL = "/ProductOptions/" + 0 + "/" + feature.ItemId + "/UploadDesign";
+                                    }
+                                    <div class="col-sm-6 col-md-4 col-xs-12 product-box">
+                                        <div class="hover-box-shadow">
+                                            <p class="text-center">
+                                                <a href="@RedirectURL" class='thumbnail'>
+                                                    <img id="imgFP" src="@feature.ThumbnailPath" class="img-responsive" itemprop="image" />
+                                                </a>
+                                            </p>
+                                            <h3 id="h3FP" itemprop="name">@feature.ProductName</h3>
+                                            <div class="product-desc">
+                                                <p id="paraDescTitle"><strong>@feature.ProductName</strong></p>
+                                                @*<p id="paraDes">@feature.WebDescription</p>*@
+                                                <p class="text-center"><a id="viewDetaillink" href="@RedirectURL" class='btn btn-info'>View details <i class="fa fa-angle-double-right"></i></a></p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                           }
-                                    
-                                
+                                }
+                            }
+                            else
+                            {
+                                <p class="clrRed col-xs-12 col-sm-12">No item found.</p>
+                            }
+
+
                         </div>
                     </div>
                 </div>
@@ -109,8 +118,9 @@
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3  hidden" id="alternate2"></div>
     </div>
 </div>
-@section scripts {
-    <script>
+
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function() {
             sideBarClick(0);
         });
@@ -130,4 +140,3 @@
         }
 
     </script>
-}

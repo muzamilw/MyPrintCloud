@@ -227,7 +227,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
         specifiedisArchived, specifiedTerritoryId, specifiedTerritoryName, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
-        specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
+        specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId, specifiedStateCode) {
         var
             self,
             addressId = ko.observable(specifiedAddressId),
@@ -240,6 +240,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
+            stateCode = ko.observable(specifiedStateCode),
+            stateNamenCode = ko.computed(function () {
+                return stateName() + "( " + stateCode() + " )";
+            }),
             countryName = ko.observable(specifiedCountryName),
             postCode = ko.observable(specifiedPostCode),
             fax = ko.observable(specifiedFax),
@@ -365,6 +369,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             state: state,
             country: country,
             stateName: stateName,
+            stateCode: stateCode,
+            stateNamenCode: stateNamenCode,
             countryName: countryName,
             postCode: postCode,
             fax: fax,
@@ -467,7 +473,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.isPrivate,
             source.isDefaultTerrorityBilling,
             source.isDefaultTerrorityShipping,
-            source.OrganisationId
+            source.OrganisationId,
+            source.StateCode
         );
         return address;
     };
@@ -494,7 +501,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             companyName = ko.observable(undefined),
-            firstName = ko.observable(specifiedFirstName).extend({ required: true }),
+            firstName = ko.observable(specifiedFirstName).extend({ required: { params: true, message: 'This field is required!' } }),
             middleName = ko.observable(specifiedMiddleName),
             lastName = ko.observable(specifiedLastName),
             title = ko.observable(specifiedTitle),
@@ -503,7 +510,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail).extend({ required: true, email: true }),
+            email = ko.observable(specifiedEmail).extend({ required: { params: true, message: 'Please enter Valid Email Address!' }, email: { params: true, message: 'Please enter Valid Email Address!' } }),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
@@ -1081,7 +1088,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.canPlaceDirectOrder,
             source.organisationId,
             source.secondaryEmail,
-            source.BussinessAddressId,
+            source.addressId,
             source.FileName,
             source.StoreName
         );
@@ -1255,7 +1262,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
-    var Store = function (specifiedStoreId,specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+    var Store = function (specifiedStoreId, specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
         specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
         specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
@@ -1268,7 +1275,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ) {
         var self,
             //storeId is used for select store dropdown on crm prospect/customer screen
-            storeId = ko.observable(specifiedStoreId),
+            storeId = ko.observable(specifiedStoreId).extend({ required: true }),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
@@ -1387,6 +1394,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 companyId: companyId,
                 name: name,
+                storeId:storeId,
                 //webAccessCode: webAccessCode,
                 url: url,
             }),
@@ -1474,8 +1482,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 result.URL = source.url();
                 result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
                 result.AccountManagerId = source.accountManagerId();
-                result.AvatRegNumber = source.avatRegNumber();
-                result.PvatRegReference = source.avatRegReference();
+                result.VATRegNumber = source.avatRegNumber();
+                result.VATRegReference = source.avatRegReference();
                 result.PhoneNo = source.phoneNo();
                 result.IsCustomer = source.isCustomer();
                 //result.IsCustomer = source.type();
@@ -1730,8 +1738,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.URL,
             source.AccountOpenDate,
             source.AccountManagerId,
-            source.AvatRegNumber,
-            source.AvatRegReference,
+            source.VATRegNumber,
+            source.VATRegReference,
             source.PhoneNo,
             source.IsCustomer,
             source.Notes,
@@ -2064,7 +2072,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once UnusedLocals
     var Estimate = function (specifiedId, specifiedCode, specifiedName, specifiedCompanyName, specifiedCreationDate,
-        specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder) {
+        specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder,specifiedItemsCount) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -2081,6 +2089,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             creationDate = ko.observable(specifiedCreationDate || undefined),
             flagColor = ko.observable(specifiedFlagColor || undefined),
             orderCode = ko.observable(specifiedOrderCode || undefined),
+            itemscount = ko.observable(specifiedItemsCount),
             isDirectSaleUi = ko.computed(function () {
                 return isDirectOrder() ? "Direct Order" : "Online Order";
             }),
@@ -2133,13 +2142,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
+            itemscount:  itemscount,
             setValidationSummary: setValidationSummary,
         };
     };
     // Estimate Factory
     Estimate.Create = function (source) {
         var estimate = new Estimate(source.EstimateId, source.OrderCode, source.EstimateName, source.CompanyName,
-            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal + '$', source.IsDirectOrder);
+            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal, source.IsDirectOrder,source.ItemsCount);
         return estimate;
     };
 
@@ -2213,6 +2223,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
+            itemscount:  itemscount,
             setValidationSummary: setValidationSummary,
         };
     };

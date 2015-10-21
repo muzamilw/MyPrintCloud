@@ -11,12 +11,15 @@
                     <li><a href="#">&nbsp;</a></li>
                 </ol>
                 <h1 style="padding-left:0px;">Supplier</h1>
-                <div class="clearfix pull-left" style="padding-bottom: 1%">
-                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
+                <div class="clearfix pull-left" style="margin-bottom:19px;padding-top:3px;margin-left:-2px;">
+                    <span class="group-header-description">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</span>
+                </div>
+                <div style="clear: both;max-height: 14px;">
+                    &nbsp;
                 </div>
             </div>
-            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none">
-                <ol class="breadcrumb">
+            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none;">
+                <ol class="breadcrumb" style="padding-left:0px;">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="~/CRM/Home/SuppliersList">Supplier</a></li>
                     <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
@@ -28,21 +31,20 @@
 
                 </ol>
                 <!--ko if: $root.selectedStore() != undefined -->
-                <h1 data-bind="text: $root.selectedStore().name() == undefined ? 'Supplier Name' :  $root.selectedStore().name()"></h1>
+                <h1 data-bind="text: $root.selectedStore().name() == undefined ? 'Supplier Name' :  $root.selectedStore().name()" style="padding-left:0px;"></h1>
                 <!-- /ko -->
 
 
             </div>
-
         </div>
         <div class="row">
-
+            
             <div class="col-lg-12">
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
-                                @Html.ActionLink("All Contacts", "Contacts", "Home")
+                                @Html.ActionLink("Public Store Registered Users", "Contacts", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 @Html.ActionLink("Companies", "Index", "Home")
@@ -52,17 +54,12 @@
                                 <a href="#tab-Supplier" data-toggle="tab">Supplier</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
                                 @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
-
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
-                            </li>
-
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Supplier">
@@ -70,24 +67,25 @@
                                     <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
                                     <div class="col-lg-12">
-                                        <div>
+                                        <div class="tabsdescriptions">
+                                            <p class="group-header-description">Add your Suppliers to allow automatic outsourcing and for stock Replenishment.</p>
+                                        </div>
+                                        <div style="margin-left:10px;margin-right:10px;">
                                             <div>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                @*<th><span>Company</span></th>
-                    <th><span>Created</span></th>
-                    <th class="text-center"><span>Status</span></th>
-                    <th><span>Email</span></th>
-                    <th>&nbsp;</th>*@
-
+                                                               
                                                                 <th class="col-lg-1"></th>
-                                                                <th class="col-lg-3"><span>Company</span></th>
+                                                                <th class="col-lg-3"><span>Supplier</span></th>
                                                                 <th class="col-lg-2"><span>Created</span></th>
-                                                                @*<th class="col-lg-2"><span>Status</span></th>*@
                                                                 <th class="col-lg-2"><span>Email</span></th>
-                                                                @*<th class="col-lg-2">&nbsp;</th>*@
+                                                                <th class="col-lg-2"></th>
+                                                                <th class="col-lg-2"></th>
+
+                                                                
+                                                               
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -105,15 +103,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div>
                                     @{
+                                        
                                         Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
                                     }
                                 </div>
+                               
                             </div>
                         </div>
                     </div>
                 </div>
+               
             </div>
         </div>
     </div>
@@ -130,39 +131,36 @@
 <script id="itemSupplierTemplate" type="text/html">
     <tr data-bind=" click: $root.onEditItem, css: { selectedRow: $data === $root.selectedSupplier}" style="cursor: pointer">
         <td>
-            <img style="width: 70%; max-width: 70%;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+            <!-- ko if: storeImageFileBinary()==='' -->
+            <img style="margin-bottom: -12px; margin-top: -12px;-o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: storeImageFileBinary()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">
+            <!--/ko-->
+            <!-- ko if: storeImageFileBinary()!=='' -->
+            <img style="width: 50px; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+            <!--/ko-->
         </td>
         <td>
             <a href="#" class="store-user-link" data-bind="text: name"></a>
             <span class="user-subhead" data-bind="text:defaultContact"></span>
         </td>
         <td data-bind="dateString: createdDate, datePattern: 'DD/MM/YYYY'"></td>
-        @*<td>
-                <!-- ko if: status() == 1 -->
-                <span class="label label-success">Active</span>
-                <!-- /ko -->
-                <!-- ko if: status() != 1 -->
-                <span class="label label-danger">In-Active</span>
-                <!-- /ko -->
-            </td>*@
+        
         <td>
             <a href="#">
                 <p data-bind="text:defaultContactEmail"></p>
             </a>
         </td>
-        @*<td style="width: 20%;">
-                <a class="table-link" data-bind="click: $root.onEditItem">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            </td>*@
+        <td>
+            &nbsp;
+        </td>
+        <td>
+            &nbsp;
+        </td>
+        
     </tr>
 </script>
 @* Filter Template *@
 <script id="filterTemplate" type="text/html">
-    <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
+    <div class="filter-body" id="filter" style="margin-left: 18px;margin-right: 18px;margin-bottom: 4px;">
         <form data-bind="submit:$root.searchSuppliersByFilters">
             <div class="filter-block pull-right">
                 <div class="form-group pull-left">
@@ -175,7 +173,7 @@
                         Reports
                     </a>
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
-                        Add Supplier
+                        Add New Supplier
                     </a>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewBag.Title = "Company Contacts";
 }
 @section leftmenue {
@@ -6,26 +6,28 @@
 <div class="row" id="contactsBindingRoot">
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" style="padding-left:6px;">
                 <ol class="breadcrumb">
                     <li><a href="#">&nbsp;</a></li>
-                   
+
                 </ol>
-                <h1 style="padding-left:0px;">Contacts</h1>
-                <div class="clearfix pull-left" style="padding-bottom: 1%">
-                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
+                <h1 style="padding-left:0px;">Public Store Registered Users</h1>
+                <div class="clearfix pull-left" style="padding-left:0px;">
+                    <p class="group-header-description">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</p>
                 </div>
+                
             </div>
+            
         </div>
         <div class="row">
-          
-            <div class="col-lg-12">
+
+            <div class="col-lg-12" style="margin-top:14px;">
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
                                 @*@Html.ActionLink("All Contacts", "Contacts", "Home")*@
-                                <a href="#tab-Contacts" data-toggle="tab">All Contacts</a>
+                                <a href="#tab-Contacts" data-toggle="tab">Public Store Registered Users</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 @Html.ActionLink("Companies", "Index", "Home")
@@ -34,26 +36,23 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
                                 @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
-
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
-                            </li>
-
-
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Contacts">
                                 <div class="row">
                                     <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
-                                    <div class="col-lg-12" style="margin-top:15px">
-                                        <div>
+                                    <div class="col-lg-12">
+                                        <div class="tabsdescriptions">
+                                            <p class="group-header-description">Users that sign up on your public retail B2C stores are automatically added to the CRM and the information is stored for Follow up.</p>
+                                        </div>
+                                        <div style="margin-left:10px;margin-right:10px;margin-top:14px;">
                                             <div>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-hover">
@@ -61,29 +60,41 @@
                                                             <tr>
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Name</span></th>
-                                                                <th class="col-lg-3"><span>Email</span></th>
-                                                                <th class="col-lg-3"><span>Company</span></th>
-                                                                <th class="col-lg-3"><span>Store</span></th>
+                                                                <th class="col-lg-2"><span>Email</span></th>
+                                                                <th class="col-lg-2"><span>Store</span></th>
+                                                                <th class="col-lg-2"><span>&nbsp;</span></th>
+                                                                <th class="col-lg-2"><span>&nbsp;</span></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <!-- ko  foreach: $root.companyContactsForListView  -->
                                                             <tr data-bind=" click: $root.editContactbuttonHandler" style="cursor: pointer">
                                                                 <td>
-                                                                    <img style="width: 70%; max-width: 70%;"  data-bind="attr: { src: image()==='' ? 'abc/def':image() }" alt="" />
+                                                                    <!-- ko if: image()==='' -->
+                                                                    @*<img style="margin-bottom: -12px; margin-top: -12px; margin-left: -18%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: image()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">*@
+                                                                    <img style="-o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
+                                                                    <!--/ko-->
+                                                                    <!-- ko if: image()!=='' -->
+                                                                    <img style="width:50px; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
+                                                                    <!--/ko-->
+
                                                                 </td>
                                                                 <td>
-                                                                    <a class="user-link" href="#" data-bind="text: firstName "></a>
+                                                                    <a href="#" data-bind="text: firstName()+' '+lastName(), click: undefined" style="cursor:pointer;" class="user-link"></a>
                                                                     @*<span data-bind="text: email"></span>*@
                                                                 </td>
                                                                 <td>
                                                                     <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
                                                                 </td>
-                                                                <td>
-                                                                    <span data-bind="text:companyName"></span>
-                                                                </td>
+                                                               
                                                                 <td>
                                                                     <span data-bind="text:StoreName"></span>
+                                                                </td>
+                                                                <td>
+                                                                    &nbsp;
+                                                                </td>
+                                                                <td>
+                                                                    &nbsp;
                                                                 </td>
                                                             </tr>
                                                             <!-- /ko -->
@@ -92,15 +103,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="pagerDiv" class="pull-right">
-                                            <!-- ko with: pager -->
-                                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                            <!-- /ko -->
+                                        <div class="col-lg-2" style="width:140px;">
+                                            <a data-toggle="modal" data-bind="click: $root.ExportCSVForCompanyContacts" class="btn btn-primary">
+                                                Export Contacts
+                                            </a>
+                                        </div>
+                                        <div class="fileUpload btn btn-primary">
+                                            <span>Import Contacts</span>
+                                            <input type="file" class="upload" id="csv_files" accept=".csv " data-bind="files: {onLoaded: $root.selectedCsvFileForCompanyContact }" />
                                         </div>
                                     </div>
+                                   
                                 </div>
                                 @Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
                             </div>
+                           
                             <div class="tab-pane fade" id="tab-E-Marketing">
                                 <div class="row">
                                     <div class="col-md-12" style="text-align: center;">
@@ -112,6 +129,11 @@
                         </div>
                     </div>
                 </div>
+                <div id="pagerDiv" class="pull-right">
+                    <!-- ko with: pager -->
+                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                    <!-- /ko -->
+                </div>
             </div>
         </div>
 
@@ -119,7 +141,7 @@
 </div>
 
 <script id="filterTemplate" type="text/html">
-    <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
+    <div class="filter-body" id="filter" style=" margin-left:18px;margin-right:18px; margin-bottom: 4px;">
         <form data-bind="submit: $root.searchButtonHandler">
             <div class="filter-block pull-right">
                 <div class="form-group pull-left" style="margin-right: 2px;">

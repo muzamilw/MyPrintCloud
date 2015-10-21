@@ -99,7 +99,7 @@ var slLLID = 0;
 var isLoading = true;
 var udCutMar = 0;
 var bleedPrinted = false;
-
+var propertyImages = null;
 var D1CD = false;
 var D1SD = false;
 var D1SK = 16, ctrlKey = 17, vKey = 86, cKey = 67;
@@ -136,9 +136,10 @@ var crv2 = 0;
 var crv3 = 0;
 var crv4 = 0;
 var crv5 = 0;
+var globalTemplateId = 0;
 var showEBtn = true;
 var panelMode = 1;
-var firstLoad = true, loaderLoading = false;
+var firstLoad = true, loaderLoading = false,designerFirstLoad = true;
 var lAObj = 0;
 var spPanel = "";
 var spBkPanel = "";
@@ -147,7 +148,8 @@ var productionFolderPath = "";
 var allowPdfDownload = false;
 var allowImgDownload = false;
 var isMultiPageProduct = false;
-var varList = []; var isRealestateproduct = false;
+var varList = [];// var varExtensions = [];
+var isRealestateproduct = false;
 var item =  null;
 var smartFormData = null;
 var userVariableData = null;
@@ -156,6 +158,8 @@ var lstVariableExtensions = null;
 var productDimensionUpdated = false;
 var objectsSelectable = true;
 var selectedPathIndex = 0;
+var conversionRatio = 1; // from points to system unit 
+var conversionUnit = "Points";
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];
@@ -176,6 +180,10 @@ function buildParams() {
 	while (tempName.indexOf('%20') != -1)
 	    tempName = tempName.replace("%20", " ");
 	$("#txtTemplateTitle").val(tempName);
+	//if(IsCalledFrom == 3)
+	//{
+	//    panelMode = 2;
+	//}
 	
 }
 function LoadBasicTemplateSettings() {
@@ -200,5 +208,5 @@ function restrictControls() {
     $("#btnMenuPaste").css("visibility", "hidden");
     $("#backgrounds").css("visibility", "hidden");
     $("#layersPanel").css("visibility", "hidden");
-    
+    $("#selectedTab").addClass("restrictedSelectedTab");
 }

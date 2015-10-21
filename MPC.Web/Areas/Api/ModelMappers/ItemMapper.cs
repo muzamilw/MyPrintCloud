@@ -107,7 +107,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>(),
                 ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ?
-                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList() : null
+                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList().OrderBy(q => q.SortOrder) : null
             };
 
             // Load Thumbnail Image
@@ -346,6 +346,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 File4Name = source.File4Name,
                 File5Byte = source.File5Byte,
                 File5Name = source.File5Name,
+                File1Deleted = source.File1Deleted,
+                File2Deleted = source.File2Deleted,
+                File3Deleted = source.File3Deleted,
+                File4Deleted = source.File4Deleted,
+                File5Deleted = source.File5Deleted,
                 ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ProductCategoryItemCustom>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()).ToList() :
@@ -522,6 +527,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1GrossTotal = source.Qty1GrossTotal,
                 Qty2GrossTotal = source.Qty2GrossTotal,
                 Qty3GrossTotal = source.Qty3GrossTotal,
+                Qty2 = source.Qty2,
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
@@ -590,6 +596,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1GrossTotal = source.Qty1GrossTotal,
                 Qty2GrossTotal = source.Qty2GrossTotal,
                 Qty3GrossTotal = source.Qty3GrossTotal,
+                Qty2 = source.Qty2,
                 JobSelectedQty = source.JobSelectedQty,
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
@@ -601,21 +608,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         }
 
 
-        public static ItemListView CreateFromForOrderAddProduct(this DomainModels.Item source)
+        public static ItemListViewForOrder CreateFromForOrderAddProduct(this DomainModels.Item source)
         {
             // ReSharper disable SuggestUseVarKeywordEvident
-            ItemListView item = new ItemListView
+            ItemListViewForOrder item = new ItemListViewForOrder
             // ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemId = source.ItemId,
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
-                ProductSpecification = source.ProductSpecification,
-                IsArchived = source.IsArchived,
-                IsEnabled = source.IsEnabled,
-                IsPublished = source.IsPublished,
-                MinPrice = source.MinPrice,
+                ProductType = source.ProductType,
                 IsQtyRanged = source.IsQtyRanged,
                 DefaultItemTax = source.DefaultItemTax,
                 JobDescriptionTitle1 = source.JobDescriptionTitle1,
@@ -631,9 +634,26 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescriptionTitle6 = source.JobDescriptionTitle6,
                 JobDescription6 = source.JobDescription6,
                 JobDescriptionTitle7 = source.JobDescriptionTitle7,
-                JobDescription7 = source.JobDescription7
+                JobDescription7 = source.JobDescription7,
+                CompanyId = source.CompanyId,
+                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                ProductSpecification = source.ProductSpecification
             };
+            // Load Thumbnail Image
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
+            {
+                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(thumbnailPath))
+                {
+
+                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = thumbnailPath;
+                }
+            }
             return item;
         }
+
+        
+
     }
 }

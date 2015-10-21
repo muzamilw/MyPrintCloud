@@ -16,6 +16,8 @@ define("crm/crm.viewModel",
                     prospectPager = ko.observable(),
                     // Determines Company type
                     companyType = ko.observable(2),
+                    currencySymbol = ko.observable(),
+                    ordersItemsCount = ko.observable(),
                     orderPager = ko.observable(),
                     purchaseOrderPager = ko.observable(),
                     goodsReceivedNotePager = ko.observable(),
@@ -38,6 +40,7 @@ define("crm/crm.viewModel",
                     isGoodsReceivedNoteTab = ko.observable(false),
                     isInvoiceTab = ko.observable(false),
                     isEditorVisible = ko.observable(false),
+                    storeId = ko.observable(undefined),
                     //Selected Store
                     selectedStore = ko.observable(),
 
@@ -321,6 +324,7 @@ define("crm/crm.viewModel",
                     // Delete Company Territory
                     onDeleteCompanyTerritory = function (companyTerritory) {
                         // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
                             if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
@@ -582,7 +586,7 @@ define("crm/crm.viewModel",
                     }
                 }),
                 selectBussinessAddress = ko.computed(function () {
-                    if (selectedCompanyContact() != undefined && selectedCompanyContact().addressId() != undefined) {
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() != undefined) {
                     }
 
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() != undefined) {
@@ -600,6 +604,7 @@ define("crm/crm.viewModel",
                                     selectedCompanyContact().bussinessAddressId(item.addressId());
                                     selectedCompanyContact().addressId(item.addressId());
                                     selectedBussinessAddress().stateName(item.stateName());
+                                    selectedBussinessAddress().stateCode(item.stateCode());
                                 }
                             }
                         });
@@ -842,6 +847,7 @@ define("crm/crm.viewModel",
                         return;
                     } else {
                         // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
                             if (address.addressId() > 0) {
@@ -1315,10 +1321,10 @@ define("crm/crm.viewModel",
                     return;
                 }
                 // Ask for confirmation
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     //#region Db Saved Record Id > 0
                     if (companyContact.contactId() > 0) {
-
                         if (companyContact.companyId() > 0 && companyContact.contactId() > 0) {
                             dataservice.deleteCompanyContact({
                                 CompanyContactId: companyContact.contactId()
@@ -1345,7 +1351,7 @@ define("crm/crm.viewModel",
                             });
                         }
                     }
-                        //#endregion
+                    //#endregion
                     else {
                         if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
 
@@ -1595,7 +1601,54 @@ define("crm/crm.viewModel",
                         newCompanyTerritories.push(companyTerritory);
                     }
                 },
-
+                // On Delete Store Permanently
+                onDeletePermanent = function () {
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.afterProceed(function () {
+                        deleteCompanyPermanently(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+                // Get Company By Id
+                getCompanyByIdFromListView = function (id) {
+                    return customersForListView.find(function (customer) {
+                        return customer.id() === id;
+                    });
+                },
+                // Get Supplier By Id
+                getSupplierByIdFromListView = function (id) {
+                    return suppliers.find(function (supplier) {
+                        return supplier.companyId() === id;
+                    });
+                },
+                // Delete Company Permanently
+                deleteCompanyPermanently = function (id) {
+                dataservice.deleteCompanyPermanent({ CompanyId: id }, {
+                    success: function () {
+                        toastr.success("Deleted successfully!");
+                        isEditorVisible(false);
+                        if (selectedStore()) {
+                            if (isProspectOrCustomerScreen()) {
+                                var customer = getCompanyByIdFromListView(selectedStore().companyId());
+                                if (customer) {
+                                    customersForListView.remove(customer);
+                                }
+                            }
+                            else {
+                                var supplier = getSupplierByIdFromListView(selectedStore().companyId());
+                                if (supplier) {
+                                    suppliers.remove(supplier);
+                                }
+                            }
+                            
+                        }
+                        //resetStoreEditor();
+                    },
+                    error: function (response) {
+                        toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                    }
+                });
+            },
                 //Close Edit Dialog
                 closeEditDialog = function () {
                     var companyIdFromDashboard = $('#CompanyId').val();
@@ -1615,7 +1668,10 @@ define("crm/crm.viewModel",
                         success: function (data) {
                             if (data != null) {
                                 selectedStore().addresses.removeAll();
-                                selectedStore(model.Store.Create(data.Company));
+                                var store = model.Store.Create(data.Company);
+                                storeId(data.Company.StoreId);
+                                selectedStore(store);
+                                selectedStore().storeId(storeId());
                                 selectedStore().type(data.Company.IsCustomer);
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
                                 contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
@@ -1637,7 +1693,6 @@ define("crm/crm.viewModel",
                                });
                             }
                             newUploadedMediaFile(model.MediaLibrary());
-
                             selectedStore().reset();
                             isLoadingStores(false);
                         },
@@ -1651,6 +1706,7 @@ define("crm/crm.viewModel",
                 //Open/Edit Store Dialog
                 openEditDialog = function (item) {
                     isEditorVisible(true);
+                    resetObservableArrays();
                     if (isProspectOrCustomerScreen()) {
                         getStoreForEditting(item.id());
                         getBaseData(item.id() || item);
@@ -1672,7 +1728,7 @@ define("crm/crm.viewModel",
                 },
 
                 //Get Base Data For New Company
-                getBaseDataFornewCompany = function () {
+                getBaseDataFornewCompany = function (callback) {
                     dataservice.getBaseDataFornewCompany({
 
                     }, {
@@ -1717,6 +1773,9 @@ define("crm/crm.viewModel",
                                 storesListForDropDown.removeAll();
                                 ko.utils.arrayPushAll(storesListForDropDown(), data.StoresListDropDown);
                                 storesListForDropDown.valueHasMutated();
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             }
                             isLoadingStores(false);
                         },
@@ -1728,10 +1787,16 @@ define("crm/crm.viewModel",
                 },
                 // Set Validation Summary
                 setValidationSummary = function (selectedItem) {
+
                     errorList.removeAll();
                     if (selectedItem.name.error) {
                         errorList.push({ name: selectedItem.name.domElement.name, element: selectedItem.name.domElement });
                     }
+
+                    if (isProspectOrCustomerScreen() && selectedItem.storeId.error) {
+                        errorList.push({ name: selectedItem.storeId.domElement.name, element: selectedItem.storeId.domElement });
+                    }
+                   
                     if (selectedItem.webAccessCode.error) {
                         errorList.push({ name: selectedItem.webAccessCode.domElement.name, element: selectedItem.webAccessCode.domElement });
                     }
@@ -1757,6 +1822,10 @@ define("crm/crm.viewModel",
                     doBeforeSave = function () {
                         var flag = true;
                         errorList.removeAll();
+                        // to avoid validation summery in case of supplier screen 
+                        if (!isProspectOrCustomerScreen()) {
+                            selectedStore().storeId(-1);
+                        }
                         if (!selectedStore().isValid()) {
                             selectedStore().errors.showAllMessages();
                             setValidationSummary(selectedStore());
@@ -1765,14 +1834,14 @@ define("crm/crm.viewModel",
                         //1- New saving company should have 1 address and 1 user
                         //2- if company is editting then company should have a 1 address and 1 user in database after saving
                         //1
-                        if (!(newAddresses().length - deletedAddresses().length) > 1 || (selectedStore().addresses().length == 0 && newAddresses().length == 0 && deletedAddresses().length == 0)) {
-                            errorList.push({ name: "At least one address required.", element: searchAddressFilter.domElement });
-                            flag = false;
-                        }
-                        if (!(newCompanyContacts().length - deletedCompanyContacts().length) > 1 || (selectedStore().users().length == 0 && newCompanyContacts().length == 0 && deletedCompanyContacts().length == 0)) {
-                            errorList.push({ name: "At least one user required.", element: searchCompanyContactFilter.domElement });
-                            flag = false;
-                        }
+                        //if (!(newAddresses().length - deletedAddresses().length) > 1 || (selectedStore().addresses().length == 0 && newAddresses().length == 0 && deletedAddresses().length == 0)) {
+                        //    errorList.push({ name: "At least one address required.", element: searchAddressFilter.domElement });
+                        //    flag = false;
+                        //}
+                        //if (!(newCompanyContacts().length - deletedCompanyContacts().length) > 1 || (selectedStore().users().length == 0 && newCompanyContacts().length == 0 && deletedCompanyContacts().length == 0)) {
+                        //    errorList.push({ name: "At least one user required.", element: searchCompanyContactFilter.domElement });
+                        //    flag = false;
+                        //}
 
                         if (selectedStore().companyId() == undefined) {
                             var haveIsDefaultTerritory = false;
@@ -1801,24 +1870,19 @@ define("crm/crm.viewModel",
                                     haveIsDefaultUser = true;
                                 }
                             });
-                            if (!haveIsDefaultTerritory) {
-                                errorList.push({ name: "At least one default territory required.", element: searchCompanyTerritoryFilter.domElement });
-                                flag = false;
-                            }
-                            if (!haveIsBillingDefaultAddress) {
-                                errorList.push({ name: "At least one Territory Default Billing Address required.", element: searchAddressFilter.domElement });
-                                flag = false;
-                            }
-                            if (!haveIsShippingDefaultAddress) {
-                                errorList.push({ name: "At least one Territory Default Shipping Address required.", element: searchAddressFilter.domElement });
-                                flag = false;
-                            }
+                            
                             if (!haveIsDefaultAddress) {
                                 errorList.push({ name: "At least one Company Default Address required.", element: searchAddressFilter.domElement });
                                 flag = false;
                             }
                             if (!haveIsDefaultUser) {
                                 errorList.push({ name: "At least one Default Company Contact required.", element: searchCompanyContactFilter.domElement });
+                                flag = false;
+                            }
+                            if (selectedStore().storeId() === undefined || selectedStore().storeId() === '') {
+                                var labelElement = selectedStore.storeId.domElement;
+                              //  validationSummaryList.push({ name: 'Section Flag Name', element: labelElement });
+                               // errorList.push({ name: "Store is required.", element: searchCompanyContactFilter.domElement });
                                 flag = false;
                             }
                         }
@@ -1888,6 +1952,12 @@ define("crm/crm.viewModel",
                                             tempCustomerListView.statusClass('label label-warning');
                                         }
                                         tempCustomerListView.email("");
+                                        var result = _.find(storesListForDropDown(), function (cmp) {
+                                            if (cmp.CompanyId == selectedStore().storeId()) {
+                                                return cmp;
+                                            }
+                                        });
+                                        tempCustomerListView.storeName(result.Name);
                                         customersForListView.splice(0, 0, tempCustomerListView);
                                     }
 
@@ -1931,6 +2001,12 @@ define("crm/crm.viewModel",
                                                     customer.status("Pending");
                                                     customer.statusClass('label label-warning');
                                                 }
+                                                var result = _.find(storesListForDropDown(), function (cmp) {
+                                                    if (cmp.CompanyId == selectedStore().storeId()) {
+                                                        return cmp;
+                                                    }
+                                                });
+                                                customer.storeName(result.Name);
                                             }
                                         });
                                         //#endregion
@@ -1985,8 +2061,7 @@ define("crm/crm.viewModel",
                                 var address = new model.Address.Create(item);
                                 allCompanyAddressesList.push(address);
                             });
-
-                        
+                            selectedStore().storeId(storeId());
                         }
                         selectedStore().reset();
                         isLoadingStores(false);
@@ -2014,6 +2089,7 @@ define("crm/crm.viewModel",
                     newAddresses.removeAll();
                     newCompanyTerritories.removeAll();
                     newCompanyContacts.removeAll();
+                    errorList.removeAll();
                 },
 
                 //Store Image Files Loaded Callback
@@ -2037,6 +2113,7 @@ define("crm/crm.viewModel",
                 getDataForOrderTab = function () {
                     dataservice.getOrdersData({
                         CompanyId: selectedStore().companyId(),
+                        
                         PageSize: orderPager().pageSize(),
                         PageNo: orderPager().currentPage(),
                         IsProspectOrCustomer: isProspectOrCustomerScreen(),
@@ -2050,7 +2127,12 @@ define("crm/crm.viewModel",
                                 _.each(data.OrdersList, function (order) {
                                     var newOrder = new model.Estimate.Create(order);
                                     ordersList.push(newOrder);
+                                    
+
+                                    
                                 });
+                                currencySymbol(data.CurrencySymbol);
+                                
                                 orderPager().totalCount(data.RowCount);
                             }
                         },
@@ -2066,6 +2148,7 @@ define("crm/crm.viewModel",
                 purchaseOrdersTabClickHandler = function (data) {
                     isPurchaseOrderTab(true);
                     purchaseOrderPager().reset();
+                    ordersTabClickHandler();
                     getDataForPurchaseOrderTab(data);
                 },
                 // Gets purchase orders for list view
@@ -2101,7 +2184,9 @@ define("crm/crm.viewModel",
                    goodRecievedNotesTabClickHandler = function (data) {
                        isGoodsReceivedNoteTab(true);
                        goodsReceivedNotePager().reset();
+                       ordersTabClickHandler();
                        getDataForGoodsReceivedNoteTab(data);
+                       
                    },
                     // Gets customers for list view
                 getDataForGoodsReceivedNoteTab = function () {
@@ -2139,6 +2224,7 @@ define("crm/crm.viewModel",
                        }
                        isInvoiceTab(true);
                        invoicePager().reset();
+                       getDataForOrderTab();
                        getsDataForInvoiceTab();
                    },
                   // Gets Invoices data
@@ -2341,28 +2427,34 @@ define("crm/crm.viewModel",
                    view = specifiedView;
 
                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                   var callback = null;
+                   
                    if (isProspectOrCustomerScreen()) {
                        prospectPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
                        var companyIdFromDashboard = $('#CompanyId').val();
                        if (companyIdFromDashboard != 0) {
-                           openEditDialog({ id: function () { return companyIdFromDashboard; } });
+                           callback = function() {
+                               openEditDialog({ id: function() { return companyIdFromDashboard; } });
+                           };
                        }
                        else
                        {
                            getCustomers();
+                          
                        }
                       
                    }
                    else {
                        supplierpager(new pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
                        getSuppliers();
+                   
                    }
 
                    orderPager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForOrderTab));
                    purchaseOrderPager(new pagination.Pagination({ PageSize: 5 }, purchasesList, getDataForPurchaseOrderTab));
                    goodsReceivedNotePager(new pagination.Pagination({ PageSize: 5 }, goodRecievedNotesList, getDataForGoodsReceivedNoteTab));
                    invoicePager(new pagination.Pagination({ PageSize: 5 }, invoicesList, getsDataForInvoiceTab));
-                   getBaseDataFornewCompany();
+                   getBaseDataFornewCompany(callback);
                };
                 //#endregion
 
@@ -2370,6 +2462,8 @@ define("crm/crm.viewModel",
                 return {
                     initialize: initialize,
                     //#region Supplier Screen
+                    currencySymbol: currencySymbol,
+                    ordersItemsCount:ordersItemsCount,
                     supplierpager: supplierpager,
                     isLoadingSuppliers: isLoadingSuppliers,
                     searchSupplierFilter: searchSupplierFilter,
@@ -2393,6 +2487,7 @@ define("crm/crm.viewModel",
                     closeEditDialog: closeEditDialog,
                     selectedStore: selectedStore,
                     systemUsers: systemUsers,
+                    onDeletePermanent: onDeletePermanent,
                     searchAddressFilter: searchAddressFilter,
 
                     onEditItem: onEditItem,
@@ -2502,7 +2597,8 @@ define("crm/crm.viewModel",
                     goodsReceivedNotePager: goodsReceivedNotePager,
                     companyDdSelector: companyDdSelector,
                     onChangeCompany: onChangeCompany,
-                    searchSuppliersByFilters: searchSuppliersByFilters
+                    searchSuppliersByFilters: searchSuppliersByFilters,
+                    storeId: storeId
                 };
                 //#endregion
             })()

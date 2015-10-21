@@ -1,21 +1,15 @@
 ﻿<div class="row" data-bind="visible: !isProductDetailsVisible()">
-    <div class="col-lg-12 pull-right" style="margin-top: -29px;">
-        @* <div id="changeViewSection" class="pull-left col-lg-5">
-        <a id="listViewIcon" class="productListGrayIcon pull-left" data-bind="click: toggleView, css: { inactiveView: isGridViewVisible, activeView: isListViewVisible }">
-            <i class="fa fa-list"></i>
-        </a>
-        <a id="gridViewIcon" class="productListOrangeIcon pull-left activeView" data-bind="click: toggleView, css: { inactiveView: isListViewVisible, activeView: isGridViewVisible }">
-            <i class="fa fa-th-large"></i>
-        </a>
-        <div class="pull-left width105 padTop13">
-            <div class="slider-minmax"></div>
+    <div class="col-lg-12 pull-right" style="padding-right:6px;">
+        <div class="col-lg-6" style="padding-left:0px;">
+
+            <h2>Products</h2>
+             
         </div>
-            </div>
-    <div class="pull-right">*@
+        <div class="col-lg-6" style="padding-right:0px;">
             <button id="open-wizard" data-bind="click: createProduct, enable: !pageHasErrors()" class="btn btn-primary pull-right">
                 Add New Product
             </button>
-        @*</div>*@
+        </div>
     </div>
     <div>
         &nbsp;
@@ -28,6 +22,8 @@
             </div>
             <div class="main-box-body main-box clearfix box-shadow-all" style="padding-left:32px;">
                 <div id="gridZoomSlider">
+                    <!-- ko template: { if: subCategories, name: 'categoryViewTemplate', foreach: subCategories() } -->
+                    <!-- /ko -->
                     <!-- ko template: { name: 'gridViewTemplate', foreach: products } -->
                     <!-- /ko -->
                 </div>
@@ -79,32 +75,31 @@
         </div>
     </div>
     <!-- ko stopBinding: true -->
-    <div id="pagerDivForProducts" class="pull-right" style="margin-right:5px;">
-       
-        <!-- ko with: pager -->
+    <div id="pagerDivForProducts" class="pull-right" style="margin-right:7px;">
 
+        <!-- ko with: pager -->
         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
         <!-- /ko -->
     </div>
     <!-- /ko -->
     @*<div class="pull-right">
-        <div class="pull-right spanfilterlbl" data-bind="">
-            <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">
-                <i class="fa fa-chevron-left"></i>
-            </a>
-            <a class="pagerRightIcon" data-bind="click: pager().nextPage">
-                <i class="fa fa-chevron-right"></i>
-            </a> 
-        </div>
-        <span class="pull-right spanfilterlbl">of <span data-bind="text: pager().totalPages"></span></span>
-        <form data-bind="submit: function(){ }">
-            <div class="pull-right col-xs-3">
-                <input type="text" class="form-control" data-bind="value: currentPageCustom, valueUpdate: 'keyup'" />
+            <div class="pull-right spanfilterlbl" data-bind="">
+                <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a class="pagerRightIcon" data-bind="click: pager().nextPage">
+                    <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
-        </form>
-        <span class="pull-right spanfilterlbl">Page</span>
+            <span class="pull-right spanfilterlbl">of <span data-bind="text: pager().totalPages"></span></span>
+            <form data-bind="submit: function(){ }">
+                <div class="pull-right col-xs-3">
+                    <input type="text" class="form-control" data-bind="value: currentPageCustom, valueUpdate: 'keyup'" />
+                </div>
+            </form>
+            <span class="pull-right spanfilterlbl">Page</span>
 
-    </div>*@
+        </div>*@
     @* Filter Template *@
     <script id="productFilterTemplate" type="text/html">
         <div class="filter-body">
@@ -116,7 +111,7 @@
                     </div>
                 </div>
             </form>
-            
+
             <div class="clearfix">
             </div>
         </div>
@@ -130,14 +125,14 @@
                     <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
                 </div>
                 @*<div class="productIcons">
-                   
-                </div>*@
+
+                    </div>*@
             </div>
             <div class="productText">
                 <span data-bind="text: productNameForGrid, attr:{ title: productName }"></span>
             </div>
             <div class="" style="height:32px">
-                <span data-bind="text: 'Starting From $' + miniPrice()"></span>
+                <span data-bind="text: 'Starting From ' + $root.currencyUnit()"></span>  <span data-bind="text: miniPrice()"></span>
             </div>
             <div style="margin-top:10px; height:75px;">
                 <!-- ko template: { name: 'productActionTemplate' } -->
@@ -146,18 +141,36 @@
         </div>
     </script>
 
+    @* Category View Template *@
+    <script id="categoryViewTemplate" type="text/html">
+        <div class="Top_Cat_Body">
+            <div class="LCLB" style="overflow:hidden">
+                <div class="PDTC_TL FI_TL" style="background: white" data-bind="click: $root.onSelectSubCategory">
+                    <img alt="image" class="photo-box Top_Cat_ThumbnailPath" style="padding: 20px;cursor: pointer;" src="@Url.Content("~/Content/Images/foldericon3.png")" />
+                    <i class="fa fa-pencil font20px" style="cursor: pointer; bottom: 40px;margin-left: 75%;position: relative;" data-bind="click: $root.editSubCategory"></i>
+                </div>
+            </div>
+            <div class="productText">
+                <span data-bind="text: categoryName.length > 30 ? categoryName.substring(0, 29) : categoryName, attr:{ title: categoryName }"></span>
+            </div>
+            <div class="" style="height:32px">
+                <span>&nbsp;</span>
+            </div>
+        </div>
+    </script>
+
     @* Action Template *@
     <script id="productActionTemplate" type="text/html">
         <button type="button" style="width:50px;" class="btn btn-info" title="Edit Product" data-bind="click: $root.editProduct">
-           <span style="font-size:10px;">Edit</span> 
+            <span style="font-size:10px;">Edit</span>
         </button>
         <button type="button" style="width:50px;" class="btn btn-success" title="Copy Product" data-bind="click: $root.onCloneProduct">
-            <span style="font-size:10px;">Copy</span> 
+            <span style="font-size:10px;">Copy</span>
         </button>
         <button type="button" style="width:50px;" class="btn btn-yellow" title="Design Template" data-bind="click: $root.editTemplate, visible: ((isFinishedGoodsUi() === '1') && templateId() && (templateTypeUi() !== '3'))">
-            <span style="font-size:10px;">Design</span> 
+            <span style="font-size:10px;">Design</span>
         </button>
-        
+
     </script>
 
     @* List View Template *@

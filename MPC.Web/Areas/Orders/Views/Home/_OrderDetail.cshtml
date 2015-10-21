@@ -2,24 +2,29 @@
     <div class="row">
         <div class="col-sm-12 PaddingZero">
             <div class="col-sm-12 PaddingZero">
-                <div class="col-sm-3">
-                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px" data-bind="visible: ($root.selectedOrder().id() > 0)">
-                        <button type="button" class="btn btn-primary">Actions</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" data-bind="click:$root.openExternalReportsOrder">Print Order</a></li>
-                            <li><a href="#">Print Invoice</a></li>
-                            <li><a href="#" data-bind="click: $root.downloadArtwork">Download Artwork</a></li>
-                        </ul>
+                <div class="col-sm-5">
+                    <div style="float:left;margin-bottom: 3px; margin-left:14px;margin-top:-10px;" data-bind="visible: ($root.selectedOrder().id() > 0)">
+                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalReportsOrder">Print</button>
+                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalEmailOrderReport">Email</button>
+                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.copyOrder">Copy Order</button>
+                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click: $root.downloadArtwork">Download Artwork</button>
+                        @*<button type="button" class="btn btn-primary">Actions</button>
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" data-bind="click:$root.openExternalReportsOrder">Print Order</a></li>
+                                <li><a href="#" data-bind="click:$root.openExternalEmailOrderReport">Email Order</a></li>
+
+                                <li><a href="#" data-bind="click: $root.downloadArtwork">Download Artwork</a></li>
+                            </ul>*@
                     </div>
                 </div>
-                <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 24px">
-                  
+                <div data-bind="with: selectedOrder" style="text-align: right; padding-right:24px;margin-top:-10px;">
+
                     @*<button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>*@
-                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': $root.orderHasChanges }, enable: $root.orderHasChanges">Save</button>
+                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': $root.orderHasChanges }, enable: ($root.orderHasChanges() && !($root.selectedOrder().invoiceStatus() === 20))">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                 </div>
             </div>
@@ -44,7 +49,7 @@
             </div>
         </div>
         <div class="col-sm-12">
-            <div class="row" data-bind="with: selectedOrder">
+            <div class="row" data-bind="with: selectedOrder" style="margin-bottom:7px;">
                 <div class="col-sm-12">
                     <div class="clearfix">
                         <div class="pull-left validationSummaryContainer">
@@ -70,7 +75,7 @@
         <div class="col-sm-12" style="padding-left: 24px; padding-right: 24px;">
             <div class="main-box clearfix">
                 <div class="tabs-wrapper profile-tabs">
-                    <ul class="nav nav-tabs" id="orderDetailTabs">
+                    <ul class="nav nav-tabs" id="orderDetailTabs" style="margin-bottom:0px;">
                         <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Order Header</a></li>
                         <li><a href="#tab-schedule" data-toggle="tab">Order Schedule</a></li>
                         <li><a href="#tab-creditApproval" data-toggle="tab">Credit Approval</a></li>

@@ -59,7 +59,7 @@ namespace MPC.Repository.Repositories
                 return DbSet.Where(
               cmspage =>
               cmspage.isUserDefined == false && cmspage.OrganisationId == OrganisationId &&
-              cmspage.CompanyId == companyId).ToList();
+              cmspage.CompanyId == companyId).OrderBy(c => c.PageTitle).ToList();
             }
             catch (Exception ex)
             {
@@ -125,7 +125,8 @@ namespace MPC.Repository.Repositories
                                 Meta_RevisitAfterContent = page.Meta_RevisitAfterContent,
                                 Meta_RobotsContent = page.Meta_RobotsContent,
                                 Meta_Title = page.Meta_Title,
-                                PageTitle = page.PageTitle
+                                PageTitle = page.PageTitle,
+                                isDisplay = page.isDisplay
 
                             };
                 return query.ToList<CmsPageModel>();
@@ -157,7 +158,20 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public List<CmsPage> GetCmsPagesByCompanyId(long companyId)
         {
-            return DbSet.Where(cp => cp.CompanyId == companyId).ToList();
+            return DbSet.Include(c=> c.CmsSkinPageWidgets).Where(cp => cp.CompanyId == companyId).ToList();
         }
+
+        public List<CmsPage> GetCmsPagesByOrganisationForBanners(long companyId)
+        {
+            var qry = DbSet.Where(c => c.CompanyId == companyId).Select(c => new
+            {
+                Banner = c.PageBanner
+            }).ToList().Select(c => new CmsPage
+            {
+                PageBanner = c.Banner
+            }).ToList();
+            return qry;
+        }
+
     }
 }

@@ -61,58 +61,130 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(sm => sm.CompanyId == companyId).OrderBy(sm => sm.Name).ToList();
         }
 
-        public List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
+        public List<VariableList> GetVariablesData(long itemID, long companyId, long organisationId)
         {
+            bool isRealestateproduct = false;
+            Item item = db.Items.Where(g => g.ItemId == itemID).SingleOrDefault();
+            if(item != null)
+            {
+                if (item.IsRealStateProduct.HasValue)
+                    isRealestateproduct = item.IsRealStateProduct.Value;
+            }
             List<VariableList> resultList = new List<VariableList>();
             if (isRealestateproduct)
             {
-                var objList = from p in db.VariableSections
-                              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)))
-                              orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
-                              select new
-                              {
-                                  SectionName = p.SectionName,
-                                  VariableID = es.VariableId,
-                                  VariableName = es.VariableName,
-                                  VariableTag = es.VariableTag,
-                                  VariableType = es.Scope
+                var query2 = (
+                    from p in db.VariableSections
+                    from es in db.FieldVariables
+                        .Where(es => es.VariableSectionId == p.VariableSectionId &&( es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)))
+                    from ext in db.VariableExtensions
+                        .Where(ext => ext.FieldVariableId == es.VariableId && ext.CompanyId == companyId).DefaultIfEmpty()
+                    orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
 
-                              };
-                var listItems = objList.ToList();
+                    select new
+                    {
+                        SectionName = p.SectionName,
+                        VariableID = es.VariableId,
+                        VariableName = es.VariableName,
+                        VariableTag = es.VariableTag,
+                        VariableType = es.Scope,
+                        CollapsePostfix = ext.CollapsePostfix,
+                        CollapsePrefix = ext.CollapsePrefix
+                    }
+
+                );
+
+
+                var listItems = (query2).ToList();
+                //var objList = from p in db.VariableSections
+                //              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
+                //              join ext in db.VariableExtensions on es.VariableId equals ext.FieldVariableId
+                //              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && ext.CompanyId == companyId)
+                              
+                //              orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
+                //              select new
+                //              {
+                //                  SectionName = p.SectionName,
+                //                  VariableID = es.VariableId,
+                //                  VariableName = es.VariableName,
+                //                  VariableTag = es.VariableTag,
+                //                  VariableType = es.Scope
+
+                //              };
+            //    var listItems = objList.ToList();
                 foreach (var obj in listItems)
                 {
-                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value,obj.CollapsePrefix,obj.CollapsePostfix);
                     resultList.Add(objVarList);
                 }
             }
             else
             {
-                var objList = from p in db.VariableSections
-                              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory))
-                              orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
-                              select new
-                              {
-                                  SectionName = p.SectionName,
-                                  VariableID = es.VariableId,
-                                  VariableName = es.VariableName,
-                                  VariableTag = es.VariableTag,
-                                  VariableType = es.Scope
+                //var objList = from p in db.VariableSections
+                //              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
+                //              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory))
+                //              orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
+                //              select new
+                //              {
+                //                  SectionName = p.SectionName,
+                //                  VariableID = es.VariableId,
+                //                  VariableName = es.VariableName,
+                //                  VariableTag = es.VariableTag,
+                //                  VariableType = es.Scope
 
-                              };
+                //              };
+                var objList = (
+                  from p in db.VariableSections
+                  from es in db.FieldVariables
+                      .Where(es => es.VariableSectionId == p.VariableSectionId && (es.IsSystem == true  && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory)))
+                  from ext in db.VariableExtensions
+                      .Where(ext => ext.FieldVariableId == es.VariableId && ext.CompanyId == companyId).DefaultIfEmpty()
+                  orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
+
+                  select new
+                  {
+                      SectionName = p.SectionName,
+                      VariableID = es.VariableId,
+                      VariableName = es.VariableName,
+                      VariableTag = es.VariableTag,
+                      VariableType = es.Scope,
+                      CollapsePostfix = ext.CollapsePostfix,
+                      CollapsePrefix = ext.CollapsePrefix
+                  }
+
+              );
+
                 var listItems = objList.ToList();
                 foreach (var obj in listItems)
                 {
-                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType);
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType,obj.CollapsePrefix,obj.CollapsePostfix);
                     resultList.Add(objVarList);
                 }
             }
 
-            var customVariables = db.FieldVariables.Where(g => g.CompanyId == companyId && (g.IsSystem == null || g.IsSystem == false)).ToList();
+            //var customVariables = db.FieldVariables.Where(g => g.CompanyId == companyId && (g.IsSystem == null || g.IsSystem == false)).ToList();
+            var customVariables = (
+                  from es in db.FieldVariables
+                      .Where(es => es.CompanyId == companyId && (es.IsSystem == null || es.IsSystem == false))
+                  from ext in db.VariableExtensions
+                      .Where(ext => ext.FieldVariableId == es.VariableId && ext.CompanyId == companyId).DefaultIfEmpty()
+
+
+                  select new
+                  {
+                      SectionName = "Custom CRM Fields",
+                      VariableID = es.VariableId,
+                      VariableName = es.VariableName,
+                      VariableTag = es.VariableTag,
+                      VariableType = es.Scope,
+                      CollapsePostfix = ext.CollapsePostfix,
+                      CollapsePrefix = ext.CollapsePrefix
+                  }
+
+              ).ToList();
             foreach (var customVar in customVariables)
             {
-                VariableList objVarList = new VariableList("Custom CRM Fields", customVar.VariableId, customVar.VariableName, customVar.VariableTag, customVar.VariableType);
+                VariableList objVarList = new VariableList("Custom CRM Fields", customVar.VariableID, customVar.VariableName, customVar.VariableTag, customVar.VariableType,customVar.CollapsePrefix,customVar.CollapsePostfix);
                 resultList.Add(objVarList);
             }
             return resultList;
@@ -128,13 +200,14 @@ namespace MPC.Repository.Repositories
                           {
                               VariableTag = es.VariableTag,
                               VariableID = p.VariableId,
-                              TemplateID = p.TemplateId
+                              TemplateID = p.TemplateId,
+                              VariableText = p.VariableText
 
                           };
             List<TemplateVariablesObj> objResult = new List<TemplateVariablesObj>();
             foreach (var obj in objList.ToList())
             {
-                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag, obj.VariableID.Value, obj.TemplateID.Value);
+                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag, obj.VariableID.Value, obj.TemplateID.Value,obj.VariableText);
 
                 objResult.Add(objToAdd);
             }
@@ -166,6 +239,7 @@ namespace MPC.Repository.Repositories
                             MPC.Models.DomainModels.TemplateVariable objToAdd = new MPC.Models.DomainModels.TemplateVariable();
                             objToAdd.TemplateId = item.TemplateID;
                             objToAdd.VariableId = item.VariableID;
+                            objToAdd.VariableText = item.VariableText;
                             db.TemplateVariables.Add(objToAdd);
                         }
                     }
@@ -216,7 +290,7 @@ namespace MPC.Repository.Repositories
             }
             return objUsers;
         }
-         public SmartForm GetSmartForm(long smartFormId)
+        public SmartFormWebstoreResponse GetSmartForm(long smartFormId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
@@ -224,25 +298,60 @@ namespace MPC.Repository.Repositories
             SmartForm smartFormObj =  db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
             if(smartFormObj != null)
              smartFormObj.SmartFormDetails = null;
-            return smartFormObj;
+            if (smartFormObj != null)
+                smartFormObj.Company = null;
+
+
+            SmartFormWebstoreResponse res = new SmartFormWebstoreResponse();
+            res.CompanyId = smartFormObj.CompanyId;
+            res.Heading = smartFormObj.Heading;
+            res.Name = smartFormObj.Name;
+            res.OrganisationId = smartFormObj.OrganisationId;
+            res.SmartFormId = smartFormObj.SmartFormId;
+
+            return res;
         }
 
-        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId,out List<VariableOption> listVariables)
         {
+            List<VariableOption> listOptions = new List<VariableOption>();
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
 
             List<SmartFormDetail> objs = db.SmartFormDetails.Include("FieldVariable.VariableOptions").Where(g => g.SmartFormId == smartFormId).OrderBy(g => g.SortOrder).ToList();
-            foreach (var obj in objs) { obj.SmartForm = null; };
-            
+            foreach (var obj in objs) { 
+                obj.SmartForm = null;
+                if (obj.FieldVariable != null)
+                {
+                    if (obj.FieldVariable.VariableOptions != null)
+                    {
+                        listOptions.AddRange(obj.FieldVariable.VariableOptions);
+                    }
+                    obj.FieldVariable.Company = null;
+                }
+            };
+            foreach(var option in listOptions)
+            {
+                option.FieldVariable = null;
+            }
+            listVariables = listOptions;
             return objs;
         }
 
-        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables,long contactId)
+        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables,long contactId,long templateId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             hasContactVariables = false;
+            bool isRealEstateVariable = false;
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+            long ListingId = 0;
+            var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
+            if (template != null)
+            {
+                if (template.realEstateId.HasValue)
+                    ListingId = template.realEstateId.Value;
+            }
             foreach(SmartFormDetail obj in smartFormDetails)
             {
                 if(obj.ObjectType == (int)SmartFormDetailFieldType.VariableField)
@@ -254,131 +363,43 @@ namespace MPC.Repository.Repositories
                         if (contact != null)
                         {
 
-
+                            obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
                             switch (obj.FieldVariable.RefTableName)
                             {
-                                case "tbl_Listing":
-                                    //   fieldValue = Convert.ToString(listing.GetType().GetProperty(item.CriteriaFieldName).GetValue(listing, null));
+                                case "Listing":
+                                    isRealEstateVariable = true;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingImage":
-
-                                    //if (listingImages.Count > listingImageCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingImages[listingImageCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingImages[listingImageCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingImageCount++;
-                                    //    listingOverflow = true;
-                                    //    childType = "image";
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "image";
-                                    //listingImageCount++;
+                                case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
+                                   
                                     break;
-                                case "tbl_ListingAgent":
-
-                                    //if (listingAgents.Count > listingAgentCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingAgents[listingAgentCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingAgents[listingAgentCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingAgentCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "agent";
-                                    //listingAgentCount++;
+                                case "ListingAgent": //from users table based on company id and agent count
+                                    isRealEstateVariable = true;
+                                    fieldValue = GetRealEstateAgent(obj.FieldVariable, ListingId);
                                     break;
-                                case "tbl_ListingOFID":
-
-                                    //if (listingOFIDs.Count > listingOFIDCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingOFIDs[listingOFIDCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingOFIDs[listingOFIDCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingOFIDCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "ofi";
-                                    //listingOFIDCount++;
+                                case "ListingOFIs":
+                                    isRealEstateVariable = true;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingVendor":
-
-                                    //if (listingVendors.Count > listingVendrosCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingVendors[listingVendrosCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingVendors[listingVendrosCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingVendrosCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "vendor";
-                                    //listingVendrosCount++;
+                                case "ListingVendor":
+                                    isRealEstateVariable = true;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingLink":
-
-                                    //if (listingLinks.Count > listingLinkCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingLinks[listingLinkCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingLinks[listingLinkCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingLinkCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "link";
-                                    //listingLinkCount++;
+                                case "ListingLink":
+                                    isRealEstateVariable = true;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingFloorPlan":
-
-                                    //if (listingFloorPlans.Count > listingFloorPlansCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingFloorPlans[listingFloorPlansCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingFloorPlans[listingFloorPlansCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingFloorPlansCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "floor";
-                                    //listingFloorPlansCount++;
+                                case "ListingFloorPlan":
+                                    isRealEstateVariable = true;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingConjunctionAgent":
-
-                                    //if (listingConjuctionAgents.Count > listingConAgentCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingConjuctionAgents[listingConAgentCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingConjuctionAgents[listingConAgentCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingConAgentCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "conAgent";
-                                    //listingConAgentCount++;
+                                case "ListingConjunctionAgent":
+                                    isRealEstateVariable = true;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
                                 case "CompanyContact":
                                     hasContactVariables = true;
@@ -450,7 +471,18 @@ namespace MPC.Repository.Repositories
                             objScopeVariable.Scope = 0;
                             objScopeVariable.VariableId = obj.FieldVariable.VariableId;
                             objScopeVariable.Value = fieldValue;
+                            obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
                             objScopeVariable.FieldVariable = obj.FieldVariable;
+                            if (isRealEstateVariable)
+                            {
+                                var listingImg = db.CompanyVariableIcons.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.ContactCompanyId == contact.CompanyId).SingleOrDefault();
+                                if (listingImg != null)
+                                    objScopeVariable.VariableIconUrl = listingImg.Icon;
+                            }
                             if(obj != null)
                                 result.Add(objScopeVariable);
                         }
@@ -459,10 +491,16 @@ namespace MPC.Repository.Repositories
                     {
                         if (obj.FieldVariable != null && obj.FieldVariable.Scope.HasValue)
                         {
+                             obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
+
                             int scope = obj.FieldVariable.Scope.Value;
                             if (scope == (int)FieldVariableScopeType.Address)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     if (scopeObj != null)
@@ -476,6 +514,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Value = obj.FieldVariable.DefaultValue;
                                     objScopeVariable.Id = contact.AddressId;
                                     objScopeVariable.Scope = scope;
+
                                     objScopeVariable.FieldVariable = obj.FieldVariable;
                                     if (objScopeVariable != null)
                                         result.Add(objScopeVariable);
@@ -483,7 +522,7 @@ namespace MPC.Repository.Repositories
                             }
                             else if (scope == (int)FieldVariableScopeType.Contact)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contactId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contactId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     if (scopeObj != null)
@@ -512,7 +551,7 @@ namespace MPC.Repository.Repositories
                             }
                             else if (scope == (int)FieldVariableScopeType.Store)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == obj.FieldVariable.CompanyId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == obj.FieldVariable.CompanyId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     result.Add(scopeObj);
@@ -535,7 +574,7 @@ namespace MPC.Repository.Repositories
                                // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                                 if (contact != null)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                     if (scopeObj != null)
                                     {
                                         if (scopeObj != null)
@@ -557,14 +596,39 @@ namespace MPC.Repository.Repositories
                         }
                     }
                 }
+                if (template != null)
+                {
+                    if (contactId == template.contactId)
+                    {
+                        List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
+                        foreach (var objTVar in lstTemplateVariables)
+                        {
+                            var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
+                            if (scopeObj != null)
+                            {
+                                if (objTVar.VariableText != null && objTVar.VariableText != "")
+                                    scopeObj.Value = objTVar.VariableText;
+                            }
+                        }
+                    }
+                }
             }
             
             return result;
         }
         public List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
+            long ListingId = 0;
+            bool isRealEstateVariable = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+            var template = db.Templates.Where(g => g.ProductId == templateID).SingleOrDefault();
+            if(template != null)
+            {
+                if (template.realEstateId.HasValue)
+                    ListingId = template.realEstateId.Value;
+            }
             List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = new List<Models.DomainModels.TemplateVariable>();
             List<FieldVariable> lstVariables = new List<FieldVariable>();
             lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == templateID).ToList();
@@ -573,6 +637,12 @@ namespace MPC.Repository.Repositories
                 var fieldVariable = db.FieldVariables.Where(g => g.VariableId == item.VariableId).SingleOrDefault();
                 if(fieldVariable != null)
                 {
+                    fieldVariable.Company = null;
+                    fieldVariable.SmartFormDetails = null;
+                    fieldVariable.TemplateVariables = null;
+                    fieldVariable.VariableExtensions = null;
+                    fieldVariable.VariableOptions = null;
+                   
                     lstVariables.Add(fieldVariable);
                 }
             }
@@ -588,21 +658,36 @@ namespace MPC.Repository.Repositories
                     {
                         switch (obj.RefTableName)
                         {
-                            case "tbl_Listing":
+                            case "Listing":
+                                isRealEstateVariable = true;
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingImage":
+                            case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
+                               
                                 break;
-                            case "tbl_ListingAgent":
+                            case "ListingAgent": //from users table based on company id and agent count
+                                isRealEstateVariable = true;
+                                fieldValue = GetRealEstateAgent(obj, ListingId);
                                 break;
-                            case "tbl_ListingOFID":
+                            case "ListingOFIs":
+                                isRealEstateVariable = true;
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingVendor":
+                            case "ListingVendor":
+                                isRealEstateVariable = true;
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingLink":
+                            case "ListingLink":
+                                isRealEstateVariable = true;
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingFloorPlan":
+                            case "ListingFloorPlan":
+                                isRealEstateVariable = true;
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingConjunctionAgent":
+                            case "ListingConjunctionAgent":
+                                isRealEstateVariable = true;
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
                             case "CompanyContact":
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contactId);
@@ -671,7 +756,13 @@ namespace MPC.Repository.Repositories
                         objScopeVariable.Scope = 0;
                         objScopeVariable.VariableId = obj.VariableId;
                         objScopeVariable.Value = fieldValue;
-                        objScopeVariable.FieldVariable = obj; 
+                        objScopeVariable.FieldVariable = obj;
+                        if (isRealEstateVariable)
+                        {
+                            var listingImg = db.CompanyVariableIcons.Where(g => g.VariableId == obj.VariableId && g.ContactCompanyId == contact.CompanyId).SingleOrDefault();
+                            if (listingImg != null)
+                                objScopeVariable.VariableIconUrl = listingImg.Icon;
+                        }
                         result.Add(objScopeVariable);
                     }
                 }
@@ -682,7 +773,7 @@ namespace MPC.Repository.Repositories
                         int scope = obj.Scope.Value;
                         if (scope == (int)FieldVariableScopeType.Address)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -701,7 +792,7 @@ namespace MPC.Repository.Repositories
                         }
                         else if (scope == (int)FieldVariableScopeType.Contact)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contactId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contactId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -728,7 +819,7 @@ namespace MPC.Repository.Repositories
                         }
                         else if (scope == (int)FieldVariableScopeType.Store)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == obj.CompanyId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == obj.CompanyId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -751,7 +842,7 @@ namespace MPC.Repository.Repositories
                             // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                             if (contact != null)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     result.Add(scopeObj);
@@ -825,18 +916,24 @@ namespace MPC.Repository.Repositories
             return oResult;
         }
 
-        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts,long templateId) {
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId, long currentTemplateId)
+        {
             bool hasContactVariables = false;
+            db.Configuration.LazyLoadingEnabled = false;
             Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
             foreach(var contact in contacts)
             {
-                List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId);
+                List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId, currentTemplateId);
                 List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
               //  variablesList = variables;
                 foreach (var variable in variables)
                 {
-                    if(variable == null)
+                    if (variable == null)
                         variablesToRemove.Add(variable);
+                    else
+                        if(variable.FieldVariable != null)
+                            if(variable.FieldVariable.Company != null)
+                               variable.FieldVariable.Company = null;
                 }
                 foreach(var variable in variablesToRemove)
                 {
@@ -845,16 +942,22 @@ namespace MPC.Repository.Repositories
                 List<ScopeVariable> allTemplateVariables = GetTemplateScopeVariables(templateId, contact.ContactId);
                 foreach (var item in allTemplateVariables)
                 {
-                    var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).SingleOrDefault();
+                    var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).FirstOrDefault();
                     if (sVariable == null)
                     {
+                        if (item.FieldVariable != null)
+                            if (item.FieldVariable.Company != null)
+                                item.FieldVariable.Company = null;
                         variables.Add(item);
+
                     }
                 }
+                
                 UserScopeVariables.Add(contact.ContactId, variables);
             }
             return UserScopeVariables;
         }
+      
         public bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj)
         {
             bool result = false;
@@ -863,6 +966,11 @@ namespace MPC.Repository.Repositories
                 long contactId = item.Key;
                 List<ScopeVariable> contactVariables = item.Value;
                 var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+                Company objCompany = null;
+                if (contact != null)
+                {
+                    objCompany = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
+                }
                 foreach (var scope in contactVariables)
                 {
                     FieldVariable variable = db.FieldVariables.Where(g => g.VariableId == scope.VariableId).SingleOrDefault();
@@ -875,83 +983,86 @@ namespace MPC.Repository.Repositories
                             {
                                 switch (variable.RefTableName)
                                 {
-                                    case "tbl_Listing":
+                                    case "Listing":
                                         break;
-                                    case "tbl_ListingImage":
+                                    case "ListingImage":
                                         break;
-                                    case "tbl_ListingAgent":
+                                    case "ListingAgent":
                                         break;
-                                    case "tbl_ListingOFID":
+                                    case "ListingOFIs":
                                         break;
-                                    case "tbl_ListingVendor":
+                                    case "ListingVendor":
                                         break;
-                                    case "tbl_ListingLink":
+                                    case "ListingLink":
                                         break;
-                                    case "tbl_ListingFloorPlan":
+                                    case "ListingFloorPlan":
                                         break;
-                                    case "tbl_ListingConjunctionAgent":
+                                    case "ListingConjunctionAgent":
                                         break;
                                     case "CompanyContact":
                                         fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contactId,scope.Value);
                                         break;
-                                    case "Company":
-                                        fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.CompanyId, scope.Value);
+                                    case "Company":  // commented on request of 2020 https://trello.com/c/MTZJsEeT/965-smartform-data-updating-to-all-stores-back-end
+                                   //     fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.CompanyId, scope.Value);
                                         break;
                                     case "Address":
-                                        if (variable.CriteriaFieldName == "State")
+                                        if (objCompany != null && objCompany.CanUserUpdateAddress.HasValue && objCompany.CanUserUpdateAddress.Value == true)
                                         {
-                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
-                                            if (address != null)
+                                            if (variable.CriteriaFieldName == "State")
                                             {
-                                                if (address.StateId.HasValue)
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
                                                 {
-                                                    var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
-                                                    if (state != null)
+                                                    if (address.StateId.HasValue)
                                                     {
-                                                        state.StateName = scope.Value;
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            state.StateName = scope.Value;
+                                                        }
                                                     }
+                                                    db.SaveChanges();
+
                                                 }
-                                                db.SaveChanges();
+                                            }
+                                            else if (variable.CriteriaFieldName == "StateAbbr")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.StateId.HasValue)
+                                                    {
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            state.StateCode = scope.Value;
+                                                        }
+                                                    }
+                                                    db.SaveChanges();
+
+                                                }
+                                            }
+                                            else if (variable.CriteriaFieldName == "Country")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.CountryId.HasValue)
+                                                    {
+                                                        var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                                        if (country != null)
+                                                        {
+                                                            country.CountryName = scope.Value;
+                                                        }
+                                                    }
+                                                    db.SaveChanges();
+                                                }
+                                            }
+                                            else
+                                            {
+                                                fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.AddressId, scope.Value);
 
                                             }
-                                        }
-                                        else if (variable.CriteriaFieldName == "StateAbbr")
-                                        {
-                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
-                                            if (address != null)
-                                            {
-                                                if (address.StateId.HasValue)
-                                                {
-                                                    var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
-                                                    if (state != null)
-                                                    {
-                                                        state.StateCode = scope.Value;
-                                                    }
-                                                }
-                                                db.SaveChanges();
-
-                                            }
-                                        }
-                                        else if (variable.CriteriaFieldName == "Country")
-                                        {
-                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
-                                            if (address != null)
-                                            {
-                                                if (address.CountryId.HasValue)
-                                                {
-                                                    var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
-                                                    if (country != null)
-                                                    {
-                                                        country.CountryName = scope.Value;
-                                                    }
-                                                }
-                                                db.SaveChanges();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.AddressId, scope.Value);
-
                                         }
                                      break;
                                     default:
@@ -966,23 +1077,26 @@ namespace MPC.Repository.Repositories
                                 //int scopeId = variable.Scope.Value;
                                 if (variable.Scope.Value == (int)FieldVariableScopeType.Address)
                                 {
-                                    if (contact != null)
+                                    if (objCompany != null && objCompany.CanUserUpdateAddress.HasValue && objCompany.CanUserUpdateAddress.Value == true)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
-                                        if (scopeObj != null)
+                                        if (contact != null)
                                         {
-                                            scopeObj.Value = scope.Value;
-                                        }
-                                        else
-                                        {
-                                            scope.FieldVariable = null;
-                                            db.ScopeVariables.Add(scope);
+                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
+                                            if (scopeObj != null)
+                                            {
+                                                scopeObj.Value = scope.Value;
+                                            }
+                                            else
+                                            {
+                                                scope.FieldVariable = null;
+                                                db.ScopeVariables.Add(scope);
+                                            }
                                         }
                                     }
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Contact)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contactId).SingleOrDefault();
+                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contactId).FirstOrDefault();
                                     if (scopeObj != null)
                                     {
                                         scopeObj.Value = scope.Value;
@@ -1002,32 +1116,32 @@ namespace MPC.Repository.Repositories
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Store)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == variable.CompanyId).SingleOrDefault();
-                                    if (scopeObj != null)
-                                    {
-                                        scopeObj.Value = scope.Value;
-                                    }
-                                    else
-                                    {
-                                        scope.FieldVariable = null;   
-                                        db.ScopeVariables.Add(scope);
-                                    }
+                                    //var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == variable.CompanyId).FirstOrDefault();
+                                    //if (scopeObj != null)
+                                    //{
+                                    //    scopeObj.Value = scope.Value;
+                                    //}
+                                    //else
+                                    //{
+                                    //    scope.FieldVariable = null;   
+                                    //    db.ScopeVariables.Add(scope);
+                                    //}
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Territory)
                                 {
-                                    if (contact != null)
-                                    {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
-                                        if (scopeObj != null)
-                                        {
-                                            scopeObj.Value = scope.Value;
-                                        }
-                                        else
-                                        {
-                                            scope.FieldVariable = null;
-                                            db.ScopeVariables.Add(scope);
-                                        }
-                                    }
+                                    //if (contact != null)
+                                    //{
+                                    //    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
+                                    //    if (scopeObj != null)
+                                    //    {
+                                    //        scopeObj.Value = scope.Value;
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        scope.FieldVariable = null;
+                                    //        db.ScopeVariables.Add(scope);
+                                    //    }
+                                    //}
                                 }
                             }
                         }
@@ -1042,22 +1156,76 @@ namespace MPC.Repository.Repositories
         }
         public string[] GetContactImageAndCompanyLogo(long contactID)
         {
-            string[] array = new string[2];
+            string[] array = new string[6];
             string CompanyLogo = "";
             string ContactLogo = "";
+            int contactLogoHeight = 0, contactLogoWidth = 0, companyLogoHeight = 0, companyLogoWidth = 0;
             CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
             if(contact != null)
             {
+                System.Drawing.Image objCompanyLogo = null;
+                System.Drawing.Image objImage = null;
                 Company company = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
-                if(contact.image != null && contact.image != "")
+                if(contact.image != null && contact.image != ""){
                     ContactLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + contact.image;
+                    try
+                    {
+                        using (objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath( "~/" + contact.image)))
+                        {
+                            contactLogoWidth = objImage.Width;
+                            contactLogoHeight = objImage.Height;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                    finally
+                    {
+                        if (objImage != null)
+                        {
+                            objImage.Dispose();
+                        }
+                    }
+                }
+                    
                 if(company!= null)
                 {
-                   CompanyLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +  "/" +  company.Image;
+                    if (company.Image != null && company.Image != "")
+                    {
+                        CompanyLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + company.Image;
+                        try
+                        {
+                            using (objCompanyLogo = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath( "~/" + company.Image)))
+                            {
+                                companyLogoWidth = objCompanyLogo.Width;
+                                companyLogoHeight = objCompanyLogo.Height;
+                            }
+
+                        }
+                        catch
+                        {
+
+                        }
+                        finally
+                        {
+                            if (objCompanyLogo != null)
+                            {
+                                objCompanyLogo.Dispose();
+                            }
+                        }
+                    }
                 }
+            
+              
             }
+
             array[0] = CompanyLogo;
             array[1] = ContactLogo;
+            array[2] = companyLogoHeight.ToString();
+            array[3] = companyLogoWidth.ToString();
+            array[4] = contactLogoHeight.ToString();
+            array[5] = contactLogoWidth.ToString();
             return array;
         }
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
@@ -1068,9 +1236,17 @@ namespace MPC.Repository.Repositories
             CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
             Item item = db.Items.Where(g=>g.ItemId == itemId).SingleOrDefault();
             Item orignalItem = null;
+            long ListingId = 0;
+            bool isRealEstateVariable = false;
             if(item != null)
             {
                 orignalItem = db.Items.Where(g=>g.ItemId == item.RefItemId).SingleOrDefault();
+                var template = db.Templates.Where(g => g.ProductId == item.TemplateId).SingleOrDefault();
+                if (template != null)
+                {
+                    if (template.realEstateId.HasValue)
+                        ListingId = template.realEstateId.Value;
+                }
                 if(orignalItem != null)
                 {
                     List<MPC.Models.DomainModels.TemplateVariable> listTemplateVariables = new List<Models.DomainModels.TemplateVariable>();
@@ -1090,23 +1266,35 @@ namespace MPC.Repository.Repositories
 
                                     switch (FieldVariable.RefTableName)
                                     {
-                                        case "tbl_Listing":
-                                             break;
-                                        case "tbl_ListingImage":
-
-
+                                        case "Listing":
+                                            isRealEstateVariable = true;
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
-                                        case "tbl_ListingAgent":
+                                        case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
+                                           
                                             break;
-                                        case "tbl_ListingOFID":
+                                        case "ListingAgent": //from users table based on company id and agent count
+                                            isRealEstateVariable = true;
+                                            fieldValue = GetRealEstateAgent(FieldVariable, ListingId);
                                             break;
-                                        case "tbl_ListingVendor":
+                                        case "ListingOFIs":
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
-                                        case "tbl_ListingLink":
+                                        case "ListingVendor":
+                                            isRealEstateVariable = true;
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
-                                        case "tbl_ListingFloorPlan":
+                                        case "ListingLink":
+                                            isRealEstateVariable = true;
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
-                                        case "tbl_ListingConjunctionAgent":
+                                        case "ListingFloorPlan":
+                                            isRealEstateVariable = true;
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
+                                            break;
+                                        case "ListingConjunctionAgent":
+                                            isRealEstateVariable = true;
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "CompanyContact":
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, contactID);
@@ -1178,6 +1366,12 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.VariableId = FieldVariable.VariableId;
                                     objScopeVariable.Value = fieldValue;
                                     objScopeVariable.FieldVariable = FieldVariable;
+                                    if(isRealEstateVariable)
+                                    {
+                                        var listingImg = db.CompanyVariableIcons.Where(g => g.VariableId == FieldVariable.VariableId && g.ContactCompanyId == contact.CompanyId).SingleOrDefault();
+                                        if (listingImg != null)
+                                            objScopeVariable.VariableIconUrl = listingImg.Icon;
+                                    }
                                     result.Add(objScopeVariable);
                                 }
                             }
@@ -1188,7 +1382,7 @@ namespace MPC.Repository.Repositories
                                     int scope = FieldVariable.Scope.Value;
                                     if (scope == (int)FieldVariableScopeType.Address)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1207,7 +1401,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else if (scope == (int)FieldVariableScopeType.Contact)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contactID).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contactID).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1234,7 +1428,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else if (scope == (int)FieldVariableScopeType.Store)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == FieldVariable.CompanyId).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == FieldVariable.CompanyId).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1257,7 +1451,7 @@ namespace MPC.Repository.Repositories
                                         // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                                         if (contact != null)
                                         {
-                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                             if (scopeObj != null)
                                             {
                                                 result.Add(scopeObj);
@@ -1279,6 +1473,22 @@ namespace MPC.Repository.Repositories
                             }
                         }
                     }
+                    if(template != null)
+                    {
+                        if (contactID == template.contactId)
+                        {
+                            List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
+                            foreach (var objTVar in lstTemplateVariables)
+                            {
+                                var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
+                                if (scopeObj != null)
+                                {
+                                    if (objTVar.VariableText != null && objTVar.VariableText != "")
+                                        scopeObj.Value = objTVar.VariableText;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             return result;
@@ -1290,6 +1500,7 @@ namespace MPC.Repository.Repositories
             long templateID = 0;
             List<ScopeVariable> lstVariables = GetUserTemplateVariables(itemID, contactId);
             var item = db.Items.Where(g=>g.ItemId == itemID).SingleOrDefault();
+            var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             string[] logos = GetContactImageAndCompanyLogo(contactId);
             if(item != null)
             {
@@ -1301,7 +1512,145 @@ namespace MPC.Repository.Repositories
             {
                 foreach(var variable in lstVariables)
                 {
-                    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                    if (obj.ObjectType == 2)
+                    {
+                        if (variable != null)
+                        {
+                            TemplateObject upObj3 = updateStyledContentString(obj, variable.FieldVariable.VariableTag, variable.Value);
+                            obj.ContentString = upObj3.ContentString;
+                            obj.textStyles = upObj3.textStyles;
+
+                            // obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                            if (variable.VariableIconUrl != null && variable.VariableIconUrl != "")
+                            {
+                                variable.VariableIconUrl = variable.VariableIconUrl.Replace("/MPC_Content", "");
+                                string contentStringPath = @"/" + variable.VariableIconUrl;
+
+                                System.Drawing.Image objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath("~/MPC_Content" + contentStringPath));
+                                int ImageWidth = objImage.Width;
+                                int ImageHeight = objImage.Height;
+                                if (ImageWidth > ImageHeight)
+                                {
+                                    //  templateObject.MaxHeight = templateObject.MaxWidth * Convert.ToDouble(ImageHeight / ImageWidth);
+                                }
+                                else
+                                {
+                                    //  templateObject.MaxWidth = templateObject.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);
+                                }
+                                objImage.Dispose();
+
+                                //entery in template object
+                                TemplateObject variableIconTemp = new TemplateObject();
+                                variableIconTemp.ObjectType = 3;
+                                variableIconTemp.Name = "Variable Icon";
+                                variableIconTemp.IsEditable = true;// templateObject.IsEditable;
+                                variableIconTemp.IsHidden = false;// templateObject.IsHidden;
+                                variableIconTemp.IsMandatory = false;// templateObject.IsMandatory;
+                                variableIconTemp.AutoShrinkText = obj.AutoShrinkText;
+                                variableIconTemp.IsPositionLocked = false;// templateObject.IsPositionLocked;
+                                variableIconTemp.DisplayOrderPdf = obj.DisplayOrderPdf;
+                                variableIconTemp.ProductId = obj.ProductId;
+                                variableIconTemp.ContentString = contentStringPath;
+
+                                variableIconTemp.MaxHeight = obj.MaxHeight;
+                                variableIconTemp.MaxWidth = obj.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);//templateObject.MaxWidth;
+                                variableIconTemp.PositionX = obj.PositionX - variableIconTemp.MaxWidth;
+                                variableIconTemp.PositionY = obj.PositionY; //  -ImageWidth; ;
+
+
+                                variableIconTemp.MaxCharacters = 0;
+                                variableIconTemp.RotationAngle = 0;
+                                variableIconTemp.IsFontCustom = false;
+                                variableIconTemp.IsFontNamePrivate = false;
+                                variableIconTemp.FontName = string.Empty;
+                                variableIconTemp.FontSize = 0;
+                                variableIconTemp.IsBold = false;
+                                variableIconTemp.IsItalic = false;
+                                variableIconTemp.Allignment = 0;
+                                variableIconTemp.VAllignment = 0;
+                                variableIconTemp.Indent = 0;
+                                variableIconTemp.IsUnderlinedText = false;
+                                variableIconTemp.ColorType = 0;
+                                variableIconTemp.ColorName = string.Empty;
+                                variableIconTemp.ColorC = 0;
+                                variableIconTemp.ColorM = 0;
+                                variableIconTemp.ColorY = 0;
+                                variableIconTemp.ColorK = 0;
+                                variableIconTemp.Tint = 0;
+                                variableIconTemp.IsSpotColor = false;
+                                variableIconTemp.SpotColorName = string.Empty;
+                                variableIconTemp.ContentCaseType = 0;
+                                variableIconTemp.DisplayOrderTxtControl = 0;
+                                variableIconTemp.RColor = 0;
+                                variableIconTemp.GColor = 0;
+                                variableIconTemp.BColor = 0;
+                                variableIconTemp.LineSpacing = 0;
+                                variableIconTemp.ProductPageId = obj.ProductPageId;
+                                variableIconTemp.ParentId = 0;
+                                variableIconTemp.CircleRadiusX = 0;
+                                variableIconTemp.Opacity = 1;
+                                variableIconTemp.ExField1 = string.Empty;
+                                variableIconTemp.ExField2 = string.Empty;
+                                variableIconTemp.ColorHex = string.Empty;
+                                variableIconTemp.CircleRadiusY = 0;
+                                variableIconTemp.IsTextEditable = false;
+                                variableIconTemp.QuickTextOrder = 0;
+                                variableIconTemp.IsQuickText = false;
+                                variableIconTemp.CharSpacing = 0;
+                                variableIconTemp.watermarkText = string.Empty;
+                                variableIconTemp.textStyles = string.Empty;
+                                variableIconTemp.IsOverlayObject = false;
+                                variableIconTemp.ClippedInfo = null;
+
+                                db.TemplateObjects.Add(variableIconTemp);
+                                db.SaveChanges();
+                            }
+                            if (variable.FieldVariable != null)
+                            {
+                                // replace prefix and postFixes 
+                                if (variable.FieldVariable.VariableTag != null)
+                                {
+                                    string tag = variable.FieldVariable.VariableTag.Replace("{{", "").Replace("}}", "");
+                                    string preFix = "{{" + tag + "_pre}}"; ;
+                                    string postFix = "{{" + tag + "_post}}";
+
+
+                                    if (contact != null)
+                                    {
+                                        var ext = db.VariableExtensions.Where(g => g.CompanyId == contact.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
+                                        if (ext != null)
+                                        {
+                                            if (ext.VariablePrefix == null )
+                                            {
+                                                ext.VariablePrefix = "";
+                                               // obj.ContentString = obj.ContentString.Replace(preFix, ext.VariablePrefix);
+                                            }
+                                            TemplateObject upObj = updateStyledContentString( obj, preFix, ext.VariablePrefix);
+                                            obj.ContentString = upObj.ContentString;
+                                            obj.textStyles = upObj.textStyles;
+                                            if (ext.VariablePostfix == null )
+                                            {
+                                                ext.VariablePostfix = "";
+                                            }
+                                            TemplateObject upObj2 = updateStyledContentString(obj, postFix, ext.VariablePostfix);
+                                            obj.ContentString = upObj2.ContentString;
+                                            obj.textStyles = upObj2.textStyles;
+                                        }else
+                                        {
+                                            TemplateObject upObj = updateStyledContentString(obj, preFix, "");
+                                            obj.ContentString = upObj.ContentString;
+                                            obj.textStyles = upObj.textStyles;
+                                           
+                                            TemplateObject upObj2 = updateStyledContentString(obj, postFix, "");
+                                            obj.ContentString = upObj2.ContentString;
+                                            obj.textStyles = upObj2.textStyles;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
                 }
                 if (obj.ObjectType == 8)
                 {
@@ -1323,9 +1672,176 @@ namespace MPC.Repository.Repositories
             result = true;
             return result;
         }
-        public List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        private TemplateObject updateStyledContentString(TemplateObject obj, string variable, string value)
         {
-            List<VariableExtension> listExtensions = new List<VariableExtension>();
+            List<InlineTextStyles> styles = new List<InlineTextStyles>();
+            List<InlineTextStyles> stylesCopy = new List<InlineTextStyles>();
+            if (obj.textStyles != null)
+            {
+                styles = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
+                stylesCopy = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
+            }
+            if (value != null && value != "")
+            {
+                if (obj.ContentString.Contains(variable))
+                {
+                    if (styles.Count > 0)
+                    {
+                        string[] objs = obj.ContentString.Split(new string[] { variable }, StringSplitOptions.None);
+                        int variableLength = variable.Length;
+                        int lengthCount = 0;
+                        string content = "";
+                        for (int i = 0; i < objs.Length-1; i++)
+                        {
+                            stylesCopy = new List<InlineTextStyles>(styles);
+                            content += objs[i];
+                            if ((i + 1) != objs.Length)
+                            {
+                                content += value;
+                            }
+                            lengthCount += objs[i].Length;
+                            int toMove = (i + 1) * variableLength;
+                            int toCopy = lengthCount;
+                            bool styleExist = false;
+                            int stylesRemoved = 0;
+                            InlineTextStyles StyleToCopy = null;
+                            foreach (var objStyle in styles)
+                            {
+                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy+1)
+                                {
+                                    styleExist = true;
+                                    StyleToCopy = objStyle;
+                                }
+                                if (Convert.ToInt32(objStyle.characterIndex) <= (lengthCount + variableLength) && Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                {
+                                    InlineTextStyles objToRemove = stylesCopy.Where(g => g.characterIndex == objStyle.characterIndex).SingleOrDefault();
+                                    stylesCopy.Remove(objToRemove);
+                                    stylesRemoved++;
+                                }
+                            }
+
+                            int diff = value.Length - (variableLength);
+                            foreach (var objStyle in stylesCopy)
+                            {
+                                if (Convert.ToInt32(objStyle.characterIndex) > (lengthCount + variable.Length))
+                                    objStyle.characterIndex = Convert.ToString((Convert.ToInt32(objStyle.characterIndex) + diff));
+                            }
+                            if (styleExist)
+                            {
+                                for (int z = 0; z < value.Length; z++)
+                                {
+                                    InlineTextStyles objToAdd = new InlineTextStyles();
+                                    objToAdd.fontName = StyleToCopy.fontName;
+                                    objToAdd.fontSize = StyleToCopy.fontSize;
+                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
+                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
+                                    objToAdd.textColor = StyleToCopy.textColor;
+                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
+                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
+                                    stylesCopy.Add(objToAdd);
+
+                                }
+                            }
+                            styles = new List<InlineTextStyles>(stylesCopy);
+                            lengthCount += value.Length;
+                        }
+                        content += objs[objs.Length-1];
+                        obj.ContentString = content;
+
+                    }
+                    else
+                    {
+                        obj.ContentString = obj.ContentString.Replace(variable, value);
+                    }
+
+                }
+            }
+            else
+            {
+                if (obj.ContentString.Contains(variable))
+                {
+                    if (styles.Count > 0)
+                    {
+                        value = "";
+                        string[] objs = obj.ContentString.Split(new string[] { variable }, StringSplitOptions.None);
+                        int variableLength = variable.Length;
+                        int lengthCount = 0;
+                        string content = "";
+                        for (int i = 0; i < objs.Length; i++)
+                        {
+                            stylesCopy = new List<InlineTextStyles>(styles);
+                            content += objs[i];
+                            if ((i + 1) != objs.Length)
+                            {
+                                content += value;
+                            }
+                            lengthCount += objs[i].Length;
+                            int toMove = (i + 1) * variableLength;
+                            int toCopy = lengthCount;
+                            bool styleExist = false;
+                            int stylesRemoved = 0;
+                            InlineTextStyles StyleToCopy = null;
+                            foreach (var objStyle in styles)
+                            {
+                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                {
+                                    styleExist = true;
+                                    StyleToCopy = objStyle;
+                                }
+                                if (Convert.ToInt32(objStyle.characterIndex) <= (lengthCount + variableLength) && Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                {
+                                    InlineTextStyles objToRemove = stylesCopy.Where(g => g.characterIndex == objStyle.characterIndex).SingleOrDefault();
+                                    stylesCopy.Remove(objToRemove);
+                                    stylesRemoved++;
+                                }
+                            }
+
+                            int diff = value.Length - (variableLength);
+                            foreach (var objStyle in stylesCopy)
+                            {
+                                if (Convert.ToInt32(objStyle.characterIndex) > (lengthCount + variable.Length))
+                                    objStyle.characterIndex = Convert.ToString((Convert.ToInt32(objStyle.characterIndex) + diff));
+                            }
+                            if (styleExist)
+                            {
+                                for (int z = 0; z < value.Length; z++)
+                                {
+                                    InlineTextStyles objToAdd = new InlineTextStyles();
+                                    objToAdd.fontName = StyleToCopy.fontName;
+                                    objToAdd.fontSize = StyleToCopy.fontSize;
+                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
+                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
+                                    objToAdd.textColor = StyleToCopy.textColor;
+                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
+                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
+                                    stylesCopy.Add(objToAdd);
+
+                                }
+                            }
+                            styles = new List<InlineTextStyles>(stylesCopy);
+                            lengthCount += value.Length;
+                        }
+                        obj.ContentString = content;
+
+                    }
+                    else
+                    {
+                        obj.ContentString = obj.ContentString.Replace(variable, "");
+                    }
+
+                }
+            }
+
+            if (styles != null && styles.Count != 0)
+            {
+                obj.textStyles = JsonConvert.SerializeObject(styles, Formatting.Indented);
+            }
+            return obj;
+        }
+        public List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            List<VariableExtensionWebstoreResposne> listExtensions = new List<VariableExtensionWebstoreResposne>();
             var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
             if(contact != null)
             {
@@ -1337,13 +1853,64 @@ namespace MPC.Repository.Repositories
                         var ext = db.VariableExtensions.Where(g => g.CompanyId == company.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
                         if(ext != null)
                         {
-                            listExtensions.Add(ext);
+                            VariableExtensionWebstoreResposne obj = new VariableExtensionWebstoreResposne();
+                            obj.CollapsePostfix = ext.CollapsePostfix;
+                            obj.CollapsePrefix = ext.CollapsePrefix;
+                            obj.CompanyId = ext.CompanyId;
+                            obj.FieldVariableId = ext.FieldVariableId;
+                            obj.Id = ext.Id;
+                            obj.VariablePostfix = ext.VariablePostfix;
+                            obj.VariablePrefix = ext.VariablePrefix;
+
+                            listExtensions.Add(obj);
                         }
                     }
                 
                 }
             }
             return listExtensions;
+        }
+
+        public string GetRealEstateAgent(FieldVariable obj , long propertyId)
+        {
+            int count = 1;
+            string fieldValue = "";
+            count = Convert.ToInt32(obj.VariableTag.Replace("{{Agent", "").Replace("Name}}", "").Replace("Email}}", "").Replace("Phone1}}", "").Replace("Phone2}}", "").Replace("Mobile}}", "").Replace("Ref}}", ""));
+            var property = db.Listings.Where(g => g.ListingId == propertyId).SingleOrDefault();
+            if (property != null)
+            {
+                List<CompanyContact> list = db.CompanyContacts.Where(c => c.CompanyId == property.CompanyId && (c.isArchived == false || c.isArchived == null) && c.ContactRoleId == (int)Roles.User).ToList();
+                if (list != null && list.Count > 0)
+                {
+                    CompanyContact contact = new CompanyContact();
+                    if (list.Count < count)
+                        contact = list[0];
+                    else
+                        contact = list[count-1];
+                    if (obj.VariableTag.Contains("Name}}"))
+                    {
+                        fieldValue = contact.FirstName;
+                    }
+                    else if (obj.VariableTag.Contains("Email}}"))
+                    {
+                        fieldValue = contact.Email;
+                    }
+                    else if (obj.VariableTag.Contains("Phone1}}"))
+                    {
+                        fieldValue = contact.HomeTel1;
+                    }
+                    else if (obj.VariableTag.Contains("Phone2}}"))
+                    {
+                        fieldValue = contact.HomeTel2;
+                    }
+                    else if (obj.VariableTag.Contains("Mobile}}"))
+                    {
+                        fieldValue = contact.Mobile;
+                    }
+                }
+
+            }
+            return fieldValue;
         }
         #endregion
     }

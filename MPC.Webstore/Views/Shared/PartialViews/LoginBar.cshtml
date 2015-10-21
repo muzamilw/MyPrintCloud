@@ -1,5 +1,8 @@
 ﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
+@{
+    Layout = null;
+}
 
 <div class="LoginBarContainer">
     <div class="container content_area">
@@ -14,11 +17,13 @@
                     <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
                         <ul id="menu-my-account" class="navM">
                             <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
-                                <a onclick="ShowLoader();" href="/Login" class="usercolorSize"><i class="fa fa-user"></i> Sign In</a>
-                                <a onclick="ShowLoader();" href="/Signup" class="usercolorSize"> Sign Up</a>
+                                <a onclick="ShowLoader();" href="/Login" class="usercolorSize"><i class="fa fa-user"></i> @Html.Raw(Html.GetKeyValueFromResourceFile("SignInlbl", UserCookieManager.WBStoreId, "Sign In"))
+</a>
+                                <a onclick="ShowLoader();" href="/Signup" class="usercolorSize"> @Html.Raw(Html.GetKeyValueFromResourceFile("SignUplbl", UserCookieManager.WBStoreId, "Sign Up"))
+</a>
                             </li>
                             <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
-                                <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.WBStoreId))</a>
+                                <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.WBStoreId, "Login/Register"))</a>
                             </li>
                             <li class="ZeroRightMargin BlackBtnCS">
                                 <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
@@ -82,10 +87,11 @@
                                 </a>
 
                                 <ul id="profileMenu" style="display:none;" class="profile-menu">
-                                    <li><a href="/Dashboard"> Profile</a></li>
-                                    <li><a href="#">Saved</a></li>
+                                    <li><a href="/Dashboard"> @Html.Raw(Html.GetKeyValueFromResourceFile("pfile", UserCookieManager.WBStoreId, "Profile"))</a></li>
+                                    <li><a href="#">@Html.Raw(Html.GetKeyValueFromResourceFile("MenuSavedlbl", UserCookieManager.WBStoreId, "Saved"))
+</a></li>
                                     <li><a href="/ShopCart">Cart</a></li>
-                                    <li><a href="@Url.Action("LogOut", "LoginBar")">Sign out</a></li>
+                                    <li><a href="@Url.Action("LogOut", "LoginBar")">@Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign Out"))</a></li>
                                 </ul>
 
                             </li>

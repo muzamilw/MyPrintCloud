@@ -1,6 +1,8 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿
+ @{
+   Layout = null;
 }
+
 <link href="@Url.Content("~/Content/SamrtFormCarousel.css")" rel="stylesheet" type="text/css" />
 
 <style>
@@ -24,13 +26,11 @@
         }
     </ul>
 </div>
-
-@section scripts
-{
+   <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#mycarousel').jcarousel();
         });
     </script>
-}
+
 

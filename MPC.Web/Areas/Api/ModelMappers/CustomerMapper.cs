@@ -61,6 +61,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Email = source.MarketingBriefRecipient,
                 Status = GetCustomerStatus(source.Status),
                 CompnayId = source.CompanyId,
+                
                 Image = bytes,
                 StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
                 StoreName = source.StoreName

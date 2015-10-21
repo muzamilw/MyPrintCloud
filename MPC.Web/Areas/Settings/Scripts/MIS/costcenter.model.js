@@ -1,36 +1,5 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
-    ko.bindingHandlers.autoNumeric = {
-        init: function (el, valueAccessor, bindingsAccessor, viewModel) {
-            var $el = $(el),
-              bindings = bindingsAccessor(),
-              settings = bindings.settings,
-              value = valueAccessor();
-
-            $el.autoNumeric(settings);
-            $el.autoNumeric('set', parseFloat(ko.utils.unwrapObservable(value()), 10));
-            $el.change(function () {
-                value(parseFloat($el.autoNumeric('get'), 10));
-            });
-        },
-        update: function (el, valueAccessor, bindingsAccessor, viewModel) {
-            var $el = $(el),
-              newValue = ko.utils.unwrapObservable(valueAccessor()),
-              elementValue = $el.autoNumeric('get'),
-              valueHasChanged = (newValue != elementValue);
-
-            if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")) {
-                valueHasChanged = true;
-            }
-
-            if (valueHasChanged) {
-                if (newValue != undefined) {
-                    $el.autoNumeric('set', newValue);
-                }
-
-
-            }
-        }
-    };
+    
 
 
     var CostCenter = function () {
@@ -194,6 +163,7 @@
             isDirectCost: isDirectCost,
             isScheduleable: isScheduleable,
             isPrintOnJobCard: isPrintOnJobCard,
+            perHourPrice: perHourPrice,
             costPerUnitQuantity: costPerUnitQuantity,
             pricePerUnitQuantity: pricePerUnitQuantity,
             timePerUnitQuantity: timePerUnitQuantity,
@@ -222,6 +192,7 @@
             //isTimePrompt: isTimePrompt
             isQtyVariable: isQtyVariable
             //isQtyPrompt: isQtyPrompt
+           
         }),
         hasChanges = ko.computed(function () {
             return dirtyFlag.isDirty();
@@ -372,7 +343,7 @@
         convertToServerData = function () {
             return {
                 CostCentreId: costCenterId(),
-            }
+            };
         };
         self = {
             costCenterId: costCenterId,
@@ -454,11 +425,11 @@
         return ccInstruction;
     };
     NewCostCenterInstruction = function () {
-        var cci = new costCenterInstruction(0, '', '1', 0);
+        var cci = new costCenterInstruction(0);
         return cci;
     };
     NewInstructionChoice = function () {
-        var cic = new costCenterInstructionChoice(0, '', 0);
+        var cic = new costCenterInstructionChoice(0);
         return cic;
     };
     costCenterInstructionChoice = function (specifiedChoiceId, specifiedChoice, specifiedInstructionId) {

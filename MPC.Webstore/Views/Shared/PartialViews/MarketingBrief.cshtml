@@ -2,11 +2,14 @@
 @using MPC.Models.Common
 @using MPC.Webstore.Common
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+}
+@{
+
     string hfTotalGroups = string.Empty;
 }
 
-<div class="container content_area">
+<div class="container content_area" id="all-marketingB-pg">
     <div class="left_right_padding">
 
         <div class="BreadCrumbMenu left_align col-xs-12">
@@ -21,13 +24,13 @@
             </h1>
             <div class="clearBoth"></div>
         </div>
-        
+
         @if (ViewBag.SuccessMessage != "0")
         {
             <div id="welcomeSummeryMEsg" class="LGBC rounded_corners Mleft10">
                 <div class="white_background rounded_corners MB_P5o">
                     <label id="WlSumMesg" class="MB_ThksMsg">@Html.Raw(ViewBag.SuccessMessage)</label>
-                    <a class="spanRetURl" href="/" id="lnk_ReturnHome">Back to HomePage</a>
+                    <a class="spanRetURl" href="/" id="lnk_ReturnHome">@Html.Raw(Html.GetKeyValueFromResourceFile("backtohpage", UserCookieManager.WBStoreId, "Back to HomePage"))</a>
                 </div>
             </div>
         }
@@ -35,7 +38,7 @@
         {
             <div class="MB_MsgSm col-xs-12 col-md-12 col-lg-12">
                 <span id="lblSummeryMesg">
-                    @Model.ProductSpecification
+                    @Html.Raw(Model.ProductSpecification)
                 </span>
             </div>
             <div class="clearBoth">
@@ -58,116 +61,143 @@
                 {
                     foreach (var question in ViewData["QuestionsList"] as List<MPC.Models.DomainModels.ProductMarketBriefQuestion>)
                     {
-
-                        List<MPC.Models.DomainModels.ProductMarketBriefAnswer> answers = ViewData["Answers"] as List<MPC.Models.DomainModels.ProductMarketBriefAnswer>;
-                        answers = answers.Where(a => a.MarketBriefQuestionId == question.MarketBriefQuestionId).ToList();
                         QNo++;
-
-                        string groupName = QNo + "radioGroup";
-                       
-
-
-                        divID = "radio" + QNo;
-
-
-                        var AnsCOnt = "AnsCont" + QNo;
-                        <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
-                            <div class="white_background rounded_corners MB_InnerCont">
-
-                                <div id="questionCont" class="MB_QtnsCont">
-                                    @QNo.@question.QuestionDetail
-                                </div>
-
-                                @{
-                        if (question.IsMultipleSelection == true)
+                        List<MPC.Models.DomainModels.ProductMarketBriefAnswer> answers = ViewData["Answers"] as List<MPC.Models.DomainModels.ProductMarketBriefAnswer>;
+                        if (answers != null && answers.Count() > 0)
                         {
-
-                            <div id="answersCont" class="MB_AnsCont">
-                                <div id="@divID" class=@AnsCOnt data-type="1">
-                                    @{
-                            int Anscount = 1;
-
-                            foreach (var i in answers)
-                            {
-                                string radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
-                                string className = "Q" + QNo + "RadioBtn" + Anscount;
-
-
-                                <div class=float_left_simple style="height:inherit;"> <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickCheckBox('@radiobtnID');> @i.AnswerDetail </label> </div>
-                                Anscount += 1;
-                            }
-                                    }
-                                </div>
-
-                            </div>
-                        }
-                        else
-                        {
-                            <div id="answersCont" class="MB_AnsCont">
-                                <div id="@divID" class=@AnsCOnt data-type="2">
-                                    @{
-                            int Anscount = 1;
-
-                            foreach (var i in answers)
-                            {
-                                var radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
-                                string className = "Q" + QNo + "RadioBtn" + Anscount;
-
-
-                                <div class=float_left_simple style="height:inherit;"> <input type=radio id="@i.MarketBriefAnswerId" class=@className name=@groupName style=" position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickRadio('@radiobtnID');>@i.AnswerDetail</label> </div>
-                                Anscount += 1;
-                            }
-                                    }
-                                </div>
-
-                            </div>
-                        }
-
-                        if (answers.Count > 0 & answers != null)
-                        {
-
-
-                            HFGroupCount++;
-
+                            answers = answers.Where(a => a.MarketBriefQuestionId == question.MarketBriefQuestionId).ToList();
                            
 
-                            if (!string.IsNullOrEmpty(hfTotalGroups))
+                            string groupName = QNo + "radioGroup";
+
+
+
+                            divID = "radio" + QNo;
+
+
+                            var AnsCOnt = "AnsCont" + QNo;
+                            <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
+                                <div class="white_background rounded_corners MB_InnerCont">
+
+                                    <div id="questionCont" class="MB_QtnsCont">
+                                        @QNo.@question.QuestionDetail
+                                    </div>
+
+                                    @{
+                            if (question.IsMultipleSelection == true)
                             {
-                                hfTotalGroups = hfTotalGroups + "," + groupName;
+
+                                <div id="answersCont" class="MB_AnsCont">
+                                    <div id="@divID" class=@AnsCOnt data-type="1">
+                                        @{
+                                int Anscount = 1;
+
+                                foreach (var i in answers)
+                                {
+                                    string radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
+                                    string className = "Q" + QNo + "RadioBtn" + Anscount;
+
+
+                                    <div class=float_left_simple style="height:inherit;"> <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick="TickCheckBox('@radiobtnID');"> @i.AnswerDetail </label> </div>
+                                    Anscount += 1;
+                                }
+                                        }
+                                    </div>
+                                    <div class="clearBoth;">
+                                        &nbsp;
+                                    </div>
+                                </div>
                             }
                             else
                             {
-                                hfTotalGroups = groupName;
-                            }
-                           
+                                <div id="answersCont" class="MB_AnsCont">
+                                    <div id="@divID" class=@AnsCOnt data-type="2">
+                                        @{
+                                int Anscount = 1;
 
-                        }
-                        if (!string.IsNullOrEmpty(hfHaveNoAns))
-                        {
-                            hfHaveNoAns = hfHaveNoAns + "," + AnsCOnt;
+                                foreach (var i in answers)
+                                {
+                                    var radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
+                                    string className = "Q" + QNo + "RadioBtn" + Anscount;
+
+
+                                    <div class=float_left_simple style="height:inherit;" onclick=TickRadio('@radiobtnID');> <input type=radio id="@i.MarketBriefAnswerId" class=@className name=@groupName style=" position:absolute;opacity:0;" onchange=TickRadio('@radiobtnID'); /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickRadio('@radiobtnID');>@i.AnswerDetail</label> </div>
+                                    Anscount += 1;
+                                }
+                                        }
+                                    </div>
+                                    <div class="clearBoth;">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            }
+
+                            if (answers.Count > 0 & answers != null)
+                            {
+
+
+                                HFGroupCount++;
+
+
+
+                                if (!string.IsNullOrEmpty(hfTotalGroups))
+                                {
+                                    hfTotalGroups = hfTotalGroups + "," + groupName;
+                                }
+                                else
+                                {
+                                    hfTotalGroups = groupName;
+                                }
+
+
+                            }
+                            if (!string.IsNullOrEmpty(hfHaveNoAns))
+                            {
+                                hfHaveNoAns = hfHaveNoAns + "," + AnsCOnt;
+                            }
+                            else
+                            {
+                                hfHaveNoAns = AnsCOnt;
+                            }
+
+
+                                    }
+
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                    <div class="MB_AddInfoCOnt">
+                                        <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
+                                    </div>
+
+                                </div>
+                            </div>
                         }
                         else
                         {
-                            hfHaveNoAns = AnsCOnt;
-                        }
+                            <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
+                                <div class="white_background rounded_corners MB_InnerCont">
 
-
-                                }
-
-                                <div class="clearBoth">
-                                    &nbsp;
+                                    <div id="questionCont" class="MB_QtnsCont">
+                                        @QNo.@question.QuestionDetail
+                                    </div>
+                                    <div id="answersCont" class="MB_AnsCont">
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                    <div class="MB_AddInfoCOnt">
+                                        <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
+                                    </div>
                                 </div>
-                                <div class="MB_AddInfoCOnt">
-                                    <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                    <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder="Additional Information"></textarea>
-                                </div>
-
                             </div>
-                        </div>
+                        }
                     }
                     <input type="hidden" id="hfGroupsCount" value="@HFGroupCount" />
-                    <input id="hfHaveNoAns" type="hidden" value="@hfHaveNoAns" />
-                    <input type="hidden" id="hfTotalGroups" value="@hfTotalGroups" />
+                        <input id="hfHaveNoAns" type="hidden" value="@hfHaveNoAns" />
+                        <input type="hidden" id="hfTotalGroups" value="@hfTotalGroups" />
                 }
                 <div class="clearBoth">
                     &nbsp;
@@ -181,20 +211,22 @@
                                 @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFiles", UserCookieManager.WBStoreId))
                             </div>
                             <div class="MB_UploadContainer">
-                                <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.WBStoreId))</label><br />
+                                <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.WBStoreId, "Upload your design"))</label><br />
                                 <br />
                                 <div class="MB_GLContainer">
-                                    <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.WBStoreId))</label>
-                                    <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.WBStoreId, "File formats: "))</label>
+                                    <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.WBStoreId, "png, gif, pdf and jpg file formats."))</label>
                                 </div>
                                 <div class="MB_GLContainer">
-                                    <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.WBStoreId))</label>
-                                    <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.WBStoreId, "file size: "))</label>
+                                    <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.WBStoreId, "file greater than 10mb is not permitted for upload."))</label>
                                 </div>
                             </div>
                             <div class="MB_fileUploadContainer">
-                                <asp:FileUpload ID="fuImageUpload" runat="server" CssClass="file_upload_box185" />
-                                <input type="file" id="fuImageUpload" class="file_upload_box185" />
+                                <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" class="file_upload_box185" />
+                                <br />
+                                <div id="selectedFiles"></div>
+                                <input id="listOfFileName" name="listOfFileName"  type="hidden"/>
                             </div>
                         </div>
                     </div>
@@ -205,16 +237,21 @@
                     }
                 </div>
                 <div id="RightPanel" class="MB_RightCont float_left_simple col-lg-3 col-md-3 col-xs-12 col-sm-12">
-                    <img id="CatImge" class="MB_ProductImage float_left_simple" src='@Html.GetAppBasePath()@Model.ThumbnailPath' />
+                    <img id="CatImge" class="MB_ProductImage float_left_simple" src='/@Model.ThumbnailPath' />
                     <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_InnerRightCont">
                         <div class="white_background rounded_corners MB_RightInnerPnl">
                             <div class="MB_GrayBack">
-                                <label id="lbl_Reply_Message" class="Fsize17">Reply back to me by</label>
+                                <label id="lbl_Reply_Message" class="Fsize15">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("replybacktome", UserCookieManager.WBStoreId, "Reply back to me by"))
+                                </label>
                                 <div class="left_align">
-                                    <span id="lbl_Email" class="MB_EMailtxtColor">Email: <label>@MPC.Webstore.Common.UserCookieManager.WEBEmail</label></span>
+                                    <span id="lbl_Email" class="MB_EMailtxtColor Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")): <span>@MPC.Webstore.Common.UserCookieManager.WEBEmail</span></span>
                                 </div>
                                 <div style="margin-top: 10px; text-align: left;">
-                                    <span id="lblTelText" class="MB_EMailtxtColor">Tel: <label>@ViewBag.Phone</label></span>
+                                    <span id="lblTelText" class="MB_EMailtxtColor Fsize13">
+                                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
+                                        <span>@ViewBag.Phone</span>
+                                    </span>
                                 </div>
                                 <a id="lbl_Change" href="#" style="float: right; cursor: pointer; color:#73a8ac; clear: both; display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblChange", UserCookieManager.WBStoreId))</a>
                                 <div class="clearBoth">
@@ -222,8 +259,17 @@
                                 </div>
                             </div>
                             <div style="margin: 5px; margin-top: 15px;">
-                                <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
-                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value="Submit Inquiry" />
+                                @if (ViewBag.isServerSettingsSet == 0)
+                                {
+                                    <input type="button" class="MB_SendINqBtn rounded_corners5" 
+                                           onclick="ShowServerSeetingPopUp();" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry"))' />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
+                                           onclick="return GetAllinputElementIDS(); ShowLoader();" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry"))' />
+                                }
+                               
                             </div>
                         </div>
                     </div>
@@ -241,192 +287,339 @@
     </div>
 </div>
 
-@section scripts {
-    <script src="~/Scripts/PopUp.js"></script>
-<script src="~/Scripts/jquery.MultiFile.js"></script>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <script src="/Scripts/PopUp.js"></script>
+  
     <script>
 
-        $(document).ready(function () {
-            CreateMultipleUpload();
+    var mbImagesFiles = new FormData();
+    var storedFiles = [];
 
+    var formData;
+    var postedFiles = [];
 
+    function GetAllinputElementIDS() {
+        ShowLoader();
+        var selectedradioBtnsCount = 0;
+        var groupCount = $("#hfGroupsCount").val();
+        var txtVal = "";
+        var idList = "";
+        var AdditionalAnsList = "";
+        debugger;
+        var AllAnswers = $("#hfHaveNoAns").val();
 
+        if (AllAnswers != '' && AllAnswers != undefined) {
+            var EachAnswer = AllAnswers.split(',');
 
+            $.each(EachAnswer, function (i, element) {
 
-        });
+                var TypeOfAns = $('.' + element + '').attr("data-Type");
 
-        function CreateMultipleUpload() {
-            //set up the file upload
-            $("#fuImageUpload").MultiFile(
-              {
-                  max: 4,
-                  accept: 'jpg,png,pdf,gif,jpeg',
-                  afterFileSelect: function (element, value, master_element) {
+                if ($('.' + element + '').children().html() == null) {
 
-                  },
-                  afterFileRemove: function (element, value, master_element) {
-
-                  }
-              });
-        }
-
-        function ShowUploader() {
-            $("#fuImageUpload").click();
-        }
-
-        function GetAllinputElementIDS() {
-
-            var selectedradioBtnsCount = 0;
-            var groupCount = $("#hfGroupsCount").val();
-            var txtVal = "";
-            var idList = "";
-            var AdditionalAnsList = "";
-
-            var AllAnswers = $("#hfHaveNoAns").val();
-
-            if (AllAnswers != '') {
-                var EachAnswer = AllAnswers.split(',');
-
-                $.each(EachAnswer, function (i, element) {
-
-                    var TypeOfAns = $('.' + element + '').attr("data-Type");
-                    
-                    if ($('.' + element + '').children().html() == null) {
-
-                        if (AdditionalAnsList == "") {
-                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
-                        } else {
-                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
-
-                        }
+                    if (AdditionalAnsList == "") {
+                        AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
                     } else {
-                        if (TypeOfAns == 1) { //case of checkbox
-                           
-                            var isCheckedd = 0;
-                            var AnswerList = "";
-                            var GroupName = $('.' + element + '').children().children().attr("name");
-                           
-                            $('input:checkbox[name=' + GroupName + ']').each(function () {
-                                
-                                if ($(this).attr('checked') == "checked") {
-                                    if (AnswerList == "") {
-                                        AnswerList = $(this).next().text();
-                                    } else {
-                                        AnswerList = AnswerList + ", " + $(this).next().text();
-                                    }
-                                  
-                                    if (isCheckedd == 0) {
-                                        isCheckedd = 1;
-                                        selectedradioBtnsCount = selectedradioBtnsCount + 1;
-                                    }
+                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
+
+                    }
+                } else {
+                    if (TypeOfAns == 1) { //case of checkbox
+
+                        var isCheckedd = 0;
+                        var AnswerList = "";
+                        var GroupName = $('.' + element + '').children().children().attr("name");
+
+                        $('input:checkbox[name=' + GroupName + ']').each(function () {
+
+                            if ($(this).attr('checked') == "checked") {
+                                if (AnswerList == "") {
+                                    AnswerList = $(this).next().text();
+                                } else {
+                                    AnswerList = AnswerList + ", " + $(this).next().text();
                                 }
-                            });
-                            if (AdditionalAnsList == "") {
-                                AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
-                            } else {
-                                AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+
+                                if (isCheckedd == 0) {
+                                    isCheckedd = 1;
+                                    selectedradioBtnsCount = selectedradioBtnsCount + 1;
+                                }
                             }
+                        });
+                        if (AdditionalAnsList == "") {
+                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
+                        } else {
+                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
+                        }
 
-                        } else { // case of radio
+                    } else { // case of radio
 
-                            $('input[type=radio]').each(function () {
-                                if ($(this).is(':checked')) {
-                                    var ClassOFSelectedRadio = $(this).parent().parent().attr("class");
+                        $('input[type=radio]').each(function () {
+                            if ($(this).is(':checked')) {
+                                var ClassOFSelectedRadio = $(this).parent().parent().attr("class");
 
-                                    if (ClassOFSelectedRadio == element) {
-                                        selectedradioBtnsCount = selectedradioBtnsCount + 1;
-                                        if (AdditionalAnsList == "") {
-                                            AdditionalAnsList = AdditionalAnsList + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
-                                        } else {
-                                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
-                                        }
-                                        return;
+                                if (ClassOFSelectedRadio == element) {
+                                    selectedradioBtnsCount = selectedradioBtnsCount + 1;
+                                    if (AdditionalAnsList == "") {
+                                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
+                                    } else {
+                                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
                                     }
+                                    return;
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
+                }
 
-                });
+            });
+        } else {
+            $('.MB_QtnsCont').each(function (i, val) {
+                if ($(this).next().next().next().children().next().val() != '' && $(this).next().next().next().children().next().val() != undefined) {
+                    if (AdditionalAnsList == "") {
+                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).text() + " \n "  + "Additional Information :  " + $(this).next().next().next().children().next().val();
+                    } else {
+                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).text() + " \n " + "Additional Information :  " + $(this).next().next().next().children().next().val();
+                    }
+                }
+            });
+
+        }
+
+        if (selectedradioBtnsCount < groupCount) {
+
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry."))');
+            var AllGroups = $("#hfTotalGroups").val();
+
+            var EachGroup = AllGroups.split(',');
+            $.each(EachGroup, function (i, element) {
+
+                var i = 0;
+                var id = "";
+                var SelecedRadioNotHighlighted = $('input[type="radio"][name="' + element + '"]:checked').attr("id");
+                if (SelecedRadioNotHighlighted == undefined) {
+
+                    $('input:radio[name=' + element + ']').each(function () {
+                        $(this).parent().parent().parent().parent().removeClass('white_background');
+                        $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
+                    });
+                    if (i == 0 & id != "") {
+
+                    }
+                }
+                var SelecedCheckBoxNotHighlighted = $('input[type="checkbox"][name="' + element + '"]:checked').attr("id");
+                if (SelecedCheckBoxNotHighlighted == undefined) {
+
+                    $('input:checkbox[name=' + element + ']').each(function () {
+                        $(this).parent().parent().parent().parent().removeClass('white_background');
+                        $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
+                    });
+                    if (i == 0 & id != "") {
+
+                    }
+                }
+            });
+            HideLoader();
+            return false;
+        } else {
+
+
+            $("#hfInqueryMesg").val(AdditionalAnsList);
+
+            var url = "/mpc_content/EmailAttachments/";
+
+            while (url.indexOf('/') != -1)
+                url = url.replace("/", "__");
+            formData = new FormData();
+            debugger;
+            // formData.append("file" + i, files[i]);
+            for (i = 0; i < postedFiles.length; i++) {
+                var isRemovedFile = false;
+                for (var d = 0; d < removedFiles.length; d++) {
+                    if (postedFiles[i].fname == removedFiles[d])
+                        isRemovedFile = true;
+                }
+                if (!isRemovedFile) {
+                    formData.append("file" + i, postedFiles[i].fObj);
+                }
             }
-
-            if (selectedradioBtnsCount < groupCount) {
-
-                ShowPopUp('Message', 'Please select an option in the highlighted questions to submit your inquiry.');
-                var AllGroups = $("#hfTotalGroups").val();
-
-                var EachGroup = AllGroups.split(',');
-                $.each(EachGroup, function (i, element) {
-
-                    var i = 0;
-                    var id = "";
-                    var SelecedRadioNotHighlighted = $('input[type="radio"][name="' + element + '"]:checked').attr("id");
-                    if (SelecedRadioNotHighlighted == undefined) {
-
-                        $('input:radio[name=' + element + ']').each(function () {
-                            $(this).parent().parent().parent().parent().removeClass('white_background');
-                            $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
+            if (storedFiles.length > 0) {
+                var fileData = JSON.stringify(storedFiles, null, 2);
+                var to;
+                to = "/webstoreapi/FileUpload/PostAsync/";
+                var options = {
+                    type: "POST",
+                    url: to,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (response) {
+                        var values = "";
+                        $(response).each(function (i, val) {
+                            if (values == "") {
+                                values = val;
+                            } else {
+                                values = values + "|" + val;
+                            }
+                          
                         });
-                        if (i == 0 & id != "") {
+                        $("#listOfFileName").val(values);
+                        console.log($("#listOfFileName").val());
+                        return true;
 
-                        }
+                    },
+                    error: function(msg) {
+
+                        console.log(msg);
+                        ShowPopUp("Error", "'"+ msg.responseText + "'");
+                        return false;
                     }
-                    var SelecedCheckBoxNotHighlighted = $('input[type="checkbox"][name="' + element + '"]:checked').attr("id");
-                    if (SelecedCheckBoxNotHighlighted == undefined) {
-
-                        $('input:checkbox[name=' + element + ']').each(function () {
-                            $(this).parent().parent().parent().parent().removeClass('white_background');
-                            $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
-                        });
-                        if (i == 0 & id != "") {
-
-                        }
-                    }
-                });
-                return false;
+                };
+                var returnText = $.ajax(options).responseText;
+              
             } else {
-
-                $("#hfInqueryMesg").val(AdditionalAnsList);
-
                 return true;
             }
+
         }
+    }
 
-        function TickCheckBox(CheckBoxClassName) {
+    function TickCheckBox(CheckBoxClassName) {
 
-            if ($('input:checkbox[class=' + CheckBoxClassName + ']').is(':checked')) {
+        var idOfBtn = $('input:checkbox[class=' + CheckBoxClassName + ']').attr('id');
+        console.log($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked'));
+        if ($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked')) {
 
-                $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', false);
-                $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+            $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', false);
+            $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
 
-            } else {
+        } else {
 
-                $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', true);
-                $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
-                $('input:checkbox[class=' + CheckBoxClassName + ']').parent().parent().parent().parent().addClass('white_background');
-                $('input:checkbox[class=' + CheckBoxClassName + ']').parent().parent().parent().parent().css("background-color", "white");
+            $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', true);
+            $("#" + idOfBtn).next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+            $("#" + idOfBtn).parent().parent().parent().parent().addClass('white_background');
+            $("#" + idOfBtn).parent().parent().parent().parent().css("background-color", "white");
 
-            }
         }
+    }
 
-        function TickRadio(RadioClassName) {
+    function TickRadio(RadioClassName) {
 
-            $('input:radio[class=' + RadioClassName + ']').attr('checked', true);
-            if ($('input:radio[class=' + RadioClassName + ']').is(':checked')) {
+        $('input:radio[class=' + RadioClassName + ']').attr('checked', true);
+        if ($('input:radio[class=' + RadioClassName + ']').is(':checked')) {
 
-                $('input:radio[class=' + RadioClassName + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+            $('input:radio[class=' + RadioClassName + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
 
-                var name = $('input:radio[class=' + RadioClassName + ']').attr("name");
+            var name = $('input:radio[class=' + RadioClassName + ']').attr("name");
 
-                $('input:radio[name=' + name + ']').each(function () {
-                    if ($(this).is(':checked')) {
-                        $(this).parent().parent().parent().parent().addClass('white_background');
-                        $(this).parent().parent().parent().parent().css("background-color", "white");
-                    } else {
-                        $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
-                    }
-                });
-            }
+            $('input:radio[name=' + name + ']').each(function () {
+                if ($(this).is(':checked')) {
+                    $(this).parent().parent().parent().parent().addClass('white_background');
+                    $(this).parent().parent().parent().parent().css("background-color", "white");
+                } else {
+                    $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+                }
+            });
         }
+    }
+
+    function ShowServerSeetingPopUp() {
+        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("msgOrgServSetting", UserCookieManager.WBStoreId, "Critial Error, server settings are not set!"))');
+    }
+
     </script>
-}
+
+
+<script>
+
+
+    var removedFiles = [];
+    $(function () {
+
+        $(":file").attr('title', '  ');
+        var $loading = $('#loadingDiv').hide();
+
+        $("input[id^='fileToUpload']").change(function (e) {
+            //  removedFiles = [];
+            doReCreate();
+        });
+
+
+    });
+
+
+    function doReCreate() {
+        selDiv = document.querySelector("#selectedFiles");
+        //formData = new FormData();
+        storedFiles = [];
+        var FileName = "";
+        var files = $("#fileToUpload").get(0).files;
+        if (files.length > 0) {
+            console.log(postedFiles.length < (4 + removedFiles.length));
+            if (files.length > 4) {
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
+            } else {
+                debugger;
+                var isAddfile = 1;
+                for (i = 0; i < files.length; i++) {
+               
+                    var fileext = files[i].name.split('.');
+                    var lastIndex = fileext.length;
+                    var extname = fileext[lastIndex - 1];
+                    if (files[i].size != null && files[i].size > 10000000) {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 10 MB are allowed only !");
+                        isAddfile = 0;
+                    }
+                    if (extname != "png" && extname != "jpg" && extname != "jpeg" && extname != "pdf" && extname != "gif") {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "File format is not allowed!");
+                        isAddfile = 0;
+                    } else {
+                        isAddfile = 1;
+                    }
+                }
+                if (isAddfile == 1) {
+
+                    for (i = 0; i < files.length; i++) {
+                        var isRemovedFile = false;
+                        for (var d = 0; d < removedFiles.length; d++) {
+                            if (files[i].name == removedFiles[d])
+                                isRemovedFile = true;
+                        }
+                        if (!isRemovedFile) {
+                            postedFiles.push({ fname: files[i].name, fObj: files[i] });
+                            // formData.append("file" + i, files[i]);
+                            mbImagesFiles.append("file" + i, files[i]);
+                            selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
+                            FileName = files[i].name;
+                            while (files[i].name.indexOf('/') != -1)
+                                FileName = files[i].name.replace("/", "__")
+                            storedFiles.push(FileName);
+                        }
+                    }
+                }
+               
+            }
+
+
+        }
+        if (postedFiles.length > (3 + removedFiles.length)) {
+            $("#fileToUpload").css("display", "none");
+        }
+    }
+
+
+
+    function removeAtt(name,t) {
+
+        removedFiles.push(name);
+        storedFiles = $.grep(storedFiles, function (n, i) {
+            return (n != name);
+        });
+
+        $(t).parent().remove();
+        if (postedFiles.length < (4 + removedFiles.length)) {
+            $("#fileToUpload").css("display", "block");
+        }
+       // doReCreate();
+    }
+</script>

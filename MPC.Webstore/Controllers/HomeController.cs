@@ -8,8 +8,6 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.Common;
-using MPC.Webstore.ModelMappers;
-using MPC.Webstore.ResponseModels;
 using MPC.Webstore.Models;
 using DotNetOpenAuth.OAuth2;
 using Microsoft.Owin.Security;
@@ -19,15 +17,11 @@ using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 using MPC.Models.Common;
-using MPC.Interfaces.Common;
-using System.Reflection;
 using MPC.Models.DomainModels;
-using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
-using System.Web.Security;
 using WebSupergoo.ABCpdf8;
 using System.Globalization;
-
+using MPC.Models.ResponseModels;
 
 
 namespace MPC.Webstore.Controllers
@@ -43,7 +37,6 @@ namespace MPC.Webstore.Controllers
         private ICostCentreService _CostCentreService;
 
         private readonly IOrderService _OrderService;
-
         #endregion
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -62,6 +55,7 @@ namespace MPC.Webstore.Controllers
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
             , IOrderService OrderService)
+        //: base(myCompanyService, webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
             {
@@ -110,73 +104,133 @@ namespace MPC.Webstore.Controllers
 
 
 
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
 
                 //iqra to fix the route of error page, consult khurram if required to get it propper.
-                if (UserCookieManager.WBStoreId != 0)
+                if (UserCookieManager.WBStoreId > 0)
                 {
-                    Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
 
-                    // if company not found in cache then rebuild the cache
-                    if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
-                    {
-                        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
-                    }
-
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                    string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                    if (!_webstoreAuthorizationChecker.isUserLoggedIn())
-                    {
-                        if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
-                        {
-                            Response.Redirect("/Login");
-                        }
-                    }
-                    else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
-                    {
-                        Response.Redirect("/");
-
-                    }
-
-                    model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
-                    StoreBaseResopnse = null;
-
-
+                    model = GetStoreAndUpdatePageSettings(model, UserCookieManager.WBStoreId);
+                    //}
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
-                    return RedirectToAction("Error");
+                    //string url = Request.Url.AbsoluteUri;
+                    //if (!string.IsNullOrEmpty(url))
+                    //{
+                    //    long storeId = _myCompanyService.GetStoreIdFromDomain(url);
+
+                    //    if (storeId > 0)
+                    //    {
+                    //        UserCookieManager.WBStoreId = storeId;
+                    //        model = GetStoreAndUpdatePageSettings(model, storeId);
+                    //    }
+                    //    else
+                    //    {
+                    //        TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                    //        return RedirectToAction("Error");
+                    //    }
+                    //}
+                    //else 
+                    //{
+                        TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                        return RedirectToAction("Error");
+                   // }
+                
                 }
 
 
                 ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Site.css";
                 return View(model);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "" + ex + "";
                 return RedirectToAction("Error", "Home");
-                
+
             }
         }
 
-        public List<MPC.Models.DomainModels.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Models.Common.CmsPageModel> pageList, string pageName, List<MPC.Models.DomainModels.CmsSkinPageWidget> allPageWidgets, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
+        private List<MPC.Models.DomainModels.CmsSkinPageWidget> GetStoreAndUpdatePageSettings(List<MPC.Models.DomainModels.CmsSkinPageWidget> model, long StoreId)
+        {
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(StoreId);
+
+            if (StoreBaseResopnse != null)
+            {
+                string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                {
+                    if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                    {
+                        Response.Redirect("/Login");
+                    }
+                }
+                else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                {
+                    Response.Redirect("/");
+
+                }
+
+                model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
+
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "There is some problem while performing the operation.";
+                RedirectToAction("Error");
+            }
+            return model;
+        }
+
+        public List<MPC.Models.DomainModels.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Models.Common.CmsPageModel> pageList, string pageName, List<MPC.Models.DomainModels.CmsSkinPageWidget> allPageWidgets, MPC.Models.DomainModels.Address DefaultAddress, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse CompanyObject)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
                 MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName == pageName).FirstOrDefault();
+                if (Page.isUserDefined == true)
+                {
+                    ViewBag.pageName = Page.PageTitle.Replace(" ", "-");
 
-                SetPageMEtaTitle(Page, DefaultAddress, CompanyName);
+                }
+                else
+                {
+                    ViewBag.pageName = Page.PageName;
+                }
+
+                if (Page.PageName == "ProductDetail" || Page.PageName == "Category" || Page.PageName == "ProductOptions")
+                {
+                    ViewBag.MetaTitle = TempData["MetaTitle"];
+                    TempData.Keep("MetaTitle");
+                    ViewBag.MetaKeywords = TempData["MetaKeywords"];
+                    TempData.Keep("MetaKeywords");
+                    ViewBag.MetaDescription = TempData["MetaDescription"];
+                    TempData.Keep("MetaDescription");
+                    ViewBag.WebMasterTag = CompanyObject.Company.WebMasterTag;
+                    ViewBag.WebAnalyticCode = CompanyObject.Company.WebAnalyticCode;
+                }
+                else
+                {
+                    SetPageMEtaTitle(Page, DefaultAddress, CompanyObject);
+                }
 
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
             else        //this is default page being fired.
             {
+                ViewBag.IsHome = true;
                 MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName.ToLower() == "home").FirstOrDefault();
+                if (Page.isUserDefined == true)
+                {
+                    ViewBag.pageName = Page.PageTitle.Replace(" ", "-");
 
-                SetPageMEtaTitle(Page, DefaultAddress, CompanyName);
+                }
+                else
+                {
+                    ViewBag.pageName = Page.PageName;
+                }
+
+                SetPageMEtaTitle(Page, DefaultAddress, CompanyObject);
 
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
@@ -189,13 +243,19 @@ namespace MPC.Webstore.Controllers
         /// <param name="Keywords"></param>
         /// <param name="Title"></param>
         /// <param name="baseResponse"></param>
-        private void SetPageMEtaTitle(MPC.Models.Common.CmsPageModel oPage, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
+        private void SetPageMEtaTitle(MPC.Models.Common.CmsPageModel oPage, MPC.Models.DomainModels.Address DefaultAddress, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse CompanyObject)
         {
-            string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle == null ? "" : oPage.PageTitle, oPage.Meta_DescriptionContent == null ? "" : oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent == null ? "" : oPage.Meta_KeywordContent, StoreMode.Retail, CompanyName, DefaultAddress);
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle == null ? "" : oPage.PageTitle, oPage.Meta_DescriptionContent == null ? "" : oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent == null ? "" : oPage.Meta_KeywordContent, CompanyObject.Company.Name, DefaultAddress);
 
-            ViewBag.MetaTitle = MetaTags[0];
-            ViewBag.MetaKeywords = MetaTags[1];
-            ViewBag.MetaDescription = MetaTags[2];
+            TempData.Remove("MetaTitle");
+            TempData["MetaTitle"] = MetaTags[0];
+            TempData.Remove("MetaKeywords");
+            TempData["MetaKeywords"] = MetaTags[1];
+            TempData.Remove("MetaDescription");
+            TempData["MetaDescription"] = MetaTags[2];
+
+            ViewBag.WebMasterTag = CompanyObject.Company.WebMasterTag;
+            ViewBag.WebAnalyticCode = CompanyObject.Company.WebAnalyticCode;
         }
 
 
@@ -208,44 +268,7 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About(string mode)
         {
-            try
-            {
-                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=46783";
-
-                string FileName = "_OrderReceipt.pdf";
-                string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Downloads/" + FileName);
-                string AttachmentPath = "/mpc_content/Downloads/" + FileName;
-                using (Doc theDoc = new Doc())
-                {
-                    //theDoc.HtmlOptions.Engine = EngineType.Gecko;
-                    theDoc.FontSize = 22;
-                    int objid = theDoc.AddImageUrl(URl);
-
-
-                    while (true)
-                    {
-                        theDoc.FrameRect();
-                        if (!theDoc.Chainable(objid))
-                            break;
-                        theDoc.Page = theDoc.AddPage();
-                        objid = theDoc.AddImageToChain(objid);
-                    }
-                    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Downloads/");
-                    if (!Directory.Exists(physicalFolderPath))
-                        Directory.CreateDirectory(physicalFolderPath);
-                    theDoc.Save(FilePath);
-                    theDoc.Clear();
-                }
-                // if (System.IO.File.Exists(FilePath))
-                //return AttachmentPath;
-                //   else
-                // return null;
-            }
-            catch (Exception e)
-            {
-                //   LoggingManager.LogBLLException(e);
-                // return null;
-            }
+            
             //if (mode == "compile")
             //{
             //   _CostCentreService.SaveCostCentre(Convert.ToInt32(mode), 1, "Test");
@@ -335,8 +358,8 @@ namespace MPC.Webstore.Controllers
         {
 
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
-                return View();
-           
+            return View();
+
         }
         public ActionResult NotFound(string Message)
         {
@@ -345,106 +368,154 @@ namespace MPC.Webstore.Controllers
             return View();
 
         }
-        public ActionResult oAuth(int id, int isRegWithSM, string MarketBriefReturnURL)
+        public ActionResult oAuth(int LoginWithId, int isRegistrationProcess, long StoreId, string ReturnUrl)
         {
-            //int isFacebook = id;
-            //if (isFacebook == 1)
-            //{
-            //    DotNetOpenAuth.ApplicationBlock.FacebookClient client = new DotNetOpenAuth.ApplicationBlock.FacebookClient
-            //    {
-            //        ClientIdentifier = "1421343758131537",
-            //        ClientCredentialApplicator = ClientCredentialApplicator.PostParameter("690d1f085e1cea24c61dbad3bdaa0b31"),
-            //    };
-            //    IAuthorizationState authorization = client.ProcessUserAuthorization();
-            //    if (authorization == null)
-            //    {
-            //        // Kick off authorization request
-            //        client.RequestUserAuthorization();
-            //    }
-            //    else
-            //    {
-            //        string webResponse = "";
-            //        string email = "";
-            //        string firstname = "";
-            //        string lastname = "";
-            //        var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email");
 
-            //        using (var response = request.GetResponse())
-            //        {
-            //            using (var responseStream = response.GetResponseStream())
-            //            {
-            //                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-            //                webResponse = reader.ReadToEnd();
+            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(StoreId);
 
-            //                // ShowMessage(graph.email);
-            //                var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
-            //                var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
-            //                email = ResponseJon.email;
-            //                firstname = ResponseJon.first_name;
-            //                lastname = ResponseJon.last_name;
-            //            }
-            //        }
+            if (LoginWithId == 1)
+            {
+                DotNetOpenAuth.ApplicationBlock.FacebookClient client = new DotNetOpenAuth.ApplicationBlock.FacebookClient
+                {
+                    ClientIdentifier = oCompany.facebookAppId,
+                    ClientCredentialApplicator = ClientCredentialApplicator.PostParameter(oCompany.facebookAppKey),
+                };
+                IAuthorizationState authorization = client.ProcessUserAuthorization();
+                if (authorization == null)
+                {
+                    // Kick off authorization request
+                    client.RequestUserAuthorization();
+                }
+                else
+                {
+                    string webResponse = "";
+                    string email = "";
+                    string firstname = "";
+                    string lastname = "";
+                    var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email");
 
-            //        if (isRegWithSM == 1)
-            //        {
-            //            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
+                    using (var response = request.GetResponse())
+                    {
+                        using (var responseStream = response.GetResponseStream())
+                        {
+                            StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                            webResponse = reader.ReadToEnd();
 
-            //            return View();
-            //        }
-            //        else
-            //        {
-            //            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
-            //            return View();
-            //        }
+                            // ShowMessage(graph.email);
+                            var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
+                            var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
+                            email = ResponseJon.email;
+                            firstname = ResponseJon.first_name;
+                            lastname = ResponseJon.last_name;
+                        }
+                    }
 
-            //    }
-            //}
-            //else if (isFacebook == 0)
-            //{
-            //    string requestToken = "";
-            //    OAuthHelper oauthhelper = new OAuthHelper();
+                    if (isRegistrationProcess == 1)
+                    {
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + ReturnUrl + "' </script>";
 
-            //    requestToken = oauthhelper.GetRequestToken("GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
+                        return View();
+                    }
+                    else
+                    {
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + ReturnUrl + "' </script>";
+                        return View();
+                    }
 
-            //    if (string.IsNullOrEmpty(oauthhelper.oauth_error))
-            //        Response.Redirect(oauthhelper.GetAuthorizeUrl(requestToken));
+                }
+            }
+            else if (LoginWithId == 0)
+            {
+                string requestToken = "";
+                OAuthHelper oauthhelper = new OAuthHelper();
 
-            //}
-            //else if (isFacebook == 2)
-            //{
-            //    if (Request.QueryString["oauth_token"] != null && Request.QueryString["oauth_verifier"] != null)
-            //    {
-            //        string oauth_token = Request.QueryString["oauth_token"];
-            //        string oauth_verifier = Request.QueryString["oauth_verifier"];
+                requestToken = oauthhelper.GetRequestToken("GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
 
-            //        OAuthHelper oauthhelper = new OAuthHelper();
+                if (string.IsNullOrEmpty(oauthhelper.oauth_error))
+                    Response.Redirect(oauthhelper.GetAuthorizeUrl(requestToken));
 
-            //        oauthhelper.GetUserTwAccessToken(oauth_token, oauth_verifier, "GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
+            }
+            else if (LoginWithId == 2)
+            {
+                if (Request.QueryString["oauth_token"] != null && Request.QueryString["oauth_verifier"] != null)
+                {
+                    string oauth_token = Request.QueryString["oauth_token"];
+                    string oauth_verifier = Request.QueryString["oauth_verifier"];
+
+                    OAuthHelper oauthhelper = new OAuthHelper();
+
+                    oauthhelper.GetUserTwAccessToken(oauth_token, oauth_verifier, "GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
 
 
 
 
 
-            //        if (string.IsNullOrEmpty(oauthhelper.oauth_error))
-            //        {
-            //            if (isRegWithSM == 1)
-            //            {
-            //                ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
+                    if (string.IsNullOrEmpty(oauthhelper.oauth_error))
+                    {
+                        if (isRegistrationProcess == 1)
+                        {
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + ReturnUrl + "' </script>";
 
-            //                return View();
-            //            }
-            //            else
-            //            {
-            //                ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
-            //                return View();
-            //            }
+                            return View();
+                        }
+                        else
+                        {
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + ReturnUrl + "' </script>";
+                            return View();
+                        }
 
-            //        }
-            //    }
-            //}
+                    }
+                }
+            }
             return View();
         }
 
+        [HttpGet]
+        public ActionResult FBAuthentication()
+        {
+            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
+
+            DotNetOpenAuth.ApplicationBlock.FacebookClient client = new DotNetOpenAuth.ApplicationBlock.FacebookClient
+            {
+                ClientIdentifier = oCompany.facebookAppId,
+                ClientCredentialApplicator = ClientCredentialApplicator.PostParameter(oCompany.facebookAppKey),
+            };
+            IAuthorizationState authorization = client.ProcessUserAuthorization();
+            if (authorization == null)
+            {
+                // Kick off authorization request
+                client.RequestUserAuthorization();
+            }
+            else
+            {
+                string webResponse = "";
+                string email = "";
+                string firstname = "";
+                string lastname = "";
+                var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email");
+
+                using (var response = request.GetResponse())
+                {
+                    using (var responseStream = response.GetResponseStream())
+                    {
+                        StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                        webResponse = reader.ReadToEnd();
+
+                        // ShowMessage(graph.email);
+                        var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
+                        var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
+                        email = ResponseJon.email;
+                        firstname = ResponseJon.first_name;
+                        lastname = ResponseJon.last_name;
+                    }
+                }
+
+
+                Response.Redirect("/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email);
+
+            }
+            return null;
+        }
         private void SetUserClaim(long OrganisationID)
         {
             if (UserCookieManager.isRegisterClaims == 1)
@@ -535,78 +606,113 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
-        {
+        //[AllowAnonymous]
+        //public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
+        //{
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+        //    MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetStoreReceiptPage(Convert.ToInt64(StoreId));
+
+        //    if (oCompany != null)
+        //    {
+        //        MPC.Models.DomainModels.Organisation oOrganisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(oCompany.OrganisationId));
+
+        //        if (oCompany.ShowPrices == true)
+        //        {
+
+        //            ViewBag.IsShowPrices = true;
+
+        //        }
+        //        else
+        //        {
+
+        //            ViewBag.IsShowPrices = false;
+
+        //        }
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[Convert.ToInt32(StoreId)];
+        //        ViewBag.TaxLabel = oCompany.TaxLabel;
+
+        //        ViewBag.Company = oCompany;
+
+        //        AddressViewModel oStoreDefaultAddress = null;
+        //        Address StoreAddress = _myCompanyService.GetDefaultAddressByStoreID(Convert.ToInt64(StoreId));
 
 
+        //        if (oCompany.isWhiteLabel == false)
+        //        {
+        //            oStoreDefaultAddress = null;
+        //        }
+        //        else
+        //        {
+        //            if (StoreAddress != null)
+        //            {
+        //                oStoreDefaultAddress = new AddressViewModel();
+        //                oStoreDefaultAddress.Address1 = StoreAddress.Address1;
+        //                oStoreDefaultAddress.Address2 = StoreAddress.Address2;
 
-            if (StoreBaseResopnse.Company.ShowPrices ?? true)
-            {
-                ViewBag.IsShowPrices = true;
-                //do nothing because pricing are already visible.
-            }
-            else
-            {
-                ViewBag.IsShowPrices = false;
-                //  cntRightPricing1.Visible = false;
-            }
-            if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
-            {
-                ViewBag.Currency = StoreBaseResopnse.Currency;
-            }
-            else
-            {
-                ViewBag.Currency = "";
-            }
+        //                oStoreDefaultAddress.City = StoreAddress.City;
+        //                oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreAddress.StateId ?? 0);
+        //                oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreAddress.CountryId ?? 0);
+        //                oStoreDefaultAddress.ZipCode = StoreAddress.PostCode;
 
-            ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
-            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+        //                if (!string.IsNullOrEmpty(StoreAddress.Tel1))
+        //                {
+        //                    oStoreDefaultAddress.Tel = StoreAddress.Tel1;
+        //                }
+        //            }
+        //        }
 
-            ViewBag.Company = StoreBaseResopnse.Company;
+        //        ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
 
-            AddressViewModel oStoreDefaultAddress = null;
+        //        string currency = "";
 
-            if (StoreBaseResopnse.Company.isWhiteLabel == false)
-            {
-                oStoreDefaultAddress = null;
-            }
-            else
-            {
-                if (StoreBaseResopnse.StoreDetaultAddress != null)
-                {
-                    oStoreDefaultAddress = new AddressViewModel();
-                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
-                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+        //        //if (oOrganisation != null)
+        //        //{
+        //        //   currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oOrganisation.CurrencyId));
+        //        //}
 
-                    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
-                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
-                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
-                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+        //        if (!string.IsNullOrEmpty(currency))
+        //        {
+        //            ViewBag.Currency = currency;
+        //        }
+        //        else
+        //        {
+        //            ViewBag.Currency = "";
+        //        }
 
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
-                    {
-                        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
-                    }
-                }
-            }
-            ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
-            ViewBag.StoreId = StoreId;
-            if (IsPrintReceipt == "1")
-            {
-                ViewBag.Print = "<script type='text/javascript'>function MyPrint() {window.print();}</script>";
-            }
-            else
-            {
-                ViewBag.Print = "";
-            }
-            return View(order);
-        }
+
+        //    }
+
+        //    OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+
+        //    ViewBag.StoreId = StoreId;
+
+        //    if (IsPrintReceipt == "1")
+        //    {
+        //        ViewBag.Print = "<script type='text/javascript'>function MyPrint() {window.print();}</script>";
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Print = "";
+        //    }
+
+        //    if (oCompany.IsCustomer == (int)CustomerTypes.Corporate)
+        //    {
+        //        if (order != null && order.CompanyContact != null)
+        //        {
+        //            if (order.CompanyContact.IsPricingshown == true)
+        //            {
+        //                ViewBag.IsShowPrices = true;
+        //            }
+        //            else
+        //            {
+        //                ViewBag.IsShowPrices = false;
+        //            }
+        //        }
+        //    }
+
+        //    return View(order);
+        //}
 
         public ActionResult AutoLoginOrRegister(string C, string F, string L, string E, string CC)
         {

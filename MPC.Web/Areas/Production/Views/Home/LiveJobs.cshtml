@@ -9,7 +9,7 @@
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb" style="padding-left:9px;">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Production/Home/Index">Production Board</a></li>
                         <li class="active"><span>Live Jobs</span></li>
@@ -22,7 +22,7 @@
                             &nbsp;
                         </div>
                         <div>
-                            <div class="col-lg-12" style="padding-left:18px;padding-right:19px;">
+                            <div class="col-lg-12" style="padding-left:15px;padding-right:16px;">
                                 <div style="margin-top: 35px;"></div>
                                 <!-- ko template: { name: 'liveJobFilterTemplate' } -->
                                 <!-- /ko -->
@@ -80,7 +80,7 @@
 <script id="liveJobFilterTemplate" type="text/html">
     <div class="filter-body">
         <div class="filter-block pull-right">
-            <div class="form-group pull-left">
+            <div class="form-group pull-left" style="margin-right:-5px;">
                 <div class="form-group pull-left" data-bind="enable:$root.enableDownloadArtwork()">
                     @using (Ajax.BeginForm("LiveJobsDownload", "Home", new AjaxOptions { HttpMethod = "POST" }))
                     {
@@ -94,17 +94,16 @@
                         <input type="hidden" id="item7" name="item7" value=null />
                         <input type="hidden" id="item8" name="item8" value=null />
                         <input type="hidden" id="item9" name="item9" value=null />
-
                         <button id="open-wizard" class="btn btn-primary pull-right" data-bind="enable:$root.enableDownloadArtwork()">
                             Download Artwork for selected Items
                         </button>
                     }
                 </div>
             </div>
-            <div class="form-group pull-left">
+            <div class="form-group pull-left" style="margin-right:0px;">
                 <form data-bind="submit: $root.getItems">
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.searchFilter">
-                    <i class="fa fa-search search-icon"></i>
+                    <i class="fa fa-search search-icon" data-bind="click: $root.getItems"></i>
                 </form>
             </div>
 
@@ -127,7 +126,7 @@
         </td>
 
         <td>
-            <a data-bind="text: companyName" class="user-link"></a>
+            <span style=" display: block; font-size: 1.25em; color: #3498db; outline: none !important;" data-bind="text: companyName" class="user-link"></span>
             <span class="user-subhead">
                 <span data-bind="text: jobCode"></span>
                 <span data-bind="text: '  '"></span>
@@ -148,7 +147,7 @@
             <span data-bind="text: jobManagerName"></span>
         </td>
         <td>
-            <img src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" />
+            <a href="#" style="cursor:pointer;" data-bind="click: $root.openExternalReportsJob"><img src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" /></a> 
         </td>
         <td>
             <div data-bind="foreach: itemAttachments">
@@ -159,6 +158,15 @@
                 <!-- ko if: fileType()=== ".doc" -->
                 <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
                 <!-- /ko -->
+                <!-- ko if: fileType()=== ".docx" -->
+                <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: fileType()=== ".rtf" -->
+                <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: fileType()=== ".txt" -->
+                <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+                <!-- /ko -->
                 <!-- ko if: fileType()=== ".png" -->
                 <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoPNG.png")" alt="" />
                 <!-- /ko -->
@@ -166,6 +174,9 @@
                 <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoJPG.png")" alt="" />
                 <!-- /ko -->
                 <!-- ko if: fileType()=== ".xlsx" -->
+                <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
+                <!-- /ko
+                <!-- ko if: fileType()=== ".xls" -->
                 <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
                 <!-- /ko
                 <!-- ko if: fileType()=== ".gif" -->
@@ -181,10 +192,13 @@
         </td>
     </tr>
 </script>
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportViaEmail.cshtml")
 @section Scripts{
     <script>
-        require(["liveJobs/liveJobs.view"]);
-
+        require(["liveJobs/liveJobs.view", "common/reportManager.view"]);
+        $(function () {
+            $('#liproduction').addClass('active');
+        });
     </script>
 }             

@@ -1,5 +1,6 @@
 ﻿using MPC.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,18 +12,18 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ISmartFormService
     {
-        List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId);
+        List<VariableList> GetVariablesData(long itemID, long companyId, long organisationId);
         List<TemplateVariablesObj> GetTemplateVariables(long templateId);
         bool SaveTemplateVariables(List<TemplateVariablesObj> obj);
         List<SmartFormUserList> GetUsersList(long contactId);
 
-        SmartForm GetSmartForm(long smartFormId);
+        SmartFormWebstoreResponse GetSmartForm(long smartFormId);
 
-        List<SmartFormDetail> GetSmartFormObjects(long smartFormId);
+        List<SmartFormDetail> GetSmartFormObjects(long smartFormId,out List<VariableOption> listVariables);
 
-        List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId);
+        List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId, long templateId);
 
-        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId);
+        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId, long currentTemplateId);
 
         string SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj);
         string[] GetContactImageAndCompanyLogo(long contactID);
@@ -31,7 +32,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId);
         bool AutoResolveTemplateVariables(long itemID, long contactId);
 
-        List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
+        List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
 
     }
 }

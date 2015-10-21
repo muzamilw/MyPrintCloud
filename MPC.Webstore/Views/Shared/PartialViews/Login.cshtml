@@ -1,17 +1,20 @@
 ﻿@model  MPC.Webstore.Models.AccountViewModel
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
+@{
+    Layout = null;
+}
 
-<div class="container content_area">
+<div class="container content_area" >
 
     <div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
         <div class="sign_up_page_box NoPadding">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 @if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
                 {
-                    <div id="lblSignWithSM" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsigninwithaccount", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
+                   <div id="lblSignWithSM" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsigninwithaccount", UserCookieManager.WBStoreId, "Sign in to ")) @ViewBag.CompanyName</div>
                     <br />
-                   
+                
 
                     <div id="cntSocialLink" class="cntSignInWithSocialinks">
                         @if (ViewBag.ShowFacebookSignInLink == 1)
@@ -19,34 +22,19 @@
                             <em id="emfacebook" class="emfb"></em>
 
 
-                            <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="OpenNewWindow(1)" /><br />
-
-
-                            <script>
-                                function OpenNewWindow(isFacebook) {
-
-                                    var w = 820;
-                                    var h = 560;
-                                    var left = (screen.width / 2) - (w / 2);
-                                    var top = (screen.height / 2) - (h / 2);
-                                    if (isFacebook == 1)
-                                        window.open("/Home/oAuth?id=1&isRegWithSM=0&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                                    else
-                                        window.open("/Home/oAuth?id=0&isRegWithSM=0&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                                    return false;
-                                }
-                            </script>
+                        <input id="facebookbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("signfb", UserCookieManager.WBStoreId, "Sign in with Facebook"))" class="connectWithfb" onclick="ShowSocialMediaPopUp(1)" /><br />
+  
                         }
                         @if (ViewBag.ShowTwitterSignInLink == 1)
                         {
                             <em id="emtwtter" class="emTw"></em>
-                            <input id="twitterBtn" type="button" value="Sign in with Twitter" onclick="OpenNewWindow(0)" class="connectWithtwitter " />
+    <input id="twitterBtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("signtwitter", UserCookieManager.WBStoreId, "Sign in with Twitter"))" onclick=" showsocialmediapopup(0)" class="connectWithtwitter " />
                             <br />
                         }
                        
                         <br />
                         <div id="cntOrBottom">
-                            -OR-
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("orrr", UserCookieManager.WBStoreId, "-OR-"))
                         </div>
                     </div>
     <div class="clear">
@@ -56,25 +44,25 @@
                 
                
                 <div id="login-heading-container" class="custom_color_heading">
-                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblSignIntoComapny", UserCookieManager.WBStoreId)) @ViewBag.CompanyName
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblSignIntoComapny", UserCookieManager.WBStoreId,"Sign In to")) @ViewBag.CompanyName
                 </div>
                 @using (Html.BeginForm())
-                {  
+                {         <br />
                     <div class="errorMesgLoginPage">
                         <div>@ViewBag.Message</div>
                         <div>@Html.ValidationMessageFor(u => u.Email)</div>
                         <div>@Html.ValidationMessageFor(u => u.Password)</div>
                     </div>
-                    <br/>
+             
                     @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "txtBoxLoginPage txtEmailBox",  @value = "Email" })
 
-                    @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage txtPassBox",  @value = "Password" }) <br />
+                    @Html.TextBoxFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage txtPassBox",  @value = "Password" }) <br />
 
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         <div id="cntStaySignedin">
                             @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
-                            <label for="rememberMe">@Html.Raw(Html.GetKeyValueFromResourceFile("keepMe", UserCookieManager.WBStoreId))</label>
+                            <label for="rememberMe">@Html.Raw(Html.GetKeyValueFromResourceFile("keepMe", UserCookieManager.WBStoreId, "Keep me signed in"))</label>
                         </div>
                     }
 
@@ -84,16 +72,16 @@
                            &nbsp;
                         </div>
                         <div class="divwidthset">
-                            <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="Login" onclick="ShowLoader();" /><br />
+                            <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("loginnnnn", UserCookieManager.WBStoreId, "Login"))" onclick="ValidateUserCredentials(); " /><br />
                         </div>
                         <br />
                         <div class="clear divwidthset">
-                            <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.WBStoreId))</a>
+                            <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.WBStoreId, "Forgot Password?"))</a>
                         </div>
 @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
 {
     <div class="clear divwidthset">
-        <a class="forgetPassLink link-sign-up" id="lnkForgotPassword" href="/SignUp">Sign Up?</a>
+        <a class="forgetPassLink link-sign-up" id="lnkForgotPassword" href="/SignUp">@Html.Raw(Html.GetKeyValueFromResourceFile("SignUplbl", UserCookieManager.WBStoreId, "Sign Up"))?</a>
     </div>
 }
                       
@@ -128,37 +116,37 @@
                         <div class="tickImge">
                             &nbsp;
                         </div>
-                        <p id="ltrlsaveurdesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.WBStoreId))</p>
+                        <p id="ltrlsaveurdesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.WBStoreId, "Save your designs"))</p>
                     </div>
                     <div class="registering_item">
                         <div class="tickImge">
                             &nbsp;
                         </div>
-                        <p id="ltrlviewtoh" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.WBStoreId))</p>
+                        <p id="ltrlviewtoh" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.WBStoreId, "View and track order history"))</p>
                     </div>
                     <div class="registering_item">
                         <div class="tickImge">
                             &nbsp;
                         </div>
-                        <p id="ltrlroq" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.WBStoreId))</p>
+                        <p id="ltrlroq" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.WBStoreId, "Re-order quickly"))</p>
                     </div>
                     <div class="registering_item">
                         <div class="tickImge">
                             &nbsp;
                         </div>
-                        <p id="ltrlsubscribe2Nwzl" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.WBStoreId))</p>
+                        <p id="ltrlsubscribe2Nwzl" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.WBStoreId, "Subscribe to our Newsletters "))</p>
                     </div>
                     <div class="registering_item">
                         <div class="tickImge">
                             &nbsp;
                         </div>
-                        <p id="lblTitleRequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.WBStoreId))</p>
+                        <p id="lblTitleRequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.WBStoreId, "Request a Quote"))</p>
                     </div>
                     <div class="registering_item">
                         <div class="tickImge">
                             &nbsp;
                         </div>
-                        <p id="ltrlNewVoucherPromo" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.WBStoreId))</p>
+                        <p id="ltrlNewVoucherPromo" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.WBStoreId, "Get latest Voucher promotions"))</p>
                     </div>
                     <div class="clearBoth"></div>
                 </div>
@@ -170,12 +158,13 @@
         </div>
     </div>
 </div>
-@section scripts {
+   <script src="/Scripts/jquery-1.10.1.min.js"></script>
+    @Html.Raw(ViewBag.FBInitTag)
     <script>
        
         $(document).ready(function () {
             $('#txtEmailId').val("Email");
-            $('#txtPassword').val('Password');
+            $('#Password').val('Password');
         });
 
         function updateSuccess(data) {
@@ -197,20 +186,62 @@
             }
         });
 
-        $('#txtPassword').focus(function() {
-            if ($('#txtPassword').val() === 'Password') {
-                $('#txtPassword').attr("type", "password");
-                $('#txtPassword').val('');
+        $('#Password').focus(function() {
+            if ($('#Password').val() === 'Password') {
+                $('#Password').attr("type", "password");
+                $('#Password').val('');
             }
         });
 
-        $('#txtPassword').blur(function() {
-            if ($('#txtPassword').val() === '') {
-                $('#txtPassword').removeAttr("type");
-                $('#txtPassword').val('Password');
+        $('#Password').blur(function () {
+            if ($('#Password').val() === '') {
+                $('#Password').removeAttr("type");
+                $('#Password').val('Password');
             } else {
-                $('#txtPassword').attr("type", "password");
+                $('#Password').attr("type", "password");
             }
         });
+
+        function ShowSocialMediaPopUp(isFacebook) {
+
+            var w = 820;
+            var h = 560;
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            if (isFacebook == 1)
+                window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+            else
+                window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+            return false;
+        }
+       
+        function afterFacebookConnect() {
+            FB.getLoginStatus(function (response) {
+                if (response.session) {
+                    window.location = "/FacebookLogin/" +
+                           response.session.access_token;
+                } else {
+                    // user clicked Cancel
+                }
+            });
+        };
+        $(document).ready(function () {
+            if (document.getElementById('fb-root') != undefined) {
+                var e = document.createElement('script');
+                e.type = 'text/javascript';
+                e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+                e.async = true;
+                document.getElementById('fb-root').appendChild(e);
+            }
+        });
+
+        function ValidateUserCredentials() {
+            if ($('#txtEmailId').val() === 'Email' && $('#Password').val() === 'Password') {
+
+                return false;
+            } else {
+                ShowLoader();
+                return true;
+            }
+        }
     </script>
-}

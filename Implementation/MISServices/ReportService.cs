@@ -18,11 +18,14 @@ namespace MPC.Implementation.MISServices
     public class ReportService : IReportService
     {
         private readonly IReportRepository _IReportRepository;
+        private readonly ICompanyContactRepository _ICompanyContactRepository;
         private readonly IOrganisationRepository organisationRepository;
         private readonly IReportRepository ReportRepository;
         private readonly ICompanyRepository CompanyRepository;
+        private readonly ICampaignRepository CampaignRepository;
+        private readonly ISystemUserRepository SystemUserRepository;
         private readonly IExportReportHelper ExportReportHelper;
-        public ReportService(IReportRepository IReportRepository, IOrganisationRepository organisationRepository, IReportRepository ReportRepository, ICompanyRepository CompanyRepository, IExportReportHelper ExportReportHelper)
+        public ReportService(IReportRepository IReportRepository, IOrganisationRepository organisationRepository, IReportRepository ReportRepository, ICompanyRepository CompanyRepository, IExportReportHelper ExportReportHelper, ICompanyContactRepository ICompanyContactRepository, ICampaignRepository CampaignRepository, ISystemUserRepository SystemUserRepository)
         {
             if (IReportRepository == null)
             {
@@ -45,6 +48,9 @@ namespace MPC.Implementation.MISServices
             this.ReportRepository = ReportRepository;
             this.CompanyRepository = CompanyRepository;
             this.ExportReportHelper = ExportReportHelper;
+            this._ICompanyContactRepository = ICompanyContactRepository;
+            this.CampaignRepository = CampaignRepository;
+            this.SystemUserRepository = SystemUserRepository;
         }
 
         public ReportCategory GetReportCategory(long CategoryId, int IsExternal)
@@ -68,7 +74,9 @@ namespace MPC.Implementation.MISServices
                     OrganisationID = org.OrganisationId;
                 }
                 Report currentReport = ReportRepository.GetReportByReportID(iReportID);
+               
                 SectionReport currReport = new SectionReport();
+             
                 if (currentReport.ReportId > 0)
                 {
                     byte[] rptBytes = null;
@@ -83,14 +91,38 @@ namespace MPC.Implementation.MISServices
 
                     if (itemid > 0)
                     {
-                        currReport.DataSource = ReportRepository.getOrderReportResult(OrganisationID, itemid);
+                        if (currentReport.CategoryId == (int)ReportCategoryEnum.Estimate)
+                        {
+                            currReport.DataSource = ReportRepository.getEstimateReportResult(OrganisationID, itemid);
+                        }
+                        else if (currentReport.CategoryId == (int)ReportCategoryEnum.Delivery)
+                        {
+                            currReport.DataSource = ReportRepository.GetDeliveryNoteReport(itemid);
+                        }
+                        else if (currentReport.CategoryId == (int)ReportCategoryEnum.PurchaseOrders)
+                        {
+                            currReport.DataSource = ReportRepository.GetPOReport(itemid);
+                        }
+                        else if(currentReport.CategoryId == (int)ReportCategoryEnum.Invoice)
+                        {
+                            currReport.DataSource = ReportRepository.getInvoiceReportResult(OrganisationID,itemid);
+                        }
+                        else if (currentReport.CategoryId == (int)ReportCategoryEnum.JobCard)
+                        {
+                            currReport.DataSource = ReportRepository.getJobCardReportResult(OrganisationID, 0, itemid);
+                        }
+                        else
+                        {
+                            currReport.DataSource = ReportRepository.getOrderReportResult(OrganisationID, itemid);
+                        }
+                       
                     }
                     else
                     {
                         currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(iReportID, "");
                     }
 
-                  
+                    //currReport.Document.pr
                     //DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
                     //currReport.DataSource = dataSourceList;
 
@@ -237,7 +269,7 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId + "/" + rptNote.CompanyId);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
@@ -271,7 +303,7 @@ namespace MPC.Implementation.MISServices
         }
         public List<ReportparamResponse> getParamsById(long Id)
         {
-            return new List<ReportparamResponse>();
+            return ReportRepository.getParamsById(Id);
         }
 
         public ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request)
@@ -281,9 +313,80 @@ namespace MPC.Implementation.MISServices
             //    type
 
           string Path =  ExportReportHelper.ExportPDF((int)request.Reportid, request.RecordId, request.ReportType, request.OrderId, request.CriteriaParam);
+            string[] stringSeparators = new string[] {"MPC_Content"};
+            string[] SplitPath = Path.Split(stringSeparators, StringSplitOptions.None);
 
-          return ReportRepository.GetReportEmailBaseData(request, Path);
+            string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/mis/mpc_content/" + SplitPath[1];
+            return ReportRepository.GetReportEmailBaseData(request, PathFull);
 
+        }
+
+      
+         public string GetInternalReportEmailBaseData(ReportEmailRequestModel request)
+        {
+            //int type = 0;
+            //if(type == ReportType.Internal)
+            //    type
+
+          string Path =  ExportReportHelper.ExportPDF((int)request.Reportid, request.RecordId, request.ReportType, request.OrderId, request.CriteriaParam);
+            string[] stringSeparators = new string[] {"MPC_Content"};
+            string[] SplitPath = Path.Split(stringSeparators, StringSplitOptions.None);
+
+            string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/mis/mpc_content/" + SplitPath[1];
+          //  return ReportRepository.GetReportEmailBaseData(request, PathFull);
+            return PathFull;
+
+        }
+        public void SendEmail(string EmailTo,string EmailCC, string EmailSubject, string Signature, long ContactId,Guid SystemUserId,string Path)
+        {
+
+             string ToName = string.Empty;
+             CompanyContact objContact =  _ICompanyContactRepository.GetContactByContactId(ContactId);
+
+             if (objContact != null)
+             {
+                 if(objContact.Email == EmailTo)
+                 {
+                     ToName = objContact.FirstName + " " + objContact.LastName;   
+                 }
+                 else
+                 {
+                     ToName = string.Empty;
+                 }
+             }
+
+            SystemUser objSystemUser = SystemUserRepository.GetUserrById(SystemUserId);
+            if(objSystemUser == null)
+            {
+                objSystemUser = SystemUserRepository.GetFirstSystemUser();
+            }
+            Organisation objOrg = organisationRepository.GetOrganizatiobByID();
+
+            string[] stringSeparators = new string[] {"mpc_content/"};
+            string[] SplitPath = Path.Split(stringSeparators, StringSplitOptions.None);
+
+            string PathFull = "\\MPC_Content" + SplitPath[1];
+            List<string> AttachmentsList = new List<string>();
+            AttachmentsList.Add(PathFull);
+
+            CampaignRepository.AddMsgToTblQueue(EmailTo, EmailCC, ToName, Signature, objSystemUser.FullName ?? string.Empty, objSystemUser.Email ?? string.Empty, objOrg.SmtpUserName ?? string.Empty, objOrg.SmtpPassword ?? string.Empty, objOrg.SmtpServer ?? string.Empty, EmailSubject, AttachmentsList, 0);
+
+        }
+
+        public string DownloadExternalReport(int ReportId,bool isPDF)
+        {
+            string Path = string.Empty;
+            if(isPDF)
+            {
+                Path = ExportReportHelper.ExportPDF(ReportId, 0, ReportType.Internal, 0, string.Empty,0,false);
+            }
+            else
+            {
+                Path = ExportReportHelper.ExportExcel(ReportId, 0, ReportType.Internal, 0, string.Empty,0,false);
+            }
+
+         
+            return Path;
         }
     }
 }

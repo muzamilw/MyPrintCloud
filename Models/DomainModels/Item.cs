@@ -16,7 +16,7 @@ namespace MPC.Models.DomainModels
         /// Item Id
         /// </summary>
         public long ItemId { get; set; }
-
+        
         /// <summary>
         /// Item Code
         /// </summary>
@@ -395,6 +395,9 @@ namespace MPC.Models.DomainModels
         public bool? IsRealStateProduct { get; set; }
         public int? ProductDisplayOptions { get; set; }
 
+        public long? DiscountVoucherID { get; set; }
+        
+
         [NotMapped]
         public double MinPrice { get; set; }
 
@@ -474,6 +477,16 @@ namespace MPC.Models.DomainModels
         public string File4Byte { get; set; }
         [NotMapped]
         public string File5Byte { get; set; }
+        [NotMapped]
+        public bool? File1Deleted { get; set; }
+        [NotMapped]
+        public bool? File2Deleted { get; set; }
+        [NotMapped]
+        public bool? File3Deleted { get; set; }
+        [NotMapped]
+        public bool? File4Deleted { get; set; }
+        [NotMapped]
+        public bool? File5Deleted { get; set; }
 
         /// <summary>
         /// Thumbnail Image Bytes - byte[] representation of Base64 string Thumbnail Image
@@ -838,9 +851,15 @@ namespace MPC.Models.DomainModels
             target.IsUploadImage = IsUploadImage;
             target.IsDigitalDownload = IsDigitalDownload;
             target.IsRealStateProduct = IsRealStateProduct;
-            target.SmartFormId = SmartFormId;
+           
             target.ItemType = ItemType;
-            
+            target.drawWaterMarkTxt = drawWaterMarkTxt;
+            target.isAddCropMarks = isAddCropMarks;
+            target.drawBleedArea = drawBleedArea;
+            target.allowImageDownload = allowImageDownload;
+            target.printCropMarks = printCropMarks;
+            target.isMultipagePDF = isMultipagePDF;
+            target.allowPdfDownload = allowPdfDownload;
             // Copy Internal Descriptions
             CloneInternalDescriptions(target);
         }
@@ -902,9 +921,25 @@ namespace MPC.Models.DomainModels
             target.Qty3GrossTotal = Qty3GrossTotal;
             target.InvoiceDescription = InvoiceDescription;
             target.ItemNotes = ItemNotes;
+            target.Tax1 = Tax1;
         }
 
         #endregion
 
+        #region Additional Properties
+
+        /// <summary>
+        /// If Template Type changes to blank
+        /// </summary>
+        [NotMapped]
+        public bool? HasTemplateChangedToCustom { get; set; }
+
+        /// <summary>
+        /// TemplateId - used to keep track of Current Template before deleting it for desinger type
+        /// </summary>
+        [NotMapped]
+        public long? OldTemplateId { get; set; }
+
+        #endregion
     }
 }

@@ -2,7 +2,8 @@
     var
 
     CostCentre = function (specifiedId, specifiedname,
-          specifiedDes, specifiedSetupcost, specifiedPpq, specifiedCompanyTax, specifiedDeliveryCharges, specifiedquantity1, specifiedquantity2, specifiedquantity3) {
+          specifiedDes, specifiedSetupcost, specifiedPpq, specifiedCompanyTax, specifiedDeliveryCharges, specifiedquantity1, specifiedquantity2, specifiedquantity3,
+        specifiedCostCentreType, specifiedCostCentreQuantitySourceType, specifiedCostCentreTimeSourceType, specifiedCalculationMethodType) {
 
         var self,
             id = ko.observable(specifiedId),
@@ -26,6 +27,16 @@
                 return deliveryCharges();
             }),
             pricePerUnitQuantity = ko.observable(specifiedPpq).extend({ numberInput: ist.numberFormat }),
+            // Is Selected - To be used for cost center execution selector
+            isSelected = ko.observable(false),
+            // Cost Centre Type
+            costCentreTypeId = ko.observable(specifiedCostCentreType || undefined),
+            // Cost Centre Quantity Source Type
+            costCentreQuantitySourceType = ko.observable(specifiedCostCentreQuantitySourceType || undefined),
+            // Cost Centre Time Source Type
+            costCentreTimeSourceType = ko.observable(specifiedCostCentreTimeSourceType || undefined),
+            // Calculation Method Type
+            calculationMethodType = ko.observable(specifiedCalculationMethodType || undefined),
             errors = ko.validation.group({
 
             }),
@@ -33,8 +44,6 @@
             isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
-
-
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 id: id,
@@ -58,7 +67,8 @@
                     Description: description(),
                     SetupCost: setupCost(),
                     PricePerUnitQuantity: pricePerUnitQuantity(),
-                    DeliveryCharges: deliveryCharges()
+                    DeliveryCharges: deliveryCharges(),
+                    CalculationMethodType: calculationMethodType()
                 };
             },
             // Reset
@@ -77,6 +87,11 @@
             setupCostWithTax: setupCostWithTax,
             deliveryChargesWithTax: deliveryChargesWithTax,
             deliveryCharges: deliveryCharges,
+            isSelected: isSelected,
+            costCentreTypeId: costCentreTypeId,
+            costCentreQuantitySourceType: costCentreQuantitySourceType,
+            costCentreTimeSourceType: costCentreTimeSourceType,
+            calculationMethodType: calculationMethodType,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -95,7 +110,14 @@
             source.SetupCost,
             source.PricePerUnitQuantity,
             source.CompanyTaxRate,
-            source.DeliveryCharges
+            source.DeliveryCharges,
+            0,
+            0,
+            0,
+            source.Type,
+            source.QuantitySourceType,
+            source.TimeSourceType,
+            source.CalculationMethodType
             );
         return cost;
     };

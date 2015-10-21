@@ -19,7 +19,7 @@
                             <div class="form-group col-lg-12">
                                 <div class="col-lg-4 text-right"><label class="control-label text-right">Select Product Type</label></div>
                                 <div class="col-lg-8">
-                                    <select class="form-control" data-bind="options: $root.pipelineProducts, optionsText: 'name', optionsId: 'id', optionsValue: 'id', optionsCaption: 'Select Marketing Source', value: productId"></select>
+                                    <select class="form-control" data-bind="options: $root.pipelineProducts, optionsText: 'name', optionsId: 'id', optionsValue: 'id', optionsCaption: 'Select Product Type', value: productId"></select>
                                 </div>
                             </div>
                             <div class="form-group col-lg-12">
@@ -39,10 +39,12 @@
                     <footer class="main-box-header pull-right"></footer>
                 </div>
             </div>
-            <div class="modal-footer">
-                <hr/>
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveInquiryDetailItem">Add</button>
-                @*<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: $root.onCloseInquiryDetailItem">Close</button>*@
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
+                <hr style="margin-bottom:15px;"/>
+                <div style="padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveInquiryDetailItem">Add</button>
+                    @*<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: $root.onCloseInquiryDetailItem">Close</button>*@
+                </div>
             </div>
         </div>
     </div>

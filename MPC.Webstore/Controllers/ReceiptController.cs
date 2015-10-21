@@ -12,15 +12,17 @@ using System.Runtime.Caching;
 using MPC.Webstore.Models;
 using System.Net;
 using System.IO;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
     public class ReceiptController : Controller
     {
         private readonly IOrderService _OrderService;
-        private readonly ICompanyService _myCompanyService;
+        private readonly ICompanyService _myCompanyService; 
+        private readonly IWebstoreClaimsHelperService _myClaimHelper;
 
-        public ReceiptController(IOrderService OrderService, ICompanyService myCompanyService)
+        public ReceiptController(IOrderService OrderService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
         {
             if (myCompanyService == null)
             {
@@ -32,28 +34,25 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._OrderService = OrderService;
+            this._myClaimHelper = myClaimHelper;
         }
         // GET: Receipt
         public ActionResult Index(string OrderId)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            UserCookieManager.WEBOrderId = 0;
+
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+
+            ViewBag.OrderId = OrderId;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
 
 
-
-            if (StoreBaseResopnse.Company.ShowPrices ?? true)
-            {
-                ViewBag.IsShowPrices = true;
-                //do nothing because pricing are already visible.
-            }
-            else
-            {
-                ViewBag.IsShowPrices = false;
-                //  cntRightPricing1.Visible = false;
-            }
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
             {
                 ViewBag.Currency = StoreBaseResopnse.Currency;
@@ -77,28 +76,50 @@ namespace MPC.Webstore.Controllers
             else 
             {
                 oStoreDefaultAddress = new AddressViewModel();
-                if (StoreBaseResopnse.StoreDetaultAddress != null)
-                {
+                //if (StoreBaseResopnse.StoreDetaultAddress != null)
+                //{
                     
-                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
-                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+                //    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                //    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
 
-                    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
-                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
-                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
-                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+                //    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                //    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                //    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                //    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
 
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                //    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                //    {
+                //        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                //    }
+                //}
+                ViewBag.OrganisationLogo = "";
+                ViewBag.OrganisationName = "";
+                ViewBag.OrgVATRegNumber = "";
+                if (StoreBaseResopnse.Organisation != null)
+                {
+                    ViewBag.OrganisationLogo = StoreBaseResopnse.Organisation.MISLogo;
+                    ViewBag.OrgVATRegNumber = StoreBaseResopnse.Organisation.TaxRegistrationNo;
+                    ViewBag.OrganisationName = StoreBaseResopnse.Organisation.OrganisationName;
+                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.Organisation.Address1;
+                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.Organisation.Address2;
+
+                    oStoreDefaultAddress.City = StoreBaseResopnse.Organisation.City;
+                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.Organisation.StateId ?? 0);
+                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.Organisation.CountryId ?? 0);
+                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.Organisation.ZipCode;
+
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Organisation.Tel))
                     {
-                        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                        oStoreDefaultAddress.Tel = StoreBaseResopnse.Organisation.Tel;
                     }
                 }
             }
             ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
-      
-           
-            ViewBag.OrderId = OrderId;
+
+
+            
             ViewBag.StoreId = StoreBaseResopnse.Company.CompanyId;
+         
             return View("PartialViews/Receipt", order);
         }
     }

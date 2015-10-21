@@ -35,7 +35,7 @@ namespace MPC.Implementation.WebStoreServices
             return colors;
         }
         // save corporate color entry in designer // added by saqib ali
-        public int SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID)
+        public string SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID)
         {
             return _templateColorStyleRepository.SaveCorpColor(C, M, Y, K, Name, CustomerID);
         }

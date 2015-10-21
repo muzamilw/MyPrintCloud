@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+    
+}
+@using MPC.Webstore.Common;
+<div id="bonhamsControl"  class="content_area container">
+    <div class="left_right_padding">
+
+        <ul class="bonhamsMenu navM cursor_pointer">
+            <li>
+                <a href="/">@Html.Raw(Html.GetKeyValueFromResourceFile("HfHome", UserCookieManager.WBStoreId, "Home"))
+</a>
+
+            </li>
+            <li>
+                <a href="/ContactDetail">@Html.Raw(Html.GetKeyValueFromResourceFile("EditDetails", UserCookieManager.WBStoreId, "Edit My Details"))</a>
+
+            </li>
+
+
+            <li>
+                <a href="/SavedDesigns">@Html.Raw(Html.GetKeyValueFromResourceFile("Savprojects", UserCookieManager.WBStoreId, "Saved Projects"))</a>
+
+            </li>
+            <li>
+                <a id="orderRedirectLink" href="/ProductOrderHistory">@Html.Raw(Html.GetKeyValueFromResourceFile("HistryBtn", UserCookieManager.WBStoreId, "Order History"))</a>
+
+            </li>
+            <li>
+                <a href="/Dashboard">@Html.Raw(Html.GetKeyValueFromResourceFile("opencatg", UserCookieManager.WBStoreId, "Open Catelogue"))</a>
+
+            </li>
+            <li>
+                <a href="/ShopCart">@Html.Raw(Html.GetKeyValueFromResourceFile("shopingbask", UserCookieManager.WBStoreId, "My Shopping Basket"))</a>
+
+            </li>
+                
+            <li>
+                <a id="lnkBtnSignOut" href="@Url.Action("LogOut", "BlackAndWhiteHeaderMenu")" >@Html.Raw(Html.GetKeyValueFromResourceFile("lout", UserCookieManager.WBStoreId, "Log Out"))</a>
+            </li>
+        </ul>
+        <ul id="bonhamUserStatus" class="navM">
+            <li style=" ">
+                <Label ID="loggedInUser" >@ViewBag.loggedInUser</Label>
+            </li>
+            <li style="">
+                <Label ID="savedDesnglbl"> @ViewBag.SavedDesignItmesTotal @Html.Raw(Html.GetKeyValueFromResourceFile("svprojects", UserCookieManager.WBStoreId, "Saved Project(s)"))</Label>
+
+            </li>
+
+            <li style="">
+
+                <Label ID="cartItemsCount">@Html.Raw(Html.GetKeyValueFromResourceFile("Youhave", UserCookieManager.WBStoreId, "You have")) @ViewBag.CartCount @Html.Raw(Html.GetKeyValueFromResourceFile("iteminbasket", UserCookieManager.WBStoreId, "Items in your basket(s)"))</Label>
+            </li>
+
+            <li style="">
+                <Label ID="cartBalance">@ViewBag.OrderTotal</Label>
+
+            </li>
+
+        </ul>
+
+        <div class="clearBoth">
+        </div>
+    </div>
+</div>

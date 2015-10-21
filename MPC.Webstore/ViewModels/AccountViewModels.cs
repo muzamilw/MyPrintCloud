@@ -62,6 +62,8 @@ namespace MPC.Webstore.Models
         public string ModifiedQueueItem { get; set; }
         public string JsonAllQuestionQueue { get; set; }
         public string JsonAllInputQueue { get; set; }
+
+        public string ItemStockOptionId { get; set; }
     }
 
 
@@ -253,6 +255,8 @@ namespace MPC.Webstore.Models
         public bool printCropMarks { get; set; }
         public bool printWaterMark { get; set; }
         public bool isEmbedded { get; set; }
+        public int isTemplateDesignMode { get; set; }
+        
     }
 
     public class ItemViewModel
@@ -260,15 +264,21 @@ namespace MPC.Webstore.Models
         public long ItemId { get; set; }
         public string ProductName { get; set; }
         public bool IsQtyRanged { get; set; }
-        public bool isUploadImage { get; set; }
         public List<ItemPriceMatrix> ItemPriceMatrices { get; set; }
         public string WebDescription { get; set; }
         public string File1 { get; set; }
         public string File2 { get; set; }
         public string File3 { get; set; }
         public string File4 { get; set; }
+        public string File5 { get; set; }
         public string GridImage { get; set; }
         public string Mode { get; set; }
+        public string File1Url { get; set; }
+        public string File2Url { get; set; }
+        public string File3Url { get; set; }
+        public string File4Url { get; set; }
+        public string File5Url { get; set; }
+        public int isUploadImage { get; set; }
     }
     
 }

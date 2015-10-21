@@ -25,6 +25,8 @@ namespace MPC.Models.DomainModels
         public int? UploadedFrom { get; set; }
         public long? ContactCompanyId { get; set; }
         public long? ContactId { get; set; }
+        public bool? hasClippingPath { get; set; }
+        public string clippingFileName { get; set; }
 
         public virtual Template Template { get; set; }
 

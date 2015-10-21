@@ -1,5 +1,7 @@
 ﻿@using MPC.Webstore.Common;
-
+@{
+    Layout = null;
+}
 <style type="text/css">
     .activeCampaigns {
         width: 25%;
@@ -15,7 +17,7 @@
         font-size: 25px;
         font-family: PT Sans;
     }
-
+     
     .campaignsLabel {
         font-size: 15px;
         font-family: PT Sans;
@@ -58,11 +60,9 @@
     </div>
 </div>
 
-@section scripts
-{
     <script type="text/javascript">
         $(document).ready(function () {
             $('#mycarousel').jcarousel();
         });
     </script>
-}
+
