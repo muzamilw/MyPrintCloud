@@ -3955,17 +3955,37 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </tr>
     <!-- /ko -->
 </script>
+<style>
+    .widget-products-frame
+    {
+        display:none;
+    }
+    .widget-products-layout-image:hover .widget-products-frame
+    {
+        display:block;
+    }
+</style>
 <script id="widgetItemTemplate" type="text/html">
-    <li class="dd-item dd-item-list">
+    <li class="dd-item dd-item-list ">
         <div class="dd-handle-list" style="height:100%;"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle" style="height:auto;">
-            <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index:1000;" title="Drag widget to add to the right panel"></span>
-            <div class="nested-links">
+        <div class="dd-handle" style=" height:auto;">
+            <div class="widget-products-layout-image">
+                <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index:1000;" title="Drag widget to add to the right panel"></span>
+                <div class="widget-products-frame" data-bind="visible:thumbnailUrl || description " style="position: absolute;top: 0;left: 420px;border: 5px solid #171717;background: gainsboro;z-index:10000">
+                    <img data-bind="visible:thumbnailUrl,attr:{ src: thumbnailUrl }">
+                    <div style="width:inherit;height:50px;font-family:Arial;padding-top:10px;">
+                        <span style="padding:10px;color:black;" data-bind="text:description"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="nested-links" style="margin-top:-20px;">
                 <i class="fa fa-pencil cursorShape" data-bind="click:$root.getStoreLayoutWidgetsCss"></i>
                 &nbsp;&nbsp;
                 <a href="#" class="nested-link" title="Add Widget" data-bind="click:$root.addWidgetToPageLayout"><i class="fa fa-plus"></i></a>
             </div>
         </div>
+       
+
     </li>
 </script>
 <script id="skinWidgetItemTemplate" type="text/html">
