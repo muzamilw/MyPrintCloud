@@ -71,19 +71,20 @@ namespace MPC.Webstore.Controllers
 
         #region LoadOperations
         // GET: ShopCartAddressSelect
-        public ActionResult Index(long OrderID)
+        public ActionResult Index(long? OrderID)
         {
             try
             {
-                if (OrderID > 0)
+                if (OrderID > 0 && OrderID != null)
                 {
                     ShopCartAddressSelectViewModel AddressSelectModel = new ShopCartAddressSelectViewModel();
-                    LoadPageData(AddressSelectModel, OrderID);
+                    LoadPageData(AddressSelectModel, OrderID ?? 0);
                     return View("PartialViews/ShopCartAddressSelect", AddressSelectModel);
                 }
                 else 
                 {
-                    ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart", new { OrderId = "" });
+                    ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart");
+                    return null;
                 }
              
             }
