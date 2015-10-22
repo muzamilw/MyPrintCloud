@@ -2909,10 +2909,11 @@ function togglePage(pId) {
         } else if (D1AO) {
             var l = D1AO.left - D1AO.getWidth() / 2;
             var t = D1AO.top - D1AO.getHeight() / 2;
-            l = Math.round(l);
-            t = Math.round(t);
+         //   l = Math.round(l);
+        //    t = Math.round(t);
             var w;
             var h;
+            console.log(l);
             $("#inputPositionX").val((l / (conversionRatio)) /dfZ1l );
             $("#inputPositionY").val((t / (conversionRatio)) / dfZ1l);
             if (D1AO.type === 'text' || D1AO.type === 'i-text') {
@@ -2945,6 +2946,7 @@ function togglePage(pId) {
 
     }
     function k5() {
+        
         if (!$.isNumeric($("#inputPositionX").val())) {
             $("#inputPositionX").val(0);
         }
