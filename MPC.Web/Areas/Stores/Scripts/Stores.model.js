@@ -205,6 +205,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPayOnlyByCreditCard = ko.observable(undefined),
             isRegisterPlaceDirectOrder = ko.observable(undefined),
             isRegisterPlaceOrderWithoutApproval = ko.observable(undefined),
+            isAllowRequestaQuote = ko.observable(undefined),
 
             // Display VoucherCode
             isDisplayDiscountVoucherCode = ko.observable(undefined),
@@ -389,7 +390,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPayOnlyByCreditCard: isRegisterPayOnlyByCreditCard,
             isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
             isRegisterPlaceOrderWithoutApproval: isRegisterPlaceOrderWithoutApproval,
-
+            isAllowRequestaQuote: isAllowRequestaQuote,
             canUserEditProfile: canUserEditProfile,
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
@@ -471,6 +472,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.IsRegisterPayOnlyByCreditCard = source.isRegisterPayOnlyByCreditCard();
             result.IsRegisterPlaceDirectOrder = source.isRegisterPlaceDirectOrder();
             result.IsRegisterPlaceOrderWithoutApproval = source.isRegisterPlaceOrderWithoutApproval();
+            result.IsAllowRequestaQuote = source.isAllowRequestaQuote();
 
             result.IsDisplayDiscountVoucherCode = source.isDisplayDiscountVoucherCode();
             result.CanUserEditProfile = source.canUserEditProfile();
@@ -664,6 +666,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPayOnlyByCreditCard: isRegisterPayOnlyByCreditCard,
             isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
             isRegisterPlaceOrderWithoutApproval:isRegisterPlaceOrderWithoutApproval,
+            isAllowRequestaQuote: isAllowRequestaQuote,
 
             isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
             canUserEditProfile: canUserEditProfile,
@@ -842,6 +845,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.isRegisterPayOnlyByCreditCard(source.IsRegisterPayOnlyByCreditCard);
         store.isRegisterPlaceDirectOrder(source.IsRegisterPlaceDirectOrder);
         store.isRegisterPlaceOrderWithoutApproval(source.IsRegisterPlaceOrderWithoutApproval);
+        store.isAllowRequestaQuote(source.IsAllowRequestaQuote);
 
         
         //if (source.IsCustomer == 0) {
@@ -3439,23 +3443,29 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region __________________  Widget   ______________________
 
     // ReSharper disable once InconsistentNaming
-    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName) {
+    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName, specifiedWidgetCss, specifiedThumbnailUrl, specifiedDescription) {
 
         var self,
             widgetId = ko.observable(specifiedWidgetId),
             widgetName = ko.observable(specifiedWidgetName),
             widgetCode = ko.observable(specifiedWidgetCode),
-            widgetControlName = ko.observable(specifiedWidgetControlName);
-        //id = ko.computed(function () {
-        //    ist.stores.viewModel.selectedWidget(widgetId);
+            widgetControlName = ko.observable(specifiedWidgetControlName),
 
-        //}, this);
+            widgetCss = ko.observable(specifiedWidgetCss),
+            thumbnailUrl = ko.observable(specifiedThumbnailUrl),
+            description = ko.observable(specifiedDescription)
+      
 
         self = {
             widgetId: widgetId,
             widgetName: widgetName,
             widgetCode: widgetCode,
             widgetControlName: widgetControlName,
+
+            widgetCss: widgetCss,
+            thumbnailUrl: thumbnailUrl,
+            description: description
+
         };
         return self;
     };
@@ -3465,8 +3475,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.WidgetId,
              source.WidgetName,
              source.WidgetCode,
-             source.WidgetControlName
-               );
+             source.WidgetControlName,
+             
+             source.WidgetCss,
+             source.ThumbnailUrl,
+             source.Description
+
+            );
 
     };
     // #endregion __________________  Widget   ______________________

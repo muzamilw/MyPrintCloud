@@ -7489,20 +7489,18 @@ define("stores/stores.viewModel",
                             }
                         });
                     };
-                //#region _________R E T U R N_____________________
+            
 
-                //Open VariableIcon Dialog
-                //showcreateVariableDialog = function ()
-                //{
-                //   openDialog();
-                //},
-                //openDialog = function ()
-                //{
+                // Show Widget Css Dialog Method
+                openStoreLayoutWidgetsCssDialog = function () {
+                    view.showStoreLayoutWidgetCss();
+                },
 
-
-
-                  
-                //}
+                // Get Widget Css Details
+                getStoreLayoutWidgetsCss = function (item) {
+                    openStoreLayoutWidgetsCssDialog();
+                },
+                
 
                 // GET company VariableIcon
                 getCompanyVariableIcons = function () {
@@ -7987,6 +7985,7 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
+                    getStoreLayoutWidgetsCss: getStoreLayoutWidgetsCss,
                     getCompanyVariableIcons: getCompanyVariableIcons,
                     onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore,

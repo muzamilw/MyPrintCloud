@@ -342,6 +342,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
+    <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
@@ -2292,6 +2293,7 @@
     <Content Include="Areas\Stores\Views\Stores\_EditStoreCss.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_RealEstateCompaignDailog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_Zapier.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreLayoutWidgetCss.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3493,6 +3495,7 @@
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\CompanyVariableIcon\" />
     <Folder Include="Areas\Api\Views\CopyEstimate\" />
+    <Folder Include="Areas\Api\Views\CopyStore\" />
     <Folder Include="Areas\Api\Views\CostCentreMatrix\" />
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\CrmContact\" />

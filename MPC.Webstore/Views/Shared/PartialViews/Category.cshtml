@@ -41,7 +41,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
         <div class="cntParentCategDesc col-md-12 col-lg-12 col-xs-12">
             <label id="lblParentCategoryDesc">@Html.Raw(Model.Description1)</label>
         </div>
-        <div id="CategoryDisplay responsivePad15">
+        <div id="CategoryDisplay" class="responsivePad15">
 
             <div class="rounded_corners clearBoth col-md-12 col-lg-12 col-xs-12">
                 @if (ViewData["ProductCategory"] != null)
@@ -111,10 +111,10 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                     <div class="pad5">
                                         <div class="LCLB">
                                             @{
-                                                var OriginalProductName = item.ProductName;
-                                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
+                                var OriginalProductName = item.ProductName;
+                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
                                             }
-                                           
+
                                             @* condition for marketing brief*@
                                             @if (item.ProductType == (int)ProductType.MarketingBrief)
                                             {
@@ -142,7 +142,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                     isUploadImage = false;
 
                                                     RedirectURL = "/Category/CloneItem/" + item.ItemId;
-                                                    
+
                                                     //}
                                                 }
 
@@ -246,58 +246,58 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                     }
 
 
-                                    
-                                    
-                                        <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
-                                            <tr>
-                                                <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
-                                                    style="text-align: left;">
-                                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))
-                                                </td>
-                                                <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
-                                                    style="text-align: right;">
-                                                    @if (ViewBag.IsShowPrices == true)
-                                                    {
-                                                        <label id="lblStockOpt1">@stockLabel</label>
-                                                    }
-                                                    
-                                                </td>
-                                            </tr>
-                                            @if (matrix != null)
-                                            {
-                                                foreach (var Objmatrix in matrix)
+
+
+                                    <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
+                                        <tr>
+                                            <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
+                                                style="text-align: left;">
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))
+                                            </td>
+                                            <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
+                                                style="text-align: right;">
+                                                @if (ViewBag.IsShowPrices == true)
                                                 {
-                                                    <tr>
-                                                        <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
-
-                                                            <label id="spanQuantity">@Objmatrix.Quantity</label>
-                                                        </td>
-                                                        <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
-                                                            style="text-align: right;">
-                                                            <div id="matrixItemColumn1">
-                                                                @if (ViewBag.IsShowPrices == true)
-                                                                {
-                                                                    <label id="lblPrice1">@Objmatrix.Price</label>
-
-                                                                }
-                                                                
-
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
+                                                    <label id="lblStockOpt1">@stockLabel</label>
                                                 }
 
+                                            </td>
+                                        </tr>
+                                        @if (matrix != null)
+                                        {
+                                            foreach (var Objmatrix in matrix)
+                                            {
+                                                <tr>
+                                                    <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
+
+                                                        <label id="spanQuantity">@Objmatrix.Quantity</label>
+                                                    </td>
+                                                    <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
+                                                        style="text-align: right;">
+                                                        <div id="matrixItemColumn1">
+                                                            @if (ViewBag.IsShowPrices == true)
+                                                            {
+                                                                <label id="lblPrice1">@Objmatrix.Price</label>
+
+                                                            }
 
 
+                                                        </div>
+                                                    </td>
+                                                </tr>
 
                                             }
-                                        </table>
-                                    
+
+
+
+
+                                        }
+                                    </table>
+
 
 
                                 }
-}
+                                        }
 
                                         <div id="productOptionBtns">
                                             @if (item.ProductType == (int)ProductType.PrintProduct)
@@ -444,6 +444,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
             </div>
 
         </div>
+
     </div>
     <div class="clear marginBtm10">
     </div>

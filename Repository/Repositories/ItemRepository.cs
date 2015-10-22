@@ -709,6 +709,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+              
                 Item productItem = null;
                 db.Configuration.LazyLoadingEnabled = false;
                 productItem =

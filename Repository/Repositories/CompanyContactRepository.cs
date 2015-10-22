@@ -769,16 +769,7 @@ namespace MPC.Repository.Repositories
                         Contact.canPlaceDirectOrder = oCompanyRec.IsRegisterPlaceDirectOrder;
                         Contact.canUserPlaceOrderWithoutApproval = oCompanyRec.IsRegisterPlaceOrderWithoutApproval;
                     }
-                    //if (isAutoRegister == true)
-                    //{
-                    //    Contact.isWebAccess = true;
-                    //}
-                    //else
-                    //{
-                    //    Contact.isWebAccess = false;
-                    //}
-
-                    
+                
                     if (companyTerritory != null)
                     {
                         Contact.TerritoryId = companyTerritory.TerritoryId;
@@ -828,6 +819,8 @@ namespace MPC.Repository.Repositories
                     }
 
                     db.CompanyContacts.Add(Contact);
+
+                   
 
                     if (db.SaveChanges() > 0)
                     {
