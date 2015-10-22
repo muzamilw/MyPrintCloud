@@ -51,6 +51,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyVoucherRedeemRepository _companyVoucherReedemRepository;
         private readonly IRegistrationQuestionRepository _questionRepository;
         private readonly ICompanyContactRoleRepository _companycontactRoleRepo;
+        private readonly IScopeVariableRepository _IScopeVariableRepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -68,7 +69,8 @@ namespace MPC.Implementation.WebStoreServices
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
-            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository, ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository)
+            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
+            ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository)
         {
             this._CompanyRepository = companyRepository;
             this._questionRepository = _questionRepository;
@@ -95,6 +97,7 @@ namespace MPC.Implementation.WebStoreServices
             this._companyVoucherReedemRepository = companyVoucherReedemRepository;
             this._companycontactRoleRepo = _companycontactRoleRepo;
             this._SystemUserRepository = _SystemUserRepository;
+            this._IScopeVariableRepository = IScopeVariableRepository;
         }
 
         #endregion
@@ -1651,6 +1654,7 @@ namespace MPC.Implementation.WebStoreServices
         public void AddDataSystemUser(CompanyContact Contact)
         {
             _CompanyContactRepository.AddDataSystemUser(Contact);
+            AddScopeVariables(Contact.ContactId, Contact.CompanyId);
         }
         public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
         {
@@ -1734,6 +1738,11 @@ namespace MPC.Implementation.WebStoreServices
                 _itemRepository.Delete(item);
             }
             _itemRepository.SaveChanges();
+        }
+
+        public void AddScopeVariables(long ContactId, long StoreId) 
+        {
+            _IScopeVariableRepository.AddScopeVariables(ContactId, StoreId);
         }
     }
 }
