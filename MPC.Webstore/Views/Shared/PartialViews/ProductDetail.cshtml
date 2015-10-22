@@ -657,13 +657,13 @@
 
                     @if (!string.IsNullOrEmpty(Model.GridImage) || !string.IsNullOrEmpty(Model.File1) || !string.IsNullOrEmpty(Model.File2) || !string.IsNullOrEmpty(Model.File3) || !string.IsNullOrEmpty(Model.File4))
                     {
-                        
+                        <label id="lbl_KeyFeatures" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId, "Key Features"))</label>
                         <div id="LyoutGridCont"
                              class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
 
                             <div class="whitebackground">
 
-                                <label id="lbl_KeyFeatures" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId, "Key Features"))</label>
+                               
                                 <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
                                     @*<br />
                                         <label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
@@ -728,6 +728,7 @@
                             </div>
                         </div>
                     }
+                    <div class="clearBoth">&nbsp;</div>
                     @if (ViewData["ItemVideo"] != null)
                     {
                         <label id="lbl_KeyFeatures" class="ProductDetailH2">Video(s)</label>

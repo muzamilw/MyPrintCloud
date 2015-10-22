@@ -1,13 +1,18 @@
-﻿@using MPC.Models.DomainModels;
+﻿@model MPC.Models.DomainModels.Company
+@using MPC.Models.DomainModels;
 @using MPC.Webstore.Common;
 @{
     List<ProductCategory> subCategories =  ViewData["SubCats"] as List<ProductCategory>;
-    var hasChild = 0;
+   
 }
 <nav class="cbp-hsmenu-wrapper" id="cbp-hsmenu-wrapper">
     <div class="cbp-hsinner">
         <ul class="cbp-hsmenu">
-            <div class="menuLogo"><a href="/"><img src="http://futurform.myprintcloud.com/MPC_Content/Assets/1579/33430/logo.png"></a></div>
+            <div class="menuLogo">
+                <a href='@ViewBag.DefaultUrl'>
+                    <img src="/@Model.Image" />
+                </a>
+            </div>
 
             <li>
                 <a href="/">Home</a>
@@ -22,10 +27,10 @@
                                 <li class="dropdownHeading">@topCat.CategoryName</li>
                                 
                                 @{var subCat = subCategories.Where(i => i.ParentCategoryId == topCat.ProductCategoryId).ToList();}
-                                @foreach (var subCats in subCat)
+                                @foreach (ProductCategory subCats in subCat)
                                 {
 
-                                    <li><a href="/Category/@Utils.specialCharactersEncoder(topCat.CategoryName)/@topCat.ProductCategoryId">&gt; @topCat.CategoryName</a></li>
+                                    <li><a href="/Category/@Utils.specialCharactersEncoder(subCats.CategoryName)/@subCats.ProductCategoryId">&gt; @subCats.CategoryName</a></li>
                                   
                                 }
 
