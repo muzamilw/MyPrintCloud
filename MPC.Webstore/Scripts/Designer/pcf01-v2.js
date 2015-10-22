@@ -451,6 +451,8 @@ function c2_01(OPT) {
             IT.hasInlineFontStyle = OPT.hasInlineFontStyle;
             IT.IsHidden = OPT.IsHidden;
             IT.IsEditable = OPT.IsEditable;
+            var objs = canvas.getObjects();
+            IT.DisplayOrderPdf = objs.indexOf(OPT);
             return;
         }
     });
@@ -2918,15 +2920,15 @@ function togglePage(pId) {
                 h = (D1AO.maxHeight);
                 $("#inputObjectWidthTxt").val(((w / (1)) ) / conversionRatio);
                 $("#inputObjectHeightTxt").val((h / (1)) / conversionRatio);
-                $("#inputPositionXTxt").val((l / (dfZ1l)) / conversionRatio);
-                $("#inputPositionYTxt").val((t / (dfZ1l)) / conversionRatio);
+                $("#inputPositionXTxt").val((l / (conversionRatio)) /dfZ1l );
+                $("#inputPositionYTxt").val((t / (conversionRatio)) / dfZ1l);
             } else {
                 // animatedcollapse.show('divPositioningPanel');
                 w =(D1AO.getWidth());
                 h =(D1AO.getHeight());
                 o = D1AO.getOpacity() * 100;
-                $("#inputObjectWidth").val((w / (dfZ1l)) / conversionRatio);
-                $("#inputObjectHeight").val((h / (dfZ1l)) / conversionRatio);
+                $("#inputObjectWidth").val((w / (conversionRatio)) / dfZ1l);
+                $("#inputObjectHeight").val((h / (conversionRatio)) / dfZ1l);
                 $("#inputObjectAlpha").val(o);
                 $(".transparencySlider").slider("option", "value", o);
 
@@ -4814,20 +4816,16 @@ function togglePage(pId) {
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
-            conversionRatio = parseFloat(res[2]) * 2.834645669;
+            conversionRatio = parseFloat(res[2]) * 2.834645669 * 96 / 72;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
         }
         var OBS = canvas.getObjects(); 
         $.each(OBS, function (i, IT) {
-      
             if (IT.ObjectID == -975) {
                 IT.text = $(".dimentionsBC").html();
                 canvas.renderAll();
             }
         });
-   
-        //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
-   
     }

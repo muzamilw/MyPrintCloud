@@ -990,7 +990,6 @@ namespace MPC.Repository.Repositories
                         }
                         else
                         {
-                            record.ErrorResponse = ErrorMsg;
                             record.AttemptCount++;
                             db.SaveChanges();
                         }
@@ -1315,7 +1314,7 @@ namespace MPC.Repository.Repositories
 
             // here is problem supplier user is null .. bcox in parameter we are sendin
 
-            CompanyContact supplieruser = db.CompanyContacts.Where(c => c.ContactId == supplierContactID).FirstOrDefault();
+            CompanyContact supplieruser = db.CompanyContacts.Where(c => c.CompanyId == supplierContactID && c.IsDefaultContact == 1).FirstOrDefault();
             Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
 
             SystemUser SalesManager = null;

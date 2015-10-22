@@ -48,8 +48,17 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(string OrderId)
         {
             ShoppingCart shopCart = LoadOrderDetail(OrderId);
-            return View("PartialViews/OrderConfirmation", shopCart);
+            if (shopCart == null)
+            {
+                ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart");
+                return null;
+            }
+            else 
+            {
+                return View("PartialViews/OrderConfirmation", shopCart);
 
+            }
+            
         }
 
         /// <summary>
@@ -369,10 +378,6 @@ namespace MPC.Webstore.Controllers
 
         private ShoppingCart LoadOrderDetail(string OrderId)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             long OrderID = Convert.ToInt64(OrderId);
@@ -405,13 +410,12 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    Response.Redirect("/");
+                  
                     return null;
                 }
             }
             else
             {
-                Response.Redirect("/");
                 return null;
             }
         }

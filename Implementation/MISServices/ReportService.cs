@@ -269,7 +269,7 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId + "/" + rptNote.CompanyId);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {

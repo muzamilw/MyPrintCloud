@@ -1,0 +1,63 @@
+﻿@using MPC.Models.DomainModels;
+@using MPC.Webstore.Common;
+@{
+    List<ProductCategory> subCategories =  ViewData["SubCats"] as List<ProductCategory>;
+    var hasChild = 0;
+}
+<nav class="cbp-hsmenu-wrapper" id="cbp-hsmenu-wrapper">
+    <div class="cbp-hsinner">
+        <ul class="cbp-hsmenu">
+            <div class="menuLogo"><a href="/"><img src="http://futurform.myprintcloud.com/MPC_Content/Assets/1579/33430/logo.png"></a></div>
+
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li data-open="" class="">
+                <a href="#">Products</a>
+                <ul class="cbp-hssubmenu cbp-hssub-rows">
+                    <div class="dropdownPadding">
+                        @foreach (var topCat in ViewData["ParentCats"] as List<MPC.Models.DomainModels.ProductCategory>)
+                        {
+                            <div class="linkCol">
+                                <li class="dropdownHeading">@topCat.CategoryName</li>
+                                
+                                @{var subCat = subCategories.Where(i => i.ParentCategoryId == topCat.ProductCategoryId).ToList();}
+                                @foreach (var subCats in subCat)
+                                {
+
+                                    <li><a href="/Category/@Utils.specialCharactersEncoder(topCat.CategoryName)/@topCat.ProductCategoryId">&gt; @topCat.CategoryName</a></li>
+                                  
+                                }
+
+                                @if(subCat.Count == 0)
+                                {
+                                    <li><a href="/Category/@Utils.specialCharactersEncoder(topCat.CategoryName)/@topCat.ProductCategoryId">&gt; View @topCat.CategoryName</a></li>
+                                }
+                            </div>
+
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                </ul>
+            </li>
+            @if(ViewBag.AboutUs != null)
+            {
+                <li>
+                    <a href="/pages/@Utils.specialCharactersEncoder(ViewBag.AboutUs.PageTitle)/@ViewBag.AboutUs.PageId">About Us</a>
+                </li>
+            }
+
+            <li>
+                <a href="/ContactUs">Contact Us</a>
+            </li>
+        </ul>
+    </div>
+    <div class="cbp-hsmenubg" style="height: 0px;"></div>
+</nav>
+
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/cbpHorizontalSlideOutMenu.min.js"></script>
+
+<script>
+    var menu = new cbpHorizontalSlideOutMenu(document.getElementById('cbp-hsmenu-wrapper'));
+</script>

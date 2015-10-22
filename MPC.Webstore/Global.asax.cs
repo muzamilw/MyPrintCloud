@@ -133,9 +133,11 @@ namespace MPC.Webstore
         //    System.Web.HttpContext.Current.SetSessionStateBehavior(
         //        SessionStateBehavior.Required);
         //}
-      
-        protected void Session_Start()
+
+        protected void Session_Start(object sender, EventArgs e)
         {
+
+            string sessionId = Session.SessionID;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             Uri sdsd = Request.Url;

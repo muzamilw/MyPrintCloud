@@ -392,6 +392,8 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
+    <Compile Include="Controllers\FutureHeaderController.cs" />
+    <Compile Include="Controllers\FutureQuickLinksController.cs" />
     <Compile Include="Controllers\HeaderWithCategoriesAndProducts.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
@@ -777,6 +779,7 @@
     <Content Include="LightBox\Js\jquery.fancybox-thumbs.js" />
     <Content Include="LightBox\Js\jquery.fancybox.js" />
     <Content Include="LightBox\Js\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\cbpHorizontalSlideOutMenu.min.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
     <Content Include="Scripts\Designer\p64test-1.4.js" />
     <Content Include="Scripts\FeedEk.js" />
@@ -1044,6 +1047,8 @@
     <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
     <Content Include="Views\Shared\PartialViews\DescriptiveFooter.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginBarWithCounters.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FutureHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FutureQuickLinks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1057,6 +1062,8 @@
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\DescriptiveFooter\" />
     <Folder Include="Views\FutureFormHeader\" />
+    <Folder Include="Views\FutureHeader\" />
+    <Folder Include="Views\FutureQuickLinks\" />
     <Folder Include="Views\LoginBarWithCounters\" />
     <Folder Include="Views\UserManager\" />
   </ItemGroup>

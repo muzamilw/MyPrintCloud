@@ -60,7 +60,7 @@ namespace MPC.Webstore.Controllers
             bool includeVAT = false;
             List<ItemStockOptionList> StockOptions = new List<ItemStockOptionList>();
          
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+           
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             includeVAT = StoreBaseResopnse.Company.isIncludeVAT ?? false;
@@ -286,63 +286,21 @@ namespace MPC.Webstore.Controllers
                 else 
                 {
                     productList = null;
+
+                    if (subCategoryList.Count() == 1 && subCategoryList.FirstOrDefault() != null) 
+                    {
+                        Response.Redirect("/Category/" + Utils.specialCharactersEncoder(subCategoryList.FirstOrDefault().CategoryName) + "/" + subCategoryList.FirstOrDefault().ProductCategoryId);
+                        return null;
+                    }
                 }
 
                 ViewData["Products"] = productList;
 
             }
-            else
-            {
-
-            }
 
             ViewBag.ContactId = _webstoreAuthorizationChecker.loginContactID();
             ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
-            //if (StoreBaseResopnse.Company.ShowPrices == true)
-            //{
-            //    ViewBag.IsShowPrices = true;
-            //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-            //    {
-            //        if (_myClaimHelper.loginContactID() > 0)
-            //        {
-            //            if (UserCookieManager.ShowPriceOnWebstore == true)
-            //            {
-            //                ViewBag.IsShowPrices = true;
-            //            }
-            //            else
-            //            {
-            //                ViewBag.IsShowPrices = false;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            ViewBag.IsShowPrices = true;
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    ViewBag.IsShowPrices = false;
-            //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-            //    {
-            //        if (_myClaimHelper.loginContactID() > 0)
-            //        {
-            //            if (UserCookieManager.ShowPriceOnWebstore == true)
-            //            {
-            //                ViewBag.IsShowPrices = true;
-            //            }
-            //            else
-            //            {
-            //                ViewBag.IsShowPrices = false;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            ViewBag.IsShowPrices = false;
-            //        }
-            //    }
-            //}
+            
             return View("PartialViews/Category", Category);
         }
 
