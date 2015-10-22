@@ -451,6 +451,8 @@ function c2_01(OPT) {
             IT.hasInlineFontStyle = OPT.hasInlineFontStyle;
             IT.IsHidden = OPT.IsHidden;
             IT.IsEditable = OPT.IsEditable;
+            var objs = canvas.getObjects();
+            IT.DisplayOrderPdf = objs.indexOf(OPT);
             return;
         }
     });
