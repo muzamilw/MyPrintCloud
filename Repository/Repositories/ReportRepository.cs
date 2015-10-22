@@ -324,13 +324,41 @@ namespace MPC.Repository.Repositories
         public List<ReportNote> GetReportNoteByCompanyId(long CompanyId)
         {
             List<ReportNote> reportNotes = new List<ReportNote>();
-            reportNotes = db.ReportNotes.Where(c => c.CompanyId == CompanyId).ToList();
+            reportNotes = db.ReportNotes.Where(c => c.CompanyId == CompanyId && c.ReportCategoryId != (int)ReportCategoryEnum.PurchaseOrders).ToList();
 
+            
             //long CompanyId = db.Companies.Where(c => )
 
-            if (reportNotes == null || reportNotes.Count == 0)
+            if (reportNotes == null || reportNotes.Count() == 0)
             {
                 reportNotes = CreateDummyReportNotesRecord(CompanyId);
+            }
+
+            ReportNote rptNote = db.ReportNotes.Where(c => c.ReportCategoryId == (int)ReportCategoryEnum.PurchaseOrders && c.OrganisationId == OrganisationId && c.CompanyId == null).FirstOrDefault();
+            if (rptNote == null)
+            {
+                string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/";
+
+                // for purchases
+                ReportNote objReportNotePurchase = new ReportNote();
+
+
+                objReportNotePurchase.isDefault = true;
+                objReportNotePurchase.OrganisationId = OrganisationId;
+                // objReportNotePurchase.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+                objReportNotePurchase.BannerAbsolutePath = PathFull;
+                objReportNotePurchase.ReportCategoryId = 5;
+                objReportNotePurchase.SystemSiteId = 1;
+                objReportNotePurchase.UserId = 1;
+                db.ReportNotes.Add(objReportNotePurchase);
+
+
+                db.SaveChanges();
+                reportNotes.Add(objReportNotePurchase);
+            }
+            else
+            {
+                reportNotes.Add(rptNote);
             }
 
             return reportNotes;
@@ -402,18 +430,6 @@ namespace MPC.Repository.Repositories
             db.ReportNotes.Add(objReportNoteInvoice);
 
 
-            // for purchases
-            ReportNote objReportNotePurchase = new ReportNote();
-
-            objReportNotePurchase.CompanyId = CompanyId;
-            objReportNotePurchase.isDefault = true;
-            objReportNotePurchase.OrganisationId = OrganisationId;
-           // objReportNotePurchase.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
-            objReportNotePurchase.BannerAbsolutePath = PathFull;
-            objReportNotePurchase.ReportCategoryId = 5;
-            objReportNotePurchase.SystemSiteId = 1;
-            objReportNotePurchase.UserId = 1;
-            db.ReportNotes.Add(objReportNotePurchase);
 
 
             // for delivery
@@ -436,7 +452,7 @@ namespace MPC.Repository.Repositories
             lstReportNotes.Add(objReportNoteEstimate);
             lstReportNotes.Add(objReportNoteOrder);
             lstReportNotes.Add(objReportNoteInvoice);
-            lstReportNotes.Add(objReportNotePurchase);
+            //lstReportNotes.Add(objReportNotePurchase);
             lstReportNotes.Add(objReportNoteDelivery);
 
             return lstReportNotes;  

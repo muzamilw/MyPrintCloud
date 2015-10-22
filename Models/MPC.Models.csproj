@@ -123,6 +123,7 @@
     <Compile Include="Common\DividerLine.cs" />
     <Compile Include="Common\ExecutionQueue.cs" />
     <Compile Include="Common\ExportOrganisation.cs" />
+    <Compile Include="Common\ExportStore.cs" />
     <Compile Include="Common\GlobalData.cs" />
     <Compile Include="Common\GoodsReceivedNoteByColumn.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />

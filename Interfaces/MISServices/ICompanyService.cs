@@ -191,6 +191,8 @@ namespace MPC.Interfaces.MISServices
         Company CloneStore(long companyId);
 
         void DeleteCompanyVariableIcon(long iconId);
+
+        bool ExportStoreZip(long CompanyId, long OrganisationId);
         #endregion
 
 

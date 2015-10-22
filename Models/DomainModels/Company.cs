@@ -118,7 +118,6 @@ namespace MPC.Models.DomainModels
         public bool? IsRegisterPayOnlyByCreditCard { get; set; }
         public bool? IsRegisterPlaceDirectOrder { get; set; }
         public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
-
         public bool? IsAllowRequestaQuote { get; set; }
         /// <summary>
         /// Map Image Url
@@ -347,6 +346,7 @@ namespace MPC.Models.DomainModels
             target.isArchived = isArchived;
             target.PayByPersonalCredeitCard = PayByPersonalCredeitCard;
             target.PONumberRequired = PONumberRequired;
+            
             target.ShowPrices = ShowPrices;
             target.CarrierWebPath = CarrierWebPath;
             target.CarrierTrackingPath = CarrierTrackingPath;
@@ -424,6 +424,7 @@ namespace MPC.Models.DomainModels
 
             target.IsRegisterPlaceDirectOrder = IsRegisterPlaceDirectOrder;
             target.IsRegisterPlaceOrderWithoutApproval = IsRegisterPlaceOrderWithoutApproval;
+            target.IsAllowRequestaQuote = IsAllowRequestaQuote;
             target.MapImageUrl = MapImageUrl;
 
             target.PickupAddressId = PickupAddressId;
