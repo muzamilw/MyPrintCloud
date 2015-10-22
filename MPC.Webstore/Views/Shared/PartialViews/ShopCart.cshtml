@@ -301,7 +301,7 @@
                                 @if (ViewBag.IsShowPrices)
                                 {
                                     <div class="cntsubHeadings">
-                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</label>
+                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
                                             <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label>

@@ -53,6 +53,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [System.Web.Http.HttpGet]
         public HttpResponseMessage GetData(long orderID)
         {
+
             double GrandTotal = 0;
             double Subtotal = 0;
             double vat = 0;
@@ -81,20 +82,15 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 {
                     obj.CurrencySymbol = _companyService.GetCurrencySymbolById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId));
                 }
-               
             }
             obj.CartItemsList = order.OrderDetails.CartItemsList;
             obj.OrderCode = order.OrderCode;
-           // obj.OrderDate = order.OrderDate;
             obj.PlacedBy=order.PlacedBy;
             obj.StatusName = order.StatusName;
-           //obj.DeliveryDate = order.DeliveryDate;
-
             obj.CompanyName = order.CompanyName;
             obj.SubTotal = Utils.FormatDecimalValueToTwoDecimal(Subtotal.ToString(), obj.CurrencySymbol);
             obj.GrossTotal = Utils.FormatDecimalValueToTwoDecimal(GrandTotal.ToString(), obj.CurrencySymbol);
             obj.VAT = Utils.FormatDecimalValueToTwoDecimal(vat.ToString(), obj.CurrencySymbol);
-
             obj.DeliveryCostCharges = Utils.FormatDecimalValueToTwoDecimal(order.DeliveryCost.ToString(), obj.CurrencySymbol);
             AddressModel BillingAddess = new AddressModel();
             BillingAddess.AddressName = BillingAddress.AddressName;
@@ -107,7 +103,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             obj.billingAddress = BillingAddess;
 
             AddressModel ShippingAddresss = new AddressModel();
-
             ShippingAddresss.AddressName = ShippingAddress.AddressName;
             ShippingAddresss.Address1 = ShippingAddress.Address1;
             ShippingAddresss.Address2 = ShippingAddress.Address2;
@@ -204,8 +199,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             public string DeliveryDate;
             public List<ProductItem> CartItemsList;
 
-
-
             public string GrossTotal;
             public string SubTotal;
             public string VAT;
@@ -218,17 +211,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             public string ShippingCountry;
             public string ShippingState;
         }
-        public class OrderDetails
-        {
-            public string OrderCode;
-            public string OrderDate;
-            public string PlacedBy;
-            public string StatusName;
-            public string DeliveryDate;
-            
-            public List<ProductItem> CartItemsList;
-
-        }
+       
 
         public class AddressModel
         {
