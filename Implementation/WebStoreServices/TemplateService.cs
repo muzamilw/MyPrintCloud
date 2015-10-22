@@ -427,10 +427,14 @@ namespace MPC.Implementation.WebStoreServices
                                 {
                                     int inlineFontId = 0;
                                     var oFont = oFonts.Where(g => g.FontName == objStyle.fontName).FirstOrDefault();
-                                    if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
-                                        inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
-                                    // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
-                                    pid = "pid ='" + inlineFontId.ToString() + "' ";
+                                    if (oFont != null)
+                                    {
+                                        if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
+                                            inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
+                                        // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
+                                    }
+                                        pid = "pid ='" + inlineFontId.ToString() + "' ";
+                                    
                                 }
                                 string lineSpacingString = "";
                                 if (ooBject.LineSpacing != null)
