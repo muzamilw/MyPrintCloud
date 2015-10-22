@@ -75,10 +75,17 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
-
-                ShopCartAddressSelectViewModel AddressSelectModel = new ShopCartAddressSelectViewModel();
-                LoadPageData(AddressSelectModel, OrderID);
-                return View("PartialViews/ShopCartAddressSelect", AddressSelectModel);
+                if (OrderID > 0)
+                {
+                    ShopCartAddressSelectViewModel AddressSelectModel = new ShopCartAddressSelectViewModel();
+                    LoadPageData(AddressSelectModel, OrderID);
+                    return View("PartialViews/ShopCartAddressSelect", AddressSelectModel);
+                }
+                else 
+                {
+                    ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart", new { OrderId = "" });
+                }
+             
             }
             catch (Exception ex)
             {

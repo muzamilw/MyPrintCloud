@@ -222,7 +222,8 @@ namespace MPC.Webstore.Controllers
                             }
                             else 
                             {
-                                RedirectToLocal("/ShopCart?OrderId=" + Orderid);
+                                ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart", new { OrderId = Orderid });
+                                //RedirectToLocal("/ShopCart?OrderId=" + Orderid);
                                 //RedirectToAction("ShopCart", new { OrderId = Orderid });
                                // Response.Redirect("/ShopCart?OrderId=" + Orderid);
                             }
@@ -237,7 +238,8 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        RedirectToLocal("/");
+                        ControllerContext.HttpContext.Response.RedirectToRoute("Default");
+                        //RedirectToLocal("/");
                         //Response.Redirect("/");
                     
                     }

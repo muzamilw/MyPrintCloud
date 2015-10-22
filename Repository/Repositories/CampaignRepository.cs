@@ -990,7 +990,6 @@ namespace MPC.Repository.Repositories
                         }
                         else
                         {
-                            record.ErrorResponse = ErrorMsg;
                             record.AttemptCount++;
                             db.SaveChanges();
                         }
