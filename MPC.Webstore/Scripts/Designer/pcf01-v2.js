@@ -2913,7 +2913,6 @@ function togglePage(pId) {
         //    t = Math.round(t);
             var w;
             var h;
-            console.log(l);
             $("#inputPositionX").val((l / (conversionRatio)) /dfZ1l );
             $("#inputPositionY").val((t / (conversionRatio)) / dfZ1l);
             if (D1AO.type === 'text' || D1AO.type === 'i-text') {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System;
@@ -55,22 +56,15 @@ namespace MPC.Repository.Repositories
         /// <param name="productID"></param>
         /// <returns></returns>
         /// 
-        public List<TemplateFont> GetFontList(long productId, long customerId)
+        public List<TemplateFontResponseModel> GetFontList(long productId, long customerId)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            List<TemplateFont> lFont = new List<TemplateFont>();
+            List<TemplateFontResponseModel> lFont = new List<TemplateFontResponseModel>();
             var res = db.sp_GetUsedFontsUpdated(productId, customerId);
-            lFont = res.Select(g => new TemplateFont
+            lFont = res.Select(g => new TemplateFontResponseModel
             {
-                ProductFontId = g.ProductFontId,
-                ProductId = g.ProductId,
                 FontName = g.FontName,
-                FontDisplayName = g.FontDisplayName,
                 FontFile = g.FontFile,
-                DisplayIndex = g.DisplayIndex,
-                IsPrivateFont = g.IsPrivateFont,
-                IsEnable = g.IsEnable,
-                CustomerId = g.CustomerID,
                 FontPath = g.FontPath
             }).ToList();
             return lFont;
