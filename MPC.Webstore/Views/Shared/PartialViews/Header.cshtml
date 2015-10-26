@@ -21,16 +21,20 @@
                         {
 
                             <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId, "All Products"))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
+                          
+                           
+                        }
+                        @if (Model.IsCustomer != 3 && Model.IsAllowRequestaQuote == true)
+                        {
                             <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                        }
+                        @if (Model.IsCustomer != 3)
+                        {
+
+                           
                             <a id="lnkContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</a>
                         }
-                        else
-                        {
-                            if (Model.IsCustomer != 3 && Model.IsAllowRequestaQuote == true)
-                            {
-                                <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
-                            }
-                        }
+                       
 
 
                     </div>

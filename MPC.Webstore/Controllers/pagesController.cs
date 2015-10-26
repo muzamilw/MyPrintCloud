@@ -34,12 +34,22 @@ namespace MPC.Webstore.Controllers
 
         #endregion
         // GET: SecondaryPages
-        public ActionResult Index(long PageID)
+        public ActionResult Index(string PageID)
         {
+            if (PageID.Contains("www."))
+            {
+                TempData["ErrorMessage"] = "Your url is invalid.";
+                TempData["InvalidUrl"] = Request.Url.AbsoluteUri;
+                Response.Redirect("/Error");
+                return null;
+            }
+            else 
+            {
+                CmsPage SPage = _myCompanyService.getPageByID(Convert.ToInt64(PageID));
 
-            CmsPage SPage = _myCompanyService.getPageByID(PageID);
-
-            return PartialView("PartialViews/pages", SPage);
+                return PartialView("PartialViews/pages", SPage);
+            }
+            
         }
     }
 }

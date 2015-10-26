@@ -57,7 +57,7 @@ namespace MPC.Webstore.Controllers
             else
             {
 
-             //   List<ProductCategory> AllCategroies = new List<ProductCategory>();
+             //   List<ProductCategory> AllCategAllRetailCatroies = new List<ProductCategory>();
                 //List<ProductCategory> ChildCategories = new List<ProductCategory>();
                // AllCategroies = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 //SeablueToCategories
@@ -66,14 +66,18 @@ namespace MPC.Webstore.Controllers
                 // ViewBag.AllRetailCat = _myCompanyService.GetAllRetailPublishedCat().Where(i => i.ParentCategoryId == null || i.ParentCategoryId == 0).OrderBy(g => g.DisplayOrder).ToList();
                 ViewBag.AllRetailCat = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).ToList();
             }
-            string State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
-            string Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
-            ViewBag.companynameInnerText = StoreBaseResopnse.Company.Name;
-            ViewBag.addressline1InnerHtml = StoreBaseResopnse.StoreDetaultAddress.Address1 + "<br/>" + StoreBaseResopnse.StoreDetaultAddress.Address2;
-            ViewBag.cityandCodeInnerText = StoreBaseResopnse.StoreDetaultAddress.City + " " + StoreBaseResopnse.StoreDetaultAddress.PostCode;
-            ViewBag.stateandCountryInnerText = State + " " + Country;
-            ViewBag.telnoInnerText = StoreBaseResopnse.StoreDetaultAddress.Tel1;
-            ViewBag.emailaddInnerText = StoreBaseResopnse.StoreDetaultAddress.Email;
+            if (StoreBaseResopnse.StoreDetaultAddress != null)
+            {
+                string State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                string Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                ViewBag.companynameInnerText = StoreBaseResopnse.Company.Name;
+                ViewBag.addressline1InnerHtml = StoreBaseResopnse.StoreDetaultAddress.Address1 + "<br/>" + StoreBaseResopnse.StoreDetaultAddress.Address2;
+                ViewBag.cityandCodeInnerText = StoreBaseResopnse.StoreDetaultAddress.City + " " + StoreBaseResopnse.StoreDetaultAddress.PostCode;
+                ViewBag.stateandCountryInnerText = State + " " + Country;
+                ViewBag.telnoInnerText = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                ViewBag.emailaddInnerText = StoreBaseResopnse.StoreDetaultAddress.Email;
+            }
+            
             return PartialView("PartialViews/OxfordTopLevelCategories");
         }
 
