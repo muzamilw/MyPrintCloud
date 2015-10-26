@@ -219,9 +219,7 @@ namespace MPC.Webstore.Controllers
 
         private void SetRegisterCustomer(RegisterViewModel model)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-
+            
             CampaignEmailParams cep = new CampaignEmailParams();
 
             CompanyContact contact = new CompanyContact();
@@ -241,15 +239,13 @@ namespace MPC.Webstore.Controllers
             if (isSocial == "1")
                 TwitterScreenName = model.FirstName;
 
-           // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+          
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (StoreBaseResopnse.Organisation != null)
             {
                 OrganisationId = StoreBaseResopnse.Organisation.OrganisationId;
             }
-
-
 
 
             if (StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Retail)
@@ -361,6 +357,8 @@ namespace MPC.Webstore.Controllers
             else
             {
                 CompanyContact CorpContact = _myCompanyService.CreateCorporateContact(StoreBaseResopnse.Company.CompanyId, contact, TwitterScreenName, StoreBaseResopnse.Organisation.OrganisationId);
+
+                _myCompanyService.AddScopeVariables(CorpContact.ContactId, UserCookieManager.WBStoreId);
 
                 UserCookieManager.isRegisterClaims = 1;
                 UserCookieManager.WEBContactFirstName = model.FirstName;

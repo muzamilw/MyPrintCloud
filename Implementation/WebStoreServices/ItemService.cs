@@ -55,6 +55,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IItemsVoucherRepository _ItemVRepository;
         private readonly ICurrencyRepository _currencyRepository;
         private readonly IProductCategoryVoucherRepository _productCategoryVoucherRepository;
+        private readonly ISectionInkCoverageRepository _SectionInkCoverageRepository;
         #region Constructor
 
         /// <summary>
@@ -70,7 +71,8 @@ namespace MPC.Implementation.WebStoreServices
             , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository
             , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository
             , IMarkupRepository markupRepository, IDiscountVoucherRepository DVRepository, IItemsVoucherRepository ItemVRepository
-            , ICurrencyRepository currencyRepository, IProductCategoryVoucherRepository productCategoryVoucherRepository)
+            , ICurrencyRepository currencyRepository, IProductCategoryVoucherRepository productCategoryVoucherRepository
+            , ISectionInkCoverageRepository SectionInkCoverageRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -104,6 +106,7 @@ namespace MPC.Implementation.WebStoreServices
             this._ItemVRepository = ItemVRepository;
             this._currencyRepository = currencyRepository;
             this._productCategoryVoucherRepository = productCategoryVoucherRepository;
+            this._SectionInkCoverageRepository = SectionInkCoverageRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -131,6 +134,8 @@ namespace MPC.Implementation.WebStoreServices
                 ItemAttachment Attacments = new ItemAttachment();
 
                 SectionCostcentre tblISectionCostCenteresCloned = new SectionCostcentre();
+
+                SectionInkCoverage tblISectionInkCovrgCloned = new SectionInkCoverage();
 
                 Item newItem = new Item();
 
@@ -248,6 +253,23 @@ namespace MPC.Implementation.WebStoreServices
                         }
                         _ItemSectionCostCentreRepository.SaveChanges();
                     }
+
+                    // copy item section ink coverages
+                    List<SectionInkCoverage> inkCoverages = _SectionInkCoverageRepository.GetInkCoveragesBySectionId(tblItemSection.ItemSectionId);
+                    if (inkCoverages != null && inkCoverages.Count > 0)
+                    {
+                        foreach (SectionInkCoverage tblSectInkCovr in inkCoverages.ToList())
+                        {
+                            tblISectionInkCovrgCloned = Clone<SectionInkCoverage>(tblSectInkCovr);
+                            tblISectionInkCovrgCloned.Id = 0;
+                            tblISectionInkCovrgCloned.SectionId = tblItemSectionCloned.ItemSectionId;
+
+                            _SectionInkCoverageRepository.Add(tblISectionInkCovrgCloned);
+                       
+                        }
+                        _SectionInkCoverageRepository.SaveChanges();
+                    }
+
 
                 }
                 //Copy Template if it does exists

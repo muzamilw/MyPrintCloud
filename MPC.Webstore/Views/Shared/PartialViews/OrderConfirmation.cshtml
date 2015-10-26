@@ -85,36 +85,36 @@
                 {
                     <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt">
                         <span id="Span1" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address")):</span><br />
-                        <label id="AddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].AddressName</label><br />
-                        <label id="AddressLine" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address1</label><br />
+                        <span id="AddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].AddressName</span><br />
+                        <span id="AddressLine" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address1</span><br />
                         @if (!string.IsNullOrEmpty(AddressList[1].Address2))
                         {
-                            <div><label id="Addressline2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address2</label></div>
+                            <div><label id="Addressline2" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address2</label></div>
                         }
-                        <label id="lblBCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].City</label>
+                        <span id="lblBCity" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].City</span>
                         @if (AddressList[1].State != null)
                         {
-                            <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].State.StateName</label>
+                            <span id="lblBState" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].State.StateName</span>
                         }
                         else
                         {
-                            <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
+                            <span id="lblBState" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</span>
                         }
-                        @if (AddressList[1].Country != null)
-                        {
-                            <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Country.CountryName</label><br />
+                                                @if (AddressList[1].Country != null)
+                                                {
+                                                    <span id="lblBCountry" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Country.CountryName</span><br />
+                                                }
+                                                else
+                                                {
+                                                    <span id="lblBCountry" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</span><br />
                         }
-                        else
-                        {
-                            <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
-                        }
-                        <label id="lblBZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].PostCode</label><br />
+                        <span id="lblBZipCode" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].PostCode</span><br />
                         @if (!string.IsNullOrEmpty(AddressList[1].Tel1))
                         {
-                            <span>
-                                <label id="lrtlBTel" style="color: black;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))</label>
+                            <span id="lrtlBTel" style="color: black;">
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
                             </span>
-                            <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[1].Tel1</label>
+                            <span id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[1].Tel1</span>
                         }
 
                     </div>
@@ -123,38 +123,38 @@
                 {
                     <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt">
                         <span id="Span2" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address")):</span><br />
-                        <label id="ShippingAddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].AddressName</label><br />
-                        <label id="shippingAddressline1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address1</label><br />
+                        <span id="ShippingAddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].AddressName</span><br />
+                        <span id="shippingAddressline1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address1</span><br />
                         @if (!string.IsNullOrEmpty(AddressList[0].Address2))
                         {
                             <div>
-                                <label id="shippingAddressline2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address2</label>
+                                <span id="shippingAddressline2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address2</span>
                             </div>
                         }
-                        <label id="shippingCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].City</label>
+                        <span id="shippingCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].City</span>
                         @if (AddressList[0].State != null)
                         {
-                            <label id="shippingState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].State.StateName</label>
+                            <span id="shippingState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].State.StateName</span>
                         }
                         else
                         {
-                            <label id="shippingState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
+                            <span id="shippingState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</span>
                         }
                         @if (AddressList[0].Country != null)
                         {
-                            <label id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Country.CountryName</label><br />
+                            <span id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Country.CountryName</span><br />
                         }
                         else
                         {
-                            <label id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
+                            <span id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</span><br />
                         }
                         <label id="shippingZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].PostCode</label><br />
                         @if (!string.IsNullOrEmpty(AddressList[0].Tel1))
                         {
-                            <span>
-                                <label id="Literal2" style="color: black;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))</label>
+                            <span id="Literal2" style="color: black;">
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
                             </span>
-                            <label id="shippingTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[0].Tel1</label>
+                            <span id="shippingTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[0].Tel1</span>
                         }
                     </div>
 

@@ -93,7 +93,7 @@
 
         <div class="reset-box-container">
 
-            <input type="password" id="txtNewPassword" name="txtNewPassword" maxlength="50" class=" newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("npassword", UserCookieManager.WBStoreId, "New Password"))" />
+            <input type="password" id="txtNewPasswordd" name="txtNewPassword" maxlength="50" class=" newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("npassword", UserCookieManager.WBStoreId, "New Password"))" />
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -101,7 +101,7 @@
 
         <div class="reset-box-container">
 
-            <input type="password" id="txtConfirmPassword" name="txtConfirmPassword" maxlength="50" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmpass", UserCookieManager.WBStoreId, "Confirm Password"))" />
+            <input type="password" id="txtConfirmPasswordd" name="txtConfirmPassword" maxlength="50" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmpass", UserCookieManager.WBStoreId, "Confirm Password"))" />
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -167,9 +167,9 @@
             var isValid = true;
             var isDataFilles = 1;
             var CurrentPass = $("#txtCurPass").val();
-            var passwordnew = $('#txtNewPassword').val();
+            var passwordnew = $('#txtNewPasswordd').val();
 
-            var Confirmpassword = $('#txtConfirmPassword').val();
+            var Confirmpassword = $('#txtConfirmPasswordd').val();
 
             if (CurrentPass.length == 0) {
                 isValid = false; isDataFilles = 0;
@@ -183,21 +183,21 @@
                 isValid = false; isDataFilles = 0;
                 //  var passwordxreq = "<%= Resources.MyResource.popupPasswordxreq %>";
                 //$('.EMPass').css("display", "block");
-                $("#txtNewPassword").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+                $("#txtNewPasswordd").css("border", "2px solid red");//.parent().addClass("field-with-errors");
 
             } else {
                 //$('.EMPass').css("display", "none");
-                $("#txtNewPassword").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+                $("#txtNewPasswordd").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
             }
             if (Confirmpassword.length == 0) {
                 //var Cpasswordxreq = "<%= Resources.MyResource.Cpasswordxreq %>";
                 //$('.EMCPass').css("display", "block");
-                $("#txtConfirmPassword").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+                $("#txtConfirmPasswordd").css("border", "2px solid red");//.parent().addClass("field-with-errors");
 
                 isValid = false; isDataFilles = 0;
             } else {
                 //$('.EMCPass').css("display", "none");
-                $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+                $("#txtConfirmPasswordd").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
 
             }
 
@@ -207,9 +207,9 @@
 
                 $("#errorMesg").css("display", "block");
                 $("#errorMesg").text("Password not match.");
-                $("#txtNewPassword").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+                $("#txtNewPasswordd").css("border", "2px solid red");//.parent().addClass("field-with-errors");
                 $("#resetErrorMessageContainer").css("display", "block");
-                $("#txtConfirmPassword").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+                $("#txtConfirmPasswordd").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
                 isValid = false;
                 isDataFilles = 0;
             }
@@ -245,8 +245,8 @@
             var IsValid = true;
             $("#errorMesg").css("display", "none");
             var CurrentPass = $("#txtCurPass").val();
-            var passwordnew = $('#txtNewPassword').val();
-            var Confirmpassword = $('#txtConfirmPassword').val();
+            var passwordnew = $('#txtNewPasswordd').val();
+            var Confirmpassword = $('#txtConfirmPasswordd').val();
             if (CurrentPass.length == 0) {
                 IsValid = false;
                 $("#txtCurPass").css("border", "2px solid red");
@@ -257,20 +257,20 @@
             if (passwordnew.length == 0) {
                 IsValid = false;
 
-                $("#txtNewPassword").css("border", "2px solid red");
+                $("#txtNewPasswordd").css("border", "2px solid red");
 
             } else {
 
-                $("#txtNewPassword").css("border", "1px solid #c1c6cc");
+                $("#txtNewPasswordd").css("border", "1px solid #c1c6cc");
             }
             if (Confirmpassword.length == 0) {
 
-                $("#txtConfirmPassword").css("border", "2px solid red");
+                $("#txtConfirmPasswordd").css("border", "2px solid red");
 
                 IsValid = false;
             } else {
 
-                $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+                $("#txtConfirmPasswordd").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
             }
             if (CurrentPass != "") {
 
@@ -290,8 +290,8 @@
                             $("#errorMesg").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnoroldpass", UserCookieManager.WBStoreId, "New and confirm password does not match"))');
                             IsValid = false;
                             $("#resetErrorMessageContainer").css("display", "block");
-                            $("#txtNewPassword").css("border", "2px solid red");
-                            $("#txtConfirmPassword").css("border", "2px solid red");
+                            $("#txtNewPasswordd").css("border", "2px solid red");
+                            $("#txtConfirmPasswordd").css("border", "2px solid red");
                         }
                     }
                 }
@@ -302,7 +302,7 @@
         function ResetPassword() {
             //  PasswordValidation();
             var CurrentPass = $("#txtCurPass").val();
-            var passwordnew = $('#txtNewPassword').val();
+            var passwordnew = $('#txtNewPasswordd').val();
             window.location.href = "/Dashboard/ResetPassword/" + CurrentPass + "/" + passwordnew;
         }
 

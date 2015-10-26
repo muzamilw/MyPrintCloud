@@ -439,6 +439,34 @@ namespace MPC.Webstore.Common
             }
         }
 
+        public static bool CanPlaceOrder
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["CanPlaceOrder"] != null)
+                {
+                    return Convert.ToBoolean((HttpContext.Current.Request.Cookies["CanPlaceOrder"].Value));
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["CanPlaceOrder"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("CanPlaceOrder");
+
+                }
+
+                HttpCookie CanPlaceOrderCookie = null;
+                CanPlaceOrderCookie = new HttpCookie("CanPlaceOrder", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(CanPlaceOrderCookie);
+            }
+        }
+
         //public static bool removeAllCookies()
         //{
         //    if (HttpContext.Current.Response.Cookies["FirstName"] != null)

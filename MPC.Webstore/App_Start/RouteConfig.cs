@@ -310,8 +310,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                 "ShopCart",
-                "ShopCart",
-                new { controller = "Home", action = "Index"}
+                "ShopCart/{OrderId}",
+                new { controller = "Home", action = "Index", OrderId = UrlParameter.Optional }
             );
 
             routes.MapRoute(
