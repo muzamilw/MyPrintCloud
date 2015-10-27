@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Common;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System;
@@ -148,7 +149,7 @@ namespace MPC.Repository.Repositories
             
         }
 
-        public List<sp_GetTemplateImages_Result> getImages(int isCalledFrom, int imageSetType, long productId, long contactCompanyId, long contactId, long territoryId, int pageNumber, string SearchKeyword, out int imageCount)
+        public List<sp_GetImagesResponseModel> getImages(int isCalledFrom, int imageSetType, long productId, long contactCompanyId, long contactId, long territoryId, int pageNumber, string SearchKeyword, out int imageCount)
         {
             db.Configuration.LazyLoadingEnabled = false;
             var imgCount = new ObjectParameter("imageCount", typeof(int));
@@ -158,7 +159,22 @@ namespace MPC.Repository.Repositories
                 territoryId = contact.TerritoryId.Value;
             List<sp_GetTemplateImages_Result> result = db.sp_GetTemplateImages(isCalledFrom, imageSetType, productId, contactCompanyId, contactId, territoryId, pageNumber, 20, "", SearchKeyword, imgCount).ToList();
             imageCount =Convert.ToInt32( imgCount.Value);
-            return result;
+            List<sp_GetImagesResponseModel> res = result.Select(g => new sp_GetImagesResponseModel
+            {
+                RowNum = g.RowNum,
+                ID = g.ID,
+                ProductID = g.ProductID,
+                ImageName = g.ImageName,
+                Name = g.Name,
+                BackgroundImageRelativePath = g.BackgroundImageRelativePath,
+                ImageType = g.ImageType,
+                ImageWidth = g.ImageWidth,
+                ImageHeight = g.ImageHeight,
+                ImageTitle = g.ImageTitle,
+                ImageDescription = g.ImageDescription,
+                ImageKeywords = g.ImageKeywords
+            }).ToList();
+            return res;
         }
         public TemplateBackgroundImage getImage(long imgID)
         {
