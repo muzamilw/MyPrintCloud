@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ITemplateFontsService
     {
-        List<TemplateFont> GetFontList(long productId, long customerId, long OrganisationID);
+        List<TemplateFontResponseModel> GetFontList(long productId, long customerId, long OrganisationID);
 
         void DeleteTemplateFonts(long Companyid, long OrganisationID);
 

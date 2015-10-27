@@ -155,6 +155,7 @@ define("stores/stores.viewModel",
                     //Widgets List
                     widgets = ko.observableArray([]),
                     systemVariablesForSmartForms = ko.observableArray([]),
+                    widgetCss = ko.observable(),
                     //Page Skin Widgets
                     pageSkinWidgets = ko.observableArray([]),
                     //All widgets list for pages (on page change added to it all widget list )
@@ -7493,11 +7494,14 @@ define("stores/stores.viewModel",
 
                 // Show Widget Css Dialog Method
                 openStoreLayoutWidgetsCssDialog = function () {
+                    
                     view.showStoreLayoutWidgetCss();
                 },
 
                 // Get Widget Css Details
                 getStoreLayoutWidgetsCss = function (item) {
+                    var widgetcssvariable = item.widgetCss();
+                    widgetCss(widgetcssvariable);
                     openStoreLayoutWidgetsCssDialog();
                 },
                 
@@ -7798,6 +7802,7 @@ define("stores/stores.viewModel",
                     selectedCsvFileForCompanyContact: selectedCsvFileForCompanyContact,
                     onCloseCompanyBanner: onCloseCompanyBanner,
                     widgets: widgets,
+                    widgetCss: widgetCss,
                     paymentMethods: paymentMethods,
                     checkPaymentMethodSelection: checkPaymentMethodSelection,
                     isAccessCodeSectionVisible: isAccessCodeSectionVisible,

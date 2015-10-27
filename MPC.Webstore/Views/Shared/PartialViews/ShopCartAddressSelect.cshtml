@@ -516,7 +516,7 @@
                                                 <div class="cnttotalPayablesAS">
 
                                                     <div class="cntsubHeadingsAS">
-                                                        <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</label></div>
+                                                        <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))</label></div>
                                                         @if (Model.calcultedValuesOfCart.DiscountAmount != "0")
                                                         {
                                                             <div><label id="lblVoucherDiscPercentageDisplay" class="clrRed LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label></div>
@@ -536,12 +536,15 @@
                                                         }
                                                         @if (Model.DeliveryDiscountVoucherID == null)
                                                         {
-                                                            <div><label id="AddressSelectDelTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Model.calcultedValuesOfCart.DeliveryCost.ToString(), Model.Currency)</label></div>
+                                                            <div id="deliveryValueContainer"><label id="AddressSelectDelTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Model.calcultedValuesOfCart.DeliveryCost.ToString(), Model.Currency)</label></div>
+                                                            <div id="freedeliverytextContainer" style="display:none;">
+                                                        <label id="Addres_slect_del" class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label></div>
+                                                  
                                                         }
                                                         else
                                                         {
-                                                            <div><label id="Addres_slect_del" class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label></div>
-                                                            <div><label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label></div>
+                                                            <div id="freedeliverytextContainer"><label id="Addres_slect_del" class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label></div>
+                                                            
                                                         }
                                                         <div><label id="ShopCart_Deltax" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Model.calcultedValuesOfCart.Tax.ToString(), Model.Currency)</label></div>
                                                         <div>
@@ -1470,6 +1473,7 @@
     function ApplyDeliveryMethod() {
 
         console.log(@UserCookieManager.FreeShippingVoucherId);
+        var voucherID = @UserCookieManager.FreeShippingVoucherId;
         var SelectedValue;
         if( $("#ddlDeliveyCostCenter option:selected").val()=='')
         {
@@ -1489,13 +1493,17 @@
             contentType: "application/json",
             async: true,
             success: function (response) {
-                // window.location.reload();
-                console.log(response.GrandTotal);
                 $("#Shopcart_Add_Total").text(response.GrandTotal);
                 $("#ShopCart_Deltax").text(response.Tax);
                 $("#AddressSelectDelTotal").text(response.DeliveryCost);
                 $("#lblVoucherCodeDiscAmount").text(response.DiscountAmount);
                 $("#lblSubTotal_add").text(response.SubTotal);
+                if(parseInt(voucherID) > 0){
+                    $("#freedeliverytextContainer").css("display", "block");
+                    $("#freedeliverytextContainer").next().css("display", "block");
+                    $("#deliveryValueContainer").css("display", "none");
+                     
+                }
                 HideLoader();
             },
             error: function (msg) {

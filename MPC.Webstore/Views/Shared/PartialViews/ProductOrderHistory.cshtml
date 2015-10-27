@@ -570,10 +570,10 @@
                     $("#subtotal").text(response.SubTotal);
                     $("#Vat").text(response.VAT);
 
-                    $("#OrderCode").text(response.order.OrderCode);
-                    $("#OrderStatus").text(response.order.StatusName);
+                    $("#OrderCode").text(response.OrderCode);
+                    $("#OrderStatus").text(response.StatusName);
                     $("#OrderDate").text(response.OrderDateValue);
-                    $("#OrderPlaceBy").text(response.order.PlacedBy + "" + '(' + response.order.CompanyName + ')');
+                    $("#OrderPlaceBy").text(response.PlacedBy + "" + '(' + response.CompanyName + ')');
                     $("#OrderDeliveryDate").text(response.DeliveryDateValue);
                     $("#DelCharge").text(response.DeliveryCostCharges);
                     $("#BillingAddressName").text(response.billingAddress.AddressName);
@@ -637,7 +637,7 @@
                     }
 
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
-                    var GridItems = response.order.OrderDetails.CartItemsList;
+                    var GridItems = response.CartItemsList;
                     console.log(GridItems);
                     var InnerHtml = "";// "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                   

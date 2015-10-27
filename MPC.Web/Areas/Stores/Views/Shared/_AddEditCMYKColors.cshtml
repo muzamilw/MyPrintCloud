@@ -62,12 +62,18 @@
                                 <label for="txtKCode" class="control-label text-right tooltip-float" style="padding-top:4px;">Is Active</label>
                             </div>
                             <div class="col-lg-6">
-                                <div class="checkbox-nice">
+                                @*<div class="checkbox-nice">
                                     <input type="checkbox" id="enableEmailCompaign" data-bind="checked:isActive">
                                     <label for="enableEmailCompaign">&nbsp;</label>
-                                </div>
+                                </div>*@
 
-                                @*<input type="checkbox" class="form-control" style="width:8%;float:left;" data-bind="checked: isActive" />*@
+                                <div class="onoffswitch" style="margin-right:0px;">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchisActive" data-bind="checked: isActive">
+                                    <label class="onoffswitch-label" for="switchisActive">
+                                        <div class="onoffswitch-inner"></div>
+                                        <div class="onoffswitch-switch"></div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>

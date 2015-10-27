@@ -327,7 +327,7 @@ var croppedInstance = null;
     $.fn[pluginName].defaultOptions = {
       width: 200,
       height: 200,
-      zoom: 10,
+      zoom: 15,
       maxZoom: 2,
       controls: null,
       showControls: 'auto'

@@ -374,7 +374,7 @@
                             </tr>
                             <tr>
                                 <td align="left" style="width: 80%">
-                                    <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("spnDeliveryoptn", UserCookieManager.WBStoreId, "Deivery Cost:"))</span>
+                                    <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldelcost", UserCookieManager.WBStoreId, "Delivery Cost")):</span>
                                 </td>
                                 <td>
                                     <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
@@ -382,7 +382,7 @@
                             </tr>
                             <tr>
                                 <td align="left" style="width: 80%">
-                                    <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnvattotal", UserCookieManager.WBStoreId, "Vat Total:"))</span>
+                                    <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVatHeadingText", UserCookieManager.WBStoreId, "VAT")):</span>
                                 </td>
                                 <td>
                                     <label id="lblVatTotal"><span id="Vat"></span></label>
@@ -450,10 +450,10 @@
                     $("#subtotal").text(response.SubTotal);
                     $("#Vat").text(response.VAT);
 
-                    $("#OrderCode").text(response.order.OrderCode);
-                    $("#OrderStatus").text(response.order.StatusName);
+                    $("#OrderCode").text(response.OrderCode);
+                    $("#OrderStatus").text(response.StatusName);
                     $("#OrderDate").text(response.OrderDateValue);
-                    $("#OrderPlaceBy").text(response.order.PlacedBy + "" + '(' + response.order.CompanyName + ')');
+                    $("#OrderPlaceBy").text(response.PlacedBy + "" + '(' + response.CompanyName + ')');
                     $("#OrderDeliveryDate").text(response.DeliveryDateValue);
                     $("#DelCharge").text(response.DeliveryCostCharges);
                     $("#BillingAddressName").text(response.billingAddress.AddressName);
@@ -520,7 +520,7 @@
                     }
 
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
-                    var GridItems = response.order.OrderDetails.CartItemsList;
+                    var GridItems = response.CartItemsList;
                     var InnerHtml = ""; //"<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                     if ('@ViewBag.IsShowPrices' == "True") {
                         InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";

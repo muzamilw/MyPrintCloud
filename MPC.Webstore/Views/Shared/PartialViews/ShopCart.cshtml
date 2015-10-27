@@ -300,8 +300,9 @@
                             <div class="cnttotalPayables">
                                 @if (ViewBag.IsShowPrices)
                                 {
+                                    
                                     <div class="cntsubHeadings">
-                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</label>
+                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
                                             <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label>
@@ -330,7 +331,7 @@
                                                 <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblDeliveryToBeCal">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId,"Free Shipping"))</label>
                                             }
 
-                                            <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                            
                                         }
                                         else
                                         {
@@ -342,7 +343,7 @@
                                             {
                                                 <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblCalculatedDelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
 
-                                             <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                            
                                             }
                                         }
                                         
@@ -388,8 +389,15 @@
                             </div>
                             <div class="clearBoth">
                             </div>
-
-                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="return ifNoAnEnterKay(event);" /><br />
+                            @if (ViewBag.CanPlaceOrder == 1)
+                            {
+                                <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="return ifNoAnEnterKay(event);" /><br />
+                            }
+                            else
+                            {
+                                <input type="button" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="CantPlaceOrder();" /><br />
+                            }
+                           
                             <button id="btn_ContinueShopping" type="button" onclick="return ContinueShopping(event);" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                             <div class="clearBoth">
                                 &nbsp;
@@ -666,6 +674,11 @@
             ShowLoader();
             return true;
         }
+    }
+
+    function CantPlaceOrder()
+    {
+        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("cartCorporateOrderCantPlace", UserCookieManager.WBStoreId, "You did not have the right to place order. Please contact your Order Manager."))');
     }
     function RemoveDeliveryVoucherCode(e)
     {

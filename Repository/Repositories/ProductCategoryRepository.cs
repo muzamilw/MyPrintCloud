@@ -91,7 +91,7 @@ namespace MPC.Repository.Repositories
         public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId)
         {
                 var query = (from product in db.ProductCategories
-                             join CT in db.CategoryTerritories on product.ParentCategoryId equals CT.ProductCategoryId
+                             join CT in db.CategoryTerritories on product.ProductCategoryId equals CT.ProductCategoryId
                              join contact in db.CompanyContacts on CT.TerritoryId equals contact.TerritoryId
                              where contact.ContactId == ContactId && product.ParentCategoryId == ParentCatId && product.isEnabled == true
                              && product.isPublished == true && (product.isArchived == false || product.isArchived == null)

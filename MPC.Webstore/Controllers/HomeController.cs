@@ -358,6 +358,7 @@ namespace MPC.Webstore.Controllers
         {
 
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            ViewBag.InvalidUrl = TempData["InvalidUrl"];
             return View();
 
         }
