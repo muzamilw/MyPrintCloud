@@ -1231,10 +1231,10 @@ namespace MPC.Repository.BaseRepository
         /// Delete Staging Import table data
         /// </summary>
         // ReSharper disable InconsistentNaming
-        public int usp_GetLiveStores()
+        public ObjectResult<usp_GetLiveStores_Result> usp_GetLiveStores()
         // ReSharper restore InconsistentNaming
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_GetLiveStores");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetLiveStores_Result>("usp_GetLiveStores");
         }
 
         #endregion

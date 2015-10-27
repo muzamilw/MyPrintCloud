@@ -5726,39 +5726,41 @@ namespace MPC.Repository.Repositories
             return store != null && store.isStoreLive == true ? true : false;
         }
 
-        public List<Company> GetLiveStoresList()
+        public List<usp_GetLiveStores_Result> GetLiveStoresList()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            var companies = db.Companies
-                    .Include(c => c.Addresses)
-                    .Include(c => c.CompanyDomains)
-                    .Where(c => c.isStoreLive == true)
-                    .Select(c => new
-                    {
-                        c.CompanyId,
-                        c.Name,
-                        c.IsCustomer,
-                        c.WebAccessCode,
-                        Addresses = c.Addresses.Where(address => (!address.isArchived.HasValue || !address.isArchived.Value) && address.IsDefaultAddress == true).Take(1).ToList(),
-                        Domains = c.CompanyDomains.ToList(),
-                        c.Image,
-                        c.OrganisationId
-                    }).ToList().Select(c => new Company
-                    {
-                        CompanyId = c.CompanyId,
-                        Name = c.Name,
-                        IsCustomer = c.IsCustomer,
-                        WebAccessCode = c.WebAccessCode,
-                        Image = c.Image,
-                        OrganisationId = c.OrganisationId,
-                        Addresses = c.Addresses.ToList(),
-                        CompanyDomains = c.Domains.ToList()
+            //db.Configuration.LazyLoadingEnabled = false;
+            IEnumerable<usp_GetLiveStores_Result> compList = db.usp_GetLiveStores();
+            //var compList = db.usp_GetLiveStores();
+            //var companies = db.Companies
+            //        .Include(c => c.Addresses)
+            //        .Include(c => c.CompanyDomains)
+            //        .Where(c => c.isStoreLive == true)
+            //        .Select(c => new
+            //        {
+            //            c.CompanyId,
+            //            c.Name,
+            //            c.IsCustomer,
+            //            c.WebAccessCode,
+            //            Addresses = c.Addresses.Where(address => (!address.isArchived.HasValue || !address.isArchived.Value) && address.IsDefaultAddress == true).Take(1).ToList(),
+            //            Domains = c.CompanyDomains.ToList(),
+            //            c.Image,
+            //            c.OrganisationId
+            //        }).ToList().Select(c => new Company
+            //        {
+            //            CompanyId = c.CompanyId,
+            //            Name = c.Name,
+            //            IsCustomer = c.IsCustomer,
+            //            WebAccessCode = c.WebAccessCode,
+            //            Image = c.Image,
+            //            OrganisationId = c.OrganisationId,
+            //            Addresses = c.Addresses.ToList(),
+            //            CompanyDomains = c.Domains.ToList()
 
-                    }).ToList();
+            //        }).ToList();
 
 
 
-            return companies;
+            return compList.ToList();
         }
        public void CopyProductByStore(long NewStoreId,long OldStoreId)
        {
