@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets2BEE4944B29AA28FAF8415A6881FA6B8F16B46D2211B64558E3E93DE1B65BA9B))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets9484E32C0FBC69C47039E8410F52DE1E77F810297BD62B759611AACAAF622943))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets2BEE4944B29AA28FAF8415A6881FA6B8F16B46D2211B64558E3E93DE1B65BA9B : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets9484E32C0FBC69C47039E8410F52DE1E77F810297BD62B759611AACAAF622943 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets2BEE4944B29AA28FAF8415A6881FA6B8F16B46D2211B64558E3E93DE1B65BA9B()
+        public ViewsForBaseEntitySets9484E32C0FBC69C47039E8410F52DE1E77F810297BD62B759611AACAAF622943()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "f5f561e4530c6650ba509bef0e43ae360ef555aab5fe058fe3b7ed5f838b6810";
-            this.HashOverAllExtentViews = "f38d3f93d5c88031484bf35d5d4e69041880444ca76685d5cd4f36ac0768dbd2";
+            this.HashOverMappingClosure = "b106ef3713cec8886ac38c0e77b395385630fa2532560071c97375d53bfba821";
+            this.HashOverAllExtentViews = "96ec280b8f13aa3dc315af821d1dbd7982ce024d39e89dbcc60063760fdfcc68";
             this.ViewCount = 356;
         }
         
@@ -11014,7 +11014,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView262()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8133);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8203);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Listing\r\n        [DomainModels.Store.Listing]");
             viewString.Append("(T1.Listing_ListingId, T1.Listing_WebID, T1.Listing_WebLink, T1.Listing_AddressD");
             viewString.Append("isplay, T1.Listing_StreetAddress, T1.Listing_LevelNumber, T1.Listing_LotNumber, ");
@@ -11047,76 +11047,77 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("PoolInGround, T1.Listing_PoolAboveGround, T1.Listing_Balcony, T1.Listing_Deck, T");
             viewString.Append("1.Listing_CourtYard, T1.Listing_OutDoorEnt, T1.Listing_Shed, T1.Listing_FullyFen");
             viewString.Append("ced, T1.Listing_InsideSPA, T1.Listing_OutSideSPA, T1.Listing_HydronicHeating, T1");
-            viewString.Append(".Listing_SplitSystemAircon)\r\n    FROM (\r\n        SELECT \r\n            T.ListingI");
-            viewString.Append("d AS Listing_ListingId, \r\n            T.WebID AS Listing_WebID, \r\n            T.");
-            viewString.Append("WebLink AS Listing_WebLink, \r\n            T.AddressDisplay AS Listing_AddressDis");
-            viewString.Append("play, \r\n            T.StreetAddress AS Listing_StreetAddress, \r\n            T.Le");
-            viewString.Append("velNumber AS Listing_LevelNumber, \r\n            T.LotNumber AS Listing_LotNumber");
-            viewString.Append(", \r\n            T.UnitNumber AS Listing_UnitNumber, \r\n            T.StreetNumber");
-            viewString.Append(" AS Listing_StreetNumber, \r\n            T.Street AS Listing_Street, \r\n          ");
-            viewString.Append("  T.Suburb AS Listing_Suburb, \r\n            T.State AS Listing_State, \r\n        ");
-            viewString.Append("    T.PostCode AS Listing_PostCode, \r\n            T.PropertyName AS Listing_Prop");
-            viewString.Append("ertyName, \r\n            T.PropertyType AS Listing_PropertyType, \r\n            T.");
-            viewString.Append("PropertyCategory AS Listing_PropertyCategory, \r\n            T.ListingType AS Lis");
-            viewString.Append("ting_ListingType, \r\n            T.ListingDate AS Listing_ListingDate, \r\n        ");
-            viewString.Append("    T.ListingExpiryDate AS Listing_ListingExpiryDate, \r\n            T.ListingSta");
-            viewString.Append("tus AS Listing_ListingStatus, \r\n            T.ListingMethod AS Listing_ListingMe");
-            viewString.Append("thod, \r\n            T.ListingAuthority AS Listing_ListingAuthority, \r\n          ");
-            viewString.Append("  T.InspectionTypye AS Listing_InspectionTypye, \r\n            T.AuctionDate AS L");
-            viewString.Append("isting_AuctionDate, \r\n            T.AutionVenue AS Listing_AutionVenue, \r\n      ");
-            viewString.Append("      T.EOIClosingDate AS Listing_EOIClosingDate, \r\n            T.DisplayPrice A");
-            viewString.Append("S Listing_DisplayPrice, \r\n            T.SearchPrice AS Listing_SearchPrice, \r\n  ");
-            viewString.Append("          T.RendPeriod AS Listing_RendPeriod, \r\n            T.AvailableDate AS L");
-            viewString.Append("isting_AvailableDate, \r\n            T.SoldDate AS Listing_SoldDate, \r\n          ");
-            viewString.Append("  T.SoldPrice AS Listing_SoldPrice, \r\n            T.IsSoldPriceConfidential AS L");
-            viewString.Append("isting_IsSoldPriceConfidential, \r\n            T.MainHeadLine AS Listing_MainHead");
-            viewString.Append("Line, \r\n            T.MainDescription AS Listing_MainDescription, \r\n            ");
-            viewString.Append("T.CustomCopy AS Listing_CustomCopy, \r\n            T.BedRooms AS Listing_BedRooms");
-            viewString.Append(", \r\n            T.BathRooms AS Listing_BathRooms, \r\n            T.LoungeRooms AS");
-            viewString.Append(" Listing_LoungeRooms, \r\n            T.Toilets AS Listing_Toilets, \r\n            ");
-            viewString.Append("T.Studies AS Listing_Studies, \r\n            T.Pools AS Listing_Pools, \r\n        ");
-            viewString.Append("    T.Garages AS Listing_Garages, \r\n            T.Carports AS Listing_Carports, ");
-            viewString.Append("\r\n            T.CarSpaces AS Listing_CarSpaces, \r\n            T.TotalParking AS ");
-            viewString.Append("Listing_TotalParking, \r\n            T.LandArea AS Listing_LandArea, \r\n          ");
-            viewString.Append("  T.LandAreaUnit AS Listing_LandAreaUnit, \r\n            T.BuildingAreaSqm AS Lis");
-            viewString.Append("ting_BuildingAreaSqm, \r\n            T.ExternalAreaSqm AS Listing_ExternalAreaSqm");
-            viewString.Append(", \r\n            T.FrontageM AS Listing_FrontageM, \r\n            T.Aspect AS List");
-            viewString.Append("ing_Aspect, \r\n            T.YearBuilt AS Listing_YearBuilt, \r\n            T.Year");
-            viewString.Append("Renovated AS Listing_YearRenovated, \r\n            T.Construction AS Listing_Cons");
-            viewString.Append("truction, \r\n            T.PropertyCondition AS Listing_PropertyCondition, \r\n    ");
-            viewString.Append("        T.EnergyRating AS Listing_EnergyRating, \r\n            T.Features AS List");
-            viewString.Append("ing_Features, \r\n            T.WaterRates AS Listing_WaterRates, \r\n            T.");
-            viewString.Append("LandTax AS Listing_LandTax, \r\n            T.CounsilRates AS Listing_CounsilRates");
-            viewString.Append(", \r\n            T.StrataAdmin AS Listing_StrataAdmin, \r\n            T.StrataSink");
-            viewString.Append("ing AS Listing_StrataSinking, \r\n            T.OtherOutgoings AS Listing_OtherOut");
-            viewString.Append("goings, \r\n            T.LegalDescription AS Listing_LegalDescription, \r\n        ");
-            viewString.Append("    T.LegalLot AS Listing_LegalLot, \r\n            T.LegalDP AS Listing_LegalDP, ");
-            viewString.Append("\r\n            T.LegalVol AS Listing_LegalVol, \r\n            T.LegalFolio AS List");
-            viewString.Append("ing_LegalFolio, \r\n            T.Zoning AS Listing_Zoning, \r\n            T.Client");
-            viewString.Append("ListingId AS Listing_ClientListingId, \r\n            T.TotalOutgoings AS Listing_");
-            viewString.Append("TotalOutgoings, \r\n            T.CompanyId AS Listing_CompanyId, \r\n            T.");
-            viewString.Append("AirConditioning AS Listing_AirConditioning, \r\n            T.AlarmSystem AS Listi");
-            viewString.Append("ng_AlarmSystem, \r\n            T.Intercom AS Listing_Intercom, \r\n            T.Op");
-            viewString.Append("enFirePlace AS Listing_OpenFirePlace, \r\n            T.TennisCourt AS Listing_Ten");
-            viewString.Append("nisCourt, \r\n            T.RempoteGarage AS Listing_RempoteGarage, \r\n            ");
-            viewString.Append("T.DishWasher AS Listing_DishWasher, \r\n            T.BuiltinRaboes AS Listing_Bui");
-            viewString.Append("ltinRaboes, \r\n            T.Gym AS Listing_Gym, \r\n            T.WorkShop AS List");
-            viewString.Append("ing_WorkShop, \r\n            T.RumpusRoom AS Listing_RumpusRoom, \r\n            T.");
-            viewString.Append("FloorBoards AS Listing_FloorBoards, \r\n            T.BroadBand AS Listing_BroadBa");
-            viewString.Append("nd, \r\n            T.PayTV AS Listing_PayTV, \r\n            T.DuctedHeating AS Lis");
-            viewString.Append("ting_DuctedHeating, \r\n            T.DuctedCooling AS Listing_DuctedCooling, \r\n  ");
-            viewString.Append("          T.SplitSystemHeating AS Listing_SplitSystemHeating, \r\n            T.Re");
-            viewString.Append("verseCycleAircon AS Listing_ReverseCycleAircon, \r\n            T.EvaporateCooling");
-            viewString.Append(" AS Listing_EvaporateCooling, \r\n            T.VacuumSystem AS Listing_VacuumSyst");
-            viewString.Append("em, \r\n            T.PoolInGround AS Listing_PoolInGround, \r\n            T.PoolAb");
-            viewString.Append("oveGround AS Listing_PoolAboveGround, \r\n            T.Balcony AS Listing_Balcony");
-            viewString.Append(", \r\n            T.Deck AS Listing_Deck, \r\n            T.CourtYard AS Listing_Cou");
-            viewString.Append("rtYard, \r\n            T.OutDoorEnt AS Listing_OutDoorEnt, \r\n            T.Shed A");
-            viewString.Append("S Listing_Shed, \r\n            T.FullyFenced AS Listing_FullyFenced, \r\n          ");
-            viewString.Append("  T.InsideSPA AS Listing_InsideSPA, \r\n            T.OutSideSPA AS Listing_OutSid");
-            viewString.Append("eSPA, \r\n            T.HydronicHeating AS Listing_HydronicHeating, \r\n            ");
-            viewString.Append("T.SplitSystemAircon AS Listing_SplitSystemAircon, \r\n            True AS _from0\r\n");
-            viewString.Append("        FROM BaseDbContext.Listings AS T\r\n    ) AS T1");
+            viewString.Append(".Listing_SplitSystemAircon, T1.Listing_PriceView)\r\n    FROM (\r\n        SELECT \r\n");
+            viewString.Append("            T.ListingId AS Listing_ListingId, \r\n            T.WebID AS Listing_W");
+            viewString.Append("ebID, \r\n            T.WebLink AS Listing_WebLink, \r\n            T.AddressDisplay");
+            viewString.Append(" AS Listing_AddressDisplay, \r\n            T.StreetAddress AS Listing_StreetAddre");
+            viewString.Append("ss, \r\n            T.LevelNumber AS Listing_LevelNumber, \r\n            T.LotNumbe");
+            viewString.Append("r AS Listing_LotNumber, \r\n            T.UnitNumber AS Listing_UnitNumber, \r\n    ");
+            viewString.Append("        T.StreetNumber AS Listing_StreetNumber, \r\n            T.Street AS Listin");
+            viewString.Append("g_Street, \r\n            T.Suburb AS Listing_Suburb, \r\n            T.State AS Lis");
+            viewString.Append("ting_State, \r\n            T.PostCode AS Listing_PostCode, \r\n            T.Proper");
+            viewString.Append("tyName AS Listing_PropertyName, \r\n            T.PropertyType AS Listing_Property");
+            viewString.Append("Type, \r\n            T.PropertyCategory AS Listing_PropertyCategory, \r\n          ");
+            viewString.Append("  T.ListingType AS Listing_ListingType, \r\n            T.ListingDate AS Listing_L");
+            viewString.Append("istingDate, \r\n            T.ListingExpiryDate AS Listing_ListingExpiryDate, \r\n  ");
+            viewString.Append("          T.ListingStatus AS Listing_ListingStatus, \r\n            T.ListingMetho");
+            viewString.Append("d AS Listing_ListingMethod, \r\n            T.ListingAuthority AS Listing_ListingA");
+            viewString.Append("uthority, \r\n            T.InspectionTypye AS Listing_InspectionTypye, \r\n        ");
+            viewString.Append("    T.AuctionDate AS Listing_AuctionDate, \r\n            T.AutionVenue AS Listing");
+            viewString.Append("_AutionVenue, \r\n            T.EOIClosingDate AS Listing_EOIClosingDate, \r\n      ");
+            viewString.Append("      T.DisplayPrice AS Listing_DisplayPrice, \r\n            T.SearchPrice AS Lis");
+            viewString.Append("ting_SearchPrice, \r\n            T.RendPeriod AS Listing_RendPeriod, \r\n          ");
+            viewString.Append("  T.AvailableDate AS Listing_AvailableDate, \r\n            T.SoldDate AS Listing_");
+            viewString.Append("SoldDate, \r\n            T.SoldPrice AS Listing_SoldPrice, \r\n            T.IsSold");
+            viewString.Append("PriceConfidential AS Listing_IsSoldPriceConfidential, \r\n            T.MainHeadLi");
+            viewString.Append("ne AS Listing_MainHeadLine, \r\n            T.MainDescription AS Listing_MainDescr");
+            viewString.Append("iption, \r\n            T.CustomCopy AS Listing_CustomCopy, \r\n            T.BedRoo");
+            viewString.Append("ms AS Listing_BedRooms, \r\n            T.BathRooms AS Listing_BathRooms, \r\n      ");
+            viewString.Append("      T.LoungeRooms AS Listing_LoungeRooms, \r\n            T.Toilets AS Listing_T");
+            viewString.Append("oilets, \r\n            T.Studies AS Listing_Studies, \r\n            T.Pools AS Lis");
+            viewString.Append("ting_Pools, \r\n            T.Garages AS Listing_Garages, \r\n            T.Carports");
+            viewString.Append(" AS Listing_Carports, \r\n            T.CarSpaces AS Listing_CarSpaces, \r\n        ");
+            viewString.Append("    T.TotalParking AS Listing_TotalParking, \r\n            T.LandArea AS Listing_");
+            viewString.Append("LandArea, \r\n            T.LandAreaUnit AS Listing_LandAreaUnit, \r\n            T.");
+            viewString.Append("BuildingAreaSqm AS Listing_BuildingAreaSqm, \r\n            T.ExternalAreaSqm AS L");
+            viewString.Append("isting_ExternalAreaSqm, \r\n            T.FrontageM AS Listing_FrontageM, \r\n      ");
+            viewString.Append("      T.Aspect AS Listing_Aspect, \r\n            T.YearBuilt AS Listing_YearBuilt");
+            viewString.Append(", \r\n            T.YearRenovated AS Listing_YearRenovated, \r\n            T.Constr");
+            viewString.Append("uction AS Listing_Construction, \r\n            T.PropertyCondition AS Listing_Pro");
+            viewString.Append("pertyCondition, \r\n            T.EnergyRating AS Listing_EnergyRating, \r\n        ");
+            viewString.Append("    T.Features AS Listing_Features, \r\n            T.WaterRates AS Listing_WaterR");
+            viewString.Append("ates, \r\n            T.LandTax AS Listing_LandTax, \r\n            T.CounsilRates A");
+            viewString.Append("S Listing_CounsilRates, \r\n            T.StrataAdmin AS Listing_StrataAdmin, \r\n  ");
+            viewString.Append("          T.StrataSinking AS Listing_StrataSinking, \r\n            T.OtherOutgoin");
+            viewString.Append("gs AS Listing_OtherOutgoings, \r\n            T.LegalDescription AS Listing_LegalD");
+            viewString.Append("escription, \r\n            T.LegalLot AS Listing_LegalLot, \r\n            T.LegalD");
+            viewString.Append("P AS Listing_LegalDP, \r\n            T.LegalVol AS Listing_LegalVol, \r\n          ");
+            viewString.Append("  T.LegalFolio AS Listing_LegalFolio, \r\n            T.Zoning AS Listing_Zoning, ");
+            viewString.Append("\r\n            T.ClientListingId AS Listing_ClientListingId, \r\n            T.Tota");
+            viewString.Append("lOutgoings AS Listing_TotalOutgoings, \r\n            T.CompanyId AS Listing_Compa");
+            viewString.Append("nyId, \r\n            T.AirConditioning AS Listing_AirConditioning, \r\n            ");
+            viewString.Append("T.AlarmSystem AS Listing_AlarmSystem, \r\n            T.Intercom AS Listing_Interc");
+            viewString.Append("om, \r\n            T.OpenFirePlace AS Listing_OpenFirePlace, \r\n            T.Tenn");
+            viewString.Append("isCourt AS Listing_TennisCourt, \r\n            T.RempoteGarage AS Listing_Rempote");
+            viewString.Append("Garage, \r\n            T.DishWasher AS Listing_DishWasher, \r\n            T.Builti");
+            viewString.Append("nRaboes AS Listing_BuiltinRaboes, \r\n            T.Gym AS Listing_Gym, \r\n        ");
+            viewString.Append("    T.WorkShop AS Listing_WorkShop, \r\n            T.RumpusRoom AS Listing_Rumpus");
+            viewString.Append("Room, \r\n            T.FloorBoards AS Listing_FloorBoards, \r\n            T.BroadB");
+            viewString.Append("and AS Listing_BroadBand, \r\n            T.PayTV AS Listing_PayTV, \r\n            ");
+            viewString.Append("T.DuctedHeating AS Listing_DuctedHeating, \r\n            T.DuctedCooling AS Listi");
+            viewString.Append("ng_DuctedCooling, \r\n            T.SplitSystemHeating AS Listing_SplitSystemHeati");
+            viewString.Append("ng, \r\n            T.ReverseCycleAircon AS Listing_ReverseCycleAircon, \r\n        ");
+            viewString.Append("    T.EvaporateCooling AS Listing_EvaporateCooling, \r\n            T.VacuumSystem");
+            viewString.Append(" AS Listing_VacuumSystem, \r\n            T.PoolInGround AS Listing_PoolInGround, ");
+            viewString.Append("\r\n            T.PoolAboveGround AS Listing_PoolAboveGround, \r\n            T.Balc");
+            viewString.Append("ony AS Listing_Balcony, \r\n            T.Deck AS Listing_Deck, \r\n            T.Co");
+            viewString.Append("urtYard AS Listing_CourtYard, \r\n            T.OutDoorEnt AS Listing_OutDoorEnt, ");
+            viewString.Append("\r\n            T.Shed AS Listing_Shed, \r\n            T.FullyFenced AS Listing_Ful");
+            viewString.Append("lyFenced, \r\n            T.InsideSPA AS Listing_InsideSPA, \r\n            T.OutSid");
+            viewString.Append("eSPA AS Listing_OutSideSPA, \r\n            T.HydronicHeating AS Listing_HydronicH");
+            viewString.Append("eating, \r\n            T.SplitSystemAircon AS Listing_SplitSystemAircon, \r\n      ");
+            viewString.Append("      T.PriceView AS Listing_PriceView, \r\n            True AS _from0\r\n        FR");
+            viewString.Append("OM BaseDbContext.Listings AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Listing", viewString.ToString());
         }
         
@@ -11125,7 +11126,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView263()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8140);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8210);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Listings\r\n        [DomainModels.Listing](T1.L");
             viewString.Append("isting_ListingId, T1.Listing_WebID, T1.Listing_WebLink, T1.Listing_AddressDispla");
             viewString.Append("y, T1.Listing_StreetAddress, T1.Listing_LevelNumber, T1.Listing_LotNumber, T1.Li");
@@ -11158,76 +11159,77 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("nGround, T1.Listing_PoolAboveGround, T1.Listing_Balcony, T1.Listing_Deck, T1.Lis");
             viewString.Append("ting_CourtYard, T1.Listing_OutDoorEnt, T1.Listing_Shed, T1.Listing_FullyFenced, ");
             viewString.Append("T1.Listing_InsideSPA, T1.Listing_OutSideSPA, T1.Listing_HydronicHeating, T1.List");
-            viewString.Append("ing_SplitSystemAircon)\r\n    FROM (\r\n        SELECT \r\n            T.ListingId AS ");
-            viewString.Append("Listing_ListingId, \r\n            T.WebID AS Listing_WebID, \r\n            T.WebLi");
-            viewString.Append("nk AS Listing_WebLink, \r\n            T.AddressDisplay AS Listing_AddressDisplay,");
-            viewString.Append(" \r\n            T.StreetAddress AS Listing_StreetAddress, \r\n            T.LevelNu");
-            viewString.Append("mber AS Listing_LevelNumber, \r\n            T.LotNumber AS Listing_LotNumber, \r\n ");
-            viewString.Append("           T.UnitNumber AS Listing_UnitNumber, \r\n            T.StreetNumber AS L");
-            viewString.Append("isting_StreetNumber, \r\n            T.Street AS Listing_Street, \r\n            T.S");
-            viewString.Append("uburb AS Listing_Suburb, \r\n            T.State AS Listing_State, \r\n            T");
-            viewString.Append(".PostCode AS Listing_PostCode, \r\n            T.PropertyName AS Listing_PropertyN");
-            viewString.Append("ame, \r\n            T.PropertyType AS Listing_PropertyType, \r\n            T.Prope");
-            viewString.Append("rtyCategory AS Listing_PropertyCategory, \r\n            T.ListingType AS Listing_");
-            viewString.Append("ListingType, \r\n            T.ListingDate AS Listing_ListingDate, \r\n            T");
-            viewString.Append(".ListingExpiryDate AS Listing_ListingExpiryDate, \r\n            T.ListingStatus A");
-            viewString.Append("S Listing_ListingStatus, \r\n            T.ListingMethod AS Listing_ListingMethod,");
-            viewString.Append(" \r\n            T.ListingAuthority AS Listing_ListingAuthority, \r\n            T.I");
-            viewString.Append("nspectionTypye AS Listing_InspectionTypye, \r\n            T.AuctionDate AS Listin");
-            viewString.Append("g_AuctionDate, \r\n            T.AutionVenue AS Listing_AutionVenue, \r\n           ");
-            viewString.Append(" T.EOIClosingDate AS Listing_EOIClosingDate, \r\n            T.DisplayPrice AS Lis");
-            viewString.Append("ting_DisplayPrice, \r\n            T.SearchPrice AS Listing_SearchPrice, \r\n       ");
-            viewString.Append("     T.RendPeriod AS Listing_RendPeriod, \r\n            T.AvailableDate AS Listin");
-            viewString.Append("g_AvailableDate, \r\n            T.SoldDate AS Listing_SoldDate, \r\n            T.S");
-            viewString.Append("oldPrice AS Listing_SoldPrice, \r\n            T.IsSoldPriceConfidential AS Listin");
-            viewString.Append("g_IsSoldPriceConfidential, \r\n            T.MainHeadLine AS Listing_MainHeadLine,");
-            viewString.Append(" \r\n            T.MainDescription AS Listing_MainDescription, \r\n            T.Cus");
-            viewString.Append("tomCopy AS Listing_CustomCopy, \r\n            T.BedRooms AS Listing_BedRooms, \r\n ");
-            viewString.Append("           T.BathRooms AS Listing_BathRooms, \r\n            T.LoungeRooms AS List");
-            viewString.Append("ing_LoungeRooms, \r\n            T.Toilets AS Listing_Toilets, \r\n            T.Stu");
-            viewString.Append("dies AS Listing_Studies, \r\n            T.Pools AS Listing_Pools, \r\n            T");
-            viewString.Append(".Garages AS Listing_Garages, \r\n            T.Carports AS Listing_Carports, \r\n   ");
-            viewString.Append("         T.CarSpaces AS Listing_CarSpaces, \r\n            T.TotalParking AS Listi");
-            viewString.Append("ng_TotalParking, \r\n            T.LandArea AS Listing_LandArea, \r\n            T.L");
-            viewString.Append("andAreaUnit AS Listing_LandAreaUnit, \r\n            T.BuildingAreaSqm AS Listing_");
-            viewString.Append("BuildingAreaSqm, \r\n            T.ExternalAreaSqm AS Listing_ExternalAreaSqm, \r\n ");
-            viewString.Append("           T.FrontageM AS Listing_FrontageM, \r\n            T.Aspect AS Listing_A");
-            viewString.Append("spect, \r\n            T.YearBuilt AS Listing_YearBuilt, \r\n            T.YearRenov");
-            viewString.Append("ated AS Listing_YearRenovated, \r\n            T.Construction AS Listing_Construct");
-            viewString.Append("ion, \r\n            T.PropertyCondition AS Listing_PropertyCondition, \r\n         ");
-            viewString.Append("   T.EnergyRating AS Listing_EnergyRating, \r\n            T.Features AS Listing_F");
-            viewString.Append("eatures, \r\n            T.WaterRates AS Listing_WaterRates, \r\n            T.LandT");
-            viewString.Append("ax AS Listing_LandTax, \r\n            T.CounsilRates AS Listing_CounsilRates, \r\n ");
-            viewString.Append("           T.StrataAdmin AS Listing_StrataAdmin, \r\n            T.StrataSinking A");
-            viewString.Append("S Listing_StrataSinking, \r\n            T.OtherOutgoings AS Listing_OtherOutgoing");
-            viewString.Append("s, \r\n            T.LegalDescription AS Listing_LegalDescription, \r\n            T");
-            viewString.Append(".LegalLot AS Listing_LegalLot, \r\n            T.LegalDP AS Listing_LegalDP, \r\n   ");
-            viewString.Append("         T.LegalVol AS Listing_LegalVol, \r\n            T.LegalFolio AS Listing_L");
-            viewString.Append("egalFolio, \r\n            T.Zoning AS Listing_Zoning, \r\n            T.ClientListi");
-            viewString.Append("ngId AS Listing_ClientListingId, \r\n            T.TotalOutgoings AS Listing_Total");
-            viewString.Append("Outgoings, \r\n            T.CompanyId AS Listing_CompanyId, \r\n            T.AirCo");
-            viewString.Append("nditioning AS Listing_AirConditioning, \r\n            T.AlarmSystem AS Listing_Al");
-            viewString.Append("armSystem, \r\n            T.Intercom AS Listing_Intercom, \r\n            T.OpenFir");
-            viewString.Append("ePlace AS Listing_OpenFirePlace, \r\n            T.TennisCourt AS Listing_TennisCo");
-            viewString.Append("urt, \r\n            T.RempoteGarage AS Listing_RempoteGarage, \r\n            T.Dis");
-            viewString.Append("hWasher AS Listing_DishWasher, \r\n            T.BuiltinRaboes AS Listing_BuiltinR");
-            viewString.Append("aboes, \r\n            T.Gym AS Listing_Gym, \r\n            T.WorkShop AS Listing_W");
-            viewString.Append("orkShop, \r\n            T.RumpusRoom AS Listing_RumpusRoom, \r\n            T.Floor");
-            viewString.Append("Boards AS Listing_FloorBoards, \r\n            T.BroadBand AS Listing_BroadBand, \r");
-            viewString.Append("\n            T.PayTV AS Listing_PayTV, \r\n            T.DuctedHeating AS Listing_");
-            viewString.Append("DuctedHeating, \r\n            T.DuctedCooling AS Listing_DuctedCooling, \r\n       ");
-            viewString.Append("     T.SplitSystemHeating AS Listing_SplitSystemHeating, \r\n            T.Reverse");
-            viewString.Append("CycleAircon AS Listing_ReverseCycleAircon, \r\n            T.EvaporateCooling AS L");
-            viewString.Append("isting_EvaporateCooling, \r\n            T.VacuumSystem AS Listing_VacuumSystem, \r");
-            viewString.Append("\n            T.PoolInGround AS Listing_PoolInGround, \r\n            T.PoolAboveGr");
-            viewString.Append("ound AS Listing_PoolAboveGround, \r\n            T.Balcony AS Listing_Balcony, \r\n ");
-            viewString.Append("           T.Deck AS Listing_Deck, \r\n            T.CourtYard AS Listing_CourtYar");
-            viewString.Append("d, \r\n            T.OutDoorEnt AS Listing_OutDoorEnt, \r\n            T.Shed AS Lis");
-            viewString.Append("ting_Shed, \r\n            T.FullyFenced AS Listing_FullyFenced, \r\n            T.I");
-            viewString.Append("nsideSPA AS Listing_InsideSPA, \r\n            T.OutSideSPA AS Listing_OutSideSPA,");
-            viewString.Append(" \r\n            T.HydronicHeating AS Listing_HydronicHeating, \r\n            T.Spl");
-            viewString.Append("itSystemAircon AS Listing_SplitSystemAircon, \r\n            True AS _from0\r\n     ");
-            viewString.Append("   FROM DomainModelsStoreContainer.Listing AS T\r\n    ) AS T1");
+            viewString.Append("ing_SplitSystemAircon, T1.Listing_PriceView)\r\n    FROM (\r\n        SELECT \r\n     ");
+            viewString.Append("       T.ListingId AS Listing_ListingId, \r\n            T.WebID AS Listing_WebID,");
+            viewString.Append(" \r\n            T.WebLink AS Listing_WebLink, \r\n            T.AddressDisplay AS L");
+            viewString.Append("isting_AddressDisplay, \r\n            T.StreetAddress AS Listing_StreetAddress, \r");
+            viewString.Append("\n            T.LevelNumber AS Listing_LevelNumber, \r\n            T.LotNumber AS ");
+            viewString.Append("Listing_LotNumber, \r\n            T.UnitNumber AS Listing_UnitNumber, \r\n         ");
+            viewString.Append("   T.StreetNumber AS Listing_StreetNumber, \r\n            T.Street AS Listing_Str");
+            viewString.Append("eet, \r\n            T.Suburb AS Listing_Suburb, \r\n            T.State AS Listing_");
+            viewString.Append("State, \r\n            T.PostCode AS Listing_PostCode, \r\n            T.PropertyNam");
+            viewString.Append("e AS Listing_PropertyName, \r\n            T.PropertyType AS Listing_PropertyType,");
+            viewString.Append(" \r\n            T.PropertyCategory AS Listing_PropertyCategory, \r\n            T.L");
+            viewString.Append("istingType AS Listing_ListingType, \r\n            T.ListingDate AS Listing_Listin");
+            viewString.Append("gDate, \r\n            T.ListingExpiryDate AS Listing_ListingExpiryDate, \r\n       ");
+            viewString.Append("     T.ListingStatus AS Listing_ListingStatus, \r\n            T.ListingMethod AS ");
+            viewString.Append("Listing_ListingMethod, \r\n            T.ListingAuthority AS Listing_ListingAuthor");
+            viewString.Append("ity, \r\n            T.InspectionTypye AS Listing_InspectionTypye, \r\n            T");
+            viewString.Append(".AuctionDate AS Listing_AuctionDate, \r\n            T.AutionVenue AS Listing_Auti");
+            viewString.Append("onVenue, \r\n            T.EOIClosingDate AS Listing_EOIClosingDate, \r\n           ");
+            viewString.Append(" T.DisplayPrice AS Listing_DisplayPrice, \r\n            T.SearchPrice AS Listing_");
+            viewString.Append("SearchPrice, \r\n            T.RendPeriod AS Listing_RendPeriod, \r\n            T.A");
+            viewString.Append("vailableDate AS Listing_AvailableDate, \r\n            T.SoldDate AS Listing_SoldD");
+            viewString.Append("ate, \r\n            T.SoldPrice AS Listing_SoldPrice, \r\n            T.IsSoldPrice");
+            viewString.Append("Confidential AS Listing_IsSoldPriceConfidential, \r\n            T.MainHeadLine AS");
+            viewString.Append(" Listing_MainHeadLine, \r\n            T.MainDescription AS Listing_MainDescriptio");
+            viewString.Append("n, \r\n            T.CustomCopy AS Listing_CustomCopy, \r\n            T.BedRooms AS");
+            viewString.Append(" Listing_BedRooms, \r\n            T.BathRooms AS Listing_BathRooms, \r\n           ");
+            viewString.Append(" T.LoungeRooms AS Listing_LoungeRooms, \r\n            T.Toilets AS Listing_Toilet");
+            viewString.Append("s, \r\n            T.Studies AS Listing_Studies, \r\n            T.Pools AS Listing_");
+            viewString.Append("Pools, \r\n            T.Garages AS Listing_Garages, \r\n            T.Carports AS L");
+            viewString.Append("isting_Carports, \r\n            T.CarSpaces AS Listing_CarSpaces, \r\n            T");
+            viewString.Append(".TotalParking AS Listing_TotalParking, \r\n            T.LandArea AS Listing_LandA");
+            viewString.Append("rea, \r\n            T.LandAreaUnit AS Listing_LandAreaUnit, \r\n            T.Build");
+            viewString.Append("ingAreaSqm AS Listing_BuildingAreaSqm, \r\n            T.ExternalAreaSqm AS Listin");
+            viewString.Append("g_ExternalAreaSqm, \r\n            T.FrontageM AS Listing_FrontageM, \r\n           ");
+            viewString.Append(" T.Aspect AS Listing_Aspect, \r\n            T.YearBuilt AS Listing_YearBuilt, \r\n ");
+            viewString.Append("           T.YearRenovated AS Listing_YearRenovated, \r\n            T.Constructio");
+            viewString.Append("n AS Listing_Construction, \r\n            T.PropertyCondition AS Listing_Property");
+            viewString.Append("Condition, \r\n            T.EnergyRating AS Listing_EnergyRating, \r\n            T");
+            viewString.Append(".Features AS Listing_Features, \r\n            T.WaterRates AS Listing_WaterRates,");
+            viewString.Append(" \r\n            T.LandTax AS Listing_LandTax, \r\n            T.CounsilRates AS Lis");
+            viewString.Append("ting_CounsilRates, \r\n            T.StrataAdmin AS Listing_StrataAdmin, \r\n       ");
+            viewString.Append("     T.StrataSinking AS Listing_StrataSinking, \r\n            T.OtherOutgoings AS");
+            viewString.Append(" Listing_OtherOutgoings, \r\n            T.LegalDescription AS Listing_LegalDescri");
+            viewString.Append("ption, \r\n            T.LegalLot AS Listing_LegalLot, \r\n            T.LegalDP AS ");
+            viewString.Append("Listing_LegalDP, \r\n            T.LegalVol AS Listing_LegalVol, \r\n            T.L");
+            viewString.Append("egalFolio AS Listing_LegalFolio, \r\n            T.Zoning AS Listing_Zoning, \r\n   ");
+            viewString.Append("         T.ClientListingId AS Listing_ClientListingId, \r\n            T.TotalOutg");
+            viewString.Append("oings AS Listing_TotalOutgoings, \r\n            T.CompanyId AS Listing_CompanyId,");
+            viewString.Append(" \r\n            T.AirConditioning AS Listing_AirConditioning, \r\n            T.Ala");
+            viewString.Append("rmSystem AS Listing_AlarmSystem, \r\n            T.Intercom AS Listing_Intercom, \r");
+            viewString.Append("\n            T.OpenFirePlace AS Listing_OpenFirePlace, \r\n            T.TennisCou");
+            viewString.Append("rt AS Listing_TennisCourt, \r\n            T.RempoteGarage AS Listing_RempoteGarag");
+            viewString.Append("e, \r\n            T.DishWasher AS Listing_DishWasher, \r\n            T.BuiltinRabo");
+            viewString.Append("es AS Listing_BuiltinRaboes, \r\n            T.Gym AS Listing_Gym, \r\n            T");
+            viewString.Append(".WorkShop AS Listing_WorkShop, \r\n            T.RumpusRoom AS Listing_RumpusRoom,");
+            viewString.Append(" \r\n            T.FloorBoards AS Listing_FloorBoards, \r\n            T.BroadBand A");
+            viewString.Append("S Listing_BroadBand, \r\n            T.PayTV AS Listing_PayTV, \r\n            T.Duc");
+            viewString.Append("tedHeating AS Listing_DuctedHeating, \r\n            T.DuctedCooling AS Listing_Du");
+            viewString.Append("ctedCooling, \r\n            T.SplitSystemHeating AS Listing_SplitSystemHeating, \r");
+            viewString.Append("\n            T.ReverseCycleAircon AS Listing_ReverseCycleAircon, \r\n            T");
+            viewString.Append(".EvaporateCooling AS Listing_EvaporateCooling, \r\n            T.VacuumSystem AS L");
+            viewString.Append("isting_VacuumSystem, \r\n            T.PoolInGround AS Listing_PoolInGround, \r\n   ");
+            viewString.Append("         T.PoolAboveGround AS Listing_PoolAboveGround, \r\n            T.Balcony A");
+            viewString.Append("S Listing_Balcony, \r\n            T.Deck AS Listing_Deck, \r\n            T.CourtYa");
+            viewString.Append("rd AS Listing_CourtYard, \r\n            T.OutDoorEnt AS Listing_OutDoorEnt, \r\n   ");
+            viewString.Append("         T.Shed AS Listing_Shed, \r\n            T.FullyFenced AS Listing_FullyFen");
+            viewString.Append("ced, \r\n            T.InsideSPA AS Listing_InsideSPA, \r\n            T.OutSideSPA ");
+            viewString.Append("AS Listing_OutSideSPA, \r\n            T.HydronicHeating AS Listing_HydronicHeatin");
+            viewString.Append("g, \r\n            T.SplitSystemAircon AS Listing_SplitSystemAircon, \r\n           ");
+            viewString.Append(" T.PriceView AS Listing_PriceView, \r\n            True AS _from0\r\n        FROM Do");
+            viewString.Append("mainModelsStoreContainer.Listing AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Listings", viewString.ToString());
         }
         
