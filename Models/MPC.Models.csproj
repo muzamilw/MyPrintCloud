@@ -141,6 +141,7 @@
     <Compile Include="Common\PtvDTO.cs" />
     <Compile Include="Common\PurchaseByColumn.cs" />
     <Compile Include="Common\ReportparamComboCollection.cs" />
+    <Compile Include="Common\sp_GetImagesResponseModel.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
