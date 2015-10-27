@@ -1226,6 +1226,17 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCostCentre", costcentreIdParameter);
         }
+
+        /// <summary>
+        /// Delete Staging Import table data
+        /// </summary>
+        // ReSharper disable InconsistentNaming
+        public int usp_GetLiveStores()
+        // ReSharper restore InconsistentNaming
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_GetLiveStores");
+        }
+
         #endregion
     }
 }

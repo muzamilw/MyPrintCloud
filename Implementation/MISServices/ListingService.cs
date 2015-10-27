@@ -34,6 +34,10 @@ namespace MPC.Implementation.MISServices
         public string SaveListingData()
         {
             // Read the file as one string.
+
+            string[] filePaths = Directory.GetFiles(@"E:\\FTP\\Zunu\\");
+
+
             System.IO.StreamReader myFile = new System.IO.StreamReader("E:\\FTP\\Zunu\\CHAMBERS-94368-20151014092023.xml");
             string myString = myFile.ReadToEnd();
 
