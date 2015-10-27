@@ -569,3 +569,12 @@ function k29(divID, itemID, itemName, Container) {
     $('#' + divID).append(html);
     $('#' + Container).css("display", "block");
 }
+function k30_userData(id) {
+    StartLoader("Loading user profile on smart form....");
+    $.getJSON("/designerapi/SmartForm/GetUserVariableSmartForm/" + id + "/" + item.SmartFormId + "/" + item.ParentTemplateId + "/" + tID,
+                          function (DT2) {
+                              pcl40_InsertUserData(DT2);
+                              selectedUserProfile = DT2;
+                              StopLoader();
+                          });
+}

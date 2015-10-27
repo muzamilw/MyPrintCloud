@@ -3112,8 +3112,10 @@ function pcl42() {
     if (pcl42_Validate()) {
         c2_v2(); c2_v2();// update template objects 
         if ($("#optionRadioOtherProfile").is(':checked')) {
-            pcl42_updateVariables(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()]);
-            pcl42_svc(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], $("#smartFormSelectUserProfile").val());// save variables
+           // pcl42_updateVariables(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()]);
+            //   pcl42_svc(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], $("#smartFormSelectUserProfile").val());// save variables
+            pcl42_updateVariables(selectedUserProfile);
+            pcl42_svc(selectedUserProfile, $("#smartFormSelectUserProfile").val());
         }
         else {
             pcl42_updateVariables(smartFormData.scopeVariables); 
@@ -3189,8 +3191,8 @@ function pcl42_UpdateTO(isFirstLoad) {
     }
     if ($("#optionRadioOtherProfile").is(':checked')) {
         $.each(TO, function (i, IT) {
-            if (IT.ObjectType == 2) {
-                $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
+            if (IT.ObjectType == 2 && selectedUserProfile != null) {
+                $.each(selectedUserProfile, function (i, obj) {
                     //  if (obj.ObjectType == 3)  // replacing variables
                     //    {
                     if (obj.Value == null) {

@@ -957,6 +957,42 @@ namespace MPC.Repository.Repositories
             }
             return UserScopeVariables;
         }
+        public List<ScopeVariable> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, long contactId, long templateId, long currentTemplateId)
+        {
+            bool hasContactVariables = false;
+            db.Configuration.LazyLoadingEnabled = false;
+            Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
+            List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contactId, currentTemplateId);
+            List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
+            //  variablesList = variables;
+            foreach (var variable in variables)
+            {
+                if (variable == null)
+                    variablesToRemove.Add(variable);
+                else
+                    if (variable.FieldVariable != null)
+                        if (variable.FieldVariable.Company != null)
+                            variable.FieldVariable.Company = null;
+            }
+            foreach (var variable in variablesToRemove)
+            {
+                variables.Remove(variable);
+            }
+            List<ScopeVariable> allTemplateVariables = GetTemplateScopeVariables(templateId, contactId);
+            foreach (var item in allTemplateVariables)
+            {
+                var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).FirstOrDefault();
+                if (sVariable == null)
+                {
+                    if (item.FieldVariable != null)
+                        if (item.FieldVariable.Company != null)
+                            item.FieldVariable.Company = null;
+                    variables.Add(item);
+
+                }
+            }
+            return variables;
+        }
       
         public bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj)
         {
