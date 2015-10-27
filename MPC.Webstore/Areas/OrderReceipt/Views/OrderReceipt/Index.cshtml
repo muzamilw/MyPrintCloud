@@ -54,9 +54,9 @@
                     <label style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.State</label>
                     <label style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.ZipCode</label><br />
                     <label style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Country</label><br />
-                    <div id="ImagePhne" style="    width: 19px;    height: 23px; float: left;  margin-top: 5px; font-weight:bold; ">
+                    <label id="ImagePhne" style="    width: 19px;    height: 23px; float: left;  margin-top: 5px; font-weight:bold; ">
                         Tel:
-                    </div>
+                    </label>
                     <label id="lblTel" style="color: black; font-family: 'Open Sans Condensed', sans-serif; font-weight: bold; font-style: normal; font-weight: bold; font-size: 18px; line-height: 16px; float: left; margin-top: 6px; margin-left: 10px;">@ViewBag.oStoreDefaultAddress.Tel</label>
                     <div style="clear:both;">
                         &nbsp;
@@ -162,7 +162,6 @@
           font-style: normal;
           font-weight: bold;
           font-size: 13px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", CookieStoreId, "Billed To:"))</span><br />
-        <label id="lblCustName" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
         <label id="lblBAddressLine1" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
         @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
         {
@@ -207,7 +206,6 @@
           font-style: normal;
           font-weight: bold;
           font-size: 13px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", CookieStoreId, "Shipped To:"))</span><br />
-        <label id="lblSCusName" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
         <label id="lblSAddLine1" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
         @if (!string.IsNullOrEmpty(Model.ShippingAddress.Address2))
         {
