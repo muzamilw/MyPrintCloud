@@ -131,6 +131,7 @@
     <Compile Include="Common\InquiryByColumn.cs" />
     <Compile Include="Common\InvoiceByColumn.cs" />
     <Compile Include="Common\ItemCloneResult.cs" />
+    <Compile Include="Common\ListingPropertyXML.cs" />
     <Compile Include="Common\LiveStoreDetails.cs" />
     <Compile Include="Common\Order.cs" />
     <Compile Include="Common\IsTrialClaimValue.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Common\PtvDTO.cs" />
     <Compile Include="Common\PurchaseByColumn.cs" />
     <Compile Include="Common\ReportparamComboCollection.cs" />
+    <Compile Include="Common\sp_GetImagesResponseModel.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
@@ -174,6 +176,7 @@
     <Compile Include="Common\SecurityRoles.cs" />
     <Compile Include="Common\ShoppingCart.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
+    <Compile Include="Common\TemplateFontResponseModel.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\TrialCountClaimValue.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />

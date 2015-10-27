@@ -10,6 +10,6 @@ namespace MPC.Models.Common
     public class DesignerDamImageWrapper
     {
         public int ImageCount = 0;
-        public List<sp_GetTemplateImages_Result> objsBackground = null;
+        public List<sp_GetImagesResponseModel> objsBackground = null;
     }
 }

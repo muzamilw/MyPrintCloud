@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface ITemplateFontsRepository : IBaseRepository<TemplateFont, int>
     {
-        List<TemplateFont> GetFontList(long productId, long customerId);
+        List<TemplateFontResponseModel> GetFontList(long productId, long customerId);
         void DeleteTemplateFonts(long Companyid);
         List<TemplateFont> GetFontList();
         void InsertFontFile(TemplateFont objFont);

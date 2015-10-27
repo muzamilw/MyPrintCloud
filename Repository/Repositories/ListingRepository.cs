@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Common;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -525,6 +526,41 @@ namespace MPC.Repository.Repositories
                 UpdateListingConjunctionalAgents(updatedListingID, objProperty.ListingConjunctionalAgents);
                 UpdateListingVendors(updatedListingID, objProperty.ListingVendors);
 
+                dataAdded = true;
+                return dataAdded;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public bool UpdateListingXMLData(ListingPropertyXML objProperty, MPC.Models.DomainModels.Listing listing,long OrgId)
+        {
+
+            try
+            {
+                bool dataAdded = false;
+                if (cultureKey == null) //not defined in web.config
+                {
+                    culture = new System.Globalization.CultureInfo("en-AU", true); // AU is default
+                }
+                else
+                {
+                    culture = new System.Globalization.CultureInfo(cultureKey, true);
+                }
+
+                long territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.CompanyId);
+
+                long officeId = ProcessOfficeXML(objProperty.Listing.Office, objProperty.Listing.CompanyId, territoryId,OrgId);
+
+                ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId,OrgId);
+
+                long updatedListingID = UpdateListingXML(objProperty.Listing, listing);
+                UpdateListingImagesXML(updatedListingID, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
+                UpdateListingFloorPlansXML(updatedListingID, objProperty.Listing.ListingFloorplans.floorplans);
+                
                 dataAdded = true;
                 return dataAdded;
             }
@@ -1310,6 +1346,77 @@ namespace MPC.Repository.Repositories
                 throw;
             }
         }
+
+        private void UpdateListingFloorPlansXML(long updatedListing, List<FloorPlan> listingFloorPlans)
+        {
+            try
+            {
+                foreach (FloorPlan item in listingFloorPlans)
+                {
+                    if (item != null)
+                    {
+                        var listingFloorPlan = db.ListingFloorPlans.Where(i => i.ClientFloorplanID == item.FloorplanID).FirstOrDefault();
+
+                        if (listingFloorPlan != null) //update
+                        {
+                            listingFloorPlan.ListingId = updatedListing;
+                            listingFloorPlan.ClientFloorplanID = item.FloorplanID;
+                            listingFloorPlan.ImageURL = item.ImageURL;
+                            //listingFloorPlan.PDFURL = item.PDFURL;
+
+                            if (!String.IsNullOrEmpty(item.LastMod))
+                                //floorPlan.LastMode = Convert.ToDateTime(item.LastMod, new System.Globalization.CultureInfo("en-AU"));
+                                listingFloorPlan.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                            db.SaveChanges();
+                        }
+                        else //add 
+                        {
+                            List<FloorPlan> lstFloorPlanToAdd = new List<FloorPlan>();
+                            lstFloorPlanToAdd.Add(item);
+
+                            AddListingFloorPlansXML(updatedListing, lstFloorPlanToAdd);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void AddListingFloorPlansXML(long newlyAddedListing, List<FloorPlan> lstFloorPlans)
+        {
+            try
+            {
+                foreach (FloorPlan item in lstFloorPlans)
+                {
+                    if (item != null)
+                    {
+                        ListingFloorPlan floorPlan = new ListingFloorPlan();
+                        floorPlan.ListingId = newlyAddedListing;
+                        floorPlan.ClientFloorplanID = item.FloorplanID;
+                        floorPlan.ImageURL = item.ImageURL;
+                        //floorPlan.PDFURL = item.PDFURL;
+
+                        if (!String.IsNullOrEmpty(item.LastMod))
+                            //floorPlan.LastMode = Convert.ToDateTime(item.LastMod, new System.Globalization.CultureInfo("en-AU"));
+                            floorPlan.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                        db.ListingFloorPlans.Add(floorPlan);
+                    }
+                }
+                db.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private void UpdateListingOFIs(long updatedListingID, List<ListingOFIs> listingOFIs)
         {
             try
@@ -1462,25 +1569,28 @@ namespace MPC.Repository.Repositories
             //}
 
             System.Drawing.Image image = null;
-            System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(SourceURL);
-            webRequest.AllowWriteStreamBuffering = true;
-            webRequest.Timeout = 30000;
-           
-            System.Net.WebResponse webResponse = webRequest.GetResponse();
-            string filename = webResponse.ResponseUri.LocalPath;
-           
-            System.IO.Stream stream = webResponse.GetResponseStream();
-       
-          //  string fileName = webResponse.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+            
+                System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(SourceURL);
+                webRequest.AllowWriteStreamBuffering = true;
+                webRequest.Timeout = 30000;
 
-            image = System.Drawing.Image.FromStream(stream);
-          
+                System.Net.WebResponse webResponse = webRequest.GetResponse();
+                string filename = webResponse.ResponseUri.LocalPath;
 
-            string rootPath = DestinationBasePath;
-            string[] tokens = filename.Split(new[] { "/" }, StringSplitOptions.None);
-            string file = System.IO.Path.Combine(rootPath, tokens[1]);
-            image.Save(file);
-            return tokens[1];
+                System.IO.Stream stream = webResponse.GetResponseStream();
+
+                //  string fileName = webResponse.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+
+                image = System.Drawing.Image.FromStream(stream);
+
+
+                string rootPath = DestinationBasePath;
+                string[] tokens = filename.Split(new[] { "/" }, StringSplitOptions.None);
+                string file = System.IO.Path.Combine(rootPath, tokens[1]);
+                image.Save(file);
+                return tokens[1];
+         
+         
         }
         private void UpdateListingImages(long updatedListing, List<ListingImages> listingImages, string ContactCompanyID)
         {
@@ -1534,6 +1644,63 @@ namespace MPC.Repository.Repositories
                 throw;
             }
         }
+
+        private void UpdateListingImagesXML(long updatedListing, List<PropertyImage> listingImages, string ContactCompanyID)
+        {
+            try
+            {
+                foreach (PropertyImage item in listingImages)
+                {
+
+                    if (item != null)
+                    {
+                        var listingImage = db.ListingImages.Where(i => i.ClientImageId == item.ImageID).FirstOrDefault();
+
+                        if (listingImage != null) //update
+                        {
+                            if(!string.IsNullOrEmpty(item.ImageURL))
+                            {
+                                //string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + ContactCompanyID.ToString() +"/"+ updatedListing + "/" + item.ImageID);
+                                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + ContactCompanyID.ToString() + "/" + updatedListing);
+                                //first download image locally
+                                if (!System.IO.Directory.Exists((drURL)))
+                                    System.IO.Directory.CreateDirectory(drURL);
+                                string imgName = DownloadImageLocallyXML(item.ImageURL, drURL);
+
+                                listingImage.ListingId = updatedListing;
+                                listingImage.ClientImageId = item.ImageID;
+                                //listingImage.ImageURL = "/MPC_Content/Stores/" + ContactCompanyID + "/" + updatedListing + "/" + item.ImageID;
+                                listingImage.ImageURL = "/MPC_Content/Stores/" + ContactCompanyID + "/" + updatedListing + "/" + imgName;
+                                //listingImage.ImageOrder = item.ImageOrder;
+
+                                if (!String.IsNullOrEmpty(item.LastMod))
+                                    //tbl_listingImage.LastMode = Convert.ToDateTime(item.LastMode, new System.Globalization.CultureInfo("en-AU"));
+                                    listingImage.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                                db.ListingImages.Attach(listingImage);
+
+                                db.Entry(listingImage).State = EntityState.Modified;
+
+                                db.SaveChanges();
+                            }
+                           
+                        }
+                        else //add 
+                        {
+                            List<PropertyImage> lstImageToAdd = new List<PropertyImage>();
+                            lstImageToAdd.Add(item);
+
+                            AddListingImagesXML(updatedListing, lstImageToAdd, ContactCompanyID);
+                        }
+                    }
+
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         private void AddListingImages(long newlyAddedListing, List<ListingImages> listingImages, string contactCompanyId)
         {
             try
@@ -1566,6 +1733,49 @@ namespace MPC.Repository.Repositories
                        
                     }
                     db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void AddListingImagesXML(long newlyAddedListing, List<PropertyImage> listingImages, string contactCompanyId)
+        {
+            try
+            {
+                foreach (PropertyImage item in listingImages)
+                {
+
+                    if (item != null)
+                    {
+                        if(!string.IsNullOrEmpty(item.ImageURL))
+                        {
+                            //  string destinationPath = HostingEnvironment.MapPath("~/StoredImages/RealEstateImages/" + contactCompanyId + "\\" + newlyAddedListing + "\\" + item.ImageID);
+                            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + contactCompanyId.ToString() + "/" + newlyAddedListing);
+
+                            //first download image locally
+                            if (!System.IO.Directory.Exists((drURL)))
+                                System.IO.Directory.CreateDirectory(drURL);
+                            string ImageName = DownloadImageLocallyXML(item.ImageURL, drURL);
+
+                            ListingImage tbl_listingImage = new ListingImage();
+                            tbl_listingImage.ListingId = newlyAddedListing;
+                            tbl_listingImage.ClientImageId = item.ImageID;
+                            tbl_listingImage.ImageURL = "/MPC_Content/Stores/" + contactCompanyId + "/" + newlyAddedListing + "/" + ImageName;
+
+
+                            if (!String.IsNullOrEmpty(item.LastMod))
+                                //tbl_listingImage.LastMode = Convert.ToDateTime(item.LastMode, new System.Globalization.CultureInfo("en-AU"));
+                                tbl_listingImage.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                            db.ListingImages.Add(tbl_listingImage);
+                        }
+                        
+                    }
+
+                }
+                db.SaveChanges();
             }
             catch (Exception)
             {
@@ -1731,6 +1941,38 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        private long ProcessOfficeXML(ListingOfficeXML listingOffice, string contactCompanyId, long territoryId,long Organisationid)
+        {
+            try
+            {
+                long processedOfficeId = 0;
+                Address address;
+
+               
+
+                string CState = listingOffice.State;
+                string PostCode = listingOffice.PostCode;
+                //Reference
+                address = db.Addesses.Where(item => item.State.StateName == CState && item.PostCode == PostCode).FirstOrDefault();
+
+                if (address != null) // update
+                {
+                    processedOfficeId = UpdateOfficeXML(address, listingOffice, contactCompanyId, territoryId);
+                }
+                else //add
+                {
+                    processedOfficeId = AddOfficeXML(listingOffice, contactCompanyId, territoryId, Organisationid);
+                }
+
+
+                return processedOfficeId;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private long AddOffice(ListingOffice listingOffice, string contactCompanyId, long territoryId)
         {
             try
@@ -1822,6 +2064,90 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        private long UpdateOfficeXML(Address address, ListingOfficeXML listingOffice, string contactCompanyId, long territoryId)
+        {
+            try
+            {
+                long updatedAddress = 0;
+
+                address.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
+                address.AddressName = listingOffice.StreetNumber + " " + listingOffice.Street;
+                address.Address1 = listingOffice.SubNumber + ", " + listingOffice.StreetNumber + " " + listingOffice.Street;
+             
+                address.City = listingOffice.Suburb;
+                address.State.StateName = listingOffice.State;
+                address.PostCode = listingOffice.PostCode;
+                address.TerritoryId = territoryId;
+               
+                db.Addesses.Attach(address);
+
+                db.Entry(address).State = EntityState.Modified;
+
+                if (db.SaveChanges() > 0)
+                {
+                    updatedAddress = address.AddressId;
+                }
+
+                return updatedAddress;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        private long AddOfficeXML(ListingOfficeXML listingOffice, string contactCompanyId, long territoryId,long Organisationid)
+        {
+            try
+            {
+                //State last = (from l in db.States
+                //                 orderby l.StateId descending
+                //                 select l).First();
+
+                long newlyAddedAddress = 0;
+
+                //long NewStateID =last.StateId+1;
+
+                Address address = new Address();
+                State NState = new State();
+                address.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
+                address.AddressName = listingOffice.StreetNumber + " " + listingOffice.Street;
+                address.Address1 = listingOffice.SubNumber + ", " + listingOffice.StreetNumber + " " + listingOffice.Street;
+
+                address.City = listingOffice.Suburb;
+                address.OrganisationId = Organisationid;
+                address.PostCode = listingOffice.PostCode;
+                address.TerritoryId = territoryId;
+                NState.StateName = listingOffice.State;
+
+                address.State = NState;
+
+                db.States.Add(NState);
+
+                db.SaveChanges();
+
+                address.StateId = NState.StateId;
+
+                address.isArchived = false;
+
+                db.Addesses.Add(address);
+
+                if (db.SaveChanges() > 0)
+                {
+                    newlyAddedAddress = address.AddressId;
+                }
+
+
+                return newlyAddedAddress;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
         #region Staff Member
         private bool IsValidEmail(string email)
         {
@@ -1852,6 +2178,7 @@ namespace MPC.Repository.Repositories
                         {
                             continue;
                         }
+
 
                         //check with email
                         contact = db.CompanyContacts.Where(i => i.Email == item.Email && i.CompanyId == contCompId).FirstOrDefault();
@@ -1921,6 +2248,97 @@ namespace MPC.Repository.Repositories
                     tbl_contact.isWebAccess = true;
                 else if (lstStaffMembers.Status.Equals("Inactive"))
                     tbl_contact.isWebAccess = false;
+
+                tbl_contact.isArchived = false;
+                tbl_contact.Password = "1234";
+                tbl_contact.QuestionId = 1;
+                tbl_contact.SecretAnswer = "abc";
+
+                db.CompanyContacts.Add(tbl_contact);
+
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        private void UpdateStaffMemberXML(long newlyAddedAddress, CompanyContact contact, ListingAgentsXML lstStaffMember, string contactCompanyId, long territoryId)
+        {
+            try
+            {
+                //problemarea
+                contact.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
+                contact.AddressId = newlyAddedAddress;
+                contact.FirstName = lstStaffMember.Name;
+                contact.Email = lstStaffMember.Email;
+                contact.HomeTel1 = lstStaffMember.Mobile;
+                contact.TerritoryId = territoryId;
+                db.CompanyContacts.Attach(contact);
+
+                db.Entry(contact).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void ProcessStaffMemberXML(long newlyAddedAddress, List<ListingAgentsXML> lstStaffMember, string contactCompanyId, long territoryId,long OrgId)
+        {
+            try
+            {
+                CompanyContact contact;
+                long contCompId = Convert.ToInt64(contactCompanyId);
+
+                foreach (ListingAgentsXML item in lstStaffMember)
+                {
+                    bool validEmail = IsValidEmail(item.Email);
+                    //bool newEmail = IsNewEmail(item.Email);
+
+                    if (!validEmail) //|| !newEmail)
+                    {
+                        continue;
+                    }
+
+                    //check with email
+                    contact = db.CompanyContacts.Where(i => i.Email == item.Email && i.CompanyId == contCompId).FirstOrDefault();
+
+                    if (contact != null) // update
+                    {
+                        UpdateStaffMemberXML(contact.AddressId, contact, item, contactCompanyId, territoryId);
+                    }
+                    else //add
+                    {
+                        AddStaffMemberXML(newlyAddedAddress, item, contactCompanyId, territoryId,OrgId);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        private void AddStaffMemberXML(long newlyAddedAddress, ListingAgentsXML lstStaffMembers, string contactCompanyId, long territoryId,long orgId)
+        {
+            try
+            {
+                CompanyContact tbl_contact = new CompanyContact();
+                tbl_contact.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
+                tbl_contact.AddressId = newlyAddedAddress;
+                tbl_contact.FirstName = lstStaffMembers.Name;
+                tbl_contact.Email = lstStaffMembers.Email;
+                tbl_contact.HomeTel1 = lstStaffMembers.Mobile;
+                tbl_contact.TerritoryId = territoryId;
+                tbl_contact.OrganisationId = orgId;
+
+              
 
                 tbl_contact.isArchived = false;
                 tbl_contact.Password = "1234";
@@ -2014,6 +2432,240 @@ namespace MPC.Repository.Repositories
         public List<MPC.Models.DomainModels.ListingImage> GetAllListingImages()
         {
             return db.ListingImages.ToList();
+        }
+
+        public long GetContactCompanyIDByStoreCode(string sStoreCode, long OrganisationID)
+        {
+            long iCompanyId = 0;
+            var comp = db.Companies.Where(c => c.WebAccessCode == sStoreCode && c.OrganisationId == OrganisationID).FirstOrDefault();
+            if (comp != null)
+                iCompanyId = comp.CompanyId;
+            return iCompanyId;
+        }
+
+        private long UpdateListingXML(ListingXML propertyListing, MPC.Models.DomainModels.Listing tblListing)
+        {
+            long updatedListing = 0;
+            try
+            {
+                string strForParse = string.Empty;
+
+
+                var listing = db.Listings.Where(item => item.ClientListingId == tblListing.ClientListingId).FirstOrDefault();
+
+                if (listing != null)
+                {
+                    listing.ClientListingId = propertyListing.ClientListingId;
+                    listing.WebID = propertyListing.AgentId;
+                    listing.DisplayPrice = propertyListing.Price != null ? Convert.ToDouble(propertyListing.Price): 0;
+                    listing.PriceView = propertyListing.PriceView;
+                    listing.WebLink = propertyListing.ExternalLink != null ? propertyListing.ExternalLink.href : "";
+                    listing.PropertyCategory = propertyListing.PropertyCategory != null ? propertyListing.PropertyCategory.Name : string.Empty;
+                    listing.MainHeadLine = propertyListing.MainHeadline;
+                    listing.MainDescription = propertyListing.MainDescription;
+                    listing.InspectionTypye = propertyListing.InspectionTimes;
+                    listing.ListingAuthority = propertyListing.ListingAuthority != null ? propertyListing.ListingAuthority.value : "";
+                    listing.BedRooms = (String.IsNullOrEmpty(propertyListing.features.BedRooms)) ? 0 : Convert.ToInt32(propertyListing.features.BedRooms);
+                    listing.BathRooms = (String.IsNullOrEmpty(propertyListing.features.BathRooms)) ? 0 : Convert.ToInt32(propertyListing.features.BathRooms);
+                    listing.Garages = (String.IsNullOrEmpty(propertyListing.features.Garages)) ? 0 : Convert.ToInt32(propertyListing.features.Garages);
+                    listing.Carports = (String.IsNullOrEmpty(propertyListing.features.Carports)) ? 0 : Convert.ToInt32(propertyListing.features.Carports);
+                    listing.AirConditioning = propertyListing.features.AirConditioning;
+                    listing.AlarmSystem = propertyListing.features.AlarmSystem;
+                    listing.Intercom = propertyListing.features.Intercom;
+                    listing.OpenFirePlace = propertyListing.features.OpenFirePlace;
+                    listing.TennisCourt = propertyListing.features.TennisCourt;
+                    listing.Toilets = (String.IsNullOrEmpty(propertyListing.features.Toilets)) ? 0 : Convert.ToInt32(propertyListing.features.Toilets);
+                    listing.RempoteGarage = propertyListing.features.RempoteGarage;
+                    listing.TotalParking = (String.IsNullOrEmpty(propertyListing.features.SecureParking)) ? 0 : Convert.ToInt32(propertyListing.features.SecureParking);
+                    listing.Studies = (String.IsNullOrEmpty(propertyListing.features.Study)) ? 0 : Convert.ToInt32(propertyListing.features.Study);
+                    listing.DishWasher = propertyListing.features.DishWasher;
+                    listing.BuiltinRaboes = propertyListing.features.BuiltinRaboes;
+                    listing.Gym = propertyListing.features.Gym;
+                    listing.WorkShop = propertyListing.features.WorkShop;
+                    listing.RumpusRoom = propertyListing.features.RumpusRoom;
+                    listing.FloorBoards = propertyListing.features.FloorBoards;
+                    listing.BroadBand = propertyListing.features.BroadBand;
+                    listing.PayTV = propertyListing.features.PayTV;
+                    listing.DuctedHeating = propertyListing.features.DuctedHeating;
+                    listing.DuctedCooling = propertyListing.features.DuctedCooling;
+                    listing.SplitSystemHeating = propertyListing.features.SplitSystemHeating;
+                    listing.HydronicHeating = propertyListing.features.HydronicHeating;
+                    listing.SplitSystemAircon = propertyListing.features.SplitSystemAircon;
+                    listing.ReverseCycleAircon = propertyListing.features.ReverseCycleAircon;
+                    listing.EvaporateCooling = propertyListing.features.EvaporateCooling;
+                    listing.VacuumSystem = propertyListing.features.VacuumSystem;
+                    listing.PoolInGround = propertyListing.features.PoolInGround;
+                    listing.PoolAboveGround = propertyListing.features.PoolAboveGround;
+                    listing.Balcony = propertyListing.features.Balcony;
+                    listing.Deck = propertyListing.features.Deck;
+                    listing.CourtYard = propertyListing.features.CourtYard;
+                    listing.OutDoorEnt = propertyListing.features.OutDoorEnt;
+                    listing.Shed = propertyListing.features.Shed;
+                    listing.FullyFenced = propertyListing.features.FullyFenced;
+                    listing.InsideSPA = propertyListing.features.InsideSPA;
+                    listing.OutSideSPA = propertyListing.features.OutSideSPA;
+                    listing.CompanyId = (String.IsNullOrEmpty(propertyListing.CompanyId)) ? 0 : Convert.ToInt64(propertyListing.CompanyId);
+                    db.Listings.Attach(listing);
+
+                    db.Entry(listing).State = EntityState.Modified;
+                    if (db.SaveChanges() > 0)
+                    {
+                        updatedListing = listing.ListingId;
+                    }
+                }
+
+
+                return updatedListing;
+            }
+            catch (Exception)
+            {
+                updatedListing = 0;
+                return updatedListing;
+            }
+        }
+
+
+
+        public bool AddListingDataXML(ListingPropertyXML objProperty,long Organisationid)
+        {
+            bool dataAdded = false;
+            try
+            {
+
+
+                long territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.CompanyId);
+
+                long newlyAddedAddress = ProcessOfficeXML(objProperty.Listing.Office, objProperty.Listing.CompanyId, territoryId, Organisationid);
+                ProcessStaffMemberXML(newlyAddedAddress, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId,Organisationid);
+
+                long newlyAddedListing = AddListingXML(objProperty.Listing); //listing added
+                AddListingImagesXML(newlyAddedListing, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
+                AddListingFloorPlansXML(newlyAddedListing, objProperty.Listing.ListingFloorplans.floorplans);
+             
+                dataAdded = true;
+                return dataAdded;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        private long AddListingXML(ListingXML propertyListing)
+        {
+            long newlyAddedListing = 0;
+            try
+            {
+                string strForParse = string.Empty;
+                if (cultureKey == null) //not defined in web.config
+                {
+                    culture = new System.Globalization.CultureInfo("en-AU", true); // AU is default
+                }
+                else
+                {
+                    culture = new System.Globalization.CultureInfo(cultureKey, true);
+                }
+
+                MPC.Models.DomainModels.Listing listing = new MPC.Models.DomainModels.Listing();
+                listing.ClientListingId = propertyListing.ClientListingId;
+                listing.WebID = propertyListing.AgentId;
+                listing.DisplayPrice = propertyListing.Price != null ? Convert.ToDouble(propertyListing.Price) : 0;
+                listing.PriceView = propertyListing.PriceView;
+                listing.WebLink = propertyListing.ExternalLink != null ? propertyListing.ExternalLink.href : "";
+                listing.PropertyCategory = propertyListing.PropertyCategory != null ? propertyListing.PropertyCategory.Name : string.Empty;
+                listing.MainHeadLine = propertyListing.MainHeadline;
+                listing.MainDescription = propertyListing.MainDescription;
+                listing.InspectionTypye = propertyListing.InspectionTimes;
+                listing.ListingAuthority = propertyListing.ListingAuthority != null ? propertyListing.ListingAuthority.value : "";
+                listing.BedRooms = (String.IsNullOrEmpty(propertyListing.features.BedRooms)) ? 0 : Convert.ToInt32(propertyListing.features.BedRooms);
+                listing.BathRooms = (String.IsNullOrEmpty(propertyListing.features.BathRooms)) ? 0 : Convert.ToInt32(propertyListing.features.BathRooms);
+                listing.Garages = (String.IsNullOrEmpty(propertyListing.features.Garages)) ? 0 : Convert.ToInt32(propertyListing.features.Garages);
+                listing.Carports = (String.IsNullOrEmpty(propertyListing.features.Carports)) ? 0 : Convert.ToInt32(propertyListing.features.Carports);
+                listing.AirConditioning = propertyListing.features.AirConditioning;
+                listing.AlarmSystem = propertyListing.features.AlarmSystem;
+                listing.Intercom = propertyListing.features.Intercom;
+                listing.OpenFirePlace = propertyListing.features.OpenFirePlace;
+                listing.TennisCourt = propertyListing.features.TennisCourt;
+                listing.Toilets = (String.IsNullOrEmpty(propertyListing.features.Toilets)) ? 0 : Convert.ToInt32(propertyListing.features.Toilets);
+                listing.RempoteGarage = propertyListing.features.RempoteGarage;
+                listing.TotalParking = (String.IsNullOrEmpty(propertyListing.features.SecureParking)) ? 0 : Convert.ToInt32(propertyListing.features.SecureParking);
+                listing.Studies = (String.IsNullOrEmpty(propertyListing.features.Study)) ? 0 : Convert.ToInt32(propertyListing.features.Study);
+                listing.DishWasher = propertyListing.features.DishWasher;
+                listing.BuiltinRaboes = propertyListing.features.BuiltinRaboes;
+                listing.Gym = propertyListing.features.Gym;
+                listing.WorkShop = propertyListing.features.WorkShop;
+                listing.RumpusRoom = propertyListing.features.RumpusRoom;
+                listing.FloorBoards = propertyListing.features.FloorBoards;
+                listing.BroadBand = propertyListing.features.BroadBand;
+                listing.PayTV = propertyListing.features.PayTV;
+                listing.DuctedHeating = propertyListing.features.DuctedHeating;
+                listing.DuctedCooling = propertyListing.features.DuctedCooling;
+                listing.SplitSystemHeating = propertyListing.features.SplitSystemHeating;
+                listing.HydronicHeating = propertyListing.features.HydronicHeating;
+                listing.SplitSystemAircon = propertyListing.features.SplitSystemAircon;
+                listing.ReverseCycleAircon = propertyListing.features.ReverseCycleAircon;
+                listing.EvaporateCooling = propertyListing.features.EvaporateCooling;
+                listing.VacuumSystem = propertyListing.features.VacuumSystem;
+                listing.PoolInGround = propertyListing.features.PoolInGround;
+                listing.PoolAboveGround = propertyListing.features.PoolAboveGround;
+                listing.Balcony = propertyListing.features.Balcony;
+                listing.Deck = propertyListing.features.Deck;
+                listing.CourtYard = propertyListing.features.CourtYard;
+                listing.OutDoorEnt = propertyListing.features.OutDoorEnt;
+                listing.Shed = propertyListing.features.Shed;
+                listing.FullyFenced = propertyListing.features.FullyFenced;
+                listing.InsideSPA = propertyListing.features.InsideSPA;
+                listing.OutSideSPA = propertyListing.features.OutSideSPA;
+                listing.CompanyId = (String.IsNullOrEmpty(propertyListing.CompanyId)) ? 0 : Convert.ToInt64(propertyListing.CompanyId);
+
+                db.Listings.Add(listing);
+                db.SaveChanges();
+                //   if (db.SaveChanges() > 0)
+                // {
+                newlyAddedListing = listing.ListingId;
+                // }
+
+
+                return newlyAddedListing;
+            }
+            catch (Exception)
+            {
+                newlyAddedListing = 0;
+                return newlyAddedListing;
+            }
+        }
+
+
+        private string DownloadImageLocallyXML(string SourceURL, string DestinationBasePath)
+        {
+
+          
+
+            System.Drawing.Image image = null;
+
+            System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(SourceURL);
+            webRequest.AllowWriteStreamBuffering = true;
+            webRequest.Timeout = 30000;
+
+            System.Net.WebResponse webResponse = webRequest.GetResponse();
+            string filename = webResponse.ResponseUri.LocalPath;
+
+            System.IO.Stream stream = webResponse.GetResponseStream();
+
+            //  string fileName = webResponse.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+
+            image = System.Drawing.Image.FromStream(stream);
+
+
+            string rootPath = DestinationBasePath;
+            string[] tokens = filename.Split(new[] { "/" }, StringSplitOptions.None);
+            string token = tokens[tokens.Length - 1];
+            string file = System.IO.Path.Combine(rootPath, token);
+            image.Save(file);
+            return token;
+
+
         }
     }
 }

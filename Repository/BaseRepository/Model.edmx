@@ -2167,6 +2167,38 @@
           <Property Name="ClientListingId" Type="varchar" MaxLength="100" />
           <Property Name="TotalOutgoings" Type="float" />
           <Property Name="CompanyId" Type="bigint" />
+          <Property Name="AirConditioning" Type="varchar" MaxLength="50" />
+          <Property Name="AlarmSystem" Type="varchar" MaxLength="50" />
+          <Property Name="Intercom" Type="varchar" MaxLength="50" />
+          <Property Name="OpenFirePlace" Type="varchar" MaxLength="50" />
+          <Property Name="TennisCourt" Type="varchar" MaxLength="50" />
+          <Property Name="RempoteGarage" Type="varchar" MaxLength="50" />
+          <Property Name="DishWasher" Type="varchar" MaxLength="50" />
+          <Property Name="BuiltinRaboes" Type="varchar" MaxLength="50" />
+          <Property Name="Gym" Type="varchar" MaxLength="50" />
+          <Property Name="WorkShop" Type="varchar" MaxLength="50" />
+          <Property Name="RumpusRoom" Type="varchar" MaxLength="50" />
+          <Property Name="FloorBoards" Type="varchar" MaxLength="50" />
+          <Property Name="BroadBand" Type="varchar" MaxLength="50" />
+          <Property Name="PayTV" Type="varchar" MaxLength="50" />
+          <Property Name="DuctedHeating" Type="varchar" MaxLength="50" />
+          <Property Name="DuctedCooling" Type="varchar" MaxLength="50" />
+          <Property Name="SplitSystemHeating" Type="varchar" MaxLength="50" />
+          <Property Name="ReverseCycleAircon" Type="varchar" MaxLength="50" />
+          <Property Name="EvaporateCooling" Type="varchar" MaxLength="50" />
+          <Property Name="VacuumSystem" Type="varchar" MaxLength="50" />
+          <Property Name="PoolInGround" Type="varchar" MaxLength="50" />
+          <Property Name="PoolAboveGround" Type="varchar" MaxLength="50" />
+          <Property Name="Balcony" Type="varchar" MaxLength="50" />
+          <Property Name="Deck" Type="varchar" MaxLength="50" />
+          <Property Name="CourtYard" Type="varchar" MaxLength="50" />
+          <Property Name="OutDoorEnt" Type="varchar" MaxLength="50" />
+          <Property Name="Shed" Type="varchar" MaxLength="50" />
+          <Property Name="FullyFenced" Type="varchar" MaxLength="50" />
+          <Property Name="InsideSPA" Type="varchar" MaxLength="50" />
+          <Property Name="OutSideSPA" Type="varchar" MaxLength="50" />
+          <Property Name="HydronicHeating" Type="varchar" MaxLength="50" />
+          <Property Name="SplitSystemAircon" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
@@ -12370,6 +12402,38 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ClientListingId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="TotalOutgoings" Type="Double" />
           <Property Name="CompanyId" Type="Int64" />
+          <Property Name="AirConditioning" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AlarmSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Intercom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OpenFirePlace" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TennisCourt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RempoteGarage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DishWasher" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BuiltinRaboes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gym" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WorkShop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RumpusRoom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FloorBoards" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BroadBand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PayTV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DuctedHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DuctedCooling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SplitSystemHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReverseCycleAircon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EvaporateCooling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VacuumSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PoolInGround" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PoolAboveGround" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Balcony" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Deck" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CourtYard" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OutDoorEnt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Shed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FullyFenced" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InsideSPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OutSideSPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HydronicHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SplitSystemAircon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
@@ -18126,6 +18190,38 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Listings">
             <EntityTypeMapping TypeName="DomainModels.Listing">
               <MappingFragment StoreEntitySet="Listing">
+                <ScalarProperty Name="SplitSystemAircon" ColumnName="SplitSystemAircon" />
+                <ScalarProperty Name="HydronicHeating" ColumnName="HydronicHeating" />
+                <ScalarProperty Name="OutSideSPA" ColumnName="OutSideSPA" />
+                <ScalarProperty Name="InsideSPA" ColumnName="InsideSPA" />
+                <ScalarProperty Name="FullyFenced" ColumnName="FullyFenced" />
+                <ScalarProperty Name="Shed" ColumnName="Shed" />
+                <ScalarProperty Name="OutDoorEnt" ColumnName="OutDoorEnt" />
+                <ScalarProperty Name="CourtYard" ColumnName="CourtYard" />
+                <ScalarProperty Name="Deck" ColumnName="Deck" />
+                <ScalarProperty Name="Balcony" ColumnName="Balcony" />
+                <ScalarProperty Name="PoolAboveGround" ColumnName="PoolAboveGround" />
+                <ScalarProperty Name="PoolInGround" ColumnName="PoolInGround" />
+                <ScalarProperty Name="VacuumSystem" ColumnName="VacuumSystem" />
+                <ScalarProperty Name="EvaporateCooling" ColumnName="EvaporateCooling" />
+                <ScalarProperty Name="ReverseCycleAircon" ColumnName="ReverseCycleAircon" />
+                <ScalarProperty Name="SplitSystemHeating" ColumnName="SplitSystemHeating" />
+                <ScalarProperty Name="DuctedCooling" ColumnName="DuctedCooling" />
+                <ScalarProperty Name="DuctedHeating" ColumnName="DuctedHeating" />
+                <ScalarProperty Name="PayTV" ColumnName="PayTV" />
+                <ScalarProperty Name="BroadBand" ColumnName="BroadBand" />
+                <ScalarProperty Name="FloorBoards" ColumnName="FloorBoards" />
+                <ScalarProperty Name="RumpusRoom" ColumnName="RumpusRoom" />
+                <ScalarProperty Name="WorkShop" ColumnName="WorkShop" />
+                <ScalarProperty Name="Gym" ColumnName="Gym" />
+                <ScalarProperty Name="BuiltinRaboes" ColumnName="BuiltinRaboes" />
+                <ScalarProperty Name="DishWasher" ColumnName="DishWasher" />
+                <ScalarProperty Name="RempoteGarage" ColumnName="RempoteGarage" />
+                <ScalarProperty Name="TennisCourt" ColumnName="TennisCourt" />
+                <ScalarProperty Name="OpenFirePlace" ColumnName="OpenFirePlace" />
+                <ScalarProperty Name="Intercom" ColumnName="Intercom" />
+                <ScalarProperty Name="AlarmSystem" ColumnName="AlarmSystem" />
+                <ScalarProperty Name="AirConditioning" ColumnName="AirConditioning" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="TotalOutgoings" ColumnName="TotalOutgoings" />
                 <ScalarProperty Name="ClientListingId" ColumnName="ClientListingId" />

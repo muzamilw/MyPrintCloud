@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MPC.Common;
 using MPC.Models.ResponseModels;
 using MPC.Models.RequestModels;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.Repository
 {
@@ -38,8 +39,13 @@ namespace MPC.Interfaces.Repository
         bool AddListingData(ListingProperty objProperty);
         List<MPC.Models.DomainModels.Listing> GetPropertiesByContactCompanyID(long CompanyID);
 
+        long GetContactCompanyIDByStoreCode(string sStoreCode, long OrganisationID);
+
+        bool UpdateListingXMLData(ListingPropertyXML objProperty, MPC.Models.DomainModels.Listing listing, long OrgId);
 
 
+        bool AddListingDataXML(ListingPropertyXML objProperty, long Organisationid);
+       
         
 
         

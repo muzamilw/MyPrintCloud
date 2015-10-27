@@ -2237,8 +2237,9 @@ $("#BtnAllowOnlyTxtChange").click(function () {
 $("#optionsRadioYourProfile,#optionRadioOtherProfile").change(function () {
     if ($("#optionRadioOtherProfile").is(':checked')) {
         $(".otherProfileContainer").css("display", "inline-block");
-        var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
-        pcl40_InsertUserData(data);
+        k30_userData($("#smartFormSelectUserProfile").val());
+        //var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
+        //pcl40_InsertUserData(data);
     }
     else {
         $(".otherProfileContainer").css("display", "none");
@@ -2247,8 +2248,9 @@ $("#optionsRadioYourProfile,#optionRadioOtherProfile").change(function () {
 });
 
 $("#smartFormSelectUserProfile").change(function () {
-    var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
-    pcl40_InsertUserData(data);
+    //  var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
+    k30_userData($("#smartFormSelectUserProfile").val());
+  //  pcl40_InsertUserData(data);
 });
 $("#BtnSmartFormSave").click(function () {
     smartFormClicked = true;
