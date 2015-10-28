@@ -192,7 +192,16 @@
                                                 </div>
                                             </td>
                                             <td style="width:29%;" valign="top" class="PadTop5">
-                                                <span id="lblItemProductName" class="heading_16">@prod.ProductName</span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
+                                                <span id="lblItemProductName" class="heading_16">
+                                                @if (!string.IsNullOrEmpty(prod.ProductFriendlyName))
+                                                {
+                                                    @prod.ProductFriendlyName
+                                                }
+                                                else
+                                                {
+                                                    @prod.ProductName
+                                                }
+                                                </span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
                                                 <br>
                                                 <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
                                                 <br>

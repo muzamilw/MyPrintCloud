@@ -305,7 +305,15 @@
                                             </span>
                                             <br>
                                             <br>
-                                            <span style="font-size:12px;font-weight:bold;">@item.ProductName  </span><br>
+                                            <span style="font-size:12px;font-weight:bold;">
+                                            @if (!string.IsNullOrEmpty(item.ProductFriendlyName))
+                                            {
+                                                @item.ProductFriendlyName
+                                            }
+                                            else
+                                            {
+                                                @item.ProductName
+                                            } </span><br>
                                             <div class="">
                                                 <span style="font-size:12px;">Stock: @item.PaperType</span>
                                             </div>
