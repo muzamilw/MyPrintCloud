@@ -508,6 +508,9 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script src="~/Scripts/PopUp.js"></script>
 <script>
+    $(document).ready(function(){
+        HideLoader();
+    });
     var tID = 0;
     var itemId = 0;
     function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){

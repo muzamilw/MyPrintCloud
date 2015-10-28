@@ -26,7 +26,15 @@
                         }
                         @if (Model.IsAllowRequestaQuote == true)
                         {
-                            <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                            if (Model.IsCustomer != 3)
+                            {
+                                <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                            }
+                            else if (ViewBag.DefaultUrl != "/Login")
+                            {
+                                <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                            }
+
                         }
                         @if (Model.IsCustomer != 3)
                         {
