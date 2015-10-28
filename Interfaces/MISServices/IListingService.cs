@@ -12,5 +12,7 @@ namespace MPC.Interfaces.MISServices
     public interface IListingService
     {
          RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
+
+         string SaveListingData();
     }
 }

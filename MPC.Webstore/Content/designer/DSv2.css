@@ -5302,10 +5302,7 @@ h2 + .gallery {
     margin-right: 17px;
 }
 
-    .propertyPanelControlDiv .fontSelector .selected {
-        width: 165px;
-        height: 25px;
-    }
+
 
 .ui-spinner-input {
     font-size: 12px !important;

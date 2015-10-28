@@ -3800,54 +3800,55 @@ namespace MPC.Implementation.MISServices
             return voucher;
         }
 
-        public List<LiveStoreDetails> GetLiveStoresJason()
+        public List<usp_GetLiveStores_Result> GetLiveStoresJason()
         {
-            string stores = string.Empty;
-            List<Company> livestores = companyRepository.GetLiveStoresList();
-            List<LiveStoreDetails> storeDetails = new List<LiveStoreDetails>();
-            foreach (var company in livestores)
-            {
-                var address = company.Addresses.FirstOrDefault();
-                string domainName = string.Empty;
-                //mpc/store/Ooo2112
-                if (company.CompanyDomains.Count() > 1)
-                {
-                    var odomain = company.CompanyDomains.Where(c => !c.Domain.Contains("/store/" + company.WebAccessCode)).FirstOrDefault();
-                    domainName = odomain != null
-                        ? odomain.Domain
-                        : company.CompanyDomains.FirstOrDefault() != null
-                            ? company.CompanyDomains.FirstOrDefault().Domain ?? ""
-                            : "";
-                    
-                }
-                else
-                {
-                   var odomain = company.CompanyDomains.FirstOrDefault();
-                    domainName = odomain.Domain != null ? odomain.Domain : string.Empty;
-                }
-                
-                storeDetails.Add(new LiveStoreDetails
-                {
-                    OrganisationId = company.OrganisationId?? 0, 
-                    StoreId = company.CompanyId,
-                    StoreCode  = company.WebAccessCode,
-                    StoreName = company.Name,
-                    StoreType = company.IsCustomer,
-                    LogoUrl = company.Image,
-                    Address1 = address != null ? address.Address1 : string.Empty,
-                    Address2 = address != null ? address.Address2: string.Empty,
-                    AddressName = address != null ? address.AddressName : string.Empty,
-                    City = address != null ? address.City : string.Empty,
-                    Country = address != null ? address.Country != null ? address.Country.CountryName: string.Empty : string.Empty,
-                    State = address != null ? address.State != null? address.State.StateName: string.Empty : string.Empty,
-                    DefaultDomain = domainName,
-                    GeoLatitude = address != null ? address.GeoLatitude : string.Empty,
-                    GeoLongitude = address != null ? address.GeoLongitude : string.Empty
-                });
-            }
+            return companyRepository.GetLiveStoresList();
+            //string stores = string.Empty;
+            //List<Company> livestores = companyRepository.GetLiveStoresList();
+            //List<LiveStoreDetails> storeDetails = new List<LiveStoreDetails>();
+            //foreach (var company in livestores)
+            //{
+            //    var address = company.Addresses.FirstOrDefault();
+            //    string domainName = string.Empty;
+            //    //mpc/store/Ooo2112
+            //    if (company.CompanyDomains.Count() > 1)
+            //    {
+            //        var odomain = company.CompanyDomains.Where(c => !c.Domain.Contains("/store/" + company.WebAccessCode)).FirstOrDefault();
+            //        domainName = odomain != null
+            //            ? odomain.Domain
+            //            : company.CompanyDomains.FirstOrDefault() != null
+            //                ? company.CompanyDomains.FirstOrDefault().Domain ?? ""
+            //                : "";
+
+            //    }
+            //    else
+            //    {
+            //       var odomain = company.CompanyDomains.FirstOrDefault();
+            //        domainName = odomain.Domain != null ? odomain.Domain : string.Empty;
+            //    }
+
+            //    storeDetails.Add(new LiveStoreDetails
+            //    {
+            //        OrganisationId = company.OrganisationId?? 0, 
+            //        StoreId = company.CompanyId,
+            //        StoreCode  = company.WebAccessCode,
+            //        StoreName = company.Name,
+            //        StoreType = company.IsCustomer,
+            //        LogoUrl = company.Image,
+            //        Address1 = address != null ? address.Address1 : string.Empty,
+            //        Address2 = address != null ? address.Address2: string.Empty,
+            //        AddressName = address != null ? address.AddressName : string.Empty,
+            //        City = address != null ? address.City : string.Empty,
+            //        Country = address != null ? address.Country != null ? address.Country.CountryName: string.Empty : string.Empty,
+            //        State = address != null ? address.State != null? address.State.StateName: string.Empty : string.Empty,
+            //        DefaultDomain = domainName,
+            //        GeoLatitude = address != null ? address.GeoLatitude : string.Empty,
+            //        GeoLongitude = address != null ? address.GeoLongitude : string.Empty
+            //    });
+            //}
 
 
-            return storeDetails;
+            //return storeDetails;
         }
 
         public string GetCompanyCss(long companyId)
