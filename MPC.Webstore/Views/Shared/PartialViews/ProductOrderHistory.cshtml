@@ -687,22 +687,24 @@
                                     AttachFileName = AttachFileName.replace(" ", "%20");
                                 }
                             }
-                           
-
-                          
-
                             var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
                             
+                            var proFriendlyName = "";
+                            if(IT.ProductFriendlyName != ""){
+                                proFriendlyName = IT.ProductFriendlyName;
+                            }else{
+                                proFriendlyName = IT.ProductName;
+                            }
                             //InnerHtml += '<tr>';
                             if("@ViewBag.IsShowPrices" == "True")
                             {
                                 
-                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
+                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
                             }
                             else
                             {
                                
-                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
+                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
                             }
                             
                         }

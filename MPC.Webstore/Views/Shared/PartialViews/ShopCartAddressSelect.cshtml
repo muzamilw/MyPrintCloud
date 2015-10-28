@@ -453,7 +453,17 @@
                                                             </div>
                                                         </td>
                                                         <td class="PaddingToCells" align="left" valign="top">
-                                                            <span id="lblItemProductName" class="Fsize14" style="font-weight:bold;">@shopcart.ProductName</span>
+                                                            <span id="lblItemProductName" class="Fsize14" style="font-weight:bold;">
+                                                                @if (!string.IsNullOrEmpty(shopcart.ProductFriendlyName))
+                                                                {
+                                                                    @shopcart.ProductFriendlyName
+                                                                }
+                                                                else
+                                                                {
+                                                                    @shopcart.ProductName
+                                                                }
+                                                               
+                                                            </span>
                                                             <br>
                                                             <span id="lblPapErName">@shopcart.PaperType</span>
                                                             <br>
