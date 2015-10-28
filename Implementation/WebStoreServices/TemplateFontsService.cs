@@ -1,5 +1,6 @@
 ﻿using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,10 @@ namespace MPC.Implementation.WebStoreServices
 
         #region public
         // get fonts list ,called from designer // added by saqib ali
-        public List<TemplateFont> GetFontList(long productId, long customerId, long OrganisationID)
+        public List<TemplateFontResponseModel> GetFontList(long productId, long customerId, long OrganisationID)
         {
             var fonts = _templateFontRepository.GetFontList(productId, customerId);
-            List<TemplateFont> objToReturn = new List<TemplateFont>();
+            List<TemplateFontResponseModel> objToReturn = new List<TemplateFontResponseModel>();
             foreach (var objFonts in fonts)
             {
                 string path = "";

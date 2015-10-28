@@ -728,6 +728,7 @@ namespace MPC.Webstore.Controllers
 
             ItemModel.ItemPriceMatrices = referenceItem.ItemPriceMatrices.ToList();
             ItemModel.ProductName = referenceItem.ProductName;
+            ItemModel.ProductFriendlyName = referenceItem.Title;
             ItemModel.WebDescription = referenceItem.WebDescription;
             ItemModel.ItemId = referenceItem.ItemId;
             if (ViewData["Templates"] == null)

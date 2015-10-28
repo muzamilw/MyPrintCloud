@@ -152,6 +152,7 @@ var varList = [];// var varExtensions = [];
 var isRealestateproduct = false;
 var item =  null;
 var smartFormData = null;
+var selectedUserProfile = null;
 var userVariableData = null;
 var smartFormClicked = true;
 var lstVariableExtensions = null;

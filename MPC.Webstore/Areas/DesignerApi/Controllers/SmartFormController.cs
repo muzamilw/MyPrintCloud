@@ -105,12 +105,12 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             {
                 usersListData = new List<SmartFormUserList>();
                 usersListData = smartFormService.GetUsersList(parameter1);
-                if (usersListData != null)
-                {
-                    AllUserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
-                    AllUserScopeVariables = smartFormService.GetUserScopeVariables(smartFormObjs, usersListData, parameter3, parameter4);
+                //if (usersListData != null)
+                //{
+                //    AllUserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
+                //    AllUserScopeVariables = smartFormService.GetUserScopeVariables(smartFormObjs, usersListData, parameter3, parameter4);
 
-                }
+                //}
             }
             List<VariableExtensionWebstoreResposne> extension = smartFormService.getVariableExtensions(scopeVariable, parameter1);
             SmartFormUserData result = new SmartFormUserData(usersListData, objSmartform, smartFormObjs, scopeVariable, AllUserScopeVariables, extension, listOptions);
@@ -123,7 +123,22 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
+        // parameter1 = user id , parameter2 = smartFormId, parameter3 =parent templateID,parameter 4 = child template id 
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage GetUserVariableSmartForm(long parameter1, long parameter2, long parameter3, long parameter4 )
+        {
+            List<VariableOption> listOptions = null;
+            List<SmartFormDetail> smartFormObjs = smartFormService.GetSmartFormObjects(parameter2, out listOptions);
+            var res = smartFormService.GetUserScopeVariables(smartFormObjs, parameter1, parameter3, parameter4);
 
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, res, formatter);
+        }
+        #endregion
         [HttpPost]
         public HttpResponseMessage SaveUserVariables([FromBody]   smartFormPostedUser obj)
         {
@@ -179,7 +194,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
-        #endregion
+
     }
 
     public class smartFormPostedVariableList
