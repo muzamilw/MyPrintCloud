@@ -111,8 +111,8 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                     <div class="pad5">
                                         <div class="LCLB">
                                             @{
-                                var OriginalProductName = item.ProductName;
-                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
+                                                var OriginalProductName = item.ProductName;
+                                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
                                             }
 
                                             @* condition for marketing brief*@
@@ -218,6 +218,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                         </div>
                                         <div class="product_detail_image_heading_IRI">
                                             <p style="  width: 100%;  float: left;  word-wrap: break-word;">
+                                              
                                                 @OriginalProductName
                                             </p>
                                             <div class="clearBoth">

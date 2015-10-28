@@ -459,6 +459,7 @@ namespace MPC.Repository.Repositories
                 EstimateID = tblItem.EstimateId,
                 InvoiceID = invoiceID,
                 ProductName = tblItem.ProductName,
+                ProductFriendlyName = tblItem.Title,
                 ProductCategoryName = CategoryName, //Product category Name
                 ProductCategoryID = (int)productCategoryID,
                 ImagePath = tblItem.ImagePath,

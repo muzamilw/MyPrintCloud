@@ -263,6 +263,7 @@ namespace MPC.Webstore.Models
     {
         public long ItemId { get; set; }
         public string ProductName { get; set; }
+        public string ProductFriendlyName { get; set; }
         public bool IsQtyRanged { get; set; }
         public List<ItemPriceMatrix> ItemPriceMatrices { get; set; }
         public string WebDescription { get; set; }

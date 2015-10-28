@@ -101,7 +101,11 @@ namespace MPC.Models.Common
             set;
         }
 
-
+        public string ProductFriendlyName
+        {
+            get;
+            set;
+        }
 
         public string ProductCategoryName
         {
