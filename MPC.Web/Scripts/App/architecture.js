@@ -927,7 +927,7 @@ require(["ko", "knockout-validation"], function (ko) {
     //Validation Rules
     ko.validation.rules['variableTagRule'] = {
         validator: function (val) {
-            var regExp = new RegExp("^{{.*[a-zA-Z0-9][^a-zA-Z0-9]*}}$");
+            var regExp = new RegExp("^{{\d*[a-zA-Z0-9_][a-zA-Z0-9_]*}}$");
             return regExp.test(val);
         },
         message: 'Tag must start with {{ and end with }}. There must be atleast one character inside but cannot contain spaces and special characters except "_" '
