@@ -21,7 +21,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Entity
     // ReSharper disable InconsistentNaming
-    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode, specifiedThumbnail, specifiedMinPrice,
+    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName,specifiedTitle, specifiedProductCode, specifiedThumbnail, specifiedMinPrice,
         specifiedIsArchived, specifiedIsPublished, specifiedProductCategoryName, specifiedIsEnabled, specifiedIsFeatured, specifiedIsFinishedGoods,
         specifiedSortOrder, specifiedIsStockControl, specifiedIsVdpProduct, specifiedXeroAccessCode, specifiedWebDescription, specifiedProductSpecification,
         specifiedTipsAndHints, specifiedMetaTitle, specifiedMetaDescription, specifiedMetaKeywords, specifiedJobDescriptionTitle1, specifiedJobDescription1,
@@ -46,6 +46,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             code = ko.observable(specifiedCode || undefined),
             // Product Name
             productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
+            title = ko.observable(specifiedTitle),
             // Product Name For Grid
             productNameForGrid = ko.computed(function () {
                 if (!productName()) {
@@ -53,6 +54,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
                 return productName().length > 30 ? productName().substring(0, 29) : productName();
             }),
+            
             // Product Code
             productCode = ko.observable(specifiedProductCode || undefined).extend({ required: true }),
             // thumbnail
@@ -1624,6 +1626,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 name: name,
                 code: code,
                 productName: productName,
+                title:title,
                 productCode: productCode,
                 isArchived: isArchived,
                 isPublished: isPublished,
@@ -1801,6 +1804,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ItemCode: code(),
                     ProductCode: productCode(),
                     ProductName: productName(),
+                    Title:title(),
                     IsArchived: isArchived(),
                     IsEnabled: isEnabled(),
                     IsPublished: isPublished(),
@@ -1933,6 +1937,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name: name,
             code: code,
             productName: productName,
+            title:title,
             productNameForGrid: productNameForGrid,
             productCode: productCode,
             thumbnail: thumbnail,
@@ -4375,7 +4380,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Factory
     Item.Create = function (source, callbacks, constructorParams) {
-        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
+        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName,source.Title, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
             source.IsArchived, source.IsPublished, source.ProductCategoryName, source.IsEnabled, source.IsFeatured, source.ProductType, source.SortOrder,
             source.IsStockControl, source.IsVdpProduct, source.XeroAccessCode, source.WebDescription, source.ProductSpecification, source.TipsAndHints,
             source.MetaTitle, source.MetaDescription, source.MetaKeywords, source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
