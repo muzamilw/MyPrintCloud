@@ -188,7 +188,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
 
-                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
+                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("MarktBreifWarnMesg", UserCookieManager.WBStoreId, "To submit a marketing brief please login or register."))','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -218,8 +218,16 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                         </div>
                                         <div class="product_detail_image_heading_IRI">
                                             <p style="  width: 100%;  float: left;  word-wrap: break-word;">
-                                              
-                                                @OriginalProductName
+                                                @if (!string.IsNullOrEmpty(item.ItemFriendlyName))
+                                                {
+                                                    @item.ItemFriendlyName
+                                                }
+                                                else
+                                                {
+                                                    @OriginalProductName
+                                                }
+                                                
+                                                
                                             </p>
                                             <div class="clearBoth">
 
@@ -330,7 +338,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                 }
                                                 else
                                                 {
-                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
+                                                    <a onclick="ShowPopUpMarketingBrief('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("MarktBreifWarnMesg", UserCookieManager.WBStoreId, "To submit a marketing brief please login or register."))','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
                                                     </a>
 
