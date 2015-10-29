@@ -1263,7 +1263,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
     var Store = function (specifiedStoreId, specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
-        specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
+        specifiedAvatRegReference,specifiedCreditLimit, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
         specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
@@ -1285,6 +1285,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             accountManagerId = ko.observable(specifiedAccountManagerId),
             avatRegNumber = ko.observable(specifiedAvatRegNumber),
             avatRegReference = ko.observable(specifiedAvatRegReference),
+            creditLimit = ko.observable(specifiedCreditLimit),
             phoneNo = ko.observable(specifiedPhoneNo),
             isCustomer = ko.observable(specifiedIsCustomer),
             notes = ko.observable(specifiedNotes),
@@ -1417,6 +1418,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 accountManagerId: accountManagerId,
                 avatRegNumber: avatRegNumber,
                 avatRegReference: avatRegReference,
+                creditLimit:creditLimit,
                 phoneNo: phoneNo,
                 isCustomer: isCustomer,
                 notes: notes,
@@ -1484,6 +1486,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 result.AccountManagerId = source.accountManagerId();
                 result.VATRegNumber = source.avatRegNumber();
                 result.VATRegReference = source.avatRegReference();
+                result.CreditLimit = source.creditLimit();
                 result.PhoneNo = source.phoneNo();
                 result.IsCustomer = source.isCustomer();
                 //result.IsCustomer = source.type();
@@ -1602,6 +1605,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             accountManagerId: accountManagerId,
             avatRegNumber: avatRegNumber,
             avatRegReference: avatRegReference,
+            creditLimit:creditLimit,
             phoneNo: phoneNo,
             isCustomer: isCustomer,
             notes: notes,
@@ -1687,6 +1691,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.accountManagerId,
             source.avatRegNumber,
             source.avatRegReference,
+            source.creditLimit,
             source.phoneNo,
             source.isCustomer,
             source.notes,

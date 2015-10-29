@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
@@ -43,14 +44,14 @@ namespace MPC.Webstore.Controllers
             var categories = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             List<ProductCategory> parentCategories = categories.Where(p => p.ParentCategoryId == null || p.ParentCategoryId == 0).OrderBy(s => s.DisplayOrder).ToList();
             
-            if (parentCategories.Count > 5)
-            {
-                ViewData["ParentCats"] = parentCategories.Take(5).ToList();
-            }
-            else
-            {
+            //if (parentCategories.Count > 5)
+            //{
+            //    ViewData["ParentCats"] = parentCategories.Take(5).ToList();
+            //}
+            //else
+            //{
                 ViewData["ParentCats"] = parentCategories.ToList();
-            }
+            //}
             ViewData["SubCats"] = categories.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).OrderBy(s => s.DisplayOrder).ToList();
             ViewBag.AboutUs = null;
             if (StoreBaseResopnse.SecondaryPages != null)
@@ -61,7 +62,15 @@ namespace MPC.Webstore.Controllers
                 }
 
             }
-            return PartialView("PartialViews/FutureHeader");
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactID() == 0)
+            {
+                ViewBag.DefaultUrl = "/Login";
+            }
+            else
+            {
+                ViewBag.DefaultUrl = "/";
+            }
+            return PartialView("PartialViews/FutureHeader", StoreBaseResopnse.Company);
         }
     }
 }

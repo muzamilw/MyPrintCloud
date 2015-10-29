@@ -1590,7 +1590,7 @@
     }
     function openDailog() {
 
-        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx" ].indexOf(fileExtension) > -1 )
+        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png" ].indexOf(fileExtension) > -1 )
         {
             HideMessagePopUpGeneric();
             ShowLoader();
@@ -1663,7 +1663,7 @@
         else
         {
             HideMessagePopUpGeneric();
-            ShowPopUp(Message,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of pdf,jpg,eps,tiff,csv,xls,xlsx."))');
+            ShowPopUp('Message','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of png,pdf,jpg,eps,tiff,csv,xls,xlsx."))');
         }
 
     }
