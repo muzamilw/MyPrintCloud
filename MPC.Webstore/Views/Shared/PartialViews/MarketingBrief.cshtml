@@ -430,7 +430,7 @@
             while (url.indexOf('/') != -1)
                 url = url.replace("/", "__");
             formData = new FormData();
-            debugger;
+           
             // formData.append("file" + i, files[i]);
             for (i = 0; i < postedFiles.length; i++) {
                 var isRemovedFile = false;
@@ -566,7 +566,7 @@
                     var fileext = files[i].name.split('.');
                     var lastIndex = fileext.length;
                     var extname = fileext[lastIndex - 1];
-                    if (files[i].size != null && files[i].size > 10000000) {
+                    if (files[i].size != null && files[i].size > 50000000) {
                         ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 10 MB are allowed only !");
                         isAddfile = 0;
                     }

@@ -61,6 +61,10 @@ namespace MPC.Webstore.Controllers
                 lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             }
 
+            if (lstParentCategories != null && lstParentCategories.Count() > 4) 
+            {
+                lstParentCategories = lstParentCategories.OrderBy(i => i.DisplayOrder).Take(4).ToList();
+            }
             return PartialView("PartialViews/CategoryHeader", lstParentCategories);
         }
     }
