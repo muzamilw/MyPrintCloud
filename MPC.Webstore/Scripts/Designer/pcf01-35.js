@@ -611,35 +611,50 @@ function f2(c, m, y, k, ColorHex, Sname) {
             pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
         } else if (D1AO.type == 'path-group' || D1AO.type == 'path') {
             var orignalClr = "";
+            var oldClr = "";
             $.each(D1AO.customStyles, function (i, IT) {
                 if (IT.PathIndex == selectedPathIndex) {
                     orignalClr = IT.OriginalColor;
+                    oldClr = orignalClr;
                 }
 
             });
             $.each(D1AO.customStyles, function (i, IT) {
                 if (IT.OriginalColor == orignalClr)
                 {
+                    if (IT.ModifiedColor != "")
+                        oldClr = IT.ModifiedColor;
                     IT.ModifiedColor = ColorHex;
                     $(".BtnChngeSvgClr" + i).css("background-color", ColorHex);
                 }
                
             });
-            $.each(D1AO.customStyles, function (j, IT) {
-                var clr = IT.OriginalColor;
-                if (IT.ModifiedColor != "")
-                    clr = IT.ModifiedColor;
-                if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
-                    D1AO.setFill(clr);
-                }
-                else if (D1AO.paths) {
-                    for (var i = 0; i < D1AO.paths.length; i++) {
-                        if (i == j) {
-                            D1AO.paths[i].setFill(clr);
-                        }
+            if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
+                D1AO.setFill(ColorHex);
+            }
+            else if (D1AO.paths) {
+                for (var i = 0; i < D1AO.paths.length; i++) {
+                    if (D1AO.paths[i].getFill() == oldClr) {
+                        D1AO.paths[i].setFill(ColorHex);
                     }
                 }
-            });
+            }
+            //$.each(D1AO.customStyles, function (j, IT) {
+            //    var clr = IT.OriginalColor;
+            //    if (IT.ModifiedColor != "")
+            //        clr = IT.ModifiedColor;
+
+            //    if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
+            //        D1AO.setFill(clr);
+            //    }
+            //    else if (D1AO.paths) {
+            //        for (var i = 0; i < D1AO.paths.length; i++) {
+            //            if (D1AO.paths[i].getFill() == IT.OriginalColor) {
+            //                D1AO.paths[i].setFill(clr);
+            //            }
+            //        }
+            //    }
+            //});
             $("#imgThumbPreview").attr("src", D1AO.toDataURL());
         }
 

@@ -653,7 +653,7 @@ function d1SvgOl(cCanvas, IO) {
                 }
                 else if (loadedObject.paths) {
                     for (var i = 0; i < loadedObject.paths.length; i++) {
-                        if (i == j) {
+                        if (loadedObject.paths[i].getFill() == IT.OriginalColor){
                             loadedObject.paths[i].setFill(clr);
                         }
                     }
