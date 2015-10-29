@@ -343,6 +343,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
     <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
