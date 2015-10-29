@@ -1285,7 +1285,7 @@ namespace MPC.Models.ModelMappers
             target.ItemHeight = source.ItemHeight;
             target.ItemWidth = source.ItemWidth;
             target.SmartFormId = source.SmartFormId;
-           
+            target.Title = source.Title;
             // Update Images
             UpdateImages(source, target);
 

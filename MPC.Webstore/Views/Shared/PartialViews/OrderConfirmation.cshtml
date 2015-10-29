@@ -84,31 +84,31 @@
                 @if (AddressList[1] != null)
                 {
                     <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt">
-                        <span id="Span1" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address")):</span><br />
-                        <span id="AddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].AddressName</span><br />
-                        <span id="AddressLine" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address1</span><br />
+                        <span id="Span1" style="display:block;" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address")):</span>
+                        <span id="AddressName" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].AddressName</span>
+                        <span id="AddressLine" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].Address1</span>
                         @if (!string.IsNullOrEmpty(AddressList[1].Address2))
                         {
-                            <div><label id="Addressline2" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address2</label></div>
+                           <span id="Addressline2" class="address-labels" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].Address2</span>
                         }
-                        <span id="lblBCity" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].City</span>
+                        <span id="lblBCity" class="address-labels" style="color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].City</span>
                         @if (AddressList[1].State != null)
                         {
-                            <span id="lblBState" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].State.StateName</span>
+                            <span id="lblBState" class="address-labels" style="color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].State.StateName</span>
                         }
                         else
                         {
-                            <span id="lblBState" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</span>
+                            <span id="lblBState" class="address-labels" style="color: black;  font-style: normal; font-size: 12px;">@string.Empty</span>
                         }
                                                 @if (AddressList[1].Country != null)
                                                 {
-                                                    <span id="lblBCountry" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Country.CountryName</span><br />
+                                                    <span id="lblBCountry" class="address-labels" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].Country.CountryName</span>
                                                 }
                                                 else
                                                 {
-                                                    <span id="lblBCountry" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</span><br />
+                                                    <span id="lblBCountry" class="address-labels" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@string.Empty</span>
                         }
-                        <span id="lblBZipCode" class="address-labels" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].PostCode</span><br />
+                        <span id="lblBZipCode" class="address-labels" style="display:block;color: black;  font-style: normal; font-size: 12px;">@AddressList[1].PostCode</span>
                         @if (!string.IsNullOrEmpty(AddressList[1].Tel1))
                         {
                             <span id="lrtlBTel" style="color: black;">
@@ -122,33 +122,33 @@
                 @if (AddressList[0] != null)
                 {
                     <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt">
-                        <span id="Span2" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address")):</span><br />
-                        <span id="ShippingAddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].AddressName</span><br />
-                        <span id="shippingAddressline1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address1</span><br />
+                        <span id="Span2" style="display:block;" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address")):</span>
+                        <span id="ShippingAddressName" style="display:block;color: black;  font-style: normal;font-size: 12px;">@AddressList[0].AddressName</span>
+                        <span id="shippingAddressline1" style="display:block;color: black;  font-style: normal; font-size: 12px;">@AddressList[0].Address1</span>
                         @if (!string.IsNullOrEmpty(AddressList[0].Address2))
                         {
-                            <div>
-                                <span id="shippingAddressline2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address2</span>
-                            </div>
+                           
+                                <span id="shippingAddressline2" style="display:block;color: black;  font-style: normal;font-size: 12px;">@AddressList[0].Address2</span>
+                            
                         }
-                        <span id="shippingCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].City</span>
+                        <span id="shippingCity" style="color: black;  font-style: normal; font-size: 12px;">@AddressList[0].City</span>
                         @if (AddressList[0].State != null)
                         {
-                            <span id="shippingState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].State.StateName</span>
+                            <span id="shippingState" style="color: black;  font-style: normal;font-size: 12px;">@AddressList[0].State.StateName</span>
                         }
                         else
                         {
-                            <span id="shippingState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</span>
+                            <span id="shippingState" style="color: black;  font-style: normal;  font-size: 12px;">@string.Empty</span>
                         }
                         @if (AddressList[0].Country != null)
                         {
-                            <span id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Country.CountryName</span><br />
+                            <span id="shippingCountry" style="display:block;color: black;  font-style: normal;font-size: 12px;">@AddressList[0].Country.CountryName</span>
                         }
                         else
                         {
-                            <span id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</span><br />
+                            <span id="shippingCountry" style="display:block;color: black;  font-style: normal; font-size: 12px;">@string.Empty</span>
                         }
-                        <label id="shippingZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].PostCode</label><br />
+                        <span id="shippingZipCode" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[0].PostCode</span>
                         @if (!string.IsNullOrEmpty(AddressList[0].Tel1))
                         {
                             <span id="Literal2" style="color: black;">
@@ -235,7 +235,16 @@
                                                         </div>
                                                     </td>
                                                     <td style="width:29%;">
-                                                        <span id="lblItemProductName" class="heading_16">@prod.ProductName</span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
+                                                        <span id="lblItemProductName" class="heading_16">
+                                                            @if (!string.IsNullOrEmpty(prod.ProductFriendlyName))
+                                                            {
+                                                                @prod.ProductFriendlyName
+                                                            }
+                                                            else
+                                                            {
+                                                                @prod.ProductName
+                                                            }
+                                                        </span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
                                                         <br>
                                                         <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
                                                         <br>

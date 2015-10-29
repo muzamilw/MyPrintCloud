@@ -488,6 +488,7 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public bool? File5Deleted { get; set; }
 
+
         /// <summary>
         /// Thumbnail Image Bytes - byte[] representation of Base64 string Thumbnail Image
         /// </summary>

@@ -35,23 +35,43 @@ namespace MPC.Implementation.MISServices
         {
             // Read the file as one string.
 
-            string[] filePaths = Directory.GetFiles(@"E:\\FTP\\Zunu\\");
-
-
-            System.IO.StreamReader myFile = new System.IO.StreamReader("E:\\FTP\\Zunu\\CHAMBERS-94368-20151014092023.xml");
-            string myString = myFile.ReadToEnd();
-
-            myFile.Close();
-              ListingPropertyXML objResult = new ListingPropertyXML();
-             ListingPropertyXML Result = new ListingPropertyXML();
-
-            XmlSerializer serializer = new XmlSerializer(typeof(ListingPropertyXML));
-            using (TextReader reader = new StringReader(myString))
+            string[] filePaths = Directory.GetFiles(@"E:\\FTP\\Zunu\\UnProcessed");
+            string result = string.Empty;
+            if(filePaths != null)
             {
-                Result = (ListingPropertyXML)serializer.Deserialize(reader);
-            }
+                 if(File.Exists(filePaths[0]))
+                 {
+                       System.IO.StreamReader myFile = new System.IO.StreamReader(filePaths[0]);
 
-            return InsertListingData(Result);
+                    string fileName = Path.GetFileName(filePaths[0]);
+
+
+                    string myString = myFile.ReadToEnd();
+
+                    myFile.Close();
+                      ListingPropertyXML objResult = new ListingPropertyXML();
+                     ListingPropertyXML Result = new ListingPropertyXML();
+
+                    XmlSerializer serializer = new XmlSerializer(typeof(ListingPropertyXML));
+                    using (TextReader reader = new StringReader(myString))
+                    {
+                        Result = (ListingPropertyXML)serializer.Deserialize(reader);
+                    }
+
+                    result = InsertListingData(Result);
+                    if(result == "Data processed successfully.")
+                    {
+                        string destinationPath = "E:\\FTP\\Zunu\\Processed\\" + fileName;
+                        File.Move(filePaths[0], destinationPath);
+               
+                    }
+                    
+                 }
+               
+            }
+            return result;
+           
+          
 
         }
 

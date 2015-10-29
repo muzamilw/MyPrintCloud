@@ -130,7 +130,6 @@
                     {
                         <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
                             <span id="lbl_ReceiptbillTo" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.WBStoreId, "Bill To:"))</span><br />
-                            <label id="lblCustName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                             <label id="lblBAddressLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
                             @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
                             {
@@ -163,7 +162,6 @@
                    {
                     <div class="col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt" style="line-height: 30px;">
                         <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.WBStoreId, "Shipped To:"))</span><br />
-                        <label id="lblSCusName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                         <label id="lblSAddLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
                         @if (!string.IsNullOrEmpty(Model.ShippingAddress.Address2))
                         {
@@ -305,7 +303,16 @@
                                             </span>
                                             <br>
                                             <br>
-                                            <span style="font-size:12px;font-weight:bold;">@item.ProductName  </span><br>
+                                            <span style="font-size:12px;font-weight:bold;">
+                                            @if (!string.IsNullOrEmpty(item.ProductFriendlyName))
+                                            {
+                                                @item.ProductFriendlyName
+                                            }
+                                            else
+                                            {
+                                                @item.ProductName
+                                            } 
+                                            </span><br>
                                             <div class="">
                                                 <span style="font-size:12px;">Stock: @item.PaperType</span>
                                             </div>

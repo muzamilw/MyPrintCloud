@@ -67,7 +67,7 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                 ViewBag.OrganisationLogo = "";
                 ViewBag.OrganisationName = "";
                 ViewBag.OrgVATRegNumber = "";
-                if (oCompany.isWhiteLabel == false)
+                if (oCompany.isWhiteLabel == false || oCompany.isWhiteLabel == null)
                 {
                     oStoreDefaultAddress = null;
                 }

@@ -1081,7 +1081,7 @@ namespace MPC.Implementation.WebStoreServices
                             styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
                         }
 
-                        string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
+                        string file = DesignerSvgParser.UpdateSvgBasedOnClr(FilePath, height, width, styles);//
                         string html = File.ReadAllText(file);
                         html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>";
                         oPdf.AddImageHtml(html);

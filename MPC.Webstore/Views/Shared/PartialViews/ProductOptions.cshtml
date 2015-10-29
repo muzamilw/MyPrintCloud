@@ -47,7 +47,15 @@
                 </a>
                 <label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
                 <a id="aLinkItem" href="#" class="crumb_Active left_align">
-                    @ViewBag.ItemModel.ProductName
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
+                    {
+                        @ViewBag.ItemModel.ProductFriendlyName
+                    }
+                    else
+                    {
+                        @ViewBag.ItemModel.ProductName
+                    }
+                  
                 </a>
 
 
@@ -337,7 +345,18 @@
                     </div>
                     <br />
                     <div class=" left_align productStockDesc">
-                        <label class="Fsize15 colorBlack left_align colorDGry">@ViewBag.ItemModel.ProductName</label>
+                        <label class="Fsize15 colorBlack left_align colorDGry">
+                            @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
+                            {
+                                @ViewBag.ItemModel.ProductFriendlyName
+                            }
+                            else
+                            {
+                                @ViewBag.ItemModel.ProductName
+                            }
+
+
+                        </label>
                         <br />
                         <label id="lblStock" class="LightGrayLabels"></label><br />
                         <label id="lblExtra" class="LightGrayLabels"></label>
@@ -1571,7 +1590,7 @@
     }
     function openDailog() {
 
-        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx" ].indexOf(fileExtension) > -1 )
+        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png" ].indexOf(fileExtension) > -1 )
         {
             HideMessagePopUpGeneric();
             ShowLoader();
@@ -1644,7 +1663,7 @@
         else
         {
             HideMessagePopUpGeneric();
-            ShowPopUp(Message,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of pdf,jpg,eps,tiff,csv,xls,xlsx."))');
+            ShowPopUp('Message','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of png,pdf,jpg,eps,tiff,csv,xls,xlsx."))');
         }
 
     }

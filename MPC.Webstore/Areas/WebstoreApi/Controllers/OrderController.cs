@@ -68,9 +68,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
            
             Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
             Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            
             MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             CalculateProductDescription(order, out GrandTotal, out Subtotal, out vat);
