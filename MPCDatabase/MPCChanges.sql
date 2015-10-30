@@ -8779,3 +8779,8 @@ alter table Listing add UnderOffer varchar(50)
 alter table Listing add IsHomeLandPackage varchar(50)
 alter table Listing add VideoLink varchar(50)
 alter table Listing add PriceView varchar(250)
+
+
+---------------------------------
+
+alter table organisation add DefaultPOTax float
