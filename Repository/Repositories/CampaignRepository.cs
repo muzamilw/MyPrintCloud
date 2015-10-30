@@ -1302,7 +1302,7 @@ namespace MPC.Repository.Repositories
                 
             }
         }
-        public void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany)
+        public void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany, bool isCancellation)
         {
             List<string> AttachmentList = new List<string>();
             string[] objs = AttachmentListStr.Split('|');
@@ -1313,7 +1313,7 @@ namespace MPC.Repository.Repositories
             //UsersManager usermgr = new UsersManager();
 
             // here is problem supplier user is null .. bcox in parameter we are sendin
-
+            Campaign EventCampaign = new Campaign();
             CompanyContact supplieruser = db.CompanyContacts.Where(c => c.CompanyId == supplierContactID && c.IsDefaultContact == 1).FirstOrDefault();
             Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
 
@@ -1324,7 +1324,15 @@ namespace MPC.Repository.Repositories
             {
                 
                 CampaignEmailParams CEP = new CampaignEmailParams();
-                Campaign EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier),OrganisationId,companyID);
+                if (isCancellation)
+                {
+                    EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), OrganisationId, companyID);
+                }
+                else
+                {
+                    EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), OrganisationId, companyID);
+                }
+               
                 CEP.EstimateId = orderID;
                 CEP.CompanyId = companyID;
                 CEP.ContactId = contactID;

@@ -2731,6 +2731,7 @@
           <Property Name="CreateContactZapTargetUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="CreateInvoiceZapTargetUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="IsZapierEnable" Type="bit" />
+          <Property Name="DefaultPOTax" Type="float" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -8762,6 +8763,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CreateContactZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="CreateInvoiceZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsZapierEnable" Type="Boolean" />
+          <Property Name="DefaultPOTax" Type="Double" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -15716,6 +15718,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="DefaultPOTax" ColumnName="DefaultPOTax" />
                 <ScalarProperty Name="IsZapierEnable" ColumnName="IsZapierEnable" />
                 <ScalarProperty Name="CreateInvoiceZapTargetUrl" ColumnName="CreateInvoiceZapTargetUrl" />
                 <ScalarProperty Name="CreateContactZapTargetUrl" ColumnName="CreateContactZapTargetUrl" />
