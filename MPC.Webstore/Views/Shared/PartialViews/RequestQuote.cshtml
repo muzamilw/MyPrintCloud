@@ -583,7 +583,7 @@
                 errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD1", UserCookieManager.WBStoreId, "Desired Delivery"))';
             }
             $('#DesiredDeldate1').css('display', 'block');
-            isValid = false; 
+            isValid = false;
         } else {
             $('#DesiredDeldate1').css('display', 'none');
         }
@@ -644,17 +644,17 @@
             else {
                 $("#ItemTitleInd3").css('display', 'none');
             }
-             
-             if ($("#txtInquiryDate3").val().trim() == '') {
+
+            if ($("#txtInquiryDate3").val().trim() == '') {
                 if (errorMessage == '') {
                     errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD3", UserCookieManager.WBStoreId, "Third inquiry item desired delivery"))';
                 } else {
                     errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD3", UserCookieManager.WBStoreId, "Third inquiry item desired delivery"))';
                 }
-                 $("#DesiredDeldate3").css('display', 'block');
+                $("#DesiredDeldate3").css('display', 'block');
                 isValid = false;
             } else {
-                 $("#DesiredDeldate3").css('display', 'none');
+                $("#DesiredDeldate3").css('display', 'none');
             }
 
         }
@@ -686,52 +686,75 @@
         var hfNoOfRec = $("#hfNoOfRec").val();
         var files = $("#InquiryAttachment").get(0).files;
         var data = new FormData();
+        var fileExtension = "";
+        var notAllowedFilesCount = 0;
+        var limitExceed = 0;
         if (files.length > 0) {
             for (i = 0; i < files.length; i++) {
-
+                var name1 = files[i].name.replace(/C:\\fakepath\\/i, '');
+                fileExtension = name1.substr(name1.lastIndexOf('.') + 1);
+                if (["pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png"].indexOf(fileExtension) < 0) {
+                    notAllowedFilesCount = parseInt(notAllowedFilesCount) + 1;
+                    console.log(name1);
+                } else {
+                    if (files[i].size != null && files[i].size > 50000000) {
+                        
+                        limitExceed = 1;
+                    }
+                }
                 data.append("UploadedFile" + i, files[i]);
             }
         }
+        if (notAllowedFilesCount > 0) {
+            ShowPopUp('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of png,pdf,jpg,eps,tiff,csv,xls,xlsx."))');
+            return false;
 
-        $.ajax({
-            type: "POST",
-            @*"/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,*@
-            url: "/WebstoreApi/RFQ/UpdateDataRequestQuote?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&Mobile=" + Mobile + "&Title=" + Title + "&InquiryItemTitle1= " + InquiryItemTitle1 + "" + "&InquiryItemNotes1=" + InquiryItemNotes1 + "&InquiryItemDeliveryDate1=" + InquiryItemDeliveryDate1 + "&InquiryItemTitle2=" + InquiryItemTitle2 + "&InquiryItemNotes2=" + InquiryItemNotes2 + "&InquiryItemDeliveryDate2=" + InquiryItemDeliveryDate2 + "&InquiryItemTitle3=" + InquiryItemTitle3 + "&InquiryItemNotes3=" + InquiryItemNotes3 + "&InquiryItemDeliveryDate3=" + InquiryItemDeliveryDate3 + "&hfNoOfRec=" + hfNoOfRec + "",
-            contentType: false,
-            data: data,
-            async: true,
-            processData: false,
-            success: function (response) {
+        } else if (limitExceed == 1) {
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 50 MB are allowed only !");
+            return false;
 
-                HideLoader();
+        } else {
+            $.ajax({
+                type: "POST",
+                @*"/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,*@
+                url: "/WebstoreApi/RFQ/UpdateDataRequestQuote?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&Mobile=" + Mobile + "&Title=" + Title + "&InquiryItemTitle1= " + InquiryItemTitle1 + "" + "&InquiryItemNotes1=" + InquiryItemNotes1 + "&InquiryItemDeliveryDate1=" + InquiryItemDeliveryDate1 + "&InquiryItemTitle2=" + InquiryItemTitle2 + "&InquiryItemNotes2=" + InquiryItemNotes2 + "&InquiryItemDeliveryDate2=" + InquiryItemDeliveryDate2 + "&InquiryItemTitle3=" + InquiryItemTitle3 + "&InquiryItemNotes3=" + InquiryItemNotes3 + "&InquiryItemDeliveryDate3=" + InquiryItemDeliveryDate3 + "&hfNoOfRec=" + hfNoOfRec + "",
+                contentType: false,
+                data: data,
+                async: true,
+                processData: false,
+                success: function (response) {
 
-                if (response == 'gs') {
-                    ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadsmallersize", UserCookieManager.WBStoreId, "Please upload smaller size Attachments!"))');
+                    HideLoader();
+
+                    if (response == 'gs') {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadsmallersize", UserCookieManager.WBStoreId, "Please upload smaller size Attachments!"))');
+                    }
+                    else
+                        if (response == false) {
+
+                            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalreadysubscribed", UserCookieManager.WBStoreId, "Sorry,this email already exists please login and then place an inquiry or signup with other email address."))');
+                        }
+                        else {
+                            $("#txtBoxUserName").val(''); $("#LastName").val(''); $("#UserEmail").val(''); $("#Phone").val('');
+                            $("#txtInquiryTitle").val(''); $("#txtTitle1").val(''); $("#txtItemNote1").val(''); $("#txtInquiryDate1").val('');
+                            $("#txtTitle2").val(''); $("#itemnotes2").val(''); $("#txtInquiryDate2").val('');
+                            $("#txtTitle3").val(''); $("#txtItemNote3").val(''); $("#txtInquiryDate3").val('');
+                            $("#hfNoOfRec").val(1);
+                            $("#InquiryAttachment").val('');
+
+                            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqsubsucces", UserCookieManager.WBStoreId, "Inquiry submitted successfully!"))');
+                        }
+
+                },
+                error: function (error) {
+                    HideLoader();
+                    ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))'
+                    , '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrrorocc", UserCookieManager.WBStoreId, "Error occured while processing!"))');
+
                 }
-                else
-                    if (response == false) {
+            });
+        }
 
-                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalreadysubscribed", UserCookieManager.WBStoreId, "Sorry, you have already subscribed with this email!"))');
-                    }
-                    else {
-                        $("#txtBoxUserName").val(''); $("#LastName").val(''); $("#UserEmail").val(''); $("#Phone").val('');
-                        $("#txtInquiryTitle").val(''); $("#txtTitle1").val(''); $("#txtItemNote1").val(''); $("#txtInquiryDate1").val('');
-                        $("#txtTitle2").val(''); $("#itemnotes2").val(''); $("#txtInquiryDate2").val('');
-                        $("#txtTitle3").val(''); $("#txtItemNote3").val(''); $("#txtInquiryDate3").val('');
-                        $("#hfNoOfRec").val(1);
-                        $("#InquiryAttachment").val('');
-
-                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqsubsucces", UserCookieManager.WBStoreId, "Inquiry submitted successfully!"))');
-                    }
-
-            },
-            error: function (error) {
-                HideLoader();
-                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))'
-, '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrrorocc", UserCookieManager.WBStoreId, "Error occured while processing!"))');
-
-            }
-        });
     }
 
     function ValidateEmail(email) {

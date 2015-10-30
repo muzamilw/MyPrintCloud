@@ -53,7 +53,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return itemService.GetById(id).CreateFrom();
+            Item objitem = itemService.GetById(id).CreateFrom();
+            return objitem;
         }
         
         /// <summary>

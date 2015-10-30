@@ -40,10 +40,9 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul id="crmTabsId" class="nav nav-tabs">
                             <li class="active" id="generalInfoTabForCrm"><a href="#tab-newsfeedForCrm" data-toggle="tab">General Info</a></li>
-                            @*<li><a href="#tab-territoryForCrm" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">User & Addresses</a></li>*@
+                   
                             <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().companyId() != undefined-->
                             <!--ko if: $root.isProspectOrCustomerScreen() -->
-                            @*<li><a href="#tab-DAM" data-toggle="tab">DAM</a></li>*@
                             <li><a href="#tab-orders" data-toggle="tab" data-bind="click: $root.ordersTabClickHandler">Orders</a></li>
                             <li><a href="#tab-invoices" data-toggle="tab" data-bind="click: $root.invoicesTabClickHandler">Invoices</a></li>
                             <!-- /ko -->
@@ -52,8 +51,7 @@
                             <li><a href="#tab-goodRecievedNotesInvoices" data-toggle="tab" data-bind="click: $root.goodRecievedNotesTabClickHandler">Good Recieve Notes</a></li>
                             <!-- /ko -->
                             <!-- /ko -->
-                            @*<li><a href="#tab-contacts" data-toggle="tab">Users</a></li>*@
-                            @* <li><a href="#tab-WebDetails" data-toggle="tab">Web Details</a></li>*@
+                            
                         </ul>
                         <div class="tab-content" data-bind="with: $root.selectedStore">
                             <div class="tab-pane fade in active" id="tab-newsfeedForCrm">
@@ -271,6 +269,24 @@
                                                 <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter GST Reference Number" data-bind="value: avatRegReference">
                                             </div>
                                         </div>
+                                        <!--ko if: $root.isProspectOrCustomerScreen() -->
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit limit for this user, applicable when user is trying to add a product in cart and if cart's total exceeds the credit limit the product cannot be added into the cart." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">Credit Limit</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">£</span>
+                                                    <input type="text" class="form-control" name="credit limit" style="text-align:right;" id="txtCreditLimit" data-bind="value:creditLimit" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/ko-->
                                     </div>
                                 </div>
                                 <div class="col-lg-12 form-horizontal">

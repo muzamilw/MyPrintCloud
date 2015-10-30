@@ -49,12 +49,16 @@
                                     var childCats = AllRetailCAt.Where(i => i.ParentCategoryId == AllRetailCa.ProductCategoryId).OrderBy(o => o.DisplayOrder).ToList();
 
                                                 }
-                                                <ul class="submenu list-unstyled">
-                                                    @foreach (var ccategories in childCats)
+                                                    @if (childCats != null && childCats.Count > 0)
                                                     {
-                                                        <li><a id="ltrlSubCatName" href="/Category/@Utils.specialCharactersEncoder(ccategories.CategoryName)/@ccategories.ProductCategoryId"><i class="fa fa-play-circle"></i><span>@ccategories.CategoryName</span></a></li>
+                                                        <ul class="submenu list-unstyled">
+                                                            @foreach (var ccategories in childCats)
+                                                            {
+                                                                <li><a id="ltrlSubCatName" href="/Category/@Utils.specialCharactersEncoder(ccategories.CategoryName)/@ccategories.ProductCategoryId"><i class="fa fa-play-circle"></i><span>@ccategories.CategoryName</span></a></li>
+                                                            }
+                                                        </ul>
                                                     }
-                                                </ul>
+                                              
                                             </div>
                                         </div>
                                     </div>
@@ -86,7 +90,7 @@
                                     <div class="hover-box-shadow">
                                         <p class="text-center">
                                             <a id="ProductUrl" href="@redirecturl" class='thumbnail'>
-                                                <img id="productImge" src="@seabluectg.ThumbnailPath" alt="Standard Business Cards" title="Standard Business Cards" class="img-responsive" itemprop="image" />
+                                                <img id="productImge" src="/@seabluectg.ThumbnailPath" alt="Standard Business Cards" title="Standard Business Cards" class="img-responsive" itemprop="image" />
                                             </a>
                                         </p>
                                         <h3 itemprop="name" id="productName">@seabluectg.CategoryName</h3>
