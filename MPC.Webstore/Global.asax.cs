@@ -40,6 +40,7 @@ namespace MPC.Webstore
         private static IUnityContainer container;
         private ICompanyService companyService;
         private ICampaignService campaignService;
+        private MPC.Interfaces.MISServices.IListingService listingService;
         private IUserManagerService userManagerService;
         /// <summary>
         /// Configure Logger
@@ -96,7 +97,8 @@ namespace MPC.Webstore
             // Set Web Api resolver
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
             campaignService = container.Resolve<ICampaignService>();
-            TaskManager.Initialize(new EmailBackgroundTask(HttpContext.Current, campaignService));
+            listingService = container.Resolve<MPC.Interfaces.MISServices.IListingService>();
+            TaskManager.Initialize(new EmailBackgroundTask(HttpContext.Current, campaignService, listingService));
             //AreaRegistration.RegisterAllAreas();
             //GlobalConfiguration.Configure(WebApiConfig.Register);
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
