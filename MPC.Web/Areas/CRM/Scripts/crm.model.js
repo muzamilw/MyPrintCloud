@@ -1745,6 +1745,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.AccountManagerId,
             source.VATRegNumber,
             source.VATRegReference,
+            source.CreditLimit,
             source.PhoneNo,
             source.IsCustomer,
             source.Notes,
