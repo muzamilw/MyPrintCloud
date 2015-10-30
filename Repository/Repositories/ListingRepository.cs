@@ -555,9 +555,10 @@ namespace MPC.Repository.Repositories
 
                 long officeId = ProcessOfficeXML(objProperty.Listing.Office, objProperty.Listing.CompanyId, territoryId,OrgId);
 
-                ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId,OrgId);
+               // ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId,OrgId);
 
                 long updatedListingID = UpdateListingXML(objProperty.Listing, listing);
+                ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId, OrgId, updatedListingID);
                 UpdateListingImagesXML(updatedListingID, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
                 UpdateListingFloorPlansXML(updatedListingID, objProperty.Listing.ListingFloorplans.floorplans);
                 
@@ -2265,7 +2266,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        private void UpdateStaffMemberXML(long newlyAddedAddress, CompanyContact contact, ListingAgentsXML lstStaffMember, string contactCompanyId, long territoryId)
+        private void UpdateStaffMemberXML(long newlyAddedAddress, CompanyContact contact, ListingAgentsXML lstStaffMember, string contactCompanyId, long territoryId,long ListingId)
         {
             try
             {
@@ -2280,6 +2281,8 @@ namespace MPC.Repository.Repositories
 
                 db.Entry(contact).State = EntityState.Modified;
                 db.SaveChanges();
+
+                UpdateListingAgentsXML(ListingId, lstStaffMember, contact.ContactId);
             }
             catch (Exception)
             {
@@ -2287,7 +2290,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        private void ProcessStaffMemberXML(long newlyAddedAddress, List<ListingAgentsXML> lstStaffMember, string contactCompanyId, long territoryId,long OrgId)
+        private void ProcessStaffMemberXML(long newlyAddedAddress, List<ListingAgentsXML> lstStaffMember, string contactCompanyId, long territoryId,long OrgId,long listingID)
         {
             try
             {
@@ -2309,11 +2312,11 @@ namespace MPC.Repository.Repositories
 
                     if (contact != null) // update
                     {
-                        UpdateStaffMemberXML(contact.AddressId, contact, item, contactCompanyId, territoryId);
+                        UpdateStaffMemberXML(contact.AddressId, contact, item, contactCompanyId, territoryId, listingID);
                     }
                     else //add
                     {
-                        AddStaffMemberXML(newlyAddedAddress, item, contactCompanyId, territoryId,OrgId);
+                        AddStaffMemberXML(newlyAddedAddress, item, contactCompanyId, territoryId, OrgId, listingID);
                     }
                 }
 
@@ -2325,7 +2328,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        private void AddStaffMemberXML(long newlyAddedAddress, ListingAgentsXML lstStaffMembers, string contactCompanyId, long territoryId,long orgId)
+        private void AddStaffMemberXML(long newlyAddedAddress, ListingAgentsXML lstStaffMembers, string contactCompanyId, long territoryId,long orgId,long ListingId)
         {
             try
             {
@@ -2348,6 +2351,8 @@ namespace MPC.Repository.Repositories
                 db.CompanyContacts.Add(tbl_contact);
 
                 db.SaveChanges();
+
+                AddListingAgentsXML(ListingId, lstStaffMembers, tbl_contact.ContactId);
             }
             catch (Exception)
             {
@@ -2504,6 +2509,8 @@ namespace MPC.Repository.Repositories
                     listing.FullyFenced = propertyListing.features.FullyFenced;
                     listing.InsideSPA = propertyListing.features.InsideSPA;
                     listing.OutSideSPA = propertyListing.features.OutSideSPA;
+                    listing.PropertyType = propertyListing.PropertyType;
+                    listing.PropertyName = propertyListing.Office.Street;
                     listing.CompanyId = (String.IsNullOrEmpty(propertyListing.CompanyId)) ? 0 : Convert.ToInt64(propertyListing.CompanyId);
                     db.Listings.Attach(listing);
 
@@ -2536,9 +2543,10 @@ namespace MPC.Repository.Repositories
                 long territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.CompanyId);
 
                 long newlyAddedAddress = ProcessOfficeXML(objProperty.Listing.Office, objProperty.Listing.CompanyId, territoryId, Organisationid);
-                ProcessStaffMemberXML(newlyAddedAddress, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId,Organisationid);
+               // ProcessStaffMemberXML(newlyAddedAddress, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId,Organisationid);
 
                 long newlyAddedListing = AddListingXML(objProperty.Listing); //listing added
+                ProcessStaffMemberXML(newlyAddedAddress, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId, Organisationid, newlyAddedListing);
                 AddListingImagesXML(newlyAddedListing, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
                 AddListingFloorPlansXML(newlyAddedListing, objProperty.Listing.ListingFloorplans.floorplans);
              
@@ -2617,6 +2625,8 @@ namespace MPC.Repository.Repositories
                 listing.FullyFenced = propertyListing.features.FullyFenced;
                 listing.InsideSPA = propertyListing.features.InsideSPA;
                 listing.OutSideSPA = propertyListing.features.OutSideSPA;
+                listing.PropertyType = propertyListing.PropertyType;
+                listing.PropertyName = propertyListing.Office.Street;
                 listing.CompanyId = (String.IsNullOrEmpty(propertyListing.CompanyId)) ? 0 : Convert.ToInt64(propertyListing.CompanyId);
 
                 db.Listings.Add(listing);
@@ -2636,7 +2646,78 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        private void UpdateListingAgentsXML(long updatedListingID, ListingAgentsXML list,long ContactId)
+        {
+            try
+            {
+                List<ListingAgent> listingAgents = db.ListingAgents.Where(i => i.ListingId == updatedListingID).ToList();
 
+                foreach (ListingAgent item in listingAgents)
+                {
+                    if (item != null)
+                    {
+                        db.ListingAgents.Remove(item);
+                    }
+                }
+
+                db.SaveChanges();
+
+                //old Agents deleted now add new ones
+                AddListingAgentsXML(updatedListingID, list,ContactId);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void AddListingAgentsXML(long newlyAddedListing, ListingAgentsXML lstAgents,long ContactId)
+        {
+            try
+            {
+
+                if (lstAgents != null)
+                {
+                        CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
+
+                        if (contact != null)
+                        {
+                            ListingAgent agent = new ListingAgent();
+                            agent.ListingId = newlyAddedListing;
+                            agent.MemberId = contact.ContactId; //memberid is contactid from tbl_contacts
+                            // agent.AgentOrder = item.AgentOrder;
+                            agent.Mobile = contact.Mobile;
+                            agent.Name = contact.FirstName;
+                            agent.Phone = contact.HomeTel1;
+                            agent.Phone2 = contact.HomeTel2;
+
+                            if (contact.ContactRoleId != null && contact.ContactRoleId == 1)
+                            {
+                                agent.Admin = true;
+                            }
+                            else
+                            {
+                                agent.Admin = false;
+                            }
+
+                            agent.UserRef = contact.quickWebsite;
+                            db.ListingAgents.Add(agent);
+                        }
+
+                       
+                    }
+                
+
+                db.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         private string DownloadImageLocallyXML(string SourceURL, string DestinationBasePath)
         {
 
