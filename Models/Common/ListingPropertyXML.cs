@@ -18,6 +18,10 @@ namespace MPC.Models.Common
         public string Date { get; set; }
         [XmlElement("residential")]
         public ListingXML Listing { get; set; }
+        [XmlElement("rental")]
+        public ListingXML ListingRental { get; set; }
+        [XmlElement("land")]
+        public ListingXML ListingLand { get; set; }
        
     }
 
@@ -89,6 +93,8 @@ namespace MPC.Models.Common
         public ExternalLink ExternalLink { get; set; }
 
          public string CompanyId { get; set; }
+
+         public string PropertyType { get; set; }
     }
 
     public class ListingAgentsXML
