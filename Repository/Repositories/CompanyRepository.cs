@@ -411,7 +411,7 @@ namespace MPC.Repository.Repositories
                             SendEmailAfterDays = cam.SendEmailAfterDays,
                             IsEnabled = cam.IsEnabled,
                             CampaignEmailEvent = cam.CampaignEmailEvent
-                        }).ToList(),
+                        }).OrderBy(cam => cam.CampaignName).ToList(),
                         PaymentGateways = c.PaymentGateways,
                         ProductCategories = c.ProductCategories.ToList(),
                         MediaLibraries = c.MediaLibraries,
