@@ -386,6 +386,7 @@
     <Compile Include="DomainModels\vw_RealEstateProperties.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
+    <Compile Include="DomainModels\ZapierWebHookTargetUrl.cs" />
     <Compile Include="LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
