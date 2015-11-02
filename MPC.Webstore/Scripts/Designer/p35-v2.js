@@ -997,6 +997,7 @@ $('#btnaddbody').click(function () {
 $('#btnReplaceImage').click(function () {
     //fu13(2, 4, 1, 3);
     //pcL29_pcMove(2);
+    $(".btnBackGlImgs, .btnBackMyImg, .btnBackMyLogos, .btnBackTimgs").click();
     oldAddFunctionality();
      $('.btnAFrames').click();
      $("#divAddImgPanel").removeClass("disappearing");
