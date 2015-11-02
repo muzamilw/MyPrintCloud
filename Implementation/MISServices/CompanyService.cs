@@ -6977,7 +6977,7 @@ namespace MPC.Implementation.MISServices
                 {
                     string SetName = source.CompanyBannerSets.Where(c => c.CompanySetId == source.ActiveBannerSetId).Select(c => c.SetName).FirstOrDefault();
                     SetValuesAfterClone(objCompany, SetName,source.CompanyId);
-
+                   
                     // copy variable extension of system variables
                     companyRepository.SaveSystemVariableExtension(companyId, objCompany.CompanyId);
                     companyRepository.InsertProductCategoryItems(objCompany, source);
@@ -7029,7 +7029,7 @@ namespace MPC.Implementation.MISServices
             {
                 // Clone Item
                 source.Clone(target);
-
+                
                 // Clone Company Domains
                 CloneCompanyDomain(source, target);
 
@@ -9979,7 +9979,75 @@ namespace MPC.Implementation.MISServices
 
 
         #region ImportStoreOnly
+        public bool ImportStoreZip(long OrganisationId,string SubDomain)
+        {
+            string status = string.Empty;
+            ExportStore exportStore = new ExportStore();
+            string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly");
 
+            string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/DefaulStorePackage/Store.zip");
+
+
+            if (File.Exists(ZipPath))
+            {
+
+                //string zipToUnpack = "C1P3SML.zip";
+                //string unpackDirectory = "Extracted Files";
+                using (ZipFile zip1 = ZipFile.Read(ZipPath))
+                {
+                    // here, we extract every entry
+                    foreach (ZipEntry e in zip1)
+                    {
+                        e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
+                    }
+                }
+
+               
+
+                // deserialize retail json file
+                string JsonRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreJson.txt");
+                if (File.Exists(JsonRetailFilePath))
+                {
+                    string json = System.IO.File.ReadAllText(JsonRetailFilePath);
+
+                    exportStore = JsonConvert.DeserializeObject<ExportStore>(json);
+
+                    json = string.Empty;
+                }
+                string JsonRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreItems.txt");
+                if (File.Exists(JsonRetailFilePath2))
+                {
+                    string json = System.IO.File.ReadAllText(JsonRetailFilePath2);
+
+                    exportStore.StoreItems = JsonConvert.DeserializeObject<List<Item>>(json);
+
+                    json = string.Empty;
+                }
+
+                string ProdCatRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreCategories.txt");
+                if (File.Exists(ProdCatRetailFilePath))
+                {
+                    string json = System.IO.File.ReadAllText(ProdCatRetailFilePath);
+
+                    exportStore.StoreCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(json);
+
+                    json = string.Empty;
+                }
+               
+                
+
+                status += "deserializationDone";
+                status += companyRepository.InsertStoreZip(exportStore, OrganisationId, SubDomain);
+
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
         #endregion
     }
