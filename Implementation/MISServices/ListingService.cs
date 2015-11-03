@@ -206,22 +206,22 @@ namespace MPC.Implementation.MISServices
             bool dataProcessed = false;
             if(objProperty != null)
             {
-                if (objProperty.MpcLoginEmail == null)
-                {
-                    dataError = "Sorry,Invalid User";
-                    //  return dataError;
-                    if (objProperty.StoreCode == null)
-                    {
-                        dataError = "Store code is missing";
-                    }
-                    return dataError;
-                }
-                else
-                {
-                    long GetOrganisationID = GetOrganisationIdByEmail(objProperty.MpcLoginEmail);
+                //if (objProperty.MpcLoginEmail == null)
+                //{
+                //    dataError = "Sorry,Invalid User";
+                //    //  return dataError;
+                //    if (objProperty.StoreCode == null)
+                //    {
+                //        dataError = "Store code is missing";
+                //    }
+                //    return dataError;
+                //}
+                //else
+                //{
+                    long GetOrganisationID = 1682; //GetOrganisationIdByEmail(objProperty.MpcLoginEmail);
                     if (GetOrganisationID > 0)
                     {
-                        iContactCompanyID = GetContactCompanyID(objProperty.StoreCode, GetOrganisationID);
+                        iContactCompanyID = 37106; // GetContactCompanyID(objProperty.StoreCode, GetOrganisationID);
                     }
 
                     //int territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.StoreCode);
@@ -252,7 +252,7 @@ namespace MPC.Implementation.MISServices
                     else
                         dataError = "Error occurred while processing data.";
 
-                }
+                //}
             }
             
             return dataError;

@@ -1289,7 +1289,7 @@ define("stores/stores.viewModel",
                         // check to remove dupplicate color name
                         var count = 0;
                         _.each(selectedStore().companyCMYKColors(), function (color) {
-                            if (color.colorName() == selectedCompanyCMYKColor().colorName()) {
+                            if (color.colorName() == selectedCompanyCMYKColor().colorName() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
                                 
                                 toastr.error("Color Name already exist.");
                                 flag = false;

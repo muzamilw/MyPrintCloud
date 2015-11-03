@@ -193,6 +193,8 @@ namespace MPC.Interfaces.MISServices
         void DeleteCompanyVariableIcon(long iconId);
 
         bool ExportStoreZip(long CompanyId, long OrganisationId);
+
+        bool ImportStoreZip(long OrganisationId, string SubDomain);
         #endregion
 
 

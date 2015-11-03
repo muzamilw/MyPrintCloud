@@ -817,7 +817,7 @@ namespace MPC.Implementation.MISServices
         ///// <summary>
         ///// Clone Store
         ///// </summary>
-        //public Company CloneStore(long companyId,long OrganisationId)
+        //public Company CloneStore(long companyId, long OrganisationId)
         //{
         //    try
         //    {
@@ -833,7 +833,7 @@ namespace MPC.Implementation.MISServices
         //        Company target = CreateNewCompany(OrganisationId);
 
         //        // Clone
-        //        NewCompanyId = CloneCompany(source, target);
+        //        NewCompanyId = CloneCompany(source, target, OrganisationId);
 
 
         //        // insert product categories and items
@@ -850,7 +850,7 @@ namespace MPC.Implementation.MISServices
 
         //        CloneReportBanners(companyId, NewCompanyId);
         //        // update data
-        //        Company objCompany = companyRepository.LoadCompanyWithItems(NewCompanyId);
+        //        Company objCompany = _companyRepository.LoadCompanyWithItems(NewCompanyId);
 
         //        companyRepository.SetTerritoryIdAddress(objCompany, source.CompanyId);
         //        companyRepository.InsertProductCategories(objCompany, source.CompanyId);
@@ -907,7 +907,7 @@ namespace MPC.Implementation.MISServices
         ///// <summary>
         ///// Creates Copy of Product
         ///// </summary>
-        //private long CloneCompany(Company source, Company target,long OrganisationId)
+        //private long CloneCompany(Company source, Company target, long OrganisationId)
         //{
         //    try
         //    {
@@ -923,10 +923,10 @@ namespace MPC.Implementation.MISServices
 
 
         //        // Clone company banners sets and its banner
-        //        CloneCompanyBannerSet(source, target,OrganisationId);
+        //        CloneCompanyBannerSet(source, target, OrganisationId);
 
         //        // Clone cms pages
-        //        CloneCMSPages(source, target,OrganisationId);
+        //        CloneCMSPages(source, target, OrganisationId);
 
 
 
@@ -934,24 +934,24 @@ namespace MPC.Implementation.MISServices
         //        ClonePaymentGateways(source, target);
 
         //        // Clone Rave Reviews
-        //        CloneRaveReviews(source, target,OrganisationId);
+        //        CloneRaveReviews(source, target, OrganisationId);
 
-               
+
 
         //        // Clone Company Territory
         //        CloneCompanyTerritory(source, target);
 
         //        // Clone Addresses
-        //        CloneAddresses(source, target,OrganisationId);
+        //        CloneAddresses(source, target, OrganisationId);
 
         //        // Clone company contacts
         //        CloneCompanyContacts(source, target, OrganisationId);
 
         //        // Clone campaignEmails
-        //        CloneCampaigns(source, target,OrganisationId);
+        //        CloneCampaigns(source, target, OrganisationId);
 
         //        // Clone Pcompany cost centre
-        //        CloneCompanyCostCentre(source, target,OrganisationId);
+        //        CloneCompanyCostCentre(source, target, OrganisationId);
 
         //        // clone template color style
         //        CloneTemplateColorStyles(source, target);
@@ -1013,7 +1013,7 @@ namespace MPC.Implementation.MISServices
         ///// <summary>
         ///// Copy company banners
         ///// </summary>
-        //private void CloneCompanyBannerSet(Company source, Company target,long OrganisationId)
+        //private void CloneCompanyBannerSet(Company source, Company target, long OrganisationId)
         //{
         //    if (source.CompanyBannerSets == null)
         //    {
@@ -1070,7 +1070,7 @@ namespace MPC.Implementation.MISServices
         ///// <summary>
         ///// Copy cms pages
         ///// </summary>
-        //private void CloneCMSPages(Company source, Company target,long OrganisationId)
+        //private void CloneCMSPages(Company source, Company target, long OrganisationId)
         //{
         //    if (source.CmsPages == null)
         //    {
@@ -1099,14 +1099,14 @@ namespace MPC.Implementation.MISServices
         //        }
 
         //        // Copy CompanyBanners
-        //        CloneCMSSkinPageWidgets(cmsPage, targetCMSPage, target,OrganisationId);
+        //        CloneCMSSkinPageWidgets(cmsPage, targetCMSPage, target, OrganisationId);
 
         //    }
         //}
         ///// <summary>
         ///// Creates Copy of company  Banners
         ///// </summary>
-        //private void CloneCMSSkinPageWidgets(CmsPage cmspage, CmsPage targetcmspage, Company targetCompany,long OrganisationId)
+        //private void CloneCMSSkinPageWidgets(CmsPage cmspage, CmsPage targetcmspage, Company targetCompany, long OrganisationId)
         //{
         //    if (targetcmspage.CmsSkinPageWidgets == null)
         //    {
@@ -1184,7 +1184,7 @@ namespace MPC.Implementation.MISServices
         ///// <summary>
         ///// Copy rave reviews
         ///// </summary>
-        //private void CloneRaveReviews(Company source, Company target,long OrganisationId)
+        //private void CloneRaveReviews(Company source, Company target, long OrganisationId)
         //{
         //    if (source.RaveReviews == null)
         //    {
@@ -1239,7 +1239,7 @@ namespace MPC.Implementation.MISServices
         ///// <summary>
         ///// Copy ADDRESSES
         ///// </summary>
-        //private void CloneAddresses(Company source, Company target,long OrgId)
+        //private void CloneAddresses(Company source, Company target, long OrgId)
         //{
         //    if (source.Addresses == null)
         //    {
@@ -1276,7 +1276,7 @@ namespace MPC.Implementation.MISServices
         ///// <summary>
         ///// Copy companyContacts
         ///// </summary>
-        //private void CloneCompanyContacts(Company source, Company target,long OrganisationId)
+        //private void CloneCompanyContacts(Company source, Company target, long OrganisationId)
         //{
         //    if (source.CompanyContacts == null)
         //    {
@@ -1331,7 +1331,7 @@ namespace MPC.Implementation.MISServices
         ///// <summary>
         ///// Copy campaigns
         ///// </summary>
-        //private void CloneCampaigns(Company source, Company target,long OID)
+        //private void CloneCampaigns(Company source, Company target, long OID)
         //{
         //    if (source.Campaigns == null)
         //    {
@@ -1387,7 +1387,7 @@ namespace MPC.Implementation.MISServices
 
         ///// <summary>
         ///// Copy company cost centre
-        //private void CloneCompanyCostCentre(Company source, Company target,long OrganisationId)
+        //private void CloneCompanyCostCentre(Company source, Company target, long OrganisationId)
         //{
         //    List<CostCentre> CostCentreCopiedOrg = costCentreRepository.GetAllCentersByOrganisationId(OrganisationId);
         //    if (source.CompanyCostCentres == null)
@@ -3308,9 +3308,18 @@ namespace MPC.Implementation.MISServices
         //        }
         //    }
         //}
-       
 
-        //#endregion
 
+        //#endregion  
+
+
+        #region import store from zip
+
+
+
+
+
+
+        #endregion
     }
 }
