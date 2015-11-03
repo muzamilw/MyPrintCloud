@@ -1106,7 +1106,7 @@
             specifiedQty1MarkUpID, specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedQty1MarkUpValue, specifiedQty2MarkUpValue, specifiedQty3MarkUpValue,
             specifiedQty1NetTotal, specifiedQty2NetTotal, specifiedQty3NetTotal, specifiedQty1, specifiedQty2, specifiedQty3, specifiedCostCentreName,
             specifiedItemSectionId, specifiedQty1WorkInstructions, specifiedQty2WorkInstructions, specifiedQty3WorkInstructions,
-            specifiedQty1EstimatedStockCost, specifiedQty2EstimatedStockCost, specifiedQty3EstimatedStockCost) {
+            specifiedQty1EstimatedStockCost, specifiedQty2EstimatedStockCost, specifiedQty3EstimatedStockCost, specifiedSystemType) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -1176,6 +1176,8 @@
                 sectionCostCentreDetails = ko.observableArray([]),
                 // Section Cost Centre Resources
                 sectionCostCentreResources = ko.observableArray([]),
+                // SystemCostCenter Type
+                systemCostCenterType = ko.observable(specifiedSystemType || undefined),
                 // Errors
                 errors = ko.validation.group({
 
@@ -1248,6 +1250,7 @@
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
                         Qty3MarkUpValue: qty3MarkUpValue(),
+                        SystemCostCentreType: systemCostCenterType(),
                         SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
                             var sectionCc = scc.convertToServerData();
                             if (isNewSectionCostCenter) {
@@ -1293,6 +1296,7 @@
                 qty3EstimatedStockCost: qty3EstimatedStockCost,
                 sectionCostCentreDetails: sectionCostCentreDetails,
                 sectionCostCentreResources: sectionCostCentreResources,
+                systemCostCenterType:systemCostCenterType,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2315,7 +2319,7 @@
             source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
             source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
             source.ItemSectionId, source.Qty1WorkInstructions, source.Qty2WorkInstructions, source.Qty3WorkInstructions,
-            source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost);
+            source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost, source.SystemCostCentreType);
 
         // Map Section Cost Centre Details if Any
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {

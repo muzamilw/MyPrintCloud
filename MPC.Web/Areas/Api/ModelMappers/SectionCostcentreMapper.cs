@@ -47,6 +47,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1EstimatedStockCost = source.Qty1EstimatedStockCost,
                 Qty2EstimatedStockCost = source.Qty2EstimatedStockCost,
                 Qty3EstimatedStockCost = source.Qty3EstimatedStockCost,
+                SystemCostCentreType = source.SystemCostCentreType,
                 SectionCostCentreDetails = source.SectionCostCentreDetails != null ? source.SectionCostCentreDetails.Select(s => s.CreateFrom()) :
                 new List<SectionCostCentreDetail>(),
                 SectionCostCentreResources = source.SectionCostCentreResources != null ? source.SectionCostCentreResources.Select(s => s.CreateFrom()) :
@@ -86,6 +87,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1EstimatedStockCost = source.Qty1EstimatedStockCost,
                 Qty2EstimatedStockCost = source.Qty2EstimatedStockCost,
                 Qty3EstimatedStockCost = source.Qty3EstimatedStockCost,
+                SystemCostCentreType = source.SystemCostCentreType,
                 SectionCostCentreDetails = source.SectionCostCentreDetails != null ? source.SectionCostCentreDetails.Select(s => s.CreateFrom()).ToList() :
                 new List<DomainModels.SectionCostCentreDetail>(),
             };
