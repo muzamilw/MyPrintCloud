@@ -8781,6 +8781,27 @@ alter table Listing add VideoLink varchar(50)
 alter table Listing add PriceView varchar(250)
 
 
----------------------------------
+------------------Executed on All servers 20151030 ---------------
 
 alter table organisation add DefaultPOTax float
+
+
+/****** Object:  Table [dbo].[ZapierWebHookTargetUrl]    Script Date: 10/30/2015 4:09:58 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ZapierWebHookTargetUrl](
+	[ZapierTargetUrlId] [bigint] IDENTITY(1,1) NOT NULL,
+	[TargetUrl] [nvarchar](200) NULL,
+	[WebHookEvent] [int] NULL,
+ CONSTRAINT [PK_ZapierWebHookTargetUrl] PRIMARY KEY CLUSTERED 
+(
+	[ZapierTargetUrlId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
