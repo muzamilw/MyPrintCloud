@@ -937,6 +937,18 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public List<MachineGuilotinePtv> getGuilotinePtv(long GuilotineId)
+        {
+            try
+            {
+                return db.MachineGuilotinePtvs.Where(c => c.GuilotineId == GuilotineId).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public string GetInkPlatesSidesByInkID(long InkID)
         {
           return  db.InkPlateSides.Where(x => x.PlateInkId == InkID).Select(a => a.InkTitle).FirstOrDefault();

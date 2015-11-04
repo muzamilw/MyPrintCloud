@@ -6494,7 +6494,7 @@ namespace MPC.Repository.Repositories
 
         #region ExportStoreZip
 
-        public ExportStore ExportStore(long CompanyId)
+        public ExportStore ExportStore(long CompanyId,long OrganisationId)
         {
             try
             {
@@ -6692,7 +6692,7 @@ namespace MPC.Repository.Repositories
 
 
                 // export store items
-                ObjExportStore = ExportStoreItems(CompanyId, ObjExportStore);
+                ObjExportStore = ExportStoreItems(CompanyId, ObjExportStore,OrganisationId);
                 ObjExportStore = ExportStoreCategories(CompanyId, ObjExportStore);
                 return ObjExportStore;
             }
@@ -6702,11 +6702,14 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public ExportStore ExportStoreItems(long CompanyId, ExportStore ObjExportStore)
+        public ExportStore ExportStoreItems(long CompanyId, ExportStore ObjExportStore,long OrganisationId)
         {
 
             try
             {
+                 List<PaperSize> sizes = db.PaperSizes.Where(c => c.OrganisationId == OrganisationId).ToList();
+                List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationId).ToList();
+                List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationId).ToList();
                 // Item Mapper
                 ExportOrganisation ObjExportOrg = new ExportOrganisation();
 
@@ -6800,6 +6803,17 @@ namespace MPC.Repository.Repositories
                 {
                     foreach (var item in items)
                     {
+                         if(item.ItemSections != null)
+                         {
+                             foreach(var IS in item.ItemSections)
+                             {
+                                 IS.SectionSizeName = sizes.Where(c => c.PaperSizeId == IS.SectionSizeId).Select(c => c.Name).FirstOrDefault();
+                                 IS.ItemSizeName = sizes.Where(c => c.PaperSizeId == IS.ItemSizeId).Select(c => c.Name).FirstOrDefault();
+                                 IS.PressName = machines.Where(c => c.MachineId == IS.PressId).Select(c => c.MachineName).FirstOrDefault();
+                                 IS.PressNameSide2 = machines.Where(c => c.MachineId == IS.PressIdSide2).Select(c => c.MachineName).FirstOrDefault();
+                                 IS.StockName = stockitems.Where(c => c.StockItemId == IS.StockItemID1).Select(c => c.ItemName).FirstOrDefault();
+                             }
+                         }
                         var omappedItem = Mapper.Map<Item, Item>(item);
                         oOutputItems.Add(omappedItem);
                     }
@@ -7140,12 +7154,15 @@ namespace MPC.Repository.Repositories
 
                                 if (item.ItemSections != null && item.ItemSections.Count > 0)
                                 {
+
                                     foreach (var itm in item.ItemSections)
                                     {
                                         itm.MachineSide2 = null;
                                         if (stockitems != null && stockitems.Count > 0)
                                         {
-                                            long SID = stockitems.Where(c => c.StockItemId == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
+
+                                            long SID = stockitems.Where(c => c.ItemName == itm.StockName).Select(c => c.StockItemId).FirstOrDefault();
+                                           // long SID = stockitems.Where(c => c.StockItemId == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
                                             if (SID > 0)
                                             {
                                                 itm.StockItemID1 = SID;
@@ -7161,7 +7178,8 @@ namespace MPC.Repository.Repositories
                                         // for SectionSizeId
                                         if (paperSizes != null && paperSizes.Count > 0)
                                         {
-                                            int PID = paperSizes.Where(c => c.PaperSizeId == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                            int PID = paperSizes.Where(c => c.Name == itm.SectionSizeName).Select(c => c.PaperSizeId).FirstOrDefault(); 
+                                          //  int PID = paperSizes.Where(c => c.PaperSizeId == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
                                             if (PID > 0)
                                             {
                                                 itm.SectionSizeId = PID;
@@ -7173,7 +7191,8 @@ namespace MPC.Repository.Repositories
 
 
                                             }
-                                            int ISID = paperSizes.Where(c => c.PaperSizeId == itm.ItemSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                            int ISID = paperSizes.Where(c => c.Name == itm.ItemSizeName).Select(c => c.PaperSizeId).FirstOrDefault(); 
+                                           // int ISID = paperSizes.Where(c => c.PaperSizeId == itm.ItemSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
                                             if (ISID > 0)
                                             {
                                                 itm.ItemSizeId = ISID;
@@ -7189,8 +7208,11 @@ namespace MPC.Repository.Repositories
                                         }
                                         if (machines != null && machines.Count > 0)
                                         {
-                                            long MID = machines.Where(c => c.MachineId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
-                                            long MIDSide2 = machines.Where(c => c.MachineId == itm.PressIdSide2).Select(s => s.MachineId).FirstOrDefault();
+
+                                            long MID = machines.Where(c => c.MachineName == itm.PressName).Select(c => c.MachineId).FirstOrDefault();
+                                            long MIDSide2 = machines.Where(c => c.MachineName == itm.PressNameSide2).Select(c => c.MachineId).FirstOrDefault();
+                                           // long MID = machines.Where(c => c.MachineId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                           // long MIDSide2 = machines.Where(c => c.MachineId == itm.PressIdSide2).Select(s => s.MachineId).FirstOrDefault();
                                             if (MID > 0)
                                             {
                                                 itm.PressId = (int)MID;
@@ -7235,13 +7257,17 @@ namespace MPC.Repository.Repositories
                                 }
                                 if (item.ItemStockOptions != null && item.ItemStockOptions.Count > 0)
                                 {
+                                    int StockOptionCounter = 1;
                                     foreach (var iso in item.ItemStockOptions)
                                     {
                                         if (stockitems != null && stockitems.Count > 0)
                                         {
-                                            long SID = stockitems.Where(c => c.StockItemId == iso.StockId).Select(s => s.StockItemId).FirstOrDefault();
-                                            if (SID > 0)
+                                           // long SID = stockitems.Where(c => c.StockItemId == iso.StockId).Select(s => s.StockItemId).FirstOrDefault();
+                                            long SID = 0;
+                                            StockItem SI = stockitems[StockOptionCounter];
+                                            if(SI != null)
                                             {
+                                                SID = SI.StockItemId;
                                                 iso.StockId = SID;
                                             }
                                             else
@@ -7251,6 +7277,7 @@ namespace MPC.Repository.Repositories
 
 
                                             }
+                                            StockOptionCounter++;
                                         }
                                         if (iso.ItemAddonCostCentres != null && iso.ItemAddonCostCentres.Count > 0)
                                         {
