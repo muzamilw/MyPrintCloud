@@ -3935,6 +3935,7 @@
           <Property Name="ZapierTargetUrlId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TargetUrl" Type="nvarchar" MaxLength="200" />
           <Property Name="WebHookEvent" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -15513,6 +15514,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ZapierTargetUrlId" Type="Int64" Nullable="false" />
           <Property Name="TargetUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="WebHookEvent" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -20514,6 +20516,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="ZapierWebHookTargetUrls">
             <EntityTypeMapping TypeName="DomainModels.ZapierWebHookTargetUrl">
               <MappingFragment StoreEntitySet="ZapierWebHookTargetUrl">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="WebHookEvent" ColumnName="WebHookEvent" />
                 <ScalarProperty Name="TargetUrl" ColumnName="TargetUrl" />
                 <ScalarProperty Name="ZapierTargetUrlId" ColumnName="ZapierTargetUrlId" />

@@ -768,6 +768,10 @@ namespace MPC.Implementation.MISServices
         {
             organisationRepository.UpdateOrganisationZapTargetUrl(organisationId, sTargetUrl, zapTargetType);
         }
+        public void UnSubscriebZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
+        {
+            organisationRepository.UnSubscribeZapTargetUrl(organisationId, sTargetUrl, zapTargetType);
+        }
 
         public string GetActiveOrganisationId(string param)
         {
