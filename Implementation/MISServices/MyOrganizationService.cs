@@ -287,6 +287,7 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.XeroApiKey = organisation.XeroApiKey;
             organisationDbVersion.isXeroIntegrationRequired = organisation.isXeroIntegrationRequired;
             organisationDbVersion.IsZapierEnable = organisation.IsZapierEnable;
+            organisationDbVersion.DefaultPOTax = organisation.DefaultPOTax;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;
