@@ -774,6 +774,7 @@ namespace MPC.Repository.Repositories
                         db.SaveChanges();
 
                     }
+
                     end = DateTime.Now;
                     timelog += "reports insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
@@ -852,10 +853,11 @@ namespace MPC.Repository.Repositories
 
                      List<StockItem> stockItems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
                      List<LookupMethod> lookups = db.LookupMethods.Where(c => c.OrganisationId == OrganisationID).ToList();
-
+                     
                     // import machines
                     if (Sets.ExportOrganisationSet3.Machines != null && Sets.ExportOrganisationSet3.Machines.Count > 0)
                     {
+                       
                         foreach (var machine in Sets.ExportOrganisationSet3.Machines)
                         {
                             int oldMID = (int)machine.LookupMethodId;
@@ -903,9 +905,37 @@ namespace MPC.Repository.Repositories
                            
                             db.Machines.Add(Mac);
 
+                            
                         }
                         db.SaveChanges();
                     }
+
+                    // import GuilotinePtvs for machines
+                    List<Machine> newMachines = db.Machines.Where(c => c.OrganisationId == OrganisationID && c.MachineCatId == (int)MachineCategories.Guillotin).ToList();
+
+                    if (Sets.ExportOrganisationSet3.MachineGuilotinePTV != null && Sets.ExportOrganisationSet3.MachineGuilotinePTV.Count > 0)
+                    {
+                        foreach(var ptvs in Sets.ExportOrganisationSet3.MachineGuilotinePTV)
+                        {
+                            MachineGuilotinePtv objPTV = new MachineGuilotinePtv();
+
+                            objPTV = ptvs;
+                            if(newMachines  != null && newMachines.Count > 0)
+                            {
+                                objPTV.GuilotineId = newMachines.Where(c => c.SystemSiteId == ptvs.GuilotineId).Select(c => c.MachineId).FirstOrDefault();
+                            }
+
+
+                            db.MachineGuilotinePtvs.Add(objPTV);
+
+                        }
+                    
+                        db.SaveChanges();
+
+                    }
+
+
+
                     // import lookup methods
                  
                     end = DateTime.Now;

@@ -60,6 +60,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              isZapierActive = ko.observable(),
             //Markup ID
             markupId = ko.observable().extend({ required: true }),
+            // defaultPO
+            defaultPOTax = ko.observable(),
             //markups In My Organization
             markupsInMyOrganization = ko.observableArray([]),
            //Chart Of Accounts In My Organization
@@ -104,6 +106,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  languageEditors: languageEditors,
                  isImperical: isImperical,
                  agileApiUrl: agileApiUrl,
+                 defaultPOTax: defaultPOTax,
                  agileApiKey: agileApiKey,
                  isAgileApiActive: isAgileApiActive,
                  unleashedApiId: unleashedApiId,
@@ -149,6 +152,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              languageEditors: languageEditors,
              isImperical: isImperical,
              agileApiUrl: agileApiUrl,
+             defaultPOTax: defaultPOTax,
              agileApiKey: agileApiKey,
              isAgileApiActive: isAgileApiActive,
              unleashedApiId: unleashedApiId,
@@ -351,6 +355,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.isImperical(source.IsImperical);
         companySites.agileApiKey(source.AgileApiKey);
         companySites.agileApiUrl(source.AgileApiUrl);
+        companySites.defaultPOTax(source.DefaultPOTax);
         companySites.isAgileApiActive(source.isAgileActive);
         companySites.unleashedApiId(source.XeroApiId);
         companySites.unleashedApiKey(source.XeroApiKey);
@@ -405,6 +410,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.XeroApiKey = source.unleashedApiKey() === undefined ? null : source.unleashedApiKey();
         result.isXeroIntegrationRequired = source.isUnleashedApiActive() === undefined ? null : source.isUnleashedApiActive();
         result.IsZapierEnable = source.isZapierActive() === undefined ? null : source.isZapierActive();
+        result.DefaultPOTax = source.defaultPOTax() === undefined ? null : source.defaultPOTax();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

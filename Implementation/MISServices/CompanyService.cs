@@ -4107,6 +4107,29 @@ namespace MPC.Implementation.MISServices
             // get machines by organisation id
             exOrg2.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
 
+            List<MachineGuilotinePtv> machineGuilotine = new List<MachineGuilotinePtv>();
+            if(exOrg2.Machines != null && exOrg2.MachineGuilotinePTV.Count > 0)
+            {
+                foreach(var machine in exOrg2.Machines)
+                {
+                    if(machine.MachineCatId == (int)MachineCategories.Guillotin)
+                    {
+                        List<MachineGuilotinePtv> PTVS = MachineRepository.getGuilotinePtv(machine.MachineId);
+                        
+                        if(PTVS != null && PTVS.Count > 0)
+                        {
+                            foreach (var pt in PTVS)
+                            {
+                                machineGuilotine.Add(pt);
+                            }
+                        }
+                       
+
+                    }
+                }
+            }
+
+            exOrg2.MachineGuilotinePTV = machineGuilotine;
             // get lookupmethods by organisationid
             exOrg2.LookupMethods = MachineRepository.getLookupmethodsbyOrganisationID(OrganisationID);
 
@@ -9423,7 +9446,7 @@ namespace MPC.Implementation.MISServices
             try
             {
                 ExportStore ObjExportStore = new ExportStore();
-                ObjExportStore = companyRepository.ExportStore(CompanyId);
+                ObjExportStore = companyRepository.ExportStore(CompanyId,OrganisationId);
 
 
                 CopyStoreFiles(ObjExportStore, CompanyId, OrganisationId);

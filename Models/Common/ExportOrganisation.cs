@@ -53,6 +53,8 @@ namespace MPC.Models.Common
 
         public List<Machine> Machines { get; set; }
 
+        public List<MachineGuilotinePtv> MachineGuilotinePTV { get; set; }
+
         public List<LookupMethod> LookupMethods { get; set; }
 
         public List<Phrase> Phrases { get; set; }
