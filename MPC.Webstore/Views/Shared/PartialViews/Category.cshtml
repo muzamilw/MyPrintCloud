@@ -111,8 +111,8 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                     <div class="pad5">
                                         <div class="LCLB">
                                             @{
-                                var OriginalProductName = item.ProductName;
-                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
+                                                var OriginalProductName = item.ProductName;
+                                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
                                             }
 
                                             @* condition for marketing brief*@
@@ -188,7 +188,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
 
-                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
+                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("MarktBreifWarnMesg", UserCookieManager.WBStoreId, "To submit a marketing brief please login or register."))','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -218,7 +218,16 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                         </div>
                                         <div class="product_detail_image_heading_IRI">
                                             <p style="  width: 100%;  float: left;  word-wrap: break-word;">
-                                                @OriginalProductName
+                                                @if (!string.IsNullOrEmpty(item.ItemFriendlyName))
+                                                {
+                                                    @item.ItemFriendlyName
+                                                }
+                                                else
+                                                {
+                                                    @OriginalProductName
+                                                }
+                                                
+                                                
                                             </p>
                                             <div class="clearBoth">
 
@@ -329,7 +338,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                 }
                                                 else
                                                 {
-                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
+                                                    <a onclick="ShowPopUpMarketingBrief('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("MarktBreifWarnMesg", UserCookieManager.WBStoreId, "To submit a marketing brief please login or register."))','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
                                                     </a>
 
@@ -508,6 +517,9 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script src="~/Scripts/PopUp.js"></script>
 <script>
+    $(document).ready(function(){
+        HideLoader();
+    });
     var tID = 0;
     var itemId = 0;
     function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){

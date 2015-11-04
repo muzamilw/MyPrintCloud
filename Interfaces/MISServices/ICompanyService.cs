@@ -172,7 +172,7 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
 
-        List<LiveStoreDetails> GetLiveStoresJason();
+        List<usp_GetLiveStores_Result> GetLiveStoresJason();
         string GetCompanyCss(long companyId);
         void UpdateCompanyCss(string sCustomCss, long oCompanyId);
 
@@ -193,6 +193,8 @@ namespace MPC.Interfaces.MISServices
         void DeleteCompanyVariableIcon(long iconId);
 
         bool ExportStoreZip(long CompanyId, long OrganisationId);
+
+        bool ImportStoreZip(long OrganisationId, string SubDomain);
         #endregion
 
 

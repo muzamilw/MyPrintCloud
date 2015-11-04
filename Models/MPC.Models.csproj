@@ -131,6 +131,7 @@
     <Compile Include="Common\InquiryByColumn.cs" />
     <Compile Include="Common\InvoiceByColumn.cs" />
     <Compile Include="Common\ItemCloneResult.cs" />
+    <Compile Include="Common\ListingPropertyXML.cs" />
     <Compile Include="Common\LiveStoreDetails.cs" />
     <Compile Include="Common\Order.cs" />
     <Compile Include="Common\IsTrialClaimValue.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="DomainModels\usp_DashboardROICounter_Result.cs" />
     <Compile Include="DomainModels\usp_DeliveryReport_Result.cs" />
     <Compile Include="DomainModels\usp_EstimateReport_Result.cs" />
+    <Compile Include="DomainModels\usp_GetLiveStores_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />
     <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />
     <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
@@ -384,6 +386,7 @@
     <Compile Include="DomainModels\vw_RealEstateProperties.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
+    <Compile Include="DomainModels\ZapierWebHookTargetUrl.cs" />
     <Compile Include="LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

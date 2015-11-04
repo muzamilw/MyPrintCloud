@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="DomainModels.CompanyBannerSet" Width="1.5" PointX="6.375" PointY="13.25" />
         <EntityTypeShape EntityType="DomainModels.CompanyDomain" Width="1.5" PointX="6.25" PointY="9" />
         <EntityTypeShape EntityType="DomainModels.Markup" Width="1.5" PointX="7.125" PointY="0.75" />
-        <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="4.375" PointY="9.375" />
+        <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="7.375" PointY="7.625" />
         <EntityTypeShape EntityType="DomainModels.PaperSize" Width="1.5" PointX="7.125" PointY="3.625" />
         <EntityTypeShape EntityType="DomainModels.ProductCategory" Width="1.5" PointX="2.5" PointY="9.75" />
         <EntityTypeShape EntityType="DomainModels.Widget" Width="1.5" PointX="9.375" PointY="7.75" />
@@ -186,8 +186,8 @@
         <EntityTypeShape EntityType="DomainModels.ListingAgent" Width="1.5" PointX="6.375" PointY="32" />
         <EntityTypeShape EntityType="DomainModels.ListingConjunctionAgent" Width="1.5" PointX="27.375" PointY="28.75" />
         <EntityTypeShape EntityType="DomainModels.ListingFloorPlan" Width="1.5" PointX="7.375" PointY="25" />
-        <EntityTypeShape EntityType="DomainModels.ListingImage" Width="1.5" PointX="33.375" PointY="17" />
-        <EntityTypeShape EntityType="DomainModels.ListingLink" Width="1.5" PointX="33.375" PointY="21" />
+        <EntityTypeShape EntityType="DomainModels.ListingImage" Width="1.5" PointX="43.25" PointY="14.375" />
+        <EntityTypeShape EntityType="DomainModels.ListingLink" Width="1.5" PointX="44" PointY="11.125" />
         <EntityTypeShape EntityType="DomainModels.ListingOFI" Width="1.5" PointX="33.375" PointY="24" />
         <EntityTypeShape EntityType="DomainModels.ListingVendor" Width="1.5" PointX="33.375" PointY="27.125" />
         <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" />
@@ -343,6 +343,7 @@
         <EntityTypeShape EntityType="DomainModels.vw_CompanyVariableIcons" Width="1.5" PointX="43.375" PointY="31" />
         <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="44.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.UserActionsLog" Width="1.5" PointX="44.375" PointY="4.125" />
+        <EntityTypeShape EntityType="DomainModels.ZapierWebHookTargetUrl" Width="1.5" PointX="39.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

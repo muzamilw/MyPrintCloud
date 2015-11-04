@@ -367,7 +367,21 @@ namespace MPC.Implementation.MISServices
 
         private void DeletePurchaseOrders(Estimate order)
         {
+            var listPurchases = purchaseRepository.GetPurchasesList(order.EstimateId);
+            long SupplierConatctId = 0;
             purchaseRepository.DeletePO(order.EstimateId);
+
+           
+              if (listPurchases != null)
+              {
+                  foreach (var purchase in listPurchases)
+                  {
+                      SupplierConatctId = purchase.Value;
+                  }
+              }
+
+              Company objCompany = companyRepository.GetCompanyByCompanyID(order.CompanyId);
+            campaignRepository.POEmailToSupplier(order.EstimateId, order.CompanyId, order.ContactId ?? 0, 250, SupplierConatctId, string.Empty, objCompany,true);
 
         }
         // ReSharper disable once InconsistentNaming
@@ -428,7 +442,7 @@ namespace MPC.Implementation.MISServices
                         File.Copy(sourceFile, destinationPhysicalFileSupplier);
                     }
 
-                    campaignRepository.POEmailToSupplier(orderId, companyId, contactId, 250, purchase.Value, destinationFileSupplier, objCompany);
+                    campaignRepository.POEmailToSupplier(orderId, companyId, contactId, 250, purchase.Value, destinationFileSupplier, objCompany,false);
 
                     // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);
 

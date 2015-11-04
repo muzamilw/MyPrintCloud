@@ -2167,6 +2167,39 @@
           <Property Name="ClientListingId" Type="varchar" MaxLength="100" />
           <Property Name="TotalOutgoings" Type="float" />
           <Property Name="CompanyId" Type="bigint" />
+          <Property Name="AirConditioning" Type="varchar" MaxLength="50" />
+          <Property Name="AlarmSystem" Type="varchar" MaxLength="50" />
+          <Property Name="Intercom" Type="varchar" MaxLength="50" />
+          <Property Name="OpenFirePlace" Type="varchar" MaxLength="50" />
+          <Property Name="TennisCourt" Type="varchar" MaxLength="50" />
+          <Property Name="RempoteGarage" Type="varchar" MaxLength="50" />
+          <Property Name="DishWasher" Type="varchar" MaxLength="50" />
+          <Property Name="BuiltinRaboes" Type="varchar" MaxLength="50" />
+          <Property Name="Gym" Type="varchar" MaxLength="50" />
+          <Property Name="WorkShop" Type="varchar" MaxLength="50" />
+          <Property Name="RumpusRoom" Type="varchar" MaxLength="50" />
+          <Property Name="FloorBoards" Type="varchar" MaxLength="50" />
+          <Property Name="BroadBand" Type="varchar" MaxLength="50" />
+          <Property Name="PayTV" Type="varchar" MaxLength="50" />
+          <Property Name="DuctedHeating" Type="varchar" MaxLength="50" />
+          <Property Name="DuctedCooling" Type="varchar" MaxLength="50" />
+          <Property Name="SplitSystemHeating" Type="varchar" MaxLength="50" />
+          <Property Name="ReverseCycleAircon" Type="varchar" MaxLength="50" />
+          <Property Name="EvaporateCooling" Type="varchar" MaxLength="50" />
+          <Property Name="VacuumSystem" Type="varchar" MaxLength="50" />
+          <Property Name="PoolInGround" Type="varchar" MaxLength="50" />
+          <Property Name="PoolAboveGround" Type="varchar" MaxLength="50" />
+          <Property Name="Balcony" Type="varchar" MaxLength="50" />
+          <Property Name="Deck" Type="varchar" MaxLength="50" />
+          <Property Name="CourtYard" Type="varchar" MaxLength="50" />
+          <Property Name="OutDoorEnt" Type="varchar" MaxLength="50" />
+          <Property Name="Shed" Type="varchar" MaxLength="50" />
+          <Property Name="FullyFenced" Type="varchar" MaxLength="50" />
+          <Property Name="InsideSPA" Type="varchar" MaxLength="50" />
+          <Property Name="OutSideSPA" Type="varchar" MaxLength="50" />
+          <Property Name="HydronicHeating" Type="varchar" MaxLength="50" />
+          <Property Name="SplitSystemAircon" Type="varchar" MaxLength="50" />
+          <Property Name="PriceView" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
@@ -2698,6 +2731,7 @@
           <Property Name="CreateContactZapTargetUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="CreateInvoiceZapTargetUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="IsZapierEnable" Type="bit" />
+          <Property Name="DefaultPOTax" Type="float" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -3894,6 +3928,14 @@
           <Property Name="ThumbnailUrl" Type="varchar" MaxLength="255" />
           <Property Name="Description" Type="varchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="ZapierWebHookTargetUrl">
+          <Key>
+            <PropertyRef Name="ZapierTargetUrlId" />
+          </Key>
+          <Property Name="ZapierTargetUrlId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TargetUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="WebHookEvent" Type="int" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GetCategoryProducts">
@@ -3908,6 +3950,7 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="isQtyRanged" Type="bit" />
           <Property Name="EstimateId" Type="bigint" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ItemFriendlyName" Type="varchar" MaxLength="50" />
           <Property Name="ProductCode" Type="varchar" MaxLength="50" />
           <Property Name="ProductCategoryName" Type="nvarchar(max)" />
           <Property Name="MinPrice" Type="float" Nullable="false" />
@@ -6302,6 +6345,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="OrderID" Type="int" Mode="In" />
           <Parameter Name="CreatedBy" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="usp_GetLiveStores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="usp_GetRealEstateProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
         </Function>
@@ -6505,6 +6549,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="VariableSection" EntityType="Self.VariableSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZapierWebHookTargetUrl" EntityType="Self.ZapierWebHookTargetUrl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GetCategoryProducts" EntityType="Self.GetCategoryProducts" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [GetCategoryProducts].[CompanyId] AS [CompanyId], 
@@ -6513,6 +6558,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [GetCategoryProducts].[isQtyRanged] AS [isQtyRanged], 
     [GetCategoryProducts].[EstimateId] AS [EstimateId], 
     [GetCategoryProducts].[ProductName] AS [ProductName], 
+    [GetCategoryProducts].[ItemFriendlyName] AS [ItemFriendlyName], 
     [GetCategoryProducts].[ProductCode] AS [ProductCode], 
     [GetCategoryProducts].[ProductCategoryName] AS [ProductCategoryName], 
     [GetCategoryProducts].[MinPrice] AS [MinPrice], 
@@ -8421,6 +8467,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="ContactCompanyID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="UserActionsLogs" EntityType="DomainModels.UserActionsLog" />
+          <FunctionImport Name="usp_GetLiveStores" ReturnType="Collection(DomainModels.usp_GetLiveStores_Result)" />
+          <EntitySet Name="ZapierWebHookTargetUrls" EntityType="DomainModels.ZapierWebHookTargetUrl" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8725,6 +8773,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CreateContactZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="CreateInvoiceZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsZapierEnable" Type="Boolean" />
+          <Property Name="DefaultPOTax" Type="Double" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -11941,6 +11990,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="TemplateId" Type="Int64" />
           <Property Name="DesignerCategoryId" Type="Int32" />
           <Property Name="CompanyId" Type="Int64" />
+          <Property Name="ItemFriendlyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -12370,6 +12420,39 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ClientListingId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="TotalOutgoings" Type="Double" />
           <Property Name="CompanyId" Type="Int64" />
+          <Property Name="AirConditioning" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AlarmSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Intercom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OpenFirePlace" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TennisCourt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RempoteGarage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DishWasher" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BuiltinRaboes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gym" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WorkShop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RumpusRoom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FloorBoards" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BroadBand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PayTV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DuctedHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DuctedCooling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SplitSystemHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReverseCycleAircon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EvaporateCooling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VacuumSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PoolInGround" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PoolAboveGround" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Balcony" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Deck" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CourtYard" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OutDoorEnt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Shed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FullyFenced" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InsideSPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OutSideSPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HydronicHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SplitSystemAircon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PriceView" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
@@ -15391,6 +15474,46 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
+        <ComplexType Name="usp_GetLiveStores_Result">
+          <Property Type="Int64" Name="companyid" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="100" />
+          <Property Type="Int16" Name="IsCustomer" Nullable="false" />
+          <Property Type="String" Name="webaccesscode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="image" Nullable="true" MaxLength="200" />
+          <Property Type="Int64" Name="OrganisationId" Nullable="true" />
+          <Property Type="String" Name="address1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="address2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="addressname" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="city" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CountryName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="statename" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="postcode" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="geolatitude" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="geolongitude" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="isArchived" Nullable="true" />
+          <Property Type="Boolean" Name="IsDefaultAddress" Nullable="true" />
+          <Property Type="Double" Name="AllTimeTotal" Nullable="true" />
+          <Property Type="Int32" Name="AllTimeCount" Nullable="true" />
+          <Property Type="Double" Name="LastWeekTotal" Nullable="true" />
+          <Property Type="Int32" Name="LastWeekCount" Nullable="true" />
+          <Property Type="Double" Name="CurrentWeekTotal" Nullable="true" />
+          <Property Type="Int32" Name="CurrentWeekCount" Nullable="true" />
+          <Property Type="Double" Name="CurrentMonthTotal" Nullable="true" />
+          <Property Type="Int32" Name="CurrentMonthCount" Nullable="true" />
+          <Property Type="Double" Name="LastMonthTotal" Nullable="true" />
+          <Property Type="Int32" Name="LastMonthCount" Nullable="true" />
+          <Property Type="Double" Name="Last3MonthTotal" Nullable="true" />
+          <Property Type="Int32" Name="Last3MonthCount" Nullable="true" />
+          <Property Type="String" Name="Domain" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="ZapierWebHookTargetUrl">
+          <Key>
+            <PropertyRef Name="ZapierTargetUrlId" />
+          </Key>
+          <Property Name="ZapierTargetUrlId" Type="Int64" Nullable="false" />
+          <Property Name="TargetUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WebHookEvent" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15613,6 +15736,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="DefaultPOTax" ColumnName="DefaultPOTax" />
                 <ScalarProperty Name="IsZapierEnable" ColumnName="IsZapierEnable" />
                 <ScalarProperty Name="CreateInvoiceZapTargetUrl" ColumnName="CreateInvoiceZapTargetUrl" />
                 <ScalarProperty Name="CreateContactZapTargetUrl" ColumnName="CreateContactZapTargetUrl" />
@@ -17927,6 +18051,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="ItemFriendlyName" ColumnName="ItemFriendlyName" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="DesignerCategoryId" ColumnName="DesignerCategoryId" />
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
@@ -18126,6 +18251,39 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Listings">
             <EntityTypeMapping TypeName="DomainModels.Listing">
               <MappingFragment StoreEntitySet="Listing">
+                <ScalarProperty Name="PriceView" ColumnName="PriceView" />
+                <ScalarProperty Name="SplitSystemAircon" ColumnName="SplitSystemAircon" />
+                <ScalarProperty Name="HydronicHeating" ColumnName="HydronicHeating" />
+                <ScalarProperty Name="OutSideSPA" ColumnName="OutSideSPA" />
+                <ScalarProperty Name="InsideSPA" ColumnName="InsideSPA" />
+                <ScalarProperty Name="FullyFenced" ColumnName="FullyFenced" />
+                <ScalarProperty Name="Shed" ColumnName="Shed" />
+                <ScalarProperty Name="OutDoorEnt" ColumnName="OutDoorEnt" />
+                <ScalarProperty Name="CourtYard" ColumnName="CourtYard" />
+                <ScalarProperty Name="Deck" ColumnName="Deck" />
+                <ScalarProperty Name="Balcony" ColumnName="Balcony" />
+                <ScalarProperty Name="PoolAboveGround" ColumnName="PoolAboveGround" />
+                <ScalarProperty Name="PoolInGround" ColumnName="PoolInGround" />
+                <ScalarProperty Name="VacuumSystem" ColumnName="VacuumSystem" />
+                <ScalarProperty Name="EvaporateCooling" ColumnName="EvaporateCooling" />
+                <ScalarProperty Name="ReverseCycleAircon" ColumnName="ReverseCycleAircon" />
+                <ScalarProperty Name="SplitSystemHeating" ColumnName="SplitSystemHeating" />
+                <ScalarProperty Name="DuctedCooling" ColumnName="DuctedCooling" />
+                <ScalarProperty Name="DuctedHeating" ColumnName="DuctedHeating" />
+                <ScalarProperty Name="PayTV" ColumnName="PayTV" />
+                <ScalarProperty Name="BroadBand" ColumnName="BroadBand" />
+                <ScalarProperty Name="FloorBoards" ColumnName="FloorBoards" />
+                <ScalarProperty Name="RumpusRoom" ColumnName="RumpusRoom" />
+                <ScalarProperty Name="WorkShop" ColumnName="WorkShop" />
+                <ScalarProperty Name="Gym" ColumnName="Gym" />
+                <ScalarProperty Name="BuiltinRaboes" ColumnName="BuiltinRaboes" />
+                <ScalarProperty Name="DishWasher" ColumnName="DishWasher" />
+                <ScalarProperty Name="RempoteGarage" ColumnName="RempoteGarage" />
+                <ScalarProperty Name="TennisCourt" ColumnName="TennisCourt" />
+                <ScalarProperty Name="OpenFirePlace" ColumnName="OpenFirePlace" />
+                <ScalarProperty Name="Intercom" ColumnName="Intercom" />
+                <ScalarProperty Name="AlarmSystem" ColumnName="AlarmSystem" />
+                <ScalarProperty Name="AirConditioning" ColumnName="AirConditioning" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="TotalOutgoings" ColumnName="TotalOutgoings" />
                 <ScalarProperty Name="ClientListingId" ColumnName="ClientListingId" />
@@ -20314,6 +20472,51 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
                 <ScalarProperty Name="LogId" ColumnName="LogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetLiveStores" FunctionName="DomainModels.Store.usp_GetLiveStores">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_GetLiveStores_Result">
+                <ScalarProperty Name="companyid" ColumnName="companyid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="IsCustomer" ColumnName="IsCustomer" />
+                <ScalarProperty Name="webaccesscode" ColumnName="webaccesscode" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="address1" ColumnName="address1" />
+                <ScalarProperty Name="address2" ColumnName="address2" />
+                <ScalarProperty Name="addressname" ColumnName="addressname" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="statename" ColumnName="statename" />
+                <ScalarProperty Name="postcode" ColumnName="postcode" />
+                <ScalarProperty Name="geolatitude" ColumnName="geolatitude" />
+                <ScalarProperty Name="geolongitude" ColumnName="geolongitude" />
+                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="IsDefaultAddress" ColumnName="IsDefaultAddress" />
+                <ScalarProperty Name="AllTimeTotal" ColumnName="AllTimeTotal" />
+                <ScalarProperty Name="AllTimeCount" ColumnName="AllTimeCount" />
+                <ScalarProperty Name="LastWeekTotal" ColumnName="LastWeekTotal" />
+                <ScalarProperty Name="LastWeekCount" ColumnName="LastWeekCount" />
+                <ScalarProperty Name="CurrentWeekTotal" ColumnName="CurrentWeekTotal" />
+                <ScalarProperty Name="CurrentWeekCount" ColumnName="CurrentWeekCount" />
+                <ScalarProperty Name="CurrentMonthTotal" ColumnName="CurrentMonthTotal" />
+                <ScalarProperty Name="CurrentMonthCount" ColumnName="CurrentMonthCount" />
+                <ScalarProperty Name="LastMonthTotal" ColumnName="LastMonthTotal" />
+                <ScalarProperty Name="LastMonthCount" ColumnName="LastMonthCount" />
+                <ScalarProperty Name="Last3MonthTotal" ColumnName="Last3MonthTotal" />
+                <ScalarProperty Name="Last3MonthCount" ColumnName="Last3MonthCount" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ZapierWebHookTargetUrls">
+            <EntityTypeMapping TypeName="DomainModels.ZapierWebHookTargetUrl">
+              <MappingFragment StoreEntitySet="ZapierWebHookTargetUrl">
+                <ScalarProperty Name="WebHookEvent" ColumnName="WebHookEvent" />
+                <ScalarProperty Name="TargetUrl" ColumnName="TargetUrl" />
+                <ScalarProperty Name="ZapierTargetUrlId" ColumnName="ZapierTargetUrlId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

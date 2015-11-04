@@ -102,7 +102,7 @@ namespace MPC.Interfaces.Repository
         void UpdateLiveStores(long organisationId, int storesCount);
         int GetLiveStoresCount(long organisationId);
         bool IsStoreLive(long storeId);
-        List<Company> GetLiveStoresList();
+        List<usp_GetLiveStores_Result> GetLiveStoresList();
 
         void CopyProductByStore(long NewStoreId, long OldStoreId);
 
@@ -130,6 +130,8 @@ namespace MPC.Interfaces.Repository
         bool SaveUserActionLog(string Comment, long CompanyId);
 
         ExportStore ExportStore(long CompanyId);
+
+        bool InsertStoreZip(ExportStore ObjExportStore, long OrganisationId, string SubDomain);
         
 
     }

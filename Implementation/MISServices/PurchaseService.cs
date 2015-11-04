@@ -248,7 +248,7 @@ namespace MPC.Implementation.MISServices
                         File.Copy(SourceFile, DestinationPhysicalFileSupplier);
                     }
 
-                    campaignRepository.POEmailToSupplier(OrderID, CompanyId, ContactID, 250, purchase.Value, DestinationFileSupplier, objCompany);
+                    campaignRepository.POEmailToSupplier(OrderID, CompanyId, ContactID, 250, purchase.Value, DestinationFileSupplier, objCompany,false);
 
 
                     // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);

@@ -2690,27 +2690,28 @@ namespace MPC.Implementation.MISServices
 
             #region Delete SmartForm Detail
             //missing Items
-            List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
-            if (smartFormDbVersion.SmartFormDetails != null)
-            {
-                foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
-                {
-                    if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
-                    {
-                        missingSmartFormDetails.Add(smartFormDetailDbItem);
-                    }
-                    else if (smartForm.SmartFormDetails == null)
-                    {
-                        missingSmartFormDetails.Add(smartFormDetailDbItem);
-                    }
-                }
+            //Commented smartform detail deletion code on 30/10/2015 on Instructions of Muzzamil sb.
+            //List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
+            //if (smartFormDbVersion.SmartFormDetails != null)
+            //{
+            //    foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
+            //    {
+            //        if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
+            //        {
+            //            missingSmartFormDetails.Add(smartFormDetailDbItem);
+            //        }
+            //        else if (smartForm.SmartFormDetails == null)
+            //        {
+            //            missingSmartFormDetails.Add(smartFormDetailDbItem);
+            //        }
+            //    }
 
-                foreach (var missingItem in missingSmartFormDetails)
-                {
-                    smartFormDbVersion.SmartFormDetails.Remove(missingItem);
-                    smartFormDetailRepository.Delete(missingItem);
-                }
-            }
+            //    foreach (var missingItem in missingSmartFormDetails)
+            //    {
+            //        smartFormDbVersion.SmartFormDetails.Remove(missingItem);
+            //        smartFormDetailRepository.Delete(missingItem);
+            //    }
+            //}
 
             #endregion
 
@@ -3800,54 +3801,55 @@ namespace MPC.Implementation.MISServices
             return voucher;
         }
 
-        public List<LiveStoreDetails> GetLiveStoresJason()
+        public List<usp_GetLiveStores_Result> GetLiveStoresJason()
         {
-            string stores = string.Empty;
-            List<Company> livestores = companyRepository.GetLiveStoresList();
-            List<LiveStoreDetails> storeDetails = new List<LiveStoreDetails>();
-            foreach (var company in livestores)
-            {
-                var address = company.Addresses.FirstOrDefault();
-                string domainName = string.Empty;
-                //mpc/store/Ooo2112
-                if (company.CompanyDomains.Count() > 1)
-                {
-                    var odomain = company.CompanyDomains.Where(c => !c.Domain.Contains("/store/" + company.WebAccessCode)).FirstOrDefault();
-                    domainName = odomain != null
-                        ? odomain.Domain
-                        : company.CompanyDomains.FirstOrDefault() != null
-                            ? company.CompanyDomains.FirstOrDefault().Domain ?? ""
-                            : "";
-                    
-                }
-                else
-                {
-                   var odomain = company.CompanyDomains.FirstOrDefault();
-                    domainName = odomain.Domain != null ? odomain.Domain : string.Empty;
-                }
-                
-                storeDetails.Add(new LiveStoreDetails
-                {
-                    OrganisationId = company.OrganisationId?? 0, 
-                    StoreId = company.CompanyId,
-                    StoreCode  = company.WebAccessCode,
-                    StoreName = company.Name,
-                    StoreType = company.IsCustomer,
-                    LogoUrl = company.Image,
-                    Address1 = address != null ? address.Address1 : string.Empty,
-                    Address2 = address != null ? address.Address2: string.Empty,
-                    AddressName = address != null ? address.AddressName : string.Empty,
-                    City = address != null ? address.City : string.Empty,
-                    Country = address != null ? address.Country != null ? address.Country.CountryName: string.Empty : string.Empty,
-                    State = address != null ? address.State != null? address.State.StateName: string.Empty : string.Empty,
-                    DefaultDomain = domainName,
-                    GeoLatitude = address != null ? address.GeoLatitude : string.Empty,
-                    GeoLongitude = address != null ? address.GeoLongitude : string.Empty
-                });
-            }
+            return companyRepository.GetLiveStoresList();
+            //string stores = string.Empty;
+            //List<Company> livestores = companyRepository.GetLiveStoresList();
+            //List<LiveStoreDetails> storeDetails = new List<LiveStoreDetails>();
+            //foreach (var company in livestores)
+            //{
+            //    var address = company.Addresses.FirstOrDefault();
+            //    string domainName = string.Empty;
+            //    //mpc/store/Ooo2112
+            //    if (company.CompanyDomains.Count() > 1)
+            //    {
+            //        var odomain = company.CompanyDomains.Where(c => !c.Domain.Contains("/store/" + company.WebAccessCode)).FirstOrDefault();
+            //        domainName = odomain != null
+            //            ? odomain.Domain
+            //            : company.CompanyDomains.FirstOrDefault() != null
+            //                ? company.CompanyDomains.FirstOrDefault().Domain ?? ""
+            //                : "";
+
+            //    }
+            //    else
+            //    {
+            //       var odomain = company.CompanyDomains.FirstOrDefault();
+            //        domainName = odomain.Domain != null ? odomain.Domain : string.Empty;
+            //    }
+
+            //    storeDetails.Add(new LiveStoreDetails
+            //    {
+            //        OrganisationId = company.OrganisationId?? 0, 
+            //        StoreId = company.CompanyId,
+            //        StoreCode  = company.WebAccessCode,
+            //        StoreName = company.Name,
+            //        StoreType = company.IsCustomer,
+            //        LogoUrl = company.Image,
+            //        Address1 = address != null ? address.Address1 : string.Empty,
+            //        Address2 = address != null ? address.Address2: string.Empty,
+            //        AddressName = address != null ? address.AddressName : string.Empty,
+            //        City = address != null ? address.City : string.Empty,
+            //        Country = address != null ? address.Country != null ? address.Country.CountryName: string.Empty : string.Empty,
+            //        State = address != null ? address.State != null? address.State.StateName: string.Empty : string.Empty,
+            //        DefaultDomain = domainName,
+            //        GeoLatitude = address != null ? address.GeoLatitude : string.Empty,
+            //        GeoLongitude = address != null ? address.GeoLongitude : string.Empty
+            //    });
+            //}
 
 
-            return storeDetails;
+            //return storeDetails;
         }
 
         public string GetCompanyCss(long companyId)
@@ -6976,7 +6978,7 @@ namespace MPC.Implementation.MISServices
                 {
                     string SetName = source.CompanyBannerSets.Where(c => c.CompanySetId == source.ActiveBannerSetId).Select(c => c.SetName).FirstOrDefault();
                     SetValuesAfterClone(objCompany, SetName,source.CompanyId);
-
+                   
                     // copy variable extension of system variables
                     companyRepository.SaveSystemVariableExtension(companyId, objCompany.CompanyId);
                     companyRepository.InsertProductCategoryItems(objCompany, source);
@@ -7028,7 +7030,7 @@ namespace MPC.Implementation.MISServices
             {
                 // Clone Item
                 source.Clone(target);
-
+                
                 // Clone Company Domains
                 CloneCompanyDomain(source, target);
 
@@ -9978,7 +9980,75 @@ namespace MPC.Implementation.MISServices
 
 
         #region ImportStoreOnly
+        public bool ImportStoreZip(long OrganisationId,string SubDomain)
+        {
+            string status = string.Empty;
+            ExportStore exportStore = new ExportStore();
+            string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly");
 
+            string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/DefaulStorePackage/Store.zip");
+
+
+            if (File.Exists(ZipPath))
+            {
+
+                //string zipToUnpack = "C1P3SML.zip";
+                //string unpackDirectory = "Extracted Files";
+                using (ZipFile zip1 = ZipFile.Read(ZipPath))
+                {
+                    // here, we extract every entry
+                    foreach (ZipEntry e in zip1)
+                    {
+                        e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
+                    }
+                }
+
+               
+
+                // deserialize retail json file
+                string JsonRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreJson.txt");
+                if (File.Exists(JsonRetailFilePath))
+                {
+                    string json = System.IO.File.ReadAllText(JsonRetailFilePath);
+
+                    exportStore = JsonConvert.DeserializeObject<ExportStore>(json);
+
+                    json = string.Empty;
+                }
+                string JsonRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreItems.txt");
+                if (File.Exists(JsonRetailFilePath2))
+                {
+                    string json = System.IO.File.ReadAllText(JsonRetailFilePath2);
+
+                    exportStore.StoreItems = JsonConvert.DeserializeObject<List<Item>>(json);
+
+                    json = string.Empty;
+                }
+
+                string ProdCatRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreCategories.txt");
+                if (File.Exists(ProdCatRetailFilePath))
+                {
+                    string json = System.IO.File.ReadAllText(ProdCatRetailFilePath);
+
+                    exportStore.StoreCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(json);
+
+                    json = string.Empty;
+                }
+               
+                
+
+                status += "deserializationDone";
+                status += companyRepository.InsertStoreZip(exportStore, OrganisationId, SubDomain);
+
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
         #endregion
     }

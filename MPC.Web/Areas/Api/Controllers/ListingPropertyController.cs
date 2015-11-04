@@ -7,12 +7,12 @@ using System.Web.Http;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
-    public class CopyStoreController : ApiController
+    public class ListingPropertyController : ApiController
     {
-       #region Private
+         #region Private
 
         private readonly ICompanyService companyService;
-
+        private readonly IListingService listingService;
         #endregion
 
         #region Constructor
@@ -20,38 +20,22 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public CopyStoreController(ICompanyService companyService)
+        public ListingPropertyController(ICompanyService companyService, IListingService listingService)
         {
             if (companyService == null)
             {
                 throw new ArgumentNullException("companyService");
             }
             this.companyService = companyService;
+            this.listingService = listingService;
         }
 
-      
         #endregion
 
         [HttpGet]
-        public bool ExportStore(long parameter1, long parameter2)
+        public string SaveListingData()
         {
-            return companyService.ExportStoreZip(parameter1, parameter2);
-        }
-
-      
-        [HttpPost]
-        public bool ImportStore(long parameter1, string parameter2)
-        {
-            try
-            {
-                return companyService.ImportStoreZip(parameter1, parameter2);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-
-            }
-
+           return listingService.SaveListingData();
         }
     }
 }

@@ -8739,3 +8739,69 @@ GO
 
 
 alter table company add IsAllowRequestaQuote bit
+
+
+----------------------------------
+
+alter table Listing add AirConditioning varchar(50)
+alter table Listing add AlarmSystem varchar(50)
+alter table Listing add Intercom varchar(50)
+alter table Listing add OpenFirePlace varchar(50)
+alter table Listing add TennisCourt varchar(50)
+alter table Listing add RempoteGarage varchar(50)
+alter table Listing add DishWasher varchar(50)
+alter table Listing add BuiltinRaboes varchar(50)
+alter table Listing add Gym varchar(50)
+alter table Listing add WorkShop varchar(50)
+alter table Listing add RumpusRoom varchar(50)
+alter table Listing add FloorBoards varchar(50)
+alter table Listing add BroadBand varchar(50)
+alter table Listing add PayTV varchar(50)
+alter table Listing add DuctedHeating varchar(50)
+alter table Listing add DuctedCooling varchar(50)
+alter table Listing add SplitSystemHeating varchar(50)
+alter table Listing add ReverseCycleAircon varchar(50)
+alter table Listing add EvaporateCooling varchar(50)
+alter table Listing add VacuumSystem varchar(50)
+alter table Listing add PoolInGround varchar(50)
+alter table Listing add PoolAboveGround varchar(50)
+alter table Listing add Balcony varchar(50)
+alter table Listing add Deck varchar(50)
+alter table Listing add CourtYard varchar(50)
+alter table Listing add OutDoorEnt varchar(50)
+alter table Listing add Shed varchar(50)
+alter table Listing add FullyFenced varchar(50)
+alter table Listing add InsideSPA varchar(50)
+alter table Listing add OutSideSPA varchar(50)
+alter table Listing add HydronicHeating varchar(50)
+alter table Listing add SplitSystemAircon varchar(50)
+alter table Listing add UnderOffer varchar(50)
+alter table Listing add IsHomeLandPackage varchar(50)
+alter table Listing add VideoLink varchar(50)
+alter table Listing add PriceView varchar(250)
+
+
+------------------Executed on All servers 20151030 ---------------
+
+alter table organisation add DefaultPOTax float
+
+
+/****** Object:  Table [dbo].[ZapierWebHookTargetUrl]    Script Date: 10/30/2015 4:09:58 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ZapierWebHookTargetUrl](
+	[ZapierTargetUrlId] [bigint] IDENTITY(1,1) NOT NULL,
+	[TargetUrl] [nvarchar](200) NULL,
+	[WebHookEvent] [int] NULL,
+ CONSTRAINT [PK_ZapierWebHookTargetUrl] PRIMARY KEY CLUSTERED 
+(
+	[ZapierTargetUrlId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
