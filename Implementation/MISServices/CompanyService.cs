@@ -3883,7 +3883,11 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveCompanyVariableIcon(request);
         }
 
-       
+
+        public TemplateColorStyle ArchiveSpotColor(long SpotColorId)
+        {
+           return templateColorStylesRepository.ArchiveSpotColor(SpotColorId);
+        }
         #endregion
 
         #region ExportOrganisation
@@ -4108,7 +4112,7 @@ namespace MPC.Implementation.MISServices
             exOrg2.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
 
             List<MachineGuilotinePtv> machineGuilotine = new List<MachineGuilotinePtv>();
-            if(exOrg2.Machines != null && exOrg2.MachineGuilotinePTV.Count > 0)
+            if (exOrg2.Machines != null && exOrg2.Machines.Count > 0)
             {
                 foreach(var machine in exOrg2.Machines)
                 {
@@ -9438,7 +9442,7 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
-
+            
         #region ExportStoreOnly
 
         public bool ExportStoreZip(long CompanyId,long OrganisationId)
