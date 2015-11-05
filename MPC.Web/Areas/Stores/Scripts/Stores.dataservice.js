@@ -435,7 +435,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-
+                    // Define request to delete Store
+                    amplify.request.define('archiveSpotColor', 'ajax', {
+                        url: ist.siteUrl + '/Api/SpotColor',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Delete'
+                    });
                     isInitialized = true;
                 }
             },
@@ -742,6 +748,17 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'deleteStore',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
+              // delete Stores
+            archiveSpotColor = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'archiveSpotColor',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -1150,7 +1167,8 @@
             getStoreCss: getStoreCss,
             updateStoreCss: updateStoreCss,
             getRealEstateCampaigns: getRealEstateCampaigns,
-            getCompanyVariableIcons: getCompanyVariableIcons
+            getCompanyVariableIcons: getCompanyVariableIcons,
+            archiveSpotColor: archiveSpotColor
         };
     })();
 

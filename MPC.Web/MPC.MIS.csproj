@@ -345,6 +345,7 @@
     <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
+    <Compile Include="Areas\Api\Controllers\SpotColorController.cs" />
     <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
@@ -3532,6 +3533,7 @@
     <Folder Include="Areas\Api\Views\ReportManager\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />
+    <Folder Include="Areas\Api\Views\SpotColor\" />
     <Folder Include="Areas\Api\Views\StockCategory\" />
     <Folder Include="Areas\Api\Views\SystemUser\" />
     <Folder Include="Areas\Common\Controllers\" />

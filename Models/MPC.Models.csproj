@@ -484,6 +484,7 @@
     <Compile Include="RequestModels\ReportNoteRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\SmartFormRequestModel.cs" />
+    <Compile Include="RequestModels\SpotColorArchiveRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
