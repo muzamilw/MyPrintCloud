@@ -3321,15 +3321,34 @@ namespace MPC.Repository.Repositories
 
         public void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
         {
-            Organisation org = GetOrganizatiobByID(organisationId);
-            if (org != null)
+            ZapierWebHookTargetUrl targetUrl = new ZapierWebHookTargetUrl
             {
-                if (zapTargetType == 1)
-                    org.CreateContactZapTargetUrl = sTargetUrl;
-                else if (zapTargetType == 2)
-                    org.CreateInvoiceZapTargetUrl = sTargetUrl;
-            }
+                TargetUrl = sTargetUrl,
+                WebHookEvent = zapTargetType, OrganisationId = organisationId
+            };
+            db.ZapierWebHookTargetUrls.Add(targetUrl);
+            //Organisation org = GetOrganizatiobByID(organisationId);
+            //if (org != null)
+            //{
+            //    if (zapTargetType == 1)
+            //        org.CreateContactZapTargetUrl = sTargetUrl;
+            //    else if (zapTargetType == 2)
+            //        org.CreateInvoiceZapTargetUrl = sTargetUrl;
+            //}
             SaveChanges();
+        }
+
+        public void UnSubscribeZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
+        {
+            var unSubscribeZap =
+                db.ZapierWebHookTargetUrls.FirstOrDefault(
+                    c =>
+                        c.OrganisationId == organisationId && c.TargetUrl == sTargetUrl);
+            if (unSubscribeZap != null)
+            {
+                db.ZapierWebHookTargetUrls.Remove(unSubscribeZap);
+                SaveChanges();
+            }
         }
     }
 }

@@ -720,6 +720,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ProductCategoryVoucher> ProductCategoryVouchers { get; set; }
 
         public DbSet<MarketingBriefHistory> MarketingBriefHistory { get; set; }
+        public DbSet<ZapierWebHookTargetUrl> ZapierWebHookTargetUrls { get; set; }
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
