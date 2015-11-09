@@ -961,7 +961,7 @@ namespace MPC.Repository.Repositories
 
         public Machine GetDefaultGuillotine()
         {
-            return DbSet.Where(m => m.MachineCatId == (int)MachineCategories.Guillotin).FirstOrDefault();
+            return DbSet.FirstOrDefault(m => m.MachineCatId == (int)MachineCategories.Guillotin && m.OrganisationId == OrganisationId);
         }
 
     }
