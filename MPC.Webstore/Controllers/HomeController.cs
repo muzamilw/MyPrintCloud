@@ -724,8 +724,20 @@ namespace MPC.Webstore.Controllers
                 {
                     if (!string.IsNullOrEmpty(C))
                     {
-
-                        MPC.Models.DomainModels.Company oCompany = _myCompanyService.isValidWebAccessCode(C, UserCookieManager.WEBOrganisationID);
+                        long OrganisationId = UserCookieManager.WEBOrganisationID;
+                        if (OrganisationId == 0)
+                        {
+                            OrganisationId = _myCompanyService.GetOrganisationIdByRequestUrl(Convert.ToString(HttpContext.Request.Url.DnsSafeHost));
+                            if (OrganisationId == 0)
+                            {
+                                return RedirectToAction("Error", "Home", new { Message = "Please enter valid URl." });
+                            }
+                            else 
+                            {
+                                UserCookieManager.WEBOrganisationID = OrganisationId;
+                            }
+                        }
+                        MPC.Models.DomainModels.Company oCompany = _myCompanyService.isValidWebAccessCode(C, OrganisationId);
 
                         if (oCompany != null)
                         {

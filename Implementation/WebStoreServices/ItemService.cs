@@ -3469,6 +3469,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             long FreeShippingId = 0;
             Estimate order = _OrderRepository.GetOrderByID(OrderId);
+
+            List<Item> CartItems = _OrderRepository.GetOrderItems(OrderId);
+
+            double? SumOfItems = CartItems.Sum(x => x.Qty1NetTotal).Value;
             if (order != null && order.DiscountVoucherID != null)
             {
                 DiscountVoucher dvoucher = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(order.DiscountVoucherID));
@@ -3480,7 +3484,8 @@ namespace MPC.Implementation.WebStoreServices
 
             if (FreeShippingId == 0)
             {
-                FreeShippingId = _DVRepository.IsStoreHaveFreeShippingDiscountVoucher(StoreId, OrganisationId);
+                FreeShippingId = _DVRepository.IsStoreHaveFreeShippingDiscountVoucher(StoreId, OrganisationId, SumOfItems ?? 0);
+               
             }
 
             return FreeShippingId;

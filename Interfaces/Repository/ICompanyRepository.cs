@@ -130,7 +130,7 @@ namespace MPC.Interfaces.Repository
         bool SaveUserActionLog(string Comment, long CompanyId);
 
         ExportStore ExportStore(long CompanyId);
-        
 
+        long GetOrganisationIdByCompanyId(long companyid);
     }
 }

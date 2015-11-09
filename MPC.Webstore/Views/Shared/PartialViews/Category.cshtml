@@ -39,7 +39,8 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
             }
         </div>
         <div class="cntParentCategDesc col-md-12 col-lg-12 col-xs-12">
-            <label id="lblParentCategoryDesc">@Html.Raw(Model.Description1)</label>
+            <span id="lblParentCategoryDesc" class="categoryMainDescription">@Html.Raw(Model.Description1)</span>
+            <span class="categorySecondaryDescription">@Html.Raw(Model.SecondaryDescription)</span>
         </div>
         <div id="CategoryDisplay" class="responsivePad15">
 
@@ -67,7 +68,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                     }
                                 </div>
                                 <div class="product_detail_image_heading_CAT">
-                                    <label id="lblProductName">@cat.CategoryName</label>
+                                    <span id="lblProductName">@cat.CategoryName</span>
                                 </div>
                                 @{
                             CategoryDescription = cat.Description1;
@@ -83,10 +84,16 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                     CategoryDescription = CategoryDescription;
                                 }
                             }
+
+                           
                                 }
                                 <div class="topcat_desc_CAT">
-                                    <label id="lblDescription1">@Html.Raw(CategoryDescription)</label>
+                                    <span id="lblDescription1" >@Html.Raw(CategoryDescription)</span>
+                                   
                                 </div>
+                                <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(cat.CategoryName)/@cat.ProductCategoryId" style="display:none;text-align:center;">
+                                    View <strong>@cat.CategoryName</strong>
+                                </a>
                             </div>
                         }
 
