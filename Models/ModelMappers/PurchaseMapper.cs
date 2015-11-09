@@ -40,6 +40,7 @@ namespace MPC.Models.ModelMappers
             target.discountType = source.discountType;
             target.isproduct = source.isproduct;
             target.SupplierContactAddressID = source.SupplierContactAddressID;
+           
         }
 
         #endregion Purchase Order

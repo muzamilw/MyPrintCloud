@@ -653,6 +653,10 @@ namespace MPC.Repository.Repositories
 
 
                 companyResponse.Company = company;
+                long CurrencyId = db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.CurrencyId ?? 0).FirstOrDefault();
+                string Symbol = db.Currencies.Where(c => c.CurrencyId == CurrencyId).Select(c => c.CurrencySymbol).FirstOrDefault();
+                companyResponse.CurrencySymbol = Symbol;
+
                 return companyResponse;
             }
             catch (Exception ex)
@@ -6491,6 +6495,8 @@ namespace MPC.Repository.Repositories
 
             }
         }
+
+        
 
         #region ExportStoreZip
 
