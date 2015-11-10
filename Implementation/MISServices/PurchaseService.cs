@@ -117,6 +117,7 @@ namespace MPC.Implementation.MISServices
                 DeletePurchaseDetail = DeletePurchaseDetail,
             });
 
+            purchaseTarget.OrganisationId = purchaseRepository.OrganisationId;
             // Save Changes
             purchaseRepository.SaveChanges();
 
@@ -169,6 +170,7 @@ namespace MPC.Implementation.MISServices
             Purchase itemTarget = purchaseRepository.Create();
             purchaseRepository.Add(itemTarget);
             itemTarget.Code = code;
+          
             return itemTarget;
         }
 
@@ -248,7 +250,7 @@ namespace MPC.Implementation.MISServices
                         File.Copy(SourceFile, DestinationPhysicalFileSupplier);
                     }
 
-                    campaignRepository.POEmailToSupplier(OrderID, CompanyId, ContactID, 250, purchase.Value, DestinationFileSupplier, objCompany);
+                    campaignRepository.POEmailToSupplier(OrderID, CompanyId, ContactID, 250, purchase.Value, DestinationFileSupplier, objCompany,false);
 
 
                     // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);

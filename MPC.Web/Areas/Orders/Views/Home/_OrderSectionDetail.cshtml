@@ -571,7 +571,7 @@
     <script id="sectionCostCentreItemTemplate" type="text/html">
         <tr>
             <td>
-                <a href="#" class="font20px " data-bind="text: name, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
+                <a href="#" class="font20px " data-bind="text: name, click: function(){$root.openSectionCostCenterDialog($data, $root.selectedQty())}"></a>
             </td>
 
             <td >

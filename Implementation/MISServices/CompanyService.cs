@@ -115,6 +115,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICMSOfferRepository cmsofferRepository;
         private readonly IReportNoteRepository reportNoteRepository;
         private readonly IVariableExtensionRespository variableExtensionRespository;
+        private readonly ICurrencyRepository currencySymbol;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -2690,27 +2691,28 @@ namespace MPC.Implementation.MISServices
 
             #region Delete SmartForm Detail
             //missing Items
-            List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
-            if (smartFormDbVersion.SmartFormDetails != null)
-            {
-                foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
-                {
-                    if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
-                    {
-                        missingSmartFormDetails.Add(smartFormDetailDbItem);
-                    }
-                    else if (smartForm.SmartFormDetails == null)
-                    {
-                        missingSmartFormDetails.Add(smartFormDetailDbItem);
-                    }
-                }
+            //Commented smartform detail deletion code on 30/10/2015 on Instructions of Muzzamil sb.
+            //List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
+            //if (smartFormDbVersion.SmartFormDetails != null)
+            //{
+            //    foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
+            //    {
+            //        if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
+            //        {
+            //            missingSmartFormDetails.Add(smartFormDetailDbItem);
+            //        }
+            //        else if (smartForm.SmartFormDetails == null)
+            //        {
+            //            missingSmartFormDetails.Add(smartFormDetailDbItem);
+            //        }
+            //    }
 
-                foreach (var missingItem in missingSmartFormDetails)
-                {
-                    smartFormDbVersion.SmartFormDetails.Remove(missingItem);
-                    smartFormDetailRepository.Delete(missingItem);
-                }
-            }
+            //    foreach (var missingItem in missingSmartFormDetails)
+            //    {
+            //        smartFormDbVersion.SmartFormDetails.Remove(missingItem);
+            //        smartFormDetailRepository.Delete(missingItem);
+            //    }
+            //}
 
             #endregion
 
@@ -3009,7 +3011,7 @@ namespace MPC.Implementation.MISServices
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
-            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository)
+            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository, ICurrencyRepository currencySymbol)
         {
             if (bannerSetRepository == null)
             {
@@ -3092,6 +3094,7 @@ namespace MPC.Implementation.MISServices
             this.cmsofferRepository = cmsofferRepository;
             this.reportNoteRepository = reportNoteRepository;
             this.variableExtensionRespository = variableExtensionRespository;
+            this.currencySymbol = currencySymbol;
 
 
         }
@@ -3242,6 +3245,7 @@ namespace MPC.Implementation.MISServices
             newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
             response.NewOrdersCount = newOrdersCount;
             response.NewUsersCount = userCount;
+            
             return response;
         }
 
@@ -3882,7 +3886,11 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveCompanyVariableIcon(request);
         }
 
-       
+
+        public TemplateColorStyle ArchiveSpotColor(long SpotColorId)
+        {
+           return templateColorStylesRepository.ArchiveSpotColor(SpotColorId);
+        }
         #endregion
 
         #region ExportOrganisation
@@ -4106,6 +4114,29 @@ namespace MPC.Implementation.MISServices
             // get machines by organisation id
             exOrg2.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
 
+            List<MachineGuilotinePtv> machineGuilotine = new List<MachineGuilotinePtv>();
+            if (exOrg2.Machines != null && exOrg2.Machines.Count > 0)
+            {
+                foreach(var machine in exOrg2.Machines)
+                {
+                    if(machine.MachineCatId == (int)MachineCategories.Guillotin)
+                    {
+                        List<MachineGuilotinePtv> PTVS = MachineRepository.getGuilotinePtv(machine.MachineId);
+                        
+                        if(PTVS != null && PTVS.Count > 0)
+                        {
+                            foreach (var pt in PTVS)
+                            {
+                                machineGuilotine.Add(pt);
+                            }
+                        }
+                       
+
+                    }
+                }
+            }
+
+            exOrg2.MachineGuilotinePTV = machineGuilotine;
             // get lookupmethods by organisationid
             exOrg2.LookupMethods = MachineRepository.getLookupmethodsbyOrganisationID(OrganisationID);
 
@@ -6977,7 +7008,7 @@ namespace MPC.Implementation.MISServices
                 {
                     string SetName = source.CompanyBannerSets.Where(c => c.CompanySetId == source.ActiveBannerSetId).Select(c => c.SetName).FirstOrDefault();
                     SetValuesAfterClone(objCompany, SetName,source.CompanyId);
-
+                   
                     // copy variable extension of system variables
                     companyRepository.SaveSystemVariableExtension(companyId, objCompany.CompanyId);
                     companyRepository.InsertProductCategoryItems(objCompany, source);
@@ -7029,7 +7060,7 @@ namespace MPC.Implementation.MISServices
             {
                 // Clone Item
                 source.Clone(target);
-
+                
                 // Clone Company Domains
                 CloneCompanyDomain(source, target);
 
@@ -9414,7 +9445,7 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
-
+            
         #region ExportStoreOnly
 
         public bool ExportStoreZip(long CompanyId,long OrganisationId)
@@ -9422,7 +9453,7 @@ namespace MPC.Implementation.MISServices
             try
             {
                 ExportStore ObjExportStore = new ExportStore();
-                ObjExportStore = companyRepository.ExportStore(CompanyId);
+                ObjExportStore = companyRepository.ExportStore(CompanyId,OrganisationId);
 
 
                 CopyStoreFiles(ObjExportStore, CompanyId, OrganisationId);
@@ -9979,7 +10010,75 @@ namespace MPC.Implementation.MISServices
 
 
         #region ImportStoreOnly
+        public bool ImportStoreZip(long OrganisationId,string SubDomain)
+        {
+            string status = string.Empty;
+            ExportStore exportStore = new ExportStore();
+            string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly");
 
+            string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/DefaulStorePackage/Store.zip");
+
+
+            if (File.Exists(ZipPath))
+            {
+
+                //string zipToUnpack = "C1P3SML.zip";
+                //string unpackDirectory = "Extracted Files";
+                using (ZipFile zip1 = ZipFile.Read(ZipPath))
+                {
+                    // here, we extract every entry
+                    foreach (ZipEntry e in zip1)
+                    {
+                        e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
+                    }
+                }
+
+               
+
+                // deserialize retail json file
+                string JsonRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreJson.txt");
+                if (File.Exists(JsonRetailFilePath))
+                {
+                    string json = System.IO.File.ReadAllText(JsonRetailFilePath);
+
+                    exportStore = JsonConvert.DeserializeObject<ExportStore>(json);
+
+                    json = string.Empty;
+                }
+                string JsonRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreItems.txt");
+                if (File.Exists(JsonRetailFilePath2))
+                {
+                    string json = System.IO.File.ReadAllText(JsonRetailFilePath2);
+
+                    exportStore.StoreItems = JsonConvert.DeserializeObject<List<Item>>(json);
+
+                    json = string.Empty;
+                }
+
+                string ProdCatRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/StoreOnly/StoreCategories.txt");
+                if (File.Exists(ProdCatRetailFilePath))
+                {
+                    string json = System.IO.File.ReadAllText(ProdCatRetailFilePath);
+
+                    exportStore.StoreCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(json);
+
+                    json = string.Empty;
+                }
+               
+                
+
+                status += "deserializationDone";
+                status += companyRepository.InsertStoreZip(exportStore, OrganisationId, SubDomain);
+
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
         #endregion
     }

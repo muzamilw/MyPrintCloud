@@ -27,6 +27,8 @@ namespace MPC.Interfaces.Repository
 
         string GetMachineByID(int MachineID);
         Machine GetDefaultGuillotine();
+
+        List<MachineGuilotinePtv> getGuilotinePtv(long GuilotineId);
     }
 }
 

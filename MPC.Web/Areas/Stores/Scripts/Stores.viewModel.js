@@ -1256,16 +1256,73 @@ define("stores/stores.viewModel",
                         confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function() {
                             //selectedStore().companyCMYKColors.remove(companyCMYKColor);
-                            var companyCMYKColorToDelete = getCompanyCMYKColorsByIdFromListView(companyCMYKColor.colorId());
-                            if (companyCMYKColorToDelete) {
-                                selectedStore().companyCMYKColors.remove(companyCMYKColorToDelete);
-                            }
-                            view.hideCompanyCMYKColorDialog();
+                            dataservice.archiveSpotColor({
+                               SpotColorId: companyCMYKColor.colorId(),
+                            }, {
+                                success: function (data) {
+                                    if (data != null) {
+
+                                        var savedCMYKColor = model.CompanyCMYKColor.Create(data);
+
+
+                                       
+                                        if (selectedCompanyCMYKColor().isActive()) {
+                                            _.each(selectedStore().companyCMYKColors(), function (user) {
+                                                if (user.isActive()) {
+                                                    if (selectedCompanyCMYKColor().colorId() != user.colorId()) {
+                                                        user.isActive(true);
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                        if (selectedCompanyCMYKColor().colorId() <= 0 || selectedCompanyCMYKColor().colorId() == undefined) {
+                                            selectedStore().companyCMYKColors.splice(0, 0, savedCMYKColor);
+                                        } else {
+                                            selectedCompanyCMYKColor(savedCMYKColor);
+                                            var count = 0;
+                                            _.each(selectedStore().companyCMYKColors(), function (user) {
+                                                if (user.colorId() == savedCMYKColor.colorId()) {
+                                                    //var totalCount = contactCompanyPager().totalCount();
+                                                    selectedStore().companyCMYKColors.remove(user);
+                                                    selectedStore().companyCMYKColors.splice(count, 0, savedCMYKColor);
+                                                   // contactCompanyPager().totalCount(totalCount);
+                                                }
+                                                count = count + 1;
+                                            });
+                                        }
+
+                                       
+                                       
+                                       selectedStore().reset();
+                                        
+                                        view.hideCompanyCMYKColorDialog();
+                                        toastr.success(" Archive Successfully !");
+                                      
+
+                                        //var companyCMYKColorToDelete = getCompanyCMYKColorsByIdFromListView(companyCMYKColor.colorId());
+                                        //if (companyCMYKColorToDelete) {
+                                        //    selectedStore().companyCMYKColors.remove(companyCMYKColorToDelete);
+                                        //}
+                                        //view.hideCompanyCMYKColorDialog();
+
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Delete . Error: " + response, "", ist.toastrOptions);
+                                }
+                            });
+
+                         
+
                         });
                         confirmation.show();
 
                         return;
                     },
+                   
+
+
                     //On Edit
                     onEditCompanyCMYKColor = function(companyCMYKColor) {
                         //selectedCompanyCMYKColor(companyCMYKColor);
@@ -1289,7 +1346,7 @@ define("stores/stores.viewModel",
                         // check to remove dupplicate color name
                         var count = 0;
                         _.each(selectedStore().companyCMYKColors(), function (color) {
-                            if (color.colorName() == selectedCompanyCMYKColor().colorName()) {
+                            if (color.colorName() == selectedCompanyCMYKColor().colorName() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
                                 
                                 toastr.error("Color Name already exist.");
                                 flag = false;

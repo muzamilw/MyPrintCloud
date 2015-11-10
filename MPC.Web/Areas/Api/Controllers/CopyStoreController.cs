@@ -37,5 +37,21 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             return companyService.ExportStoreZip(parameter1, parameter2);
         }
+
+      
+        [HttpPost]
+        public bool ImportStore(long parameter1, string parameter2)
+        {
+            try
+            {
+                return companyService.ImportStoreZip(parameter1, parameter2);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
     }
 }

@@ -2731,6 +2731,7 @@
           <Property Name="CreateContactZapTargetUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="CreateInvoiceZapTargetUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="IsZapierEnable" Type="bit" />
+          <Property Name="DefaultPOTax" Type="float" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -3057,6 +3058,7 @@
           <Property Name="IsRead" Type="bit" />
           <Property Name="IsPrinted" Type="bit" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -3926,6 +3928,15 @@
           <Property Name="WidgetCss" Type="varchar(max)" />
           <Property Name="ThumbnailUrl" Type="varchar" MaxLength="255" />
           <Property Name="Description" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ZapierWebHookTargetUrl">
+          <Key>
+            <PropertyRef Name="ZapierTargetUrlId" />
+          </Key>
+          <Property Name="ZapierTargetUrlId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TargetUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="WebHookEvent" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -6540,6 +6551,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="VariableSection" EntityType="Self.VariableSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZapierWebHookTargetUrl" EntityType="Self.ZapierWebHookTargetUrl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GetCategoryProducts" EntityType="Self.GetCategoryProducts" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [GetCategoryProducts].[CompanyId] AS [CompanyId], 
@@ -8458,6 +8470,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </FunctionImport>
           <EntitySet Name="UserActionsLogs" EntityType="DomainModels.UserActionsLog" />
           <FunctionImport Name="usp_GetLiveStores" ReturnType="Collection(DomainModels.usp_GetLiveStores_Result)" />
+          <EntitySet Name="ZapierWebHookTargetUrls" EntityType="DomainModels.ZapierWebHookTargetUrl" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8762,6 +8775,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CreateContactZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="CreateInvoiceZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsZapierEnable" Type="Boolean" />
+          <Property Name="DefaultPOTax" Type="Double" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -14002,6 +14016,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Purchase_Company" FromRole="Purchase" ToRole="Company" />
           <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_Purchase_SectionFlag" FromRole="Purchase" ToRole="SectionFlag" />
           <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseDetail_Purchase" FromRole="Purchase" ToRole="PurchaseDetail" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -15494,6 +15509,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="Int32" Name="Last3MonthCount" Nullable="true" />
           <Property Type="String" Name="Domain" Nullable="true" />
         </ComplexType>
+        <EntityType Name="ZapierWebHookTargetUrl">
+          <Key>
+            <PropertyRef Name="ZapierTargetUrlId" />
+          </Key>
+          <Property Name="ZapierTargetUrlId" Type="Int64" Nullable="false" />
+          <Property Name="TargetUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WebHookEvent" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15716,6 +15740,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="DefaultPOTax" ColumnName="DefaultPOTax" />
                 <ScalarProperty Name="IsZapierEnable" ColumnName="IsZapierEnable" />
                 <ScalarProperty Name="CreateInvoiceZapTargetUrl" ColumnName="CreateInvoiceZapTargetUrl" />
                 <ScalarProperty Name="CreateContactZapTargetUrl" ColumnName="CreateContactZapTargetUrl" />
@@ -19387,6 +19412,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Purchases">
             <EntityTypeMapping TypeName="DomainModels.Purchase">
               <MappingFragment StoreEntitySet="Purchase">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
                 <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
                 <ScalarProperty Name="IsRead" ColumnName="IsRead" />
@@ -20490,6 +20516,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ZapierWebHookTargetUrls">
+            <EntityTypeMapping TypeName="DomainModels.ZapierWebHookTargetUrl">
+              <MappingFragment StoreEntitySet="ZapierWebHookTargetUrl">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="WebHookEvent" ColumnName="WebHookEvent" />
+                <ScalarProperty Name="TargetUrl" ColumnName="TargetUrl" />
+                <ScalarProperty Name="ZapierTargetUrlId" ColumnName="ZapierTargetUrlId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

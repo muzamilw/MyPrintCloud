@@ -51,5 +51,7 @@ namespace MPC.MIS.Areas.Api.Models
         public ItemSearchResponse Items { get; set; }
 
         public IEnumerable<SkinForTheme> Themes { get; set; }
+
+        public string CurrencySymbol { get; set; }
     }
 }

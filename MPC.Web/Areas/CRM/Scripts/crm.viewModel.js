@@ -60,6 +60,7 @@ define("crm/crm.viewModel",
                     isUserAndAddressesTabOpened = ko.observable(false),
                     //selected Company
                     selectedCompany = ko.observable(),
+
                 //#endregion
 
                 //#region ___________ SUPPLIER SCREEN ____________
@@ -75,6 +76,8 @@ define("crm/crm.viewModel",
                  //Sort In Ascending
                 supplierSortIsAsc = ko.observable(true),
                 selectedSupplier = ko.observable(),
+
+                currencySymbol = ko.observable(),
                 //#endregion
 
                 //#region ____________OBSERVABLE ARRAYS____________
@@ -1671,6 +1674,7 @@ define("crm/crm.viewModel",
                                 var store = model.Store.Create(data.Company);
                                 storeId(data.Company.StoreId);
                                 selectedStore(store);
+                                currencySymbol(data.CurrencySymbol);
                                 selectedStore().storeId(storeId());
                                 selectedStore().type(data.Company.IsCustomer);
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
@@ -2598,7 +2602,8 @@ define("crm/crm.viewModel",
                     companyDdSelector: companyDdSelector,
                     onChangeCompany: onChangeCompany,
                     searchSuppliersByFilters: searchSuppliersByFilters,
-                    storeId: storeId
+                    storeId: storeId,
+                    currencySymbol: currencySymbol
                 };
                 //#endregion
             })()
