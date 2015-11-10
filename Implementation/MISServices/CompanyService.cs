@@ -115,6 +115,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICMSOfferRepository cmsofferRepository;
         private readonly IReportNoteRepository reportNoteRepository;
         private readonly IVariableExtensionRespository variableExtensionRespository;
+        private readonly ICurrencyRepository currencySymbol;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -3010,7 +3011,7 @@ namespace MPC.Implementation.MISServices
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
-            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository)
+            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository, ICurrencyRepository currencySymbol)
         {
             if (bannerSetRepository == null)
             {
@@ -3093,6 +3094,7 @@ namespace MPC.Implementation.MISServices
             this.cmsofferRepository = cmsofferRepository;
             this.reportNoteRepository = reportNoteRepository;
             this.variableExtensionRespository = variableExtensionRespository;
+            this.currencySymbol = currencySymbol;
 
 
         }
@@ -3243,6 +3245,7 @@ namespace MPC.Implementation.MISServices
             newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
             response.NewOrdersCount = newOrdersCount;
             response.NewUsersCount = userCount;
+            
             return response;
         }
 

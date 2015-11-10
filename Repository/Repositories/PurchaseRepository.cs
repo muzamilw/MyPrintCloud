@@ -83,6 +83,7 @@ namespace MPC.Repository.Repositories
                 .OrderByDescending(x => x.date_Purchase)
                 .Skip(fromRow)
                 .Take(toRow)
+                .Where(c => c.OrganisationId == OrganisationId)
                 .ToList();
             return new PurchaseResponseModel { Purchases = items, TotalCount = DbSet.Count(query) };
         }
