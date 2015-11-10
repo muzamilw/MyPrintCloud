@@ -399,6 +399,7 @@
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
     <Compile Include="Controllers\LoginBarWithCountersController.cs" />
+    <Compile Include="Controllers\LoginBarWithPhoneInfoController.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
     <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
@@ -1051,6 +1052,7 @@
     <Content Include="Views\Shared\PartialViews\FutureHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\FutureQuickLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\FooterWithUseFulLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\LoginBarWithPhoneInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1068,6 +1070,7 @@
     <Folder Include="Views\FutureHeader\" />
     <Folder Include="Views\FutureQuickLinks\" />
     <Folder Include="Views\LoginBarWithCounters\" />
+    <Folder Include="Views\LoginBarWithPhoneInfo\" />
     <Folder Include="Views\UserManager\" />
   </ItemGroup>
   <ItemGroup>
