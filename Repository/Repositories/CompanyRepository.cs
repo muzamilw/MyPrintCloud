@@ -6495,7 +6495,7 @@ namespace MPC.Repository.Repositories
 
             }
         }
-
+      
         
 
         #region ExportStoreZip
@@ -6900,6 +6900,15 @@ namespace MPC.Repository.Repositories
             }
 
 
+        }
+        public long GetOrganisationIdByCompanyId(long companyid)
+        {
+            Company oCompany = db.Companies.Where(c => c.CompanyId == companyid).FirstOrDefault();
+            if(oCompany != null)
+            {
+                return oCompany.OrganisationId ?? 0;
+            }
+            return 0;
         }
 
         #endregion

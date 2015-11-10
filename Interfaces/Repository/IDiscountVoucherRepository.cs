@@ -20,7 +20,7 @@ namespace MPC.Interfaces.Repository
         DiscountVoucher GetDiscountVoucherById(long DiscountVoucherId);
         DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountVoucherName, long StoreId, long OrganisationId);
 
-        long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId);
+        long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId, double OrderTotal);
         DiscountVoucher UpdateVoucher(DiscountVoucher discountVoucher);
 
         DiscountVoucher GetDiscountVoucherByVoucherId(long DVId);

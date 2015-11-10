@@ -148,14 +148,57 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId)
+        public long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId, double OrderTotal)
         {
             try
             {
                List<DiscountVoucher> freeShippingV = db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true && d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
                if (freeShippingV != null && freeShippingV.Count > 0)
                {
-                   return freeShippingV.FirstOrDefault().DiscountVoucherId;
+                   DiscountVoucher freeShipping = freeShippingV.FirstOrDefault();
+                   if (freeShipping != null)
+                   {
+                       if (freeShipping.IsTimeLimit == true)
+                       {
+                           DateTime? ValidFromDate = freeShipping.ValidFromDate;
+                           DateTime? ValidUptoDate = freeShipping.ValidUptoDate;
+                           DateTime TodayDate = DateTime.Now;
+                           if (ValidFromDate != null)
+                           {
+                               if (TodayDate < ValidFromDate)
+                               {
+                                   return 0;
+                               }
+                           }
+                           if (ValidUptoDate != null)
+                           {
+                               if (TodayDate > ValidUptoDate)
+                               {
+                                   return 0;
+                               }
+                           }
+                       }
+                       if (freeShipping.IsOrderPriceRequirement.HasValue && freeShipping.IsOrderPriceRequirement.Value == true)
+                       {
+                           if (freeShipping.MinRequiredOrderPrice.HasValue && freeShipping.MinRequiredOrderPrice.Value > 0)
+                           {
+                               if (OrderTotal < freeShipping.MinRequiredOrderPrice.Value)
+                               {
+                                   return 0;
+                               }
+                           }
+
+                           if (freeShipping.MaxRequiredOrderPrice.HasValue && freeShipping.MaxRequiredOrderPrice.Value > 0)
+                           {
+                               if (OrderTotal > freeShipping.MaxRequiredOrderPrice.Value)
+                               {
+                                   return 0;
+                               }
+                           }
+                       }
+                       return freeShipping.DiscountVoucherId;
+                   }
+                   return 0;
                }
                else 
                {

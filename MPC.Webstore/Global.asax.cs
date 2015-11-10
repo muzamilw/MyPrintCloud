@@ -145,8 +145,6 @@ namespace MPC.Webstore
             Uri sdsd = Request.Url;
             if (UserCookieManager.WBStoreId == 0 || (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) == null)
             {
-                Uri urlReferrer = Request.UrlReferrer;
-                
                 companyService = container.Resolve<ICompanyService>();
 
                 string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);

@@ -132,7 +132,7 @@ namespace MPC.Interfaces.Repository
         ExportStore ExportStore(long CompanyId,long OrganisationId);
 
         bool InsertStoreZip(ExportStore ObjExportStore, long OrganisationId, string SubDomain);
-        
 
+        long GetOrganisationIdByCompanyId(long companyid);
     }
 }
