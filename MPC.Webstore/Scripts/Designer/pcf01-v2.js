@@ -938,7 +938,7 @@ function d2() {
        // StopLoader();
         m0();
         // reset display order
-        var difFound = false;
+        difFound = false;
         $.each(TO, function (i, IT) {
             if (IT.ProductPageId == SP) {
                 var OBS = canvas.getObjects();
@@ -954,7 +954,7 @@ function d2() {
             }
         });
         if (difFound) {
-            d5_sub(SP, true);
+            d5_sub(SP, false);
             $.each(TP, function (i, ite) {
                 if (ite.ProductPageID == SP) {
                     bleedPrinted = false;
@@ -991,7 +991,7 @@ function d2() {
             isloadingNew = false;
             m0();
             // reset display order
-            var difFound = false;
+            difFound = false;
             $.each(TO, function (i, IT) {
                 if (IT.ProductPageId == SP) {
                     var OBS = canvas.getObjects();
@@ -1007,7 +1007,8 @@ function d2() {
                 }
             });
             if (difFound) {
-                d5_sub(SP, true);
+                StartLoader("Rearranging layers");
+                d5_sub(SP, false);
                 $.each(TP, function (i, ite) {
                     if (ite.ProductPageID == SP) {
                         bleedPrinted = false;
@@ -2833,7 +2834,8 @@ function togglePage(pId) {
         }
     }
     function j9_21(DT) {
-        StopLoader();
+        if (!difFound)
+            StopLoader();
         k27();
         parts = DT.split("Designer/Products/");
         //$("#ImgCarouselDiv").tabs("option", "active", 1); open template  images section
