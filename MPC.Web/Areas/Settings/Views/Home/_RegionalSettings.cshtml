@@ -78,34 +78,36 @@
             </div>
 
 
-            @*<div class="form-group">
+            <div class="form-group">
                 <div class="col-lg-5 text-right">
-
-                 
-                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Unit of Length</label>
-
+                    <label for="switchZapierActive" class="control-label text-right tooltip-float">
+                        Active
+                    </label>
                 </div>
-
                 <div class="col-lg-6">
-                    <select id="lengthUnit" class="form-control" data-bind="options: $root.unitLengths, optionsText: 'UnitName', optionsValue: 'Id' ,value:lengthUnitId,validationtooltip:lengthUnitId"></select>
-                    <span class="help-block text-right"></span>
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchZapierActive" data-bind="checked:isZapierActive">
+                        <label class="onoffswitch-label" for="switchZapierActive">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>
+                    </div>
+
                 </div>
 
-            </div>*@
-            @*<div class="form-group">
+            </div>
+            <div class="form-group">
                 <div class="col-lg-5 text-right">
-
-                  
-                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Unit of Weight</label>
-
+                    <label for="txtApiUrl" class="control-label text-right tooltip-float">
+                        Agile API URL
+                    </label>
                 </div>
-
                 <div class="col-lg-6">
-                    <select id="currency" class="form-control" data-bind="options: $root.unitWeights, optionsText: 'UnitName', optionsValue: 'Id' ,value:weightUnitId,validationtooltip:weightUnitId"></select>
-                    <span class="help-block text-right"></span>
+                    <input type="text" class="form-control" id="txtApiUrl" placeholder="Enter API URL" data-bind="value:agileApiUrl">
                 </div>
 
-            </div>*@
+            </div>
+           
         </div>
     </div>
 </div>

@@ -2388,7 +2388,7 @@ namespace MPC.Implementation.MISServices
 
             return new ItemDesignerTemplateBaseResponse
             {
-                TemplateCategories = templateCategories.Where(c => c.OrganisationId == organizationRepository.OrganisationId || c.OrganisationId == null).ToList(),
+                TemplateCategories = templateCategories.Where(c => c.OrganisationId == organizationRepository.OrganisationId || c.OrganisationId == null || c.OrganisationId == 0).ToList(),
                 CategoryRegions = categoryRegions,
                 CategoryTypes = categoryTypes,
                 SmartForms = smartForms
