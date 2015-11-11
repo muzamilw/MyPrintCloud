@@ -14,6 +14,6 @@ namespace MPC.Interfaces.MISServices
     {
          RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
 
-         string SaveListingData(HttpContext OrganisationId);
+         string SaveListingData(long OrganisationId);
     }
 }

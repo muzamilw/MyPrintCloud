@@ -11,7 +11,7 @@ public class EmailBackgroundTask : Registry
 
  //   public ICampaignService campaignService;
 
-    public EmailBackgroundTask(System.Web.HttpContext context, ICampaignService campaignService, MPC.Interfaces.MISServices.IListingService _listingService)
+    public EmailBackgroundTask(System.Web.HttpContext context, ICampaignService campaignService, MPC.Interfaces.MISServices.IListingService _listingService, ICompanyService _myCompanyService)
     {
       
        
@@ -24,8 +24,21 @@ public class EmailBackgroundTask : Registry
         Schedule(() => _campaignService.MonitorScheduledEmails())
        .ToRunNow().AndEvery(5).Minutes();
 
-        Schedule(() => _listingService.SaveListingData(context)))
-       .ToRunNow().AndEvery(10).Minutes();
+        //if (context.Request != null)
+        //{
+        //    if (context.Request.Url != null)
+        //    {
+        //        long OrganisationId = _myCompanyService.GetOrganisationIdByRequestUrl(Convert.ToString(context.Request.Url.DnsSafeHost));
+        //        if (OrganisationId > 0)
+        //        {
+        //            Schedule(() => _listingService.SaveListingData(OrganisationId))
+        //               .ToRunNow().AndEvery(10).Minutes();
+        //        }
+        //    }
+        //}
+      
+
+     
 
         //Schedule(() => emailmgr.GetWeeklyEmailPage(context))
         //    .ToRunEvery(1).Weeks().On(DayOfWeek.Monday).At(21, 00);

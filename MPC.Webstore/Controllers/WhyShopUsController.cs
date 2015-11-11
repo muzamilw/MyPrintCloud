@@ -27,26 +27,52 @@ namespace MPC.Webstore.Controllers
         {
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-            DiscountVoucher FreeShippingVoucher = _ItemService.GetFreeShippingDiscountVoucherByStoreId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            DiscountVoucher Voucher = _ItemService.GetFreeShippingDiscountVoucherByStoreId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             double OrderTotalPrice = 0;
-            if (FreeShippingVoucher != null)
+            if (Voucher != null)
             {
-                if (FreeShippingVoucher.IsOrderPriceRequirement.HasValue && FreeShippingVoucher.IsOrderPriceRequirement.Value == true)
+                if (Voucher.IsOrderPriceRequirement.HasValue && Voucher.IsOrderPriceRequirement.Value == true)
                 {
-                    if (FreeShippingVoucher.MinRequiredOrderPrice.HasValue && FreeShippingVoucher.MinRequiredOrderPrice.Value > 0)
+                    if (Voucher.MinRequiredOrderPrice.HasValue && Voucher.MinRequiredOrderPrice.Value > 0)
                     {
-                        OrderTotalPrice = FreeShippingVoucher.MinRequiredOrderPrice ?? 0;
+                        OrderTotalPrice = Voucher.MinRequiredOrderPrice ?? 0;
                         
                     }
 
-                    if (FreeShippingVoucher.MaxRequiredOrderPrice.HasValue && FreeShippingVoucher.MaxRequiredOrderPrice.Value > 0 && OrderTotalPrice == 0)
+                    if (Voucher.MaxRequiredOrderPrice.HasValue && Voucher.MaxRequiredOrderPrice.Value > 0 && OrderTotalPrice == 0)
                     {
-                        OrderTotalPrice = FreeShippingVoucher.MaxRequiredOrderPrice ?? 0;
+                        OrderTotalPrice = Voucher.MaxRequiredOrderPrice ?? 0;
                         
                     }
                 }
             }
+
             ViewBag.OrderTotal = StoreBaseResopnse.Currency + OrderTotalPrice;
+
+            Voucher = _ItemService.GetOrderDiscountPercentageVoucherByStoreId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            double OrderPercentage = 0;
+            double OrderPercentageAmount = 0;
+            if (Voucher != null)
+            {
+                OrderPercentage = Voucher.DiscountRate;
+                if (Voucher.IsOrderPriceRequirement.HasValue && Voucher.IsOrderPriceRequirement.Value == true)
+                {
+                    if (Voucher.MinRequiredOrderPrice.HasValue && Voucher.MinRequiredOrderPrice.Value > 0)
+                    {
+                        OrderPercentageAmount = Voucher.MinRequiredOrderPrice ?? 0;
+                        
+                    }
+
+                    if (Voucher.MaxRequiredOrderPrice.HasValue && Voucher.MaxRequiredOrderPrice.Value > 0 && OrderPercentageAmount == 0)
+                    {
+                        OrderPercentageAmount = Voucher.MaxRequiredOrderPrice ?? 0;
+                        
+                    }
+                }
+            }
+
+            ViewBag.OrderPercentageTotal = StoreBaseResopnse.Currency + OrderPercentageAmount;
+            ViewBag.OrderPercentage = OrderPercentage + "%";
             if(StoreBaseResopnse.StoreDetaultAddress != null)
             {
                 ViewBag.Country = StoreBaseResopnse.StoreDetaultAddress.Country;

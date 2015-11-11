@@ -226,5 +226,6 @@ namespace MPC.Interfaces.WebStoreServices
         long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId, long OrderId);
         void UpdateOrderIdInItem(long itemId, long OrderId);
         DiscountVoucher GetFreeShippingDiscountVoucherByStoreId(long StoreId, long OrganisationId);
+        DiscountVoucher GetOrderDiscountPercentageVoucherByStoreId(long StoreId, long OrganisationId);
     }
 }

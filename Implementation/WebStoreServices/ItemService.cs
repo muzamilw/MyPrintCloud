@@ -3502,7 +3502,7 @@ namespace MPC.Implementation.WebStoreServices
         public DiscountVoucher GetFreeShippingDiscountVoucherByStoreId(long StoreId, long OrganisationId)
         {
 
-            List<DiscountVoucher> listOfStoreVouchers = _DVRepository.GetStoreDefaultDiscountVouchers(StoreId, OrganisationId).ToList();
+            List<DiscountVoucher> listOfStoreVouchers = _DVRepository.GetStoreDefaultDiscountVouchers(StoreId, OrganisationId).Where(s => s.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
             bool isSetVoucher = true;
             DiscountVoucher dVToReturn = null;
             if (listOfStoreVouchers != null && listOfStoreVouchers.Count() > 0)
@@ -3542,6 +3542,48 @@ namespace MPC.Implementation.WebStoreServices
             //  return listOfStoreVouchers.Where(d => d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).FirstOrDefault();
         }
 
+        public DiscountVoucher GetOrderDiscountPercentageVoucherByStoreId(long StoreId, long OrganisationId)
+        {
+
+            List<DiscountVoucher> listOfStoreVouchers = _DVRepository.GetStoreDefaultDiscountVouchers(StoreId, OrganisationId).Where(s => s.DiscountType == (int)DiscountTypes.PercentoffEntirorder).ToList();
+            bool isSetVoucher = true;
+            DiscountVoucher dVToReturn = null;
+            if (listOfStoreVouchers != null && listOfStoreVouchers.Count() > 0)
+            {
+                foreach (DiscountVoucher orderPercentage in listOfStoreVouchers)
+                {
+                    if (orderPercentage.IsTimeLimit == true)
+                    {
+                        DateTime? ValidFromDate = orderPercentage.ValidFromDate;
+                        DateTime? ValidUptoDate = orderPercentage.ValidUptoDate;
+                        DateTime TodayDate = DateTime.Now;
+                        if (ValidFromDate != null)
+                        {
+                            if (TodayDate < ValidFromDate)
+                            {
+                                isSetVoucher = false;
+                            }
+                        }
+                        if (ValidUptoDate != null)
+                        {
+                            if (TodayDate > ValidUptoDate)
+                            {
+                                isSetVoucher = false;
+                            }
+                        }
+                    }
+
+                    if (isSetVoucher == true)
+                    {
+                        dVToReturn = orderPercentage;
+
+                        return orderPercentage;
+                    }
+                }
+            }
+            return dVToReturn;
+           
+        }
         #endregion
     }
 }

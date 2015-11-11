@@ -34,9 +34,9 @@ namespace MPC.Implementation.MISServices
             return listingRepository.GetRealEstatePropertyCompaigns(request);
         }
 
-        public string SaveListingData(HttpContext OrganisationId)
+        public string SaveListingData(long OrganisationId)
         {
-            if(OrganisationId == 1682)
+            if (OrganisationId == 1682)
             {
                 // Read the file as one string.
                 string XMLData = string.Empty;
