@@ -80,14 +80,14 @@
 
             <div class="form-group">
                 <div class="col-lg-5 text-right">
-                    <label for="switchZapierActive" class="control-label text-right tooltip-float">
-                        Active
+                    <label for="switchBleedSize" class="control-label text-right tooltip-float">
+                        Show Bleed Area
                     </label>
                 </div>
                 <div class="col-lg-6">
                     <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchZapierActive" data-bind="checked:isZapierActive">
-                        <label class="onoffswitch-label" for="switchZapierActive">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchBleedSize" data-bind="checked:showBleedArea">
+                        <label class="onoffswitch-label" for="switchBleedSize">
                             <div class="onoffswitch-inner"></div>
                             <div class="onoffswitch-switch"></div>
                         </label>
@@ -96,14 +96,14 @@
                 </div>
 
             </div>
-            <div class="form-group">
+            <div class="form-group" data-bind="visible: showBleedArea">
                 <div class="col-lg-5 text-right">
-                    <label for="txtApiUrl" class="control-label text-right tooltip-float">
-                        Agile API URL
+                    <label for="txtBleedArea" class="control-label text-right tooltip-float">
+                        Bleed Size
                     </label>
                 </div>
                 <div class="col-lg-6">
-                    <input type="text" class="form-control" id="txtApiUrl" placeholder="Enter API URL" data-bind="value:agileApiUrl">
+                    <input type="text" class="form-control text-right" id="txtBleedArea" placeholder="Enter Bleed Size" data-bind="value:bleedAreaSize">
                 </div>
 
             </div>
