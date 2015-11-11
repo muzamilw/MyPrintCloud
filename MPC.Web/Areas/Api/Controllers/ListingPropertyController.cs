@@ -33,9 +33,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         [HttpGet]
-        public string SaveListingData()
+        public string SaveListingData(long OrganisationId)
         {
-           return listingService.SaveListingData();
+            return listingService.SaveListingData(OrganisationId);
         }
     }
 }

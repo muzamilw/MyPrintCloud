@@ -1,5 +1,6 @@
 ﻿using FluentScheduler;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Webstore.Common;
 using System;
 
 public class EmailBackgroundTask : Registry
@@ -23,7 +24,7 @@ public class EmailBackgroundTask : Registry
         Schedule(() => _campaignService.MonitorScheduledEmails())
        .ToRunNow().AndEvery(5).Minutes();
 
-        Schedule(() => _listingService.SaveListingData())
+        Schedule(() => _listingService.SaveListingData(UserCookieManager.WEBOrganisationID))
        .ToRunNow().AndEvery(10).Minutes();
 
         //Schedule(() => emailmgr.GetWeeklyEmailPage(context))
