@@ -275,7 +275,9 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.ItemName = stockItem.ItemName;
             stockItemDbVersion.ItemCode = stockItem.ItemCode;
             stockItemDbVersion.SupplierId = stockItem.SupplierId;
+            stockItemDbVersion.CategoryId = stockItem.CategoryId;
             stockItemDbVersion.SubCategoryId = stockItem.SubCategoryId;
+           
             stockItemDbVersion.BarCode = stockItem.BarCode;
             stockItemDbVersion.ItemDescription = stockItem.ItemDescription;
             stockItemDbVersion.FlagID = stockItem.FlagID;

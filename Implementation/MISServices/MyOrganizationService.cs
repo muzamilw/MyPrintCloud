@@ -288,6 +288,8 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.isXeroIntegrationRequired = organisation.isXeroIntegrationRequired;
             organisationDbVersion.IsZapierEnable = organisation.IsZapierEnable;
             organisationDbVersion.DefaultPOTax = organisation.DefaultPOTax;
+            organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
+            organisationDbVersion.BleedAreaSize = organisation.BleedAreaSize;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;

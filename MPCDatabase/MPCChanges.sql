@@ -8806,3 +8806,8 @@ CREATE TABLE [dbo].[ZapierWebHookTargetUrl](
 GO
 
 alter table ZapierWebHookTargetUrl add OrganisationId bigint
+
+
+-----------------------------------------------
+
+alter table Purchase add OrganisationId bigint null

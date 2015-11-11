@@ -13,6 +13,9 @@ namespace MPC.Models.Common
         
         public List<TemplateFont> templateFonts { get; set; }
 
+
+        //public List<DiscountVoucher> DiscountVouchers { get; set; }
+
         public List<ProductCategory> StoreCategories { get; set; }
         public List<Item> StoreItems { get; set; }
 

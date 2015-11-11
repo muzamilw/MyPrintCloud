@@ -211,3 +211,5 @@ function restrictControls() {
     $("#layersPanel").css("visibility", "hidden");
     $("#selectedTab").addClass("restrictedSelectedTab");
 }
+
+var difFound = false;

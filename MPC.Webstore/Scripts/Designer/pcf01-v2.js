@@ -465,7 +465,15 @@ function c2_del(obj) {
         }
     });
 }
+
+function SortByOrder(a, b) {
+    var aName = a.DisplayOrderPdf;
+    var bName = b.DisplayOrderPdf;
+    return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+}
+
 function c7(PageID) {
+    TO = TO.sort(SortByOrder);
     $.each(TO, function (i, IT) {
         if (IT.ProductPageId == PageID) {
             hasObjects = true;
@@ -923,37 +931,104 @@ function d1(cCanvas, IO, isCenter) {
 }
 
 function d2() {
+
     if (LIFT && TIC === TotalImgLoaded) {
         LIFT = false;
         isloadingNew = false;
-        StopLoader();
+       // StopLoader();
         m0();
-        $.each(TP, function (i, ite) {
-            if (ite.ProductPageID == SP) {
-                var height = Template.PDFTemplateHeight * dfZ1l;
-                var width = Template.PDFTemplateWidth * dfZ1l;
-                if (ite.Height != null && ite.Height != 0) {
-                    height = (ite.Height * dfZ1l);
-                } 
-                if (ite.Width != null && ite.Width != 0) {
-                    width = (ite.Width * dfZ1l);
-                } 
-                d6(width, height, ISG1);
-                //}
-                //else {
-                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                //}
+        // reset display order
+        difFound = false;
+        $.each(TO, function (i, IT) {
+            if (IT.ProductPageId == SP) {
+                var OBS = canvas.getObjects();
+                $.each(OBS, function (i, cObj) {
+                    if (cObj.ObjectID == IT.ObjectID) {
+                        var dif = IT.DisplayOrderPdf - i;
+                        if (dif != 0) {
+                            difFound = true;
+                        }
+                        return false;
+                    }
+                });
             }
         });
+        if (difFound) {
+            d5_sub(SP, false);
+            $.each(TP, function (i, ite) {
+                if (ite.ProductPageID == SP) {
+                    bleedPrinted = false;
+                    var height = Template.PDFTemplateHeight * dfZ1l;
+                    var width = Template.PDFTemplateWidth * dfZ1l;
+                    if (ite.Height != null && ite.Height != 0) {
+                        height = (ite.Height * dfZ1l);
+                    }
+                    if (ite.Width != null && ite.Width != 0) {
+                        width = (ite.Width * dfZ1l);
+                    }
+                    d6(width, height, ISG1);
+                }
+            });
+        } else {
+            StopLoader();
+            $.each(TP, function (i, ite) {
+                if (ite.ProductPageID == SP) {
+                    var height = Template.PDFTemplateHeight * dfZ1l;
+                    var width = Template.PDFTemplateWidth * dfZ1l;
+                    if (ite.Height != null && ite.Height != 0) {
+                        height = (ite.Height * dfZ1l);
+                    }
+                    if (ite.Width != null && ite.Width != 0) {
+                        width = (ite.Width * dfZ1l);
+                    }
+                    d6(width, height, ISG1);
+                }
+            });
+        }
+       
     } else {
         if (TIC == TotalImgLoaded) {
             isloadingNew = false;
-            StopLoader();
             m0();
+            // reset display order
+            difFound = false;
+            $.each(TO, function (i, IT) {
+                if (IT.ProductPageId == SP) {
+                    var OBS = canvas.getObjects();
+                    $.each(OBS, function (i, cObj) {
+                        if (cObj.ObjectID == IT.ObjectID) {
+                            var dif = IT.DisplayOrderPdf - i;
+                                if (dif != 0) {
+                                    difFound = true;
+                                }
+                            return false;
+                        }
+                    });
+                }
+            });
+            if (difFound) {
+                StartLoader("Rearranging layers");
+                d5_sub(SP, false);
+                $.each(TP, function (i, ite) {
+                    if (ite.ProductPageID == SP) {
+                        bleedPrinted = false;
+                        var height = Template.PDFTemplateHeight * dfZ1l;
+                        var width = Template.PDFTemplateWidth * dfZ1l;
+                        if (ite.Height != null && ite.Height != 0) {
+                            height = (ite.Height * dfZ1l);
+                        }
+                        if (ite.Width != null && ite.Width != 0) {
+                            width = (ite.Width * dfZ1l);
+                        }
+                        d6(width, height, ISG1);
+                    }
+                });
+            } else {
+                StopLoader();
+            }
         } 
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-              //  if (ite.Orientation == 1) {
                 var height = Template.PDFTemplateHeight * dfZ1l;
                 var width = Template.PDFTemplateWidth * dfZ1l;
                 if (ite.Height != null && ite.Height != 0) {
@@ -963,10 +1038,6 @@ function d2() {
                     width = (ite.Width * dfZ1l);
                 }
                 d6(width, height, ISG1);
-                //}
-                //else {
-                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                //}
             }
         });
     }
@@ -2763,7 +2834,8 @@ function togglePage(pId) {
         }
     }
     function j9_21(DT) {
-        StopLoader();
+        if (!difFound)
+            StopLoader();
         k27();
         parts = DT.split("Designer/Products/");
         //$("#ImgCarouselDiv").tabs("option", "active", 1); open template  images section

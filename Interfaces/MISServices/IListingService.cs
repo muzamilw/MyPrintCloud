@@ -13,6 +13,6 @@ namespace MPC.Interfaces.MISServices
     {
          RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
 
-         string SaveListingData();
+         string SaveListingData(long OrganisationId);
     }
 }

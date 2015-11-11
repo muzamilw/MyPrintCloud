@@ -257,6 +257,16 @@ namespace MPC.MIS.Areas.Api.Models
         public double? DefaultPOTax { get; set; }
 
         /// <summary>
+        /// Bleed Area Size
+        /// </summary>
+        public double? BleedAreaSize { get; set; }
+
+        /// <summary>
+        /// Show Bleed Area
+        /// </summary>
+        public bool? ShowBleedArea { get; set; }
+
+        /// <summary>
         /// Image Source
         /// </summary>
         public string ImageSource
