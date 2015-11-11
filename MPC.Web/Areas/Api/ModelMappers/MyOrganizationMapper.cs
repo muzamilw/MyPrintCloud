@@ -79,6 +79,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                TaxRegistrationNo = source.TaxRegistrationNo,
                IsZapierEnable = source.IsZapierEnable,
                DefaultPOTax = source.DefaultPOTax,
+               ShowBleedArea = source.ShowBleedArea,
+               BleedAreaSize = source.BleedAreaSize,
                Image = bytes,
                LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : new List<LanguageEditor>(),
            };
@@ -121,6 +123,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isXeroIntegrationRequired = source.isXeroIntegrationRequired,
                 IsZapierEnable = source.IsZapierEnable,
                 DefaultPOTax = source.DefaultPOTax,
+                BleedAreaSize = source.BleedAreaSize,
+                ShowBleedArea = source.ShowBleedArea,
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
                 LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : null,
