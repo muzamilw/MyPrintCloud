@@ -173,6 +173,8 @@ namespace MPC.Models.Common
         public List<TemplateObject> RetailTemplateObjects { get; set; }
         public List<TemplateFont> RetailTemplateFonts { get; set; }
 
+        //public List<DiscountVoucher> RetailDiscountVouchers { get; set; }
+
         public List<TemplateColorStyle> RetailTemplateColorStyle { get; set; }
 
         public List<TemplateBackgroundImage> RetailTemplateBackgroundImage { get; set; }

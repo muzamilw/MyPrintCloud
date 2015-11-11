@@ -74,7 +74,7 @@
                                             <label for="category" class="control-label text-right tooltip-float">Inventory Category</label>
                                         </div>
                                         <div class="col-lg-6" style="padding-left:13px;">
-                                            <select id="category" class="form-control" data-bind="disable:(itemId()!==0),options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId, validationOnElement:categoryId"></select>
+                                            <select id="category" class="form-control" data-bind="disable:(itemId()!==0 && $root.isStockCatEditable() == false),options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId, validationOnElement:categoryId"></select>
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -87,7 +87,7 @@
                                             <label for="subcategory" class="control-label text-right tooltip-float">Inventory Sub Category</label>
                                         </div>
                                         <div class="col-lg-6" style="padding-left:13px;">
-                                            <select id="subcategory" class="form-control" data-bind="disable:(itemId()!==0),options: $root.filteredSubCategoriesForDetail, optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryId, validationTooltip: subCategoryId, validationOnElement:subCategoryId"></select>
+                                            <select id="subcategory" class="form-control" data-bind="options: $root.filteredSubCategoriesForDetail, optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryId, validationTooltip: subCategoryId, validationOnElement:subCategoryId"></select>
                                         </div>
                                     </div>
 
