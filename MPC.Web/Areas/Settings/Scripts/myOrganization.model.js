@@ -62,6 +62,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             markupId = ko.observable().extend({ required: true }),
             // defaultPO
             defaultPOTax = ko.observable(),
+             // BleedAreaSize
+            bleedAreaSize = ko.observable(),
+             // Show Bleed Area
+            showBleedArea = ko.observable(),
+
             //markups In My Organization
             markupsInMyOrganization = ko.observableArray([]),
            //Chart Of Accounts In My Organization
@@ -107,6 +112,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  isImperical: isImperical,
                  agileApiUrl: agileApiUrl,
                  defaultPOTax: defaultPOTax,
+                 bleedAreaSize: bleedAreaSize,
+                 showBleedArea: showBleedArea,
                  agileApiKey: agileApiKey,
                  isAgileApiActive: isAgileApiActive,
                  unleashedApiId: unleashedApiId,
@@ -153,6 +160,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              isImperical: isImperical,
              agileApiUrl: agileApiUrl,
              defaultPOTax: defaultPOTax,
+             bleedAreaSize: bleedAreaSize,
+             showBleedArea: showBleedArea,
              agileApiKey: agileApiKey,
              isAgileApiActive: isAgileApiActive,
              unleashedApiId: unleashedApiId,
@@ -356,6 +365,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.agileApiKey(source.AgileApiKey);
         companySites.agileApiUrl(source.AgileApiUrl);
         companySites.defaultPOTax(source.DefaultPOTax);
+        companySites.bleedAreaSize(source.BleedAreaSize);
+        companySites.showBleedArea(source.ShowBleedArea);
         companySites.isAgileApiActive(source.isAgileActive);
         companySites.unleashedApiId(source.XeroApiId);
         companySites.unleashedApiKey(source.XeroApiKey);
@@ -411,6 +422,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.isXeroIntegrationRequired = source.isUnleashedApiActive() === undefined ? null : source.isUnleashedApiActive();
         result.IsZapierEnable = source.isZapierActive() === undefined ? null : source.isZapierActive();
         result.DefaultPOTax = source.defaultPOTax() === undefined ? null : source.defaultPOTax();
+        result.BleedAreaSize = source.bleedAreaSize() === undefined ? null : source.bleedAreaSize();
+        result.ShowBleedArea = source.showBleedArea() === undefined ? null : source.showBleedArea();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {
