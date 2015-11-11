@@ -117,6 +117,7 @@ namespace MPC.Implementation.MISServices
                 DeletePurchaseDetail = DeletePurchaseDetail,
             });
 
+            purchaseTarget.OrganisationId = purchaseRepository.OrganisationId;
             // Save Changes
             purchaseRepository.SaveChanges();
 
@@ -169,6 +170,7 @@ namespace MPC.Implementation.MISServices
             Purchase itemTarget = purchaseRepository.Create();
             purchaseRepository.Add(itemTarget);
             itemTarget.Code = code;
+          
             return itemTarget;
         }
 

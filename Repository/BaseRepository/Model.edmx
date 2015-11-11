@@ -3058,6 +3058,7 @@
           <Property Name="IsRead" Type="bit" />
           <Property Name="IsPrinted" Type="bit" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -14015,6 +14016,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Purchase_Company" FromRole="Purchase" ToRole="Company" />
           <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_Purchase_SectionFlag" FromRole="Purchase" ToRole="SectionFlag" />
           <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseDetail_Purchase" FromRole="Purchase" ToRole="PurchaseDetail" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -19410,6 +19412,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Purchases">
             <EntityTypeMapping TypeName="DomainModels.Purchase">
               <MappingFragment StoreEntitySet="Purchase">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
                 <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
                 <ScalarProperty Name="IsRead" ColumnName="IsRead" />

@@ -553,6 +553,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyResponse
             {
                 Company = source.Company.CreateFromForCrm(),
+                CurrencySymbol = source.CurrencySymbol
             };
         }
 

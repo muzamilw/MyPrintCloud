@@ -52,6 +52,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IRegistrationQuestionRepository _questionRepository;
         private readonly ICompanyContactRoleRepository _companycontactRoleRepo;
         private readonly IScopeVariableRepository _IScopeVariableRepository;
+        private readonly ICompanyDomainRepository _companyDomainRepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -70,7 +71,8 @@ namespace MPC.Implementation.WebStoreServices
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
             , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
-            ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository)
+            ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
+            ,ICompanyDomainRepository companyDomainRepository)
         {
             this._CompanyRepository = companyRepository;
             this._questionRepository = _questionRepository;
@@ -98,6 +100,7 @@ namespace MPC.Implementation.WebStoreServices
             this._companycontactRoleRepo = _companycontactRoleRepo;
             this._SystemUserRepository = _SystemUserRepository;
             this._IScopeVariableRepository = IScopeVariableRepository;
+            this._companyDomainRepository = companyDomainRepository;
         }
 
         #endregion
@@ -1743,6 +1746,15 @@ namespace MPC.Implementation.WebStoreServices
         public void AddScopeVariables(long ContactId, long StoreId) 
         {
             _IScopeVariableRepository.AddScopeVariables(ContactId, StoreId);
+        }
+        public long GetOrganisationIdByRequestUrl(string Url)
+        {
+            CompanyDomain domain = _companyDomainRepository.GetDomainByUrl(Url);
+            if(domain != null)
+            {
+                return _CompanyRepository.GetOrganisationIdByCompanyId(domain.CompanyId);
+            }
+            return 0;
         }
     }
 }

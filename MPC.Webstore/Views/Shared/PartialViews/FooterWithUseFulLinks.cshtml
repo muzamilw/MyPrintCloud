@@ -1,0 +1,68 @@
+﻿@model MPC.Webstore.Models.AddressViewModel
+@using MPC.Webstore.Common;
+@{
+    Layout = null;
+}
+@if (ViewBag.Display == "1")
+{<footer>
+        <div class="container">
+            @if (Model != null)
+            {
+                <div class="footerCol">
+                    <h1>@Html.Raw(Html.GetKeyValueFromResourceFile("lblGetInTouch", UserCookieManager.WBStoreId, "Get in touch"))</h1>
+                    <p>
+                        @if (Model.Tel != null)
+                        {
+                            @Model.Tel<br />
+                        }
+                        @if (Model.Email != null)
+                        {
+                            @Model.Email<br />
+                        }
+                        @ViewBag.StoreName<br>
+                        @Model.Address1<br>
+                        @if (Model.Address2 != null)
+                        {
+                            @Model.Address2<br>
+                        }
+                        @Model.City<br>
+                        @Model.ZipCode
+                    </p>
+                </div>
+            }
+
+            <div class="footerCol">
+                <h1>Opening Times</h1>
+                <p>
+                    @Html.Raw(ViewBag.Notes)
+                </p>
+            </div>
+            <div class="footerCol">
+                <h1>Products</h1>
+                <ul>
+                    @foreach (var categories in ViewData["parentCatList"] as List<MPC.Models.DomainModels.ProductCategory>)
+                    {
+                        <li><a href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId">@categories.CategoryName</a></li>
+
+                    }
+
+                </ul>
+            </div>
+            <div class="footerCol">
+                <h1>Useful Links</h1>
+                <ul>
+                    @foreach (var page in ViewData["CmsPage"] as List<MPC.Models.Common.CmsPageModel>)
+                    {
+                        if (page.CategoryId == item.CategoryId)
+                        {
+                            <li><a href="/pages/@Utils.specialCharactersEncoder(page.PageTitle)/@page.PageId">@page.PageTitle</a></li>
+
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+}
