@@ -68,6 +68,10 @@ define("inventory/inventory.viewModel",
                     lengthUnits = ko.observableArray([]),
                     // is imperical for new Stock
                     OrganisationImpirical = ko.observable(),
+
+                     // is category drop down editable
+                    isStockCatEditable = ko.observable(),
+
                     //Paper Basis Areas
                     paperBasisAreas = ko.observableArray([]),
                     itemStockUpdateHistoryActions = ko.observableArray([
@@ -194,6 +198,14 @@ define("inventory/inventory.viewModel",
                                     else {
                                         weightLabel("gsm");
                                     }
+
+                                    if (selectedInventory().categoryId() == 1 || selectedInventory().categoryId() == 2 || selectedInventory().categoryId() == 3 || selectedInventory().categoryId() == 4) {
+                                        isStockCatEditable(false);
+                                    }
+                                    else {
+                                        isStockCatEditable(true);
+                                    }
+
 
                                     
                                     selectedInventory().reset();
@@ -822,7 +834,10 @@ define("inventory/inventory.viewModel",
                     selectedItemStockUpdateHistory: selectedItemStockUpdateHistory,
                     saveAddStockQuantity: saveAddStockQuantity,
                     formatSelection: formatSelection,
-                    formatResult: formatResult
+                    formatResult: formatResult,
+                    isStockCatEditable: isStockCatEditable
+
+
                 };
             })()
         };

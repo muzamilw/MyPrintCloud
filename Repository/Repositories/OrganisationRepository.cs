@@ -1198,7 +1198,8 @@ namespace MPC.Repository.Repositories
                          {
                              foreach (var item in items)
                              {
-                                
+                                 item.DepartmentId = (int)item.ItemId;
+
                                  item.OrganisationId = OrganisationID;
                                  item.CompanyId = oCID;
                                  item.FlagId = FlagID;
@@ -1426,6 +1427,42 @@ namespace MPC.Repository.Repositories
                          //    }
                          //    db.SaveChanges();
                          //}
+                        
+
+                         //if (objExpCorporate.DiscountVouchers != null && objExpCorporate.DiscountVouchers.Count > 0)
+                         //{
+                         //    List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oCID).ToList();
+                         //    List<Item> DVitems = db.Items.Where(c => c.CompanyId == oCID).ToList();
+                         //    foreach (var Discont in objExpCorporate.DiscountVouchers)
+                         //    {
+                         //        DiscountVoucher objDV = new DiscountVoucher();
+                         //        objDV = Discont;
+                         //        objDV.OrganisationId = OrganisationID;
+                         //        objDV.CompanyId = (int)oCID;
+
+                         //        if(objDV.ProductCategoryVouchers != null && objDV.ProductCategoryVouchers.Count > 0)
+                         //        {
+                         //            foreach (var pcv in objDV.ProductCategoryVouchers)
+                         //            {
+                         //                pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
+
+
+                         //            }
+                         //        }
+                         //        if (objDV.ItemsVouchers != null && objDV.ItemsVouchers.Count > 0)
+                         //        {
+                         //            foreach (var itemsVoucher in objDV.ItemsVouchers)
+                         //            {
+                         //                itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+
+
+                         //            }
+                         //        }
+                         //        db.DiscountVouchers.Add(objDV);
+                         //    }
+                         //    db.SaveChanges();
+                         //}
+
 
                          if (objExpCorporate.TemplateFonts != null && objExpCorporate.TemplateFonts.Count > 0)
                          {
@@ -1438,6 +1475,7 @@ namespace MPC.Repository.Repositories
                              }
                              db.SaveChanges();
                          }
+
                          end = DateTime.Now;
                          timelog += "template color style add" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                          st = DateTime.Now;
