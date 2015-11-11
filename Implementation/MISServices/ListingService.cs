@@ -34,7 +34,7 @@ namespace MPC.Implementation.MISServices
             return listingRepository.GetRealEstatePropertyCompaigns(request);
         }
 
-        public string SaveListingData(long OrganisationId)
+        public string SaveListingData(HttpContext OrganisationId)
         {
             if(OrganisationId == 1682)
             {

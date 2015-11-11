@@ -51,8 +51,8 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Country = StoreBaseResopnse.StoreDetaultAddress.Country;
             }
-           
-            return View();
+
+            return View("PartialViews/WhyShopUs");
         }
     }
 }

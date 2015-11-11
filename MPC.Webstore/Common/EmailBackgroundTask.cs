@@ -24,7 +24,7 @@ public class EmailBackgroundTask : Registry
         Schedule(() => _campaignService.MonitorScheduledEmails())
        .ToRunNow().AndEvery(5).Minutes();
 
-        Schedule(() => _listingService.SaveListingData(UserCookieManager.WEBOrganisationID))
+        Schedule(() => _listingService.SaveListingData(context)))
        .ToRunNow().AndEvery(10).Minutes();
 
         //Schedule(() => emailmgr.GetWeeklyEmailPage(context))
