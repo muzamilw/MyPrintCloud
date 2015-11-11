@@ -72,7 +72,7 @@ namespace MPC.Webstore.Controllers
                     Product.ProductCategoryName = _IItemService.GetCategoryNameById(CategoryId, 0);
                     ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
                 }
-                Product.ProductName = ProductName + " - Marketing Brief";
+                Product.ProductName = ProductName + Utils.GetKeyValueFromResourceFile("lblMarketingBrief", UserCookieManager.WBStoreId, " - Marketing Brief"); //" - Marketing Brief";
                 Product.ProductCategoryID = CategoryId;
                 List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
 

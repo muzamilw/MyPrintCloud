@@ -693,11 +693,11 @@
             for (i = 0; i < files.length; i++) {
                 var name1 = files[i].name.replace(/C:\\fakepath\\/i, '');
                 fileExtension = name1.substr(name1.lastIndexOf('.') + 1);
-                if (["pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png"].indexOf(fileExtension) < 0) {
+                if (["pdf", "jpg", "jpeg", "eps", "tiff", "csv", "xls", "xlsx", "png"].indexOf(fileExtension) < 0) {
                     notAllowedFilesCount = parseInt(notAllowedFilesCount) + 1;
                     console.log(name1);
                 } else {
-                    if (files[i].size != null && files[i].size > 50000000) {
+                    if (files[i].size != null && files[i].size > 52428800) {
                         
                         limitExceed = 1;
                     }

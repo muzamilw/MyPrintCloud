@@ -1,0 +1,115 @@
+﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
+    Layout = null;
+}
+
+<div class="LoginBarContainer">
+    <div class="container content_area">
+        <div class="left_right_padding">
+            @if ((UserCookieManager.WEBStoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+            {
+                <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
+                    <div class="login-br-tel">
+                        <span class="login-br-tel-spn">@Html.Raw(Html.GetKeyValueFromResourceFile("callUsToday", UserCookieManager.WBStoreId, "Call us today:"))</span>@ViewBag.PhoneNo
+                    </div>
+                </div>
+                if (!ViewBag.isUserLoggedIn)
+                {
+                    <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
+                        <ul id="menu-my-account" class="navM">
+                            <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
+                                <a onclick="ShowLoader();" href="/Login" class="usercolorSize">
+                                    <i class="fa fa-user"></i> @Html.Raw(Html.GetKeyValueFromResourceFile("SignInlbl", UserCookieManager.WBStoreId, "Sign In"))
+                                </a>
+                                <a onclick="ShowLoader();" href="/Signup" class="usercolorSize">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("SignUplbl", UserCookieManager.WBStoreId, "Sign Up"))
+                                </a>
+                            </li>
+                            <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
+                                <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.WBStoreId, "Login/Register"))</a>
+                            </li>
+                            <li class="ZeroRightMargin BlackBtnCS">
+                                <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
+                                    @*<i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>*@
+                                    <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</span>
+                                    <div class="lblCartCounter" id="lblCartCount">
+                                        @ViewBag.CartCount
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div id="USerInfoContainer" class="float_right">
+                        <ul class="LogBar visible-md hidden-xs hidden-sm visible-lg">
+
+                            <li class="liUserInfo">
+
+                                <span id="lblUserName" class="LoginBarColor liUserInfo">Hi, @ViewBag.LoginUserName</span>
+                            </li>
+
+                            <li class="liMarginRight">
+                                <a onclick="ShowLoader();" href="/Dashboard" class="usercolorSize"><i class="fa fa-user"></i> Profile</a>
+
+                            </li>
+                            <li class="liMarginRight">
+                                <a onclick="ShowLoader();" href="/SavedDesigns" class="usercolorSize"><i class="fa fa-floppy-o"></i> Saved</a>
+
+                            </li>
+                            <li class="liMarginRight cartli">
+                                <a onclick="ShowLoader();" href="/ShopCart" class="usercolorSize"><i class="fa fa-shopping-cart"></i> Cart</a>
+
+                            </li>
+                            <li>
+
+                                @Html.ActionLink("Sign out", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "usercolorSize" })
+                            </li>
+                            <li class="ZeroRightMargin classicLoginCart">
+                                <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links usercolorSize hyperlinkCart ">
+                                    @*<i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>*@
+                                    <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</span>
+                                    <div class="lblCartCounter" id="lblCartCount">
+                                        @ViewBag.CartCount
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul id="header-navbar" class="LogBar hidden-md visible-xs visible-sm hidden-lg">
+
+
+                            <li class="profile-dropdown">
+                                <a onclick="ToggleProfile();" class="dropdown-toggle">
+                                    <span class="">
+                                        Hi, @ViewBag.LoginUserName
+                                    </span> <b class="caret"></b>
+                                    <div class="user-positioner" style="position:fixed;">
+
+                                    </div>
+                                </a>
+
+                                <ul id="profileMenu" style="display:none;" class="profile-menu">
+                                    <li><a href="/Dashboard"> @Html.Raw(Html.GetKeyValueFromResourceFile("pfile", UserCookieManager.WBStoreId, "Profile"))</a></li>
+                                    <li>
+                                        <a href="#">
+                                            @Html.Raw(Html.GetKeyValueFromResourceFile("MenuSavedlbl", UserCookieManager.WBStoreId, "Saved"))
+                                    </a>
+                                </li>
+                                <li><a href="/ShopCart">Cart</a></li>
+                                <li><a href="@Url.Action("LogOut", "LoginBar")">@Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign Out"))</a></li>
+                            </ul>
+
+                        </li>
+
+                    </ul>
+                </div>
+                }
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            }
+        </div>
+    </div>
+</div>
