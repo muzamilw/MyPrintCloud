@@ -50,17 +50,28 @@
             </div>
             <div class="footerCol">
                 <h1>Useful Links</h1>
-                <ul>
-                    @foreach (var page in ViewData["CmsPage"] as List<MPC.Models.Common.CmsPageModel>)
-                    {
-                        if (page.CategoryId == item.CategoryId)
+                @foreach (var item in ViewData["PageCategory"] as List<MPC.Models.DomainModels.PageCategory>)
+                {
+                   
+                        if (ViewData["CmsPage"] != null)
                         {
-                            <li><a href="/pages/@Utils.specialCharactersEncoder(page.PageTitle)/@page.PageId">@page.PageTitle</a></li>
-
+                            <ul >
+                            @foreach (var page in ViewData["CmsPage"] as List<MPC.Models.Common.CmsPageModel>)
+                            {
+                                if (page.CategoryId == item.CategoryId)
+                                {
+                                    
+                                       
+                                        <li><a href="/pages/@Utils.specialCharactersEncoder(page.PageTitle)/@page.PageId">@page.PageTitle</a></li>
+                                       
+                                    
+                                }
+                            }
+                            </ul>
                         }
-                    }
 
-                </ul>
+                }
+               
             </div>
         </div>
     </footer>

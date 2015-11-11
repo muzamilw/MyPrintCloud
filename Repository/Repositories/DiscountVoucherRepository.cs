@@ -108,9 +108,9 @@ namespace MPC.Repository.Repositories
             {
                 DiscountVoucher dv = db.DiscountVouchers.Where(c => c.DiscountVoucherId == DVId).FirstOrDefault();
 
-                if(dv.ProductCategoryVouchers != null && dv.ProductCategoryVouchers.Count > 0)
+                if (dv.ProductCategoryVouchers != null && dv.ProductCategoryVouchers.Count > 0)
                 {
-                    foreach(var objDV in dv.ProductCategoryVouchers)
+                    foreach (var objDV in dv.ProductCategoryVouchers)
                     {
                         objDV.CategoryName = db.ProductCategories.Where(c => c.ProductCategoryId == objDV.ProductCategoryId).Select(v => v.CategoryName).FirstOrDefault();
 
@@ -152,58 +152,65 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               List<DiscountVoucher> freeShippingV = db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true && d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
-               if (freeShippingV != null && freeShippingV.Count > 0)
-               {
-                   DiscountVoucher freeShipping = freeShippingV.FirstOrDefault();
-                   if (freeShipping != null)
-                   {
-                       if (freeShipping.IsTimeLimit == true)
-                       {
-                           DateTime? ValidFromDate = freeShipping.ValidFromDate;
-                           DateTime? ValidUptoDate = freeShipping.ValidUptoDate;
-                           DateTime TodayDate = DateTime.Now;
-                           if (ValidFromDate != null)
-                           {
-                               if (TodayDate < ValidFromDate)
-                               {
-                                   return 0;
-                               }
-                           }
-                           if (ValidUptoDate != null)
-                           {
-                               if (TodayDate > ValidUptoDate)
-                               {
-                                   return 0;
-                               }
-                           }
-                       }
-                       if (freeShipping.IsOrderPriceRequirement.HasValue && freeShipping.IsOrderPriceRequirement.Value == true)
-                       {
-                           if (freeShipping.MinRequiredOrderPrice.HasValue && freeShipping.MinRequiredOrderPrice.Value > 0)
-                           {
-                               if (OrderTotal < freeShipping.MinRequiredOrderPrice.Value)
-                               {
-                                   return 0;
-                               }
-                           }
+                List<DiscountVoucher> freeShippingV = db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true && d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
+                DiscountVoucher dVToReturn = null;
+                bool isSetVoucher = true;
+                if (freeShippingV != null && freeShippingV.Count > 0)
+                {
+                    foreach (DiscountVoucher freeShipping in freeShippingV)
+                    {
+                        if (freeShipping.IsTimeLimit == true)
+                        {
+                            DateTime? ValidFromDate = freeShipping.ValidFromDate;
+                            DateTime? ValidUptoDate = freeShipping.ValidUptoDate;
+                            DateTime TodayDate = DateTime.Now;
+                            if (ValidFromDate != null)
+                            {
+                                if (TodayDate < ValidFromDate)
+                                {
+                                    isSetVoucher = false;
+                                }
+                            }
+                            if (ValidUptoDate != null)
+                            {
+                                if (TodayDate > ValidUptoDate)
+                                {
+                                    isSetVoucher = false;
+                                }
+                            }
+                        }
+                        if (freeShipping.IsOrderPriceRequirement.HasValue && freeShipping.IsOrderPriceRequirement.Value == true)
+                        {
+                            if (freeShipping.MinRequiredOrderPrice.HasValue && freeShipping.MinRequiredOrderPrice.Value > 0)
+                            {
+                                if (OrderTotal < freeShipping.MinRequiredOrderPrice.Value)
+                                {
+                                    isSetVoucher = false;
+                                }
+                            }
 
-                           if (freeShipping.MaxRequiredOrderPrice.HasValue && freeShipping.MaxRequiredOrderPrice.Value > 0)
-                           {
-                               if (OrderTotal > freeShipping.MaxRequiredOrderPrice.Value)
-                               {
-                                   return 0;
-                               }
-                           }
-                       }
-                       return freeShipping.DiscountVoucherId;
-                   }
-                   return 0;
-               }
-               else 
-               {
-                   return 0;
-               }
+                            if (freeShipping.MaxRequiredOrderPrice.HasValue && freeShipping.MaxRequiredOrderPrice.Value > 0)
+                            {
+                                if (OrderTotal > freeShipping.MaxRequiredOrderPrice.Value)
+                                {
+                                    isSetVoucher = false;
+                                }
+                            }
+                        }
+                        if (isSetVoucher == true)
+                        {
+                            dVToReturn = freeShipping;
+                            return freeShipping.DiscountVoucherId;
+                        }
+                    }
+
+
+                    return 0;
+                }
+                else
+                {
+                    return 0;
+                }
             }
             catch (Exception ex)
             {
@@ -220,14 +227,14 @@ namespace MPC.Repository.Repositories
                 if (discountVoucher.HasCoupon == true)
                 {
                     // Check for Code Duplication
-                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId,discountVoucher.DiscountVoucherId);
+                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId, discountVoucher.DiscountVoucherId);
                     if (isDuplicateCode)
                     {
                         throw new MPCException("Coupon Code already exist.", OrganisationId);
                     }
 
                 }
-              
+
                 DiscountVoucher discountVoucherDbVersion = db.DiscountVouchers.Where(c => c.DiscountVoucherId == discountVoucher.DiscountVoucherId).FirstOrDefault();
                 if (discountVoucherDbVersion != null)
                 {
@@ -257,10 +264,10 @@ namespace MPC.Repository.Repositories
 
                     // logic to delete product category which is not selected now
                     List<long> DeleteCategoryVoucherIds = new List<long>();
-                  
+
                     if (discountVoucherDbVersion.ProductCategoryVouchers != null && discountVoucherDbVersion.ProductCategoryVouchers.Count > 0)
                     {
-                       
+
                         foreach (var pcv in discountVoucherDbVersion.ProductCategoryVouchers)
                         {
                             if (discountVoucher.ProductCategoryVouchers != null)
@@ -269,11 +276,11 @@ namespace MPC.Repository.Repositories
                                 if (dbRecord == null)
                                 {
                                     DeleteCategoryVoucherIds.Add(pcv.CategoryVoucherId);
-                                   
+
                                     // this category voucher will delete becox its not in updated product category list
                                 }
                             }
-                          
+
 
 
                         }
@@ -328,7 +335,7 @@ namespace MPC.Repository.Repositories
                                 ProductCategoryVoucher objVoucher = new ProductCategoryVoucher();
                                 objVoucher.ProductCategoryId = obj.ProductCategoryId;
                                 objVoucher.VoucherId = discountVoucherDbVersion.DiscountVoucherId;
-                               // objVoucher.DiscountVoucher = null;
+                                // objVoucher.DiscountVoucher = null;
                                 db.ProductCategoryVouchers.Add(objVoucher);
                                 //List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
 
@@ -343,7 +350,7 @@ namespace MPC.Repository.Repositories
                             }
 
                         }
-                        
+
                     }
                     // add items voucher
                     if (discountVoucher.ItemsVouchers != null && discountVoucher.ItemsVouchers.Count() > 0)
@@ -357,14 +364,14 @@ namespace MPC.Repository.Repositories
                                 objVoucher.VoucherId = discountVoucherDbVersion.DiscountVoucherId;
                                 // objVoucher.DiscountVoucher = null;
                                 db.ItemsVouchers.Add(objVoucher);
-                                
+
 
                             }
 
                         }
 
                     }
-                    
+
                 }
                 db.SaveChanges();
                 return discountVoucher;
@@ -375,7 +382,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-       
+
         public List<Item> GetItemsByCategoryId(long CategoryId)
         {
             db.Configuration.LazyLoadingEnabled = false;
@@ -400,16 +407,16 @@ namespace MPC.Repository.Repositories
                 discountVoucher.IsEnabled = true;
 
                 // Check for Code Duplication
-                if(discountVoucher.HasCoupon == true)
+                if (discountVoucher.HasCoupon == true)
                 {
-                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId,discountVoucher.DiscountVoucherId);
+                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId, discountVoucher.DiscountVoucherId);
                     if (isDuplicateCode)
                     {
                         throw new MPCException("Coupon Code already exist.", OrganisationId);
                     }
-                    
+
                 }
-               
+
 
 
 
@@ -422,7 +429,7 @@ namespace MPC.Repository.Repositories
                 //{
                 //    foreach (var obj in discountVoucher.ProductCategoryVouchers)
                 //    {
-                      
+
 
                 //            List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
 
@@ -434,7 +441,7 @@ namespace MPC.Repository.Repositories
                 //                db.ItemsVouchers.Add(ObjItemVoucher);
                 //            }
 
-                        
+
 
                 //    }
                 //    db.SaveChanges();
@@ -464,7 +471,7 @@ namespace MPC.Repository.Repositories
                 return discountVoucher;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
@@ -475,12 +482,12 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Check if coupon code provided already exists
         /// </summary>
-        public bool IsDuplicateCouponCode(string CouponCode, long? companyId,long DiscountVoucherId)
+        public bool IsDuplicateCouponCode(string CouponCode, long? companyId, long DiscountVoucherId)
         {
             try
             {
                 return db.DiscountVouchers.Any(c => c.CouponCode == CouponCode && c.CompanyId == companyId && c.DiscountVoucherId != DiscountVoucherId);
-               
+
             }
             catch (Exception ex)
             {
@@ -489,7 +496,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-         public long IsDiscountVoucherApplied(long StoreId, long OrganisationId)
+        public long IsDiscountVoucherApplied(long StoreId, long OrganisationId)
         {
             try
             {
@@ -509,48 +516,48 @@ namespace MPC.Repository.Repositories
             }
 
         }
-         public bool isCouponVoucher(long DiscountVoucherId)
-         {
-             try
-             {
-                 if (DiscountVoucherId > 0)
-                 {
-                     DiscountVoucher voucher = db.DiscountVouchers.Where(d => d.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
-                     if (voucher != null && (voucher.HasCoupon == false || voucher.HasCoupon == null))
-                     {
-                         return true;
-                     }
-                     else 
-                     {
-                         return false;
-                     }
-                 }
-                 else 
-                 {
-                     return false;
-                 }
-                  
-             }
-             catch (Exception ex)
-             {
-                 throw ex;
-             }
+        public bool isCouponVoucher(long DiscountVoucherId)
+        {
+            try
+            {
+                if (DiscountVoucherId > 0)
+                {
+                    DiscountVoucher voucher = db.DiscountVouchers.Where(d => d.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
+                    if (voucher != null && (voucher.HasCoupon == false || voucher.HasCoupon == null))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
 
-         }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-         public List<DiscountVoucher> getDiscountVouchersByCompanyId(long companyId)
-         {
-             try
-             {
+        }
 
-                 return db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CompanyId == companyId).ToList();
-             }
-             catch (Exception ex)
-             {
-                 throw ex;
-             }
+        public List<DiscountVoucher> getDiscountVouchersByCompanyId(long companyId)
+        {
+            try
+            {
 
-         }
+                return db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CompanyId == companyId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }

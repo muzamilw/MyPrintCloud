@@ -39,7 +39,8 @@
                                                 if (ProductDescription.Length > 120)
                                                 {
                                                     ProductDescription = ProductDescription.Substring(0, 120);
-                                
+                                                    ProductDescription = ProductDescription.Substring(0, ProductDescription.LastIndexOf(' '));
+                                                    
                                                 }
                                                 else
                                                 {
@@ -80,10 +81,11 @@
                         ProductDescription = categories.Description1;
                         if (!string.IsNullOrEmpty(ProductDescription))
                         {
-                            if (ProductDescription.Length > 250)
+                            if (ProductDescription.Length > 120)
                             {
-                                ProductDescription = ProductDescription.Substring(0, 250);
-                                ProductDescription = ProductDescription + "<a class=morelink href=/Category/" + Utils.specialCharactersEncoder(categories.CategoryName) + "/" + @categories.ProductCategoryId + "> more...</a>";
+                                ProductDescription = ProductDescription.Substring(0, 120);
+                                ProductDescription = ProductDescription.Substring(0, ProductDescription.LastIndexOf(' '));
+                                                    
                             }
                             else
                             {

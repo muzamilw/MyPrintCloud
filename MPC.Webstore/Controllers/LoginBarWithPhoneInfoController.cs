@@ -74,7 +74,7 @@ namespace MPC.Webstore.Controllers
             }
 
 
-            return PartialView("PartialViews/LoginBar");
+            return PartialView("PartialViews/LoginBarWithPhoneInfo");
         }
 
         public ActionResult LogOut()

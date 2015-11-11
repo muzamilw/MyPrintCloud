@@ -9,9 +9,9 @@
         <div class="left_right_padding">
             @if ((UserCookieManager.WEBStoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
             {
-                <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
+                <div class="float_left_simple col-md-6  col-sm-6 col-lg-6">
                     <div class="login-br-tel">
-                        <span class="login-br-tel-spn">@Html.Raw(Html.GetKeyValueFromResourceFile("callUsToday", UserCookieManager.WBStoreId, "Call us today:"))</span>@ViewBag.PhoneNo
+                        <span class="login-br-tel-spn">@Html.Raw(Html.GetKeyValueFromResourceFile("callUsToday", UserCookieManager.WBStoreId, "Call us today:"))</span><span class="company-tel">@ViewBag.PhoneNo</span>
                     </div>
                 </div>
                 if (!ViewBag.isUserLoggedIn)
