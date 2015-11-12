@@ -1006,7 +1006,8 @@ function d2() {
                     });
                 }
             });
-            if (difFound) {
+            if (difFound && !reArrangeAttempted) {
+                reArrangeAttempted = true;
                 StartLoader("Rearranging layers");
                 d5_sub(SP, false);
                 $.each(TP, function (i, ite) {
@@ -1059,6 +1060,7 @@ function d5Start(pageID, isloading)
     canvas.renderAll();
 }
 function d5(pageID, isloading) {
+    reArrangeAttempted = false;
     d5Start(pageID, isloading);
     c2_v2();
     c2_v2();
@@ -4174,6 +4176,7 @@ function togglePage(pId) {
         } else {
             url = "/MPC_Content/" + IO.ContentString;
         }
+      
         if (IO.ContentString.indexOf("Imageplaceholder_sim") != -1 || IO.ContentString.indexOf("http") != -1)
             url = IO.ContentString;
         fabric.Image.fromURL(url, function (IOL) {
