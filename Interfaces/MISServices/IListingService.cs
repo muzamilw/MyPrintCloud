@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -13,6 +14,6 @@ namespace MPC.Interfaces.MISServices
     {
          RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
 
-         string SaveListingData();
+         string SaveListingData(long OrganisationId);
     }
 }

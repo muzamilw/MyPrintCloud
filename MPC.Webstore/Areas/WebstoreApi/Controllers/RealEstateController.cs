@@ -42,7 +42,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             var json1 = formatter1.SerializerSettings;
             json1.Formatting = Newtonsoft.Json.Formatting.Indented;
             json1.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return Request.CreateResponse(HttpStatusCode.OK, listingProperty.Listing.ContactCompanyID + listingProperty.Office.SystemUserEmail, formatter1);
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter1);
         }
 
     }

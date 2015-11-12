@@ -225,5 +225,7 @@ namespace MPC.Interfaces.WebStoreServices
         void ApplyDiscountOnDeliveryItemAlreadyAddedToCart(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate);
         long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId, long OrderId);
         void UpdateOrderIdInItem(long itemId, long OrderId);
+        DiscountVoucher GetFreeShippingDiscountVoucherByStoreId(long StoreId, long OrganisationId);
+        DiscountVoucher GetOrderDiscountPercentageVoucherByStoreId(long StoreId, long OrganisationId);
     }
 }

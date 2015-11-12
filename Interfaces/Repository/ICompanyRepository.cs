@@ -129,10 +129,10 @@ namespace MPC.Interfaces.Repository
 
         bool SaveUserActionLog(string Comment, long CompanyId);
 
-        ExportStore ExportStore(long CompanyId);
+        ExportStore ExportStore(long CompanyId,long OrganisationId);
 
         bool InsertStoreZip(ExportStore ObjExportStore, long OrganisationId, string SubDomain);
-        
 
+        long GetOrganisationIdByCompanyId(long companyid);
     }
 }

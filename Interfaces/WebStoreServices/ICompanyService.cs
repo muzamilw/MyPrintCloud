@@ -254,5 +254,6 @@ namespace MPC.Interfaces.WebStoreServices
         bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie);
         string GetCurrencySymbolById(long currencyId);
         void AddScopeVariables(long ContactId, long StoreId);
+        long GetOrganisationIdByRequestUrl(string Url);
     }
 }

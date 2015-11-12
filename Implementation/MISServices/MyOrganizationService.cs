@@ -287,6 +287,9 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.XeroApiKey = organisation.XeroApiKey;
             organisationDbVersion.isXeroIntegrationRequired = organisation.isXeroIntegrationRequired;
             organisationDbVersion.IsZapierEnable = organisation.IsZapierEnable;
+            organisationDbVersion.DefaultPOTax = organisation.DefaultPOTax;
+            organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
+            organisationDbVersion.BleedAreaSize = organisation.BleedAreaSize;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;
@@ -767,6 +770,10 @@ namespace MPC.Implementation.MISServices
         public void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
         {
             organisationRepository.UpdateOrganisationZapTargetUrl(organisationId, sTargetUrl, zapTargetType);
+        }
+        public void UnSubscriebZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
+        {
+            organisationRepository.UnSubscribeZapTargetUrl(organisationId, sTargetUrl, zapTargetType);
         }
 
         public string GetActiveOrganisationId(string param)

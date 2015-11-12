@@ -34,87 +34,89 @@ namespace MPC.Implementation.MISServices
             return listingRepository.GetRealEstatePropertyCompaigns(request);
         }
 
-        public string SaveListingData()
+        public string SaveListingData(long OrganisationId)
         {
-            // Read the file as one string.
-            string XMLData = string.Empty;
-            string result = string.Empty;
-            string UnprocessedFileName = string.Empty;
-            // WebClient request = new WebClient();
-            string FTPServer = ConfigurationManager.AppSettings["FTPServer"];
-            string FTPUserName = ConfigurationManager.AppSettings["FTPUserName"];
-            string FTPPassword = ConfigurationManager.AppSettings["FTPPassword"];
-
-            FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(FTPServer);
-            ftpRequest.Credentials = new NetworkCredential(FTPUserName, FTPPassword);
-            ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
-            FtpWebResponse responsez = (FtpWebResponse)ftpRequest.GetResponse();
-            StreamReader streamReader = new StreamReader(responsez.GetResponseStream());
-            List<string> directories = new List<string>();
-
-            string line = streamReader.ReadLine();
-            while (!string.IsNullOrEmpty(line))
+            if (OrganisationId == 1682)
             {
-                directories.Add(line);
-                line = streamReader.ReadLine();
-            }
-            streamReader.Close();
+                // Read the file as one string.
+                string XMLData = string.Empty;
+                string result = string.Empty;
+                string UnprocessedFileName = string.Empty;
+                // WebClient request = new WebClient();
+                string FTPServer = ConfigurationManager.AppSettings["FTPServer"];
+                string FTPUserName = ConfigurationManager.AppSettings["FTPUserName"];
+                string FTPPassword = ConfigurationManager.AppSettings["FTPPassword"];
 
-            using (WebClient ftpClient = new WebClient())
-            {
-                ftpClient.Credentials = new System.Net.NetworkCredential(FTPUserName, FTPPassword);
+                FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(FTPServer);
+                ftpRequest.Credentials = new NetworkCredential(FTPUserName, FTPPassword);
+                ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+                FtpWebResponse responsez = (FtpWebResponse)ftpRequest.GetResponse();
+                StreamReader streamReader = new StreamReader(responsez.GetResponseStream());
+                List<string> directories = new List<string>();
 
-                if(directories.Count > 0)
+                string line = streamReader.ReadLine();
+                while (!string.IsNullOrEmpty(line))
                 {
-                    for (int i = 0; i <= directories.Count - 1; i++)
+                    directories.Add(line);
+                    line = streamReader.ReadLine();
+                }
+                streamReader.Close();
+
+                using (WebClient ftpClient = new WebClient())
+                {
+                    ftpClient.Credentials = new System.Net.NetworkCredential(FTPUserName, FTPPassword);
+
+                    if (directories.Count > 0)
                     {
-                        if (directories[i].Contains("MPC.xml"))
+                        for (int i = 0; i <= directories.Count - 1; i++)
                         {
-
-                            string path = FTPServer + directories[i].ToString();
-                            //string trnsfrpth = @"D:\\Test\" + directories[i].ToString();
-                            //string destinationDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Store/" + directories[i].ToString());
-
-                            byte[] newFileData = ftpClient.DownloadData(new Uri(path));
-                            XMLData = System.Text.Encoding.UTF8.GetString(newFileData);
-
-                            if (!string.IsNullOrEmpty(XMLData))
+                            if (directories[i].Contains("MPC.xml"))
                             {
-                                UnprocessedFileName = directories[i].ToString();
-                                break;
+
+                                string path = FTPServer + directories[i].ToString();
+                                //string trnsfrpth = @"D:\\Test\" + directories[i].ToString();
+                                //string destinationDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Store/" + directories[i].ToString());
+
+                                byte[] newFileData = ftpClient.DownloadData(new Uri(path));
+                                XMLData = System.Text.Encoding.UTF8.GetString(newFileData);
+
+                                if (!string.IsNullOrEmpty(XMLData))
+                                {
+                                    UnprocessedFileName = directories[i].ToString();
+                                    break;
+                                }
+
+
+
                             }
-
-
-
                         }
                     }
+
                 }
-                
-            }
 
-           
-           // temp work
-            if(!string.IsNullOrEmpty(XMLData))
-            {
-                 
-                      // System.IO.StreamReader myFile = new System.IO.StreamReader(filePaths[0]);
 
-                  //  string fileName = Path.GetFileName(filePaths[0]);
+                // temp work
+                if (!string.IsNullOrEmpty(XMLData))
+                {
+
+                    // System.IO.StreamReader myFile = new System.IO.StreamReader(filePaths[0]);
+
+                    //  string fileName = Path.GetFileName(filePaths[0]);
 
 
                     string myString = XMLData;
 
-               
-                     ListingPropertyXML Result = new ListingPropertyXML();
+
+                    ListingPropertyXML Result = new ListingPropertyXML();
 
                     XmlSerializer serializer = new XmlSerializer(typeof(ListingPropertyXML));
                     using (TextReader reader = new StringReader(myString))
                     {
                         Result = (ListingPropertyXML)serializer.Deserialize(reader);
                     }
-                    if(Result != null)
+                    if (Result != null)
                     {
-                        
+
                         if (myString.Contains("</land>"))
                         {
                             Result.Listing = Result.ListingLand;
@@ -135,7 +137,7 @@ namespace MPC.Implementation.MISServices
                             result = InsertListingData(Result);
                             if (result == "Data processed successfully.")
                             {
-                              
+
                                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create(FTPServer + UnprocessedFileName);
                                 request.Method = WebRequestMethods.Ftp.DownloadFile;
 
@@ -149,19 +151,25 @@ namespace MPC.Implementation.MISServices
                                 requestDelete.Method = WebRequestMethods.Ftp.DeleteFile;
                                 requestDelete.Credentials = new NetworkCredential(FTPUserName, FTPPassword);
                                 FtpWebResponse responseDelete = (FtpWebResponse)requestDelete.GetResponse();
-                                
+
 
                             }
                         }
-                        
+
                     }
-                   
-                   
-                    
-                 
-               
+
+
+
+
+
+                }
+                return result;
             }
-            return result;
+            else
+            {
+                return string.Empty;
+            }
+           
            
           
 

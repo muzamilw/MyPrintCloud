@@ -11,5 +11,6 @@ namespace MPC.Models.DomainModels
         public long ZapierTargetUrlId { get; set; }
         public string TargetUrl { get; set; }
         public int? WebHookEvent { get; set; }
+        public long? OrganisationId { get; set; }
     }
 }

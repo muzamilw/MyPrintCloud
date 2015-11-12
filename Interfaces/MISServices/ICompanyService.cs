@@ -177,8 +177,8 @@ namespace MPC.Interfaces.MISServices
         void UpdateCompanyCss(string sCustomCss, long oCompanyId);
 
         RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request);
-        
 
+        TemplateColorStyle ArchiveSpotColor(long SpotColorId);
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);

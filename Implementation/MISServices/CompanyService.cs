@@ -115,6 +115,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICMSOfferRepository cmsofferRepository;
         private readonly IReportNoteRepository reportNoteRepository;
         private readonly IVariableExtensionRespository variableExtensionRespository;
+        private readonly ICurrencyRepository currencySymbol;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -3010,7 +3011,7 @@ namespace MPC.Implementation.MISServices
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
-            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository)
+            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository, ICurrencyRepository currencySymbol)
         {
             if (bannerSetRepository == null)
             {
@@ -3093,6 +3094,7 @@ namespace MPC.Implementation.MISServices
             this.cmsofferRepository = cmsofferRepository;
             this.reportNoteRepository = reportNoteRepository;
             this.variableExtensionRespository = variableExtensionRespository;
+            this.currencySymbol = currencySymbol;
 
 
         }
@@ -3243,6 +3245,7 @@ namespace MPC.Implementation.MISServices
             newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
             response.NewOrdersCount = newOrdersCount;
             response.NewUsersCount = userCount;
+            
             return response;
         }
 
@@ -3883,7 +3886,11 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveCompanyVariableIcon(request);
         }
 
-       
+
+        public TemplateColorStyle ArchiveSpotColor(long SpotColorId)
+        {
+           return templateColorStylesRepository.ArchiveSpotColor(SpotColorId);
+        }
         #endregion
 
         #region ExportOrganisation
@@ -4107,6 +4114,29 @@ namespace MPC.Implementation.MISServices
             // get machines by organisation id
             exOrg2.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
 
+            List<MachineGuilotinePtv> machineGuilotine = new List<MachineGuilotinePtv>();
+            if (exOrg2.Machines != null && exOrg2.Machines.Count > 0)
+            {
+                foreach(var machine in exOrg2.Machines)
+                {
+                    if(machine.MachineCatId == (int)MachineCategories.Guillotin)
+                    {
+                        List<MachineGuilotinePtv> PTVS = MachineRepository.getGuilotinePtv(machine.MachineId);
+                        
+                        if(PTVS != null && PTVS.Count > 0)
+                        {
+                            foreach (var pt in PTVS)
+                            {
+                                machineGuilotine.Add(pt);
+                            }
+                        }
+                       
+
+                    }
+                }
+            }
+
+            exOrg2.MachineGuilotinePTV = machineGuilotine;
             // get lookupmethods by organisationid
             exOrg2.LookupMethods = MachineRepository.getLookupmethodsbyOrganisationID(OrganisationID);
 
@@ -9415,7 +9445,7 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
-
+            
         #region ExportStoreOnly
 
         public bool ExportStoreZip(long CompanyId,long OrganisationId)
@@ -9423,7 +9453,7 @@ namespace MPC.Implementation.MISServices
             try
             {
                 ExportStore ObjExportStore = new ExportStore();
-                ObjExportStore = companyRepository.ExportStore(CompanyId);
+                ObjExportStore = companyRepository.ExportStore(CompanyId,OrganisationId);
 
 
                 CopyStoreFiles(ObjExportStore, CompanyId, OrganisationId);

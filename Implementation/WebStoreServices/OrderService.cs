@@ -609,5 +609,9 @@ namespace MPC.Implementation.WebStoreServices
        {
            _OrderRepository.UpdateOrderForDel(Order);
        }
+       public List<Item> GetOrderItems(long OrderId)
+       {
+           return _OrderRepository.GetOrderItems(OrderId);
+       }
     }
 }

@@ -64,14 +64,32 @@ namespace MPC.MIS.Controllers
            _organizationService.UpdateOrganisationZapTargetUrl(organisationId, zapierResponse.subscription_url, eventId);
            
        }
-       [System.Web.Http.AcceptVerbs("DELETE")]
-       [HttpDelete]
+       [System.Web.Http.AcceptVerbs("POST")]
+       [HttpPost]
        [AllowAnonymous]
        public void UnsubscribeUrlFromZapier()
        {
            long organisationId = 1;
+           int eventId = 1;
+           string param = HttpContext.Request.Url.Query;
+           string responsestr = _organizationService.GetActiveOrganisationId(param);
+           // responsestr = Temporarily set for local testing
+           if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
+           {
+               throw new MPCException("Service Not Authenticated!", organisationId);
+           }
+           else
+           {
+               organisationId = Convert.ToInt64(responsestr);
+           }
            StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream());
            string scont = reader.ReadToEndAsync().Result;
+           ZapierPostResponse zapierResponse = JsonConvert.DeserializeObject<ZapierPostResponse>(scont);
+           if (zapierResponse.Event == "contact_created")
+               eventId = 1;
+           else if (zapierResponse.Event == "invoice_created")
+               eventId = 2;
+           _organizationService.UnSubscriebZapTargetUrl(organisationId, zapierResponse.subscription_url, eventId);
 
 
 

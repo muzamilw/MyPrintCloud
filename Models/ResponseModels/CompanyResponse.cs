@@ -47,5 +47,7 @@ namespace MPC.Models.ResponseModels
         public SecondaryPageResponse SecondaryPageResponse { get; set; }
 
         public string UserName { get; set; }
+
+        public string CurrencySymbol { get; set; }
     }
 }

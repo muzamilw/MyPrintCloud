@@ -254,6 +254,18 @@ namespace MPC.MIS.Areas.Api.Models
         public string XeroApiKey { get; set; }
         public bool? IsZapierEnable { get; set; }
 
+        public double? DefaultPOTax { get; set; }
+
+        /// <summary>
+        /// Bleed Area Size
+        /// </summary>
+        public double? BleedAreaSize { get; set; }
+
+        /// <summary>
+        /// Show Bleed Area
+        /// </summary>
+        public bool? ShowBleedArea { get; set; }
+
         /// <summary>
         /// Image Source
         /// </summary>

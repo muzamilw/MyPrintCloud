@@ -1539,6 +1539,7 @@ define("common/itemDetail.viewModel",
                         //req.selecting stock quantity default values should be from section base quantity
                         selectedCostCentre().quantity1(selectedSection().qty1());
                         selectedCostCentre().quantity2(selectedSection().qty2());
+                        selectedCostCentre().quantity3(selectedSection().qty3());
                         view.showCostCentersQuantityDialog();
                         isAddProductFromInventory(false);
                         isAddProductForSectionCostCenter(true);
