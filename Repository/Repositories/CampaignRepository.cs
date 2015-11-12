@@ -829,34 +829,38 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                CampaignEmailQueue emailQueue = new CampaignEmailQueue();
-
-                emailQueue.To = Toemail;
-                emailQueue.Cc = CC;
-                emailQueue.ToName = ToName;
-                emailQueue.Body = msgbody;
-                emailQueue.FromName = fromName;
-                emailQueue.EmailFrom = fromEmail;
-                emailQueue.Subject = subject;
-                emailQueue.IsDeliverd = 0;
-                emailQueue.SMTPUserName = smtpUserName;
-                emailQueue.SMTPServer = ServerName;
-                emailQueue.SMTPPassword = ServerPass;
-                emailQueue.AttemptCount = 0;
-                emailQueue.CampaignReportId = CampaignReportID;
-                emailQueue.SendDateTime = DateTime.Now;
-                string fileAttachment = "";
-                if (AttachmentList != null)
+                if (smtpUserName != null && ServerName != null && ServerPass != null) 
                 {
-                    foreach (string item in AttachmentList)
-                    {
-                        fileAttachment += item + "|";
-                    }
-                    emailQueue.FileAttachment = fileAttachment;
-                }
+                    CampaignEmailQueue emailQueue = new CampaignEmailQueue();
 
-                db.CampaignEmailQueues.Add(emailQueue);
-                db.SaveChanges();
+                    emailQueue.To = Toemail;
+                    emailQueue.Cc = CC;
+                    emailQueue.ToName = ToName;
+                    emailQueue.Body = msgbody;
+                    emailQueue.FromName = fromName;
+                    emailQueue.EmailFrom = fromEmail;
+                    emailQueue.Subject = subject;
+                    emailQueue.IsDeliverd = 0;
+                    emailQueue.SMTPUserName = smtpUserName;
+                    emailQueue.SMTPServer = ServerName;
+                    emailQueue.SMTPPassword = ServerPass;
+                    emailQueue.AttemptCount = 0;
+                    emailQueue.CampaignReportId = CampaignReportID;
+                    emailQueue.SendDateTime = DateTime.Now;
+                    string fileAttachment = "";
+                    if (AttachmentList != null)
+                    {
+                        foreach (string item in AttachmentList)
+                        {
+                            fileAttachment += item + "|";
+                        }
+                        emailQueue.FileAttachment = fileAttachment;
+                    }
+
+                    db.CampaignEmailQueues.Add(emailQueue);
+                    db.SaveChanges();
+                  
+                }
                 return true;
             }
             catch (Exception ex)
