@@ -369,6 +369,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\FileUploadController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\RealEstateSideBarController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RFQController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
@@ -1049,6 +1050,7 @@
     <Content Include="Views\Shared\PartialViews\LoginBarWithCounters.cshtml" />
     <Content Include="Views\Shared\PartialViews\FutureHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\FutureQuickLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateSideBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1057,6 +1059,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\OrderReceipt\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
+    <Folder Include="Areas\WebstoreApi\Views\RealEstateSideBar\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
