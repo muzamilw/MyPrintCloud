@@ -376,24 +376,28 @@
                                     <div class="estimated_dilvery_sec  LightGrayLabels" style="display:none;">
                                         &nbsp;
                                     </div>
-                                    <div class="dropdown_sec" style="display:block;">
+                                    @if (ViewBag.DisableCouponCode == 0)
+                                    {
+                                        <div class="dropdown_sec">
 
-                                        <div id="panelCouponCode">
-                                            @if (ViewBag.VoucherApplied == null)
-                                            {
+                                            <div id="panelCouponCode">
+                                                @if (ViewBag.VoucherApplied == null)
+                                                {
 
-                                                <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcoponcode",UserCookieManager.WBStoreId, "Coupon Code"))" />
-                                                <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnAutoPostBackDiscountVoucherCode",UserCookieManager.WBStoreId, ""))</button>
-                                                <div id="lblRedeemErrorMesg" class="errorMessage"></div>
-                                                <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode(event);" style="display:none;">Remove voucher code</button>
-                                            }
-                                            else
-                                            {
-                                                <button id="btnRemoveVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveVoucherCode(event);">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlremovevouchercode", UserCookieManager.WBStoreId, "Remove voucher code"))</button>
-                                            }
+                                                    <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcoponcode",UserCookieManager.WBStoreId, "Coupon Code"))" />
+                                                    <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnAutoPostBackDiscountVoucherCode", UserCookieManager.WBStoreId, ""))</button>
+                                                    <div id="lblRedeemErrorMesg" class="errorMessage"></div>
+                                                    <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode(event);" style="display:none;">Remove voucher code</button>
+                                                }
+                                                else
+                                                {
+                                                    <button id="btnRemoveVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveVoucherCode(event);">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlremovevouchercode", UserCookieManager.WBStoreId, "Remove voucher code"))</button>
+                                                }
+                                            </div>
+
                                         </div>
-                                       
-                                    </div>
+                                    }
+                                
                                 </div>
                             </div>
                             <div class="clearBoth">
