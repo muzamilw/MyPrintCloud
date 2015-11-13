@@ -1243,7 +1243,7 @@ footer .bottom-links li
     {
         margin-right: 10px;
         border-radius: 10px;
-        width: 193px !important;
+        /*width: 193px !important;*/
     }
 
         .btn-img-text > h4

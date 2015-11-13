@@ -1,0 +1,103 @@
+﻿
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@using System;
+@{
+    Layout = null;
+}
+
+@{
+    var ParentCategories = ViewBag.rptParentCategoryNames as List<MPC.Models.DomainModels.ProductCategory>;
+    var Properties = ViewBag.lstProperties as List<MPC.Models.DomainModels.Listing>;
+    var ChildCategories = ViewBag.AllCategories as List<MPC.Models.DomainModels.ProductCategory>;
+    <div id="SideBarContainer" style="width:400px;float:left;">
+        <div class="sidebar-offcanvas sidebar realEs-myProfile-leftPanel" id="sidebar-left" role="navigation" style="">
+            <div style="height: 10px;">
+            </div>
+            <div class="reales-profile-pad10">
+
+                <div class="float_left_simple Fsize18">
+                    <label>@Html.Raw(Html.GetKeyValueFromResourceFile("myprofile", UserCookieManager.WBStoreId, "My Profile"))</label>
+                </div>
+
+                <div class="float_right relEst-profile-sigout">
+                    @Html.ActionLink(" ", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "icon-text-signout" })
+                </div>
+                <div class="float_right relEst-profile-saved">
+                    <a class="icon-text-cog" href="/DashBoard"></a>
+                </div>
+                <div class="float_right relEst-profile-dashb">
+                    <a class="icon-text-file" href="/SavedDesigns"></a>
+
+                </div>
+
+                <div class="clearBoth"></div>
+
+            </div>
+            <div class="reales-profile-border">
+            </div>
+            <div class="reales-profile-pad10">
+                <img id="imgUserProfile" class="float_left_simple resEst-width50" src="@Html.GetAppBasePath()@ViewBag.imgUserProfileSrc" />
+                <div class="float_left_simple resEst-profile-username">
+                    <label id="lblUSerName" class="real-profile-textcolor">@ViewBag.lblUSerName</label>
+                </div>
+                <div class="clearBoth"></div>
+            </div>
+            <div class="reales-profile-border">
+            </div>
+            @if (ParentCategories != null)
+    {
+    <div class="" id="togglemenu_sidebar">
+
+        <div class="panel-body">
+            <div class="" id="accordionmenu">
+
+                <div id="parentCatsContainer" class="">
+                    @foreach (var ParentCategory in ParentCategories)
+                        {
+                            var filteredChildCategories = ChildCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == ParentCategory.ProductCategoryId && (category.isArchived == false || category.isArchived == null) && category.isEnabled == true && category.isPublished == true && category.CompanyId == UserCookieManager.WBStoreId).ToList().OrderBy(x => x.DisplayOrder);
+
+                        <div class="category-heading">
+                            @{
+                            var anchorId = "linkParentCategoryName" + @ParentCategory.ProductCategoryId;
+                            var iconId = "linkChevronIcon" + @ParentCategory.ProductCategoryId;
+                            }
+                            <div class="float_left_simple">
+                                <a id="@anchorId" href="/Category/@Utils.specialCharactersEncoder(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
+                            </div>
+                            <div class="float_right">
+                                @if (filteredChildCategories != null && filteredChildCategories.Count() > 0)
+                                    {
+                                    <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
+                                        <i class="Chevron"></i>
+                                    </a>
+                                    }
+                                    else
+                                    {
+                                    <a class="clearBoth" style="height: 0px;"></a>
+                                    }
+                            </div>
+                            <div class="clearboth"></div>
+                        </div>
+                        <div class="sideMenuItems panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul id="mycarasoulList" class="submenu list-unstyled" style="padding-left: 15px; line-height: 2; margin-top: 5px;">
+                                    @foreach (var ChildCategory in filteredChildCategories)
+                                        {
+                                        <li><a id="linkChildCatLink" href="/Category/@Utils.specialCharactersEncoder(ChildCategory.CategoryName)/@ChildCategory.ProductCategoryId" onclick="ShowLoader();"><span id="childCatName" style="color: #bebab8;">@ChildCategory.CategoryName</span></a></li>
+                                        }
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        }
+                </div>
+
+            </div>
+        </div>
+    </div>
+    }
+
+        </div>
+    </div> 
