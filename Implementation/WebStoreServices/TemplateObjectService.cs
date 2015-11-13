@@ -94,7 +94,7 @@ namespace MPC.Implementation.WebStoreServices
             oTempItem.PositionY = 10;
             oTempItem.FontName = "Arial";
             oTempItem.FontSize = 10;
-            oTempItem.DisplayOrderPdf = 100;
+            oTempItem.DisplayOrderPdf = -1000;
             oTempItem.ColorC = 0;
             oTempItem.ColorM = 100;
             oTempItem.ColorY = 100;
