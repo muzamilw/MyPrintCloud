@@ -3147,51 +3147,61 @@ namespace MPC.Implementation.WebStoreServices
                     CartItems = _ItemRepository.GetListOfDeliveryItemByOrderID(OrderId);
                 }
 
-
-
-                var CouponAppliedItems = CartItems.Where(i => i.DiscountVoucherID != null).ToList();
-                foreach (Item citem in CouponAppliedItems)
+                if (CartItems != null) 
                 {
-                    ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
-
-                    citem.Tax1 = Convert.ToInt32(StoreTaxRate);
-
-                    citem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(ItemBaseCharge, StoreTaxRate);
-
-                    citem.Qty1GrossTotal = ItemBaseCharge + citem.Qty1Tax1Value;
-
-                    citem.Qty1BaseCharge1 = ItemBaseCharge;
-
-                    citem.Qty1NetTotal = ItemBaseCharge;
-
-                    citem.Qty1CostCentreProfit = null;
-
-                    citem.Qty2CostCentreProfit = null;
-
-                    citem.DiscountVoucherID = null;
-
-                    _ItemRepository.SaveChanges();
-
-                }
-                if (order.DiscountVoucherID != null)
-                {
-                    voucher = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(order.DiscountVoucherID));
-                    if (voucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
+                    var CouponAppliedItems = CartItems.Where(i => i.DiscountVoucherID != null).ToList();
+                    foreach (Item citem in CouponAppliedItems)
                     {
-                        if (voucher.IsSingleUseRedeemed == true)
+                        ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
+
+                        citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+
+                        citem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(ItemBaseCharge, StoreTaxRate);
+
+                        citem.Qty1GrossTotal = ItemBaseCharge + citem.Qty1Tax1Value;
+
+                        citem.Qty1BaseCharge1 = ItemBaseCharge;
+
+                        citem.Qty1NetTotal = ItemBaseCharge;
+
+                        citem.Qty1CostCentreProfit = null;
+
+                        citem.Qty2CostCentreProfit = null;
+
+                        citem.DiscountVoucherID = null;
+
+                        _ItemRepository.SaveChanges();
+
+                    }
+                }
+
+                if (order != null) 
+                {
+                    if (order.DiscountVoucherID != null)
+                    {
+                        voucher = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(order.DiscountVoucherID));
+                        if (voucher != null)
                         {
-                            voucher.IsSingleUseRedeemed = false;
-                            _DVRepository.SaveChanges();
+                            if (voucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
+                            {
+                                if (voucher.IsSingleUseRedeemed == true)
+                                {
+                                    voucher.IsSingleUseRedeemed = false;
+                                    _DVRepository.SaveChanges();
+                                }
+                            }
+
+                        }
+                       
+                        if (isDeliveryItem == false)
+                        {
+                            order.DiscountVoucherID = null;
+                            order.VoucherDiscountRate = null;
+                            _OrderRepository.SaveChanges();
                         }
                     }
-
-                    if (isDeliveryItem == false)
-                    {
-                        order.DiscountVoucherID = null;
-                        order.VoucherDiscountRate = null;
-                        _OrderRepository.SaveChanges();
-                    }
                 }
+             
             }
             catch (Exception ex)
             {
