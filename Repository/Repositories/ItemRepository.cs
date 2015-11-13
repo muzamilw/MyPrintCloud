@@ -2397,7 +2397,7 @@ namespace MPC.Repository.Repositories
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
         public long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID,
-            long realContactID, long replacedOrderdID, long OrganisationId,
+            long realContactID, long replacedOrderdID, long OrganisationId, double StoreTaxRate, long StoreId, 
             out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved,
             out List<Template> clonedTemplateToRemoveList)
         {
@@ -2451,12 +2451,20 @@ namespace MPC.Repository.Repositories
                         throw new Exception("Critcal Error, We have lost our main Order flags.", null);
                     }
 
-                    // ActualOrder.AddressId = 159239;
+                   
                     ActualOrder.LockedBy = Convert.ToInt32(realContactID);
                     ActualOrder.CompanyId = realCustomerID;
                     TemporaryContact =
                         db.CompanyContacts.Where(i => i.CompanyId == TemporaryOrder.CompanyId).FirstOrDefault();
 
+                    ActualOrder.DiscountVoucherID = TemporaryOrder.DiscountVoucherID;
+                    ActualOrder.VoucherDiscountRate = TemporaryOrder.VoucherDiscountRate;
+                    if(ActualOrder.DiscountVoucherID != null)
+                    {
+                        RollBackSpecificDiscountedItemsByVoucherId(TemporaryOrder.EstimateId, StoreTaxRate, StoreId, OrganisationId, Convert.ToInt64(ActualOrder.DiscountVoucherID));
+
+                    }
+                   
                     if (TemporaryContact != null)
                     {
                         ActualContact = db.CompanyContacts.Where(i => i.ContactId == realContactID).FirstOrDefault();
@@ -4640,6 +4648,58 @@ namespace MPC.Repository.Repositories
 
                 return db.Items.Where(c => c.CompanyId == CompanyId && (c.IsPublished == null || c.IsPublished == true) && (c.IsArchived == null || c.IsArchived == false) && c.EstimateId == null).OrderBy(c => c.ProductName).ToList();
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId)
+        {
+            try
+            {
+                double ItemBaseCharge = 0;
+
+              
+                List<Item> CartItems = null;
+
+                CartItems = (from r in db.Items
+                             where r.EstimateId == OrderId && r.IsOrderedItem == true && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
+                             select r).ToList();
+
+                List<Item> DelvItems = GetListOfDeliveryItemByOrderID(OrderId).Where(d => d.DiscountVoucherID == DiscountVoucherId).ToList();
+                foreach (Item i in DelvItems)
+                {
+                    CartItems.Add(i);
+                }
+                if (CartItems != null)
+                {
+                    var CouponAppliedItems = CartItems.Where(i => i.DiscountVoucherID == DiscountVoucherId).ToList();
+                    foreach (Item citem in CouponAppliedItems)
+                    {
+                        ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
+
+                        citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+
+                        citem.Qty1Tax1Value = CalculatePercentage(ItemBaseCharge, StoreTaxRate);
+
+                        citem.Qty1GrossTotal = ItemBaseCharge + citem.Qty1Tax1Value;
+
+                        citem.Qty1BaseCharge1 = ItemBaseCharge;
+
+                        citem.Qty1NetTotal = ItemBaseCharge;
+
+                        citem.Qty1CostCentreProfit = null;
+
+                        citem.Qty2CostCentreProfit = null;
+
+                        citem.DiscountVoucherID = null;
+
+                        db.SaveChanges();
+
+                    }
+                }
             }
             catch (Exception ex)
             {

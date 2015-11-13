@@ -307,11 +307,11 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        public CompanyContact GetContactByFirstName(string FName)
+        public CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode)
         {
             try
             {
-                return _CompanyContactRepository.GetContactByFirstName(FName);
+                return _CompanyContactRepository.GetContactByFirstName(FName, StoreId, OrganisationId, WebStoreMode);
             }
             catch (Exception ex)
             {

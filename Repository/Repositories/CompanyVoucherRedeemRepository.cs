@@ -39,7 +39,7 @@ namespace MPC.Repository.Repositories
             try
             {
                CompanyVoucherRedeem vReedem = db.CompanyVoucherRedeems.Where(v => v.CompanyId == companyId && v.ContactId == contactId && v.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
-               if (vReedem != null)
+               if (vReedem == null)
                {
                    return false;
                }

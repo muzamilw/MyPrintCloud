@@ -102,7 +102,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="orderAllItemsAttatchmentsListToBeRemoved"></param>
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
-        long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
+        long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId, double StoreTaxRate, long StoreId);
 
         List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
 
@@ -227,5 +227,6 @@ namespace MPC.Interfaces.WebStoreServices
         void UpdateOrderIdInItem(long itemId, long OrderId);
         DiscountVoucher GetFreeShippingDiscountVoucherByStoreId(long StoreId, long OrganisationId);
         DiscountVoucher GetOrderDiscountPercentageVoucherByStoreId(long StoreId, long OrganisationId);
+        void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId);
     }
 }

@@ -152,49 +152,18 @@
                 </div>
             </div>
         }
-        <div id="fb-root"></div>
-        <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
-        <div id="welcome"></div>
+        
         <div class="clearBoth">
             &nbsp;
         </div>
+      
     </div>
 </div>
    <script src="/Scripts/jquery-1.10.1.min.js"></script>
-    @*@Html.Raw(ViewBag.FBInitTag)*@
-<script>
-
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '633970343333969',
-            status     : true,
-            cookie     : true,
-            xfbml      : true
-        });
-    }
-    FB.Event.subscribe('auth.authResponseChange', function(response) {
-        if (response.status === 'connected') {
-                               testAPI();
-                            } else if (response.status === 'not_authorized') {
-                                   FB.login();
-                            } else {
-                                  FB.login();
-                               }
-                   });
-    (function(d){
-                   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-                    if (d.getElementById(id)) {return;}
-                   js = d.createElement('script'); js.id = id; js.async = true;
-                    js.src = “//connect.facebook.net/en_US/all.js”;
-                    ref.parentNode.insertBefore(js, ref);
-                }(document));
-                function testAPI() {
-                    FB.api('/me', function(response) {
-                        document.getElementById ('welcome').innerHTML='Good to see you,' + response.name + '.';
-                });
-        }
-    
-     </script>
+    @Html.Raw(ViewBag.FBInitTag)
+@Html.Raw(ViewBag.OauthErrorMessage)
+  
+
     <script>
        
         $(document).ready(function () {
@@ -239,7 +208,7 @@
 
         function ShowSocialMediaPopUp(isFacebook) {
 
-            @*var w = 820;
+            var w = 820;
             var h = 560;
             var left = (screen.width / 2) - (w / 2);
             var top = (screen.height / 2) - (h / 2);
@@ -247,7 +216,7 @@
                 window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
             else
                 window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-            return false;*@
+            return false;
         }
        
         function afterFacebookConnect() {
