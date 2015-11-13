@@ -17752,8 +17752,13 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
    * @param {Object} [imgOptions] Options object
    */
   fabric.Image.fromURL = function(url, callback, imgOptions) {
-    fabric.util.loadImage(url, function(img) {
-      callback && callback(new fabric.Image(img, imgOptions));
+      fabric.util.loadImage(url, function (img) {
+          if (img != null) {
+              callback && callback(new fabric.Image(img, imgOptions));
+          } else {  // added by saqib to handle the not found image 
+              fabric.Image.fromURL("/Content/Designer/assets-v2/failure1.png", callback, imgOptions);
+          }
+      
     }, null, imgOptions && imgOptions.crossOrigin);
   };
 

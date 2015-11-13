@@ -82,6 +82,7 @@ namespace MPC.Repository.Repositories
                 obj.ColorK = K;
                 obj.IsSpotColor = true;
                 obj.SpotColor = Name;
+                obj.Name = Name;
                 obj.IsColorActive = true;
                 obj.CustomerId = CustomerID;
                 db.TemplateColorStyles.Add(obj);

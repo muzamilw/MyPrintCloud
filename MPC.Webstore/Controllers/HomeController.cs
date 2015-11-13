@@ -742,9 +742,10 @@ namespace MPC.Webstore.Controllers
                         if (oCompany != null)
                         {
                             CompanyContact oContact = _myCompanyService.GetOrCreateContact(oCompany, E, F, L, C);
-                            if (oContact == null && oCompany.isAllowRegistrationFromWeb == true)
+                            if (oContact == null && oCompany.isAllowRegistrationFromWeb == false)
                             {
-                                return RedirectToAction("Error", "Home", new { Message = "You are not allowed to register." });
+                                TempData["ErrorMessage"] = "You are not allowed to register.";
+                                return RedirectToAction("Error", "Home");
                             }
                             else
                             {
@@ -803,23 +804,27 @@ namespace MPC.Webstore.Controllers
                                 }
                                 else
                                 {
-                                    return RedirectToAction("Error", "Home", new { Message = "Please try again." });
+                                    TempData["ErrorMessage"] = "Please try again.";
+                                    return RedirectToAction("Error", "Home");
                                 }
                             }
                         }
                         else
                         {
-                            return RedirectToAction("Error", "Home", new { Message = "Your Web Access Code is invalid." });
+                            TempData["ErrorMessage"] = "Your Web Access Code is invalid.";
+                            return RedirectToAction("Error", "Home");
                         }
                     }
                     else
                     {
-                        return RedirectToAction("Error", "Home", new { Message = "Please enter Web Access Code to proceed." });
+                        TempData["ErrorMessage"] = "Please enter Web Access Code to proceed.";
+                        return RedirectToAction("Error", "Home");
                     }
                 }
                 else
                 {
-                    return RedirectToAction("Error", "Home", new { Message = "Please enter valid email address to proceed." });
+                    TempData["ErrorMessage"] = "Please enter valid email address to proceed.";
+                    return RedirectToAction("Error", "Home");
                 }
 
 

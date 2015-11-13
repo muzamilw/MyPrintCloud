@@ -213,3 +213,4 @@ function restrictControls() {
 }
 
 var difFound = false;
+var reArrangeAttempted = false;
