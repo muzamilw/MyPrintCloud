@@ -285,7 +285,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 if (isSocial == "1")
-                    TwitterScreenName = model.FirstName;
+                    TwitterScreenName = model.FirstName + " " + model.LastName;
             }
 
 
