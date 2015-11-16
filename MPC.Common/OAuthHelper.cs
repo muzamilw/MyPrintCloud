@@ -13,7 +13,7 @@ public class OAuthHelper
    
     //static string oauth_consumer_key = "JVx0cTa0jAX96cnM7UUGq9q7b";
     //static string oauth_consumer_secret = "kZyjwPalQOkvJ4YWJh6YUaiPK404tKaWH0gZFyWBb8yUyc4P6t";
-    static string callbackUrl = "http://localhost:30630/Home/oAuth?id=2&isRegWithSM=1";
+    static string callbackUrl = "";
 
     #region (Changable) Do Not Change It
     static string REQUEST_TOKEN = "https://api.twitter.com/oauth/request_token";
@@ -32,9 +32,9 @@ public class OAuthHelper
     public string screen_name { get; set; }
     public string oauth_error { get; set; }
 
-    public string GetRequestToken(string oauth_consumer_key, string oauth_consumer_secret)
+    public string GetRequestToken(string oauth_consumer_key, string oauth_consumer_secret, string callBackLnk)
     {
-
+        callbackUrl = callBackLnk;
         HttpWebRequest request = FetchRequestToken(httpMethod.POST, oauth_consumer_key, oauth_consumer_secret);
         string result = getResponce(request);
         Dictionary<string, string> resultData = OAuthUtility.GetQueryParameters(result);

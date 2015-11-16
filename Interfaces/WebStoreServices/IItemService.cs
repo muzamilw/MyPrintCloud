@@ -219,7 +219,7 @@ namespace MPC.Interfaces.WebStoreServices
         void SaveOrUpdateDiscountVoucher(DiscountVoucher storeDiscountVoucher);
         string ValidateDiscountVoucher(DiscountVoucher storeDiscountVoucher);//, ref string voucherErrorMesg
         DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountCouponCode, long StoreId, long OrganisationId);
-        void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem);
+        void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem, long ContactId, long CompanyId);
         long ApplyStoreDefaultDiscountRateOnCartItems(long OrderId, long StoreId, long OrganisationId, double StoreTaxRate,ref long FreeShippingVoucherId);
         DiscountVoucher GetDiscountVoucherById(long DiscountVoucherId);
         void ApplyDiscountOnDeliveryItemAlreadyAddedToCart(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate);

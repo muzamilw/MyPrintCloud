@@ -27,22 +27,22 @@
 
 
                                 <script>
-                                    function SocialSignUp(isFacebook) {
+                                    function SocialSignUp(provider) {
                                         var w = 820;
                                         var h = 560;
                                         var left = (screen.width / 2) - (w / 2);
                                         var top = (screen.height / 2) - (h / 2);
-                                        if (isFacebook == 1)
-                                            window.open("/Home/oAuth?id=1&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                                        else
-                                            window.open("/Home/oAuth?id=0&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+
+                                        window.open("/oAuth/" + provider + "/1/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                                       
                                         return false;
                                     }
-                                </script>}
-                            @if (ViewBag.ShowFacebookSignInLink == 1)
+                                </script>
+                            }
+                            @if (ViewBag.ShowTwitterSignInLink == 1)
                             {
                                 <em id="emtwtter" class="emTw"></em>
-                            <input id="facebookbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign up with Twitter"))" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
+                            <input id="twitterbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign up with Twitter"))" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
                                 <br />
                             }
 
@@ -58,42 +58,59 @@
                         bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                         if (isSocialSignUp == true)
                         {
-                            <div id="lbl_CompleteYourRegisteration" class="errorMessage mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId, "Register for")) @ViewBag.CompanyName</div>
+                            if (ViewBag.Provider == "fb")
+                            {
+                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the remaining fields to sign up using ")) Facebook </div>
+                            }
+                            else
+                            {
+                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the remaining fields to sign up using ")) Twitter</div>
+                            }
+
                         }
 
-                    }
+}
 
                     @using (Html.BeginForm())
                     {
-                        <div class="errorMesgLoginPage">
+                        <div class="errorMessage">
                             <div>@ViewBag.Message</div>
-                            
-                                <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
-                                <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
-                                <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
-                                <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
-                            
+
+                            <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
+                            <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
+                            <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
+                            <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
+
                         </div>
                         <br />
 
                         bool isSocial = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                         if (isSocial == true)
                         {
-
+                            <input type="hidden" name="provider" id="providerId" value="@ViewBag.Provider" />
                             <input type="hidden" name="hfIsSocial" id="isSocial" value="1" />
+                                <input type="text" name="socialFirstNameTxt" class="txtBoxLoginPage" value="@ViewBag.socialFirstName" readonly="readonly" />
+                            if (ViewBag.Provider == "fb")
+                            {
+                                <input type="text" name="socialLastNameTxt" class="txtBoxLoginPage" value="@ViewBag.socialLastName" readonly="readonly" />
+
+                            }
+
                         }
                         else
                         {
 
                             <input type="hidden" name="hfIsSocial" id="isSocial" value="0" />
+                            @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "txtBoxLoginPage", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")) })
+
+
                         }
 
+                        if (ViewBag.Provider != "fb")
+                        {
+                            @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "txtBoxLoginPage", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
+                        }
 
-                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")) })
-
-
-
-                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
 
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
 

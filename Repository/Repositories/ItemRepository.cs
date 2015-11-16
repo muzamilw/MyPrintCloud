@@ -2457,13 +2457,16 @@ namespace MPC.Repository.Repositories
                     TemporaryContact =
                         db.CompanyContacts.Where(i => i.CompanyId == TemporaryOrder.CompanyId).FirstOrDefault();
 
-                    ActualOrder.DiscountVoucherID = TemporaryOrder.DiscountVoucherID;
-                    ActualOrder.VoucherDiscountRate = TemporaryOrder.VoucherDiscountRate;
-                    if(ActualOrder.DiscountVoucherID != null)
+                    // this will check if user has already an order with discount coupon
+                    long previousOrderDiscountVoucherId = ActualOrder.DiscountVoucherID ?? 0;
+                    if (previousOrderDiscountVoucherId > 0) 
                     {
-                        RollBackSpecificDiscountedItemsByVoucherId(TemporaryOrder.EstimateId, StoreTaxRate, StoreId, OrganisationId, Convert.ToInt64(ActualOrder.DiscountVoucherID));
+                        ActualOrder.DiscountVoucherID = TemporaryOrder.DiscountVoucherID;
+                        ActualOrder.VoucherDiscountRate = TemporaryOrder.VoucherDiscountRate;
+                        RollBackSpecificDiscountedItemsByVoucherId(ActualOrder.EstimateId, StoreTaxRate, StoreId, OrganisationId, previousOrderDiscountVoucherId);
 
                     }
+                 
                    
                     if (TemporaryContact != null)
                     {

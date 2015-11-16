@@ -105,41 +105,19 @@ namespace MPC.Webstore.Controllers
                 }
                 List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
-
-
-                //string CacheKeyName = "CompanyBaseResponse";
-                //ObjectCache cache = MemoryCache.Default;
-
                 //iqra to fix the route of error page, consult khurram if required to get it propper.
                 if (UserCookieManager.WBStoreId > 0)
                 {
 
                     model = GetStoreAndUpdatePageSettings(model, UserCookieManager.WBStoreId);
-                    //}
+                   
                 }
                 else
                 {
-                    //string url = Request.Url.AbsoluteUri;
-                    //if (!string.IsNullOrEmpty(url))
-                    //{
-                    //    long storeId = _myCompanyService.GetStoreIdFromDomain(url);
-
-                    //    if (storeId > 0)
-                    //    {
-                    //        UserCookieManager.WBStoreId = storeId;
-                    //        model = GetStoreAndUpdatePageSettings(model, storeId);
-                    //    }
-                    //    else
-                    //    {
-                    //        TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
-                    //        return RedirectToAction("Error");
-                    //    }
-                    //}
-                    //else 
-                    //{
+                  
                         TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
                         return RedirectToAction("Error");
-                   // }
+                 
                 
                 }
 
@@ -372,12 +350,12 @@ namespace MPC.Webstore.Controllers
             return View();
 
         }
-        public ActionResult oAuth(int LoginWithId, int isRegistrationProcess, long StoreId, string ReturnUrl)
+        public ActionResult oAuth(int Provider, int isRegistrationProcess, long StoreId, string ReturnUrl)
         {
 
             MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(StoreId);
 
-            if (LoginWithId == 1)
+            if (Provider == 1) // fb
             {
                 DotNetOpenAuth.ApplicationBlock.FacebookClient client = new DotNetOpenAuth.ApplicationBlock.FacebookClient
                 {
@@ -416,13 +394,14 @@ namespace MPC.Webstore.Controllers
 
                     if (isRegistrationProcess == 1)
                     {
-                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + ReturnUrl + "' </script>";
+
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&provider=fb&ReturnURL=" + ReturnUrl + "' </script>";
 
                         return View();
                     }
                     else
                     {
-                        CompanyContact user = new CompanyContact();
+                        CompanyContact user = null;
                         if (string.IsNullOrEmpty(email))
                         {
                             string returnUrl = string.Empty;
@@ -445,7 +424,7 @@ namespace MPC.Webstore.Controllers
                         }
                         else
                         {
-                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?R=0' </script>";
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=Invalid login attempt.' </script>";
                         }
                         
                         return View();
@@ -453,18 +432,20 @@ namespace MPC.Webstore.Controllers
 
                 }
             }
-            else if (LoginWithId == 0)
+            else if (Provider == 0)// twitter
             {
                 string requestToken = "";
+                string callBackLink = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + "/oAuth/2/" + isRegistrationProcess + "/" + UserCookieManager.WBStoreId + "/Social";
                 OAuthHelper oauthhelper = new OAuthHelper();
 
-                requestToken = oauthhelper.GetRequestToken("GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
 
+                requestToken = oauthhelper.GetRequestToken(oCompany.twitterAppId, oCompany.twitterAppKey, callBackLink);
+               
                 if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     Response.Redirect(oauthhelper.GetAuthorizeUrl(requestToken));
-
+               
             }
-            else if (LoginWithId == 2)
+            else if (Provider == 2)
             {
                 if (Request.QueryString["oauth_token"] != null && Request.QueryString["oauth_verifier"] != null)
                 {
@@ -473,23 +454,35 @@ namespace MPC.Webstore.Controllers
 
                     OAuthHelper oauthhelper = new OAuthHelper();
 
-                    oauthhelper.GetUserTwAccessToken(oauth_token, oauth_verifier, "GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
-
-
-
-
+                    oauthhelper.GetUserTwAccessToken(oauth_token, oauth_verifier, oCompany.twitterAppId, oCompany.twitterAppKey);
+                   
 
                     if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     {
                         if (isRegistrationProcess == 1)
                         {
-                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + ReturnUrl + "' </script>";
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "&provider=tw&ReturnURL=" + ReturnUrl + "' </script>";
 
                             return View();
                         }
                         else
                         {
-                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + ReturnUrl + "' </script>";
+                           
+                            CompanyContact user = null;
+                            if (!string.IsNullOrEmpty(oauthhelper.screen_name))
+                            {
+                                user = _myCompanyService.GetContactByFirstName(oauthhelper.screen_name, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode);
+                                
+                            }
+                            if (user != null)
+                            {
+                                ViewBag.message = VerifyUser(user);
+
+                            }
+                            else
+                            {
+                                ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=Invalid login attempt.' </script>";
+                            }
                             return View();
                         }
 
