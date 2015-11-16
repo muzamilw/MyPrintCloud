@@ -3201,9 +3201,6 @@ namespace MPC.Implementation.WebStoreServices
                         }
                     }
                 }
-             
-                }
-
             }
             catch (Exception ex)
             {
