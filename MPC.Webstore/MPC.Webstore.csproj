@@ -402,6 +402,7 @@
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
     <Compile Include="Controllers\LoginBarWithCountersController.cs" />
     <Compile Include="Controllers\LoginBarWithPhoneInfoController.cs" />
+    <Compile Include="Controllers\LoginEazyPrintController.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
     <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
@@ -1057,6 +1058,7 @@
     <Content Include="Views\Shared\PartialViews\RealEstateSideBar.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginBarWithPhoneInfo.cshtml" />
     <Content Include="Views\Shared\PartialViews\WhyShopUs.cshtml" />
+    <Content Include="Views\Shared\PartialViews\LoginEazyPrint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1076,6 +1078,7 @@
     <Folder Include="Views\FutureQuickLinks\" />
     <Folder Include="Views\LoginBarWithCounters\" />
     <Folder Include="Views\LoginBarWithPhoneInfo\" />
+    <Folder Include="Views\LoginEazyPrint\" />
     <Folder Include="Views\UserManager\" />
     <Folder Include="Views\WhyShopUs\" />
   </ItemGroup>
