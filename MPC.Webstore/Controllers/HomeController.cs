@@ -37,6 +37,8 @@ namespace MPC.Webstore.Controllers
         private ICostCentreService _CostCentreService;
 
         private readonly IOrderService _OrderService;
+
+        private readonly IItemService _ItemService;
         #endregion
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -54,7 +56,7 @@ namespace MPC.Webstore.Controllers
         /// Constructor
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
-            , IOrderService OrderService)
+            , IOrderService OrderService, IItemService ItemService)
         //: base(myCompanyService, webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
@@ -77,6 +79,7 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
             this._OrderService = OrderService;
+            this._ItemService = ItemService;
 
         }
 
@@ -419,7 +422,32 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + ReturnUrl + "' </script>";
+                        CompanyContact user = new CompanyContact();
+                        if (string.IsNullOrEmpty(email))
+                        {
+                            string returnUrl = string.Empty;
+
+                            
+
+                            if (!string.IsNullOrEmpty(firstname) && !string.IsNullOrEmpty(lastname))
+                            {
+                                user = _myCompanyService.GetContactByFirstName(firstname + " " + lastname, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode);
+                            }
+                        }
+                        else 
+                        {
+                            user = _myCompanyService.GetContactByEmail(email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                        }
+                        if (user != null)
+                        {
+                            ViewBag.message = VerifyUser(user);
+                            
+                        }
+                        else
+                        {
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?R=0' </script>";
+                        }
+                        
                         return View();
                     }
 
@@ -469,6 +497,53 @@ namespace MPC.Webstore.Controllers
                 }
             }
             return View();
+        }
+
+        private string VerifyUser(CompanyContact user)
+        {
+            string returnString = "";
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+                if (user.isArchived.HasValue && user.isArchived.Value == true)
+                {
+                    returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=" + Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.WBStoreId) + "' </script>";
+                   
+                }
+                else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
+                {
+                    returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=" + Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.WBStoreId) + "' </script>";
+                   
+                }
+                else
+                {
+
+                    UserCookieManager.isRegisterClaims = 1;
+                    UserCookieManager.WEBContactFirstName = user.FirstName;
+                    UserCookieManager.WEBContactLastName = user.LastName == null ? "" : user.LastName;
+                    UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
+                    UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? false;
+                    UserCookieManager.CanPlaceOrder = user.isPlaceOrder ?? false;
+                    UserCookieManager.WEBEmail = user.Email;
+
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                    {
+                        long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
+
+                        if (Orderid > 0)
+                        {
+                            UserCookieManager.TemporaryCompanyId = 0;
+                             ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart", new { OrderId = Orderid });
+                             returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/ShopCart?OrderId=" + Orderid + "' </script>";
+                   
+              
+                        }
+                    }
+
+                    returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/' </script>";
+                   
+                }
+
+                return returnString;
         }
 
         [HttpGet]

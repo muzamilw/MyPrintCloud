@@ -920,7 +920,7 @@ namespace MPC.Implementation.WebStoreServices
 
 
 
-        public long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId)
+        public long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId, double StoreTaxRate, long StoreId)
         {
             try
             {
@@ -932,7 +932,7 @@ namespace MPC.Implementation.WebStoreServices
                     bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
                     if (isUpdateOrder)
                     {
-                        long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                        long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, StoreTaxRate, StoreId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
                         if (orderId > 0)
                         {
                             RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
@@ -3147,7 +3147,7 @@ namespace MPC.Implementation.WebStoreServices
                     CartItems = _ItemRepository.GetListOfDeliveryItemByOrderID(OrderId);
                 }
 
-                if (CartItems != null) 
+                if (CartItems != null)
                 {
                     var CouponAppliedItems = CartItems.Where(i => i.DiscountVoucherID != null).ToList();
                     foreach (Item citem in CouponAppliedItems)
@@ -3175,7 +3175,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                 }
 
-                if (order != null) 
+                if (order != null)
                 {
                     if (order.DiscountVoucherID != null)
                     {
@@ -3192,7 +3192,7 @@ namespace MPC.Implementation.WebStoreServices
                             }
 
                         }
-                       
+
                         if (isDeliveryItem == false)
                         {
                             order.DiscountVoucherID = null;
@@ -3202,6 +3202,8 @@ namespace MPC.Implementation.WebStoreServices
                     }
                 }
              
+                }
+
             }
             catch (Exception ex)
             {
@@ -3592,7 +3594,33 @@ namespace MPC.Implementation.WebStoreServices
                 }
             }
             return dVToReturn;
-           
+
+        }
+
+        public void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId)
+        {
+            try
+            {
+
+                _ItemRepository.RollBackSpecificDiscountedItemsByVoucherId(OrderId, StoreTaxRate, StoreId, OrganisationId, DiscountVoucherId);
+                DiscountVoucher voucher = _DVRepository.GetDiscountVoucherById(DiscountVoucherId);
+                if (voucher != null)
+                {
+                    if (voucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
+                    {
+                        if (voucher.IsSingleUseRedeemed == true)
+                        {
+                            voucher.IsSingleUseRedeemed = false;
+                            _DVRepository.SaveChanges();
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

@@ -54,13 +54,9 @@ namespace MPC.Webstore.Controllers
             get { return HttpContext.GetOwinContext().Authentication; }
         }
         // GET: Login
-        public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
+        public ActionResult Index(string Message, string ReturnURL)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-
-
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
@@ -99,45 +95,20 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ReturnURL = "";
             else
                 ViewBag.ReturnURL = ReturnURL;
-            
-            if (!string.IsNullOrEmpty(FirstName))
+
+            if (!string.IsNullOrEmpty(Message))
             {
-                string returnUrl = string.Empty;
-
-                CompanyContact user = new CompanyContact();
-
-                if (!string.IsNullOrEmpty(Email))
-                {
-                    user = _myCompanyService.GetContactByEmail(Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId);
-                }
-                else
-                {
-                    user = _myCompanyService.GetContactByFirstName(FirstName);
-                }
-                if (user != null)
-                {
-                    return VerifyUser(user, returnUrl, StoreBaseResopnse);
-
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View("PartialViews/Login");
-                }
+                ViewBag.OauthErrorMessage = @"<script type='text/javascript' language='javascript'> $(document).ready(function () {ShowPopUp('Message', '" + Message + "'); });</script>";
+               
             }
-            else
-            {
-                return View("PartialViews/Login");
-            }
+           
+            return View("PartialViews/Login");
         }
 
         [HttpPost]
         public ActionResult Index(AccountViewModel model)
         {
 
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (ModelState.IsValid)
@@ -211,7 +182,7 @@ namespace MPC.Webstore.Controllers
 
                     if(UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
-                        long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+                        long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
 
                         if (Orderid > 0)
                         {
@@ -223,9 +194,7 @@ namespace MPC.Webstore.Controllers
                             else 
                             {
                                 ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart", new { OrderId = Orderid });
-                                //RedirectToLocal("/ShopCart?OrderId=" + Orderid);
-                                //RedirectToAction("ShopCart", new { OrderId = Orderid });
-                               // Response.Redirect("/ShopCart?OrderId=" + Orderid);
+                               
                             }
                             return null;
                         }
@@ -239,9 +208,7 @@ namespace MPC.Webstore.Controllers
                     else
                     {
                         ControllerContext.HttpContext.Response.RedirectToRoute("Default");
-                        //RedirectToLocal("/");
-                        //Response.Redirect("/");
-                    
+                       
                     }
                     return null;
                 }

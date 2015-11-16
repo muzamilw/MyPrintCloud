@@ -77,7 +77,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     }
                     else if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.OneTimeUsePerCustomer)
                     {
-                        if (_companyService.IsVoucherUsedByCustomer(_webstoreAuthorizationChecker.loginContactID(), _webstoreAuthorizationChecker.loginContactCompanyID(), storeDiscountVoucher.DiscountVoucherId))
+                        bool isVoucherAlreadyReedemByThisCustomer = true;
+                        if (_webstoreAuthorizationChecker.loginContactID() > 0 && _webstoreAuthorizationChecker.loginContactCompanyID() > 0)
+                        {
+                            isVoucherAlreadyReedemByThisCustomer = _companyService.IsVoucherUsedByCustomer(_webstoreAuthorizationChecker.loginContactID(), _webstoreAuthorizationChecker.loginContactCompanyID(), storeDiscountVoucher.DiscountVoucherId);
+                        }
+                        if(isVoucherAlreadyReedemByThisCustomer == false)
                         {
                             if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
                             {
@@ -105,8 +110,18 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         }
                         else
                         {
-                            messages.Add("Error");
-                            messages.Add("The Coupon Code has already been redeemed.");
+                            if (UserCookieManager.TemporaryCompanyId > 0)
+                            {
+                                messages.Add("Error");
+                                messages.Add("Please login to use this voucher.");
+                            }
+                            else
+                            {
+                                messages.Add("Error");
+                                messages.Add("The Coupon Code has already been redeemed.");
+
+                            }
+                           
                         }
                     }
                     else if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)

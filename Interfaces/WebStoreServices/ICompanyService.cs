@@ -44,7 +44,7 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyContact GetUserByEmailAndPassword(string email, string password);
 
-        CompanyContact GetContactByFirstName(string FName);
+        CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode);
         CompanyContact GetContactById(int contactId);
         CompanyContact GetContactByEmail(string Email, long OID, long StoreId);
 

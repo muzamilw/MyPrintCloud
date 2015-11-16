@@ -137,7 +137,7 @@ namespace MPC.Webstore.Controllers
                         }
                         else if (isSocial == "1")
                         {
-                            if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
+                            if (_myCompanyService.GetContactByFirstName(model.FirstName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
                             {
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
                                 return View();
@@ -165,7 +165,7 @@ namespace MPC.Webstore.Controllers
                         }
                         else if (isSocial == "1")
                         {
-                            if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
+                            if (_myCompanyService.GetContactByFirstName(model.FirstName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
                             {
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
                                 return View();
@@ -273,7 +273,7 @@ namespace MPC.Webstore.Controllers
 
                     isContactCreate = true;
 
-                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
                     cep.ContactId = loginUser.ContactId;
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
                     cep.StoreId = UserCookieManager.WBStoreId;
