@@ -13,11 +13,11 @@
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 @if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
                 {
-                    <div id="lblSignWithSM" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsigninwithaccount", UserCookieManager.WBStoreId, "Sign in to ")) @ViewBag.CompanyName</div>
+                    @*<div id="lblSignWithSM" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsigninwithaccount", UserCookieManager.WBStoreId, "Sign in to ")) @ViewBag.CompanyName</div>*@
                     <br />
 
 
-                    <div id="cntSocialLink" class="cntSignInWithSocialinks">
+                    @*<div id="cntSocialLink" class="cntSignInWithSocialinks">
                         @if (ViewBag.ShowFacebookSignInLink == 1)
                         {
                             <em id="emfacebook" class="emfb"></em>
@@ -37,7 +37,7 @@
                         <div id="cntOrBottom">
                             @Html.Raw(Html.GetKeyValueFromResourceFile("orrr", UserCookieManager.WBStoreId, "-OR-"))
                         </div>
-                    </div>
+                    </div>*@
                     <div class="clear">
                         &nbsp;
                     </div>
@@ -55,34 +55,62 @@
                         <div>@Html.ValidationMessageFor(u => u.Password)</div>
                     </div>
 
-                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "txtBoxLoginPage txtEmailBox", @value = "Email" })
+                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "formbox txtEmailBox", @value = "Email" })
 
-                    @Html.TextBoxFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage txtPassBox", @value = "Password" }) <br />
+                    @Html.TextBoxFor(model => model.Password, new { id = "Password", @class = "formbox txtPassBox", @value = "Password" }) <br />
 
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         <div id="cntStaySignedin">
                             @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
                             <label for="rememberMe">@Html.Raw(Html.GetKeyValueFromResourceFile("keepMe", UserCookieManager.WBStoreId, "Keep me signed in"))</label>
+                            <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.WBStoreId, "Forgot Password?"))</a>
                         </div>
                     }
-
 
                     <div id="divBtnContainer" style="margin-top: 10px;">
                         <div class="divwidth">
                             &nbsp;
                         </div>
-                        <div class="divwidthset">
+                                        <div class="divwidthset">
+
                             <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("loginnnnn", UserCookieManager.WBStoreId, "Login"))" onclick="ValidateUserCredentials(); " /><br />
+                        </div>
+                        <div>
+                            <br />
+                            <br />
+                            <br />
+                            <div id="cntSocialLink" class="cntSignInWithSocialinks">
+                                @if (ViewBag.ShowFacebookSignInLink == 1)
+                                {
+                                    <em id="emfacebook" ></em>
+
+
+                                <input id="facebookbtn" type="button" style="float:left;" value="@Html.Raw(Html.GetKeyValueFromResourceFile("signfb", UserCookieManager.WBStoreId, "Sign in with Facebook"))" class="social_button face" onclick="ShowSocialMediaPopUp(1)" />
+
+                                }
+                                @if (ViewBag.ShowTwitterSignInLink == 1)
+                                {
+                                    <em id="emtwtter"></em>
+                                      <input id="twitterBtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("signtwitter", UserCookieManager.WBStoreId, "Sign in with Twitter"))" onclick=" ShowSocialMediaPopUp(0)" class="social_button space twitter" />
+                                    <br />
+                                }
+
+                                <br />
+                                @*<div id="cntOrBottom">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("orrr", UserCookieManager.WBStoreId, "-OR-"))
+                                </div>*@
+                            </div>
+
                         </div>
                         <br />
                         <div class="clear divwidthset">
-                            <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.WBStoreId, "Forgot Password?"))</a>
+                            @*<a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.WBStoreId, "Forgot Password?"))</a>*@
                         </div>
                         @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                         {
                             <div class="clear divwidthset">
-                                <a class="forgetPassLink link-sign-up" id="lnkForgotPassword" href="/SignUp">@Html.Raw(Html.GetKeyValueFromResourceFile("SignUplbl", UserCookieManager.WBStoreId, "Sign Up"))?</a>
+                                @*<a class="forgetPassLink link-sign-up" id="lnkForgotPassword" href="/SignUp">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegisterNow", UserCookieManager.WBStoreId, "REGISTER NOW"))</a>*@
                             </div>
                         }
 
@@ -109,8 +137,18 @@
         @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
         {
             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
-
-
+                <div>
+                    <a class="donhaveAcc_eazy link-sign-up" id="lnkDontHaveAccount" href="/SignUp">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDnthaveacc", UserCookieManager.WBStoreId, "Don't have an account?"))?</a>
+                    <br />
+                    <br />
+                    <br />
+                    <a class=" link-sign-up" id="lnRegisterNow" href="/SignUp">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegisterNow", UserCookieManager.WBStoreId, "REGISTER NOW"))</a>
+                    <br />
+                    <br />
+                    <br />
+                    
+                    <a class="donhaveAcc_eazy link-sign-up" id="lnkWithyourAccount" href="/SignUp">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlWithyourAccount", UserCookieManager.WBStoreId, "With your account you can:"))</a>
+                </div>
                 <div class="divDontHaveAccont rounded_corners5">
                     @*<p id="lblRegistering" class="custom_color_heading" style="font-size: 19px !important; margin-bottom: 0px !important;">Sign in to:</p>*@
                     <div class="registering_item">

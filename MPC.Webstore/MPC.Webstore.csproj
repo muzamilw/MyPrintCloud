@@ -393,6 +393,7 @@
     <Compile Include="Controllers\DescriptiveFooterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
+    <Compile Include="Controllers\EzyPrintSignUpController.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\FooterWithUseFulLinksController.cs" />
     <Compile Include="Controllers\FutureHeaderController.cs" />
@@ -1059,6 +1060,7 @@
     <Content Include="Views\Shared\PartialViews\LoginBarWithPhoneInfo.cshtml" />
     <Content Include="Views\Shared\PartialViews\WhyShopUs.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginEazyPrint.cshtml" />
+    <Content Include="Views\Shared\PartialViews\EzyPrintSignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1072,6 +1074,7 @@
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\DescriptiveFooter\" />
+    <Folder Include="Views\EzyPrintSignUp\" />
     <Folder Include="Views\FooterWithUseFulLinks\" />
     <Folder Include="Views\FutureFormHeader\" />
     <Folder Include="Views\FutureHeader\" />
