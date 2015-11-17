@@ -7268,7 +7268,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID && (c.IsDisabled == false || c.IsDisabled == null)).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
@@ -7480,7 +7480,7 @@ namespace MPC.Repository.Repositories
                                             }
                                             else
                                             {
-                                                SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                SID = stockitems.Where(c => c.isDisabled == false || c.isDisabled == null).Select(s => s.StockItemId).FirstOrDefault();
                                                 itm.StockItemID1 = SID;
 
 
@@ -7497,7 +7497,7 @@ namespace MPC.Repository.Repositories
                                             }
                                             else
                                             {
-                                                PID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                PID = paperSizes.Where(c => c.IsArchived == false || c.IsArchived == null).Select(s => s.PaperSizeId).FirstOrDefault();
                                                 itm.SectionSizeId = PID;
 
 
@@ -7510,7 +7510,7 @@ namespace MPC.Repository.Repositories
                                             }
                                             else
                                             {
-                                                ISID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                ISID = paperSizes.Where(c => c.IsArchived == false || c.IsArchived == null).Select(s => s.PaperSizeId).FirstOrDefault();
                                                 itm.ItemSizeId = ISID;
 
 
@@ -7540,7 +7540,7 @@ namespace MPC.Repository.Repositories
                                             }
                                             else
                                             {
-                                                 MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                 MIDSide2 = machines.Where(c => c.MachineCatId != 4 && (c.IsDisabled == false || c.IsDisabled == null)).Select(s => s.MachineId).FirstOrDefault();
                                                  itm.PressIdSide2 = (int)MIDSide2;
                                                 //itm.PressId = null;
                                             }
@@ -7583,7 +7583,7 @@ namespace MPC.Repository.Repositories
                                             }
                                             else
                                             {
-                                                SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                SID = stockitems.Where(c => c.isDisabled == false || c.isDisabled == null).Select(s => s.StockItemId).FirstOrDefault();
                                                 iso.StockId = SID;
 
 
@@ -7605,7 +7605,7 @@ namespace MPC.Repository.Repositories
                                                     }
                                                     else
                                                     {
-                                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID && (c.IsDisabled == false || c.IsDisabled == null)).Select(c => c.CostCentreId).FirstOrDefault();
                                                         itmAdd.CostCentreId = id;
                                                     }
 
