@@ -43,13 +43,9 @@ namespace MPC.Webstore.Controllers
         #endregion
 
         // GET: SignUp///
-        public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
+        public ActionResult Index(string FirstName, string LastName, string Email, string provider, string ReturnURL)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
 
-
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
@@ -71,9 +67,24 @@ namespace MPC.Webstore.Controllers
 
 
             ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
+
             if (FirstName != null)
             {
+
                 ViewData["IsSocialSignUp"] = true;
+               
+                ViewBag.socialFirstName = FirstName;
+                ViewBag.Provider = provider;
+                if (provider == "fb")
+                {
+                    ViewBag.socialLastName = LastName;
+                }
+
+
+                if (!string.IsNullOrEmpty(Email))
+                {
+                    ViewBag.socialEmail = Email;
+                }
 
             }
             else
@@ -92,13 +103,32 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(RegisterViewModel model)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             try
             {
+                string isSocial = Request.Form["hfIsSocial"];
+                if (!string.IsNullOrEmpty(isSocial))
+                {
+                    if (isSocial == "1")
+                    {
+                        ViewData["IsSocialSignUp"] = true;
+                        ViewBag.socialFirstName = model.FirstName;
+                        ViewBag.socialLastName = model.LastName;
+
+                        if (!string.IsNullOrEmpty(model.Email))
+                        {
+                            ViewBag.socialEmail = model.Email;
+                        }
+                    }
+                    else
+                    {
+                        ViewData["IsSocialSignUp"] = false;
+
+                    }
+
+                }
 
                 if (ModelState.IsValid)
                 {
@@ -107,7 +137,7 @@ namespace MPC.Webstore.Controllers
                         ViewBag.Message = "Please enter Password";
                         return View("PartialViews/SignUp");
                     }
-                    string isSocial = Request.Form["hfIsSocial"];
+
                     string ReturnURL = Request.Form["hfReturnURL"];
                     if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
                     {
@@ -145,30 +175,30 @@ namespace MPC.Webstore.Controllers
                             else
                             {
                                 SetRegisterCustomer(model);
-                               
+
                             }
                         }
                         else
                         {
 
                             SetRegisterCustomer(model);
-                            
+
                         }
                     }
                     else
                     {
-                        if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                        if (isSocial == "1")
                         {
-                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
-
-                            return View("PartialViews/SignUp");
-                        }
-                        else if (isSocial == "1")
-                        {
-                            if (_myCompanyService.GetContactByFirstName(model.FirstName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
+                            if (_myCompanyService.GetContactByFirstName(model.FirstName + " " + model.LastName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
                             {
-                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
-                                return View();
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlAlreadyRegisteredWithSocialMedia", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this socail media information ") + model.FirstName + "" + model.LastName + ". Please login to continue using this account.";
+                                return View("PartialViews/SignUp");
+                            }
+                            else if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                            {
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
+
+                                return View("PartialViews/SignUp");
                             }
                             else
                             {
@@ -176,12 +206,23 @@ namespace MPC.Webstore.Controllers
                                 return null;
                             }
                         }
+
                         else
                         {
+                            if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                            {
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
 
-                            SetRegisterCustomer(model);
-                            return null;
+                                return View("PartialViews/SignUp");
+                            }
+                            else
+                            {
+
+                                SetRegisterCustomer(model);
+                                return null;
+                            }
                         }
+
                     }
                 }
                 else
@@ -219,7 +260,7 @@ namespace MPC.Webstore.Controllers
 
         private void SetRegisterCustomer(RegisterViewModel model)
         {
-            
+
             CampaignEmailParams cep = new CampaignEmailParams();
 
             CompanyContact contact = new CompanyContact();
@@ -236,10 +277,19 @@ namespace MPC.Webstore.Controllers
 
             string isSocial = Request.Form["hfIsSocial"];
 
-            if (isSocial == "1")
-                TwitterScreenName = model.FirstName;
+            if (Request.Form["provider"] == "tw")
+            {
+                if (isSocial == "1")
+                    TwitterScreenName = model.FirstName;
+            }
+            else
+            {
+                if (isSocial == "1")
+                    TwitterScreenName = model.FirstName + " " + model.LastName;
+            }
 
-          
+
+
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (StoreBaseResopnse.Organisation != null)
@@ -313,7 +363,7 @@ namespace MPC.Webstore.Controllers
                             {
                                 ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
                             }
-                            else 
+                            else
                             {
                                 Response.Redirect("/ShopCart?OrderId=" + OrderId);
                             }
@@ -322,8 +372,8 @@ namespace MPC.Webstore.Controllers
                         {
                             Response.Redirect("/ShopCart?OrderId=" + OrderId);
                         }
-                       
-                      
+
+
                     }
                     else
                     {
@@ -342,7 +392,7 @@ namespace MPC.Webstore.Controllers
                         {
                             Response.Redirect("/");
                         }
-                       
+
                     }
 
                 }
@@ -393,12 +443,12 @@ namespace MPC.Webstore.Controllers
                 _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)StoreBaseResopnse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
                 _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)UserCookieManager.WBStoreId, (int)StoreBaseResopnse.Company.OrganisationId);
-               
+
                 if (StoreBaseResopnse.Company.IsRegisterAccessWebStore == true)
                 {
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlHasWebacces", UserCookieManager.WBStoreId, "You are successfully registered on store please login to continue.");
                 }
-                else 
+                else
                 {
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlwebacces", UserCookieManager.WBStoreId, "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.");
                 }

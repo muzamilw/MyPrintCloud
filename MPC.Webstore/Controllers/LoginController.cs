@@ -187,6 +187,13 @@ namespace MPC.Webstore.Controllers
                         if (Orderid > 0)
                         {
                             UserCookieManager.TemporaryCompanyId = 0;
+
+                            // this will update the order id if user is coming through cart
+                            if(UserCookieManager.WEBOrderId != Orderid)
+                            {
+                                UserCookieManager.WEBOrderId = Orderid;
+                            }
+
                             if (!string.IsNullOrEmpty(ReturnUrl))
                             {
                                 RedirectToLocal(ReturnUrl);

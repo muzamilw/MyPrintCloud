@@ -56,6 +56,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICurrencyRepository _currencyRepository;
         private readonly IProductCategoryVoucherRepository _productCategoryVoucherRepository;
         private readonly ISectionInkCoverageRepository _SectionInkCoverageRepository;
+        private readonly ICompanyVoucherRedeemRepository _CompanyVoucherRedeemRepository;
         #region Constructor
 
         /// <summary>
@@ -72,7 +73,8 @@ namespace MPC.Implementation.WebStoreServices
             , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository
             , IMarkupRepository markupRepository, IDiscountVoucherRepository DVRepository, IItemsVoucherRepository ItemVRepository
             , ICurrencyRepository currencyRepository, IProductCategoryVoucherRepository productCategoryVoucherRepository
-            , ISectionInkCoverageRepository SectionInkCoverageRepository)
+            , ISectionInkCoverageRepository SectionInkCoverageRepository
+            , ICompanyVoucherRedeemRepository CompanyVoucherRedeemRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -107,6 +109,7 @@ namespace MPC.Implementation.WebStoreServices
             this._currencyRepository = currencyRepository;
             this._productCategoryVoucherRepository = productCategoryVoucherRepository;
             this._SectionInkCoverageRepository = SectionInkCoverageRepository;
+            this._CompanyVoucherRedeemRepository = CompanyVoucherRedeemRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -3126,7 +3129,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem)
+        public void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem, long ContactId, long CompanyId)
         {
             try
             {
@@ -3191,6 +3194,15 @@ namespace MPC.Implementation.WebStoreServices
                                 }
                             }
 
+                            if (voucher.CouponUseType == (int)CouponUseType.OneTimeUsePerCustomer)
+                            {
+                               CompanyVoucherRedeem oVRedeem =  _CompanyVoucherRedeemRepository.GetReedeemVoucherRecord(ContactId,CompanyId, voucher.DiscountVoucherId);
+                               if (oVRedeem != null) 
+                               {
+                                   _CompanyVoucherRedeemRepository.Delete(oVRedeem);
+                                   _CompanyVoucherRedeemRepository.SaveChanges();
+                               }
+                            }
                         }
 
                         if (isDeliveryItem == false)

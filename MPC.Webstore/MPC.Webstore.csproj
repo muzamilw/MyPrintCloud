@@ -377,6 +377,8 @@
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\CostCentreTemplate.cs" />
+    <Compile Include="Common\OAuthHelper.cs" />
+    <Compile Include="Common\OAuthUtility.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Common\Utils.cs" />

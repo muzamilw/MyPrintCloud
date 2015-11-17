@@ -73,5 +73,19 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public CompanyVoucherRedeem GetReedeemVoucherRecord(long contactId, long companyId, long DiscountVoucherId)
+        {
+            try
+            {
+                return db.CompanyVoucherRedeems.Where(v => v.CompanyId == companyId && v.ContactId == contactId && v.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
