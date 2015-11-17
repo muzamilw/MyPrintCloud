@@ -1185,21 +1185,27 @@ namespace MPC.Repository.Repositories
 
                 ObjExportOrg.RetailTemplateFonts = templateFonts;
 
-                //Mapper.CreateMap<DiscountVoucher, DiscountVoucher>();
+                Mapper.CreateMap<DiscountVoucher, DiscountVoucher>();
 
-                //List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
-                //List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CustomerId == CompanyId).ToList();
+                Mapper.CreateMap<ProductCategoryVoucher, ProductCategoryVoucher>()
+               .ForMember(x => x.DiscountVoucher, opt => opt.Ignore());
 
-                //if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
-                //{
-                //    foreach (var vouch in lstDiscountVouchers)
-                //    {
+                Mapper.CreateMap<ItemsVoucher, ItemsVoucher>()
+              .ForMember(x => x.DiscountVoucher, opt => opt.Ignore());
 
-                //        var omappedItem = Mapper.Map<DiscountVoucher, DiscountVoucher>(vouch);
-                //        DiscountVouchers.Add(omappedItem);
-                //    }
-                //}
-                //ObjExportOrg.RetailDiscountVouchers = DiscountVouchers;
+                List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
+                List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CustomerId == CompanyId).ToList();
+
+                if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
+                {
+                    foreach (var vouch in lstDiscountVouchers)
+                    {
+
+                        var omappedItem = Mapper.Map<DiscountVoucher, DiscountVoucher>(vouch);
+                        DiscountVouchers.Add(omappedItem);
+                    }
+                }
+                ObjExportOrg.RetailDiscountVouchers = DiscountVouchers;
 
 
 
@@ -1714,20 +1720,27 @@ namespace MPC.Repository.Repositories
 
 
 
-                //Mapper.CreateMap<DiscountVoucher, DiscountVoucher>();
+                Mapper.CreateMap<DiscountVoucher, DiscountVoucher>();
 
-                //List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
-                //List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CustomerId == CompanyId).ToList();
+                Mapper.CreateMap<ProductCategoryVoucher, ProductCategoryVoucher>()
+          .ForMember(x => x.DiscountVoucher, opt => opt.Ignore());
 
-                //if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
-                //{
-                //    foreach (var vouch in lstDiscountVouchers)
-                //    {
-                //        var omappedItem = Mapper.Map<DiscountVoucher, DiscountVoucher>(vouch);
-                //        DiscountVouchers.Add(omappedItem);
-                //    }
-                //}
-                //ObjExportOrg.DiscountVouchers = DiscountVouchers;
+                Mapper.CreateMap<ItemsVoucher, ItemsVoucher>()
+              .ForMember(x => x.DiscountVoucher, opt => opt.Ignore());
+
+              
+                List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
+                List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CustomerId == CompanyId).ToList();
+
+                if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
+                {
+                    foreach (var vouch in lstDiscountVouchers)
+                    {
+                        var omappedItem = Mapper.Map<DiscountVoucher, DiscountVoucher>(vouch);
+                        DiscountVouchers.Add(omappedItem);
+                    }
+                }
+                ObjExportOrg.DiscountVouchers = DiscountVouchers;
 
 
 
@@ -2787,39 +2800,45 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
                             }
 
-                            //if (objExpRetail.RetailDiscountVouchers != null && objExpRetail.RetailDiscountVouchers.Count > 0)
-                            //{
-                            //    List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oRetailCID).ToList();
-                            //    List<Item> DVitems = db.Items.Where(c => c.CompanyId == oRetailCID).ToList();
-                            //    foreach (var Discont in objExpRetail.RetailDiscountVouchers)
-                            //    {
-                            //        DiscountVoucher objDV = new DiscountVoucher();
-                            //        objDV = Discont;
-                            //        objDV.OrganisationId = OrganisationID;
-                            //        objDV.CompanyId = (int)oRetailCID;
+                            if (objExpRetail.RetailDiscountVouchers != null && objExpRetail.RetailDiscountVouchers.Count > 0)
+                            {
 
-                            //        if (objDV.ProductCategoryVouchers != null && objDV.ProductCategoryVouchers.Count > 0)
-                            //        {
-                            //            foreach (var pcv in objDV.ProductCategoryVouchers)
-                            //            {
-                            //                pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
+                                List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oRetailCID).ToList();
+                                List<Item> DVitems = db.Items.Where(c => c.CompanyId == oRetailCID).ToList();
+                                foreach (var Discont in objExpRetail.RetailDiscountVouchers)
+                                {
+                                    // DiscountVoucher objDV = new DiscountVoucher();
+                                    // objDV = Discont;
+                                    Discont.OrganisationId = OrganisationID;
+                                    Discont.CompanyId = (int)oRetailCID;
+                                    Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                    //Discont.ItemsVouchers = null;
+                                    //Discont.ProductCategoryVouchers = null;
 
-
-                            //            }
-                            //        }
-                            //        if (objDV.ItemsVouchers != null && objDV.ItemsVouchers.Count > 0)
-                            //        {
-                            //            foreach (var itemsVoucher in objDV.ItemsVouchers)
-                            //            {
-                            //                itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+                                    if (Discont.ProductCategoryVouchers != null && Discont.ProductCategoryVouchers.Count > 0)
+                                    {
+                                        foreach (var pcv in Discont.ProductCategoryVouchers)
+                                        {
+                                            pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
 
-                            //            }
-                            //        }
-                            //        db.DiscountVouchers.Add(objDV);
-                            //    }
-                            //    db.SaveChanges();
-                            //}
+                                        }
+                                    }
+                                    if (Discont.ItemsVouchers != null && Discont.ItemsVouchers.Count > 0)
+                                    {
+                                        foreach (var itemsVoucher in Discont.ItemsVouchers)
+                                        {
+                                            itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+
+
+                                        }
+                                    }
+
+                                    db.DiscountVouchers.Add(Discont);
+                                }
+                                db.SaveChanges();
+                            }
+
                         }
                         else if (StoreName == SNameWOP) // done
                         {
@@ -3213,39 +3232,44 @@ namespace MPC.Repository.Repositories
                                 }
                                 db.SaveChanges();
                             }
-                            //if (objExpRetailWOP.RetailDiscountVouchers != null && objExpRetailWOP.RetailDiscountVouchers.Count > 0)
-                            //{
-                            //    List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oRetailCIDWOP).ToList();
-                            //    List<Item> DVitems = db.Items.Where(c => c.CompanyId == oRetailCIDWOP).ToList();
-                            //    foreach (var Discont in objExpRetailWOP.RetailDiscountVouchers)
-                            //    {
-                            //        DiscountVoucher objDV = new DiscountVoucher();
-                            //        objDV = Discont;
-                            //        objDV.OrganisationId = OrganisationID;
-                            //        objDV.CompanyId = (int)oRetailCIDWOP;
+                            if (objExpRetailWOP.RetailDiscountVouchers != null && objExpRetailWOP.RetailDiscountVouchers.Count > 0)
+                            {
 
-                            //        if (objDV.ProductCategoryVouchers != null && objDV.ProductCategoryVouchers.Count > 0)
-                            //        {
-                            //            foreach (var pcv in objDV.ProductCategoryVouchers)
-                            //            {
-                            //                pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
+                                List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oRetailCIDWOP).ToList();
+                                List<Item> DVitems = db.Items.Where(c => c.CompanyId == oRetailCIDWOP).ToList();
+                                foreach (var Discont in objExpRetailWOP.RetailDiscountVouchers)
+                                {
+                                    // DiscountVoucher objDV = new DiscountVoucher();
+                                    // objDV = Discont;
+                                    Discont.OrganisationId = OrganisationID;
+                                    Discont.CompanyId = (int)oRetailCIDWOP;
+                                    Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                    //Discont.ItemsVouchers = null;
+                                    //Discont.ProductCategoryVouchers = null;
 
-
-                            //            }
-                            //        }
-                            //        if (objDV.ItemsVouchers != null && objDV.ItemsVouchers.Count > 0)
-                            //        {
-                            //            foreach (var itemsVoucher in objDV.ItemsVouchers)
-                            //            {
-                            //                itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+                                    if (Discont.ProductCategoryVouchers != null && Discont.ProductCategoryVouchers.Count > 0)
+                                    {
+                                        foreach (var pcv in Discont.ProductCategoryVouchers)
+                                        {
+                                            pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
 
-                            //            }
-                            //        }
-                            //        db.DiscountVouchers.Add(objDV);
-                            //    }
-                            //    db.SaveChanges();
-                            //}
+                                        }
+                                    }
+                                    if (Discont.ItemsVouchers != null && Discont.ItemsVouchers.Count > 0)
+                                    {
+                                        foreach (var itemsVoucher in Discont.ItemsVouchers)
+                                        {
+                                            itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+
+
+                                        }
+                                    }
+
+                                    db.DiscountVouchers.Add(Discont);
+                                }
+                                db.SaveChanges();
+                            }
 
                         }
                         else if (StoreName == SCName) // done
@@ -3687,39 +3711,44 @@ namespace MPC.Repository.Repositories
                                 }
                                 db.SaveChanges();
                             }
-                            //if (objExpCorporate.DiscountVouchers != null && objExpCorporate.DiscountVouchers.Count > 0)
-                            //{
-                            //    List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oCID).ToList();
-                            //    List<Item> DVitems = db.Items.Where(c => c.CompanyId == oCID).ToList();
-                            //    foreach (var Discont in objExpCorporate.DiscountVouchers)
-                            //    {
-                            //        DiscountVoucher objDV = new DiscountVoucher();
-                            //        objDV = Discont;
-                            //        objDV.OrganisationId = OrganisationID;
-                            //        objDV.CompanyId = (int)oCID;
+                            if (objExpCorporate.DiscountVouchers != null && objExpCorporate.DiscountVouchers.Count > 0)
+                            {
 
-                            //        if (objDV.ProductCategoryVouchers != null && objDV.ProductCategoryVouchers.Count > 0)
-                            //        {
-                            //            foreach (var pcv in objDV.ProductCategoryVouchers)
-                            //            {
-                            //                pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
+                                List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oCID).ToList();
+                                List<Item> DVitems = db.Items.Where(c => c.CompanyId == oCID).ToList();
+                                foreach (var Discont in objExpCorporate.DiscountVouchers)
+                                {
+                                    // DiscountVoucher objDV = new DiscountVoucher();
+                                    // objDV = Discont;
+                                    Discont.OrganisationId = OrganisationID;
+                                    Discont.CompanyId = (int)oCID;
+                                    Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                    //Discont.ItemsVouchers = null;
+                                    //Discont.ProductCategoryVouchers = null;
 
-
-                            //            }
-                            //        }
-                            //        if (objDV.ItemsVouchers != null && objDV.ItemsVouchers.Count > 0)
-                            //        {
-                            //            foreach (var itemsVoucher in objDV.ItemsVouchers)
-                            //            {
-                            //                itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+                                    if (Discont.ProductCategoryVouchers != null && Discont.ProductCategoryVouchers.Count > 0)
+                                    {
+                                        foreach (var pcv in Discont.ProductCategoryVouchers)
+                                        {
+                                            pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
 
-                            //            }
-                            //        }
-                            //        db.DiscountVouchers.Add(objDV);
-                            //    }
-                            //    db.SaveChanges();
-                            //}
+                                        }
+                                    }
+                                    if (Discont.ItemsVouchers != null && Discont.ItemsVouchers.Count > 0)
+                                    {
+                                        foreach (var itemsVoucher in Discont.ItemsVouchers)
+                                        {
+                                            itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+
+
+                                        }
+                                    }
+
+                                    db.DiscountVouchers.Add(Discont);
+                                }
+                                db.SaveChanges();
+                            }
 
                         }
                         else if (StoreName == SCNameWOP) // done
@@ -4139,39 +4168,45 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
                             }
 
-                            //if (objExpCorporate.DiscountVouchers != null && objExpCorporate.DiscountVouchers.Count > 0)
-                            //{
-                            //    List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oCIDWOP).ToList();
-                            //    List<Item> DVitems = db.Items.Where(c => c.CompanyId == oCIDWOP).ToList();
-                            //    foreach (var Discont in objExpCorporate.DiscountVouchers)
-                            //    {
-                            //        DiscountVoucher objDV = new DiscountVoucher();
-                            //        objDV = Discont;
-                            //        objDV.OrganisationId = OrganisationID;
-                            //        objDV.CompanyId = (int)oCIDWOP;
+                            if (objExpCorporate.DiscountVouchers != null && objExpCorporate.DiscountVouchers.Count > 0)
+                            {
 
-                            //        if (objDV.ProductCategoryVouchers != null && objDV.ProductCategoryVouchers.Count > 0)
-                            //        {
-                            //            foreach (var pcv in objDV.ProductCategoryVouchers)
-                            //            {
-                            //                pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
+                                List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oCIDWOP).ToList();
+                                List<Item> DVitems = db.Items.Where(c => c.CompanyId == oCIDWOP).ToList();
+                                foreach (var Discont in objExpCorporate.DiscountVouchers)
+                                {
+                                    // DiscountVoucher objDV = new DiscountVoucher();
+                                    // objDV = Discont;
+                                    Discont.OrganisationId = OrganisationID;
+                                    Discont.CompanyId = (int)oCIDWOP;
+                                    Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                    //Discont.ItemsVouchers = null;
+                                    //Discont.ProductCategoryVouchers = null;
 
-
-                            //            }
-                            //        }
-                            //        if (objDV.ItemsVouchers != null && objDV.ItemsVouchers.Count > 0)
-                            //        {
-                            //            foreach (var itemsVoucher in objDV.ItemsVouchers)
-                            //            {
-                            //                itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+                                    if (Discont.ProductCategoryVouchers != null && Discont.ProductCategoryVouchers.Count > 0)
+                                    {
+                                        foreach (var pcv in Discont.ProductCategoryVouchers)
+                                        {
+                                            pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
 
-                            //            }
-                            //        }
-                            //        db.DiscountVouchers.Add(objDV);
-                            //    }
-                            //    db.SaveChanges();
-                            //}
+                                        }
+                                    }
+                                    if (Discont.ItemsVouchers != null && Discont.ItemsVouchers.Count > 0)
+                                    {
+                                        foreach (var itemsVoucher in Discont.ItemsVouchers)
+                                        {
+                                            itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+
+
+                                        }
+                                    }
+
+                                    db.DiscountVouchers.Add(Discont);
+                                }
+                                db.SaveChanges();
+                            }
+
                         }
 
 
@@ -6638,6 +6673,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                List<FieldVariable> fieldVariables = db.FieldVariables.Where(c => c.CompanyId == CompanyId || c.IsSystem == true).ToList();
+                List<CostCentre> costCentre = db.CostCentres.Where(c => c.OrganisationId == OrganisationId).ToList();
+
                 List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
                 ExportStore ObjExportStore = new ExportStore();
                 db.Configuration.LazyLoadingEnabled = false;
@@ -6768,8 +6806,29 @@ namespace MPC.Repository.Repositories
                     ObjCompany.TemplateColorStyles = lstTemplateColorStyle;
 
                 }
-
-
+                if(ObjCompany.SmartForms != null && ObjCompany.SmartForms.Count > 0)
+                {
+                    foreach(var sf in ObjCompany.SmartForms)
+                    {
+                        if(sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                        {
+                            foreach(var sfdetail in sf.SmartFormDetails)
+                            {
+                                string fieldName = fieldVariables.Where(c => c.VariableId == sfdetail.VariableId).Select(c => c.VariableName).FirstOrDefault();
+                                sfdetail.VariableName = fieldName;   
+                            }
+                        }
+                    }
+                }
+                if (ObjCompany.CompanyCostCentres != null && ObjCompany.CompanyCostCentres.Count > 0)
+                {
+                    foreach (var ccc in ObjCompany.CompanyCostCentres)
+                    {
+                        string Name = costCentre.Where(c => c.CostCentreId == ccc.CostCentreId).Select(c => c.Name).FirstOrDefault();
+                        ccc.CostCentreName = Name;
+                          
+                    }
+                }
 
                 var omappedCompany = Mapper.Map<Company, Company>(ObjCompany);
 
@@ -6811,19 +6870,21 @@ namespace MPC.Repository.Repositories
                 Mapper.CreateMap<ItemsVoucher, ItemsVoucher>()
               .ForMember(x => x.DiscountVoucher, opt => opt.Ignore());
 
-                //List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
-                //List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CompanyId == CompanyId).ToList();
+                List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
 
-                //if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
-                //{
-                //    foreach (var vouch in lstDiscountVouchers)
-                //    {
 
-                //        var omappedItem = Mapper.Map<DiscountVoucher, DiscountVoucher>(vouch);
-                //        DiscountVouchers.Add(omappedItem);
-                //    }
-                //}
-                //ObjExportStore.DiscountVouchers = DiscountVouchers;
+                List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CompanyId == CompanyId).ToList();
+
+                if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
+                {
+                    foreach (var vouch in lstDiscountVouchers)
+                    {
+
+                        var omappedItem = Mapper.Map<DiscountVoucher, DiscountVoucher>(vouch);
+                        DiscountVouchers.Add(omappedItem);
+                    }
+                }
+                ObjExportStore.DiscountVouchers = DiscountVouchers;
 
 
 
@@ -6856,6 +6917,7 @@ namespace MPC.Repository.Repositories
                  List<PaperSize> sizes = db.PaperSizes.Where(c => c.OrganisationId == OrganisationId).ToList();
                 List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationId).ToList();
                 List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationId).ToList();
+                List<CostCentre> costCentre = db.CostCentres.Where(c => c.OrganisationId == OrganisationId).ToList();
                 // Item Mapper
                 ExportOrganisation ObjExportOrg = new ExportOrganisation();
 
@@ -6864,6 +6926,11 @@ namespace MPC.Repository.Repositories
                    .ForMember(x => x.ItemAttachments, opt => opt.Ignore())
                    .ForMember(x => x.Estimate, opt => opt.Ignore())
                    .ForMember(x => x.Invoice, opt => opt.Ignore())
+                    .ForMember(x => x.InvoiceDetails, opt => opt.Ignore())
+                    .ForMember(x => x.PurchaseDetails, opt => opt.Ignore())
+                     .ForMember(x => x.ShippingInformations, opt => opt.Ignore())
+                     .ForMember(x => x.FavoriteDesigns, opt => opt.Ignore())
+                     .ForMember(x => x.GoodsReceivedNoteDetails, opt => opt.Ignore())
                    .ForMember(x => x.DeliveryNoteDetails, opt => opt.Ignore());
 
 
@@ -6958,6 +7025,23 @@ namespace MPC.Repository.Repositories
                                  IS.PressName = machines.Where(c => c.MachineId == IS.PressId).Select(c => c.MachineName).FirstOrDefault();
                                  IS.PressNameSide2 = machines.Where(c => c.MachineId == IS.PressIdSide2).Select(c => c.MachineName).FirstOrDefault();
                                  IS.StockName = stockitems.Where(c => c.StockItemId == IS.StockItemID1).Select(c => c.ItemName).FirstOrDefault();
+                             }
+                         }
+
+                         if (item.ItemStockOptions != null && item.ItemStockOptions.Count > 0)
+                         {
+                             foreach (var ISO in item.ItemStockOptions)
+                             {
+
+                                 if(ISO.ItemAddonCostCentres != null && ISO.ItemAddonCostCentres.Count > 0)
+                                 {
+                                     foreach (var iacc in ISO.ItemAddonCostCentres)
+                                     {
+                                         iacc.CostCentreName = costCentre.Where(c => c.CostCentreId == iacc.CostCentreId).Select(c => c.Name).FirstOrDefault();
+
+                                     }
+                                 }
+                               
                              }
                          }
                         var omappedItem = Mapper.Map<Item, Item>(item);
@@ -7101,7 +7185,7 @@ namespace MPC.Repository.Repositories
                         //string SNameWOP = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
                         //string SCName = ConfigurationManager.AppSettings["CorporateStoreName"];
                         //string SCNameWOP = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
-
+                        List<FieldVariable> systemVariables = db.FieldVariables.Where(c => c.IsSystem == true).ToList();
                         List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
                         List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
                         List<Company> Suppliers = db.Companies.Where(s => s.OrganisationId == OrganisationID && s.IsCustomer == 2).ToList();
@@ -7158,7 +7242,11 @@ namespace MPC.Repository.Repositories
                         if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
                             comp.CompanyCostCentres.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                         if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
+                        {
                             comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                            comp.CmsSkinPageWidgets.ToList().ForEach(c => c.WidgetId = null);
+                        }
+                            
                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                             comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                         if (comp.TemplateColorStyles != null && comp.TemplateColorStyles.Count > 0)
@@ -7172,7 +7260,7 @@ namespace MPC.Repository.Repositories
                             {
                                 if (CostCentres != null && CostCentres.Count > 0)
                                 {
-                                    long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CostCentreId == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                    long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Name == ccc.CostCentreName).Select(c => c.CostCentreId).FirstOrDefault();
 
                                     if (id > 0)
                                     {
@@ -7186,6 +7274,74 @@ namespace MPC.Repository.Repositories
                                     }
                                 }
 
+
+                            }
+                        }
+
+                        
+                        if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                        {
+
+                            foreach (var sf in comp.SmartForms)
+                            {
+                                if(sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                                {
+                                    foreach(var detail in sf.SmartFormDetails)
+                                    {
+                                        if(comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                                        {
+                                            long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
+                                            if(FVId > 0)
+                                            {
+                                                detail.VariableId = FVId;
+                                            }
+                                            else
+                                            {
+                                                if(!string.IsNullOrEmpty(detail.VariableName))
+                                                {
+                                                    long variableId = systemVariables.Where(c => c.VariableName == detail.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                    if (variableId > 0)
+                                                    {
+                                                        detail.VariableId = variableId;
+
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    detail.VariableId = null;
+                                                }
+                                               
+                                            }
+                                        }
+                                        else
+                                        {
+                                             if(detail.FieldVariable != null)
+                                             {
+                                                    long variableId = systemVariables.Where(c => c.VariableName == detail.FieldVariable.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                    if (variableId > 0)
+                                                    {
+                                                        detail.VariableId = variableId;
+
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+                                              }
+                                              else
+                                              {
+                                                    detail.VariableId = null;
+                                              }
+                                               
+                                         }
+                                       
+                                    }
+                                }
+                        
 
                             }
                         }
@@ -7542,44 +7698,44 @@ namespace MPC.Repository.Repositories
 
                         // insert discount vouchers
 
-                        //if (ObjExportStore.DiscountVouchers != null && ObjExportStore.DiscountVouchers.Count > 0)
-                        //{
-                        //    int counter;
-                        //    List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oRetailCID).ToList();
-                        //    List<Item> DVitems = db.Items.Where(c => c.CompanyId == oRetailCID).ToList();
-                        //    foreach (var Discont in ObjExportStore.DiscountVouchers)
-                        //    {
-                        //       // DiscountVoucher objDV = new DiscountVoucher();
-                        //       // objDV = Discont;
-                        //        Discont.OrganisationId = OrganisationID;
-                        //        Discont.CompanyId = (int)oRetailCID;
-                               
-                        //        //Discont.ItemsVouchers = null;
-                        //        //Discont.ProductCategoryVouchers = null;
+                        if (ObjExportStore.DiscountVouchers != null && ObjExportStore.DiscountVouchers.Count > 0)
+                        {
+                            int counter;
+                            List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oRetailCID).ToList();
+                            List<Item> DVitems = db.Items.Where(c => c.CompanyId == oRetailCID).ToList();
+                            foreach (var Discont in ObjExportStore.DiscountVouchers)
+                            {
+                                // DiscountVoucher objDV = new DiscountVoucher();
+                                // objDV = Discont;
+                                Discont.OrganisationId = OrganisationID;
+                                Discont.CompanyId = (int)oRetailCID;
+                                Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                //Discont.ItemsVouchers = null;
+                                //Discont.ProductCategoryVouchers = null;
 
-                        //        if (Discont.ProductCategoryVouchers != null && Discont.ProductCategoryVouchers.Count > 0)
-                        //        {
-                        //            foreach (var pcv in Discont.ProductCategoryVouchers)
-                        //            {
-                        //                pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
-
-
-                        //            }
-                        //        }
-                        //        if (Discont.ItemsVouchers != null && Discont.ItemsVouchers.Count > 0)
-                        //        {
-                        //            foreach (var itemsVoucher in Discont.ItemsVouchers)
-                        //            {
-                        //                itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+                                if (Discont.ProductCategoryVouchers != null && Discont.ProductCategoryVouchers.Count > 0)
+                                {
+                                    foreach (var pcv in Discont.ProductCategoryVouchers)
+                                    {
+                                        pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
 
-                        //            }
-                        //        }
+                                    }
+                                }
+                                if (Discont.ItemsVouchers != null && Discont.ItemsVouchers.Count > 0)
+                                {
+                                    foreach (var itemsVoucher in Discont.ItemsVouchers)
+                                    {
+                                        itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
 
-                        //        db.DiscountVouchers.Add(Discont);
-                        //    }
-                        //    db.SaveChanges();
-                        //}
+
+                                    }
+                                }
+
+                                db.DiscountVouchers.Add(Discont);
+                            }
+                            db.SaveChanges();
+                        }
 
 
                         //List<DiscountVoucher> discountVoucers = db.DiscountVouchers.Where(c => c.CompanyId == oRetailCID).ToList();

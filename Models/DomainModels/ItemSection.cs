@@ -181,8 +181,29 @@ namespace MPC.Models.DomainModels
         public int? PassesSide2 { get; set; }
         [NotMapped]
         public string SectionSizeName { get; set; }
+
+        //[NotMapped]
+        //public double SectionPaperSizeHeight { get; set; }
+        //[NotMapped]
+        //public double SectionPaperSizeWidth { get; set; }
+
+        //[NotMapped]
+        //public int SectionPaperSizeMeasure { get; set; }
+        //[NotMapped]
+        //public bool SectionPaperSizeImperical { get; set; }
+
          [NotMapped]
         public string ItemSizeName { get; set; }
+
+         //[NotMapped]
+         //public double ItemPaperSizeHeight { get; set; }
+         //[NotMapped]
+         //public double ItemPaperSizeWidth { get; set; }
+
+         //[NotMapped]
+         //public int ItemPaperSizeMeasure { get; set; }
+         //[NotMapped]
+         //public bool ItemPaperSizeImperical { get; set; }
          [NotMapped]
         public string PressName { get; set; }
          [NotMapped]
