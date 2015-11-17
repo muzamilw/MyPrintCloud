@@ -369,6 +369,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\FileUploadController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\RealEstateSideBarController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RFQController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
@@ -376,9 +377,12 @@
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\CostCentreTemplate.cs" />
+    <Compile Include="Common\OAuthHelper.cs" />
+    <Compile Include="Common\OAuthUtility.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
     <Compile Include="Controllers\BlackAndWhiteHeaderMenuController.cs" />
@@ -391,6 +395,7 @@
     <Compile Include="Controllers\DescriptiveFooterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
+    <Compile Include="Controllers\EzyPrintSignUpController.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\FooterWithUseFulLinksController.cs" />
     <Compile Include="Controllers\FutureHeaderController.cs" />
@@ -400,6 +405,7 @@
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
     <Compile Include="Controllers\LoginBarWithCountersController.cs" />
     <Compile Include="Controllers\LoginBarWithPhoneInfoController.cs" />
+    <Compile Include="Controllers\LoginEazyPrintController.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
     <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
@@ -455,6 +461,7 @@
     <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
+    <Compile Include="Controllers\WhyShopUsController.cs" />
     <Compile Include="Controllers\ZoomSliderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1051,8 +1058,11 @@
     <Content Include="Views\Shared\PartialViews\LoginBarWithCounters.cshtml" />
     <Content Include="Views\Shared\PartialViews\FutureHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\FutureQuickLinks.cshtml" />
-    <Content Include="Views\Shared\PartialViews\FooterWithUseFulLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateSideBar.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginBarWithPhoneInfo.cshtml" />
+    <Content Include="Views\Shared\PartialViews\WhyShopUs.cshtml" />
+    <Content Include="Views\Shared\PartialViews\LoginEazyPrint.cshtml" />
+    <Content Include="Views\Shared\PartialViews\EzyPrintSignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1061,17 +1071,21 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\OrderReceipt\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
+    <Folder Include="Areas\WebstoreApi\Views\RealEstateSideBar\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\DescriptiveFooter\" />
+    <Folder Include="Views\EzyPrintSignUp\" />
     <Folder Include="Views\FooterWithUseFulLinks\" />
     <Folder Include="Views\FutureFormHeader\" />
     <Folder Include="Views\FutureHeader\" />
     <Folder Include="Views\FutureQuickLinks\" />
     <Folder Include="Views\LoginBarWithCounters\" />
     <Folder Include="Views\LoginBarWithPhoneInfo\" />
+    <Folder Include="Views\LoginEazyPrint\" />
     <Folder Include="Views\UserManager\" />
+    <Folder Include="Views\WhyShopUs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

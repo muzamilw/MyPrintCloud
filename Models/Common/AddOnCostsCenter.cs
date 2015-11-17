@@ -84,5 +84,7 @@ namespace MPC.Models.Common
         public int QuantitySourceType { get; set; }
         public int TimeSourceType { get; set; }
         public long ItemStockOptionId { get; set; }
+
+        public int? Sequence { get; set; }
     }
 }

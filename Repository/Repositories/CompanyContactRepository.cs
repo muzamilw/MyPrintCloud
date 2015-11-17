@@ -195,7 +195,7 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public CompanyContact GetContactByFirstName(string FName)
+        public CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode)
         {
             try
             {
