@@ -13,20 +13,19 @@ using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
 using MPC.ExceptionHandling;
 using MPC.Models.ResponseModels;
+
 namespace MPC.Webstore.Controllers
 {
-    public class SignUpController : Controller
+    public class EzyPrintSignUpController : Controller
     {
+        // GET: EzyPrintSignUp
         private readonly ICompanyService _myCompanyService;
         private readonly ICampaignService _campaignService;
         private readonly IUserManagerService _userManagerService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
         private readonly IItemService _ItemService;
-        #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public SignUpController(ICompanyService myCompanyService, ICampaignService myCampaignService, IUserManagerService userManagerService
+
+        public EzyPrintSignUpController(ICompanyService myCompanyService, ICampaignService myCampaignService, IUserManagerService userManagerService
             , IItemService ItemService)
         {
             if (myCompanyService == null)
@@ -39,13 +38,13 @@ namespace MPC.Webstore.Controllers
             this._userManagerService = userManagerService;
             this._ItemService = ItemService;
         }
-
-        #endregion
-
-        // GET: SignUp///
-        public ActionResult Index(string FirstName, string LastName, string Email, string provider, string ReturnURL)
+        public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
+
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
@@ -67,24 +66,9 @@ namespace MPC.Webstore.Controllers
 
 
             ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
-
             if (FirstName != null)
             {
-
                 ViewData["IsSocialSignUp"] = true;
-               
-                ViewBag.socialFirstName = FirstName;
-                ViewBag.Provider = provider;
-                if (provider == "fb")
-                {
-                    ViewBag.socialLastName = LastName;
-                }
-
-
-                if (!string.IsNullOrEmpty(Email))
-                {
-                    ViewBag.socialEmail = Email;
-                }
 
             }
             else
@@ -97,38 +81,18 @@ namespace MPC.Webstore.Controllers
             else
                 ViewBag.ReturnURL = ReturnURL;
 
-            return View("PartialViews/SignUp");
+            return View("PartialViews/EzyPrintSignUp");
         }
-
         [HttpPost]
         public ActionResult Index(RegisterViewModel model)
         {
-
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             try
             {
-                string isSocial = Request.Form["hfIsSocial"];
-                if (!string.IsNullOrEmpty(isSocial))
-                {
-                    if (isSocial == "1")
-                    {
-                        ViewData["IsSocialSignUp"] = true;
-                        ViewBag.socialFirstName = model.FirstName;
-                        ViewBag.socialLastName = model.LastName;
-
-                        if (!string.IsNullOrEmpty(model.Email))
-                        {
-                            ViewBag.socialEmail = model.Email;
-                        }
-                    }
-                    else
-                    {
-                        ViewData["IsSocialSignUp"] = false;
-
-                    }
-
-                }
 
                 if (ModelState.IsValid)
                 {
@@ -137,7 +101,7 @@ namespace MPC.Webstore.Controllers
                         ViewBag.Message = "Please enter Password";
                         return View("PartialViews/SignUp");
                     }
-
+                    string isSocial = Request.Form["hfIsSocial"];
                     string ReturnURL = Request.Form["hfReturnURL"];
                     if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
                     {
@@ -187,18 +151,18 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        if (isSocial == "1")
+                        if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                         {
-                            if (_myCompanyService.GetContactByFirstName(model.FirstName + " " + model.LastName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
-                            {
-                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlAlreadyRegisteredWithSocialMedia", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this socail media information ") + model.FirstName + "" + model.LastName + ". Please login to continue using this account.";
-                                return View("PartialViews/SignUp");
-                            }
-                            else if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
-                            {
-                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
+                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
 
-                                return View("PartialViews/SignUp");
+                            return View("PartialViews/EzyPrintSignUp");
+                        }
+                        else if (isSocial == "1")
+                        {
+                            if (_myCompanyService.GetContactByFirstName(model.FirstName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
+                            {
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
+                                return View();
                             }
                             else
                             {
@@ -206,23 +170,12 @@ namespace MPC.Webstore.Controllers
                                 return null;
                             }
                         }
-
                         else
                         {
-                            if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
-                            {
-                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
 
-                                return View("PartialViews/SignUp");
-                            }
-                            else
-                            {
-
-                                SetRegisterCustomer(model);
-                                return null;
-                            }
+                            SetRegisterCustomer(model);
+                            return null;
                         }
-
                     }
                 }
                 else
@@ -246,7 +199,7 @@ namespace MPC.Webstore.Controllers
 
 
                 }
-                return View("PartialViews/SignUp");
+                return View("PartialViews/EzyPrintSignUp");
             }
             catch (Exception ex)
             {
@@ -257,7 +210,6 @@ namespace MPC.Webstore.Controllers
 
 
         }
-
         private void SetRegisterCustomer(RegisterViewModel model)
         {
 
@@ -277,17 +229,8 @@ namespace MPC.Webstore.Controllers
 
             string isSocial = Request.Form["hfIsSocial"];
 
-            if (Request.Form["provider"] == "tw")
-            {
-                if (isSocial == "1")
-                    TwitterScreenName = model.FirstName;
-            }
-            else
-            {
-                if (isSocial == "1")
-                    TwitterScreenName = model.FirstName + " " + model.LastName;
-            }
-
+            if (isSocial == "1")
+                TwitterScreenName = model.FirstName;
 
 
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
@@ -458,24 +401,6 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        //public void PostLoginCustomerAndCardChanges(out long replacedWithOrderID)
-        //{
-        //    //List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved = null;
-        //    //List<Templates> clonedTempldateFilesList = null;
-        //    //OrderManager ordManager = null;
-        //    //int dummyCustomerID = this.GetCustomerIDFromCookie();
-        //    //replacedWithOrderID = 0;
-
-        //    //if (dummyCustomerID > 0 && dummyCustomerID != SessionParameters.CustomerID)
-        //    //{
-        //    //    ordManager = new OrderManager();
-        //    //    if (ordManager.UpdateDummyCustomerOrderWithRealCustomer(dummyCustomerID, SessionParameters.CustomerID, SessionParameters.ContactID, out replacedWithOrderID, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList))
-        //    //    {
-        //    //        BLL.ProductManager.RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
-        //    //        BLL.ProductManager.RemoveItemTemplateFilesPhysically(clonedTempldateFilesList);
-        //    //    }
-        //    //}
-
-        //}
+       
     }
 }

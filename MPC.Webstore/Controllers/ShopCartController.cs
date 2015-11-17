@@ -124,7 +124,7 @@ namespace MPC.Webstore.Controllers
                             if (FreeShippingVoucherId == 0)
                             {
                                 UserCookieManager.FreeShippingVoucherId = 0;
-                                _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
+                                _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
                             }
                             else
                             {
@@ -136,8 +136,8 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     ViewBag.DisableCouponCode = 1;
-                    _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, false);
-                    _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
+                    _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, false, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                    _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
                 }
 
                 shopCart = LoadShoppingCart(OrderId);
@@ -303,7 +303,7 @@ namespace MPC.Webstore.Controllers
                 if (IsCallFrom == "RemoveVoucherCode")
                 {
                     long FreeShippingVoucherId = 0;
-                    _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, false);
+                    _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, false, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
                     _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(Convert.ToInt64(OrderID), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), ref FreeShippingVoucherId);
                     if (FreeShippingVoucherId > 0)
                     {
@@ -315,7 +315,7 @@ namespace MPC.Webstore.Controllers
                         if (FreeShippingVoucherId == 0)
                         {
                             UserCookieManager.FreeShippingVoucherId = 0;
-                            _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
+                            _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
                         }
                         else
                         {
@@ -326,7 +326,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (IsCallFrom == "RemoveDeliveryVoucherCode")
                 {
-                    _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
+                    _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
                     Estimate order = _OrderService.GetOrderByID(Convert.ToInt64(OrderID));
                     order.DiscountVoucherID = null;
                     order.VoucherDiscountRate = null;
@@ -339,7 +339,14 @@ namespace MPC.Webstore.Controllers
                     CopyProduct(Convert.ToInt64(ItemID), Convert.ToInt64(OrderID));
                 }
 
-
+                if (StoreBaseResopnse.Company.IsDisplayDiscountVoucherCode == true)
+                {
+                    ViewBag.DisableCouponCode = 0;
+                }
+                else 
+                {
+                    ViewBag.DisableCouponCode = 1;
+                }
                 if (StoreBaseResopnse.Company.ShowPrices ?? true)
                 {
                     ViewBag.IsShowPrices = true;

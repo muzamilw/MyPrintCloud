@@ -102,7 +102,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="orderAllItemsAttatchmentsListToBeRemoved"></param>
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
-        long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
+        long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId, double StoreTaxRate, long StoreId);
 
         List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
 
@@ -219,7 +219,7 @@ namespace MPC.Interfaces.WebStoreServices
         void SaveOrUpdateDiscountVoucher(DiscountVoucher storeDiscountVoucher);
         string ValidateDiscountVoucher(DiscountVoucher storeDiscountVoucher);//, ref string voucherErrorMesg
         DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountCouponCode, long StoreId, long OrganisationId);
-        void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem);
+        void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem, long ContactId, long CompanyId);
         long ApplyStoreDefaultDiscountRateOnCartItems(long OrderId, long StoreId, long OrganisationId, double StoreTaxRate,ref long FreeShippingVoucherId);
         DiscountVoucher GetDiscountVoucherById(long DiscountVoucherId);
         void ApplyDiscountOnDeliveryItemAlreadyAddedToCart(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate);
@@ -227,5 +227,6 @@ namespace MPC.Interfaces.WebStoreServices
         void UpdateOrderIdInItem(long itemId, long OrderId);
         DiscountVoucher GetFreeShippingDiscountVoucherByStoreId(long StoreId, long OrganisationId);
         DiscountVoucher GetOrderDiscountPercentageVoucherByStoreId(long StoreId, long OrganisationId);
+        void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId);
     }
 }

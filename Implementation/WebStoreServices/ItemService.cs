@@ -56,6 +56,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICurrencyRepository _currencyRepository;
         private readonly IProductCategoryVoucherRepository _productCategoryVoucherRepository;
         private readonly ISectionInkCoverageRepository _SectionInkCoverageRepository;
+        private readonly ICompanyVoucherRedeemRepository _CompanyVoucherRedeemRepository;
         #region Constructor
 
         /// <summary>
@@ -72,7 +73,8 @@ namespace MPC.Implementation.WebStoreServices
             , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository
             , IMarkupRepository markupRepository, IDiscountVoucherRepository DVRepository, IItemsVoucherRepository ItemVRepository
             , ICurrencyRepository currencyRepository, IProductCategoryVoucherRepository productCategoryVoucherRepository
-            , ISectionInkCoverageRepository SectionInkCoverageRepository)
+            , ISectionInkCoverageRepository SectionInkCoverageRepository
+            , ICompanyVoucherRedeemRepository CompanyVoucherRedeemRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -107,6 +109,7 @@ namespace MPC.Implementation.WebStoreServices
             this._currencyRepository = currencyRepository;
             this._productCategoryVoucherRepository = productCategoryVoucherRepository;
             this._SectionInkCoverageRepository = SectionInkCoverageRepository;
+            this._CompanyVoucherRedeemRepository = CompanyVoucherRedeemRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -920,7 +923,7 @@ namespace MPC.Implementation.WebStoreServices
 
 
 
-        public long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId)
+        public long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId, double StoreTaxRate, long StoreId)
         {
             try
             {
@@ -932,7 +935,7 @@ namespace MPC.Implementation.WebStoreServices
                     bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
                     if (isUpdateOrder)
                     {
-                        long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                        long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, StoreTaxRate, StoreId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
                         if (orderId > 0)
                         {
                             RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
@@ -3126,7 +3129,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem)
+        public void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem, long ContactId, long CompanyId)
         {
             try
             {
@@ -3147,7 +3150,7 @@ namespace MPC.Implementation.WebStoreServices
                     CartItems = _ItemRepository.GetListOfDeliveryItemByOrderID(OrderId);
                 }
 
-                if (CartItems != null) 
+                if (CartItems != null)
                 {
                     var CouponAppliedItems = CartItems.Where(i => i.DiscountVoucherID != null).ToList();
                     foreach (Item citem in CouponAppliedItems)
@@ -3175,7 +3178,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                 }
 
-                if (order != null) 
+                if (order != null)
                 {
                     if (order.DiscountVoucherID != null)
                     {
@@ -3191,8 +3194,17 @@ namespace MPC.Implementation.WebStoreServices
                                 }
                             }
 
+                            if (voucher.CouponUseType == (int)CouponUseType.OneTimeUsePerCustomer)
+                            {
+                               CompanyVoucherRedeem oVRedeem =  _CompanyVoucherRedeemRepository.GetReedeemVoucherRecord(ContactId,CompanyId, voucher.DiscountVoucherId);
+                               if (oVRedeem != null) 
+                               {
+                                   _CompanyVoucherRedeemRepository.Delete(oVRedeem);
+                                   _CompanyVoucherRedeemRepository.SaveChanges();
+                               }
+                            }
                         }
-                       
+
                         if (isDeliveryItem == false)
                         {
                             order.DiscountVoucherID = null;
@@ -3201,7 +3213,6 @@ namespace MPC.Implementation.WebStoreServices
                         }
                     }
                 }
-             
             }
             catch (Exception ex)
             {
@@ -3592,7 +3603,33 @@ namespace MPC.Implementation.WebStoreServices
                 }
             }
             return dVToReturn;
-           
+
+        }
+
+        public void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId)
+        {
+            try
+            {
+
+                _ItemRepository.RollBackSpecificDiscountedItemsByVoucherId(OrderId, StoreTaxRate, StoreId, OrganisationId, DiscountVoucherId);
+                DiscountVoucher voucher = _DVRepository.GetDiscountVoucherById(DiscountVoucherId);
+                if (voucher != null)
+                {
+                    if (voucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
+                    {
+                        if (voucher.IsSingleUseRedeemed == true)
+                        {
+                            voucher.IsSingleUseRedeemed = false;
+                            _DVRepository.SaveChanges();
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }
