@@ -428,8 +428,9 @@ define("common/itemDetail.viewModel",
                         sectionCostCenter.qty3EstimatedStockCost(0);
                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
                         sectionCostCenter.qty2(selectedCostCentre().quantity2());
+                        sectionCostCenter.qty3(selectedCostCentre().quantity3());
                         setWorkInstructionsForStockCostCenter(sectionCostCenter);
-                        sectionCostCenter.qty3Charge(0);
+                       // sectionCostCenter.qty3Charge(0);
                         view.hideCostCentersQuantityDialog();
 
                         var sectionCostCenterDetail = model.SectionCostCenterDetail.Create({ SectionCostCentreId: selectedSectionCostCenter().id() });
@@ -438,6 +439,7 @@ define("common/itemDetail.viewModel",
                         sectionCostCenterDetail.costPrice(stockItemToCreate().price);
                         sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
                         sectionCostCenterDetail.qty2(selectedCostCentre().quantity2());
+                        sectionCostCenterDetail.qty3(selectedCostCentre().quantity3());
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         updateSectionCostCenter(sectionCostCenterDetail);
                         selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
@@ -455,10 +457,13 @@ define("common/itemDetail.viewModel",
                         selectedSectionCostCenter().qty1Charge(newCost);
                         selectedSectionCostCenter().qty1NetTotal(newCost);
                         if (isEstimateScreen()) {
-                            selectedQty(2);
+                            //selectedQty(1);
                             var newCost2 = (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty2());// selectedSectionCostCenter().qty2Charge() + 
                             selectedSectionCostCenter().qty2Charge(newCost2);
                             selectedSectionCostCenter().qty2NetTotal(newCost2);
+                            var newCost3 = (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty3());// selectedSectionCostCenter().qty2Charge() + 
+                            selectedSectionCostCenter().qty3Charge(newCost3);
+                            selectedSectionCostCenter().qty3NetTotal(newCost3);
                         }
                     },
                     // ReSharper disable once UnusedLocals
@@ -496,6 +501,26 @@ define("common/itemDetail.viewModel",
                                     var newCost = (selectedSectionCostCenter().sectionCostCentreDetails()[0].costPrice() * selectedSectionCostCenter().qty2());//selectedSectionCostCenter().qty2Charge() + 
                                     selectedSectionCostCenter().qty2Charge(newCost);
                                     selectedSectionCostCenter().qty2NetTotal(newCost);
+                                    var name = selectedSectionCostCenter().sectionCostCentreDetails()[0].stockName();
+                                    updateWorkInstruction(selectedSectionCostCenter(), name, selectedSectionCostCenter().qty1(), selectedSectionCostCenter().qty2());
+                                }
+                            }
+                        }
+                    }),
+                    sectionCostCenterQty3Ui = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter() || !selectedSectionCostCenter().qty3()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty3();
+                        },
+                        write: function (value) {
+                            if (selectedSectionCostCenter() != undefined) {
+                                selectedSectionCostCenter().qty3(!value ? 0 : value);
+                                if (selectedSectionCostCenter().sectionCostCentreDetails().length > 0) {
+                                    var newCost = (selectedSectionCostCenter().sectionCostCentreDetails()[0].costPrice() * selectedSectionCostCenter().qty3()); 
+                                    selectedSectionCostCenter().qty3Charge(newCost);
+                                    selectedSectionCostCenter().qty3NetTotal(newCost);
                                     var name = selectedSectionCostCenter().sectionCostCentreDetails()[0].stockName();
                                     updateWorkInstruction(selectedSectionCostCenter(), name, selectedSectionCostCenter().qty1(), selectedSectionCostCenter().qty2());
                                 }
@@ -2021,12 +2046,14 @@ define("common/itemDetail.viewModel",
                     onAddPostPressCostCenter: onAddPostPressCostCenter,
                     sectionCostCenterQty1Ui: sectionCostCenterQty1Ui,
                     sectionCostCenterQty2Ui: sectionCostCenterQty2Ui,
+                    sectionCostCenterQty3Ui: sectionCostCenterQty3Ui,
                     defaultMarkUpId: defaultMarkUpId,
                     applySectionCostCenterMarkup: applySectionCostCenterMarkup,
                     selectQuantityForItem: selectQuantityForItem,
                     selectQuantity: selectQuantity,
                     selectedQtyForItem: selectedQtyForItem,
                     openExternalReportsJob: openExternalReportsJob
+                    
                     //#endregion
                 };
             })()
