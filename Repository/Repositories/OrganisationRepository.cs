@@ -1427,41 +1427,49 @@ namespace MPC.Repository.Repositories
                          //    }
                          //    db.SaveChanges();
                          //}
-                        
-
-                         //if (objExpCorporate.DiscountVouchers != null && objExpCorporate.DiscountVouchers.Count > 0)
-                         //{
-                         //    List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oCID).ToList();
-                         //    List<Item> DVitems = db.Items.Where(c => c.CompanyId == oCID).ToList();
-                         //    foreach (var Discont in objExpCorporate.DiscountVouchers)
-                         //    {
-                         //        DiscountVoucher objDV = new DiscountVoucher();
-                         //        objDV = Discont;
-                         //        objDV.OrganisationId = OrganisationID;
-                         //        objDV.CompanyId = (int)oCID;
-
-                         //        if(objDV.ProductCategoryVouchers != null && objDV.ProductCategoryVouchers.Count > 0)
-                         //        {
-                         //            foreach (var pcv in objDV.ProductCategoryVouchers)
-                         //            {
-                         //                pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
 
-                         //            }
-                         //        }
-                         //        if (objDV.ItemsVouchers != null && objDV.ItemsVouchers.Count > 0)
-                         //        {
-                         //            foreach (var itemsVoucher in objDV.ItemsVouchers)
-                         //            {
-                         //                itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+                         // insert discount vouchers
+
+                         if (objExpCorporate.DiscountVouchers != null && objExpCorporate.DiscountVouchers.Count > 0)
+                         {
+
+                             List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oCID).ToList();
+                             List<Item> DVitems = db.Items.Where(c => c.CompanyId == oCID).ToList();
+                             foreach (var Discont in objExpCorporate.DiscountVouchers)
+                             {
+                                 // DiscountVoucher objDV = new DiscountVoucher();
+                                 // objDV = Discont;
+                                 Discont.OrganisationId = OrganisationID;
+                                 Discont.CompanyId = (int)oCID;
+                                 Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                 //Discont.ItemsVouchers = null;
+                                 //Discont.ProductCategoryVouchers = null;
+
+                                 if (Discont.ProductCategoryVouchers != null && Discont.ProductCategoryVouchers.Count > 0)
+                                 {
+                                     foreach (var pcv in Discont.ProductCategoryVouchers)
+                                     {
+                                         pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
 
-                         //            }
-                         //        }
-                         //        db.DiscountVouchers.Add(objDV);
-                         //    }
-                         //    db.SaveChanges();
-                         //}
+                                     }
+                                 }
+                                 if (Discont.ItemsVouchers != null && Discont.ItemsVouchers.Count > 0)
+                                 {
+                                     foreach (var itemsVoucher in Discont.ItemsVouchers)
+                                     {
+                                         itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+
+
+                                     }
+                                 }
+
+                                 db.DiscountVouchers.Add(Discont);
+                             }
+                             db.SaveChanges();
+                         }
+
 
 
                          if (objExpCorporate.TemplateFonts != null && objExpCorporate.TemplateFonts.Count > 0)
