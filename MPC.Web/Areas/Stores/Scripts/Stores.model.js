@@ -1187,7 +1187,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             spotColor = ko.observable(specifiedSpotColor || undefined),
             // Errors
             errors = ko.validation.group({
-                colorName: colorName,
+                spotColor: spotColor,
                 colorC: colorC,
                 colorM: colorM,
                 colorY: colorY,

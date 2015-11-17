@@ -101,6 +101,8 @@ define("stores/stores.viewModel",
                     //Check Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
                     bannerButtonCaption = ko.observable(),
+                    editorHtmlData = ko.observable(),
+                    editedWidgetId = ko.observable(),
 
                     CompanyVariableIconBinary = ko.observable(),
                      CompanyVariableIconName = ko.observable(),
@@ -5590,16 +5592,17 @@ define("stores/stores.viewModel",
                         ckEditorOpenFrom("StoreLayout");
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
                         //widget.cmsSkinPageWidgetParam().editorId("editor" + newAddedWidgetIdCounter());
-                        
-                        selectedWidget(widget.cmsSkinPageWidgetParam());
+                        editorHtmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                        editedWidgetId(widget.pageWidgetId());
+                        //selectedWidget(widget.cmsSkinPageWidgetParam());
                         view.showCkEditorDialogDialog();
                     },
                     //Save Widget Params That are set in CkEditor
                     onSaveWidgetParamFromCkEditor = function (widgetParams) {
                         var param = CKEDITOR.instances.content.getData();
                         _.each(pageSkinWidgets(), function (item) {
-                            if (widgetParams.pageWidgetId() === item.pageWidgetId()) {
-                                item.htmlData(param);
+                            if (editedWidgetId() === item.pageWidgetId()) {
+                                //item.htmlData(param);
                                 item.cmsSkinPageWidgetParam().paramValue(param);
                             }
                         });
@@ -8059,7 +8062,9 @@ define("stores/stores.viewModel",
                     companyVariableIcons: companyVariableIcons,
                     onDeleteCompanyVariableIcon: onDeleteCompanyVariableIcon,
                     CompanyVariableRowCount: CompanyVariableRowCount,
-                    onUnArchiveCompanyContact: onUnArchiveCompanyContact
+                    onUnArchiveCompanyContact: onUnArchiveCompanyContact,
+                    editorHtmlData: editorHtmlData,
+                    editedWidgetId: editedWidgetId
                     //Show RealEstateCompaign VariableIcons Dialog
                     //showcreateVariableDialog: showcreateVariableDialog
                 };
