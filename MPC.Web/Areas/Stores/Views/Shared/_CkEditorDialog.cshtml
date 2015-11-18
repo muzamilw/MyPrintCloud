@@ -1,13 +1,13 @@
 ﻿
 <div class="modal fade my-modal" id="ckEditorDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedWidget">
+    <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="main-box clearfix">
-                        <textarea name="html_link_content" id="content" data-bind="editor: paramValue, valueUpdate: 'afterkeydown',openFrom:$root.ckEditorOpenFrom">TEXT</textarea>
+                        <textarea name="html_link_content" id="content" data-bind="editor: $root.editorHtmlData, valueUpdate:'afterkeydown', openFrom:$root.ckEditorOpenFrom">TEXT</textarea>
                     </div>
                 </div>
             </div>
