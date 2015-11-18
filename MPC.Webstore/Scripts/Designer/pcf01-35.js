@@ -2764,7 +2764,7 @@ function pcL20_newCrop() {
     XML.Node("swidth", crWd.toString());
     XML.Node("sheight", crHe.toString());
 
-
+    XML.Node("isCropped", "1");
     XML.Node("crv1", crv1.toString());
     XML.Node("crv2", crv2.toString());
     XML.Node("crv3", crv3.toString());
