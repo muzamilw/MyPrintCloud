@@ -16,12 +16,19 @@ namespace MPC.Webstore.Controllers
 {
     public class LoginEazyPrintController : Controller
     {
-        // GET: LoginEazyPrint
+       
+        #region Private
+
         private readonly ICompanyService _myCompanyService;
         private readonly MPC.Interfaces.MISServices.ICompanyService _CompanyService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
         private readonly IItemService _ItemService;
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public LoginEazyPrintController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker
             , IItemService ItemService, MPC.Interfaces.MISServices.ICompanyService _CompanyService)
         {
@@ -38,6 +45,9 @@ namespace MPC.Webstore.Controllers
             this._ItemService = ItemService;
             this._CompanyService = _CompanyService;
         }
+
+        #endregion
+
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
 
@@ -45,11 +55,10 @@ namespace MPC.Webstore.Controllers
         {
             get { return HttpContext.GetOwinContext().Authentication; }
         }
-
-
+        // GET: Login
         public ActionResult Index(string Message, string ReturnURL)
         {
-
+            
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
@@ -92,11 +101,12 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(Message))
             {
                 ViewBag.OauthErrorMessage = @"<script type='text/javascript' language='javascript'> $(document).ready(function () {ShowPopUp('Message', '" + Message + "'); });</script>";
-
+               
             }
 
             return View("PartialViews/LoginEazyPrint");
         }
+
         [HttpPost]
         public ActionResult Index(AccountViewModel model)
         {
@@ -106,8 +116,8 @@ namespace MPC.Webstore.Controllers
             if (ModelState.IsValid)
             {
                 CompanyContact user = null;
-
-
+                
+                
                 if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
                 {
                     user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
@@ -144,6 +154,7 @@ namespace MPC.Webstore.Controllers
             }
 
         }
+
         private ActionResult VerifyUser(CompanyContact user, string ReturnUrl, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
         {
             try
@@ -152,17 +163,17 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.WBStoreId); // "Your account is archived.";
                     SetViewFlags(StoreBaseResopnse);
-                    return View("PartialViews/Login");
+                    return View("PartialViews/LoginEazyPrint");
                 }
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
                 {
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.WBStoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
                     SetViewFlags(StoreBaseResopnse);
-                    return View("PartialViews/Login");
+                    return View("PartialViews/LoginEazyPrint");
                 }
                 else
                 {
-
+                    
                     UserCookieManager.isRegisterClaims = 1;
                     UserCookieManager.WEBContactFirstName = user.FirstName;
                     UserCookieManager.WEBContactLastName = user.LastName == null ? "" : user.LastName;
@@ -171,27 +182,34 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.CanPlaceOrder = user.isPlaceOrder ?? false;
                     UserCookieManager.WEBEmail = user.Email;
 
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                    if(UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
 
                         if (Orderid > 0)
                         {
                             UserCookieManager.TemporaryCompanyId = 0;
+
+                            // this will update the order id if user is coming through cart
+                            if(UserCookieManager.WEBOrderId != Orderid)
+                            {
+                                UserCookieManager.WEBOrderId = Orderid;
+                            }
+
                             if (!string.IsNullOrEmpty(ReturnUrl))
                             {
                                 RedirectToLocal(ReturnUrl);
                             }
-                            else
+                            else 
                             {
                                 ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart", new { OrderId = Orderid });
-
+                               
                             }
                             return null;
                         }
                     }
 
-
+                   
                     if (!string.IsNullOrEmpty(ReturnUrl))
                     {
                         RedirectToLocal(ReturnUrl);
@@ -199,7 +217,7 @@ namespace MPC.Webstore.Controllers
                     else
                     {
                         ControllerContext.HttpContext.Response.RedirectToRoute("Default");
-
+                       
                     }
                     return null;
                 }
@@ -215,9 +233,10 @@ namespace MPC.Webstore.Controllers
             {
                 ControllerContext.HttpContext.Response.Redirect(returnUrl);
             }
-
+            
             return null;
         }
+
         private void SetViewFlags(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
         {
             if (StoreBaseResopnse != null)
@@ -257,7 +276,6 @@ namespace MPC.Webstore.Controllers
             }
 
         }
-
 
     }
 }

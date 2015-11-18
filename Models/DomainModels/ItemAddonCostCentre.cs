@@ -34,7 +34,7 @@ namespace MPC.Models.DomainModels
 
             target.CostCentreId = CostCentreId;
             target.IsMandatory = IsMandatory;
-
+            target.Sequence = Sequence;
         }
 
         #endregion

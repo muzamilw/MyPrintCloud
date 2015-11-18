@@ -4481,7 +4481,7 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenterDetail.Qty3 = Math.Ceiling(OrderSheetQuantity[2]);
             }
 
-            if (oItemSection.IsPaperSupplied == false)
+            if (oItemSection.IsPaperSupplied != true)
             {
                 oItemSectionCostCenterDetail.CostPrice = UnitPrice / oPaperDTO.PackageQty;
             }
