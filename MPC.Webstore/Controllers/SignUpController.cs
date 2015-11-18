@@ -116,7 +116,7 @@ namespace MPC.Webstore.Controllers
                         ViewData["IsSocialSignUp"] = true;
                         ViewBag.socialFirstName = model.FirstName;
                         ViewBag.socialLastName = model.LastName;
-
+                        ViewBag.Provider = Request.Form["provider"];
                         if (!string.IsNullOrEmpty(model.Email))
                         {
                             ViewBag.socialEmail = model.Email;
@@ -132,7 +132,7 @@ namespace MPC.Webstore.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (model.Password == "Password")
+                    if (model.Password == "Password" && isSocial != "1")
                     {
                         ViewBag.Message = "Please enter Password";
                         return View("PartialViews/SignUp");

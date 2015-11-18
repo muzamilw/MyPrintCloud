@@ -1,0 +1,2473 @@
+﻿@model MPC.Webstore.Models.ItemCartViewModel
+@using MPC.Webstore.Common;
+@using Newtonsoft.Json;
+@using System;
+@using System.Globalization;
+@using MPC.Models.Common;
+@{
+    int StockCount = 1;
+    int PriceBackgroundCount = 0;
+    string priceMatrixBackground = "";
+    string imagePath = "Thumb.png";
+    var extraPricingId = "";
+    var SliderCount = 0;
+}
+@{
+    Layout = null;
+}
+<script src="~/Scripts/Designer/p55.js"></script>
+<script src="~/Scripts/Designer/p55-ease.js"></script>
+<link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />
+
+<div id="FormulaMatrixLayer">
+</div>
+<div class="container content_area" id="all-productOption-pg">
+    <div class="left_right_padding">
+        <ul class="bonhamsOption navM cursor_pointer" style="display:none;">
+            <li class="bonhamSelectedOption">
+                1. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSelect", UserCookieManager.WBStoreId, "Select"))
+            </li>
+            <li>
+                2. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrledit", UserCookieManager.WBStoreId, "Edit"))
+            </li>
+
+
+            <li>
+                3. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmorder", UserCookieManager.WBStoreId, "Confirm order & payment"))
+            </li>
+            <li>
+                4.  @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderSumm", UserCookieManager.WBStoreId, "Order Summary"))
+            </li>
+
+        </ul>
+        <div class="BreadCrumbMenu left_align col-xs-12">
+            <h1>
+
+                <a id="aLinkItem" href="@ViewBag.CategoryHRef" class="crumb_notActive left_align">
+                    @ViewBag.CategoryName
+                </a>
+                <label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
+                <a id="aLinkItem" href="#" class="crumb_Active left_align">
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
+                    {
+                        @ViewBag.ItemModel.ProductFriendlyName
+                    }
+                    else
+                    {
+                        @ViewBag.ItemModel.ProductName
+                    }
+                  
+                </a>
+
+
+            </h1>
+            <div class="clearBoth"></div>
+        </div>
+        <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
+            
+            @if (ViewBag.ItemModel.ProductDisplayOptions == (int)ProductDisplayOption.ThumbWithMultipleBanners)
+            {
+                if (ViewBag.ItemModel.ProductBannerThumbnailList != null)
+                {
+                    
+                    <div class="carousel_wrap" id="product-banners-list">
+                        <div id="carousel-wrapper">
+                            <div id="carousel_two" class="cool-carousel">
+                                @foreach (var img in ViewBag.ItemModel.ProductBannerThumbnailList as List<MPC.Models.DomainModels.ItemImage>)
+                                {
+                                    <span id="@img.ProductImageId"><img src="@img.ImageURL" alt="@img.ImageTitle" /></span>
+                                }
+                            </div>
+                            <a href="#" class="prev"></a><a href="#" class="next"></a>
+                        </div>
+
+                        <div class="carousal-bottom">
+                            <div id="thumbs-wrapper">
+                                <div id="thumbs">
+                                    @foreach (var img in ViewBag.ItemModel.ProductBannerThumbnailList as List<MPC.Models.DomainModels.ItemImage>)
+                                    {
+                                        if (SliderCount == 0)
+                                        {
+                                            <a href="#@img.ProductImageId" class="selected">
+                                                <img src="@img.ImageURL" alt="@img.ImageTitle" />
+                                            </a>
+
+   
+                                        }
+                                        else
+                                        {
+                                            <a href="#@img.ProductImageId">
+                                                <img src="@img.ImageURL" alt="@img.ImageTitle" />
+                                            </a>
+                                        }
+
+                                        SliderCount++;
+                                    }
+                               
+                                </div>
+                                <a id="prev"><i class="fa fa-chevron-left"></i></a>
+                                <a id="next"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+
+                        <span class="border"></span>
+                    </div>
+                }
+
+
+            }
+            else if (ViewBag.ItemModel.ProductDisplayOptions == (int)ProductDisplayOption.ThumbAndBanner)
+            {
+                <img src="@ViewBag.ItemModel.ProductBannerThumbnail" alt="" class="product-large-banner" />
+            }
+          <br />
+            <div id="tabs_two">
+                <ul class="clearfix">
+                    <li class="litab-active"><a onclick="ChangeTab('tabs-1', this);" class="one">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId, "Specification"))</a></li>
+                    <li><a onclick="ChangeTab('tabs-2', this);" class="two">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTips", UserCookieManager.WBStoreId, "Tips"))</a></li>
+                    <li><a onclick="ChangeTab('tabs-3', this);" class="three">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignServices", UserCookieManager.WBStoreId, "Design Services"))</a></li>
+                    
+                </ul>
+                <div id="tabs-1" class="tab tab-active" >
+                    <div class="detail">
+                        <p>@Html.Raw(@ViewBag.ItemModel.WebDescription)</p>
+                        
+                    </div>
+                </div>
+                <div id="tabs-2" class="tab " style="display:none;">
+                    <div class="detail">
+                        <p>@Html.Raw(@ViewBag.ItemModel.TipsAndHints)</p>
+
+                    </div>
+                </div>
+                <div id="tabs-3" class="tab " style="display:none;">
+                    <div class="detail">
+                        <p></p>
+
+                    </div>
+                </div>
+              
+            </div>
+            @if (ViewBag.ItemModel.GridImage != null)
+            {
+                <div class="grif-layout-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblgridLayoutSizeGuidLine", UserCookieManager.WBStoreId, "Size Guidline"))</div>
+                <div class="grid-layout-container txtAlignLeft">
+
+                    <img class="grid-layout-image" src="/@ViewBag.ItemModel.GridImage" />
+
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1) || !string.IsNullOrEmpty(ViewBag.ItemModel.File2) || !string.IsNullOrEmpty(ViewBag.ItemModel.File3) || !string.IsNullOrEmpty(ViewBag.ItemModel.File4))
+            {
+                <div class="grif-layout-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbldownloadSizeStencil", UserCookieManager.WBStoreId, "Download Size Stencils"))</div>
+    <div id="downloadable-files-container txtAlignLeft">
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
+        {
+
+            <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File1Url" />
+            </a>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
+        {
+
+            <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File2Url" />
+            </a>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
+        {
+
+            <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File3Url" />
+            </a>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
+        {
+
+            <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File4Url" />
+            </a>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
+        {
+
+            <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File5Url" />
+            </a>
+        }
+
+    </div>
+                <div class="clearBoth">&nbsp;</div>
+            }
+        </div>
+        <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12">
+            &nbsp;
+        </div>
+        <div class="StocksDelivryContainer col-md-8 col-lg-8 col-xs-12 col-sm-12">
+          
+            <div id="divStockOptions" class="float_left_simple LGBC rounded_corners width730" style="padding: 5px;">
+                <div id="lbl_Options" class="SelectQtyContainer textAlignLeft">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lnkltrlSelectQty", UserCookieManager.WBStoreId, "Options"))
+                </div>
+                <div class="white_background rounded_corners divStk">
+                    <div class="float_left_simple Width100Percent">
+                        <div class="spacer10pxtop">
+
+                            @foreach (var stock in ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>)
+                            {
+                                if (ViewBag.SelectedStockItemId != null)
+                                {
+                                    string stockClassName = "rbStockType" + StockCount;
+                                    if (ViewBag.SelectedStockItemId == stock.ItemStockOptionId)
+                                    {
+                                        <div class=float_left_simple style="height:55px;">
+                                            <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class=float_left_simple style="height:55px;">
+                                            <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    string stockClassName = "rbStockType" + StockCount;
+                                    if (StockCount == 1)
+                                    {
+
+                                        <div class=float_left_simple style="height:55px;">
+                                            <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class=float_left_simple style="height:55px;">
+                                            <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                        </div>
+                                    }
+                                }
+                                StockCount++;
+                            }
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <br />
+                        @if (ViewData["CostCenters"] != null)
+                        {
+                            <div class="Fsize19 template_designing margnTop10 LandPage-Heading-Cs">
+                                <label id="lbl_RefiningOptions">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.WBStoreId, "Refining Options"))</label>
+                            </div>
+
+
+                            <div class="width365pxM250p">
+                                @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
+                                {
+                                        <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
+                                            <div class="float_left_simple spacerbottom CcImageContainer">
+                                                <img class="RfgImgCs" src=/@costcenter.AddOnImage />
+                                            </div>
+                                            <div class="extra_item float_left_simple">
+
+                                                <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
+
+                                                <label class="margin5 colorBlack">@costcenter.AddOnName</label>
+                                                @{
+                                                    extraPricingId = "extrapricing" + costcenter.ProductAddOnID;
+                                                }
+                                                    <div id="@extraPricingId" class="extra_pricing float_right">
+                                                        @if (ViewBag.IsShowPrices == true)
+                                                        {
+                                                            <label id="lblAddOnPrice"> </label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label id="lblAddOnPrice" style="display:none;"> </label>
+                                                        }   
+                                                    </div>
+                                                
+                                                
+                                                <label class="checkBoxAdOnDesc marginLeft">@costcenter.WebStoreDesc</label>
+                                                <div class="clearBoth">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                            <div class="clearBoth">
+                                                &nbsp;
+                                            </div>
+                                            <div class="BorderLG_LP">
+                                                &nbsp;
+                                            </div>
+
+                                        </div>
+
+                                }
+                        </div>
+                        }
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                </div>
+
+            </div>
+            <div class="float_left_simple UploadContainerCs LGBC rounded_corners">
+                <div class="SelectQtyContainer textAlignLeft">@Html.Raw(Html.GetKeyValueFromResourceFile("btnProductDetails", UserCookieManager.WBStoreId, "Description"))</div>
+                <div style="background: white; padding: 10px; text-align: left;" class="rounded_corners">
+                    <div class="boxCatDes">
+                        <label id="lbl_CategroyCode" class="marginall5"></label>
+                        <p class="marginall5">
+                            <label style="font-weight:normal;width:100%;">@Html.Raw(ViewBag.ItemModel.WebDescription)</label>
+                        </p>
+                    </div>
+                    <div class=" clear">
+                    </div>
+                </div>
+            </div>
+            @if (ViewBag.ShowUploadArkworkPanel == true)
+            {
+                <div class="signin_heading_div float_left_simple UploadContainerCs LGBC rounded_corners upload-panel-margin">
+
+
+                    @if (ViewData["Templates"] == null)
+                    {
+                        <div id="lbl_Options" class="SelectQtyContainer textAlignLeft">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadartwork", UserCookieManager.WBStoreId, "Upload Artwork")) </div>
+
+
+                    }
+                    else
+                    {
+                        <div id="lbl_Options" class="SelectQtyContainer textAlignLeft"> @Html.Raw(Html.GetKeyValueFromResourceFile("ltrllllappp", UserCookieManager.WBStoreId, "Your approved design(s)"))</div>
+
+                    }
+                    
+                    <div class="float_left_simple white_background paddingLeft5px H4B UplodArkworkContainer">
+                        <div class="white_background rounded_corners padding10 SidesContainerCS">
+
+                            @if (ViewData["ArtworkAttachments"] != null)
+                            {
+
+                                <div id="attachmentUploadContainer" class="rptContainers">
+
+                                    @foreach (var artworkFile in ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>)
+                                    {
+                                        Random random = new Random();
+                                        string randonNumber = "?r=" + random.Next();
+                                      
+                                            <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
+                                                <div class="DeleteIconPP">
+                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
+                                                </div>
+                                                <a id="hlSide1">
+                                                    <div class="PDTC_LP FI_PCS">
+
+                                                        <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                    </div>
+                                                </a>
+                                                <div class="confirm_design LGBC height40_LP ">
+                                                    <label id="lblFront" class="">@artworkFile.FileName</label>
+                                                </div>
+                                            </div>
+                                    }
+
+
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                            </div>
+                                <div class="cntuploadfilebtns">
+                                    <input type="button" class="btn_upload_files_Prod_Land rounded_corners5" value=@Html.Raw(Html.GetKeyValueFromResourceFile("front",UserCookieManager.WBStoreId,"upload file")) onclick="ShowArtworkPanel();" />
+                                </div>
+                            }
+                            else if (ViewData["Templates"] != null)
+                            {
+                                <div class="rptContainers">
+                                    @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
+                                    {
+                                        Random random = new Random();
+                                        string randonNumber = "?r=" + random.Next();
+                              
+                                            <div class="LGBC BD_PCS rounded_corners">
+                                                <a id="hlSide1">
+                                                    <div class="PDTC_LP FI_PCS">
+                                                        <img class="full_img_ThumbnailPath_LP" src="/@templateItem.FolderPath/@templateItem.FileName@imagePath" />
+
+                                                    </div>
+                                                </a>
+                                                <div class="confirm_design LGBC" style="display: none;">
+                                                    <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6"></label>
+                                                </div>
+                                                @if (templateItem.isTemplateDesignMode != (int)TemplateMode.DoNotLoadDesigner)
+                                                {
+                                                    <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -34px;">
+                                                        <div>
+                                                            <input type="button" class="btn_brown_small" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId);" />
+                                                        </div>
+                                                    </div>
+                                                }
+                                              
+                                            </div>
+                                    }
+                            </div>
+                                <div id="MoreSidesCont" class="ViewTemSidesCS" style="display:none;">
+                                    <label id="lbl_ViewMore">@Html.Raw(Html.GetKeyValueFromResourceFile("lblViewMore", UserCookieManager.WBStoreId))</label><br />
+                                    <label id="lbl_DesignerMode">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignerMode", UserCookieManager.WBStoreId))</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="float_left_simple PriceTableCs col-md-3 col-lg-3 col-xs-12">
+            <div class="LGBC rounded_corners Pad5px">
+                <div id="lbl_SelectQuantity" class="SelectQtyContainer">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlLSelectYourQ", UserCookieManager.WBStoreId, "Select quantity"))
+                </div>
+                <div class="white_background rounded_corners padding10">
+                    @if (ViewBag.FinishedGoodProduct != null)
+                    {
+                        <div class="textAlignLeft Mleft10 spacer10pxbottom">
+                            <img id="FinishedGoodImg" class="full_img_ThumbnailPath" src="/@ViewBag.FinishedGoodProduct" />
+
+                        </div>
+                    }
+
+                    <div>
+                        @if (ViewBag.ItemModel.IsQtyRanged == true)
+                        {
+                            if (ViewBag.SelectedQuantity != null && ViewBag.SelectedQuantity != 0)
+                            {
+                                <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" value="@ViewBag.SelectedQuantity" />
+                            }
+                            else
+                            {
+                                <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
+                            }
+
+                            <input type="button" onclick="CalculatePriceBaseOnRangedQuantity(); return false;" class="go_button rounded_corners5 width35pix"
+                                   value="Go" />
+                        }
+                        else
+                        {
+                            <select class="dropdownBorderCS dropdown190 rounded_corners5 template_designing float_right dropdownQtyListClass clearRight ">
+                                @foreach (var quantity in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                                {
+                                    if (ViewBag.SelectedQuantity != null)
+                                    {
+                                        if (ViewBag.SelectedQuantity == quantity.Quantity)
+                                        {
+                                                <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
+                                    }
+
+                                }
+
+                        </select>
+                        }
+
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <br />
+                    <div class=" left_align productStockDesc">
+                        <label class="Fsize15 colorBlack left_align colorDGry">
+                            @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
+                            {
+                                @ViewBag.ItemModel.ProductFriendlyName
+                            }
+                            else
+                            {
+                                @ViewBag.ItemModel.ProductName
+                            }
+
+
+                        </label>
+                        <br />
+                        <label id="lblStock" class="LightGrayLabels"></label><br />
+                        <label id="lblExtra" class="LightGrayLabels"></label>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div class="float_left_simple grossTotaldiv">
+                        <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.WBStoreId, "Total")):</label>
+                        @if (ViewBag.IsShowPrices == true)
+                        {
+                            <label id="lblTaxLabel" class="Fsize13 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
+                            <label id="lblGrossTotal" class="float_right"> 0.00</label>
+                            <label class="float_right">@ViewBag.Currency</label>
+                        }
+                        
+                    </div>
+                    @if (ViewData["stockControlItems"] != null)
+                    {
+                           foreach (var stockItem in ViewData["stockControlItems"] as List<MPC.Webstore.ViewModels.StockItemViewModel>)
+                            {
+                                if (stockItem.isItemInStock == false)
+                                {
+                                     <div class="InStockContainer" data-itemStockVal="@stockItem.InStockValue" data-isItemInStock="0" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:red; color:white;display:none;">
+                               
+                                      @stockItem.StockTextToDisplay
+                               
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="InStockContainer" data-itemStockVal="@stockItem.InStockValue" data-isItemInStock="1" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:#f3f3f3; color:black;display:none;">
+                                       @stockItem.StockTextToDisplay
+                                    </div>
+                                }
+                            }
+                    }
+                 
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div class="float_right">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.HiddenFor(m => m.OrderId, new { id = "VMOrderId" })
+                            @Html.HiddenFor(m => m.ItemId, new { id = "VMItemId" })
+                            @Html.HiddenFor(m => m.JsonPriceMatrix, new { id = "VMJsonMatrix" })
+                            @Html.HiddenFor(m => m.JsonAddOnsPrice, new { id = "VMJsonAddOns" })
+                            @Html.HiddenFor(m => m.ItemPrice, new { id = "VMPrice" })
+                            @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
+                            @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
+                            @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
+                            @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
+                            @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
+                            @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
+                            @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
+                            <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
+                        }
+
+
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: black;
+                            font-size: 12px; float: left; margin-top: 15px; margin-bottom: 10px;">
+                        <label id="toggleHeading" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId, "Show Price Table"))</label>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div id="matrixHeadingsContainer" class="" style="display: none;">
+                        @if (ViewBag.ItemModel.IsQtyRanged == true)
+                        {
+                            <div class="confirm_design divtxtalgn MLR">
+                                <label id="lbl_Quantity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity",UserCookieManager.WBStoreId, "Quantity"))</label>
+                            </div>
+                            <br />
+                        }
+                        <div class="width50p">
+                            @if (ViewBag.ItemModel.IsQtyRanged == true)
+                            {
+                                <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -46px;">
+                                    <label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom",UserCookieManager.WBStoreId, "From"))</label>
+                                </div>
+                                <div class="Fsize13 divtxtalgn float_left_simple">
+
+                                    <label id="lbl_To">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTo",UserCookieManager.WBStoreId, "To"))</label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="Fsize13 divtxtalgn_CS width70pixel float_left_simple">
+                                    <label id="lbl_Quanity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity",UserCookieManager.WBStoreId, "Quantity"))</label>
+                                </div>
+                            }
+
+                            <div class="divtxtalgn_CS Width40Px float_right">
+@if (ViewBag.IsShowPrices == true)
+{
+    @Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))
+}
+                               
+                            </div>
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div id="priceMatrixContainer" style="" class="spacerbottom cntlndngtbl">
+
+                        @foreach (var matrixItem in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                        {
+                            if (PriceBackgroundCount % 2 == 0)
+                            {
+                                priceMatrixBackground = "lightgray";
+                            }
+                            else
+                            {
+                                priceMatrixBackground = "white";
+                            }
+
+
+                                <div class="@priceMatrixBackground">
+                                    <div class="divfloat WhtBakg">
+                                        <input type="hidden" id="txtHiddenPriceMatrixID" class="AccessPriceInScript" value='@matrixItem.PriceMatrixId' />
+
+                                    </div>
+                                    @if (ViewBag.ItemModel.IsQtyRanged == true)
+                                    {
+                                        <div id="QtyRangeFrom" class="LandingPageQty divQNum">
+                                            @matrixItem.QtyRangeFrom
+                                        </div>
+                                        <div id="QtyRangeTo" class="LandingPageQty divQNum">
+                                            @matrixItem.QtyRangeTo
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div id="Quantity" class="LandingPageQty divQNum">
+                                            @matrixItem.Quantity
+                                        </div>
+                                    }
+
+                                   
+                                        
+                                    
+                                    <div id="matrixItemColumn1" class="mattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='1_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType1.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                           @if (ViewBag.IsShowPrices == true)
+                                           {
+                                            <label id="lblMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                           }
+                                           else
+                                           {
+                                            <label id="lblMatt" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                           }
+                                             
+
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn2" class="glossyPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='2_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType2.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblGlossy">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label id="lblGlossy" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                           
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn3" class="premiumMattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='3_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType3.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblPremiumMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label id="lblPremiumMatt" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            
+
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='4_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType4.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblForthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label id="lblForthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='5_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType5.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblFifthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label id="lblFifthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='6_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType6.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblSixthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label id="lblSixthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='7_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType7.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblSevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label id="lblSevenStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='8_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType8.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblEightStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label id="lblEightStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='9_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType9.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblNinthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+                                            }
+                                            else
+                                            {
+                                                <label id="lblNinthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+                                            }
+                                            
+
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='10_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType10.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                           @if (ViewBag.IsShowPrices == true)
+                                           {
+                                            <label id="lblTenthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+                                           }
+                                           else
+                                           {
+                                            <label id="lblTenthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+                                           }
+                                             
+
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='11_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType11.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblElevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label id="lblElevenStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            
+                                        </span>
+                                    </div>
+                                    
+                                    <div style="clear: both;">
+                                    </div>
+                                </div>
+                                    PriceBackgroundCount++;
+                        }
+                </div>
+                <div id="cntTabLabel">
+                    <label id="lblTaxLabel" class="Fsize10 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+    <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.JasonPriceMatrix)) class="JsonPriceMatrixValue" />
+    <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.JsonAddonCostCentre)) class="JsonAddonCostCentreValue" />
+    <input type="hidden" id="uploadedImageSide" value="@ViewBag.AttachmentCount" />
+    <input type="hidden" id="costCentreQueueItems" value="" />
+</div>
+<br />
+</div>
+<div id="pnlArtworkUploader" style="display: none;" class="">
+
+    <div id="PnlUploaderLeftContainer">
+        
+      
+        <div class="guidlinContainer">
+            <label id="lbl_UploadFileGudelines" class="Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.WBStoreId))</label>
+        </div>
+
+        <div class="cntDesignGuidLines" style="float:left; ">
+            <div class="clearBoth">&nbsp;</div>
+            <div class="GLHeadingContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Heading" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL1Heading", UserCookieManager.WBStoreId, "Trim Size:"))</label>
+            </div>
+            <div class="GLHeadDescContainer float_left_simple">
+
+                <label id="lbl_UploadFileGudelines_Description1">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL1Desc", UserCookieManager.WBStoreId, "Check the diagram for artwork size guides"))</label>
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+            <div class="GLHeadingContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Heading2" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL2Heading", UserCookieManager.WBStoreId, "lblGL2Heading"))</label>
+            </div>
+            <div class="GLHeadDescContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Description2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL2Desc", UserCookieManager.WBStoreId, "Allow bleed runs off for all images that cut"))</label>
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+            <div class="GLHeadingContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Heading3" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL3Heading", UserCookieManager.WBStoreId, "Safe Area:"))</label>
+            </div>
+            <div class="GLHeadDescContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Description3">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL3Desc", UserCookieManager.WBStoreId, "place your text and logos 5 mm inside the trim edges"))</label>
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+            <div class="GLHeadingContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Heading4" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL4Heading", UserCookieManager.WBStoreId, "File formats:"))</label>
+            </div>
+            <div class="GLHeadDescContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Description4">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL4Desc", UserCookieManager.WBStoreId, "Photoshop, illustrator, Indesign, Pdf and Jpeg file formats."))</label>
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+            <div class="GLHeadingContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Heading5" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL5Heading", UserCookieManager.WBStoreId, "Resolutions:"))</label>
+            </div>
+            <div class="GLHeadDescContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Description5">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL5Desc", UserCookieManager.WBStoreId, "Save your file in 300 dpi resolution with embedded fonts & images."))</label>
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+            <div class="GLHeadingContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Heading6" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL6Heading", UserCookieManager.WBStoreId, "File size:"))</label>
+            </div>
+            <div class="GLHeadDescContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Description6">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL6Desc", UserCookieManager.WBStoreId, "File greater than 10 mb are not permitted for upload."))</label>
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+            <div class="GLHeadingContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Heading7" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL7Heading", UserCookieManager.WBStoreId, "Crop Marks:"))</label>
+            </div>
+            <div class="GLHeadDescContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Description7">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL7Desc", UserCookieManager.WBStoreId, "Do not include registration or crop marks."))</label>
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+            <div class="GLHeadingContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Heading8" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL8Heading", UserCookieManager.WBStoreId, "Pre-flight:"))</label>
+            </div>
+            <div class="GLHeadDescContainer float_left_simple">
+                <label id="lbl_UploadFileGudelines_Description8">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL8Desc", UserCookieManager.WBStoreId, "Pre-flight your PDFs using the Adobe PDF/ X-1a preset."))</label>
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+
+        </div>
+        <div class="float_left_simple UploadsGuidLineContainer">
+            <input type="file" name="imageUploader" id="imageUploader" class="imageUploader" />
+            <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload"))' class="Uplod_PCS rounded_corners5 background-green" id="btnOpenUploadDailog" onclick="openDailog();" />
+
+            <div id="lbl_PremittedFormat" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat",UserCookieManager.WBStoreId))
+            </div>
+         
+            <div class="clearBoth">&nbsp;</div>
+            <div id="lbl_Recommended" class="Fsize12">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("Recommandedtxt",UserCookieManager.WBStoreId, "Recommended"))
+            </div>
+            <div id="lbl_RecommandedFormat" class="Fsize12">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("PdfFormatInfo",UserCookieManager.WBStoreId, "PDFs format with embeded 300 dpi"))
+            </div>
+            <div id="lbl_MAXSize" class="Fsize12">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("MaxFileSize",UserCookieManager.WBStoreId, "MAX file size 10MB"))
+            </div>
+            <div id="lbl_RecommandedResulation" class="Fsize12">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("logoImgsize",UserCookieManager.WBStoreId, "images/ logos must be greater than 333 x 223 pixels"))
+            </div>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+
+    </div>
+    <div class="clearBoth">&nbsp;</div>
+
+</div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="~/Scripts/jquery.flexslider-min.js"></script>
+<script src="~/Scripts/jquery.carouFredSel-6.0.4-packed.js"></script>
+<script src="~/Scripts/jcarousellite_1.0.1.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/PopUp.js"></script>
+    <script>
+    var  Message='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))';
+    var isRanged = "@ViewBag.ItemModel.IsQtyRanged.ToString()" == "False" ? 0 : 1;
+    var TotalItemPrice = 0;
+    var data = "";
+    var fileExtension = "";
+    var isPriceSelected = 0;
+    var mandatoryRefiningOptIds = "";
+    var isImageUploadedOnLandingPage = 0;
+    var chkdetails='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcheckdetails", UserCookieManager.WBStoreId, "Please check your details to proceed."))';
+    var  uploadartworkmes='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadartworkk", UserCookieManager.WBStoreId, "Please upload your artwork to proceed."))';
+    var  refiningopt='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlrefiningoption", UserCookieManager.WBStoreId, "Highlighted refining option(s) must be selected to add product in cart."))';
+    var mes='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcannotplaceorder", UserCookieManager.WBStoreId, "You cannot place order because the selected quantity is more than stock."))';
+    var opt='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlselectedquantitygreater", UserCookieManager.WBStoreId, "You cannot place order because the selected quantity is more than stock."))';
+    var countOfCostCentresTicked = 0;
+    var countOfCostCentreOnwhichActionIsPerformed = 0;
+    var controlsArrayOnQtyChange = [];
+    $(document).ready(function() {
+        //Flex Slider
+        $.noConflict();
+        $('.flexslider').flexslider({
+            animation: "slide"	
+        });
+        //Carousal
+        $('#carousel').carouFredSel({
+            auto: false,
+            prev: '.prev',
+            next: '.next',
+            scroll:1
+        });
+	
+        //HOver  
+        $('#carousel li').mouseover(function () {
+            $(this).siblings().css({
+                opacity: 0.35
+            })
+        })
+            .mouseout(function () {
+                $(this).siblings().css({
+                    opacity: 1
+                })
+            });		
+	 
+        $("#vcarousel").jCarouselLite({
+            vertical: true,
+            btnPrev: '.d-down',
+            btnNext: '.d-up',
+            auto: 500,
+            speed: 1600,
+            visible: 3
+        });
+
+
+        $('#carousel_two').carouFredSel({
+            responsive: true,
+            circular: false,
+            auto: false,
+            items: {
+                visible: 1,
+                width: 200,
+                height: '56%'
+            },
+            prev: '.prev',
+            next: '.next',
+            scroll: {
+                fx: 'fade'
+            }
+        });
+
+        $('#thumbs').carouFredSel({
+            responsive: true,
+            circular: false,
+            infinite: false,
+            auto: false,
+            prev: '#prev',
+            next: '#next',
+            items: {
+                visible: {
+                    min: 2,
+                    max: 6
+                }
+
+            }
+        });
+        $('#thumbs a').click(function() {
+            $('#carousel_two').trigger('slideTo', '#' + this.href.split('#').pop() );
+            $('#thumbs a').removeClass('selected');
+            $(this).addClass('selected');
+            return false;
+        });
+
+        
+
+    });
+
+    function ChangeTab(tabId, obj){
+        
+        $("#tabs-1").css("display", "none");
+        $("#tabs-2").css("display", "none");
+        $("#tabs-3").css("display", "none");
+        $("#tabs-1").removeClass('tab-active');
+        $("#tabs-2").removeClass('tab-active');
+        $("#tabs-3").removeClass('tab-active');
+        $("#" + tabId).css("display", "block");
+        $("#" + tabId).addClass('tab-active');
+        if(tabId == "tabs-1"){
+            $(obj).parent().removeClass('litab-active');
+            $(obj).parent().next().removeClass('litab-active');
+            $(obj).parent().next().next().removeClass('litab-active');
+        }
+        if(tabId == "tabs-2"){
+            $(obj).parent().removeClass('litab-active');
+            $(obj).parent().next().removeClass('litab-active');
+            $(obj).parent().prev().removeClass('litab-active');
+        }
+        if(tabId == "tabs-3"){
+            $(obj).parent().removeClass('litab-active');
+            $(obj).parent().prev().removeClass('litab-active');
+            $(obj).parent().prev().prev().removeClass('litab-active');
+        }
+        $(obj).parent().addClass('litab-active');
+    }
+    function ConfirmCart() {
+        var MaxstockQty = true;
+        if (isPriceSelected == 0) {
+            ShowPopUp(Message,chkdetails);
+
+            return false;
+        } else {
+
+            if(@ViewBag.ItemModel.isUploadImage == 1){
+                if(isImageUploadedOnLandingPage == 0){
+                    ShowPopUp(Message,uploadartworkmes);
+                    return false;
+                }
+            }
+
+            var noRefiningOptSelected = 1;
+            if(mandatoryRefiningOptIds != ""){
+                var ListOfOptnToCheck = mandatoryRefiningOptIds.split(',');
+
+                $(ListOfOptnToCheck).each(function(i, val) {
+                    if($("#" + val).is(':checked')){
+                    }else{
+                        $("#" + val).parent().parent().css("background-color", "rgb(228, 180, 182)");
+                        noRefiningOptSelected = 0;
+                    }
+
+                });
+
+                if(noRefiningOptSelected == 0){
+                    ShowPopUp(Message,refiningopt);
+
+                    return false;
+                }else{
+
+                    $('.InStockContainer').each(function() {
+                        if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
+                            if(parseInt($(this).attr('data-itemStockVal')) < parseInt($("#VMQuantityOrdered").val())){
+
+                                if($(this).attr('data-isAllowBackOrder') == "False"){
+                                    MaxstockQty = false;
+                                }
+                            }
+                        }
+                    });
+
+                    if(MaxstockQty == false){
+                        ShowPopUp(Message,mes);
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }
+            }else{
+
+
+                $('.InStockContainer').each(function() {
+
+                    if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
+                        if(parseInt($(this).attr('data-itemStockVal')) < parseInt($("#VMQuantityOrdered").val())){
+
+                            if($(this).attr('data-isAllowBackOrder') == "False"){
+                                MaxstockQty = false;
+                            }
+                        }
+                    }
+                });
+
+                if(MaxstockQty == false){
+                    ShowPopUp(Message,opt);
+                    return false;
+                }else{
+                    ShowLoader();
+                    return true;
+                }
+            }
+        }
+    }
+
+    $(document).ready(function() {
+
+        isImageUploadedOnLandingPage = @ViewBag.AttachmentCount;
+
+        $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+        $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
+
+        SelectedFirstPaperIfNoPaperSelected();
+
+
+        hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
+
+        MatrixToggle();
+        if (isRanged) {
+            if ($("#rangedQuantityOrdered").val() == "") {
+            } else {
+                CalculatePriceBaseOnRangedQuantity();
+            }
+
+        } else {
+            CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
+        }
+
+        SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
+
+        SetAddOnsPriceOnPageLoad();
+
+        SetCostCentreQueueLabelsOnModify();
+
+    });
+
+    $("#priceToggle").click(function() {
+        $('#priceMatrixContainer').slideToggle();
+    });
+
+    function SelectedFirstPaperIfNoPaperSelected() {
+        var isPaperSelected = false;
+        $('input:radio[name=StockPaper]').each(function() {
+            if ($(this).is(':checked')) {
+                isPaperSelected = true;
+            }
+        });
+
+        if(isPaperSelected == false){
+            $('input:radio[name=StockPaper]').each(function() {
+                $(this).prop('checked', true);
+                return false;
+            });
+        }
+    }
+
+
+
+    function MatrixToggle() {
+
+        var hideMessage = "Hide Price Table"; //Resources.MyResource.HidePriceMatrix;
+        var showMessage = "Show Price Table"; //Resources.MyResource.ShowPriceMatrix;
+        if ($('#toggleHeading').text() == hideMessage) {
+            $('#toggleHeading').text(showMessage);
+            $('#ToogleTable').css("margin-bottom", "0px");
+            $('#cntTabLabel').css("display", "none");
+            $('#matrixHeadingsContainer').css("display", "none");
+        } else {
+            $('#toggleHeading').text(hideMessage);
+            $('#ToogleTable').css("margin-bottom", "10px");
+            $('#matrixHeadingsContainer').css("display", "block");
+            $('#cntTabLabel').css("display", "block");
+
+        }
+    }
+
+    function CalculatePriceBaseOnRangedQuantity() {
+
+        var QuantityOrdered = $("#rangedQuantityOrdered").val();
+
+        if (isNaN(QuantityOrdered) === true) {
+
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlonlynumericcharter", UserCookieManager.WBStoreId, "Please enter numeric characters only."))');
+            return false;
+        } else if (QuantityOrdered == 0) {
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlentercorrectquantity", UserCookieManager.WBStoreId, "Please enter correct quantity."))');
+            return false;
+        } else if (QuantityOrdered.toString().indexOf(".") != -1) {
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlentercorrectquantity", UserCookieManager.WBStoreId, "Please enter correct quantity."))');
+            return false;
+        } else if (QuantityOrdered < 0) {
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlentercorrectquantity", UserCookieManager.WBStoreId, "Please enter correct quantity."))');
+            return false;
+        }
+
+
+        var selectedStockType = StockNo();
+
+        var Price = null;
+        var qtyJsonData = null;
+        var ActualqtyJsonData = null;
+        var count = $(JsonData).length;
+        if (QuantityOrdered != "") {
+            var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
+            var JsonFirstObject = $(JsonData)[0];
+            var JsonLastObject = "";
+            var OrderedJasonObject = "";
+            for (var i = count - 1; i < $(JsonData).length; i++) {
+                JsonLastObject = $(JsonData)[i];
+            }
+
+            if (QuantityOrdered < JsonFirstObject.QtyRangeFrom || QuantityOrdered > JsonLastObject.QtyRangeTo) {
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlqunatityexceeds", UserCookieManager.WBStoreId, "Your quantity exceed the normal amount, please contact us for a special price."))');
+                return false;
+            } else {
+                count = $(JsonData).length;
+
+                for (var i = 0; i < count; i++) {
+
+                    if (QuantityOrdered >= $(JsonData)[i].QtyRangeFrom && QuantityOrdered <= $(JsonData)[i].QtyRangeTo) {
+
+                        OrderedJasonObject = $(JsonData)[i];
+                        break;
+                    }
+
+                }
+
+
+                if (OrderedJasonObject != null) {
+
+                    selectedStockType = selectedStockType + '_PriceMatrixID_' + OrderedJasonObject.ItemID;
+
+                    Price = parseFloat($('#' + selectedStockType).attr("title").replace(",",""));
+
+                    $("#VMPrice").val(parseFloat($('#' + selectedStockType).attr("data-actualprice").replace(",","")) * QuantityOrdered);
+                    Price = Price * QuantityOrdered;
+
+                    $("#VMQuantityOrdered").val(QuantityOrdered);
+                    $("#VMJsonMatrix").val(JSON.stringify(OrderedJasonObject));
+
+
+                    this.displayTotalPrice(Price, calculateAddOns(true));
+
+                }
+            }
+        } else {
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("plzenterquant", UserCookieManager.WBStoreId, "Please enter quantity."))');
+            return false;
+        }
+    }
+
+    function CalculatePriceBaseOnSelectedQuantity(selectedQuantityIndex) {
+
+        var selectedStockNo = StockNo();
+
+        var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
+        JsonData = JsonData[selectedQuantityIndex];
+        selectedStockNo = selectedStockNo + '_PriceMatrixID_' + JsonData.ItemID.toString();
+
+        var price = "";
+
+        price = parseFloat($('#' + selectedStockNo).attr("title").replace(",",""));
+
+        $("#VMPrice").val(parseFloat($('#' + selectedStockNo).attr("data-actualprice").replace(",","")));
+        $("#VMJsonMatrix").val(JSON.stringify(JsonData));
+
+        $("#VMQuantityOrdered").val($(".dropdownQtyListClass").find(":selected").text());
+        this.displayTotalPrice(price, calculateAddOns(true));
+    }
+
+    $(".dropdownQtyListClass").change(function() {
+
+        CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
+    });
+
+    function SelectStockOption(classname) {
+
+        $('input:radio[class=' + classname + ']').prop('checked', true);
+
+        if ($('input:radio[class=' + classname + ']').is(':checked')) {
+
+            $('input:radio[class=' + classname + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+
+            var name = $('input:radio[class=' + classname + ']').attr("name");
+
+            $('input:radio[name=' + name + ']').each(function() {
+                if ($(this).is(':checked')) {
+                    $("#lblStock").text($(this).next().text());
+                    $(this).parent().parent().parent().parent().addClass('white_background');
+                    $(this).parent().parent().parent().parent().css("background-color", "white");
+                } else {
+                    $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+                }
+            });
+
+
+
+            var stockID = $('input:radio[class=' + classname + ']').attr("data-stockid");
+            var ItemstockOptionID = $('input:radio[class=' + classname + ']').attr("data-Id");
+
+            $("#VMStockId").val(stockID);
+            $("#VMItemStockOptionId").val(ItemstockOptionID);
+            hideShowPriceColumns(classname);
+
+
+            $('.InStockContainer').each(function() {
+                if($(this).attr('data-StockOptionid') == ItemstockOptionID){
+                    $(this).css("display", "block");
+                    if($(this).attr('data-isItemInStock') == 1){
+                        $("#AddTOCart").removeAttr('disabled');
+                    }else{
+                        $("#AddTOCart").attr('disabled','disabled');
+                    }
+                }else{
+                    $(this).css("display", "none");
+                }
+            });
+        }
+
+
+        if (isRanged) {
+            if ($("#rangedQuantityOrdered").val() == "") {
+            } else {
+                CalculatePriceBaseOnRangedQuantity();
+            }
+        } else {
+            CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
+        }
+
+        LoadCostCentersByStockId(ItemstockOptionID);
+    }
+
+
+    function hideShowPriceColumns(selectedPaperType) {
+
+        var mattClomuns = $(".mattPriceMatrixColumn");
+        var glossyColumns = $(".glossyPriceMatrixColumn");
+        var premimumMattColumns = $(".premiumMattPriceMatrixColumn");
+        var forthColumn = $(".Stock4PriceMatrixColumn");
+        var fifthColumn = $(".Stock5PriceMatrixColumn");
+        var SixColumn = $(".Stock6PriceMatrixColumn");
+        var SevenColumn = $(".Stock7PriceMatrixColumn");
+        var eightColumn = $(".Stock8PriceMatrixColumn");
+        var nineColumn = $(".Stock9PriceMatrixColumn");
+        var tenthColumn = $(".Stock10PriceMatrixColumn");
+        var elevenColumn = $(".Stock11PriceMatrixColumn");
+
+        hideColumns(mattClomuns);
+        hideColumns(glossyColumns);
+        hideColumns(premimumMattColumns);
+        hideColumns(forthColumn);
+        hideColumns(fifthColumn);
+        hideColumns(SixColumn);
+        hideColumns(SevenColumn);
+        hideColumns(eightColumn);
+        hideColumns(nineColumn);
+        hideColumns(tenthColumn);
+        hideColumns(elevenColumn);
+
+        if (selectedPaperType == 'rbStockType1') {
+            showColumns(mattClomuns);
+        } else if (selectedPaperType == 'rbStockType2') {
+            showColumns(glossyColumns);
+        } else if (selectedPaperType == 'rbStockType3') {
+            showColumns(premimumMattColumns);
+        } else if (selectedPaperType == 'rbStockType4') {
+            showColumns(forthColumn);
+        } else if (selectedPaperType == 'rbStockType5') {
+            showColumns(fifthColumn);
+        } else if (selectedPaperType == 'rbStockType6') {
+            showColumns(SixColumn);
+        } else if (selectedPaperType == 'rbStockType7') {
+            showColumns(SevenColumn);
+        } else if (selectedPaperType == 'rbStockType8') {
+            showColumns(eightColumn);
+        } else if (selectedPaperType == 'rbStockType9') {
+            showColumns(nineColumn);
+        } else if (selectedPaperType == 'rbStockType10') {
+            showColumns(tenthColumn);
+        } else if (selectedPaperType == 'rbStockType11') {
+            showColumns(elevenColumn);
+        }
+    }
+
+    function showColumns(columnsListObj) {
+
+        $(columnsListObj).css("display", "block");
+    }
+
+
+    function hideColumns(columnsListObj) {
+        $(columnsListObj).css("display", "none");
+    }
+
+    function displayTotalPrice(itemPrice, addOnPrice) {
+
+        itemPrice = parseFloat(itemPrice);
+        addOnPrice = parseFloat(addOnPrice);
+
+
+
+        $("#VMItemId").val(@ViewBag.ClonedItemId);
+        $("#VMOrderId").val(@ViewBag.Order.EstimateId);
+        // this condition sets the total to zero because no quantity is selected
+        if (isRanged) {
+            if ($("#rangedQuantityOrdered").val() == "") {
+                if (addOnPrice == 0 && itemPrice > 0) {
+                    itemPrice = 0;
+                }
+            }
+        }
+
+
+        var culturee = 1;
+
+        var IsInt = "";
+        IsInt = itemPrice;
+
+        if (IsInt == 0) {
+        } else {
+            IsInt = IsInt.toString();
+            var indexOfDot = IsInt.indexOf(".");
+            var indexOfComma = IsInt.indexOf(",");
+
+            if (indexOfDot == -1 || indexOfComma == -1) {
+
+                IsInt = -1;
+            } else {
+                IsInt = 1;
+            }
+
+        }
+
+        TotalItemPrice = itemPrice;
+        TotalItemPrice = TotalItemPrice.toFixed(2);
+
+        var GrossTotal = itemPrice + addOnPrice;
+        GrossTotal = GrossTotal.toFixed(2).toString();
+
+        var isShowPricing = 1;
+
+        if (isShowPricing == 1) {
+            if (IsInt == -1) {
+                $('#lblGrossTotal').text(GrossTotal);
+            } else {
+                $('#lblGrossTotal').text(GrossTotal);
+            }
+        } else {
+            $('#lblGrossTotal').css("display", "none");
+        }
+        if (parseFloat(GrossTotal) > 0) {
+            isPriceSelected = 1;
+        }
+    }
+
+    // returns the the selected stock no
+    function StockNo() {
+        var stockName = $('input:radio[name=StockPaper]:checked').attr("class");
+        if (stockName == 'rbStockType1') {
+            return '1';
+        } else if (stockName == 'rbStockType2') {
+            return '2';
+        } else if (stockName == 'rbStockType3') {
+            return '3';
+        } else if (stockName == 'rbStockType4') {
+            return '4';
+        } else if (stockName == 'rbStockType5') {
+            return '5';
+        } else if (stockName == 'rbStockType6') {
+            return '6';
+        } else if (stockName == 'rbStockType7') {
+            return '7';
+        } else if (stockName == 'rbStockType8') {
+            return '8';
+        } else if (stockName == 'rbStockType9') {
+            return '9';
+        } else if (stockName == 'rbStockType10') {
+            return '10';
+        } else if (stockName == 'rbStockType11') {
+            return '11';
+        }
+    }
+
+    function calculateAddOns(isReCalCostCentreOnQuantityChange) {
+
+        var checkedPriceTotal = 0;
+
+        var selectedCheckBox = null;
+
+        var unCheckedBox = null;
+
+        var JsonToSubmit = [];
+
+        var itemsList = '';
+
+        // all available cost centres
+        var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
+
+        var alreadyAddedCostCentres = null;
+
+        if ($("#VMJsonAddOns").val() != "") {
+
+            if ($("#VMJsonAddOns").val().length == 2) {
+                alreadyAddedCostCentres = null;
+            } else {
+                alreadyAddedCostCentres = jQuery.parseJSON($("#VMJsonAddOns").val());
+            }
+
+        }
+        var isUpdateJson = 0;
+        $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
+
+            if ($(val).is(':checked')) {
+
+                // countOfCostCentresTicked = parseInt(countOfCostCentresTicked) + 1;
+                if (addOnJasonData != null) {
+                    for (var i = 0; i < $(addOnJasonData).length; i++) {
+
+                        if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
+                            if (alreadyAddedCostCentres != null) {
+                                var breakLoop = 0;
+                                var isRecordAdded = 0;
+                                for (var q = 0; q < $(alreadyAddedCostCentres).length; q++) {
+                                    // if ticked cost centre is already added to the jason queue then pick the cos centre from jason queue
+                                    if (alreadyAddedCostCentres[q].CostCenterId == $(addOnJasonData)[i].CostCenterId) {
+
+                                        JsonToSubmit.push(alreadyAddedCostCentres[q]);
+                                        breakLoop = 1;
+                                        isRecordAdded = 1;
+                                        break;
+                                    }
+
+                                    if (breakLoop == 1) {
+                                        breakLoop = 0;
+                                        break;
+                                    }
+                                }
+                                // else pick the item from actual costcentres queue
+                                if (isRecordAdded == 0) {
+                                    JsonToSubmit.push($(addOnJasonData)[i]);
+                                }
+                            } else {
+                                //pick the item from actual costcentres queue
+                                JsonToSubmit.push($(addOnJasonData)[i]);
+                            }
+
+                            selectedCheckBox = $(addOnJasonData)[i];
+                            break;
+                        }
+                    }
+
+                    itemsList = itemsList + "<br/> " + $(val).next().text();
+
+                    // check the costcenter if its type is fixed then we will take its setup cost
+                    //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
+
+                    var actualPrice = selectedCheckBox.ActualPrice;
+
+                    @*if (selectedCheckBox.Type == 2) {
+                            var ActualPriceIncludeVat = 0;
+                            if (isRanged) {
+                                var quantityOrdered = $("#rangedQuantityOrdered").val();
+                                actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
+                                if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
+                                    actualPrice = selectedCheckBox.MinimumCost;
+                                }
+                                ActualPriceIncludeVat = actualPrice + ((actualPrice * @ViewBag.TaxRate) / 100);
+                                ActualPriceIncludeVat = (ActualPriceIncludeVat).toFixed(2).toString();
+                            } else {
+                                var quantityOrdered = $(".dropdownQtyListClass").find(":selected").val();
+
+                                actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
+                                if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
+                                    actualPrice = selectedCheckBox.MinimumCost;
+
+                                }
+                                ActualPriceIncludeVat = actualPrice + ((actualPrice * @ViewBag.TaxRate) / 100);
+                                ActualPriceIncludeVat = (ActualPriceIncludeVat).toFixed(2).toString();
+                            }
+                            $("#VMAddOnrice").val(actualPrice);
+
+                            checkedPriceTotal = checkedPriceTotal + parseFloat(ActualPriceIncludeVat);
+
+                        } else if (selectedCheckBox.Type == 4) {*@ // gets the value from the label
+
+                    if ($(val).next().next().children(':first').text() == "") {
+
+                    } else {
+
+                        if (isReCalCostCentreOnQuantityChange == true) {
+                            PromptQuestion(selectedCheckBox.CostCenterId, $(val).attr('id'), selectedCheckBox.Type, 2, selectedCheckBox.QuantitySourceType, selectedCheckBox.TimeSourceType);
+                            checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
+                            $("#VMAddOnrice").val(checkedPriceTotal);
+
+                        }
+
+
+                    }
+
+                    if (!$(val).hasClass('userDefined')) {
+                        $(val).addClass('userDefined');
+                    }
+
+
+                    //} else {
+                    //    checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
+
+                    //}
+
+                    //     selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
+
+                }
+            } else {
+                // in case of user defined cost centre remove the calculated price and modify button when this costcentre will be un checked
+                if ($(val).hasClass('userDefined')) {
+                    $(val).next().next().html('');
+                }
+            }
+
+            $("#VMJsonAddOns").val(JSON.stringify(JsonToSubmit));
+
+            selectedCheckBox = null;
+
+        });
+
+
+
+        if (isReCalCostCentreOnQuantityChange == true) {
+            isReCalCostCentreOnQuantityChange = false;
+            controlsArrayOnQtyChange = [];
+        }
+
+        $('#lblExtra').html(itemsList);
+
+        return checkedPriceTotal;
+    }
+
+
+    $('input[name=addOnChecks]').on('change', function(e) {
+
+        //displayTotalPrice(TotalItemPrice, calculateAddOns(false));
+        calculateAddOns(false);
+    });
+
+
+    function SetAddOnsPriceOnPageLoad() {
+
+        var selectedCheckBox = null;
+        var unSelectedCheckBox = null;
+        var itemsList = '';
+
+        var orderedQuantity = $(".dropdownQtyListClass").find(":selected").val();
+
+        if (isRanged) {
+            orderedQuantity = $("#rangedQuantityOrdered").val();
+
+        }
+
+        var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
+        console.log(addOnJasonData);
+        @*var selectedStockItemId = parseInt(@ViewBag.SelectedStockItemId);
+        console.log("parseInt()" + selectedStockItemId);*@
+        //$(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
+
+            if (addOnJasonData != null) {
+      
+                for (var i = 0; i < $(addOnJasonData).length; i++) {
+                    selectedCheckBox = $(addOnJasonData)[i];
+                    
+                    if (selectedCheckBox.isChecked == 1) {
+                        console.log($(addOnJasonData)[i].Id + "=" + $(addOnJasonData)[i].isChecked);
+                        var ActualPriceIncludeVatOnModifyingProductCase = selectedCheckBox.ActualPrice + ((selectedCheckBox.ActualPrice * @ViewBag.TaxRate) / 100);
+                        ActualPriceIncludeVatOnModifyingProductCase =   "@ViewBag.Currency" + (ActualPriceIncludeVatOnModifyingProductCase).toFixed(2).toString();
+                        if(selectedCheckBox.Type == 3){ // quantity cc
+                            if(selectedCheckBox.QuantitySourceType == 1){
+                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase  + '</label>');
+                            }else{
+                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                            }
+                        }else if(selectedCheckBox.Type == 2){
+                            if(selectedCheckBox.TimeSourceType == 1){
+                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
+                            }else{
+                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                            }
+
+                        }else{
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                        }
+                        $("#" + $(addOnJasonData)[i].Id).click();
+                    }
+                    $("#" + $(addOnJasonData)[i].Id).attr('onclick', 'PromptQuestion(' + selectedCheckBox.CostCenterId + ', ' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type + ', \"New\",'+ selectedCheckBox.QuantitySourceType +',' + selectedCheckBox.TimeSourceType + ');');
+
+                    $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
+
+         
+              
+                }
+            }
+           // itemsList = itemsList + ", " + $(this).parent().next().text();
+
+            // check the costcenter if its type is fixed then we will take its setup cost
+            //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
+            //var actualPrice = selectedCheckBox.ActualPrice;
+            console.log(selectedCheckBox.isChecked);
+            
+
+            
+        //});
+
+        selectedCheckBox = null;
+        unSelectedCheckBox = null;
+    }
+
+    function ShowArtworkPanel() {
+        //   var panelHtml = $("#pnlArtworkUploader").html();
+        CreateGenericPopup('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadartwork", UserCookieManager.WBStoreId, "Upload Artwork"))',"pnlArtworkUploader");
+        $("#pnlArtworkUploader").css("display","block");
+        // ShowArtWorkPopup("Upload Artwork", panelHtml);
+        $('.imageUploader').change(function () {
+            data = new FormData();
+            var files = $(this)[0].files;
+
+            var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
+            fileExtension = name1.substr(name1.lastIndexOf('.') + 1);
+
+            if (files.length > 0) {
+
+                for (i = 0; i < files.length; i++) {
+                    data.append("file" + i, files[i]);
+                }
+            }
+        });
+
+    }
+    function openDailog() {
+
+        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png" ].indexOf(fileExtension) > -1 )
+        {
+            HideMessagePopUpGeneric();
+            ShowLoader();
+            var files = $('#imageUploader')[0].files;
+
+            var sideOFImage = $("#uploadedImageSide").val();
+            if (sideOFImage == 0) {
+                sideOFImage = 1;
+                $("#uploadedImageSide").val(1);
+            } else {
+                sideOFImage = parseInt(sideOFImage) + 1;
+                $("#uploadedImageSide").val(sideOFImage);
+            }
+
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth(); //January is 0!
+            var yyyy = today.getFullYear();
+            var monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            var FileName = yyyy + monthNames[mm] + dd;
+            FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
+            var url = "mpc_content/Attachments/";
+            url = url.concat('@UserCookieManager.WEBOrganisationID', "/", '@UserCookieManager.WBStoreId', "/Products/", @ViewBag.ClonedItem.ItemId);
+
+            while (url.indexOf('/') != -1)
+                url = url.replace("/", "__");
+
+            while (FileName.indexOf('/') != -1)
+                FileName = FileName.replace("/", "__")
+            if (data != "") {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/designerapi/AttachmentUploader/PostAsync/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function(messages) {
+
+                        sideOFImage = parseInt(sideOFImage) + 1;
+                        $("#uploadedImageSide").val(sideOFImage);
+                        if (messages[0] == "Success") {
+                            console.log(messages[1]);
+                            $("#attachmentUploadContainer").html(messages[1]);
+                            isImageUploadedOnLandingPage = 1;
+                            HideLoader();
+                        } else {
+                            ShowPopUp('Message', messages[0]);
+                        }
+
+
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        //alert("Error while invoking the Web API");
+                        alert(thrownError);
+                        HideLoader();
+                    }
+                });
+            }else
+            {
+                HideMessagePopUpGeneric();
+                HideLoader();
+                console.log(files);
+                alert(files.length);
+            }
+        }
+        else
+        {
+            HideMessagePopUpGeneric();
+            ShowPopUp('Message','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of png,pdf,jpg,eps,tiff,csv,xls,xlsx."))');
+        }
+
+    }
+
+
+    function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
+
+        ShowLoader();
+        var URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+        window.location.href = URL;
+    }
+
+    function PromptQuestion(CostCentreId, ControlId, CostCentreType, Mode, QuantitySourceType, TimeSourceType) {
+
+        var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
+        if ($("#" + ControlId).is(':checked')) {
+            var addModifyLinkToCCValue = 0;
+
+            if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                if(QuantitySourceType == 1){ // do not process the queue for prompting values else execute it as it is of variable type
+
+                }else{ // process the input queue and prompt for values
+                    addModifyLinkToCCValue = 1;
+                }
+            }else if(CostCentreType == 2){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+
+                if(TimeSourceType == 1){ // do not process the queue for prompting values else execute it as it is of variable type
+
+                }else{ // process the input queue and prompt for values
+                    addModifyLinkToCCValue = 1;
+                }
+            }
+            if (Mode == 2) {// This condition will excute when quantity changed and user already selected some cost centres
+                var CostCentreCount = 0; // if count == ticked costcenter counts means all costcentres executed when quantity changed
+                ShowLoader();
+                countOfCostCentresTicked = 0;
+
+                // var controlsArrayOnQtyChange = [];
+
+                $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
+
+                    if ($(val).is(':checked')) {
+                        countOfCostCentresTicked = parseInt(countOfCostCentresTicked) + 1;
+                    }
+                });
+                var to;
+                to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=UpdateAllCostCentreOnQuantityChange";
+                var options = {
+                    type: "POST",
+                    url: to,
+                    data: $("#costCentreQueueItems").val(),
+                    contentType: "application/json",
+                    async: true,
+                    success: function(response) {
+
+                        if (response != "") {
+                            // console.log($("#costCentreQueueItems").val());
+                            $("#ModifiedQueueItem").val($("#costCentreQueueItems").val());
+                            var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+                            var UpdatedGlobalQueueArray = JSON.parse($("#costCentreQueueItems").val());
+                            var CostCentreQueueObjectToSaveInDB = [];
+
+                            if (updatedAddOns != null) {
+
+                                for (var i = 0; i < $(updatedAddOns).length; i++) {
+
+                                    if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
+                                        $(updatedAddOns)[i].ActualPrice = response;
+
+                                        $(updatedAddOns)[i].Type = CostCentreType;
+                                        if (CostCentreType == 4) { // question queue
+                                            for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {
+                                                if (UpdatedGlobalQueueArray.QuestionQueues[j].CostCentreID == CostCentreId) {
+                                                    CostCentreQueueObjectToSaveInDB.push(UpdatedGlobalQueueArray.QuestionQueues[j]);
+                                                }
+                                            }
+                                        } else { // input queue
+                                            for (var k = 0; k < UpdatedGlobalQueueArray.InputQueues.length; k++) {
+
+                                                if (UpdatedGlobalQueueArray.InputQueues[k].CostCentreID == CostCentreId) {
+                                                    CostCentreQueueObjectToSaveInDB.push(UpdatedGlobalQueueArray.InputQueues[k]);
+                                                }
+                                            }
+                                        }
+
+                                        if (CostCentreQueueObjectToSaveInDB.length > 0) {
+                                            $(updatedAddOns)[i].CostCentreJasonData = JSON.stringify(CostCentreQueueObjectToSaveInDB, null, 2);
+                                        }
+
+
+                                        break;
+                                    }
+                                }
+                            }
+                            // console.log("UpdatedGlobalQueueArray.QuestionQueues" + UpdatedGlobalQueueArray.QuestionQueues);
+
+
+                            if (UpdatedGlobalQueueArray.QuestionQueues != null) {
+                                var QuestionQueueDBObject = [];
+                                if(UpdatedGlobalQueueArray.QuestionQueues.length > 0){
+                                    addModifyLinkToCCValue = 1;
+                                }
+                                if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
+
+                                    if(UpdatedGlobalQueueArray.QuestionQueues.length > 0){
+                                        addModifyLinkToCCValue = 1;
+                                    }
+
+                                }
+                                for (var m = 0; m < UpdatedGlobalQueueArray.QuestionQueues.length; m++) {
+
+                                    QuestionQueueDBObject.push(UpdatedGlobalQueueArray.QuestionQueues[m]);
+
+                                }
+
+                                if (QuestionQueueDBObject.length > 0) {
+                                    $("#VMJsonAddOnsQuestionQueue").val(JSON.stringify(QuestionQueueDBObject, null, 2));
+                                }
+                            }
+
+                            if (UpdatedGlobalQueueArray.InputQueues != null) {
+                                var InputQueueDBObject = [];
+
+                                if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
+
+
+                                    if(UpdatedGlobalQueueArray.InputQueues.length == 3){ // do not process the queue for prompting values
+
+                                    }else{
+                                        addModifyLinkToCCValue = 1;
+                                    }
+
+                                }
+                                for (var n = 0; n < UpdatedGlobalQueueArray.InputQueues.length; n++) {
+
+                                    InputQueueDBObject.push(UpdatedGlobalQueueArray.InputQueues[n]);
+
+                                }
+
+                                if (InputQueueDBObject.length > 0) {
+                                    $("#VMJsonAddOnsInputQueue").val(JSON.stringify(InputQueueDBObject, null, 2));
+                                }
+                            }
+                            //console.log("UpdatedGlobalQueueArray.InputQueues" + UpdatedGlobalQueueArray.InputQueues + $("#VMJsonAddOnsInputQueue").val());
+
+                            var JsonToReSubmit = [];
+
+                            var totalVal = 0;
+                            var TaxAppliedValue = 0;
+                            // add checked cost centre values to gross total
+                            for (var i = 0; i < $(updatedAddOns).length; i++) {
+
+                                JsonToReSubmit.push($(updatedAddOns)[i]);
+                                if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
+
+                                    TaxAppliedValue = parseFloat($(updatedAddOns)[i].ActualPrice);
+                                    TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * parseFloat("@ViewBag.TaxRate")) / 100);
+
+                                    totalVal = parseFloat(totalVal) + parseFloat(TaxAppliedValue);
+                                }
+
+
+                            }
+
+                            displayTotalPrice(TotalItemPrice, totalVal);
+
+
+                            if(addModifyLinkToCCValue == 1){
+                                // $("#extrapricing" + ControlId).html('<label>' + "@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + ControlId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                                controlsArrayOnQtyChange.push({controlId : "#extrapricing" + ControlId , controlValue: '<label>' + "@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + ControlId + ',' + CostCentreType + ', 1);" >Modify</a> '});
+
+                            }else{
+                                //$("#extrapricing" + ControlId).html('<label>' +"@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString()+ '</label>');
+                                controlsArrayOnQtyChange.push({controlId : "#extrapricing" + ControlId , controlValue: '<label>' +"@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString()+ '</label>'});
+                            }
+
+                            $("#VMAddOnrice").val(totalVal);
+                            $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
+                        }
+
+                        countOfCostCentreOnwhichActionIsPerformed = parseInt(countOfCostCentreOnwhichActionIsPerformed) + 1;
+
+                        if(countOfCostCentresTicked == countOfCostCentreOnwhichActionIsPerformed){
+                            //console.log();
+                            countOfCostCentreOnwhichActionIsPerformed = 0;
+                            $.each(controlsArrayOnQtyChange, function (i, ite) {
+
+                                $(ite.controlId).html(ite.controlValue);
+                            });
+                            HideLoader();
+                        }
+
+                    },
+                    error: function(msg) {
+                        HideLoader();
+                        console.log(msg);
+                        ShowPopUp("Error", "'"+ msg.responseText + "'");
+
+                    }
+                };
+                var returnText = $.ajax(options).responseText;
+
+            } else if (Mode == 1) {// This condition executes when we modify the selected cost centre
+                ShowLoader();
+
+                var to;
+                to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=Modify";
+                var options = {
+                    type: "POST",
+                    url: to,
+                    data: $("#costCentreQueueItems").val(),
+                    contentType: "application/json",
+                    async: true,
+                    success: function(response) {
+                        var isQueueExistOnModify = false;
+                        var QuestionQueueObjectOnModify = response[2];
+                        var InputQueueObjectOnModify = response[7];
+                        var WorkInstObjectOnModify =  response[3][0].WorkInstructions;
+
+                        if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
+                            if(QuestionQueueObjectOnModify != null){ // process the question queue and prompt for values
+                                if(QuestionQueueObjectOnModify.length > 0){
+                                    isQueueExistOnModify = true;
+                                    ShowCostCentrePopup(QuestionQueueObjectOnModify, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, InputQueueObjectOnModify, CostCentreType, @ViewBag.TaxRate, WorkInstObjectOnModify);
+                                }
+                            }
+                            if(isQueueExistOnModify == false){ // process the question queue and prompt for values
+                                if(WorkInstObjectOnModify != null && WorkInstObjectOnModify.length > 0){
+                                    isQueueExistOnModify = true;
+                                    ShowCostCentrePopup(QuestionQueueObjectOnModify, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, InputQueueObjectOnModify, CostCentreType, @ViewBag.TaxRate, WorkInstObjectOnModify);
+                                }
+                            }
+                        }else if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                            if(InputQueueObjectOnModify != null){
+                                if(QuantitySourceType == 1){ // do not process the queue for prompting values bcoz it is of variable type as QuantitySourceType = 1
+                                    isQueueExistOnModify = true;
+                                }else{ // process the input queue and prompt for values
+                                    isQueueExistOnModify = true;
+                                    if(InputQueueObjectOnModify.Items == null){
+                                        ShowInputCostCentrePopup(InputQueueObjectOnModify, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObjectOnModify, CostCentreType, @ViewBag.TaxRate, WorkInstObjectOnModify);
+                                    }else{
+                                        ShowInputCostCentrePopup(InputQueueObjectOnModify.Items, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObjectOnModify, CostCentreType, @ViewBag.TaxRate, WorkInstObjectOnModify);
+                                    }
+
+                                }
+                            }
+
+                        }else if(CostCentreType == 2){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                            if(InputQueueObjectOnModify != null){
+                                if(TimeSourceType == 1){ // do not process the queue for prompting values bcoz it is of variable type as QuantitySourceType = 1
+                                    isQueueExistOnModify = true;
+                                }else{ // process the input queue and prompt for values
+                                    isQueueExistOnModify = true;
+                                    if(InputQueueObjectOnModify.Items == null){
+                                        ShowInputCostCentrePopup(InputQueueObjectOnModify, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObjectOnModify, CostCentreType, @ViewBag.TaxRate, WorkInstObjectOnModify);
+                                    }else{
+                                        ShowInputCostCentrePopup(InputQueueObjectOnModify.Items, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObjectOnModify, CostCentreType, @ViewBag.TaxRate, WorkInstObjectOnModify);
+                                    }
+
+                                }
+                            }
+                        }
+                        if(isQueueExistOnModify == false){// queue is not populating
+                            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlquenopopulating", UserCookieManager.WBStoreId, "Error:Queue is not populating."))');
+                        }
+
+                    },
+                    error: function(msg) {
+
+                        console.log(msg);
+                        ShowPopUp("Error", "'"+ msg.responseText + "'");
+
+                    }
+                };
+                var returnText = $.ajax(options).responseText;
+
+            } else {//This condition executes when first time a cost centre is selected from landing page
+                ShowLoader();
+
+                if ($("#costCentreQueueItems").val() == 'null' || $("#costCentreQueueItems").val() == null) { // This condition will execute when cost centre queue is empty means we are adding cost centre at very first time
+                    var isQueueExist = false;
+                    var QuestionQueueObject = null;
+                    var InputQueueObject = null;
+                    var WorkInstructions = null;
+                    $.getJSON("/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=New",
+                        function(DT) {
+                            QuestionQueueObject = DT[2];
+                            InputQueueObject = DT[7];
+
+
+                            WorkInstructions = DT[3][0].WorkInstructions;
+
+                            if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
+                                if(QuestionQueueObject != null && QuestionQueueObject != ""){ // process the question queue and prompt for values
+                                    if(QuestionQueueObject.length > 0){
+                                        isQueueExist = true;
+                                        ShowCostCentrePopup(QuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, InputQueueObject.Items, CostCentreType, @ViewBag.TaxRate, WorkInstructions);
+                                    }
+                                    if(InputQueueObject.Items.length == 3){ // do not process the queue for prompting values
+                                        isQueueExist = true;
+                                    }
+                                }else if(isQueueExist == false){ // process the question queue and prompt for values
+                                    isQueueExist = true;
+                                    if(WorkInstructions != null && WorkInstructions.length > 0){
+                                        isQueueExist = true;
+                                        ShowCostCentrePopup(QuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, InputQueueObject.Items, CostCentreType, @ViewBag.TaxRate, WorkInstructions);
+                                    }else{
+                                        SetGlobalCostCentreQueue(QuestionQueueObject, null, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false, @ViewBag.TaxRate);
+                                    }
+                                }
+                            }else if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                                if(QuantitySourceType == 1){ // do not process the queue for prompting values else execute it as it is of variable type
+                                    isQueueExist = true;
+                                    SetGlobalCostCentreQueue(QuestionQueueObject, InputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false, @ViewBag.TaxRate);
+                                }else{ // process the input queue and prompt for values
+                                    isQueueExist = true;
+                                    ShowInputCostCentrePopup(InputQueueObject.Items, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObject, CostCentreType, @ViewBag.TaxRate, WorkInstructions);
+                                }
+                            }else if(CostCentreType == 2){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+
+                                if(TimeSourceType == 1){ // do not process the queue for prompting values else execute it as it is of variable type
+                                    isQueueExist = true;
+                                    SetGlobalCostCentreQueue(QuestionQueueObject, InputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false, @ViewBag.TaxRate);
+                                }else{ // process the input queue and prompt for values
+                                    isQueueExist = true;
+                                    ShowInputCostCentrePopup(InputQueueObject.Items, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObject, CostCentreType, @ViewBag.TaxRate, WorkInstructions);
+                                }
+                            }
+                            if(isQueueExist == false){// queue is not populating
+                                alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlquenopopulating", UserCookieManager.WBStoreId, "Error:Queue is not populating."))');
+                                HideLoader();
+                            }
+                        });
+
+                } else { // This conditon will execute when atleast when cost centre is executed/selected and requesting to add another cost centre
+                    var to;
+                    to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=addAnother";
+                    var options = {
+                        type: "POST",
+                        url: to,
+                        data: $("#costCentreQueueItems").val(),
+                        contentType: "application/json",
+                        async: true,
+                        success: function(response) {
+
+                            // This Section update the global queue List object
+                            var AnOtherQuestionQueueObject = response[2];
+                            var AnOtherInputQueueObject = response[7];
+                            var AnOtherWorkInstructions =  response[3][0].WorkInstructions;
+
+                            // This section will prompt the cost centre
+                            if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
+
+                                if(AnOtherQuestionQueueObject != null && AnOtherQuestionQueueObject != ""){ // process the question queue and prompt for values
+                                    if(AnOtherQuestionQueueObject.length > 0){
+                                        var arrayOfQuestionQueueObjects = [];
+                                        for (var i = 0; i < $(AnOtherQuestionQueueObject).length; i++) {
+                                            if ($(AnOtherQuestionQueueObject)[i].CostCentreID == CostCentreId) {
+                                                arrayOfQuestionQueueObjects.push($(AnOtherQuestionQueueObject)[i]);
+                                            }
+                                        }
+                                        var data = JSON.parse($("#costCentreQueueItems").val());
+
+                                        if(data.QuestionQueues == null){
+                                            data.QuestionQueues = [];
+                                        }
+
+                                        for(var i =0; i < arrayOfQuestionQueueObjects.length;i++)
+                                        {
+                                            data.QuestionQueues.push( arrayOfQuestionQueueObjects[i]);
+                                        }
+                                        $("#costCentreQueueItems").val(JSON.stringify(data, null, 2));
+
+                                        ShowCostCentrePopup(arrayOfQuestionQueueObjects, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice,AnOtherInputQueueObject, CostCentreType, @ViewBag.TaxRate, AnOtherWorkInstructions);
+                                    }
+                                }else if(AnOtherWorkInstructions != null && AnOtherWorkInstructions != ""){ // process the question queue and prompt for values
+
+                                    ShowCostCentrePopup(AnOtherQuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice,AnOtherInputQueueObject, CostCentreType, @ViewBag.TaxRate, AnOtherWorkInstructions);
+
+                                }
+                                else{
+
+                                    SetGlobalCostCentreQueue(AnOtherQuestionQueueObject, AnOtherInputQueueObject, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false, @ViewBag.TaxRate);
+                                }
+                            }else if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                                if(QuantitySourceType == 1){ // do not process the queue for prompting values
+                                    SetGlobalCostCentreQueue(AnOtherQuestionQueueObject, AnOtherInputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false, @ViewBag.TaxRate);
+                                }else{ // process the input queue and prompt for values
+                                    var arrayOfInputQueueObjects = [];
+                                    for (var i = 0; i < $(AnOtherInputQueueObject.Items).length; i++) {
+                                        if ($(AnOtherInputQueueObject.Items)[i].CostCentreID == CostCentreId) {
+                                            arrayOfInputQueueObjects.push($(AnOtherInputQueueObject.Items)[i]);
+                                        }
+                                    }
+                                    var data = JSON.parse($("#costCentreQueueItems").val());
+                                    if(data.InputQueues == null){
+                                        data.InputQueues = [];
+                                    }
+                                    for(var i =0; i < arrayOfInputQueueObjects.length;i++)
+                                    {
+                                        data.InputQueues.push( arrayOfInputQueueObjects[i]);
+                                    }
+                                    $("#costCentreQueueItems").val(JSON.stringify(data, null, 2));
+
+                                    ShowInputCostCentrePopup(arrayOfInputQueueObjects, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, AnOtherQuestionQueueObject, CostCentreType, @ViewBag.TaxRate, AnOtherWorkInstructions);
+                                }
+                            }else if(CostCentreType == 2){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+
+                                if(TimeSourceType == 1){ // do not process the queue for prompting values
+                                    SetGlobalCostCentreQueue(AnOtherQuestionQueueObject, AnOtherInputQueueObject, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false, @ViewBag.TaxRate);
+                                }else{ // process the input queue and prompt for values
+                                    var arrayOfInputQueueObjects = [];
+                                    for (var i = 0; i < $(AnOtherInputQueueObject.Items).length; i++) {
+                                        if ($(AnOtherInputQueueObject.Items)[i].CostCentreID == CostCentreId) {
+                                            arrayOfInputQueueObjects.push($(AnOtherInputQueueObject.Items)[i]);
+                                        }
+                                    }
+                                    var data = JSON.parse($("#costCentreQueueItems").val());
+                                    if(data.InputQueues == null){
+                                        data.InputQueues = [];
+                                    }
+                                    for(var i =0; i < arrayOfInputQueueObjects.length;i++)
+                                    {
+                                        data.InputQueues.push( arrayOfInputQueueObjects[i]);
+                                    }
+                                    $("#costCentreQueueItems").val(JSON.stringify(data, null, 2));
+
+                                    ShowInputCostCentrePopup(arrayOfInputQueueObjects, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, AnOtherQuestionQueueObject, CostCentreType, @ViewBag.TaxRate, AnOtherWorkInstructions);
+                                }
+                            }
+                        },
+                        error: function(msg) {
+
+                            console.log(msg);
+                            ShowPopUp("Error", "'"+ msg.responseText + "'");
+
+                        }
+                    };
+                    var returnText = $.ajax(options).responseText;
+
+                }
+            }
+        }else{ // remove the added array of cost centre as cost centre is un checked and apply the price to total
+
+            var JsonAllQueueItemArray = JSON.parse($("#costCentreQueueItems").val());
+
+            if(JsonAllQueueItemArray.QuestionQueues.length > 0){
+
+                JsonAllQueueItemArray.QuestionQueues = $.grep(JsonAllQueueItemArray.QuestionQueues, function (n, i) {
+                    return (n.CostCentreID != CostCentreId);
+                });
+            }
+            if(JsonAllQueueItemArray.InputQueues.length > 0){
+                JsonAllQueueItemArray.InputQueues = $.grep(JsonAllQueueItemArray.InputQueues, function (n, i) {
+                    return (n.CostCentreID != CostCentreId);
+                });
+
+            }
+            $("#costCentreQueueItems").val(JSON.stringify(JsonAllQueueItemArray, null, 2));
+            ReAddCostCentresValuesToTotalOnUnCheck(CostCentreId);
+        }
+    }
+
+    function LoadCostCentersByStockId(StockId) {
+
+        var noRefiningOpt = 1;
+        mandatoryRefiningOptIds = "";
+        $(".CostCenterItems").each(function(i, val) {
+            if (StockId == $(val).attr('data-StockId')) {
+                $(val).css("display", "block");
+                if($(val).attr('data-ismandatory') == 1){
+
+                    if(mandatoryRefiningOptIds == ""){
+                        mandatoryRefiningOptIds = $(val).children().next().children().attr('id');
+                    }else{
+                        mandatoryRefiningOptIds = mandatoryRefiningOptIds + "," + $(val).children().next().children().attr('id');
+                    }
+                }
+
+                noRefiningOpt = 0;
+            } else {
+
+                $(val).css("display", "none");
+
+                if ($(val).children().next().children().is(':checked')) {
+                    $(val).children().next().children().click();
+
+                }
+            }
+
+        });
+
+        if(noRefiningOpt == 1){
+            $("#lbl_RefiningOptions").css("display", "none");
+            mandatoryRefiningOptIds = "";
+        }else{
+            $("#lbl_RefiningOptions").css("display", "block");
+        }
+    }
+
+    function SetCostCentreQueueLabelsOnModify(){
+
+        if ("@ViewBag.Mode" == "Modify") {
+            var UpdatedGlobalQueueArrayOnLoad = JSON.parse($("#costCentreQueueItems").val());
+            var CostCentreQueueObjectToSetLabels = [];
+            var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+            var CostCentreTotalTaxAppliedValue = 0;
+            var CostCentreTotalOnModify = 0;
+            if (updatedAddOns != null) {
+
+                for (var i = 0; i < $(updatedAddOns).length; i++) {
+                    CostCentreTotalTaxAppliedValue = parseFloat($(updatedAddOns)[i].ActualPrice);
+                    CostCentreTotalTaxAppliedValue = CostCentreTotalTaxAppliedValue + ((CostCentreTotalTaxAppliedValue * @ViewBag.TaxRate) / 100);
+                    CostCentreTotalOnModify = parseFloat(CostCentreTotalOnModify) + parseFloat(CostCentreTotalTaxAppliedValue);
+                    if ($(updatedAddOns)[i].Type == 4) { // question queue
+                        if(UpdatedGlobalQueueArrayOnLoad != null ){
+                            if(UpdatedGlobalQueueArrayOnLoad.QuestionQueues != null){
+                                for (var j = 0; j < UpdatedGlobalQueueArrayOnLoad.QuestionQueues.length; j++) {
+                                    if (UpdatedGlobalQueueArrayOnLoad.QuestionQueues[j].CostCentreID == $(updatedAddOns)[i].CostCentreID) {
+                                        CostCentreQueueObjectToSetLabels.push(UpdatedGlobalQueueArrayOnLoad.QuestionQueues[j]);
+                                    }
+                                }
+                            }else{
+                                console.log("Json data on modify is corrupted.");
+                            }
+                        }else{
+                            console.log("Json data on modify is corrupted.");
+                        }
+
+                    } else { // input queue
+                        if(UpdatedGlobalQueueArrayOnLoad != null ){
+                            if(UpdatedGlobalQueueArrayOnLoad.InputQueues != null){
+                                for (var k = 0; k < UpdatedGlobalQueueArrayOnLoad.InputQueues.length; k++) {
+
+                                    if (UpdatedGlobalQueueArrayOnLoad.InputQueues[k].CostCentreID == $(updatedAddOns)[i].CostCentreID) {
+                                        CostCentreQueueObjectToSetLabels.push(UpdatedGlobalQueueArrayOnLoad.InputQueues[k]);
+                                    }
+                                }
+                            }else{
+                                console.log("Json data on modify is corrupted.");
+                            }
+                        }else{
+                            console.log("Json data on modify is corrupted.");
+                        }
+
+                    }
+
+                    if (CostCentreQueueObjectToSetLabels.length > 0) {
+                        $(updatedAddOns)[i].CostCentreJasonData = JSON.stringify(CostCentreQueueObjectToSetLabels, null, 2);
+                    }
+
+                }
+            }
+
+            $('#VMJsonAddOns').val(JSON.stringify(updatedAddOns));
+            displayTotalPrice(TotalItemPrice, CostCentreTotalOnModify);
+        }
+    }
+
+    function ReAddCostCentresValuesToTotalOnUnCheck(CostCentreId){
+
+        var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+
+        var ReTaxAppliedValueOnUnCheck = 0;
+        var ReCalTotalVal = 0;
+        if (updatedAddOns != null) {
+            for (var i = 0; i < $(updatedAddOns).length; i++) {
+
+                if($(updatedAddOns)[i].CostCenterId != CostCentreId){
+                    ReTaxAppliedValueOnUnCheck = parseFloat($(updatedAddOns)[i].ActualPrice);
+                    ReTaxAppliedValueOnUnCheck = ReTaxAppliedValueOnUnCheck + ((ReTaxAppliedValueOnUnCheck * @ViewBag.TaxRate) / 100);
+                    ReCalTotalVal = parseFloat(ReCalTotalVal) + parseFloat(ReTaxAppliedValueOnUnCheck);
+
+                }
+
+            }
+        }
+        displayTotalPrice(TotalItemPrice, parseFloat(ReCalTotalVal));
+    }
+
+    function DeleteArtWork(AttachmentId, ItemId) {
+        ShowLoader();
+
+        var to;
+        to = "/webstoreapi/DeleteAttachment/DeleteArtworkAttachment?AttachmentId=" + AttachmentId + "&ItemId=" + ItemId;
+        var options = {
+            type: "POST",
+            url: to,
+            data: "",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+
+                if (response[0] == "Success") {
+                    $("#attachmentUploadContainer").html(response[1]);
+                    isImageUploadedOnLandingPage = 1;
+                    HideLoader();
+                } else if (response[0] == "NoFiles") {
+                    $("#attachmentUploadContainer").html("");
+                    isImageUploadedOnLandingPage = 0;
+                    HideLoader();
+                }
+
+            },
+            error: function (msg) {
+
+                console.log(msg);
+                ShowPopUp("Error", "'"+ msg.responseText + "'");
+
+            }
+        };
+        var returnText = $.ajax(options).responseText;
+    }
+</script>
+

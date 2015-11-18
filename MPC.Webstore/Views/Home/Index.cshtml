@@ -44,7 +44,15 @@
             @if (widget.Widget != null)
             {
                 string widgetname = widget.Widget.WidgetName;
-                Html.RenderAction("Index", widgetname);
+                if (widgetname == "ProductOptionsAndDetails")
+                {
+                    Html.RenderAction("Index", "ProductOptions", new { ViewToFire = @widgetname });
+                }
+                else 
+                {
+                    Html.RenderAction("Index", widgetname);
+                }
+                
             }
             <!--0000000000000000000 @widget.Widget.WidgetName -->
         </div>

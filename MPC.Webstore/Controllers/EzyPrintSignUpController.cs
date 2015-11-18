@@ -19,7 +19,7 @@ namespace MPC.Webstore.Controllers
     public class EzyPrintSignUpController : Controller
     {
         // GET: EzyPrintSignUp
-        private readonly ICompanyService _myCompanyService;
+       private readonly ICompanyService _myCompanyService;
         private readonly ICampaignService _campaignService;
         private readonly IUserManagerService _userManagerService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
@@ -118,7 +118,7 @@ namespace MPC.Webstore.Controllers
                         ViewData["IsSocialSignUp"] = true;
                         ViewBag.socialFirstName = model.FirstName;
                         ViewBag.socialLastName = model.LastName;
-
+                        ViewBag.Provider = Request.Form["provider"];
                         if (!string.IsNullOrEmpty(model.Email))
                         {
                             ViewBag.socialEmail = model.Email;
@@ -134,7 +134,7 @@ namespace MPC.Webstore.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (model.Password == "Password")
+                    if (model.Password == "Password" && isSocial != "1")
                     {
                         ViewBag.Message = "Please enter Password";
                         return View("PartialViews/EzyPrintSignUp");
@@ -276,7 +276,7 @@ namespace MPC.Webstore.Controllers
             contact.Email = model.Email;
             contact.Mobile = model.Phone;
             contact.Password = model.Password;
-
+            contact.TwitterURL = model.tweetURl;
             string isSocial = Request.Form["hfIsSocial"];
 
             if (Request.Form["provider"] == "tw")
