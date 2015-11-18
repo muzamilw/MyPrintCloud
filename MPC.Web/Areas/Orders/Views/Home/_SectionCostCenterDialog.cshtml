@@ -164,11 +164,13 @@
                     </div>
                 </div>
             </div>
-
+            <div class="clearfix">
+                &nbsp;
+            </div>
             <div class="modal-footer">
-                <hr />
+                
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSectionCostCenter, enable: costCentreType() != 1">Remove</button>
-
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseSectionCostCenter" style="margin-left: 0px;">Close</button>
             </div>
         </div>
     </div>

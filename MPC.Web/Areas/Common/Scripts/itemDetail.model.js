@@ -1250,6 +1250,9 @@
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
                         Qty3MarkUpValue: qty3MarkUpValue(),
+                        Qty1WorkInstructions: qty1WorkInstructions(),
+                        Qty2WorkInstructions: qty2WorkInstructions(),
+                        Qty3WorkInstructions: qty3WorkInstructions(),
                         SystemCostCentreType: systemCostCenterType(),
                         SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
                             var sectionCc = scc.convertToServerData();

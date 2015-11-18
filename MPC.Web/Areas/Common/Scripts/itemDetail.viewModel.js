@@ -1734,7 +1734,9 @@ define("common/itemDetail.viewModel",
                             updateJobDescription(phrase);
                         });
                     },
-
+                    onCloseSectionCostCenter = function() {
+                        view.hideSectionCostCenterDialogModel();
+                    },
 
                     // Update Job Description
                     updateJobDescription = function (phrase) {
@@ -2052,7 +2054,8 @@ define("common/itemDetail.viewModel",
                     selectQuantityForItem: selectQuantityForItem,
                     selectQuantity: selectQuantity,
                     selectedQtyForItem: selectedQtyForItem,
-                    openExternalReportsJob: openExternalReportsJob
+                    openExternalReportsJob: openExternalReportsJob,
+                    onCloseSectionCostCenter: onCloseSectionCostCenter
                     
                     //#endregion
                 };

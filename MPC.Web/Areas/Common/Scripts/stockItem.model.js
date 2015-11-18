@@ -3,7 +3,7 @@
 
     // ReSharper disable once InconsistentNaming
     var StockItem = function (specifiedId, specifiedname,
-        specifiedWeight, specifiedPackageQty, specifiedPerQtyQty, specifiedPrice, specifiedCompanyTaxRate, specifyInStock, specifyAllocated, specifyItemCode,specifiedActualPackCost) {
+        specifiedWeight, specifiedPackageQty, specifiedPerQtyQty, specifiedPrice, specifiedCompanyTaxRate, specifyInStock, specifyAllocated, specifyItemCode, specifiedActualPackCost, specifiedSalePackPrice) {
 
         return {
             id: specifiedId,
@@ -16,7 +16,8 @@
             inStock: specifyInStock,
             allocated: specifyAllocated,
             code: specifyItemCode,
-            actualprice: specifiedPrice
+            actualprice: specifiedPrice / specifiedPackageQty,
+            acutalPackPrice: specifiedSalePackPrice
         };
     };
 
@@ -32,7 +33,8 @@
             source.InStock,
             source.Allocated,
             source.ItemCode,
-            source.ActualPackCost
+            source.ActualPackCost,
+            source.PackCostPrice
             );
         return stockItem;
     };
