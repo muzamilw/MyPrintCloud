@@ -51,6 +51,7 @@ namespace MPC.Models.ModelMappers
             target.IsDirectCost = source.IsDirectCost;
             target.IsPurchaseOrderRaised = source.IsPurchaseOrderRaised;
             target.CostCentreId = source.CostCentreId;
+            target.SystemCostCentreType = source.SystemCostCentreType;
         }
 
         #endregion

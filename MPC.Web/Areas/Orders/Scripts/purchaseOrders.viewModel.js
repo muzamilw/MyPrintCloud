@@ -687,6 +687,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     editPurchaseDetail = function (item) {
                         // Edit only in case Opend PO
                         if (selectedPurchaseOrder().status() === 31) {
+                            if (item.productType() === 1)
+                                selectedPurchaseOrder().isproduct(1);
+                            else
+                                selectedPurchaseOrder().isproduct(2);
+
                             selectedPurchaseOrderDetail(item);
                             view.showPurchaseDetailDialog();
                             view.initializeLabelPopovers();

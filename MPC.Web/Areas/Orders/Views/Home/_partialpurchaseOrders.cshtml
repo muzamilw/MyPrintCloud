@@ -232,7 +232,7 @@
                                 <label class="control-label text-right tooltip-float">Type</label>
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="enable:!(id()!==undefined || purchaseDetails().length >0),options: $root.purchaseOrderDetailTypes, optionsText: 'name', optionsValue: 'id',value:isproduct"></select>
+                                <select class="form-control" data-bind="options: $root.purchaseOrderDetailTypes, optionsText: 'name', optionsValue: 'id',value:isproduct"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
@@ -274,63 +274,65 @@
                                             <table class="table table-striped table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 2-->
+                                                        @*<!--ko if: $root.selectedPurchaseOrder().isproduct()=== 2-->
                                                         <th class="col-sm-8"><span>Detail</span></th>
                                                         <th class="col-sm-2" style="text-align:right;"><span>Packed Price</span></th>
                                                         <th class="col-sm-2" style="text-align:right;"><span>Total Price</span></th>
                                                         <!-- /ko -->
-                                                        <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 1-->
+                                                        <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 1-->*@
                                                         <th class="col-sm-2"><span>Code</span></th>
                                                         <th class="col-sm-3"><span>Detail</span></th>
+                                                        <th class="col-sm-3"><span>Type</span></th>
                                                         <th class="col-sm-2" style="text-align:right;"><span>Packed In</span></th>
                                                         <th class="col-sm-2" style="text-align:right;"><span>Packed Price</span></th>
                                                         <th class="col-sm-1" style="text-align:right;"><span>Required</span></th>
                                                         <th class="col-sm-2" style="text-align:right;"><span>Total Price</span></th>
-                                                        <!-- /ko -->
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!--ko if: purchaseDetails().length==0-->
-                                                    <tr>
-                                                        <td>
-                                                            <span data-bind="text: 'No Items found!'"></span>
-                                                        </td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                    <!-- /ko -->
-                                                    <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 2-->
-                                                    <!-- ko template: { name: 'serviceItemTemplate', foreach: purchaseDetails } -->
-                                                    <!-- /ko -->
-                                                    <!-- /ko -->
-                                                    <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 1-->
-                                                    <!-- ko template: { name: 'productItemTemplate', foreach: purchaseDetails } -->
-                                                    <!-- /ko -->
-                                                    <!-- /ko -->
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" style="float: left; margin-top: 20px;">
-                                        <button type="button" class="btn btn-primary" data-bind="enable:$root.selectedPurchaseOrder().status()===31,click:$root.addPurchaseDetail">Add Purchase Detail</button>
-                                    </div>
-                                </div>
+                                                       @* <!-- /ko -->*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--ko if: purchaseDetails().length==0-->
+                                        <tr>
+                                            <td>
+                                                <span data-bind="text: 'No Items found!'"></span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <!-- /ko -->
+                                       @* <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 2-->
+    <!-- ko template: { name: 'serviceItemTemplate', foreach: purchaseDetails } -->
+    <!-- /ko -->
+    <!-- /ko -->
+                                        <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 1-->*@
+                                        <!-- ko template: { name: 'productItemTemplate', foreach: purchaseDetails } -->
+                                        <!-- /ko -->
+                                        @*<!-- /ko -->*@
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
+                        <div class="btn-group" style="float: left; margin-top: 20px;">
+                            <button type="button" class="btn btn-primary" data-bind="enable:$root.selectedPurchaseOrder().status()===31,click:$root.addPurchaseDetail">Add Purchase Detail</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 form-horizontal main-box-body clearfix">
-                    <div class="form-group">
-                        <div class="col-sm-2 text-right">
-                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Comments" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label text-right tooltip-float">Comments</label>*@
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 form-horizontal main-box-body clearfix">
+        <div class="form-group">
+            <div class="col-sm-2 text-right">
+                @*<div class="bs-example-tooltips tooltip-float-width">
+                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Comments" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>
+                <label class="control-label text-right tooltip-float">Comments</label>*@
                         </div>
                         <div class="col-sm-6" style="padding-left: 0px;">
                             <div class="col-sm-11" style="padding-right: 5px;padding-left: 5px;">
@@ -434,6 +436,12 @@
     <tr style="cursor: pointer">
         <td data-bind="text: itemCode,click:$root.editPurchaseDetail"></td>
         <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
+        <!--ko if: productType() === 2-->
+        <td data-bind="click:$root.editPurchaseDetail">Service</td>
+        <!-- /ko -->
+        <!--ko if: productType() === 1-->
+        <td data-bind="click:$root.editPurchaseDetail">Product</td>
+        <!-- /ko -->
         <td style="text-align:right;" data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
         <td style="text-align:right;">
             <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price,click:$root.editPurchaseDetail"></span>
@@ -450,9 +458,20 @@
 </script>
 <script id="serviceItemTemplate" type="text/html">
     <tr style="cursor: pointer" data-bind="enable:$root.selectedPurchaseOrder().status()===31">
+        <td data-bind="text: itemCode,click:$root.editPurchaseDetail"></td>
         <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
-        <td style="text-align:right;" data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>
-        <td style="text-align:right;" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>
+        <td>Service</td>
+        <td style="text-align:right;" data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
+        <td style="text-align:right;">
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price,click:$root.editPurchaseDetail"></span>
+        </td>
+        
+         @*<td style="text-align:right;" data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>*@
+        <td style="text-align:right;" data-bind="text: quantity,click:$root.editPurchaseDetail"></td>
+        @*<td style="text-align:right;" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>*@
+        <td style="text-align:right;">
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></span>
+        </td>
         <td style="width: 5%">
             <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->
             <!-- /ko -->
