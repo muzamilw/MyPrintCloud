@@ -232,7 +232,7 @@
                                 <label class="control-label text-right tooltip-float">Type</label>
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="options: $root.purchaseOrderDetailTypes, optionsText: 'name', optionsValue: 'id',value:isproduct"></select>
+                                <select class="form-control" data-bind="enable:!(id()!==undefined || purchaseDetails().length >0),options: $root.purchaseOrderDetailTypes, optionsText: 'name', optionsValue: 'id',value:isproduct"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
