@@ -2651,6 +2651,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 activeItemAddonCostCentre(ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }, callbacks));
                 //To Enable Dirty Flag
                 activeItemAddonCostCentre().isMandatory(false);
+
+                //activeItemAddonCostCentre().isMandatory(false);
             },
             onEditItemAddonCostCentre = function (itemAddonCostCentre) {
                 var itemStockHasChanges = itemAddonCostCentre.hasChanges();
@@ -2778,7 +2780,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Addon Cost Centre Entity
     ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
-        specifiedCostCentreType, callbacks) {
+        specifiedCostCentreType,specifiedSequence, callbacks) {
         // ReSharper restore InconsistentNaming
         var
             // self reference
@@ -2793,6 +2795,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreName = ko.observable(specifiedCostCentreName || undefined),
             // Cost Centre Type
             costCentreType = ko.observable(specifiedCostCentreType || undefined),
+            // Sequence
+            sequence = ko.observable(specifiedSequence || undefined),
             // Cost Centre Id - On Change
             costCentreId = ko.computed({
                 read: function () {
@@ -2822,6 +2826,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 isMandatory: isMandatory,
+                sequence: sequence,
                 costCentreId: costCentreId
             }),
             // Has Changes
@@ -2837,6 +2842,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return {
                     ProductAddOnId: id(),
                     IsMandatory: isMandatory(),
+                    Sequence : sequence(),
                     CostCentreId: costCentreId(),
                     ItemStockOptionId: itemStockOptionId()
                 };
@@ -2849,6 +2855,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreName: costCentreName,
             costCentreType: costCentreType,
             isMandatory: isMandatory,
+            sequence: sequence,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -4275,7 +4282,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Addon Cost Centre Factory
     ItemAddonCostCentre.Create = function (source, callbacks) {
         return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-            source.CostCentreTypeName, callbacks);
+            source.CostCentreTypeName,source.Sequence, callbacks);
     };
 
     // Item Stock Option Factory

@@ -7242,10 +7242,7 @@ namespace MPC.Repository.Repositories
                         if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
                             comp.CompanyCostCentres.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                         if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
-                        {
                             comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
-                            comp.CmsSkinPageWidgets.ToList().ForEach(c => c.WidgetId = null);
-                        }
                             
                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                             comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);

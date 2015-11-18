@@ -31,6 +31,7 @@ namespace MPC.Models.DomainModels
         public double? TaxSum { get; set; }
         public double? GrandTotal { get; set; }
         public string ProductDetail { get; set; }
+        public string ProductCode { get; set; }
         public double? DetailTotalPrice { get; set; }
         public string ReportTitle { get; set; }
         public string ReportBanner { get; set; }
