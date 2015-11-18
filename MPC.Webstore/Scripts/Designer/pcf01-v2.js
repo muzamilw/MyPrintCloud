@@ -394,6 +394,8 @@ function c2_01(OPT) {
                 IT.MaxWidth = OPT.maxWidth;
                 IT.MaxHeight = OPT.maxHeight;
                 IT.LineSpacing = OPT.lineHeight;
+                IT.Width = OPT.width;
+                IT.Height = OPT.height;
 
             }
             if (OPT.type == "path-group") {
@@ -481,6 +483,7 @@ function c7(PageID) {
                 c0(canvas, IT);
             }
             else if (IT.ObjectType == 3) {
+               
                 $("#loadingMsg").html("Loading Design Images");
                 
                 if (IT.ContentString.indexOf('Imageplaceholder_sim.png') != -1)
@@ -885,6 +888,8 @@ function d1(cCanvas, IO, isCenter) {
         });
         IOL.maxWidth = IO.MaxWidth;
         IOL.maxHeight = IO.MaxHeight;
+        IOL.width = IO.MaxWidth;
+        IOL.height = IO.MaxHeight;
         IOL.ObjectID = IO.ObjectID;
         IOL.scaleX = (IOL.maxWidth / IOL.width) * dfZ1l;
         IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
@@ -2666,50 +2671,75 @@ function togglePage(pId) {
         var fileNameIndex = src.lastIndexOf("/") + 1;
         var filename = src.substr(fileNameIndex);
         var D1AO = canvas.getActiveObject();
+        var found = false;
         if (D1AO.type === 'image') {
             $.each(TO, function (i, IT) {
                 if (IT.ObjectID == D1AO.ObjectID) {
                     if (src.indexOf('.svg') == -1) {
                         D1AO.ImageClippedInfo = null;
                         $.each(LiImgs, function (i, IT) {
-                            if (IT.ImageName.indexOf(filename) != -1) {
+                            if (IT.ImageName.indexOf(filename) != -1 && !found) {
                                 IW = IT.ImageWidth;
                                 IH = IT.ImageHeight;
-                                var originalWidth = IW;
-                                var originalHeight = IH;
-                                var wd = D1AO.getWidth() / dfZ1l;
-                                var he = D1AO.getHeight() / dfZ1l;
+                                //var originalWidth = IW;
+                                //var originalHeight = IH;
+                                var wd = D1AO.getWidth();
+                                var he = D1AO.getHeight();
                                 var bestPer = 1;
-                                if (IW >= wd && IH >= he )
-                                {
-                                    while (originalWidth > wd  && originalHeight > he ) {
-                                        bestPer -= 0.10;
-                                        originalHeight =IH * bestPer;
-                                        originalWidth =IW *  bestPer;
-                                    }
-                                 //   bestPer += 0.10;
-                                }else 
-                                {
-                                    while (originalWidth <= wd  || originalHeight <= he ) {
-                                        bestPer += 0.10;
-                                        originalHeight = IH * bestPer;
-                                        originalWidth = IW * bestPer;
-                                    }
-                                 //   bestPer -= 0.10;
+                                //if (IW >= wd && IH >= he )
+                                //{
+                                //    while (originalWidth > wd  && originalHeight > he ) {
+                                //        bestPer -= 0.10;
+                                //        originalHeight =IH * bestPer;
+                                //        originalWidth =IW *  bestPer;
+                                //    }
+                                // //   bestPer += 0.10;
+                                //}else 
+                                //{
+                                //    while (originalWidth <= wd  || originalHeight <= he ) {
+                                //        bestPer += 0.10;
+                                //        originalHeight = IH * bestPer;
+                                //        originalWidth = IW * bestPer;
+                                //    }
+                                // //   bestPer -= 0.10;
+                                //}
+                                //var wdth = parseInt(wd / bestPer);
+                                //var hght = parseInt(he / bestPer);
+                                //wd = D1AO.getWidth();
+                                //he =  (D1AO.getHeight());
+                                //if (IW >= IH)
+                                //{
+                                //    he = wd * (IH / IW);
+                                //} else {
+                                //    wd = (he * (IH / IW));
+                                //}
+
+                                //var wrh = IW / IH;
+                                //var newWidth = D1AO.getWidth();
+                                //var newHeight = newWidth / wrh;
+                                //if (newHeight > D1AO.getHeight()) {
+                                //    newHeight = D1AO.getHeight();
+                                //    newWidth = newHeight * wrh;
+                                //}
+                                var wrh = IW / IH;
+                                var newWidth = D1AO.getWidth();
+                                var newHeight = newWidth / wrh;
+                                if (newHeight > D1AO.getHeight()) {
+                                    newHeight = D1AO.getHeight();
+                                    newWidth = newHeight * wrh;
                                 }
-                                var wdth = parseInt(wd / bestPer);
-                                var hght = parseInt(he / bestPer);
                                 var XML = new XMLWriter();
                                 XML.BeginNode("Cropped");
                                 XML.Node("sx", "0");
                                 XML.Node("sy", "0");
-                                XML.Node("swidth", wdth.toString());
-                                XML.Node("sheight", hght.toString());
+                                XML.Node("swidth", (newWidth /dfZ1l).toString());//   XML.Node("swidth", wdth.toString());
+                                XML.Node("sheight", (newHeight / dfZ1l).toString());//    XML.Node("sheight", hght.toString());
                                 XML.Node("crv1", bestPer.toString()); 
-                                XML.Node("crv2", (IW * bestPer).toString());
-                                XML.Node("crv3", (IH * bestPer).toString());
+                                XML.Node("crv2", ((newWidth / dfZ1l) * bestPer).toString());
+                                XML.Node("crv3", ((newWidth / dfZ1l) * bestPer).toString());
                                 XML.Node("crv4", "0");
                                 XML.Node("crv5", "0");
+                                XML.Node("isCropped", "0");
                                 XML.EndNode();
                                 XML.Close();
                                 D1AO.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
@@ -2717,14 +2747,16 @@ function togglePage(pId) {
                                 D1AO.width = (D1AO.getWidth());
                                 D1AO.maxHeight = (D1AO.getHeight());
                                 D1AO.maxWidth = (D1AO.getWidth());
+                              
                                 D1AO.scaleX = 1;
                                 D1AO.scaleY = 1;
                                 canvas.renderAll();
+                                found = true;
                             }
                         });
                     } else
                     {
-                        alert("You are trying to place an SVg in an image placeholder, SVG will be converted into image during this process.");
+                        alert("You are trying to place an SVG in an image placeholder, SVG will be converted into image during this process.");
                     }
                     IT.ContentString = src;
                 
@@ -4180,6 +4212,7 @@ function togglePage(pId) {
         if (IO.ContentString.indexOf("Imageplaceholder_sim") != -1 || IO.ContentString.indexOf("http") != -1)
             url = IO.ContentString;
         fabric.Image.fromURL(url, function (IOL) {
+          
             IOL.set({
                 left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
                 top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,

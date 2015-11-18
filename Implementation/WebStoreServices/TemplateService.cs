@@ -778,16 +778,19 @@ namespace MPC.Implementation.WebStoreServices
                     string xpath = "Cropped";
                     var nodes = xmlDoc.SelectNodes(xpath);
                     double sx, sy, swidth, sheight;
-                    foreach (XmlNode childrenNode in nodes)
-                    {
-                        sx = Convert.ToDouble(childrenNode.SelectSingleNode("sx").InnerText);
-                        sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
-                        swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
-                        sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
-                        oImg.Selection.Inset(sx, sy);
-                        oImg.Selection.Height = sheight;
-                        oImg.Selection.Width = swidth;
-                    }
+                    int isCroppped = 0;
+                    //foreach (XmlNode childrenNode in nodes)
+                    //{
+                    //    sx = Convert.ToDouble(childrenNode.SelectSingleNode("sx").InnerText);
+                    //    sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
+                    //    swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
+                    //    sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
+                    //    if (childrenNode.SelectSingleNode("isCropped") != null)
+                    //       isCroppped = Convert.ToInt32(childrenNode.SelectSingleNode("isCropped").InnerText);
+                    //    oImg.Selection.Inset(sx, sy);
+                    //    oImg.Selection.Height = sheight;
+                    //    oImg.Selection.Width = swidth;
+                    //}
                     if (oObject.Opacity != null && oObject.Opacity != 1)
                     {
                         img = new Bitmap(System.Drawing.Image.FromFile(FilePath, true));
@@ -805,9 +808,24 @@ namespace MPC.Implementation.WebStoreServices
                             sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
                             swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
                             sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
-                            oImg.Selection.Inset(sx, sy);
-                            oImg.Selection.Height = sheight;
-                            oImg.Selection.Width = swidth;
+                            if (childrenNode.SelectSingleNode("isCropped") != null)
+                                isCroppped = Convert.ToInt32(childrenNode.SelectSingleNode("isCropped").InnerText);
+
+                            if(isCroppped == 0 )
+                            {
+                                swidth = DesignerUtils.PixelToPoint(swidth);
+                                sheight = DesignerUtils.PixelToPoint(sheight);
+                                posY = oObject.PositionY + sheight;
+                                oPdf.Rect.Position(oObject.PositionX.Value, posY.Value);
+                                oPdf.Rect.Resize(swidth, sheight);
+                            }
+                            else
+                            {
+                                oImg.Selection.Inset(sx, sy);
+                                oImg.Selection.Height = sheight;
+                                oImg.Selection.Width = swidth;
+                            }
+                         
                         }
                         int id = oPdf.AddImageObject(oImg, true);
                     }
@@ -826,9 +844,24 @@ namespace MPC.Implementation.WebStoreServices
                                 sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
                                 swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
                                 sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
-                                oImg.Selection.Inset(sx, sy);
-                                oImg.Selection.Height = sheight;
-                                oImg.Selection.Width = swidth;
+                                if (childrenNode.SelectSingleNode("isCropped") != null)
+                                    isCroppped = Convert.ToInt32(childrenNode.SelectSingleNode("isCropped").InnerText);
+
+                                if (isCroppped == 0)
+                                {
+                                    swidth = DesignerUtils.PixelToPoint(swidth);
+                                    sheight = DesignerUtils.PixelToPoint(sheight);
+                                    posY = oObject.PositionY + sheight;
+                                    oPdf.Rect.Position(oObject.PositionX.Value, posY.Value);
+                                    oPdf.Rect.Resize(swidth, sheight);
+                                }
+                                else
+                                {
+                                    oImg.Selection.Inset(sx, sy);
+                                    oImg.Selection.Height = sheight;
+                                    oImg.Selection.Width = swidth;
+                                }
+                               
                             }
                             oPdf.AddImageObject(oImg, true);
                         }
