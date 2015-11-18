@@ -457,7 +457,7 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                "oAuth",
-               "oAuth/{LoginWithId}/{isRegistrationProcess}/{StoreId}/{ReturnUrl}",
+               "oAuth/{Provider}/{isRegistrationProcess}/{StoreId}/{ReturnUrl}",
                new { controller = "Home", action = "oAuth", LoginWithId = UrlParameter.Optional, isRegistrationProcess = UrlParameter.Optional, StoreId = UrlParameter.Optional, ReturnUrl = UrlParameter.Optional }
            );
 

@@ -13,10 +13,12 @@ using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
 using MPC.ExceptionHandling;
 using MPC.Models.ResponseModels;
+
 namespace MPC.Webstore.Controllers
 {
-    public class SignUpController : Controller
+    public class EzyPrintSignUpController : Controller
     {
+        // GET: EzyPrintSignUp
         private readonly ICompanyService _myCompanyService;
         private readonly ICampaignService _campaignService;
         private readonly IUserManagerService _userManagerService;
@@ -26,7 +28,7 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public SignUpController(ICompanyService myCompanyService, ICampaignService myCampaignService, IUserManagerService userManagerService
+        public EzyPrintSignUpController(ICompanyService myCompanyService, ICampaignService myCampaignService, IUserManagerService userManagerService
             , IItemService ItemService)
         {
             if (myCompanyService == null)
@@ -97,7 +99,7 @@ namespace MPC.Webstore.Controllers
             else
                 ViewBag.ReturnURL = ReturnURL;
 
-            return View("PartialViews/SignUp");
+            return View("PartialViews/EzyPrintSignUp");
         }
 
         [HttpPost]
@@ -135,7 +137,7 @@ namespace MPC.Webstore.Controllers
                     if (model.Password == "Password")
                     {
                         ViewBag.Message = "Please enter Password";
-                        return View("PartialViews/SignUp");
+                        return View("PartialViews/EzyPrintSignUp");
                     }
 
                     string ReturnURL = Request.Form["hfReturnURL"];
@@ -163,7 +165,7 @@ namespace MPC.Webstore.Controllers
                         {
                             ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
 
-                            return View("PartialViews/SignUp");
+                            return View("PartialViews/EzyPrintSignUp");
                         }
                         else if (isSocial == "1")
                         {
@@ -192,13 +194,13 @@ namespace MPC.Webstore.Controllers
                             if (_myCompanyService.GetContactByFirstName(model.FirstName + " " + model.LastName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
                             {
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlAlreadyRegisteredWithSocialMedia", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this socail media information ") + model.FirstName + "" + model.LastName + ". Please login to continue using this account.";
-                                return View("PartialViews/SignUp");
+                                return View("PartialViews/EzyPrintSignUp");
                             }
                             else if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                             {
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
 
-                                return View("PartialViews/SignUp");
+                                return View("PartialViews/EzyPrintSignUp");
                             }
                             else
                             {
@@ -213,7 +215,7 @@ namespace MPC.Webstore.Controllers
                             {
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
 
-                                return View("PartialViews/SignUp");
+                                return View("PartialViews/EzyPrintSignUp");
                             }
                             else
                             {
@@ -246,7 +248,7 @@ namespace MPC.Webstore.Controllers
 
 
                 }
-                return View("PartialViews/SignUp");
+                return View("PartialViews/EzyPrintSignUp");
             }
             catch (Exception ex)
             {

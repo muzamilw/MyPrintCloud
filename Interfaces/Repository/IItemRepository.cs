@@ -77,7 +77,7 @@ namespace MPC.Interfaces.Repository
 
         double GetMinimumProductValue(long itemId);
 
-        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID,long OrganisationId ,out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
+        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID,long OrganisationId, double StoreTaxRate, long StoreId,out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
 
         /// <summary>
         /// Get Items For Widgets 
@@ -195,6 +195,7 @@ namespace MPC.Interfaces.Repository
         string GetProductNameByItemId(long ItemId);
 
         IEnumerable<Item> GetProductsByCompanyID(long CompanyId);
+        void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId);
     }
 
 }

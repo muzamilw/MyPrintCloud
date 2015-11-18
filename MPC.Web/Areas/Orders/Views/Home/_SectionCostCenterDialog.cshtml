@@ -80,6 +80,9 @@
                                 <!--ko if:  $root.selectedQty() == 2-->
                                 <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty2Ui, enable: costCentreType() != 1 ? true: false " />
                                 <!--/ko-->
+                                <!--ko if:  $root.selectedQty() == 3-->
+                                <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty3Ui, enable: costCentreType() != 1 ? true: false " />
+                                <!--/ko-->
 
                             </div>
                             @*<div class="col-lg-3">

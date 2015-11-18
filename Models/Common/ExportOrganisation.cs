@@ -91,7 +91,7 @@ namespace MPC.Models.Common
 
         public List<TemplateFont> TemplateFonts { get; set; }
 
-        //public List<DiscountVoucher> DiscountVouchers { get; set; }
+        public List<DiscountVoucher> DiscountVouchers { get; set; }
         public List<Item> Items { get; set; }
         public List<ItemAttachment> ItemAttachment { get; set; }
         public List<ItemSection> ItemSection { get; set; }
@@ -173,7 +173,7 @@ namespace MPC.Models.Common
         public List<TemplateObject> RetailTemplateObjects { get; set; }
         public List<TemplateFont> RetailTemplateFonts { get; set; }
 
-        //public List<DiscountVoucher> RetailDiscountVouchers { get; set; }
+        public List<DiscountVoucher> RetailDiscountVouchers { get; set; }
 
         public List<TemplateColorStyle> RetailTemplateColorStyle { get; set; }
 

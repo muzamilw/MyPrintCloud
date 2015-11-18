@@ -1,0 +1,234 @@
+﻿
+@model  MPC.Webstore.Models.AccountViewModel
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
+    Layout = null;
+}
+
+<div class="container content_area" id="EzyPrint_Login_Page">
+
+    <div id="loginpage" class="textAlignLeft rounded_corners">
+        <div class="sign_up_page_box NoPadding">
+            <div class="col-md-7 col-lg-7 col-sm-12 col-xs-12 login-box-nw">
+
+                <div id="login-heading-container" class="custom_color_heading">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblSignIntoComapny", UserCookieManager.WBStoreId, "Sign In to")) @ViewBag.CompanyName
+                </div>
+                @using (Html.BeginForm())
+                {         <br />
+                    <div class="errorMesgLoginPage">
+                        <div>@ViewBag.Message</div>
+                        <div>@Html.ValidationMessageFor(u => u.Email)</div>
+                        <div>@Html.ValidationMessageFor(u => u.Password)</div>
+                    </div>
+
+                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "formbox", @value = "Email" })
+
+                    @Html.TextBoxFor(model => model.Password, new { id = "Password", @class = "formbox", @value = "Password" }) <br />
+
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                    {
+                        <div id="cntStaySignedin">
+                            @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
+                            <label for="rememberMe">@Html.Raw(Html.GetKeyValueFromResourceFile("keepMe", UserCookieManager.WBStoreId, "Keep me signed in"))</label>
+                            <a class="forgot-password-nw" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.WBStoreId, "Forgot Password?"))</a>
+                        </div>
+                    }
+
+                    <input id="cmdLogin" type="submit" class="start_creating_btn_Login_nw rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("loginnnnn", UserCookieManager.WBStoreId, "Login"))" onclick="ValidateUserCredentials(); " /><br />
+
+                    <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
+
+                }
+                @if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
+                {
+                    <div>
+                        @if (ViewBag.ShowFacebookSignInLink == 1)
+                        {
+                            <input id="facebookbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("signfb", UserCookieManager.WBStoreId, "Sign in with Facebook"))" class="social_button face float_left_simple" onclick="ShowSocialMediaPopUp(1)" />
+
+                        }
+                        @if (ViewBag.ShowTwitterSignInLink == 1)
+                        {
+                            <input id="twitterBtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("signtwitter", UserCookieManager.WBStoreId, "Sign in with Twitter"))" onclick="ShowSocialMediaPopUp(0)" class="social_button twitter" />
+
+                        }
+
+
+                    </div>
+                }
+
+
+
+            </div>
+            @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+            {
+                <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
+                    <div>
+
+
+                        @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (ViewBag.AllowRegisteration == 1)
+                            {
+                                <a class="donhaveAcc_eazy" id="lnkDontHaveAccount" href="/SignUp">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDnthaveacc", UserCookieManager.WBStoreId, "Don't have an account?"))?</a>
+                                <br />
+    <a class="button-reg" href="/SignUp" >@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegisterNow", UserCookieManager.WBStoreId, "REGISTER NOW"))</a>
+    <br />
+                            }
+
+                        }
+                        else
+                        {
+                            <label class="donhaveAcc_eazy" id="lnkDontHaveAccount">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDnthaveacc", UserCookieManager.WBStoreId, "Don't have an account?"))?</label>
+                            <br />
+    <a href="/SignUp" class="button-reg">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegisterNow", UserCookieManager.WBStoreId, "REGISTER NOW"))</a>
+    <br />
+                        }
+
+
+                    </div>
+                    <div id="login-suggestions-container">
+                        <label class="donhaveAcc_eazy" id="lnkWithyourAccount">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlWithyourAccount", UserCookieManager.WBStoreId, "With your account you can:"))</label>
+                        <br />
+                        <div class="registering_item">
+                            <div class="tickImge">
+                                &nbsp;
+                            </div>
+                            <p id="ltrlsaveurdesign" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.WBStoreId, "Save your designs"))</p>
+                        </div>
+                        <div class="registering_item">
+                            <div class="tickImge">
+                                &nbsp;
+                            </div>
+                            <p id="ltrlviewtoh" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.WBStoreId, "View and track order history"))</p>
+                        </div>
+                        <div class="registering_item">
+                            <div class="tickImge">
+                                &nbsp;
+                            </div>
+                            <p id="ltrlroq" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.WBStoreId, "Re-order quickly"))</p>
+                        </div>
+                        <div class="registering_item">
+                            <div class="tickImge">
+                                &nbsp;
+                            </div>
+                            <p id="ltrlsubscribe2Nwzl" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.WBStoreId, "Subscribe to our Newsletters "))</p>
+                        </div>
+                        <div class="registering_item">
+                            <div class="tickImge">
+                                &nbsp;
+                            </div>
+                            <p id="lblTitleRequestQuote" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.WBStoreId, "Request a Quote"))</p>
+                        </div>
+                        <div class="registering_item">
+                            <div class="tickImge">
+                                &nbsp;
+                            </div>
+                            <p id="ltrlNewVoucherPromo" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.WBStoreId, "Get latest Voucher promotions"))</p>
+                        </div>
+                        <div class="clearBoth"></div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+
+        <div class="clearBoth">
+            &nbsp;
+        </div>
+
+    </div>
+
+</div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+
+@Html.Raw(ViewBag.OauthErrorMessage)
+
+
+<script>
+
+        $(document).ready(function () {
+            $('#txtEmailId').val("Email");
+            $('#Password').val('Password');
+        });
+
+        function updateSuccess(data) {
+            if (data == "Success") {
+                window.location.href = "/";
+            }
+        }
+
+        $('#txtEmailId').focus(function() {
+            if ($('#txtEmailId').val() === 'Email') {
+                $('#txtEmailId').val('');
+            }
+        });
+        $('#txtEmailId').blur(function() {
+
+            if ($('#txtEmailId').val() === '') {
+
+                $('#txtEmailId').val("Email");
+            }
+        });
+
+        $('#Password').focus(function() {
+            if ($('#Password').val() === 'Password') {
+                $('#Password').attr("type", "password");
+                $('#Password').val('');
+            }
+        });
+
+        $('#Password').blur(function () {
+            if ($('#Password').val() === '') {
+                $('#Password').removeAttr("type");
+                $('#Password').val('Password');
+            } else {
+                $('#Password').attr("type", "password");
+            }
+        });
+
+        function ShowSocialMediaPopUp(provider) {
+
+            var w = 820;
+            var h = 560;
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+
+            window.open("/oAuth/" + provider + "/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+
+            return false;
+        }
+
+        function afterFacebookConnect() {
+            FB.getLoginStatus(function (response) {
+                if (response.session) {
+                    window.location = "/FacebookLogin/" +
+                           response.session.access_token;
+                } else {
+                    // user clicked Cancel
+                }
+            });
+        };
+        $(document).ready(function () {
+            if (document.getElementById('fb-root') != undefined) {
+                var e = document.createElement('script');
+                e.type = 'text/javascript';
+                e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+                e.async = true;
+                document.getElementById('fb-root').appendChild(e);
+            }
+        });
+
+        function ValidateUserCredentials() {
+            if ($('#txtEmailId').val() === 'Email' && $('#Password').val() === 'Password') {
+
+                return false;
+            } else {
+                ShowLoader();
+                return true;
+            }
+        }
+</script>

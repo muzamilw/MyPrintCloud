@@ -5,7 +5,7 @@
     Layout = null;
 }
 
-<div class="container content_area" >
+<div class="container content_area" id="Login_Page" >
 
     <div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
         <div class="sign_up_page_box NoPadding">
@@ -152,14 +152,20 @@
                 </div>
             </div>
         }
-    
+        
+        <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+        <div id="welcome"></div>
         <div class="clearBoth">
             &nbsp;
         </div>
+      
     </div>
 </div>
    <script src="/Scripts/jquery-1.10.1.min.js"></script>
-    @Html.Raw(ViewBag.FBInitTag)
+   
+@Html.Raw(ViewBag.OauthErrorMessage)
+  
+
     <script>
        
         $(document).ready(function () {
@@ -202,16 +208,15 @@
             }
         });
 
-        function ShowSocialMediaPopUp(isFacebook) {
+        function ShowSocialMediaPopUp(provider) {
 
             var w = 820;
             var h = 560;
             var left = (screen.width / 2) - (w / 2);
             var top = (screen.height / 2) - (h / 2);
-            if (isFacebook == 1)
-                window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-            else
-                window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+
+            window.open("/oAuth/" + provider + "/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+         
             return false;
         }
        

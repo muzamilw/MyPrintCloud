@@ -1,0 +1,278 @@
+﻿
+@model  MPC.Webstore.Models.RegisterViewModel
+@using MPC.Webstore.Common;
+@{
+    Layout = null;
+}
+<div class="container content_area" id="all-signUp-pg">
+
+    <div class="row left_right_padding">
+        <div class="textAlignLeft col-md-12 col-lg-12 col-xs-12">
+            <div class="sign_up_page_box">
+                <div class="SignUpLeftPanel col-md-7 col-lg-7 col-xs-12 login-box-nw">
+                    <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId, "Register for")) @ViewBag.CompanyName</div>
+                   
+                    <label class="donhaveAcc_eazy Fsize13">Register for an @ViewBag.CompanyName account to make your shopping experience quick, simple and re-order quickly.</label>
+                    @{
+                        bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
+                        if (isSocialSignUp == true)
+                        {
+                            if (ViewBag.Provider == "fb")
+                            {
+                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the remaining fields to sign up using ")) Facebook </div>
+                            }
+                            else
+                            {
+                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the remaining fields to sign up using ")) Twitter</div>
+                            }
+
+                        }
+
+                    }
+
+                    @using (Html.BeginForm())
+                    {
+                        <div class="errorMessage">
+                            <div>@ViewBag.Message</div>
+
+                            <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
+                            <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
+                            <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
+                            <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
+
+                        </div>
+                        <br />
+
+                        bool isSocial = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
+                        if (isSocial == true)
+                        {
+                            <input type="hidden" name="provider" id="providerId" value="@ViewBag.Provider" />
+                            <input type="hidden" name="hfIsSocial" id="isSocial" value="1" />
+    <input type="text" name="socialFirstNameTxt" class="formbox" value="@ViewBag.socialFirstName" readonly="readonly" />
+                            if (ViewBag.Provider == "fb")
+                            {
+                                <input type="text" name="socialLastNameTxt" class="formbox" value="@ViewBag.socialLastName" readonly="readonly" />
+
+                            }
+
+                        }
+                        else
+                        {
+
+                            <input type="hidden" name="hfIsSocial" id="isSocial" value="0" />
+                            @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")) })
+
+
+                        }
+
+                        if (ViewBag.Provider != "fb")
+                        {
+                            @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
+                        }
+
+                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
+
+
+                        @Html.TextBoxFor(model => model.Email, new
+                   {
+                       id = "txtEmail",
+                       @class = "formbox ",
+                       @placeholder =
+                           @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
+                   })
+
+
+                        @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
+
+                        @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
+                    <input id="cmdRegister" type="submit" class="start_creating_btn_Login_nw rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
+                        
+                        <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
+                    }
+                    <div >
+                        @if (ViewBag.ShowFacebookSignInLink == 1)
+                        {
+
+                            <input id="facebookbtn" type="button" value=@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign in with Facebook")) class="social_button face float_left_simple" onclick="SocialSignUp(1)" />
+
+                        }
+                        @if (ViewBag.ShowTwitterSignInLink == 1)
+                        {
+
+                            <input id="twitterBtn" type="button" value=@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign in with Twitter")) onclick=" SocialSignUp(0)" class="social_button twitter" />
+                            <br />
+                        }
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-5 col-lg-5 col-xs-12">
+                
+                        <div class="custom_color_heading" id="lbl_WhyRegister">
+                            
+                            <label id="gotAnAccount" class="donhaveAcc_eazy">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGotAnAccount", UserCookieManager.WBStoreId, "Got an account?"))</label>
+                           <br />
+                            <a class="button-login" href="/Login">@Html.Raw(Html.GetKeyValueFromResourceFile("loginnnnn", UserCookieManager.WBStoreId, "LOGIN"))</a>
+                           
+                           
+                        </div>
+                     
+                    <div id="login-suggestions-container">
+                        <label class="donhaveAcc_eazy" id="lnkWithyourAccount">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlWithyourAccount", UserCookieManager.WBStoreId, "With your account you can:"))</label>
+                        <br />
+                         <div class="registering_item_register">
+                             <div class="tickImge">&nbsp;</div>
+
+                             <p id="lbl_SaveDesign" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.WBStoreId, "Save your designs"))</p>
+                         </div>
+                         <div class="registering_item_separator">
+                             &nbsp;
+                         </div>
+                         <div class="registering_item_register">
+                             <div class="tickImge">&nbsp;</div>
+
+                             <p id="lbl_OrderHistory" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.WBStoreId, "View and track order history"))</p>
+                         </div>
+                         <div class="registering_item_separator">
+                             &nbsp;
+                         </div>
+                         <div class="registering_item_register">
+                             <div class="tickImge">&nbsp;</div>
+
+                             <p id="lbl_Reorder" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.WBStoreId, "Re-order quickly"))</p>
+                         </div>
+                         <div class="registering_item_separator">
+                             &nbsp;
+                         </div>
+                         <div class="registering_item_register">
+                             <div class="tickImge">&nbsp;</div>
+
+                             <p id="lbl_NewLetter" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.WBStoreId, "Subscribe to our Newsletters "))</p>
+                         </div>
+                         <div class="registering_item_separator">
+                             &nbsp;
+                         </div>
+                         <div class="registering_item_register">
+                             <div class="tickImge">&nbsp;</div>
+
+                             <p id="lbl_RequestQuote" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.WBStoreId, "Request a Quote"))</p>
+                         </div>
+                         <div class="registering_item_separator">
+                             &nbsp;
+                         </div>
+                         <div class="registering_item">
+                             <div class="tickImge">
+                                 &nbsp;
+                             </div>
+                             <p id="lbl_Voucher" class="login-suggestions">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.WBStoreId, "Get latest Voucher promotions"))</p>
+                         </div>
+                     </div>
+                       
+                    
+                </div>
+                <div class="clearBoth">
+                </div>
+            </div>
+            <br />
+        </div>
+        <br />
+    </div>
+</div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script>
+    function SocialSignUp(provider) {
+        var w = 820;
+        var h = 560;
+        var left = (screen.width / 2) - (w / 2);
+        var top = (screen.height / 2) - (h / 2);
+
+        window.open("/oAuth/" + provider + "/1/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+
+        return false;
+    }
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#txtFirstName').val('@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))');
+            $('#txtLastName').val('@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))');
+        $('#txtEmail').val('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))');
+        $('#txtPassword').val('@Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password"))');
+        $('#txtPhone').val('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrllphone", UserCookieManager.WBStoreId, "Phone"))');
+        });
+
+        $('#txtFirstName').focus(function () {
+            if ($('#txtFirstName').val() === 'First Name') {
+
+                $('#txtFirstName').val('');
+            }
+        });
+
+        $('#txtFirstName').blur(function () {
+            if ($('#txtFirstName').val() === '') {
+
+                $('#txtFirstName').val('First Name');
+            }
+        });
+
+        $('#txtLastName').focus(function () {
+            if ($('#txtLastName').val() === 'Last Name') {
+
+                $('#txtLastName').val('');
+            }
+        });
+
+        $('#txtLastName').blur(function () {
+            if ($('#txtLastName').val() === '') {
+
+                $('#txtLastName').val('Last Name');
+            }
+        });
+
+        $('#txtPhone').focus(function () {
+            if ($('#txtPhone').val() === 'Phone') {
+
+                $('#txtPhone').val('');
+            }
+        });
+
+        $('#txtPhone').blur(function () {
+            if ($('#txtPhone').val() === '') {
+
+                $('#txtPhone').val('Phone');
+            }
+        });
+
+        $('#txtEmail').focus(function () {
+            if ($('#txtEmail').val() === 'Email') {
+
+                $('#txtEmail').val('');
+            }
+        });
+
+        $('#txtEmail').blur(function () {
+            if ($('#txtEmail').val() === '') {
+
+                $('#txtEmail').val('Email');
+            }
+        });
+
+        $('#txtPassword').focus(function () {
+            if ($('#txtPassword').val() === 'Password') {
+                $('#txtPassword').attr("type", "password");
+                $('#txtPassword').val('');
+            }
+        });
+
+        $('#txtPassword').blur(function () {
+            if ($('#txtPassword').val() === '') {
+                $('#txtPassword').removeAttr("type");
+                $('#txtPassword').val('Password');
+            } else {
+                $('#txtPassword').attr("type", "password");
+            }
+        });
+</script>
