@@ -7244,7 +7244,7 @@ namespace MPC.Repository.Repositories
                         if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                         {
                             comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
-                            comp.CmsSkinPageWidgets.ToList().ForEach(c => c.WidgetId = null);
+                            //comp.CmsSkinPageWidgets.ToList().ForEach(c => c.WidgetId = null);
                         }
                             
                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
