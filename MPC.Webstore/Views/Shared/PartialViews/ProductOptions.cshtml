@@ -1627,7 +1627,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/designerapi/AttachmentUploader/PostAsync/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,
+                    url: "/designerapi/AttachmentUploader/PostAsync/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId + "/ProductOptions",
                     contentType: false,
                     processData: false,
                     data: data,

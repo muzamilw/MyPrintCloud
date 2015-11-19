@@ -344,7 +344,14 @@ namespace MPC.Webstore.Controllers
             {
                 DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse, false);
 
-                return View("PartialViews/ProductOptions");
+                if (ViewToFire == "ProductOptionsAndDetails")
+                {
+                    return View("PartialViews/ProductOptionsAndDetails");
+                }
+                else
+                {
+                    return View("PartialViews/ProductOptions");
+                }
             }
 
 
@@ -432,10 +439,12 @@ namespace MPC.Webstore.Controllers
                 {
                     if (referenceItem.IsUploadImage == true)
                     {
+                        ViewBag.isUploadImageAlso = true;
                         ViewBag.ShowUploadArkworkPanel = true;
                     }
                     else
                     {
+                        ViewBag.isUploadImageAlso = false;
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
                 }
@@ -448,10 +457,12 @@ namespace MPC.Webstore.Controllers
                 {
                     if (referenceItem.IsUploadImage == true)
                     {
+                        ViewBag.isUploadImageAlso  = true;
                         ViewBag.ShowUploadArkworkPanel = true;
                     }
                     else
                     {
+                        ViewBag.isUploadImageAlso = false;
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
                 }
