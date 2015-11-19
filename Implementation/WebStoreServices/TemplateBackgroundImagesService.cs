@@ -560,7 +560,7 @@ namespace MPC.Implementation.WebStoreServices
                                 using (objImage = System.Drawing.Image.FromFile(uploadPath))
                                 {
                                     float res = objImage.HorizontalResolution;
-                                    if (res < 96)
+                                    if (res < 150)
                                     {
                                         isLowRes = true;
                                         result = imageName;
