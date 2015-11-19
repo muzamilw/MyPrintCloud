@@ -308,93 +308,108 @@ namespace MPC.Webstore.Controllers
                     MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(CompanyID);
 
                     CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OrganisationId, UserCookieManager.WBStoreId);
-
-                    UserCookieManager.isRegisterClaims = 1;
-                    UserCookieManager.WEBContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;
-                    UserCookieManager.WEBContactLastName = model.LastName == "Last Name" ? "" : model.LastName;
-                    UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
-                    UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
-
-                    UserCookieManager.WEBEmail = model.Email;
-
-                    Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
-
-                    // work for email to sale manager
-
-                    isContactCreate = true;
-
-                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
-                    cep.ContactId = loginUser.ContactId;
-                    cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
-                    cep.StoreId = UserCookieManager.WBStoreId;
-                    cep.CompanyId = UserCookieManager.WBStoreId;
-
-                    Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
-                    if (CompanyDefaultAddress != null)
+                    if (loginUser == null || loginUserCompany == null)
                     {
-                        cep.AddressId = CompanyDefaultAddress.AddressId;
-                    }
-                    else
-                    {
-                        cep.AddressId = 0;
-                    }
-
-                    if (StoreBaseResopnse.Company.SalesAndOrderManagerId1 == null)
-                    {
-                        throw new Exception("Critcal Error, Store Sales Manager is not selected.", null);
+                        throw new Exception("Critcal Error, user or company nor created.", null);
 
                     }
-                    else
+                    else 
                     {
-                        SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                        UserCookieManager.isRegisterClaims = 1;
+                        UserCookieManager.WEBContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;
+                        UserCookieManager.WEBContactLastName = model.LastName == "Last Name" ? "" : model.LastName;
+                        UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
+                        UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
 
-                        _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                        UserCookieManager.WEBEmail = model.Email;
 
-                        _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                        Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
-                    }
+                        // work for email to sale manager
 
-                    if (OrderId > 0)
-                    {
-                        UserCookieManager.TemporaryCompanyId = 0;
-                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
+                        isContactCreate = true;
+
+                        long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
+                        cep.ContactId = loginUser.ContactId;
+                        cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
+                        cep.StoreId = UserCookieManager.WBStoreId;
+                        cep.CompanyId = UserCookieManager.WBStoreId;
+
+                        Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
+                        if (CompanyDefaultAddress != null)
                         {
-                            if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                            cep.AddressId = CompanyDefaultAddress.AddressId;
+                        }
+                        else
+                        {
+                            cep.AddressId = 0;
+                        }
+
+                        if (StoreBaseResopnse.Company.SalesAndOrderManagerId1 == null)
+                        {
+                            throw new Exception("Critcal Error, Store Sales Manager is not selected.", null);
+
+                        }
+                        else
+                        {
+                            SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                            if (EmailOFSM != null)
                             {
-                                ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+                                _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+
+                            }
+                            else 
+                            {
+                                throw new Exception("Critcal Error, Store Sales Manager record not available.", null);
+                            }
+                           
+                        }
+
+                        if (OrderId > 0)
+                        {
+                            UserCookieManager.TemporaryCompanyId = 0;
+                            if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
+                            {
+                                if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                                {
+                                    ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                                }
+                                else
+                                {
+                                    Response.Redirect("/ShopCart?OrderId=" + OrderId);
+                                }
                             }
                             else
                             {
                                 Response.Redirect("/ShopCart?OrderId=" + OrderId);
                             }
+
+
                         }
                         else
                         {
-                            Response.Redirect("/ShopCart?OrderId=" + OrderId);
-                        }
-
-
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
-                        {
-                            if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                            if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
                             {
-                                ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                                if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                                {
+                                    ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                                }
+                                else
+                                {
+                                    Response.Redirect("/");
+                                }
                             }
                             else
                             {
                                 Response.Redirect("/");
                             }
-                        }
-                        else
-                        {
-                            Response.Redirect("/");
+
                         }
 
                     }
-
+                   
                 }
                 else
                 {

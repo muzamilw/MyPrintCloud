@@ -148,6 +148,7 @@
                 </div>
               
             </div>
+            <br />
             @if (ViewBag.ItemModel.GridImage != null)
             {
                 <div class="grif-layout-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblgridLayoutSizeGuidLine", UserCookieManager.WBStoreId, "Size Guidline"))</div>
@@ -156,53 +157,460 @@
                     <img class="grid-layout-image" src="/@ViewBag.ItemModel.GridImage" />
 
                 </div>
+                <br />
             }
             @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1) || !string.IsNullOrEmpty(ViewBag.ItemModel.File2) || !string.IsNullOrEmpty(ViewBag.ItemModel.File3) || !string.IsNullOrEmpty(ViewBag.ItemModel.File4))
             {
                 <div class="grif-layout-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbldownloadSizeStencil", UserCookieManager.WBStoreId, "Download Size Stencils"))</div>
-    <div id="downloadable-files-container txtAlignLeft">
-        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
-        {
+                <div id="downloadable-files-container txtAlignLeft">
+                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
+                        {
 
-            <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
-                <img src="@ViewBag.ItemModel.File1Url" />
-            </a>
-        }
-        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
-        {
+                            <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
+                                <img src="@ViewBag.ItemModel.File1Url" />
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
+                        {
 
-            <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
-                <img src="@ViewBag.ItemModel.File2Url" />
-            </a>
-        }
-        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
-        {
+                            <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
+                                <img src="@ViewBag.ItemModel.File2Url" />
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
+                        {
 
-            <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
-                <img src="@ViewBag.ItemModel.File3Url" />
-            </a>
-        }
-        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
-        {
+                            <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
+                                <img src="@ViewBag.ItemModel.File3Url" />
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
+                        {
 
-            <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
-                <img src="@ViewBag.ItemModel.File4Url" />
-            </a>
-        }
-        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
-        {
+                            <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
+                                <img src="@ViewBag.ItemModel.File4Url" />
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
+                        {
 
-            <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
-                <img src="@ViewBag.ItemModel.File5Url" />
-            </a>
-        }
+                            <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
+                                <img src="@ViewBag.ItemModel.File5Url" />
+                            </a>
+                        }
 
-    </div>
+                </div>
                 <div class="clearBoth">&nbsp;</div>
             }
         </div>
         <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12">
-            &nbsp;
+            <div class="product-name-container txtAlignLeft">
+                @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
+                {
+                    @ViewBag.ItemModel.ProductFriendlyName
+                }
+                else
+                {
+                    @ViewBag.ItemModel.ProductName
+                }
+
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xs-4 col-sm-4">
+                <div style="height:65px;">
+                    &nbsp;
+                </div>
+                <div class="grif-layout-heading txtAlignLeft">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblStockChoose", UserCookieManager.WBStoreId, "Choose"))
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xs-8 col-sm-8">
+                <div class="product-webDesc-container txtAlignLeft">
+                    @{
+                        var ProductDescription = ViewBag.ItemModel.WebDescription;
+                        if (!string.IsNullOrEmpty(ProductDescription))
+                        {
+                            if (ProductDescription.Length > 120)
+                            {
+                                ProductDescription = ProductDescription.Substring(0, 120);
+                                ProductDescription = ProductDescription.Substring(0, ProductDescription.LastIndexOf(' '));
+
+                            }
+                            else
+                            {
+                                ProductDescription = ProductDescription;
+                            }
+                        }
+                    }
+                    @Html.Raw(ProductDescription)
+                </div>
+                <div class="stock-options-container txtAlignLeft">
+
+                    @foreach (var stock in ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>)
+                    {
+                        if (ViewBag.SelectedStockItemId != null)
+                        {
+                            string stockClassName = "rbStockType" + StockCount;
+                            if (ViewBag.SelectedStockItemId == stock.ItemStockOptionId)
+                            {
+                                <div class=float_left_simple style="height:55px;">
+                                    <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                    <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class=float_left_simple style="height:55px;">
+                                    <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                    <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            string stockClassName = "rbStockType" + StockCount;
+                            if (StockCount == 1)
+                            {
+
+                                <div class=float_left_simple style="height:55px;">
+                                    <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                    <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class=float_left_simple style="height:55px;">
+                                    <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                    <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                </div>
+                            }
+                        }
+                        StockCount++;
+                    }
+                </div>
+
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+            <hr />
+            <div class="col-md-4 col-lg-4 col-xs-4 col-sm-4">
+                <div class="grif-layout-heading txtAlignLeft">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xs-8 col-sm-8">
+                <div class="qty-container float_left_simple">
+                    @if (ViewBag.ItemModel.IsQtyRanged == true)
+                    {
+                        if (ViewBag.SelectedQuantity != null && ViewBag.SelectedQuantity != 0)
+                        {
+                            <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" value="@ViewBag.SelectedQuantity" />
+                        }
+                        else
+                        {
+                            <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
+                        }
+
+                        <input type="button" onclick="CalculatePriceBaseOnRangedQuantity(); return false;" class="go_button rounded_corners5 width35pix"
+                               value="Go" />
+                    }
+                    else
+                    {
+                        <select class="dropdownBorderCS dropdown190 rounded_corners5 template_designing float_right dropdownQtyListClass clearRight ">
+                            @foreach (var quantity in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                            {
+                                if (ViewBag.SelectedQuantity != null)
+                                {
+                                    if (ViewBag.SelectedQuantity == quantity.Quantity)
+                                    {
+                                            <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
+                                }
+
+                            }
+
+                    </select>
+                    }
+
+                </div>
+                <div class="price-container float_left_simple">
+                    <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: black;
+                            font-size: 12px; float: left; margin-top: 15px; margin-bottom: 10px;">
+                        <label id="toggleHeading" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId, "Show Price Table"))</label>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div id="matrixHeadingsContainer" class="" style="display: none;">
+                        @if (ViewBag.ItemModel.IsQtyRanged == true)
+                        {
+                        <div class="confirm_design divtxtalgn MLR">
+                            <label id="lbl_Quantity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))</label>
+                        </div>
+                        <br />
+                        }
+                        <div class="width50p">
+                            @if (ViewBag.ItemModel.IsQtyRanged == true)
+                            {
+                            <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -46px;">
+                                <label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId, "From"))</label>
+                            </div>
+                            <div class="Fsize13 divtxtalgn float_left_simple">
+
+                                <label id="lbl_To">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTo", UserCookieManager.WBStoreId, "To"))</label>
+                            </div>
+                            }
+                            else
+                            {
+                            <div class="Fsize13 divtxtalgn_CS width70pixel float_left_simple">
+                                <label id="lbl_Quanity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))</label>
+                            </div>
+                            }
+
+                            <div class="divtxtalgn_CS Width40Px float_right">
+                                @if (ViewBag.IsShowPrices == true)
+                                {
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))
+                                }
+
+                            </div>
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div id="priceMatrixContainer" style="" class="spacerbottom cntlndngtbl">
+
+                        @foreach (var matrixItem in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                        {
+                            if (PriceBackgroundCount % 2 == 0)
+                            {
+                                priceMatrixBackground = "lightgray";
+                            }
+                            else
+                            {
+                                priceMatrixBackground = "white";
+                            }
+
+
+                            <div class="@priceMatrixBackground">
+                                <div class="divfloat WhtBakg">
+                                    <input type="hidden" id="txtHiddenPriceMatrixID" class="AccessPriceInScript" value='@matrixItem.PriceMatrixId' />
+
+                                </div>
+                                @if (ViewBag.ItemModel.IsQtyRanged == true)
+                                    {
+                                    <div id="QtyRangeFrom" class="LandingPageQty divQNum">
+                                        @matrixItem.QtyRangeFrom
+                                    </div>
+                                    <div id="QtyRangeTo" class="LandingPageQty divQNum">
+                                        @matrixItem.QtyRangeTo
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                    <div id="Quantity" class="LandingPageQty divQNum">
+                                        @matrixItem.Quantity
+                                    </div>
+                                    }
+
+
+
+
+                                <div id="matrixItemColumn1" class="mattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='1_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType1.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblMatt" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn2" class="glossyPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='2_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType2.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblGlossy">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblGlossy" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn3" class="premiumMattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='3_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType3.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblPremiumMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblPremiumMatt" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='4_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType4.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblForthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblForthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='5_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType5.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblFifthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblFifthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='6_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType6.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblSixthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblSixthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='7_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType7.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblSevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblSevenStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='8_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType8.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblEightStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblEightStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='9_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType9.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblNinthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+                                            }
+                                            else
+                                            {
+                                            <label id="lblNinthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+                                            }
+
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='10_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType10.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblTenthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+                                            }
+                                            else
+                                            {
+                                            <label id="lblTenthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+                                            }
+
+
+                                    </span>
+                                </div>
+                                <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                    <span id='11_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType11.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
+                                        @if (ViewBag.IsShowPrices == true)
+                                            {
+                                            <label id="lblElevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+                                            else
+                                            {
+                                            <label id="lblElevenStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
+
+                                            }
+
+                                    </span>
+                                </div>
+
+                                <div style="clear: both;">
+                                </div>
+                            </div>
+                                            PriceBackgroundCount++;
+                        }
+                </div>
+                <div id="cntTabLabel">
+                    <label id="lblTaxLabel" class="Fsize10 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                </div>
+
+            </div>
+            </div>
         </div>
         <div class="StocksDelivryContainer col-md-8 col-lg-8 col-xs-12 col-sm-12">
           
@@ -212,50 +620,7 @@
                 </div>
                 <div class="white_background rounded_corners divStk">
                     <div class="float_left_simple Width100Percent">
-                        <div class="spacer10pxtop">
-
-                            @foreach (var stock in ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>)
-                            {
-                                if (ViewBag.SelectedStockItemId != null)
-                                {
-                                    string stockClassName = "rbStockType" + StockCount;
-                                    if (ViewBag.SelectedStockItemId == stock.ItemStockOptionId)
-                                    {
-                                        <div class=float_left_simple style="height:55px;">
-                                            <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class=float_left_simple style="height:55px;">
-                                            <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    string stockClassName = "rbStockType" + StockCount;
-                                    if (StockCount == 1)
-                                    {
-
-                                        <div class=float_left_simple style="height:55px;">
-                                            <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class=float_left_simple style="height:55px;">
-                                            <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
-                                        </div>
-                                    }
-                                }
-                                StockCount++;
-                            }
-                        </div>
+                        
                         <div class="clearBoth">
                             &nbsp;
                         </div>
@@ -440,49 +805,7 @@
                         </div>
                     }
 
-                    <div>
-                        @if (ViewBag.ItemModel.IsQtyRanged == true)
-                        {
-                            if (ViewBag.SelectedQuantity != null && ViewBag.SelectedQuantity != 0)
-                            {
-                                <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" value="@ViewBag.SelectedQuantity" />
-                            }
-                            else
-                            {
-                                <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
-                            }
-
-                            <input type="button" onclick="CalculatePriceBaseOnRangedQuantity(); return false;" class="go_button rounded_corners5 width35pix"
-                                   value="Go" />
-                        }
-                        else
-                        {
-                            <select class="dropdownBorderCS dropdown190 rounded_corners5 template_designing float_right dropdownQtyListClass clearRight ">
-                                @foreach (var quantity in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
-                                {
-                                    if (ViewBag.SelectedQuantity != null)
-                                    {
-                                        if (ViewBag.SelectedQuantity == quantity.Quantity)
-                                        {
-                                                <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
-                                    }
-
-                                }
-
-                        </select>
-                        }
-
-                    </div>
+                   
                     <div class="clearBoth">
                         &nbsp;
                     </div>
@@ -568,270 +891,7 @@
                     <div class="clearBoth">
                         &nbsp;
                     </div>
-                    <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: black;
-                            font-size: 12px; float: left; margin-top: 15px; margin-bottom: 10px;">
-                        <label id="toggleHeading" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId, "Show Price Table"))</label>
-                    </div>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                    <div id="matrixHeadingsContainer" class="" style="display: none;">
-                        @if (ViewBag.ItemModel.IsQtyRanged == true)
-                        {
-                            <div class="confirm_design divtxtalgn MLR">
-                                <label id="lbl_Quantity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity",UserCookieManager.WBStoreId, "Quantity"))</label>
-                            </div>
-                            <br />
-                        }
-                        <div class="width50p">
-                            @if (ViewBag.ItemModel.IsQtyRanged == true)
-                            {
-                                <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -46px;">
-                                    <label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom",UserCookieManager.WBStoreId, "From"))</label>
-                                </div>
-                                <div class="Fsize13 divtxtalgn float_left_simple">
-
-                                    <label id="lbl_To">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTo",UserCookieManager.WBStoreId, "To"))</label>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="Fsize13 divtxtalgn_CS width70pixel float_left_simple">
-                                    <label id="lbl_Quanity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity",UserCookieManager.WBStoreId, "Quantity"))</label>
-                                </div>
-                            }
-
-                            <div class="divtxtalgn_CS Width40Px float_right">
-@if (ViewBag.IsShowPrices == true)
-{
-    @Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))
-}
-                               
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                    <div id="priceMatrixContainer" style="" class="spacerbottom cntlndngtbl">
-
-                        @foreach (var matrixItem in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
-                        {
-                            if (PriceBackgroundCount % 2 == 0)
-                            {
-                                priceMatrixBackground = "lightgray";
-                            }
-                            else
-                            {
-                                priceMatrixBackground = "white";
-                            }
-
-
-                                <div class="@priceMatrixBackground">
-                                    <div class="divfloat WhtBakg">
-                                        <input type="hidden" id="txtHiddenPriceMatrixID" class="AccessPriceInScript" value='@matrixItem.PriceMatrixId' />
-
-                                    </div>
-                                    @if (ViewBag.ItemModel.IsQtyRanged == true)
-                                    {
-                                        <div id="QtyRangeFrom" class="LandingPageQty divQNum">
-                                            @matrixItem.QtyRangeFrom
-                                        </div>
-                                        <div id="QtyRangeTo" class="LandingPageQty divQNum">
-                                            @matrixItem.QtyRangeTo
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div id="Quantity" class="LandingPageQty divQNum">
-                                            @matrixItem.Quantity
-                                        </div>
-                                    }
-
-                                   
-                                        
-                                    
-                                    <div id="matrixItemColumn1" class="mattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='1_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType1.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                           @if (ViewBag.IsShowPrices == true)
-                                           {
-                                            <label id="lblMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                           }
-                                           else
-                                           {
-                                            <label id="lblMatt" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                           }
-                                             
-
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn2" class="glossyPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='2_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType2.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblGlossy">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            else
-                                            {
-                                                <label id="lblGlossy" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                           
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn3" class="premiumMattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='3_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PricePaperType3.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblPremiumMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            else
-                                            {
-                                                <label id="lblPremiumMatt" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            
-
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='4_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType4.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblForthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            else
-                                            {
-                                                <label id="lblForthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType4, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='5_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType5.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblFifthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            else
-                                            {
-                                                <label id="lblFifthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='6_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType6.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblSixthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            else
-                                            {
-                                                <label id="lblSixthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='7_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType7.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblSevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            else
-                                            {
-                                                <label id="lblSevenStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='8_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType8.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblEightStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            else
-                                            {
-                                                <label id="lblEightStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='9_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType9.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblNinthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-                                            }
-                                            else
-                                            {
-                                                <label id="lblNinthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-                                            }
-                                            
-
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='10_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType10.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                           @if (ViewBag.IsShowPrices == true)
-                                           {
-                                            <label id="lblTenthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-                                           }
-                                           else
-                                           {
-                                            <label id="lblTenthStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-                                           }
-                                             
-
-                                        </span>
-                                    </div>
-                                    <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                        <span id='11_PriceMatrixID_@matrixItem.PriceMatrixId' data-actualprice='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrixItem.PriceStockType11.ToString())' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())'>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <label id="lblElevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            else
-                                            {
-                                                <label id="lblElevenStock" style="display:none;">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11, CultureInfo.CurrentCulture), Convert.ToDouble(ViewBag.TaxRate)).ToString())</label>
-
-                                            }
-                                            
-                                        </span>
-                                    </div>
-                                    
-                                    <div style="clear: both;">
-                                    </div>
-                                </div>
-                                    PriceBackgroundCount++;
-                        }
-                </div>
-                <div id="cntTabLabel">
-                    <label id="lblTaxLabel" class="Fsize10 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                </div>
+                  
             </div>
         </div>
 
