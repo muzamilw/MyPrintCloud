@@ -428,7 +428,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public TemplateBackgroundImage InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
         {
-            var result = "false";
+            var result = "false"; bool isLowRes = false;
             System.Drawing.Image objImage = null;
             var bgImg = new TemplateBackgroundImage();
             // fileName = fileID;
@@ -436,6 +436,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 
                 bool isPdfBackground = false;
+                
                 // string product = idOfObject1; productId
                 string ext = System.IO.Path.GetExtension(imageName);
                 //fileID += ext;
@@ -561,6 +562,7 @@ namespace MPC.Implementation.WebStoreServices
                                     float res = objImage.HorizontalResolution;
                                     if (res < 96)
                                     {
+                                        isLowRes = true;
                                         result = imageName;
                                     }
                                     ImageWidth = objImage.Width;
@@ -646,7 +648,7 @@ namespace MPC.Implementation.WebStoreServices
                             bgImg.UploadedFrom = Convert.ToInt32(uploadedFrom);
                             bgImg.ContactCompanyId = Convert.ToInt32(contactCompanyID);
                             bgImg.ContactId = Convert.ToInt32(contactId);
-
+                            bgImg.flgPhotobook = isLowRes;
 
                             listImages.Add(bgImg);
                             //  result = bgImg.ID.ToString();
@@ -661,8 +663,8 @@ namespace MPC.Implementation.WebStoreServices
                                 string destPath = results[0] + "_thumb" + ext;
                                 GenerateThumbNail(sourcePath, destPath, 98);
                             }
-
                             result = _templateImagesRepository.insertImageRecord(listImages).ToString();
+                          
                         }
                     }
                     
@@ -682,6 +684,7 @@ namespace MPC.Implementation.WebStoreServices
 
             }
             bgImg.BackgroundImageAbsolutePath = result;
+            bgImg.flgPhotobook = isLowRes;
             return bgImg;
         }
 
