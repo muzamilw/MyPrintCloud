@@ -1763,6 +1763,12 @@ function fu02UI() {
             stop: k5_y, step: 0.01,
             numberFormat: "n"
         });
+        $(".inputObjectRotation").spinner({
+            change: k6_rotate,
+            stop: k6_rotate,
+            step: 1,
+            numberFormat: "n"
+        });
     }
 
     if (IsCalledFrom != 3)
@@ -3039,6 +3045,7 @@ function togglePage(pId) {
                 $(".transparencySlider").slider("option", "value", o);
 
             }
+            $(".inputObjectRotation").val(D1AO.getAngle());
             $("#inputPositionXTxt").spinner("option", "disabled", false);
             $("#inputPositionYTxt").spinner("option", "disabled", false);
             $("#inputObjectWidthTxt").spinner("option", "disabled", false);
@@ -3089,6 +3096,16 @@ function togglePage(pId) {
       //  dT *= 1;
         D1AO.top += dT;
         canvas.renderAll(); D1AO.setCoords();
+    }
+    function k6_rotate() {
+        if (!$.isNumeric($(this).val())) {
+            $(this).val(0);
+        }
+        var D1AO = canvas.getActiveObject();
+        if (!D1AO) return;
+        D1AO.setAngle($(this).val());
+        // c2(D1AO);
+        canvas.renderAll();
     }
     function k6() {
         if (!$.isNumeric($("#inputObjectHeightTxt").val())) {

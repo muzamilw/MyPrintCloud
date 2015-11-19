@@ -5099,7 +5099,7 @@ h2 + .gallery {
     font-size: 12px;
     display: inline;
     margin-left: 1px;
-    margin-right: 26px;
+    margin-right: 7px;
     vertical-align: top;
 }
 
@@ -5109,7 +5109,9 @@ h2 + .gallery {
     margin-right: 25px;
     vertical-align: top;
 }
-
+.inputObjectRotation {
+    margin-right:0px;
+}
 .lbtTxtArea {
     margin-top: 8px;
     display: block;
@@ -5124,7 +5126,9 @@ h2 + .gallery {
 }
 
 
-
+.lblLockPos {
+        margin-left: -10px;
+}
 .lblArrangeOrderTxt {
     display: inline;
     vertical-align: bottom;
