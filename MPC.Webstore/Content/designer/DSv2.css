@@ -5098,7 +5098,7 @@ h2 + .gallery {
 .lbltextButtonControl {
     font-size: 12px;
     display: inline;
-    margin-left: 7px;
+    margin-left: 1px;
     margin-right: 26px;
     vertical-align: top;
 }
@@ -7280,4 +7280,8 @@ keyframes fadein {
 }
 .ui-spinner-input{
         width: 32px;
+}
+
+.positionPanel {
+        margin-left: -11px;
 }
