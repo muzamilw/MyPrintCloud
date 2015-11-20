@@ -1595,7 +1595,7 @@
     }
     function openDailog() {
 
-        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png" ].indexOf(fileExtension) > -1 && fileLimitExceed == 0)
+        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png" ].indexOf(fileExtension) > -1)
         {
             HideMessagePopUpGeneric();
             ShowLoader();
@@ -1667,18 +1667,10 @@
         }
         else
         {
-            if(fileLimitExceed == 1)
-            {
-                fileLimitExceed = 0;
-                HideMessagePopUpGeneric();
-                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 50 MB are allowed only !");
-            }
-            else
-            {
+           
                 HideMessagePopUpGeneric();
                 ShowPopUp('Message','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of png,pdf,jpg,eps,tiff,csv,xls,xlsx."))');
-            }
-
+           
         }
 
     }
