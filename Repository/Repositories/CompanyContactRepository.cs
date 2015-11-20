@@ -195,16 +195,30 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode)
+        public CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode, string providerKey)
         {
             try
             {
-                var qry = from contacts in db.CompanyContacts
-                          join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
-                          where string.Compare(contacts.twitterScreenName, FName, true) == 0
-                          select contacts;
+                if (WebStoreMode == (int)StoreMode.Corp)
+                {
+                    var qry = from contacts in db.CompanyContacts
+                              join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
+                              where string.Compare(contacts.ProviderKey, providerKey, true) == 0 && contacts.OrganisationId == OrganisationId && 
+                              contactCompany.CompanyId == StoreId && contactCompany.IsCustomer == (int)CustomerTypes.Corporate
+                              select contacts;
 
-                return qry.ToList().FirstOrDefault();
+                    return qry.ToList().FirstOrDefault();
+                }
+                else 
+                {
+                    var qry = from contacts in db.CompanyContacts
+                              join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
+                              where string.Compare(contacts.ProviderKey, providerKey, true) == 0 && contacts.OrganisationId == OrganisationId && contactCompany.StoreId == StoreId
+                              select contacts;
+
+                    return qry.ToList().FirstOrDefault();
+                }
+               
             }
             catch (Exception ex)
             {
@@ -761,6 +775,8 @@ namespace MPC.Repository.Repositories
                     Contact.IsPricingshown = true;
                     Contact.AddressId = 0;
                     Contact.ShippingAddressId = 0;
+                    Contact.LoginProvider = regContact.LoginProvider;
+                    Contact.ProviderKey = regContact.ProviderKey;
                     if(oCompanyRec != null)
                     {
                         Contact.isWebAccess = oCompanyRec.IsRegisterAccessWebStore;

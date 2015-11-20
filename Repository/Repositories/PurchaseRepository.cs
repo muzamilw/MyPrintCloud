@@ -77,13 +77,12 @@ namespace MPC.Repository.Repositories
                 (
                 string.IsNullOrEmpty(request.SearchString) ||
                 ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.RefNo.Contains(request.SearchString))
-                )) && (!isStatusSpecified && item.Status == request.Status || isStatusSpecified);
+                )) && (!isStatusSpecified && item.Status == request.Status || isStatusSpecified) && (item.OrganisationId == OrganisationId);
 
             IEnumerable<Purchase> items = DbSet.Where(query)
                 .OrderByDescending(x => x.date_Purchase)
                 .Skip(fromRow)
                 .Take(toRow)
-                .Where(c => c.OrganisationId == OrganisationId)
                 .ToList();
             return new PurchaseResponseModel { Purchases = items, TotalCount = DbSet.Count(query) };
         }

@@ -366,7 +366,14 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.isIncludeVAT = true;
                 }
-
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && UserCookieManager.CanPlaceOrder == false)
+                {
+                    ViewBag.CanPlaceOrder = 0;
+                }
+                else
+                {
+                    ViewBag.CanPlaceOrder = 1;
+                }
                 shopCart = LoadShoppingCart(Convert.ToInt64(OrderID));
 
                 BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false, Convert.ToInt64(OrderID));
