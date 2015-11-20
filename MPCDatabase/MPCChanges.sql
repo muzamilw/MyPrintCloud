@@ -8829,3 +8829,8 @@ FROM dbo.Items AS i INNER JOIN ProductCategoryItem pci ON pci.ItemId = i.ItemId 
  AND i.IsRealStateProduct = 1 AND i.IsPublished = 1 AND i.IsEnabled = 1 AND (i.IsArchived = 0 or i.IsArchived is null)
 
 END
+
+
+------------------Executed on All servers 20151120 ---------------
+alter table CompanyContact add LoginProvider NVARCHAR(MAX)
+alter table CompanyContact add ProviderKey NVARCHAR(MAX)

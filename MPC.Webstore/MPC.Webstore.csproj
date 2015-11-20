@@ -560,6 +560,7 @@
     <Content Include="Content\Images\Clock-Icon-Blue.png" />
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\delete.png" />
+    <Content Include="Content\Images\Deliver-Icon.png" />
     <Content Include="Content\Images\download-icon.png" />
     <Content Include="Content\Images\edit.png" />
     <Content Include="Content\Images\Facebook.png" />

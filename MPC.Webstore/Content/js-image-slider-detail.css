@@ -127,3 +127,50 @@ div.navBulletsWrapper div.active {background-position:0 -11px;}
     background-size:  contain !important;
     background-position: center !important;
 }
+@media (min-width:320px) {
+    #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 245px!important;
+        max-width: 245px!important;
+    }
+}
+@media (min-width:481px) {
+      #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 335px!important;
+        max-width: 365px!important;
+    }
+
+}
+@media (min-width:641px) {
+   #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 435px!important;
+        max-width: 465px!important;
+    }
+
+}
+@media (min-width:992px) {
+      #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 435px!important;
+        max-width: 465px!important;
+    }
+}
+@media (min-width:1025px) {
+     #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 435px!important;
+        max-width: 465px!important;
+    }
+}

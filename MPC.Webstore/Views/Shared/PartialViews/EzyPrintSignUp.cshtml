@@ -3,6 +3,7 @@
 @using MPC.Webstore.Common;
 @{
     Layout = null;
+    bool isSocial = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
 }
 <div class="container content_area" id="all-signUp-pg">
 
@@ -19,11 +20,11 @@
                         {
                             if (ViewBag.Provider == "fb")
                             {
-                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the remaining fields to sign up using ")) Facebook </div>
+                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the form below to sign up using ")) Facebook </div>
                             }
                             else
                             {
-                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the remaining fields to sign up using ")) Twitter</div>
+                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the form below to sign up using ")) Twitter</div>
                             }
 
                         }
@@ -42,17 +43,18 @@
 
                         </div>
                         <br />
-
-                        bool isSocial = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                         if (isSocial == true)
                         {
                             <input type="hidden" name="provider" id="providerId" value="@ViewBag.Provider" />
                             <input type="hidden" name="hfIsSocial" id="isSocial" value="1" />
-                            <input type="text" name="socialFirstNameTxt" class="formbox" value="@ViewBag.socialFirstName" readonly="readonly" />
+                            <input type="hidden" name="hfSocialProviderKey" id="SocialProviderKey" value="@ViewBag.SocialProviderId" />
+                            <input type="hidden" name="hfSocialScreenName" id="SocialScreenName" value="@ViewBag.socialFirstName" />
+
                             if (ViewBag.Provider == "fb")
                             {
-                                <input type="text" name="socialLastNameTxt" class="formbox" value="@ViewBag.socialLastName" readonly="readonly" />
-    <input type="text" name="socialEmailTxt" class="formbox" value="@ViewBag.socialEmail" readonly="readonly" />
+                                <input type="text" name="socialFirstNameTxt" class="formbox" value="@ViewBag.socialFirstName" />
+                                <input type="text" name="socialLastNameTxt" class="formbox" value="@ViewBag.socialLastName" />
+                                <input type="text" name="socialEmailTxt" class="formbox" value="@ViewBag.socialEmail" />
                             }
 
                         }
@@ -65,17 +67,31 @@
 
                         }
 
-                        if (ViewBag.Provider != "fb")
+                        if (ViewBag.Provider == "tw")
+                        {
+                            @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")) })
+
+                            @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
+
+                        @Html.TextBoxFor(model => model.Email, new
+                                       {
+                                           id = "txtEmail",
+                                           @class = "formbox ",
+                                           @placeholder =
+                                               @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
+                                       })
+                        }
+                        else if (ViewBag.Provider != "fb")
                         {
                             @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
 
-    @Html.TextBoxFor(model => model.Email, new
-                   {
-                       id = "txtEmail",
-                       @class = "formbox ",
-                       @placeholder =
-                           @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
-                   })
+                            @Html.TextBoxFor(model => model.Email, new
+                                       {
+                                           id = "txtEmail",
+                                           @class = "formbox ",
+                                           @placeholder =
+                                               @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
+                                       })
                         }
 
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
@@ -104,22 +120,26 @@
                         
                         <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
                     }
-                    <div >
-                        @if (ViewBag.ShowFacebookSignInLink == 1)
-                        {
+                    @if (isSocial != true)
+                    {
+                        <div>
+                            @if (ViewBag.ShowFacebookSignInLink == 1)
+                            {
 
-                            <input id="facebookbtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign in with Facebook"))' class="social_button face float_left_simple" onclick="SocialSignUp(1)" />
+                                <input id="facebookbtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign in with Facebook"))' class="social_button face float_left_simple" onclick="SocialSignUp(1)" />
 
-                        }
-                        @if (ViewBag.ShowTwitterSignInLink == 1)
-                        {
+                            }
+                            @if (ViewBag.ShowTwitterSignInLink == 1)
+                            {
 
-                            <input id="twitterBtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign in with Twitter"))' onclick=" SocialSignUp(0)" class="social_button twitter" />
-                            <br />
-                        }
+                                <input id="twitterBtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign in with Twitter"))' onclick=" SocialSignUp(0)" class="social_button twitter" />
+                                <br />
+                            }
 
 
-                    </div>
+                        </div>
+                    }
+                    
 
                 </div>
 
