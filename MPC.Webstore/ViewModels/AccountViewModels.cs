@@ -64,6 +64,7 @@ namespace MPC.Webstore.Models
         public string JsonAllInputQueue { get; set; }
 
         public string ItemStockOptionId { get; set; }
+       
     }
 
 
@@ -143,6 +144,8 @@ namespace MPC.Webstore.Models
         public string Password { get; set; }
 
         public string ReturnURL { get; set; }
+
+        public string tweetURl { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -280,6 +283,12 @@ namespace MPC.Webstore.Models
         public string File4Url { get; set; }
         public string File5Url { get; set; }
         public int isUploadImage { get; set; }
+        public int? ProductDisplayOptions { get; set; }
+
+        public string ProductBannerThumbnail { get; set; }
+
+        public List<ItemImage> ProductBannerThumbnailList { get; set; }
+        public string TipsAndHints { get; set; }
     }
     
 }

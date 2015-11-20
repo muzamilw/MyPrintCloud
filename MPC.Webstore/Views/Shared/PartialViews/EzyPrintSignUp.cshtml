@@ -12,7 +12,7 @@
                 <div class="SignUpLeftPanel col-md-7 col-lg-7 col-xs-12 login-box-nw">
                     <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId, "Register for")) @ViewBag.CompanyName</div>
                    
-                    <label class="donhaveAcc_eazy Fsize13">Register for an @ViewBag.CompanyName account to make your shopping experience quick, simple and re-order quickly.</label>
+                    <label class="pararegist_eazy Fsize13">Register for an @ViewBag.CompanyName account to make your shopping experience quick, simple and re-order quickly.</label>
                     @{
                         bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                         if (isSocialSignUp == true)
@@ -48,11 +48,11 @@
                         {
                             <input type="hidden" name="provider" id="providerId" value="@ViewBag.Provider" />
                             <input type="hidden" name="hfIsSocial" id="isSocial" value="1" />
-    <input type="text" name="socialFirstNameTxt" class="formbox" value="@ViewBag.socialFirstName" readonly="readonly" />
+                            <input type="text" name="socialFirstNameTxt" class="formbox" value="@ViewBag.socialFirstName" readonly="readonly" />
                             if (ViewBag.Provider == "fb")
                             {
                                 <input type="text" name="socialLastNameTxt" class="formbox" value="@ViewBag.socialLastName" readonly="readonly" />
-
+    <input type="text" name="socialEmailTxt" class="formbox" value="@ViewBag.socialEmail" readonly="readonly" />
                             }
 
                         }
@@ -68,24 +68,39 @@
                         if (ViewBag.Provider != "fb")
                         {
                             @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
-                        }
 
-                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
-
-
-                        @Html.TextBoxFor(model => model.Email, new
+    @Html.TextBoxFor(model => model.Email, new
                    {
                        id = "txtEmail",
                        @class = "formbox ",
                        @placeholder =
                            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
                    })
+                        }
+
+                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
 
 
-                        @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
 
-                        @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
-                    <input id="cmdRegister" type="submit" class="start_creating_btn_Login_nw rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
+                        if (isSocial == true)
+                        {
+                            @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "formbox ", @style="display:none;",@placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
+
+
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "formbox", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
+
+                            @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })
+                        }
+
+                       <br />
+                        <p>@Html.Raw(Html.GetKeyValueFromResourceFile("lbltweet", UserCookieManager.WBStoreId, "We will tweet you when your order has been dispatched"))</p>
+                        @Html.TextBoxFor(model => model.tweetURl, new { id = "txttweetUrl", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("placholderTweet", UserCookieManager.WBStoreId, "@eazyprint")) })
+
+
+                         <input id="cmdRegister" type="submit" class="start_creating_btn_Login_nw rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
                         
                         <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
                     }
@@ -93,13 +108,13 @@
                         @if (ViewBag.ShowFacebookSignInLink == 1)
                         {
 
-                            <input id="facebookbtn" type="button" value=@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign in with Facebook")) class="social_button face float_left_simple" onclick="SocialSignUp(1)" />
+                            <input id="facebookbtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign in with Facebook"))' class="social_button face float_left_simple" onclick="SocialSignUp(1)" />
 
                         }
                         @if (ViewBag.ShowTwitterSignInLink == 1)
                         {
 
-                            <input id="twitterBtn" type="button" value=@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign in with Twitter")) onclick=" SocialSignUp(0)" class="social_button twitter" />
+                            <input id="twitterBtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign in with Twitter"))' onclick=" SocialSignUp(0)" class="social_button twitter" />
                             <br />
                         }
 

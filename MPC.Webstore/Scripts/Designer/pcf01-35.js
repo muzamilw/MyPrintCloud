@@ -2225,36 +2225,14 @@ function l3(e) {
     if (D1CD && (e.keyCode == cKey)) {
         if (N1LA != 1) {
             $("#documentMenuPaste > button").css("visibility", "visible");
-            var D1AG = canvas.getActiveGroup();
-            var D1AO = canvas.getActiveObject();
-            D1CO = [];
-            if (D1AG) {
-                var objectsInGroup = D1AG.getObjects();
-                $.each(objectsInGroup, function (j, Obj) {
-                    $.each(TO, function (i, IT) {
-                        if (IT.ObjectID == Obj.ObjectID) {
-                            c2_01(Obj);
-                            D1CO.push(IT);
-                            return false;
-                        }
-                    });
-                });
-
-            } else if (D1AO) {
-                $.each(TO, function (i, IT) {
-                    if (IT.ObjectID == D1AO.ObjectID) {
-                        c2_01(D1AO);
-                        D1CO.push(IT);
-                        return false;
-                    }
-                });
-            }
+            pcL10();
         }
     }
     else if (D1CD && (e.keyCode == vKey) && IsInputSelected == false) //paste
     {
         if (N1LA != 1) {
             var OOID;
+            // e0(); // l3
             if (D1CO.length != 0) {
                 for (var i = 0; i < D1CO.length; i++) {
                     var TG = fabric.util.object.clone(D1CO[i]);
@@ -2568,6 +2546,7 @@ function pcL10() {
     var D1AG = canvas.getActiveGroup();
     var D1AO = canvas.getActiveObject();
     D1CO = []; $("#documentMenuPaste > button").css("visibility", "visible");
+    c2_v2();
     if (D1AG) {
         var objectsInGroup = D1AG.getObjects();
         $.each(objectsInGroup, function (j, Obj) {

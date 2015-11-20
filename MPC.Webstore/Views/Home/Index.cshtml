@@ -29,27 +29,35 @@
         @Html.Raw(ViewBag.WebMasterTag)
     }
 }
-@if(Model != null && Model.Count > 0)
+@if (Model != null && Model.Count > 0)
 {
     foreach (var widget in Model)
-{
-    if (widget.WidgetId == 14)
     {
-        @Html.Raw(widget.CmsSkinPageWidgetParams.FirstOrDefault().ParamValue)
-       <!--0111111-->
-    }
-    else
-    {
+        if (widget.WidgetId == 14)
+        {
+                @Html.Raw(widget.CmsSkinPageWidgetParams.FirstOrDefault().ParamValue)
+               <!--0111111-->
+        }
+        else
+        {
         <div>
             @if (widget.Widget != null)
-            {
-                string widgetname = widget.Widget.WidgetName;
-                Html.RenderAction("Index", widgetname);
-            }
+                {
+                    string widgetname = widget.Widget.WidgetName;
+                    if (widgetname == "ProductOptionsAndDetails")
+                    {
+                        Html.RenderAction("Index", "ProductOptions", new { ViewToFire = @widgetname });
+                    }
+                    else
+                    {
+                        Html.RenderAction("Index", widgetname);
+                    }
+
+                }
             <!--0000000000000000000 @widget.Widget.WidgetName -->
         </div>
-    }
+        }
 
-}
+    }
 }
 

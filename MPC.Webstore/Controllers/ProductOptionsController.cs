@@ -89,7 +89,7 @@ namespace MPC.Webstore.Controllers
 
         #endregion
         // GET: ProductOptions
-        public ActionResult Index(string CategoryId, string ItemId, string ItemMode, string TemplateId)
+        public ActionResult Index(string CategoryId, string ItemId, string ItemMode, string TemplateId, string ViewToFire)
         {
             if (!string.IsNullOrEmpty(CategoryId) && !string.IsNullOrEmpty(ItemId) && !string.IsNullOrEmpty(ItemMode))
             {
@@ -256,7 +256,15 @@ namespace MPC.Webstore.Controllers
 
                 StoreBaseResopnse = null;
                 TempData["ItemMode"] = ItemMode;
-                return View("PartialViews/ProductOptions");
+                if (ViewToFire == "ProductOptionsAndDetails")
+                {
+                    return View("PartialViews/ProductOptionsAndDetails");
+                }
+                else 
+                {
+                    return View("PartialViews/ProductOptions");
+                }
+               
             }
             else 
             {
@@ -336,7 +344,14 @@ namespace MPC.Webstore.Controllers
             {
                 DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse, false);
 
-                return View("PartialViews/ProductOptions");
+                if (ViewToFire == "ProductOptionsAndDetails")
+                {
+                    return View("PartialViews/ProductOptionsAndDetails");
+                }
+                else
+                {
+                    return View("PartialViews/ProductOptions");
+                }
             }
 
 
@@ -424,10 +439,12 @@ namespace MPC.Webstore.Controllers
                 {
                     if (referenceItem.IsUploadImage == true)
                     {
+                        ViewBag.isUploadImageAlso = true;
                         ViewBag.ShowUploadArkworkPanel = true;
                     }
                     else
                     {
+                        ViewBag.isUploadImageAlso = false;
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
                 }
@@ -440,10 +457,12 @@ namespace MPC.Webstore.Controllers
                 {
                     if (referenceItem.IsUploadImage == true)
                     {
+                        ViewBag.isUploadImageAlso  = true;
                         ViewBag.ShowUploadArkworkPanel = true;
                     }
                     else
                     {
+                        ViewBag.isUploadImageAlso = false;
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
                 }
@@ -731,6 +750,8 @@ namespace MPC.Webstore.Controllers
             ItemModel.ProductFriendlyName = referenceItem.Title;
             ItemModel.WebDescription = referenceItem.WebDescription;
             ItemModel.ItemId = referenceItem.ItemId;
+            ItemModel.ProductDisplayOptions = referenceItem.ProductDisplayOptions;
+            ItemModel.TipsAndHints = referenceItem.TipsAndHints;
             if (ViewData["Templates"] == null)
             {
                 ItemModel.isUploadImage = referenceItem.IsUploadImage == true ? 1 : 0;
@@ -739,7 +760,15 @@ namespace MPC.Webstore.Controllers
             {
                 ItemModel.isUploadImage = 0;
             }
-
+            if (referenceItem.ProductDisplayOptions == (int)ProductDisplayOption.ThumbWithMultipleBanners)
+            {
+                List<ItemImage> bannersList = _myItemService.getItemImagesByItemID(referenceItem.ItemId);
+                ItemModel.ProductBannerThumbnailList = bannersList;
+            }
+            else if (referenceItem.ProductDisplayOptions == (int)ProductDisplayOption.ThumbAndBanner)
+            {
+                ItemModel.ProductBannerThumbnail = referenceItem.ImagePath;
+            }
             if (!string.IsNullOrEmpty(ItemModel.File1))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File1);
