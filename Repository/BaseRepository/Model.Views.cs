@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets622A99AE3BE4B26AE329A44B6C16C17B8E99FA96A9598B10AB1DF97F0DE88610))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsC85A793B3F5D58C42173A3C8F950D8EF47B89579E4C7C5E92F04E409F649D11A))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets622A99AE3BE4B26AE329A44B6C16C17B8E99FA96A9598B10AB1DF97F0DE88610 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsC85A793B3F5D58C42173A3C8F950D8EF47B89579E4C7C5E92F04E409F649D11A : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets622A99AE3BE4B26AE329A44B6C16C17B8E99FA96A9598B10AB1DF97F0DE88610()
+        public ViewsForBaseEntitySetsC85A793B3F5D58C42173A3C8F950D8EF47B89579E4C7C5E92F04E409F649D11A()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "c152e41d04aca73691f8c54cdc759c5bd5109411f2c2e02ad1f9369c562c4c63";
-            this.HashOverAllExtentViews = "8100ce8557a9eaa18c12c14313e6cae85001a07b10b1198de3aa879384efbf99";
+            this.HashOverMappingClosure = "2d7316566b8b08b9a8cf3d4e16ad4c3c753756905978f0fb28982b9909fee2b7";
+            this.HashOverAllExtentViews = "8147069e7918510c5992a5a68079edaba93d9125f3e170d51b830c1be069914a";
             this.ViewCount = 358;
         }
         
@@ -2195,7 +2195,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView19()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8160);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8346);
             viewString.Append("\r\n    SELECT VALUE -- Constructing CompanyContact\r\n        [DomainModels.Store.C");
             viewString.Append("ompanyContact](T1.CompanyContact_ContactId, T1.CompanyContact_AddressId, T1.Comp");
             viewString.Append("anyContact_CompanyId, T1.CompanyContact_FirstName, T1.CompanyContact_MiddleName,");
@@ -2231,74 +2231,76 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("T1.CompanyContact_AdditionalField5, T1.CompanyContact_canUserPlaceOrderWithoutAp");
             viewString.Append("proval, T1.CompanyContact_CanUserEditProfile, T1.CompanyContact_canPlaceDirectOr");
             viewString.Append("der, T1.CompanyContact_OrganisationId, T1.CompanyContact_SecondaryEmail, T1.Comp");
-            viewString.Append("anyContact_RegistrationDate)\r\n    FROM (\r\n        SELECT \r\n            T.Contact");
-            viewString.Append("Id AS CompanyContact_ContactId, \r\n            T.AddressId AS CompanyContact_Addr");
-            viewString.Append("essId, \r\n            T.CompanyId AS CompanyContact_CompanyId, \r\n            T.Fi");
-            viewString.Append("rstName AS CompanyContact_FirstName, \r\n            T.MiddleName AS CompanyContac");
-            viewString.Append("t_MiddleName, \r\n            T.LastName AS CompanyContact_LastName, \r\n           ");
-            viewString.Append(" T.Title AS CompanyContact_Title, \r\n            T.HomeTel1 AS CompanyContact_Hom");
-            viewString.Append("eTel1, \r\n            T.HomeTel2 AS CompanyContact_HomeTel2, \r\n            T.Home");
-            viewString.Append("Extension1 AS CompanyContact_HomeExtension1, \r\n            T.HomeExtension2 AS C");
-            viewString.Append("ompanyContact_HomeExtension2, \r\n            T.Mobile AS CompanyContact_Mobile, \r");
-            viewString.Append("\n            T.Email AS CompanyContact_Email, \r\n            T.FAX AS CompanyCont");
-            viewString.Append("act_FAX, \r\n            T.JobTitle AS CompanyContact_JobTitle, \r\n            T.DO");
-            viewString.Append("B AS CompanyContact_DOB, \r\n            T.Notes AS CompanyContact_Notes, \r\n      ");
-            viewString.Append("      T.IsDefaultContact AS CompanyContact_IsDefaultContact, \r\n            T.Hom");
-            viewString.Append("eAddress1 AS CompanyContact_HomeAddress1, \r\n            T.HomeAddress2 AS Compan");
-            viewString.Append("yContact_HomeAddress2, \r\n            T.HomeCity AS CompanyContact_HomeCity, \r\n  ");
-            viewString.Append("          T.HomeState AS CompanyContact_HomeState, \r\n            T.HomePostCode ");
-            viewString.Append("AS CompanyContact_HomePostCode, \r\n            T.HomeCountry AS CompanyContact_Ho");
-            viewString.Append("meCountry, \r\n            T.SecretQuestion AS CompanyContact_SecretQuestion, \r\n  ");
-            viewString.Append("          T.SecretAnswer AS CompanyContact_SecretAnswer, \r\n            T.Passwor");
-            viewString.Append("d AS CompanyContact_Password, \r\n            T.URL AS CompanyContact_URL, \r\n     ");
-            viewString.Append("       T.IsEmailSubscription AS CompanyContact_IsEmailSubscription, \r\n          ");
-            viewString.Append("  T.IsNewsLetterSubscription AS CompanyContact_IsNewsLetterSubscription, \r\n     ");
-            viewString.Append("       T.image AS CompanyContact_image, \r\n            T.quickFullName AS Company");
-            viewString.Append("Contact_quickFullName, \r\n            T.quickTitle AS CompanyContact_quickTitle, ");
-            viewString.Append("\r\n            T.quickCompanyName AS CompanyContact_quickCompanyName, \r\n         ");
-            viewString.Append("   T.quickAddress1 AS CompanyContact_quickAddress1, \r\n            T.quickAddress");
-            viewString.Append("2 AS CompanyContact_quickAddress2, \r\n            T.quickAddress3 AS CompanyConta");
-            viewString.Append("ct_quickAddress3, \r\n            T.quickPhone AS CompanyContact_quickPhone, \r\n   ");
-            viewString.Append("         T.quickFax AS CompanyContact_quickFax, \r\n            T.quickEmail AS Co");
-            viewString.Append("mpanyContact_quickEmail, \r\n            T.quickWebsite AS CompanyContact_quickWeb");
-            viewString.Append("site, \r\n            T.quickCompMessage AS CompanyContact_quickCompMessage, \r\n   ");
-            viewString.Append("         T.QuestionId AS CompanyContact_QuestionId, \r\n            T.IsApprover A");
-            viewString.Append("S CompanyContact_IsApprover, \r\n            T.isWebAccess AS CompanyContact_isWeb");
-            viewString.Append("Access, \r\n            T.isPlaceOrder AS CompanyContact_isPlaceOrder, \r\n         ");
-            viewString.Append("   T.CreditLimit AS CompanyContact_CreditLimit, \r\n            T.isArchived AS Co");
-            viewString.Append("mpanyContact_isArchived, \r\n            T.ContactRoleId AS CompanyContact_Contact");
-            viewString.Append("RoleId, \r\n            T.TerritoryId AS CompanyContact_TerritoryId, \r\n           ");
-            viewString.Append(" T.ClaimIdentifer AS CompanyContact_ClaimIdentifer, \r\n            T.Authentified");
-            viewString.Append("By AS CompanyContact_AuthentifiedBy, \r\n            T.IsPayByPersonalCreditCard A");
-            viewString.Append("S CompanyContact_IsPayByPersonalCreditCard, \r\n            T.IsPricingshown AS Co");
-            viewString.Append("mpanyContact_IsPricingshown, \r\n            T.SkypeId AS CompanyContact_SkypeId, ");
-            viewString.Append("\r\n            T.LinkedinURL AS CompanyContact_LinkedinURL, \r\n            T.Faceb");
-            viewString.Append("ookURL AS CompanyContact_FacebookURL, \r\n            T.TwitterURL AS CompanyConta");
-            viewString.Append("ct_TwitterURL, \r\n            T.authenticationToken AS CompanyContact_authenticat");
-            viewString.Append("ionToken, \r\n            T.twitterScreenName AS CompanyContact_twitterScreenName,");
-            viewString.Append(" \r\n            T.ShippingAddressId AS CompanyContact_ShippingAddressId, \r\n      ");
-            viewString.Append("      T.isUserLoginFirstTime AS CompanyContact_isUserLoginFirstTime, \r\n         ");
-            viewString.Append("   T.quickMobileNumber AS CompanyContact_quickMobileNumber, \r\n            T.quic");
-            viewString.Append("kTwitterId AS CompanyContact_quickTwitterId, \r\n            T.quickFacebookId AS ");
-            viewString.Append("CompanyContact_quickFacebookId, \r\n            T.quickLinkedInId AS CompanyContac");
-            viewString.Append("t_quickLinkedInId, \r\n            T.quickOtherId AS CompanyContact_quickOtherId, ");
-            viewString.Append("\r\n            T.POBoxAddress AS CompanyContact_POBoxAddress, \r\n            T.Cor");
-            viewString.Append("porateUnit AS CompanyContact_CorporateUnit, \r\n            T.OfficeTradingName AS");
-            viewString.Append(" CompanyContact_OfficeTradingName, \r\n            T.ContractorName AS CompanyCont");
-            viewString.Append("act_ContractorName, \r\n            T.BPayCRN AS CompanyContact_BPayCRN, \r\n       ");
-            viewString.Append("     T.ABN AS CompanyContact_ABN, \r\n            T.ACN AS CompanyContact_ACN, \r\n ");
-            viewString.Append("           T.AdditionalField1 AS CompanyContact_AdditionalField1, \r\n            ");
-            viewString.Append("T.AdditionalField2 AS CompanyContact_AdditionalField2, \r\n            T.Additiona");
-            viewString.Append("lField3 AS CompanyContact_AdditionalField3, \r\n            T.AdditionalField4 AS ");
-            viewString.Append("CompanyContact_AdditionalField4, \r\n            T.AdditionalField5 AS CompanyCont");
-            viewString.Append("act_AdditionalField5, \r\n            T.canUserPlaceOrderWithoutApproval AS Compan");
-            viewString.Append("yContact_canUserPlaceOrderWithoutApproval, \r\n            T.CanUserEditProfile AS");
-            viewString.Append(" CompanyContact_CanUserEditProfile, \r\n            T.canPlaceDirectOrder AS Compa");
-            viewString.Append("nyContact_canPlaceDirectOrder, \r\n            T.OrganisationId AS CompanyContact_");
-            viewString.Append("OrganisationId, \r\n            T.SecondaryEmail AS CompanyContact_SecondaryEmail,");
-            viewString.Append(" \r\n            T.RegistrationDate AS CompanyContact_RegistrationDate, \r\n        ");
-            viewString.Append("    True AS _from0\r\n        FROM BaseDbContext.CompanyContacts AS T\r\n    ) AS T1");
-            viewString.Append("");
+            viewString.Append("anyContact_RegistrationDate, T1.CompanyContact_LoginProvider, T1.CompanyContact_");
+            viewString.Append("ProviderKey)\r\n    FROM (\r\n        SELECT \r\n            T.ContactId AS CompanyCon");
+            viewString.Append("tact_ContactId, \r\n            T.AddressId AS CompanyContact_AddressId, \r\n       ");
+            viewString.Append("     T.CompanyId AS CompanyContact_CompanyId, \r\n            T.FirstName AS Compa");
+            viewString.Append("nyContact_FirstName, \r\n            T.MiddleName AS CompanyContact_MiddleName, \r\n");
+            viewString.Append("            T.LastName AS CompanyContact_LastName, \r\n            T.Title AS Comp");
+            viewString.Append("anyContact_Title, \r\n            T.HomeTel1 AS CompanyContact_HomeTel1, \r\n       ");
+            viewString.Append("     T.HomeTel2 AS CompanyContact_HomeTel2, \r\n            T.HomeExtension1 AS Co");
+            viewString.Append("mpanyContact_HomeExtension1, \r\n            T.HomeExtension2 AS CompanyContact_Ho");
+            viewString.Append("meExtension2, \r\n            T.Mobile AS CompanyContact_Mobile, \r\n            T.E");
+            viewString.Append("mail AS CompanyContact_Email, \r\n            T.FAX AS CompanyContact_FAX, \r\n     ");
+            viewString.Append("       T.JobTitle AS CompanyContact_JobTitle, \r\n            T.DOB AS CompanyCont");
+            viewString.Append("act_DOB, \r\n            T.Notes AS CompanyContact_Notes, \r\n            T.IsDefaul");
+            viewString.Append("tContact AS CompanyContact_IsDefaultContact, \r\n            T.HomeAddress1 AS Com");
+            viewString.Append("panyContact_HomeAddress1, \r\n            T.HomeAddress2 AS CompanyContact_HomeAdd");
+            viewString.Append("ress2, \r\n            T.HomeCity AS CompanyContact_HomeCity, \r\n            T.Home");
+            viewString.Append("State AS CompanyContact_HomeState, \r\n            T.HomePostCode AS CompanyContac");
+            viewString.Append("t_HomePostCode, \r\n            T.HomeCountry AS CompanyContact_HomeCountry, \r\n   ");
+            viewString.Append("         T.SecretQuestion AS CompanyContact_SecretQuestion, \r\n            T.Secr");
+            viewString.Append("etAnswer AS CompanyContact_SecretAnswer, \r\n            T.Password AS CompanyCont");
+            viewString.Append("act_Password, \r\n            T.URL AS CompanyContact_URL, \r\n            T.IsEmail");
+            viewString.Append("Subscription AS CompanyContact_IsEmailSubscription, \r\n            T.IsNewsLetter");
+            viewString.Append("Subscription AS CompanyContact_IsNewsLetterSubscription, \r\n            T.image A");
+            viewString.Append("S CompanyContact_image, \r\n            T.quickFullName AS CompanyContact_quickFul");
+            viewString.Append("lName, \r\n            T.quickTitle AS CompanyContact_quickTitle, \r\n            T.");
+            viewString.Append("quickCompanyName AS CompanyContact_quickCompanyName, \r\n            T.quickAddres");
+            viewString.Append("s1 AS CompanyContact_quickAddress1, \r\n            T.quickAddress2 AS CompanyCont");
+            viewString.Append("act_quickAddress2, \r\n            T.quickAddress3 AS CompanyContact_quickAddress3");
+            viewString.Append(", \r\n            T.quickPhone AS CompanyContact_quickPhone, \r\n            T.quick");
+            viewString.Append("Fax AS CompanyContact_quickFax, \r\n            T.quickEmail AS CompanyContact_qui");
+            viewString.Append("ckEmail, \r\n            T.quickWebsite AS CompanyContact_quickWebsite, \r\n        ");
+            viewString.Append("    T.quickCompMessage AS CompanyContact_quickCompMessage, \r\n            T.Quest");
+            viewString.Append("ionId AS CompanyContact_QuestionId, \r\n            T.IsApprover AS CompanyContact");
+            viewString.Append("_IsApprover, \r\n            T.isWebAccess AS CompanyContact_isWebAccess, \r\n      ");
+            viewString.Append("      T.isPlaceOrder AS CompanyContact_isPlaceOrder, \r\n            T.CreditLimit");
+            viewString.Append(" AS CompanyContact_CreditLimit, \r\n            T.isArchived AS CompanyContact_isA");
+            viewString.Append("rchived, \r\n            T.ContactRoleId AS CompanyContact_ContactRoleId, \r\n      ");
+            viewString.Append("      T.TerritoryId AS CompanyContact_TerritoryId, \r\n            T.ClaimIdentife");
+            viewString.Append("r AS CompanyContact_ClaimIdentifer, \r\n            T.AuthentifiedBy AS CompanyCon");
+            viewString.Append("tact_AuthentifiedBy, \r\n            T.IsPayByPersonalCreditCard AS CompanyContact");
+            viewString.Append("_IsPayByPersonalCreditCard, \r\n            T.IsPricingshown AS CompanyContact_IsP");
+            viewString.Append("ricingshown, \r\n            T.SkypeId AS CompanyContact_SkypeId, \r\n            T.");
+            viewString.Append("LinkedinURL AS CompanyContact_LinkedinURL, \r\n            T.FacebookURL AS Compan");
+            viewString.Append("yContact_FacebookURL, \r\n            T.TwitterURL AS CompanyContact_TwitterURL, \r");
+            viewString.Append("\n            T.authenticationToken AS CompanyContact_authenticationToken, \r\n    ");
+            viewString.Append("        T.twitterScreenName AS CompanyContact_twitterScreenName, \r\n            T");
+            viewString.Append(".ShippingAddressId AS CompanyContact_ShippingAddressId, \r\n            T.isUserLo");
+            viewString.Append("ginFirstTime AS CompanyContact_isUserLoginFirstTime, \r\n            T.quickMobile");
+            viewString.Append("Number AS CompanyContact_quickMobileNumber, \r\n            T.quickTwitterId AS Co");
+            viewString.Append("mpanyContact_quickTwitterId, \r\n            T.quickFacebookId AS CompanyContact_q");
+            viewString.Append("uickFacebookId, \r\n            T.quickLinkedInId AS CompanyContact_quickLinkedInI");
+            viewString.Append("d, \r\n            T.quickOtherId AS CompanyContact_quickOtherId, \r\n            T.");
+            viewString.Append("POBoxAddress AS CompanyContact_POBoxAddress, \r\n            T.CorporateUnit AS Co");
+            viewString.Append("mpanyContact_CorporateUnit, \r\n            T.OfficeTradingName AS CompanyContact_");
+            viewString.Append("OfficeTradingName, \r\n            T.ContractorName AS CompanyContact_ContractorNa");
+            viewString.Append("me, \r\n            T.BPayCRN AS CompanyContact_BPayCRN, \r\n            T.ABN AS Co");
+            viewString.Append("mpanyContact_ABN, \r\n            T.ACN AS CompanyContact_ACN, \r\n            T.Add");
+            viewString.Append("itionalField1 AS CompanyContact_AdditionalField1, \r\n            T.AdditionalFiel");
+            viewString.Append("d2 AS CompanyContact_AdditionalField2, \r\n            T.AdditionalField3 AS Compa");
+            viewString.Append("nyContact_AdditionalField3, \r\n            T.AdditionalField4 AS CompanyContact_A");
+            viewString.Append("dditionalField4, \r\n            T.AdditionalField5 AS CompanyContact_AdditionalFi");
+            viewString.Append("eld5, \r\n            T.canUserPlaceOrderWithoutApproval AS CompanyContact_canUser");
+            viewString.Append("PlaceOrderWithoutApproval, \r\n            T.CanUserEditProfile AS CompanyContact_");
+            viewString.Append("CanUserEditProfile, \r\n            T.canPlaceDirectOrder AS CompanyContact_canPla");
+            viewString.Append("ceDirectOrder, \r\n            T.OrganisationId AS CompanyContact_OrganisationId, ");
+            viewString.Append("\r\n            T.SecondaryEmail AS CompanyContact_SecondaryEmail, \r\n            T");
+            viewString.Append(".RegistrationDate AS CompanyContact_RegistrationDate, \r\n            T.LoginProvi");
+            viewString.Append("der AS CompanyContact_LoginProvider, \r\n            T.ProviderKey AS CompanyConta");
+            viewString.Append("ct_ProviderKey, \r\n            True AS _from0\r\n        FROM BaseDbContext.Company");
+            viewString.Append("Contacts AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CompanyContact", viewString.ToString());
         }
         
@@ -6487,7 +6489,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView136()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8167);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8353);
             viewString.Append("\r\n    SELECT VALUE -- Constructing CompanyContacts\r\n        [DomainModels.Compan");
             viewString.Append("yContact](T1.CompanyContact_ContactId, T1.CompanyContact_AddressId, T1.CompanyCo");
             viewString.Append("ntact_CompanyId, T1.CompanyContact_FirstName, T1.CompanyContact_MiddleName, T1.C");
@@ -6523,74 +6525,76 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("mpanyContact_AdditionalField5, T1.CompanyContact_canUserPlaceOrderWithoutApprova");
             viewString.Append("l, T1.CompanyContact_CanUserEditProfile, T1.CompanyContact_canPlaceDirectOrder, ");
             viewString.Append("T1.CompanyContact_OrganisationId, T1.CompanyContact_SecondaryEmail, T1.CompanyCo");
-            viewString.Append("ntact_RegistrationDate)\r\n    FROM (\r\n        SELECT \r\n            T.ContactId AS");
-            viewString.Append(" CompanyContact_ContactId, \r\n            T.AddressId AS CompanyContact_AddressId");
-            viewString.Append(", \r\n            T.CompanyId AS CompanyContact_CompanyId, \r\n            T.FirstNa");
-            viewString.Append("me AS CompanyContact_FirstName, \r\n            T.MiddleName AS CompanyContact_Mid");
-            viewString.Append("dleName, \r\n            T.LastName AS CompanyContact_LastName, \r\n            T.Ti");
-            viewString.Append("tle AS CompanyContact_Title, \r\n            T.HomeTel1 AS CompanyContact_HomeTel1");
-            viewString.Append(", \r\n            T.HomeTel2 AS CompanyContact_HomeTel2, \r\n            T.HomeExten");
-            viewString.Append("sion1 AS CompanyContact_HomeExtension1, \r\n            T.HomeExtension2 AS Compan");
-            viewString.Append("yContact_HomeExtension2, \r\n            T.Mobile AS CompanyContact_Mobile, \r\n    ");
-            viewString.Append("        T.Email AS CompanyContact_Email, \r\n            T.FAX AS CompanyContact_F");
-            viewString.Append("AX, \r\n            T.JobTitle AS CompanyContact_JobTitle, \r\n            T.DOB AS ");
-            viewString.Append("CompanyContact_DOB, \r\n            T.Notes AS CompanyContact_Notes, \r\n           ");
-            viewString.Append(" T.IsDefaultContact AS CompanyContact_IsDefaultContact, \r\n            T.HomeAddr");
-            viewString.Append("ess1 AS CompanyContact_HomeAddress1, \r\n            T.HomeAddress2 AS CompanyCont");
-            viewString.Append("act_HomeAddress2, \r\n            T.HomeCity AS CompanyContact_HomeCity, \r\n       ");
-            viewString.Append("     T.HomeState AS CompanyContact_HomeState, \r\n            T.HomePostCode AS Co");
-            viewString.Append("mpanyContact_HomePostCode, \r\n            T.HomeCountry AS CompanyContact_HomeCou");
-            viewString.Append("ntry, \r\n            T.SecretQuestion AS CompanyContact_SecretQuestion, \r\n       ");
-            viewString.Append("     T.SecretAnswer AS CompanyContact_SecretAnswer, \r\n            T.Password AS ");
-            viewString.Append("CompanyContact_Password, \r\n            T.URL AS CompanyContact_URL, \r\n          ");
-            viewString.Append("  T.IsEmailSubscription AS CompanyContact_IsEmailSubscription, \r\n            T.I");
-            viewString.Append("sNewsLetterSubscription AS CompanyContact_IsNewsLetterSubscription, \r\n          ");
-            viewString.Append("  T.image AS CompanyContact_image, \r\n            T.quickFullName AS CompanyConta");
-            viewString.Append("ct_quickFullName, \r\n            T.quickTitle AS CompanyContact_quickTitle, \r\n   ");
-            viewString.Append("         T.quickCompanyName AS CompanyContact_quickCompanyName, \r\n            T.");
-            viewString.Append("quickAddress1 AS CompanyContact_quickAddress1, \r\n            T.quickAddress2 AS ");
-            viewString.Append("CompanyContact_quickAddress2, \r\n            T.quickAddress3 AS CompanyContact_qu");
-            viewString.Append("ickAddress3, \r\n            T.quickPhone AS CompanyContact_quickPhone, \r\n        ");
-            viewString.Append("    T.quickFax AS CompanyContact_quickFax, \r\n            T.quickEmail AS Company");
-            viewString.Append("Contact_quickEmail, \r\n            T.quickWebsite AS CompanyContact_quickWebsite,");
-            viewString.Append(" \r\n            T.quickCompMessage AS CompanyContact_quickCompMessage, \r\n        ");
-            viewString.Append("    T.QuestionId AS CompanyContact_QuestionId, \r\n            T.IsApprover AS Com");
-            viewString.Append("panyContact_IsApprover, \r\n            T.isWebAccess AS CompanyContact_isWebAcces");
-            viewString.Append("s, \r\n            T.isPlaceOrder AS CompanyContact_isPlaceOrder, \r\n            T.");
-            viewString.Append("CreditLimit AS CompanyContact_CreditLimit, \r\n            T.isArchived AS Company");
-            viewString.Append("Contact_isArchived, \r\n            T.ContactRoleId AS CompanyContact_ContactRoleI");
-            viewString.Append("d, \r\n            T.TerritoryId AS CompanyContact_TerritoryId, \r\n            T.Cl");
-            viewString.Append("aimIdentifer AS CompanyContact_ClaimIdentifer, \r\n            T.AuthentifiedBy AS");
-            viewString.Append(" CompanyContact_AuthentifiedBy, \r\n            T.IsPayByPersonalCreditCard AS Com");
-            viewString.Append("panyContact_IsPayByPersonalCreditCard, \r\n            T.IsPricingshown AS Company");
-            viewString.Append("Contact_IsPricingshown, \r\n            T.SkypeId AS CompanyContact_SkypeId, \r\n   ");
-            viewString.Append("         T.LinkedinURL AS CompanyContact_LinkedinURL, \r\n            T.FacebookUR");
-            viewString.Append("L AS CompanyContact_FacebookURL, \r\n            T.TwitterURL AS CompanyContact_Tw");
-            viewString.Append("itterURL, \r\n            T.authenticationToken AS CompanyContact_authenticationTo");
-            viewString.Append("ken, \r\n            T.twitterScreenName AS CompanyContact_twitterScreenName, \r\n  ");
-            viewString.Append("          T.ShippingAddressId AS CompanyContact_ShippingAddressId, \r\n           ");
-            viewString.Append(" T.isUserLoginFirstTime AS CompanyContact_isUserLoginFirstTime, \r\n            T.");
-            viewString.Append("quickMobileNumber AS CompanyContact_quickMobileNumber, \r\n            T.quickTwit");
-            viewString.Append("terId AS CompanyContact_quickTwitterId, \r\n            T.quickFacebookId AS Compa");
-            viewString.Append("nyContact_quickFacebookId, \r\n            T.quickLinkedInId AS CompanyContact_qui");
-            viewString.Append("ckLinkedInId, \r\n            T.quickOtherId AS CompanyContact_quickOtherId, \r\n   ");
-            viewString.Append("         T.POBoxAddress AS CompanyContact_POBoxAddress, \r\n            T.Corporat");
-            viewString.Append("eUnit AS CompanyContact_CorporateUnit, \r\n            T.OfficeTradingName AS Comp");
-            viewString.Append("anyContact_OfficeTradingName, \r\n            T.ContractorName AS CompanyContact_C");
-            viewString.Append("ontractorName, \r\n            T.BPayCRN AS CompanyContact_BPayCRN, \r\n            ");
-            viewString.Append("T.ABN AS CompanyContact_ABN, \r\n            T.ACN AS CompanyContact_ACN, \r\n      ");
-            viewString.Append("      T.AdditionalField1 AS CompanyContact_AdditionalField1, \r\n            T.Add");
-            viewString.Append("itionalField2 AS CompanyContact_AdditionalField2, \r\n            T.AdditionalFiel");
-            viewString.Append("d3 AS CompanyContact_AdditionalField3, \r\n            T.AdditionalField4 AS Compa");
-            viewString.Append("nyContact_AdditionalField4, \r\n            T.AdditionalField5 AS CompanyContact_A");
-            viewString.Append("dditionalField5, \r\n            T.canUserPlaceOrderWithoutApproval AS CompanyCont");
-            viewString.Append("act_canUserPlaceOrderWithoutApproval, \r\n            T.CanUserEditProfile AS Comp");
-            viewString.Append("anyContact_CanUserEditProfile, \r\n            T.canPlaceDirectOrder AS CompanyCon");
-            viewString.Append("tact_canPlaceDirectOrder, \r\n            T.OrganisationId AS CompanyContact_Organ");
-            viewString.Append("isationId, \r\n            T.SecondaryEmail AS CompanyContact_SecondaryEmail, \r\n  ");
-            viewString.Append("          T.RegistrationDate AS CompanyContact_RegistrationDate, \r\n            T");
-            viewString.Append("rue AS _from0\r\n        FROM DomainModelsStoreContainer.CompanyContact AS T\r\n    ");
-            viewString.Append(") AS T1");
+            viewString.Append("ntact_RegistrationDate, T1.CompanyContact_LoginProvider, T1.CompanyContact_Provi");
+            viewString.Append("derKey)\r\n    FROM (\r\n        SELECT \r\n            T.ContactId AS CompanyContact_");
+            viewString.Append("ContactId, \r\n            T.AddressId AS CompanyContact_AddressId, \r\n            ");
+            viewString.Append("T.CompanyId AS CompanyContact_CompanyId, \r\n            T.FirstName AS CompanyCon");
+            viewString.Append("tact_FirstName, \r\n            T.MiddleName AS CompanyContact_MiddleName, \r\n     ");
+            viewString.Append("       T.LastName AS CompanyContact_LastName, \r\n            T.Title AS CompanyCo");
+            viewString.Append("ntact_Title, \r\n            T.HomeTel1 AS CompanyContact_HomeTel1, \r\n            ");
+            viewString.Append("T.HomeTel2 AS CompanyContact_HomeTel2, \r\n            T.HomeExtension1 AS Company");
+            viewString.Append("Contact_HomeExtension1, \r\n            T.HomeExtension2 AS CompanyContact_HomeExt");
+            viewString.Append("ension2, \r\n            T.Mobile AS CompanyContact_Mobile, \r\n            T.Email ");
+            viewString.Append("AS CompanyContact_Email, \r\n            T.FAX AS CompanyContact_FAX, \r\n          ");
+            viewString.Append("  T.JobTitle AS CompanyContact_JobTitle, \r\n            T.DOB AS CompanyContact_D");
+            viewString.Append("OB, \r\n            T.Notes AS CompanyContact_Notes, \r\n            T.IsDefaultCont");
+            viewString.Append("act AS CompanyContact_IsDefaultContact, \r\n            T.HomeAddress1 AS CompanyC");
+            viewString.Append("ontact_HomeAddress1, \r\n            T.HomeAddress2 AS CompanyContact_HomeAddress2");
+            viewString.Append(", \r\n            T.HomeCity AS CompanyContact_HomeCity, \r\n            T.HomeState");
+            viewString.Append(" AS CompanyContact_HomeState, \r\n            T.HomePostCode AS CompanyContact_Hom");
+            viewString.Append("ePostCode, \r\n            T.HomeCountry AS CompanyContact_HomeCountry, \r\n        ");
+            viewString.Append("    T.SecretQuestion AS CompanyContact_SecretQuestion, \r\n            T.SecretAns");
+            viewString.Append("wer AS CompanyContact_SecretAnswer, \r\n            T.Password AS CompanyContact_P");
+            viewString.Append("assword, \r\n            T.URL AS CompanyContact_URL, \r\n            T.IsEmailSubsc");
+            viewString.Append("ription AS CompanyContact_IsEmailSubscription, \r\n            T.IsNewsLetterSubsc");
+            viewString.Append("ription AS CompanyContact_IsNewsLetterSubscription, \r\n            T.image AS Com");
+            viewString.Append("panyContact_image, \r\n            T.quickFullName AS CompanyContact_quickFullName");
+            viewString.Append(", \r\n            T.quickTitle AS CompanyContact_quickTitle, \r\n            T.quick");
+            viewString.Append("CompanyName AS CompanyContact_quickCompanyName, \r\n            T.quickAddress1 AS");
+            viewString.Append(" CompanyContact_quickAddress1, \r\n            T.quickAddress2 AS CompanyContact_q");
+            viewString.Append("uickAddress2, \r\n            T.quickAddress3 AS CompanyContact_quickAddress3, \r\n ");
+            viewString.Append("           T.quickPhone AS CompanyContact_quickPhone, \r\n            T.quickFax A");
+            viewString.Append("S CompanyContact_quickFax, \r\n            T.quickEmail AS CompanyContact_quickEma");
+            viewString.Append("il, \r\n            T.quickWebsite AS CompanyContact_quickWebsite, \r\n            T");
+            viewString.Append(".quickCompMessage AS CompanyContact_quickCompMessage, \r\n            T.QuestionId");
+            viewString.Append(" AS CompanyContact_QuestionId, \r\n            T.IsApprover AS CompanyContact_IsAp");
+            viewString.Append("prover, \r\n            T.isWebAccess AS CompanyContact_isWebAccess, \r\n           ");
+            viewString.Append(" T.isPlaceOrder AS CompanyContact_isPlaceOrder, \r\n            T.CreditLimit AS C");
+            viewString.Append("ompanyContact_CreditLimit, \r\n            T.isArchived AS CompanyContact_isArchiv");
+            viewString.Append("ed, \r\n            T.ContactRoleId AS CompanyContact_ContactRoleId, \r\n           ");
+            viewString.Append(" T.TerritoryId AS CompanyContact_TerritoryId, \r\n            T.ClaimIdentifer AS ");
+            viewString.Append("CompanyContact_ClaimIdentifer, \r\n            T.AuthentifiedBy AS CompanyContact_");
+            viewString.Append("AuthentifiedBy, \r\n            T.IsPayByPersonalCreditCard AS CompanyContact_IsPa");
+            viewString.Append("yByPersonalCreditCard, \r\n            T.IsPricingshown AS CompanyContact_IsPricin");
+            viewString.Append("gshown, \r\n            T.SkypeId AS CompanyContact_SkypeId, \r\n            T.Linke");
+            viewString.Append("dinURL AS CompanyContact_LinkedinURL, \r\n            T.FacebookURL AS CompanyCont");
+            viewString.Append("act_FacebookURL, \r\n            T.TwitterURL AS CompanyContact_TwitterURL, \r\n    ");
+            viewString.Append("        T.authenticationToken AS CompanyContact_authenticationToken, \r\n         ");
+            viewString.Append("   T.twitterScreenName AS CompanyContact_twitterScreenName, \r\n            T.Ship");
+            viewString.Append("pingAddressId AS CompanyContact_ShippingAddressId, \r\n            T.isUserLoginFi");
+            viewString.Append("rstTime AS CompanyContact_isUserLoginFirstTime, \r\n            T.quickMobileNumbe");
+            viewString.Append("r AS CompanyContact_quickMobileNumber, \r\n            T.quickTwitterId AS Company");
+            viewString.Append("Contact_quickTwitterId, \r\n            T.quickFacebookId AS CompanyContact_quickF");
+            viewString.Append("acebookId, \r\n            T.quickLinkedInId AS CompanyContact_quickLinkedInId, \r\n");
+            viewString.Append("            T.quickOtherId AS CompanyContact_quickOtherId, \r\n            T.POBox");
+            viewString.Append("Address AS CompanyContact_POBoxAddress, \r\n            T.CorporateUnit AS Company");
+            viewString.Append("Contact_CorporateUnit, \r\n            T.OfficeTradingName AS CompanyContact_Offic");
+            viewString.Append("eTradingName, \r\n            T.ContractorName AS CompanyContact_ContractorName, \r");
+            viewString.Append("\n            T.BPayCRN AS CompanyContact_BPayCRN, \r\n            T.ABN AS Company");
+            viewString.Append("Contact_ABN, \r\n            T.ACN AS CompanyContact_ACN, \r\n            T.Addition");
+            viewString.Append("alField1 AS CompanyContact_AdditionalField1, \r\n            T.AdditionalField2 AS");
+            viewString.Append(" CompanyContact_AdditionalField2, \r\n            T.AdditionalField3 AS CompanyCon");
+            viewString.Append("tact_AdditionalField3, \r\n            T.AdditionalField4 AS CompanyContact_Additi");
+            viewString.Append("onalField4, \r\n            T.AdditionalField5 AS CompanyContact_AdditionalField5,");
+            viewString.Append(" \r\n            T.canUserPlaceOrderWithoutApproval AS CompanyContact_canUserPlace");
+            viewString.Append("OrderWithoutApproval, \r\n            T.CanUserEditProfile AS CompanyContact_CanUs");
+            viewString.Append("erEditProfile, \r\n            T.canPlaceDirectOrder AS CompanyContact_canPlaceDir");
+            viewString.Append("ectOrder, \r\n            T.OrganisationId AS CompanyContact_OrganisationId, \r\n   ");
+            viewString.Append("         T.SecondaryEmail AS CompanyContact_SecondaryEmail, \r\n            T.Regi");
+            viewString.Append("strationDate AS CompanyContact_RegistrationDate, \r\n            T.LoginProvider A");
+            viewString.Append("S CompanyContact_LoginProvider, \r\n            T.ProviderKey AS CompanyContact_Pr");
+            viewString.Append("oviderKey, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer");
+            viewString.Append(".CompanyContact AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyContacts", viewString.ToString());
         }
         
