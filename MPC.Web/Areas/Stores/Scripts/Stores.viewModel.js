@@ -101,6 +101,8 @@ define("stores/stores.viewModel",
                     //Check Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
                     bannerButtonCaption = ko.observable(),
+                    editorHtmlData = ko.observable(),
+                    editedWidgetId = ko.observable(),
 
                     CompanyVariableIconBinary = ko.observable(),
                      CompanyVariableIconName = ko.observable(),
@@ -1346,7 +1348,7 @@ define("stores/stores.viewModel",
                         // check to remove dupplicate color name
                         var count = 0;
                         _.each(selectedStore().companyCMYKColors(), function (color) {
-                            if (color.colorName() == selectedCompanyCMYKColor().colorName() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
+                            if (color.spotColor() == selectedCompanyCMYKColor().spotColor() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
                                 
                                 toastr.error("Color Name already exist.");
                                 flag = false;
@@ -5470,7 +5472,7 @@ define("stores/stores.viewModel",
                                         if (widget.widgetId() === 14) {
                                             _.each(item.CmsSkinPageWidgetParams, function (params) {
                                                 widget.cmsSkinPageWidgetParam(model.CmsSkinPageWidgetParam.Create(params));
-                                                widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                                                //widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
                                             });
                                         }
                                         pageSkinWidgets.push(widget);
@@ -5590,16 +5592,17 @@ define("stores/stores.viewModel",
                         ckEditorOpenFrom("StoreLayout");
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
                         //widget.cmsSkinPageWidgetParam().editorId("editor" + newAddedWidgetIdCounter());
-                        
-                        selectedWidget(widget.cmsSkinPageWidgetParam());
+                        editorHtmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                        editedWidgetId(widget.pageWidgetId());
+                        //selectedWidget(widget.cmsSkinPageWidgetParam());
                         view.showCkEditorDialogDialog();
                     },
                     //Save Widget Params That are set in CkEditor
                     onSaveWidgetParamFromCkEditor = function (widgetParams) {
                         var param = CKEDITOR.instances.content.getData();
                         _.each(pageSkinWidgets(), function (item) {
-                            if (widgetParams.pageWidgetId() === item.pageWidgetId()) {
-                                item.htmlData(param);
+                            if (editedWidgetId() === item.pageWidgetId()) {
+                                //item.htmlData(param);
                                 item.cmsSkinPageWidgetParam().paramValue(param);
                             }
                         });
@@ -8059,7 +8062,9 @@ define("stores/stores.viewModel",
                     companyVariableIcons: companyVariableIcons,
                     onDeleteCompanyVariableIcon: onDeleteCompanyVariableIcon,
                     CompanyVariableRowCount: CompanyVariableRowCount,
-                    onUnArchiveCompanyContact: onUnArchiveCompanyContact
+                    onUnArchiveCompanyContact: onUnArchiveCompanyContact,
+                    editorHtmlData: editorHtmlData,
+                    editedWidgetId: editedWidgetId
                     //Show RealEstateCompaign VariableIcons Dialog
                     //showcreateVariableDialog: showcreateVariableDialog
                 };

@@ -17545,7 +17545,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
         elementToDraw = this.applyFilters(null, this.resizeFilters, this._filteredEl || this._originalElement, true);
       }
       else {
-        elementToDraw = this._element;
+          elementToDraw = this._element;
       }
       if (this.type == "image" && (this.ImageClippedInfo != null && this.ImageClippedInfo != undefined && this.ImageClippedInfo != ''))
       {
@@ -17561,13 +17561,16 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
               xmlDoc.async = false;
               xmlDoc.loadXML(xml);
           }
-
+          
           var sx = parseFloat(xmlDoc.getElementsByTagName("sx")[0].childNodes[0].nodeValue);
           var sy = parseFloat(xmlDoc.getElementsByTagName("sy")[0].childNodes[0].nodeValue);
           var swidth = parseFloat(xmlDoc.getElementsByTagName("swidth")[0].childNodes[0].nodeValue);
           var sheight = parseFloat(xmlDoc.getElementsByTagName("sheight")[0].childNodes[0].nodeValue);
           var dWidth = parseFloat(imageMargins.width);
           var dHeight = parseFloat(imageMargins.height);
+          var isCropped = 0;
+          if (xmlDoc.getElementsByTagName("isCropped")[0] != undefined)
+              isCropped = parseFloat(xmlDoc.getElementsByTagName("isCropped")[0].childNodes[0].nodeValue);
           var dx = x + imageMargins.marginX;
           var dy = y + imageMargins.marginY;
           //if ($.browser.mozilla)  //firefox fix
@@ -17575,12 +17578,19 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //    if (swidth > dWidth) swidth = dWidth;
           //    if (sheight > dHeight) sheight = dHeight;
           //}
-          elementToDraw && ctx.drawImage(elementToDraw,sx, sy, swidth, sheight,
-                                  dx,
-                                  dy,
-                                  dWidth,
-                                  dHeight
-                                  );
+
+          if (isCropped == 0) {
+          
+              elementToDraw && ctx.drawImage(elementToDraw, dx, dy, swidth , sheight);
+              //elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight);
+          } else {
+              elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight,
+                                      dx,
+                                      dy,
+                                      dWidth,
+                                      dHeight
+                                      );
+          }
           // this._element, sx, sy, swidth, sheight, -this.width / 2, -this.height / 2, this.width, this.height);
           //this._element, -this.width / 2, -this.height / 2, this.width,          this.height
       } else

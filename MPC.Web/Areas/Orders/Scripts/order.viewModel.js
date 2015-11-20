@@ -1846,10 +1846,13 @@ define("order/order.viewModel",
                     updateQuantitiesValues = function () {
                         var qty1 = selectedCostCentre().quantity1();
                         var qty2 = selectedCostCentre().quantity2();
+                        var qty3 = selectedCostCentre().quantity3();
                         if (qty1 == undefined) {
                             selectedCostCentre().quantity1(0);
                         } if (qty2 == undefined) {
                             selectedCostCentre().quantity2(0);
+                        } if (qty3 == undefined) {
+                            selectedCostCentre().quantity3(0);
                         }
                     },
                     onSaveProductInventory = function () {
@@ -1862,7 +1865,9 @@ define("order/order.viewModel",
                         item.qty3(selectedCostCentre().quantity3());
                         //Req: Item Product type is set to '2', so while editting item's section is non mandatory
                         item.productType(2);
-                        item.qty1NetTotal(inventoryStockItemToCreate().price * selectedCostCentre().quantity1());
+                        item.qty1NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity1());
+                        item.qty2NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
+                        item.qty3NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
                         //item.qty1GrossTotal(inventoryStockItemToCreate().priceWithTax);
                         applyProductTax(item);
 
@@ -1874,7 +1879,9 @@ define("order/order.viewModel",
                         itemSection.qty1(selectedCostCentre().quantity1());
                         itemSection.qty2(selectedCostCentre().quantity2());
                         itemSection.qty3(selectedCostCentre().quantity3());
-                        itemSection.baseCharge1(inventoryStockItemToCreate().price * selectedCostCentre().quantity1());
+                        itemSection.baseCharge1(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity1());
+                        itemSection.baseCharge2(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
+                        itemSection.baseCharge3(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
 
@@ -1885,21 +1892,23 @@ define("order/order.viewModel",
                         sectionCostCenter.costCentreId(getStockCostCenterId(139));
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
                         sectionCostCenter.name('Stock(s)');
-                        sectionCostCenter.qty1NetTotal(inventoryStockItemToCreate().price * selectedCostCentre().quantity1());
-                        sectionCostCenter.qty2NetTotal(0);
-                        sectionCostCenter.qty2NetTotal(0);
+                        sectionCostCenter.qty1NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
+                        sectionCostCenter.qty3NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
                         sectionCostCenter.qty1EstimatedStockCost(0);
                         sectionCostCenter.qty2EstimatedStockCost(0);
                         sectionCostCenter.qty3EstimatedStockCost(0);
-                        sectionCostCenter.qty1Charge(inventoryStockItemToCreate().price * selectedCostCentre().quantity1());
-                        sectionCostCenter.qty2Charge(0);
-                        sectionCostCenter.qty3Charge(0);
+                        sectionCostCenter.qty1Charge(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2Charge(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
+                        sectionCostCenter.qty3Charge(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
                         sectionCostCenter.costCentreType('139');
 
                         var sectionCostCenterDetail = itemModel.SectionCostCenterDetail.Create({});
                         sectionCostCenterDetail.stockName(inventoryStockItemToCreate().name);
-                        sectionCostCenterDetail.costPrice(inventoryStockItemToCreate().price);
+                        sectionCostCenterDetail.costPrice(inventoryStockItemToCreate().actualprice);
                         sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
+                        sectionCostCenterDetail.qty2(selectedCostCentre().quantity2());
+                        sectionCostCenterDetail.qty3(selectedCostCentre().quantity3());
 
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
 
@@ -2041,6 +2050,22 @@ define("order/order.viewModel",
                         newItem.itemSections.push(itemSection);
                         var itemSectionForAddView = itemModel.ItemSection.Create({});
                         itemSectionForAddView.flagForAdd(true);
+                        
+
+                        var sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                        sectionCostCenter.qty1(0);
+                        sectionCostCenter.qty2(0);
+                        sectionCostCenter.qty3(0);
+                        sectionCostCenter.costCentreId(getStockCostCenterId(139));
+                        sectionCostCenter.name('Blank Sheet');
+                        sectionCostCenter.qty1NetTotal(0);
+                        sectionCostCenter.qty2NetTotal(0);
+                        sectionCostCenter.qty3NetTotal(0);
+                        sectionCostCenter.qty1Charge(0);
+                        sectionCostCenter.qty2Charge(0);
+                        sectionCostCenter.qty3Charge(0);
+
+                        itemSection.sectionCostCentres.push(sectionCostCenter);
                         newItem.itemSections.push(itemSectionForAddView);
                         selectedOrder().items.splice(0, 0, newItem);
                         //Req: Open Edit dialog of product on adding product

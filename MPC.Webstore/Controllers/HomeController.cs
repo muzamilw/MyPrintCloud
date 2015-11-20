@@ -22,6 +22,8 @@ using System.Runtime.Caching;
 using WebSupergoo.ABCpdf8;
 using System.Globalization;
 using MPC.Models.ResponseModels;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 
 namespace MPC.Webstore.Controllers
@@ -361,12 +363,18 @@ namespace MPC.Webstore.Controllers
                 {
                     ClientIdentifier = oCompany.facebookAppId,
                     ClientCredentialApplicator = ClientCredentialApplicator.PostParameter(oCompany.facebookAppKey),
+                    
                 };
+                IEnumerable<string> scops = new List<string>() { "email"};
+               // scops
+              
+
                 IAuthorizationState authorization = client.ProcessUserAuthorization();
                 if (authorization == null)
                 {
                     // Kick off authorization request
-                    client.RequestUserAuthorization();
+                    //client.PrepareRequestUserAuthorization(scops);
+                    client.RequestUserAuthorization(scops);
                 }
                 else
                 {
@@ -374,23 +382,25 @@ namespace MPC.Webstore.Controllers
                     string email = "";
                     string firstname = "";
                     string lastname = "";
-                    var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email");
+                    string callBackLink = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + "/oAuth/1/" + isRegistrationProcess + "/" + UserCookieManager.WBStoreId + "/Social";
 
-                    using (var response = request.GetResponse())
-                    {
-                        using (var responseStream = response.GetResponseStream())
-                        {
-                            StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                            webResponse = reader.ReadToEnd();
+                    var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email,publish_actions");
+                  
+                   using (var response = request.GetResponse())
+                   {
+                       using (var responseStream = response.GetResponseStream())
+                       {
+                           StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                           webResponse = reader.ReadToEnd();
 
-                            // ShowMessage(graph.email);
-                            var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
-                            var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
-                            email = ResponseJon.email;
-                            firstname = ResponseJon.first_name;
-                            lastname = ResponseJon.last_name;
-                        }
-                    }
+                           // ShowMessage(graph.email);
+                           var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
+                           var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
+                           email = ResponseJon.email;
+                           firstname = ResponseJon.first_name;
+                           lastname = ResponseJon.last_name;
+                       }
+                   }
 
                     if (isRegistrationProcess == 1)
                     {
@@ -415,7 +425,7 @@ namespace MPC.Webstore.Controllers
                         }
                         else 
                         {
-                            user = _myCompanyService.GetContactByEmail(email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                            user = _myCompanyService.GetContactBySocialNameAndEmail(firstname + " " + lastname, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode, email);
                         }
                         if (user != null)
                         {

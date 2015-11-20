@@ -42,7 +42,7 @@
                             @if (ViewBag.ShowTwitterSignInLink == 1)
                             {
                                 <em id="emtwtter" class="emTw"></em>
-                            <input id="twitterbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign up with Twitter"))" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
+                                <input id="twitterbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign up with Twitter"))" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
                                 <br />
                             }
 
@@ -93,7 +93,7 @@
                             if (ViewBag.Provider == "fb")
                             {
                                 <input type="text" name="socialLastNameTxt" class="txtBoxLoginPage" value="@ViewBag.socialLastName" readonly="readonly" />
-
+                                <input type="text" name="socialEmailTxt" class="txtBoxLoginPage" value="@ViewBag.socialEmail" readonly="readonly" />
                             }
 
                         }
@@ -114,20 +114,26 @@
 
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
 
+                        if (ViewBag.Provider != "fb")
+                        {
+                           @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")) })
 
-                        @Html.TextBoxFor(model => model.Email, new
-                   {
-                       id = "txtEmail",
-                       @class = "txtBoxLoginPage",
-                       @placeholder =
-                           @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
- })
+                        }
+                        if (isSocial == true)
+                        {
+                            @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @style="display:none;" ,@placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
 
+                           
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
 
-                        @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
+                            @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })
+                        }
+                        <br />
 
-                        @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
-                    <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
+                        <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
 
                         <div class="clear">
                             &nbsp;

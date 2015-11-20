@@ -75,6 +75,10 @@ $('#imageUploader').change(function () {
                                 k27();
                                 isImgUpl = true;
                                 StopLoader(); $("#" + res.BackgroundImageAbsolutePath).parent().parent().click();
+                                if(res.flgPhotobook)
+                                {
+                                    alert("Low resolution image uploaded, Please use a high res. image! ");
+                                }
                             } else {
                                 Arc_1();
                             }

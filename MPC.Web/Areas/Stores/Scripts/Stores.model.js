@@ -1184,10 +1184,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             colorK = ko.observable(specifiedColorK).extend({ required: true, number: true, min: 0, max: 200 }),
             isActive = ko.observable(specifiedIsActive),
             isSpotColor = ko.observable(specifiedIsSpotColor || true),
-            spotColor = ko.observable(specifiedSpotColor || undefined),
+            spotColor = ko.observable(specifiedSpotColor).extend({ required: true }),
             // Errors
             errors = ko.validation.group({
-                colorName: colorName,
+                spotColor: spotColor,
                 colorC: colorC,
                 colorM: colorM,
                 colorY: colorY,
@@ -1226,7 +1226,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     ColorM: colorM(),
                     ColorY: colorY(),
                     ColorK: colorK(),
-                    SpotColor:colorName() ,
+                    SpotColor: spotColor(),
                     IsSpotColor: isSpotColor(),
                     IsColorActive: isActive()
                 };

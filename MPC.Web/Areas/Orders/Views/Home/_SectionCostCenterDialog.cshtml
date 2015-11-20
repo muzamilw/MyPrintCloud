@@ -80,6 +80,9 @@
                                 <!--ko if:  $root.selectedQty() == 2-->
                                 <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty2Ui, enable: costCentreType() != 1 ? true: false " />
                                 <!--/ko-->
+                                <!--ko if:  $root.selectedQty() == 3-->
+                                <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty3Ui, enable: costCentreType() != 1 ? true: false " />
+                                <!--/ko-->
 
                             </div>
                             @*<div class="col-lg-3">
@@ -161,11 +164,13 @@
                     </div>
                 </div>
             </div>
-
+            <div class="clearfix">
+                &nbsp;
+            </div>
             <div class="modal-footer">
-                <hr />
+                
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSectionCostCenter, enable: costCentreType() != 1">Remove</button>
-
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseSectionCostCenter" style="margin-left: 0px;">Close</button>
             </div>
         </div>
     </div>

@@ -4481,7 +4481,7 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenterDetail.Qty3 = Math.Ceiling(OrderSheetQuantity[2]);
             }
 
-            if (oItemSection.IsPaperSupplied == false)
+            if (oItemSection.IsPaperSupplied != true)
             {
                 oItemSectionCostCenterDetail.CostPrice = UnitPrice / oPaperDTO.PackageQty;
             }
@@ -6249,7 +6249,7 @@ namespace MPC.Implementation.MISServices
             int PressIdSide2 = Convert.ToInt32(currentSection.PressIdSide2);
             List<int> SystemCostCenterTypes = new List<int>(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
             if (currentSection.SectionCostcentres != null)
-                currentSection.SectionCostcentres.Where(a => SystemCostCenterTypes.Contains(a.SystemCostCentreType ?? 0) || a.Name == "Web Order Cost Center").ToList().ForEach(a => currentSection.SectionCostcentres.Remove(a));
+                currentSection.SectionCostcentres.Where(a => SystemCostCenterTypes.Contains(a.SystemCostCentreType ?? 0) || a.Name == "Web Order Cost Center" || a.Name == "Blank Sheet" || a.Name == "Stock(s)").ToList().ForEach(a => currentSection.SectionCostcentres.Remove(a));
             ItemSection updatedSection = currentSection;
             int SetupSpoilage = 0;
             double RunningSpoilage = 0;

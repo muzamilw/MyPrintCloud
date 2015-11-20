@@ -161,6 +161,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     grandTotal: grandTotal,
                     supplierId: supplierId,
                     discount: discount,
+                    purchaseDetails: purchaseDetails
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -430,6 +431,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     quantity: quantity,
                     price: price,
                     packqty: packqty,
+                    itemCode: itemCode,
+                    serviceDetail: serviceDetail,
+                    packqty: packqty,
                     freeitems: freeitems,
                 }),
                 // Is Valid 
@@ -441,6 +445,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     // Show Item Errors
                     errors.showAllMessages();
                 },
+               
             convertToServerData = function (source) {
                 return {
                     PurchaseDetailId: source.id() < 0 ? 0 : source.id(),

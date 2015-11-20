@@ -75,10 +75,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             StockCostAndPrice obj = null;
             StockCostAndPrice objCost = null;
+            //Sale Price Object
             if (source.StockCostAndPrices != null)
             {
                 obj = source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier == -1);
             }
+            //Cost Price Object
             if (source.StockCostAndPrices != null)
             {
                 objCost = source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier == 0);

@@ -22,6 +22,9 @@ namespace MPC.Models.DomainModels
         #region Additional Properties
         [NotMapped]
         public long? FakeVariableId { get; set; }
+
+        [NotMapped]
+        public string VariableName { get; set; }
         #endregion
 
 

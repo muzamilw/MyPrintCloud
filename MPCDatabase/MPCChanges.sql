@@ -8811,3 +8811,21 @@ alter table ZapierWebHookTargetUrl add OrganisationId bigint
 -----------------------------------------------
 
 alter table Purchase add OrganisationId bigint null
+
+------------------Executed on AUS servers 20151119 ---------------
+/****** Object:  StoredProcedure [dbo].[usp_GetRealEstateProducts]    Script Date: 11/19/2015 2:55:40 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[usp_GetRealEstateProducts]
+	@ContactCompanyID int
+AS
+BEGIN
+
+ SELECT i.ProductName, pci.CategoryId, i.ProductCode, i.ThumbnailPath, i.ItemId, i.TemplateType, i.ProductType, i.isTemplateDesignMode, i.TemplateId
+FROM dbo.Items AS i INNER JOIN ProductCategoryItem pci ON pci.ItemId = i.ItemId INNER JOIN
+ dbo.fnc_GetCorporateCategoriesByCompanyID(@ContactCompanyID) AS cp ON cp.ProductCategoryID = pci.CategoryId 
+ AND i.IsRealStateProduct = 1 AND i.IsPublished = 1 AND i.IsEnabled = 1 AND (i.IsArchived = 0 or i.IsArchived is null)
+
+END

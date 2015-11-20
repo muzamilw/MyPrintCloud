@@ -14,7 +14,7 @@
                             <label for="txtColorName" class="control-label text-right tooltip-float">Color Name</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" id="txtColorName" data-bind="value:colorName, validationTooltip: colorName ">
+                            <input type="text" class="form-control" id="txtColorName" data-bind="value:spotColor, validationTooltip: spotColor ">
                         </div>
                     </div>
                     <div class="col-lg-6 form-horizontal">
@@ -91,7 +91,7 @@
                    
 
                     <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyCMYKColor, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
-                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyCMYKColors, enable: $root.selectedCompanyCMYKColor().colorId() != undefined">Archive</button>
+                    @*<button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyCMYKColors, enable: $root.selectedCompanyCMYKColor().colorId() != undefined">Archive</button>*@
                     <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyCMYKColor" style="margin-left: 0px;">Close</button>
                     
                 </div>

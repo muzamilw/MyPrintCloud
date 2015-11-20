@@ -892,9 +892,9 @@ namespace MPC.Implementation.MISServices
                                     if (contact.ContactRoleId == 1)
                                         Role = "A";
                                     else if (contact.ContactRoleId == 2)
-                                        Role = "B";
+                                        Role = "M";
                                     else
-                                        Role = "C";
+                                        Role = "U";
 
                                     if (contact.IsNewsLetterSubscription ?? false)
                                         IsNewsLetterSubscription = "True";

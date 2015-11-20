@@ -2188,7 +2188,23 @@ namespace MPC.Repository.Repositories
 
             }
         }
+        public CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email)
+        {
+            try
+            {
+                var qry = from contacts in db.CompanyContacts
+                          join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
+                          where string.Compare(contacts.twitterScreenName, FName, true) == 0 && contacts.Email == Email
+                          select contacts;
 
+                return qry.ToList().FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 
 }

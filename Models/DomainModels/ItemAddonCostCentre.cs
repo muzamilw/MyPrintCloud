@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -16,6 +17,8 @@ namespace MPC.Models.DomainModels
         public virtual CostCentre CostCentre { get; set; }
 
         public virtual ItemStockOption ItemStockOption { get; set; }
+        [NotMapped]
+        public string CostCentreName { get; set; }
 
         #region Public
 
@@ -31,7 +34,7 @@ namespace MPC.Models.DomainModels
 
             target.CostCentreId = CostCentreId;
             target.IsMandatory = IsMandatory;
-
+            target.Sequence = Sequence;
         }
 
         #endregion

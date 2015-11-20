@@ -188,7 +188,8 @@
             estimateProductionTime: estimateProductionTime,
             costcentreImageName: costcentreImageName,
             isTimeVariable: isTimeVariable,
-            isDisabled:isDisabled,
+            isDisabled: isDisabled,
+            timeQuestionDefaultValue: timeQuestionDefaultValue,
             //isTimePrompt: isTimePrompt
             isQtyVariable: isQtyVariable
             //isQtyPrompt: isQtyPrompt
