@@ -12,6 +12,7 @@ define("common/itemDetail.viewModel",
                     view,
                     //#region Observables
                     showItemDetailsSection = ko.observable(false),
+
                     showSectionDetail = ko.observable(false),
                     selectedProduct = ko.observable(model.Item.Create({})),
                     selectedAttachment = ko.observable(model.ItemAttachment.Create({})),
@@ -144,6 +145,8 @@ define("common/itemDetail.viewModel",
                     isSide1InkButtonClicked = ko.observable(false),
                     // Default Section - From the Item Added from Retail Store
                     defaultSection = ko.observable(),
+                    // defaultPhraseField
+                    defaultPhraseField = ko.observable(),
                     //#region Utility Functions
                     // Update Section Cost Center Qty3 Net total on Qty3 Markup change
                     updateSectionCostCenterQty3NetTotalOnQty3MarkupChange = function (markupValue) {
@@ -1730,10 +1733,30 @@ define("common/itemDetail.viewModel",
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
                         phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[1].id);
+                        
+                        if (selectedJobDescription() === 'txtDescription1')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[0].name);
+                        else if (selectedJobDescription() === 'txtDescription2')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[1].name);
+                        else if (selectedJobDescription() === 'txtDescription3')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[2].name);
+                        else if (selectedJobDescription() === 'txtDescription4')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[3].name);
+                        else if (selectedJobDescription() === 'txtDescription5')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[4].name);
+                        else if (selectedJobDescription() === 'txtDescription6')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[5].name);
+                        else if (selectedJobDescription() === 'txtDescription7')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[6].name);
+                       
+                       
                         phraseLibrary.show(function (phrase) {
                             updateJobDescription(phrase);
                         });
                     },
+
+                    
+
                     onCloseSectionCostCenter = function() {
                         view.hideSectionCostCenterDialogModel();
                     },

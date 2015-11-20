@@ -6,6 +6,7 @@
 @using MPC.Models.Common;
 @{
     int StockCount = 1;
+    int QtyCount = 0;
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
@@ -303,53 +304,102 @@
 
             </div>
             <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9">
-                <div class="qty-container float_left_simple txtAlignLeft">
-                    @if (ViewBag.ItemModel.IsQtyRanged == true)
-                    {
-                        if (ViewBag.SelectedQuantity != null && ViewBag.SelectedQuantity != 0)
+                @if (ViewBag.ItemModel.IsQtyRanged == true)
+                {
+                    <div class="qty-container float_left_simple txtAlignLeft">
+
+                        @if (ViewBag.SelectedQuantity != null && ViewBag.SelectedQuantity != 0)
                         {
                             <input type="text" name="rangedQtyBox" id="rangedQuantityOrdered" class="dropdownBorderCS rangedQtyBox  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" value="@ViewBag.SelectedQuantity" />
                         }
                         else
                         {
-                            <input type="text" name="rangedQtyBox" id="rangedQuantityOrdered" class="dropdownBorderCS rangedQtyBox  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
+                            <input type="text" name="rangedQtyBox" id="rangedQuantityOrdered" class="dropdownBorderCS rangedQtyBox  Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" placeholder="Enter Qty" />
                         }
                         <br />
-                        <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: black;
+                        @if (ViewBag.ItemModel.ItemPriceMatrices.Count > 2)
+                        {
+                            <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: black;
                             font-size: 12px; float: left; margin-top: 15px; margin-bottom: 10px;">
-                            <label id="toggleHeading" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId, "Show Price Table"))</label>
-                        </div>
-                    }
-                    else
-                    {
-                        <select class="dropdownBorderCS rangedQtyBox rounded_corners5 template_designing dropdownQtyListClass clearRight ">
-                            @foreach (var quantity in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
-                            {
-                                if (ViewBag.SelectedQuantity != null)
-                                {
-                                    if (ViewBag.SelectedQuantity == quantity.Quantity)
-                                    {
+                                <label id="toggleHeading" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId, "Show Price Table"))</label>
+                            </div>
+                        }
+                       
 
+
+                    </div>
+                }
+                else
+                {
+                       <div class="fixed_qty_container float_left_simple txtAlignLeft">
+                      @foreach (var quantity in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                         {
+                             if (ViewBag.SelectedQuantity != null && ViewBag.SelectedQuantity != 0)
+                             {
+                                 if (ViewBag.SelectedQuantity == quantity.Quantity)
+                                 {
+                                      <div class=float_left_simple style="height:55px;position:relative;">
+                                          @{
+                                                var qtyClassName = "rbqtyType" + QtyCount;
+                                                var radioQtyId = "qtyinput" + quantity.PriceMatrixId;
+                                                var radiodataId = "qtydata" + quantity.PriceMatrixId;
                                         
-                                            <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
-                                    }
-
-                                }
-                                else
-                                {
-                                    <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
-                                }
-
-                            }
-
-                    </select>
-                    }
-
+                                          }
+                                              <input id="@radioQtyId" type=radio name="QtyRadio" checked data-id="@radiodataId" data-index="@QtyCount" class="@qtyClassName" style="position:absolute;opacity:0;" />
+                                                <label for=@radioQtyId class=grayRadiantbtn onclick=SelectQtyOption('@qtyClassName');> @quantity.Quantity </label>
+                                      </div>  
+                                 }
+                                 else 
+                                 {
+                                        <div class=float_left_simple style="height:55px;position:relative;">
+                                          @{
+                                                var qtyClassName = "rbqtyType" + QtyCount;
+                                                var radioQtyId = "qtyinput" + quantity.PriceMatrixId;
+                                                var radiodataId = "qtydata" + quantity.PriceMatrixId;
+                                       
+                                          }
+                                              <input id="@radioQtyId" type=radio name="QtyRadio" data-id="@radiodataId" data-index="@QtyCount" class="@qtyClassName" style="position:absolute;opacity:0;" />
+                                          <label for=@radioQtyId class=grayRadiantbtn onclick=SelectQtyOption('@qtyClassName');> @quantity.Quantity </label>
+                                        </div>  
+                                 }
+                             }
+                             else
+                             {
+                                  if (QtyCount == 0)
+                                     {
+                                          <div class=float_left_simple style="height:55px;position:relative;">
+                                          @{
+                                                var qtyClassName = "rbqtyType" + QtyCount;
+                                                var radioQtyId = "qtyinput" + quantity.PriceMatrixId;
+                                                var radiodataId = "qtydata" + quantity.PriceMatrixId;
+                                        
+                                          }
+                                              <input id="@radioQtyId" type=radio name="QtyRadio" checked data-id="@radiodataId" data-index="@QtyCount" class="@qtyClassName" style="position:absolute;opacity:0;" />
+                                                <label for=@radioQtyId class=grayRadiantbtn onclick=SelectQtyOption('@qtyClassName');> @quantity.Quantity </label>
+                                      </div>  
+                                     }
+                                     else 
+                                     {
+                                          <div class=float_left_simple style="height:55px;position:relative;">
+                                          @{
+                                                var qtyClassName = "rbqtyType" + QtyCount;
+                                                var radioQtyId = "qtyinput" + quantity.PriceMatrixId;
+                                                var radiodataId = "qtydata" + quantity.PriceMatrixId;
+                                       
+                                          }
+                                              <input id="@radioQtyId" type=radio name="QtyRadio" data-id="@radiodataId" data-index="@QtyCount" class="@qtyClassName" style="position:absolute;opacity:0;" />
+                                          <label for=@radioQtyId class=grayRadiantbtn onclick=SelectQtyOption('@qtyClassName');> @quantity.Quantity </label>
+                                        </div>  
+                                     }
+                             }
+                            
+                             QtyCount++;
+                         }
+                      
                 </div>
+                }
+               
+             
                 <div class="price-container float_left_simple">
                     
                     <div class="clearBoth">
@@ -889,8 +939,10 @@
                 <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9">
                     @if (ViewBag.isUploadImageAlso == true)
                     {
-                        <input type="file" name="imageUploader" id="imageUploader" class="imageUploader" />
-                        <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload \n Your complete design (pdf)"))' class="Upload_your_artwork rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" />
+                       
+                        <input type="file" name="imageUploader" id="imageUploader" class="imageUploader" style="display:none;" />
+                        <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload \n Your complete design (pdf)"))' class="Upload_your_artwork rounded_corners5" onclick="openDailogToUploadImage();" />
+    <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload \n Your complete design (pdf)"))' class="Upload_your_artwork rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" style="display:none;" />
                     }
                    
                     <hr />
@@ -1294,11 +1346,13 @@
             }
 
         } else {
-            CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
+            console.log($('input:radio[name=QtyRadio]:checked').attr('data-index') + ":onloadindex:");
+            //CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index() );
+            CalculatePriceBaseOnSelectedQuantity($('input:radio[name=QtyRadio]:checked').attr('data-index'));
         }
-
+        
         SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
-
+        SelectQtyOption($('input:radio[name=QtyRadio]:checked').attr('class'));
         SetAddOnsPriceOnPageLoad();
 
         SetCostCentreQueueLabelsOnModify();
@@ -1433,6 +1487,7 @@
 
         var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
         JsonData = JsonData[selectedQuantityIndex];
+        console.log("JsonData on qty chnage" + JsonData);
         selectedStockNo = selectedStockNo + '_PriceMatrixID_' + JsonData.ItemID.toString();
 
         var price = "";
@@ -1442,14 +1497,41 @@
         $("#VMPrice").val(parseFloat($('#' + selectedStockNo).attr("data-actualprice").replace(",","")));
         $("#VMJsonMatrix").val(JSON.stringify(JsonData));
 
-        $("#VMQuantityOrdered").val($(".dropdownQtyListClass").find(":selected").text());
+        $("#VMQuantityOrdered").val($('input:radio[name=QtyRadio]:checked').next().text());
         this.displayTotalPrice(price, calculateAddOns(true));
     }
 
-    $(".dropdownQtyListClass").change(function() {
+    //$(".dropdownQtyListClass").change(function() {
+    //    console.log($(".dropdownQtyListClass").find(":selected").index() + ":index:");
+    //    CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
+        
+    //});
 
-        CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
-    });
+    function SelectQtyOption(classname){
+
+        $('input:radio[class=' + classname + ']').prop('checked', true);
+
+        if ($('input:radio[class=' + classname + ']').is(':checked')) {
+
+            $('input:radio[class=' + classname + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+
+            var name = $('input:radio[class=' + classname + ']').attr("name");
+
+            $('input:radio[name=' + name + ']').each(function() {
+                if ($(this).is(':checked')) {
+                    //$("#lblStock").text($(this).next().text());
+                    $(this).parent().parent().parent().parent().addClass('white_background');
+                    $(this).parent().parent().parent().parent().css("background-color", "white");
+                } else {
+                    $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+                }
+            });
+
+        }
+        console.log($('input:radio[name=QtyRadio]:checked').attr('data-index') + ":index:");
+        CalculatePriceBaseOnSelectedQuantity($('input:radio[name=QtyRadio]:checked').attr('data-index'));
+      
+    }
 
     function SelectStockOption(classname) {
 
@@ -1503,7 +1585,8 @@
                 CalculatePriceBaseOnRangedQuantity();
             }
         } else {
-            CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
+            CalculatePriceBaseOnSelectedQuantity($('input:radio[name=QtyRadio]:checked').attr('data-index'));
+          //  CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
         }
 
         LoadCostCentersByStockId(ItemstockOptionID);
@@ -1830,8 +1913,8 @@
         var unSelectedCheckBox = null;
         var itemsList = '';
 
-        var orderedQuantity = $(".dropdownQtyListClass").find(":selected").val();
-
+        var orderedQuantity = $('input:radio[name=QtyRadio]:checked').next().text(); // $(".dropdownQtyListClass").find(":selected").val();
+        console.log("orderedQuantity" + orderedQuantity);
         if (isRanged) {
             orderedQuantity = $("#rangedQuantityOrdered").val();
 
@@ -1913,6 +1996,7 @@
                     data.append("file" + i, files[i]);
                 }
             }
+            openDailog();
         });
     function openDailog() {
        
@@ -2605,6 +2689,11 @@
             }
         };
         var returnText = $.ajax(options).responseText;
+    }
+
+    function  openDailogToUploadImage()
+    {
+        $("#imageUploader").click();
     }
 </script>
 

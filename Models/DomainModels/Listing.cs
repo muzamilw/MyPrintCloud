@@ -114,5 +114,15 @@ namespace MPC.Models.DomainModels
          public string SplitSystemAircon { get; set; }
           public string PriceView { get; set; }
 
+         public string AuctionTime { get; set; }
+         public string InspectionDate1 { get; set; }
+         public string InspectionTimeFrom1 { get; set; }
+         public string InspectionTimeTo1 { get; set; }
+         public string InspectionDate2 { get; set; }
+         public string InspectionTimeFrom2 { get; set; }
+         public string InspectionTimeTo2 { get; set; }
+
+
+
     }
 }
