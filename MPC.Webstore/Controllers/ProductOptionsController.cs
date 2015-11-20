@@ -256,6 +256,7 @@ namespace MPC.Webstore.Controllers
 
                 StoreBaseResopnse = null;
                 TempData["ItemMode"] = ItemMode;
+                ViewBag.ViewToFire = ViewToFire;
                 if (ViewToFire == "ProductOptionsAndDetails")
                 {
                     return View("PartialViews/ProductOptionsAndDetails");
@@ -344,7 +345,7 @@ namespace MPC.Webstore.Controllers
             {
                 DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse, false);
 
-                if (ViewToFire == "ProductOptionsAndDetails")
+                if (Request.Form["ViewToFire"] == "ProductOptionsAndDetails")
                 {
                     return View("PartialViews/ProductOptionsAndDetails");
                 }

@@ -413,6 +413,7 @@
                             @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
                             @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
                             @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
+    <input type="hidden" id="ViewToFire" name="ViewToFire" value="@ViewBag.ViewToFire" />
                             <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
                         }
 
@@ -868,6 +869,7 @@
     var TotalItemPrice = 0;
     var data = "";
     var fileExtension = "";
+    var fileLimitExceed = 0;
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
     var isImageUploadedOnLandingPage = 0;
@@ -1517,50 +1519,50 @@
         console.log("parseInt()" + selectedStockItemId);*@
         //$(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
 
-            if (addOnJasonData != null) {
-      
-                for (var i = 0; i < $(addOnJasonData).length; i++) {
-                    selectedCheckBox = $(addOnJasonData)[i];
-                    
-                    if (selectedCheckBox.isChecked == 1) {
-                        console.log($(addOnJasonData)[i].Id + "=" + $(addOnJasonData)[i].isChecked);
-                        var ActualPriceIncludeVatOnModifyingProductCase = selectedCheckBox.ActualPrice + ((selectedCheckBox.ActualPrice * @ViewBag.TaxRate) / 100);
-                        ActualPriceIncludeVatOnModifyingProductCase =   "@ViewBag.Currency" + (ActualPriceIncludeVatOnModifyingProductCase).toFixed(2).toString();
-                        if(selectedCheckBox.Type == 3){ // quantity cc
-                            if(selectedCheckBox.QuantitySourceType == 1){
-                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase  + '</label>');
-                            }else{
-                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
-                            }
-                        }else if(selectedCheckBox.Type == 2){
-                            if(selectedCheckBox.TimeSourceType == 1){
-                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
-                            }else{
-                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
-                            }
+        if (addOnJasonData != null) {
 
+            for (var i = 0; i < $(addOnJasonData).length; i++) {
+                selectedCheckBox = $(addOnJasonData)[i];
+
+                if (selectedCheckBox.isChecked == 1) {
+                    console.log($(addOnJasonData)[i].Id + "=" + $(addOnJasonData)[i].isChecked);
+                    var ActualPriceIncludeVatOnModifyingProductCase = selectedCheckBox.ActualPrice + ((selectedCheckBox.ActualPrice * @ViewBag.TaxRate) / 100);
+                    ActualPriceIncludeVatOnModifyingProductCase =   "@ViewBag.Currency" + (ActualPriceIncludeVatOnModifyingProductCase).toFixed(2).toString();
+                    if(selectedCheckBox.Type == 3){ // quantity cc
+                        if(selectedCheckBox.QuantitySourceType == 1){
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase  + '</label>');
                         }else{
                             $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
                         }
-                        $("#" + $(addOnJasonData)[i].Id).click();
+                    }else if(selectedCheckBox.Type == 2){
+                        if(selectedCheckBox.TimeSourceType == 1){
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
+                        }else{
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                        }
+
+                    }else{
+                        $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
                     }
-                    $("#" + $(addOnJasonData)[i].Id).attr('onclick', 'PromptQuestion(' + selectedCheckBox.CostCenterId + ', ' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type + ', \"New\",'+ selectedCheckBox.QuantitySourceType +',' + selectedCheckBox.TimeSourceType + ');');
-
-                    $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
-
-         
-              
+                    $("#" + $(addOnJasonData)[i].Id).click();
                 }
+                $("#" + $(addOnJasonData)[i].Id).attr('onclick', 'PromptQuestion(' + selectedCheckBox.CostCenterId + ', ' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type + ', \"New\",'+ selectedCheckBox.QuantitySourceType +',' + selectedCheckBox.TimeSourceType + ');');
+
+                $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
+
+
+
             }
-           // itemsList = itemsList + ", " + $(this).parent().next().text();
+        }
+        // itemsList = itemsList + ", " + $(this).parent().next().text();
 
-            // check the costcenter if its type is fixed then we will take its setup cost
-            //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-            //var actualPrice = selectedCheckBox.ActualPrice;
-            console.log(selectedCheckBox.isChecked);
-            
+        // check the costcenter if its type is fixed then we will take its setup cost
+        //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
+        //var actualPrice = selectedCheckBox.ActualPrice;
+        console.log(selectedCheckBox.isChecked);
 
-            
+
+
         //});
 
         selectedCheckBox = null;
@@ -1582,6 +1584,9 @@
             if (files.length > 0) {
 
                 for (i = 0; i < files.length; i++) {
+                    if(files[i].size != null && files[i].size > 52428800){
+                        fileLimitExceed = 1;
+                    }
                     data.append("file" + i, files[i]);
                 }
             }
@@ -1590,7 +1595,7 @@
     }
     function openDailog() {
 
-        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png" ].indexOf(fileExtension) > -1 )
+        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png" ].indexOf(fileExtension) > -1 && fileLimitExceed == 0)
         {
             HideMessagePopUpGeneric();
             ShowLoader();
@@ -1662,8 +1667,18 @@
         }
         else
         {
-            HideMessagePopUpGeneric();
-            ShowPopUp('Message','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of png,pdf,jpg,eps,tiff,csv,xls,xlsx."))');
+            if(fileLimitExceed == 1)
+            {
+                fileLimitExceed = 0;
+                HideMessagePopUpGeneric();
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 50 MB are allowed only !");
+            }
+            else
+            {
+                HideMessagePopUpGeneric();
+                ShowPopUp('Message','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of png,pdf,jpg,eps,tiff,csv,xls,xlsx."))');
+            }
+
         }
 
     }
