@@ -88,8 +88,9 @@
 
                                 <ul id="profileMenu" style="display:none;" class="profile-menu">
                                     <li><a href="/Dashboard"> @Html.Raw(Html.GetKeyValueFromResourceFile("pfile", UserCookieManager.WBStoreId, "Profile"))</a></li>
-                                    <li><a href="#">@Html.Raw(Html.GetKeyValueFromResourceFile("MenuSavedlbl", UserCookieManager.WBStoreId, "Saved"))
-</a></li>
+                                    <li><a href="/SavedDesigns">
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("MenuSavedlbl", UserCookieManager.WBStoreId, "Saved"))
+                                </a></li>
                                     <li><a href="/ShopCart">Cart</a></li>
                                     <li><a href="@Url.Action("LogOut", "LoginBar")">@Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign Out"))</a></li>
                                 </ul>
