@@ -753,6 +753,7 @@
     <Content Include="Content\MetroStyles.css" />
     <Content Include="Content\mp-loading.gif" />
     <Content Include="Content\NewBootstrapClass.css" />
+    <Content Include="Content\owl.carousel.css" />
     <Content Include="Content\oxfordtestimonial.css" />
     <Content Include="Content\PosterBanner.css" />
     <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />
@@ -766,6 +767,8 @@
     <Content Include="Content\RealEstateSlider\js\jquery-1.7.min.js" />
     <Content Include="Content\RealEstateSlider\js\jquery.featureCarousel.js" />
     <Content Include="Content\RealEstateSlider\js\jquery.featureCarousel.min.js" />
+    <Content Include="Content\slick-theme.css" />
+    <Content Include="Content\slick.css" />
     <Content Include="Content\Slider.css" />
     <Content Include="Content\smoothslide.css" />
     <Content Include="Content\smoothslides.theme.css" />
@@ -921,11 +924,13 @@
     <Content Include="Scripts\js-image-slider.js" />
     <Content Include="Scripts\modalEffects.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\owl.carousel.js" />
     <Content Include="Scripts\PopUp.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sample01.js" />
     <Content Include="Scripts\script.js" />
+    <Content Include="Scripts\slick.min.js" />
     <Content Include="Scripts\slider.js" />
     <Content Include="Scripts\SlidingBanner.js" />
     <Content Include="Scripts\SmartFormJCarousel.js" />
@@ -1068,6 +1073,7 @@
     <Content Include="Views\Shared\PartialViews\LoginEazyPrint.cshtml" />
     <Content Include="Views\Shared\PartialViews\EzyPrintSignUp.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOptionsAndDetails.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FooterWithUseFulLinks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
