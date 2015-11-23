@@ -67,6 +67,7 @@ namespace MPC.Webstore.Controllers
 
                 ViewData["CmsPage"] = StoreBaseResopnse.SecondaryPages;
                 ViewBag.Notes = StoreBaseResopnse.Company.Notes;
+                ViewBag.StoreName = StoreBaseResopnse.Company.Name;
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
                     if (StoreBaseResopnse.Organisation != null)
