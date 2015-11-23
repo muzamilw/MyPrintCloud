@@ -54,9 +54,9 @@
                         <div>@Html.ValidationMessageFor(u => u.Password)</div>
                     </div>
              
-                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "txtBoxLoginPage txtEmailBox",  @value = "Email" })
+                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "txtBoxLoginPage txtEmailBox",  @value = "Email"})
 
-                    @Html.TextBoxFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage txtPassBox",  @value = "Password" }) <br />
+                    @Html.PasswordFor(model => model.Password, new { id = "txtPasswordbox", @class = "txtBoxLoginPage txtPassBox", @placeholder = "Password", @onfocus = "ChangeType();", @onblur = "ChangeType();" }) <br />
 
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
@@ -173,80 +173,93 @@
             $('#Password').val('Password');
         });
 
+        function ChangeType(){
+            if ($('#txtPasswordbox').val() === 'Password') {
+                $('#txtPasswordbox').attr("type", "password");
+               
+            }
+
+            if ($('#txtPasswordbox').val() === '') {
+                $('#txtPasswordbox').removeAttr("type");
+                $('#txtPasswordbox').val('Password');
+            } else {
+                $('#txtPasswordbox').attr("type", "password");
+            }
+        }
         function updateSuccess(data) {
             if (data == "Success") {
                 window.location.href = "/";
             }
         }
 
-        $('#txtEmailId').focus(function() {
-            if ($('#txtEmailId').val() === 'Email') {
-                $('#txtEmailId').val('');
-            }
-        });
-        $('#txtEmailId').blur(function() {
-
-            if ($('#txtEmailId').val() === '') {
-
-                $('#txtEmailId').val("Email");
-            }
-        });
-
-        $('#Password').focus(function() {
-            if ($('#Password').val() === 'Password') {
-                $('#Password').attr("type", "password");
-                $('#Password').val('');
-            }
-        });
-
-        $('#Password').blur(function () {
-            if ($('#Password').val() === '') {
-                $('#Password').removeAttr("type");
-                $('#Password').val('Password');
-            } else {
-                $('#Password').attr("type", "password");
-            }
-        });
-
-        function ShowSocialMediaPopUp(provider) {
-
-            var w = 820;
-            var h = 560;
-            var left = (screen.width / 2) - (w / 2);
-            var top = (screen.height / 2) - (h / 2);
-
-            window.open("/oAuth/" + provider + "/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-         
-            return false;
-        }
-       
-        function afterFacebookConnect() {
-            FB.getLoginStatus(function (response) {
-                if (response.session) {
-                    window.location = "/FacebookLogin/" +
-                           response.session.access_token;
-                } else {
-                    // user clicked Cancel
+            $('#txtEmailId').focus(function() {
+                if ($('#txtEmailId').val() === 'Email') {
+                    $('#txtEmailId').val('');
                 }
             });
-        };
-        $(document).ready(function () {
-            if (document.getElementById('fb-root') != undefined) {
-                var e = document.createElement('script');
-                e.type = 'text/javascript';
-                e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-                e.async = true;
-                document.getElementById('fb-root').appendChild(e);
-            }
-        });
+            $('#txtEmailId').blur(function() {
 
-        function ValidateUserCredentials() {
-            if ($('#txtEmailId').val() === 'Email' && $('#Password').val() === 'Password') {
+                if ($('#txtEmailId').val() === '') {
 
+                    $('#txtEmailId').val("Email");
+                }
+            });
+
+            $('#txtPasswordbox').focus(function () {
+                if ($('#txtPasswordbox').val() === 'Password') {
+                    $('#txtPasswordbox').attr("type", "password");
+                    $('#txtPasswordbox').val('');
+                }
+            });
+
+            $('#txtPasswordbox').blur(function () {
+                if ($('#txtPasswordbox').val() === '') {
+                    $('#txtPasswordbox').removeAttr("type");
+                    $('#txtPasswordbox').val('Password');
+                } else {
+                    $('#txtPasswordbox').attr("type", "password");
+                }
+            });
+
+            function ShowSocialMediaPopUp(provider) {
+
+                var w = 820;
+                var h = 560;
+                var left = (screen.width / 2) - (w / 2);
+                var top = (screen.height / 2) - (h / 2);
+
+                window.open("/oAuth/" + provider + "/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+         
                 return false;
-            } else {
-                ShowLoader();
-                return true;
             }
-        }
+       
+            function afterFacebookConnect() {
+                FB.getLoginStatus(function (response) {
+                    if (response.session) {
+                        window.location = "/FacebookLogin/" +
+                               response.session.access_token;
+                    } else {
+                        // user clicked Cancel
+                    }
+                });
+            };
+            $(document).ready(function () {
+                if (document.getElementById('fb-root') != undefined) {
+                    var e = document.createElement('script');
+                    e.type = 'text/javascript';
+                    e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+                    e.async = true;
+                    document.getElementById('fb-root').appendChild(e);
+                }
+            });
+
+            function ValidateUserCredentials() {
+                if ($('#txtEmailId').val() === 'Email' && $('#Password').val() === 'Password') {
+
+                    return false;
+                } else {
+                    ShowLoader();
+                    return true;
+                }
+            }
     </script>
