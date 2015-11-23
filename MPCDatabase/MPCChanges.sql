@@ -8834,3 +8834,12 @@ END
 ------------------Executed on All servers 20151120 ---------------
 alter table CompanyContact add LoginProvider NVARCHAR(MAX)
 alter table CompanyContact add ProviderKey NVARCHAR(MAX)
+
+
+alter table listing add AuctionTime varchar(200)
+alter table listing add InspectionDate1 varchar(200)
+alter table listing add InspectionTimeFrom1 varchar(200)
+alter table listing add InspectionTimeTo1 varchar(200)
+alter table listing add InspectionDate2 varchar(200)
+alter table listing add InspectionTimeFrom2 varchar(200)
+alter table listing add InspectionTimeTo2 varchar(200)

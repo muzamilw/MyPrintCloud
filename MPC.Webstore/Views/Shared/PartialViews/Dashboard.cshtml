@@ -127,7 +127,8 @@
 
             buidPopup();
             $("#popupBody").append($("#UpdateModelPopUp"));
-
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
             $("#txtCurPass").focus();
 
             if ($("#hfErrorMes").val() == "1") {

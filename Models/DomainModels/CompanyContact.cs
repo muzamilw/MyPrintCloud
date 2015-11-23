@@ -225,6 +225,8 @@ namespace MPC.Models.DomainModels
             target.RegistrationDate = RegistrationDate;
             target.FileName = FileName;
             target.TerritoryId = TerritoryId;
+            target.ProviderKey = ProviderKey;
+            target.LoginProvider = LoginProvider;
 
         }
         #endregion
