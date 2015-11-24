@@ -8843,3 +8843,9 @@ alter table listing add InspectionTimeTo1 varchar(200)
 alter table listing add InspectionDate2 varchar(200)
 alter table listing add InspectionTimeFrom2 varchar(200)
 alter table listing add InspectionTimeTo2 varchar(200)
+
+
+
+
+----------------
+alter table TemplateObject add hasInlineFontFamily bit
