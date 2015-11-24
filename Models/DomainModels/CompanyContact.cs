@@ -96,6 +96,10 @@ namespace MPC.Models.DomainModels
         public DateTime? RegistrationDate { get; set; }
         [NotMapped]
         public string FileName { get; set; }
+
+        public string LoginProvider { get; set; }
+
+        public string ProviderKey { get; set; }
         public virtual Company Company { get; set; }
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual CompanyContactRole CompanyContactRole { get; set; }
@@ -221,6 +225,8 @@ namespace MPC.Models.DomainModels
             target.RegistrationDate = RegistrationDate;
             target.FileName = FileName;
             target.TerritoryId = TerritoryId;
+            target.ProviderKey = ProviderKey;
+            target.LoginProvider = LoginProvider;
 
         }
         #endregion

@@ -2,6 +2,7 @@
 @using MPC.Webstore.Common;
 @{
     Layout = null;
+    bool isSocial = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
 }
 <div class="container content_area" id="all-signUp-pg">
 
@@ -12,47 +13,51 @@
             <div class="sign_up_page_box">
                 <div class="SignUpLeftPanel col-md-6 col-lg-6 col-xs-12">
 
-                    @if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
+                    @if (isSocial != true)
                     {
-                        <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
-                        <div class="clearBoth">&nbsp;</div>
-                        <br />
-                        <div id="cntSocialLink" class="cntSignInWithSocialinks">
-                            @if (ViewBag.ShowFacebookSignInLink == 1)
-                            {
-                                <em id="emfacebook" class="emfb"></em>
-
-
-                            <input id="facebookbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign up with Facebook"))" class="connectWithfb" onclick="SocialSignUp(1)" /><br />
-
-
-                                <script>
-                                    function SocialSignUp(provider) {
-                                        var w = 820;
-                                        var h = 560;
-                                        var left = (screen.width / 2) - (w / 2);
-                                        var top = (screen.height / 2) - (h / 2);
-
-                                        window.open("/oAuth/" + provider + "/1/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                                       
-                                        return false;
-                                    }
-                                </script>
-                            }
-                            @if (ViewBag.ShowTwitterSignInLink == 1)
-                            {
-                                <em id="emtwtter" class="emTw"></em>
-                            <input id="twitterbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign up with Twitter"))" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
-                                <br />
-                            }
-
+                        if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
+                        {
+                            <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
+                            <div class="clearBoth">&nbsp;</div>
                             <br />
-                            <div id="cntOrBottom">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("orrr", UserCookieManager.WBStoreId, "-OR-"))
+                            <div id="cntSocialLink" class="cntSignInWithSocialinks">
+                                @if (ViewBag.ShowFacebookSignInLink == 1)
+                                {
+                                    <em id="emfacebook" class="emfb"></em>
+
+
+                                    <input id="facebookbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign up with Facebook"))" class="connectWithfb" onclick="SocialSignUp(1)" /><br />
+
+
+                                    <script>
+                                        function SocialSignUp(provider) {
+                                            var w = 820;
+                                            var h = 560;
+                                            var left = (screen.width / 2) - (w / 2);
+                                            var top = (screen.height / 2) - (h / 2);
+
+                                            window.open("/oAuth/" + provider + "/1/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+
+                                            return false;
+                                        }
+                                    </script>
+                                }
+                                @if (ViewBag.ShowTwitterSignInLink == 1)
+                                {
+                                    <em id="emtwtter" class="emTw"></em>
+                                    <input id="twitterbtn" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign up with Twitter"))" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
+                                    <br />
+                                }
+
+                                <br />
+                                <div id="cntOrBottom">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("orrr", UserCookieManager.WBStoreId, "-OR-"))
+                                </div>
                             </div>
-                        </div>
+                        }
+                        <div class="clearBoth">&nbsp;</div>
                     }
-                    <div class="clearBoth">&nbsp;</div>
+                  
                     <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId, "Register for")) @ViewBag.CompanyName</div>
                     @{
                         bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
@@ -60,11 +65,11 @@
                         {
                             if (ViewBag.Provider == "fb")
                             {
-                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the remaining fields to sign up using ")) Facebook </div>
+                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the form below to sign up using ")) Facebook </div>
                             }
                             else
                             {
-                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the remaining fields to sign up using ")) Twitter</div>
+                                <div class="errorMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("socialRegistrationMessage", UserCookieManager.WBStoreId, "Please fill the form below to sign up using ")) Twitter</div>
                             }
 
                         }
@@ -84,16 +89,19 @@
                         </div>
                         <br />
 
-                        bool isSocial = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
+                      
                         if (isSocial == true)
                         {
                             <input type="hidden" name="provider" id="providerId" value="@ViewBag.Provider" />
                             <input type="hidden" name="hfIsSocial" id="isSocial" value="1" />
-                                <input type="text" name="socialFirstNameTxt" class="txtBoxLoginPage" value="@ViewBag.socialFirstName" readonly="readonly" />
+                            <input type="hidden" name="hfSocialProviderKey" id="SocialProviderKey" value="@ViewBag.SocialProviderId" />
+                            <input type="hidden" name="hfSocialScreenName" id="SocialScreenName" value="@ViewBag.socialFirstName" />
+
                             if (ViewBag.Provider == "fb")
                             {
-                                <input type="text" name="socialLastNameTxt" class="txtBoxLoginPage" value="@ViewBag.socialLastName" readonly="readonly" />
-
+                                <input type="text" name="socialFirstNameTxt" class="txtBoxLoginPage" value="@ViewBag.socialFirstName" />
+                                <input type="text" name="socialLastNameTxt" class="txtBoxLoginPage" value="@ViewBag.socialLastName" />
+                                <input type="text" name="socialEmailTxt" class="txtBoxLoginPage" value="@ViewBag.socialEmail" />
                             }
 
                         }
@@ -106,28 +114,41 @@
 
                         }
 
-                        if (ViewBag.Provider != "fb")
+                        if (ViewBag.Provider == "tw")
+                        {
+                            @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "txtBoxLoginPage", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")) })
+
+                            @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "txtBoxLoginPage", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
+                            @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")) })
+
+
+                        }
+                        else if (ViewBag.Provider != "fb")
                         {
                             @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "txtBoxLoginPage", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
+                            @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")) })
+
                         }
 
 
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
 
+                     
+                        if (isSocial == true)
+                        {
+                            @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @style="display:none;" ,@placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
 
-                        @Html.TextBoxFor(model => model.Email, new
-                   {
-                       id = "txtEmail",
-                       @class = "txtBoxLoginPage",
-                       @placeholder =
-                           @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
- })
+                           
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
 
+                            @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })
+                        }
+                        <br />
 
-                        @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
-
-                        @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
-                    <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
+                        <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
 
                         <div class="clear">
                             &nbsp;

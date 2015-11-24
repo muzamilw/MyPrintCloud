@@ -15,26 +15,8 @@
     margin-bottom:10px;
 }
         
-#slider
-{
-    width: 462px !important;
-    height: 400px ; /* Make it the same size as your images */
-    background: #fff url('../images/loading45_slider.gif') no-repeat;
-    position: relative;
-    margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
-       
-    background-size: contain !important;
-    background-position: center !important;
-   
-}
-#slider img {
-	position:absolute;
-	border:none;
-	display:none;
-	max-height:435px;
-	max-width:465px;
-	
-}
+
+
 
 /* the link style (if an image is wrapped in a link) */
 #slider a.imgLink {
@@ -126,4 +108,111 @@ div.navBulletsWrapper div.active {background-position:0 -11px;}
 {
     background-size:  contain !important;
     background-position: center !important;
+}
+@media (min-width:320px) {
+    #slider
+   {
+    width: 262px !important;
+    height: 400px ; /* Make it the same size as your images */
+    background: #fff url('../images/loading45_slider.gif') no-repeat;
+    position: relative;
+    margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
+       
+    background-size: contain !important;
+    background-position: center !important;
+   
+  }
+    #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 245px!important;
+        max-width: 245px!important;
+    }
+}
+@media (min-width:481px) {
+     #slider
+   {
+    width: 362px !important;
+    height: 400px ; /* Make it the same size as your images */
+    background: #fff url('../images/loading45_slider.gif') no-repeat;
+    position: relative;
+    margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
+       
+    background-size: contain !important;
+    background-position: center !important;
+   
+  }
+      #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 335px!important;
+        max-width: 365px!important;
+    }
+
+}
+@media (min-width:641px) {
+     #slider
+   {
+    width: 462px !important;
+    height: 400px ; /* Make it the same size as your images */
+    background: #fff url('../images/loading45_slider.gif') no-repeat;
+    position: relative;
+    margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
+       
+    background-size: contain !important;
+    background-position: center !important;
+   
+  }
+   #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 435px!important;
+        max-width: 465px!important;
+    }
+
+}
+@media (min-width:992px) {
+     #slider
+   {
+    width: 462px !important;
+    height: 400px ; /* Make it the same size as your images */
+    background: #fff url('../images/loading45_slider.gif') no-repeat;
+    position: relative;
+    margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
+       
+    background-size: contain !important;
+    background-position: center !important;
+   
+  }
+      #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 435px!important;
+        max-width: 465px!important;
+    }
+}
+@media (min-width:1025px) {
+     #slider
+   {
+    width: 462px !important;
+    height: 400px ; /* Make it the same size as your images */
+    background: #fff url('../images/loading45_slider.gif') no-repeat;
+    position: relative;
+    margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
+       
+    background-size: contain !important;
+    background-position: center !important;
+   
+  }
+     #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 435px!important;
+        max-width: 465px!important;
+    }
 }

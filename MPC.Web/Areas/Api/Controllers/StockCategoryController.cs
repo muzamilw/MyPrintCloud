@@ -38,15 +38,20 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Stock Categories
         /// </summary>
-        public IEnumerable<StockCategoryDropDown> Get()
+        public StockCategorySubCategoryResponse Get()
         {
+            StockCategorySubCategoryResponse response = new StockCategorySubCategoryResponse();
             IEnumerable<StockCategory> list= stockCategoryService.GetAllStockCategories();
             if (list != null)
             {
-               return list.Select(category => category.CreateFromDropDown());
+               response.StockCategories = list.Select(category => category.CreateFromDropDown());
+               response.StockSubCategories = list.SelectMany(c => c.StockSubCategories).Select(c => c.CreateFromDropDownSubCat());
+               
             }
-            return null;
+            return response;
         }
+
+
       
         #endregion
 	}

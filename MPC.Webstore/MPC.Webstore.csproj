@@ -51,7 +51,7 @@
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.ApplicationBlock">
-      <HintPath>C:\Users\IQRA\Desktop\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
+      <HintPath>..\MPC.Common\ExternalDlls\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.Core">
       <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
@@ -459,6 +459,7 @@
     <Compile Include="Controllers\SlidingBannerController.cs" />
     <Compile Include="Controllers\SubscribeAndContactController.cs" />
     <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
+    <Compile Include="Controllers\SystemPageBannerController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Controllers\WhyShopUsController.cs" />
@@ -560,6 +561,7 @@
     <Content Include="Content\Images\Clock-Icon-Blue.png" />
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\delete.png" />
+    <Content Include="Content\Images\Deliver-Icon.png" />
     <Content Include="Content\Images\download-icon.png" />
     <Content Include="Content\Images\edit.png" />
     <Content Include="Content\Images\Facebook.png" />
@@ -752,6 +754,7 @@
     <Content Include="Content\MetroStyles.css" />
     <Content Include="Content\mp-loading.gif" />
     <Content Include="Content\NewBootstrapClass.css" />
+    <Content Include="Content\owl.carousel.css" />
     <Content Include="Content\oxfordtestimonial.css" />
     <Content Include="Content\PosterBanner.css" />
     <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />
@@ -884,6 +887,7 @@
     <Content Include="Scripts\Designer\XMLWriter.js" />
     <Content Include="Scripts\input.watermark.js" />
     <Content Include="Scripts\JavaScript1.js" />
+    <Content Include="Scripts\jcarousellite_1.0.1.js" />
     <Content Include="Scripts\jquery-1.10.1.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -894,10 +898,12 @@
     <Content Include="Scripts\jquery-1.4.4.min.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.carouFredSel-6.0.4-packed.js" />
     <Content Include="Scripts\jquery.carousel-1.1.min.js" />
     <Content Include="Scripts\jquery.fancybox-1.3.4.js" />
     <Content Include="Scripts\jquery.fancybox-1.3.4.pack.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.flexslider-min.js" />
     <Content Include="Scripts\jquery.jcarousel.lite.js" />
     <Content Include="Scripts\jquery.lightbox-0.5.js" />
     <Content Include="Scripts\jquery.lightbox-0.5.min.js" />
@@ -917,6 +923,7 @@
     <Content Include="Scripts\js-image-slider.js" />
     <Content Include="Scripts\modalEffects.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\owl.carousel.js" />
     <Content Include="Scripts\PopUp.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -1063,6 +1070,9 @@
     <Content Include="Views\Shared\PartialViews\WhyShopUs.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginEazyPrint.cshtml" />
     <Content Include="Views\Shared\PartialViews\EzyPrintSignUp.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ProductOptionsAndDetails.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FooterWithUseFulLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SystemPageBanner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1084,6 +1094,8 @@
     <Folder Include="Views\LoginBarWithCounters\" />
     <Folder Include="Views\LoginBarWithPhoneInfo\" />
     <Folder Include="Views\LoginEazyPrint\" />
+    <Folder Include="Views\ProductOptionsAndDetails\" />
+    <Folder Include="Views\SystemPageBanner\" />
     <Folder Include="Views\UserManager\" />
     <Folder Include="Views\WhyShopUs\" />
   </ItemGroup>

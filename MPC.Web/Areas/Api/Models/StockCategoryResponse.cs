@@ -11,7 +11,12 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// List of Stock Categories
         /// </summary>
-        public IEnumerable<StockCategory> StockCategories{ get; set; } 
+        public IEnumerable<StockCategory> StockCategories{ get; set; }
+
+        /// <summary>
+        /// List of Stock Sub Categories
+        /// </summary>
+        public IEnumerable<StockSubCategory> StockSubCategories { get; set; } 
 
     }
 }

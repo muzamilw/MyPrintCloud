@@ -127,8 +127,8 @@
 
             buidPopup();
             $("#popupBody").append($("#UpdateModelPopUp"));
-
-
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
             $("#txtCurPass").focus();
 
             if ($("#hfErrorMes").val() == "1") {
@@ -310,7 +310,7 @@
             var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick="HideMessagePopUpCustom();">×</button><h4 class="modal-title" id="Modeltitle">Change Password</h4></div><div class="modal-body" id="popupBody"></div></div>';
             var bws = getBrowserHeight();
             var shadow = document.getElementById("innerLayer");
-
+            document.getElementById("innerLayer").innerHTML = container;
             if (bws.width < 640) {
 
                 document.getElementById("innerLayer").innerHTML = container;

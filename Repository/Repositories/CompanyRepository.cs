@@ -1923,6 +1923,9 @@ namespace MPC.Repository.Repositories
                     ContactPerson.TerritoryId = ContactTerritory.TerritoryId;
                     ContactPerson.OrganisationId = OrganisationId;
                     ContactPerson.IsPricingshown = true;
+                    ContactPerson.TwitterURL = contact.TwitterURL;
+                    ContactPerson.ProviderKey = contact.ProviderKey;
+                    ContactPerson.LoginProvider = contact.LoginProvider;
                     if (!string.IsNullOrEmpty(RegWithSocialMedia))
                     {
                         ContactPerson.twitterScreenName = RegWithSocialMedia;

@@ -22,13 +22,13 @@
                 </div>
 
                 <div class="float_right relEst-profile-sigout">
-                    @Html.ActionLink(" ", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "icon-text-signout" })
+                    @Html.ActionLink(" ", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "icon-text-signout", title = "Log Out" })
                 </div>
                 <div class="float_right relEst-profile-saved">
-                    <a class="icon-text-cog" href="/DashBoard"></a>
+                    <a class="icon-text-cog" href="/DashBoard" title="Profile"></a>
                 </div>
                 <div class="float_right relEst-profile-dashb">
-                    <a class="icon-text-file" href="/SavedDesigns"></a>
+                    <a class="icon-text-file" href="/SavedDesigns" title="Saved Designs"></a>
 
                 </div>
 
@@ -101,4 +101,17 @@
     }
 
         </div>
-    </div> 
+    </div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        //= getBrowserHeight();
+        var bws= $(document).height();
+        
+        var TotalHeight = parseInt(bws) - 52;
+        $(".realEs-myProfile-leftPanel").height(TotalHeight);
+    });
+
+
+</script>

@@ -26,6 +26,8 @@ var ist = {
         Inventory: 7,
         JobCards: 9
     },
+
+    
     //server exceptions enumeration 
     exceptionType: {
         MPCGeneralException: 'MPCGeneralException',
@@ -78,6 +80,18 @@ var ist = {
             { id: 7, name: "Purchases" },
             { id: 10, name: "Delivery" }
     ],
+
+    // job production phrase enumeration
+    JobProductionPhraseFieldsEnum: [
+        { id: 1, name: "Origination" },
+            { id: 2, name: "Finishing" },
+            { id: 3, name: "Colours" },
+            { id: 4, name: "Material" },
+            { id: 5, name: "Size" },
+            { id: 6, name: "Work Instructions" },
+            { id: 7, name: "Delivery" }
+    ],
+
 
     //Phrase Fields enumeration
     phraseFieldsEnum: [

@@ -307,11 +307,11 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        public CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode)
+        public CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode, string providerKey)
         {
             try
             {
-                return _CompanyContactRepository.GetContactByFirstName(FName, StoreId, OrganisationId, WebStoreMode);
+                return _CompanyContactRepository.GetContactByFirstName(FName, StoreId, OrganisationId, WebStoreMode, providerKey);
             }
             catch (Exception ex)
             {
@@ -1753,6 +1753,33 @@ namespace MPC.Implementation.WebStoreServices
             if(domain != null)
             {
                 return _CompanyRepository.GetOrganisationIdByCompanyId(domain.CompanyId);
+            }
+            return 0;
+        }
+        public CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetContactBySocialNameAndEmail(FName, StoreId, OrganisationId, WebStoreMode, Email);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        /// <summary>
+        /// if url is e.g crystalmediagroup.myprintcloud.com and in domain table there is no record with crystalmediagroup.myprintcloud.com then it will compare the 
+        /// string and get the first record from domain table e.g. crystalmediagroup.myprintcloud.com/store/retail and crystalmediagroup.myprintcloud.com/store/corporate then it will return the first domain storeid
+        /// </summary>
+        /// <param name="Url"></param>
+        /// <returns></returns>
+        public long GetFirstStoreByRequestUrl(string Url)
+        {
+            CompanyDomain domain = _companyDomainRepository.GetDomainByUrl(Url);
+            if (domain != null)
+            {
+                return domain.CompanyId;
             }
             return 0;
         }

@@ -8811,3 +8811,41 @@ alter table ZapierWebHookTargetUrl add OrganisationId bigint
 -----------------------------------------------
 
 alter table Purchase add OrganisationId bigint null
+
+------------------Executed on AUS servers 20151119 ---------------
+/****** Object:  StoredProcedure [dbo].[usp_GetRealEstateProducts]    Script Date: 11/19/2015 2:55:40 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[usp_GetRealEstateProducts]
+	@ContactCompanyID int
+AS
+BEGIN
+
+ SELECT i.ProductName, pci.CategoryId, i.ProductCode, i.ThumbnailPath, i.ItemId, i.TemplateType, i.ProductType, i.isTemplateDesignMode, i.TemplateId
+FROM dbo.Items AS i INNER JOIN ProductCategoryItem pci ON pci.ItemId = i.ItemId INNER JOIN
+ dbo.fnc_GetCorporateCategoriesByCompanyID(@ContactCompanyID) AS cp ON cp.ProductCategoryID = pci.CategoryId 
+ AND i.IsRealStateProduct = 1 AND i.IsPublished = 1 AND i.IsEnabled = 1 AND (i.IsArchived = 0 or i.IsArchived is null)
+
+END
+
+
+------------------Executed on All servers 20151120 ---------------
+alter table CompanyContact add LoginProvider NVARCHAR(MAX)
+alter table CompanyContact add ProviderKey NVARCHAR(MAX)
+
+
+alter table listing add AuctionTime varchar(200)
+alter table listing add InspectionDate1 varchar(200)
+alter table listing add InspectionTimeFrom1 varchar(200)
+alter table listing add InspectionTimeTo1 varchar(200)
+alter table listing add InspectionDate2 varchar(200)
+alter table listing add InspectionTimeFrom2 varchar(200)
+alter table listing add InspectionTimeTo2 varchar(200)
+
+
+
+
+----------------
+alter table TemplateObject add hasInlineFontFamily bit

@@ -110,7 +110,7 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
     document.getElementById("layer").style.height = bws.height + "px";
 
     var left = 0;
-    var top = parseInt((bws.height - 170) / 2);
+    var top = parseInt((bws.height - 116) / 2);
 
     if (bws.width < 640) {
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
@@ -124,11 +124,11 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
     document.getElementById("innerLayer").style.top = top + "px";
     document.getElementById("innerLayer").style.left = left + "px";
 
-    document.getElementById("innerLayer").style.width = "500px";
-    document.getElementById("innerLayer").style.height = "170px";
+    
+    document.getElementById("innerLayer").style.height = "116px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
-
+    
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
   
@@ -886,16 +886,25 @@ function ConfirmDeleteSaveDesignPopup(ItemID) {
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = parseInt((bws.width - 500) / 2);
-    var top = parseInt((bws.height - 170) / 2);
+    //var left = parseInt((bws.width - 500) / 2);
+    //var top = parseInt((bws.height - 170) / 2);
+
+    var left = 0;
+    var top = parseInt((bws.height - 116) / 2);
+    if (bws.width < 640) {
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+    } else {
+        left = parseInt((bws.width - 500) / 2);
+        document.getElementById("innerLayer").style.width = "500px";
+    }
 
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.top = top + "px";
     document.getElementById("innerLayer").style.left = left + "px";
 
-    document.getElementById("innerLayer").style.width = "500px";
-    document.getElementById("innerLayer").style.height = "170px";
+    
+    document.getElementById("innerLayer").style.height = "116px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 
@@ -1297,7 +1306,7 @@ function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId) {
     document.getElementById("layer").style.height = bws.height + "px";
 
     var left = 0;
-    var top = parseInt((bws.height - 170) / 2);
+    var top = parseInt((bws.height - 116) / 2);
 
     if (bws.width < 640) {
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
@@ -1311,8 +1320,8 @@ function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId) {
     document.getElementById("innerLayer").style.top = top + "px";
     document.getElementById("innerLayer").style.left = left + "px";
 
-    document.getElementById("innerLayer").style.width = "500px";
-    document.getElementById("innerLayer").style.height = "170px";
+    
+    document.getElementById("innerLayer").style.height = "116px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 

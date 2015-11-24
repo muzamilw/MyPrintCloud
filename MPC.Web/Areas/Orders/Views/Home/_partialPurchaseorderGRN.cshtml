@@ -38,9 +38,9 @@
         <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
 
             <div class="input-group">
-                <button class="btn btn-primary" data-bind="visible:$root.selectedGRN().id()!==undefined" style="margin-right:5px">
+                @*<button class="btn btn-primary" data-bind="visible:$root.selectedGRN().id()!==undefined" style="margin-right:5px">
                     Print
-                </button>
+                </button>*@
                 <button data-bind="click:$root.onCloseGRNEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
                 <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedGRN().status()===31,click:$root.onSaveGRN, enable: $root.selectedGRN().hasChanges(),css: { 'btn-warning': $root.selectedGRN().hasChanges() }">
                     &nbsp;Save

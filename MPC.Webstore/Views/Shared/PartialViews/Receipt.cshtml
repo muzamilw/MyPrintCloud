@@ -81,7 +81,7 @@
                     <div class=" col-md-8 col-lg-8 col-xs-12 receiptWhitelblRightcnt">
                         &nbsp;
                     </div>
-                    <div id="trVatNumb" style="height: 30px;" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
+                    <div id="trVatNumb"  class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
                         <span id="lbl_VATRegisterationNumber" style="font-weight: normal;">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", UserCookieManager.WBStoreId, "ABN:"))</span>
                         <span id="lblVatNum" class="receiptVatNum" style="font-weight: normal;">@ViewBag.OrgVATRegNumber</span>
                     </div>
@@ -317,7 +317,7 @@
                                                 <span style="font-size:12px;">Stock: @item.PaperType</span>
                                             </div>
                                          
-                                            <div class=" spacer5pxbottom">
+                                            <div class=" spacer5pxbottom hidden-lg hidden-xs">
                                                 <span style="font-size:12px;">@Html.Raw(item.ProductWebDescription)</span>
                                             </div>
                                             <br>

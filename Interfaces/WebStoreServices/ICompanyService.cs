@@ -44,7 +44,7 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyContact GetUserByEmailAndPassword(string email, string password);
 
-        CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode);
+        CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode, string providerKey);
         CompanyContact GetContactById(int contactId);
         CompanyContact GetContactByEmail(string Email, long OID, long StoreId);
 
@@ -255,5 +255,6 @@ namespace MPC.Interfaces.WebStoreServices
         string GetCurrencySymbolById(long currencyId);
         void AddScopeVariables(long ContactId, long StoreId);
         long GetOrganisationIdByRequestUrl(string Url);
+        CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email);
     }
 }

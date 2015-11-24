@@ -704,7 +704,7 @@
 
 
 
-                                    <div class="propertyPanelControlDiv positioningControls">
+                                    <div class="propertyPanelControlDiv positioningControls ">
                                         <div class="PostionPanelLabel">
                                             <span class="lblcheckbox adminControl">Position</span>
                                         </div>
@@ -712,10 +712,10 @@
                                             <span class="lblcheckbox" id="lblArrangeOrderiImg">Box Size</span>
                                         </div>
                                         <div class="PostionPanelLabel adminControl">
-                                            <div class="lblcheckbox">Lock Position </div>
+                                            <div class="lblcheckbox lblLockPos">Lock Position </div>
                                         </div>
                                     </div>
-                                    <div class="propertyPanelControlDiv positioningControls">
+                                    <div class="propertyPanelControlDiv positioningControls positionPanel">
                                         <div class="margin10" style="padding-bottom: 10px">
                                             <div class="lbltextButtonControl">
 
@@ -738,14 +738,21 @@
                                             <div class="lbltextButtonControl" style="float: left;">
 
                                                 <span class="paddingright5" style="padding-left: 4px;">H</span>
-                                                <input name="inputObjectHeight" id="inputObjectHeight" class="width28 zindex100" />
+                                                <input name="inputObjectHeight" id="inputObjectHeight" class="width28 zindex100 " />
+
+
+                                            </div>
+                                            <div class="lbltextButtonControl" style="float: left;">
+
+                                                <span class="paddingright5" style="padding-left: 4px;">R</span>
+                                                <input name="inputObjectRotation" id="inputObjectRotation" class="width28 zindex100 inputObjectRotation" />
 
 
                                             </div>
                                         </div>
                                         <div class="PostionPanelLabel">
-                                            <div class="lbltextButtonControl">
-                                                <div class="onoffswitch" style="top: -20px; margin-left: -5px">
+                                            <div class="lbltextButtonControl" style="position: absolute;">
+                                                <div class="onoffswitch" style="top: -39px; margin-left: 3px; width:60px; left: -70px;">
                                                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockPositionImg" checked="">
                                                     <label class="onoffswitch-label adminControl" for="LockPositionImg" id="lblLockPositionImg">
                                                         <div class="onoffswitch-inner"></div>
@@ -882,10 +889,10 @@
                                         <span class="lblcheckbox" id="lblArrangeOrderTxt">Box Size</span>
                                     </div>
                                     <div class="PostionPanelLabel">
-                                        <div class="lblcheckbox adminControl">Lock Position </div>
+                                        <div class="lblcheckbox adminControl lblLockPos">Lock Position </div>
                                     </div>
                                 </div>
-                                <div class="propertyPanelControlDiv positioningControls">
+                                <div class="propertyPanelControlDiv positioningControls positionPanel">
                                     <div class="margin10" style="padding-bottom: 10px">
                                         <div class="lbltextButtonControl">
 
@@ -910,10 +917,17 @@
 
 
                                         </div>
+                                        <div class="lbltextButtonControl" style="float: left;">
+
+                                            <span class="paddingright5" style="padding-left: 4px;">R</span>
+                                            <input name="inputObjectRotationTxt" id="inputObjectRotationTxt" class="width28 zindex100 inputObjectRotation" />
+
+
+                                        </div>
                                     </div>
                                     <div class="PostionPanelLabel">
-                                        <div class="lbltextButtonControl">
-                                            <div class="onoffswitch" style="top: -20px; margin-left: 1px;">
+                                        <div class="lbltextButtonControl" style="position: absolute;">
+                                            <div class="onoffswitch" style="top: -39px; margin-left: 3px; width:60px; left: -70px;">
                                                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockTxtPosition" checked="">
                                                 <label class="onoffswitch-label adminControl" for="BtnLockTxtPosition">
                                                     <div class="onoffswitch-inner"></div>
@@ -1381,8 +1395,8 @@
         @*<iframe id="LargePreviewerIframe" class="LargePreviewerIframe" src="Previewer.aspx"></iframe>*@
     </div>
     <div id="PreviewerContainerDesigner" class="ui-corner-all propertyPanel">
-        <a class="PreviewerDownloadImg" onclick="k9_im()" target="_blank">Download Image </a>
-        <a class="PreviewerDownloadPDF" onclick="k9()" target="_blank">Download PDF </a>
+        <a class="PreviewerDownloadImg previewfontStyles" onclick="k9_im()" target="_blank">Download Image </a>
+        <a class="PreviewerDownloadPDF previewfontStyles" onclick="k9()" target="_blank">Download PDF </a>
         <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()" title="Back to designer">
             Close
         </div>

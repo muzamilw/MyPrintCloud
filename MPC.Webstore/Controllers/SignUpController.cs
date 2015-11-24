@@ -72,9 +72,11 @@ namespace MPC.Webstore.Controllers
             {
 
                 ViewData["IsSocialSignUp"] = true;
-               
+
                 ViewBag.socialFirstName = FirstName;
                 ViewBag.Provider = provider;
+                ViewBag.SocialProviderId = TempData["SocialProviderId"];
+                TempData.Keep("SocialProviderId");
                 if (provider == "fb")
                 {
                     ViewBag.socialLastName = LastName;
@@ -109,18 +111,28 @@ namespace MPC.Webstore.Controllers
             try
             {
                 string isSocial = Request.Form["hfIsSocial"];
+                string socialProviderKey = Request.Form["hfSocialProviderKey"];
+
                 if (!string.IsNullOrEmpty(isSocial))
                 {
                     if (isSocial == "1")
                     {
                         ViewData["IsSocialSignUp"] = true;
-                        ViewBag.socialFirstName = model.FirstName;
-                        ViewBag.socialLastName = model.LastName;
-
-                        if (!string.IsNullOrEmpty(model.Email))
+                        if (Request.Form["provider"] == "fb")
                         {
-                            ViewBag.socialEmail = model.Email;
+                            ViewBag.socialFirstName = Request.Form["socialFirstNameTxt"];
+                            ViewBag.socialLastName = Request.Form["socialLastNameTxt"];
+                            ViewBag.socialEmail = Request.Form["socialEmailTxt"];
                         }
+                        else
+                        {
+                            ViewBag.socialFirstName = model.FirstName;
+                            ViewBag.socialLastName = model.LastName;
+                        }
+
+                        ViewBag.Provider = Request.Form["provider"];
+                        ViewBag.SocialProviderId = Request.Form["hfSocialProviderKey"];
+
                     }
                     else
                     {
@@ -132,7 +144,7 @@ namespace MPC.Webstore.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (model.Password == "Password")
+                    if (model.Password == "Password" && isSocial != "1")
                     {
                         ViewBag.Message = "Please enter Password";
                         return View("PartialViews/SignUp");
@@ -158,41 +170,78 @@ namespace MPC.Webstore.Controllers
 
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
-
-                        if (_myCompanyService.GetCorporateContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                        if (isSocial == "1")
                         {
-                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
-
-                            return View("PartialViews/SignUp");
-                        }
-                        else if (isSocial == "1")
-                        {
-                            if (_myCompanyService.GetContactByFirstName(model.FirstName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
+                            if (_myCompanyService.GetContactByFirstName(model.FirstName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode, socialProviderKey) != null)
                             {
-                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
-                                return View();
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlAlreadyRegisteredWithSocialMedia", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this socail media account ") + ". Please login to continue using this account.";
+                                return View("PartialViews/SignUp");
+                            }
+                            if (Request.Form["provider"] == "fb")
+                            {
+                                if (_myCompanyService.GetCorporateContactByEmail(Request.Form["socialEmailTxt"], StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                                {
+                                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
+
+                                    return View("PartialViews/SignUp");
+                                }
+                                else
+                                {
+                                    SetRegisterCustomer(model);
+                                    return View("PartialViews/SignUp");
+                                }
+                            }
+                            else if (_myCompanyService.GetCorporateContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                            {
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
+
+                                return View("PartialViews/SignUp");
                             }
                             else
                             {
                                 SetRegisterCustomer(model);
-
+                                return View("PartialViews/SignUp");
                             }
                         }
                         else
                         {
+                            if (_myCompanyService.GetCorporateContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                            {
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
 
-                            SetRegisterCustomer(model);
+                                return View("PartialViews/SignUp");
+                            }
+                            else
+                            {
 
+                                SetRegisterCustomer(model);
+
+                            }
                         }
+
                     }
                     else
                     {
                         if (isSocial == "1")
                         {
-                            if (_myCompanyService.GetContactByFirstName(model.FirstName + " " + model.LastName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode) != null)
+                            if (_myCompanyService.GetContactByFirstName(model.FirstName + " " + model.LastName, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode, socialProviderKey) != null)
                             {
-                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlAlreadyRegisteredWithSocialMedia", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this socail media information ") + model.FirstName + "" + model.LastName + ". Please login to continue using this account.";
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlAlreadyRegisteredWithSocialMedia", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this socail media account ") + ". Please login to continue using this account.";
                                 return View("PartialViews/SignUp");
+                            }
+                            if (Request.Form["provider"] == "fb")
+                            {
+                                if (_myCompanyService.GetContactByEmail(Request.Form["socialEmailTxt"], StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                                {
+                                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
+
+                                    return View("PartialViews/SignUp");
+                                }
+                                else
+                                {
+                                    SetRegisterCustomer(model);
+                                    return null;
+                                }
                             }
                             else if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                             {
@@ -206,7 +255,6 @@ namespace MPC.Webstore.Controllers
                                 return null;
                             }
                         }
-
                         else
                         {
                             if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
@@ -269,24 +317,39 @@ namespace MPC.Webstore.Controllers
             long OrganisationId = 0;
             CompanyContact corpContact = new CompanyContact();
             bool isContactCreate = false;
-            contact.FirstName = model.FirstName == "First Name" ? "" : model.FirstName;
-            contact.LastName = model.LastName == "Last Name" ? "" : model.LastName;
-            contact.Email = model.Email;
+
+
             contact.Mobile = model.Phone;
             contact.Password = model.Password;
-
+            contact.ProviderKey = Request.Form["hfSocialProviderKey"];
+            contact.twitterScreenName = Request.Form["hfSocialScreenName"];
             string isSocial = Request.Form["hfIsSocial"];
 
-            if (Request.Form["provider"] == "tw")
+            if (isSocial != "0")
             {
-                if (isSocial == "1")
-                    TwitterScreenName = model.FirstName;
+                if (Request.Form["provider"] == "tw")
+                {
+                    contact.LoginProvider = "Twitter";
+                    contact.Email = model.Email;
+                    contact.FirstName = model.FirstName == "First Name" ? "" : model.FirstName;
+                    contact.LastName = model.LastName == "Last Name" ? "" : model.LastName;
+                }
+                else
+                {
+                    contact.LoginProvider = "Facebook";
+                    contact.Email = Request.Form["socialEmailTxt"];
+                    contact.FirstName = Request.Form["socialFirstNameTxt"];
+                    contact.LastName = Request.Form["socialLastNameTxt"];
+                }
+
             }
             else
             {
-                if (isSocial == "1")
-                    TwitterScreenName = model.FirstName + " " + model.LastName;
+                contact.FirstName = model.FirstName == "First Name" ? "" : model.FirstName;
+                contact.LastName = model.LastName == "Last Name" ? "" : model.LastName;
+                contact.Email = model.Email;
             }
+
 
 
 
@@ -307,90 +370,108 @@ namespace MPC.Webstore.Controllers
 
                     MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(CompanyID);
 
-                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OrganisationId, UserCookieManager.WBStoreId);
+                    CompanyContact loginUser = null;
 
-                    UserCookieManager.isRegisterClaims = 1;
-                    UserCookieManager.WEBContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;
-                    UserCookieManager.WEBContactLastName = model.LastName == "Last Name" ? "" : model.LastName;
-                    UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
-                    UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
+                    loginUser = _myCompanyService.GetContactByEmail(contact.Email, OrganisationId, UserCookieManager.WBStoreId);
 
-                    UserCookieManager.WEBEmail = model.Email;
-
-                    Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
-
-                    // work for email to sale manager
-
-                    isContactCreate = true;
-
-                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
-                    cep.ContactId = loginUser.ContactId;
-                    cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
-                    cep.StoreId = UserCookieManager.WBStoreId;
-                    cep.CompanyId = UserCookieManager.WBStoreId;
-
-                    Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
-                    if (CompanyDefaultAddress != null)
+                    if (loginUser == null || loginUserCompany == null)
                     {
-                        cep.AddressId = CompanyDefaultAddress.AddressId;
-                    }
-                    else
-                    {
-                        cep.AddressId = 0;
-                    }
-
-                    if (StoreBaseResopnse.Company.SalesAndOrderManagerId1 == null)
-                    {
-                        throw new Exception("Critcal Error, Store Sales Manager is not selected.", null);
+                        throw new Exception("Critcal Error, user or company nor created.", null);
 
                     }
                     else
                     {
-                        SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                        UserCookieManager.isRegisterClaims = 1;
+                        UserCookieManager.WEBContactFirstName = contact.FirstName == "First Name" ? "" : contact.FirstName;
+                        UserCookieManager.WEBContactLastName = contact.LastName == "Last Name" ? "" : contact.LastName;
+                        UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
+                        UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
 
-                        _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                        UserCookieManager.WEBEmail = contact.Email;
 
-                        _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                        Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
-                    }
+                        // work for email to sale manager
 
-                    if (OrderId > 0)
-                    {
-                        UserCookieManager.TemporaryCompanyId = 0;
-                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
+                        isContactCreate = true;
+
+                        long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
+                        cep.ContactId = loginUser.ContactId;
+                        cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
+                        cep.StoreId = UserCookieManager.WBStoreId;
+                        cep.CompanyId = UserCookieManager.WBStoreId;
+
+                        Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
+                        if (CompanyDefaultAddress != null)
                         {
-                            if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                            cep.AddressId = CompanyDefaultAddress.AddressId;
+                        }
+                        else
+                        {
+                            cep.AddressId = 0;
+                        }
+
+                        if (StoreBaseResopnse.Company.SalesAndOrderManagerId1 == null)
+                        {
+                            throw new Exception("Critcal Error, Store Sales Manager is not selected.", null);
+
+                        }
+                        else
+                        {
+                            SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                            if (EmailOFSM != null)
                             {
-                                ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+                                _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+
+                            }
+                            else
+                            {
+                                throw new Exception("Critcal Error, Store Sales Manager record not available.", null);
+                            }
+
+                        }
+
+                        if (OrderId > 0)
+                        {
+                            UserCookieManager.TemporaryCompanyId = 0;
+                            if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
+                            {
+                                if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                                {
+                                    ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                                }
+                                else
+                                {
+                                    Response.Redirect("/ShopCart?OrderId=" + OrderId);
+                                }
                             }
                             else
                             {
                                 Response.Redirect("/ShopCart?OrderId=" + OrderId);
                             }
+
+
                         }
                         else
                         {
-                            Response.Redirect("/ShopCart?OrderId=" + OrderId);
-                        }
-
-
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
-                        {
-                            if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                            if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
                             {
-                                ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                                if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                                {
+                                    ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                                }
+                                else
+                                {
+                                    Response.Redirect("/");
+                                }
                             }
                             else
                             {
                                 Response.Redirect("/");
                             }
-                        }
-                        else
-                        {
-                            Response.Redirect("/");
+
                         }
 
                     }
