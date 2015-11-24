@@ -459,6 +459,7 @@
     <Compile Include="Controllers\SlidingBannerController.cs" />
     <Compile Include="Controllers\SubscribeAndContactController.cs" />
     <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
+    <Compile Include="Controllers\SystemPageBannerController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Controllers\WhyShopUsController.cs" />
@@ -767,8 +768,6 @@
     <Content Include="Content\RealEstateSlider\js\jquery-1.7.min.js" />
     <Content Include="Content\RealEstateSlider\js\jquery.featureCarousel.js" />
     <Content Include="Content\RealEstateSlider\js\jquery.featureCarousel.min.js" />
-    <Content Include="Content\slick-theme.css" />
-    <Content Include="Content\slick.css" />
     <Content Include="Content\Slider.css" />
     <Content Include="Content\smoothslide.css" />
     <Content Include="Content\smoothslides.theme.css" />
@@ -930,7 +929,6 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sample01.js" />
     <Content Include="Scripts\script.js" />
-    <Content Include="Scripts\slick.min.js" />
     <Content Include="Scripts\slider.js" />
     <Content Include="Scripts\SlidingBanner.js" />
     <Content Include="Scripts\SmartFormJCarousel.js" />
@@ -1074,6 +1072,7 @@
     <Content Include="Views\Shared\PartialViews\EzyPrintSignUp.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOptionsAndDetails.cshtml" />
     <Content Include="Views\Shared\PartialViews\FooterWithUseFulLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SystemPageBanner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1096,6 +1095,7 @@
     <Folder Include="Views\LoginBarWithPhoneInfo\" />
     <Folder Include="Views\LoginEazyPrint\" />
     <Folder Include="Views\ProductOptionsAndDetails\" />
+    <Folder Include="Views\SystemPageBanner\" />
     <Folder Include="Views\UserManager\" />
     <Folder Include="Views\WhyShopUs\" />
   </ItemGroup>
