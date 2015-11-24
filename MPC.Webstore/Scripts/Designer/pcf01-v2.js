@@ -287,6 +287,7 @@ function c0(cCanvas, TOC) {
     TOL.VAllignment = TOC.VAllignment;
     TOL.textPaddingTop = TOC.textPaddingTop;
     TOL.hasInlineFontStyle = TOC.hasInlineFontStyle;
+    TOL.hasInlineFontFamily = TOC.hasInlineFontFamily;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
     TOL.VAllignment = TOC.VAllignment;
@@ -451,6 +452,7 @@ function c2_01(OPT) {
             IT.VAllignment = OPT.VAllignment;
             IT.textPaddingTop = OPT.textPaddingTop;
             IT.hasInlineFontStyle = OPT.hasInlineFontStyle;
+            IT.hasInlineFontFamily = OPT.hasInlineFontFamily;
             IT.IsHidden = OPT.IsHidden;
             IT.IsEditable = OPT.IsEditable;
             var objs = canvas.getObjects();
@@ -539,6 +541,7 @@ function c8(cCanvas, CO) {
     COL.VAllignment = CO.VAllignment;
     COL.textPaddingTop = CO.textPaddingTop;
     COL.hasInlineFontStyle = CO.hasInlineFontStyle;
+    COL.hasInlineFontFamily = CO.hasInlineFontFamily;
     COL.IsHidden = CO.IsHidden;
     COL.IsEditable = CO.IsEditable;
     COL.selectable = objectsSelectable;
@@ -587,6 +590,7 @@ function c9(cCanvas, RO) {
     ROL.VAllignment = RO.VAllignment;
     ROL.textPaddingTop = RO.textPaddingTop;
     ROL.hasInlineFontStyle = RO.hasInlineFontStyle;
+    ROL.hasInlineFontFamily = RO.hasInlineFontFamily;
     ROL.IsHidden = RO.IsHidden;
     ROL.IsEditable = RO.IsEditable;
     ROL.setOpacity(RO.Opacity);
@@ -642,6 +646,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.VAllignment = IO.VAllignment;
         loadedObject.textPaddingTop = IO.textPaddingTop;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
+        loadedObject.hasInlineFontFamily = IO.hasInlineFontFamily;
         loadedObject.setOpacity(IO.Opacity);
         loadedObject.selectable = objectsSelectable;
         if (IO.IsPositionLocked == true) {
@@ -751,6 +756,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.VAllignment = IO.VAllignment;
         loadedObject.textPaddingTop = IO.textPaddingTop;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
+        loadedObject.hasInlineFontFamily = IO.hasInlineFontFamily;
         if (IO.IsPositionLocked == true) {
             loadedObject.lockMovementX = true;
             loadedObject.lockMovementY = true;
@@ -905,6 +911,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.VAllignment = IO.VAllignment;
         IOL.textPaddingTop = IO.textPaddingTop;
         IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
+        IOL.hasInlineFontFamily = IO.hasInlineFontFamily;
         IOL.ImageClippedInfo = IO.ClippedInfo;
         IOL.selectable = objectsSelectable;
         IOL.setOpacity(IO.Opacity);
@@ -1771,9 +1778,9 @@ function fu02UI() {
         });
     }
 
-    if (IsCalledFrom != 3)
+    if (IsCalledFrom == 2)
     {
-        //$("#Homebtn").css("display", "none");
+        $("#Homebtn2").css("display", "none");
     }
     if (IsCalledFrom == 3 || IsCalledFrom == 4) {
         $(".previewBtnContainer").css("display", "none");
@@ -3396,6 +3403,7 @@ function togglePage(pId) {
             $("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
         }
     }
+
     function k12CallBack(fontSize) {
         $("#layer").css("background-color", "transparent");
         document.getElementById("layer").style.display = "none";
@@ -3415,12 +3423,46 @@ function togglePage(pId) {
                     }
                 }
                 D1A0.hasInlineFontStyle = false;
+
                 setActiveStyle("font-Size", fontSize)
              //
                 canvas.renderAll();
                 D1A0._performClipping(canvas.contextTop, D1A0.text, D1A0);
             }
         
+        }
+    }
+    function k12CallBackFM(fontFamily) {
+        $("#layer").css("background-color", "transparent");
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+
+        var D1A0 = canvas.getActiveObject();
+        if (D1A0 && (D1A0.type === 'text' || D1A0.type === 'i-text')) {
+            if (D1A0.customStyles != null) {
+                for (var line in D1A0.customStyles) {
+                    for (var prop in D1A0.customStyles[line]) {
+                        if (prop == "font-family") {
+                            delete D1A0.customStyles[line][prop];
+                        }
+                    }
+                }
+                D1A0.hasInlineFontFamily = false;
+
+                var selectedObject = canvas.getActiveObject();
+
+                if (selectedObject && selectedObject.isEditing == false) {
+                    if (selectedObject && (selectedObject.type === 'text' || selectedObject.type === 'i-text')) {
+                        selectedObject.fontFamily = fontFamily;
+                        $("#txtAreaUpdateTxt").css("font-family", fontFamily);
+                        //c2(selectedObject);
+                        canvas.renderAll();
+                    }
+                } else {
+                    setActiveStyle("font-family", fontFamily);
+                }
+            }
+
         }
     }
     function k13(e) {
@@ -4275,6 +4317,7 @@ function togglePage(pId) {
             IOL.VAllignment = IO.VAllignment;
             IOL.textPaddingTop = IO.textPaddingTop;
             IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
+            IOL.hasInlineFontFamily = IO.hasInlineFontFamily;
             IOL.IsHidden = IO.IsHidden;
             IOL.IsEditable = IO.IsEditable;
             IOL.selectable = objectsSelectable;
