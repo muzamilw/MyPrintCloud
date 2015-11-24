@@ -40,6 +40,19 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return itemsectionService.GetUpdatedSectionWithSystemCostCenters(request.CreateFromForOrder()).CreateFromForOrder();
         }
+
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
+        public bool Get(ItemSection request)
+        {
+            if (request == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+
+            return itemsectionService.SaveItemSection(request.CreateFromForOrder());
+        }
+
         #endregion
     }
 }

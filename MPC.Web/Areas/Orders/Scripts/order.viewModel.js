@@ -112,10 +112,10 @@ define("order/order.viewModel",
                         { name: "Direct  Order", value: "0" },
                         { name: "Online Order", value: "1" }
                     ]),
-                    flagItem = function (state) {
+                    flagItem = function(state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
-                    flagSelection = function (state) {
+                    flagSelection = function(state) {
                         return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
                     orderTypeFilter = ko.observable(),
@@ -125,14 +125,12 @@ define("order/order.viewModel",
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingOrders = ko.observable(false),
-
                     // Is Order Editor Visible
                     isOrderDetailsVisible = ko.observable(false),
-
                     // is open report
-                     isOpenReport = ko.observable(false),
-                      // is open report Email
-                     isOpenReportEmail = ko.observable(false),
+                    isOpenReport = ko.observable(false),
+                    // is open report Email
+                    isOpenReportEmail = ko.observable(false),
                     //is Display Inquiry Detail Screen
                     isDisplayInquiryDetailScreen = ko.observable(false),
                     // Is Item Detail Visible
@@ -179,14 +177,12 @@ define("order/order.viewModel",
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({}, { SystemUsers: systemUsers() })),
-
                     //Active Inquiry
                     selectedInquiry = ko.observable(model.Inquiry.Create({}), { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }),
-
                     //Estimate To Be Progressed
                     estimateToBeProgressed = ko.observable(undefined),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
+                    pageHeader = ko.computed(function() {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -211,6 +207,7 @@ define("order/order.viewModel",
                     inquiryDetailItemCounter = -1,
                     isNewinquiryDetailItem = ko.observable(false),
                     isCopyiedEstimate = ko.observable(false),
+                    saveFrom = ko.observable();
                     // #endregion
                     // #region Utility Functions
                     // Select Estimate Phrase Container
@@ -501,7 +498,7 @@ define("order/order.viewModel",
                     openItemDetail = function () {
                         isItemDetailVisible(true);
                         selectedOrder().taxRate(selectedCompanyTaxRate());
-                        itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail, isEstimateScreen());
+                        itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail, isEstimateScreen(), saveOrder, saveFrom);
                         view.initializeLabelPopovers();
                     },
 
@@ -1329,6 +1326,9 @@ define("order/order.viewModel",
                             selectedOrder().isEstimate(true);
                             selectedOrder().statusId(estimatesStatus.draftEstimate); // Draft Estimate
                         }
+                        if (saveFrom() == "section") {
+                            removeItemSectionWithAddFlagTrue();
+                        }
                         var order = selectedOrder().convertToServerData();
                         updateOrderBeforeSaving(order);
                         dataservice.saveOrder(order, {
@@ -1408,8 +1408,10 @@ define("order/order.viewModel",
 
                                         }
                                     }
-
-                                    toastr.success("Saved Successfully.");
+                                    if (saveFrom() != "section") {
+                                        toastr.success("Saved Successfully.");
+                                    }
+                                    
                                     
                                     // If Status of Order is changed then remove it from current tab if it is not "All Orders"
                                     if (selectedOrder().statusId() !== selectedOrder().originalStatusId()) {

@@ -2488,6 +2488,16 @@ namespace MPC.Implementation.MISServices
         {
            return itemRepository.GetProductsByCompanyID(companyId ?? 0);
         }
+
+        public ItemSection GetItemFirstSectionByItemId(long itemId)
+        {
+            return itemRepository.GetItemFirstSectionByItemId(itemId);
+
+        }
+        public ItemSection UpdateItemFirstSectionByItemId(long itemId, int quantity)
+        {
+            return itemRepository.UpdateItemFirstSectionByItemId(itemId, quantity);
+        }
         #endregion
 
         #region DeleteProducts
