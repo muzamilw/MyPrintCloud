@@ -11456,7 +11456,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
   * @type boolean
   */
     hasInlineFontStyle: false,
-
+    hasInlineFontFamily: false,
       /**
   * IsOverlayObject  // added by saqib
   * @property
@@ -19692,7 +19692,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 	'maxWidth', 'customStyles', 'textPaddingTop', 'VAllignment',
 		'maxHeight',
 		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint','bullets'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'hasInlineFontFamily', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint', 'bullets'
   );
 
     /**

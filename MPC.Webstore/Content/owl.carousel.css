@@ -111,7 +111,9 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;
+  user-select: none;background: #f3f3f3;
+    border-radius: 3px;
+    vertical-align: middle;
 }
 .owl-carousel .owl-item img {
   display: block;

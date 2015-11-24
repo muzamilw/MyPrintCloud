@@ -2459,15 +2459,21 @@ function pcL04() {
     }
     if (fontFamily != "") {
         var selectedObject = canvas.getActiveObject();
-        if (selectedObject && selectedObject.isEditing == false) {
-            if (selectedObject && (selectedObject.type === 'text' || selectedObject.type === 'i-text')) {
-                selectedObject.fontFamily = fontFamily;
-                $("#txtAreaUpdateTxt").css("font-family", fontFamily);
-                //c2(selectedObject);
-                canvas.renderAll();
-            }
+        if (selectedObject.hasInlineFontFamily == true && !selectedObject.isEditing) {
+            $("#layer").css("background-color", "rgb(112, 114, 119)");
+            CustomeAlertBoxDesigner("Inline font family applied. Are you sure you want to override existing inline font family ? ", "k12CallBackFM('" + fontFamily + "')");
         } else {
-            setActiveStyle("font-family", fontFamily);
+
+            if (selectedObject && selectedObject.isEditing == false) {
+                if (selectedObject && (selectedObject.type === 'text' || selectedObject.type === 'i-text')) {
+                    selectedObject.fontFamily = fontFamily;
+                    $("#txtAreaUpdateTxt").css("font-family", fontFamily);
+                    //c2(selectedObject);
+                    canvas.renderAll();
+                }
+            } else {
+                setActiveStyle("font-family", fontFamily);
+            }
         }
     }
 
@@ -2935,10 +2941,12 @@ function setActiveStyle(styleName, value, c, m, y, k,Sname) {
         }
         object.setSelectionStyles(style);
         object.setCoords();
-        if(styleName = "font-Size")
+        if(styleName == "font-Size")
         {
             object.hasInlineFontStyle = true;
-        }
+        } else if (styleName == "font-family") {
+            object.hasInlineFontFamily = true;
+        } 
     }
     else {
         if (styleName == "color") {

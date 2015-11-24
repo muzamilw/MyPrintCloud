@@ -13,10 +13,16 @@ define("common/stockItem.viewModel",
                     stockItems = ko.observableArray([]),
                     // Stock Categories
                     categories = ko.observableArray([]),
+
+                    // Stock sub Categories
+                    subCategories = ko.observableArray([]),
                     // Stock Dialog Filter
                     stockDialogFilter = ko.observable(),
                     // Stock Dialog Cat Filter
                     stockDialogCatFilter = ko.observable(),
+
+                     // Stock Dialog Sub Cat Filter
+                    stockDialogSubCatFilter = ko.observable(),
                     // Is Category Filter Visible
                     isCategoryFilterVisible = ko.observable(),
                     // Is Base Data Loaded
@@ -92,6 +98,12 @@ define("common/stockItem.viewModel",
                                 searchStockItems();
                             }
                         });
+
+                        stockDialogSubCatFilter.subscribe(function () {
+                            if (isPageLoaded()) {  // prevents multiple calls when page loads
+                                searchStockItems();
+                            }
+                        });
                     },
                     // Map Stock Items 
                     mapStockItems = function (data) {
@@ -111,7 +123,8 @@ define("common/stockItem.viewModel",
                             SearchString: stockDialogFilter(),
                             PageSize: stockDialogPager().pageSize(),
                             PageNo: stockDialogPager().currentPage(),
-                            CategoryId: stockDialogCatFilter()
+                            CategoryId: stockDialogCatFilter(),
+                            SubCategoryId: stockDialogSubCatFilter()
                         }, {
                             success: function (data) {
                                 stockItems.removeAll();
@@ -127,16 +140,34 @@ define("common/stockItem.viewModel",
                             }
                         });
                     },
+
+                     // Filtered based on category Id
+                    filteredSubCategoriesForDetail = ko.computed(function () {
+                        if (subCategories().length === 0) {
+                            return [];
+                        }
+                        return subCategories.filter(function (subCategory) {
+                            return subCategory.CategoryId === (stockDialogCatFilter() !== undefined ? stockDialogCatFilter() : 0);
+                        });
+                    }),
+
+
                     // Get StockCategories
                     getStockCategories = function () {
                         dataservice.getStockCategories({
+
                         }, {
                             success: function (data) {
                               
                                 if (data) {
                                     categories.removeAll();
-                                    _.each(data, function (item) {
+                                    _.each(data.StockCategories, function (item) {
                                         categories.push(item);
+                                    });
+
+                                    subCategories.removeAll();
+                                    _.each(data.StockSubCategories, function (item) {
+                                        subCategories.push(item);
                                     });
                                 }
                                 isBaseDataLoaded(true);
@@ -147,10 +178,35 @@ define("common/stockItem.viewModel",
                         });
                     };
 
+                //// Get StockSubCategories
+                //getStockSubCategories = function () {
+                //    dataservice.getStockCategories({
+                //        SearchString: stockDialogFilter(),
+                //        PageSize: stockDialogPager().pageSize(),
+                //        PageNo: stockDialogPager().currentPage(),
+                //        CategoryId: stockDialogCatFilter()
+                //    }, {
+                //        success: function (data) {
+
+                //            if (data) {
+                //                subCategories.removeAll();
+                //                _.each(data, function (item) {
+                //                    subCategories.push(item);
+                //                });
+                //            }
+                //            isBaseDataLoaded(true);
+                //        },
+                //        error: function (response) {
+                //            toastr.error("Failed to load stock sub categories" + response);
+                //        }
+                //    });
+                //};
+
                 return {
                     //Arrays
                     stockDialogFilter: stockDialogFilter,
                     stockDialogCatFilter: stockDialogCatFilter,
+                    stockDialogSubCatFilter: stockDialogSubCatFilter,
                     stockItems: stockItems,
                     searchStockItems: searchStockItems,
                     resetStockItems: resetStockItems,
@@ -161,7 +217,8 @@ define("common/stockItem.viewModel",
                     initialize: initialize,
                     categories:categories,
                     show: show,
-                    currency: currency
+                    currency: currency,
+                    filteredSubCategoriesForDetail: filteredSubCategoriesForDetail
                 };
             })()
         };

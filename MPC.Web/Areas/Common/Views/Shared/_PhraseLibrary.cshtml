@@ -101,7 +101,7 @@
 <script id="childSectionIemTemplate" type="text/html">
     <li class="dd-item dd-item-list" data-bind="click: $root.selectPhraseField, css: { selectedRow: $root.selectedPhraseField() === $data }" data-id="16" style="cursor:pointer;">
         <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
-        <div class="dd-handle txt-blue-hover">
+        <div class="dd-handle txt-blue-hover" data-bind="click: $root.selectPhraseField, css: { selectedRow: $root.selectedPhraseField() === $data }">
             <span data-bind="text: fieldName"></span>
             <div class="nested-links">
             </div>
@@ -130,7 +130,7 @@
         @*<td style="width:50px;" data-bind="click :$root.selectPhrase">
                 <span>&nbsp;&nbsp;</span>
             </td>*@
-        <td class="col-lg-7">
+        <td class="col-lg-6">
             <input type="text" class="form-control" placeholder="Enter Phrase Name" data-bind="value:phraseText">
         </td>
         <td class="text-right col-lg-5">

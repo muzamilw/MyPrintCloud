@@ -3831,6 +3831,7 @@
           <Property Name="hasClippingPath" Type="bit" />
           <Property Name="isBulletPoint" Type="bit" />
           <Property Name="TextPaddingTop" Type="int" />
+          <Property Name="hasInlineFontFamily" Type="bit" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -11903,6 +11904,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="hasClippingPath" Type="Boolean" />
           <Property Name="isBulletPoint" Type="Boolean" />
           <Property Name="TextPaddingTop" Type="Int32" />
+          <Property Name="hasInlineFontFamily" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Objects_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -18004,6 +18006,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="TemplateObjects">
             <EntityTypeMapping TypeName="DomainModels.TemplateObject">
               <MappingFragment StoreEntitySet="TemplateObject">
+                <ScalarProperty Name="hasInlineFontFamily" ColumnName="hasInlineFontFamily" />
                 <ScalarProperty Name="TextPaddingTop" ColumnName="TextPaddingTop" />
                 <ScalarProperty Name="isBulletPoint" ColumnName="isBulletPoint" />
                 <ScalarProperty Name="hasClippingPath" ColumnName="hasClippingPath" />
