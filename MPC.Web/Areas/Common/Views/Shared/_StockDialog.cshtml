@@ -18,7 +18,21 @@
                                             <select id="category" class="form-control" data-bind="options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:$root.stockDialogCatFilter"></select>
                                         </div>
                                     </div>
-                                    <div class="form-group pull-right">
+
+
+                                
+
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <label for="category" style="margin-top: 9px;" class="control-label">Sub Category</label>
+                                        </div>
+                                        <div class="col-sm-3" style="padding-left: 0px;margin-left: -40px;">
+                                            <select id="subcategory" class="form-control" style="margin-left: 8px;" data-bind="options: $root.filteredSubCategoriesForDetail, optionsText: 'Name', optionsValue: 'SubCategoryId',value:$root.stockDialogSubCatFilter"></select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group pull-right" style="margin-right: -8px;">
                                         <form data-bind="submit: $root.searchStockItems">
 
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: stockDialogFilter">

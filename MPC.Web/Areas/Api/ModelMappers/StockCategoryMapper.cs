@@ -50,6 +50,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
             };
         }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static StockSubCategoryDropDown CreateFromDropDownSubCat(this MPC.Models.DomainModels.StockSubCategory source)
+        {
+            return new StockSubCategoryDropDown
+            {
+                CategoryId = source.CategoryId,
+                Name = source.Name,
+                SubCategoryId = source.SubCategoryId
+            };
+        }
         /// <summary>
         /// Crete From Web Model
         /// </summary>
