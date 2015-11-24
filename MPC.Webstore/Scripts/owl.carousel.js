@@ -2699,8 +2699,8 @@
 	 */
 	Navigation.Defaults = {
 		nav: false,
-		navRewind: true,
-		navText: [ 'prev', 'next' ],
+		navRewind: false,
+		navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
 		navSpeed: false,
 		navElement: 'div',
 		navContainer: false,

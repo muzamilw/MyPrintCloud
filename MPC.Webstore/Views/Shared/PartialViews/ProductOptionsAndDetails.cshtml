@@ -20,6 +20,8 @@
 }
 <div id="FormulaMatrixLayer">
 </div>
+
+<link href="~/Content/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/owl.carousel.css" rel="stylesheet" />
 <div class="container content_area" id="all-productOption-pg">
     <div class="left_right_padding">
@@ -63,6 +65,27 @@
             </h1>
             <div class="clearBoth"></div>
         </div>
+        <div class="product-webDesc-container txtAlignLeft col-xs-12 visible-sm visible-xs">
+            @{
+                var ProductDescription = ViewBag.ItemModel.WebDescription;
+                if (!string.IsNullOrEmpty(ProductDescription))
+                {
+                    if (ProductDescription.Length > 120)
+                    {
+                        ProductDescription = ProductDescription.Substring(0, 120);
+                        ProductDescription = ProductDescription.Substring(0, ProductDescription.LastIndexOf(' '));
+
+                    }
+                    else
+                    {
+                        ProductDescription = ProductDescription;
+                    }
+                }
+            }
+
+            @Html.Raw(ProductDescription)&nbsp;
+        </div>
+
         <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
             
             @if (ViewBag.ItemModel.ProductDisplayOptions == (int)ProductDisplayOption.ThumbWithMultipleBanners)
@@ -70,17 +93,20 @@
                 if (ViewBag.ItemModel.ProductBannerThumbnailList != null)
                 {
 
-    <img id="carousel-main-item" class="visible-lg visible-md" style="max-height: 200px;" />
+                    
+                        <img id="carousel-main-item" class="visible-lg visible-md" style="max-height: 200px;" />
+                    
     <div class="owl-carousel">
         @foreach (var img in ViewBag.ItemModel.ProductBannerThumbnailList as List<MPC.Models.DomainModels.ItemImage>)
         {
-            <div class="item">
-                @{
+            
             var carousalitemid = "cItem" + SliderCount;
-                }
+           
+            <div class="item" onclick="changeSelectedCarouselItem('@carousalitemid');">
+               
                 @if (SliderCount == 0)
                 {   <h4 class="carousel-items-cnt">
-                   
+
                     <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');" class="selected">
                         <img src="/@img.ImageURL" alt="@img.ImageTitle" />
                     </a>
@@ -115,7 +141,7 @@
                 <img src="/@ViewBag.ItemModel.ProductBannerThumbnail" alt="" class="product-large-banner" />
             }
           <br />
-            <div id="tabs_two">
+            <div id="tabs_two" class="visible-lg visible-md">
                 <ul class="clearfix">
                     <li class="litab-active"><a onclick="ChangeTab('tabs-1', this);" class="one">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId, "Specification"))</a></li>
                     <li><a onclick="ChangeTab('tabs-2', this);" class="two">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTips", UserCookieManager.WBStoreId, "Tips"))</a></li>
@@ -143,10 +169,11 @@
               
             </div>
             <br />
+           
             @if (ViewBag.ItemModel.GridImage != null)
             {
-                <div class="grif-layout-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblgridLayoutSizeGuidLine", UserCookieManager.WBStoreId, "Size Guidline"))</div>
-                <div class="grid-layout-container txtAlignLeft">
+                <div class="grif-layout-heading visible-lg visible-md">@Html.Raw(Html.GetKeyValueFromResourceFile("lblgridLayoutSizeGuidLine", UserCookieManager.WBStoreId, "Size Guidline"))</div>
+                <div class="grid-layout-container txtAlignLeft visible-lg visible-md">
 
                     <img class="grid-layout-image" src="/@ViewBag.ItemModel.GridImage" />
 
@@ -155,50 +182,50 @@
             }
             @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1) || !string.IsNullOrEmpty(ViewBag.ItemModel.File2) || !string.IsNullOrEmpty(ViewBag.ItemModel.File3) || !string.IsNullOrEmpty(ViewBag.ItemModel.File4))
             {
-                <div class="grif-layout-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbldownloadSizeStencil", UserCookieManager.WBStoreId, "Download Size Stencils"))</div>
-                <div class="downloadable-files-container txtAlignLeft">
-                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
-                        {
+                <div class="grif-layout-heading visible-lg visible-md">@Html.Raw(Html.GetKeyValueFromResourceFile("lbldownloadSizeStencil", UserCookieManager.WBStoreId, "Download Size Stencils"))</div>
+    <div class="downloadable-files-container txtAlignLeft visible-lg visible-md">
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
+        {
 
-                            <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
-                                <img src="@ViewBag.ItemModel.File1Url" />
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
-                        {
+            <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File1Url" />
+            </a>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
+        {
 
-                            <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
-                                <img src="@ViewBag.ItemModel.File2Url" />
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
-                        {
+            <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File2Url" />
+            </a>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
+        {
 
-                            <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
-                                <img src="@ViewBag.ItemModel.File3Url" />
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
-                        {
+            <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File3Url" />
+            </a>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
+        {
 
-                            <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
-                                <img src="@ViewBag.ItemModel.File4Url" />
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
-                        {
+            <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File4Url" />
+            </a>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
+        {
 
-                            <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
-                                <img src="@ViewBag.ItemModel.File5Url" />
-                            </a>
-                        }
+            <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
+                <img src="@ViewBag.ItemModel.File5Url" />
+            </a>
+        }
 
-                </div>
+    </div>
                 <div class="clearBoth">&nbsp;</div>
             }
         </div>
         <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12">
-            <div class="product-name-container txtAlignLeft">
+            <div class="product-name-container txtAlignLeft col-md-12 col-lg-12 col-xs-12 col-sm-12">
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
                 {
                     @ViewBag.ItemModel.ProductFriendlyName
@@ -330,7 +357,7 @@
                             {
                                 if (ViewBag.SelectedQuantity == quantity.Quantity)
                                 {
-                                        <div class=float_left_simple style="height:55px;position:relative;">
+                                        <div class=float_left_simple style="height:45px;position:relative;">
                                             @{
                                     var qtyClassName = "rbqtyType" + QtyCount;
                                     var radioQtyId = "qtyinput" + quantity.PriceMatrixId;
@@ -343,7 +370,7 @@
                                 }
                                 else
                                 {
-                                    <div class=float_left_simple style="height:55px;position:relative;">
+                                    <div class=float_left_simple style="height:45px;position:relative;">
                                         @{
                                     var qtyClassName = "rbqtyType" + QtyCount;
                                     var radioQtyId = "qtyinput" + quantity.PriceMatrixId;
@@ -359,7 +386,7 @@
                             {
                                 if (QtyCount == 0)
                                 {
-                                    <div class=float_left_simple style="height:55px;position:relative;">
+                                    <div class=float_left_simple style="height:45px;position:relative;">
                                         @{
                                     var qtyClassName = "rbqtyType" + QtyCount;
                                     var radioQtyId = "qtyinput" + quantity.PriceMatrixId;
@@ -372,7 +399,7 @@
                                 }
                                 else
                                 {
-                                    <div class=float_left_simple style="height:55px;position:relative;">
+                                    <div class=float_left_simple style="height:45px;position:relative;">
                                         @{
                                     var qtyClassName = "rbqtyType" + QtyCount;
                                     var radioQtyId = "qtyinput" + quantity.PriceMatrixId;
@@ -856,7 +883,7 @@
 
 
                     </label>
-                    <br />
+                   
                     <label id="lblStock" class="LightGrayLabels"></label><br />
                     <label id="lblExtra" class="LightGrayLabels"></label>
                 </div>
@@ -870,7 +897,6 @@
 
                         </div>
                     </div>
-                        <br />
                     <label id="lblTaxLabel" class="Fsize15 white">@ViewBag.VATLabel</label>
 
 
@@ -2636,7 +2662,7 @@
     }
 
     function  changeSelectedCarouselItem(carouselItemId){
-        
+        console.log(carouselItemId + "itemidd");
         if(carouselItemId == ""){
             $(".carousel-items-cnt").each(function(i, val) {
                 if($(val).children().attr('class') == "selected"){
@@ -2654,7 +2680,5 @@
     }
 
 </script>
-
-
 
     
