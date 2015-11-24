@@ -11,19 +11,21 @@
                     <div class="main-box clearfix" id="tabsHeaderSecondarypage" style="margin-bottom:10px;margin-top:8px;">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
-                                <!-- ko if: isUserDefined() == true -->
+                             
                                 <li class="active"><a href="#tab-SecondaryPageDetail" data-toggle="tab">Page Details</a></li>
-                                <!-- /ko -->
+                              
 
-                                <li data-bind="css: isUserDefined() == true ?  '' : 'active'"><a href="#tab-SecondaryPageKeyword" data-toggle="tab">Page Keywords</a></li>
+                                <li><a href="#tab-SecondaryPageKeyword" data-toggle="tab">Page Keywords</a></li>
 
                                 <!-- ko if: isUserDefined() == true -->
                                 <li><a href="#tab-UserAddressInfo" data-toggle="tab">Page Content</a></li>
                                 <!-- /ko -->
                             </ul>
                             <div class="tab-content">
-                                <!-- ko if: isUserDefined() == true -->
+                               
                                 <div class="tab-pane fade in active" id="tab-SecondaryPageDetail">
+
+                                    <!-- ko if: isUserDefined() == true -->
                                     <div class="col-lg-12">
                                         <div class=" form-horizontal clearfix">
                                             <div class="col-lg-9">
@@ -81,6 +83,8 @@
                                             </div>
                                             </div>
                                       </div>
+                                    <!-- /ko -->
+                                   
                                     <div class="col-lg-12">
                                                 <div class=" form-horizontal clearfix">
                                                     <h3 class="group-header">Upload Page Banner</h3>
@@ -142,9 +146,9 @@
                                         </div>
                                     
                                 </div>
-                                <!-- /ko -->
+                               
 
-                                <div data-bind="css: isUserDefined() == true ?  'tab-pane fade in' : 'tab-pane fade in active'" id="tab-SecondaryPageKeyword">
+                                <div class="tab-pane fade in" id="tab-SecondaryPageKeyword">
                                     <div class=" form-horizontal clearfix">
                                         <h3 style="margin-left:8px;margin-right:8px;" class="group-header">Page Keywords</h3>
 
@@ -170,7 +174,7 @@
 " data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-                                                        
+
                                                     </div>
 
 
@@ -192,8 +196,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Meta Title" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                    <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>*@
 
                                                     </div>
 
@@ -211,8 +215,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Description Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                    <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>*@
 
                                                     </div>
 
@@ -233,8 +237,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-questionss">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                    <span class="label label-circle-questionss">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>*@
 
                                                     </div>
 
@@ -253,8 +257,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Robot Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                    <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>*@
 
                                                     </div>
 
@@ -273,8 +277,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Author Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                    <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>*@
 
                                                     </div>
 
@@ -293,8 +297,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="language contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>*@
 
                                                     </div>
 
@@ -313,8 +317,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Revist after contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>*@
 
                                                     </div>
 
