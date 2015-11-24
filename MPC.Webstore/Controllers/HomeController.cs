@@ -196,7 +196,7 @@ namespace MPC.Webstore.Controllers
                 {
                     SetPageMEtaTitle(Page, DefaultAddress, CompanyObject);
                 }
-
+                TempData["systemPageId"] = Page.PageId;
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
             else        //this is default page being fired.
@@ -214,7 +214,7 @@ namespace MPC.Webstore.Controllers
                 }
 
                 SetPageMEtaTitle(Page, DefaultAddress, CompanyObject);
-
+                TempData["systemPageId"] = Page.PageId;
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
         }
