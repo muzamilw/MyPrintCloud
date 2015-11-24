@@ -2008,18 +2008,20 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         System.IO.Directory.CreateDirectory(savePath);
                     }
-                    string filePath = savePath + PreviewFileName + ".png";
+                    //string filePath = savePath + PreviewFileName + ".png";
+                    string filePath2 = savePath + PreviewFileName + ".jpg";
                     theDoc.Rendering.DotsPerInch = DPI;
-                    theDoc.Rendering.Save(filePath);
+                    //theDoc.Rendering.Save(filePath);
+                    theDoc.Rendering.Save(filePath2);
                     theDoc.Dispose();
                     //if (RoundCorners)
                     //{
                     //    generateRoundCorners(filePath, filePath,str);
                     //}
-                  
-                    
 
-                    return PreviewFileName + ".png";
+
+
+                    return PreviewFileName + ".jpg";
 
 
 
@@ -2055,9 +2057,11 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         System.IO.Directory.CreateDirectory(savePath);
                     }
-                    string filePath = savePath + PreviewFileName + ".png";
+                    //string filePath = savePath + PreviewFileName + ".png";
+                    string filePath2 = savePath + PreviewFileName + ".jpg";
                     theDoc.Rendering.DotsPerInch = DPI;
-                    theDoc.Rendering.Save(filePath);
+                    //theDoc.Rendering.Save(filePath); 
+                    theDoc.Rendering.Save(filePath2);
                     theDoc.Dispose();
                     //if (RoundCorners)
                     //{
@@ -2066,7 +2070,7 @@ namespace MPC.Implementation.WebStoreServices
 
 
 
-                    return PreviewFileName + ".png";
+                    return PreviewFileName + ".jpg";
 
 
 
@@ -2110,7 +2114,8 @@ namespace MPC.Implementation.WebStoreServices
                         }
 
                         theDoc.Rendering.DotsPerInch = DPI;
-                        string fileName = "p" + i + ".png";
+                        //string fileName = "p" + i + ".png";
+                        string fileName2 = "p" + i + ".jpg";
                         //if (RoundCorners)
                         //{
                         //    Stream str = new MemoryStream();
@@ -2123,7 +2128,8 @@ namespace MPC.Implementation.WebStoreServices
                         //{
                         //    theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
                         //}
-                        theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
+                        //theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
+                        theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName2));
                     }
 
                     theDoc.Dispose();
