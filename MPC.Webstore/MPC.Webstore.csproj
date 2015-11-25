@@ -553,7 +553,11 @@
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\home.png" />
     <Content Include="Content\HomeBannerS4.js" />
+    <Content Include="Content\Images\0_Design-Icon.png" />
     <Content Include="Content\Images\20304_Checkmark.png" />
+    <Content Include="Content\Images\2_Business-Icon.png" />
+    <Content Include="Content\Images\8_Time-Icon.png" />
+    <Content Include="Content\Images\9_Location-Icon.png" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
@@ -717,6 +721,7 @@
     <Content Include="Content\Images\MASTERCARD.gif" />
     <Content Include="Content\Images\my-jobs.png" />
     <Content Include="Content\Images\next-horizontal.png" />
+    <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\notFound.svg" />
     <Content Include="Content\Images\olsonReviewImg.PNG" />
     <Content Include="Content\Images\Page_pdf.png" />

@@ -107,46 +107,53 @@
             {
                 if (ViewBag.ItemModel.ProductBannerThumbnailList != null)
                 {
-
-                    
+                    if (ViewBag.ItemModel.ProductBannerThumbnailList != null && ViewBag.ItemModel.ProductBannerThumbnailList.Count > 0)
+                    {
                         <img id="carousel-main-item" class="visible-lg visible-md" style="max-height: 200px;" />
-                    
-    <div class="owl-carousel">
-        @foreach (var img in ViewBag.ItemModel.ProductBannerThumbnailList as List<MPC.Models.DomainModels.ItemImage>)
-        {
-            
-            var carousalitemid = "cItem" + SliderCount;
-           
-            <div class="item" onclick="changeSelectedCarouselItem('@carousalitemid');">
-               
-                @if (SliderCount == 0)
-                {   <h4 class="carousel-items-cnt">
 
-                    <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');" class="selected">
-                        <img src="/@img.ImageURL" alt="@img.ImageTitle" />
-                    </a>
+                        <div class="owl-carousel">
+                            @foreach (var img in ViewBag.ItemModel.ProductBannerThumbnailList as List<MPC.Models.DomainModels.ItemImage>)
+                            {
 
-                </h4>
+                                var carousalitemid = "cItem" + SliderCount;
 
-                }
-                else
-                {
-                    <h4 class="carousel-items-cnt">
-                        <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');">
-                            <img src="/@img.ImageURL" alt="@img.ImageTitle" />
-                        </a>
+                                <div class="item" onclick="changeSelectedCarouselItem('@carousalitemid');">
 
-                    </h4>
-                }
-            </div>
+                                    @if (SliderCount == 0)
+                                    {   <h4 class="carousel-items-cnt">
+
+                                        <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');" class="selected">
+                                            <img src="/@img.ImageURL" alt="@img.ImageTitle" />
+                                        </a>
+
+                                    </h4>
+
+                                    }
+                                    else
+                                    {
+                                        <h4 class="carousel-items-cnt">
+                                            <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');">
+                                                <img src="/@img.ImageURL" alt="@img.ImageTitle" />
+                                            </a>
+
+                                        </h4>
+                                    }
+                                </div>
 
 
-                SliderCount++;
-        }
-       
-       
-    </div>
-                          
+                                    SliderCount++;
+                            }
+
+
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="/Content/Images/no-image.png" alt="" class="product-large-banner" style="max-height:300px;"/>
+                    }
+
+
+
                 }
 
 
@@ -276,17 +283,11 @@
                 }
 
             </div>
-            
-            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
-                <div style="height:65px;" class="hidden-xs hidden-sm">
+            <div class="hidden-xs hidden-sm ">
+                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
                     &nbsp;
                 </div>
-                <div class="grif-layout-heading txtAlignLeft" >
-                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblStockChoose", UserCookieManager.WBStoreId, "Choose"))
-                </div>
-            </div>
-            <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
-                <div class="product-webDesc-container txtAlignLeft hidden-xs hidden-sm" style="min-height:65px;">
+                <div class="product-webDesc-container txtAlignLeft col-md-9 col-lg-9 col-xs-12 col-sm-12">
                     @{
                         ProductDescription = ViewBag.ItemModel.WebDescription;
                         if (!string.IsNullOrEmpty(ProductDescription))
@@ -303,9 +304,18 @@
                             }
                         }
                     }
-                    
+
                     @Html.Raw(ProductDescription)&nbsp;
                 </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+               
+                <div class="grif-layout-heading txtAlignLeft" >
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblStockChoose", UserCookieManager.WBStoreId, "Choose"))
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
+               
                 <div class="stock-options-container txtAlignLeft">
 
                     @foreach (var stock in ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>)
@@ -1350,7 +1360,7 @@
 
         } else {
             SelectQtyOption($('input:radio[name=QtyRadio]:checked').attr('class'));
-            console.log($('input:radio[name=QtyRadio]:checked').attr('data-index') + ":onloadindex:");
+           
             CalculatePriceBaseOnSelectedQuantity($('input:radio[name=QtyRadio]:checked').attr('data-index'));
            
             
@@ -1360,9 +1370,15 @@
        
         SetAddOnsPriceOnPageLoad();
 
-        SetCostCentreQueueLabelsOnModify();
+        $(".carousel-items-cnt").each(function(i, val) {
+            if($(val).children().attr('class') == "selected"){
+                console.log($(val).children().children().attr('src'));
+                $("#carousel-main-item").attr('src', $(val).children().children().attr('src'));
+            }
+        });
 
-        changeSelectedCarouselItem("");
+        SetCostCentreQueueLabelsOnModify();
+     
     });
 
     $("#priceToggle").click(function() {
@@ -1493,7 +1509,6 @@
 
         var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
         JsonData = JsonData[selectedQuantityIndex];
-        console.log("JsonData on qty chnage" + JsonData);
         selectedStockNo = selectedStockNo + '_PriceMatrixID_' + JsonData.ItemID.toString();
 
         var price = "";
@@ -1920,7 +1935,7 @@
         var itemsList = '';
 
         var orderedQuantity = $('input:radio[name=QtyRadio]:checked').next().text(); // $(".dropdownQtyListClass").find(":selected").val();
-        console.log("orderedQuantity" + orderedQuantity);
+    
         if (isRanged) {
             orderedQuantity = $("#rangedQuantityOrdered").val();
 
@@ -2703,7 +2718,7 @@
     }
 
     function  changeSelectedCarouselItem(carouselItemId){
-        console.log(carouselItemId + "itemidd");
+     
         if(carouselItemId == "" || carouselItemId == '' || carouselItemId === "" || carouselItemId === ''){
             $(".carousel-items-cnt").each(function(i, val) {
                 if($(val).children().attr('class') == "selected"){
@@ -2719,7 +2734,7 @@
             $("#carousel-main-item").attr('src', $("#"+ carouselItemId).children().attr('src'));
         }
     }
-
+  
 </script>
 
     
