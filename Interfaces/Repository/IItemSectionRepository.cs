@@ -52,5 +52,6 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         ItemSection GetFirstSectionOfItem(long ItemId);
         ItemSection GetSectionByItemId(long ItemId);
+        ItemSection GetItemSectionById(long itemSectionId);
     }
 }
