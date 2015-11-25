@@ -1105,7 +1105,7 @@ function d5_sub(pageID, isloading) {
             D1CS = 1, dfZ1l = 1;
 
             //autozoom settings 
-            var contentAreaheight = $(window).height() - 136, contentAreaWidth = $(window).width() - 380,  DzoomFactor = dfZ1l;
+            var contentAreaheight = $(window).height() - 136 -70, contentAreaWidth = $(window).width() - 380,  DzoomFactor = dfZ1l;
            
             if (canvasHeight >= contentAreaheight || canvasWidth >= contentAreaWidth)
             {
@@ -1223,6 +1223,24 @@ function d5_sub(pageID, isloading) {
             }
             canvas.calcOffset();
             
+            // animate slider 
+            if (oldPageId != SP && oldPageId != 0)
+            {
+                var oldPageNo = 0;
+                var newPageNo = 0;
+                $.each(TP, function (i, IT) {
+                    if (IT.ProductPageID == oldPageId) {
+                        oldPageNo = i;
+                    }
+                    if (IT.ProductPageID == SP) {
+                        newPageNo = i;
+                    }
+                });
+                var dif = (newPageNo - oldPageNo) * -$(".menuItemContainer").width(); // menuItemContainer  width;
+                dif = "+="+ dif + "px";
+                $("#documentMenu").animate({ left: dif }, 500);
+            }
+            oldPageId = SP;
         }
     });
 }
@@ -2161,7 +2179,7 @@ function fu06_SvcCallback(DT, fname,mode) {
     }).bind('slimscrolling', function (e, pos) {
         canvas.calcOffset();
     });
-    $("#canvasDocument").css("width", $(window).width() - 380);
+    $("#canvasDocument").css("width", $(window).width() - 360);
     $(".templatepreviewContainer").css("width", $(window).width() - 390);
     $(".templatepreviewContainer").css("height", $(window).height() - 70);
     $(".tempPreviewImg").css("height", $(window).height() - 180);
@@ -2248,7 +2266,7 @@ function fu07(is2ndLoad) {
         }
     });
 
-    $("#documentMenu").css("left", $("#documentTitleAndMenu").width() / 2 - $("#documentMenu").width() / 2 + "px");
+    $("#documentMenu").css("left",(( $(".canvasPageMenu").width() / 2) -50) + "px");
 }
 function togglePage(pId) {
     $.each(TP, function (i, IT) {
