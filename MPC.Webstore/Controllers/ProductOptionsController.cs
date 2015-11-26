@@ -752,6 +752,7 @@ namespace MPC.Webstore.Controllers
             ItemModel.WebDescription = referenceItem.WebDescription;
             ItemModel.ItemId = referenceItem.ItemId;
             ItemModel.ProductDisplayOptions = referenceItem.ProductDisplayOptions;
+            ItemModel.ProductSpecification = referenceItem.ProductSpecification;
             ItemModel.TipsAndHints = referenceItem.TipsAndHints;
             if (ViewData["Templates"] == null)
             {

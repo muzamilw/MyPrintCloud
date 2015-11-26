@@ -13,7 +13,8 @@
     var extraPricingId = "";
     var SliderCount = 0;
     var newClassToadd = "";
-    int MatrixCount = 1; 
+    int MatrixCount = 1;
+    var ProductDescription = "";
 }
 @{
     Layout = null;
@@ -65,9 +66,22 @@
             </h1>
             <div class="clearBoth"></div>
         </div>
+        <div class="product-name-container txtAlignLeft col-md-12 col-lg-12 col-xs-12 col-sm-12 visible-sm visible-xs">
+            <br />
+            @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
+            {
+                @ViewBag.ItemModel.ProductFriendlyName
+            }
+            else
+            {
+                @ViewBag.ItemModel.ProductName
+            }
+            <br />
+        </div>
+
         <div class="product-webDesc-container txtAlignLeft col-xs-12 visible-sm visible-xs">
             @{
-                var ProductDescription = ViewBag.ItemModel.WebDescription;
+                ProductDescription = ViewBag.ItemModel.WebDescription;
                 if (!string.IsNullOrEmpty(ProductDescription))
                 {
                     if (ProductDescription.Length > 120)
@@ -84,6 +98,7 @@
             }
 
             @Html.Raw(ProductDescription)&nbsp;
+            <br />
         </div>
 
         <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
@@ -141,34 +156,59 @@
                 <img src="/@ViewBag.ItemModel.ProductBannerThumbnail" alt="" class="product-large-banner" />
             }
           <br />
-            <div id="tabs_two" class="visible-lg visible-md">
-                <ul class="clearfix">
-                    <li class="litab-active"><a onclick="ChangeTab('tabs-1', this);" class="one">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId, "Specification"))</a></li>
-                    <li><a onclick="ChangeTab('tabs-2', this);" class="two">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTips", UserCookieManager.WBStoreId, "Tips"))</a></li>
-                    <li><a onclick="ChangeTab('tabs-3', this);" class="three">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignServices", UserCookieManager.WBStoreId, "Design Services"))</a></li>
-                    
-                </ul>
-                <div id="tabs-1" class="tab tab-active" >
-                    <div class="detail">
-                        <p>@Html.Raw(@ViewBag.ItemModel.WebDescription)</p>
-                        
-                    </div>
-                </div>
-                <div id="tabs-2" class="tab " style="display:none;">
-                    <div class="detail">
-                        <p>@Html.Raw(@ViewBag.ItemModel.TipsAndHints)</p>
+            @if (!string.IsNullOrEmpty(ViewBag.ItemModel.WebDescription) || !string.IsNullOrEmpty(ViewBag.ItemModel.TipsAndHints))
+            {
+                <div id="tabs_two" class="visible-lg visible-md">
+                    <ul class="clearfix">
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.WebDescription))
+                    {
+                        <li class="litab-active"><a onclick="ChangeTab('tabs-1', this);" class="one">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId, "Specification"))</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductSpecification))
+                    {
+                        <li><a onclick="ChangeTab('tabs-2', this);" class="two">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTips", UserCookieManager.WBStoreId, "Tips"))</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.TipsAndHints))
+                    {
+                        <li><a onclick="ChangeTab('tabs-3', this);" class="three">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignServices", UserCookieManager.WBStoreId, "Design Services"))</a></li>
 
-                    </div>
-                </div>
-                <div id="tabs-3" class="tab " style="display:none;">
-                    <div class="detail">
-                        <p></p>
+                    }
+                    </ul>
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.WebDescription))
+                    {
+                        <div id="tabs-1" class="tab tab-active">
+                            <div class="detail">
+                                <p>@Html.Raw(@ViewBag.ItemModel.WebDescription)</p>
 
-                    </div>
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductSpecification))
+                    {
+                        <div id="tabs-2" class="tab " style="display:none;">
+                            <div class="detail">
+                                <p>@Html.Raw(@ViewBag.ItemModel.ProductSpecification)</p>
+
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.TipsAndHints))
+                    {
+                        <div id="tabs-3" class="tab " style="display:none;">
+                            <div class="detail">
+                                <p>@Html.Raw(@ViewBag.ItemModel.TipsAndHints)</p>
+
+                            </div>
+                        </div>
+                    }
+                   
+                
+                  
+
                 </div>
-              
-            </div>
-            <br />
+                <br />
+            }
+         
            
             @if (ViewBag.ItemModel.GridImage != null)
             {
@@ -225,7 +265,7 @@
             }
         </div>
         <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12">
-            <div class="product-name-container txtAlignLeft col-md-12 col-lg-12 col-xs-12 col-sm-12">
+            <div class="product-name-container txtAlignLeft col-md-12 col-lg-12 col-xs-12 col-sm-12 hidden-xs hidden-sm">
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
                 {
                     @ViewBag.ItemModel.ProductFriendlyName
@@ -238,7 +278,7 @@
             </div>
             
             <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
-                <div style="height:65px;">
+                <div style="height:65px;" class="hidden-xs hidden-sm">
                     &nbsp;
                 </div>
                 <div class="grif-layout-heading txtAlignLeft" >
@@ -246,9 +286,9 @@
                 </div>
             </div>
             <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
-                <div class="product-webDesc-container txtAlignLeft" style="min-height:65px;">
+                <div class="product-webDesc-container txtAlignLeft hidden-xs hidden-sm" style="min-height:65px;">
                     @{
-                        var ProductDescription = ViewBag.ItemModel.WebDescription;
+                        ProductDescription = ViewBag.ItemModel.WebDescription;
                         if (!string.IsNullOrEmpty(ProductDescription))
                         {
                             if (ProductDescription.Length > 120)
@@ -883,7 +923,7 @@
 
 
                     </label>
-                   
+                    <br />
                     <label id="lblStock" class="LightGrayLabels"></label><br />
                     <label id="lblExtra" class="LightGrayLabels"></label>
                 </div>
@@ -1321,6 +1361,7 @@
         SetAddOnsPriceOnPageLoad();
 
         SetCostCentreQueueLabelsOnModify();
+
         changeSelectedCarouselItem("");
     });
 
@@ -2663,7 +2704,7 @@
 
     function  changeSelectedCarouselItem(carouselItemId){
         console.log(carouselItemId + "itemidd");
-        if(carouselItemId == ""){
+        if(carouselItemId == "" || carouselItemId == '' || carouselItemId === "" || carouselItemId === ''){
             $(".carousel-items-cnt").each(function(i, val) {
                 if($(val).children().attr('class') == "selected"){
             

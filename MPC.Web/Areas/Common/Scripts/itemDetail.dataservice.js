@@ -42,6 +42,12 @@ define("common/itemDetail.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save section
+                    amplify.request.define('updateItemSection', 'ajax', {
+                        url: ist.siteUrl + '/Api/ItemSection',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -84,6 +90,16 @@ define("common/itemDetail.dataservice", function () {
                     data: params
                 });
             },
+            updateItemSection = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'updateItemSection',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+
+                });
+            },
             // Get base data
             getBaseData = function(callbacks) {
                 initialize();
@@ -100,7 +116,8 @@ define("common/itemDetail.dataservice", function () {
             getPTV: getPTV,
             getPTVCalculation: getPTVCalculation,
             getBestPress: getBestPress,
-            getUpdatedSystemCostCenters: getUpdatedSystemCostCenters
+            getUpdatedSystemCostCenters: getUpdatedSystemCostCenters,
+            updateItemSection: updateItemSection
         };
     })();
 

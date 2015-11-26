@@ -116,7 +116,10 @@ define("common/addCostCenter.viewModel",
                             CostCentreId: selectedCostCentre().id(),
                             QuantityOrdered: selectedCostCentre().quantity1(),
                             ClonedItemId: itemId(),
-                            CallMode: 'New'
+                            CallMode: 'New',
+                            Qty2: selectedCostCentre().quantity2(),
+                            Qty3: selectedCostCentre().quantity3(),
+                            SectionId: selectedCostCentre().sectionId()
                         }, {
                             success: function (data) {
                                 questionQueueObject = data[2];
@@ -131,7 +134,7 @@ define("common/addCostCenter.viewModel",
                                             
                                             ShowCostCentrePopup(questionQueueObject, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
                                                 0, inputQueueObject.Items, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                                selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                                selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
                                         //}
                                         if (inputQueueObject.Items && inputQueueObject.Items.length === 3) { // do not process the queue for prompting values
                                             isQueueExist = true;
@@ -142,12 +145,12 @@ define("common/addCostCenter.viewModel",
                                         isQueueExist = true;
                                         SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, selectedCostCentre().id(), selectedCostCentre().calculationMethodType(),
                                             "", selectedElement, "", 0, currencySmb(), false, companyTaxRate, selectedCostCentre().quantity1(),
-                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, false, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
                                     } else { // process the input queue and prompt for values
                                         isQueueExist = true;
                                         ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
                                             0, questionQueueObject, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
                                     }
                                 } else if (selectedCostCentre().calculationMethodType() === 2) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
 
@@ -156,13 +159,13 @@ define("common/addCostCenter.viewModel",
                                         SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, selectedCostCentre().id(), selectedCostCentre().calculationMethodType(),
                                             "", selectedCostCentre().isSelected.domElement, "", 0, currencySmb(),
                                             false, companyTaxRate, selectedCostCentre().quantity1(),
-                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, false, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
                                     } else { // process the input queue and prompt for values
                                         isQueueExist = true;
                                         ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0,
                                             selectedElement, "New", currencySmb(),
                                             0, questionQueueObject, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
                                     }
                                 }
                                 //if (isQueueExist === false) {// queue is not populating

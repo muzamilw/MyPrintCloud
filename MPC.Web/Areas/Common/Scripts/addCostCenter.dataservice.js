@@ -25,7 +25,8 @@ define("common/addCostCenter.dataservice", function () {
                     
                     // Define request to Execute Cost Center
                     amplify.request.define('executeCostCenterForCostCenter', 'ajax', {
-                        url: '/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId={CostCentreId}&ClonedItemId={ClonedItemId}&OrderedQuantity={QuantityOrdered}&CallMode={CallMode}',
+                        // url: '/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId={CostCentreId}&ClonedItemId={ClonedItemId}&OrderedQuantity={QuantityOrdered}&CallMode={CallMode}',
+                        url: '/mis/Api/CostCenterExecution/ExecuteCostCentre?CostCentreId={CostCentreId}&ClonedItemId={ClonedItemId}&OrderedQuantity={QuantityOrdered}&CallMode={CallMode}&Queues=null&qty2={Qty2}&qty3={Qty3}&itemSectionId={SectionId}',
                         dataType: 'json',
                         type: 'GET'
                     });

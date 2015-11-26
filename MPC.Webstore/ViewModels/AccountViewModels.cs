@@ -289,6 +289,8 @@ namespace MPC.Webstore.Models
 
         public List<ItemImage> ProductBannerThumbnailList { get; set; }
         public string TipsAndHints { get; set; }
+
+        public string ProductSpecification { get; set; }
     }
     
 }
