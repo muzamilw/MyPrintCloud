@@ -8887,3 +8887,18 @@ ADD AdvertsSummary varchar(Max)
 ALTER TABLE listing
 ADD AdvertsMainHeadLine varchar(Max)
 
+CREATE TABLE ListingBulletPoints
+(
+BulletPointId bigint,
+BulletPoint varchar(100),
+
+PRIMARY KEY (BulletPointId),
+
+
+ListingId bigint,
+FOREIGN KEY (ListingId) REFERENCES Listing(ListingId)
+
+);
+
+ALTER TABLE listing
+ADD AuctionEndTime varchar(Max)

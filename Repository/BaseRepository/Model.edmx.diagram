@@ -344,6 +344,8 @@
         <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="44.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.UserActionsLog" Width="1.5" PointX="44.375" PointY="4.125" />
         <EntityTypeShape EntityType="DomainModels.ZapierWebHookTargetUrl" Width="1.5" PointX="39.375" PointY="11.75" />
+        <EntityTypeShape EntityType="DomainModels.ListingBulletPoint" Width="1.5" PointX="35.625" PointY="48.625" />
+        <AssociationConnector Association="DomainModels.FK__ListingBu__Listi__01EB81A5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
