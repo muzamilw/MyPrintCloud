@@ -2209,6 +2209,16 @@
           <Property Name="InspectionDate2" Type="varchar" MaxLength="200" />
           <Property Name="InspectionTimeFrom2" Type="varchar" MaxLength="200" />
           <Property Name="InspectionTimeTo2" Type="varchar" MaxLength="200" />
+          <Property Name="BrochureMainHeadLine" Type="varchar(max)" />
+          <Property Name="BrochureSummary" Type="varchar(max)" />
+          <Property Name="BrochureDescription" Type="varchar(max)" />
+          <Property Name="SignBoardMainHeadLine" Type="varchar(max)" />
+          <Property Name="SignBoardSummary" Type="varchar(max)" />
+          <Property Name="SignBoardDescription" Type="varchar(max)" />
+          <Property Name="SignBoardInstallInstruction" Type="varchar(max)" />
+          <Property Name="AdvertsDescription" Type="varchar(max)" />
+          <Property Name="AdvertsSummary" Type="varchar(max)" />
+          <Property Name="AdvertsMainHeadLine" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
@@ -12475,6 +12485,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="InspectionDate2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="InspectionTimeFrom2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="InspectionTimeTo2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BrochureMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BrochureSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BrochureDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignBoardMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignBoardSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignBoardDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignBoardInstallInstruction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdvertsDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdvertsSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdvertsMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
@@ -18279,6 +18299,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Listings">
             <EntityTypeMapping TypeName="DomainModels.Listing">
               <MappingFragment StoreEntitySet="Listing">
+                <ScalarProperty Name="AdvertsMainHeadLine" ColumnName="AdvertsMainHeadLine" />
+                <ScalarProperty Name="AdvertsSummary" ColumnName="AdvertsSummary" />
+                <ScalarProperty Name="AdvertsDescription" ColumnName="AdvertsDescription" />
+                <ScalarProperty Name="SignBoardInstallInstruction" ColumnName="SignBoardInstallInstruction" />
+                <ScalarProperty Name="SignBoardDescription" ColumnName="SignBoardDescription" />
+                <ScalarProperty Name="SignBoardSummary" ColumnName="SignBoardSummary" />
+                <ScalarProperty Name="SignBoardMainHeadLine" ColumnName="SignBoardMainHeadLine" />
+                <ScalarProperty Name="BrochureDescription" ColumnName="BrochureDescription" />
+                <ScalarProperty Name="BrochureSummary" ColumnName="BrochureSummary" />
+                <ScalarProperty Name="BrochureMainHeadLine" ColumnName="BrochureMainHeadLine" />
                 <ScalarProperty Name="InspectionTimeTo2" ColumnName="InspectionTimeTo2" />
                 <ScalarProperty Name="InspectionTimeFrom2" ColumnName="InspectionTimeFrom2" />
                 <ScalarProperty Name="InspectionDate2" ColumnName="InspectionDate2" />

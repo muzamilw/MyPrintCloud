@@ -8849,3 +8849,41 @@ alter table listing add InspectionTimeTo2 varchar(200)
 
 ----------------
 alter table TemplateObject add hasInlineFontFamily bit
+
+----------------
+
+ALTER TABLE listing
+ADD BrochureMainHeadLine varchar(Max)
+
+ALTER TABLE listing
+ADD BrochureSummary varchar(Max)
+
+
+ALTER TABLE listing
+ADD BrochureDescription varchar(Max)
+
+
+ALTER TABLE listing
+ADD SignBoardMainHeadLine varchar(Max)
+
+
+ALTER TABLE listing
+ADD SignBoardSummary varchar(Max)
+
+ALTER TABLE listing
+ADD SignBoardDescription varchar(Max)
+
+
+ALTER TABLE listing
+ADD SignBoardInstallInstruction varchar(Max)
+
+ALTER TABLE listing
+ADD AdvertsDescription varchar(Max)
+
+ALTER TABLE listing
+ADD AdvertsSummary varchar(Max)
+
+
+ALTER TABLE listing
+ADD AdvertsMainHeadLine varchar(Max)
+
