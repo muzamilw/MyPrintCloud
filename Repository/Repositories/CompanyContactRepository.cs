@@ -2221,6 +2221,40 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public  List<CompanyContact> GetUsersByCompanyId(long CompanyId)
+        {
+
+            try
+            {
+               
+                
+                    return db.CompanyContacts.Where(c => c.CompanyId == CompanyId && (c.isArchived == false || c.isArchived == null) && c.ContactRoleId == (int)Roles.User).ToList();
+
+                
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<CompanyContact> GetCorporateUserOnly( long companyId, long OrganisationId)
+        {
+
+            db.Configuration.LazyLoadingEnabled = false;
+            var qury = from Contacts in db.CompanyContacts
+                       join ContactCompany in db.Companies on Contacts.CompanyId equals ContactCompany.CompanyId
+                       where 
+                              Contacts.CompanyId == companyId && (ContactCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                             && Contacts.OrganisationId == OrganisationId
+                       select Contacts;
+
+            return qury.ToList();
+
+        }
     }
 
 }

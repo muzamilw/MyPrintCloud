@@ -12,6 +12,8 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId);
+        List<CompanyContact> GetUsersByCompanyId(long CompanyId);
         void DeleteItems(List<Item> ItemList);
         long OrganisationThroughSystemUserEmail(string Email);
         void AddDataSystemUser(CompanyContact Contact);

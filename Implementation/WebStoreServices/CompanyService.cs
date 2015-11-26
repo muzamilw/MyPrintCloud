@@ -1783,5 +1783,15 @@ namespace MPC.Implementation.WebStoreServices
             }
             return 0;
         }
+
+        public List<CompanyContact> GetUsersByCompanyId(long CompanyId)
+        {
+            return _CompanyContactRepository.GetUsersByCompanyId(CompanyId);
+              
+        }
+        public List<CompanyContact> GetCorporateUserOnly( long companyId, long OrganisationId)
+        {
+            return _CompanyContactRepository.GetCorporateUserOnly(companyId, OrganisationId);
+        }
     }
 }

@@ -2240,7 +2240,10 @@ namespace MPC.Implementation.WebStoreServices
                 throw e;
             }
         }
-
+        public GetCategoryProduct GetPublishedProductByItemID(int itemID)
+        {
+            return _ItemRepository.GetPublishedProductByItemID(itemID);
+        }
         #region PrivateFunctions
         public T Clone<T>(T source)
         {

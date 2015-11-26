@@ -370,6 +370,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\OrderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateSideBarController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\RealEstateSMController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RFQController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
@@ -1082,6 +1083,7 @@
     <Folder Include="Areas\OrderReceipt\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\RealEstateSideBar\" />
+    <Folder Include="Areas\WebstoreApi\Views\RealEstateSmartForm\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />

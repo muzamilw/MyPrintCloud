@@ -2748,5 +2748,14 @@ namespace MPC.Repository.Repositories
 
 
         }
+
+        public MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId)
+        {
+           
+                return (from Listing in db.Listings
+                        where Listing.ListingId == propertyId
+                        select Listing).FirstOrDefault();
+            
+        }
     }
 }

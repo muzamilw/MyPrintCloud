@@ -12,6 +12,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IItemService
     {
+        GetCategoryProduct GetPublishedProductByItemID(int itemID);
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
         Item GetItemById(long ItemId);
         Item GetItemByIdDesigner(long ItemId);

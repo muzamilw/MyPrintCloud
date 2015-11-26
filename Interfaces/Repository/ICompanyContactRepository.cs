@@ -14,7 +14,8 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
-        
+        List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId);
+        List<CompanyContact> GetUsersByCompanyId(long CompanyId);
         void AddDataSystemUser(CompanyContact Contact);
         void UpdateDataSystemUser(CompanyContact Contact);
         
