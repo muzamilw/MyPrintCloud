@@ -50,5 +50,8 @@ namespace MPC.Interfaces.MISServices
         void PostDataToZapier(long contactId);
         List<ZapierInvoiceDetail> GetContactForZapierPooling(long organisationId);
 
+
+        string AddAgileCrmContact(string email, string fullname, string Company, string phone, string region, string domain);
+
     }
 }

@@ -16,5 +16,7 @@ namespace MPC.Interfaces.MISServices
         PtvDTO GetPTVCalculation(PTVRequestModel request);
         BestPressResponse GetBestPressResponse(ItemSection currentSection);
         ItemSection GetUpdatedSectionWithSystemCostCenters(ItemSection currentSection);
+        bool SaveItemSection(ItemSection currItemSection);
+        ItemSection GetItemSectionById(long itemsectionId);
     }
 }

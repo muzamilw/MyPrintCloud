@@ -53,5 +53,6 @@ namespace MPC.Interfaces.MISServices
         string GetZapierPostUrl();
 
         void UnSubscriebZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType);
+        Organisation GetOrganisation();
     }
 }

@@ -31,14 +31,17 @@ namespace MPC.MIS.Areas.Api.Controllers
             return _IReportService.GetReportCategory(req.CategoryId, req.IsExternal).CreateFrom();
         }
 
-        public void getParamsById(long Id)
+        public List<ReportparamResponse> getParamsById(long Id)
         {
-            // return null;
+            return null;
         }
 
         //public List<ReportparamResponse> getParamsById(long Id)
         //{
-        //    return _IReportService.getParamsById(Id).Select(c => c.CreateFrom()).ToList();
+        //    List<ReportparamResponse> reportParams = new List<ReportparamResponse>();
+        //    reportParams = _IReportService.getParamsById(Id).Select(c => c.CreateFrom()).ToList();
+
+        //    return reportParams;
         //}
         
        

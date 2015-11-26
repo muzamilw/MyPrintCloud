@@ -814,8 +814,11 @@ namespace MPC.Implementation.MISServices
                 return string.Empty;
             }
         }
-        
 
+        public Organisation GetOrganisation()
+        {
+           return  organisationRepository.GetOrganizatiobByID();
+        }
         #endregion
 
 
