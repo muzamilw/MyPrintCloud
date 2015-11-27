@@ -43,29 +43,7 @@
             </li>
 
         </ul>
-        <div class="BreadCrumbMenu left_align col-xs-12">
-            <h1>
-
-                <a id="aLinkItem" href="@ViewBag.CategoryHRef" class="crumb_notActive left_align">
-                    @ViewBag.CategoryName
-                </a>
-                <label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
-                <a id="aLinkItem" href="#" class="crumb_Active left_align">
-                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
-                    {
-                        @ViewBag.ItemModel.ProductFriendlyName
-                    }
-                    else
-                    {
-                        @ViewBag.ItemModel.ProductName
-                    }
-                  
-                </a>
-
-
-            </h1>
-            <div class="clearBoth"></div>
-        </div>
+   
         <div class="product-name-container txtAlignLeft col-md-12 col-lg-12 col-xs-12 col-sm-12 visible-sm visible-xs">
             <br />
             @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
@@ -234,35 +212,35 @@
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
         {
 
-            <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
+            <a id="IcoPhotoshop" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File1)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File1Url" />
             </a>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
         {
 
-            <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
+            <a id="IcoIllustrator" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File2)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File2Url" />
             </a>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
         {
 
-            <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
+            <a id="Icoindesign" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File3)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File3Url" />
             </a>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
         {
 
-            <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
+            <a id="IcoPdf" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File4)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File4Url" />
             </a>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
         {
 
-            <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
+            <a id="IcoPdf" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File5)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File5Url" />
             </a>
         }
@@ -1002,6 +980,12 @@
             <div class="clearBoth">
                 &nbsp;
             </div>
+            @{
+                var displaystyle = "display:none;";
+                if (ViewData["Templates"] != null || ViewData["ArtworkAttachments"] != null){
+                    displaystyle = "display:block;";
+                }
+            }
             @if (ViewBag.ShowUploadArkworkPanel == true)
             {
 
@@ -1022,7 +1006,8 @@
                 <div class="clearBoth">
                     &nbsp;
                 </div>
-    <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+              
+    <div id="uploadDesignHeadingContainer" class="col-md-3 col-lg-3 col-xs-12 col-sm-12" style="@displaystyle">
         @if (ViewData["Templates"] == null)
                 {
             <div class="grif-layout-heading textAlignLeft">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadartwork", UserCookieManager.WBStoreId, "Upload Artwork")) </div>
@@ -1035,81 +1020,80 @@
 
                 }
     </div>
-    <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
+    <div id="uploadDesignattachmentContainer" class="col-md-9 col-lg-9 col-xs-12 col-sm-12" style="@displaystyle">
         <div class="white_background">
 
             @if (ViewData["ArtworkAttachments"] != null)
-                        {
+            {
 
                 <div id="attachmentUploadContainer" class="rptContainers">
 
                     @foreach (var artworkFile in ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>)
-                                {
-                                    Random random = new Random();
-                                    string randonNumber = "?r=" + random.Next();
+                    {
+                        Random random = new Random();
+                        string randonNumber = "?r=" + random.Next();
 
 
-                      
-                            <div class="artwork_sides_container rounded_corners">
-                                <div class="artwork_image_sides_container float_left_simple">
+                                <div class="artwork_sides_container rounded_corners">
+                                    <div class="artwork_image_sides_container float_left_simple">
 
-                                    <img class="artwork_image_thumbnail" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                        <img class="artwork_image_thumbnail" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                    </div>
+                                    <div class="artwork_filedetail_container float_left_simple">
+                                        <label id="lblFront" class="Fsize12">@artworkFile.FileName</label>
+                                        <br />
+                                        <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
                                 </div>
-                                <div class="artwork_filedetail_container float_left_simple">
-                                    <label id="lblFront" class="Fsize12">@artworkFile.FileName</label>
-                                    <br />
-                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
-                                </div>
-                                <div class="clearBoth">
-                                    &nbsp;
-                                </div>
-                            </div>
 
                                 }
 
 
 
-            </div>
+                    </div>
 
-                        }
-                        else if (ViewData["Templates"] != null)
-                        {
-                            <div class="rptContainers">
-                                @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
-                              {
+            }
+                    else if (ViewData["Templates"] != null)
+                    {
+                    <div class="rptContainers">
+                        @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
+                    {
 
-                                   
-                                        <div class="artwork_sides_container rounded_corners">
 
-                                            <div class="artwork_image_sides_container float_left_simple">
-                                                <img class="artwork_image_thumbnail" src="/@templateItem.FolderPath/@templateItem.FileName@imagePath" />
+                                    <div class="artwork_sides_container rounded_corners">
 
-                                            </div>
+                                        <div class="artwork_image_sides_container float_left_simple">
+                                            <img class="artwork_image_thumbnail" src="/@templateItem.FolderPath/@templateItem.FileName@imagePath" />
 
-                                            <div class="artwork_filedetail_container float_left_simple">
-                                                @if (templateItem.isTemplateDesignMode != (int)TemplateMode.DoNotLoadDesigner)
-                                            {
-                                                    <div class="modify_button_container">
-                                                        <div>
-                                                            <input type="button" class="modify_template_btn" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId);" />
-                                                        </div>
-                                                    </div>
-                                            }
-                                            </div>
-
-                                            <div class="clearBoth">
-                                                &nbsp;
-                                            </div>
                                         </div>
-                              }
+
+                                        <div class="artwork_filedetail_container float_left_simple">
+                                            @if (templateItem.isTemplateDesignMode != (int)TemplateMode.DoNotLoadDesigner)
+                                    {
+                                                <div class="modify_button_container">
+                                                    <div>
+                                                        <input type="button" class="modify_template_btn" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId);" />
+                                                    </div>
+                                                </div>
+                                    }
+                                        </div>
+
+                                        <div class="clearBoth">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    }
 
                         </div>
 
-                        }
+            }
 
-        </div>
+                    </div>
 
-    </div>
+                </div>
             }
             <div class="clearBoth">
                 &nbsp;
@@ -2070,6 +2054,8 @@
                         $("#uploadedImageSide").val(sideOFImage);
                         if (messages[0] == "Success") {
                             console.log(messages[1]);
+                            $("#uploadDesignHeadingContainer").css("display", "block");
+                            $("#uploadDesignattachmentContainer").css("display", "block");
                             $("#attachmentUploadContainer").html(messages[1]);
                             isImageUploadedOnLandingPage = 1;
                             HideLoader();

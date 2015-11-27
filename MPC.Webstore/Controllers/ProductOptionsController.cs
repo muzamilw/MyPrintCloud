@@ -774,10 +774,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File1))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File1);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File1Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File1Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -789,15 +788,23 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File1Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File1Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx")
                 {
-                    ItemModel.File1Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File1Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File1Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File1Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File1Url = "/Content/Images/publisher.png";
                 }
                 else
                 {
