@@ -28,7 +28,7 @@ namespace MPC.Models.DomainModels
         public string ContentType { get; set; }
         public Nullable<int> Parent { get; set; }
         public Nullable<System.DateTime> ApproveDate { get; set; }
-
+        public string ImageFileType { get; set; }
         public virtual Item Item { get; set; }
 
         #region Additional Properties

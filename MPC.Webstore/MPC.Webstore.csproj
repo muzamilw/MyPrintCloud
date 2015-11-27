@@ -719,6 +719,7 @@
     <Content Include="Content\Images\map.png" />
     <Content Include="Content\Images\MASTERCARD.gif" />
     <Content Include="Content\Images\my-jobs.png" />
+    <Content Include="Content\Images\new_delete_icon.PNG" />
     <Content Include="Content\Images\next-horizontal.png" />
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\notFound.svg" />
