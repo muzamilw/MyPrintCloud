@@ -24,7 +24,23 @@
 }
 <div id="FormulaMatrixLayer">
 </div>
+<style>
+    ::-webkit-input-placeholder {
+   color: white !important;
+}
 
+:-moz-placeholder { /* Firefox 18- */
+   color: white !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color:white !important;
+}
+
+:-ms-input-placeholder {  
+   color: white !important;
+}
+</style>
 <link href="~/Content/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/owl.carousel.css" rel="stylesheet" />
 <div class="container content_area" id="all-productOption-pg">
@@ -46,7 +62,9 @@
             </li>
 
         </ul>
-   
+        <div class="clearBoth" style="height:20px;">
+            &nbsp;
+        </div>
         <div class="product-name-container txtAlignLeft col-md-12 col-lg-12 col-xs-12 col-sm-12 visible-sm visible-xs">
             <br />
             @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
@@ -918,17 +936,17 @@
                     <label id="lblStock" class="LightGrayLabels"></label><br />
                     <label id="lblExtra" class="LightGrayLabels"></label>
                 </div>
-                <div class="center_align float_left_simple order-cartdetails-container">
+                <div class="center_align float_left_simple order-cartdetails-container" onclick="SubmitForm();">
                     @if (ViewBag.IsShowPrices == true)
                     {
                     <div class="order-total-container">
-                        <span class="float_left_simple Fsize17">@ViewBag.Currency</span>
-                        <span id="lblGrossTotal" class="float_left_simple Fsize17"> 0.00</span>
+                        @*<span class="float_left_simple Fsize19">@ViewBag.Currency</span>*@
+                        <span id="lblGrossTotal" class="float_left_simple Fsize19">@ViewBag.Currency0.00</span>
                         <div class="clearBoth">
 
                         </div>
                     </div>
-                    <label id="lblTaxLabel" class="Fsize15 white">@ViewBag.VATLabel</label>
+    <label id="lblTaxLabel" class="Fsize12 white">@ViewBag.VATLabel</label>
 
 
                     }
@@ -948,7 +966,7 @@
                     @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
                     @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
                 <input type="hidden" id="ViewToFire" name="ViewToFire" value="@ViewBag.ViewToFire" />
-                    <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn_nw" onclick="return ConfirmCart();" />
+    <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn_nw Fsize19" onclick="return ConfirmCart();" />
                     }
 
 
@@ -1127,13 +1145,13 @@
                 </div>
     <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
 
-        <div class="width365pxM250p">
+        <div >
             @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                         {
 
 
 
-                    <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
+                    <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none;">
                         <div class="float_left_simple spacerbottom CcImageContainer">
                             <img class="RfgImgCs" src=/@costcenter.AddOnImage />
                         </div>
@@ -1189,6 +1207,9 @@
 </div>
 <br />
 </div>
+<div class="clearBoth;" style="height:20px;">
+    &nbsp;
+</div>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/owl.carousel.js"></script>
 <script src="~/Scripts/PopUp.js"></script>
@@ -1228,7 +1249,9 @@
     var countOfCostCentreOnwhichActionIsPerformed = 0;
     var controlsArrayOnQtyChange = [];
 
-   
+    function SubmitForm(){
+        $("#AddTOCart").click();
+    }
      
     function ChangeTab(tabId, obj){
 
