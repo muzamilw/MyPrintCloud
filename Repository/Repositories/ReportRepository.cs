@@ -86,10 +86,12 @@ namespace MPC.Repository.Repositories
             {
                 ReportparamResponse reportpar = new ReportparamResponse();
                 reportpar.param = item;
+
+               
                 // for drop down
                if(item.ControlType == 1){
                   
-                   string queryString = "select * from " + item.ComboTableName + item.CriteriaFieldName;
+                   string queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName;
 
                    SqlCommand command = new SqlCommand(queryString, oConn);
                    SqlDataReader reader = command.ExecuteReader();
@@ -120,6 +122,7 @@ namespace MPC.Repository.Repositories
    
                }
 
+               ReportparamsList.Add(reportpar);
                 
             }
             return ReportparamsList;

@@ -210,6 +210,8 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Status> Statuses { get; set; }
 
         public DbSet<UserActionsLog> UserActionLogs { get; set; }
+
+        public DbSet<ListingBulletPoint> ListingBulletPoints { get; set; }
         /// <summary>
         /// Get Minimum Product Value
         /// </summary>

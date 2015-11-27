@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -123,6 +124,24 @@ namespace MPC.Models.DomainModels
          public string InspectionTimeTo2 { get; set; }
 
 
+         public string BrochureMainHeadLine { get; set; }
+         public string BrochureSummary { get; set; }
+         public string BrochureDescription { get; set; }
+         public string SignBoardMainHeadLine { get; set; }
+         public string SignBoardSummary { get; set; }
+         public string SignBoardDescription { get; set; }
+         public string SignBoardInstallInstruction { get; set; }
 
+         public string AdvertsDescription { get; set; }
+         public string AdvertsSummary { get; set; }
+         public string AdvertsMainHeadLine { get; set; }
+
+         public string AuctionEndTime { get; set; }
+
+         public virtual ICollection<ListingBulletPoint> ListingBulletPoints { get; set; }
+
+        
+
+        
     }
 }
