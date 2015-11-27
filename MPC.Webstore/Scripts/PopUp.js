@@ -626,7 +626,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         if (isNotValidInput == 1) {
             $("#CCErrorMesgContainer").html("Please enter numbers only to proceed.");
             if (isFormulaValidationError == 1) {
-                var html = $("#CCErrorMesgContainer").text() + "<br/> Please select value formula values also."
+                var html = $("#CCErrorMesgContainer").text() + "<br/> Please select formula values also."
                 $("#CCErrorMesgContainer").html(html);
             }
         } else {
@@ -638,12 +638,12 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         $("#CCErrorMesgContainer").css("display", "block");
         $("#CCErrorMesgContainer").html("Please enter numbers only to proceed.");
         if (isFormulaValidationError == 1) {
-            var html = $("#CCErrorMesgContainer").text() + "<br/> Please select value formula values also."
+            var html = $("#CCErrorMesgContainer").text() + "<br/> Please select formula values also."
             $("#CCErrorMesgContainer").html(html);
         }
         return;
     } else if (isFormulaValidationError == 1) {
-        $("#CCErrorMesgContainer").html("Please select value formula values ");
+        $("#CCErrorMesgContainer").html("Please select formula values ");
         return;
     } else {
 

@@ -6372,5 +6372,24 @@ namespace MPC.Implementation.MISServices
         {
             return organisationRepository.GetOrganizatiobByID();
         }
+
+        public bool SaveItemSection(ItemSection currItemSection)
+        {
+            if (currItemSection.ItemSectionId > 0)
+            {
+                itemsectionRepository.Update(currItemSection);
+                itemsectionRepository.SaveChanges();
+            }
+            else
+            {
+                
+            }
+            return true;
+        }
+
+        public ItemSection GetItemSectionById(long itemsectionId)
+        {
+            return itemsectionRepository.GetItemSectionById(itemsectionId);
+        }
     }
 }

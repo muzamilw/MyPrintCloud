@@ -16,6 +16,7 @@ using MPC.Models.ResponseModels;
 using System.Text;
 using Ionic.Zip;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace MPC.Implementation.MISServices
 {
@@ -1180,5 +1181,130 @@ namespace MPC.Implementation.MISServices
         {
             return companyContactRepository.GetContactForZapierPooling(organisationId);
         }
+
+        public string AddAgileCrmContact(string email, string fullname, string Company, string phone, string region, string domain)
+        {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            string result = string.Empty;
+            if(organisation != null)
+            {
+                if(organisation.isAgileActive ?? false)
+                {
+
+                    string firstname = "";
+                    string lastname = "";
+
+                    string[] namearray = fullname.Split(' ');
+                    if (namearray.Length > 0)
+                    {
+                        firstname = namearray[0];
+                    }
+                    else
+                    {
+                        firstname = fullname;
+                    }
+
+                    if (fullname.IndexOf(' ') > 0)
+                    {
+                        lastname = fullname.Substring(fullname.IndexOf(' '), fullname.Length - fullname.IndexOf(' '));
+                    }
+                    else
+                    {
+                        lastname = "";
+                    }
+
+                    JsonSerializerSettings oSetting = new JsonSerializerSettings();
+                    oSetting.NullValueHandling = NullValueHandling.Ignore;
+                    oSetting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+
+
+                    Contact oContact = new Contact();
+                    //oContact.contact_company_id = CompanyResult.contact_company_id;
+                    oContact.Type = "PERSON";
+
+                    oContact.Lead_score = "1";
+                    oContact.Tags.Add("MPC Web Registration");
+                    oContact.Tags.Add(region);
+
+                    string contactDetail = JsonConvert.SerializeObject(oContact, Formatting.Indented, oSetting);
+
+                    result = CreateContact(contactDetail,organisation);
+
+                    AddNote(email, "Region : " + region + " , Domain : " + domain + ".saleflow.com",organisation);
+
+                   
+                }
+
+            }
+            return result;
+        }
+
+        /*
+       * It creates a contact with description 'contactJson'.
+       */
+        static public string CreateContact(string contactJson,Organisation org)
+        {
+            string nextUrl = "contacts/";
+            string queryString = "contact=" + System.Uri.EscapeDataString(contactJson);
+
+            string result = HttpGet(nextUrl, queryString, org.AgileApiUrl, org.AgileApiKey);
+            return result;
+        }
+
+        /*
+       * Add 'note', in stringified json format, to the contact associated with 'email'
+       */
+        static public string AddNote(string email, string note,Organisation org)
+        {
+            string nextUrl = "contacts/add-note/";
+            string queryString = "email=" + email + "&data=" + System.Uri.EscapeDataString(note);
+
+            string result = HttpGet(nextUrl, queryString, org.AgileApiUrl,org.AgileApiKey);
+            return result;
+        }
+
+
+
+        private static string HttpGet(string nextUrl, string queryString, string domainUrl, string apiKey)
+        {
+            try
+            {
+                
+                string url = domainUrl + nextUrl + "?" + "id=" + apiKey;
+
+                if (!string.IsNullOrEmpty(queryString))
+                    url += "&" + queryString;
+
+                // url = System.Web.HttpUtility.UrlEncode(url);   // Library not provided everywhere, at least at mono.
+                //url = System.Uri.EscapeUriString(url);          // Should not be used for encoding whole url.
+                //url = System.Uri.EscapeDataString(url);
+                //url = System.Net.WebUtility.UrlEncode(url);
+
+                //Console.WriteLine(url);
+
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                request.Method = "GET";
+                string result = null;
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    Stream dataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    result = reader.ReadToEnd();
+
+                    reader.Close();
+                    dataStream.Close();
+                    response.Close();
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                return "Exception caught!!!\n" + e.ToString();
+            }
+        }
+
     }
 }

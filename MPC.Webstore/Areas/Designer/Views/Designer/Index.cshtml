@@ -39,7 +39,7 @@
                     <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
                             <ul class="textControls">
-                                <li style=" margin-top:0px; margin-bottom:20px;"><a class=" QuickTextTitle ThemeColor templatesHeading" style="">Select a design</a></li>
+                                <li style=" margin-top:0px; margin-bottom:20px;"><a class=" QuickTextTitle ThemeColor templatesHeading" style=" margin-left: -12px;">Select a design</a></li>
                             </ul>
                             <div class="gallery infoPanelGallery templateGallery templateListUL">
                             </div>
@@ -1119,32 +1119,9 @@
         </div>
 
     </section>
-    <section id="canvasDocument" class="scrollPane2 multiPage" style="left: 380px;">
-
-        <section id="canvasSection" class="page selected on" style="width: 326.9368785071841px; height: 462.4056858483221px; top: 136px; left: 20px;">
-            <canvas id="canvas">
-                Your browser does not support the canvas.Please upgrade to latest browser supporting HTML5.
-            </canvas>
-            <div class="dimentionsContainer">
-                <span class="dimentionsBC"></span>
-            </div>
-        </section>
-    </section>
-
-    <section id="editorControls">
-        <a id="editorLogo" href="#" class="" title="Click to save"><span id="editorLogoImage">Next</span></a>
-
-        <div id="documentTitleAndMenu" class="">
-            <menu id="mainTopMenu" class="documentMenu">
-                <li id="Li2" class="btnUploadYourDesign">
-                    <button class="buttonDesigner" id="btnGoToLandingPage" title="Upload your own Design" style="visibility:hidden;">Upload your <br /> own Design</button>
-                </li>
-                <li id="documentMenuCopy" class="mainMenuItem">
-                    <button class="buttonDesigner" id="btnMenuCopy" title="Copy Selected Objects">Copy</button>
-                </li>
-                <li id="documentMenuPaste" class="mainMenuItem">
-                    <button class="buttonDesigner" id="btnMenuPaste" title="Paste">Paste</button>
-                </li>
+    <section id="canvasDocument" class="scrollPane2 multiPage" style="left: 360px;">
+        <div class="CanvasTopHeader">
+            <menu id="canvasTopMenu" class="documentMenu">
                 <li id="Li2" class="zoomBtns" style="margin-left:22px;">
                     <button class="buttonDesigner" id="zoomOut" title="Zoom out">-</button>
                 </li>
@@ -1158,9 +1135,43 @@
                 <li id="documentMenuRedo" class="mainMenuItem">
                     <button class="buttonDesigner" id="BtnRedo" title="Redo">Redo</button>
                 </li>
+                <li id="documentMenuCopy" class="mainMenuItem">
+                    <button class="buttonDesigner" id="btnMenuCopy" title="Copy Selected Objects">Copy</button>
+                </li>
+                <li id="documentMenuPaste" class="mainMenuItem">
+                    <button class="buttonDesigner" id="btnMenuPaste" title="Paste">Paste</button>
+                </li>
+
+
                 <li id="documentMenuReload" class="mainMenuItem">
                     <button class="buttonDesigner" id="BtnReload" title="Reload">Reload</button>
                 </li>
+            </menu>
+        </div>
+        <div class="canvasPageMenu">
+            <menu id="documentMenu" class="documentMenu dark" style="top: 144px !important;">
+                <span class="marker" style="left: 0px; width: 72px;"></span>
+            </menu>
+        </div>
+        <section id="canvasSection" class="page " style="width: 326.9368785071841px; height: 462.4056858483221px; top: 206px; left: 20px;">
+            <canvas id="canvas">
+                Your browser does not support the canvas.Please upgrade to latest browser supporting HTML5.
+            </canvas>
+            @*<div class="dimentionsContainer">
+                <span class="dimentionsBC"></span>
+            </div>*@
+        </section>
+    </section>
+
+    <section id="editorControls">
+        <a id="editorLogo" href="#" class="" title="Click to save"><span id="editorLogoImage">Next</span></a>
+
+        <div id="documentTitleAndMenu" class="">
+            <menu id="mainTopMenu" class="documentMenu">
+                <li id="Li2" class="btnUploadYourDesign">
+                    <button class="buttonDesigner" id="btnGoToLandingPage" title="Upload your own Design" style="visibility:hidden;">Upload your <br /> own Design</button>
+                </li>
+               
                 <li id="documentMenuGuides" class="mainMenuItem" style="display:none;">
                     <button class="buttonDesigner" id="BtnGuides" title="Show / Hide Trim Line"></button>
                 </li>
@@ -1168,16 +1179,14 @@
                     <button class="buttonDesigner" id="Homebtn2" title="Go to your store">Go to store</button>
                 </li>
             </menu>
-            <menu id="documentMenu" class="documentMenu dark" style="top: 70px!important;">
-                <span class="marker" style="left: 0px; width: 72px;"></span>
-            </menu>
+           
 
         </div>
         <section id="documentTitleName" class="">
             <h1 id="documentTitle" spellcheck="false" title="Click to rename your design">
                 <input type="text" value="Untitled design" style="width: 300px;" id="txtTemplateTitle" />
             </h1>
-
+            <h2 id="documentBleedArea" class="dimentionsBC">  </h2>
 
         </section>
 

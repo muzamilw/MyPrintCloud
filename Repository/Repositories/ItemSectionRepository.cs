@@ -201,6 +201,11 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public ItemSection GetItemSectionById(long itemSectionId)
+        {
+            return DbSet.FirstOrDefault(o => o.ItemSectionId == itemSectionId);
+        }
         #endregion
     }
 }

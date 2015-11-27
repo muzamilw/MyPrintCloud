@@ -94,6 +94,8 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<ProductCategory> GetProductCategoriesIncludingArchived(long? companyId);
 
         IEnumerable<Item> GetProductsByCompanyId(long? companyId);
+        ItemSection GetItemFirstSectionByItemId(long itemId);
+        ItemSection UpdateItemFirstSectionByItemId(long itemId, int quantity);
 
     }
 }
