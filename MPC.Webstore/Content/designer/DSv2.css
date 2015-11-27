@@ -4650,7 +4650,7 @@ h2 + .gallery {
         padding: 0;
         text-align: center;
         width: 39px;
-        border-radius: 5px;
+        border-radius: 0px;
         color: black;
         line-height: 11px;
         font-size: 11px;
@@ -4668,7 +4668,7 @@ h2 + .gallery {
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 5px;
+        border-radius: 0px;
         color: black;
         line-height: 11px;
         font-size: 11px;
@@ -4864,7 +4864,7 @@ h2 + .gallery {
 .propertyPanelControlDiv {
     width: 321px;
     clear: both;
-    padding-top: 5px;
+    padding-top: 15px;
     padding-left: 5px;
     /*padding-bottom: 10px;*/
 }
@@ -4901,7 +4901,7 @@ h2 + .gallery {
 }
 
 
-.BtnChngeClr, .OpacityBtn {
+.OpacityBtn {
     border-radius: 8px;
     color: #fff;
     vertical-align: bottom;
@@ -5034,7 +5034,7 @@ h2 + .gallery {
 }
 
 #BtnBulletedLstTxt {
-    margin-right: 39px;
+    margin-right: 8px;
 }
 
 #BtnItalicTxt {
@@ -5049,7 +5049,8 @@ h2 + .gallery {
 }
 
 .imgLineHeight {
-    margin-left: 31px;
+   margin-left: 1px;
+    margin-top: -5px;margin-right: 0px
 }
 
 
@@ -5084,9 +5085,6 @@ h2 + .gallery {
 .lblcheckbox {
     font-size: 12px;
     display: inline;
-    margin-left: 0px;
-    margin-right: 55px;
-    vertical-align: bottom;
 }
 
 .paddingright5 {
@@ -5123,11 +5121,6 @@ h2 + .gallery {
     display: inline;
     margin-left: 3px;
     margin-right: 5px;
-}
-
-
-.lblLockPos {
-    margin-left: -10px;
 }
 
 .lblArrangeOrderTxt {
@@ -5538,7 +5531,7 @@ h2 + .gallery {
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 5px;
+        border-radius: 0px;
         line-height: 9px;
         color: black;
         visibility: hidden;
@@ -5555,7 +5548,7 @@ h2 + .gallery {
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 5px;
+        border-radius: 0px;
         visibility: hidden;
         margin-right: 3px;
         color: black;
@@ -5573,7 +5566,7 @@ h2 + .gallery {
     padding: 0;
     text-align: center;
     width: 37px;
-    border-radius: 5px;
+    border-radius: 0px;
     color: black;
     line-height: 0px;
 }
@@ -7362,4 +7355,90 @@ to {
 
 #documentMenuCopy, #documentMenuReload {
     margin-left: 31px;
+}
+.textControls a:hover {
+    text-decoration:none;
+}
+.propPanelHeading {
+    font-family: 'Helvetica';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 112%;
+    text-align: center;
+    margin-left: -57px;
+}
+.propertyPanelTxtArea {
+    border: none;
+    overflow: hidden;
+    margin: 0px;
+    height: 53px;
+    width: 283px;
+    box-shadow: none;
+}
+.uploadFntTxtPanel 
+{
+        font-size: 10px;
+    margin-left: 5px;
+        display: flex;
+    margin-right: 33px;
+    text-align: right;
+    float: right;
+    margin-top: -1px;
+}
+.uploadFntTxtPanel:hover{
+    text-decoration:none;
+}
+.propertyPanleBtn{
+        height: 44px !important;
+    width: 44px !important;    
+}
+.BtnChngeClr {
+        border-radius: 2px;
+    color: #fff;
+    vertical-align: bottom;
+    position: relative;
+    background-color: rgb(255, 6, 16);
+    padding-left: 3px;
+    width: 48px;
+    height: 48px;
+    font-size: 11px;
+    border-color: grey;
+    border-width: 2px;
+}
+.frontBackBtns p {
+        display: inline-block;
+    height: 31px;
+    vertical-align: middle;
+    line-height: 12px;
+    font-size: 11px;
+    padding-top: 8px;
+}
+.removeBtn{
+    background-color:red;    width: 96px !important;
+}
+.removeBtn p{
+        padding-top: 13px;
+}
+.divBtmSticky {
+      position: absolute;
+    bottom: 0px;
+    width: 1000px;
+    color: white;
+    z-index: 9999;
+    
+}
+.BtmPanelBox{
+    background-color:black;
+    display:inline-block;
+    float:left;
+    margin-right:5px;
+    margin-bottom:5px;
+    border-radius: 5px;    height: 110px;
+}
+.btmPanelRow {
+    clear: both;
+    margin-bottom: 9px;
+    margin-top: 8px;
+    margin-left: 5px;
+
 }
