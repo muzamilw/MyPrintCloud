@@ -341,6 +341,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\AgileCRMContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
@@ -3492,6 +3493,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
+    <Folder Include="Areas\Api\Views\AgileCRMContact\" />
     <Folder Include="Areas\Api\Views\Category\" />
     <Folder Include="Areas\Api\Views\CompanyContactBaseForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />

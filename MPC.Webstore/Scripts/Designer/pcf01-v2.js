@@ -1105,7 +1105,7 @@ function d5_sub(pageID, isloading) {
             D1CS = 1, dfZ1l = 1;
 
             //autozoom settings 
-            var contentAreaheight = $(window).height() - 136, contentAreaWidth = $(window).width() - 380,  DzoomFactor = dfZ1l;
+            var contentAreaheight = $(window).height() - 136 -70, contentAreaWidth = $(window).width() - 380,  DzoomFactor = dfZ1l;
            
             if (canvasHeight >= contentAreaheight || canvasWidth >= contentAreaWidth)
             {
@@ -1223,6 +1223,24 @@ function d5_sub(pageID, isloading) {
             }
             canvas.calcOffset();
             
+            // animate slider 
+            if (oldPageId != SP && oldPageId != 0)
+            {
+                var oldPageNo = 0;
+                var newPageNo = 0;
+                $.each(TP, function (i, IT) {
+                    if (IT.ProductPageID == oldPageId) {
+                        oldPageNo = i;
+                    }
+                    if (IT.ProductPageID == SP) {
+                        newPageNo = i;
+                    }
+                });
+                var dif = (newPageNo - oldPageNo) * -$(".menuItemContainer").width(); // menuItemContainer  width;
+                dif = "+="+ dif + "px";
+                $("#documentMenu").animate({ left: dif }, 500);
+            }
+            oldPageId = SP;
         }
     });
 }
@@ -2161,7 +2179,7 @@ function fu06_SvcCallback(DT, fname,mode) {
     }).bind('slimscrolling', function (e, pos) {
         canvas.calcOffset();
     });
-    $("#canvasDocument").css("width", $(window).width() - 380);
+    $("#canvasDocument").css("width", $(window).width() - 360);
     $(".templatepreviewContainer").css("width", $(window).width() - 390);
     $(".templatepreviewContainer").css("height", $(window).height() - 70);
     $(".tempPreviewImg").css("height", $(window).height() - 180);
@@ -2205,7 +2223,7 @@ function fu07(is2ndLoad) {
                     html = '<div class="MultiBackPage MultiBackPage-type-zoom"> <a class="MultiBackPage-hover" '+
                         'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPage-info"> <div class="headline"> ' +
                         ite.PageName + '<div class="line"></div> <div class="date"> <button class=" MultiBack-Btn mbButton' + ite.ProductPageID + '" onClick="togglePage(' + ite.ProductPageID + ')">' + textVale + '</button></div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPage-img">' +
-                        '<img src="' + baseUrl + 'p' + ite.PageNo + '.png" alt="" class="MultiBackPage-ActlImg" id="MbImg' + ite.ProductPageID + '" /></div> </div>';
+                        '<img src="' + baseUrl + 'p' + ite.PageNo + '.jpg" alt="" class="MultiBackPage-ActlImg" id="MbImg' + ite.ProductPageID + '" /></div> </div>';
                 //}
                 $('.multiBackCarouselLayer').append(html);
                     
@@ -2248,7 +2266,7 @@ function fu07(is2ndLoad) {
         }
     });
 
-    $("#documentMenu").css("left", $("#documentTitleAndMenu").width() / 2 - $("#documentMenu").width() / 2 + "px");
+    $("#documentMenu").css("left",(( $(".canvasPageMenu").width() / 2) -50) + "px");
 }
 function togglePage(pId) {
     $.each(TP, function (i, IT) {
@@ -2950,23 +2968,23 @@ function togglePage(pId) {
         var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
         $.each(TP, function (i, IT) {
         
-            $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-            $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+            $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+            $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
         });
         if (IsCalledFrom == 3) {
             for (var i = TP[TP.length - 1].PageNo +1; i <= 12; i++) {
-                ////$("#sliderDesigner").append('<img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
-                ////$("#thumbs").append(' <div id="thumbPageSP' + i + '"style="visibility:hidden;"  class="thumb additionalPages"><div class="frame"><img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
+                ////$("#sliderDesigner").append('<img src="' + stPath + '/p' + i + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
+                ////$("#thumbs").append(' <div id="thumbPageSP' + i + '"style="visibility:hidden;"  class="thumb additionalPages"><div class="frame"><img src="' + stPath + '/p' + i + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
 
-                $("#sliderDesigner").append('<img  style="visibility:hidden;" src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
-                $("#thumbs").append(' <div id="thumbPageSP' + i + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
+                $("#sliderDesigner").append('<img  style="visibility:hidden;" src="' + stPath + '/p' + i + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + '' + '" />');
+                $("#thumbs").append(' <div id="thumbPageSP' + i + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + i + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
 
             }
         }
         $.each(TP, function (i, IT) {
-            $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-            $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+            $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.jpg?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+            $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.jpg?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
         });
         if (IsCalledFrom == 1 || IsCalledFrom == 2) {
             $('#previewProofingDesigner').css("display", "none");
@@ -3306,7 +3324,7 @@ function togglePage(pId) {
                 var p = s.split("?");
                 if (s.indexOf("asset") == -1) {
                     var temp = p[0].split("http://");
-                    var t2 = temp[1].split(".png");
+                    var t2 = temp[1].split(".jpg");
                     var i = 'http://' + t2[0] + '.pdf'; //+= '?r=' + ra ;
                 
                     if (isMultiPageProduct) {

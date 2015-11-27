@@ -108,6 +108,7 @@
     <Compile Include="Common\CategoryRegion.cs" />
     <Compile Include="Common\CmsPageModel.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\Contact.cs" />
     <Compile Include="Common\ContactByColumn.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\CostCentreMatrix.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="DomainModels\ItemsVoucher.cs" />
     <Compile Include="DomainModels\JobCardReportView.cs" />
     <Compile Include="DomainModels\JobPreference.cs" />
+    <Compile Include="DomainModels\ListingBulletPoint.cs" />
     <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
     <Compile Include="DomainModels\MachineGuillotineCalc.cs" />
