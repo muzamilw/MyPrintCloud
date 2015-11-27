@@ -692,7 +692,7 @@ namespace MPC.Implementation.WebStoreServices
                 clonedItem.DiscountVoucherID = null;
 
                 if (ItemMode == "UploadDesign") {
-                    clonedItem.UploadTypeByUser = "1";
+                    clonedItem.UploadTypeByUser = 1;
 
                 }
 

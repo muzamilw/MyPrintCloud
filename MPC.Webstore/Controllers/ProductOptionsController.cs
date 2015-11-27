@@ -152,7 +152,7 @@ namespace MPC.Webstore.Controllers
                 {
                     OrderID = UserCookieManager.WEBOrderId;
                     clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                    if (clonedItem.UploadTypeByUser == "1")
+                    if (clonedItem.UploadTypeByUser == 1)
                     {
                         ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                         ViewData["Templates"] = null;
