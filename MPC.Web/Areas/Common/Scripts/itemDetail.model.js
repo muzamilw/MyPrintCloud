@@ -1106,7 +1106,7 @@
             specifiedQty1MarkUpID, specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedQty1MarkUpValue, specifiedQty2MarkUpValue, specifiedQty3MarkUpValue,
             specifiedQty1NetTotal, specifiedQty2NetTotal, specifiedQty3NetTotal, specifiedQty1, specifiedQty2, specifiedQty3, specifiedCostCentreName,
             specifiedItemSectionId, specifiedQty1WorkInstructions, specifiedQty2WorkInstructions, specifiedQty3WorkInstructions,
-            specifiedQty1EstimatedStockCost, specifiedQty2EstimatedStockCost, specifiedQty3EstimatedStockCost, specifiedSystemType) {
+            specifiedQty1EstimatedStockCost, specifiedQty2EstimatedStockCost, specifiedQty3EstimatedStockCost, specifiedSystemType, specifiedCalMethodType) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -1178,6 +1178,8 @@
                 sectionCostCentreResources = ko.observableArray([]),
                 // SystemCostCenter Type
                 systemCostCenterType = ko.observable(specifiedSystemType || undefined),
+                //calculation Method Type
+                calculationMethodType = ko.observable(specifiedCalMethodType || undefined),
                 // Errors
                 errors = ko.validation.group({
 
@@ -1254,6 +1256,8 @@
                         Qty2WorkInstructions: qty2WorkInstructions(),
                         Qty3WorkInstructions: qty3WorkInstructions(),
                         SystemCostCentreType: systemCostCenterType(),
+                        CostCentreType: costCentreType(),
+                        Qty5MarkUpID: calculationMethodType(),
                         SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
                             var sectionCc = scc.convertToServerData();
                             if (isNewSectionCostCenter) {
@@ -1299,7 +1303,8 @@
                 qty3EstimatedStockCost: qty3EstimatedStockCost,
                 sectionCostCentreDetails: sectionCostCentreDetails,
                 sectionCostCentreResources: sectionCostCentreResources,
-                systemCostCenterType:systemCostCenterType,
+                systemCostCenterType: systemCostCenterType,
+                calculationMethodType:calculationMethodType,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2322,8 +2327,8 @@
             source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
             source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
             source.ItemSectionId, source.Qty1WorkInstructions, source.Qty2WorkInstructions, source.Qty3WorkInstructions,
-            source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost, source.SystemCostCentreType);
-
+            source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost, source.SystemCostCentreType, source.Qty5MarkUpID);
+        //Using Markup5Id just to store calculation method type of actual cost center.
         // Map Section Cost Centre Details if Any
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
             var sectionCostcentresDetails = [];

@@ -1530,7 +1530,37 @@ define("common/itemDetail.viewModel",
                         });
                     },
                     updateCostCentersOnQtyChange = function() {
+                        //addCostCenterVm.executeCostCenter(function (costCenter) {
+
+                            
+                            
+                        //});
+                        _.each(selectedSection().sectionCostCentres(), function (item) {
+                            if (item.calculationMethodType() != null && item.calculationMethodType() > 0) {
+                                var cc = addCostCenterVm.createBlankCostCenter();
+                                cc.id(item.costCentreId());
+                                cc.name(item.costCentreName());
+                                cc.quantity1(selectedSection().qty1());
+                                cc.quantity2(selectedSection().qty2());
+                                cc.quantity3(selectedSection().qty3());
+                                cc.sectionId(item.itemSectionId());
+                                cc.callMode("UpdateAllCostCentreOnQuantityChange");
+                                cc.calculationMethodType(item.calculationMethodType());
+                                selectedCostCentre(cc);
+                                addCostCenterVm.onCostCenterQtyChange(updateSectionCostCenterValues, selectedCostCentre());
+                            }
+                        });
                         
+                        
+                    },
+                    updateSectionCostCenterValues = function() {
+                        _.each(selectedSection().sectionCostCentres(), function (item) {
+                            if (item.costCentreId() == selectedCostCentre().id()) {
+                                item.qty1Charge(selectedCostCentre().setupCost());
+                                item.qty2Charge(selectedCostCentre().setupCost());
+                                item.qty3Charge(selectedCostCentre().setupCost());
+                            }
+                        });
                     },
                     selectBestPressFromWizard = function(bestPress) {
                         selectedBestPressFromWizard(bestPress);
@@ -1602,7 +1632,7 @@ define("common/itemDetail.viewModel",
 
                         sectionCostCenter.qty3Charge(selectedCostCentre().setupCost3());
                         sectionCostCenter.qty3NetTotal(selectedCostCentre().setupCost3());
-
+                        sectionCostCenter.calculationMethodType(selectedCostCentre().calculationMethodType());
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
                         selectedSection().sectionCostCentres.push(sectionCostCenter);
@@ -2114,7 +2144,8 @@ define("common/itemDetail.viewModel",
                     selectedQtyForItem: selectedQtyForItem,
                     openExternalReportsJob: openExternalReportsJob,
                     onCloseSectionCostCenter: onCloseSectionCostCenter,
-                    onItemSectionUpdate: onItemSectionUpdate
+                    onItemSectionUpdate: onItemSectionUpdate,
+                    updateCostCentersOnQtyChange: updateCostCentersOnQtyChange
                     
                     //#endregion
                 };

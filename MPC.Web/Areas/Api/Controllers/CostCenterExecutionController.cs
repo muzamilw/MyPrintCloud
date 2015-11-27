@@ -103,7 +103,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
 
-            dblResult1 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, "New", Queues, ref _CostCentreParamsArray, itemSectionId);
+            dblResult1 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, CallMode, Queues, ref _CostCentreParamsArray, itemSectionId);
             oResult.TotalPrice = dblResult1;
 
             if (Queues != null)

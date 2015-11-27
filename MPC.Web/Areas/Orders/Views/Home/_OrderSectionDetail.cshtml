@@ -451,9 +451,12 @@
                                                     <button type="button" class="btn btn-primary" data-bind="click : $root.onAddPrePressCostCenter">Pre-Press</button>
 
                                                 </div>
-                                                <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                                                    <button type="button" class="btn btn-primary" data-bind="click : $root.onAddPostPressCostCenter">Post-Press</button>
-                                                </div>
+                                                    @*<div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onAddPostPressCostCenter">Post-Press</button>
+                                                    </div>*@
+                                                    <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.updateCostCentersOnQtyChange">Post-Press</button>
+                                                    </div>
                                                 <div style="float: left; margin-top: 10px; margin-left: 35px;">
                                                     <label class="control-label" style="  float: right;"> Sections like this</label>
                                                 </div>

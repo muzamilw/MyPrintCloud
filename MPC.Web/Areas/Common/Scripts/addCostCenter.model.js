@@ -17,6 +17,7 @@
             setupCost2 = ko.observable(specifiedSetupcost).extend({ numberInput: ist.numberFormat }),
             setupCost3 = ko.observable(specifiedSetupcost).extend({ numberInput: ist.numberFormat }),
             sectionId = ko.observable(),
+            callMode = ko.observable(),
             setupCostWithTax = ko.computed(function () {
                 if (specifiedCompanyTax != undefined && specifiedCompanyTax != null) {
                     return setupCost() + (setupCost() * (specifiedCompanyTax / 100));
@@ -97,7 +98,8 @@
             costCentreQuantitySourceType: costCentreQuantitySourceType,
             costCentreTimeSourceType: costCentreTimeSourceType,
             calculationMethodType: calculationMethodType,
-            sectionId:sectionId,
+            sectionId: sectionId,
+            callMode:callMode,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
