@@ -1190,9 +1190,9 @@ body:not(.compactHeader) .documentMenu {
     }
 
 
-    body:not(.compactHeader) .documentMenu li:last-child {
-        margin-right: 0;
-    }
+        body:not(.compactHeader) .documentMenu li:last-child {
+            margin-right: 0;
+        }
 
     body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu button {
         display: inline-block;
@@ -1209,18 +1209,24 @@ body:not(.compactHeader) .documentMenu {
     }
 
 .menuItemContainer {
-    width:100px;
+    width: 100px;
     -webkit-transition: all .3s linear;
     transition: all .3s linear;
-    margin-top:5px;    font-size: 12px;
+    margin-top: 5px;
+    font-size: 12px;
 }
-.selectedItem{
-     margin-top:0px;    font-size: 14px;color:orange;
+
+.selectedItem {
+    margin-top: 0px;
+    font-size: 14px;
+    color: orange;
 }
-.selectedItem a {
-    color:#FC813B !important;
-    font-weight:bold;
-}
+
+    .selectedItem a {
+        color: #FC813B !important;
+        font-weight: bold;
+    }
+
 .compactHeader #documentTitleAndMenu {
     left: 240px;
     top: 12px;
@@ -1430,7 +1436,8 @@ button, .buttonDesigner {
         border: 0 none transparent;
         background-color: #fc813b;
         color: #fff;
-        line-height: 47px; text-decoration:none;
+        line-height: 47px;
+        text-decoration: none;
     }
 
 html:not(.touch) .SampleBtn {
@@ -3320,7 +3327,7 @@ h2 + .gallery {
     }
 
 .templateGallerylist {
-      width: 248px;
+    width: 248px;
     position: relative;
     display: inline-block;
     vertical-align: bottom;
@@ -5049,8 +5056,9 @@ h2 + .gallery {
 }
 
 .imgLineHeight {
-   margin-left: 1px;
-    margin-top: -5px;margin-right: 0px
+    margin-left: 1px;
+    margin-top: -5px;
+    margin-right: 0px;
 }
 
 
@@ -6216,7 +6224,7 @@ h2 + .gallery {
 
 
 .fontawesomeIcons {
-    background: url('assets-v2/bckground.png') no-repeat center;
+    /*background: url('assets-v2/bckground.png') no-repeat center;*/
     background-size: 33px 22px;
     background-repeat: no-repeat;
     height: 22px;
@@ -6934,11 +6942,11 @@ input[type="radio"] {
 
 #documentMenu {
     position: absolute;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .svgColorContainer {
-     margin-left: 20px;
+    margin-left: 20px;
     margin-top: 10px;
     margin-right: 5px;
 }
@@ -7357,9 +7365,11 @@ to {
 #documentMenuCopy, #documentMenuReload {
     margin-left: 31px;
 }
+
 .textControls a:hover {
-    text-decoration:none;
+    text-decoration: none;
 }
+
 .propPanelHeading {
     font-family: 'Helvetica';
     font-weight: normal;
@@ -7368,6 +7378,7 @@ to {
     text-align: center;
     margin-left: -57px;
 }
+
 .propertyPanelTxtArea {
     border: none;
     overflow: hidden;
@@ -7376,25 +7387,28 @@ to {
     width: 283px;
     box-shadow: none;
 }
-.uploadFntTxtPanel 
-{
-        font-size: 10px;
+
+.uploadFntTxtPanel {
+    font-size: 10px;
     margin-left: 5px;
-        display: flex;
+    display: flex;
     margin-right: 33px;
     text-align: right;
     float: right;
     margin-top: -1px;
 }
-.uploadFntTxtPanel:hover{
-    text-decoration:none;
+
+    .uploadFntTxtPanel:hover {
+        text-decoration: none;
+    }
+
+.propertyPanleBtn {
+    height: 44px !important;
+    width: 44px !important;
 }
-.propertyPanleBtn{
-        height: 44px !important;
-    width: 44px !important;    
-}
+
 .BtnChngeClr {
-        border-radius: 2px;
+    border-radius: 2px;
     color: #fff;
     vertical-align: bottom;
     position: relative;
@@ -7404,49 +7418,65 @@ to {
     height: 48px;
     font-size: 11px;
     border-color: grey;
-    border-width: 2px;    margin-left: 13px;
+    border-width: 2px;
+    margin-left: 13px;
 }
+
 .frontBackBtns p {
-        display: inline-block;
+    display: inline-block;
     height: 31px;
     vertical-align: middle;
     line-height: 12px;
     font-size: 11px;
     padding-top: 8px;
 }
-.removeBtn{
-    background-color:red;    width: 96px !important;
+
+.removeBtn {
+    background-color: red;
+    width: 96px !important;
+    border: black;
+    height: 41px !important;    color: white;
 }
-.removeBtn p{
+
+    .removeBtn p {
         padding-top: 13px;
-}
+    }
+
 .divBtmSticky {
-      position: absolute;
+    position: absolute;
     bottom: 0px;
     width: 1000px;
     color: white;
     z-index: 9999;
-    
 }
-.BtmPanelBox{
-    background-color:black;
-    display:inline-block;
-    float:left;
-    margin-right:5px;
-    margin-bottom:5px;
-    border-radius: 5px;    height: 110px;
+
+.BtmPanelBox {
+    background-color: black;
+    display: inline-block;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    height: 110px;
 }
+
 .btmPanelRow {
     clear: both;
     margin-bottom: 9px;
     margin-top: 8px;
     margin-left: 5px;
+}
 
-}
-.btmPanelRow .propertyPanelControlDiv {
+    .btmPanelRow .propertyPanelControlDiv {
         width: 286px !important;
-}
+    }
+
 .svgColorPanel {
-        position: absolute;
+    position: absolute;
     bottom: 113px;
+}
+
+.activeProp {
+    background-color: #A09797;
+    border: black;
 }
