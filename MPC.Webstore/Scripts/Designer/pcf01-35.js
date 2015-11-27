@@ -3846,6 +3846,6 @@ function pcf26_upPanl(D1AO) {
     else if (D1AO.VAllignment == 3)
         $("#BtnValignTxt3").addClass("activeProp");
 
-    if (D1AO.VAllignment)
+    if (D1AO.isBulletPoint)
         $("#BtnBulletedLstTxt").addClass("activeProp");
 }
