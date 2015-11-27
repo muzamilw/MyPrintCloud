@@ -44,6 +44,12 @@ namespace MPC.Models.Common
             get { return _uploadFileType; }
             set { _uploadFileType = value; }
         }
+
+        public string ImageFileType
+        {
+            get;
+            set;
+        }
     }
 
 }

@@ -147,15 +147,15 @@
                                                      FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
                                                  }
                                                  pdfLinkBtn = "";
-                                                 if (prod.ProductType != (int)ProductType.PrintProduct)
+                                                 if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
                                                  {
                                                      if (FolderPathOfAttachment[0] == '/')
                                                      {
-                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + "Thumb" +  prod.Attatchment.FileExtention;// completeImgPath;
+                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType;// completeImgPath;
                                                      }
                                                      else
                                                      {
-                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + "Thumb" + prod.Attatchment.FileExtention;// completeImgPath;
+                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType;// completeImgPath;
                                                      }
                                                  }
                                                  else 
@@ -178,7 +178,15 @@
                                                  string completeImgPath = "";
                                                  if (!string.IsNullOrEmpty(prod.Attatchment.FolderPath) && !string.IsNullOrEmpty(prod.Attatchment.FileName))
                                                  {
-                                                     completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString;
+                                                     if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
+                                                     {
+                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType;
+                                                     }
+                                                     else 
+                                                     {
+                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString;
+                                                     }
+                                                    
                                                  }
                                                  else
                                                  {

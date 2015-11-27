@@ -9,6 +9,7 @@
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
+    string JPGimagePath = "Thumb.jpg";
   var extraPricingId = "";
 }
 @{
@@ -220,12 +221,19 @@
                                       
                                             <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                                 <div class="DeleteIconPP">
-                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
+                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId, 0);"></button>
                                                 </div>
                                                 <a id="hlSide1">
                                                     <div class="PDTC_LP FI_PCS">
-
-                                                        <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                        @if (string.IsNullOrEmpty(artworkFile.ImageFileType))
+                                                        {
+                                                            <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@JPGimagePath@randonNumber" />
+                                                        }
+                                                        
                                                     </div>
                                                 </a>
                                                 <div class="confirm_design LGBC height40_LP ">

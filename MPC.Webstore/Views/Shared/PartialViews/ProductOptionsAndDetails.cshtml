@@ -10,11 +10,14 @@
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
+    string JPGimagePath = "Thumb.jpg";
     var extraPricingId = "";
     var SliderCount = 0;
     var newClassToadd = "";
     int MatrixCount = 1;
-    var ProductDescription = "";
+    var ProductDescription = ""; 
+    var templateAttahment = ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>;
+    var artworkAttahment = ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>;
 }
 @{
     Layout = null;
@@ -982,7 +985,8 @@
             </div>
             @{
                 var displaystyle = "display:none;";
-                if (ViewData["Templates"] != null || ViewData["ArtworkAttachments"] != null){
+                if ((templateAttahment != null && templateAttahment.Count() > 0) || (artworkAttahment != null && artworkAttahment.Count() > 0))
+                {
                     displaystyle = "display:block;";
                 }
             }
@@ -1001,7 +1005,7 @@
     <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload \n Your complete design (pdf)"))' class="Upload_your_artwork rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" style="display:none;" />
                     }
                    
-                    <hr />
+                  
                 </div>
                 <div class="clearBoth">
                     &nbsp;
@@ -1021,6 +1025,7 @@
                 }
     </div>
     <div id="uploadDesignattachmentContainer" class="col-md-9 col-lg-9 col-xs-12 col-sm-12" style="@displaystyle">
+        <hr />
         <div class="white_background">
 
             @if (ViewData["ArtworkAttachments"] != null)
@@ -1036,13 +1041,20 @@
 
                                 <div class="artwork_sides_container rounded_corners">
                                     <div class="artwork_image_sides_container float_left_simple">
-
-                                        <img class="artwork_image_thumbnail" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                        @if (string.IsNullOrEmpty(artworkFile.ImageFileType))
+                                                        {
+                                            <img class="artwork_image_thumbnail" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                        }
+                                                        else
+                                                        {
+                                                                    <img class="artwork_image_thumbnail" src="/@artworkFile.FolderPath/@artworkFile.FileName@JPGimagePath@randonNumber" />
+                                                        }
+                                        
                                     </div>
                                     <div class="artwork_filedetail_container float_left_simple">
-                                        <label id="lblFront" class="Fsize12">@artworkFile.FileName</label>
-                                        <br />
-                                        <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
+                                        @*<label id="lblFront" class="Fsize12">@artworkFile.FileName</label>
+                                        <br />*@
+                                        <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId, 1);"></button>
                                     </div>
                                     <div class="clearBoth">
                                         &nbsp;

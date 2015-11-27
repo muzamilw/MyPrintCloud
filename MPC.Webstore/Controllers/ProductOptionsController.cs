@@ -152,21 +152,28 @@ namespace MPC.Webstore.Controllers
                 {
                     OrderID = UserCookieManager.WEBOrderId;
                     clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                    if (!string.IsNullOrEmpty(TemplateId))
+                    if (clonedItem.UploadTypeByUser == "1")
                     {
-                        ViewBag.ShowUploadArkworkPanel = true;
-                        BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
-                    }
-                    else
-                    {
-
-
                         ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                         ViewData["Templates"] = null;
-
                     }
+                    else 
+                    {
+                        if (!string.IsNullOrEmpty(TemplateId))
+                        {
+                            ViewBag.ShowUploadArkworkPanel = true;
+                            BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
+                        }
+                        else
+                        {
 
 
+                            ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
+                            ViewData["Templates"] = null;
+
+                        }
+                    }
+                   
                     ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2; // This is a ItemStockOption id
                     ViewBag.SelectedQuantity = clonedItem.Qty1;
 
@@ -986,7 +993,15 @@ namespace MPC.Webstore.Controllers
                 objTemplate.TemplateId = Template.ProductId;
                 objTemplate.TemplateName = objTemplate.TemplateName == null ? Utils.specialCharactersEncoder(ProductName) : Utils.specialCharactersEncoder(Template.ProductName);
                 objTemplate.ItemId = ItemId;
-                objTemplate.FileName = attach.FileName + "Thumb" + attach.FileType;
+                if (!string.IsNullOrEmpty(attach.ImageFileType))
+                {
+                    objTemplate.FileName = attach.FileName + "Thumb" + attach.ImageFileType;
+                }
+                else 
+                {
+                    objTemplate.FileName = attach.FileName + "Thumb.png";
+                }
+               
                 objTemplate.FolderPath = attach.FolderPath;
                 objTemplate.OrganisationID = UserCookieManager.WEBOrganisationID;
                 objTemplate.CategoryId = DesignerCategoryId;

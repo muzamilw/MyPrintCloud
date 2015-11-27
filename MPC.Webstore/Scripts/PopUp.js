@@ -1294,11 +1294,11 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
 
 
 }
-function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId) {
-
+function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId, pageType) {
+   
     var Type = "Alert!";
     var Message = "Are you sure you want to remove this design?"
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=DeleteArtWork(' + AttachmentID + ',' + ItemId + '); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=DeleteArtWork(' + AttachmentID + ',' + ItemId + ',' + pageType + '); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
 
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
@@ -1331,11 +1331,16 @@ function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId) {
     return false;
 }
 
-function DeleteArtWork(AttachmentId, ItemId) {
+function DeleteArtWork(AttachmentId, ItemId, TypeId) {
+    debugger;
+    var pageType = "Options";
+    if (TypeId == 1) {
+        pageType = "ProductOptionsAndDetails";
+    }
     ShowLoader();
 
     var to;
-    to = "/webstoreapi/DeleteAttachment/DeleteArtworkAttachment?AttachmentId=" + AttachmentId + "&ItemId=" + ItemId;
+    to = "/webstoreapi/DeleteAttachment/DeleteArtworkAttachment?AttachmentId=" + AttachmentId + "&ItemId=" + ItemId + "&pageType=" + pageType;
     var options = {
         type: "POST",
         url: to,
@@ -1351,6 +1356,8 @@ function DeleteArtWork(AttachmentId, ItemId) {
             } else if (response[0] == "NoFiles") {
                 $("#attachmentUploadContainer").html("");
                 isImageUploadedOnLandingPage = 0;
+                $("#uploadDesignHeadingContainer").css("display", "none");
+                $("#uploadDesignattachmentContainer").css("display", "none");
                 HideLoader();
             }
 
