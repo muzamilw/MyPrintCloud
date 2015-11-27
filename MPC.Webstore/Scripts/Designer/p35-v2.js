@@ -2338,3 +2338,8 @@ function oldAddFunctionality() {
 
     }
 }
+$(".textPropertyPanel1 button").click(function (event) {
+    var D1AO = canvas.getActiveObject();
+    if (!D1AO) return;
+    pcf26_upPanl(D1AO)
+});
