@@ -146,17 +146,28 @@
                                                  {
                                                      FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
                                                  }
-                                                 // from file table
-                                                 //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
-
-                                                 pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                 if (FolderPathOfAttachment[0] == '/')
+                                                 pdfLinkBtn = "";
+                                                 if (prod.ProductType != (int)ProductType.PrintProduct)
                                                  {
-                                                     imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                     if (FolderPathOfAttachment[0] == '/')
+                                                     {
+                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + "Thumb" +  prod.Attatchment.FileExtention;// completeImgPath;
+                                                     }
+                                                     else
+                                                     {
+                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + "Thumb" + prod.Attatchment.FileExtention;// completeImgPath;
+                                                     }
                                                  }
-                                                 else
+                                                 else 
                                                  {
-                                                     imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                     if (FolderPathOfAttachment[0] == '/')
+                                                     {
+                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                     }
+                                                     else
+                                                     {
+                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                     }
                                                  }
                                              }
                                          }

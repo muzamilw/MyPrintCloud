@@ -986,7 +986,7 @@ namespace MPC.Webstore.Controllers
                 objTemplate.TemplateId = Template.ProductId;
                 objTemplate.TemplateName = objTemplate.TemplateName == null ? Utils.specialCharactersEncoder(ProductName) : Utils.specialCharactersEncoder(Template.ProductName);
                 objTemplate.ItemId = ItemId;
-                objTemplate.FileName = attach.FileName;
+                objTemplate.FileName = attach.FileName + "Thumb" + attach.FileType;
                 objTemplate.FolderPath = attach.FolderPath;
                 objTemplate.OrganisationID = UserCookieManager.WEBOrganisationID;
                 objTemplate.CategoryId = DesignerCategoryId;
