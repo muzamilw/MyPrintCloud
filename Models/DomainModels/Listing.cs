@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -136,5 +137,11 @@ namespace MPC.Models.DomainModels
          public string AdvertsMainHeadLine { get; set; }
 
          public string AuctionEndTime { get; set; }
+
+         public virtual ICollection<ListingBulletPoint> ListingBulletPoints { get; set; }
+
+        
+
+        
     }
 }
