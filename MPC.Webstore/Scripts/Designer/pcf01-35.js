@@ -1415,7 +1415,7 @@ function g2_1(e) {
         var clr =  D1AO.fill + " !important";
         $(".BtnChngeClr").css("background-color", clr);
         $(".textPropertyPanel").css("display", "block");
-        $("#objPropertyPanel").css("display", "none");
+        $(".objPropertyPanel").css("display", "none");
         $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
         $("#BtnFontSize").val(k13(D1AO.get('fontSize')));
         $("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
@@ -1587,7 +1587,7 @@ function g2_22(mode) {
     var D1AO = canvas.getActiveObject();
     if (!D1AO) return;
     $(".textPropertyPanel").css("display", "none");
-    $("#objPropertyPanel").css("display", "block");
+    $(".objPropertyPanel").css("display", "block");
     $(".inputObjectAlphaSlider").slider("option", "value", (D1AO.getOpacity() * 100));
     $(".lblObjectOpacity").html((D1AO.getOpacity() * 100) + "%");
     if (D1AO.IsEditable) {
@@ -1630,7 +1630,7 @@ function g2_22(mode) {
                 //pcL36('show', '#ImagePropertyPanel');
                 //DisplayDiv('1');
             }
-            $(".svgColorPanel").css("display", "none");
+            $(".svgColorPanel").css("display", "none"); $(".opacityPanel").css("display", "block");
             $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
 
         // }
@@ -1650,7 +1650,8 @@ function g2_22(mode) {
                 m0();
             } 
         }
-        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden"); $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "none");
+        $(".svgColorPanel").css("display", "block"); $(".opacityPanel").css("display", "none");
+        $("#AddColorShape").css("visibility", "hidden"); $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "none");
         $(".svgColorContainer").html("");
         var lstClrs = [];
         if (D1AO.customStyles != null) {
@@ -1667,7 +1668,7 @@ function g2_22(mode) {
         } 
     } else {
         $("#AddColorShape").css("visibility", "visible");
-        $(".svgColorPanel").css("display", "none"); $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
+        $(".svgColorPanel").css("display", "none"); $(".opacityPanel").css("display", "block"); $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
             $(".rotateSlider").slider("option", "value", D1AO.getAngle());
@@ -1757,7 +1758,7 @@ function g5_new(e) {
 
     }
     else if (D1AO) { // && (D1AO.IsPositionLocked != true || IsCalledFrom == 2)
-        $(".textPropertyPanel, #objPropertyPanel").css("display", "none");
+        $(".textPropertyPanel, .objPropertyPanel").css("display", "none");
         g2_1(e);
     }
     //} else {

@@ -4916,7 +4916,7 @@ h2 + .gallery {
     font-size: 11px;
     margin-top: -11px;
     margin-bottom: -7px;
-    margin-left: 24px;
+    margin-left: 10px;
     border-color: grey;
     border-width: 2px;
 }
@@ -6938,8 +6938,9 @@ input[type="radio"] {
 }
 
 .svgColorContainer {
-    margin-left: 89px;
-    margin-top: -25px;
+     margin-left: 20px;
+    margin-top: 10px;
+    margin-right: 5px;
 }
 
 .btnChangeShapeColor {
@@ -7403,7 +7404,7 @@ to {
     height: 48px;
     font-size: 11px;
     border-color: grey;
-    border-width: 2px;
+    border-width: 2px;    margin-left: 13px;
 }
 .frontBackBtns p {
         display: inline-block;
@@ -7441,4 +7442,11 @@ to {
     margin-top: 8px;
     margin-left: 5px;
 
+}
+.btmPanelRow .propertyPanelControlDiv {
+        width: 286px !important;
+}
+.svgColorPanel {
+        position: absolute;
+    bottom: 113px;
 }
