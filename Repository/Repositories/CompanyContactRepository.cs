@@ -7,6 +7,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
+
 
 namespace MPC.Repository.Repositories
 {
@@ -2255,6 +2257,73 @@ namespace MPC.Repository.Repositories
             return qury.ToList();
 
         }
+
+        public  void UpdateAgent(List<CompanyContact> model)
+        {
+            
+                foreach (var item in model)
+                {
+                    CompanyContact oContact = db.CompanyContacts.Where(c => c.Email == item.Email).FirstOrDefault();
+                    if (oContact != null)
+                    {
+                        oContact.Mobile = item.Mobile;
+                        oContact.HomeTel1 = item.HomeTel1;
+                        oContact.FirstName = item.FirstName;
+                        db.Entry(oContact).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+        }
+
+        public void AddAgent(ListAgentMode model, long ContactCompanyId)
+        {
+                foreach (var item in model.objList)
+                {
+                    CompanyContact oContact = db.CompanyContacts.Where(c => c.Email == item.agentEmail).FirstOrDefault();
+                    if (oContact == null)
+                    {
+                        oContact = new CompanyContact();
+                        oContact.Mobile = item.agentMobile;
+                        oContact.HomeTel1 = item.agentTel;
+                        oContact.FirstName = item.agentName;
+                        oContact.CompanyId = ContactCompanyId;
+                        oContact.ContactRoleId = (int)Roles.User;
+                        oContact.isWebAccess = true;
+                        oContact.isPlaceOrder = true;
+                        oContact.IsPricingshown = true;
+                        oContact.Email = item.agentEmail;
+                        oContact.isArchived = false;
+                        oContact.Password = "U2m6RbXhu/ouK1+f82k3UZQu334ychgV1fg=";
+                        CompanyTerritory oTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == ContactCompanyId).FirstOrDefault();
+
+                        if (oTerritory != null)
+                        {
+                            oContact.TerritoryId = oTerritory.TerritoryId;
+                            Address oAddress = db.Addesses.Where(t => t.TerritoryId == oTerritory.TerritoryId).FirstOrDefault();
+                            if (oAddress != null)
+                            {
+                                oContact.AddressId = oAddress.AddressId;
+                                oContact.ShippingAddressId = oAddress.AddressId;
+                            }
+                            else
+                            {
+                                Address oCompanyAddress = db.Addesses.Where(t => t.CompanyId == ContactCompanyId).FirstOrDefault();
+                                if (oCompanyAddress != null)
+                                {
+                                    oContact.AddressId = oCompanyAddress.AddressId;
+                                    oContact.ShippingAddressId = oCompanyAddress.AddressId;
+                                }
+                            }
+
+                        }
+                        db.CompanyContacts.Add(oContact);
+                        db.SaveChanges();
+                    }
+                
+
+            }
+        }
+
     }
 
 }

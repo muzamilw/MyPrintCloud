@@ -4,6 +4,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
 using MPC.Models.Common;
+using MPC.Webstore.Common;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -12,6 +13,10 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void AddAgent(ListAgentMode model, long ContactCompanyId);
+        void UpdateAgent(List<CompanyContact> model);
+        long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);
+        MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId);
         List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId);
         List<CompanyContact> GetUsersByCompanyId(long CompanyId);
         void DeleteItems(List<Item> ItemList);

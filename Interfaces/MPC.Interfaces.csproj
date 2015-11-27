@@ -126,6 +126,7 @@
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
     <Compile Include="Repository\IItemsVoucherRepository.cs" />
+    <Compile Include="Repository\IListingBulletPoints.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IMarketingBriefHistoryRepository.cs" />
     <Compile Include="Repository\IProductCategoryVoucherRepository.cs" />

@@ -1,148 +1,153 @@
-﻿using MPC.Models.Common;
+﻿using MPC.Common;
+using MPC.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
+using Newtonsoft.Json;
+using MPC.Webstore.Common;
 namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 {
     public class RealEstateSMController : ApiController
     {
-        public RealEstateSMController()
-        { 
-        
+
+        private readonly IListingService _listingService;
+        private readonly  ICompanyService _mycompanyservice;
+        public RealEstateSMController(IListingService _listingService, ICompanyService _mycompanyservice)
+        {
+            this._listingService = _listingService;
+            this._mycompanyservice = _mycompanyservice;
         }
 
-       
 
-        //private void UpdateListingData(int listingId)
+
+        //public void UpdateListingData(MPC.Models.DomainModels.Listing Listing,List<CompanyContact> AgentsList)
         //{
-        //    try
-        //    {
+        //  try
+        //  {
 
+        //      MPC.Models.DomainModels.Listing  updateListing=new MPC.Models.DomainModels.Listing();
+        //      updateListing.UnitNumber = Listing.UnitNumber;
+        //      updateListing.StreetNumber = Listing.StreetNumber;
+        //      updateListing.PropertyType = Listing.PropertyType;
+        //      updateListing.PropertyCategory = Listing.PropertyCategory;
+        //      updateListing.Street = Listing.Street;
+        //      updateListing.Construction = Listing.Construction;
+        //      updateListing.Features = Listing.Features;
+        //      updateListing.Suburb = Listing.Suburb;
+        //      updateListing.LandArea = Listing.LandArea;
+        //      updateListing.BuildingAreaSqm = Listing.BuildingAreaSqm;
+        //      updateListing.State = Listing.State;
+        //      updateListing.PostCode = Listing.PostCode;
+        //      updateListing.PropertyCondition = Listing.PropertyCondition;
+        //      updateListing.Aspect = Listing.Aspect;
+        //      updateListing.ListingId = Listing.ListingId;
+        //      updateListing.BedRooms = Listing.BedRooms;
+        //      updateListing.BathRooms = Listing.BathRooms;
+        //      updateListing.LoungeRooms = Listing.LoungeRooms;
+        //      updateListing.Toilets = Listing.Toilets;
+        //      updateListing.CounsilRates = Listing.CounsilRates;
+        //      updateListing.StrataAdmin = Listing.StrataAdmin; ////
+        //      updateListing.StrataSinking = Listing.StrataSinking;
+        //      updateListing.WaterRates = Listing.WaterRates;
+        //      updateListing.LandTax = Listing.LandTax; ////
+        //      // txtStartaAdmin.Text = txtStartaAdmin.Text;// Convert.ToString(updateListing.StrataAdmin);
+        //      updateListing.OtherOutgoings = Listing.OtherOutgoings;
+        //      updateListing.Studies = Listing.Studies;
+        //      updateListing.Pools = Listing.Pools;
+        //      updateListing.Garages = Listing.Garages;
+        //      updateListing.CarSpaces = Listing.CarSpaces;
 
-        //        Listing updateListing = new Listing();
-        //        updateListing.UnitNum = txtUnitNumber.Text;
-        //        updateListing.StreetNum = txtStreetNumber.Text;
-        //        updateListing.PropertyType = txtPropertyType.Text;
-        //        updateListing.PropertyCategory = txtCategory.Text;
-        //        updateListing.Street = txtStreetName.Text;
-        //        updateListing.Construction = txtConstruction.Text;
-        //        updateListing.Features = txtStyle.Text;
-        //        updateListing.Suburb = txtSuburb.Text;
-        //        updateListing.LandArea = txtLandSize.Text;
-        //        updateListing.BuildingAreaSqm = txtBuildingSize.Text;
-        //        updateListing.State = txtState.Text;
-        //        updateListing.Postcode = txtPostcode.Text;
-        //        updateListing.PropertyCondition = txtCondition.Text;
-        //        updateListing.Aspect = txtViewAspect.Text;
-        //        updateListing.ListingID = txtListingId.Text;
-        //        updateListing.BedRooms = txtBedrooms.Text;
-        //        updateListing.BathRooms = txtBathrooms.Text;
-        //        updateListing.LoungeRooms = txtLoungeRooms.Text;
-        //        updateListing.Toilets = txtToilets.Text;
-        //        updateListing.CounsilRates = txtCouncil.Text;
-        //        updateListing.StrataAdmin = txtStartaAdmin.Text; ////
-        //        updateListing.StrataSinking = txtStarta.Text;
-        //        updateListing.WaterRates = txtWater.Text;
-        //        updateListing.LandTax = txtLand.Text; ////
-        //        // txtStartaAdmin.Text = txtStartaAdmin.Text;// Convert.ToString(updateListing.StrataAdmin);
-        //        updateListing.OtherOutgoings = txtOther.Text;
-        //        updateListing.Studies = txtStudies.Text;
-        //        updateListing.Pools = txtPools.Text;
-        //        updateListing.Garages = txtGarages.Text;
-        //        updateListing.CarSpaces = txtCarSpaces.Text;
+        //      updateListing.ListingType = Listing.ListingType;
+        //      updateListing.DisplayPrice = Listing.DisplayPrice;
+        //      updateListing.SearchPrice = Listing.SearchPrice;
 
-        //        updateListing.ListingType = txtListingType.Text;
-        //        updateListing.DisplayPrice = txtPrice.Text;
-        //        updateListing.SearchPrice = txtPriceGuid.Text;
+        //      updateListing.WebLink = Listing.WebLink;
+        //      updateListing.AvailableDate = Listing.AvailableDate;
+        //      updateListing.InspectionTimeFrom2 = Listing.InspectionTimeFrom2;
+        //      updateListing.InspectionTimeFrom1 = Listing.InspectionTimeFrom1;
+        //      updateListing.AuctionTime =Listing.AuctionTime;
+        //      updateListing.AuctionEndTime =Listing.AuctionEndTime;
 
-        //        updateListing.WebLink = txtWebsite.Text;
-        //        updateListing.AvailableDate = txtInspectionDate.Text;
-        //        updateListing.InspectionEndTime = txtInspectionEndTime.Text;
-        //        updateListing.InspectionStartTime = txtInspectionStartTime.Text;
-        //        updateListing.AuctionStartTime = txtAuctionStartTime.Text;
-        //        updateListing.AuctionEndTime = txtAuctionEndTime.Text;
+        //      updateListing.AuctionDate =Listing.AuctionDate;
+        //      updateListing.AutionVenue = Listing.AutionVenue;
+        //      updateListing.BrochureDescription = Listing.BrochureDescription;
+        //      updateListing.BrochureMainHeadLine = Listing.BrochureMainHeadLine;
+        //      updateListing.BrochureSummary = Listing.BrochureSummary;
+        //      updateListing.SignBoardDescription = Listing.SignBoardDescription;
+        //      updateListing.SignBoardMainHeadLine = Listing.SignBoardMainHeadLine;
+        //      updateListing.SignBoardSummary = Listing.SignBoardSummary;
+        //      updateListing.AdvertsDescription = Listing.AdvertsDescription;
+        //      updateListing.AdvertsMainHeadLine = Listing.AdvertsMainHeadLine;
+        //      updateListing.AdvertsSummary = Listing.AdvertsSummary;
+        //      updateListing.SignBoardInstallInstruction = Listing.SignBoardInstallInstruction;
+        //      MPC.Models.DomainModels.Listing listing = _mycompanyservice.GetListingByListingID(Convert.ToInt32(Listing.ListingId));//Listing
 
-        //        updateListing.AuctionDate = txtAuctionDate.Text;
-        //        updateListing.AuctionVenue = txtLocation.Text;
-        //        updateListing.BroucherDescription = txtbrochuresDesc.Text;
-        //        updateListing.BroucherMainHeading = txtbrochuresMainHeading.Text;
-        //        updateListing.BroucherSummery = txtbrochuresSummery.Text;
-        //        updateListing.SignBoardDescription = txtSignboardDesc.Text;
-        //        updateListing.SignBoardMainHeading = txtSignboardMainHead.Text;
-        //        updateListing.SignBoardSummery = txtSignboardSummery.Text;
-        //        updateListing.PressDescription = txtPressDescription.Text;
-        //        updateListing.PressMainHeading = txtPressMainHead.Text;
-        //        updateListing.PressSummery = txtPressSummery.Text;
-        //        updateListing.InstallationInstructio = txtInstalationInst.Text;
-        //        tbl_Listing listing = propertyManager.GetListingByListingID(propertyId); //Listing
-        //        UpdateListing(updateListing, listing);
+        //      long UpdatedLisTingID = _mycompanyservice.UpdateListing(updateListing, listing);
 
-        //        //List<tbl_ListingAgent> listingAgents = propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
+        //      //List<tbl_ListingAgent> listingAgents = propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
 
-        //        // for agents
-        //        List<tbl_contacts> updateAgentList = new List<tbl_contacts>();
-        //        foreach (RepeaterItem rptItem in rptAgents.Items)
-        //        {
+        //      // for agents
+        //      List<CompanyContact> updateAgentList = new List<CompanyContact>();
+        //      foreach (var Item in AgentsList)
+        //      {
+        //              CompanyContact contact = new CompanyContact();
+        //              contact.FirstName = Item.FileName;
+        //              contact.Mobile = Item.Mobile;
+        //              contact.HomeTel1 = Item.HomeTel1;
+        //              contact.Email =Item.Email;
+        //              updateAgentList.Add(contact);
+        //      }
 
-        //            if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
-        //            {
-        //                tbl_contacts contact = new tbl_contacts();
-        //                contact.FirstName = (rptItem.FindControl("txtAgent1Name") as TextBox).Text;
-        //                contact.Mobile = (rptItem.FindControl("txtAgent1Mobile") as TextBox).Text;
-        //                contact.HomeTel1 = (rptItem.FindControl("txtAgent1Telephone") as TextBox).Text;
-        //                contact.Email = (rptItem.FindControl("txtAgent1Email") as TextBox).Text;
-        //                updateAgentList.Add(contact);
-        //            }
-        //        }
+        //      _mycompanyservice.UpdateAgent(updateAgentList);
 
-        //        PropertyManager.UpdateAgent(updateAgentList);
-        //        if (!string.IsNullOrEmpty(hfAgentList.Value))
-        //        {
-        //            ListAgentMode agentsList = JsonConvert.DeserializeObject<ListAgentMode>(hfAgentList.Value);
-        //            if (agentsList != null)
-        //            {
-        //                PropertyManager.AddAgent(agentsList, SessionParameters.ContactCompany.ContactCompanyID);
-        //            }
-        //        }
+        //      if (!string.IsNullOrEmpty(hfAgentList.Value))
+        //      {
+        //          ListAgentMode agentsList = JsonConvert.DeserializeObject<ListAgentMode>(hfAgentList.Value);
+        //          if (agentsList != null)
+        //          {
+        //              _mycompanyservice.AddAgent(agentsList,UserCookieManager.WBStoreId);
+        //          }
+        //      }
 
-        //        // for bullet points
+        //      // for bullet points
 
-        //        List<tbl_ListingBulletPoints> updatePointList = new List<tbl_ListingBulletPoints>();
-        //        foreach (RepeaterItem rptItem in rptBulletPoints.Items)
-        //        {
+        //      List<ListingBulletPoints> updatePointList = new List<tbl_ListingBulletPoints>();
+        //      foreach (RepeaterItem rptItem in rptBulletPoints.Items)
+        //      {
 
-        //            if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
-        //            {
-        //                tbl_ListingBulletPoints oPoint = new tbl_ListingBulletPoints();
-        //                oPoint.BulletPoint = (rptItem.FindControl("txtBuletPoints") as TextBox).Text;
-        //                oPoint.BulletPointId = Convert.ToInt32((rptItem.FindControl("lblPointId") as Label).Text);
-        //                updatePointList.Add(oPoint);
-        //            }
-        //        }
-        //        PropertyManager.UpdateBulletPoints(updatePointList);
-        //        if (!string.IsNullOrEmpty(hfBPointsList.Value))
-        //        {
-        //            ListPointsModel bulletList = JsonConvert.DeserializeObject<ListPointsModel>(hfBPointsList.Value);
-        //            if (bulletList != null)
-        //            {
-        //                PropertyManager.AddBulletPoint(bulletList, listing.ListingID);
-        //            }
-        //        }
-        //        hfNewlyAddedBPoints.Value = "";
-        //        //if (!string.IsNullOrEmpty(txtBulletPoint.Text))
-        //        //{
-        //        //    PropertyManager.AddBulletPoint(txtBulletPoint.Text, listing.ListingID);
-        //        //}
-        //    }
-        //    catch (Exception)
-        //    {
+        //          if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
+        //          {
+        //              tbl_ListingBulletPoints oPoint = new tbl_ListingBulletPoints();
+        //              oPoint.BulletPoint = (rptItem.FindControl("txtBuletPoints") as TextBox).Text;
+        //              oPoint.BulletPointId = Convert.ToInt32((rptItem.FindControl("lblPointId") as Label).Text);
+        //              updatePointList.Add(oPoint);
+        //          }
+        //      }
+        //      PropertyManager.UpdateBulletPoints(updatePointList);
+        //      if (!string.IsNullOrEmpty(hfBPointsList.Value))
+        //      {
+        //          ListPointsModel bulletList = JsonConvert.DeserializeObject<ListPointsModel>(hfBPointsList.Value);
+        //          if (bulletList != null)
+        //          {
+        //              PropertyManager.AddBulletPoint(bulletList, listing.ListingID);
+        //          }
+        //      }
+        //      hfNewlyAddedBPoints.Value = "";
+        //      //if (!string.IsNullOrEmpty(txtBulletPoint.Text))
+        //      //{
+        //      //    PropertyManager.AddBulletPoint(txtBulletPoint.Text, listing.ListingID);
+        //      //}
+        //  }
+        //  catch (Exception)
+        //  {
 
-        //        throw;
-        //    }
+        //      throw;
+        //  }
         //}
 
         //private void GotoDesigner(int itemID, int productCategoryID, List<TemplateVariable> lstPageControls, int propertyId)
@@ -372,360 +377,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         //    }
         //}
 
-        //private int UpdateListing(Listing propertyListing, tbl_Listing tblListing)
-        //{
-        //    int updatedListing = 0;
-        //    try
-        //    {
-        //        string strForParse = string.Empty;
-
-        //        using (MPCEntities context = new MPCEntities())
-        //        {
-        //            var listing = context.tbl_Listing.Where(item => item.ListingID == tblListing.ListingID).FirstOrDefault();
-
-        //            if (listing != null)
-        //            {
-        //                //  listing.ClientListingID = propertyListing.ListingID;
-        //                listing.WebID = propertyListing.WebID;
-        //                listing.WebLink = propertyListing.WebLink;
-        //                listing.AddressDisplay = propertyListing.AddressDisplay;
-        //                listing.StreetAddress = propertyListing.StreetAddress;
-        //                listing.LevelNumber = (String.IsNullOrEmpty(propertyListing.LevelNum)) ? 0 : Convert.ToInt32(propertyListing.LevelNum);
-        //                listing.LotNumber = (String.IsNullOrEmpty(propertyListing.LotNum)) ? 0 : Convert.ToInt32(propertyListing.LotNum);
-        //                listing.UnitNumber = (String.IsNullOrEmpty(propertyListing.UnitNum)) ? 0 : Convert.ToInt32(propertyListing.UnitNum);
-        //                listing.StreetNumber = (String.IsNullOrEmpty(propertyListing.StreetNum)) ? 0 : Convert.ToInt32(propertyListing.StreetNum);
-        //                listing.Street = propertyListing.Street;
-        //                listing.Suburb = propertyListing.Suburb;
-        //                listing.State = propertyListing.State;
-        //                listing.PostCode = propertyListing.Postcode;
-        //                listing.PropertyName = propertyListing.PropertyName;
-        //                listing.PropertyType = propertyListing.PropertyType;
-        //                listing.PropertyCategory = propertyListing.PropertyCategory;
-
-        //                //if (!String.IsNullOrEmpty(propertyListing.ListingDate))
-        //                //    listing.ListingDate = DateTime.Parse(propertyListing.ListingDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
-        //                //if (!String.IsNullOrEmpty(propertyListing.ListingExpiryDate))
-        //                //    listing.ListingExpiryDate = DateTime.Parse(propertyListing.ListingExpiryDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
-        //                listing.ListingStatus = propertyListing.ListingStatus;
-        //                listing.ListingMethod = propertyListing.ListingMethod;
-        //                listing.ListingAuthority = propertyListing.ListingAuthority;
-        //                listing.InspectionTypye = propertyListing.InspectionType;
-        //                listing.ListingType = propertyListing.ListingType;
-        //                if (!string.IsNullOrEmpty(propertyListing.WaterRates))
-        //                {
-        //                    listing.WaterRates = Convert.ToDouble(propertyListing.WaterRates);
-        //                }
-        //                else
-        //                {
-        //                    listing.WaterRates = null;
-        //                }
-
-        //                if (!string.IsNullOrEmpty(propertyListing.StrataAdmin))
-        //                {
-        //                    listing.StrataAdmin = Convert.ToDouble(propertyListing.StrataAdmin);
-        //                }
-        //                else
-        //                {
-        //                    listing.StrataAdmin = null;
-        //                }
-
-        //                if (!string.IsNullOrEmpty(propertyListing.StrataSinking))
-        //                {
-        //                    listing.StrataSinking = Convert.ToDouble(propertyListing.StrataSinking);
-        //                }
-        //                else
-        //                {
-        //                    listing.StrataSinking = null;
-        //                }
-
-        //                listing.AutionVenue = propertyListing.AuctionVenue;
-        //                listing.AuctionDate = propertyListing.AuctionDate; //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-
-        //                //listing.AutionVenue = propertyListing.AuctionVenue;
-
-        //                //if (!String.IsNullOrEmpty(propertyListing.EOIClosingDate))
-        //                //    listing.EOIClosingDate = DateTime.Parse(propertyListing.EOIClosingDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
-        //                if (!string.IsNullOrEmpty(propertyListing.DisplayPrice))
-        //                {
-        //                    strForParse = propertyListing.DisplayPrice;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                        listing.DisplayPrice = Convert.ToDouble(result);
-        //                }
-        //                else
-        //                {
-        //                    listing.DisplayPrice = null;
-        //                }
-        //                if (!string.IsNullOrEmpty(propertyListing.SearchPrice))
-        //                {
-        //                    strForParse = propertyListing.SearchPrice;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                        listing.SearchPrice = Convert.ToDouble(result);
-        //                }
-        //                else
-        //                {
-        //                    listing.SearchPrice = null;
-        //                }
-
-        //                listing.RendPeriod = (String.IsNullOrEmpty(propertyListing.RentPeriod)) ? 0 : Convert.ToInt32(propertyListing.RentPeriod);
-
-
-        //                listing.AvailableDate = propertyListing.AvailableDate; //DateTime.ParseExact(propertyListing.AvailableDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-
-        //                listing.InspectionEndTime = propertyListing.InspectionEndTime;
-
-
-        //                listing.InspectionStartTime = propertyListing.InspectionStartTime;
-
-
-        //                listing.AuctionEndTime = propertyListing.AuctionEndTime;
-
-
-        //                listing.AuctionStartTime = propertyListing.AuctionStartTime;
-
-        //                //if (!String.IsNullOrEmpty(propertyListing.SoldDate))
-        //                //    listing.SoldDate = DateTime.Parse(propertyListing.SoldDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
-        //                if (propertyListing.SoldPrice != null)
-        //                {
-        //                    strForParse = propertyListing.SoldPrice;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                        listing.SoldPrice = Convert.ToDouble(result);
-        //                }
-        //                else
-        //                {
-        //                    listing.SoldPrice = null;
-        //                }
-
-        //                if (propertyListing.SoldPriceConfidential != null)
-        //                {
-        //                    string confid = propertyListing.SoldPriceConfidential;
-        //                    if (confid.Equals("Yes"))
-        //                    {
-        //                        listing.IsSoldPriceConfidential = true;
-        //                    }
-        //                    else if (confid.Equals("No"))
-        //                    {
-        //                        listing.IsSoldPriceConfidential = false;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    listing.IsSoldPriceConfidential = null;
-        //                }
-        //                listing.MainHeadLine = propertyListing.MainHeadline;
-        //                listing.MainDescription = propertyListing.MainDescription;
-        //                listing.BedRooms = (String.IsNullOrEmpty(propertyListing.BedRooms)) ? 0 : Convert.ToInt32(propertyListing.BedRooms);
-        //                listing.BathRooms = (String.IsNullOrEmpty(propertyListing.BathRooms)) ? 0 : Convert.ToInt32(propertyListing.BathRooms);
-        //                listing.LoungeRooms = (String.IsNullOrEmpty(propertyListing.LoungeRooms)) ? 0 : Convert.ToInt32(propertyListing.LoungeRooms);
-        //                listing.Toilets = (String.IsNullOrEmpty(propertyListing.Toilets)) ? 0 : Convert.ToInt32(propertyListing.Toilets);
-        //                listing.Studies = (String.IsNullOrEmpty(propertyListing.Studies)) ? 0 : Convert.ToInt32(propertyListing.Studies);
-        //                listing.Pools = (String.IsNullOrEmpty(propertyListing.Pools)) ? 0 : Convert.ToInt32(propertyListing.Pools);
-        //                listing.Garages = (String.IsNullOrEmpty(propertyListing.Garages)) ? 0 : Convert.ToInt32(propertyListing.Garages);
-        //                listing.Carports = (String.IsNullOrEmpty(propertyListing.Carports)) ? 0 : Convert.ToInt32(propertyListing.Carports);
-        //                listing.CarSpaces = (String.IsNullOrEmpty(propertyListing.CarSpaces)) ? 0 : Convert.ToInt32(propertyListing.CarSpaces);
-        //                listing.TotalParking = (String.IsNullOrEmpty(propertyListing.TotalParking)) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
-
-        //                if (propertyListing.LandArea != null)
-        //                {
-        //                    strForParse = propertyListing.LandArea;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                    {
-        //                        listing.LandArea = Convert.ToDouble(result);
-        //                    }
-        //                    else
-        //                    {
-        //                        listing.LandArea = null;
-        //                    }
-
-        //                }
-        //                else
-        //                {
-        //                    listing.LandArea = null;
-        //                }
-        //                listing.LandAreaUnit = propertyListing.LandAreaUnit;
-        //                listing.BuildingAreaSqm = (String.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? 0 : Convert.ToInt32(propertyListing.BuildingAreaSqm);
-        //                listing.ExternalAreaSqm = (String.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? 0 : Convert.ToInt32(propertyListing.ExternalAreaSqm);
-        //                listing.FrontageM = (String.IsNullOrEmpty(propertyListing.FrontageM)) ? 0 : Convert.ToInt32(propertyListing.FrontageM);
-        //                listing.Aspect = propertyListing.Aspect;
-        //                listing.YearBuilt = propertyListing.YearBuilt;
-        //                listing.YearRenovated = propertyListing.YearRenovated;
-        //                listing.Construction = propertyListing.Construction;
-        //                listing.PropertyCondition = propertyListing.PropertyCondition;
-
-        //                if (propertyListing.EnergyRating != null)
-        //                {
-        //                    strForParse = propertyListing.EnergyRating;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                    {
-        //                        listing.EnergyRating = Convert.ToDouble(result);
-        //                    }
-        //                    else
-        //                    {
-        //                        listing.EnergyRating = null;
-        //                    }
-
-        //                }
-        //                else
-        //                {
-        //                    listing.EnergyRating = null;
-        //                }
-
-
-        //                listing.Features = propertyListing.Features;
-
-        //                if (propertyListing.LandTax != null)
-        //                {
-        //                    strForParse = propertyListing.LandTax;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                    {
-        //                        listing.LandTax = Convert.ToDouble(result);
-        //                    }
-        //                    else
-        //                    {
-        //                        listing.LandTax = null;
-        //                    }
-
-        //                }
-        //                else
-        //                {
-        //                    listing.LandTax = null;
-        //                }
-        //                if (propertyListing.CounsilRates != null)
-        //                {
-        //                    strForParse = propertyListing.CounsilRates;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                    {
-        //                        listing.CounsilRates = Convert.ToDouble(result);
-        //                    }
-        //                    else
-        //                    {
-        //                        listing.CounsilRates = null;
-        //                    }
-
-        //                }
-        //                else
-        //                {
-        //                    listing.CounsilRates = null;
-        //                }
-
-        //                if (propertyListing.StrataAdmin != null)
-        //                {
-        //                    strForParse = propertyListing.StrataAdmin;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                    {
-        //                        listing.StrataAdmin = Convert.ToDouble(result);
-        //                    }
-        //                    else
-        //                    {
-        //                        listing.StrataAdmin = null;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    listing.StrataAdmin = null;
-        //                }
-
-        //                if (propertyListing.StrataSinking != null)
-        //                {
-        //                    strForParse = propertyListing.StrataSinking;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                    {
-        //                        listing.StrataSinking = Convert.ToDouble(result);
-        //                    }
-        //                    else
-        //                    {
-        //                        listing.StrataSinking = null;
-        //                    }
-
-        //                }
-        //                else
-        //                {
-        //                    listing.StrataSinking = null;
-        //                }
-
-        //                if (propertyListing.OtherOutgoings != null)
-        //                {
-        //                    strForParse = propertyListing.OtherOutgoings;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                    {
-        //                        listing.OtherOutgoings = Convert.ToDouble(result);
-        //                    }
-        //                    else
-        //                    {
-        //                        listing.OtherOutgoings = null;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    listing.OtherOutgoings = null;
-        //                }
-
-        //                if (propertyListing.TotalOutgoings != null)
-        //                {
-        //                    strForParse = propertyListing.TotalOutgoings;
-        //                    string result = Regex.Replace(strForParse, @"[^\d]", "");
-        //                    if (!result.Equals(string.Empty))
-        //                    {
-        //                        listing.TotalOutgoings = Convert.ToDouble(result);
-        //                    }
-        //                    else
-        //                    {
-        //                        listing.TotalOutgoings = null;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    listing.TotalOutgoings = null;
-        //                }
-
-        //                listing.LegalDescription = propertyListing.LegalDescription;
-        //                listing.LegalLot = propertyListing.LegalLot;
-        //                listing.LegalDP = propertyListing.LegalDP;
-        //                listing.LegalVol = propertyListing.LegalVol;
-        //                listing.LegalFolio = propertyListing.LegalFolio;
-        //                listing.Zoning = propertyListing.Zoning;
-        //                //    listing.ContactCompanyID = (String.IsNullOrEmpty(propertyListing.ContactCompanyID)) ? 0 : Convert.ToInt32(propertyListing.ContactCompanyID);
-        //                listing.BrochureDescription = propertyListing.BroucherDescription;
-        //                listing.BrochureMainHeadLine = propertyListing.BroucherMainHeading;
-        //                listing.BrochureSummary = propertyListing.BroucherSummery;
-        //                listing.SignBoardDescription = propertyListing.SignBoardDescription;
-        //                listing.SignBoardInstallInstruction = propertyListing.InstallationInstructio;
-        //                listing.SignBoardMainHeadLine = propertyListing.SignBoardMainHeading;
-        //                listing.SignBoardSummary = propertyListing.SignBoardSummery;
-        //                listing.AdvertsDescription = propertyListing.PressDescription;
-        //                listing.AdvertsMainHeadLine = propertyListing.PressMainHeading;
-        //                listing.AdvertsSummary = propertyListing.PressSummery;
-        //                if (context.SaveChanges() > 0)
-        //                {
-        //                    updatedListing = listing.ListingID;
-
-        //                }
-        //            }
-        //        }
-
-        //        return updatedListing;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        updatedListing = 0;
-        //        //return updatedListing;
-        //        throw ex;
-        //    }
-        //}
-
+     
 
     }
+    
 }

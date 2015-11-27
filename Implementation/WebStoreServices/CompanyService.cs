@@ -14,6 +14,7 @@ using MPC.Common;
 using WebSupergoo.ABCpdf8;
 using System.IO;
 using System.Configuration;
+using MPC.Webstore.Common;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -25,6 +26,7 @@ namespace MPC.Implementation.WebStoreServices
         /// Private members
         /// </summary>
         /// 
+        private readonly IListingRepository _listingRepository;
         public readonly ICompanyRepository _CompanyRepository;
         public readonly ICompanyContactRepository _CompanyContactRepository;
         private readonly ISystemUserRepository _SystemUserRepository;
@@ -72,8 +74,9 @@ namespace MPC.Implementation.WebStoreServices
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
             , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
             ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
-            ,ICompanyDomainRepository companyDomainRepository)
+            ,ICompanyDomainRepository companyDomainRepository,IListingRepository _listingRepository)
         {
+            this._listingRepository = _listingRepository;
             this._CompanyRepository = companyRepository;
             this._questionRepository = _questionRepository;
             this._widgetRepository = widgetRepository;
@@ -101,6 +104,7 @@ namespace MPC.Implementation.WebStoreServices
             this._SystemUserRepository = _SystemUserRepository;
             this._IScopeVariableRepository = IScopeVariableRepository;
             this._companyDomainRepository = companyDomainRepository;
+            
         }
 
         #endregion
@@ -1792,6 +1796,22 @@ namespace MPC.Implementation.WebStoreServices
         public List<CompanyContact> GetCorporateUserOnly( long companyId, long OrganisationId)
         {
             return _CompanyContactRepository.GetCorporateUserOnly(companyId, OrganisationId);
+        }
+        public MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId)
+        {
+            return _listingRepository.GetListingByListingID(propertyId);
+        }
+        public long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing)
+        {
+            return _listingRepository.UpdateListing(propertyListing, tblListing);
+        }
+        public void UpdateAgent(List<CompanyContact> model)
+        {
+             _CompanyContactRepository.UpdateAgent(model);
+        }
+        public void AddAgent(ListAgentMode model, long ContactCompanyId)
+        {
+            _CompanyContactRepository.AddAgent(model, ContactCompanyId);
         }
     }
 }

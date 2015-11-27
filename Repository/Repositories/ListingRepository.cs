@@ -2757,5 +2757,389 @@ namespace MPC.Repository.Repositories
                         select Listing).FirstOrDefault();
             
         }
+
+        public long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing)
+        {
+            long updatedListing = 0;
+            try
+            {
+                string strForParse = string.Empty;
+                var listing = db.Listings.Where(item => item.ListingId == tblListing.ListingId).FirstOrDefault();
+
+                if (listing != null)
+                {
+                    //  listing.ClientListingID = propertyListing.ListingID;
+                    listing.WebID = propertyListing.WebID;
+                    listing.WebLink = propertyListing.WebLink;
+                    listing.AddressDisplay = propertyListing.AddressDisplay;
+                    listing.StreetAddress = propertyListing.StreetAddress;
+
+                    if (propertyListing.LevelNumber == null || propertyListing.LevelNumber.Equals(string.Empty))
+                    {
+                        listing.LevelNumber = 0;
+                    }
+                    if (propertyListing.LotNumber == null || propertyListing.LotNumber.Equals(string.Empty))
+                    {
+                        propertyListing.LotNumber = 0;
+                    }
+                    if (propertyListing.LotNumber == null || propertyListing.LotNumber.Equals(string.Empty))
+                    {
+                        propertyListing.LotNumber = 0;
+                    }
+
+                    if (propertyListing.UnitNumber == null || propertyListing.UnitNumber.Equals(string.Empty))
+                    {
+                        propertyListing.UnitNumber = 0;
+                    }
+
+                    if (propertyListing.UnitNumber == null || propertyListing.UnitNumber.Equals(string.Empty))
+                    {
+                        propertyListing.UnitNumber = 0;
+                    }
+
+                    if (propertyListing.StreetNumber == null || propertyListing.StreetNumber.Equals(string.Empty))
+                    {
+                        propertyListing.StreetNumber = 0;
+                    }
+
+                    listing.Street = propertyListing.Street;
+                    listing.Suburb = propertyListing.Suburb;
+                    listing.State = propertyListing.State;
+                    listing.PostCode = propertyListing.PostCode;
+                    listing.PropertyName = propertyListing.PropertyName;
+                    listing.PropertyType = propertyListing.PropertyType;
+                    listing.PropertyCategory = propertyListing.PropertyCategory;
+
+                    //if (!String.IsNullOrEmpty(propertyListing.ListingDate))
+                    //    listing.ListingDate = DateTime.Parse(propertyListing.ListingDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                    //if (!String.IsNullOrEmpty(propertyListing.ListingExpiryDate))
+                    //    listing.ListingExpiryDate = DateTime.Parse(propertyListing.ListingExpiryDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                    listing.ListingStatus = propertyListing.ListingStatus;
+                    listing.ListingMethod = propertyListing.ListingMethod;
+                    listing.ListingAuthority = propertyListing.ListingAuthority;
+                    listing.InspectionTypye = propertyListing.InspectionTypye;
+                    listing.ListingType = propertyListing.ListingType;
+                    if (propertyListing.WaterRates != null || propertyListing.WaterRates.Equals(string.Empty))
+                    {
+                        listing.WaterRates = propertyListing.WaterRates;
+                    }
+                    else
+                    {
+                        listing.WaterRates = 0;
+                    }
+
+                    if (propertyListing.StrataAdmin != null || propertyListing.StrataAdmin.Equals(string.Empty))
+                    {
+                        listing.StrataAdmin = propertyListing.StrataAdmin;
+                    }
+                    else
+                    {
+                        listing.StrataAdmin = 0;
+                    }
+
+                    if (propertyListing.StrataSinking != null || propertyListing.StrataSinking.Equals(string.Empty))
+                    {
+                        listing.StrataSinking = propertyListing.StrataSinking;
+                    }
+                    else
+                    {
+                        listing.StrataSinking = 0;
+                    }
+
+                    listing.AutionVenue = propertyListing.AutionVenue;
+                    listing.AuctionDate = propertyListing.AuctionDate; //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+                    //listing.AutionVenue = propertyListing.AuctionVenue;
+
+                    //if (!String.IsNullOrEmpty(propertyListing.EOIClosingDate))
+                    //    listing.EOIClosingDate = DateTime.Parse(propertyListing.EOIClosingDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                    if (propertyListing.DisplayPrice != null)
+                    {
+                        strForParse = propertyListing.DisplayPrice.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                            listing.DisplayPrice = Convert.ToDouble(result);
+                    }
+                    else
+                    {
+                        listing.DisplayPrice = null;
+                    }
+                    if (propertyListing.SearchPrice == null || propertyListing.SearchPrice.Equals(string.Empty))
+                    {
+                        strForParse = propertyListing.SearchPrice.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                            listing.SearchPrice = Convert.ToDouble(result);
+                    }
+                    else
+                    {
+                        listing.SearchPrice = null;
+                    }
+
+                    if (propertyListing.RendPeriod == null || propertyListing.RendPeriod.Equals(string.Empty))
+                    {
+                        listing.RendPeriod = propertyListing.RendPeriod;
+                    }
+                    else
+                    {
+                        listing.RendPeriod = 0;
+                    }
+
+                    listing.AvailableDate = propertyListing.AvailableDate; //DateTime.ParseExact(propertyListing.AvailableDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+                    listing.InspectionTimeFrom2 = propertyListing.InspectionTimeFrom2;
+
+
+                    listing.InspectionTimeFrom1 = propertyListing.InspectionTimeFrom1;
+
+
+                    listing.AuctionTime = propertyListing.AuctionTime;
+
+
+                    listing.AuctionTime = propertyListing.AuctionEndTime;
+
+                    //if (!String.IsNullOrEmpty(propertyListing.SoldDate))
+                    //    listing.SoldDate = DateTime.Parse(propertyListing.SoldDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                    if (propertyListing.SoldPrice != null || propertyListing.SoldPrice.Equals(string.Empty))
+                    {
+                        strForParse = propertyListing.SoldPrice.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                            listing.SoldPrice = Convert.ToDouble(result);
+                    }
+                    else
+                    {
+                        listing.SoldPrice = null;
+                    }
+
+                    if (propertyListing.IsSoldPriceConfidential != null)
+                    {
+                        //string confid = propertyListing.IsSoldPriceConfidential;
+                        //if (confid.Equals("Yes"))
+                        //{
+                        //    listing.IsSoldPriceConfidential = true;
+                        //}
+                        //else if (confid.Equals("No"))
+                        //{
+                        //    listing.IsSoldPriceConfidential = false;
+                        //}
+                        listing.IsSoldPriceConfidential = propertyListing.IsSoldPriceConfidential;
+                    }
+                    else
+                    {
+                        listing.IsSoldPriceConfidential = null;
+                    }
+
+                    listing.MainHeadLine = propertyListing.MainHeadLine;
+
+                    listing.MainDescription = propertyListing.MainDescription;
+                    listing.BedRooms = (String.IsNullOrEmpty(propertyListing.BedRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.BedRooms);
+                    listing.BathRooms = (String.IsNullOrEmpty(propertyListing.BathRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.BathRooms);
+                    listing.LoungeRooms = (String.IsNullOrEmpty(propertyListing.LoungeRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.LoungeRooms);
+                    listing.Toilets = (String.IsNullOrEmpty(propertyListing.Toilets.ToString())) ? 0 : Convert.ToInt32(propertyListing.Toilets);
+                    listing.Studies = (String.IsNullOrEmpty(propertyListing.Studies.ToString())) ? 0 : Convert.ToInt32(propertyListing.Studies);
+                    listing.Pools = (String.IsNullOrEmpty(propertyListing.Pools.ToString())) ? 0 : Convert.ToInt32(propertyListing.Pools);
+                    listing.Garages = (String.IsNullOrEmpty(propertyListing.Garages.ToString())) ? 0 : Convert.ToInt32(propertyListing.Garages);
+                    listing.Carports = (String.IsNullOrEmpty(propertyListing.Carports.ToString())) ? 0 : Convert.ToInt32(propertyListing.Carports);
+                    listing.CarSpaces = (String.IsNullOrEmpty(propertyListing.CarSpaces.ToString())) ? 0 : Convert.ToInt32(propertyListing.CarSpaces);
+                    listing.TotalParking = (String.IsNullOrEmpty(propertyListing.TotalParking.ToString())) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
+
+                    if (propertyListing.LandArea != null)
+                    {
+                        strForParse = propertyListing.LandArea.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.LandArea = Convert.ToDouble(result);
+                        }
+                        else
+                        {
+                            listing.LandArea = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.LandArea = null;
+                    }
+                    listing.LandAreaUnit = propertyListing.LandAreaUnit;
+                    listing.BuildingAreaSqm = (String.IsNullOrEmpty(propertyListing.BuildingAreaSqm.ToString())) ? 0 : Convert.ToInt32(propertyListing.BuildingAreaSqm);
+                    listing.ExternalAreaSqm = (String.IsNullOrEmpty(propertyListing.ExternalAreaSqm.ToString())) ? 0 : Convert.ToInt32(propertyListing.ExternalAreaSqm);
+                    listing.FrontageM = (String.IsNullOrEmpty(propertyListing.FrontageM.ToString())) ? 0 : Convert.ToInt32(propertyListing.FrontageM);
+                    listing.Aspect = propertyListing.Aspect;
+                    listing.YearBuilt = propertyListing.YearBuilt;
+                    listing.YearRenovated = propertyListing.YearRenovated;
+                    listing.Construction = propertyListing.Construction;
+                    listing.PropertyCondition = propertyListing.PropertyCondition;
+
+                    if (propertyListing.EnergyRating != null)
+                    {
+                        strForParse = propertyListing.EnergyRating.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.EnergyRating = Convert.ToDouble(result);
+                        }
+                        else
+                        {
+                            listing.EnergyRating = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.EnergyRating = null;
+                    }
+
+
+                    listing.Features = propertyListing.Features;
+
+                    if (propertyListing.LandTax != null)
+                    {
+                        strForParse = propertyListing.LandTax.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.LandTax = Convert.ToDouble(result);
+                        }
+                        else
+                        {
+                            listing.LandTax = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.LandTax = null;
+                    }
+                    if (propertyListing.CounsilRates != null)
+                    {
+                        strForParse = propertyListing.CounsilRates.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.CounsilRates = Convert.ToDouble(result);
+                        }
+                        else
+                        {
+                            listing.CounsilRates = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.CounsilRates = null;
+                    }
+
+                    if (propertyListing.StrataAdmin != null)
+                    {
+                        strForParse = propertyListing.StrataAdmin.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.StrataAdmin = Convert.ToDouble(result);
+                        }
+                        else
+                        {
+                            listing.StrataAdmin = null;
+                        }
+                    }
+                    else
+                    {
+                        listing.StrataAdmin = null;
+                    }
+
+                    if (propertyListing.StrataSinking != null)
+                    {
+                        strForParse = propertyListing.StrataSinking.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.StrataSinking = Convert.ToDouble(result);
+                        }
+                        else
+                        {
+                            listing.StrataSinking = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.StrataSinking = null;
+                    }
+
+                    if (propertyListing.OtherOutgoings != null)
+                    {
+                        strForParse = propertyListing.OtherOutgoings.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.OtherOutgoings = Convert.ToDouble(result);
+                        }
+                        else
+                        {
+                            listing.OtherOutgoings = null;
+                        }
+                    }
+                    else
+                    {
+                        listing.OtherOutgoings = null;
+                    }
+
+                    if (propertyListing.TotalOutgoings != null)
+                    {
+                        strForParse = propertyListing.TotalOutgoings.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.TotalOutgoings = Convert.ToDouble(result);
+                        }
+                        else
+                        {
+                            listing.TotalOutgoings = null;
+                        }
+                    }
+                    else
+                    {
+                        listing.TotalOutgoings = null;
+                    }
+
+                    listing.LegalDescription = propertyListing.LegalDescription;
+                    listing.LegalLot = propertyListing.LegalLot;
+                    listing.LegalDP = propertyListing.LegalDP;
+                    listing.LegalVol = propertyListing.LegalVol;
+                    listing.LegalFolio = propertyListing.LegalFolio;
+                    listing.Zoning = propertyListing.Zoning;
+                    //    listing.ContactCompanyID = (String.IsNullOrEmpty(propertyListing.ContactCompanyID)) ? 0 : Convert.ToInt32(propertyListing.ContactCompanyID);
+                    listing.BrochureDescription = propertyListing.BrochureDescription;
+                    listing.BrochureMainHeadLine = propertyListing.BrochureMainHeadLine;
+                    listing.BrochureSummary = propertyListing.BrochureSummary;
+                    listing.SignBoardDescription = propertyListing.SignBoardDescription;
+                    listing.SignBoardInstallInstruction = propertyListing.SignBoardInstallInstruction;
+                    listing.SignBoardMainHeadLine = propertyListing.SignBoardMainHeadLine;
+                    listing.SignBoardSummary = propertyListing.SignBoardSummary;
+                    listing.AdvertsDescription = propertyListing.AdvertsDescription;
+                    listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
+                    listing.AdvertsSummary = propertyListing.AdvertsSummary;
+                    if (db.SaveChanges() > 0)
+                    {
+                        updatedListing = listing.ListingId;
+
+                    }
+                }
+                return updatedListing;
+            }
+            catch (Exception ex)
+            {
+                updatedListing = 0;
+                throw ex;
+            }
+            
+        }
+        
     }
 }

@@ -246,7 +246,7 @@
                         </div>
                         <div class="controlSecondDiv">
                             <label>Start Time</label>
-                            <input type="text" id="txtAuctionStartTime" class="generalTextBox {{AuctionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Listing.InspectionTimeFrom1">
+                            @*<input type="text" id="txtAuctionStartTime" class="generalTextBox {{AuctionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Listing.au">*@
                         </div>
                         <div class="controlSecondDiv">
                             <label>End Time</label>
@@ -356,27 +356,27 @@
                         <h5 class="detailSection">PRESS ADVERTS</h5>
                         <div class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Main Headline</label>
-                            @*<input type="text" id="txtPressMainHead" class="generalTextBox full-width-boxes {{AdvertsMainHeadLine}}" placeholder="Main Headline" value="@Listing.AdvertsMainHeadLine">*@
+                            <input type="text" id="txtPressMainHead" class="generalTextBox full-width-boxes {{AdvertsMainHeadLine}}" placeholder="Main Headline" value="@Listing.AdvertsMainHeadLine">
                         </div>
 
                     </div>
                     <div>
                         <div class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>summary</label>
-                            @*<textarea rows="4" cols="50" id="txtPressSummery" class="MultilineTextBox full-width-boxes {{AdvertsSummary}}" placeholder="Property summary" >@Listing.AdvertsSummary</textarea>*@
+                            <textarea rows="4" cols="50" id="txtPressSummery" class="MultilineTextBox full-width-boxes {{AdvertsSummary}}" placeholder="Property summary" >@Listing.AdvertsSummary</textarea>
                       </div>
                     </div>
                     <div>
                         <div class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Description</label>
-                            @*<textarea rows="4" cols="50" id="txtPressDescription" class="MultilineTextBox full-width-boxes {{AdvertsDescription}}" style="" placeholder="Property Description" >@Listing.AdvertsDescription</textarea>*@
+                            <textarea rows="4" cols="50" id="txtPressDescription" class="MultilineTextBox full-width-boxes {{AdvertsDescription}}" style="" placeholder="Property Description" >@Listing.AdvertsDescription</textarea>
                          </div>
                     </div>
                 </div>
                 <div class="smartFormFirstChild">
                     <div class="controlDiv controlParentDiv" style="width: 100%;">
                         <div class="InstallationInstContainer">Installation Instructions</div>
-                        @*<textarea rows="4" cols="50" id="txtInstalationInst" class="MultilineTextBox full-width-boxes {{InstallInstruction}}" placeholder="Installation Instructions" >@Listing.SignBoardInstallInstruction</textarea>*@
+                       <textarea rows="4" cols="50" id="txtInstalationInst" class="MultilineTextBox full-width-boxes {{InstallInstruction}}" placeholder="Installation Instructions" >@Listing.SignBoardInstallInstruction</textarea>
      </div>
                     @*<div class="controlDiv controlParentDiv" style="width: 100%;">
 
@@ -696,7 +696,9 @@
 <script src="/Scripts/bootstrap.js"></script>
 <script src="/Scripts/respond.js"></script>
 <script src="/Scripts/bootstrap-datepicker.js"></script>
-    @*<script type="text/javascript">
+    <script type="text/javascript">
+        $("#txtInspectionDate").datepicker();
+        $("#txtAuctionDate").datepicker();
         var mode = 2;
         var CuritemID = 0;
         var CurTemplateID = 0;
@@ -1296,5 +1298,5 @@
             $("#newBulletsContainer").append(url);
             return false;
         }
-    </script>*@
+    </script>
 
