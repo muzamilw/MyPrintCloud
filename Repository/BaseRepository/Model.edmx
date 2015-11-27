@@ -2219,6 +2219,7 @@
           <Property Name="AdvertsDescription" Type="varchar(max)" />
           <Property Name="AdvertsSummary" Type="varchar(max)" />
           <Property Name="AdvertsMainHeadLine" Type="varchar(max)" />
+          <Property Name="AuctionEndTime" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
@@ -2236,6 +2237,14 @@
           <Property Name="Phone2" Type="varchar" MaxLength="20" />
           <Property Name="Mobile" Type="varchar" MaxLength="20" />
           <Property Name="Deleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="ListingBulletPoints">
+          <Key>
+            <PropertyRef Name="BulletPointId" />
+          </Key>
+          <Property Name="BulletPointId" Type="bigint" Nullable="false" />
+          <Property Name="BulletPoint" Type="varchar" MaxLength="100" />
+          <Property Name="ListingId" Type="bigint" />
         </EntityType>
         <EntityType Name="ListingConjunctionAgent">
           <Key>
@@ -4370,6 +4379,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__ListingBu__Listi__01EB81A5">
+          <End Role="Listing" Type="Self.Listing" Multiplicity="0..1" />
+          <End Role="ListingBulletPoints" Type="Self.ListingBulletPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listing">
+              <PropertyRef Name="ListingId" />
+            </Principal>
+            <Dependent Role="ListingBulletPoints">
+              <PropertyRef Name="ListingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Organisat__Count__16719D3F">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
@@ -6485,6 +6506,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="LengthUnit" EntityType="Self.LengthUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Listing" EntityType="Self.Listing" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListingAgent" EntityType="Self.ListingAgent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListingBulletPoints" EntityType="Self.ListingBulletPoints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListingConjunctionAgent" EntityType="Self.ListingConjunctionAgent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListingFloorPlan" EntityType="Self.ListingFloorPlan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListingImage" EntityType="Self.ListingImage" Schema="dbo" store:Type="Tables" />
@@ -6901,6 +6923,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK__Items__TemplateI__5D0415B9" Association="Self.FK__Items__TemplateI__5D0415B9">
             <End Role="Template" EntitySet="Template" />
             <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ListingBu__Listi__01EB81A5" Association="Self.FK__ListingBu__Listi__01EB81A5">
+            <End Role="Listing" EntitySet="Listing" />
+            <End Role="ListingBulletPoints" EntitySet="ListingBulletPoints" />
           </AssociationSet>
           <AssociationSet Name="FK__Organisat__Count__16719D3F" Association="Self.FK__Organisat__Count__16719D3F">
             <End Role="Country" EntitySet="Country" />
@@ -8491,6 +8517,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
             <Parameter Name="PurchaseID" Mode="In" Type="Int64" />
           </FunctionImport>
+          <EntitySet Name="ListingBulletPoints" EntityType="DomainModels.ListingBulletPoint" />
+          <AssociationSet Name="FK__ListingBu__Listi__01EB81A5" Association="DomainModels.FK__ListingBu__Listi__01EB81A5">
+            <End Role="Listing" EntitySet="Listings" />
+            <End Role="ListingBulletPoint" EntitySet="ListingBulletPoints" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -12495,6 +12526,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="AdvertsDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="AdvertsSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="AdvertsMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AuctionEndTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ListingBulletPoints" Relationship="DomainModels.FK__ListingBu__Listi__01EB81A5" FromRole="Listing" ToRole="ListingBulletPoint" />
         </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
@@ -15559,6 +15592,27 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ContactFullName" Nullable="true" MaxLength="101" />
         </ComplexType>
+        <EntityType Name="ListingBulletPoint">
+          <Key>
+            <PropertyRef Name="BulletPointId" />
+          </Key>
+          <Property Name="BulletPointId" Type="Int64" Nullable="false" />
+          <Property Name="BulletPoint" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ListingId" Type="Int64" />
+          <NavigationProperty Name="Listing" Relationship="DomainModels.FK__ListingBu__Listi__01EB81A5" FromRole="ListingBulletPoint" ToRole="Listing" />
+        </EntityType>
+        <Association Name="FK__ListingBu__Listi__01EB81A5">
+          <End Type="DomainModels.Listing" Role="Listing" Multiplicity="0..1" />
+          <End Type="DomainModels.ListingBulletPoint" Role="ListingBulletPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listing">
+              <PropertyRef Name="ListingId" />
+            </Principal>
+            <Dependent Role="ListingBulletPoint">
+              <PropertyRef Name="ListingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18299,6 +18353,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Listings">
             <EntityTypeMapping TypeName="DomainModels.Listing">
               <MappingFragment StoreEntitySet="Listing">
+                <ScalarProperty Name="AuctionEndTime" ColumnName="AuctionEndTime" />
                 <ScalarProperty Name="AdvertsMainHeadLine" ColumnName="AdvertsMainHeadLine" />
                 <ScalarProperty Name="AdvertsSummary" ColumnName="AdvertsSummary" />
                 <ScalarProperty Name="AdvertsDescription" ColumnName="AdvertsDescription" />
@@ -20588,6 +20643,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ListingBulletPoints">
+            <EntityTypeMapping TypeName="DomainModels.ListingBulletPoint">
+              <MappingFragment StoreEntitySet="ListingBulletPoints">
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="BulletPoint" ColumnName="BulletPoint" />
+                <ScalarProperty Name="BulletPointId" ColumnName="BulletPointId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

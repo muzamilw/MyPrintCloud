@@ -86,6 +86,8 @@ namespace MPC.Repository.Repositories
             {
                 ReportparamResponse reportpar = new ReportparamResponse();
                 reportpar.param = item;
+
+               
                 // for drop down
                if(item.ControlType == 1){
                   
@@ -120,6 +122,7 @@ namespace MPC.Repository.Repositories
    
                }
 
+               ReportparamsList.Add(reportpar);
                 
             }
             return ReportparamsList;

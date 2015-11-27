@@ -200,6 +200,7 @@
     <Compile Include="DomainModels\ItemsVoucher.cs" />
     <Compile Include="DomainModels\JobCardReportView.cs" />
     <Compile Include="DomainModels\JobPreference.cs" />
+    <Compile Include="DomainModels\ListingBulletPoint.cs" />
     <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
     <Compile Include="DomainModels\MachineGuillotineCalc.cs" />

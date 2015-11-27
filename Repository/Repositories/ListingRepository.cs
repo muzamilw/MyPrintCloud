@@ -3123,7 +3123,7 @@ namespace MPC.Repository.Repositories
                     listing.SignBoardMainHeadLine = propertyListing.SignBoardMainHeadLine;
                     listing.SignBoardSummary = propertyListing.SignBoardSummary;
                     listing.AdvertsDescription = propertyListing.AdvertsDescription;
-                    listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
+                    //listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
                     listing.AdvertsSummary = propertyListing.AdvertsSummary;
                     if (db.SaveChanges() > 0)
                     {
