@@ -943,7 +943,7 @@ $("#zoomIn").click(function (event) {
     D1CZL += 1;
     e3();
     canvas.renderAll();
-    canvas.calcOffset();
+    canvas.calcOffset(); drawSafetyLine();
 });
 //$("#BtnOrignalZoom").click(function (event) {
 //    var D1AO = canvas.getActiveObject();
@@ -972,7 +972,7 @@ $('#zoomOut').click(function (event) {
     e5();
 
     canvas.renderAll();
-    canvas.calcOffset();
+    canvas.calcOffset(); drawSafetyLine();
 });
 $('.addTxtHeading').click(function () {
     pcL29(26.67, true, "Add text");
