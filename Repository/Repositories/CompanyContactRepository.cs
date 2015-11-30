@@ -2380,7 +2380,7 @@ namespace MPC.Repository.Repositories
 
         public void DeleteAjent()
         {
-           
+          // db.usp_DeleteContactById()
         }
     }
 

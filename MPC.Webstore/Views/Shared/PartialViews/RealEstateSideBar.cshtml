@@ -70,7 +70,7 @@
                                 @if (filteredChildCategories != null && filteredChildCategories.Count() > 0)
                                     {
                                     <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
-                                        <i class="Chevron"></i>
+                                        <i class="fa fa-chevron-down"></i>
                                     </a>
                                     }
                                     else
@@ -112,6 +112,30 @@
         var TotalHeight = parseInt(bws) - 52;
         $(".realEs-myProfile-leftPanel").height(TotalHeight);
     });
+
+
+</script>
+
+<script type="text/javascript">
+
+
+    function ExpandCollapseCategory(dataid) {
+
+        var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
+        if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('in')) {
+            $("#" + idOfCatPro + "").parent().parent().next().removeClass('in');
+            $("#" + idOfCatPro + "").parent().parent().next().addClass('collapse');
+            $("#" + idOfCatPro + "").parent().parent().next().css("display", "none");
+            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "0");
+        } else if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('collapse')) {
+            $("#" + idOfCatPro + "").parent().parent().next().removeClass('collapse');
+            $("#" + idOfCatPro + "").parent().parent().next().addClass('in');
+            $("#" + idOfCatPro + "").parent().parent().next().css("display", "block");
+            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "1");
+        }
+
+    }
+
 
 
 </script>

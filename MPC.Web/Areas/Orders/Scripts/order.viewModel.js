@@ -1031,10 +1031,11 @@ define("order/order.viewModel",
                             createNewCostCenterProduct();
                             return;
                         }
-                        addCostCenterVM.executeCostCenter(function (costCenter) {
-                            selectedCostCentre(costCenter);
-                            createNewCostCenterProduct();
-                        });
+                        //addCostCenterVM.executeCostCenter(function (costCenter) {
+                        //    selectedCostCentre(costCenter);
+                        //    createNewCostCenterProduct();
+                        //});
+                        addCostCenterVM.executeCostCenter( createNewCostCenterProduct);
                     },
                     //Product From Cost Center
                     createNewCostCenterProduct = function () {
@@ -1046,6 +1047,8 @@ define("order/order.viewModel",
                         item.qty2(selectedCostCentre().quantity2());
                         item.qty3(selectedCostCentre().quantity3());
                         item.qty1NetTotal(selectedCostCentre().setupCost());
+                        item.qty2NetTotal(selectedCostCentre().setupCost2());
+                        item.qty3NetTotal(selectedCostCentre().setupCost3());
                         //Req: Item Product code is set to '2', so while editting item's section is non mandatory
                         item.productType(2);
 
@@ -1073,7 +1076,13 @@ define("order/order.viewModel",
 
                         sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
                         sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
-
+                        
+                        sectionCostCenter.qty2Charge(selectedCostCentre().setupCost2());
+                        sectionCostCenter.qty2NetTotal(selectedCostCentre().setupCost2());
+                        
+                        sectionCostCenter.qty3Charge(selectedCostCentre().setupCost3());
+                        sectionCostCenter.qty3NetTotal(selectedCostCentre().setupCost3());
+                        sectionCostCenter.calculationMethodType(selectedCostCentre().calculationMethodType());
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
                         itemSection.sectionCostCentres.push(sectionCostCenter);
@@ -1103,6 +1112,7 @@ define("order/order.viewModel",
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
 
                         //Req: Open Edit dialog of product on adding product
+                        addCostCenterVM.hide();
                         editItem(item);
                     },
 
@@ -1764,7 +1774,7 @@ define("order/order.viewModel",
                     },
                     onAddCostCenterForProduct = function () {
                         getCostCentersForProduct();
-                        // view.showCostCentersDialog();
+                       // view.showCostCentersDialog();
                     },
                     onAddInventoryItem = function () {
 
@@ -1807,7 +1817,7 @@ define("order/order.viewModel",
                     },
 
                     getCostCentersForProduct = function () {
-                        addCostCenterVM.show(afterSelectCostCenter, selectedOrder().companyId(), false, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
+                        addCostCenterVM.show(afterSelectCostCenter, selectedOrder().companyId(), false, currencySymbol(), selectedCompanyTaxRate(), 2, false, 0 );
                     },
                     //onAddCostCenterCallback = function () {
 

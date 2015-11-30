@@ -3210,6 +3210,7 @@ namespace MPC.Repository.Repositories
                         attatcment.FileExtention = ".pdf";
                         attatcment.FolderPath = folderPath;
                         attatcment.FileTitle = "Side1";
+                       // attatcment.ImageFileType = ".jpg";
                         uplodedArtWorkList.Add(attatcment);
                         GenerateThumbnailForPdf(ThumbnailPath, true);
                     }
@@ -3262,7 +3263,9 @@ namespace MPC.Repository.Repositories
                             attatcment.FileExtention = ".pdf";
                             attatcment.FolderPath = folderPath;
                             attatcment.FileTitle = "Side" + item.PageNo.ToString();
+                          //  attatcment.ImageFileType = ".jpg";
                             uplodedArtWorkList.Add(attatcment);
+
                             GenerateThumbnailForPdf(ThumbnailPath, true);
                         }
 
@@ -3813,7 +3816,7 @@ namespace MPC.Repository.Repositories
                      (item.ProductCode.Contains(request.SearchString)) || (item.Company.Name.Contains(request.SearchString)))
                     && item.OrganisationId == OrganisationId
                     && item.IsPublished == true
-                    && item.EstimateId == null
+                    && item.EstimateId == null && item.IsEnabled == true
               && ((!isNonPrintProductSpecified && item.ProductType == (int)ProductType.PrintProduct) ||
               (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
 

@@ -10,18 +10,38 @@
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
+    string JPGimagePath = "Thumb.jpg";
     var extraPricingId = "";
     var SliderCount = 0;
     var newClassToadd = "";
     int MatrixCount = 1;
-    var ProductDescription = "";
+    var ProductDescription = ""; 
+    var templateAttahment = ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>;
+    var artworkAttahment = ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>;
+    var cartInitialValue = "0.00";
 }
 @{
     Layout = null;
 }
 <div id="FormulaMatrixLayer">
 </div>
+<style>
+    ::-webkit-input-placeholder {
+   color: white !important;
+}
 
+:-moz-placeholder { /* Firefox 18- */
+   color: white !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color:white !important;
+}
+
+:-ms-input-placeholder {  
+   color: white !important;
+}
+</style>
 <link href="~/Content/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/owl.carousel.css" rel="stylesheet" />
 <div class="container content_area" id="all-productOption-pg">
@@ -43,28 +63,8 @@
             </li>
 
         </ul>
-        <div class="BreadCrumbMenu left_align col-xs-12">
-            <h1>
-
-                <a id="aLinkItem" href="@ViewBag.CategoryHRef" class="crumb_notActive left_align">
-                    @ViewBag.CategoryName
-                </a>
-                <label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
-                <a id="aLinkItem" href="#" class="crumb_Active left_align">
-                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
-                    {
-                        @ViewBag.ItemModel.ProductFriendlyName
-                    }
-                    else
-                    {
-                        @ViewBag.ItemModel.ProductName
-                    }
-                  
-                </a>
-
-
-            </h1>
-            <div class="clearBoth"></div>
+        <div class="clearBoth" style="height:20px;">
+            &nbsp;
         </div>
         <div class="product-name-container txtAlignLeft col-md-12 col-lg-12 col-xs-12 col-sm-12 visible-sm visible-xs">
             <br />
@@ -107,46 +107,53 @@
             {
                 if (ViewBag.ItemModel.ProductBannerThumbnailList != null)
                 {
-
-                    
+                    if (ViewBag.ItemModel.ProductBannerThumbnailList != null && ViewBag.ItemModel.ProductBannerThumbnailList.Count > 0)
+                    {
                         <img id="carousel-main-item" class="visible-lg visible-md" style="max-height: 200px;" />
-                    
-    <div class="owl-carousel">
-        @foreach (var img in ViewBag.ItemModel.ProductBannerThumbnailList as List<MPC.Models.DomainModels.ItemImage>)
-        {
-            
-            var carousalitemid = "cItem" + SliderCount;
-           
-            <div class="item" onclick="changeSelectedCarouselItem('@carousalitemid');">
-               
-                @if (SliderCount == 0)
-                {   <h4 class="carousel-items-cnt">
 
-                    <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');" class="selected">
-                        <img src="/@img.ImageURL" alt="@img.ImageTitle" />
-                    </a>
+                        <div class="owl-carousel">
+                            @foreach (var img in ViewBag.ItemModel.ProductBannerThumbnailList as List<MPC.Models.DomainModels.ItemImage>)
+                            {
 
-                </h4>
+                                var carousalitemid = "cItem" + SliderCount;
 
-                }
-                else
-                {
-                    <h4 class="carousel-items-cnt">
-                        <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');">
-                            <img src="/@img.ImageURL" alt="@img.ImageTitle" />
-                        </a>
+                                <div class="item" onclick="changeSelectedCarouselItem('@carousalitemid');">
 
-                    </h4>
-                }
-            </div>
+                                    @if (SliderCount == 0)
+                                    {   <h4 class="carousel-items-cnt">
+
+                                        <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');" class="selected">
+                                            <img src="/@img.ImageURL" alt="@img.ImageTitle" />
+                                        </a>
+
+                                    </h4>
+
+                                    }
+                                    else
+                                    {
+                                        <h4 class="carousel-items-cnt">
+                                            <a id="@carousalitemid" onclick="changeSelectedCarouselItem('@carousalitemid');">
+                                                <img src="/@img.ImageURL" alt="@img.ImageTitle" />
+                                            </a>
+
+                                        </h4>
+                                    }
+                                </div>
 
 
-                SliderCount++;
-        }
-       
-       
-    </div>
-                          
+                                    SliderCount++;
+                            }
+
+
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="/Content/Images/no-image.png" alt="" class="product-large-banner" style="max-height:300px;"/>
+                    }
+
+
+
                 }
 
 
@@ -227,35 +234,35 @@
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
         {
 
-            <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
+            <a id="IcoPhotoshop" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File1)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File1Url" />
             </a>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
         {
 
-            <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
+            <a id="IcoIllustrator" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File2)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File2Url" />
             </a>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
         {
 
-            <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
+            <a id="Icoindesign" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File3)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File3Url" />
             </a>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
         {
 
-            <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
+            <a id="IcoPdf" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File4)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File4Url" />
             </a>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
         {
 
-            <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
+            <a id="IcoPdf" href="/@Utils.specialCharactersEncoder(ViewBag.ItemModel.File5)" target="_blank" class="DownloadImages">
                 <img src="@ViewBag.ItemModel.File5Url" />
             </a>
         }
@@ -276,17 +283,11 @@
                 }
 
             </div>
-            
-            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
-                <div style="height:65px;" class="hidden-xs hidden-sm">
+            <div class="hidden-xs hidden-sm ">
+                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
                     &nbsp;
                 </div>
-                <div class="grif-layout-heading txtAlignLeft" >
-                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblStockChoose", UserCookieManager.WBStoreId, "Choose"))
-                </div>
-            </div>
-            <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
-                <div class="product-webDesc-container txtAlignLeft hidden-xs hidden-sm" style="min-height:65px;">
+                <div class="product-webDesc-container txtAlignLeft col-md-9 col-lg-9 col-xs-12 col-sm-12">
                     @{
                         ProductDescription = ViewBag.ItemModel.WebDescription;
                         if (!string.IsNullOrEmpty(ProductDescription))
@@ -303,9 +304,18 @@
                             }
                         }
                     }
-                    
+
                     @Html.Raw(ProductDescription)&nbsp;
                 </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+               
+                <div class="grif-layout-heading txtAlignLeft" >
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblStockChoose", UserCookieManager.WBStoreId, "Choose"))
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
+               
                 <div class="stock-options-container txtAlignLeft">
 
                     @foreach (var stock in ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>)
@@ -925,39 +935,39 @@
                     </label>
                     <br />
                     <label id="lblStock" class="LightGrayLabels"></label><br />
-                    <label id="lblExtra" class="LightGrayLabels"></label>
+                    <div id="lblExtra" class="LightGrayLabels extraCostCentreCnt"></div>
                 </div>
-                <div class="center_align float_left_simple order-cartdetails-container">
+                <div class="center_align float_left_simple order-cartdetails-container cursor_pointer" onclick="SubmitForm();">
                     @if (ViewBag.IsShowPrices == true)
                     {
-                    <div class="order-total-container">
-                        <span class="float_left_simple Fsize17">@ViewBag.Currency</span>
-                        <span id="lblGrossTotal" class="float_left_simple Fsize17"> 0.00</span>
-                        <div class="clearBoth">
+                        <div class="order-total-container cursor_pointer" onclick="SubmitForm();">
+                            @*<span class="float_left_simple Fsize19">@ViewBag.Currency</span>*@<span class="float_left_simple Fsize19"></span><span class="float_left_simple Fsize19"></span>
+                            <span id="lblGrossTotal" class="Fsize19">@ViewBag.Currency@cartInitialValue</span>
+                            <div class="clearBoth">
 
+                            </div>
                         </div>
-                    </div>
-                    <label id="lblTaxLabel" class="Fsize15 white">@ViewBag.VATLabel</label>
+                        <label id="lblTaxLabel" class="Fsize12 white">@ViewBag.VATLabel</label>
 
 
                     }
                     <br />
                     @using (Html.BeginForm())
                     {
-                    @Html.HiddenFor(m => m.OrderId, new { id = "VMOrderId" })
-                    @Html.HiddenFor(m => m.ItemId, new { id = "VMItemId" })
-                    @Html.HiddenFor(m => m.JsonPriceMatrix, new { id = "VMJsonMatrix" })
-                    @Html.HiddenFor(m => m.JsonAddOnsPrice, new { id = "VMJsonAddOns" })
-                    @Html.HiddenFor(m => m.ItemPrice, new { id = "VMPrice" })
-                    @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
-                    @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
-                    @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
-                    @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
-                    @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
-                    @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
-                    @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
-                <input type="hidden" id="ViewToFire" name="ViewToFire" value="@ViewBag.ViewToFire" />
-                    <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn_nw" onclick="return ConfirmCart();" />
+                        @Html.HiddenFor(m => m.OrderId, new { id = "VMOrderId" })
+                        @Html.HiddenFor(m => m.ItemId, new { id = "VMItemId" })
+                        @Html.HiddenFor(m => m.JsonPriceMatrix, new { id = "VMJsonMatrix" })
+                        @Html.HiddenFor(m => m.JsonAddOnsPrice, new { id = "VMJsonAddOns" })
+                        @Html.HiddenFor(m => m.ItemPrice, new { id = "VMPrice" })
+                        @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
+                        @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
+                        @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
+                        @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
+                        @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
+                        @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
+                        @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
+                        <input type="hidden" id="ViewToFire" name="ViewToFire" value="@ViewBag.ViewToFire" />
+                        <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn_nw Fsize19" onclick="return ConfirmCart(event);" />
                     }
 
 
@@ -992,6 +1002,13 @@
             <div class="clearBoth">
                 &nbsp;
             </div>
+            @{
+                var displaystyle = "display:none;";
+                if ((templateAttahment != null && templateAttahment.Count() > 0) || (artworkAttahment != null && artworkAttahment.Count() > 0))
+                {
+                    displaystyle = "display:block;";
+                }
+            }
             @if (ViewBag.ShowUploadArkworkPanel == true)
             {
 
@@ -1007,12 +1024,13 @@
     <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload \n Your complete design (pdf)"))' class="Upload_your_artwork rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" style="display:none;" />
                     }
                    
-                    <hr />
+                  
                 </div>
                 <div class="clearBoth">
                     &nbsp;
                 </div>
-    <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+              <br/>
+    <div id="uploadDesignHeadingContainer" class="col-md-3 col-lg-3 col-xs-12 col-sm-12" style="@displaystyle">
         @if (ViewData["Templates"] == null)
                 {
             <div class="grif-layout-heading textAlignLeft">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadartwork", UserCookieManager.WBStoreId, "Upload Artwork")) </div>
@@ -1025,81 +1043,88 @@
 
                 }
     </div>
-    <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
+    <div id="uploadDesignattachmentContainer" class="col-md-9 col-lg-9 col-xs-12 col-sm-12" style="@displaystyle">
+     
         <div class="white_background">
 
             @if (ViewData["ArtworkAttachments"] != null)
-                        {
+            {
 
                 <div id="attachmentUploadContainer" class="rptContainers">
 
                     @foreach (var artworkFile in ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>)
-                                {
-                                    Random random = new Random();
-                                    string randonNumber = "?r=" + random.Next();
+                    {
+                        Random random = new Random();
+                        string randonNumber = "?r=" + random.Next();
 
 
-                      
-                            <div class="artwork_sides_container rounded_corners">
-                                <div class="artwork_image_sides_container float_left_simple">
-
-                                    <img class="artwork_image_thumbnail" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                <div class="artwork_sides_container rounded_corners">
+                                    <div class="artwork_image_sides_container float_left_simple">
+                                        @if (string.IsNullOrEmpty(artworkFile.ImageFileType))
+                                                        {
+                                            <img class="artwork_image_thumbnail" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                        }
+                                                        else
+                                                        {
+                                                                    <img class="artwork_image_thumbnail" src="/@artworkFile.FolderPath/@artworkFile.FileName@JPGimagePath@randonNumber" />
+                                                        }
+                                        
+                                    </div>
+                                    <div class="artwork_filedetail_container float_left_simple">
+                                        @*<label id="lblFront" class="Fsize12">@artworkFile.FileName</label>
+                                        <br />*@
+                                        <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId, 1);"></button>
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
                                 </div>
-                                <div class="artwork_filedetail_container float_left_simple">
-                                    <label id="lblFront" class="Fsize12">@artworkFile.FileName</label>
-                                    <br />
-                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
-                                </div>
-                                <div class="clearBoth">
-                                    &nbsp;
-                                </div>
-                            </div>
 
                                 }
 
 
 
-            </div>
+                    </div>
 
-                        }
-                        else if (ViewData["Templates"] != null)
-                        {
-                            <div class="rptContainers">
-                                @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
-                              {
+            }
+                    else if (ViewData["Templates"] != null)
+                    {
+                    <div class="rptContainers">
+                        @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
+                    {
 
-                                   
-                                        <div class="artwork_sides_container rounded_corners">
 
-                                            <div class="artwork_image_sides_container float_left_simple">
-                                                <img class="artwork_image_thumbnail" src="/@templateItem.FolderPath/@templateItem.FileName@imagePath" />
+                                    <div class="artwork_sides_container rounded_corners">
 
-                                            </div>
+                                        <div class="artwork_image_sides_container float_left_simple">
+                                            <img class="artwork_image_thumbnail" src="/@templateItem.FolderPath/@templateItem.FileName" />
 
-                                            <div class="artwork_filedetail_container float_left_simple">
-                                                @if (templateItem.isTemplateDesignMode != (int)TemplateMode.DoNotLoadDesigner)
-                                            {
-                                                    <div class="modify_button_container">
-                                                        <div>
-                                                            <input type="button" class="modify_template_btn" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId);" />
-                                                        </div>
-                                                    </div>
-                                            }
-                                            </div>
-
-                                            <div class="clearBoth">
-                                                &nbsp;
-                                            </div>
                                         </div>
-                              }
+
+                                        <div class="artwork_filedetail_container float_left_simple">
+                                            @if (templateItem.isTemplateDesignMode != (int)TemplateMode.DoNotLoadDesigner)
+                                    {
+                                                <div class="modify_button_container">
+                                                    <div>
+                                                        <input type="button" class="modify_template_btn" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId);" />
+                                                    </div>
+                                                </div>
+                                    }
+                                        </div>
+
+                                        <div class="clearBoth">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    }
 
                         </div>
 
-                        }
+            }
 
-        </div>
+                    </div>
 
-    </div>
+                </div>
             }
             <div class="clearBoth">
                 &nbsp;
@@ -1121,13 +1146,13 @@
                 </div>
     <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
 
-        <div class="width365pxM250p">
+        <div >
             @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                         {
 
 
 
-                    <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
+                    <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none;">
                         <div class="float_left_simple spacerbottom CcImageContainer">
                             <img class="RfgImgCs" src=/@costcenter.AddOnImage />
                         </div>
@@ -1183,11 +1208,14 @@
 </div>
 <br />
 </div>
+<div class="clearBoth;" style="height:20px;">
+    &nbsp;
+</div>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/owl.carousel.js"></script>
 <script src="~/Scripts/PopUp.js"></script>
 <script>
-   
+
     $('.owl-carousel').owlCarousel({
         loop:true,
         margin:10,
@@ -1204,7 +1232,7 @@
             }
         }
     })
-   
+
     var  Message='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))';
     var isRanged = "@ViewBag.ItemModel.IsQtyRanged.ToString()" == "False" ? 0 : 1;
     var TotalItemPrice = 0;
@@ -1222,8 +1250,10 @@
     var countOfCostCentreOnwhichActionIsPerformed = 0;
     var controlsArrayOnQtyChange = [];
 
-   
-     
+    function SubmitForm(){
+        $("#AddTOCart").click();
+    }
+
     function ChangeTab(tabId, obj){
 
         $("#tabs-1").css("display", "none");
@@ -1251,7 +1281,8 @@
         }
         $(obj).parent().addClass('litab-active');
     }
-    function ConfirmCart() {
+    function ConfirmCart(event) {
+        event.stopPropagation();
         var MaxstockQty = true;
         if (isPriceSelected == 0) {
             ShowPopUp(Message,chkdetails);
@@ -1350,19 +1381,24 @@
 
         } else {
             SelectQtyOption($('input:radio[name=QtyRadio]:checked').attr('class'));
-            console.log($('input:radio[name=QtyRadio]:checked').attr('data-index') + ":onloadindex:");
+
             CalculatePriceBaseOnSelectedQuantity($('input:radio[name=QtyRadio]:checked').attr('data-index'));
-           
-            
+
+
         }
 
         SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
-       
+
         SetAddOnsPriceOnPageLoad();
+
+        $(".carousel-items-cnt").each(function(i, val) {
+            if($(val).children().attr('class') == "selected"){
+                $("#carousel-main-item").attr('src', $(val).children().children().attr('src'));
+            }
+        });
 
         SetCostCentreQueueLabelsOnModify();
 
-        changeSelectedCarouselItem("");
     });
 
     $("#priceToggle").click(function() {
@@ -1493,7 +1529,6 @@
 
         var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
         JsonData = JsonData[selectedQuantityIndex];
-        console.log("JsonData on qty chnage" + JsonData);
         selectedStockNo = selectedStockNo + '_PriceMatrixID_' + JsonData.ItemID.toString();
 
         var price = "";
@@ -1534,7 +1569,7 @@
             });
 
         }
-       
+
         CalculatePriceBaseOnSelectedQuantity($('input:radio[name=QtyRadio]:checked').attr('data-index'));
 
     }
@@ -1706,21 +1741,24 @@
 
         var GrossTotal = itemPrice + addOnPrice;
         GrossTotal = GrossTotal.toFixed(2).toString();
-
+        console.log(GrossTotal + "gross totsla");
+        var TotalWithCurrency = "@Html.Raw(ViewBag.Currency)" + GrossTotal;
         var isShowPricing = 1;
 
         if (isShowPricing == 1) {
             if (IsInt == -1) {
-                $('#lblGrossTotal').text(GrossTotal);
+                $('#lblGrossTotal').text(TotalWithCurrency);
             } else {
-                $('#lblGrossTotal').text(GrossTotal);
+                $('#lblGrossTotal').text(TotalWithCurrency);
             }
         } else {
             $('#lblGrossTotal').css("display", "none");
         }
+
         if (parseFloat(GrossTotal) > 0) {
             isPriceSelected = 1;
         }
+        
     }
 
     // returns the the selected stock no
@@ -1753,6 +1791,7 @@
 
     function calculateAddOns(isReCalCostCentreOnQuantityChange) {
 
+       
         var checkedPriceTotal = 0;
 
         var selectedCheckBox = null;
@@ -1901,7 +1940,7 @@
         }
 
         $('#lblExtra').html(itemsList);
-
+       
         return checkedPriceTotal;
     }
 
@@ -1920,7 +1959,7 @@
         var itemsList = '';
 
         var orderedQuantity = $('input:radio[name=QtyRadio]:checked').next().text(); // $(".dropdownQtyListClass").find(":selected").val();
-        console.log("orderedQuantity" + orderedQuantity);
+
         if (isRanged) {
             orderedQuantity = $("#rangedQuantityOrdered").val();
 
@@ -2055,6 +2094,8 @@
                         $("#uploadedImageSide").val(sideOFImage);
                         if (messages[0] == "Success") {
                             console.log(messages[1]);
+                            $("#uploadDesignHeadingContainer").css("display", "block");
+                            $("#uploadDesignattachmentContainer").css("display", "block");
                             $("#attachmentUploadContainer").html(messages[1]);
                             isImageUploadedOnLandingPage = 1;
                             HideLoader();
@@ -2703,11 +2744,11 @@
     }
 
     function  changeSelectedCarouselItem(carouselItemId){
-        console.log(carouselItemId + "itemidd");
+
         if(carouselItemId == "" || carouselItemId == '' || carouselItemId === "" || carouselItemId === ''){
             $(".carousel-items-cnt").each(function(i, val) {
                 if($(val).children().attr('class') == "selected"){
-            
+
                     $("#carousel-main-item").attr('src', $(val).children().children().attr('src'));
                 }
             });

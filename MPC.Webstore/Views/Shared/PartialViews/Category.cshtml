@@ -87,13 +87,14 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
 
                            
                                 }
+                                <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(cat.CategoryName)/@cat.ProductCategoryId" style="display:none;text-align:center;">
+                                    View <strong>@cat.CategoryName</strong>
+                                </a>
                                 <div class="topcat_desc_CAT">
                                     <span id="lblDescription1" >@Html.Raw(CategoryDescription)</span>
                                    
                                 </div>
-                                <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(cat.CategoryName)/@cat.ProductCategoryId" style="display:none;text-align:center;">
-                                    View <strong>@cat.CategoryName</strong>
-                                </a>
+                              
                             </div>
                         }
 

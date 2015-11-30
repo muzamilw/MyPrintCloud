@@ -45,7 +45,7 @@ namespace MPC.Webstore.Controllers
             MPC.Models.Common.CmsPageModel Page = StoreBaseResopnse.SystemPages.Where(p => p.PageId == PageId).FirstOrDefault();
 
 
-            return View("PartialViews/pages", Page);
+            return View("PartialViews/SystemPageBanner", Page);
         }
     }
 }

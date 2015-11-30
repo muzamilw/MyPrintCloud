@@ -691,6 +691,11 @@ namespace MPC.Implementation.WebStoreServices
 
                 clonedItem.DiscountVoucherID = null;
 
+                if (ItemMode == "UploadDesign") {
+                    clonedItem.UploadTypeByUser = 1;
+
+                }
+
                 FirstItemSection = _ItemSectionRepository.GetFirstSectionOfItem(clonedItem.ItemId);
                 //clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
                 //    .FirstOrDefault();

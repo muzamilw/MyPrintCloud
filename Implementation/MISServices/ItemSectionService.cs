@@ -4120,7 +4120,7 @@ namespace MPC.Implementation.MISServices
                 OrderSheetSpoilage[i] = PrintSheetSpoilage[i] / OrderPTV;
 
 
-                OrderSheetPackQuantity[i] = Convert.ToDouble(OrderSheetQuantity[i] / oPaperDTO.PackageQty);
+                OrderSheetPackQuantity[i] = Convert.ToDouble(OrderSheetQuantity[i] / oPaperDTO.PerQtyQty ?? 1);
 
                 if (oItemSection.EstimateForWholePacks != 0)
                 {
@@ -4483,7 +4483,7 @@ namespace MPC.Implementation.MISServices
 
             if (oItemSection.IsPaperSupplied != true)
             {
-                oItemSectionCostCenterDetail.CostPrice = UnitPrice / oPaperDTO.PackageQty;
+                oItemSectionCostCenterDetail.CostPrice = UnitPrice / oPaperDTO.PerQtyQty;
             }
             else
             {
