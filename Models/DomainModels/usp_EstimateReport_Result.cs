@@ -9,13 +9,13 @@ namespace MPC.Models.DomainModels
     {
         public long ItemID { get; set; }
         public string Title { get; set; }
-        public int? Qty1 { get; set; }
-        public int? Qty2 { get; set; }
-        public int? Qty3 { get; set; }
-        public double? Qty1NetTotal { get; set; }
-        public long? OrganisationId { get; set; }
-        public double? Qty2NetTotal { get; set; }
-        public double? Qty3NetTotal { get; set; }
+        public Nullable<int> Qty1 { get; set; }
+        public Nullable<int> Qty2 { get; set; }
+        public Nullable<int> Qty3 { get; set; }
+        public Nullable<double> Qty1NetTotal { get; set; }
+        public Nullable<long> OrganisationId { get; set; }
+        public Nullable<double> Qty2NetTotal { get; set; }
+        public Nullable<double> Qty3NetTotal { get; set; }
         public string JobDescription { get; set; }
         public string JobDescription1 { get; set; }
         public string JobDescription2 { get; set; }
@@ -33,10 +33,12 @@ namespace MPC.Models.DomainModels
         public string JobDescriptionTitle7 { get; set; }
         public string Estimate_Name { get; set; }
         public string Estimate_Code { get; set; }
-        public double? Estimate_Total { get; set; }
+        public Nullable<double> TotalTax { get; set; }
+        public Nullable<double> SubTotal { get; set; }
+        public Nullable<double> Estimate_Total { get; set; }
         public string FootNotes { get; set; }
         public string HeadNotes { get; set; }
-        public DateTime? EstimateDate { get; set; }
+        public Nullable<System.DateTime> EstimateDate { get; set; }
         public string Greeting { get; set; }
         public string CustomerPO { get; set; }
         public string AddressName { get; set; }
