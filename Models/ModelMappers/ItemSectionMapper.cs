@@ -49,6 +49,10 @@ namespace MPC.Models.ModelMappers
             target.IsPortrait = source.IsPortrait;
             target.ItemGutterHorizontal = source.ItemGutterHorizontal;
             target.ItemGutterVertical = source.ItemGutterHorizontal;
+            target.CostCentreQueue = source.CostCentreQueue;
+            target.InputQueue = source.InputQueue;
+            target.QuestionQueue = source.QuestionQueue;
+            target.StockQueue = source.StockQueue;
         }
 
         /// <summary>

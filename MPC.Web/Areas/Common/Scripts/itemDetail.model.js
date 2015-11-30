@@ -865,6 +865,10 @@
                 flagForAdd = ko.observable(false),
                 // Has Deleted Section Cost Center
                 hasDeletedSectionCostCentres = ko.observable(false),
+                questionQueue = ko.observable(),
+                inputQueue = ko.observable(),
+                stockQueue = ko.observable(),
+                costCenterQueue = ko.observable(),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -995,6 +999,11 @@
                         PressSide2ColourHeads: pressIdSide2ColourHeads(),
                         PressSide2IsSpotColor: pressIdSide2IsSpotColor(),
                         StockItemPackageQty: stockItemPackageQty(),
+                        QuestionQueue: questionQueue(),
+                        InputQueue: inputQueue(),
+                        StockQueue: stockQueue(),
+                        CostCentreQueue: costCenterQueue(),
+                        
                         // to be used in Default Section, that will be used to create new sections // For Client Side Only
                         // #endregion
                         ItemGutterHorizontal: itemGutterHorizontal(),
@@ -1089,6 +1098,10 @@
                 sectionInkCoveragesSide1: sectionInkCoveragesSide1,
                 sectionInkCoveragesSide2: sectionInkCoveragesSide2,
                 sectionsMultiplier: sectionsMultiplier,
+                questionQueue: questionQueue,
+                inputQueue: inputQueue,
+                stockQueue: stockQueue,
+                costCenterQueue : costCenterQueue,
                 hasDeletedSectionCostCentres: hasDeletedSectionCostCentres,
                 errors: errors,
                 isValid: isValid,

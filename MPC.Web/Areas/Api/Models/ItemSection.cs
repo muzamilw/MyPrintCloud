@@ -71,7 +71,10 @@ namespace MPC.MIS.Areas.Api.Models
         public Item Item { get; set; }
         public StockItem StockItem { get; set; }
         public Machine Machine { get; set; }
-       
+        public string QuestionQueue { get; set; }
+        public string StockQueue { get; set; }
+        public string InputQueue { get; set; }
+        public string CostCentreQueue { get; set; }
         public IEnumerable<SectionCostcentre> SectionCostcentres { get; set; }
         public IEnumerable<SectionInkCoverage> SectionInkCoverages { get; set; }
     }

@@ -417,6 +417,18 @@ namespace MPC.MIS.Areas.Api.Controllers
         private double GetCostCenterPrice(string CostCentreId, string ClonedItemId, string OrderedQuantity, string CallMode, QuestionAndInputQueues Queues, ref object[] _CostCentreParamsArray, string itemSectionId)
         {
             double dblPrice = 0;
+            if (CallMode == "" && Queues == null && Convert.ToInt32(itemSectionId) > 0)
+            {
+                if (!string.IsNullOrEmpty(itemSectionId) && Convert.ToInt32(itemSectionId) > 0)
+                {
+                    var section = _itemSectionService.GetItemSectionById(Convert.ToInt64(itemSectionId));
+                    if (section != null)
+                    {
+                        section.Qty1 = Convert.ToInt32(OrderedQuantity);
+                    }
+                    _CostCentreParamsArray[8] = section;
+                }
+            }
             if ((CallMode == "UpdateAllCostCentreOnQuantityChange" && Queues != null) || CallMode != "UpdateAllCostCentreOnQuantityChange")
             {
                 AppDomain _AppDomain = null;
