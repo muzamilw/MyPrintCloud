@@ -1415,6 +1415,7 @@ function g2_1(e) {
         var clr =  D1AO.fill + " !important";
         $(".BtnChngeClr").css("background-color", clr);
         $(".textPropertyPanel").css("display", "block");
+        pcf26_upPanl(D1AO);
         $(".objPropertyPanel").css("display", "none");
         $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
         $("#BtnFontSize").val(k13(D1AO.get('fontSize')));
@@ -3811,4 +3812,40 @@ function pcl45_upData() {
         }
     };
     var returnText = $.ajax(options).responseText;
+}
+function pcf26_upPanl(D1AO) {
+    if (D1AO.fontWeight == "bold") {
+        $("#BtnBoldTxt").addClass("activeProp");
+    } else {
+        $("#BtnBoldTxt").removeClass("activeProp");
+    }
+    if (D1AO.fontStyle == "italic")
+        $("#BtnItalicTxt").addClass("activeProp");
+    else
+        $("#BtnItalicTxt").removeClass("activeProp");
+
+    $("#BtnJustifyTxt1").removeClass("activeProp");
+    $("#BtnJustifyTxt2").removeClass("activeProp");
+    $("#BtnJustifyTxt3").removeClass("activeProp");
+    if (D1AO.textAlign == "left")
+        $("#BtnJustifyTxt1").addClass("activeProp");
+    else if (D1AO.textAlign == "center")
+        $("#BtnJustifyTxt2").addClass("activeProp");
+    else if (D1AO.textAlign == "right")
+        $("#BtnJustifyTxt3").addClass("activeProp");
+
+    $("#BtnValignTxt1").removeClass("activeProp");
+    $("#BtnValignTxt2").removeClass("activeProp");
+    $("#BtnValignTxt3").removeClass("activeProp");
+    $("#BtnBulletedLstTxt").removeClass("activeProp");
+
+    if (D1AO.VAllignment == 1)
+        $("#BtnValignTxt1").addClass("activeProp");
+    else if (D1AO.VAllignment == 2)
+        $("#BtnValignTxt2").addClass("activeProp");
+    else if (D1AO.VAllignment == 3)
+        $("#BtnValignTxt3").addClass("activeProp");
+
+    if (D1AO.isBulletPoint)
+        $("#BtnBulletedLstTxt").addClass("activeProp");
 }
