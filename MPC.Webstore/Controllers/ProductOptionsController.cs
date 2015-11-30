@@ -813,6 +813,10 @@ namespace MPC.Webstore.Controllers
                 {
                     ItemModel.File1Url = "/Content/Images/publisher.png";
                 }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File1Url = "/Content/Images/word.png";
+                }
                 else
                 {
                     ItemModel.File1Url = "/Content/download.png";
@@ -853,6 +857,10 @@ namespace MPC.Webstore.Controllers
                 else if (FileExtension == ".pub")
                 {
                     ItemModel.File2Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File2Url = "/Content/Images/word.png";
                 }
                 else
                 {
@@ -895,6 +903,10 @@ namespace MPC.Webstore.Controllers
                 {
                     ItemModel.File3Url = "/Content/Images/publisher.png";
                 }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File3Url = "/Content/Images/word.png";
+                }
                 else
                 {
                     ItemModel.File3Url = "/Content/download.png";
@@ -935,6 +947,10 @@ namespace MPC.Webstore.Controllers
                 {
                     ItemModel.File4Url = "/Content/Images/publisher.png";
                 }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File4Url = "/Content/Images/word.png";
+                }
                 else
                 {
                     ItemModel.File4Url = "/Content/download.png";
@@ -974,6 +990,10 @@ namespace MPC.Webstore.Controllers
                 else if (FileExtension == ".pub")
                 {
                     ItemModel.File5Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File5Url = "/Content/Images/word.png";
                 }
                 else
                 {

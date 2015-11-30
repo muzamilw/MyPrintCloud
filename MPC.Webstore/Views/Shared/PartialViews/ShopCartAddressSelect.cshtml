@@ -618,8 +618,8 @@
                                 {
                                     BCountryName = BillingAddress.Country.CountryName;
                                 }
-                                <label id="lblCountryBilSip" class="lbAddressLines lbAddressLinesWithPadding">@BCountryName</label>&nbsp;
-                                <label id="lblPostCdeBilSip" class="lbAddressLines lbAddressLinesWithPadding">@BillingAddress.PostCode</label><br />
+                                <label id="lblCountryBilSip" class="lbAddressLines">@BCountryName</label>&nbsp;
+                                <label id="lblPostCdeBilSip" class="lbAddressLines">@BillingAddress.PostCode</label><br />
                             </div>
                             <br />
                         }
@@ -888,7 +888,10 @@
             //set labels
             $("#ltrlShipTo").html(ShipTO + "");
             $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
-            $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
+            if($("#txtAddressLine2").val() != null && $("#txtAddressLine2").val() != ''){
+                $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
+            }
+            
             $("#lblCityBilSip").html($("#txtCity").val());
             $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
             $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
@@ -926,7 +929,10 @@
     }
     function ChangeAddresLinne2() {
         var val = $('#txtAddressLine2').val();
-        $('#lbladdLine2BilSip').html(val);
+        if(val != null && val != ''){
+            $('#lbladdLine2BilSip').html(val);
+        }
+       
     }
 
 
@@ -1328,7 +1334,11 @@
 
 
                     $('#lblAddLine1BilSip').text(cAdrres.Address1);
-                    $('#lbladdLine2BilSip').text(cAdrres.Address2);
+
+                    if(cAdrres.Address2 != null && cAdrres.Address2 != ''){
+                        $('#lbladdLine2BilSip').text(cAdrres.Address2);
+                    }
+                    
                     $('#lblCityBilSip').text(cAdrres.City);
                     $('#lblStateBilSip').text(cAdrres.Tel2);
                     $('#lblCountryBilSip').text(cAdrres.FAO);

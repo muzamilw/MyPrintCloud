@@ -1239,7 +1239,15 @@ namespace MPC.Repository.BaseRepository
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetLiveStores_Result>("usp_GetLiveStores");
         }
+        public int usp_DeleteContactById(long? ContactID)
+        // ReSharper restore InconsistentNaming
+        {
+            var ContactIDParameter = ContactID.HasValue ?
+                new ObjectParameter("ContactID", ContactID) :
+                new ObjectParameter("ContactID", typeof(long));
 
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactByID", ContactIDParameter);
+        }
         #endregion
     }
 }
