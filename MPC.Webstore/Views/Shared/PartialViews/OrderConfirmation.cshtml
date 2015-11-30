@@ -343,10 +343,10 @@
                                                     &nbsp;
                                                 </td>
                                                 <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td1" style="text-align:right;">
-                                                    <span id="spnsubtotal" class="CartFonts colorBlack">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total")):</span>
+                                                    <span id="spnsubtotal" class="CartFonts ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total")):</span>
                                                 </td>
                                                 <td align="right" class="OCnfmtd4">
-                                                    <label id="lblSubTotal" class="Fsize15 colorBlack">@subtotal</label>
+                                                    <label id="lblSubTotal" class="Fsize13 colorBlack">@subtotal</label>
                                                 </td>
                                             </tr>
                                             @if (_DiscountAmountTotal > 0)
@@ -362,7 +362,7 @@
                                                         <span id="spndiscount" class="CartFonts clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</span>
                                                     </td>
                                                     <td align="right"  class="OCnfmtd4">
-                                                        <label id="lbldiscount" class="Fsize15 clrRed">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</label>
+                                                        <label id="lbldiscount" class="Fsize13 clrRed">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</label>
                                                     </td>
                                                 </tr>
                                             }
@@ -374,18 +374,18 @@
                                                     &nbsp;
                                                 </td>
                                                 <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
-                                                    <span id="spndelivery" class="CartFonts colorBlack">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId, "Delivery")):</span>
+                                                    <span id="spndelivery" class="CartFonts ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId, "Delivery")):</span>
                                                 </td>
                                                 <td align="right" class="OCnfmtd4">
                                                     @if (Model.DeliveryDiscountVoucherID == null)
                                                     {
-                                                        <label id="lblDeliveryCostCenter" class="Fsize15 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                                        <label id="lblDeliveryCostCenter" class="Fsize13 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
                                                     }
                                                     else
                                                     {
-                                                        <label class="Fsize15 colorBlack  delivery-OCnfntext" id="lblCalculatedDelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
+                                                        <label class="Fsize13 colorBlack  delivery-OCnfntext" id="lblCalculatedDelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
 
-                                                        
+
                                                     }
 
                                                 </td>
@@ -394,10 +394,10 @@
                                                 <td align="left" class="OCnfmtd1"></td>
                                                 <td width="25%"></td>
                                                 <td width="30%" align="left" class="fontWeightNormal Fsize13" style="text-align:right;">
-                                                    <span id="lblTaxLabel" class="CartFonts colorBlack">@ViewBag.TaxLabel:</span>
+                                                    <span id="lblTaxLabel" class="CartFonts ">@ViewBag.TaxLabel:</span>
                                                 </td>
                                                 <td align="right" class="OCnfmtd4">
-                                                    <label id="lblVatTotal" class="Fsize15 colorBlack">@VatTotal</label>
+                                                    <label id="lblVatTotal" class="Fsize13 colorBlack">@VatTotal</label>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -408,11 +408,11 @@
                                                     &nbsp;
                                                 </td>
                                                 <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td3" style="text-align:right;">
-                                                    <span class="CartFonts colorBlack" id="spngrandtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.WBStoreId, "Total"))
+                                                    <span class="CartFonts " id="spngrandtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.WBStoreId, "Total"))
 :</span>
                                                 </td>
                                                 <td align="right" class="OCnfmtd4">
-                                                    <label class="CartFonts colorBlack Fsize15" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
+                                                    <label class="CartFonts colorBlack Fsize13" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                                 </td>
                                             </tr>
                                         </table>

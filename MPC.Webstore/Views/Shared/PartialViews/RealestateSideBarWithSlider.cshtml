@@ -91,27 +91,5 @@
 <script src="/Scripts/jquery.mousewheel.min.js"></script>
 <script src="/Scripts/jquery.carousel-1.1.min.js"></script>
 <script src="/Scripts/sample01.js"></script>
-<script type="text/javascript">
-  
 
-    function ExpandCollapseCategory(dataid) {
-
-        var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
-        if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('in')) {
-            $("#" + idOfCatPro + "").parent().parent().next().removeClass('in');
-            $("#" + idOfCatPro + "").parent().parent().next().addClass('collapse');
-            $("#" + idOfCatPro + "").parent().parent().next().css("display", "none");
-            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "0");
-        } else if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('collapse')) {
-            $("#" + idOfCatPro + "").parent().parent().next().removeClass('collapse');
-            $("#" + idOfCatPro + "").parent().parent().next().addClass('in');
-            $("#" + idOfCatPro + "").parent().parent().next().css("display", "block");
-            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "1");
-        }
-
-    }
-
-    
-
-</script>
 

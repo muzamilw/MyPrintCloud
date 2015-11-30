@@ -453,6 +453,7 @@ function c2_01(OPT) {
             IT.textPaddingTop = OPT.textPaddingTop;
             IT.hasInlineFontStyle = OPT.hasInlineFontStyle;
             IT.hasInlineFontFamily = OPT.hasInlineFontFamily;
+            IT.textCase = OPT.textCase;
             IT.IsHidden = OPT.IsHidden;
             IT.IsEditable = OPT.IsEditable;
             var objs = canvas.getObjects();
@@ -542,6 +543,7 @@ function c8(cCanvas, CO) {
     COL.textPaddingTop = CO.textPaddingTop;
     COL.hasInlineFontStyle = CO.hasInlineFontStyle;
     COL.hasInlineFontFamily = CO.hasInlineFontFamily;
+    COL.textCase = CO.textCase;
     COL.IsHidden = CO.IsHidden;
     COL.IsEditable = CO.IsEditable;
     COL.selectable = objectsSelectable;
@@ -591,6 +593,7 @@ function c9(cCanvas, RO) {
     ROL.textPaddingTop = RO.textPaddingTop;
     ROL.hasInlineFontStyle = RO.hasInlineFontStyle;
     ROL.hasInlineFontFamily = RO.hasInlineFontFamily;
+    ROL.textCase = RO.textCase;
     ROL.IsHidden = RO.IsHidden;
     ROL.IsEditable = RO.IsEditable;
     ROL.setOpacity(RO.Opacity);
@@ -647,6 +650,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.textPaddingTop = IO.textPaddingTop;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
         loadedObject.hasInlineFontFamily = IO.hasInlineFontFamily;
+        loadedObject.textCase = IO.textCase;
         loadedObject.setOpacity(IO.Opacity);
         loadedObject.selectable = objectsSelectable;
         if (IO.IsPositionLocked == true) {
@@ -757,6 +761,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.textPaddingTop = IO.textPaddingTop;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
         loadedObject.hasInlineFontFamily = IO.hasInlineFontFamily;
+        loadedObject.textCase = IO.textCase;
         if (IO.IsPositionLocked == true) {
             loadedObject.lockMovementX = true;
             loadedObject.lockMovementY = true;
@@ -912,6 +917,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.textPaddingTop = IO.textPaddingTop;
         IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
         IOL.hasInlineFontFamily = IO.hasInlineFontFamily;
+        IOL.textCase = IO.textCase;
         IOL.ImageClippedInfo = IO.ClippedInfo;
         IOL.selectable = objectsSelectable;
         IOL.setOpacity(IO.Opacity);
@@ -1241,6 +1247,7 @@ function d5_sub(pageID, isloading) {
                 $("#documentMenu").animate({ left: dif }, 500);
             }
             oldPageId = SP;
+            drawSafetyLine();
         }
     });
 }
@@ -1256,17 +1263,18 @@ function d6(width, height, showguides) {
         var topline = i4([cutmargin + 0.39, 0, cutmargin + width - 0.39 - cutmargin * 2, 0], -981, '#EBECED', cutmargin * 2);
         var rightline = i4([width - 1, 0, width - 1, cutmargin + height - cutmargin], -982, '#EBECED', cutmargin * 2);
         var bottomline = i4([cutmargin + 0.39, height, cutmargin + width - 0.39 - cutmargin * 2, height], -983, '#EBECED', cutmargin * 2);
-
-        var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 10, 'Bleed Area', -975, 0, 'gray');
-        var leftCutMarginTxt = i5(height / 2, width - (12 * dfZ1l), 17, 100, 10, 'Bleed Area', -974, 90, 'gray');
-        var rightCutMarginTxt = i5(height / 2, (13 * dfZ1l), 17, 100, 10, 'Bleed Area', -973, -90, 'gray');
-        var bottomCutMarginTxt = i5(height - 6, width / 2, 17, 100, 10, 'Bleed Area', -972, 0, 'gray');
+       
+        //var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 10, 'Bleed Area', -975, 0, 'gray');
+        //var leftCutMarginTxt = i5(height / 2, width - (12 * dfZ1l), 17, 100, 10, 'Bleed Area', -974, 90, 'gray');
+        //var rightCutMarginTxt = i5(height / 2, (13 * dfZ1l), 17, 100, 10, 'Bleed Area', -973, -90, 'gray');
+        //var bottomCutMarginTxt = i5(height - 6, width / 2, 17, 100, 10, 'Bleed Area', -972, 0, 'gray');
         var zafeZoneMargin = cutmargin; // + 8.49;
-        var sleftline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2], -984, 'gray');
-        var stopline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin], -985, 'gray');
-        var srightline = d7([zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -986, 'gray');
-        var sbottomline = d7([zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -987, 'gray');
-        canvas.add(leftline, topline, rightline, bottomline, sleftline, stopline, srightline, sbottomline, topCutMarginTxt, bottomCutMarginTxt, leftCutMarginTxt, rightCutMarginTxt);
+        var sleftline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2], -984, 'black');
+        var stopline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin], -985, 'black');
+        var srightline = d7([zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -986, 'black');
+        var sbottomline = d7([zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -987, 'black');
+        canvas.add(sleftline, stopline, srightline, sbottomline);
+        // canvas.add(leftline, topline, rightline, bottomline, sleftline, stopline, srightline, sbottomline, topCutMarginTxt, bottomCutMarginTxt, leftCutMarginTxt, rightCutMarginTxt);
     }
 
     var iCounter = 1;
@@ -1285,7 +1293,7 @@ function d6(width, height, showguides) {
 function d7(coords, ObjectID, color) {
     var line = new fabric.Line(coords,
         {
-            fill: color, strokeWidth: 1, selectable: false
+            fill: color, strokeWidth: 1, selectable: false, strokeDashArray: [5, 5],opacity:0.2
         });
 
     line.ObjectID = ObjectID;
@@ -2180,7 +2188,7 @@ function fu06_SvcCallback(DT, fname,mode) {
         canvas.calcOffset();
     });
     $("#canvasDocument").css("width", $(window).width() - 360);
-    $(".templatepreviewContainer").css("width", $(window).width() - 390);
+    $(".templatepreviewContainer").css("width", $(window).width() - 361);
     $(".templatepreviewContainer").css("height", $(window).height() - 70);
     $(".tempPreviewImg").css("height", $(window).height() - 180);
     if (mode == true) {
@@ -4336,6 +4344,7 @@ function togglePage(pId) {
             IOL.textPaddingTop = IO.textPaddingTop;
             IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
             IOL.hasInlineFontFamily = IO.hasInlineFontFamily;
+            IOL.textCase = IO.textCase;
             IOL.IsHidden = IO.IsHidden;
             IOL.IsEditable = IO.IsEditable;
             IOL.selectable = objectsSelectable;

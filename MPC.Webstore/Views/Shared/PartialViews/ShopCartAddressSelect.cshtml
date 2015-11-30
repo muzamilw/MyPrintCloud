@@ -47,7 +47,7 @@
 
         input[type="checkbox"] + label {
             display: inline-block !important;
-            padding: 6px 0 6px 45px;
+            padding: 6px 0 9px 45px;
             line-height: 25px;
             background-image: url("/Content/Images/checkbox_sprite.svg");
             background-image: none,url("/Content/Images/checkbox_sprite.svg");
@@ -265,9 +265,9 @@
                     <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onchange="BillingSameAsDeliveryScriptCheckBox();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlbillitemstoabove", UserCookieManager.WBStoreId, "Bill items to the above shipping address"))">
                     <label id="lblCheckBox" for="chkBoxDeliverySameAsBilling" class="col-md-8 col-lg-7 col-xs-12 float-none" onclick="BillingSameAsDeliveryScriptCheckBox();">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlbillitemtoshipabove", UserCookieManager.WBStoreId, "Bill items to the above shipping address"))</label>
                 </div>
-                <div class="clear">
+                <div class="clearBoth">
+                    &nbsp;
                 </div>
-                <br />
                 <div id="divBilling" class="center_align">
                     <div id="description" class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12" style="display:none;">
                         <label id="Label8">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address"))</label>
@@ -497,11 +497,11 @@
                                                                 @if (shopcart.DiscountedVoucherId != null)
                                                                 {
                                                                     <span id="spnItemActualPrice" class="fntQtyPrice strikeThrough">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), Model.Currency)</span>
-                                                                    <span id="lblItemPrice" class="Fsize14">@Utils.FormatDecimalValueToTwoDecimal(shopcart.Qty1BaseCharge1.ToString(), Model.Currency)</span>
+    <span id="lblItemPrice" class="Fsize14 fontSyleBold">@Utils.FormatDecimalValueToTwoDecimal(shopcart.Qty1BaseCharge1.ToString(), Model.Currency)</span>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <span id="lblItemPrice" class="Fsize14">@Utils.FormatDecimalValueToTwoDecimal(lblPrice, Model.Currency)</span>
+                                                                    <span id="lblItemPrice" class="Fsize14 fontSyleBold">@Utils.FormatDecimalValueToTwoDecimal(lblPrice, Model.Currency)</span>
                                                                 }
 
                                                                
@@ -623,9 +623,9 @@
                             </div>
                             <br />
                         }
-                        <div class="textAlignLeft paddingLeft10px" id="contact-us-detail-container">
+                        <div class="textAlignLeft" id="contact-us-detail-container">
                             <span id="lblContactNotxt" class="black_sub_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkContNo", UserCookieManager.WBStoreId, "Contact No:"))</span><br />
-                            <label id="lblContactNo" class="ContactNumberlb">@Model.ContactTel</label>
+                            <label id="lblContactNo" class="ContactNumberlb lbAddressLinesWithPadding">@Model.ContactTel</label>
                         </div>
                         <br />
                         <div id="DivRefPO" style="display: none;" class="textAlignLeft paddingLeft10px">
@@ -888,7 +888,10 @@
             //set labels
             $("#ltrlShipTo").html(ShipTO + "");
             $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
-            $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
+            if($("#txtAddressLine2").val() != null && $("#txtAddressLine2").val() != ''){
+                $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
+            }
+            
             $("#lblCityBilSip").html($("#txtCity").val());
             $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
             $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
@@ -926,7 +929,10 @@
     }
     function ChangeAddresLinne2() {
         var val = $('#txtAddressLine2').val();
-        $('#lbladdLine2BilSip').html(val);
+        if(val != null && val != ''){
+            $('#lbladdLine2BilSip').html(val);
+        }
+       
     }
 
 
@@ -1328,7 +1334,11 @@
 
 
                     $('#lblAddLine1BilSip').text(cAdrres.Address1);
-                    $('#lbladdLine2BilSip').text(cAdrres.Address2);
+
+                    if(cAdrres.Address2 != null && cAdrres.Address2 != ''){
+                        $('#lbladdLine2BilSip').text(cAdrres.Address2);
+                    }
+                    
                     $('#lblCityBilSip').text(cAdrres.City);
                     $('#lblStateBilSip').text(cAdrres.Tel2);
                     $('#lblCountryBilSip').text(cAdrres.FAO);

@@ -531,6 +531,7 @@ namespace MPC.Repository.Repositories
                     artWorkAttatchment.FileTitle = tblItemAttchment.FileTitle;
                     artWorkAttatchment.FileExtention = tblItemAttchment.FileType;
                     artWorkAttatchment.FolderPath = tblItemAttchment.FolderPath;
+                    artWorkAttatchment.ImageFileType = "Thumb" + tblItemAttchment.ImageFileType;
                     artWorkAttatchment.UploadFileType = (UploadFileTypes)Enum.Parse(typeof(UploadFileTypes), tblItemAttchment.Type); //Model.UploadFileTypes.Artwork.ToString();
                 }
 
@@ -554,6 +555,7 @@ namespace MPC.Repository.Repositories
                         artWorkAttatchment.FileTitle = tblItemAttchment.FileTitle;
                         artWorkAttatchment.FileExtention = tblItemAttchment.FileType;
                         artWorkAttatchment.FolderPath = tblItemAttchment.FolderPath;
+                        //artWorkAttatchment.ImageFileType = "Thumb" + tblItemAttchment.ImageFileType;
                         artWorkAttatchment.UploadFileType = (UploadFileTypes)Enum.Parse(typeof(UploadFileTypes), tblItemAttchment.Type); //Model.UploadFileTypes.Artwork.ToString();
                     }
                 }

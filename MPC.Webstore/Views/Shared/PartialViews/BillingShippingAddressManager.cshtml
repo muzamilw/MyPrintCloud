@@ -64,14 +64,12 @@
                             </td>
 
                             <td style="padding-left: 10px;">
-                                @*<asp:Button ID="btnsearch" runat="server" Text="Go" CssClass="start_creating_btn rounded_corners5"
-                                OnClick="btnsearch_Click" />*@
+                             
                                 <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnSearchOrders", UserCookieManager.WBStoreId, "Go"))</button>
                             </td>
 
                             <td style="padding-left: 10px;">
-                                @*<asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="start_creating_btn rounded_corners5"
-                                OnClick="btnReset_Click" />*@
+                             
                                 <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear", UserCookieManager.WBStoreId, "Clear"))</button>
                             </td>
                         }
@@ -96,7 +94,7 @@
     columns: new[] {
 
     grid.Column("Address Title",format:@<p>@item.AddressName</p>,style:"WebGridPadding"),
-    grid.Column("Address Details",format:@<p>@item.Address1</p>),
+    grid.Column("Address Details",format:@<p>@item.Address1</p>,style:"hidden-xs hidden-sm"),
 grid.Column("Default Shipping",format:@<p>
 
                                 @if (item.IsDefaultShippingAddress == true)
@@ -111,7 +109,7 @@ grid.Column("Default Shipping",format:@<p>
                                     }
                                 }
 
-                                </p>),
+                                </p>,style:"hidden-xs hidden-sm"),
 
        grid.Column("Default Billing",format:@<p>
 
@@ -129,7 +127,7 @@ grid.Column("Default Shipping",format:@<p>
 
                                 }
 
-                                </p> ),
+                                </p>,style:"hidden-xs hidden-sm" ),
 
     grid.Column("Edit", format:@<text> <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
     </text>,style:"WebGridPadding")

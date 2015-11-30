@@ -3210,6 +3210,7 @@ namespace MPC.Repository.Repositories
                         attatcment.FileExtention = ".pdf";
                         attatcment.FolderPath = folderPath;
                         attatcment.FileTitle = "Side1";
+                       // attatcment.ImageFileType = ".jpg";
                         uplodedArtWorkList.Add(attatcment);
                         GenerateThumbnailForPdf(ThumbnailPath, true);
                     }
@@ -3262,7 +3263,9 @@ namespace MPC.Repository.Repositories
                             attatcment.FileExtention = ".pdf";
                             attatcment.FolderPath = folderPath;
                             attatcment.FileTitle = "Side" + item.PageNo.ToString();
+                          //  attatcment.ImageFileType = ".jpg";
                             uplodedArtWorkList.Add(attatcment);
+
                             GenerateThumbnailForPdf(ThumbnailPath, true);
                         }
 
