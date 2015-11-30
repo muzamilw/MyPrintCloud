@@ -3848,4 +3848,23 @@ function pcf26_upPanl(D1AO) {
 
     if (D1AO.isBulletPoint)
         $("#BtnBulletedLstTxt").addClass("activeProp");
+
+    console.log(D1AO.textCase);
+    if (D1AO.textCase == 0) {
+        $(".CaseModeSlider").slider("option", "value", "1");
+    } else if (D1AO.textCase == 2) {
+        $(".CaseModeSlider").slider("option", "value", "34");
+    } else if (D1AO.textCase == 1) {
+        $(".CaseModeSlider").slider("option", "value", "67");
+    } else {
+        $(".CaseModeSlider").slider("option", "value", "100");
+    }
+
+}
+function drawSafetyLine() {
+   
+    $(".safetyLine").css("display",  "block");
+   // $(".safetyLine").css("left", position.left + ($(window).width() * 0.33) + "px" );
+    $(".safetyLine").css("top", (50 * dfZ1l) + "px");
+    $(".safetyLine").css("left", (-56) + "px"); 
 }

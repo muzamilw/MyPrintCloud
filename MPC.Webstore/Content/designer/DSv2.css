@@ -7480,3 +7480,20 @@ to {
     background-color: #A09797;
     border: black;
 }
+.safetyLine {
+     background-color: #F3F4F5;
+    border: 1px solid #DADBDC;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    padding: 3px 3px 3px 3px;
+    font-size: 10px;
+}
+.safetyLineOut{
+    position: absolute;
+    top: 0px;
+    right:-18px;
+    z-index: 1000;
+    font-size: 14px;
+}
