@@ -126,7 +126,7 @@
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
     <Compile Include="Repository\IItemsVoucherRepository.cs" />
-    <Compile Include="Repository\IListingBulletPoints.cs" />
+    <Compile Include="Repository\IListingBulletPointsRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IMarketingBriefHistoryRepository.cs" />
     <Compile Include="Repository\IProductCategoryVoucherRepository.cs" />
@@ -252,6 +252,7 @@
     <Compile Include="Repository\ICostCentreVariableRepository.cs" />
     <Compile Include="WebStoreServices\IExecutionService.cs" />
     <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
+    <Compile Include="WebStoreServices\IListingBulletPointsService.cs" />
     <Compile Include="WebStoreServices\IListingService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />
     <Compile Include="Logger\IMPCLogWriter.cs" />

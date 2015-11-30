@@ -3140,6 +3140,23 @@ namespace MPC.Repository.Repositories
             }
             
         }
-        
+
+        public List<ListingImage> GetAllListingImages(long ListingID)
+        {
+            return db.ListingImages.Where(i => i.ListingId == ListingID).ToList();
+        }
+
+        public void ListingImage(ListingImage NewImage)
+        {
+            db.ListingImages.Add(NewImage);
+            db.SaveChanges();
+        }
+
+        public void DeleteListingImage(long listingImageID)
+        {
+            ListingImage image = db.ListingImages.Where(i => i.ListingImageId == listingImageID).FirstOrDefault();
+            db.ListingImages.Remove(image);
+            db.SaveChanges();
+        }
     }
 }

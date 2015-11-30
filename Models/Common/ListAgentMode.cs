@@ -16,5 +16,14 @@ namespace MPC.Webstore.Common
         public string agentMobile { get; set; }
         public string agentEmail { get; set; }
     }
+    public class PointsModel
+    {
+        public string BulletPoint { get; set; }
+        public int BulletPointId { get; set; }
+    }
+    public class ListPointsModel
+    {
+        public List<PointsModel> objPointList { get; set; }
+    }
     
 }

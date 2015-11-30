@@ -237,6 +237,7 @@
     <Compile Include="WebStoreServices\ImagePermissionService.cs" />
     <Compile Include="WebStoreServices\InvoiceService.cs" />
     <Compile Include="WebStoreServices\ItemService.cs" />
+    <Compile Include="WebStoreServices\ListingBulletPointsService.cs" />
     <Compile Include="WebStoreServices\ListingService.cs" />
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />

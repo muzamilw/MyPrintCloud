@@ -13,6 +13,13 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void DeleteListingImage(long listingImageID);
+        void ListingImage(ListingImage NewImage);
+        List<ListingImage> GetAllListingImages(long ListingID);
+        void AddSingleAgent(CompanyContact NewAgent);
+        void UpdateSignleAgent(CompanyContact Agent);
+        void AddBulletPoint(ListPointsModel model, long listingId);
+        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints);
         void AddAgent(ListAgentMode model, long ContactCompanyId);
         void UpdateAgent(List<CompanyContact> model);
         long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);

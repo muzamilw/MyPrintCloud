@@ -134,12 +134,7 @@ namespace MPC.Models.DomainModels
 
          public string AdvertsDescription { get; set; }
          public string AdvertsSummary { get; set; }
-
          public string AdvertsMainHeadLine { get; set; }
-
-
-         public string AdvertsMainHeadLine { get; set; }
-
 
          public string AuctionEndTime { get; set; }
 

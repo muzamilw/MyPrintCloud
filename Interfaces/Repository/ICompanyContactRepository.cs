@@ -15,6 +15,8 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
+        void AddSingleAgent(CompanyContact NewAgent);
+        void UpdateSignleAgent(CompanyContact Agent);
         void AddAgent(ListAgentMode model, long ContactCompanyId);
         void UpdateAgent(List<CompanyContact> model);
         List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId);

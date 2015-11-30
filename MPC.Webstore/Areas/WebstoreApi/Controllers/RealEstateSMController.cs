@@ -10,6 +10,7 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using Newtonsoft.Json;
 using MPC.Webstore.Common;
+using MPC.Interfaces.Repository;
 namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 {
     public class RealEstateSMController : ApiController
@@ -17,139 +18,151 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         private readonly IListingService _listingService;
         private readonly  ICompanyService _mycompanyservice;
-        public RealEstateSMController(IListingService _listingService, ICompanyService _mycompanyservice)
+        private readonly IListingBulletPointsRepository _listingBulletPointRepository;
+        public RealEstateSMController(IListingService _listingService, ICompanyService _mycompanyservice, IListingBulletPointsRepository _listingBulletPointRepository)
         {
             this._listingService = _listingService;
             this._mycompanyservice = _mycompanyservice;
+            this._listingBulletPointRepository = _listingBulletPointRepository;
         }
 
 
 
-        //public void UpdateListingData(MPC.Models.DomainModels.Listing Listing,List<CompanyContact> AgentsList)
-        //{
-        //  try
-        //  {
+        public void UpdateListingData(MPC.Models.DomainModels.Listing Listing, List<CompanyContact> AgentsList, List<ListingBulletPoint> BulletPoints, string hfAgentList, string hfBPointsList)
+        {
+            try
+            {
 
-        //      MPC.Models.DomainModels.Listing  updateListing=new MPC.Models.DomainModels.Listing();
-        //      updateListing.UnitNumber = Listing.UnitNumber;
-        //      updateListing.StreetNumber = Listing.StreetNumber;
-        //      updateListing.PropertyType = Listing.PropertyType;
-        //      updateListing.PropertyCategory = Listing.PropertyCategory;
-        //      updateListing.Street = Listing.Street;
-        //      updateListing.Construction = Listing.Construction;
-        //      updateListing.Features = Listing.Features;
-        //      updateListing.Suburb = Listing.Suburb;
-        //      updateListing.LandArea = Listing.LandArea;
-        //      updateListing.BuildingAreaSqm = Listing.BuildingAreaSqm;
-        //      updateListing.State = Listing.State;
-        //      updateListing.PostCode = Listing.PostCode;
-        //      updateListing.PropertyCondition = Listing.PropertyCondition;
-        //      updateListing.Aspect = Listing.Aspect;
-        //      updateListing.ListingId = Listing.ListingId;
-        //      updateListing.BedRooms = Listing.BedRooms;
-        //      updateListing.BathRooms = Listing.BathRooms;
-        //      updateListing.LoungeRooms = Listing.LoungeRooms;
-        //      updateListing.Toilets = Listing.Toilets;
-        //      updateListing.CounsilRates = Listing.CounsilRates;
-        //      updateListing.StrataAdmin = Listing.StrataAdmin; ////
-        //      updateListing.StrataSinking = Listing.StrataSinking;
-        //      updateListing.WaterRates = Listing.WaterRates;
-        //      updateListing.LandTax = Listing.LandTax; ////
-        //      // txtStartaAdmin.Text = txtStartaAdmin.Text;// Convert.ToString(updateListing.StrataAdmin);
-        //      updateListing.OtherOutgoings = Listing.OtherOutgoings;
-        //      updateListing.Studies = Listing.Studies;
-        //      updateListing.Pools = Listing.Pools;
-        //      updateListing.Garages = Listing.Garages;
-        //      updateListing.CarSpaces = Listing.CarSpaces;
+                MPC.Models.DomainModels.Listing updateListing = new MPC.Models.DomainModels.Listing();
+                updateListing.UnitNumber = Listing.UnitNumber;
+                updateListing.StreetNumber = Listing.StreetNumber;
+                updateListing.PropertyType = Listing.PropertyType;
+                updateListing.PropertyCategory = Listing.PropertyCategory;
+                updateListing.Street = Listing.Street;
+                updateListing.Construction = Listing.Construction;
+                updateListing.Features = Listing.Features;
+                updateListing.Suburb = Listing.Suburb;
+                updateListing.LandArea = Listing.LandArea;
+                updateListing.BuildingAreaSqm = Listing.BuildingAreaSqm;
+                updateListing.State = Listing.State;
+                updateListing.PostCode = Listing.PostCode;
+                updateListing.PropertyCondition = Listing.PropertyCondition;
+                updateListing.Aspect = Listing.Aspect;
+                updateListing.ListingId = Listing.ListingId;
+                updateListing.BedRooms = Listing.BedRooms;
+                updateListing.BathRooms = Listing.BathRooms;
+                updateListing.LoungeRooms = Listing.LoungeRooms;
+                updateListing.Toilets = Listing.Toilets;
+                updateListing.CounsilRates = Listing.CounsilRates;
+                updateListing.StrataAdmin = Listing.StrataAdmin; ////
+                updateListing.StrataSinking = Listing.StrataSinking;
+                updateListing.WaterRates = Listing.WaterRates;
+                updateListing.LandTax = Listing.LandTax; ////
+                //txtStartaAdmin.Text = txtStartaAdmin.Text;// Convert.ToString(updateListing.StrataAdmin);
+                updateListing.OtherOutgoings = Listing.OtherOutgoings;
+                updateListing.Studies = Listing.Studies;
+                updateListing.Pools = Listing.Pools;
+                updateListing.Garages = Listing.Garages;
+                updateListing.CarSpaces = Listing.CarSpaces;
+                updateListing.ListingType = Listing.ListingType;
+                updateListing.DisplayPrice = Listing.DisplayPrice;
+                updateListing.SearchPrice = Listing.SearchPrice;
+                updateListing.WebLink = Listing.WebLink;
+                updateListing.AvailableDate = Listing.AvailableDate;
+                updateListing.InspectionTimeFrom2 = Listing.InspectionTimeFrom2;
+                updateListing.InspectionTimeFrom1 = Listing.InspectionTimeFrom1;
+                updateListing.AuctionTime = Listing.AuctionTime;
+                updateListing.AuctionEndTime = Listing.AuctionEndTime;
+                updateListing.AuctionDate = Listing.AuctionDate;
+                updateListing.AutionVenue = Listing.AutionVenue;
+                updateListing.BrochureDescription = Listing.BrochureDescription;
+                updateListing.BrochureMainHeadLine = Listing.BrochureMainHeadLine;
+                updateListing.BrochureSummary = Listing.BrochureSummary;
+                updateListing.SignBoardDescription = Listing.SignBoardDescription;
+                updateListing.SignBoardMainHeadLine = Listing.SignBoardMainHeadLine;
+                updateListing.SignBoardSummary = Listing.SignBoardSummary;
+                updateListing.AdvertsDescription = Listing.AdvertsDescription;
+                updateListing.AdvertsMainHeadLine = Listing.AdvertsMainHeadLine;
+                updateListing.AdvertsSummary = Listing.AdvertsSummary;
+                updateListing.SignBoardInstallInstruction = Listing.SignBoardInstallInstruction;
+                MPC.Models.DomainModels.Listing listing = _mycompanyservice.GetListingByListingID(Convert.ToInt32(Listing.ListingId));//Listing
 
-        //      updateListing.ListingType = Listing.ListingType;
-        //      updateListing.DisplayPrice = Listing.DisplayPrice;
-        //      updateListing.SearchPrice = Listing.SearchPrice;
+                long UpdatedLisTingID = _mycompanyservice.UpdateListing(updateListing, listing);
 
-        //      updateListing.WebLink = Listing.WebLink;
-        //      updateListing.AvailableDate = Listing.AvailableDate;
-        //      updateListing.InspectionTimeFrom2 = Listing.InspectionTimeFrom2;
-        //      updateListing.InspectionTimeFrom1 = Listing.InspectionTimeFrom1;
-        //      updateListing.AuctionTime =Listing.AuctionTime;
-        //      updateListing.AuctionEndTime =Listing.AuctionEndTime;
+                //List<tbl_ListingAgent> listingAgents = propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
 
-        //      updateListing.AuctionDate =Listing.AuctionDate;
-        //      updateListing.AutionVenue = Listing.AutionVenue;
-        //      updateListing.BrochureDescription = Listing.BrochureDescription;
-        //      updateListing.BrochureMainHeadLine = Listing.BrochureMainHeadLine;
-        //      updateListing.BrochureSummary = Listing.BrochureSummary;
-        //      updateListing.SignBoardDescription = Listing.SignBoardDescription;
-        //      updateListing.SignBoardMainHeadLine = Listing.SignBoardMainHeadLine;
-        //      updateListing.SignBoardSummary = Listing.SignBoardSummary;
-        //      updateListing.AdvertsDescription = Listing.AdvertsDescription;
-        //      updateListing.AdvertsMainHeadLine = Listing.AdvertsMainHeadLine;
-        //      updateListing.AdvertsSummary = Listing.AdvertsSummary;
-        //      updateListing.SignBoardInstallInstruction = Listing.SignBoardInstallInstruction;
-        //      MPC.Models.DomainModels.Listing listing = _mycompanyservice.GetListingByListingID(Convert.ToInt32(Listing.ListingId));//Listing
+                // for agents
+                List<CompanyContact> updateAgentList = new List<CompanyContact>();
+                foreach (var Item in AgentsList)
+                {
+                    CompanyContact contact = new CompanyContact();
+                    contact.FirstName = Item.FileName;
+                    contact.Mobile = Item.Mobile;
+                    contact.HomeTel1 = Item.HomeTel1;
+                    contact.Email = Item.Email;
+                    updateAgentList.Add(contact);
+                }
 
-        //      long UpdatedLisTingID = _mycompanyservice.UpdateListing(updateListing, listing);
+                _mycompanyservice.UpdateAgent(updateAgentList);
 
-        //      //List<tbl_ListingAgent> listingAgents = propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
+                if (!string.IsNullOrEmpty(hfAgentList))
+                {
+                    ListAgentMode agentsList = JsonConvert.DeserializeObject<ListAgentMode>(hfAgentList);
+                    if (agentsList != null)
+                    {
+                        _mycompanyservice.AddAgent(agentsList, UserCookieManager.WBStoreId);
+                    }
+                }
 
-        //      // for agents
-        //      List<CompanyContact> updateAgentList = new List<CompanyContact>();
-        //      foreach (var Item in AgentsList)
-        //      {
-        //              CompanyContact contact = new CompanyContact();
-        //              contact.FirstName = Item.FileName;
-        //              contact.Mobile = Item.Mobile;
-        //              contact.HomeTel1 = Item.HomeTel1;
-        //              contact.Email =Item.Email;
-        //              updateAgentList.Add(contact);
-        //      }
+                // for bullet points
 
-        //      _mycompanyservice.UpdateAgent(updateAgentList);
+                List<ListingBulletPoint> updatePointList = new List<ListingBulletPoint>();
+                foreach (var Item in BulletPoints)
+                {
+                        ListingBulletPoint oPoint = new ListingBulletPoint();
+                        oPoint.BulletPoint = Item.BulletPoint;
+                        oPoint.BulletPointId = Item.BulletPointId;
+                        updatePointList.Add(oPoint);
+                }
 
-        //      if (!string.IsNullOrEmpty(hfAgentList.Value))
-        //      {
-        //          ListAgentMode agentsList = JsonConvert.DeserializeObject<ListAgentMode>(hfAgentList.Value);
-        //          if (agentsList != null)
-        //          {
-        //              _mycompanyservice.AddAgent(agentsList,UserCookieManager.WBStoreId);
-        //          }
-        //      }
+                _mycompanyservice.UpdateBulletPoints(updatePointList);
 
-        //      // for bullet points
+                if (!string.IsNullOrEmpty(hfBPointsList))
+                {
+                    ListPointsModel bulletList = JsonConvert.DeserializeObject<ListPointsModel>(hfBPointsList);
+                    if (bulletList != null)
+                    {
+                        _mycompanyservice.AddBulletPoint(bulletList, UpdatedLisTingID);
+                    }
+                }
+                //hfNewlyAddedBPoints.Value ="";
+                //if (!string.IsNullOrEmpty(txtBulletPoint.Text))
+                //{
+                //    PropertyManager.AddBulletPoint(txtBulletPoint.Text, listing.ListingID);
+                //}
+            }
+            catch (Exception)
+            {
 
-        //      List<ListingBulletPoints> updatePointList = new List<tbl_ListingBulletPoints>();
-        //      foreach (RepeaterItem rptItem in rptBulletPoints.Items)
-        //      {
-
-        //          if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
-        //          {
-        //              tbl_ListingBulletPoints oPoint = new tbl_ListingBulletPoints();
-        //              oPoint.BulletPoint = (rptItem.FindControl("txtBuletPoints") as TextBox).Text;
-        //              oPoint.BulletPointId = Convert.ToInt32((rptItem.FindControl("lblPointId") as Label).Text);
-        //              updatePointList.Add(oPoint);
-        //          }
-        //      }
-        //      PropertyManager.UpdateBulletPoints(updatePointList);
-        //      if (!string.IsNullOrEmpty(hfBPointsList.Value))
-        //      {
-        //          ListPointsModel bulletList = JsonConvert.DeserializeObject<ListPointsModel>(hfBPointsList.Value);
-        //          if (bulletList != null)
-        //          {
-        //              PropertyManager.AddBulletPoint(bulletList, listing.ListingID);
-        //          }
-        //      }
-        //      hfNewlyAddedBPoints.Value = "";
-        //      //if (!string.IsNullOrEmpty(txtBulletPoint.Text))
-        //      //{
-        //      //    PropertyManager.AddBulletPoint(txtBulletPoint.Text, listing.ListingID);
-        //      //}
-        //  }
-        //  catch (Exception)
-        //  {
-
-        //      throw;
-        //  }
-        //}
-
+                throw;
+            }
+        }
+        [HttpPost]
+        public void UpdateAgent(CompanyContact AgentContact)
+        {
+            _mycompanyservice.UpdateSignleAgent(AgentContact);
+        }
+        [HttpPost]
+        public void AddSingleAjent(CompanyContact AgentContact)
+        {
+            _mycompanyservice.AddSingleAgent( AgentContact);
+        
+        }
+        [HttpPost]
+        public void DeleteListingImage(long ListingImageId,string ImageUrl)
+        {
+            _mycompanyservice.DeleteListingImage(ListingImageId);
+        }
         //private void GotoDesigner(int itemID, int productCategoryID, List<TemplateVariable> lstPageControls, int propertyId)
         //{
         //    Dictionary<string, string> parameterNameValueList = new Dictionary<string, string>();
@@ -192,7 +205,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         //            }
         //        }
         //    }
-
         //    string username = Utils.specialCharactersEncoder(objContact.FirstName + " " + objContact.LastName);
         //    parameterNameValueList.Add(ParameterName.IsEmbedded, "true");
         //    parameterNameValueList.Add(ParameterName.IsCalledFrom, "4");

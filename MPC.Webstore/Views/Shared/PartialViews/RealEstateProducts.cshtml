@@ -5,7 +5,7 @@
 }
 @{
     var ListingId = ViewBag.ListingID;
-
+    
 }
 <div class="container content_area" id="all-category-pg">
 
@@ -62,7 +62,10 @@
                                         }
                                         else
                                         {
-                                            <a href="@Url.Action("CloneRealEstateItem", "RealEstateProducts", new { id = cat.ItemId, PropertyId=ListingId})" onclick="ShowLoader();">
+                                            var RedirectttURL = "/RealEstateSmartForm/" + cat.ItemId + "/" + ListingId ;
+                                            <a href="@RedirectttURL" onclick="ShowLoader();">
+
+                                                
                                                 <div class="PDTC_CAT FI_CAT">
                                                     @{
 

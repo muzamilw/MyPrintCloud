@@ -2274,7 +2274,19 @@ namespace MPC.Repository.Repositories
                     }
                 }
         }
+        public void UpdateSignleAgent(CompanyContact Agent)
+        {
+           CompanyContact oContact = db.CompanyContacts.Where(c => c.Email == Agent.Email).FirstOrDefault();
+          if (oContact != null)
+          {
+              oContact.Mobile = Agent.Mobile;
+              oContact.HomeTel1 = Agent.HomeTel1;
+              oContact.FirstName = Agent.FirstName;
+              db.Entry(oContact).State = EntityState.Modified;
+              db.SaveChanges();
+           }
 
+        }
         public void AddAgent(ListAgentMode model, long ContactCompanyId)
         {
                 foreach (var item in model.objList)
@@ -2319,11 +2331,57 @@ namespace MPC.Repository.Repositories
                         db.CompanyContacts.Add(oContact);
                         db.SaveChanges();
                     }
-                
-
             }
         }
 
+        public void AddSingleAgent(CompanyContact NewAgent)
+        {
+            CompanyContact oContact = db.CompanyContacts.Where(c => c.Email == NewAgent.Email).FirstOrDefault();
+            if (oContact == null)
+            {
+                oContact = new CompanyContact();
+                oContact.Mobile = NewAgent.Mobile;
+                oContact.HomeTel1 = NewAgent.HomeTel1;
+                oContact.FirstName = NewAgent.FirstName;
+                oContact.CompanyId = NewAgent.CompanyId;
+                oContact.ContactRoleId = (int)Roles.User;
+                oContact.isWebAccess = true;
+                oContact.isPlaceOrder = true;
+                oContact.IsPricingshown = true;
+                oContact.Email = NewAgent.Email;
+                oContact.isArchived = false;
+                oContact.Password = "U2m6RbXhu/ouK1+f82k3UZQu334ychgV1fg=";
+                CompanyTerritory oTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == NewAgent.CompanyId).FirstOrDefault();
+
+                if (oTerritory != null)
+                {
+                    oContact.TerritoryId = oTerritory.TerritoryId;
+                    Address oAddress = db.Addesses.Where(t => t.TerritoryId == oTerritory.TerritoryId).FirstOrDefault();
+                    if (oAddress != null)
+                    {
+                        oContact.AddressId = oAddress.AddressId;
+                        oContact.ShippingAddressId = oAddress.AddressId;
+                    }
+                    else
+                    {
+                        Address oCompanyAddress = db.Addesses.Where(t => t.CompanyId == NewAgent.CompanyId).FirstOrDefault();
+                        if (oCompanyAddress != null)
+                        {
+                            oContact.AddressId = oCompanyAddress.AddressId;
+                            oContact.ShippingAddressId = oCompanyAddress.AddressId;
+                        }
+                    }
+
+                }
+                db.CompanyContacts.Add(oContact);
+                db.SaveChanges();
+            }
+         }
+
+        public void DeleteAjent()
+        {
+           
+        }
     }
 
 }

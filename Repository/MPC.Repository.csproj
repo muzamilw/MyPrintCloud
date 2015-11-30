@@ -232,7 +232,7 @@
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
     <Compile Include="Repositories\ItemsVoucherRepository.cs" />
-    <Compile Include="Repositories\ListingBulletPoints.cs" />
+    <Compile Include="Repositories\ListingBulletPointsRepository.cs" />
     <Compile Include="Repositories\MarketingBriefHistoryRepository.cs" />
     <Compile Include="Repositories\ProductCategoryVoucherRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefAnswerRepository.cs" />

@@ -73,17 +73,27 @@ namespace MPC.Webstore.Controllers
         #endregion
 
         // GET: RealEstateSmartForm
-        public ActionResult Index(string PropertyId,string ItemId)
+        public ActionResult Index(string id, string PropertyId)
         {
+            long PropID =Convert.ToInt64(PropertyId);
+            
             Listing Listing = _myListingService.GetListingByListingID(Convert.ToInt32(PropertyId));
             GetCategoryProduct currentItem = new GetCategoryProduct();
-            currentItem = _ItemService.GetPublishedProductByItemID(Convert.ToInt32(ItemId));
+            currentItem = _ItemService.GetPublishedProductByItemID(Convert.ToInt32(id));
             List<CompanyContact> listingAgents = _myCompanyService.GetUsersByCompanyId(UserCookieManager.WBStoreId); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
             ViewBag.Listings = Listing;
             ViewBag.ListingAgents = listingAgents;
             ViewBag.CurrentItem = currentItem;
+
+            ViewBag.ListingImages = GetAllListingImages(PropID);
           //  List<ListingBulletPoints> listingBulletPoint = PropertyManager.GetListingBulletPoints(listing.ListingID); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
-            return View("PartialViews/RealEstateSmartForm");
+            return PartialView("PartialViews/RealEstateSmartForm");
+        }
+
+        private List<ListingImage> GetAllListingImages(long ListingId)
+        {
+            return _myCompanyService.GetAllListingImages(ListingId);
+        
         }
         private void LoadSmartForm()
         {

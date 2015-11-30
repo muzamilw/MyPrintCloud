@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MPC.Interfaces.Repository
+namespace MPC.Interfaces.WebStoreServices
 {
-    public interface IListingBulletPoints 
+    public interface IListingBulletPointsService
     {
     }
 }
