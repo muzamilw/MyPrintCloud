@@ -152,21 +152,28 @@ namespace MPC.Webstore.Controllers
                 {
                     OrderID = UserCookieManager.WEBOrderId;
                     clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                    if (!string.IsNullOrEmpty(TemplateId))
+                    if (clonedItem.UploadTypeByUser == 1)
                     {
-                        ViewBag.ShowUploadArkworkPanel = true;
-                        BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
-                    }
-                    else
-                    {
-
-
                         ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                         ViewData["Templates"] = null;
-
                     }
+                    else 
+                    {
+                        if (!string.IsNullOrEmpty(TemplateId))
+                        {
+                            ViewBag.ShowUploadArkworkPanel = true;
+                            BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
+                        }
+                        else
+                        {
 
 
+                            ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
+                            ViewData["Templates"] = null;
+
+                        }
+                    }
+                   
                     ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2; // This is a ItemStockOption id
                     ViewBag.SelectedQuantity = clonedItem.Qty1;
 
@@ -790,7 +797,7 @@ namespace MPC.Webstore.Controllers
                 {
                     ItemModel.File1Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
                     ItemModel.File1Url = "/Content/Images/id.gif";
                 }
@@ -806,6 +813,10 @@ namespace MPC.Webstore.Controllers
                 {
                     ItemModel.File1Url = "/Content/Images/publisher.png";
                 }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File1Url = "/Content/Images/word.png";
+                }
                 else
                 {
                     ItemModel.File1Url = "/Content/download.png";
@@ -815,10 +826,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File2))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File2);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File2Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File2Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -830,15 +840,27 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File2Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File2Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File2Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File2Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File2Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File2Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File2Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File2Url = "/Content/Images/word.png";
                 }
                 else
                 {
@@ -849,10 +871,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File3))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File3);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File3Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File3Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -864,15 +885,27 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File3Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File3Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File3Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File3Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File3Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File3Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File3Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File3Url = "/Content/Images/word.png";
                 }
                 else
                 {
@@ -882,10 +915,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File4))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File4);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File4Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File4Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -897,15 +929,27 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File4Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File4Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File4Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File4Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File4Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File4Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File4Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File4Url = "/Content/Images/word.png";
                 }
                 else
                 {
@@ -915,10 +959,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File5))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File5);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File5Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File5Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -930,15 +973,27 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File5Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File5Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File5Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File5Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File5Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File5Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File5Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File5Url = "/Content/Images/word.png";
                 }
                 else
                 {
@@ -986,7 +1041,15 @@ namespace MPC.Webstore.Controllers
                 objTemplate.TemplateId = Template.ProductId;
                 objTemplate.TemplateName = objTemplate.TemplateName == null ? Utils.specialCharactersEncoder(ProductName) : Utils.specialCharactersEncoder(Template.ProductName);
                 objTemplate.ItemId = ItemId;
-                objTemplate.FileName = attach.FileName;
+                if (!string.IsNullOrEmpty(attach.ImageFileType))
+                {
+                    objTemplate.FileName = attach.FileName + "Thumb" + attach.ImageFileType;
+                }
+                else 
+                {
+                    objTemplate.FileName = attach.FileName + "Thumb.png";
+                }
+               
                 objTemplate.FolderPath = attach.FolderPath;
                 objTemplate.OrganisationID = UserCookieManager.WEBOrganisationID;
                 objTemplate.CategoryId = DesignerCategoryId;

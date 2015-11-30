@@ -8902,3 +8902,9 @@ FOREIGN KEY (ListingId) REFERENCES Listing(ListingId)
 
 ALTER TABLE listing
 ADD AuctionEndTime varchar(Max)
+
+
+
+------------------Executed on servers 20151127---------------
+
+Alter table items add UploadTypeByUser int 

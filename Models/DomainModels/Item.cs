@@ -396,8 +396,8 @@ namespace MPC.Models.DomainModels
         public int? ProductDisplayOptions { get; set; }
 
         public long? DiscountVoucherID { get; set; }
-        
 
+        public int? UploadTypeByUser { get; set; }
         [NotMapped]
         public double MinPrice { get; set; }
 

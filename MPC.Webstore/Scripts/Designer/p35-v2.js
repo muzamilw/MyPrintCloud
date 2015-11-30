@@ -9,7 +9,8 @@
         //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    $(".collapseDesignerMenu").css("display", "none");
+    $(".collapseDesignerMenu,.divBtmSticky ").css("display", "none");
+
 });
 $(".search").click(function (event) {
     var D1AO = canvas.getActiveObject();
@@ -372,10 +373,10 @@ function g1_(D1AO) {
         $("#chkboxOverlayImg").prop('checked', false);
     }
     if (D1AO.IsTextEditable != true) {
-        $("#BtnTxtarrangeOrder1").removeAttr("disabled");
-        $("#BtnTxtarrangeOrder2").removeAttr("disabled");
-        $("#BtnTxtarrangeOrder3").removeAttr("disabled");
-        $("#BtnTxtarrangeOrder4").removeAttr("disabled");
+        $(".BtnTxtarrangeOrder1").removeAttr("disabled");
+        $(".BtnTxtarrangeOrder2").removeAttr("disabled");
+        $(".BtnTxtarrangeOrder3").removeAttr("disabled");
+        $(".BtnTxtarrangeOrder4").removeAttr("disabled");
         $("#AddColorShape").removeAttr("disabled");
         $("#BtnDeleteTxtObj").removeAttr("disabled");
         $("#BtnImgRotateLeft").removeAttr("disabled");
@@ -393,10 +394,10 @@ function g1_(D1AO) {
         $("#inputPositionY").spinner("option", "disabled", false);
         $('.inputObjectAlphaSlider').slider('enable');
         if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom ==4) ) {
-            $("#BtnTxtarrangeOrder1").removeAttr("disabled");
-            $("#BtnTxtarrangeOrder2").removeAttr("disabled");
-            $("#BtnTxtarrangeOrder3").removeAttr("disabled");
-            $("#BtnTxtarrangeOrder4").removeAttr("disabled");
+            $(".BtnTxtarrangeOrder1").removeAttr("disabled");
+            $(".BtnTxtarrangeOrder2").removeAttr("disabled");
+            $(".BtnTxtarrangeOrder3").removeAttr("disabled");
+            $(".BtnTxtarrangeOrder4").removeAttr("disabled");
             $("#AddColorShape").removeAttr("disabled");
             $("#BtnDeleteTxtObj").removeAttr("disabled");
             $("#BtnImgRotateLeft").removeAttr("disabled");
@@ -417,10 +418,10 @@ function g1_(D1AO) {
         }
     }
     else {
-        $("#BtnTxtarrangeOrder1").attr("disabled", "disabled");
-        $("#BtnTxtarrangeOrder2").attr("disabled", "disabled");
-        $("#BtnTxtarrangeOrder3").attr("disabled", "disabled");
-        $("#BtnTxtarrangeOrder4").attr("disabled", "disabled");
+        $(".BtnTxtarrangeOrder1").attr("disabled", "disabled");
+        $(".BtnTxtarrangeOrder2").attr("disabled", "disabled");
+        $(".BtnTxtarrangeOrder3").attr("disabled", "disabled");
+        $(".BtnTxtarrangeOrder4").attr("disabled", "disabled");
         $("#AddColorShape").attr("disabled", "disabled");
         $("#BtnDeleteTxtObj").attr("disabled", "disabled");
         $("#BtnImgRotateLeft").attr("disabled", "disabled");
@@ -501,10 +502,10 @@ function g1(D1AO) {
         $("#BtnJustifyTxt1").removeAttr("disabled");
         $("#BtnJustifyTxt2").removeAttr("disabled");
         $("#BtnJustifyTxt3").removeAttr("disabled");
-        $("#BtnTxtarrangeOrder1").removeAttr("disabled");
-        $("#BtnTxtarrangeOrder2").removeAttr("disabled");
-        $("#BtnTxtarrangeOrder3").removeAttr("disabled");
-        $("#BtnTxtarrangeOrder4").removeAttr("disabled");
+        $(".BtnTxtarrangeOrder1").removeAttr("disabled");
+        $(".BtnTxtarrangeOrder2").removeAttr("disabled");
+        $(".BtnTxtarrangeOrder3").removeAttr("disabled");
+        $(".BtnTxtarrangeOrder4").removeAttr("disabled");
         $("#BtnLockEditing").removeAttr("disabled");
         $("#BtnSearchTxt").removeAttr("disabled");
         //$("#BtnUpdateText").removeAttr("disabled");
@@ -554,10 +555,10 @@ function g1(D1AO) {
         $("#BtnJustifyTxt1").attr("disabled", "disabled");
         $("#BtnJustifyTxt2").attr("disabled", "disabled");
         $("#BtnJustifyTxt3").attr("disabled", "disabled");
-        $("#BtnTxtarrangeOrder1").attr("disabled", "disabled");
-        $("#BtnTxtarrangeOrder2").attr("disabled", "disabled");
-        $("#BtnTxtarrangeOrder3").attr("disabled", "disabled");
-        $("#BtnTxtarrangeOrder4").attr("disabled", "disabled");
+        $(".BtnTxtarrangeOrder1").attr("disabled", "disabled");
+        $(".BtnTxtarrangeOrder2").attr("disabled", "disabled");
+        $(".BtnTxtarrangeOrder3").attr("disabled", "disabled");
+        $(".BtnTxtarrangeOrder4").attr("disabled", "disabled");
         //$("#EditTXtArea").attr("disabled", "disabled");
         $("#BtnSearchTxt").attr("disabled", "disabled");
         //$("#BtnUpdateText").attr("disabled", "disabled");
@@ -1612,16 +1613,16 @@ $("#BtnJustifyTxt2").click(function (ev) {
 $("#BtnJustifyTxt3").click(function (ev) {
     pcL09();
 });
-$("#BtnTxtarrangeOrder1").click(function (ev) {
+$(".BtnTxtarrangeOrder1").click(function (ev) {
     pcL26();
 });
-$("#BtnTxtarrangeOrder2").click(function (ev) {
+$(".BtnTxtarrangeOrder2").click(function (ev) {
     pcL27();
 });
-$("#BtnTxtarrangeOrder3").click(function (ev) {
+$(".BtnTxtarrangeOrder3").click(function (ev) {
     pcL28();
 });
-$("#BtnTxtarrangeOrder4").click(function (ev) {
+$(".BtnTxtarrangeOrder4").click(function (ev) {
     pcL25();
 });
 $("#BtnTxtCanvasAlignLeft").click(function (ev) {
@@ -1771,11 +1772,15 @@ $("#BtnTxtCanvasAlignRight").click(function (ev) {
 //        }
 //    }
 //}
-var removeSelectedEl = document.getElementById('BtnDeleteTxtObj');
-removeSelectedEl.onclick = function () {
+//var removeSelectedEl = document.getElementsByClassName('BtnDeleteTxtObj');
+//removeSelectedEl.onclick = function () {
+//    pcL03();
+//    oldAddFunctionality();
+//};
+$("#BtnDeleteTxtObj,.BtnDeleteTxtObj").click(function (event) {
     pcL03();
     oldAddFunctionality();
-};
+});
 $("#BtnImgScaleIN").click(function (event) {
     pcL14();
 });
@@ -2333,3 +2338,8 @@ function oldAddFunctionality() {
 
     }
 }
+$(".textPropertyPanel1 button").click(function (event) {
+    var D1AO = canvas.getActiveObject();
+    if (!D1AO) return;
+    pcf26_upPanl(D1AO)
+});

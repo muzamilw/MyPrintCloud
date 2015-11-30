@@ -1190,9 +1190,9 @@ body:not(.compactHeader) .documentMenu {
     }
 
 
-    body:not(.compactHeader) .documentMenu li:last-child {
-        margin-right: 0;
-    }
+        body:not(.compactHeader) .documentMenu li:last-child {
+            margin-right: 0;
+        }
 
     body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu button {
         display: inline-block;
@@ -1209,18 +1209,24 @@ body:not(.compactHeader) .documentMenu {
     }
 
 .menuItemContainer {
-    width:100px;
+    width: 100px;
     -webkit-transition: all .3s linear;
     transition: all .3s linear;
-    margin-top:5px;    font-size: 12px;
+    margin-top: 5px;
+    font-size: 12px;
 }
-.selectedItem{
-     margin-top:0px;    font-size: 14px;color:orange;
+
+.selectedItem {
+    margin-top: 0px;
+    font-size: 14px;
+    color: orange;
 }
-.selectedItem a {
-    color:#FC813B !important;
-    font-weight:bold;
-}
+
+    .selectedItem a {
+        color: #FC813B !important;
+        font-weight: bold;
+    }
+
 .compactHeader #documentTitleAndMenu {
     left: 240px;
     top: 12px;
@@ -1430,7 +1436,8 @@ button, .buttonDesigner {
         border: 0 none transparent;
         background-color: #fc813b;
         color: #fff;
-        line-height: 47px; text-decoration:none;
+        line-height: 47px;
+        text-decoration: none;
     }
 
 html:not(.touch) .SampleBtn {
@@ -3320,7 +3327,7 @@ h2 + .gallery {
     }
 
 .templateGallerylist {
-      width: 248px;
+    width: 248px;
     position: relative;
     display: inline-block;
     vertical-align: bottom;
@@ -4650,7 +4657,7 @@ h2 + .gallery {
         padding: 0;
         text-align: center;
         width: 39px;
-        border-radius: 5px;
+        border-radius: 0px;
         color: black;
         line-height: 11px;
         font-size: 11px;
@@ -4668,7 +4675,7 @@ h2 + .gallery {
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 5px;
+        border-radius: 0px;
         color: black;
         line-height: 11px;
         font-size: 11px;
@@ -4864,7 +4871,7 @@ h2 + .gallery {
 .propertyPanelControlDiv {
     width: 321px;
     clear: both;
-    padding-top: 5px;
+    padding-top: 15px;
     padding-left: 5px;
     /*padding-bottom: 10px;*/
 }
@@ -4901,7 +4908,7 @@ h2 + .gallery {
 }
 
 
-.BtnChngeClr, .OpacityBtn {
+.OpacityBtn {
     border-radius: 8px;
     color: #fff;
     vertical-align: bottom;
@@ -4916,7 +4923,7 @@ h2 + .gallery {
     font-size: 11px;
     margin-top: -11px;
     margin-bottom: -7px;
-    margin-left: 24px;
+    margin-left: 10px;
     border-color: grey;
     border-width: 2px;
 }
@@ -5034,7 +5041,7 @@ h2 + .gallery {
 }
 
 #BtnBulletedLstTxt {
-    margin-right: 39px;
+    margin-right: 8px;
 }
 
 #BtnItalicTxt {
@@ -5049,7 +5056,9 @@ h2 + .gallery {
 }
 
 .imgLineHeight {
-    margin-left: 31px;
+    margin-left: 1px;
+    margin-top: -5px;
+    margin-right: 0px;
 }
 
 
@@ -5084,9 +5093,6 @@ h2 + .gallery {
 .lblcheckbox {
     font-size: 12px;
     display: inline;
-    margin-left: 0px;
-    margin-right: 55px;
-    vertical-align: bottom;
 }
 
 .paddingright5 {
@@ -5123,11 +5129,6 @@ h2 + .gallery {
     display: inline;
     margin-left: 3px;
     margin-right: 5px;
-}
-
-
-.lblLockPos {
-    margin-left: -10px;
 }
 
 .lblArrangeOrderTxt {
@@ -5538,7 +5539,7 @@ h2 + .gallery {
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 5px;
+        border-radius: 0px;
         line-height: 9px;
         color: black;
         visibility: hidden;
@@ -5555,7 +5556,7 @@ h2 + .gallery {
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 5px;
+        border-radius: 0px;
         visibility: hidden;
         margin-right: 3px;
         color: black;
@@ -5573,7 +5574,7 @@ h2 + .gallery {
     padding: 0;
     text-align: center;
     width: 37px;
-    border-radius: 5px;
+    border-radius: 0px;
     color: black;
     line-height: 0px;
 }
@@ -6223,7 +6224,7 @@ h2 + .gallery {
 
 
 .fontawesomeIcons {
-    background: url('assets-v2/bckground.png') no-repeat center;
+    /*background: url('assets-v2/bckground.png') no-repeat center;*/
     background-size: 33px 22px;
     background-repeat: no-repeat;
     height: 22px;
@@ -6941,12 +6942,13 @@ input[type="radio"] {
 
 #documentMenu {
     position: absolute;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .svgColorContainer {
-    margin-left: 89px;
-    margin-top: -25px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-right: 5px;
 }
 
 .btnChangeShapeColor {
@@ -7362,4 +7364,119 @@ to {
 
 #documentMenuCopy, #documentMenuReload {
     margin-left: 31px;
+}
+
+.textControls a:hover {
+    text-decoration: none;
+}
+
+.propPanelHeading {
+    font-family: 'Helvetica';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 112%;
+    text-align: center;
+    margin-left: -57px;
+}
+
+.propertyPanelTxtArea {
+    border: none;
+    overflow: hidden;
+    margin: 0px;
+    height: 53px;
+    width: 283px;
+    box-shadow: none;
+}
+
+.uploadFntTxtPanel {
+    font-size: 10px;
+    margin-left: 5px;
+    display: flex;
+    margin-right: 33px;
+    text-align: right;
+    float: right;
+    margin-top: -1px;
+}
+
+    .uploadFntTxtPanel:hover {
+        text-decoration: none;
+    }
+
+.propertyPanleBtn {
+    height: 44px !important;
+    width: 44px !important;
+}
+
+.BtnChngeClr {
+    border-radius: 2px;
+    color: #fff;
+    vertical-align: bottom;
+    position: relative;
+    background-color: rgb(255, 6, 16);
+    padding-left: 3px;
+    width: 48px;
+    height: 48px;
+    font-size: 11px;
+    border-color: grey;
+    border-width: 2px;
+    margin-left: 13px;
+}
+
+.frontBackBtns p {
+    display: inline-block;
+    height: 31px;
+    vertical-align: middle;
+    line-height: 12px;
+    font-size: 11px;
+    padding-top: 8px;
+}
+
+.removeBtn {
+    background-color: red;
+    width: 96px !important;
+    border: black;
+    height: 41px !important;    color: white;
+}
+
+    .removeBtn p {
+        padding-top: 13px;
+    }
+
+.divBtmSticky {
+    position: absolute;
+    bottom: 0px;
+    width: 1000px;
+    color: white;
+    z-index: 9999;
+}
+
+.BtmPanelBox {
+    background-color: black;
+    display: inline-block;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    height: 110px;
+}
+
+.btmPanelRow {
+    clear: both;
+    margin-bottom: 9px;
+    margin-top: 8px;
+    margin-left: 5px;
+}
+
+    .btmPanelRow .propertyPanelControlDiv {
+        width: 286px !important;
+    }
+
+.svgColorPanel {
+    position: absolute;
+    bottom: 113px;
+}
+
+.activeProp {
+    background-color: #A09797;
+    border: black;
 }

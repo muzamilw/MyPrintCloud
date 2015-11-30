@@ -2180,7 +2180,7 @@ function fu06_SvcCallback(DT, fname,mode) {
         canvas.calcOffset();
     });
     $("#canvasDocument").css("width", $(window).width() - 360);
-    $(".templatepreviewContainer").css("width", $(window).width() - 390);
+    $(".templatepreviewContainer").css("width", $(window).width() - 361);
     $(".templatepreviewContainer").css("height", $(window).height() - 70);
     $(".tempPreviewImg").css("height", $(window).height() - 180);
     if (mode == true) {
