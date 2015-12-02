@@ -47,6 +47,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PrintingType = source.PrintingType,
                 WebSpoilageType = source.WebSpoilageType,
                 ItemGutterHorizontal = source.ItemGutterHorizontal,
+                InputQueue = source.InputQueue,
+                StockQueue = source.StockQueue,
+                CostCentreQueue = source.CostCentreQueue,
+                QuestionQueue = source.QuestionQueue,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
             };
 
@@ -105,6 +109,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImpressionCoverageSide2 = source.ImpressionCoverageSide2,
                 PrintingType = source.PrintingType,
                 ItemGutterHorizontal = source.ItemGutterHorizontal,
+                InputQueue = source.InputQueue,
+                StockQueue = source.StockQueue,
+                CostCentreQueue = source.CostCentreQueue,
+                QuestionQueue = source.QuestionQueue,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
             };
         }
