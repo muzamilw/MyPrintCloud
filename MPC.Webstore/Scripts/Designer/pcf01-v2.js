@@ -1906,7 +1906,7 @@ function fu02() {
     canvas.observe('object:modified', g3);
     canvas.observe('text:changed', g4);
 
-
+    canvas.observe('object:rotating', g5_rotate);
 
 
     canvas.observe('object:selected', g5);

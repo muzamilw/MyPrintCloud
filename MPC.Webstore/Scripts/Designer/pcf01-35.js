@@ -1717,6 +1717,19 @@ function inList(list,obj) {
     });
     return res;
 }
+function g5_rotate(e) {
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        buildUndo(D1AG);
+    } else {
+        buildUndo(D1AO);
+    }
+
+    if (D1AO && showEBtn) {
+        $(".inputObjectRotation").val(D1AO.getAngle());
+    } 
+}
 function g5(e) {
     IsDesignModified = true;
     $("#documentMenuCopy > button").css("visibility", "visible");
@@ -2861,7 +2874,7 @@ function pcL29(fontSize, isBold, ContentString) {
     D1NTO.ColorK = 100;
     D1NTO.IsBold = isBold;
     D1NTO.IsItalic = false;
-    D1NTO.LineSpacing = 1.4;
+    D1NTO.LineSpacing = 1;
     if (IsCalledFrom == 2 || IsCalledFrom == 4) {
         D1NTO.IsSpotColor = true;
         D1NTO.SpotColorName = 'Black';
@@ -3849,7 +3862,6 @@ function pcf26_upPanl(D1AO) {
     if (D1AO.isBulletPoint)
         $("#BtnBulletedLstTxt").addClass("activeProp");
 
-    console.log(D1AO.textCase);
     if (D1AO.textCase == 0) {
         $(".CaseModeSlider").slider("option", "value", "1");
     } else if (D1AO.textCase == 2) {
