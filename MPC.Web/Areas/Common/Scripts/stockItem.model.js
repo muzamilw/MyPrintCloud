@@ -16,7 +16,7 @@
             inStock: specifyInStock,
             allocated: specifyAllocated,
             code: specifyItemCode,
-            actualprice: specifiedPrice / specifiedPackageQty,
+            actualprice: specifiedSalePackPrice / specifiedPackageQty,
             acutalPackPrice: specifiedSalePackPrice
         };
     };

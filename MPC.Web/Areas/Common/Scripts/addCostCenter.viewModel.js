@@ -105,6 +105,25 @@ define("common/addCostCenter.viewModel",
                     inputQueueObject = null,
                     workInstructions = null,
                     addOnCostCenters = ko.observable(null),
+                    onCostCenterQtyChange = function(callback, currentCostCenter) {
+                        afterCostCenterExecution = callback;
+                        selectedCostCentre(currentCostCenter);
+                        executeCostCenter(afterCostCenterExecution);
+                    },
+                    updateCostCenter = function() {
+                        var jsonObjectsOfGlobalQueue = null;
+                        var inputAndQuestionQueues;
+                        var costCentreQueueItems;
+                        if (!costCentreQueueItems) {
+                            inputAndQuestionQueues = {
+                                QuestionQueues: globalQuestionQueueItemsList,
+                                InputQueues: globalInputQueueItemsList
+                            };
+                            jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
+                            costCentreQueueItems = jsonObjectsOfGlobalQueue;
+
+                        }
+                    },
                     // Execute Cost Center
                     executeCostCenter = function (afterExecutionCallback) {
                         afterCostCenterExecution = afterExecutionCallback;
@@ -112,11 +131,17 @@ define("common/addCostCenter.viewModel",
                             toastr.info("Please select quantity!");
                             return;
                         }
+                        if (selectedCostCentre().sectionId() == undefined)
+                            selectedCostCentre().sectionId(0);
+                        var callMode = selectedCostCentre().callMode();
+                        if (callMode == undefined)
+                            callMode = "New";
+                        
                         dataservice.executeCostCenterForCostCenter({
                             CostCentreId: selectedCostCentre().id(),
                             QuantityOrdered: selectedCostCentre().quantity1(),
                             ClonedItemId: itemId(),
-                            CallMode: 'New',
+                            CallMode: callMode,
                             Qty2: selectedCostCentre().quantity2(),
                             Qty3: selectedCostCentre().quantity3(),
                             SectionId: selectedCostCentre().sectionId()
@@ -125,7 +150,7 @@ define("common/addCostCenter.viewModel",
                                 questionQueueObject = data[2];
                                 inputQueueObject = data[7];
                                 workInstructions = data[3][0].WorkInstructions;
-                                var costCenterExecutedCallback = isOpenedFromSectionDetail() ? addCostCenter : null;
+                                var costCenterExecutedCallback = isOpenedFromSectionDetail() ? addCostCenter : afterCostCenterExecution;
                                 var selectedElement = $(selectedCostCentre().isSelected.domElement).find("td")[0];
                                 if (selectedCostCentre().calculationMethodType() === 4) { // cost centres of calculation methode type 4 are formula based
                                     if (questionQueueObject != null) { // process the question queue and prompt for values
@@ -234,6 +259,9 @@ define("common/addCostCenter.viewModel",
                     hide = function () {
                         view.hideDialog();
                     },
+                    createBlankCostCenter = function() {
+                        return model.CostCentre.Create({});
+                    },
                     // Get Cost Centers
                     getCostCentersForProduct = function () {
                         dataservice.getCostCentersForProduct({
@@ -281,7 +309,9 @@ define("common/addCostCenter.viewModel",
                     hide: hide,
                     currencySmb: currencySmb,
                     addCostCenter: addCostCenter,
-                    executeCostCenter: executeCostCenter
+                    executeCostCenter: executeCostCenter,
+                    createBlankCostCenter: createBlankCostCenter,
+                    onCostCenterQtyChange: onCostCenterQtyChange
                 };
             })()
         };

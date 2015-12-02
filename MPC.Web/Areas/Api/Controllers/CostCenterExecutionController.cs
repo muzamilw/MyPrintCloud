@@ -103,7 +103,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
 
-            dblResult1 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, "New", Queues, ref _CostCentreParamsArray, itemSectionId);
+            dblResult1 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, CallMode, Queues, ref _CostCentreParamsArray, itemSectionId);
             oResult.TotalPrice = dblResult1;
 
             if (Queues != null)
@@ -417,6 +417,18 @@ namespace MPC.MIS.Areas.Api.Controllers
         private double GetCostCenterPrice(string CostCentreId, string ClonedItemId, string OrderedQuantity, string CallMode, QuestionAndInputQueues Queues, ref object[] _CostCentreParamsArray, string itemSectionId)
         {
             double dblPrice = 0;
+            if (CallMode == "" && Queues == null && Convert.ToInt32(itemSectionId) > 0)
+            {
+                if (!string.IsNullOrEmpty(itemSectionId) && Convert.ToInt32(itemSectionId) > 0)
+                {
+                    var section = _itemSectionService.GetItemSectionById(Convert.ToInt64(itemSectionId));
+                    if (section != null)
+                    {
+                        section.Qty1 = Convert.ToInt32(OrderedQuantity);
+                    }
+                    _CostCentreParamsArray[8] = section;
+                }
+            }
             if ((CallMode == "UpdateAllCostCentreOnQuantityChange" && Queues != null) || CallMode != "UpdateAllCostCentreOnQuantityChange")
             {
                 AppDomain _AppDomain = null;
