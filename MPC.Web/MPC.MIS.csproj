@@ -346,6 +346,7 @@
     <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportParamController.cs" />
     <Compile Include="Areas\Api\Controllers\SpotColorController.cs" />
     <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
@@ -679,6 +680,7 @@
     <Compile Include="Areas\Api\Models\ReportNote.cs" />
     <Compile Include="Areas\Api\Models\Reportparam.cs" />
     <Compile Include="Areas\Api\Models\ReportparamComboCollection.cs" />
+    <Compile Include="Areas\Api\Models\ReportParamRequestModel.cs" />
     <Compile Include="Areas\Api\Models\ReportparamResponse.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
@@ -3534,6 +3536,7 @@
     <Folder Include="Areas\Api\Views\PTVCalculation\" />
     <Folder Include="Areas\Api\Views\RealEstateCompaign\" />
     <Folder Include="Areas\Api\Views\ReportManager\" />
+    <Folder Include="Areas\Api\Views\ReportParam\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Api\Views\SpotColor\" />
@@ -3628,7 +3631,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>30630</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
