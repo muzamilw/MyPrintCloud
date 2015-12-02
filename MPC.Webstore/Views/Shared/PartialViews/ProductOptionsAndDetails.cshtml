@@ -18,6 +18,7 @@
     var ProductDescription = ""; 
     var templateAttahment = ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>;
     var artworkAttahment = ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>;
+    var StockOptionsList = ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>;
     var cartInitialValue = "0.00";
 }
 @{
@@ -308,14 +309,22 @@
                     @Html.Raw(ProductDescription)&nbsp;
                 </div>
             </div>
-            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+            @{
+                var displayStockOptionstyle = "display:block;";
+                if (StockOptionsList != null && StockOptionsList.Count() == 1) 
+                {
+                    displayStockOptionstyle = "display:none;";
+                    
+                }
+            }
+            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12" style="@displayStockOptionstyle">
                
                 <div class="grif-layout-heading txtAlignLeft" >
                     @Html.Raw(Html.GetKeyValueFromResourceFile("lblStockChoose", UserCookieManager.WBStoreId, "Choose"))
                 </div>
             </div>
-            <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
-               
+            <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12" style="@displayStockOptionstyle">
+
                 <div class="stock-options-container txtAlignLeft">
 
                     @foreach (var stock in ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>)
@@ -920,7 +929,7 @@
     </div>
             <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12 cart-container-minheight">
                 <div class="txtAlignLeft product-orderdescription-container float_left_simple">
-
+                    <label id="lblSelectedQty" class="LightGrayLabels"></label><br />
                     <label class="Fsize15 colorBlack left_align colorDGry">
                         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
                         {
@@ -937,41 +946,73 @@
                     <label id="lblStock" class="LightGrayLabels"></label><br />
                     <div id="lblExtra" class="LightGrayLabels extraCostCentreCnt"></div>
                 </div>
-                <div class="center_align float_left_simple order-cartdetails-container cursor_pointer" onclick="SubmitForm();">
-                    @if (ViewBag.IsShowPrices == true)
+                @{
+                    var displastyleForDesignNowCnt = "display:none;";
+                    var displastyleForAddToCartCnt = "display:block;";
+                    if (ViewBag.IsPrintProduct == 1 && ((templateAttahment != null && templateAttahment.Count() == 0) || (artworkAttahment != null && artworkAttahment.Count() == 0)))
                     {
-                        <div class="order-total-container cursor_pointer" onclick="SubmitForm();">
-                            @*<span class="float_left_simple Fsize19">@ViewBag.Currency</span>*@<span class="float_left_simple Fsize19"></span><span class="float_left_simple Fsize19"></span>
-                            <span id="lblGrossTotal" class="Fsize19">@ViewBag.Currency@cartInitialValue</span>
-                            <div class="clearBoth">
+                        displastyleForDesignNowCnt = "display:block;";
+                        displastyleForAddToCartCnt = "display:none;";
+                    }
+                }
+               
+                    <div id="designNowContainer" class="center_align float_left_simple order-cartdetails-design-container cursor_pointer" onclick="RedirectToDesigner();" style="@displastyleForDesignNowCnt">
+                        @if (ViewBag.IsShowPrices == true)
+                        {
+                            <div class="order-total-container cursor_pointer" onclick="RedirectToDesigner();">
+                                <span class="float_left_simple Fsize19"></span><span class="float_left_simple Fsize19"></span><span class="float_left_simple Fsize19"></span><span class="float_left_simple Fsize19"></span>
+                                <span id="lblGrossTotal" class="Fsize19">@ViewBag.Currency@cartInitialValue</span>
+                                <div class="clearBoth">
 
+                                </div>
                             </div>
-                        </div>
-                        <label id="lblTaxLabel" class="Fsize12 white">@ViewBag.VATLabel</label>
+                            <label id="lblTaxLabel" class="Fsize12 white">@ViewBag.VATLabel</label>
 
 
-                    }
-                    <br />
-                    @using (Html.BeginForm())
-                    {
-                        @Html.HiddenFor(m => m.OrderId, new { id = "VMOrderId" })
-                        @Html.HiddenFor(m => m.ItemId, new { id = "VMItemId" })
-                        @Html.HiddenFor(m => m.JsonPriceMatrix, new { id = "VMJsonMatrix" })
-                        @Html.HiddenFor(m => m.JsonAddOnsPrice, new { id = "VMJsonAddOns" })
-                        @Html.HiddenFor(m => m.ItemPrice, new { id = "VMPrice" })
-                        @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
-                        @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
-                        @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
-                        @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
-                        @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
-                        @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
-                        @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
-                        <input type="hidden" id="ViewToFire" name="ViewToFire" value="@ViewBag.ViewToFire" />
-                        <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn_nw Fsize19" onclick="return ConfirmCart(event);" />
-                    }
+                        }
+                        <br />
+                        <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDesignNow",UserCookieManager.WBStoreId, "Design Now"))' id="btnDesignNow" class="add_to_cart_btn_nw Fsize19" onclick="RedirectToDesigner();" />
+
+                    </div>
+                
+                
+                    <div id="cartOrderDetailContainer" class="center_align float_left_simple order-cartdetails-container cursor_pointer" onclick="SubmitForm();" style="@displastyleForAddToCartCnt">
+                        @if (ViewBag.IsShowPrices == true)
+                        {
+                            <div class="order-total-container cursor_pointer" onclick="SubmitForm();">
+                                @*<span class="float_left_simple Fsize19">@ViewBag.Currency</span>*@<span class="float_left_simple Fsize19"></span><span class="float_left_simple Fsize19"></span><span class="float_left_simple Fsize19"></span>
+                                <span id="lblGrossTotal2" class="Fsize19">@ViewBag.Currency@cartInitialValue</span>
+                                <div class="clearBoth">
+
+                                </div>
+                            </div>
+                            <label id="lblTaxLabel" class="Fsize12 white">@ViewBag.VATLabel</label>
 
 
-                </div>
+                        }
+                        <br />
+                        @using (Html.BeginForm())
+                        {
+                            @Html.HiddenFor(m => m.OrderId, new { id = "VMOrderId" })
+                            @Html.HiddenFor(m => m.ItemId, new { id = "VMItemId" })
+                            @Html.HiddenFor(m => m.JsonPriceMatrix, new { id = "VMJsonMatrix" })
+                            @Html.HiddenFor(m => m.JsonAddOnsPrice, new { id = "VMJsonAddOns" })
+                            @Html.HiddenFor(m => m.ItemPrice, new { id = "VMPrice" })
+                            @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
+                            @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
+                            @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
+                            @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
+                            @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
+                            @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
+                            @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
+                            <input type="hidden" id="ViewToFire" name="ViewToFire" value="@ViewBag.ViewToFire" />
+                            <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn_nw Fsize19" onclick="return ConfirmCart(event);" />
+                        }
+
+
+                    </div>
+                
+               
                 <div class="clearBoth">
                     &nbsp;
                 </div>
@@ -1021,7 +1062,7 @@
                        
                         <input type="file" name="imageUploader" id="imageUploader" class="imageUploader" style="display:none;" />
                         <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload \n Your complete design (pdf)"))' class="Upload_your_artwork rounded_corners5" onclick="openDailogToUploadImage();" />
-    <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload \n Your complete design (pdf)"))' class="Upload_your_artwork rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" style="display:none;" />
+                    <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload \n Your complete design (pdf)"))' class="Upload_your_artwork rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" style="display:none;" />
                     }
                    
                   
@@ -1253,7 +1294,9 @@
     function SubmitForm(){
         $("#AddTOCart").click();
     }
-
+    function RedirectToDesigner(){
+        window.location.href = "@ViewBag.DesignerUrl";
+    }
     function ChangeTab(tabId, obj){
 
         $("#tabs-1").css("display", "none");
@@ -1375,6 +1418,13 @@
         MatrixToggle();
         if (isRanged) {
             if ($("#rangedQuantityOrdered").val() == "") {
+                var RangedQtyJsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
+                var RangedQtyJsonDataFirstObject = $(RangedQtyJsonData)[0];
+                var firstQtyinRangeTable = RangedQtyJsonDataFirstObject.QtyRangeFrom;
+                if(parseInt(firstQtyinRangeTable) > 0){
+                    $("#rangedQuantityOrdered").val(firstQtyinRangeTable);
+                    CalculatePriceBaseOnRangedQuantity();
+                }
             } else {
                 CalculatePriceBaseOnRangedQuantity();
             }
@@ -1741,24 +1791,29 @@
 
         var GrossTotal = itemPrice + addOnPrice;
         GrossTotal = GrossTotal.toFixed(2).toString();
-        console.log(GrossTotal + "gross totsla");
+
         var TotalWithCurrency = "@Html.Raw(ViewBag.Currency)" + GrossTotal;
         var isShowPricing = 1;
 
         if (isShowPricing == 1) {
             if (IsInt == -1) {
                 $('#lblGrossTotal').text(TotalWithCurrency);
+                $('#lblGrossTotal2').text(TotalWithCurrency);
+                
             } else {
                 $('#lblGrossTotal').text(TotalWithCurrency);
+                $('#lblGrossTotal2').text(TotalWithCurrency);
             }
         } else {
             $('#lblGrossTotal').css("display", "none");
+            $('#lblGrossTotal2').css("display", "none");
         }
 
         if (parseFloat(GrossTotal) > 0) {
             isPriceSelected = 1;
         }
-        
+        $('#lblSelectedQty').text("Qty: " + $("#VMQuantityOrdered").val());
+
     }
 
     // returns the the selected stock no
@@ -1791,7 +1846,7 @@
 
     function calculateAddOns(isReCalCostCentreOnQuantityChange) {
 
-       
+
         var checkedPriceTotal = 0;
 
         var selectedCheckBox = null;
@@ -1940,7 +1995,7 @@
         }
 
         $('#lblExtra').html(itemsList);
-       
+
         return checkedPriceTotal;
     }
 
@@ -2097,7 +2152,9 @@
                             $("#uploadDesignHeadingContainer").css("display", "block");
                             $("#uploadDesignattachmentContainer").css("display", "block");
                             $("#attachmentUploadContainer").html(messages[1]);
-                            isImageUploadedOnLandingPage = 1;
+                            isImageUploadedOnLandingPage = 1; 
+                            $("#designNowContainer").css("display", "none");
+                            $("#cartOrderDetailContainer").css("display", "block");
                             HideLoader();
                         } else {
                             ShowPopUp('Message', messages[0]);
@@ -2716,7 +2773,7 @@
             contentType: "application/json",
             async: true,
             success: function (response) {
-
+               
                 if (response[0] == "Success") {
                     $("#attachmentUploadContainer").html(response[1]);
                     isImageUploadedOnLandingPage = 1;
@@ -2724,6 +2781,8 @@
                 } else if (response[0] == "NoFiles") {
                     $("#attachmentUploadContainer").html("");
                     isImageUploadedOnLandingPage = 0;
+                    $("#designNowContainer").css("display", "block");
+                    $("#cartOrderDetailContainer").css("display", "none");
                     HideLoader();
                 }
 

@@ -125,7 +125,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemByIdDesigner(ItemId);
         }
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false, long PropertyId = 0)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false, long PropertyId = 0, bool isSetTemplateIdToNull = false)
         {
 
             try
@@ -188,11 +188,14 @@ namespace MPC.Implementation.WebStoreServices
 
                 newItem.TemplateType = ActualItem.TemplateType;
 
-
-                if (isUploadDesignMode == true)
+                if (isSetTemplateIdToNull == true) 
                 {
-                    newItem.TemplateId = null;
+                    if (isUploadDesignMode == true)
+                    {
+                        newItem.TemplateId = null;
+                    }
                 }
+               
                 if (isCopyProduct)
                 {
                     newItem.IsOrderedItem = true;
@@ -691,10 +694,10 @@ namespace MPC.Implementation.WebStoreServices
 
                 clonedItem.DiscountVoucherID = null;
 
-                if (ItemMode == "UploadDesign") {
-                    clonedItem.UploadTypeByUser = 1;
+                //if (ItemMode == "UploadDesign") {
+                //    clonedItem.UploadTypeByUser = 1;
 
-                }
+                //}
 
                 FirstItemSection = _ItemSectionRepository.GetFirstSectionOfItem(clonedItem.ItemId);
                 //clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
@@ -3630,6 +3633,26 @@ namespace MPC.Implementation.WebStoreServices
                     }
 
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void UpdateUploadFlagInItem(long ItemId, int? FlagValue)
+        {
+            try
+            {
+
+                Item clonedItem = _ItemRepository.GetItemById(ItemId);
+                
+                if (clonedItem != null)
+                {
+                    clonedItem.UploadTypeByUser = 1;
+                }
+
+                _ItemRepository.SaveChanges();
             }
             catch (Exception ex)
             {

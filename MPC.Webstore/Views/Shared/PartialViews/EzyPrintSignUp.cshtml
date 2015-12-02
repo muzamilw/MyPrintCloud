@@ -30,17 +30,18 @@
                         }
 
                     }
-
+                   
                     @using (Html.BeginForm())
                     {
+                        <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
+                        <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
+                        <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
+                        <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
+
                         <div class="errorMessage">
                             <div>@ViewBag.Message</div>
 
-                            <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
-                            <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
-                            <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
-                            <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
-
+                           
                         </div>
                         <br />
                         if (isSocial == true)
@@ -50,25 +51,18 @@
                             <input type="hidden" name="hfSocialProviderKey" id="SocialProviderKey" value="@ViewBag.SocialProviderId" />
                             <input type="hidden" name="hfSocialScreenName" id="SocialScreenName" value="@ViewBag.socialFirstName" />
 
-                            if (ViewBag.Provider == "fb")
-                            {
-                                <input type="text" name="socialFirstNameTxt" class="formbox" value="@ViewBag.socialFirstName" />
-                                <input type="text" name="socialLastNameTxt" class="formbox" value="@ViewBag.socialLastName" />
-                                <input type="text" name="socialEmailTxt" class="formbox" value="@ViewBag.socialEmail" />
-                            }
+                          
 
                         }
                         else
                         {
-
+                           
                             <input type="hidden" name="hfIsSocial" id="isSocial" value="0" />
-                            @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")) })
 
 
                         }
-
-                        if (ViewBag.Provider == "tw")
-                        {
+                       
+                       
                             @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")) })
 
                             @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
@@ -80,36 +74,19 @@
                                            @placeholder =
                                                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
                                        })
-                        }
-                        else if (ViewBag.Provider != "fb")
-                        {
-                            @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "formbox", @placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")) })
-
-                            @Html.TextBoxFor(model => model.Email, new
-                                       {
-                                           id = "txtEmail",
-                                           @class = "formbox ",
-                                           @placeholder =
-                                               @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))
-                                       })
-                        }
-
+                       
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")) })
 
 
 
-                        if (isSocial == true)
+                        if (isSocial != true)
                         {
-                            @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "formbox ", @style="display:none;",@placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
-
-
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "formbox", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
+                            @Html.PasswordFor(model => model.Password, new { id = "txtPassword", @class = "formbox", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")) }) <br />
 
                             @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })
+
                         }
+
 
                        <br />
                         <p>@Html.Raw(Html.GetKeyValueFromResourceFile("lbltweet", UserCookieManager.WBStoreId, "We will tweet you when your order has been dispatched"))</p>
@@ -231,83 +208,7 @@
 
 <script>
 
-    $(document).ready(function () {
-        $('#txtFirstName').val('@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))');
-            $('#txtLastName').val('@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))');
-        $('#txtEmail').val('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))');
-        $('#txtPassword').val('@Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password"))');
-        $('#txtPhone').val('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrllphone", UserCookieManager.WBStoreId, "Phone"))');
-        });
+  
 
-        $('#txtFirstName').focus(function () {
-            if ($('#txtFirstName').val() === 'First Name') {
 
-                $('#txtFirstName').val('');
-            }
-        });
-
-        $('#txtFirstName').blur(function () {
-            if ($('#txtFirstName').val() === '') {
-
-                $('#txtFirstName').val('First Name');
-            }
-        });
-
-        $('#txtLastName').focus(function () {
-            if ($('#txtLastName').val() === 'Last Name') {
-
-                $('#txtLastName').val('');
-            }
-        });
-
-        $('#txtLastName').blur(function () {
-            if ($('#txtLastName').val() === '') {
-
-                $('#txtLastName').val('Last Name');
-            }
-        });
-
-        $('#txtPhone').focus(function () {
-            if ($('#txtPhone').val() === 'Phone') {
-
-                $('#txtPhone').val('');
-            }
-        });
-
-        $('#txtPhone').blur(function () {
-            if ($('#txtPhone').val() === '') {
-
-                $('#txtPhone').val('Phone');
-            }
-        });
-
-        $('#txtEmail').focus(function () {
-            if ($('#txtEmail').val() === 'Email') {
-
-                $('#txtEmail').val('');
-            }
-        });
-
-        $('#txtEmail').blur(function () {
-            if ($('#txtEmail').val() === '') {
-
-                $('#txtEmail').val('Email');
-            }
-        });
-
-        $('#txtPassword').focus(function () {
-            if ($('#txtPassword').val() === 'Password') {
-                $('#txtPassword').attr("type", "password");
-                $('#txtPassword').val('');
-            }
-        });
-
-        $('#txtPassword').blur(function () {
-            if ($('#txtPassword').val() === '') {
-                $('#txtPassword').removeAttr("type");
-                $('#txtPassword').val('Password');
-            } else {
-                $('#txtPassword').attr("type", "password");
-            }
-        });
 </script>
