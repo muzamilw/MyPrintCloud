@@ -4212,6 +4212,7 @@ namespace MPC.Implementation.MISServices
         }
         public bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP)
         {
+            string errorRecord = string.Empty;
             try
             {
                 #region OrganisationEntities
@@ -4296,7 +4297,7 @@ namespace MPC.Implementation.MISServices
 
                 #region ExportFiles
 
-                CopyFiles(objSets, ObjExportCorporate, ObjExportRetail, DPath, OrganisationID, CompanyID, RetailCompanyID, CompanyWOP, RetailCompanyWOP, ObjExportCorporateWOProducts, ObjExportRetailWOProducts);
+                 errorRecord = CopyFiles(objSets, ObjExportCorporate, ObjExportRetail, DPath, OrganisationID, CompanyID, RetailCompanyID, CompanyWOP, RetailCompanyWOP, ObjExportCorporateWOProducts, ObjExportRetailWOProducts);
 
 
                 #endregion
@@ -4307,16 +4308,17 @@ namespace MPC.Implementation.MISServices
             catch (Exception ex)
             {
 
-                throw new MPCException(ex.ToString(), OrganisationID);
+                throw new MPCException(ex.ToString() + errorRecord, OrganisationID);
 
             }
 
         }
 
-        public void CopyFiles(ExportSets ExportSets, ExportSets ObjExportCorporateSet, ExportSets ObjExportRetailSet, string DPath, long OrganisationID, long CompanyID, long RetailCompanyID, long CompanyIDWOP, long RetailCompanyIDWOP, ExportSets ObjExportCorporateWOProducts, ExportSets ObjExportRetailWOProducts)
+        public string CopyFiles(ExportSets ExportSets, ExportSets ObjExportCorporateSet, ExportSets ObjExportRetailSet, string DPath, long OrganisationID, long CompanyID, long RetailCompanyID, long CompanyIDWOP, long RetailCompanyIDWOP, ExportSets ObjExportCorporateWOProducts, ExportSets ObjExportRetailWOProducts)
         {
             try
             {
+                string error = string.Empty;
                 List<string> JsonFiles = new List<string>();
                 using (ZipFile zip = new ZipFile())
                 {
@@ -4471,7 +4473,7 @@ namespace MPC.Implementation.MISServices
                     //    r.Comment = "Json File for a corporate Company";
                     //}
 
-
+                    error += "json files adding done" + Environment.NewLine;
 
                     //export language file for an organisation
 
@@ -4507,7 +4509,8 @@ namespace MPC.Implementation.MISServices
 
                         }
                     }
-
+                    error += "resource file add" + Environment.NewLine;
+                  
 
                     // export MIS logo in Organisation
                     ExportOrganisation ObjExportOrg = new ExportOrganisation();
@@ -4540,7 +4543,7 @@ namespace MPC.Implementation.MISServices
                             }
                         }
                     }
-
+                    error += "org mis logo and website logo add" + Environment.NewLine;
                     if (ObjExportOrg.SuppliersList != null && ObjExportOrg.SuppliersList.Count > 0)
                     {
                         foreach (var supList in ObjExportOrg.SuppliersList)
@@ -4560,6 +4563,8 @@ namespace MPC.Implementation.MISServices
 
                         }
                     }
+
+                    error += "supplierImageAdd" + Environment.NewLine;
                     // export cost centre images
                     if (ObjExportOrg.CostCentre != null && ObjExportOrg.CostCentre.Count > 0)
                     {
@@ -4590,7 +4595,7 @@ namespace MPC.Implementation.MISServices
                             }
                         }
                     }
-
+                    error += "cost centre adding" + Environment.NewLine;
                     ObjExportOrg = null;
 
                     ExportOrganisation ObExportOrg2 = new ExportOrganisation();
@@ -4614,6 +4619,7 @@ namespace MPC.Implementation.MISServices
                             }
                         }
                     }
+                    error += "reportNote adding" + Environment.NewLine;
                     ObExportOrg2 = null;
                     // export fonts
                     List<TemplateFont> lsttemplateFonts = templatefonts.getTemplateFonts();
@@ -4658,7 +4664,7 @@ namespace MPC.Implementation.MISServices
 
                         }
                     }
-
+                    error += "templatefonts adding for oganisation" + Environment.NewLine;
                     // export corporate company Flow
                     #region export corporate files
                     ExportOrganisation ObjExportCorp = new Models.Common.ExportOrganisation();
@@ -4692,6 +4698,7 @@ namespace MPC.Implementation.MISServices
                                 }
                             }
                             // export media
+                            error += "corporate store image and background image added" + Environment.NewLine;
 
                             if (ObjExportCorp.Company.MediaLibraries != null)
                             {
@@ -4713,6 +4720,9 @@ namespace MPC.Implementation.MISServices
                                     }
                                 }
                             }
+
+                            error += "corporate store media libraries added" + Environment.NewLine;
+
                             List<ProductCategory> categories = new List<ProductCategory>();
                             categories = ObjExportCorporateSet.ExportStore2;
 
@@ -4748,6 +4758,8 @@ namespace MPC.Implementation.MISServices
                                 }
 
                             }
+
+                            error += "corporate store categories added" + Environment.NewLine;
                             List<Item> exItemsCorp = new List<Item>();
                             exItemsCorp = ObjExportCorporateSet.ExportStore3;
                             if (exItemsCorp != null)
@@ -4846,7 +4858,7 @@ namespace MPC.Implementation.MISServices
 
                                             }
                                         }
-
+                                      
                                         if (item.ItemImages != null && item.ItemImages.Count > 0)
                                         {
                                             foreach (var img in item.ItemImages)
@@ -4865,6 +4877,8 @@ namespace MPC.Implementation.MISServices
 
                                             }
                                         }
+                                       
+
                                         if (item.TemplateId != null && item.TemplateId > 0)
                                         {
                                             if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
@@ -4928,7 +4942,7 @@ namespace MPC.Implementation.MISServices
                                                     }
                                                 }
 
-
+                                             
                                                 if (item.Template.TemplatePages != null && item.Template.TemplatePages.Count > 0)
                                                 {
                                                     foreach (var tempPage in item.Template.TemplatePages)
@@ -4968,6 +4982,7 @@ namespace MPC.Implementation.MISServices
 
                                 }
                             }
+                            error += "corporate store items added" + Environment.NewLine;
                             // copy template fonts of customer
                             if (ObjExportCorp.TemplateFonts != null && ObjExportCorp.TemplateFonts.Count > 0)
                             {
@@ -5015,7 +5030,7 @@ namespace MPC.Implementation.MISServices
                                     }
                                 }
                             }
-
+                            error += "corporate store template fonts added" + Environment.NewLine;
                             if (ObjExportCorp.Company.CompanyContacts != null && ObjExportCorp.Company.CompanyContacts.Count > 0)
                             {
                                 foreach (var contact in ObjExportCorp.Company.CompanyContacts)
@@ -5034,7 +5049,7 @@ namespace MPC.Implementation.MISServices
                                 }
 
                             }
-
+                            error += "corporate store company contacts added" + Environment.NewLine;
 
                             string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/Site.css";
                             string pCSSDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
@@ -5053,10 +5068,12 @@ namespace MPC.Implementation.MISServices
                                 r.Comment = "Sprite for Store";
 
                             }
-
+                            error += "corporate store css and sprite add" + Environment.NewLine;
                         }
                     }
                     #endregion
+
+                    error += "start to import retail store" + Environment.NewLine;
 
                     #region export retail store
                     // export files of retail store
@@ -5509,6 +5526,10 @@ namespace MPC.Implementation.MISServices
                     }
                     #endregion
 
+                    error += "import retail store done" + Environment.NewLine;
+
+
+                    error += "start to corporate store without product" + Environment.NewLine;
                     #region corporate store without products
                     // export corporate store without products
                     ExportOrganisation ObjExportCorpWOP = new Models.Common.ExportOrganisation();
@@ -5952,6 +5973,11 @@ namespace MPC.Implementation.MISServices
 
                     #endregion
 
+
+                    error += "corporate store without product done" + Environment.NewLine;
+
+
+                    error += "start to retail store without product" + Environment.NewLine;
                     #region retail store without products
 
                     ExportOrganisation ObjExportRetailWOP = new Models.Common.ExportOrganisation();
@@ -6330,6 +6356,8 @@ namespace MPC.Implementation.MISServices
 
                     #endregion
 
+                    error += "retail store without product done" + Environment.NewLine;
+
                     // export zip
                     zip.Comment = "This zip archive was created to export complete organisation";
                     string sDirectory = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/DefaulStorePackage";
@@ -6364,6 +6392,7 @@ namespace MPC.Implementation.MISServices
                     }
 
                 }
+                return error;
             }
             catch (Exception ex)
             {
