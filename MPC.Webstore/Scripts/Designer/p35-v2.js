@@ -72,6 +72,7 @@ $("#btnAdd").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
+    $(".divBtmSticky ").css("display", "none");
     $("#pnlAddMain").css("top", "0px");
     try {
 
@@ -101,8 +102,10 @@ $(".backgrounds").click(function (event) {
     isBkPnlUploads = true;
     isBKpnl = true;
     if (spBkPanel != "") {
-        $(spBkPanel).click();
+        var tsp = spBkPanel;
         spBkPanel = "";
+        $(tsp).click();
+       
     }
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage5");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
@@ -797,15 +800,24 @@ $(".freeBackgrounds").click(function (event) {
     spBkPanel = ".btnBkBkimgs";
 });
 $(".btnBkBkimgs").click(function (event) {
-    fu13(2, 2, 1, 1);
+    // fu13(2, 2, 1, 1);
+    $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
+    $(".BkImgPanels").addClass("disappearing");
+    isBkPaCl = false; SelBkCat = "00";
     pcL29_pcRestore(7); spBkPanel = "";
 });
 $(".btnBkmyBk").click(function (event) {
-    fu13(2, 2, 1, 2);
+   // fu13(2, 2, 1, 2);
+    $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
+    $(".BkImgPanels").addClass("disappearing");
+    isBkPaCl = false; SelBkCat = "00";
     pcL29_pcRestore(7); spBkPanel = "";
 });
 $(".btnBkTempBk").click(function (event) {
-    fu13(2, 2, 1, 3);
+    //fu13(2, 2, 1, 3);
+    $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
+    $(".BkImgPanels").addClass("disappearing");
+    isBkPaCl = false; SelBkCat = "00";
     pcL29_pcRestore(7); spBkPanel = "";
 });
 $(".myBackgrounds").click(function (event) {
@@ -925,6 +937,7 @@ $(".btnAFrames").click(function (event) {
 
 //});
 $(".btnAShapes").click(function (event) {
+    $(".btnBackGlImgs, .btnBackMyImg, .btnBackMyLogos, .btnBackTimgs").click();
     fu13(2, 4, 1, 4);
     pcL29_pcMove(1);
     spPanel = ".btnBackFromShapes";

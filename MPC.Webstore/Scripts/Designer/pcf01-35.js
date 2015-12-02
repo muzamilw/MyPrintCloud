@@ -985,7 +985,6 @@ function fu12(mode, title) {
     var returnText = $.ajax(options).responseText;
 }
 function fu13(op, type, r, c) {
-    
     if (type == 1) {
         if (isImgPaCl) {
             $(".ImgsBrowserCategories").removeClass("folderExpanded"); $(".ImgsBrowserCategories ul li").removeClass("folderExpanded");
@@ -1006,8 +1005,9 @@ function fu13(op, type, r, c) {
         if (isBkPaCl) {
             $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
             $(".BkImgPanels").addClass("disappearing");
-            isBkPaCl = false;
+            isBkPaCl = false; 
         }
+    
         if (SelBkCat == ("" + r + "" + c)) {
             SelBkCat = "00";
         } else {
@@ -1032,6 +1032,7 @@ function fu13(op, type, r, c) {
             SelUpCat = ("" + r + "" + c);
             $(".UpImr" + r + "c" + c).removeClass("disappearing");
             isUpPaCl = true;
+          
         }
     } else if (type == 4) {
 
@@ -1075,6 +1076,7 @@ function fu13(op, type, r, c) {
         $(".AddPanels").addClass("disappearing");
         isAddPaCl = false;
     }
+    lastSel = op + " " + type + " " + r + " " + c + " ";
 }
 function g0(left, top, IsQT, QTName, QTSequence, QTWatermark, txt, fontSize, isBold) {
     var D1NTO = {};

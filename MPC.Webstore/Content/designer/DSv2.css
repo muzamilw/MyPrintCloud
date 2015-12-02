@@ -4702,7 +4702,7 @@ h2 + .gallery {
     }
 
 .editTxtBtn {
-    background-color: #99c432;
+      background-color: #99c432;
     border: 1px solid transparent;
     min-width: 2.78572em;
     line-height: 2;
@@ -4711,6 +4711,8 @@ h2 + .gallery {
     margin-bottom: -4px;
     display: inline;
     float: right;
+    margin-bottom: 3px;
+    height: 31px;
 }
 
 .selectedItemLayers .editTxtBtn {
