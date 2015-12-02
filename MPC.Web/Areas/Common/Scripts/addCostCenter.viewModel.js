@@ -110,6 +110,20 @@ define("common/addCostCenter.viewModel",
                         selectedCostCentre(currentCostCenter);
                         executeCostCenter(afterCostCenterExecution);
                     },
+                    updateCostCenter = function() {
+                        var jsonObjectsOfGlobalQueue = null;
+                        var inputAndQuestionQueues;
+                        var costCentreQueueItems;
+                        if (!costCentreQueueItems) {
+                            inputAndQuestionQueues = {
+                                QuestionQueues: globalQuestionQueueItemsList,
+                                InputQueues: globalInputQueueItemsList
+                            };
+                            jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
+                            costCentreQueueItems = jsonObjectsOfGlobalQueue;
+
+                        }
+                    },
                     // Execute Cost Center
                     executeCostCenter = function (afterExecutionCallback) {
                         afterCostCenterExecution = afterExecutionCallback;
@@ -122,6 +136,7 @@ define("common/addCostCenter.viewModel",
                         var callMode = selectedCostCentre().callMode();
                         if (callMode == undefined)
                             callMode = "New";
+                        
                         dataservice.executeCostCenterForCostCenter({
                             CostCentreId: selectedCostCentre().id(),
                             QuantityOrdered: selectedCostCentre().quantity1(),

@@ -1557,8 +1557,8 @@ define("common/itemDetail.viewModel",
                         _.each(selectedSection().sectionCostCentres(), function (item) {
                             if (item.costCentreId() == selectedCostCentre().id()) {
                                 item.qty1Charge(selectedCostCentre().setupCost());
-                                item.qty2Charge(selectedCostCentre().setupCost());
-                                item.qty3Charge(selectedCostCentre().setupCost());
+                                item.qty2Charge(selectedCostCentre().setupCost2());
+                                item.qty3Charge(selectedCostCentre().setupCost3());
                             }
                         });
                     },
@@ -1636,6 +1636,9 @@ define("common/itemDetail.viewModel",
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
                         selectedSection().sectionCostCentres.push(sectionCostCenter);
+                        selectedSection().questionQueue(selectedCostCentre().questionQueue());
+                        selectedSection().inputQueue(selectedCostCentre().inputQueue());
+                        selectedSection().costCenterQueue(selectedCostCentre().costCenterQueue());
                         sectionCostCenterQty2MarkUpId(defaultMarkUpId());
                         sectionCostCenterQty1MarkUpId(defaultMarkUpId());
                         sectionCostCenterQty3MarkUpId(defaultMarkUpId());

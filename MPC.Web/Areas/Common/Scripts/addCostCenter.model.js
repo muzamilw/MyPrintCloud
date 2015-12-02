@@ -41,6 +41,10 @@
             costCentreTimeSourceType = ko.observable(specifiedCostCentreTimeSourceType || undefined),
             // Calculation Method Type
             calculationMethodType = ko.observable(specifiedCalculationMethodType || undefined),
+            stockQueue = ko.observable(),
+            inputQueue = ko.observable(),
+            questionQueue = ko.observable(),
+            costCenterQueue = ko.observable(),
             errors = ko.validation.group({
 
             }),
@@ -99,7 +103,11 @@
             costCentreTimeSourceType: costCentreTimeSourceType,
             calculationMethodType: calculationMethodType,
             sectionId: sectionId,
-            callMode:callMode,
+            callMode: callMode,
+            stockQueue: stockQueue,
+            costCenterQueue: costCenterQueue,
+            inputQueue: inputQueue,
+            questionQueue : questionQueue,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
