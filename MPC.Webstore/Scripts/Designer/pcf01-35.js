@@ -985,7 +985,6 @@ function fu12(mode, title) {
     var returnText = $.ajax(options).responseText;
 }
 function fu13(op, type, r, c) {
-    
     if (type == 1) {
         if (isImgPaCl) {
             $(".ImgsBrowserCategories").removeClass("folderExpanded"); $(".ImgsBrowserCategories ul li").removeClass("folderExpanded");
@@ -1006,8 +1005,9 @@ function fu13(op, type, r, c) {
         if (isBkPaCl) {
             $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
             $(".BkImgPanels").addClass("disappearing");
-            isBkPaCl = false;
+            isBkPaCl = false; 
         }
+    
         if (SelBkCat == ("" + r + "" + c)) {
             SelBkCat = "00";
         } else {
@@ -1032,6 +1032,7 @@ function fu13(op, type, r, c) {
             SelUpCat = ("" + r + "" + c);
             $(".UpImr" + r + "c" + c).removeClass("disappearing");
             isUpPaCl = true;
+          
         }
     } else if (type == 4) {
 
@@ -1075,6 +1076,7 @@ function fu13(op, type, r, c) {
         $(".AddPanels").addClass("disappearing");
         isAddPaCl = false;
     }
+    lastSel = op + " " + type + " " + r + " " + c + " ";
 }
 function g0(left, top, IsQT, QTName, QTSequence, QTWatermark, txt, fontSize, isBold) {
     var D1NTO = {};
@@ -1716,6 +1718,19 @@ function inList(list,obj) {
         }
     });
     return res;
+}
+function g5_rotate(e) {
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        buildUndo(D1AG);
+    } else {
+        buildUndo(D1AO);
+    }
+
+    if (D1AO && showEBtn) {
+        $(".inputObjectRotation").val(D1AO.getAngle());
+    } 
 }
 function g5(e) {
     IsDesignModified = true;
@@ -2861,7 +2876,7 @@ function pcL29(fontSize, isBold, ContentString) {
     D1NTO.ColorK = 100;
     D1NTO.IsBold = isBold;
     D1NTO.IsItalic = false;
-    D1NTO.LineSpacing = 1.4;
+    D1NTO.LineSpacing = 1;
     if (IsCalledFrom == 2 || IsCalledFrom == 4) {
         D1NTO.IsSpotColor = true;
         D1NTO.SpotColorName = 'Black';
@@ -3849,7 +3864,6 @@ function pcf26_upPanl(D1AO) {
     if (D1AO.isBulletPoint)
         $("#BtnBulletedLstTxt").addClass("activeProp");
 
-    console.log(D1AO.textCase);
     if (D1AO.textCase == 0) {
         $(".CaseModeSlider").slider("option", "value", "1");
     } else if (D1AO.textCase == 2) {

@@ -920,7 +920,10 @@
                     passesSide1: passesSide1,
                     passesSide2: passesSide2,
                     printingType: printingType,
-                    itemGutterHorizontal: itemGutterHorizontal
+                    itemGutterHorizontal: itemGutterHorizontal,
+                    costCenterQueue: costCenterQueue,
+                    inputQueue: inputQueue,
+                    questionQueue : questionQueue
                 }),
                 // SectionCostCentres Has Changes
                 sectionCostCentresHasChanges = function () {

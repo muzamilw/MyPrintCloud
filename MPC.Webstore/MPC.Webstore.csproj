@@ -546,6 +546,7 @@
     <Content Include="Content\Designer\assets-v2\placeholder7.png" />
     <Content Include="Content\Designer\assets-v2\placeholder8.png" />
     <Content Include="Content\Designer\assets-v2\placeholder9.png" />
+    <Content Include="Content\Designer\assets-v2\rotate.png" />
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />

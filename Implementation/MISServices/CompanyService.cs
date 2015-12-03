@@ -4210,8 +4210,9 @@ namespace MPC.Implementation.MISServices
             GC.Collect();
 
         }
-        public bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP)
+        public string ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP)
         {
+            string errorRecord = string.Empty;
             try
             {
                 #region OrganisationEntities
@@ -4296,27 +4297,29 @@ namespace MPC.Implementation.MISServices
 
                 #region ExportFiles
 
-                CopyFiles(objSets, ObjExportCorporate, ObjExportRetail, DPath, OrganisationID, CompanyID, RetailCompanyID, CompanyWOP, RetailCompanyWOP, ObjExportCorporateWOProducts, ObjExportRetailWOProducts);
+                 errorRecord = CopyFiles(objSets, ObjExportCorporate, ObjExportRetail, DPath, OrganisationID, CompanyID, RetailCompanyID, CompanyWOP, RetailCompanyWOP, ObjExportCorporateWOProducts, ObjExportRetailWOProducts);
 
 
                 #endregion
 
-                return true;
+                 return "true";
 
             }
             catch (Exception ex)
             {
 
-                throw new MPCException(ex.ToString(), OrganisationID);
+                throw ex;
 
             }
 
         }
 
-        public void CopyFiles(ExportSets ExportSets, ExportSets ObjExportCorporateSet, ExportSets ObjExportRetailSet, string DPath, long OrganisationID, long CompanyID, long RetailCompanyID, long CompanyIDWOP, long RetailCompanyIDWOP, ExportSets ObjExportCorporateWOProducts, ExportSets ObjExportRetailWOProducts)
+        public string CopyFiles(ExportSets ExportSets, ExportSets ObjExportCorporateSet, ExportSets ObjExportRetailSet, string DPath, long OrganisationID, long CompanyID, long RetailCompanyID, long CompanyIDWOP, long RetailCompanyIDWOP, ExportSets ObjExportCorporateWOProducts, ExportSets ObjExportRetailWOProducts)
         {
+            string error = string.Empty;
             try
             {
+                
                 List<string> JsonFiles = new List<string>();
                 using (ZipFile zip = new ZipFile())
                 {
@@ -4471,7 +4474,7 @@ namespace MPC.Implementation.MISServices
                     //    r.Comment = "Json File for a corporate Company";
                     //}
 
-
+                    error += "json files adding done";
 
                     //export language file for an organisation
 
@@ -4507,7 +4510,8 @@ namespace MPC.Implementation.MISServices
 
                         }
                     }
-
+                    error += "resource file add";
+                  
 
                     // export MIS logo in Organisation
                     ExportOrganisation ObjExportOrg = new ExportOrganisation();
@@ -4540,7 +4544,7 @@ namespace MPC.Implementation.MISServices
                             }
                         }
                     }
-
+                    error += "org mis logo and website logo add";
                     if (ObjExportOrg.SuppliersList != null && ObjExportOrg.SuppliersList.Count > 0)
                     {
                         foreach (var supList in ObjExportOrg.SuppliersList)
@@ -4560,6 +4564,8 @@ namespace MPC.Implementation.MISServices
 
                         }
                     }
+
+                    error += "supplierImageAdd";
                     // export cost centre images
                     if (ObjExportOrg.CostCentre != null && ObjExportOrg.CostCentre.Count > 0)
                     {
@@ -4590,7 +4596,7 @@ namespace MPC.Implementation.MISServices
                             }
                         }
                     }
-
+                    error += "cost centre adding";
                     ObjExportOrg = null;
 
                     ExportOrganisation ObExportOrg2 = new ExportOrganisation();
@@ -4614,6 +4620,7 @@ namespace MPC.Implementation.MISServices
                             }
                         }
                     }
+                    error += "reportNote adding";
                     ObExportOrg2 = null;
                     // export fonts
                     List<TemplateFont> lsttemplateFonts = templatefonts.getTemplateFonts();
@@ -4658,7 +4665,7 @@ namespace MPC.Implementation.MISServices
 
                         }
                     }
-
+                    error += "templatefonts adding for oganisation" ;
                     // export corporate company Flow
                     #region export corporate files
                     ExportOrganisation ObjExportCorp = new Models.Common.ExportOrganisation();
@@ -4692,6 +4699,7 @@ namespace MPC.Implementation.MISServices
                                 }
                             }
                             // export media
+                            error += "corporate store image and background image added";
 
                             if (ObjExportCorp.Company.MediaLibraries != null)
                             {
@@ -4713,6 +4721,9 @@ namespace MPC.Implementation.MISServices
                                     }
                                 }
                             }
+
+                            error += "corporate store media libraries added";
+
                             List<ProductCategory> categories = new List<ProductCategory>();
                             categories = ObjExportCorporateSet.ExportStore2;
 
@@ -4748,6 +4759,8 @@ namespace MPC.Implementation.MISServices
                                 }
 
                             }
+
+                            error += "corporate store categories added";
                             List<Item> exItemsCorp = new List<Item>();
                             exItemsCorp = ObjExportCorporateSet.ExportStore3;
                             if (exItemsCorp != null)
@@ -4767,7 +4780,7 @@ namespace MPC.Implementation.MISServices
 
                                             }
                                         }
-
+                                        error += "corporate store categories added" + Environment.NewLine;
                                         if (item.ThumbnailPath != null)
                                         {
                                             string FilePath = HttpContext.Current.Server.MapPath("~/" + item.ThumbnailPath);
@@ -4846,7 +4859,7 @@ namespace MPC.Implementation.MISServices
 
                                             }
                                         }
-
+                                      
                                         if (item.ItemImages != null && item.ItemImages.Count > 0)
                                         {
                                             foreach (var img in item.ItemImages)
@@ -4865,6 +4878,8 @@ namespace MPC.Implementation.MISServices
 
                                             }
                                         }
+
+                                        error += "items copy done added itemid = " + item.ItemId + Environment.NewLine ;
                                         if (item.TemplateId != null && item.TemplateId > 0)
                                         {
                                             if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
@@ -4928,7 +4943,7 @@ namespace MPC.Implementation.MISServices
                                                     }
                                                 }
 
-
+                                             
                                                 if (item.Template.TemplatePages != null && item.Template.TemplatePages.Count > 0)
                                                 {
                                                     foreach (var tempPage in item.Template.TemplatePages)
@@ -4964,10 +4979,12 @@ namespace MPC.Implementation.MISServices
                                             //if(ObjExportRetail.TemplateBackgroundImage)
 
                                         }
+                                        error += "templates copy done added itemid = " + item.ItemId + Environment.NewLine;
                                     }
 
                                 }
                             }
+                            error += "corporate store items added";
                             // copy template fonts of customer
                             if (ObjExportCorp.TemplateFonts != null && ObjExportCorp.TemplateFonts.Count > 0)
                             {
@@ -5015,7 +5032,7 @@ namespace MPC.Implementation.MISServices
                                     }
                                 }
                             }
-
+                            error += "corporate store template fonts added";
                             if (ObjExportCorp.Company.CompanyContacts != null && ObjExportCorp.Company.CompanyContacts.Count > 0)
                             {
                                 foreach (var contact in ObjExportCorp.Company.CompanyContacts)
@@ -5034,7 +5051,7 @@ namespace MPC.Implementation.MISServices
                                 }
 
                             }
-
+                            error += "corporate store company contacts added";
 
                             string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/Site.css";
                             string pCSSDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
@@ -5053,10 +5070,12 @@ namespace MPC.Implementation.MISServices
                                 r.Comment = "Sprite for Store";
 
                             }
-
+                            error += "corporate store css and sprite add";
                         }
                     }
                     #endregion
+
+                    error += "start to import retail store";
 
                     #region export retail store
                     // export files of retail store
@@ -5509,6 +5528,10 @@ namespace MPC.Implementation.MISServices
                     }
                     #endregion
 
+                    error += "import retail store done";
+
+
+                    error += "start to corporate store without product";
                     #region corporate store without products
                     // export corporate store without products
                     ExportOrganisation ObjExportCorpWOP = new Models.Common.ExportOrganisation();
@@ -5952,6 +5975,11 @@ namespace MPC.Implementation.MISServices
 
                     #endregion
 
+
+                    error += "corporate store without product done";
+
+
+                    error += "start to retail store without product";
                     #region retail store without products
 
                     ExportOrganisation ObjExportRetailWOP = new Models.Common.ExportOrganisation();
@@ -6330,6 +6358,8 @@ namespace MPC.Implementation.MISServices
 
                     #endregion
 
+                    error += "retail store without product done";
+
                     // export zip
                     zip.Comment = "This zip archive was created to export complete organisation";
                     string sDirectory = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/DefaulStorePackage";
@@ -6364,10 +6394,11 @@ namespace MPC.Implementation.MISServices
                     }
 
                 }
+                return error;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new MPCException(ex.ToString() + error, OrganisationID);
 
             }
 
