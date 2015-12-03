@@ -958,19 +958,19 @@ $("#zoomIn").click(function (event) {
     canvas.renderAll();
     canvas.calcOffset(); drawSafetyLine();
 });
-//$("#BtnOrignalZoom").click(function (event) {
-//    var D1AO = canvas.getActiveObject();
-//    var D1AG = canvas.getActiveGroup();
-//    if (D1AG) {
-//        canvas.discardActiveGroup();
-//    } else if (D1AO) {
-//        canvas.discardActiveObject();
-//    }
-//    D1CZL = 0;
-//    e0();
-//    canvas.renderAll();
-
-//});
+$("#BtnOrignalZoom").click(function (event) {
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        canvas.discardActiveGroup();
+    } else if (D1AO) {
+        canvas.discardActiveObject();
+    }
+    D1CZL = 0;
+    e0();
+    canvas.renderAll();
+    drawSafetyLine();
+});
 
 $('#zoomOut').click(function (event) {
     var D1AO = canvas.getActiveObject();

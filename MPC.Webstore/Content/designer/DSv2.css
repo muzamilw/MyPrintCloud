@@ -5569,8 +5569,10 @@ h2 + .gallery {
         #documentMenuCopy > button:hover {
             background: #EEEEEF no-repeat center / 14px;
         }
-
-#zoomIn, #zoomOut {
+#BtnOrignalZoom{
+        font-size: 10px;
+}
+#zoomIn, #zoomOut ,#BtnOrignalZoom {
     background: #F4F5F6 no-repeat center / 14px;
     min-width: 0;
     padding: 0;

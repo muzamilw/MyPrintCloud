@@ -1264,17 +1264,17 @@ function d6(width, height, showguides) {
         var rightline = i4([width - 1, 0, width - 1, cutmargin + height - cutmargin], -982, '#EBECED', cutmargin * 2);
         var bottomline = i4([cutmargin + 0.39, height, cutmargin + width - 0.39 - cutmargin * 2, height], -983, '#EBECED', cutmargin * 2);
        
-        //var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 10, 'Bleed Area', -975, 0, 'gray');
-        //var leftCutMarginTxt = i5(height / 2, width - (12 * dfZ1l), 17, 100, 10, 'Bleed Area', -974, 90, 'gray');
-        //var rightCutMarginTxt = i5(height / 2, (13 * dfZ1l), 17, 100, 10, 'Bleed Area', -973, -90, 'gray');
-        //var bottomCutMarginTxt = i5(height - 6, width / 2, 17, 100, 10, 'Bleed Area', -972, 0, 'gray');
+        var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 10, 'Bleed Area', -975, 0, 'gray');
+        var leftCutMarginTxt = i5(height / 2, width - (12 * dfZ1l), 17, 100, 10, 'Bleed Area', -974, 90, 'gray');
+        var rightCutMarginTxt = i5(height / 2, (13 * dfZ1l), 17, 100, 10, 'Bleed Area', -973, -90, 'gray');
+        var bottomCutMarginTxt = i5(height - 6, width / 2, 17, 100, 10, 'Bleed Area', -972, 0, 'gray');
         var zafeZoneMargin = cutmargin; // + 8.49;
         var sleftline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2], -984, 'black');
         var stopline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin], -985, 'black');
         var srightline = d7([zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -986, 'black');
         var sbottomline = d7([zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -987, 'black');
-        canvas.add(sleftline, stopline, srightline, sbottomline);
-        // canvas.add(leftline, topline, rightline, bottomline, sleftline, stopline, srightline, sbottomline, topCutMarginTxt, bottomCutMarginTxt, leftCutMarginTxt, rightCutMarginTxt);
+        //canvas.add(sleftline, stopline, srightline, sbottomline);
+         canvas.add(leftline, topline, rightline, bottomline, sleftline, stopline, srightline, sbottomline, topCutMarginTxt, bottomCutMarginTxt, leftCutMarginTxt, rightCutMarginTxt);
     }
 
     var iCounter = 1;
@@ -1357,9 +1357,16 @@ function e0(caller) {
         canvas.backgroundImage.originX = 'left';
         canvas.backgroundImage.originY = 'top';
     }
+    D1CS = 1; dfZ1l = 1;
     D1CS = 1;
-    D1CS = 1;
-    D1CZL = 0;
+    D1CZL = 0; 
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
+    $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
+    $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
+    var val = $("#canvasDocument").width() - $(".page").width();
+    val = val / 2;
+    if (val < 0) val = 20;
+    $(".page").css("left", val + "px");
     $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
 }
 function e6() {
