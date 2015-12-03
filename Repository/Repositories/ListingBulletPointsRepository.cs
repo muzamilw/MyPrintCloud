@@ -53,6 +53,43 @@ namespace MPC.Repository.Repositories
                  }
 
              }
+
+
+         public void AddSingleBulletPoint( ListingBulletPoint BullentPoint)
+         {
+
+             ListingBulletPoint oBullet = new ListingBulletPoint();
+             oBullet.BulletPoint = BullentPoint.BulletPoint;
+             oBullet.ListingId = BullentPoint.ListingId;
+             db.ListingBulletPoints.Add(oBullet);
+             db.SaveChanges();
+         }
+         public void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint)
+         {
+             ListingBulletPoint oBullet = db.ListingBulletPoints.Where(c => c.BulletPointId == BullentPoint.BulletPointId).FirstOrDefault();
+             if (oBullet != null)
+             {
+                 oBullet.BulletPoint = BullentPoint.BulletPoint;
+                 db.ListingBulletPoints.Attach(oBullet);
+                 db.Entry(oBullet).State = System.Data.Entity.EntityState.Modified;
+                 db.SaveChanges();
+             }
          
+         }
+
+         public List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID)
+         {
+             return db.ListingBulletPoints.Where(i => i.ListingId == ListingID).ToList();
+         
+         }
+
+         public void DeleteBulletPoint(long BulletPointId,long ListingId)
+         {
+             ListingBulletPoint GetBulletPoint = db.ListingBulletPoints.Where(i => i.ListingId == ListingId && i.BulletPointId == BulletPointId).FirstOrDefault();
+             db.ListingBulletPoints.Remove(GetBulletPoint);
+             db.SaveChanges();
+         }
        }
+
+      
 }

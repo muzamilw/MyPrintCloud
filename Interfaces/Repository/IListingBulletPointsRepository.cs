@@ -12,5 +12,9 @@ namespace MPC.Interfaces.Repository
     {
         void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints);
         void AddBulletPoint(ListPointsModel model, long listingId);
+        void AddSingleBulletPoint(ListingBulletPoint BullentPoint);
+        void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint);
+        List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID);
+        void DeleteBulletPoint(long BulletPointId, long ListingId);
     }
 }

@@ -2378,9 +2378,10 @@ namespace MPC.Repository.Repositories
             }
          }
 
-        public void DeleteAjent()
+        public void DeleteAjent(long ContactID)
         {
-          // db.usp_DeleteContactById()
+            db.usp_DeleteContactById(ContactID);
+            db.SaveChanges();
         }
     }
 

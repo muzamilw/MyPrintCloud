@@ -1843,5 +1843,25 @@ namespace MPC.Implementation.WebStoreServices
         {
             _listingRepository.DeleteListingImage(listingImageID);
         }
+        public void DeleteAjent(long ContactID)
+        {
+            _CompanyContactRepository.DeleteAjent(ContactID);
+        }
+        public void AddSingleBulletPoint(ListingBulletPoint BullentPoint)
+        {
+            _listingBulletPontRepository.AddSingleBulletPoint(BullentPoint);
+        }
+        public void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint)
+        {
+            _listingBulletPontRepository.UpdateSingleBulletPoint(BullentPoint);
+        }
+        public List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID)
+        {
+           return _listingBulletPontRepository.GetAllListingBulletPoints(ListingID);
+        }
+        public void DeleteBulletPoint(long BulletPointId, long ListingId)
+        {
+            _listingBulletPontRepository.DeleteBulletPoint(BulletPointId, ListingId);
+        }
     }
 }

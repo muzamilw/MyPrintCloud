@@ -13,6 +13,11 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void DeleteBulletPoint(long BulletPointId, long ListingId);
+        List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID);
+        void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint);
+        void AddSingleBulletPoint(ListingBulletPoint BullentPoint);
+        void DeleteAjent(long ContactID);
         void DeleteListingImage(long listingImageID);
         void ListingImage(ListingImage NewImage);
         List<ListingImage> GetAllListingImages(long ListingID);

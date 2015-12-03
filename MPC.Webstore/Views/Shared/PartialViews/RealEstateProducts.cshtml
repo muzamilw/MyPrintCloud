@@ -7,6 +7,13 @@
     var ListingId = ViewBag.ListingID;
     
 }
+
+@{
+   var RealEstateProducts= ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>;
+   var grid = new WebGrid(source: RealEstateProducts, canPage: true, canSort: false, rowsPerPage: 13);
+
+   var RedirectURL=String.Empty;
+}
 <div class="container content_area" id="all-category-pg">
 
     <div class="left_right_padding">
@@ -21,88 +28,74 @@
         <div id="CategoryDisplay responsivePad15">
 
             <div class="rounded_corners clearBoth col-md-12 col-lg-12 col-xs-12">
-                @if (ViewData["RealEstateProducts"] != null)
-                {
+               
+                
 
-                    <div id="pnlCatList" class="padd_bottom_30 ">
-                        @foreach (var cat in ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>)
-                        {
-                            <div id="Maincontainer" class="CAT_Body rounded_corners">
-                                <div class="LCLB">
-                                   
-                                    @if (cat.ProductType == (int)ProductType.MarketingBrief)
-                                    {
+                    <div id="pnlCatList" >
+                        <div id="divContainer" class="cursor_pointer">
+                            @grid.Table(
+    htmlAttributes: new { id = "BillingShippingGrid" },
+    tableStyle: "WebGridTableStyle",
+    fillEmptyRows: false,
+             headerStyle: "WebGridheader",
+                      rowStyle: "gridViewRowStyleForWebGrid",
+                      alternatingRowStyle: "gridViewRowStyleForWebGrid",
+    columns: new[] {
 
-                                        var RedirectURL = "/MarketingBrief/" + cat.ProductName + "/" + cat.ItemId + "/" + cat.CategoryId;
-                                        <a href="@RedirectURL" onclick="ShowLoader();">
-                                            <div class="PDTC_CAT FI_CAT">
-                                                @{
-
-                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
-                                                }
-
-                                            </div>
-                                        </a>
-                                    }
-                                    else if (cat.ProductType == (int)ProductType.PrintProduct)
-                                    {
-                                        if (cat.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
-                                        {
-                                            var SkipDesignerPopUp = " StartDesignerLoader(); SkipDesignerGenerateProof(" + cat.ItemId + ", " + cat.TemplateId + ", " + ViewBag.ContactId + ",'" + cat.ProductName + "');";
-                                            <a id="hlProductDetail" href="#" onclick="ShowLoader(); @SkipDesignerPopUp">
-
-                                                <div class="PDTC_CatProd FI_CatProd">
-                                                    @{
-
-                                                        <img id="imgProduct" src="/@cat.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-
-                                                    }
-                                                </div>
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            var RedirectttURL = "/RealEstateSmartForm/" + cat.ItemId + "/" + ListingId ;
-                                            <a href="@RedirectttURL" onclick="ShowLoader();">
-
-                                                
-                                                <div class="PDTC_CAT FI_CAT">
-                                                    @{
-
-                                                        <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
-                                                    }
-
-                                                </div>
-                                            </a>
-                                        }
-                                    }
-                                    else if (cat.ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                    {
-                                        var RedirectURL = "/ProductOptions/" + cat.CategoryId + "/" + cat.ItemId + "/UploadDesign";
-                                        <a href="@RedirectURL" onclick="ShowLoader();">
-                                            <div class="PDTC_CAT FI_CAT">
-                                                @{
-
-                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
-                                                }
-
-                                            </div>
-                                        </a>
-                                    }
-                                </div>
-                                <div class="product_detail_image_heading_CAT">
-                                    <label id="lblProductName">@cat.ProductName</label>
-                                </div>
+    grid.Column("Image",format:@<img id="imgProduct" src="/@item.ThumbnailPath" style="height:120px;width:170px;" />,style:"WebGridPadding"),
+    grid.Column("Product",format:@<p>@item.ProductName </p>,style:"hidden-xs hidden-sm"),
 
 
-                            </div>
-                        }
+    grid.Column("View", format:@<text>@if (item.ProductType == (int)ProductType.MarketingBrief)
+    {
+        RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId + "/" + item.CategoryId;
+         @*<button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('/Content/Images/view-order.png');" class="rounded_corners"  ></button>*@
+        <a href="@RedirectURL"><i class="fa fa-arrow-right" style="font-size:18px;"></i></a>
+        
+    }
+                                      else if (item.ProductType == (int)ProductType.PrintProduct)
+                                      {
+                                          if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
+                                          {
+
+
+                                          }
+                                          else
+                                          {
+                                              RedirectURL = "/RealEstateSmartForm/" + item.ItemId + "/" + ListingId;
+                                              <a href="@RedirectURL"><i class="fa fa-arrow-right" style="font-size:18px;"></i></a>
+                                            @*<button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('/Content/Images/view-order.png');" class="rounded_corners" ></button>*@
+                                          
+                                          }
+                                      }
+                                      else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                      {
+
+                                          RedirectURL = "/ProductOptions/" + item.CategoryId + "/" + item.ItemId + "/UploadDesign";
+                                        @*<button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('/Content/Images/view-order.png');" class="rounded_corners" ></button>*@
+                                        <a href="@RedirectURL"><i class="fa fa-arrow-right" style="font-size:18px;"></i></a>
+                                      }
+                    </text>)}
+
+                                )
+
+                            @*@if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
+            {
+                <div id="footerr" class="pagination pagination-small pagination-right">
+                    @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
+                </div>
+            }*@
+                        </div>
+
+
 
                         <div class="clearBoth">
 
                         </div>
                     </div>
-                }
+                
+               
+
 
 
             </div>
@@ -112,7 +105,28 @@
 </div>
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script src="~/Scripts/PopUp.js"></script>
-<script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        //function Go(url)
+        //{
+        //    url='http://'+url;
+        //    alert(url);
+        //    //window.location.href =url;
+        //}
+        
+        //$("#view").click(function(){
+        //    var tr = $(this).parents('tr:first');
+        //    var url = tr.find("#btnval").val();
+        //    url='http://'+url;
+        //    alert(url);
+
+        //});
+
+
+    });
+    $(document).on('click', '#view', function () {
+        alert();
+    });
     var tID = 0;
     var itemId = 0;
     function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
@@ -148,7 +162,7 @@
     }
     function k0(tsID,productName) {
         tID= tsID;
-        organisationId = @ViewBag.organisationId;
+        organisationId = '@ViewBag.organisationId';
         if ($(window).width() > 1200 ) {
             $('#PreviewerContainerDesigner').css("width", "1200px");
             $('#PreviewerDesigner').css("width", "1176px");

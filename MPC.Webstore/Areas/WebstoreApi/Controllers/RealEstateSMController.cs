@@ -163,6 +163,26 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         {
             _mycompanyservice.DeleteListingImage(ListingImageId);
         }
+        [HttpPost]
+        public void DeleteAjent(long ContactID)
+        {
+            _mycompanyservice.DeleteAjent(ContactID);
+        }
+        [HttpPost]
+        public void AddSingleBulletPoint(ListingBulletPoint BulletPoint)
+        {
+            _mycompanyservice.AddSingleBulletPoint(BulletPoint);
+        }
+        [HttpPost]
+        public void UpdateSingleBulletPoint(ListingBulletPoint BulletPoint)
+        {
+            _mycompanyservice.UpdateSingleBulletPoint(BulletPoint);
+        }
+        [HttpPost]
+        public void DeleteBulletPoint(long BulletPointId, long ListingId)
+        {
+            _mycompanyservice.DeleteBulletPoint(BulletPointId, ListingId);
+        }
         //private void GotoDesigner(int itemID, int productCategoryID, List<TemplateVariable> lstPageControls, int propertyId)
         //{
         //    Dictionary<string, string> parameterNameValueList = new Dictionary<string, string>();

@@ -733,6 +733,7 @@
     <Content Include="Content\Images\publisher.png" />
     <Content Include="Content\Images\re-order.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
+    <Content Include="Content\Images\realplaceholder.gif" />
     <Content Include="Content\Images\repeat.png" />
     <Content Include="Content\Images\SeaBluefeature.png" />
     <Content Include="Content\Images\Settings.png" />

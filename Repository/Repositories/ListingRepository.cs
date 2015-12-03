@@ -2778,30 +2778,42 @@ namespace MPC.Repository.Repositories
                     {
                         listing.LevelNumber = 0;
                     }
-                    if (propertyListing.LotNumber == null || propertyListing.LotNumber.Equals(string.Empty))
+                    else
                     {
-                        propertyListing.LotNumber = 0;
+                        listing.LevelNumber = propertyListing.LevelNumber;
                     }
                     if (propertyListing.LotNumber == null || propertyListing.LotNumber.Equals(string.Empty))
                     {
-                        propertyListing.LotNumber = 0;
+                        listing.LotNumber = 0;
                     }
+                    else
+                    {
+                        listing.LotNumber = propertyListing.LotNumber;
+                    }
+
+
 
                     if (propertyListing.UnitNumber == null || propertyListing.UnitNumber.Equals(string.Empty))
                     {
-                        propertyListing.UnitNumber = 0;
+                        listing.UnitNumber = 0;
                     }
 
-                    if (propertyListing.UnitNumber == null || propertyListing.UnitNumber.Equals(string.Empty))
+                    else
                     {
-                        propertyListing.UnitNumber = 0;
+                        listing.UnitNumber = propertyListing.UnitNumber;
                     }
+
+
 
                     if (propertyListing.StreetNumber == null || propertyListing.StreetNumber.Equals(string.Empty))
                     {
                         propertyListing.StreetNumber = 0;
                     }
+                    else
+                    {
 
+                        listing.StreetNumber = propertyListing.StreetNumber;
+                    }
                     listing.Street = propertyListing.Street;
                     listing.Suburb = propertyListing.Suburb;
                     listing.State = propertyListing.State;
@@ -2821,7 +2833,7 @@ namespace MPC.Repository.Repositories
                     listing.ListingAuthority = propertyListing.ListingAuthority;
                     listing.InspectionTypye = propertyListing.InspectionTypye;
                     listing.ListingType = propertyListing.ListingType;
-                    if (propertyListing.WaterRates != null || propertyListing.WaterRates.Equals(string.Empty))
+                    if (propertyListing.WaterRates != null && !propertyListing.WaterRates.Equals(string.Empty))
                     {
                         listing.WaterRates = propertyListing.WaterRates;
                     }
@@ -2830,7 +2842,7 @@ namespace MPC.Repository.Repositories
                         listing.WaterRates = 0;
                     }
 
-                    if (propertyListing.StrataAdmin != null || propertyListing.StrataAdmin.Equals(string.Empty))
+                    if (propertyListing.StrataAdmin != null && !propertyListing.StrataAdmin.Equals(string.Empty))
                     {
                         listing.StrataAdmin = propertyListing.StrataAdmin;
                     }
@@ -2839,7 +2851,7 @@ namespace MPC.Repository.Repositories
                         listing.StrataAdmin = 0;
                     }
 
-                    if (propertyListing.StrataSinking != null || propertyListing.StrataSinking.Equals(string.Empty))
+                    if (propertyListing.StrataSinking != null && !propertyListing.StrataSinking.Equals(string.Empty))
                     {
                         listing.StrataSinking = propertyListing.StrataSinking;
                     }
@@ -2876,16 +2888,17 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        listing.SearchPrice = null;
+                        listing.SearchPrice = propertyListing.SearchPrice;
                     }
 
                     if (propertyListing.RendPeriod == null || propertyListing.RendPeriod.Equals(string.Empty))
                     {
-                        listing.RendPeriod = propertyListing.RendPeriod;
+                        listing.RendPeriod = 0;
+                        
                     }
                     else
                     {
-                        listing.RendPeriod = 0;
+                        listing.RendPeriod = propertyListing.RendPeriod;
                     }
 
                     listing.AvailableDate = propertyListing.AvailableDate; //DateTime.ParseExact(propertyListing.AvailableDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
@@ -2899,12 +2912,12 @@ namespace MPC.Repository.Repositories
                     listing.AuctionTime = propertyListing.AuctionTime;
 
 
-                    listing.AuctionTime = propertyListing.AuctionEndTime;
+                    listing.AuctionEndTime = propertyListing.AuctionEndTime;
 
                     //if (!String.IsNullOrEmpty(propertyListing.SoldDate))
                     //    listing.SoldDate = DateTime.Parse(propertyListing.SoldDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
 
-                    if (propertyListing.SoldPrice != null || propertyListing.SoldPrice.Equals(string.Empty))
+                    if (propertyListing.SoldPrice != null && !propertyListing.SoldPrice.Equals(string.Empty))
                     {
                         strForParse = propertyListing.SoldPrice.ToString();
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
@@ -3123,8 +3136,11 @@ namespace MPC.Repository.Repositories
                     listing.SignBoardMainHeadLine = propertyListing.SignBoardMainHeadLine;
                     listing.SignBoardSummary = propertyListing.SignBoardSummary;
                     listing.AdvertsDescription = propertyListing.AdvertsDescription;
-                    //listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
+                    listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
                     listing.AdvertsSummary = propertyListing.AdvertsSummary;
+                    db.Listings.Attach(listing);
+
+                    db.Entry(listing).State = EntityState.Modified;
                     if (db.SaveChanges() > 0)
                     {
                         updatedListing = listing.ListingId;
