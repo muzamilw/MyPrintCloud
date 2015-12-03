@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using MPC.ExceptionHandling;
+using MPC.Interfaces.MISServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,11 +49,14 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
         [HttpGet]
-        public bool ExportOrganisation(long parameter1, string parameter2, string parameter3, string parameter4, string parameter5)
+        public string ExportOrganisation(long parameter1, string parameter2, string parameter3, string parameter4, string parameter5)
         {
+            string error = string.Empty;
             try
             {
-                return companyService.ExportOrganisation(parameter1, parameter2, parameter3, parameter4, parameter5);
+                error = companyService.ExportOrganisation(parameter1, parameter2, parameter3, parameter4, parameter5);
+
+                return error;
             }
             catch(Exception ex)
             {

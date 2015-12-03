@@ -1002,6 +1002,7 @@ namespace MPC.Repository.Repositories
                     long oCID = 0;
                     long oRetailCID = 0;
                     List<CostCentre> costC = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
+                    List<FieldVariable> systemVariables = db.FieldVariables.Where(c => c.IsSystem == true).ToList();
                     int FlagID = db.SectionFlags.Where(c => c.OrganisationId == OrganisationID & c.SectionId == 81 && c.isDefault == true).Select(c => c.SectionFlagId).FirstOrDefault();
                      if(isCorpStore == true) // import corporate store
                      {
@@ -1074,7 +1075,72 @@ namespace MPC.Repository.Repositories
                                  
                              }
                          }
+                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                         {
 
+                             foreach (var sf in comp.SmartForms)
+                             {
+                                 if (sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                                 {
+                                     foreach (var detail in sf.SmartFormDetails)
+                                     {
+                                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                                         {
+                                             long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
+                                             if (FVId > 0)
+                                             {
+                                                 detail.VariableId = FVId;
+                                             }
+                                             else
+                                             {
+                                                 if (!string.IsNullOrEmpty(detail.VariableName))
+                                                 {
+                                                     long variableId = systemVariables.Where(c => c.VariableName == detail.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                     if (variableId > 0)
+                                                     {
+                                                         detail.VariableId = variableId;
+
+                                                     }
+                                                     else
+                                                     {
+                                                         detail.VariableId = null;
+                                                     }
+                                                 }
+                                                 else
+                                                 {
+                                                     detail.VariableId = null;
+                                                 }
+
+                                             }
+                                         }
+                                         else
+                                         {
+                                             if (detail.FieldVariable != null)
+                                             {
+                                                 long variableId = systemVariables.Where(c => c.VariableName == detail.FieldVariable.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                 if (variableId > 0)
+                                                 {
+                                                     detail.VariableId = variableId;
+
+                                                 }
+                                                 else
+                                                 {
+                                                     detail.VariableId = null;
+                                                 }
+                                             }
+                                             else
+                                             {
+                                                 detail.VariableId = null;
+                                             }
+
+                                         }
+
+                                     }
+                                 }
+
+
+                             }
+                         }
                          db.Companies.Add(comp);
                          db.SaveChanges();
                          oCID = comp.CompanyId;
