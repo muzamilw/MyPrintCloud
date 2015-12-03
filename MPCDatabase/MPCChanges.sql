@@ -8908,3 +8908,5 @@ ADD AuctionEndTime varchar(Max)
 ------------------Executed on All servers 20151127---------------
 
 Alter table items add UploadTypeByUser int 
+
+alter table StockSubCategory add OrganisationId bigint
