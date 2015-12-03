@@ -2714,6 +2714,7 @@ function togglePage(pId) {
 
     }
     function j8(src) {
+        c2_v2(); c2_v2();
         var fileNameIndex = src.lastIndexOf("/") + 1;
         var filename = src.substr(fileNameIndex);
         var D1AO = canvas.getActiveObject();
@@ -2805,7 +2806,7 @@ function togglePage(pId) {
                         alert("You are trying to place an SVG in an image placeholder, SVG will be converted into image during this process.");
                     }
                     IT.ContentString = src;
-                
+                    
                     d5(SP);
                     return;
                 }
@@ -2814,6 +2815,7 @@ function togglePage(pId) {
 
     }
     function j9(e, url1, id) {
+   
         var D1AO = canvas.getActiveObject();
         if (D1AO) {
             if (D1AO.type === 'image') {
@@ -2872,6 +2874,7 @@ function togglePage(pId) {
                 }
             }
         } else {
+            c2_v2(); c2_v2();
             var src = "";
             var srcElement = "";
             if (url1 != undefined) {
