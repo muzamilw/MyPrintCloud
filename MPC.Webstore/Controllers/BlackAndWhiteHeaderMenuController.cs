@@ -1,5 +1,6 @@
 ﻿using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
@@ -34,9 +35,11 @@ namespace MPC.Webstore.Controllers
 
                 ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(0, UserCookieManager.TemporaryCompanyId, 0).ToString());
             }
-            ViewBag.OrderTotal = _companyservice.GetOrderTotalById(UserCookieManager.WEBOrderId);
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _companyservice.GetStoreCachedObject(UserCookieManager.WBStoreId);
+            double OrderTotal =_companyservice.GetOrderTotalById(UserCookieManager.WEBOrderId)??0.00;
+            ViewBag.OrderTotal = Utils.FormatDecimalValueToTwoDecimal(OrderTotal.ToString(), _companyservice.GetCurrencySymbolById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId)));
             ViewBag.SavedDesignItmesTotal = _companyservice.GetSavedDesignCountByContactId(_webstoreclaimHelper.loginContactID());
-            return View("PartialViews/BlackAndWhiteHeaderMenu");
+            return PartialView("PartialViews/BlackAndWhiteHeaderMenu");
         }
         public ActionResult LogOut()
         {

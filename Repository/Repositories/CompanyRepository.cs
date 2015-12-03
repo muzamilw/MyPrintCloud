@@ -1903,7 +1903,11 @@ namespace MPC.Repository.Repositories
                     ContactPerson.LastName = contact.LastName;
                     ContactPerson.Email = contact.Email;
                     ContactPerson.Mobile = contact.Mobile;
-                    ContactPerson.Password = ComputeHashSHA1(contact.Password);
+                    if (!string.IsNullOrEmpty(contact.Password)) 
+                    {
+                        ContactPerson.Password = ComputeHashSHA1(contact.Password);
+                    }
+                   
                     ContactPerson.QuestionId = 1;
                     ContactPerson.SecretAnswer = "";
                     ContactPerson.ClaimIdentifer = contact.ClaimIdentifer;

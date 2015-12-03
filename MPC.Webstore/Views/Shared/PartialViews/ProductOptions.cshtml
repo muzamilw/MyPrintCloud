@@ -983,6 +983,14 @@
         MatrixToggle();
         if (isRanged) {
             if ($("#rangedQuantityOrdered").val() == "") {
+                var RangedQtyJsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
+                var RangedQtyJsonDataFirstObject = $(RangedQtyJsonData)[0];
+                var firstQtyinRangeTable = RangedQtyJsonDataFirstObject.QtyRangeFrom;
+                if(parseInt(firstQtyinRangeTable) > 0){
+                    $("#rangedQuantityOrdered").val(firstQtyinRangeTable);
+                    CalculatePriceBaseOnRangedQuantity();
+                }
+              
             } else {
                 CalculatePriceBaseOnRangedQuantity();
             }

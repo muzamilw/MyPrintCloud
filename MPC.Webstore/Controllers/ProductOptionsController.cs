@@ -101,15 +101,14 @@ namespace MPC.Webstore.Controllers
                      return null;
                 }
                 Item clonedItem = null;
-                //string CacheKeyName = "CompanyBaseResponse";
-                //ObjectCache cache = MemoryCache.Default;
+              
                 long OrderID = 0;
                 long referenceItemId = 0;
                 long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+               
                 MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-                if (ItemMode == "UploadDesign")
+                if (ItemMode == "UploadDesign" || ItemMode == "DesignOrUpload")
                 {
 
                     if (UserCookieManager.WEBOrderId == 0 || _orderService.IsRealCustomerOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID()) == false)
@@ -139,7 +138,15 @@ namespace MPC.Webstore.Controllers
 
                             if (clonedItem == null)
                             {
-                                clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, true);
+                                if (ViewToFire == "ProductOptionsAndDetails" && ItemMode == "DesignOrUpload")
+                                {
+                                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, true);
+                                }
+                                else 
+                                {
+                                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, true,0, true);
+                                }
+                                
                             }
                         }
 
@@ -251,6 +258,34 @@ namespace MPC.Webstore.Controllers
 
                 ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
 
+                ViewBag.IsPrintProduct = 0;
+                if (ItemMode == "DesignOrUpload" && ViewToFire == "ProductOptionsAndDetails")
+                {
+                    if (clonedItem.ProductType == (int)ProductType.PrintProduct && string.IsNullOrEmpty(TemplateId))
+                    {
+                        ViewBag.IsPrintProduct = 1;
+                        int isCalledFrom = 0;
+                        long TemplateIdForDesigner = clonedItem.TemplateId ?? 0;
+                        long DesignerCatId = clonedItem.DesignerCategoryId ?? 0;
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                            isCalledFrom = 4;
+                        else
+                            isCalledFrom = 3;
+
+                        if (clonedItem != null && clonedItem.TemplateType == 3)
+                        {
+                            ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+                        }
+                        else
+                        {
+                            ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+
+                        }
+                       
+
+                    }
+                }
+                
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
                     DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, true);
@@ -285,8 +320,7 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ItemCartViewModel cartObject, string ReferenceItemId)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
+            
             var ITemMode = TempData["ItemMode"];
             string CostCentreJsonQueue = "";
             string QuestionJsonQueue = cartObject.JsonAllQuestionQueue;
@@ -461,7 +495,7 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Mode = "";
 
-                if (mode == "UploadDesign")
+                if (mode == "UploadDesign" || mode == "DesignOrUpload")
                 {
                     if (referenceItem.IsUploadImage == true)
                     {
