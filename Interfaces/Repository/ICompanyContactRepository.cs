@@ -9,12 +9,19 @@ using MPC.Models.Common;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System.Security.Cryptography;
+using MPC.Webstore.Common;
 
 namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
-        
+        void DeleteAjent(long ContactID);
+        void AddSingleAgent(CompanyContact NewAgent);
+        void UpdateSignleAgent(CompanyContact Agent);
+        void AddAgent(ListAgentMode model, long ContactCompanyId);
+        void UpdateAgent(List<CompanyContact> model);
+        List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId);
+        List<CompanyContact> GetUsersByCompanyId(long CompanyId);
         void AddDataSystemUser(CompanyContact Contact);
         void UpdateDataSystemUser(CompanyContact Contact);
         

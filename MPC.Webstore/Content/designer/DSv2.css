@@ -4702,7 +4702,7 @@ h2 + .gallery {
     }
 
 .editTxtBtn {
-    background-color: #99c432;
+      background-color: #99c432;
     border: 1px solid transparent;
     min-width: 2.78572em;
     line-height: 2;
@@ -4711,6 +4711,8 @@ h2 + .gallery {
     margin-bottom: -4px;
     display: inline;
     float: right;
+    margin-bottom: 3px;
+    height: 31px;
 }
 
 .selectedItemLayers .editTxtBtn {
@@ -5567,8 +5569,10 @@ h2 + .gallery {
         #documentMenuCopy > button:hover {
             background: #EEEEEF no-repeat center / 14px;
         }
-
-#zoomIn, #zoomOut {
+#BtnOrignalZoom{
+        font-size: 10px;
+}
+#zoomIn, #zoomOut ,#BtnOrignalZoom {
     background: #F4F5F6 no-repeat center / 14px;
     min-width: 0;
     padding: 0;
@@ -6873,7 +6877,7 @@ input[type="radio"] {
     left: 0;
     top: 0;
     bottom: 0;
-    z-index: 0;
+    z-index: 10;
     height: 70px;
     width: 100%;
     background-color: rgb(39, 44, 51);
@@ -7330,11 +7334,13 @@ to {
 }
 
 .CanvasTopHeader {
-    display: block;
+      display: block;
     height: 61px;
     background-color: #C6C7C8;
     width: 100%;
     margin-top: 70px;
+    position: fixed;
+    z-index: 1000;
 }
 
 .canvasPageMenu {

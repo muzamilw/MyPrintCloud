@@ -429,7 +429,7 @@
                                                         <li class="colorOption" style="background-color: #020302"><a href="#" onclick="f2(0,0,0,100,'#020302','Black');">#020302</a></li>
                                                         <li class="colorOption" style="background-color: #ffffff"><a href="#" onclick='f2(0,0,0,0,"#ffffff");'>#ffffff</a></li>
                                                         <li class="colorOption" style="background-color: #EF4123"><a href="#" onclick='f2(0,88,100,0,"#EF4123","Orange 021");'>#EF4123</a></li>
-                                                        <li class="colorOption" style="background-color: #FFF200"><a href="#" onclick="f2(0,100,100,0,'#FFF200','Yellow');">#FFF200</a></li>
+                                                        <li class="colorOption" style="background-color: #FFF200"><a href="#" onclick='f2(0,0,100,0,"#FFF200","null");'>#FFF200</a></li>
                                                         <li class="colorOption" style="background-color: #04B14B"><a href="#" onclick="f2(75,0,100,0,'#04B14B','Green');">#04B14B</a></li>
                                                         <li class="colorOption" style="background-color: #034EA2"><a href="#" onclick='f2(100,82,0,2,"#034EA2","Reflex Blue");'>#034EA2</a></li>
                                                         <br />
@@ -663,11 +663,11 @@
                                     </div>
                                     <div class="DivBlockWithNoHeight vertLine"></div>
                                     <div class="propertyPanelControlDiv frontBackBtns">
-                                        <button class="propertyPanleBtn BtnTxtarrangeOrder1"><p>To front</p></button>
-                                        <button class="propertyPanleBtn BtnTxtarrangeOrder2"><p style="padding-top: 13px;">Up</p></button>
-                                        <button class="propertyPanleBtn BtnTxtarrangeOrder3"><p style="padding-top: 13px;">Down</p></button>
-                                        <button class="propertyPanleBtn BtnTxtarrangeOrder4"><p>To back</p></button>
-                                        <button class="propertyPanleBtn removeBtn BtnDeleteTxtObj"><p>Remove</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder1" title="Bring selected item to top layer"><p>To front</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder2" title="Bring selected item one layer forward"><p style="">Step Up</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder3" title="Send selected item one layer back"><p style="">Step Down</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder4" title="Send selected item to bottom layer"><p>To back</p></button>
+                                        <button class="propertyPanleBtn removeBtn BtnDeleteTxtObj" title="Delete selected item"><p>Remove</p></button>
                                     </div>
                                     <div class="textPropertyPanel2" style="padding-top: 20px;">
                                         <div class="propertyPanelControlDiv  opacityPanel">
@@ -709,7 +709,7 @@
                            
                                             <div class="lbltextButtonControl" style="float: right;">
 
-                                                <span class="paddingright5" style="padding-left: 4px;">R</span>
+                                                <img src="/Content/Designer/assets-v2/rotate.png" class="iconsPropPanel imgLineHeight">
                                                 <input name="inputObjectRotation" id="inputObjectRotation" class="width28 zindex100 inputObjectRotation" />
 
 
@@ -764,16 +764,16 @@
                                         <button class="propertyPanleBtn" id="BtnValignTxt2"><img title="Align center" class="fontawesomeIcons" style="" src="~/Content/Designer/assets-v2/valign2.png" /></button>
                                         <button class="propertyPanleBtn" id="BtnValignTxt3"><img title="Align Bottom" class="fontawesomeIcons" style="" src="~/Content/Designer/assets-v2/valign1.png" /></button>
                                         <button class="propertyPanleBtn" id="BtnBulletedLstTxt"><img class="fontawesomeIcons" src="~/Content/Designer/assets-v2/list.png" title="Bulleted List" style="" /></button>
-                                        <span class="paddingright5" style="padding-left: 4px;">R</span>
+                                        <img src="/Content/Designer/assets-v2/rotate.png" class="iconsPropPanel imgLineHeight">
                                         <input name="inputObjectRotationTxt" id="inputObjectRotationTxt" class="width28 zindex100 inputObjectRotation" />
                                     </div>
 
                                     <div class="propertyPanelControlDiv frontBackBtns">
-                                        <button class="propertyPanleBtn BtnTxtarrangeOrder1"><p>To front</p></button>
-                                        <button class="propertyPanleBtn BtnTxtarrangeOrder2"><p style="padding-top: 13px;">Up</p></button>
-                                        <button class="propertyPanleBtn BtnTxtarrangeOrder3"><p style="padding-top: 13px;">Down</p></button>
-                                        <button class="propertyPanleBtn BtnTxtarrangeOrder4"><p>To back</p></button>
-                                        <button class="propertyPanleBtn removeBtn BtnDeleteTxtObj"><p>Remove</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder1" title="Bring selected item to top layer"><p>To front</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder2" title="Bring selected item one layer forward"><p style="">Step Up</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder3" title="Send selected item one layer back"><p style="">Step Down</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder4" title="Send selected item to bottom layer"><p>To back</p></button>
+                                        <button class="propertyPanleBtn removeBtn BtnDeleteTxtObj" title="Delete selected item"><p>Remove</p></button>
                                     </div>
                                     <div class="propertyPanelControlDiv adminControl">
                                         <div class="maskingControls" style="    margin-top: -15px;">
@@ -926,6 +926,9 @@
                 <li id="Li1" class="zoomBtns" style="margin-left: 9px;">
                     <button class="buttonDesigner" id="zoomIn" title="Zoom In">+</button>
                 </li>
+                <li id="Li1" class="zoomBtns" style="margin-left: 9px;">
+                    <button class="buttonDesigner" id="BtnOrignalZoom" title="Zoom In">100%</button>
+                </li>
                 <li id="documentMenuUndo" class="mainMenuItem">
                     <button class="buttonDesigner" id="BtnUndo" title="Undo">Undo</button>
                 </li>
@@ -952,7 +955,7 @@
         </div>
         <section id="canvasSection" class="page " style="width: 326.9368785071841px; height: 462.4056858483221px; top: 206px; left: 20px;">
             <div class="safetyLine" style="display:none;">
-                Safety line <div class="safetyLineOut"> -->@*-○*@</div>
+                Safe Area <div class="safetyLineOut"> -->@*-○*@</div>
             </div>
             <canvas id="canvas">
                 Your browser does not support the canvas.Please upgrade to latest browser supporting HTML5.
@@ -1343,10 +1346,10 @@
         </div>
     </div>
     <div class="propertyPanelControlDiv divBtmSticky objPropertyPanel" style="display:none;">
-        <div class="BtmPanelBox adminControl svgColorPanel" style="display:none;">
-            <div class="btmPanelRow adminControl">
+        <div class="BtmPanelBox adminControl svgColorPanel" >
+            <div class="btmPanelRow ">
                 <div class="PostionPanelLabel" style="float:left;">
-                    <div class="lblcheckbox adminControl lblLockPos">Svg Colors</div>
+                    <div class="lblcheckbox  ">Svg Colors</div>
                 </div>
                 <div class="PostionPanelLabel svgColorContainer" style="float:right;"></div>
                 <div class="clear"></div>

@@ -4,6 +4,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
 using MPC.Models.Common;
+using MPC.Webstore.Common;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -12,6 +13,24 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void DeleteBulletPoint(long BulletPointId, long ListingId);
+        List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID);
+        void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint);
+        void AddSingleBulletPoint(ListingBulletPoint BullentPoint);
+        void DeleteAjent(long ContactID);
+        void DeleteListingImage(long listingImageID);
+        void ListingImage(ListingImage NewImage);
+        List<ListingImage> GetAllListingImages(long ListingID);
+        void AddSingleAgent(CompanyContact NewAgent);
+        void UpdateSignleAgent(CompanyContact Agent);
+        void AddBulletPoint(ListPointsModel model, long listingId);
+        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints);
+        void AddAgent(ListAgentMode model, long ContactCompanyId);
+        void UpdateAgent(List<CompanyContact> model);
+        long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);
+        MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId);
+        List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId);
+        List<CompanyContact> GetUsersByCompanyId(long CompanyId);
         void DeleteItems(List<Item> ItemList);
         long OrganisationThroughSystemUserEmail(string Email);
         void AddDataSystemUser(CompanyContact Contact);

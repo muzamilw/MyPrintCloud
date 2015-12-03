@@ -181,7 +181,7 @@ namespace MPC.Interfaces.MISServices
         TemplateColorStyle ArchiveSpotColor(long SpotColorId);
         #region exportOrganisation
 
-        bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
+        string ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
 
         bool ImportOrganisation(long OrganisationId, string SubDomain, bool isCorpStore);
 

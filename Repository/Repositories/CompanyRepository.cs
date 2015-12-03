@@ -1194,7 +1194,7 @@ namespace MPC.Repository.Repositories
               .ForMember(x => x.DiscountVoucher, opt => opt.Ignore());
 
                 List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
-                List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CustomerId == CompanyId).ToList();
+                List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CompanyId == CompanyId).ToList();
 
                 if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
                 {
@@ -1730,7 +1730,7 @@ namespace MPC.Repository.Repositories
 
               
                 List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
-                List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CustomerId == CompanyId).ToList();
+                List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CompanyId == CompanyId).ToList();
 
                 if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
                 {
@@ -2383,12 +2383,13 @@ namespace MPC.Repository.Repositories
                         string SNameWOP = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
                         string SCName = ConfigurationManager.AppSettings["CorporateStoreName"];
                         string SCNameWOP = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
-
+                        List<FieldVariable> systemVariables = db.FieldVariables.Where(c => c.IsSystem == true).ToList();
                         List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
                         List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
                         List<Company> Suppliers = db.Companies.Where(s => s.OrganisationId == OrganisationID && s.IsCustomer == 2).ToList();
                         int FlagID = db.SectionFlags.Where(c => c.OrganisationId == OrganisationID & c.SectionId == 81 && c.isDefault == true).Select(c => c.SectionFlagId).FirstOrDefault();
                         status += "setting webconfig done";
+                        #region retail
                         if (StoreName == SName)
                         {
                             Company comp = new Company();
@@ -2472,6 +2473,72 @@ namespace MPC.Repository.Repositories
                                 }
                             }
 
+                            if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                            {
+
+                                foreach (var sf in comp.SmartForms)
+                                {
+                                    if (sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                                    {
+                                        foreach (var detail in sf.SmartFormDetails)
+                                        {
+                                            if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                                            {
+                                                long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
+                                                if (FVId > 0)
+                                                {
+                                                    detail.VariableId = FVId;
+                                                }
+                                                else
+                                                {
+                                                    if (!string.IsNullOrEmpty(detail.VariableName))
+                                                    {
+                                                        long variableId = systemVariables.Where(c => c.VariableName == detail.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                        if (variableId > 0)
+                                                        {
+                                                            detail.VariableId = variableId;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            detail.VariableId = null;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (detail.FieldVariable != null)
+                                                {
+                                                    long variableId = systemVariables.Where(c => c.VariableName == detail.FieldVariable.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                    if (variableId > 0)
+                                                    {
+                                                        detail.VariableId = variableId;
+
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    detail.VariableId = null;
+                                                }
+
+                                            }
+
+                                        }
+                                    }
+
+
+                                }
+                            }
                             //comp.CmsPages.ToList().ForEach(c => c.)
                             db.Companies.Add(comp);
                             db.SaveChanges();
@@ -2534,7 +2601,7 @@ namespace MPC.Repository.Repositories
                                     db.SaveChanges();
 
 
-                                  
+
 
 
                                 }
@@ -2610,7 +2677,7 @@ namespace MPC.Repository.Repositories
                                                 }
                                             }
                                             // for SectionSizeId
-                                            if(paperSizes != null && paperSizes.Count > 0)
+                                            if (paperSizes != null && paperSizes.Count > 0)
                                             {
                                                 int PID = paperSizes.Where(c => c.SizeMeasure == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
                                                 if (PID > 0)
@@ -2648,9 +2715,9 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                   // MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    // MID = machines.Select(s => s.MachineId).FirstOrDefault();
                                                     itm.PressId = null;
-                                                  
+
                                                 }
                                                 if (MIDSide2 > 0)
                                                 {
@@ -2658,7 +2725,7 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                   // MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    // MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
                                                     itm.PressIdSide2 = null;
                                                     //itm.PressId = null;
                                                 }
@@ -2744,7 +2811,7 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
                                                     pci.CategoryId = null;
 
 
@@ -2847,6 +2914,8 @@ namespace MPC.Repository.Repositories
                             }
 
                         }
+                        #endregion
+                        #region retail without products
                         else if (StoreName == SNameWOP) // done
                         {
                             Company comp = new Company();
@@ -2924,6 +2993,72 @@ namespace MPC.Repository.Repositories
                                 }
                             }
 
+                            if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                            {
+
+                                foreach (var sf in comp.SmartForms)
+                                {
+                                    if (sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                                    {
+                                        foreach (var detail in sf.SmartFormDetails)
+                                        {
+                                            if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                                            {
+                                                long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
+                                                if (FVId > 0)
+                                                {
+                                                    detail.VariableId = FVId;
+                                                }
+                                                else
+                                                {
+                                                    if (!string.IsNullOrEmpty(detail.VariableName))
+                                                    {
+                                                        long variableId = systemVariables.Where(c => c.VariableName == detail.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                        if (variableId > 0)
+                                                        {
+                                                            detail.VariableId = variableId;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            detail.VariableId = null;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (detail.FieldVariable != null)
+                                                {
+                                                    long variableId = systemVariables.Where(c => c.VariableName == detail.FieldVariable.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                    if (variableId > 0)
+                                                    {
+                                                        detail.VariableId = variableId;
+
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    detail.VariableId = null;
+                                                }
+
+                                            }
+
+                                        }
+                                    }
+
+
+                                }
+                            }
 
                             //comp.CmsPages.ToList().ForEach(c => c.)
                             db.Companies.Add(comp);
@@ -3279,6 +3414,8 @@ namespace MPC.Repository.Repositories
                             }
 
                         }
+                        #endregion
+                        #region corporate
                         else if (StoreName == SCName) // done
                         {
                             Company comp = new Company();
@@ -3352,6 +3489,72 @@ namespace MPC.Repository.Repositories
                                 }
                             }
 
+                            if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                            {
+
+                                foreach (var sf in comp.SmartForms)
+                                {
+                                    if (sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                                    {
+                                        foreach (var detail in sf.SmartFormDetails)
+                                        {
+                                            if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                                            {
+                                                long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
+                                                if (FVId > 0)
+                                                {
+                                                    detail.VariableId = FVId;
+                                                }
+                                                else
+                                                {
+                                                    if (!string.IsNullOrEmpty(detail.VariableName))
+                                                    {
+                                                        long variableId = systemVariables.Where(c => c.VariableName == detail.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                        if (variableId > 0)
+                                                        {
+                                                            detail.VariableId = variableId;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            detail.VariableId = null;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (detail.FieldVariable != null)
+                                                {
+                                                    long variableId = systemVariables.Where(c => c.VariableName == detail.FieldVariable.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                    if (variableId > 0)
+                                                    {
+                                                        detail.VariableId = variableId;
+
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    detail.VariableId = null;
+                                                }
+
+                                            }
+
+                                        }
+                                    }
+
+
+                                }
+                            }
 
                             db.Companies.Add(comp);
                             db.SaveChanges();
@@ -3758,6 +3961,8 @@ namespace MPC.Repository.Repositories
                             }
 
                         }
+                        #endregion
+                        #region corporte without products
                         else if (StoreName == SCNameWOP) // done
                         {
                             Company comp = new Company();
@@ -3831,6 +4036,72 @@ namespace MPC.Repository.Repositories
                             }
 
 
+                            if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                            {
+
+                                foreach (var sf in comp.SmartForms)
+                                {
+                                    if (sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                                    {
+                                        foreach (var detail in sf.SmartFormDetails)
+                                        {
+                                            if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                                            {
+                                                long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
+                                                if (FVId > 0)
+                                                {
+                                                    detail.VariableId = FVId;
+                                                }
+                                                else
+                                                {
+                                                    if (!string.IsNullOrEmpty(detail.VariableName))
+                                                    {
+                                                        long variableId = systemVariables.Where(c => c.VariableName == detail.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                        if (variableId > 0)
+                                                        {
+                                                            detail.VariableId = variableId;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            detail.VariableId = null;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (detail.FieldVariable != null)
+                                                {
+                                                    long variableId = systemVariables.Where(c => c.VariableName == detail.FieldVariable.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                    if (variableId > 0)
+                                                    {
+                                                        detail.VariableId = variableId;
+
+                                                    }
+                                                    else
+                                                    {
+                                                        detail.VariableId = null;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    detail.VariableId = null;
+                                                }
+
+                                            }
+
+                                        }
+                                    }
+
+
+                                }
+                            }
                             db.Companies.Add(comp);
                             db.SaveChanges();
                             oCIDWOP = comp.CompanyId;
@@ -4215,7 +4486,7 @@ namespace MPC.Repository.Repositories
                             }
 
                         }
-
+                        #endregion
 
 
 
