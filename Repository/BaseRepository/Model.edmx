@@ -3638,6 +3638,7 @@
           <Property Name="Description" Type="varchar" MaxLength="255" />
           <Property Name="Fixed" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="CategoryId" Type="bigint" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="SystemEmail">
           <Key>
@@ -9099,6 +9100,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CategoryId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="StockCategory" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockSubCategory" ToRole="StockCategory" />
           <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" FromRole="StockSubCategory" ToRole="StockItem" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
 
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
@@ -16027,6 +16029,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="StockSubCategories">
             <EntityTypeMapping TypeName="DomainModels.StockSubCategory">
               <MappingFragment StoreEntitySet="StockSubCategory">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Fixed" ColumnName="Fixed" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
