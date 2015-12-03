@@ -8850,7 +8850,7 @@ alter table listing add InspectionTimeTo2 varchar(200)
 ----------------
 alter table TemplateObject add hasInlineFontFamily bit
 
-----------------
+---------Executed on PrintCloud servers 20151202-------
 
 ALTER TABLE listing
 ADD BrochureMainHeadLine varchar(Max)
@@ -8905,6 +8905,6 @@ ADD AuctionEndTime varchar(Max)
 
 
 
-------------------Executed on servers 20151127---------------
+------------------Executed on All servers 20151127---------------
 
 Alter table items add UploadTypeByUser int 

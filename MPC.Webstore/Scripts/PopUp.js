@@ -1358,8 +1358,11 @@ function DeleteArtWork(AttachmentId, ItemId, TypeId) {
                 isImageUploadedOnLandingPage = 0;
                 $("#uploadDesignHeadingContainer").css("display", "none");
                 $("#uploadDesignattachmentContainer").css("display", "none");
-                $("#designNowContainer").css("display", "block");
-                $("#cartOrderDetailContainer").css("display", "none");
+                if (isPrintProductFlag == "1") {
+                    $("#designNowContainer").css("display", "block");
+                    $("#cartOrderDetailContainer").css("display", "none");
+                }
+              
                 HideLoader();
             }
 

@@ -1290,7 +1290,7 @@
     var countOfCostCentresTicked = 0;
     var countOfCostCentreOnwhichActionIsPerformed = 0;
     var controlsArrayOnQtyChange = [];
-
+    var isPrintProductFlag = "@ViewBag.IsPrintProduct";
     function SubmitForm(){
         $("#AddTOCart").click();
     }
@@ -2153,8 +2153,12 @@
                             $("#uploadDesignattachmentContainer").css("display", "block");
                             $("#attachmentUploadContainer").html(messages[1]);
                             isImageUploadedOnLandingPage = 1; 
-                            $("#designNowContainer").css("display", "none");
-                            $("#cartOrderDetailContainer").css("display", "block");
+                           
+                            if(isPrintProductFlag == "1"){
+                                $("#designNowContainer").css("display", "none");
+                                $("#cartOrderDetailContainer").css("display", "block");
+                            }
+                           
                             HideLoader();
                         } else {
                             ShowPopUp('Message', messages[0]);

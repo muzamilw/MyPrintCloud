@@ -90,10 +90,10 @@
 
                        <br />
                         <p>@Html.Raw(Html.GetKeyValueFromResourceFile("lbltweet", UserCookieManager.WBStoreId, "We will tweet you when your order has been dispatched"))</p>
-                        @Html.TextBoxFor(model => model.tweetURl, new { id = "txttweetUrl", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("placholderTweet", UserCookieManager.WBStoreId, "@eazyprint")) })
+                        @Html.TextBoxFor(model => model.tweetURl, new { id = "txttweetUrl", @class = "formbox ", @placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("placholderTweet", UserCookieManager.WBStoreId, "@yourcompany")) })
 
 
-                         <input id="cmdRegister" type="submit" class="start_creating_btn_Login_nw rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))" onclick="ShowLoader();" /><br />
+                         <input id="cmdRegister" type="submit" class="start_creating_btn_Login_nw rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("BtnCreateacc", UserCookieManager.WBStoreId, "CREATE ACCOUNT"))"  /><br />
                         
                         <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
                     }
