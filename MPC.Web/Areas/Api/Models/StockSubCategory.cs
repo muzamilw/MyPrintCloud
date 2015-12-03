@@ -8,5 +8,6 @@
         public string Description { get; set; }
         public string Fixed { get; set; }
         public long CategoryId { get; set; }
+        public long? OrganisationId { get; set; }
     }
 }

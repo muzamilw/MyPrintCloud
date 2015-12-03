@@ -10,6 +10,7 @@ namespace MPC.Models.DomainModels
         public string Description { get; set; }
         public string Fixed { get; set; }
         public long CategoryId { get; set; }
+        public long? OrganisationId { get; set; }
         public virtual StockCategory StockCategory { get; set; }
         public virtual ICollection<StockItem> StockItems { get; set; }
     }
