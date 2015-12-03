@@ -204,5 +204,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _listingUserRepository.OrganisationThroughSystemUserEmail(SystemUserEmail);
         }
+        public MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId)
+        {
+            return _ListingRepository.GetListingByListingID(propertyId);
+        }
     }
 }

@@ -370,7 +370,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
 
                                                 if (item.isUploadImage == true)
                                                 {
-                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/DesignOrUpload" onclick="ShowLoader();">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
                                                     </a>
                                                 }

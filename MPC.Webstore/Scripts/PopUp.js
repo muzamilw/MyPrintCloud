@@ -1348,7 +1348,7 @@ function DeleteArtWork(AttachmentId, ItemId, TypeId) {
         contentType: "application/json",
         async: true,
         success: function (response) {
-
+            console.log("respon on delete " + response);
             if (response[0] == "Success") {
                 $("#attachmentUploadContainer").html(response[1]);
                 isImageUploadedOnLandingPage = 1;
@@ -1358,6 +1358,11 @@ function DeleteArtWork(AttachmentId, ItemId, TypeId) {
                 isImageUploadedOnLandingPage = 0;
                 $("#uploadDesignHeadingContainer").css("display", "none");
                 $("#uploadDesignattachmentContainer").css("display", "none");
+                if (isPrintProductFlag == "1") {
+                    $("#designNowContainer").css("display", "block");
+                    $("#cartOrderDetailContainer").css("display", "none");
+                }
+              
                 HideLoader();
             }
 

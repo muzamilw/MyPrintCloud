@@ -23,9 +23,9 @@
                         <div>@Html.ValidationMessageFor(u => u.Password)</div>
                     </div>
 
-                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "formbox", @value = "Email" })
+                    @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "formbox", @placeholder = "Email" })
 
-                    @Html.TextBoxFor(model => model.Password, new { id = "Password", @class = "formbox", @value = "Password" }) <br />
+                    @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "formbox", @placeholder = "Password" }) <br />
 
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
@@ -150,10 +150,6 @@
 
 <script>
 
-        $(document).ready(function () {
-            $('#txtEmailId').val("Email");
-            $('#Password').val('Password');
-        });
 
         function updateSuccess(data) {
             if (data == "Success") {
@@ -161,34 +157,6 @@
             }
         }
 
-        $('#txtEmailId').focus(function() {
-            if ($('#txtEmailId').val() === 'Email') {
-                $('#txtEmailId').val('');
-            }
-        });
-        $('#txtEmailId').blur(function() {
-
-            if ($('#txtEmailId').val() === '') {
-
-                $('#txtEmailId').val("Email");
-            }
-        });
-
-        $('#Password').focus(function() {
-            if ($('#Password').val() === 'Password') {
-                $('#Password').attr("type", "password");
-                $('#Password').val('');
-            }
-        });
-
-        $('#Password').blur(function () {
-            if ($('#Password').val() === '') {
-                $('#Password').removeAttr("type");
-                $('#Password').val('Password');
-            } else {
-                $('#Password').attr("type", "password");
-            }
-        });
 
         function ShowSocialMediaPopUp(provider) {
 
@@ -223,7 +191,7 @@
         });
 
         function ValidateUserCredentials() {
-            if ($('#txtEmailId').val() === 'Email' && $('#Password').val() === 'Password') {
+            if ($('#txtEmailId').val() == '' && $('#Password').val() == '') {
 
                 return false;
             } else {

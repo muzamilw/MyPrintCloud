@@ -65,6 +65,9 @@
     <Reference Include="DotNetOpenAuth.OAuth2.ClientAuthorization">
       <HintPath>..\packages\DotNetOpenAuth.OAuth2.ClientAuthorization.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.ClientAuthorization.dll</HintPath>
     </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="FluentScheduler">
       <HintPath>..\packages\FluentScheduler.3.1.45\lib\net40\FluentScheduler.dll</HintPath>
     </Reference>
@@ -370,6 +373,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\OrderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateSideBarController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\RealEstateSMController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RFQController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
@@ -545,6 +549,7 @@
     <Content Include="Content\Designer\assets-v2\placeholder7.png" />
     <Content Include="Content\Designer\assets-v2\placeholder8.png" />
     <Content Include="Content\Designer\assets-v2\placeholder9.png" />
+    <Content Include="Content\Designer\assets-v2\rotate.png" />
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
@@ -732,6 +737,7 @@
     <Content Include="Content\Images\publisher.png" />
     <Content Include="Content\Images\re-order.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
+    <Content Include="Content\Images\realplaceholder.gif" />
     <Content Include="Content\Images\repeat.png" />
     <Content Include="Content\Images\SeaBluefeature.png" />
     <Content Include="Content\Images\Settings.png" />
@@ -750,6 +756,7 @@
     <Content Include="Content\Images\Van-Icon-Blue.png" />
     <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa_49x31.jpg" />
+    <Content Include="Content\jquery-1.8.2.min.js" />
     <Content Include="Content\Images\word.png" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\Images\upload_your_picture.png" />
@@ -1091,6 +1098,7 @@
     <Folder Include="Areas\OrderReceipt\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\RealEstateSideBar\" />
+    <Folder Include="Areas\WebstoreApi\Views\RealEstateSmartForm\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />

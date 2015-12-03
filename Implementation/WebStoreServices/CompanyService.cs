@@ -14,6 +14,7 @@ using MPC.Common;
 using WebSupergoo.ABCpdf8;
 using System.IO;
 using System.Configuration;
+using MPC.Webstore.Common;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -25,6 +26,7 @@ namespace MPC.Implementation.WebStoreServices
         /// Private members
         /// </summary>
         /// 
+        private readonly IListingRepository _listingRepository;
         public readonly ICompanyRepository _CompanyRepository;
         public readonly ICompanyContactRepository _CompanyContactRepository;
         private readonly ISystemUserRepository _SystemUserRepository;
@@ -53,6 +55,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyContactRoleRepository _companycontactRoleRepo;
         private readonly IScopeVariableRepository _IScopeVariableRepository;
         private readonly ICompanyDomainRepository _companyDomainRepository;
+        private readonly IListingBulletPointsRepository _listingBulletPontRepository;
+
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -72,8 +76,9 @@ namespace MPC.Implementation.WebStoreServices
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
             , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
             ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
-            ,ICompanyDomainRepository companyDomainRepository)
+            ,ICompanyDomainRepository companyDomainRepository,IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository)
         {
+            this._listingRepository = _listingRepository;
             this._CompanyRepository = companyRepository;
             this._questionRepository = _questionRepository;
             this._widgetRepository = widgetRepository;
@@ -101,6 +106,7 @@ namespace MPC.Implementation.WebStoreServices
             this._SystemUserRepository = _SystemUserRepository;
             this._IScopeVariableRepository = IScopeVariableRepository;
             this._companyDomainRepository = companyDomainRepository;
+            this._listingBulletPontRepository = _listingBulletPontRepository;
         }
 
         #endregion
@@ -1782,6 +1788,80 @@ namespace MPC.Implementation.WebStoreServices
                 return domain.CompanyId;
             }
             return 0;
+        }
+
+        public List<CompanyContact> GetUsersByCompanyId(long CompanyId)
+        {
+            return _CompanyContactRepository.GetUsersByCompanyId(CompanyId);
+              
+        }
+        public List<CompanyContact> GetCorporateUserOnly( long companyId, long OrganisationId)
+        {
+            return _CompanyContactRepository.GetCorporateUserOnly(companyId, OrganisationId);
+        }
+        public MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId)
+        {
+            return _listingRepository.GetListingByListingID(propertyId);
+        }
+        public long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing)
+        {
+            return _listingRepository.UpdateListing(propertyListing, tblListing);
+        }
+        public void UpdateAgent(List<CompanyContact> model)
+        {
+             _CompanyContactRepository.UpdateAgent(model);
+        }
+        public void AddAgent(ListAgentMode model, long ContactCompanyId)
+        {
+            _CompanyContactRepository.AddAgent(model, ContactCompanyId);
+        }
+        public void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints)
+        {
+            _listingBulletPontRepository.UpdateBulletPoints(BulletPoints);
+        }
+        public void AddBulletPoint(ListPointsModel model, long listingId)
+        {
+            _listingBulletPontRepository.AddBulletPoint(model, listingId);
+        }
+        public void UpdateSignleAgent(CompanyContact Agent)
+        {
+            _CompanyContactRepository.UpdateSignleAgent(Agent);
+        }
+        public void AddSingleAgent( CompanyContact NewAgent)
+        {
+            _CompanyContactRepository.AddSingleAgent( NewAgent);
+        }
+        public List<ListingImage> GetAllListingImages(long ListingID)
+        {
+            return _listingRepository.GetAllListingImages(ListingID);
+        }
+        public void ListingImage(ListingImage NewImage)
+        {
+            _listingRepository.ListingImage(NewImage);
+        }
+        public void DeleteListingImage(long listingImageID)
+        {
+            _listingRepository.DeleteListingImage(listingImageID);
+        }
+        public void DeleteAjent(long ContactID)
+        {
+            _CompanyContactRepository.DeleteAjent(ContactID);
+        }
+        public void AddSingleBulletPoint(ListingBulletPoint BullentPoint)
+        {
+            _listingBulletPontRepository.AddSingleBulletPoint(BullentPoint);
+        }
+        public void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint)
+        {
+            _listingBulletPontRepository.UpdateSingleBulletPoint(BullentPoint);
+        }
+        public List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID)
+        {
+           return _listingBulletPontRepository.GetAllListingBulletPoints(ListingID);
+        }
+        public void DeleteBulletPoint(long BulletPointId, long ListingId)
+        {
+            _listingBulletPontRepository.DeleteBulletPoint(BulletPointId, ListingId);
         }
     }
 }

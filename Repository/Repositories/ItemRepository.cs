@@ -4713,6 +4713,14 @@ namespace MPC.Repository.Repositories
             }
         }
         #endregion
+        public  GetCategoryProduct GetPublishedProductByItemID(int itemID)
+        {
+
+            return db.GetCategoryProducts.Where(g => g.ItemId == itemID && g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).FirstOrDefault();
+
+            
+        }
+
     }
 }
 

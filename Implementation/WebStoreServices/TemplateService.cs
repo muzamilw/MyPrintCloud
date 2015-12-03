@@ -1195,7 +1195,7 @@ namespace MPC.Implementation.WebStoreServices
                             if (isWaterMarkText)
                             {
                                 oPdf.Color.String = "16 12 13 0";
-                                oPdf.Color.Alpha = 220;
+                                oPdf.Color.Alpha = 120;
                                 oPdf.TextStyle.Size = 30;
                                 oPdf.Layer = 1;
                                 oPdf.HPos = 0.5;
