@@ -85,12 +85,12 @@
                                     <div class="col-lg-9">
                                         <div class="form-group" id="isSheetFedRadio">
                                             <div class="col-lg-4 text-right">
-                                                @*<div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label class="control-label text-right tooltip-float">Store Type</label>*@
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The selected type will be used to calculate press cost in estimation processing with the relevant paper type. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Select Press Type</label>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="col-lg-12" style="margin-left:-10px;">
@@ -110,6 +110,33 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @*<div class="form-group" data-bind="visible : isSheetFed() == 'true'">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The selected calculation method will be used in estimation processing for the press cost. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Set Press Calculation Method</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12" style="margin-left:-10px;">
+                                                    <div class="radio" style="margin-bottom: 10px;">
+                                                        <input type="radio" name="optionsRadiosLookupType" id="rbClickcharge" value="true" checked data-bind="checked: isClickChargezone">
+                                                        <label for="rbClickcharge">
+                                                            Click Charge Zone
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadiosLookupType" id="rbSpeedWeight" value="false" data-bind="checked: isClickChargezone">
+                                                        <label for="rbSpeedWeight">
+                                                            Speed Weight
+                                                        </label>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -960,6 +987,9 @@
                                             <div id="meterPerHour">
                                                 @Html.Partial("_MeterPerHour")
                                             </div>
+                                            @*<div id="speedWeight">
+                                                @Html.Partial("_SpeedWeight")
+                                            </div>*@
                                         </div>
                                         <!-- /ko -->
                                     </div>

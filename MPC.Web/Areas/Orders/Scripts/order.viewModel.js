@@ -1876,7 +1876,8 @@ define("order/order.viewModel",
                         item.qty2(selectedCostCentre().quantity2());
                         item.qty3(selectedCostCentre().quantity3());
                         //Req: Item Product type is set to '2', so while editting item's section is non mandatory
-                        item.productType(2);
+                        //Naveed: set as 3 so it should not show print section
+                        item.productType(3);
                         item.qty1NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity1());
                         item.qty2NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
                         item.qty3NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
@@ -1895,7 +1896,8 @@ define("order/order.viewModel",
                         itemSection.baseCharge2(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
                         itemSection.baseCharge3(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
-                        itemSection.productType(2);
+                        //Naveed: set as 3 so it should not show print section
+                        itemSection.productType(3);
 
                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
