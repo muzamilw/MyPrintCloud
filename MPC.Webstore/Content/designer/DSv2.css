@@ -7503,3 +7503,6 @@ to {
     z-index: 1000;
     font-size: 14px;
 }
+#DivColorPickerDraggable {
+        z-index: 10001;
+}
