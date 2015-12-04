@@ -2714,7 +2714,6 @@ function togglePage(pId) {
 
     }
     function j8(src) {
-        c2_v2(); c2_v2();
         var fileNameIndex = src.lastIndexOf("/") + 1;
         var filename = src.substr(fileNameIndex);
         var D1AO = canvas.getActiveObject();
@@ -3525,9 +3524,10 @@ function togglePage(pId) {
     function k15() {
         if ($("#txtLineHeight").val() < -1.50) {
             $("#txtLineHeight").val(1);
-        } else if ($("#txtLineHeight").val() > 2.0) {
-            $("#txtLineHeight").val(2.0);
         }
+        //else if ($("#txtLineHeight").val() > 2.0) {
+        //    $("#txtLineHeight").val(2.0);
+        //}  // commented on request of leanne and chris
         var D1AO = canvas.getActiveObject();
         if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
             D1AO.lineHeight = $("#txtLineHeight").val();
