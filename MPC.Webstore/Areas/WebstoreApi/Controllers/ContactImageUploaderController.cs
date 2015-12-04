@@ -443,5 +443,37 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             //return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
+      [HttpPost]
+      public void AddImagesForListings(long ListingId)
+      {
+          //  string destinationPath = HostingEnvironment.MapPath("~/StoredImages/RealEstateImages/" + contactCompanyId + "\\" + newlyAddedListing + "\\" + item.ImageID);
+
+             string folderPath = "~/MPC_Content/Stores/" + UserCookieManager.WBStoreId + "/" + ListingId;
+                            string drURL = System.Web.HttpContext.Current.Server.MapPath(folderPath);
+         
+                string virtualFolderPth = drURL;
+                            //first download image locally
+                            if (!System.IO.Directory.Exists((drURL)))
+                                System.IO.Directory.CreateDirectory(drURL);
+                            var Request = HttpContext.Current.Request.Files["ListingImage"];
+                           string ImageName= Request.FileName;
+
+                            ListingImage tbl_listingImage = new ListingImage();
+                            tbl_listingImage.ListingId = ListingId;
+                            //tbl_listingImage.ClientImageId = item.ImageID;
+                            tbl_listingImage.ImageURL = "/MPC_Content/Stores/" + UserCookieManager.WBStoreId + "/" + ListingId + "/" + ImageName;
+                            //tbl_listingImage.ImageOrder = item.ImageOrder;
+                            _companyService.ListingImage(tbl_listingImage);
+                            //if (!String.IsNullOrEmpty(item.LastMod))
+                            //    //tbl_listingImage.LastMode = Convert.ToDateTime(item.LastMode, new System.Globalization.CultureInfo("en-AU"));
+                            //    tbl_listingImage.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+           
+                             
+                            var fileName = Path.GetFileName(Request.FileName);
+                            Request.SaveAs(virtualFolderPth + "/" + fileName);
+                    
+                            
+
+      }
     }
 }

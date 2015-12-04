@@ -69,6 +69,11 @@ namespace MPC.Webstore
             );
 
             routes.MapRoute(
+              "SmartForm",
+              "RealEstateSmartForm/{id}/{PropertyId}",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional, PropertyId = UrlParameter.Optional }
+          );
+            routes.MapRoute(
                "loadaddWithTerritory",
                "UserManager/GetAddressesByTerritorID",
                new { controller = "UserManager", action = "GetAddressesByTerritorID", id = UrlParameter.Optional }

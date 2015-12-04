@@ -88,6 +88,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                     }
                     streamProvider.Contents.Clear();
                     ListOfAttachments = itemService.SaveArtworkAttachments(ListOfAttachments);
+                    itemService.UpdateUploadFlagInItem(Convert.ToInt64(parameter3), 1);
                     if (ListOfAttachments == null)
                     {
                         messages.Add("Artwork not uploaded");
@@ -102,7 +103,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                              foreach(var attach in ListOfAttachments)
                             {
                                
-                                ArtworkHtml = ArtworkHtml +   "<div class='artwork_sides_container rounded_corners'><div class='artwork_image_sides_container float_left_simple'><img class='artwork_image_thumbnail' src='/" + attach.FolderPath + "/" + attach.FileName + "Thumb.png' /></div><div class='artwork_filedetail_container float_left_simple'><button type='button' class='delete_icon_img' onclick='ConfirmDeleteArtWorkPopUP(" + attach.ItemAttachmentId + "," + attach.ItemId + ");'></button></div><div class='clearBoth'>&nbsp;</div></div>";
+                                ArtworkHtml = ArtworkHtml +   "<div class='artwork_sides_container rounded_corners'><div class='artwork_image_sides_container float_left_simple'><img class='artwork_image_thumbnail' src='/" + attach.FolderPath + "/" + attach.FileName + "Thumb.png' /></div><div class='artwork_filedetail_container float_left_simple'><button type='button' class='delete_icon_img' onclick='ConfirmDeleteArtWorkPopUP(" + attach.ItemAttachmentId + "," + attach.ItemId + ",1);'></button></div><div class='clearBoth'>&nbsp;</div></div>";
                                 
                             }
                         }

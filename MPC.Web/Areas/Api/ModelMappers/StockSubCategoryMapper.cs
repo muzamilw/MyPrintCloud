@@ -17,7 +17,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        Description = source.Description,
                        Fixed = source.Fixed,
                        Name = source.Name,
-                       SubCategoryId = source.SubCategoryId
+                       SubCategoryId = source.SubCategoryId,
+                       OrganisationId = source.OrganisationId
                    };
         }
         /// <summary>
@@ -44,7 +45,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        Description = source.Description,
                        Fixed = source.Fixed,
                        Name = source.Name,
-                       SubCategoryId = source.SubCategoryId
+                       SubCategoryId = source.SubCategoryId,
+                       OrganisationId = source.OrganisationId
                    };
         }
     }

@@ -98,8 +98,11 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ReturnURL = "Social";
             else
                 ViewBag.ReturnURL = ReturnURL;
-
-            return View("PartialViews/SignUp");
+            MPC.Webstore.Models.RegisterViewModel onemodel = new MPC.Webstore.Models.RegisterViewModel();
+            onemodel.Email = Email;
+            onemodel.LastName = LastName;
+            onemodel.FirstName = FirstName;
+            return View("PartialViews/SignUp", onemodel);
         }
 
         [HttpPost]
@@ -112,26 +115,15 @@ namespace MPC.Webstore.Controllers
             {
                 string isSocial = Request.Form["hfIsSocial"];
                 string socialProviderKey = Request.Form["hfSocialProviderKey"];
-
+                ViewBag.SocialProviderId = socialProviderKey;
                 if (!string.IsNullOrEmpty(isSocial))
                 {
                     if (isSocial == "1")
                     {
                         ViewData["IsSocialSignUp"] = true;
-                        if (Request.Form["provider"] == "fb")
-                        {
-                            ViewBag.socialFirstName = Request.Form["socialFirstNameTxt"];
-                            ViewBag.socialLastName = Request.Form["socialLastNameTxt"];
-                            ViewBag.socialEmail = Request.Form["socialEmailTxt"];
-                        }
-                        else
-                        {
-                            ViewBag.socialFirstName = model.FirstName;
-                            ViewBag.socialLastName = model.LastName;
-                        }
-
+                       
                         ViewBag.Provider = Request.Form["provider"];
-                        ViewBag.SocialProviderId = Request.Form["hfSocialProviderKey"];
+                       
 
                     }
                     else
@@ -144,7 +136,7 @@ namespace MPC.Webstore.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (model.Password == "Password" && isSocial != "1")
+                    if (string.IsNullOrEmpty(model.Password) && isSocial != "1")
                     {
                         ViewBag.Message = "Please enter Password";
                         return View("PartialViews/SignUp");
@@ -177,20 +169,20 @@ namespace MPC.Webstore.Controllers
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlAlreadyRegisteredWithSocialMedia", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this socail media account ") + ". Please login to continue using this account.";
                                 return View("PartialViews/SignUp");
                             }
-                            if (Request.Form["provider"] == "fb")
-                            {
-                                if (_myCompanyService.GetCorporateContactByEmail(Request.Form["socialEmailTxt"], StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
-                                {
-                                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
+                            //if (Request.Form["provider"] == "fb")
+                            //{
+                            //    if (_myCompanyService.GetCorporateContactByEmail(Request.Form["socialEmailTxt"], StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                            //    {
+                            //        ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
 
-                                    return View("PartialViews/SignUp");
-                                }
-                                else
-                                {
-                                    SetRegisterCustomer(model);
-                                    return View("PartialViews/SignUp");
-                                }
-                            }
+                            //        return View("PartialViews/SignUp");
+                            //    }
+                            //    else
+                            //    {
+                            //        SetRegisterCustomer(model);
+                            //        return View("PartialViews/SignUp");
+                            //    }
+                            //}
                             else if (_myCompanyService.GetCorporateContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                             {
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
@@ -229,20 +221,20 @@ namespace MPC.Webstore.Controllers
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlAlreadyRegisteredWithSocialMedia", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this socail media account ") + ". Please login to continue using this account.";
                                 return View("PartialViews/SignUp");
                             }
-                            if (Request.Form["provider"] == "fb")
-                            {
-                                if (_myCompanyService.GetContactByEmail(Request.Form["socialEmailTxt"], StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
-                                {
-                                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
+                            //if (Request.Form["provider"] == "fb")
+                            //{
+                            //    if (_myCompanyService.GetContactByEmail(Request.Form["socialEmailTxt"], StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                            //    {
+                            //        ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
 
-                                    return View("PartialViews/SignUp");
-                                }
-                                else
-                                {
-                                    SetRegisterCustomer(model);
-                                    return null;
-                                }
-                            }
+                            //        return View("PartialViews/SignUp");
+                            //    }
+                            //    else
+                            //    {
+                            //        SetRegisterCustomer(model);
+                            //        return null;
+                            //    }
+                            //}
                             else if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                             {
                                 ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address ") + model.Email;
@@ -330,25 +322,20 @@ namespace MPC.Webstore.Controllers
                 if (Request.Form["provider"] == "tw")
                 {
                     contact.LoginProvider = "Twitter";
-                    contact.Email = model.Email;
-                    contact.FirstName = model.FirstName == "First Name" ? "" : model.FirstName;
-                    contact.LastName = model.LastName == "Last Name" ? "" : model.LastName;
+                  
                 }
                 else
                 {
                     contact.LoginProvider = "Facebook";
-                    contact.Email = Request.Form["socialEmailTxt"];
-                    contact.FirstName = Request.Form["socialFirstNameTxt"];
-                    contact.LastName = Request.Form["socialLastNameTxt"];
+                  
                 }
 
             }
-            else
-            {
+            
                 contact.FirstName = model.FirstName == "First Name" ? "" : model.FirstName;
                 contact.LastName = model.LastName == "Last Name" ? "" : model.LastName;
                 contact.Email = model.Email;
-            }
+           
 
 
 

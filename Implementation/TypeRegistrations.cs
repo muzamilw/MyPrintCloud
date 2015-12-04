@@ -97,6 +97,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IExportReportHelper, ExportReportHelper>();
             unityContainer.RegisterType<ISectionService, SectionService>();
             unityContainer.RegisterType<IDiscountVoucherService, DiscountVoucherService>();
+            unityContainer.RegisterType<IListingBulletPointsService, ListingBulletPointsService>();
 
         }
     }

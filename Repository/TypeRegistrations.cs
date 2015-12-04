@@ -148,6 +148,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICMSOfferRepository, CMSOfferRepository>();
             unityContainer.RegisterType<IReportNoteRepository, ReportNoteRepository>();
             unityContainer.RegisterType<IVariableExtensionRespository, VariableExtensionRespository>();
+            unityContainer.RegisterType<IListingBulletPointsRepository, ListingBulletPointsRepository>();
         }
     }
 }

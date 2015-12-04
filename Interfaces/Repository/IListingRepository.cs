@@ -13,7 +13,11 @@ namespace MPC.Interfaces.Repository
 {
     public interface IListingRepository : IBaseRepository<MPC.Models.DomainModels.Listing, long>
     {
-
+        void DeleteListingImage(long listingImageID);
+        void ListingImage(ListingImage NewImage);
+        List<ListingImage> GetAllListingImages(long ListingID);
+        long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);
+        MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId);
         RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
         List<MPC.Models.DomainModels.ListingImage> GetAllListingImages();
         List<MPC.Models.DomainModels.ListingImage> GetListingImagesByListingID(int propertyId);
