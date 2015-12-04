@@ -2885,7 +2885,9 @@ namespace MPC.Repository.Repositories
                                     // objDV = Discont;
                                     Discont.OrganisationId = OrganisationID;
                                     Discont.CompanyId = (int)oRetailCID;
-                                    Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                    Guid newGuid = Guid.NewGuid();
+                                    string guid = newGuid.ToString();
+                                    Discont.VoucherCode = guid;
                                     //Discont.ItemsVouchers = null;
                                     //Discont.ProductCategoryVouchers = null;
 
@@ -3385,7 +3387,9 @@ namespace MPC.Repository.Repositories
                                     // objDV = Discont;
                                     Discont.OrganisationId = OrganisationID;
                                     Discont.CompanyId = (int)oRetailCIDWOP;
-                                    Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                    Guid newGuid = Guid.NewGuid();
+                                    string guid = newGuid.ToString();
+                                    Discont.VoucherCode = guid;
                                     //Discont.ItemsVouchers = null;
                                     //Discont.ProductCategoryVouchers = null;
 
@@ -3932,7 +3936,9 @@ namespace MPC.Repository.Repositories
                                     // objDV = Discont;
                                     Discont.OrganisationId = OrganisationID;
                                     Discont.CompanyId = (int)oCID;
-                                    Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                    Guid newGuid = Guid.NewGuid();
+                                    string guid = newGuid.ToString();
+                                    Discont.VoucherCode = guid;
                                     //Discont.ItemsVouchers = null;
                                     //Discont.ProductCategoryVouchers = null;
 
@@ -4457,7 +4463,9 @@ namespace MPC.Repository.Repositories
                                     // objDV = Discont;
                                     Discont.OrganisationId = OrganisationID;
                                     Discont.CompanyId = (int)oCIDWOP;
-                                    Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                    Guid newGuid = Guid.NewGuid();
+                                    string guid = newGuid.ToString();
+                                    Discont.VoucherCode = guid;
                                     //Discont.ItemsVouchers = null;
                                     //Discont.ProductCategoryVouchers = null;
 
@@ -7985,7 +7993,9 @@ namespace MPC.Repository.Repositories
                                 // objDV = Discont;
                                 Discont.OrganisationId = OrganisationID;
                                 Discont.CompanyId = (int)oRetailCID;
-                                Discont.VoucherCode = Discont.VoucherCode + " " + Discont.DiscountVoucherId;
+                                Guid newGuid = Guid.NewGuid();
+                                string guid = newGuid.ToString();
+                                Discont.VoucherCode = guid;
                                 //Discont.ItemsVouchers = null;
                                 //Discont.ProductCategoryVouchers = null;
 

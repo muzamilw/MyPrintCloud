@@ -70,7 +70,7 @@ namespace MPC.Implementation.MISServices
                     {
                         for (int i = 0; i <= directories.Count - 1; i++)
                         {
-                            if (directories[i].Contains("MPC.xml"))
+                            if (directories[i].Contains(".xml"))
                             {
 
                                 string path = FTPServer + directories[i].ToString();
