@@ -459,7 +459,7 @@ define("machine/machine.viewModel",
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
 
-
+                                    
                                     $("#isSheetFedRadio").css("display", "none");
                                     
                                     var pagetype = Request.QueryString("type").toString();
@@ -468,6 +468,7 @@ define("machine/machine.viewModel",
                                         if (pagetype == 'press') {
                                             if (data.machine.isSheetFed == true) {
                                                 MachineType(0);
+                                                selectedMachine().isSheetFed("true");
                                                 lookupMethodViewModel.CurrencySymbol(selectedMachine().CurrencySymbol());
                                                 lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineClickChargeZones, 1, null);
                                             }

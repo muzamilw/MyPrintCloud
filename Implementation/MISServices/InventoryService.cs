@@ -255,7 +255,7 @@ namespace MPC.Implementation.MISServices
         private StockItem SaveStockItem(StockItem stockItem)
         {
             stockItem.StockCreated = DateTime.Now;
-            stockItem.ItemCode = prefixRepository.GetNextItemCodePrefix();
+            stockItem.ItemCode = prefixRepository.GetNextStockItemCodePrefix();
             stockItem.LastModifiedDateTime = DateTime.Now;
 
             bool isImperical = organisationRepository.GetImpericalFlagbyOrganisationId();
