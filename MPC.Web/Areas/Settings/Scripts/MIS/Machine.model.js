@@ -59,7 +59,7 @@
     var machine = function () {
         var self,
             MachineId = ko.observable(),
-            MachineName = ko.observable(),
+            MachineName = ko.observable().extend({ required: true }),
             MachineCatId = ko.observable(),
             ColourHeads = ko.observable(0),
             isPerfecting = ko.observable(),
@@ -81,6 +81,7 @@
             maximumsheetwidth = ko.observable(0),
             minimumsheetheight = ko.observable(50),
             minimumsheetwidth = ko.observable(50),
+            isClickChargezone = ko.observable('true'),
             gripdepth = ko.observable(10),
             gripsideorientaion = ko.observable(),
             Orientation = ko.observableArray([
@@ -229,6 +230,7 @@
                 CoverageMedium: CoverageMedium,
                 CoverageLow: CoverageLow,
                 isSheetFed: isSheetFed,
+                isClickChargezone: isClickChargezone,
                 Passes: Passes,
                 IsSpotColor: IsSpotColor,
                 ReelMakereadyTime: ReelMakereadyTime,
@@ -326,6 +328,7 @@
             CoverageMedium: CoverageMedium,
             CoverageLow: CoverageLow,
             isSheetFed: isSheetFed,
+            isClickChargezone:isClickChargezone,
             Passes: Passes,
             lookupList: lookupList,
             dirtyFlag: dirtyFlag,
@@ -693,6 +696,7 @@
         //omachine.Minimumsheetwidth(source.machine.Minimumsheetwidth);
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
+        omachine.isClickChargezone(source.machine.isSheetFed ? 'true' : 'false');
         
         //omachine.lookupList.removeAll();
         //ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);

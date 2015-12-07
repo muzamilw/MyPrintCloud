@@ -138,6 +138,7 @@ namespace MPC.Implementation.MISServices
                 double dblSide1Ink = Convert.ToDouble(oItemSection.Side1Inks);
                 double dblSide2Ink = Convert.ToDouble(oItemSection.Side2Inks);
                 double dblPressHeads = Convert.ToDouble(oPressDTO.ColourHeads);
+
                
                 StockItem oPaperDTO = new StockItem();
                 //Get Paper Stock Query
@@ -184,7 +185,272 @@ namespace MPC.Implementation.MISServices
 
                 switch (oModelLookUpMethod.Type)
                 {
-                    
+                    case (int)MethodTypes.SpeedWeight:
+                        //Speed Weight
+                        ///'=====================================================
+                        int dblPrintChge = 0;
+                        int dblPrintChgeRate = 0;
+                        int[] intGSM = new int[4];
+                        int[] intSheets = new int[6];
+                        double[,] intSpeed = new double[4, 6];
+                        double dblSpeed1 = 0;
+                        double dblSpeed2 = 0;
+                        double[] dblPrintSpeed = new double[5];
+                        //Getting the Plant Lookup Information Query
+
+                        MachineSpeedWeightLookup oModelSpeedWeight = itemsectionRepository.GetMachineSpeedWeightLookup(oModelLookUpMethod.MethodId);
+                        //There are 3 GSM Setting their Values
+                        intGSM[1] = Convert.ToInt32(oModelSpeedWeight.SheetWeight1);
+                        intGSM[2] = Convert.ToInt32(oModelSpeedWeight.SheetWeight2);
+                        intGSM[3] = Convert.ToInt32(oModelSpeedWeight.SheetWeight3);
+                        //Setting the Sheet Values
+                        intSheets[1] = Convert.ToInt32(oModelSpeedWeight.SheetsQty1);
+                        intSheets[2] = Convert.ToInt32(oModelSpeedWeight.SheetsQty2);
+                        intSheets[3] = Convert.ToInt32(oModelSpeedWeight.SheetsQty3);
+                        intSheets[4] = Convert.ToInt32(oModelSpeedWeight.SheetsQty4);
+                        intSheets[5] = Convert.ToInt32(oModelSpeedWeight.SheetsQty5);
+
+                        //Setting up the Speed Values
+                        intSpeed[1, 1] = Convert.ToDouble(oModelSpeedWeight.speedqty11);
+                        intSpeed[1, 2] = Convert.ToDouble(oModelSpeedWeight.speedqty12);
+                        intSpeed[1, 3] = Convert.ToDouble(oModelSpeedWeight.speedqty13);
+                        intSpeed[1, 4] = Convert.ToDouble(oModelSpeedWeight.speedqty14);
+                        intSpeed[1, 5] = Convert.ToDouble(oModelSpeedWeight.speedqty15);
+                        intSpeed[2, 1] = Convert.ToDouble(oModelSpeedWeight.speedqty21);
+                        intSpeed[2, 2] = Convert.ToDouble(oModelSpeedWeight.speedqty22);
+                        intSpeed[2, 3] = Convert.ToDouble(oModelSpeedWeight.speedqty23);
+                        intSpeed[2, 4] = Convert.ToDouble(oModelSpeedWeight.speedqty24);
+                        intSpeed[2, 5] = Convert.ToDouble(oModelSpeedWeight.speedqty25);
+                        intSpeed[3, 1] = Convert.ToDouble(oModelSpeedWeight.speedqty31);
+                        intSpeed[3, 2] = Convert.ToDouble(oModelSpeedWeight.speedqty32);
+                        intSpeed[3, 3] = Convert.ToDouble(oModelSpeedWeight.speedqty33);
+                        intSpeed[3, 4] = Convert.ToDouble(oModelSpeedWeight.speedqty34);
+                        intSpeed[3, 5] = Convert.ToDouble(oModelSpeedWeight.speedqty35);
+
+                        //Checking that the press support this GSM or Not
+                        if (oPaperDTO.ItemWeight > oPressDTO.maximumsheetweight)
+                        {
+                            // return functionReturnValue;
+                            ///Please select a paper that can be supported by the selected press.
+                        }
+
+                        byte btGSM = 0;
+                        byte btRun = 0;
+                        double dblGSM = 0;
+                        double dblRun = 0;
+                        //'Get the GSM
+                        //Checking for the PaperGSM
+                        if (oPaperDTO.ItemWeight == intGSM[1])
+                        {
+                            btGSM = 1;
+                            dblGSM = 0;
+                        }
+                        else if (oPaperDTO.ItemWeight == intGSM[2])
+                        {
+                            btGSM = 2;
+                            dblGSM = 0;
+                        }
+                        else if (oPaperDTO.ItemWeight == intGSM[3])
+                        {
+                            btGSM = 3;
+                            dblGSM = 0;
+                        }
+                        else
+                        {
+                            if (oPaperDTO.ItemWeight > intGSM[1] && oPaperDTO.ItemWeight < intGSM[2])
+                            {
+                                dblGSM = (double)(intGSM[2] - oPaperDTO.ItemWeight) / (intGSM[2] - intGSM[1]);
+                                btGSM = 1;
+                            }
+                            else if (oPaperDTO.ItemWeight > intGSM[2] && oPaperDTO.ItemWeight < intGSM[3])
+                            {
+                                dblGSM = (double)(intGSM[3] - oPaperDTO.ItemWeight) / (intGSM[3] - intGSM[2]);
+                                btGSM = 2;
+                            }
+                        }
+
+
+                        //'Get the Sheets
+                        for (int i = temp; i <= temp2; i++)
+                        {
+                            //Exact Values i.e. 2000 Sheets, 3000 Sheets etc.
+                            //*****Difference between dblRun and btRun
+                            if (intWorkSheetQty[i] <= intSheets[1])
+                            {
+                                dblRun = 0;
+                                btRun = 1;
+                            }
+                            else if (intWorkSheetQty[i] == intSheets[2])
+                            {
+                                dblRun = 0;
+                                btRun = 2;
+                            }
+                            else if (intWorkSheetQty[i] == intSheets[3])
+                            {
+                                dblRun = 0;
+                                btRun = 3;
+                            }
+                            else if (intWorkSheetQty[i] == intSheets[4])
+                            {
+                                dblRun = 0;
+                                btRun = 4;
+                            }
+                            else if (intWorkSheetQty[i] >= intSheets[5])
+                            {
+                                dblRun = 0;
+                                btRun = 5;
+                            }       //Now determining which run for Other than Exact values and checking in which range it lies for example 2300
+                            //Running the Previous run for example for 2300, 2000 run would be used
+                            else
+                            {
+                                if (intWorkSheetQty[i] < intSheets[2] & intWorkSheetQty[i] > intSheets[1])
+                                {
+                                    dblRun = (intSheets[2] - intWorkSheetQty[i]) / (intSheets[2] - intSheets[1]);
+                                    btRun = 1;
+                                }
+                                else if (intWorkSheetQty[i] < intSheets[3] & intWorkSheetQty[i] > intSheets[2])
+                                {
+                                    dblRun = (intSheets[3] - intWorkSheetQty[i]) / (intSheets[3] - intSheets[2]);
+                                    btRun = 2;
+                                }
+                                else if (intWorkSheetQty[i] < intSheets[4] & intWorkSheetQty[i] > intSheets[3])
+                                {
+                                    dblRun = (intSheets[4] - intWorkSheetQty[i]) / (intSheets[4] - intSheets[3]);
+                                    btRun = 3;
+                                }
+                                else if (intWorkSheetQty[i] < intSheets[5] & intWorkSheetQty[i] > intSheets[4])
+                                {
+                                    dblRun = (intSheets[5] - intWorkSheetQty[i]) / (intSheets[5] - intSheets[4]);
+                                    btRun = 4;
+                                }
+                            }
+
+
+                            if (btRun == 5)
+                            {
+                                //Determining Which Speed for GSM1 and GSM2
+                                dblSpeed1 = intSpeed[btGSM - 1, btRun] - ((intSpeed[btGSM - 1, btRun] - intSpeed[btGSM, btRun]) * dblGSM);
+                                dblSpeed2 = intSpeed[btGSM, btRun] - ((intSpeed[btGSM, btRun] - intSpeed[btGSM, btRun]) * dblGSM);
+                                //Other Than 5
+                            }
+                            else
+                            {
+                                dblSpeed1 = intSpeed[btGSM, btRun + 1] - ((intSpeed[btGSM, btRun + 1] - intSpeed[btGSM, btRun]) * dblGSM);
+                                dblSpeed2 = intSpeed[btGSM, btRun] - ((intSpeed[btGSM - 1, btRun] - intSpeed[btGSM, btRun]) * dblGSM);
+                            }
+                            //Setting the Exact Speed
+
+                            if (PressReRunMode == (int)PressReRunModes.CalculateValuesToShow)
+                            {
+                                dblPrintSpeed[i] = dblSpeed2 - ((dblSpeed2 - dblSpeed1) * dblRun);
+                                if (PressReRunQuantityIndex - 1 == i)
+                                {
+                                    OverrideValue = dblPrintSpeed[i];
+                                    //  return functionReturnValue;
+                                }
+
+                            }
+                            else if (PressReRunMode == (int)PressReRunModes.NotReRun)
+                            {
+                                dblPrintSpeed[i] = dblSpeed2 - ((dblSpeed2 - dblSpeed1) * dblRun);
+                            }
+                            else if (PressReRunMode == (int)PressReRunModes.ReRunPress)
+                            {
+                                if (PressReRunQuantityIndex - 1 == i)
+                                {
+                                    dblPrintSpeed[i] = OverrideValue;
+                                }
+                            }
+
+
+                            //Updating the Press Speed (Pro Rata)
+                            if (PressReRunMode == (int)PressReRunModes.NotReRun)
+                            {
+                                oItemSection.PressSpeed1 = Convert.ToInt32(dblPrintSpeed[0]);
+                                oItemSection.PressSpeed2 = Convert.ToInt32(dblPrintSpeed[1]);
+                                oItemSection.PressSpeed3 = Convert.ToInt32(dblPrintSpeed[2]);
+
+                                PressRunTime1 = Convert.ToDouble(intWorkSheetQty[0] / oItemSection.PressSpeed1);
+                                PressRunTime2 = Convert.ToDouble(intWorkSheetQty[1] / oItemSection.PressSpeed2);
+                                PressRunTime3 = Convert.ToDouble(intWorkSheetQty[2] / oItemSection.PressSpeed3);
+                            }
+                            else if (PressReRunMode == (int)PressReRunModes.ReRunPress)
+                            {
+                                if (PressReRunQuantityIndex == 1)
+                                {
+                                    oItemSection.PressSpeed1 = Convert.ToInt32(dblPrintSpeed[0]);
+                                    PressRunTime1 = Convert.ToDouble(intWorkSheetQty[0] / oItemSection.PressSpeed1);
+                                }
+                                else if (PressReRunQuantityIndex == 2)
+                                {
+                                    oItemSection.PressSpeed2 = Convert.ToInt32(dblPrintSpeed[1]);
+                                    PressRunTime2 = Convert.ToDouble(intWorkSheetQty[1] / oItemSection.PressSpeed2);
+                                }
+                                else if (PressReRunQuantityIndex == 3)
+                                {
+                                    oItemSection.PressSpeed3 = Convert.ToInt32(dblPrintSpeed[2]);
+                                    PressRunTime3 = Convert.ToDouble(intWorkSheetQty[2] / oItemSection.PressSpeed3);
+                                }
+
+                            }
+
+
+
+                            //Checing Whether Print is Double sided and Press can't perform perfecting
+                            if (Convert.ToBoolean(oItemSection.IsDoubleSided) && !Convert.ToBoolean(oPressDTO.isPerfecting ?? false))
+                            {
+                                //Calculating and Setting Print Cost
+                                dblPrintCost[i] = Convert.ToDouble((dblPressHeads * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost)));
+
+                                dblPrintPrice[i] = Convert.ToDouble((dblPressHeads * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice)));
+
+                                //Calculating and Setting Print Run
+                                dblPrintRun[i] = (dblPressHeads * intWorkSheetQty[i]);
+
+
+                            }
+                            else
+                            {
+                                dblPrintCost[i] = Convert.ToDouble(dblPressHeads * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost) + oPressDTO.SetupCharge);
+                                dblPrintRun[i] = (dblPressHeads * intWorkSheetQty[i]);
+
+                                dblPrintPrice[i] = Convert.ToDouble(dblPressHeads * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice) + oPressDTO.SetupCharge);
+                            }
+                        }
+
+
+                        if (PressReRunMode == (int)PressReRunModes.NotReRun)
+                        {
+                            PressCost1 = dblPrintCost[0];
+                            PressCost2 = dblPrintCost[1];
+                            PressCost3 = dblPrintCost[2];
+
+                            PressPrice1 = dblPrintPrice[0];
+                            PressPrice2 = dblPrintPrice[1];
+                            PressPrice3 = dblPrintPrice[2];
+
+                            oItemSection.PressHourlyCharge = oModelSpeedWeight.hourlyPrice;
+                        }
+                        else if (PressReRunMode == (int)PressReRunModes.ReRunPress)
+                        {
+                            if (PressReRunQuantityIndex == 1)
+                            {
+                                PressCost1 = dblPrintCost[0];
+                                PressPrice1 = dblPrintPrice[0];
+                            }
+                            else if (PressReRunQuantityIndex == 2)
+                            {
+                                PressCost2 = dblPrintCost[1];
+                                PressPrice2 = dblPrintPrice[1];
+                            }
+                            else if (PressReRunQuantityIndex == 3)
+                            {
+                                PressCost3 = dblPrintCost[2];
+                                PressPrice3 = dblPrintPrice[2];
+                            }
+                        }
+
+                        break;
                         ///==================================================
                     case (int)MethodTypes.ClickChargeZone:
                         //Click Charge Zone
@@ -1065,7 +1331,7 @@ namespace MPC.Implementation.MISServices
                 //oItemSection.SelectedPressCalculationMethodId = Convert.ToInt32(oPressDTO.LookupMethodId); // Commented when applied press for side 2 logic on 2015 05 20
 
                 //Get LookupMethod Query
-                //oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt32(oItemSection.SelectedPressCalculationMethodId));
+                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt32(oPressDTO.LookupMethodId));
 
                 double[] dblPrintCost = new double[3];
                 double[] dblPrintPrice = new double[3];
@@ -6278,7 +6544,7 @@ namespace MPC.Implementation.MISServices
                     RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
                 else
                     RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
-            }
+           }
             else
             {
                 SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
@@ -6330,7 +6596,8 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+                //updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+                updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
 
             if(updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true)
