@@ -576,6 +576,19 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public List<Reportparam> getReportParamsByReportId(long ReportId)
+        { 
+            try
+            {
+                return db.Reportparams.Where(c => c.ReportId == ReportId).ToList();
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         // GetReportsByOrganisationID
     }
 }

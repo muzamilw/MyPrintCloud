@@ -388,5 +388,87 @@ namespace MPC.Implementation.MISServices
          
             return Path;
         }
+
+        public SectionReport GetReportByParams(long ReportId,long ComboValue, string DateFrom, string DateTo, string ParamValue)
+        {
+            //, long iRecordID, ReportType type, long OrderID
+            string sFilePath = string.Empty;
+            try
+            {
+                long OrganisationID = 0;
+                Organisation org = organisationRepository.GetOrganizatiobByID();
+                if (org != null)
+                {
+                    OrganisationID = org.OrganisationId;
+                }
+                Report currentReport = ReportRepository.GetReportByReportID(ReportId);
+
+                SectionReport currReport = new SectionReport();
+
+                if (currentReport.ReportId > 0)
+                {
+                    byte[] rptBytes = null;
+                    rptBytes = System.Text.Encoding.Unicode.GetBytes(currentReport.ReportTemplate);
+
+                    System.IO.MemoryStream ms = new System.IO.MemoryStream(rptBytes);
+
+                    ms.Position = 0;
+
+
+                    currReport.LoadLayout(ms);
+
+                    List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(ReportId);
+
+                    string CriteriaField = string.Empty;
+                    CriteriaField = " and ";
+                    if(reportParams != null && reportParams.Count > 0)
+                    {
+                        foreach(var param in reportParams)
+                        {
+                            if (param.ControlType == 1)// means drop down
+                            {
+                                CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + ComboValue;
+                            }
+                            else if(param.ControlType == 2)// means date ranges
+                            {
+
+                                CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + DateFrom;
+                            
+                            }
+                            else if (param.ControlType == 2)// means date ranges
+                            {
+
+                                CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + DateFrom;
+
+                            }
+                            else if (param.ControlType == 3)// means textbox value
+                            {
+
+                                CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + ParamValue;
+
+                            }
+                        }
+                    }
+
+                    currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(ReportId, "");
+                  
+
+                    //currReport.Document.pr
+                    //DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+                    //currReport.DataSource = dataSourceList;
+
+                    // List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, 0);
+
+
+
+
+                }
+                return currReport;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
