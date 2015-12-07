@@ -387,7 +387,7 @@
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(Model.TipsAndHints))
+                        @*if (!string.IsNullOrEmpty(Model.TipsAndHints))
                         {
                             <div id="handyInfoFinisedGood" class="white_background rounded_corners" style="padding: 10px;">
                                 <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId, "Additional Information"))</label>
@@ -396,7 +396,7 @@
                                     <label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints</label>
                                 </div>
                             </div>
-                        }
+                        }*@
                     }
                 </div>
                 <input type="hidden" id="txtIsQuantityRanged" value="@ViewBag.txtIsQuantityRanged" />
@@ -629,7 +629,7 @@
                                 <label id="lbl_Product_Description" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdDescHeadingText", UserCookieManager.WBStoreId, "Product Description"))</label>
                                 <div class="displayBlock rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 
-                                    <label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification</label>
+                                    <label id="lblProductSpecifications" class="show_as_it_is">@Html.Raw(Model.ProductSpecification)</label>
                                     <br />
                                 </div>
                             </div>
@@ -647,7 +647,7 @@
                                 <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId, "Additional Information"))</label>
                                 <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 
-                                    <label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints</label>
+                                    <label id="lblHintsandTips" class="show_as_it_is">@Html.Raw(Model.TipsAndHints)</label>
                                 </div>
                             </div>
                         </div>
@@ -946,4 +946,5 @@
         return false;
     }
 </script>
+
 
