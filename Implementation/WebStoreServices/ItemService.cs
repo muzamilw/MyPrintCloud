@@ -3648,7 +3648,7 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
 
-                Item clonedItem = _ItemRepository.GetItemById(ItemId);
+                Item clonedItem = _ItemRepository.GetItemByItemID(ItemId);
                 
                 if (clonedItem != null)
                 {
