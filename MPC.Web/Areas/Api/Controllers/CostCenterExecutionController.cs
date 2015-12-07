@@ -102,7 +102,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             object[] _CostCentreParamsArray = new object[12];
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
-
+            _CostCentreParamsArray[5] = 1;
             dblResult1 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, CallMode, Queues, ref _CostCentreParamsArray, itemSectionId);
             oResult.TotalPrice = dblResult1;
 
@@ -111,12 +111,14 @@ namespace MPC.MIS.Areas.Api.Controllers
                 if (Convert.ToInt32(qty2) > 0)
                 {
                     OrderedQuantity = qty2;
+                    _CostCentreParamsArray[5] = 2;
                     dblResult2 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, "UpdateAllCostCentreOnQuantityChange", Queues, ref _CostCentreParamsArray, itemSectionId);
                     oResult.TotalPriceQty2 = dblResult2;
                 }
                 if (Convert.ToInt32(qty3) > 0)
                 {
                     OrderedQuantity = qty3;
+                    _CostCentreParamsArray[5] = 3;
                     dblResult3 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, "UpdateAllCostCentreOnQuantityChange", Queues, ref _CostCentreParamsArray, itemSectionId);
                     oResult.TotalPriceQty3 = dblResult3;
                 }
@@ -567,7 +569,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                     //CostCentreQueue
                     _CostCentreParamsArray[4] = 1;
 
-                    _CostCentreParamsArray[5] = 1;
+                   // _CostCentreParamsArray[5] = 1;
                     //MultipleQuantities
 
 
