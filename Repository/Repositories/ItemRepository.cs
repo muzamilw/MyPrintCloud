@@ -1981,7 +1981,7 @@ namespace MPC.Repository.Repositories
         }
 
         // Get Related Items List
-        public List<ProductItem> GetRelatedItemsList()
+        public List<ProductItem> GetRelatedItemsList(long ItemId)
         {
             try
             {
@@ -1990,7 +1990,7 @@ namespace MPC.Repository.Repositories
                                 equals tblRelItems.ItemId
                             where
                                 productsList.IsPublished == true && productsList.EstimateId == null &&
-                                productsList.IsEnabled == true
+                                productsList.IsEnabled == true && tblRelItems.ItemId == ItemId
 
                             select new ProductItem
                             {
@@ -2012,7 +2012,9 @@ namespace MPC.Repository.Repositories
                                 IsPublished = productsList.IsPublished,
                                 ProductSpecification = productsList.ProductSpecification,
                                 CompleteSpecification = productsList.CompleteSpecification,
-                                ProductType = productsList.ProductType
+                                ProductType = productsList.ProductType,
+                                isUploadImage = productsList.isUploadImage ?? false,
+                                ItemFriendlyName = productsList.ItemFriendlyName
                             };
                 return query.ToList<ProductItem>();
             }
