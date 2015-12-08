@@ -96,21 +96,10 @@ namespace MPC.Webstore.Controllers
             else
             {
                  Listing Listingnn = new Listing();
-                 long Result = _myCompanyService.AddNewListing(Listingnn);
-                 Listing Listing = _myListingService.GetListingByListingID(Convert.ToInt32(Result));
-                //long Result = _myCompanyService.AddNewListing(list);
               
-                //List<CompanyContact> listingAgents = _myCompanyService.GetUsersByCompanyId(UserCookieManager.WBStoreId); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
-                //ViewBag.ListingAgents = listingAgents;
-                //ViewBag.ListingBulletPoints = new ListingBulletPoint();
-                //ViewBag.ListingImages = new ListingImage();
                 
-                
-                //   currentItem = _ItemService.GetPublishedProductByItemID(Convert.ToInt32(id));
-                List<CompanyContact> listingAgents = _myCompanyService.GetUsersByCompanyId(UserCookieManager.WBStoreId); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
-                ViewBag.Listings = Listing;
-                ViewBag.ListingAgents = listingAgents;
-
+                long Result = _myCompanyService.AddNewListing(Listingnn);
+                Listing Listing = _myListingService.GetListingByListingID(Convert.ToInt32(Result));
                 ViewBag.ListingBulletPoints = _myCompanyService.GetAllListingBulletPoints(Result);
                 ViewBag.ListingImages = GetAllListingImages(Result);
                 //  List<ListingBulletPoints> listingBulletPoint = PropertyManager.GetListingBulletPoints(listing.ListingID); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
@@ -335,10 +324,10 @@ namespace MPC.Webstore.Controllers
 
              //   List<ListingImage> DeleteImagesList = JsonConvert.DeserializeObject<List<ListingImage>>(Request.Form.Get("DeleteImagesList"));
 
-               
 
-                if (!ListingId.Equals(String.Empty))
-                {
+                    
+              //  if (!ListingId.Equals(String.Empty))
+             //   {
                     int LisId = Convert.ToInt32(ListingId);
                     MPC.Models.DomainModels.Listing updateListing = new MPC.Models.DomainModels.Listing();
                     updateListing.UnitNumber = Listing.UnitNumber;
@@ -413,69 +402,69 @@ namespace MPC.Webstore.Controllers
                         // return RedirectToAction("Index", "RealEstateListingGrid");
                         Response.Redirect("/RealEstateListingGrid");
                     }
-                }
-                else
-                {
-                    MPC.Models.DomainModels.Listing updateListing = new MPC.Models.DomainModels.Listing();
-                    updateListing.UnitNumber = Listing.UnitNumber;
-                    updateListing.StreetNumber = Listing.StreetNumber;
-                    updateListing.PropertyType = Listing.PropertyType;
-                    updateListing.PropertyCategory = Listing.PropertyCategory;
-                    updateListing.Street = Listing.Street;
-                    updateListing.Construction = Listing.Construction;
-                    updateListing.Features = Listing.Features;
-                    updateListing.Suburb = Listing.Suburb;
-                    updateListing.LandArea = Listing.LandArea;
-                    updateListing.BuildingAreaSqm = Listing.BuildingAreaSqm;
-                    updateListing.State = Listing.State;
-                    updateListing.PostCode = Listing.PostCode;
-                    updateListing.PropertyCondition = Listing.PropertyCondition;
-                    updateListing.Aspect = Listing.Aspect;
-                    updateListing.ListingId = Listing.ListingId;
-                    updateListing.BedRooms = Listing.BedRooms;
-                    updateListing.BathRooms = Listing.BathRooms;
-                    updateListing.LoungeRooms = Listing.LoungeRooms;
-                    updateListing.Toilets = Listing.Toilets;
-                    updateListing.CounsilRates = Listing.CounsilRates;
-                    updateListing.StrataAdmin = Listing.StrataAdmin; ////
-                    updateListing.StrataSinking = Listing.StrataSinking;
-                    updateListing.WaterRates = Listing.WaterRates;
-                    updateListing.LandTax = Listing.LandTax; ////
-                    //txtStartaAdmin.Text = txtStartaAdmin.Text;// Convert.ToString(updateListing.StrataAdmin);
-                    updateListing.OtherOutgoings = Listing.OtherOutgoings;
-                    updateListing.Studies = Listing.Studies;
-                    updateListing.Pools = Listing.Pools;
-                    updateListing.Garages = Listing.Garages;
-                    updateListing.CarSpaces = Listing.CarSpaces;
-                    updateListing.ListingType = Listing.ListingType;
-                    updateListing.DisplayPrice = Listing.DisplayPrice;
-                    updateListing.SearchPrice = Listing.SearchPrice;
-                    updateListing.WebLink = Listing.WebLink;
-                    updateListing.AvailableDate = Listing.AvailableDate;
-                    updateListing.InspectionTimeFrom2 = Listing.InspectionTimeFrom2;
-                    updateListing.InspectionTimeFrom1 = Listing.InspectionTimeFrom1;
-                    updateListing.AuctionTime = Listing.AuctionTime;
-                    updateListing.AuctionEndTime = Listing.AuctionEndTime;
-                    updateListing.AuctionDate = Listing.AuctionDate;
-                    updateListing.AutionVenue = Listing.AutionVenue;
-                    updateListing.BrochureDescription = Listing.BrochureDescription;
-                    updateListing.BrochureMainHeadLine = Listing.BrochureMainHeadLine;
-                    updateListing.BrochureSummary = Listing.BrochureSummary;
-                    updateListing.SignBoardDescription = Listing.SignBoardDescription;
-                    updateListing.SignBoardMainHeadLine = Listing.SignBoardMainHeadLine;
-                    updateListing.SignBoardSummary = Listing.SignBoardSummary;
-                    updateListing.AdvertsDescription = Listing.AdvertsDescription;
-                    updateListing.AdvertsMainHeadLine = Listing.AdvertsMainHeadLine;
-                    updateListing.AdvertsSummary = Listing.AdvertsSummary;
-                    updateListing.SignBoardInstallInstruction = Listing.SignBoardInstallInstruction;
-                    updateListing.CompanyId = UserCookieManager.WBStoreId;
-                    long Result = _myCompanyService.AddNewListing(updateListing);
-                    if (BulletList != null && BulletList.Count > 0)
-                    {
-                        _myCompanyService.AddBulletPoint(BulletList, Result);
-                    }
+                
+               // else
+                //{
+                //    MPC.Models.DomainModels.Listing updateListing = new MPC.Models.DomainModels.Listing();
+                //    updateListing.UnitNumber = Listing.UnitNumber;
+                //    updateListing.StreetNumber = Listing.StreetNumber;
+                //    updateListing.PropertyType = Listing.PropertyType;
+                //    updateListing.PropertyCategory = Listing.PropertyCategory;
+                //    updateListing.Street = Listing.Street;
+                //    updateListing.Construction = Listing.Construction;
+                //    updateListing.Features = Listing.Features;
+                //    updateListing.Suburb = Listing.Suburb;
+                //    updateListing.LandArea = Listing.LandArea;
+                //    updateListing.BuildingAreaSqm = Listing.BuildingAreaSqm;
+                //    updateListing.State = Listing.State;
+                //    updateListing.PostCode = Listing.PostCode;
+                //    updateListing.PropertyCondition = Listing.PropertyCondition;
+                //    updateListing.Aspect = Listing.Aspect;
+                //    updateListing.ListingId = Listing.ListingId;
+                //    updateListing.BedRooms = Listing.BedRooms;
+                //    updateListing.BathRooms = Listing.BathRooms;
+                //    updateListing.LoungeRooms = Listing.LoungeRooms;
+                //    updateListing.Toilets = Listing.Toilets;
+                //    updateListing.CounsilRates = Listing.CounsilRates;
+                //    updateListing.StrataAdmin = Listing.StrataAdmin; ////
+                //    updateListing.StrataSinking = Listing.StrataSinking;
+                //    updateListing.WaterRates = Listing.WaterRates;
+                //    updateListing.LandTax = Listing.LandTax; ////
+                //    //txtStartaAdmin.Text = txtStartaAdmin.Text;// Convert.ToString(updateListing.StrataAdmin);
+                //    updateListing.OtherOutgoings = Listing.OtherOutgoings;
+                //    updateListing.Studies = Listing.Studies;
+                //    updateListing.Pools = Listing.Pools;
+                //    updateListing.Garages = Listing.Garages;
+                //    updateListing.CarSpaces = Listing.CarSpaces;
+                //    updateListing.ListingType = Listing.ListingType;
+                //    updateListing.DisplayPrice = Listing.DisplayPrice;
+                //    updateListing.SearchPrice = Listing.SearchPrice;
+                //    updateListing.WebLink = Listing.WebLink;
+                //    updateListing.AvailableDate = Listing.AvailableDate;
+                //    updateListing.InspectionTimeFrom2 = Listing.InspectionTimeFrom2;
+                //    updateListing.InspectionTimeFrom1 = Listing.InspectionTimeFrom1;
+                //    updateListing.AuctionTime = Listing.AuctionTime;
+                //    updateListing.AuctionEndTime = Listing.AuctionEndTime;
+                //    updateListing.AuctionDate = Listing.AuctionDate;
+                //    updateListing.AutionVenue = Listing.AutionVenue;
+                //    updateListing.BrochureDescription = Listing.BrochureDescription;
+                //    updateListing.BrochureMainHeadLine = Listing.BrochureMainHeadLine;
+                //    updateListing.BrochureSummary = Listing.BrochureSummary;
+                //    updateListing.SignBoardDescription = Listing.SignBoardDescription;
+                //    updateListing.SignBoardMainHeadLine = Listing.SignBoardMainHeadLine;
+                //    updateListing.SignBoardSummary = Listing.SignBoardSummary;
+                //    updateListing.AdvertsDescription = Listing.AdvertsDescription;
+                //    updateListing.AdvertsMainHeadLine = Listing.AdvertsMainHeadLine;
+                //    updateListing.AdvertsSummary = Listing.AdvertsSummary;
+                //    updateListing.SignBoardInstallInstruction = Listing.SignBoardInstallInstruction;
+                //    updateListing.CompanyId = UserCookieManager.WBStoreId;
+                //    long Result = _myCompanyService.AddNewListing(updateListing);
+                //    if (BulletList != null && BulletList.Count > 0)
+                //    {
+                //        _myCompanyService.AddBulletPoint(BulletList, Result);
+                //    }
 
-                }
+                //}
                 
                 
                 //AddNewListing

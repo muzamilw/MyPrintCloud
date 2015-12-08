@@ -88,7 +88,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                            
                                 }
                                 <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(cat.CategoryName)/@cat.ProductCategoryId" style="display:none;text-align:center;">
-                                    View <strong>@cat.CategoryName</strong>
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblCategorybtnViewHeading", UserCookieManager.WBStoreId, "View")) <strong>@cat.CategoryName</strong>
                                 </a>
                                 <div class="topcat_desc_CAT">
                                     <span id="lblDescription1" >@Html.Raw(CategoryDescription)</span>
@@ -370,7 +370,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
 
                                                 if (item.isUploadImage == true)
                                                 {
-                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/DesignOrUpload" onclick="ShowLoader();">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
                                                     </a>
                                                 }

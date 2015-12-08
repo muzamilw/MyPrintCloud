@@ -24,6 +24,8 @@ using System.Globalization;
 using MPC.Models.ResponseModels;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Facebook;
+//using DotNetOpenAuth.ApplicationBlock;
 
 
 namespace MPC.Webstore.Controllers
@@ -363,11 +365,11 @@ namespace MPC.Webstore.Controllers
                 {
                     ClientIdentifier = oCompany.facebookAppId,
                     ClientCredentialApplicator = ClientCredentialApplicator.PostParameter(oCompany.facebookAppKey),
-                    
+
                 };
-                IEnumerable<string> scops = new List<string>() { "email"};
-               // scops
-              
+                IEnumerable<string> scops = new List<string>() { "email" };
+                // scops
+
 
                 IAuthorizationState authorization = client.ProcessUserAuthorization();
                 if (authorization == null)
@@ -378,31 +380,35 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    string webResponse = "";
-                    string email = "";
-                    string firstname = "";
+                    var fb = new FacebookClient(authorization.AccessToken);
+                    dynamic myInfo = fb.Get("/me?fields=email,name,id"); // specify the email field
+                   
+                    //string webResponse = "";
+                    string email = myInfo.email;
+                    string firstname = myInfo.name;
                     string lastname = "";
-                    string providerId = "";
-                    string callBackLink = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + "/oAuth/1/" + isRegistrationProcess + "/" + UserCookieManager.WBStoreId + "/Social";
+                    string providerId = myInfo.id;
+                    //string callBackLink = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + "/oAuth/1/" + isRegistrationProcess + "/" + UserCookieManager.WBStoreId + "/Social";
 
-                    var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email,publish_actions");
-                  
-                   using (var response = request.GetResponse())
-                   {
-                       using (var responseStream = response.GetResponseStream())
-                       {
-                           StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                           webResponse = reader.ReadToEnd();
+                    ////var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=id,name,email,first_name,last_name,username,locale,location,publish_actions");
+                    //var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?fields=id,name,email,first_name,last_name,username,locale,location&access_token=" + Uri.EscapeDataString(authorization.AccessToken));
+                    //using (var response = request.GetResponse())
+                    //{
+                    //    using (var responseStream = response.GetResponseStream())
+                    //    {
+                    //        StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    //        webResponse = reader.ReadToEnd();
 
-                           // ShowMessage(graph.email);
-                           var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
-                           var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
-                           email = ResponseJon.email;
-                           firstname = ResponseJon.first_name;
-                           lastname = ResponseJon.last_name;
-                           providerId = ResponseJon.id;
-                       }
-                   }
+                    //        // ShowMessage(graph.email);
+                    //        var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
+                    //        var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
+                    //        email = ResponseJon.email;
+                    //        firstname = ResponseJon.first_name;
+                    //        lastname = ResponseJon.last_name;
+                    //        providerId = ResponseJon.id;
+                    //    }
+                    //}
+
 
                     if (isRegistrationProcess == 1)
                     {
@@ -418,27 +424,27 @@ namespace MPC.Webstore.Controllers
                         {
                             string returnUrl = string.Empty;
 
-                            
+
 
                             if (!string.IsNullOrEmpty(firstname) && !string.IsNullOrEmpty(lastname))
                             {
                                 user = _myCompanyService.GetContactByFirstName(firstname + " " + lastname, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode, providerId);
                             }
                         }
-                        else 
+                        else
                         {
                             user = _myCompanyService.GetContactByFirstName(firstname + " " + lastname, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode, providerId);
                         }
                         if (user != null)
                         {
                             ViewBag.message = VerifyUser(user);
-                            
+
                         }
                         else
                         {
                             ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=Invalid login attempt.' </script>";
                         }
-                        
+
                         return View();
                     }
 

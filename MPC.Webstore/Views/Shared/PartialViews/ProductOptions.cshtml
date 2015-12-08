@@ -889,7 +889,7 @@
     var countOfCostCentresTicked = 0;
     var countOfCostCentreOnwhichActionIsPerformed = 0;
     var controlsArrayOnQtyChange = [];
-
+    var isPrintProductFlag = "0";
     function ConfirmCart() {
         var MaxstockQty = true;
         if (isPriceSelected == 0) {
@@ -983,6 +983,14 @@
         MatrixToggle();
         if (isRanged) {
             if ($("#rangedQuantityOrdered").val() == "") {
+                var RangedQtyJsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
+                var RangedQtyJsonDataFirstObject = $(RangedQtyJsonData)[0];
+                var firstQtyinRangeTable = RangedQtyJsonDataFirstObject.QtyRangeFrom;
+                if(parseInt(firstQtyinRangeTable) > 0){
+                    $("#rangedQuantityOrdered").val(firstQtyinRangeTable);
+                    CalculatePriceBaseOnRangedQuantity();
+                }
+              
             } else {
                 CalculatePriceBaseOnRangedQuantity();
             }

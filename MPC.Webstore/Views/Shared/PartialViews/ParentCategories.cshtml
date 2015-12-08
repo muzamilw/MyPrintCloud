@@ -51,7 +51,7 @@
                                     @Html.Raw(ProductDescription)
                                 </div>
                                 <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">
-                                    View <strong>@categories.CategoryName</strong>
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblCategorybtnViewHeading", UserCookieManager.WBStoreId, "View")) <strong>@categories.CategoryName</strong>
                                 </a>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                                     @Html.Raw(ProductDescription)
                                 </div>
                                 <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">
-                                    View <strong>@categories.CategoryName</strong>
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblCategorybtnViewHeading", UserCookieManager.WBStoreId, "View")) <strong>@categories.CategoryName</strong>
                                 </a>
                             </div>
                         </div>

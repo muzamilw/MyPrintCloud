@@ -17,14 +17,14 @@
     
    List<ListingImage> ListingImages = ViewBag.ListingImages as List<MPC.Models.DomainModels.ListingImage>;
    var Imagesgrid=new WebGrid();
-   if (ListingImages == null)
-   {
-        Imagesgrid = new WebGrid(new List<object>(), ajaxUpdateContainerId: "ajaxgridForListingImages", rowsPerPage: 33);
-   }
-   else
-   { 
+  // if (ListingImages == null)
+  // {
+    //    Imagesgrid = new WebGrid(new List<object>(), ajaxUpdateContainerId: "ajaxgridForListingImages", rowsPerPage: 33);
+  // }
+   //else
+   //{ 
      Imagesgrid = new WebGrid(ListingImages, ajaxUpdateContainerId: "ajaxgridForListingImages", rowsPerPage:33);
-   }
+  // }
 
    var BulletPointsgrid = new WebGrid();
 
@@ -416,9 +416,9 @@
 
 
 </div>
-                        <div id="MainAjentsHtml" style="display:none;">
+                        @*<div id="MainAjentsHtml" style="display:none;">
                             @grid.Table(columns: cols, tableStyle: "WebGridTableStyle", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")
-                        </div>
+                        </div>*@
                         <div id="newAgentsContainer">
 
                         </div>
@@ -983,7 +983,7 @@
     
     function DeleteImage(ImageID,ImageUrl,ref)
     {
-        alert();
+       
         var DeleteImgList = [];
         
 
@@ -1000,7 +1000,7 @@
         $("#DeleteImagesList").val(DeleteImgList);
 
 
-            alert(Gujj);
+           
         //$.ajax({
         //    type: "POST",
         //    url: "/webstoreapi/RealEstateSM/DeleteListingImage?ListingImageId=" + ImageID + "&ImageUrl=" + ImageUrl + "",
@@ -1018,7 +1018,7 @@
     }
     function AddLisitngImage()
     {
-        var ListingId = '@Listing.ListingId';
+        var ListingId = '@Model.ListingId';
         var data = new FormData();
        // var files=().get(0).files;
         //if ($("#ListingImageUploader").val() != null) {
@@ -1457,7 +1457,7 @@
 
 
     $(document).ready(function () {
-        $("#hfAgentsCount").val('@ListingAgents.Count');
+        
 
         $('#SaveBtnBulletPoint').on("click", function () {
             if (BulletPValidation() == true) {
@@ -1465,7 +1465,7 @@
 
                 var BulletPoint = tr.find("#inID").val();
 
-                var ListingId = '@Listing.ListingId';
+                var ListingId = '@Model.ListingId';
 
 
                 var isSuccess = -1;
@@ -1876,30 +1876,27 @@
     {
         var Bullets = [];
       
-            
+             bb='';
             $('.NewlyyAddedInputs').each(function(i, obj) {
                 bb+='/'+this.value;
                 //Bullets.push(ListingBulletPoint);
-                Bullets.push(bb);
+               // Bullets.push(bb);
             });
           
-           
-                    
-         
-         
+            
         
-        $('#BulletList').val(Bullets);
+            $('#BulletList').val(bb);
         
 
         if (computeData() == true)
         {
-         //   AddLisitngImage();
-        //   $("#btnSaveAndDesignnn").trigger('click');
+            AddLisitngImage();
+            $("#btnSaveAndDesignnn").trigger('click');
         }
     }
     function CancelListing()
     {
-        var ListingId='@Listing.ListingId';
+        var ListingId='@Model.ListingId';
         $.ajax({
             type: "POST",
             url: "/webstoreapi/RealEstateSM/DeleteListing?ListingId=" + ListingId+ "",
