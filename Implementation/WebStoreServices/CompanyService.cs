@@ -1426,8 +1426,17 @@ namespace MPC.Implementation.WebStoreServices
 
             CompanyContact ContactRecord = null;
 
-            ContactRecord = _CompanyContactRepository.GetCorporateContactForAutoLogin(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
+            if(company.IsCustomer == (int)StoreMode.Corp)
+            {
+                ContactRecord = _CompanyContactRepository.GetCorporateContactForAutoLogin(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
 
+            }
+            else if (company.IsCustomer == (int)StoreMode.Retail)
+            {
+                ContactRecord = _CompanyContactRepository.GetContactByEmail(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
+
+            }
+            
             if (ContactRecord == null && company.isAllowRegistrationFromWeb == true) // contact already exists...
             {
                 ContactRecord = new CompanyContact();
@@ -1437,8 +1446,18 @@ namespace MPC.Implementation.WebStoreServices
                 ContactRecord.OrganisationId = company.OrganisationId;
                 ContactRecord.Notes = "Temporary Password = guest";
                 ContactRecord.Password = "guest";
-                ContactRecord = _CompanyContactRepository.CreateCorporateContact(company.CompanyId, ContactRecord, "", Convert.ToInt64(company.OrganisationId), true);
+                if (company.IsCustomer == (int)StoreMode.Corp)
+                {
+                    ContactRecord = _CompanyContactRepository.CreateCorporateContact(company.CompanyId, ContactRecord, "", Convert.ToInt64(company.OrganisationId), true);
                  
+                }
+                else if (company.IsCustomer == (int)StoreMode.Retail)
+                {
+                   
+                   long ContactId = _CompanyRepository.CreateCustomer(ContactFirstName, true, true, CompanyTypes.SalesCustomer, "", Convert.ToInt64(company.OrganisationId), company.CompanyId, ContactRecord);
+                   ContactRecord =  _CompanyContactRepository.GetContactByID(ContactId);
+                }
+                
             }
             return ContactRecord;
         }
