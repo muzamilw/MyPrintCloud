@@ -4225,7 +4225,7 @@ function togglePage(pId) {
             //  k25Banners();
         }
     }
-    function k31(cCanvas, IO) { //alert();
+    function k31(cCanvas, IO) {
         TIC += 1;
         if (IO.MaxWidth == 0) {
             IO.MaxWidth = 50;
@@ -4281,7 +4281,7 @@ function togglePage(pId) {
         if (IO.ContentString.indexOf("Imageplaceholder_sim") != -1 || IO.ContentString.indexOf("http") != -1)
             url = IO.ContentString;
         fabric.Image.fromURL(url, function (IOL) {
-            
+         
             IOL.set({
                 left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
                 top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
@@ -4291,6 +4291,8 @@ function togglePage(pId) {
             IOL.maxWidth = IO.MaxWidth;
             IOL.maxHeight = IO.MaxHeight;
             IOL.ObjectID = IO.ObjectID;
+            IOL.width = IO.MaxWidth;
+            IOL.height = IO.MaxHeight;
             IOL.scaleX = (IOL.maxWidth / IOL.width) * dfZ1l;
             IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
             IOL.setAngle(IO.RotationAngle);
@@ -4330,7 +4332,6 @@ function togglePage(pId) {
             d2();
             if (IO.ContentString.indexOf("Imageplaceholder_sim") == -1 && IO.ContentString.indexOf("http") != -1) {
                 if (IO.ObjectType == 8 || IO.ObjectType == 12) {
-   
                     var IW = 0, IH = 0;
                     if (IO.ObjectType == 8) {
                         if (url.indexOf(item.companyImage) != -1) {
@@ -4376,23 +4377,24 @@ function togglePage(pId) {
                     XML.BeginNode("Cropped");
                     XML.Node("sx", "0");
                     XML.Node("sy", "0");
-                    XML.Node("swidth", (newWidth ).toString());//   XML.Node("swidth", wdth.toString());
-                    XML.Node("sheight", (newHeight ).toString());//    XML.Node("sheight", hght.toString());
+                    XML.Node("swidth", (newWidth / dfZ1l).toString());//   XML.Node("swidth", wdth.toString());
+                    XML.Node("sheight", (newHeight / dfZ1l).toString());//    XML.Node("sheight", hght.toString());
                     XML.Node("crv1", bestPer.toString());
-                    XML.Node("crv2", ((newWidth ) * bestPer).toString());
-                    XML.Node("crv3", ((newWidth ) * bestPer).toString());
+                    XML.Node("crv2", ((newWidth / dfZ1l) * bestPer).toString());
+                    XML.Node("crv3", ((newWidth / dfZ1l) * bestPer).toString());
                     XML.Node("crv4", "0");
                     XML.Node("crv5", "0");
                     XML.Node("isCropped", "0");
                     XML.EndNode();
                     XML.Close();
                     IOL.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
-                    IOL.height = (IOL.getHeight());
-                    IOL.width = (IOL.getWidth());
+                    //IOL.height = (IOL.getHeight());
+                    //IOL.width = (IOL.getWidth());
                     IOL.maxHeight = (IOL.getHeight());
                     IOL.maxWidth = (IOL.getWidth());
-                    IOL.scaleX = 1;
-                    IOL.scaleY = 1;
+                    //IOL.scaleX = 1;
+                    //IOL.scaleY = 1;
+                    console.log(IOL);
                     canvas.renderAll();
                 }
             }
