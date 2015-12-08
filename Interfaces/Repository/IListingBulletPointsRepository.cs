@@ -11,7 +11,7 @@ namespace MPC.Interfaces.Repository
     public interface IListingBulletPointsRepository : IBaseRepository<ListingBulletPoint, long>
     {
         void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints);
-        void AddBulletPoint(ListPointsModel model, long listingId);
+        void AddBulletPoint(List<ListingBulletPoint> model, long listingId);
         void AddSingleBulletPoint(ListingBulletPoint BullentPoint);
         void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint);
         List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID);

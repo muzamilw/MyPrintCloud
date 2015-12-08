@@ -39,6 +39,7 @@ namespace MPC.Webstore.Controllers
             double OrderTotal =_companyservice.GetOrderTotalById(UserCookieManager.WEBOrderId)??0.00;
             ViewBag.OrderTotal = Utils.FormatDecimalValueToTwoDecimal(OrderTotal.ToString(), _companyservice.GetCurrencySymbolById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId)));
             ViewBag.SavedDesignItmesTotal = _companyservice.GetSavedDesignCountByContactId(_webstoreclaimHelper.loginContactID());
+            
             return PartialView("PartialViews/BlackAndWhiteHeaderMenu");
         }
         public ActionResult LogOut()

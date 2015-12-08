@@ -10,6 +10,9 @@
     var Properties = ViewBag.lstProperties as List<MPC.Models.DomainModels.Listing>;
     var ChildCategories = ViewBag.AllCategories as List<MPC.Models.DomainModels.ProductCategory>;
     var AllListingImages = ViewBag.AllListingImages as List<MPC.Models.DomainModels.ListingImage>;
+    var ListingID = 0;
+    var RedirectUrl=String.Empty;
+    var ModifyListing = String.Empty;
 }
 
 <link href="/Content/carousel.css" rel="stylesheet" />
@@ -67,6 +70,14 @@
                 </div>
                 <!-- END SLIDES -->
 
+            </div>
+            <div>
+                @{
+                 RedirectUrl = "/RealEstateSmartForm/" + ListingID;
+                 ModifyListing = "/RealEstateListingGrid";
+                 }
+                <a href="@RedirectUrl">Add Listing</a>
+                <a href="@ModifyListing">ModifyListing</a>
             </div>
             <!-- END CAROUSEL -->
         </div>
