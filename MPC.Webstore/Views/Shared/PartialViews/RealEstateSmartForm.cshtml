@@ -51,6 +51,7 @@
                     <h4 class="propertySection">PROPERTY DETAILS</h4>
                     <div class="controlParentDiv">
                         <h5 class="detailSection">Property address</h5>
+                        
                         <div class="controlDiv">
                             <label>Unit Number</label>
                             @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
@@ -64,15 +65,22 @@
                     </div>
                     <div>
                         <div class="controlDiv controlParentDiv" style="width: 100%;">
+                            <label>Property Name</label>
+                            @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
+                            @Html.TextBoxFor(model => model.PropertyName, new { id = "PropertyName", @class = "generalTextBox fullWidth {{UnitNum}}", maxlength = 255, PlaceHolder = "Property Name" })
+                        </div>
+                    </div>
+                    <div>
+                        <div class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Street Name</label>
                             @*<input type="text" id="txtStreetName" class="generalTextBox full-width-boxes {{Street}}" style="" placeholder="Street name" value="@Model.Street">*@
-                            @Html.TextBoxFor(model => model.Street, new { id = "txtStreetName", @class = "generalTextBox full-width-boxes {{Street}}", maxlength = 255, placeholder = "Street name" })
+                            @Html.TextBoxFor(model => model.Street, new { id = "txtStreetName", @class = "generalTextBox fullWidth {{Street}}", maxlength = 255, placeholder = "Street name" })
                         </div>
                     </div>
                     <div>
                         <div class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Suburb</label>
-                            @Html.TextBoxFor(model => model.Suburb, new { id = "txtSuburb", @class = "generalTextBox full-width-boxes {{Suburb}}", maxlength = 255, placeholder = "Suburb / Town" })
+                            @Html.TextBoxFor(model => model.Suburb, new { id = "txtSuburb", @class = "generalTextBox fullWidth {{Suburb}}", maxlength = 255, placeholder = "Suburb / Town" })
                             @*<input type="text" id="txtSuburb" class="generalTextBox full-width-boxes {{Suburb}}" style="" placeholder="Suburb / Town" value="@Model.Suburb">*@
                         </div>
                     </div>
@@ -529,11 +537,11 @@
                                        
                                         <div id="newBulletsContainer">
                                         @*<input id="txtBulletPoint" class="generalTextBox full-width-boxes" placeholder="Bullet Point "><div class="clearBoth height5px">&nbsp;</div>*@
-                                        @foreach (var bp in ListingBulletPoints)
-                                        {
-                                            
-                                            <input id="txtBulletPoint" value="@bp.BulletPoint" class="generalTextBox full-width-boxes" placeholder="Bullet Point "><div class="clearBoth height5px">&nbsp;</div>
-                                        }
+                                                                                    @foreach (var bp in ListingBulletPoints)
+                                                                                    {
+
+                                                                                        <input id="txtBulletPoint" value="@bp.BulletPoint" class="generalTextBox full-width-boxes  OldBoxes " placeholder="Bullet Point "><div class="clearBoth height5px">&nbsp;</div>
+                                                            }
                                         </div>
                                         
                                     </div>
@@ -641,6 +649,7 @@
                         <div class="InstallationInstContainer">Installation Instructions</div>
                         <input type="hidden" id="ListingId" name="ListingId" value="@Model.ListingId" />
                         <input type="hidden" name="BulletList" id="BulletList" />
+                        <input type="hidden" name="BulletListUpdated" id="BulletListUpdated" />
                         @Html.TextAreaFor(model => model.SignBoardInstallInstruction, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Installation Instructions" })
                     </div>
                     <div class="controlDiv controlParentDiv" style="width: 100%;">
@@ -671,13 +680,20 @@
 
                 @*<asp:Button ID="btnContinue" runat="server" Text="Continue" OnClick="btnContinue_Click" OnClientClick="return computeData();"
             Style="margin-bottom: 20px; float: right;" CssClass="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />*@
-                <input id="btnContinue" type="button" value="Cancel" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="CancelListing();" />
-
-                @*<asp:Button ID="btnSaveAndDesign" runat="server" Text="Save changes" OnClick="btnSaveAndDesign_Click" OnClientClick="return computeData();"
-            Style="margin-bottom: 20px; float: right;" CssClass="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />*@
+                
+                @if (ViewBag.isNewListing == 1)
+                {
+                    <input id="btnContinue" type="button" value="Cancel" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="CancelListing();" />
+                }
+                else
+                {
+                    <a href="/">
+                        <input id="btnContinue" type="button" value="Cancel" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />
+                    </a>
+                }
+   
                 <input id="btnSaveAndDesignnn" value="Save changes" type="submit" style="margin-bottom: 20px; visibility:hidden; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />
                 <input id="btnSaveAndDesign" value="Save changes" type="button" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="SaveData();" />
-
 
             </div>
             </div>
@@ -1076,7 +1092,7 @@
 
         function CloseRow(btndel)
         {
-            alert();
+            
             if (typeof(btndel) == "object") {
                 $(btndel).closest("tr").remove();
             } else {
@@ -1178,7 +1194,7 @@
 
                             "<td> " +
                                 "<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
-                                "<i class='fa fa-eye CloseBtnForImageDisplay ' onclick='CloseRow(this)'  style='font-size:17px;' title='Close'></i>" +
+                                "<i style='font-size:18px;' id='ImageDel' title='Delete' class='fa fa-times CloseBtnForImageDisplay' onclick='CloseRow(this)'></i>" +
                                
                             "</td>" +
                         "</tr>"
@@ -1279,7 +1295,7 @@
         //});
        
         $('#SaveBtn').on("click", function () {
-            alert();
+            
             if ($("#ListingImageUploader").val() == '') {
                 alert('please Upload Image');
             }
@@ -1512,7 +1528,7 @@
             if (i == 0) {
                 //var id = $(this).find('input').attr("id");
                 var id = $(this).find('input').attr("val");
-                alert(id);
+                
             }
         });
     }
@@ -1875,28 +1891,34 @@
     function SaveData()
     {
         var Bullets = [];
-      
-             bb='';
-            $('.NewlyyAddedInputs').each(function(i, obj) {
-                bb+='/'+this.value;
-                //Bullets.push(ListingBulletPoint);
-               // Bullets.push(bb);
-            });
-          
+        var BulletsTobeUpdated=[];
+        bb='';
+        var up='';
+        $('.NewlyyAddedInputs').each(function(i, obj) {
+            bb+='/'+this.value;
+            //Bullets.push(ListingBulletPoint);
+            // Bullets.push(bb);
+        });
+        $('.OldBoxes').each(function(i, obj) {
+            up+='/'+this.value;
+            //Bullets.push(ListingBulletPoint);
+            // Bullets.push(bb);
+        });
             
         
-            $('#BulletList').val(bb);
-        
+        $('#BulletList').val(bb);
+       
+        $('#BulletListUpdated').val(up);
 
         if (computeData() == true)
         {
-            AddLisitngImage();
-            $("#btnSaveAndDesignnn").trigger('click');
+           AddLisitngImage();
+           $("#btnSaveAndDesignnn").trigger('click');
         }
     }
     function CancelListing()
     {
-        alert();
+        
         var ListingId='@Model.ListingId';
         $.ajax({
             type: "POST",

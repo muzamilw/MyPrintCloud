@@ -81,6 +81,7 @@ namespace MPC.Webstore.Controllers
             long PropID =Convert.ToInt64(PropertyId);
             if (PropID > 0)
             {
+                ViewBag.isNewListing = 0;
                 Listing Listing = _myListingService.GetListingByListingID(Convert.ToInt32(PropertyId));
                 GetCategoryProduct currentItem = new GetCategoryProduct();
                 //   currentItem = _ItemService.GetPublishedProductByItemID(Convert.ToInt32(id));
@@ -95,6 +96,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+                ViewBag.isNewListing = 1;
                  Listing Listingnn = new Listing();
               
                 
@@ -271,8 +273,26 @@ namespace MPC.Webstore.Controllers
             try
             {
                 List<ListingBulletPoint> BulletList = new List<ListingBulletPoint>();
+                List<ListingBulletPoint> UpdatedBulletsList = new List<ListingBulletPoint>();
                 List<ListingImage> DeleteImagesList = new List<ListingImage>();
                 var ll = Request.Form["BulletList"];
+                var UpDatedBullets = Request.Form["BulletListUpdated"];
+
+                if (UpDatedBullets != null && UpDatedBullets != string.Empty)
+                {
+                    string[] words = UpDatedBullets.Split('/');
+                    foreach (var i in words)
+                    {
+                        ListingBulletPoint model = new ListingBulletPoint();
+                        if (i != string.Empty)
+                        {
+                            model.BulletPoint = i;
+                            UpdatedBulletsList.Add(model);
+                        }
+                    }
+
+                }
+
                 if (ll != null && ll != string.Empty)
                 {
                     
@@ -288,6 +308,8 @@ namespace MPC.Webstore.Controllers
                     }
                     
                 }
+
+             
 
                 var Img = Request.Form["DeleteImagesList"];
 
@@ -332,6 +354,7 @@ namespace MPC.Webstore.Controllers
                     MPC.Models.DomainModels.Listing updateListing = new MPC.Models.DomainModels.Listing();
                     updateListing.UnitNumber = Listing.UnitNumber;
                     updateListing.StreetNumber = Listing.StreetNumber;
+                    updateListing.PropertyName = Listing.PropertyName;
                     updateListing.PropertyType = Listing.PropertyType;
                     updateListing.PropertyCategory = Listing.PropertyCategory;
                     updateListing.Street = Listing.Street;
@@ -393,6 +416,11 @@ namespace MPC.Webstore.Controllers
                     
                     }
                     long UpdatedLisTingID = _myCompanyService.UpdateListing(updateListing, listing);
+                  
+                    if (UpdatedBulletsList != null && UpdatedBulletsList.Count > 0)
+                    {
+                        _myCompanyService.UpdateBulletPoints(UpdatedBulletsList, UpdatedLisTingID);
+                    }
                     if (BulletList != null && BulletList.Count > 0)
                     {
                         _myCompanyService.AddBulletPoint(BulletList, UpdatedLisTingID);
