@@ -1834,9 +1834,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             _CompanyContactRepository.AddAgent(model, ContactCompanyId);
         }
-        public void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints)
+        public void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints, long ListingId)
         {
-            _listingBulletPontRepository.UpdateBulletPoints(BulletPoints);
+            _listingBulletPontRepository.UpdateBulletPoints(BulletPoints, ListingId);
         }
         public void AddBulletPoint(List<ListingBulletPoint> model, long listingId)
         {
