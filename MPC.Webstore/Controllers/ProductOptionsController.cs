@@ -301,6 +301,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ViewToFire = ViewToFire;
                 if (ViewToFire == "ProductOptionsAndDetails")
                 {
+                    LoadRelatedItems(referenceItemId);
                     return View("PartialViews/ProductOptionsAndDetails");
                 }
                 else 
@@ -1167,6 +1168,28 @@ namespace MPC.Webstore.Controllers
             }
             return clonedItem;
         }
+
+        #region RelatedItems
+        public void LoadRelatedItems(long ItemId)
+        {
+
+            List<ProductItem> allRelatedItemsList = new List<ProductItem>();
+
+            allRelatedItemsList = _myItemService.GetRelatedItemsList(ItemId);
+
+          
+            if (allRelatedItemsList.Count > 0)
+            {
+
+                ViewData["RIViewModel"] = allRelatedItemsList;
+
+            }
+
+
+        }
+
+        #endregion
+    
     }
 
 

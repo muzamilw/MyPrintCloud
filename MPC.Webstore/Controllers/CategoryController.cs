@@ -105,7 +105,8 @@ namespace MPC.Webstore.Controllers
 
                 var productList = _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
                 productList = productList.Where(p => p.CompanyId == UserCookieManager.WBStoreId).ToList();
-
+                //Dictionary<long, string> productCostCentreList = null;
+                List<AddOnCostsCenter> listOfCostCentresAllItems = null;
                 bool hasOnePinkProduct = false;
 
                 if ((productList != null && productList.Count == 1) && StoreBaseResopnse.Company.CurrentThemeId == 10012) 
@@ -120,6 +121,8 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (productList != null && productList.Count > 0)
                 {
+                    
+                    
                     if (_webstoreAuthorizationChecker.loginContactID() > 0)
                     {
                         ViewBag.IsUserLogin = 1;
@@ -128,7 +131,7 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.IsUserLogin = 0;
                     }
-
+                   
                     foreach (var product in productList)
                     {
                         // for print products
@@ -148,10 +151,6 @@ namespace MPC.Webstore.Controllers
 
                             StockOptions.Add(Sqn);
                             ViewData["StockOptions"] = StockOptions;
-
-
-
-
                             List<ItemPriceMatrix> matrixlist = _myCompanyService.GetPriceMatrixByItemID((int)product.ItemId);
                             if (_webstoreAuthorizationChecker.isUserLoggedIn())
                             {
@@ -290,10 +289,19 @@ namespace MPC.Webstore.Controllers
                             ViewData["PriceMatrix"] = null;
                            
                         }
+
+                        List<AddOnCostsCenter> listOfCostCentresPerItem = _IItemService.GetStockOptionCostCentres(product.ItemId, UserCookieManager.WBStoreId);
+                        if(listOfCostCentresPerItem != null  && listOfCostCentresPerItem.Count > 0)
+                        {
+                             if (listOfCostCentresAllItems == null) 
+                            {
+                                listOfCostCentresAllItems = new List<AddOnCostsCenter>();
+                            }
+
+                           listOfCostCentresAllItems.AddRange(listOfCostCentresPerItem);
+                        }
+                       
                     }
-
-
-
                 }
                 else 
                 {
@@ -307,7 +315,7 @@ namespace MPC.Webstore.Controllers
                 }
 
                 ViewData["Products"] = productList;
-
+                ViewData["ProductCostCenterList"] = listOfCostCentresAllItems;
             }
 
             ViewBag.ContactId = _webstoreAuthorizationChecker.loginContactID();
@@ -327,7 +335,7 @@ namespace MPC.Webstore.Controllers
             TempData.Remove("MetaDescription");
             //ViewBag.MetaKeywords = MetaTags[1];
             TempData["MetaDescription"] = MetaTags[2];
-           
+
             //ViewBag.MetaDescription = MetaTags[2];
         }
 
@@ -351,7 +359,7 @@ namespace MPC.Webstore.Controllers
             {
                 ViewData["ProductCategory"] = null;
             }
-            
+
         }
 
     }
