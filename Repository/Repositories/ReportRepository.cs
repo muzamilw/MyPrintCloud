@@ -302,12 +302,12 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        if (report.ReportDataSource.Contains("where") && CriteriaParam.Contains("where"))
-                        {
-                            CriteriaParam = CriteriaParam.Replace("where", " and ");
-                        }
+                        //if (report.ReportDataSource.Contains("where") && CriteriaParam.Contains("where"))
+                        //{
+                        //    CriteriaParam = CriteriaParam.Replace("where", " and ");
+                        //}
 
-                        string queryString = "select " + report.ReportDataSource + CriteriaParam + "and cOrganisationId = " + OrganisationId;
+                        string queryString = "select " + report.ReportDataSource + "OrganisationId = " + OrganisationId +  CriteriaParam;
 
                         SqlCommand command = new SqlCommand(queryString, oConn);
                         SqlDataReader reader = command.ExecuteReader();
@@ -572,6 +572,19 @@ namespace MPC.Repository.Repositories
 
             }
             catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Reportparam> getReportParamsByReportId(long ReportId)
+        { 
+            try
+            {
+                return db.Reportparams.Where(c => c.ReportId == ReportId).ToList();
+
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }

@@ -41,5 +41,7 @@ namespace MPC.Interfaces.Repository
 
         List<usp_DeliveryReport_Result> GetDeliveryNoteReport(long deliveryId);
 
+        List<Reportparam> getReportParamsByReportId(long ReportId);
+
     }
 }

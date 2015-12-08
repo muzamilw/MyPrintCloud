@@ -31,5 +31,7 @@ namespace MPC.Interfaces.MISServices
         string GetInternalReportEmailBaseData(ReportEmailRequestModel request);
 
         string DownloadExternalReport(int ReportId, bool isPDF);
+
+        SectionReport GetReportByParams(long ReportId, long ComboValue, string DateFrom, string DateTo, string ParamValue);
     }
 }

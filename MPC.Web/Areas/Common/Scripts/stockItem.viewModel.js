@@ -75,6 +75,8 @@ define("common/stockItem.viewModel",
                             isCategoryFilterVisible(isStockCategoryFilterVisible);
                         }
                         afterSelect = afterSelectCallback;
+                       
+
                         getStockItems();
                         if (!isBaseDataLoaded())
                         getStockCategories();
