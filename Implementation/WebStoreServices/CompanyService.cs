@@ -1819,7 +1819,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             _listingBulletPontRepository.UpdateBulletPoints(BulletPoints);
         }
-        public void AddBulletPoint(ListPointsModel model, long listingId)
+        public void AddBulletPoint(List<ListingBulletPoint> model, long listingId)
         {
             _listingBulletPontRepository.AddBulletPoint(model, listingId);
         }
@@ -1862,6 +1862,18 @@ namespace MPC.Implementation.WebStoreServices
         public void DeleteBulletPoint(long BulletPointId, long ListingId)
         {
             _listingBulletPontRepository.DeleteBulletPoint(BulletPointId, ListingId);
+        }
+        public long AddNewListing(MPC.Models.DomainModels.Listing propertyListing)
+        {
+          return  _listingRepository.AddNewListing(propertyListing);
+        }
+        public bool DeleteLisitngData(long ListingId)
+        {
+            return _listingRepository.DeleteLisitngData(ListingId);
+        }
+        public void AddlistingImages(long ListingId, List<ListingImage> Images)
+        {
+            _listingRepository.AddlistingImages(ListingId, Images);
         }
     }
 }

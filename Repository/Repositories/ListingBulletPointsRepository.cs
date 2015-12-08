@@ -35,15 +35,16 @@ namespace MPC.Repository.Repositories
                      if (oBullet != null)
                      {
                          oBullet.BulletPoint = item.BulletPoint;
-                         //db.Entry(oBullet).State =EntityState.Modified;
+                         db.Entry(oBullet).State =System.Data.Entity.EntityState.Modified;
+                         
                          db.SaveChanges();
                      }
                  }
          }
 
-         public  void AddBulletPoint(ListPointsModel model, long listingId)
+         public void AddBulletPoint(List<ListingBulletPoint> model, long listingId)
          {
-                 foreach (var item in model.objPointList)
+                 foreach (var item in model)
                  {
                      ListingBulletPoint oBullet = new ListingBulletPoint();
                      oBullet.BulletPoint = item.BulletPoint;
