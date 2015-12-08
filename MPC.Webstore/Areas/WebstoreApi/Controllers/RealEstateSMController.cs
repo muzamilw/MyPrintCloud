@@ -132,7 +132,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     ListPointsModel bulletList = JsonConvert.DeserializeObject<ListPointsModel>(hfBPointsList);
                     if (bulletList != null)
                     {
-                        _mycompanyservice.AddBulletPoint(bulletList, UpdatedLisTingID);
+                   //     _mycompanyservice.AddBulletPoint(bulletList, UpdatedLisTingID);
                     }
                 }
                 //hfNewlyAddedBPoints.Value ="";
@@ -183,6 +183,131 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         {
             _mycompanyservice.DeleteBulletPoint(BulletPointId, ListingId);
         }
+        [HttpPost]
+
+        public void DeleteListing(long ListingId)
+        {
+          bool result= _mycompanyservice.DeleteLisitngData(ListingId);
+        }
+        //private void ProcessVariablesAndGoToDesigner(int listingId, long itemId, long productCatId)
+        //{
+        //    try
+        //    {
+        //        List<MPC.Models.Common.TemplateVariable> lstPageControls = new List<MPC.Models.Common.TemplateVariable>();
+
+        //        //foreach (Control control in pnlSmartForm.Controls)
+        //        //{
+        //        //    if (control.GetType() == typeof(TextBox))
+        //        //    {
+        //        //        TextBox currentTextBox = (TextBox)control;
+        //        //        string controlClasses = currentTextBox.CssClass;
+
+        //        //        if (!string.IsNullOrEmpty(controlClasses))
+        //        //        {
+        //        //            if (controlClasses.Contains(' '))
+        //        //            {
+        //        //                string[] txtClasses = controlClasses.Split(' ');
+
+        //        //                foreach (string cssclass in txtClasses)
+        //        //                {
+        //        //                    if (cssclass.Contains("{{"))
+        //        //                    {
+        //        //                        TemplateVariable tempVar = new TemplateVariable(cssclass, currentTextBox.Text);
+        //        //                        lstPageControls.Add(tempVar);
+        //        //                    }
+        //        //                }
+        //        //            }
+        //        //            else
+        //        //            {
+        //        //                if (controlClasses.Contains("{{"))
+        //        //                {
+        //        //                    TemplateVariable tempVar = new TemplateVariable(controlClasses, currentTextBox.Text);
+        //        //                    lstPageControls.Add(tempVar);
+        //        //                }
+        //        //            }
+        //        //        }
+        //        //    }
+        //        //}
+        //        //fix multiple agent bug
+        //        List<CompanyContact> updatedAgentList = _mycompanyservice.GetUsersByCompanyId(UserCookieManager.WBStoreId);
+              
+        //        if (updatedAgentList.Count > 5)
+        //            updatedAgentList = updatedAgentList.Take(5).ToList();
+        //        int count = 1;
+        //        foreach (CompanyContact agent in updatedAgentList)
+        //        {
+        //            if (count != 1)
+        //            {
+        //                MPC.Models.Common.TemplateVariable tempVar = new MPC.Models.Common.TemplateVariable("{{Agent" + count + "Name}}", agent.FirstName); lstPageControls.Add(tempVar);
+        //                MPC.Models.Common.TemplateVariable tempVar2 = new MPC.Models.Common.TemplateVariable("{{Agent" + count + "Phone1}}", agent.HomeTel1); lstPageControls.Add(tempVar2);
+        //                MPC.Models.Common.TemplateVariable tempVar3 = new MPC.Models.Common.TemplateVariable("{{Agent" + count + "Mobile}}", agent.Mobile); lstPageControls.Add(tempVar3);
+        //                MPC.Models.Common.TemplateVariable tempVar4 = new MPC.Models.Common.TemplateVariable("{{Agent" + count + "Email}}", agent.Email); lstPageControls.Add(tempVar4);
+
+        //            }
+        //            else
+        //            {
+        //                MPC.Models.Common.TemplateVariable tempVar = new MPC.Models.Common.TemplateVariable("{{AgentName}}", agent.FirstName);
+        //                lstPageControls.Add(tempVar);
+        //                MPC.Models.Common.TemplateVariable tempVar2 = new MPC.Models.Common.TemplateVariable("{{AgentPhone1}}", agent.HomeTel1);
+        //                lstPageControls.Add(tempVar2);
+        //                MPC.Models.Common.TemplateVariable tempVar3 = new MPC.Models.Common.TemplateVariable("{{AgentMobile}}", agent.Mobile);
+        //                lstPageControls.Add(tempVar3);
+        //                MPC.Models.Common.TemplateVariable tempVar4 = new MPC.Models.Common.TemplateVariable("{{AgentEmail}}", agent.Email);
+        //                lstPageControls.Add(tempVar4);
+        //            }
+        //            count++;
+
+        //        }
+        //        // get bullet points 
+                
+                
+        //        List<ListingBulletPoint> bulletList = _mycompanyservice.GetAllListingBulletPoints(listingId);
+        //        if (bulletList != null && bulletList.Count > 6)
+        //            bulletList = bulletList.Take(6).ToList();
+        //        count = 1;
+        //        foreach (ListingBulletPoint points in bulletList)
+        //        {
+        //            if (count != 1)
+        //            {
+        //                MPC.Models.Common.TemplateVariable tempVar = new MPC.Models.Common.TemplateVariable("{{BulletPoint" + count + "}}", points.BulletPoint);
+        //                lstPageControls.Add(tempVar);
+
+        //            }
+        //            else
+        //            {
+        //                MPC.Models.Common.TemplateVariable tempVar = new MPC.Models.Common.TemplateVariable("{{BulletPoint1}}", points.BulletPoint);
+        //                lstPageControls.Add(tempVar);
+
+        //            }
+        //            count++;
+
+        //        }
+        //        //get images 
+        //        Dictionary<string, string> lstImagesAndUrls = new Dictionary<string, string>();
+               
+        //        List <ListingImage> listingImages = _mycompanyservice.GetAllListingImages(listingId);
+        //        if (listingImages != null && listingImages.Count > 20)
+        //            listingImages = listingImages.Take(20).ToList();
+        //        count = 1;
+        //        foreach (var item in listingImages)
+        //        {
+        //            string imageControlName = "{{ListingImage" + count + "}}";
+        //            MPC.Models.Common.TemplateVariable imgTempVar = new MPC.Models.Common.TemplateVariable(imageControlName, item.ImageURL);
+        //            lstPageControls.Add(imgTempVar);
+        //            count += 1;
+        //        }
+               
+             
+
+        //        lstPageControls = oManger.GetAllVariablesUsedInTemplate(lstPageControls, itemId, Convert.ToInt32(SessionParameters.ContactID.ToString()), propertyId);
+        //        GotoDesigner(itemId, productCatId, lstPageControls, propertyId);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
         //private void GotoDesigner(int itemID, int productCategoryID, List<TemplateVariable> lstPageControls, int propertyId)
         //{
         //    Dictionary<string, string> parameterNameValueList = new Dictionary<string, string>();

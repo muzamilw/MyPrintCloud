@@ -438,6 +438,7 @@
     <Compile Include="Controllers\ProductOrderHistoryController.cs" />
     <Compile Include="Controllers\ProductParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductPendingOrdersController.cs" />
+    <Compile Include="Controllers\RealEstateListingGridController.cs" />
     <Compile Include="Controllers\SpecialProductController.cs" />
     <Compile Include="Controllers\QuickCalculatorController.cs" />
     <Compile Include="Controllers\RaveReviewController.cs" />
@@ -1089,6 +1090,7 @@
     <Content Include="Views\Shared\PartialViews\ProductOptionsAndDetails.cshtml" />
     <Content Include="Views\Shared\PartialViews\FooterWithUseFulLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\SystemPageBanner.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateListingGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1112,6 +1114,7 @@
     <Folder Include="Views\LoginBarWithPhoneInfo\" />
     <Folder Include="Views\LoginEazyPrint\" />
     <Folder Include="Views\ProductOptionsAndDetails\" />
+    <Folder Include="Views\RealEstateListingGrid\" />
     <Folder Include="Views\SystemPageBanner\" />
     <Folder Include="Views\UserManager\" />
     <Folder Include="Views\WhyShopUs\" />

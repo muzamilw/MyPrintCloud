@@ -793,10 +793,10 @@ namespace MPC.Implementation.WebStoreServices
             return _ItemRepository.GetClonedItemByOrderId(OrderId, ReferenceItemId);
         }
         //get related items list
-        public List<ProductItem> GetRelatedItemsList()
+        public List<ProductItem> GetRelatedItemsList(long ItemId)
         {
 
-            return _ItemRepository.GetRelatedItemsList();
+            return _ItemRepository.GetRelatedItemsList(ItemId);
         }
 
         public List<ItemAttachment> GetArtwork(long ItemId)

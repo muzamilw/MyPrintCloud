@@ -462,5 +462,16 @@ namespace MPC.Models.Common
         }
 
         #endregion
+        public Nullable<bool> isUploadImage
+        {
+            get;
+            set;
+        }
+        public string ItemFriendlyName
+        {
+            get;
+            set;
+        }
+        
     }
 }
