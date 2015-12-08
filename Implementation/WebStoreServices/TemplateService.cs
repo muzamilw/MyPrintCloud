@@ -779,18 +779,7 @@ namespace MPC.Implementation.WebStoreServices
                     var nodes = xmlDoc.SelectNodes(xpath);
                     double sx, sy, swidth, sheight;
                     int isCroppped = 0;
-                    //foreach (XmlNode childrenNode in nodes)
-                    //{
-                    //    sx = Convert.ToDouble(childrenNode.SelectSingleNode("sx").InnerText);
-                    //    sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
-                    //    swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
-                    //    sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
-                    //    if (childrenNode.SelectSingleNode("isCropped") != null)
-                    //       isCroppped = Convert.ToInt32(childrenNode.SelectSingleNode("isCropped").InnerText);
-                    //    oImg.Selection.Inset(sx, sy);
-                    //    oImg.Selection.Height = sheight;
-                    //    oImg.Selection.Width = swidth;
-                    //}
+
                     if (oObject.Opacity != null && oObject.Opacity != 1)
                     {
                         img = new Bitmap(System.Drawing.Image.FromFile(FilePath, true));
