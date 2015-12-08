@@ -671,7 +671,7 @@
 
                 @*<asp:Button ID="btnContinue" runat="server" Text="Continue" OnClick="btnContinue_Click" OnClientClick="return computeData();"
             Style="margin-bottom: 20px; float: right;" CssClass="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />*@
-                <input id="btnContinue" type="button" value="Continue" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="CancelListing();" />
+                <input id="btnContinue" type="button" value="Cancel" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="CancelListing();" />
 
                 @*<asp:Button ID="btnSaveAndDesign" runat="server" Text="Save changes" OnClick="btnSaveAndDesign_Click" OnClientClick="return computeData();"
             Style="margin-bottom: 20px; float: right;" CssClass="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />*@
@@ -1896,6 +1896,7 @@
     }
     function CancelListing()
     {
+        alert();
         var ListingId='@Model.ListingId';
         $.ajax({
             type: "POST",
