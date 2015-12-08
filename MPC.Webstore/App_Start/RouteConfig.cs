@@ -77,7 +77,7 @@ namespace MPC.Webstore
             routes.MapRoute(
               "ListingGrid",
               "RealEstateListingGrid",
-              new { controller = "Home", action = "Index", id = UrlParameter.Optional, PropertyId = UrlParameter.Optional }
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
           );
             routes.MapRoute(
                "loadaddWithTerritory",

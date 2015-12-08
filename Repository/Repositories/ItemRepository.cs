@@ -1985,17 +1985,19 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                List<long?> itemIds = db.ItemRelatedItems.Where(i => i.ItemId == ItemId).Select(r => r.RelatedItemId).ToList();
                 var query = from productsList in db.GetCategoryProducts
-                            join tblRelItems in db.ItemRelatedItems on productsList.ItemId
-                                equals tblRelItems.ItemId
+                           // join tblRelItems in db.ItemRelatedItems on productsList.ItemId equals tblRelItems.RelatedItemId
                             where
+                            itemIds.Contains(productsList.ItemId) && 
                                 productsList.IsPublished == true && productsList.EstimateId == null &&
-                                productsList.IsEnabled == true && tblRelItems.ItemId == ItemId
+                                productsList.IsEnabled == true// && tblRelItems.ItemId == ItemId 
+                                //productsList.ItemId == tblRelItems.RelatedItemId
 
                             select new ProductItem
                             {
                                 ItemID = productsList.ItemId,
-                                RelatedItemID = tblRelItems.RelatedItemId ?? 0,
+                               // RelatedItemID = tblRelItems.RelatedItemId ?? 0,
                                 EstimateID = productsList.EstimateId,
                                 ProductName = productsList.ProductName,
                                 ProductCategoryName = productsList.ProductCategoryName,

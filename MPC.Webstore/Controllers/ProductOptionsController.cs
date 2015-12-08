@@ -302,6 +302,7 @@ namespace MPC.Webstore.Controllers
                 if (ViewToFire == "ProductOptionsAndDetails")
                 {
                     LoadRelatedItems(referenceItemId);
+                    LoadVideoS(referenceItemId);
                     return View("PartialViews/ProductOptionsAndDetails");
                 }
                 else 
@@ -1170,7 +1171,7 @@ namespace MPC.Webstore.Controllers
         }
 
         #region RelatedItems
-        public void LoadRelatedItems(long ItemId)
+        private void LoadRelatedItems(long ItemId)
         {
 
             List<ProductItem> allRelatedItemsList = new List<ProductItem>();
@@ -1189,6 +1190,19 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
+
+        private void LoadVideoS(long ItemId) 
+        {
+            List<ItemVideo> itemVideos = _myItemService.GetProductVideos(ItemId);
+            if (itemVideos.Count > 0)
+            {
+                ViewData["ItemVideo"] = itemVideos.ToList();
+            }
+            else
+            {
+                ViewData["ItemVideo"] = null;
+            }
+        }
     
     }
 

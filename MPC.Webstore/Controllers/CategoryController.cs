@@ -320,7 +320,14 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.ContactId = _webstoreAuthorizationChecker.loginContactID();
             ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
-            
+            if (StoreBaseResopnse.Company.CurrentThemeId == 10012)
+            {
+                ViewBag.isPinkTheme = 1;
+            }
+            else 
+            {
+                ViewBag.isPinkTheme = 0;
+            }
             return View("PartialViews/Category", Category);
         }
 

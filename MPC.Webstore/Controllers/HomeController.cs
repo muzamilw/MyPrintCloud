@@ -824,6 +824,7 @@ namespace MPC.Webstore.Controllers
                                 UserCookieManager.WEBOrganisationID = OrganisationId;
                             }
                         }
+
                         MPC.Models.DomainModels.Company oCompany = _myCompanyService.isValidWebAccessCode(C, OrganisationId);
 
                         if (oCompany != null)
