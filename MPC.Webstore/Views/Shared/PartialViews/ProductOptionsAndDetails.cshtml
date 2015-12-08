@@ -284,31 +284,7 @@
                 }
 
             </div>
-            <div class="hidden-xs hidden-sm ">
-                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
-                    &nbsp;
-                </div>
-                <div class="product-webDesc-container txtAlignLeft col-md-9 col-lg-9 col-xs-12 col-sm-12">
-                    @{
-                        ProductDescription = ViewBag.ItemModel.WebDescription;
-                        if (!string.IsNullOrEmpty(ProductDescription))
-                        {
-                            if (ProductDescription.Length > 120)
-                            {
-                                ProductDescription = ProductDescription.Substring(0, 120);
-                                ProductDescription = ProductDescription.Substring(0, ProductDescription.LastIndexOf(' '));
-
-                            }
-                            else
-                            {
-                                ProductDescription = ProductDescription;
-                            }
-                        }
-                    }
-
-                    @Html.Raw(ProductDescription)&nbsp;
-                </div>
-            </div>
+          
             @{
                 var displayStockOptionstyle = "display:block;";
                 if (StockOptionsList != null && StockOptionsList.Count() == 1) 
@@ -922,11 +898,83 @@
             <div class="clearBoth">
                 &nbsp;
             </div>
-    <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
-        <div style="height:65px;">
-            &nbsp;
-        </div>
-    </div>
+            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                &nbsp;
+            </div>
+            <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
+
+                <hr />
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+            @if (ViewData["CostCenters"] != null)
+            {
+                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12 grif-layout-heading txtAlignLeft">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lnkltrlSelectQty", UserCookieManager.WBStoreId, "Options"))
+                </div>
+                <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
+
+                    <div>
+                        @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
+                        {
+
+                                <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none;">
+                                    <div class="float_left_simple spacerbottom CcImageContainer">
+                                        <img class="RfgImgCs" src=/@costcenter.AddOnImage />
+                                    </div>
+                                    <div class="extra_item float_left_simple">
+
+                                        <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
+
+                                        <label class="margin5 colorBlack">@costcenter.AddOnName</label>
+                                        @{
+                            extraPricingId = "extrapricing" + costcenter.ProductAddOnID;
+                                        }
+                                        <div id="@extraPricingId" class="extra_pricing float_right">
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <label id="lblAddOnPrice"> </label>
+                                            }
+                                            else
+                                            {
+                                                <label id="lblAddOnPrice" style="display:none;"> </label>
+                                            }
+                                        </div>
+
+
+                                        <span class="checkBoxAdOnDesc marginLeft">@Html.Raw(costcenter.WebStoreDesc)</span>
+                                        <div class="clearBoth">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                    <div class="BorderLG_LP">
+                                        &nbsp;
+                                    </div>
+
+                                </div>
+
+                        }
+                </div>
+
+            </div>
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            }
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+
+            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                <div style="height:65px;">
+                    &nbsp;
+                </div>
+            </div>
             <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12 cart-container-minheight">
                 <div class="txtAlignLeft product-orderdescription-container float_left_simple">
                     <label id="lblSelectedQty" class="LightGrayLabels"></label><br />
@@ -1170,75 +1218,8 @@
             <div class="clearBoth">
                 &nbsp;
             </div>
-            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
-                &nbsp;
-            </div>
-            <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
-
-                <hr />
-            </div>
-            <div class="clearBoth">
-                &nbsp;
-            </div>
-            @if (ViewData["CostCenters"] != null)
-            {
-                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12 grif-layout-heading txtAlignLeft">
-                    @Html.Raw(Html.GetKeyValueFromResourceFile("lnkltrlSelectQty", UserCookieManager.WBStoreId, "Options"))
-                </div>
-    <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
-
-        <div >
-            @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
-                        {
-
-
-
-                    <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none;">
-                        <div class="float_left_simple spacerbottom CcImageContainer">
-                            <img class="RfgImgCs" src=/@costcenter.AddOnImage />
-                        </div>
-                        <div class="extra_item float_left_simple">
-
-                            <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
-
-                            <label class="margin5 colorBlack">@costcenter.AddOnName</label>
-                            @{
-                            extraPricingId = "extrapricing" + costcenter.ProductAddOnID;
-                            }
-                            <div id="@extraPricingId" class="extra_pricing float_right">
-                                @if (ViewBag.IsShowPrices == true)
-                                            {
-                                    <label id="lblAddOnPrice"> </label>
-                                            }
-                                            else
-                                            {
-                                    <label id="lblAddOnPrice" style="display:none;"> </label>
-                                            }
-                            </div>
-
-
-                            <span class="checkBoxAdOnDesc marginLeft">@Html.Raw(costcenter.WebStoreDesc)</span>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                        </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
-                        <div class="BorderLG_LP">
-                            &nbsp;
-                        </div>
-
-                    </div>
-
-                        }
-    </div>
-
-</div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-            }
+          
+           
            
         </div>
       

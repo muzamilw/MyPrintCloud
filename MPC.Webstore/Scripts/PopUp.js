@@ -1332,7 +1332,7 @@ function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId, pageType) {
 }
 
 function DeleteArtWork(AttachmentId, ItemId, TypeId) {
-    debugger;
+  
     var pageType = "Options";
     if (TypeId == 1) {
         pageType = "ProductOptionsAndDetails";

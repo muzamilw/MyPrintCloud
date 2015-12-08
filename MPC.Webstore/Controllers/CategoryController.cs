@@ -105,8 +105,20 @@ namespace MPC.Webstore.Controllers
 
                 var productList = _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
                 productList = productList.Where(p => p.CompanyId == UserCookieManager.WBStoreId).ToList();
-               
-                if (productList != null && productList.Count > 0)
+
+                bool hasOnePinkProduct = false;
+
+                if ((productList != null && productList.Count == 1) && StoreBaseResopnse.Company.CurrentThemeId == 10012) 
+                {
+                    hasOnePinkProduct = true;
+                }
+
+                if (hasOnePinkProduct)
+                {
+                    Response.Redirect("/ProductOptions/" + productList.FirstOrDefault().ProductCategoryId + "/" + productList.FirstOrDefault().ItemId + "/DesignOrUpload");
+                    return null;
+                }
+                else if (productList != null && productList.Count > 0)
                 {
                     if (_webstoreAuthorizationChecker.loginContactID() > 0)
                     {
