@@ -303,6 +303,7 @@ body:not(.compactHeader) .searchBtn {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     line-height: 38px;
+    z-index:1000;
 }
 
 #zoomer {
@@ -1148,7 +1149,7 @@ body:not(.compactHeader) .documentMenu.undoDisabled .menuItemContainer {
 body:not(.compactHeader) #documentTitleAndMenu {
     right: 130px;
     width: 845px;
-    z-index: 3;
+    z-index: 1000;
 }
 
 body:not(.compactHeader) .documentMenu {
@@ -6964,7 +6965,7 @@ input[type="radio"] {
 #HomebtnContainer {
     position: absolute;
     top: 0px;
-    left: -149px;
+    left: -107px;
 }
 
     #HomebtnContainer button {
@@ -7505,4 +7506,15 @@ to {
 }
 #DivColorPickerDraggable {
         z-index: 10001;
+}
+.smartFormProfileContainer .radio{
+    display:inline-flex;
+}
+.stage3Menu{
+    width: 59%;
+    right: 0px;
+}
+.stage3Menu #documentMenuCopy,.stage3Menu #documentMenuReload
+{
+        margin-left: 16px;
 }

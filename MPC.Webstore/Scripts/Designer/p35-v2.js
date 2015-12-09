@@ -9,7 +9,7 @@
         //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    $(".collapseDesignerMenu,.divBtmSticky ").css("display", "none");
+    $(".collapseDesignerMenu,.divBtmSticky ").css("display", "none"); $(".CanvasTopHeader").removeClass("stage3Menu");
 
 });
 $(".search").click(function (event) {
@@ -28,7 +28,7 @@ $(".search").click(function (event) {
         $("#FrontBackOptionPanal").css("display", "none");
     }
     
-    $(".collapseDesignerMenu").css("display", "list-item");
+    $(".collapseDesignerMenu").css("display", "list-item"); $(".CanvasTopHeader").removeClass("stage3Menu");
 
 });
 $(".layout").click(function (event) {
@@ -45,7 +45,7 @@ $(".layout").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    $(".collapseDesignerMenu").css("display", "list-item");
+    $(".collapseDesignerMenu").css("display", "list-item"); $(".CanvasTopHeader").removeClass("stage3Menu");
 });
 $(".QuickTxt").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
@@ -61,6 +61,7 @@ $(".QuickTxt").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     } $(".collapseDesignerMenu").css("display", "list-item");
+    $(".CanvasTopHeader").addClass("stage3Menu");
 });
 $("#btnAdd").click(function (event) {
     //  oldAddFunctionality();
@@ -88,7 +89,7 @@ $("#btnAdd").click(function (event) {
     }
     catch (err) {
 
-    } SelAddCat = "";
+    } SelAddCat = ""; $(".CanvasTopHeader").removeClass("stage3Menu");
 });
 $(".backgrounds").click(function (event) {
     var D1AO = canvas.getActiveObject();
@@ -112,11 +113,11 @@ $(".backgrounds").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-     $(".collapseDesignerMenu").css("display", "list-item");
+    $(".collapseDesignerMenu").css("display", "list-item"); $(".CanvasTopHeader").removeClass("stage3Menu");
 });
 $(".uploads").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    isBkPnlUploads = false; $(".collapseDesignerMenu").css("display", "list-item");
+    isBkPnlUploads = false; $(".collapseDesignerMenu").css("display", "list-item"); $(".CanvasTopHeader").removeClass("stage3Menu");
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage6");
 });
 $(".layersPanel").click(function (event) {
@@ -134,7 +135,7 @@ $(".layersPanel").click(function (event) {
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
-    }
+    } $(".CanvasTopHeader").removeClass("stage3Menu");
 });
 $(".layoutsPanel").click(function (event) {
     var D1AO = canvas.getActiveObject();
@@ -150,7 +151,7 @@ $(".layoutsPanel").click(function (event) {
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
-    }
+    } $(".CanvasTopHeader").removeClass("stage3Menu");
     ;
 });
 $("#BtnCopyObjTxtRetail").click(function (event) {
