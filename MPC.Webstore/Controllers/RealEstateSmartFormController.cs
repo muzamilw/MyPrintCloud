@@ -120,7 +120,7 @@ namespace MPC.Webstore.Controllers
                 if(isCreateNewLiting)
                 {
                      Listing newListingObj = new Listing();
-                    newListingObj.PropertyName = "Clone";
+                    
                     cloneListingId = _myCompanyService.AddNewListing(newListingObj);
                     TempData["CloneListingId"] = cloneListingId;
                     Listing = _myListingService.GetListingByListingID(Convert.ToInt32(cloneListingId));
