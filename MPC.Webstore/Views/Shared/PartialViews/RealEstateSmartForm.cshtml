@@ -343,6 +343,7 @@
                             &nbsp;
                         </div>
                         <div id="ListingAgentBoxes">
+                            <input id="NewImageClick" class="AgentBtn" type="button" value="AddImage" onclick="AgainCall();">
                             @*@foreach (var Agent in ListingAgents)
             {
 
@@ -516,6 +517,7 @@
 
                         </div>
                         <div  id="GRids" style="width:100%;">
+                            
                             <div id="listImage" style="width:50%;float:left;">
                                 @Imagesgrid.Table(columns: colss, tableStyle: "WebGridTableStyle", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")
                                 @*<div class="controlDiv controlParentDiv" style="width: 100%;">
@@ -987,6 +989,7 @@
 @*<script src="/Scripts/jquery-1.10.1.min.js"></script>*@
 <script src="/Content/jquery-1.8.2.min.js"></script>
 <script src="/Scripts/bootstrap.js"></script>
+<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <script src="/Scripts/respond.js"></script>
 <script src="/Scripts/bootstrap-datepicker.js"></script>
     <script type="text/javascript">
@@ -1163,30 +1166,30 @@
    "</tr>"
 
 
-         tfootAddAnother = "<tr class='tfootrowFor gridViewRowStyleForWebGrid'>" +
+         //tfootAddAnother = "<tr class='tfootrowFor gridViewRowStyleForWebGrid'>" +
 
-                           "<td class='WebGridPaddingSmartForm'>" +
-                               "<span class='display'/>" +
-                               "<img id='NewImage' src='/Content/Images/realplaceholder.gif'  class = 'editImg'  style='height:120px;width: 170px'/> " +
-                               "</td>" +
-                           "<td>" +
-                               "<span class='display'/>" +
-                               "<input type='file' class = 'editImg' onchange='ShowPreview(this)' id='ListingImageUploader' />" +
-                           "</td>" +
+         //                  "<td class='WebGridPaddingSmartForm'>" +
+         //                      "<span class='display'/>" +
+         //                      "<img id='NewImage' src='/Content/Images/realplaceholder.gif'  class = 'editImg'  style='height:120px;width: 170px'/> " +
+         //                      "</td>" +
+         //                  "<td>" +
+         //                      "<span class='display'/>" +
+         //                      "<input type='file' class = 'editImg' onchange='ShowPreview(this)' id='ListingImageUploader' />" +
+         //                  "</td>" +
 
-                           "<td> " +
-                               "<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
-                               //" <i style='font-size:18px;' id='ImageDel' title='Delete' class='fa fa-times display'></i>" +
+         //                  "<td> " +
+         //                      "<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
+         //                      //" <i style='font-size:18px;' id='ImageDel' title='Delete' class='fa fa-times display'></i>" +
 
-                           "</td>" +
-                       "</tr>"
+         //                  "</td>" +
+         //              "</tr>"
 
-        //$("#listImage>table>tfoot tr:first").before(tfootAddAnother);
-       //  var rows = $("#ajaxgridForListingImages").find('> tbody > tr');
-        // alert(rows);
-        //$("#listImage>table>tbody tr:last").after(tfootAddAnother);
-      //   if (ListingImages == 0) {
-             $("#listImage>table>tbody").after(tfootAddAnother);
+      //  //$("#listImage>table>tfoot tr:first").before(tfootAddAnother);
+      // //  var rows = $("#ajaxgridForListingImages").find('> tbody > tr');
+      //  // alert(rows);
+      //  //$("#listImage>table>tbody tr:last").after(tfootAddAnother);
+      ////   if (ListingImages == 0) {
+           //$("#listImage>table>tbody").after(tfootAddAnother);
 
 
              function AgainCall()
@@ -1203,7 +1206,7 @@
                             "</td>" +
 
                             "<td> " +
-                                "<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
+                                //"<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
                                 "<i style='font-size:18px;' id='ImageDel' title='Delete' class='fa fa-times CloseBtnForImageDisplay' onclick='CloseRow(this)'></i>" +
                                
                             "</td>" +
@@ -1280,6 +1283,26 @@
             var Mobile = tr.find("#inMobile").val();
             var Email = tr.find("#inEmail").val();
             var HomeTel1 = tr.find("#inName").val();
+
+            AgainCall();
+            // var CompanyContact =
+            //{
+            //    "FirstName": FirstName,
+            //    "Mobile": Mobile,
+            //    "Email": Email,
+            //    "HomeTel1": HomeTel1,
+            //    "CompanyId": CompanyId
+            //};
+
+        });
+        $('#NewImageClick').on("click", function () {
+
+            //var tr = $(this).parents('tr:first');
+            //tr.find('.editImg, .display').toggle();
+            //tr.find('#IsertBtn, .display').toggle();
+            //tr.find('#SaveBtn, .display').toggle();
+            //tr.find('#CloseBtn, .display').toggle();
+         
 
             AgainCall();
             // var CompanyContact =

@@ -16,7 +16,7 @@
 
 @{
   //  var RealEstateProducts = ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>;
-    var grid = new WebGrid(source: Listings, canPage: true, canSort: false, rowsPerPage: 13);
+    var grid = new WebGrid(source: Listings, canPage: true, canSort: false, rowsPerPage:5);
 
     var RedirectURL = String.Empty;
 }
@@ -90,15 +90,16 @@
     </text>)}
 
                                      )
-                        <div>
-                            
-                        </div>
-                        @if (Convert.ToInt32(Listings.Count) > 13)
+                        @if (Convert.ToInt32(Listings.Count) > 5)
                         {
                             <div id="footerr" class="pagination pagination-small pagination-right">
                                 @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
                             </div>
                         }
+                        <div>
+                            
+                        </div>
+                       
                     </div>
 
 
@@ -117,6 +118,7 @@
         </div>
     </div>
 </div>
+<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <script>
 
 
