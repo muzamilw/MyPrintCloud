@@ -4394,7 +4394,6 @@ function togglePage(pId) {
                     IOL.maxWidth = (IOL.getWidth());
                     //IOL.scaleX = 1;
                     //IOL.scaleY = 1;
-                    console.log(IOL);
                     canvas.renderAll();
                 }
             }
