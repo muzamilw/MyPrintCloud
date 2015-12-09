@@ -7518,3 +7518,9 @@ to {
 {
         margin-left: 16px;
 }
+.txtPropertyPanelMin .BtmPanelBox {
+        height: 80px;    padding-top: 5px;
+}
+.txtPropertyPanelMin .btmPanelRow {
+   
+}
