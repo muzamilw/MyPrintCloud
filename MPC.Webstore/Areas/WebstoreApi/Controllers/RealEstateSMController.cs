@@ -116,16 +116,16 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 // for bullet points
 
-                List<ListingBulletPoint> updatePointList = new List<ListingBulletPoint>();
-                foreach (var Item in BulletPoints)
-                {
-                        ListingBulletPoint oPoint = new ListingBulletPoint();
-                        oPoint.BulletPoint = Item.BulletPoint;
-                        oPoint.BulletPointId = Item.BulletPointId;
-                        updatePointList.Add(oPoint);
-                }
+                //List<ListingBulletPoint> updatePointList = new List<ListingBulletPoint>();
+                //foreach (var Item in BulletPoints)
+                //{
+                //        ListingBulletPoint oPoint = new ListingBulletPoint();
+                //        oPoint.BulletPoint = Item.BulletPoint;
+                //        oPoint.BulletPointId = Item.BulletPointId;
+                //        updatePointList.Add(oPoint);
+                //}
 
-                _mycompanyservice.UpdateBulletPoints(updatePointList);
+                //_mycompanyservice.UpdateBulletPoints(updatePointList);
 
                 if (!string.IsNullOrEmpty(hfBPointsList))
                 {

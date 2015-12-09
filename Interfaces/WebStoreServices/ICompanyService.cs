@@ -28,7 +28,7 @@ namespace MPC.Interfaces.WebStoreServices
         void UpdateSignleAgent(CompanyContact Agent);
 
         void AddBulletPoint(List<ListingBulletPoint> model, long listingId);
-        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints);
+        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints, long ListingId);
         void AddAgent(ListAgentMode model, long ContactCompanyId);
         void UpdateAgent(List<CompanyContact> model);
         long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);

@@ -823,6 +823,7 @@ namespace MPC.Repository.Repositories
 
                     if (listing != null)
                     {
+                        listing.PropertyName = propertyListing.PropertyName;
                         listing.ClientListingId = propertyListing.ListingID;
                         listing.WebID = propertyListing.WebID;
                         listing.WebLink = propertyListing.WebLink;
@@ -3168,7 +3169,7 @@ namespace MPC.Repository.Repositories
             listing.WebLink = propertyListing.WebLink;
             listing.AddressDisplay = propertyListing.AddressDisplay;
             listing.StreetAddress = propertyListing.StreetAddress;
-
+            listing.PropertyName = propertyListing.PropertyName;
             if (propertyListing.LevelNumber == null || propertyListing.LevelNumber.Equals(string.Empty))
             {
                 listing.LevelNumber = 0;
