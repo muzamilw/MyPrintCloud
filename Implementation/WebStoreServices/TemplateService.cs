@@ -746,7 +746,17 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     else
                     {
-                        // dont show any thing becuase path will contain dummy placeholder image
+                        if (oObject.ContentString.ToLower().Contains("assets-v2"))
+                        {
+                            // dont show any thing becuase path will contain dummy placeholder image
+                        } else
+                        {
+                            // replaced image 
+                            if (oObject.ContentString != "")
+                                FilePath = oObject.ContentString;
+                            FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/" + FilePath;
+                            bFileExists = System.IO.File.Exists(FilePath);
+                        }
                     }
                    
                 }
