@@ -82,29 +82,53 @@ namespace MPC.Webstore.Controllers
             if (PropID > 0)
             {
                 ViewBag.isNewListing = 0;
-                Listing Listing = _myListingService.GetListingByListingID(Convert.ToInt32(PropertyId));
-             //   GetCategoryProduct currentItem = new GetCategoryProduct();
-                //   currentItem = _ItemService.GetPublishedProductByItemID(Convert.ToInt32(id));
-             //   List<CompanyContact> listingAgents = _myCompanyService.GetUsersByCompanyId(UserCookieManager.WBStoreId); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
-                ViewBag.Listings = Listing;
-              //  ViewBag.ListingAgents = listingAgents;
 
+                Listing Listing = _myListingService.GetListingByListingID(Convert.ToInt32(PropertyId));
+        
+                ViewBag.Listings = Listing;
                 ViewBag.ListingBulletPoints = _myCompanyService.GetAllListingBulletPoints(PropID);
                 ViewBag.ListingImages = GetAllListingImages(PropID);
-              //  List<ListingBulletPoint> listingBulletPoint = _myCompanyService.GetAllListingBulletPoints(listing.ListingID); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
+             
                 return PartialView("PartialViews/RealEstateSmartForm", Listing);
             }
             else
             {
                 ViewBag.isNewListing = 1;
-                 Listing Listingnn = new Listing();
-              
+                Listing Listing = null;
+                long cloneListingId = 0;
+                bool isCreateNewLiting = false;
+                if (TempData["CloneListingId"] != null)
+                {
+                    cloneListingId = Convert.ToInt32(TempData["CloneListingId"]);
+                    Listing = _myListingService.GetListingByListingID(Convert.ToInt32(cloneListingId));
+                    if(Listing == null)
+                    {
+                        isCreateNewLiting = true;
+                    }
+                    else
+                    {
+                         isCreateNewLiting = false;
+                         TempData.Keep("CloneListingId");
+                    }
+                  
+                }
+                else 
+                {
+                    isCreateNewLiting = true;
                 
-                long Result = _myCompanyService.AddNewListing(Listingnn);
-                Listing Listing = _myListingService.GetListingByListingID(Convert.ToInt32(Result));
-                ViewBag.ListingBulletPoints = _myCompanyService.GetAllListingBulletPoints(Result);
-                ViewBag.ListingImages = GetAllListingImages(Result);
-                //  List<ListingBulletPoints> listingBulletPoint = PropertyManager.GetListingBulletPoints(listing.ListingID); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
+                }
+                if(isCreateNewLiting)
+                {
+                     Listing newListingObj = new Listing();
+                    
+                    cloneListingId = _myCompanyService.AddNewListing(newListingObj);
+                    TempData["CloneListingId"] = cloneListingId;
+                    Listing = _myListingService.GetListingByListingID(Convert.ToInt32(cloneListingId));
+                }
+                
+                ViewBag.ListingBulletPoints = _myCompanyService.GetAllListingBulletPoints(cloneListingId);
+                ViewBag.ListingImages = GetAllListingImages(cloneListingId);
+               
                 return PartialView("PartialViews/RealEstateSmartForm", Listing);
            
             }
@@ -272,6 +296,7 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
+                TempData["CloneListingId"] = null;
                 List<ListingBulletPoint> BulletList = new List<ListingBulletPoint>();
                 List<ListingBulletPoint> UpdatedBulletsList = new List<ListingBulletPoint>();
                 List<ListingImage> DeleteImagesList = new List<ListingImage>();
@@ -509,6 +534,7 @@ namespace MPC.Webstore.Controllers
 
         private void RemovePreviousFile(string previousFileToremove)
         {
+            TempData["CloneListingId"] = null;
             if (!string.IsNullOrEmpty(previousFileToremove))
             {
                 string ServerPath = HttpContext.Server.MapPath(previousFileToremove);

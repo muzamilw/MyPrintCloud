@@ -19,6 +19,7 @@
     var templateAttahment = ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>;
     var artworkAttahment = ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>;
     var StockOptionsList = ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>;
+    var itemVideoss = ViewData["ItemVideo"] as List<MPC.Models.DomainModels.ItemVideo>;
     var cartInitialValue = "0.00";
     string RedirectURL = string.Empty;
 }
@@ -271,6 +272,26 @@
 
     </div>
                 <div class="clearBoth">&nbsp;</div>
+            }
+            @if (itemVideoss != null)
+            {
+
+                <div class="productVideos">
+
+                    @foreach (var videoLink in ViewData["ItemVideo"] as List<MPC.Models.DomainModels.ItemVideo>)
+                    {
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 paddingLeft10px paddingBottom10px ">
+
+                            @*<iframe width="100%"
+                                height="315"
+                                src="@videoLink.VideoLink"
+                                frameborder="0"
+                                allowfullscreen></iframe>*@
+                            @Html.Raw(videoLink.VideoLink)
+                        </div>
+                    }
+                </div>
+    <div class="clearBoth">&nbsp;</div>
             }
         </div>
         <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12">
@@ -1258,78 +1279,19 @@
                                             }
                                             else if (item.ProductType == (int)ProductType.PrintProduct)
                                             {
-                                              
-                                                    RedirectURL = "/Category/CloneItem/" + item.ItemID;
+
+                                                RedirectURL = "/ProductOptions/" + item.ProductCategoryID + "/" + item.ItemID + "/DesignOrUpload";
 
 
                                             }
-                                            else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                            {
-                                                RedirectURL = "/ProductOptions/" + item.ProductCategoryID + "/" + item.ItemID + "/UploadDesign";
-                                            }
+                         <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
+                             <div class="PDTC_CatProd FI_CatProd">
+                                 @{
+                                     <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
-
-
-                                            @if (item.isUploadImage == false)
-                                            {
-                                                <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
-                                                    <div class="PDTC_CatProd FI_CatProd">
-                                                        @{
-                                                            <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-
-                                                        }
-                                                    </div>
-                                                </a>
-                                            }
-                                            else
-                                            {
-
-                                                if (item.ProductType == (int)ProductType.MarketingBrief) // check if item is marekting breif..??
-                                                {
-                                                    if (ViewBag.IsUserLogin == 1) // check if user login or not ??
-                                                    {
-                                                        <a id="hlProductDetail" href="/MarketingBrief/@item.ProductName/@item.ItemID/@item.ProductCategoryID" onclick="ShowLoader();">
-
-                                                            <div class="PDTC_CatProd FI_CatProd">
-                                                                @{
-
-                                                                    <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-                                                                }
-                                                            </div>
-                                                        </a>
-                                                    }
-                                                    else // if not login then open set onclick event of anchor tab for login
-                                                    {
-                                                        string ProductName = "'" + item.ProductName + "'";
-                                                        string itemID = "'" + item.ItemID + "'";
-
-                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("MarktBreifWarnMesg", UserCookieManager.WBStoreId, "To submit a marketing brief please login or register."))','@item.ProductName','@item.ItemID','@item.ProductCategoryID');">
-
-                                                            <div class="PDTC_CatProd FI_CatProd">
-                                                                @{
-
-                                                                    <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-
-
-                                                                }
-                                                            </div>
-                                                        </a>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
-
-                                                        <div class="PDTC_CatProd FI_CatProd">
-                                                            @{
-
-                                                                <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-
-                                                            }
-                                                        </div>
-                                                    </a>
-                                                }
-                                            }
+                                 }
+                             </div>
+                         </a>
                                         </div>
                                         <div class="product_detail_image_heading_IRI">
                                             <p style="  width: 100%;  float: left;  word-wrap: break-word;">

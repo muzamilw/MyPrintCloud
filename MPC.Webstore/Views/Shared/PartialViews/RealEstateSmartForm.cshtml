@@ -460,9 +460,19 @@
                             @*<a class="display" id="ImageDel" onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL');">Delete</a>*@
                             <i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
                         </text>
+                },
+                new WebGridColumn{
+
+                    Format = @<text>
+
+                        @*<a class="edit save-btn">Save</a>
+                            <a class="edit cancel-btn">Close</a>*@
+                        @*<a class="display" id="ImageDel" onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL');">Delete</a>*@
+                        <i style="font-size:18px; visibility:hidden;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
+                    </text>
                 }
             };
-                            }
+}
                             
 
                         </div>
@@ -529,7 +539,7 @@
                             <div id="BulletPointsGrid" style="width:50%;float:left;">
                                 <div class="controlDiv controlParentDiv" style="width: 100%;">
 
-                                    <div class="float_left_simple" style="width:74px;"><label>Bullet Point</label><input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;"></div>
+                                    <div class="float_left_simple" id="BulletPanel" style="width:74px;"><label>Bullet Point</label><input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;"></div>
                                     <div class="float_right">
 
 
@@ -574,17 +584,17 @@
                         @Html.TextBoxFor(model => model.BrochureMainHeadLine, new { id = "txtbrochuresMainHeading", @class = "generalTextBox full-width-boxes {{BrochureMainHeadLine}}", maxlength = 255, placeholder = "Main Headline" })
                         @*<input type="text" id="txtbrochuresMainHeading"class="generalTextBox full-width-boxes {{BrochureMainHeadLine}}" placeholder="Main Headline" value="@Model.BrochureMainHeadLine">*@
                     </div>
-                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+                    <div class="controlDiv controlParentDiv marginForTextAreas marginForTextAreas" style="width: 100%;">
                         <label>summary</label>
 
                         @Html.TextAreaFor(model => model.BrochureSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property summary" })
                         @*<textarea rows="4" cols="50"  id="txtbrochuresSummery" class="MultilineTextBox full-width-boxes {{BrochureSummary}}" style="height:auto !important;" placeholder="Property summary">@Model.BrochureSummary</textarea>
-                </div>*@
+            </div>*@
                     </div>
-                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
                         <label>Description</label>
                         @*<textarea rows="4" cols="50" id="txtbrochuresDesc" class="MultilineTextBox full-width-boxes {{BrochureDescription}}" style="" placeholder="Property Description" >@Model.BrochureDescription</textarea>
-                </div>*@
+            </div>*@
                         @Html.TextAreaFor(model => model.BrochureDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
                     </div>
                 </div>
@@ -607,11 +617,11 @@
                         @Html.TextAreaFor(model => model.SignBoardSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property summary" })
                         <input type="hidden" id="DeleteImagesList" name="DeleteImagesList" />
                     </div>
-                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
 
                         <label>Description</label>
                         @*<textarea rows="4" cols="50" id="txtSignboardDesc" class="MultilineTextBox full-width-boxes {{SignBoardDescription}}" placeholder="Property Description" >@Model.SignBoardDescription</textarea>
-                </div>*@
+            </div>*@
                         @Html.TextAreaFor(model => model.SignBoardDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
                     </div>
                 </div>
@@ -630,14 +640,14 @@
 
                     </div>
                     <div>
-                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                        <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
                             <label>summary</label>
                             @Html.TextAreaFor(model => model.AdvertsSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Summary" })
                             @*<textarea rows="4" cols="50" id="txtPressSummery" class="MultilineTextBox full-width-boxes {{AdvertsSummary}}" placeholder="Property summary" >@Model.AdvertsSummary</textarea>*@
                         </div>
                     </div>
                     <div>
-                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                        <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
                             <label>Description</label>
                             @*<textarea rows="4" cols="50" id="txtPressDescription" class="MultilineTextBox full-width-boxes {{AdvertsDescription}}" style="" placeholder="Property Description" >@Model.AdvertsDescription</textarea>*@
                             @Html.TextAreaFor(model => model.AdvertsDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
@@ -645,8 +655,8 @@
                     </div>
                 </div>
                 <div class="smartFormFirstChild">
-                    <div class="controlDiv controlParentDiv" style="width: 100%;">
-                        <div class="InstallationInstContainer">Installation Instructions</div>
+                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                        <label class="InstallationInstContainer">Installation Instructions</label>
                         <input type="hidden" id="ListingId" name="ListingId" value="@Model.ListingId" />
                         <input type="hidden" name="BulletList" id="BulletList" />
                         <input type="hidden" name="BulletListUpdated" id="BulletListUpdated" />
@@ -692,7 +702,7 @@
                     </a>
                 }
    
-                <input id="btnSaveAndDesignnn" value="Save changes" type="submit" style="margin-bottom: 20px; visibility:hidden; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />
+                <input id="btnSaveAndDesignnn" value="Save changes" type="submit" style=" visibility:hidden;" class="cursor_pointer " />
                 <input id="btnSaveAndDesign" value="Save changes" type="button" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="SaveData();" />
 
             </div>

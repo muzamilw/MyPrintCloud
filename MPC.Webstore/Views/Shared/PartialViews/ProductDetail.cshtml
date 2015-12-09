@@ -731,13 +731,9 @@
                     <div class="clearBoth">&nbsp;</div>
                     @if (ViewData["ItemVideo"] != null)
                     {
-                        <label id="lbl_KeyFeatures" class="ProductDetailH2">Video(s)</label>
-                        <div id="LyoutGridCont"
-                             class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
+                        
+                        <div class="productVideos">
 
-                            <div class="whitebackground">
-
-                                
                                 @foreach (var videoLink in ViewData["ItemVideo"] as List<MPC.Models.DomainModels.ItemVideo>)
                                 {
                                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 paddingLeft10px paddingBottom10px ">
@@ -750,11 +746,9 @@
                                         @Html.Raw(videoLink.VideoLink)
                                     </div>
                                 }
-
-                            </div>
                         </div>
                     }
-
+                    <div class="clearBoth">&nbsp;</div>
                 </div>
                 <div class="clearBoth">
 

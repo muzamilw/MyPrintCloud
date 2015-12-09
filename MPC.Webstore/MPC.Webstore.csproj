@@ -399,6 +399,7 @@
     <Compile Include="Controllers\DescriptiveFooterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
+    <Compile Include="Controllers\EzyHeaderController.cs" />
     <Compile Include="Controllers\EzyPrintSignUpController.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\FooterWithUseFulLinksController.cs" />
@@ -811,6 +812,7 @@
     <Content Include="Scripts\cbpHorizontalSlideOutMenu.min.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
     <Content Include="Scripts\Designer\p64test-1.4.js" />
+    <Content Include="Scripts\eazyresponsive-nav.js" />
     <Content Include="Scripts\FeedEk.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />
@@ -1091,6 +1093,7 @@
     <Content Include="Views\Shared\PartialViews\FooterWithUseFulLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\SystemPageBanner.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateListingGrid.cshtml" />
+    <Content Include="Views\Shared\PartialViews\EzyHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1105,6 +1108,7 @@
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\DescriptiveFooter\" />
+    <Folder Include="Views\EzyHeader\" />
     <Folder Include="Views\EzyPrintSignUp\" />
     <Folder Include="Views\FooterWithUseFulLinks\" />
     <Folder Include="Views\FutureFormHeader\" />

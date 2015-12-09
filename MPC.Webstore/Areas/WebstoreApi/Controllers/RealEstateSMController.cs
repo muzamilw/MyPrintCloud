@@ -187,7 +187,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         public void DeleteListing(long ListingId)
         {
-          bool result= _mycompanyservice.DeleteLisitngData(ListingId);
+          _mycompanyservice.DeleteLisitngData(ListingId);
         }
         //private void ProcessVariablesAndGoToDesigner(int listingId, long itemId, long productCatId)
         //{

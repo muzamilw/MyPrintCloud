@@ -6133,7 +6133,8 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public Company isValidWebAccessCode(string WebAccessCode, long OrganisationId)
         {
-            return db.Companies.Where(c => c.WebAccessCode == WebAccessCode && c.OrganisationId == OrganisationId && c.IsCustomer == (int)CustomerTypes.Corporate).SingleOrDefault();
+            return db.Companies.Where(c => c.WebAccessCode == WebAccessCode && c.OrganisationId == OrganisationId).SingleOrDefault();
+            //return db.Companies.Where(c => c.WebAccessCode == WebAccessCode && c.OrganisationId == OrganisationId && c.IsCustomer == (int)CustomerTypes.Corporate).SingleOrDefault();
         }
 
         public List<StoresListResponse> GetStoresNameByOrganisationId()
