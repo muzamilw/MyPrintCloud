@@ -83,11 +83,11 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.isNewListing = 0;
                 Listing Listing = _myListingService.GetListingByListingID(Convert.ToInt32(PropertyId));
-                GetCategoryProduct currentItem = new GetCategoryProduct();
+             //   GetCategoryProduct currentItem = new GetCategoryProduct();
                 //   currentItem = _ItemService.GetPublishedProductByItemID(Convert.ToInt32(id));
-                List<CompanyContact> listingAgents = _myCompanyService.GetUsersByCompanyId(UserCookieManager.WBStoreId); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
+             //   List<CompanyContact> listingAgents = _myCompanyService.GetUsersByCompanyId(UserCookieManager.WBStoreId); // propertyManager.GetListingAgentsByListingID(propertyId); //Listing Agents
                 ViewBag.Listings = Listing;
-                ViewBag.ListingAgents = listingAgents;
+              //  ViewBag.ListingAgents = listingAgents;
 
                 ViewBag.ListingBulletPoints = _myCompanyService.GetAllListingBulletPoints(PropID);
                 ViewBag.ListingImages = GetAllListingImages(PropID);

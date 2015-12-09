@@ -8,12 +8,12 @@
 }
 @{
     var Listing = ViewBag.Listings as MPC.Models.DomainModels.Listing;
-    var ListingAgents = ViewBag.ListingAgents as List<MPC.Models.DomainModels.CompanyContact>;
+    //var ListingAgents = ViewBag.ListingAgents as List<MPC.Models.DomainModels.CompanyContact>;
    // var CurrentItem = ViewBag.CurrentItem as MPC.Models.DomainModels.GetCategoryProduct;
 
    List<ListingBulletPoint> ListingBulletPoints = ViewBag.ListingBulletPoints as List<MPC.Models.DomainModels.ListingBulletPoint>;
     int index = 1;
-    var grid = new WebGrid(ListingAgents, ajaxUpdateContainerId: "ajaxgrid", rowsPerPage: 33);
+ //   var grid = new WebGrid(ListingAgents, ajaxUpdateContainerId: "ajaxgrid", rowsPerPage: 33);
     
    List<ListingImage> ListingImages = ViewBag.ListingImages as List<MPC.Models.DomainModels.ListingImage>;
    var Imagesgrid=new WebGrid();
@@ -26,16 +26,16 @@
      Imagesgrid = new WebGrid(ListingImages, ajaxUpdateContainerId: "ajaxgridForListingImages", rowsPerPage:33);
   // }
 
-   var BulletPointsgrid = new WebGrid();
+ //  var BulletPointsgrid = new WebGrid();
 
-   if (ListingBulletPoints == null)
-   {
-        BulletPointsgrid = new WebGrid(new List<object>(), ajaxUpdateContainerId: "BulletPointsGrid", rowsPerPage: 33);
-   }
-   else
-   {
-        BulletPointsgrid = new WebGrid(ListingBulletPoints, ajaxUpdateContainerId: "BulletPointsGrid", rowsPerPage: 33);
-   }
+ //  if (ListingBulletPoints == null)
+ //  {
+  //      BulletPointsgrid = new WebGrid(new List<object>(), ajaxUpdateContainerId: "BulletPointsGrid", rowsPerPage: 33);
+  // }
+ //  else
+ //  {
+  //      BulletPointsgrid = new WebGrid(ListingBulletPoints, ajaxUpdateContainerId: "BulletPointsGrid", rowsPerPage: 33);
+  // }
 }
 
 
