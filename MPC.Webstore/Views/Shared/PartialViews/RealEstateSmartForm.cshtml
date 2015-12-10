@@ -294,11 +294,11 @@
                         <div class="controlSecondDiv">
                             <label>Start Time</label>
                             @*<input type="text" id="txtInspectionStartTime" class="generalTextBox {{InspectionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Model.InspectionTimeFrom1">*@
-                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "txtInspectionStartTime", @class = "generalTextBox {{InspectionStartTime}}", maxlength = 255, placeholder = "Start Time",  type = "time" })
+                            @Html.TextBoxFor(model => model.InspectionTimeFrom1, new { id = "txtInspectionStartTime", @class = "generalTextBox {{InspectionStartTime}}", maxlength = 255, placeholder = "Start Time",  type = "time" })
                         </div>
                         <div class="controlSecondDiv" style="">
                             <label>End Time</label>
-                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "txtInspectionEndTime", @class = "generalTextBox {{InspectionEndTime}}", maxlength = 255, placeholder = "End Time", type = "time" })
+                            @Html.TextBoxFor(model => model.InspectionTimeFrom2, new { id = "txtInspectionEndTime", @class = "generalTextBox {{InspectionEndTime}}", maxlength = 255, placeholder = "End Time", type = "time" })
                             @*<input type="text" id="txtInspectionEndTime" class="generalTextBox {{InspectionEndTime}}" placeholder="End Time" value="@Model.InspectionTimeFrom2">*@
                         </div>
                         <div class="controlSecondDiv" style="text-align: right;">
@@ -718,7 +718,7 @@
                     </a>
                 }
    
-                <input id="btnSaveAndDesignnn" value="Save changes" type="submit" style=" visibility:hidden;" class="cursor_pointer " />
+                <input id="btnSaveAndDesignnn" onclick="ShowLoader();" value="Save changes" type="submit" style=" visibility:hidden;" class="cursor_pointer " />
                 <input id="btnSaveAndDesign" value="Save changes" type="button" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="SaveData();" />
 
             </div>
@@ -1098,13 +1098,8 @@
             //    data.append("UploadedImage", files[0]);
             //}
        });
-
-
-            // alert(this.value); // "this" is the current element in the loop
-
-
-
-
+        // alert(this.value); // "this" is the current element in the loop
+        ShowLoader();
         $.ajax({
             type: "POST",
             url: "/webstoreapi/ContactImageUploader/AddImagesForListings?ListingId=" + ListingId + "",
@@ -1115,7 +1110,7 @@
             success: function (response) {
                 $('#ListingImageUploader').val('');
                 $('#NewImage').val('');
-               
+                $("#btnSaveAndDesignnn").trigger('click');
             }
         });
     }
@@ -1134,6 +1129,11 @@
 
         $(function () {
 
+            if($("#txtWebsite").val()=='')
+            {
+                $("#txtWebsite").val('http://');
+            
+            }
             if(Lid=='0')
             {
               
@@ -1981,7 +1981,7 @@
         if (computeData() == true)
         {
            AddLisitngImage();
-           $("#btnSaveAndDesignnn").trigger('click');
+           
         }
     }
     function CancelListing()
