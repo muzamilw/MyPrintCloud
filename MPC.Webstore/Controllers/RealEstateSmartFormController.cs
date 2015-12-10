@@ -88,7 +88,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Listings = Listing;
                 ViewBag.ListingBulletPoints = _myCompanyService.GetAllListingBulletPoints(PropID);
                 ViewBag.ListingImages = GetAllListingImages(PropID);
-             
+                ViewBag.ListingID = PropID;
                 return PartialView("PartialViews/RealEstateSmartForm", Listing);
             }
             else
@@ -128,7 +128,7 @@ namespace MPC.Webstore.Controllers
                 
                 ViewBag.ListingBulletPoints = _myCompanyService.GetAllListingBulletPoints(cloneListingId);
                 ViewBag.ListingImages = GetAllListingImages(cloneListingId);
-               
+                ViewBag.ListingID = PropID;
                 return PartialView("PartialViews/RealEstateSmartForm", Listing);
            
             }
@@ -381,6 +381,7 @@ namespace MPC.Webstore.Controllers
                     updateListing.StreetNumber = Listing.StreetNumber;
                     updateListing.PropertyName = Listing.PropertyName;
                     updateListing.PropertyType = Listing.PropertyType;
+                    updateListing.ClientListingId = Listing.ClientListingId;
                     updateListing.PropertyCategory = Listing.PropertyCategory;
                     updateListing.Street = Listing.Street;
                     updateListing.Construction = Listing.Construction;

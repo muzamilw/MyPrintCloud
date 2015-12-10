@@ -674,8 +674,8 @@ namespace MPC.Repository.Repositories
 
                     if (!String.IsNullOrEmpty(listing.AvailableDate))
                         //tbl_listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
-                        tbl_listing.AvailableDate = DateTime.Parse(listing.AvailableDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
+                         tbl_listing.AvailableDate = DateTime.Parse(listing.AvailableDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                        
                     if (!String.IsNullOrEmpty(listing.SoldDate))
                         //tbl_listing.SoldDate = Convert.ToDateTime(listing.SoldDate, new System.Globalization.CultureInfo("en-AU"));
                         tbl_listing.SoldDate = DateTime.Parse(listing.SoldDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
@@ -2775,7 +2775,7 @@ namespace MPC.Repository.Repositories
                     listing.WebLink = propertyListing.WebLink;
                     listing.AddressDisplay = propertyListing.AddressDisplay;
                     listing.StreetAddress = propertyListing.StreetAddress;
-
+                    listing.ClientListingId = propertyListing.ClientListingId;
                     if (propertyListing.LevelNumber == null || propertyListing.LevelNumber.Equals(string.Empty))
                     {
                         listing.LevelNumber = 0;
@@ -3170,6 +3170,7 @@ namespace MPC.Repository.Repositories
             listing.AddressDisplay = propertyListing.AddressDisplay;
             listing.StreetAddress = propertyListing.StreetAddress;
             listing.PropertyName = propertyListing.PropertyName;
+            listing.ClientListingId = propertyListing.ClientListingId;
             if (propertyListing.LevelNumber == null || propertyListing.LevelNumber.Equals(string.Empty))
             {
                 listing.LevelNumber = 0;

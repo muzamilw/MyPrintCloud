@@ -36,6 +36,7 @@
  //  {
   //      BulletPointsgrid = new WebGrid(ListingBulletPoints, ajaxUpdateContainerId: "BulletPointsGrid", rowsPerPage: 33);
   // }
+     var ListingIDStatus = ViewBag.ListingID;
 }
 
 
@@ -57,7 +58,7 @@
                             @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
                             @Html.TextBoxFor(model => model.UnitNumber, new { id = "txtUnitNumber", @class = "generalTextBox {{UnitNum}}", maxlength = 255, PlaceHolder = "Unit number" })
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Street No.</label>
                             @Html.TextBoxFor(model => model.StreetNumber, new { id = "txtStreetNumber", @class = "generalTextBox {{StreetNum}}", maxlength = 255, placeholder = "Street number" })
                             @*<input type="text" id="txtStreetNumber" class="generalTextBox {{StreetNum}}" placeholder="Street number" value="@Model.StreetNumber">*@
@@ -90,7 +91,7 @@
                             @Html.TextBoxFor(model => model.State, new { id = "txtShipAddLine1", @class = "generalTextBox {{State}}", maxlength = 255, placeholder = "State" })
                             @*<input type="text" id="txtState" class="generalTextBox {{State}}" placeholder="State" value="@Model.State">*@
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Postcode</label>
                             @Html.TextBoxFor(model => model.PostCode, new { id = "txtPostcode", @class = "generalTextBox {{PostCode}}", maxlength = 255, placeholder = "Postcode" })
                             @*<input type="text" id="txtPostcode" class="generalTextBox {{PostCode}}" placeholder="Postcode" value="@Model.PostCode">*@
@@ -99,7 +100,7 @@
                     <div class="controlParentDiv">
                         <div class="controlDiv" style="float: inherit;">
                             <label>Listing ID</label>
-                            @Html.TextBoxFor(model => model.ClientListingId, new { id = "txtShipAddLine1", @class = "generalTextBox {{ListingID}}", maxlength = 255 })
+                            @Html.TextBoxFor(model => model.ClientListingId, new { id = "ClientListingId", @class = "generalTextBox {{ListingID}}", maxlength = 255 })
                             @*<input  type="text" id="txtListingId" class="generalTextBox {{ListingID}}" placeholder="Listing Id" value="@Model.ClientListingId" >*@
                         </div>
                     </div>
@@ -110,7 +111,7 @@
                             @Html.TextBoxFor(model => model.CounsilRates, new { id = "txtCouncil", @class = "generalTextBox {{CouncilRates}}", maxlength = 255, placeholder = "Council" })
                             @*<input type="text" id="txtCouncil" class="generalTextBox {{CouncilRates}}" placeholder="Council" value="@Model.CounsilRates">*@
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Starta</label>
                             @Html.TextBoxFor(model => model.StrataSinking, new { id = "txtStarta", @class = "generalTextBox {{StrataSinking}}", maxlength = 255, placeholder = "Starta" })
                             @*<input type="text" id="txtStarta" class="generalTextBox {{StrataSinking}}" placeholder="Starta" value="@Model.StrataSinking">*@
@@ -122,9 +123,9 @@
                             @Html.TextBoxFor(model => model.WaterRates, new { id = "txtWater", @class = "generalTextBox {{WaterRates}}", maxlength = 255, placeholder = "Water" })
                             @*<input type="text" id="txtWater" class="generalTextBox {{WaterRates}}" placeholder="Water" value="@Model.WaterRates">*@
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Land</label>
-                            @Html.TextBoxFor(model => model.LandArea, new { id = "txtLand", @class = "generalTextBox {{LandTax}}", maxlength = 255 , placeholder = "Land"})
+                            @Html.TextBoxFor(model => model.LandArea, new { id = "txtLand", @class = "generalTextBox {{LandTax}}", maxlength = 255, placeholder = "Land" })
                             @*<input type="text" id="txtLand" class="generalTextBox {{LandTax}}" placeholder="Land" value="@Model.LandTax">*@
                         </div>
                     </div>
@@ -134,7 +135,7 @@
                             @Html.TextBoxFor(model => model.StrataAdmin, new { id = "txtStartaAdmin", @class = "generalTextBox {{StrataAdmin}}", maxlength = 255 })
                             @*<input type="text" id="txtStartaAdmin" class="generalTextBox {{StrataAdmin}}" placeholder="Starta Admin" value="@Model.StrataAdmin">*@
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Other</label>
                             @Html.TextBoxFor(model => model.OtherOutgoings, new { id = "txtOther", @class = "generalTextBox {{OtherOutgoings}}", maxlength = 255, placeholder = "Other" })
                             @*<input type="text" id="txtOther" class="generalTextBox {{OtherOutgoings}}" placeholder="Other" value="@Model.OtherOutgoings">*@
@@ -150,7 +151,7 @@
                             @*<input type="text" id="txtPropertyType" class="generalTextBox {{PropertyType}}" placeholder="Property Type" value="@Model.PropertyType">*@
                             @Html.TextBoxFor(model => model.PropertyType, new { id = "txtPropertyType", @class = "generalTextBox {{PropertyType}}", maxlength = 255, placeholder = "Property Type" })
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Category</label>
                             @*<input type="text" id="txtCategory" class="generalTextBox {{PropertyCategory}}" placeholder="Category" value="@Model.PropertyCategory">*@
                             @Html.TextBoxFor(model => model.PropertyCategory, new { id = "txtCategory", @class = "generalTextBox {{PropertyCategory}}", maxlength = 255, placeholder = "Category" })
@@ -162,19 +163,21 @@
                             @*<input type="text" id="txtConstruction"class="generalTextBox {{Construction}}" placeholder="Construction" value="@Model.Construction">*@
                             @Html.TextBoxFor(model => model.Construction, new { id = "txtConstruction", @class = "generalTextBox {{Construction}}", maxlength = 255, placeholder = "Construction" })
                         </div>
-                        <div>
-                            <label>Style</label>
-                            @*<input type="text" id="txtStyle" class="generalTextBox {{Style}}" placeholder="Style" value="@Model.Features">*@
-                            @Html.TextBoxFor(model => model.Features, new { id = "txtStyle", @class = "generalTextBox {{Style}}", maxlength = 255, placeholder = "Style" })
-                        </div>
+                        <div >
+                            <div class="fntSize11px">
+                                <label>Style</label>
+                                @*<input type="text" id="txtStyle" class="generalTextBox {{Style}}" placeholder="Style" value="@Model.Features">*@
+                                @Html.TextBoxFor(model => model.Features, new { id = "txtStyle", @class = "generalTextBox {{Style}}", maxlength = 255, placeholder = "Style" })
+                            </div>
                     </div>
+                        </div>
                     <div class="controlParentDiv">
                         <div class="controlDiv">
                             <label>Land Size</label>
                             @*<input type="text" id="txtLandSize" class="generalTextBox {{LandAreaUnit}}" placeholder="Land Size" value="@Model.LandArea">*@
                             @Html.TextBoxFor(model => model.LandArea, new { id = "txtLandSize", @class = "generalTextBox {{LandAreaUnit}}", maxlength = 255, placeholder = "Land Size" })
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Building Size</label>
                             @*<input type="text" id="txtBuildingSize" class="generalTextBox {{BuildingAreaSqm}}" placeholder="Building Size" value="@Model.BuildingAreaSqm">*@
                             @Html.TextBoxFor(model => model.BuildingAreaSqm, new { id = "txtBuildingSize", @class = "generalTextBox {{BuildingAreaSqm}}", maxlength = 255 })
@@ -186,7 +189,7 @@
                             @*<input type="text" id="txtCondition" class="generalTextBox {{PropertyCondition}}" placeholder="Condition" value="@Model.PropertyCondition">*@
                             @Html.TextBoxFor(model => model.PropertyCondition, new { id = "txtCondition", @class = "generalTextBox {{PropertyCondition}}", maxlength = 255, placeholder = "Condition" })
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>View / Aspect</label>
                             @*<input type="text" id="txtViewAspect" class="generalTextBox {{Aspect}}" placeholder="View / Aspect" value="@Model.Aspect">*@
                             @Html.TextBoxFor(model => model.Aspect, new { id = "txtViewAspect", @class = "generalTextBox {{Aspect}}", maxlength = 255, placeholder = "View / Aspect" })
@@ -198,7 +201,7 @@
                             @*<input type="text" id="txtBedrooms" class="generalTextBox {{BedRooms}}" placeholder="Bedrooms" value="@Model.BedRooms">*@
                             @Html.TextBoxFor(model => model.BedRooms, new { id = "txtBedrooms", @class = "generalTextBox {{BedRooms}}", maxlength = 255, placeholder = "Bedrooms" })
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Bathrooms</label>
                             @*<input type="text" id="txtBathrooms" class="generalTextBox {{BathRooms}}" placeholder="Bathrooms" value="@Model.BathRooms">*@
                             @Html.TextBoxFor(model => model.BathRooms, new { id = "txtBathrooms", @class = "generalTextBox {{BathRooms}}", maxlength = 255, placeholder = "Bathrooms" })
@@ -210,7 +213,7 @@
                             @*<input type="text" id="txtLoungeRooms" class="generalTextBox {{LoungeRooms}}" placeholder="Lounge Rooms" value="@Model.LoungeRooms">*@
                            @Html.TextBoxFor(model => model.LoungeRooms, new { id = "txtLoungeRooms", @class = "generalTextBox {{LoungeRooms}}", maxlength = 255, placeholder = "Lounge Rooms" })
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Toilets</label>
                             @Html.TextBoxFor(model => model.Toilets, new { id = "txtToilets", @class = "generalTextBox {{Toilets}}", maxlength = 255, placeholder = "Toilets" })
                             @*<input type="text" id="txtToilets" class="generalTextBox {{Toilets}}" placeholder="Toilets" value="@Model.Toilets">*@
@@ -222,7 +225,7 @@
                             @Html.TextBoxFor(model => model.Studies, new { id = "txtStudies", @class = "generalTextBox {{Studies}}", maxlength = 255, placeholder = "Studies" })
                             @*<input type="text" id="txtStudies" class="generalTextBox {{Studies}}" placeholder="Studies" value="@Model.Studies">*@
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Pools</label>
                             @*<input type="text" id="txtPools" class="generalTextBox {{Pools}}" placeholder="Pools" value="@Model.Pools">*@
                             @Html.TextBoxFor(model => model.Pools, new { id = "txtPools", @class = "generalTextBox {{Pools}}", maxlength = 25, placeholder = "Pools" })
@@ -234,13 +237,14 @@
                             @Html.TextBoxFor(model => model.Garages, new { id = "txtGarages", @class = "generalTextBox {{Garages}}", maxlength = 255, placeholder = "Garages" })
                             @*<input type="text" id="txtGarages" class="generalTextBox {{Garages}}" placeholder="Garages" value="@Model.Garages">*@
                         </div>
-                        <div>
+                        <div class="fntSize11px">
                             <label>Car Spaces</label>
                             @Html.TextBoxFor(model => model.CarSpaces, new { id = "txtCarSpaces", @class = "generalTextBox {{CarSpaces}}", maxlength = 255, placeholder = "Car Spaces" })
                             @*<input type="text" id="txtCarSpaces" class="generalTextBox {{CarSpaces}}" placeholder="Car Spaces" value="@Model.CarSpaces">*@
                         </div>
                     </div>
                 </div>
+                <div class="clearBoth"></div>
             </div>
             <hr />
             <div class="smartFormParentDiv">
@@ -265,7 +269,7 @@
                         <div class="controlSecondDiv">
                             <label style="margin-left: 0px;">Website</label>
                             @*<input type="text" id="txtWebsite" class="generalTextBox width-234 {{WebLink}}" style="" placeholder="Website" value="@Model.WebLink">*@
-                            @Html.TextBoxFor(model => model.WebLink, new { id = "txtWebsite", @class = "generalTextBox width-234 {{WebLink}}", maxlength = 255, placeholder = "Website" })
+                            @Html.TextBoxFor(model => model.WebLink, new { id = "txtWebsite", @class = "generalTextBox width-234 {{WebLink}}", maxlength = 255, placeholder = "Website", type="url" ,message="please enter valid url starts with http://" })
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -276,7 +280,7 @@
                         <div class="controlSecondDiv">
                             <label>Inspection Date</label>
                            
-                                @Html.TextBoxFor(model => model.AvailableDate, new { id = "txtInspectionDate", @class = "generalTextBox {{AvailableDate}}", maxlength = 255, placeholder = "Inspection Date" })
+                                @Html.TextBoxFor(model => model.AvailableDate, new { id = "txtInspectionDate", @class = "generalTextBox {{AvailableDate}}", maxlength = 255, placeholder = "Inspection Date", @readonly = "readonly" })
                                 @*<input type="text" id="txtInspectionDate" class="generalTextBox {{AvailableDate}}" placeholder="Inspection Date" value="@Model.AvailableDate">*@
                            
                            
@@ -290,11 +294,11 @@
                         <div class="controlSecondDiv">
                             <label>Start Time</label>
                             @*<input type="text" id="txtInspectionStartTime" class="generalTextBox {{InspectionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Model.InspectionTimeFrom1">*@
-                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "txtInspectionStartTime", @class = "generalTextBox {{InspectionStartTime}}", maxlength = 255, placeholder = "Start Time" })
+                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "txtInspectionStartTime", @class = "generalTextBox {{InspectionStartTime}}", maxlength = 255, placeholder = "Start Time",  type = "time" })
                         </div>
                         <div class="controlSecondDiv" style="">
                             <label>End Time</label>
-                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "txtInspectionEndTime", @class = "generalTextBox {{InspectionEndTime}}", maxlength = 255, placeholder = "End Time" })
+                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "txtInspectionEndTime", @class = "generalTextBox {{InspectionEndTime}}", maxlength = 255, placeholder = "End Time", type = "time" })
                             @*<input type="text" id="txtInspectionEndTime" class="generalTextBox {{InspectionEndTime}}" placeholder="End Time" value="@Model.InspectionTimeFrom2">*@
                         </div>
                         <div class="controlSecondDiv" style="text-align: right;">
@@ -309,21 +313,22 @@
                     <div class="controlParentDiv">
                         <h5 class="detailSection">Auction Details</h5>
                         <div class="controlSecondDiv">
+                           
                             <label>Auction Date</label>
                             @*<asp:TextBox runat="server" ID="txtAuctionDate" CssClass="generalTextBox {{AuctionDate}}" PlaceHolder="Auction Date"></asp:TextBox>*@
                             @*<ajaxToolkit:CalendarExtender TargetControlID="txtAuctionDate" Format="MM/dd/yyyy" ID="txtAuctionDatePickerExtender"
                                                           BehaviorID="txtAuctionDatePickerExtender" runat="server" />*@
                             @*<input type="text" class="generalTextBox {{AuctionDate}}" id="txtAuctionDate" placeholder="Auction Date" value="@Model.AuctionDate" />*@
-                            @Html.TextBoxFor(model => model.AuctionDate, new { id = "txtAuctionDate", @class = "generalTextBox {{AuctionDate}}", maxlength = 255, placeholder = "Auction Date" })
+                            @Html.TextBoxFor(model => model.AuctionDate, new { id = "txtAuctionDate", @class = "generalTextBox {{AuctionDate}}", maxlength = 255, placeholder = "Auction Date", @readonly = "readonly" })
                         </div>
                         <div class="controlSecondDiv">
                             <label>Start Time</label>
-                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "txtShipAddLine1", @class = "generalTextBox {{AuctionStartTime}}", maxlength = 255, placeholder = "Start Time" })
+                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "AuctionStratTime", @class = "generalTextBox {{AuctionStartTime}}", maxlength = 255, placeholder = "Start Time", type = "time" })
                             @*<input type="text" id="txtAuctionStartTime" class="generalTextBox {{AuctionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Model.AuctionTime">*@
                         </div>
                         <div class="controlSecondDiv">
                             <label>End Time</label>
-                            @Html.TextBoxFor(model => model.AuctionEndTime, new { id = "txtAuctionEndTime", @class = "generalTextBox {{AuctionEndTime}}", maxlength = 255, placeholder = "End Time" })
+                            @Html.TextBoxFor(model => model.AuctionEndTime, new { id = "txtAuctionEndTime", @class = "generalTextBox {{AuctionEndTime}}", maxlength = 255, placeholder = "End Time", type = "time" })
                             @*<input type="text" id="txtAuctionEndTime" class="generalTextBox {{AuctionEndTime}}" placeholder="End Time" value="@Model.AuctionEndTime">*@
                         </div>
                         <div class="controlSecondDiv" style="">
@@ -343,7 +348,10 @@
                             &nbsp;
                         </div>
                         <div id="ListingAgentBoxes">
-                            <input id="NewImageClick" class="AgentBtn" type="button" value="AddImage" onclick="AgainCall();">
+                            <input id="NewImageClick" class="ListingImgBtn" type="button" value="+ Listing Image" onclick="AgainCall();">
+                            
+                                <input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;">
+                            
                             @*@foreach (var Agent in ListingAgents)
             {
 
@@ -539,9 +547,10 @@
                                 </div>*@
                             </div>
                             <div id="BulletPointsGrid" style="width:50%;float:left;">
+                                
                                 <div class="controlDiv controlParentDiv" style="width: 100%;">
 
-                                    <div class="float_left_simple" id="BulletPanel" style="width:74px;"><label>Bullet Point</label><input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;"></div>
+                                    <div class="float_left_simple" id="BulletPanel" style="width:74px;">@*<input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;">*@</div>
                                     <div class="float_right">
 
 
@@ -549,10 +558,10 @@
                                        
                                         <div id="newBulletsContainer">
                                         @*<input id="txtBulletPoint" class="generalTextBox full-width-boxes" placeholder="Bullet Point "><div class="clearBoth height5px">&nbsp;</div>*@
-                                                                                    @foreach (var bp in ListingBulletPoints)
-                                                                                    {
+                                                                                                                                                                            @foreach (var bp in ListingBulletPoints)
+                                                                                                                                                                            {
 
-                                                                                        <input id="txtBulletPoint" value="@bp.BulletPoint" class="generalTextBox full-width-boxes  OldBoxes " placeholder="Bullet Point "><div class="clearBoth height5px">&nbsp;</div>
+                                                                                                                                                                                <input id="txtBulletPoint" value="@bp.BulletPoint" class="generalTextBox fullBullets OldBoxes " placeholder="Bullet Point "><div class="clearBoth height5px">&nbsp;</div>
                                                             }
                                         </div>
                                         
@@ -599,7 +608,10 @@
             </div>*@
                         @Html.TextAreaFor(model => model.BrochureDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
                     </div>
+                    <div class="Clearboth"></div>
                 </div>
+
+
             </div>
             <div class="smartFormFirstChild">
                 <h4 class="propertySection">&nbsp;</h4>
@@ -626,6 +638,7 @@
             </div>*@
                         @Html.TextAreaFor(model => model.SignBoardDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
                     </div>
+                    <div class="clearBoth"></div>
                 </div>
 
             </div>
@@ -655,6 +668,7 @@
                             @Html.TextAreaFor(model => model.AdvertsDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
                         </div>
                     </div>
+                    <div class="clearBoth"></div>
                 </div>
                 <div class="smartFormFirstChild">
                     <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
@@ -685,10 +699,10 @@
 
                         </div>
                     </div>
-
+                    <div class="clearBoth"></div>
                 </div>
             </div>
-            <div class="smartFormSecondChild">
+            <div id="SmartForm_btnPanel" class="smartFormSecondChild">
 
                 @*<asp:Button ID="btnContinue" runat="server" Text="Continue" OnClick="btnContinue_Click" OnClientClick="return computeData();"
             Style="margin-bottom: 20px; float: right;" CssClass="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />*@
@@ -709,7 +723,9 @@
 
             </div>
             </div>
+    <div class="clearBoth"></div>
         }
+        <div class="clearBoth"></div>
         </div>
     <div id="PopupCorpQuickText" class="FileUploaderPopup_Mesgbox  rounded_corners">
         <Label ID="lblHeader"  Class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading" >Select & Edit User Profile</Label>
@@ -999,7 +1015,8 @@
     var bb='';
     var  charFlag=false;
     var ListingImages = '@ListingImages.Count'
-    var ListingBulletPoints='@ListingBulletPoints.Count'
+        var ListingBulletPoints='@ListingBulletPoints.Count'
+        var Lid='@ListingIDStatus'
     function ShowPreview(input) {
         if (input.files && input.files[0]) {
             var ImageDir = new FileReader();
@@ -1115,7 +1132,25 @@
       
 
 
-    $(function () {
+        $(function () {
+
+            if(Lid=='0')
+            {
+              
+                $('#txtInspectionStartTime').attr("enabled", true);
+                $('#txtInspectionEndTime').attr("enabled", true);
+
+                $('#AuctionStratTime').attr("enabled", true);
+                $('#txtAuctionEndTime').attr("enabled", true);
+            }
+            else
+            {
+                $('#txtInspectionStartTime').attr("disabled", true);
+                $('#txtInspectionEndTime').attr("disabled", true);
+
+                $('#AuctionStratTime').attr("disabled", true);
+                $('#txtAuctionEndTime').attr("disabled", true);
+            }
         
         var tfootAdd = "<tr class='tfootrow gridViewRowStyleForWebGrid'>" +
 
@@ -2221,6 +2256,62 @@
 
             }
         }
+        
+        if($("#PropertyName").val()=='')
+        {
+            isValidInput = false;
+            $("#PropertyName").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the property name .</p>";
+        }
+        else
+        {
+        
+        
+        }
+
+        if($("#txtWebsite").val()=='')
+        {
+        
+            isValidInput = false;
+            $("#txtWebsite").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the Website .</p>";
+        }
+
+        if($("#txtPostcode").val()=='')
+        {
+        
+            isValidInput = false;
+            $("#txtPostcode").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the Post Code .</p>";
+        }
+        if($("#txtInspectionStartTime").val()=='')
+        {
+        
+            isValidInput = false;
+            $("#txtInspectionStartTime").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection start time .</p>";
+        }
+        if($("#txtInspectionEndTime").val()=='')
+        {
+        
+            isValidInput = false;
+            $("#txtInspectionEndTime").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection end time .</p>";
+        }
+        if($("#AuctionStratTime").val()=='')
+        {
+        
+            isValidInput = false;
+            $("#AuctionStratTime").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection start time .</p>";
+        }
+        if($("#txtAuctionEndTime").val()=='')
+        {
+        
+            isValidInput = false;
+            $("#txtAuctionEndTime").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection end time .</p>";
+        }
         if (isValidInput == false) {
             $("#MainContent_ValidationSummery").html(validationSummeryhtm);
             $("#MainContent_ValidationSummery").css("display", "block");
@@ -2232,6 +2323,8 @@
             $("#MainContent_ValidationSummery").css("display", "none");
 
         }
+
+
         //var isrptNamesValid = true;
         //$('.rptAgentsName').each(function (i, val) {
 
@@ -2346,7 +2439,7 @@
         //    $("#hfNewlyAddedBPoints").val(pointrowNo);
         //}
         charFlag=true;
-        var url = '<input  Id=txtBulletPoint' + pointrowNo + ' class="generalTextBox full-width-boxes NewlyyAddedInputs" placeholder="Bullet Point " />';
+        var url = '<input  Id=txtBulletPoint' + pointrowNo + ' class="generalTextBox fullBullets NewlyyAddedInputs" placeholder="Bullet Point " />';
 
         url = url + '<div class="clearBoth height5px">&nbsp;</div>';
         //$("#newBulletsContainer").append(url);
