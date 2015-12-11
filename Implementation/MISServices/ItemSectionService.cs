@@ -400,21 +400,21 @@ namespace MPC.Implementation.MISServices
                             if (Convert.ToBoolean(oItemSection.IsDoubleSided) && !Convert.ToBoolean(oPressDTO.isPerfecting ?? false))
                             {
                                 //Calculating and Setting Print Cost
-                                dblPrintCost[i] = Convert.ToDouble((dblPressHeads * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost)));
+                                dblPrintCost[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost)));
 
-                                dblPrintPrice[i] = Convert.ToDouble((dblPressHeads * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice)));
+                                dblPrintPrice[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice)));
 
                                 //Calculating and Setting Print Run
-                                dblPrintRun[i] = (dblPressHeads * intWorkSheetQty[i]);
+                                dblPrintRun[i] = (dblPressPass * intWorkSheetQty[i]);
 
 
                             }
                             else
                             {
-                                dblPrintCost[i] = Convert.ToDouble(dblPressHeads * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost) + oPressDTO.SetupCharge);
-                                dblPrintRun[i] = (dblPressHeads * intWorkSheetQty[i]);
+                                dblPrintCost[i] = Convert.ToDouble(dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost) + oPressDTO.SetupCharge);
+                                dblPrintRun[i] = (dblPressPass * intWorkSheetQty[i]);
 
-                                dblPrintPrice[i] = Convert.ToDouble(dblPressHeads * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice) + oPressDTO.SetupCharge);
+                                dblPrintPrice[i] = Convert.ToDouble(dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice) + oPressDTO.SetupCharge);
                             }
                         }
 
@@ -6596,8 +6596,8 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                //updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
-                updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+                updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+               // updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
 
             if(updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true)
