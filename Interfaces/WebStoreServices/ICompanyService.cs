@@ -13,6 +13,9 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void AddlistingImages(long ListingId, List<ListingImage> Images);
+        bool DeleteLisitngData(long ListingId);
+        long AddNewListing(MPC.Models.DomainModels.Listing propertyListing);
         void DeleteBulletPoint(long BulletPointId, long ListingId);
         List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID);
         void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint);
@@ -23,8 +26,9 @@ namespace MPC.Interfaces.WebStoreServices
         List<ListingImage> GetAllListingImages(long ListingID);
         void AddSingleAgent(CompanyContact NewAgent);
         void UpdateSignleAgent(CompanyContact Agent);
-        void AddBulletPoint(ListPointsModel model, long listingId);
-        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints);
+
+        void AddBulletPoint(List<ListingBulletPoint> model, long listingId);
+        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints, long ListingId);
         void AddAgent(ListAgentMode model, long ContactCompanyId);
         void UpdateAgent(List<CompanyContact> model);
         long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);

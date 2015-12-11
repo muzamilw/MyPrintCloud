@@ -70,8 +70,14 @@ namespace MPC.Webstore
 
             routes.MapRoute(
               "SmartForm",
-              "RealEstateSmartForm/{id}/{PropertyId}",
+              "RealEstateSmartForm/{PropertyId}",
               new { controller = "Home", action = "Index", id = UrlParameter.Optional, PropertyId = UrlParameter.Optional }
+          );
+
+            routes.MapRoute(
+              "ListingGrid",
+              "RealEstateListingGrid",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
           );
             routes.MapRoute(
                "loadaddWithTerritory",

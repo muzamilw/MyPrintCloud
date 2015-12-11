@@ -43,6 +43,13 @@
                         }
                         <div class="clearfix"></div>
                     </div>
+                    @if (ViewBag.SeeMore == 1) 
+                    {
+                        <div class="seeMoreProducts">
+                            <a href="/AllProducts"  onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkMoreProducts", UserCookieManager.WBStoreId, "More Products"))</a>
+
+                        </div>
+                    }
                 </ul>
             </li>
             @if(ViewBag.AboutUs != null)

@@ -455,25 +455,37 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                             //first download image locally
                             if (!System.IO.Directory.Exists((drURL)))
                                 System.IO.Directory.CreateDirectory(drURL);
-                            var Request = HttpContext.Current.Request.Files["ListingImage"];
-                           string ImageName= Request.FileName;
+                   
+                           
 
-                            ListingImage tbl_listingImage = new ListingImage();
-                            tbl_listingImage.ListingId = ListingId;
-                            //tbl_listingImage.ClientImageId = item.ImageID;
-                            tbl_listingImage.ImageURL = "/MPC_Content/Stores/" + UserCookieManager.WBStoreId + "/" + ListingId + "/" + ImageName;
-                            //tbl_listingImage.ImageOrder = item.ImageOrder;
-                            _companyService.ListingImage(tbl_listingImage);
-                            //if (!String.IsNullOrEmpty(item.LastMod))
-                            //    //tbl_listingImage.LastMode = Convert.ToDateTime(item.LastMode, new System.Globalization.CultureInfo("en-AU"));
-                            //    tbl_listingImage.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-           
-                             
-                            var fileName = Path.GetFileName(Request.FileName);
-                            Request.SaveAs(virtualFolderPth + "/" + fileName);
-                    
+                            for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
+                            {
+                               
+                                HttpPostedFile postedFile = HttpContext.Current.Request.Files["ListingImage" + i];
+                                string ImageName = postedFile.FileName;
+
+                                ListingImage tbl_listingImage = new ListingImage();
+                                tbl_listingImage.ListingId = ListingId;
+                                //tbl_listingImage.ClientImageId = item.ImageID;
+                                tbl_listingImage.ImageURL = "/MPC_Content/Stores/" + UserCookieManager.WBStoreId + "/" + ListingId + "/" + ImageName;
+                                //tbl_listingImage.ImageOrder = item.ImageOrder;
+                                _companyService.ListingImage(tbl_listingImage);
+                                //if (!String.IsNullOrEmpty(item.LastMod))
+                                //    //tbl_listingImage.LastMode = Convert.ToDateTime(item.LastMode, new System.Globalization.CultureInfo("en-AU"));
+                                //    tbl_listingImage.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                                if (!System.IO.Directory.Exists(virtualFolderPth))
+                                {
+                                    System.IO.Directory.CreateDirectory(virtualFolderPth);
+                                }
+                                if (tbl_listingImage.ImageURL != null || tbl_listingImage.ImageURL != "")
+                                {
+                                    RemovePreviousFile(tbl_listingImage.ImageURL);
+                                }
+                                var fileName = Path.GetFileName(postedFile.FileName);
+                                postedFile.SaveAs(virtualFolderPth + "/" + fileName);
+                            }
                             
-
       }
     }
 }

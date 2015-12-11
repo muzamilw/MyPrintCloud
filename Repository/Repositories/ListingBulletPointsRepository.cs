@@ -27,23 +27,37 @@ namespace MPC.Repository.Repositories
                    return db.ListingBulletPoints;
                }
            }
-         public  void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints)
+         public  void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints,long ListingId)
          {
+            List<ListingBulletPoint> oBullet = db.ListingBulletPoints.Where(c => c.ListingId == ListingId).ToList();
+            List<ListingBulletPoint> NewBulletList = new List<ListingBulletPoint>();
+             foreach(ListingBulletPoint i in oBullet)
+             {
+
+                 db.ListingBulletPoints.Remove(i);
+             }
+             db.SaveChanges();
              foreach (var item in BulletPoints)
                  {
-                     ListingBulletPoint oBullet =db.ListingBulletPoints.Where(c => c.BulletPointId == item.BulletPointId).FirstOrDefault();
-                     if (oBullet != null)
+
+                     if (item != null)
                      {
-                         oBullet.BulletPoint = item.BulletPoint;
-                         //db.Entry(oBullet).State =EntityState.Modified;
+                         ListingBulletPoint model = new ListingBulletPoint();
+                         model.BulletPoint = item.BulletPoint;
+                      //   db.Entry(oBullet).State =System.Data.Entity.EntityState.Modified;
+//NewBulletList.Add(model);
+                     //    db.SaveChanges();
+                         model.ListingId = ListingId;
+                         db.ListingBulletPoints.Add(model);
                          db.SaveChanges();
                      }
                  }
+             
          }
 
-         public  void AddBulletPoint(ListPointsModel model, long listingId)
+         public void AddBulletPoint(List<ListingBulletPoint> model, long listingId)
          {
-                 foreach (var item in model.objPointList)
+                 foreach (var item in model)
                  {
                      ListingBulletPoint oBullet = new ListingBulletPoint();
                      oBullet.BulletPoint = item.BulletPoint;
