@@ -2149,7 +2149,6 @@ define("common/itemDetail.viewModel",
                     onCloseSectionCostCenter: onCloseSectionCostCenter,
                     onItemSectionUpdate: onItemSectionUpdate,
                     updateCostCentersOnQtyChange: updateCostCentersOnQtyChange
-                    
                     //#endregion
                 };
             })()
