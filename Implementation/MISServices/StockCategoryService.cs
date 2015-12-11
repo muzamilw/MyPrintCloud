@@ -103,7 +103,7 @@ namespace MPC.Implementation.MISServices
         public bool Delete(int stockCategoryId)
         {
             var stockCategoryToBeDeleted = GetStockCategoryById(stockCategoryId);
-            if (stockCategoryToBeDeleted.StockItems.Count > 0)
+            if (stockCategoryToBeDeleted.StockItems.Where(c => c.isDisabled != true).ToList().Count > 0)
             {
                 throw new Exception (" It is Being used In Stock Items! ");
             }
