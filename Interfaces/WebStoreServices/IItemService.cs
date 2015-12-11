@@ -37,7 +37,7 @@ namespace MPC.Interfaces.WebStoreServices
         ProductCategoriesView GetMappedCategory(string CatName, int CID);
 
         // get related items
-        List<ProductItem> GetRelatedItemsList();
+        List<ProductItem> GetRelatedItemsList(long ItemId);
 
         /// <summary>
         /// get an item according to usercookiemanager.orderid or itemid 

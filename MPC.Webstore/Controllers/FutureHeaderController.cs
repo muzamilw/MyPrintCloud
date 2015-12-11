@@ -44,14 +44,15 @@ namespace MPC.Webstore.Controllers
             var categories = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             List<ProductCategory> parentCategories = categories.Where(p => p.ParentCategoryId == null || p.ParentCategoryId == 0).OrderBy(s => s.DisplayOrder).ToList();
             
-            //if (parentCategories.Count > 5)
-            //{
-            //    ViewData["ParentCats"] = parentCategories.Take(5).ToList();
-            //}
-            //else
-            //{
+            if (parentCategories.Count > 5)
+            {
+                ViewData["ParentCats"] = parentCategories.Take(5).ToList();
+                ViewBag.SeeMore = 1;
+            }
+            else
+            {
                 ViewData["ParentCats"] = parentCategories.ToList();
-            //}
+            }
             ViewData["SubCats"] = categories.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).OrderBy(s => s.DisplayOrder).ToList();
             ViewBag.AboutUs = null;
             if (StoreBaseResopnse.SecondaryPages != null)

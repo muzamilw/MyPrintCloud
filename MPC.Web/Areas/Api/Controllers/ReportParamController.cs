@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using GrapeCity.ActiveReports;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.Models;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,16 @@ namespace MPC.MIS.Areas.Api.Controllers
 
          // GET: Api/ReportManager
          //  ReportCategoryRequestModel
-         public bool get([FromUri] ReportParamRequestModel req)
+         public ActionResult get([FromUri] ReportParamRequestModel req)
          {
-             return true;
-            // return _IReportService.GetReportCategory(req.CategoryId, req.IsExternal).CreateFrom();
+             //return true;
+
+           //  SectionReport report = _IReportService.GetReportByParams(req.ReportId, req.ComboValue, req.ParamDateFromValue, req.ParamDateToValue, req.ParamTextBoxValue);
+
+             return null;
+             //System.Web.Mvc.view
+             
+             // return _IReportService.GetReportCategory(req.CategoryId, req.IsExternal).CreateFrom();
          }
     }
 }

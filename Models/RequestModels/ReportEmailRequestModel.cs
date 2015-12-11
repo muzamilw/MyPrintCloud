@@ -24,6 +24,13 @@ namespace MPC.Models.RequestModels
 
         public string CriteriaParam { get; set; }
 
+        public string ComboValue { get; set; }
+
+        public string DateFrom { get; set; }
+
+        public string DateTo { get; set; }
+
+        public string ParamValue { get; set; }
        
     }
 }

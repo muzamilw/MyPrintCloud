@@ -10,8 +10,8 @@ namespace MPC.Interfaces.Repository
     using System.Text;
     public interface IListingBulletPointsRepository : IBaseRepository<ListingBulletPoint, long>
     {
-        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints);
-        void AddBulletPoint(ListPointsModel model, long listingId);
+        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints, long ListingId);
+        void AddBulletPoint(List<ListingBulletPoint> model, long listingId);
         void AddSingleBulletPoint(ListingBulletPoint BullentPoint);
         void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint);
         List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID);

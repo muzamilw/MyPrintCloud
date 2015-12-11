@@ -15,7 +15,7 @@ namespace MPC.Interfaces.MISServices
     {
         List<ReportCategory> GetReportCategories();
         ReportCategory GetReportCategory(long CategoryId, int IsExternal);
-        SectionReport GetReport(int iReportID, long itemid);
+        SectionReport GetReport(int iReportID, long itemid,int ComboValue,string DateFrom,string DateTo,string ParamTextBoxValue);
 
         List<StoresListResponse> GetStoreNameByOrganisationId();
 
@@ -31,5 +31,7 @@ namespace MPC.Interfaces.MISServices
         string GetInternalReportEmailBaseData(ReportEmailRequestModel request);
 
         string DownloadExternalReport(int ReportId, bool isPDF);
+
+        //SectionReport GetReportByParams(long ReportId, long ComboValue, string DateFrom, string DateTo, string ParamValue);
     }
 }

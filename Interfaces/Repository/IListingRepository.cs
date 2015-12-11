@@ -13,6 +13,9 @@ namespace MPC.Interfaces.Repository
 {
     public interface IListingRepository : IBaseRepository<MPC.Models.DomainModels.Listing, long>
     {
+        void AddlistingImages(long ListingId, List<ListingImage> Images);
+        bool DeleteLisitngData(long ListingId);
+        long AddNewListing(MPC.Models.DomainModels.Listing propertyListing);
         void DeleteListingImage(long listingImageID);
         void ListingImage(ListingImage NewImage);
         List<ListingImage> GetAllListingImages(long ListingID);

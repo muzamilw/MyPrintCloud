@@ -1,0 +1,125 @@
+﻿
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@using MPC.Models.DomainModels;
+@using MPC.Webstore.WebGridExtension;
+@{
+    Layout = null;
+}
+@{
+    var ListingId = ViewBag.ListingID;
+    var Listings = ViewBag.lstProperties as List<MPC.Models.DomainModels.Listing>;
+    var AllListingImages = ViewBag.AllListingImages as List<MPC.Models.DomainModels.ListingImage>;
+    //var FilteredLImages = String.Empty;
+    //var FilteredLImages = AllListingImages.Where(i => i.ListingId == property.ListingId).ToList();
+}
+
+@{
+  //  var RealEstateProducts = ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>;
+    var grid = new WebGrid(source: Listings, canPage: true, canSort: false, rowsPerPage:3);
+
+    var RedirectURL = String.Empty;
+}
+<div class="container content_area" id="all-category-pg">
+
+    <div class="left_right_padding">
+
+        <div class="signin_heading_div Categorytitle col-md-12 col-lg-12 col-xs-12">
+            <h1>
+                <label id="lblTitle" class="sign_in_catheading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRelEstatePropertyHeading", UserCookieManager.WBStoreId, "Properties"))</label>
+            </h1>
+
+        </div>
+
+        <div id="CategoryDisplay responsivePad15">
+
+            <div class="rounded_corners clearBoth col-md-12 col-lg-12 col-xs-12">
+
+
+
+                <div id="pnlCatList">
+                    <div id="divContainer" class="cursor_pointer">
+                        @grid.Table(
+    htmlAttributes: new { id = "BillingShippingGrid" },
+    tableStyle: "WebGridTableStyle",
+    fillEmptyRows: false,
+             headerStyle: "WebGridheader",
+                      rowStyle: "gridViewRowStyleForWebGrid",
+                      alternatingRowStyle: "gridViewRowStyleForWebGrid",
+    columns: new[] {
+
+    grid.Column("Property Image",format:@<text>@{
+
+        var FilteredLImages = AllListingImages.Where(i => i.ListingId == Convert.ToInt64(item.ListingId)).ToList();
+        var ImagSrc = string.Empty;
+        if (FilteredLImages.Count > 0)
+        {
+            if (!string.IsNullOrEmpty(FilteredLImages[0].ImageURL))
+            {
+                string imagePath = FilteredLImages[0].ImageURL;
+                //string filenameWithOutEx = Path.GetFileNameWithoutExtension(FilteredLImages[0].ImageURL);
+                //string Extensn = Path.GetExtension(FilteredLImages[0].ImageURL);
+                //string filename = Path.GetFileName(FilteredLImages[0].ImageURL);
+                //int indexof = imagePath.IndexOf(filename);
+                //string serverPAth = imagePath.Substring(0, indexof);
+                //string newfilename = filenameWithOutEx + "_thumb" + Extensn;
+                //imagePath = serverPAth + newfilename;
+                ImagSrc = imagePath;
+            }
+            else
+            {
+                ImagSrc = "../" + FilteredLImages[0].ImageURL;
+            }
+            <img id="imgThumbnail" src="@ImagSrc" style="height:120px;width:170px;" />
+        }
+}
+
+                        
+                        </text>,style:"WebGridPadding Width360"),
+
+
+    grid.Column("Name",format:@<p>@item.PropertyName</p>,style:"hidden-xs hidden-sm"),
+
+
+    grid.Column("Edit", format:@<text>@{
+        var ProductUrl = "/RealEstateSmartForm/" + item.ListingId;
+                        }
+                        <a href="@ProductUrl"><i class="fa fa-pencil edit-address"></i></a>
+
+
+    </text>)}
+
+                                     )
+                        @if (Convert.ToInt32(Listings.Count) > 3)
+                        {
+                            <div id="footerr" class="pagination pagination-small pagination-right">
+                                @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
+                            </div>
+                        }
+                        <div>
+                            
+                        </div>
+                       
+                    </div>
+
+
+
+                    <div class="clearBoth">
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+<script>
+
+
+</script>

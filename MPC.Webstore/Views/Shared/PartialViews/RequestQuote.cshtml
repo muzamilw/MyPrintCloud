@@ -696,7 +696,8 @@
                 if (["pdf", "jpg", "jpeg", "eps", "tiff", "csv", "xls", "xlsx", "png"].indexOf(fileExtension) < 0) {
                     notAllowedFilesCount = parseInt(notAllowedFilesCount) + 1;
                     console.log(name1);
-                } else {
+                }
+                else {
                     if (files[i].size != null && files[i].size > 52428800) {
                         
                         limitExceed = 1;

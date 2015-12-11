@@ -10,6 +10,7 @@ var ist = {
     minutePattern: "mm",
     dateTimePattern: "DD/MM/YY HH:mm",
     dateTimeWithSecondsPattern: "DD/MM/YY HH:mm:ss",
+    dateTimeWithSeconds: "YYYY-MM-DD HH:mm:ss",
     // UTC Date Format
     utcFormat: "YYYY-MM-DDTHH:mm:ss",
     // For Reporting 

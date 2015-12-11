@@ -1199,8 +1199,8 @@
         </div>
 
     </div>
-    <div class="propertyPanelControlDiv divBtmSticky textPropertyPanel" style="display:none;">
-        <div class="BtmPanelBox">
+    <div class="propertyPanelControlDiv divBtmSticky textPropertyPanel txtPropertyPanelMin" style="display:none;    width: 1178px;">
+        <div class="BtmPanelBox" style="position: absolute; bottom: 0px; height: 110px;">
             <div class="btmPanelRow adminControl">
                 <div class="PostionPanelLabel" style="float:left;">
                     <div class="lblcheckbox adminControl lblLockPos">Lock Position </div>
@@ -1236,7 +1236,7 @@
                 </div>
                 <div class="clear"></div>
             </div>
-           
+
             <div class="btmPanelRow">
                 <div class="PostionPanelLabel" style="float:left; width: 60px;">
                     <span class="lblcheckbox" id="lblArrangeOrderTxt">Box Size</span>
@@ -1252,26 +1252,14 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                </div>
+            </div>
         </div>
-        <div class="BtmPanelBox adminControl">
+        <div class="BtmPanelBox adminControl" style=" margin-left: 248px;">
 
             <div class="btmPanelRow">
-                <div class="propertyPanelControlDiv " style="  padding-right: 12px; margin-top: -12px;">
-                    <div class="lblchckboxControl"> Make Object appear on Overlay Layer  </div>
-                    <div class="PostionPanelLabel" style="float:right;">
-                        <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
-                            <label class="onoffswitch-label" for="chkboxOverlayTxt">
-                                <div class="onoffswitch-inner"></div>
-                                <div class="onoffswitch-switch"></div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+             
                 <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
-     
+
                     <div class="lblchckboxControl">Do not Print this Object On PDF </div>
                     <div style="float:right;">
                         <div class="onoffswitch">
@@ -1297,25 +1285,13 @@
                     </div>
                     <div class="clear"></div>
                 </div>
-              
-               
+
+
             </div>
         </div>
         <div class="BtmPanelBox adminControl">
             <div class="btmPanelRow">
-                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
-                    <div class="lblchckboxControl"> End User can not EDIT Text </div>
-                    <div style="float:right;">
-                        <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockEditing" checked="">
-                            <label class="onoffswitch-label" for="BtnLockEditing">
-                                <div class="onoffswitch-inner"></div>
-                                <div class="onoffswitch-switch"></div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+               
                 <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
                     <div class="lblchckboxControl"> Auto Shrink Text to fit in Text Box  </div>
                     <div style="float:right;">
@@ -1335,6 +1311,36 @@
                         <div class="onoffswitch">
                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoCollapse" checked="">
                             <label class="onoffswitch-label" for="chkboxAutoCollapse">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="BtmPanelBox adminControl">
+            <div class="btmPanelRow">
+                <div class="propertyPanelControlDiv " style="  padding-right: 12px; margin-top: -12px;">
+                    <div class="lblchckboxControl"> Make Object appear on Overlay Layer  </div>
+                    <div class="PostionPanelLabel" style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
+                            <label class="onoffswitch-label" for="chkboxOverlayTxt">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+                    <div class="lblchckboxControl"> End User can not EDIT Text </div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockEditing" checked="">
+                            <label class="onoffswitch-label" for="BtnLockEditing">
                                 <div class="onoffswitch-inner"></div>
                                 <div class="onoffswitch-switch"></div>
                             </label>
