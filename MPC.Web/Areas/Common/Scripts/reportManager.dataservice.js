@@ -24,9 +24,14 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+
                     amplify.request.define('getReportEmailData', 'ajax', {
                         url: ist.siteUrl + '/Api/ReportEmail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    amplify.request.define('getReportByParams', 'ajax', {
+                        url: ist.siteUrl + '/Api/ReportParam',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -37,7 +42,7 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                    
+
                     amplify.request.define('downloadExternalReport', 'ajax', {
                         url: ist.siteUrl + '/Api/DownloadReport',
                         dataType: 'json',
@@ -81,6 +86,19 @@
             });
         };
 
+        //getReportByParams
+        // Get 
+        getReportByParams = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getReportByParams',
+                data: params,
+                success: callbacks.success,
+                error: callbacks.error,
+            });
+        };
+
+
         getreportparamsbyId = function (params, callbacks) {
             initialize();
             return amplify.request({
@@ -100,7 +118,7 @@
                 data: JSON.stringify(param)
             });
         };
-        
+
         downloadExternalReport = function (params, callbacks) {
             initialize();
             return amplify.request({
@@ -116,9 +134,10 @@
             getreportcategories: getreportcategories,
             getreportparamsbyId: getreportparamsbyId,
             getReportEmailData: getReportEmailData,
+            getReportByParams: getReportByParams,
             sendEmail: sendEmail,
             downloadExternalReport: downloadExternalReport
-           
+
         };
     })();
 

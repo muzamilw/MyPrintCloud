@@ -9,5 +9,14 @@ namespace MPC.MIS.Models
     {
         public int Id { get; set; }
         public long ItemId { get; set; }
+
+        public int ComboValue { get; set; }
+
+        public string Datefrom { get; set; }
+        public string DateTo { get; set; }
+        public string ParamTextValue { get; set; }
+
+
+       
     }
 }

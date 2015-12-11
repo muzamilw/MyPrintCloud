@@ -11,6 +11,7 @@
                     errorList = ko.observableArray([]),
                      reportcategoriesList = ko.observableArray([]),
                      reportParamsList = ko.observableArray([]),
+                     paramComboList = ko.observableArray([]),
                      selectedReportId = ko.observable(),
                      selectedItemId = ko.observable(0),
                      IsExternalReport = ko.observable(0),
@@ -30,8 +31,13 @@
                      OrderId = ko.observable(),
                       CategoryId = ko.observable(),
                      CriteriaParam = ko.observable(),
-
+                      ComboValue = ko.observable(0),
+                      ParamDateFrom = ko.observable(),
+                      ParamDateTo = ko.observable(),
+                       ParamValue = ko.observable(),
                      ReportTitle = ko.observable(),
+                    
+
                      //SignedBy: CategoryId,
                         //ContactId: IsExternal,
                         //RecordId: RecordId,
@@ -39,17 +45,17 @@
                         //OrderId: OrderId,
                         //CriteriaParam: CriteriaParam
 
-
+                        DateFrom = ko.observable(),
+                          DateTo = ko.observable(),
                        ckEditorOpenFrom = ko.observable("stores"),
                     hTmlMessageA = ko.observable(),
 
 
-                OpenExternalReport = function(CategoryId, IsExternal, ItemId)
-                {
+                OpenExternalReport = function (CategoryId, IsExternal, ItemId) {
                     selectedItemId(ItemId);
 
 
-                    $("#ReportViewerIframid").attr("src", "/mis/Home/Viewer?id=0&itemId=0");
+                    //$("#ReportViewerIframid").attr("src", "/mis/Home/Viewer?id=0&itemId=0");
                     if (CategoryId != undefined && CategoryId != null && CategoryId != 0) {
                         dataservice.getreportcategories({
                             CategoryId: CategoryId,
@@ -61,6 +67,10 @@
                                 reportcategoriesList.push(model.ReportCategory(data));
                                 SelectReportById(model.ReportCategory(data).reports()[0]);
 
+                                var report = model.ReportCategory(data).reports()[0];
+                                 var scr = "/mis/Home/Viewer?id=" + report.ReportId() + "&itemId=" + selectedItemId();
+                                selectedReportId(report.ReportId());
+                                 $("#ReportViewerIframid").attr("src", scr);
                                 if (selectedReportId() > 0) {
                                     //  getParams();
 
@@ -80,7 +90,7 @@
                                     errorList.push({ name: "Please Select a Report to View", element: null });
 
                                 }
-                               
+
                             },
                             error: function (response) {
                                 toastr.error("Failed to Load . Error: " + response);
@@ -97,34 +107,60 @@
                         if (selectedReportId() > 0) {
                             getParams();
 
-                            if (outputTo() == "preview") {
-                                view.hide();
-                                showProgress();
-                                view.showWebViewer();
-                                hideProgress();
-                            } else if (outputTo() == "email") {
-                                showEmailView();
-                            } else if (outputTo() == "pdf") {
-                                downloadPDFReport();
-                            } else if (outputTo() == "excel") {
-                                downloadExcelReport();
-                            }
+
                         } else {
                             errorList.push({ name: "Please Select a Report to View", element: null });
 
                         }
-                       
+
                     },
                     getParams = function () {
                         if (selectedReportId() > 0) {
                             reportParamsList.removeAll();
+                            paramComboList.removeAll();
                             dataservice.getreportparamsbyId({
                                 Id: selectedReportId()
                             }, {
                                 success: function (data) {
-                                    _.each(data, function (item) {
-                                        reportParamsList.push(model.reportParamsMapper(item));
-                                    });
+                                    //_.each(data, function (item) {
+
+                                    //    reportParamsList.push(model.reportParamsMapper(item));
+                                    //});
+
+                                    if (data.length != 0) {
+                                        _.each(data, function (item) {
+
+                                            reportParamsList.push(model.ReportParam(item.param));
+
+                                            _.each(item.ComboList, function (comb) {
+                                                paramComboList.push(model.ComboMapper(comb));
+                                            });
+                                        });
+
+
+                                        view.showReportParamView();
+                                    }
+                                    else {
+
+                                        var scr = "/mis/Home/Viewer?id=" + selectedReportId() + "&itemId=" + selectedItemId();
+                                        selectedReportId(selectedReportId());
+                                        $("#ReportViewerIframid").attr("src", scr);
+
+
+                                        if (outputTo() == "preview") {
+                                            view.hide();
+                                            showProgress();
+                                            view.showWebViewer();
+                                            hideProgress();
+                                        } else if (outputTo() == "email") {
+                                            showEmailView();
+                                        } else if (outputTo() == "pdf") {
+                                            downloadPDFReport();
+                                        } else if (outputTo() == "excel") {
+                                            downloadExcelReport();
+                                        }
+                                    }
+
                                 },
                                 error: function (response) {
 
@@ -134,7 +170,63 @@
                         }
                     },
 
+
+                     OpenReportForParams = function () {
+
+
+                        
+
+
+                         DateFrom = moment(ParamDateFrom()).format(ist.dateTimeWithSeconds);
+                         DateTo = moment(ParamDateTo()).format(ist.dateTimeWithSeconds);
+
+
+                         var scr = "/mis/Home/Viewer?id=" + selectedReportId() + "&itemId=" + selectedItemId() + "&ComboValue=" + ComboValue() + "&Datefrom=" + DateFrom + "&DateTo=" + DateTo + "&ParamTextValue=" + ParamValue();
+                         selectedReportId(selectedReportId());
+                         $("#ReportViewerIframid").attr("src", scr);    
+                         errorList.removeAll();
+
+
+                         if (outputTo() == "preview") {
+                             
+                             view.hide();
+                             view.hideReportParamView();
+                             showProgress();
+                             view.showWebViewer();
+                             hideProgress();
+                         } else if (outputTo() == "email") {
+                             view.hideReportParamView();
+                             showEmailView();
+                         } else if (outputTo() == "pdf") {
+                             downloadPDFReport();
+                         } else if (outputTo() == "excel") {
+                             downloadExcelReport();
+                         }
+                         //dataservice.getReportByParams({
+                         //    Reportid: selectedReportId(),
+                         //    ComboValue: ComboValue(),
+                         //    ParamDateFromValue: ParamDateFrom(),
+                         //    ParamDateToValue: ParamDateTo(),
+                         //    ParamTextBoxValue: ParamValue()
+                         //}, {
+                         //    success: function (data) {
+
+
+                         //    },
+                         //    error: function (response) {
+
+                         //    }
+                         //});
+                         isLoading(true);
+
+                     },
+
                      getReportEmailBaseData = function () {
+                         var dropDownvalue = ComboValue();
+                         DateFrom = moment(ParamDateFrom()).format(ist.dateTimeWithSeconds);
+                         DateTo = moment(ParamDateTo()).format(ist.dateTimeWithSeconds);
+
+
                          if (selectedReportId() > 0) {
                              dataservice.getReportEmailData({
                                  Reportid: selectedReportId(),
@@ -143,7 +235,11 @@
                                  RecordId: RecordId(),
                                  ReportType: CategoryId(),
                                  OrderId: OrderId(),
-                                 CriteriaParam: CriteriaParam()
+                                 CriteriaParam: CriteriaParam(),
+                                 ComboValue: dropDownvalue,
+                                 DateFrom: DateFrom,
+                                 DateTo: DateTo,
+                                 ParamValue: ParamValue()
                              }, {
                                  success: function (data) {
                                      //To(data.To);
@@ -162,21 +258,20 @@
 
                                      view.show();
                                      view.showEmailView();
-                                    
+
                                  },
                                  error: function (response) {
 
                                  }
                              });
                              isLoading(true);
-                             
+
                          }
                      },
 
 
-                     sendEmailReport = function()
-                     {
-                         
+                     sendEmailReport = function () {
+
 
                          if (SelectedEmailReport() != null) {
                              var emailMessage = CKEDITOR.instances.content.getData();
@@ -191,14 +286,14 @@
                                  Signature: SelectedEmailReport().emailSignature(),
                                  ContactId: ContactId(),
                                  SignedBy: SignedBy(),
-                             
+
                              }, {
                                  success: function (data) {
-                                  
+
                                      view.hide();
                                      view.hideEmailView();
 
-                                     
+
 
                                  },
                                  error: function (response) {
@@ -217,9 +312,9 @@
                     SelectReportById = function (report) {
                         $(".dd-handle").removeClass("selectedReport")
                         $("#" + report.ReportId()).addClass("selectedReport");
-                        var scr = "/mis/Home/Viewer?id=" + report.ReportId() + "&itemId=" + selectedItemId();
+                     //   var scr = "/mis/Home/Viewer?id=" + report.ReportId() + "&itemId=" + selectedItemId();
                         selectedReportId(report.ReportId());
-                        $("#ReportViewerIframid").attr("src", scr);
+                       // $("#ReportViewerIframid").attr("src", scr);
                         errorList.removeAll();
 
                     },
@@ -227,22 +322,24 @@
 
                     show = function (CategoryId, IsExternal, ItemId, Name, ItemCode, ItemTitle) {
                         reportcategoriesList.removeAll();
+                        ComboValue(undefined);
+                        ParamDateFrom(undefined);
+                        ParamDateTo(undefined);
+                        ParamValue(undefined);
                         selectedItemId(ItemId);
                         selectedReportId(0);
                         selectedItemName(Name);
                         selectedItemCode(ItemCode);
                         selectedItemTitle(ItemTitle);
                         IsExternalReport(IsExternal);
-                        if (IsExternal == true)
-                        {
+                        if (IsExternal == true) {
                             ReportTitle("Print Order Report");
 
                         }
-                        else
-                        {
+                        else {
                             ReportTitle("Report(s)");
                         }
-                        $("#ReportViewerIframid").attr("src", "/mis/Home/Viewer?id=0&itemId=0");
+                        //$("#ReportViewerIframid").attr("src", "/mis/Home/Viewer?id=0&itemId=0");
                         if (CategoryId != undefined && CategoryId != null && CategoryId != 0) {
                             dataservice.getreportcategories({
                                 CategoryId: CategoryId,
@@ -252,8 +349,15 @@
                                 success: function (data) {
 
                                     reportcategoriesList.push(model.ReportCategory(data));
-                                    SelectReportById(model.ReportCategory(data).reports()[0]);
-                                    
+                                    //SelectReportById(model.ReportCategory(data).reports()[0]);
+                                    var report = model.ReportCategory(data).reports()[0];
+                                    $(".dd-handle").removeClass("selectedReport")
+                                    $("#" + report.ReportId()).addClass("selectedReport");
+                                   
+                                    selectedReportId(report.ReportId());
+                                  
+                                    errorList.removeAll();
+
                                 },
                                 error: function (response) {
                                     toastr.error("Failed to Load . Error: " + response);
@@ -274,15 +378,15 @@
                         view.hide();
                     },
                     showEmailView = function () {
-                        
-                       getReportEmailBaseData();
+
+                        getReportEmailBaseData();
                     },
-                    
+
                     downloadPDFReport = function () {
                         if (selectedReportId() > 0) {
                             dataservice.downloadExternalReport({
                                 ReportId: selectedReportId(),
-                                Mode: true                               
+                                Mode: true
                             }, {
                                 success: function (data) {
                                     if (data != null) {
@@ -333,10 +437,9 @@
                         view.hideEmailView();
 
                     },
-                    
+
                     // set order values
-                    SetOrderData = function(oSignedBy,oContactId,oRecordId,oCategoryId,oOrderId,oCriteriaParam)
-                    {
+                    SetOrderData = function (oSignedBy, oContactId, oRecordId, oCategoryId, oOrderId, oCriteriaParam) {
                         //SignedBy: CategoryId,
                         //ContactId: IsExternal,
                         //RecordId: RecordId,
@@ -363,9 +466,9 @@
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
-
+                        ko.applyBindings(view.viewModel, view.bindingRootParam);
                         SelectedEmailReport(new model.EmailFields());
-                       
+
 
                     };
 
@@ -377,16 +480,16 @@
                     OpenReport: OpenReport,
                     OpenExternalReport: OpenExternalReport,
                     selectedItemId: selectedItemId,
-                    IsExternalReport:IsExternalReport,
+                    IsExternalReport: IsExternalReport,
                     selectedReportId: selectedReportId,
                     SelectReportById: SelectReportById,
-                    selectedItemName:selectedItemName,
-                    selectedItemCode :selectedItemCode,
+                    selectedItemName: selectedItemName,
+                    selectedItemCode: selectedItemCode,
                     selectedItemTitle: selectedItemTitle,
                     SetOrderData: SetOrderData,
                     To: To,
                     CC: CC,
-                    Subject: Subject,           
+                    Subject: Subject,
                     errorList: errorList,
                     SelectedEmailReport: SelectedEmailReport,
                     show: show,
@@ -397,7 +500,14 @@
                     hTmlMessageA: hTmlMessageA,
                     droppedEmailSection: droppedEmailSection,
                     ckEditorOpenFrom: ckEditorOpenFrom,
-                    sendEmailReport: sendEmailReport
+                    sendEmailReport: sendEmailReport,
+                    reportParamsList: reportParamsList,
+                    paramComboList: paramComboList,
+                    ComboValue: ComboValue,
+                    ParamDateFrom: ParamDateFrom,
+                    ParamDateTo: ParamDateTo,
+                    ParamValue: ParamValue,
+                    OpenReportForParams: OpenReportForParams
                 };
             })()
         };
