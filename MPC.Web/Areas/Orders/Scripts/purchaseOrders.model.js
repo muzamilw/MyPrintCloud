@@ -425,7 +425,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              freeitems = ko.observable(specifiedfreeitems || 0).extend({ number: true }),
              refItemId = ko.observable(specifiedRefItemId),
              productType = ko.observable(specifiedProductType),
-
                // Errors
                 errors = ko.validation.group({
                     quantity: quantity,

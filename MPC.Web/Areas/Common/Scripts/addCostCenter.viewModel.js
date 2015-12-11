@@ -29,6 +29,7 @@ define("common/addCostCenter.viewModel",
                     isCostCenterDialogForShipping = ko.observable(false),
                     //Is Opened from Section Detail
                     isOpenedFromSectionDetail = ko.observable(false),
+                    currentSection = ko.observable(),
                     // Item Id - To be passed to Execution Api
                     itemId = ko.observable(),
                     // Pagination For Press Dialog
@@ -68,7 +69,7 @@ define("common/addCostCenter.viewModel",
                     },
                     // Show
                     show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency, companyTaxRateParam, costCenterType,
-                    isOpenedFromSection, productId) {
+                    isOpenedFromSection, productId, section) {
                         currencySmb(currency);
                         isAddProductForSectionCostCenter(false);
                         isAddProductFromInventory(false);
@@ -82,6 +83,7 @@ define("common/addCostCenter.viewModel",
                         selectedCompanyId(companyId);
                         costCenterTypeFilter(costCenterType || undefined);
                         isOpenedFromSectionDetail(isOpenedFromSection || false);
+                        currentSection(section);
                         itemId(productId || "");
                         if (isCostCenterDialogForShipping()) {
                             getCostCenters();
@@ -170,7 +172,7 @@ define("common/addCostCenter.viewModel",
                                         isQueueExist = true;
                                         SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, selectedCostCentre().id(), selectedCostCentre().calculationMethodType(),
                                             "", selectedElement, "", 0, currencySmb(), false, companyTaxRate, selectedCostCentre().quantity1(),
-                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, false, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
+                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, false, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId(), "", currentSection());
                                     } else { // process the input queue and prompt for values
                                         isQueueExist = true;
                                         ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
@@ -184,7 +186,7 @@ define("common/addCostCenter.viewModel",
                                         SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, selectedCostCentre().id(), selectedCostCentre().calculationMethodType(),
                                             "", selectedCostCentre().isSelected.domElement, "", 0, currencySmb(),
                                             false, companyTaxRate, selectedCostCentre().quantity1(),
-                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, false, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
+                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, false, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId(), "", currentSection());
                                     } else { // process the input queue and prompt for values
                                         isQueueExist = true;
                                         ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0,

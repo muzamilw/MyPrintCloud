@@ -1584,10 +1584,11 @@ var response3;
 // Set Global Cost Centre Queue
 function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueueItemsList, costCentreId, costCentreType,
     clonedItemId, selectedCostCentreCheckBoxId, desriptionOfQuestion, itemPrice, currencyCode, isPromptAQuestion, taxRate, orderedQty, itemAddOns, costCenter,
-    afterCostCenterExecution, isCalledAfterQuestionPrompt, qty2, qty3, itemSectionId, callMode) {
+    afterCostCenterExecution, isCalledAfterQuestionPrompt, qty2, qty3, itemSectionId, callMode, currentSection) {
 
     var jsonObjectsOfGlobalQueue = null;
     var inputAndQuestionQueues;
+    var paramRequest;
     if (!costCentreQueueItems) {
         inputAndQuestionQueues = {
             QuestionQueues: globalQuestionQueueItemsList,
@@ -1655,7 +1656,12 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
             costCentreQueueItems = JSON.stringify(inputAndQuestionQueues, null, 2);
         }
     }
-
+    //Section added by Naveed to pass one object containing queue and current section
+    paramRequest = {
+        CurrentItemSection: JSON.stringify(currentSection, null, 2),
+        Queues: costCentreQueueItems
+    };
+    //---------------
     var updatedGlobalQueueArray = JSON.parse(costCentreQueueItems);
     var costCentreQueueObjectToSaveInDb = [];
     if (!isCalledAfterQuestionPrompt) {
@@ -1672,7 +1678,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
         qty2 = 0;
     if (qty3 == undefined)
         qty3 = 0;
-    if (callMode == undefined)
+    if (callMode == undefined || callMode == "")
         callMode = "New";
     else {
         callMode = "UpdateAllCostCentreOnQuantityChange";
@@ -1683,7 +1689,8 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
     var options = {
         type: "POST",
         url: to,
-        data: costCentreQueueItems,
+        //data: costCentreQueueItems,
+        data: paramRequest,
         contentType: "application/json",
         async: true,
         success: function (response) {

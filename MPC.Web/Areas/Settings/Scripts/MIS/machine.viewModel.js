@@ -33,6 +33,7 @@ define("machine/machine.viewModel",
                     isGuillotineList = ko.observable(),
                     UpdatedPapperStockID = ko.observable(),
                     MachineName = ko.observable(),
+                    
                    // templateToUse = 'itemMachineTemplate',
                     makeEditable = ko.observable(false),
                     LookupMethodHasChange = ko.observable(false);
@@ -228,6 +229,10 @@ define("machine/machine.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
+                                    lookupMethodViewModel.CurrencySymbol(data.CurrencySymbol);
+                                    lookupMethodViewModel.WeightUnit(data.WeightUnit);
+                                    lookupMethodViewModel.LengthUnit(data.LengthUnit);
+                                    
                                     selectedMachine(model.newMachineClientMapper(data));
                                     selectedMachine().isSheetFed("true");
                                     selectedMachine().IsSpotColor("true");
@@ -346,7 +351,7 @@ define("machine/machine.viewModel",
                         var zone = lookupMethodViewModel.selectedClickChargeZones();
                         var meter = lookupMethodViewModel.oMeterPerHour();
                         var guillotine = lookupMethodViewModel.oGuillotineZone();
-
+                        
 
                         
                         dataservice.saveMachine(
@@ -459,7 +464,7 @@ define("machine/machine.viewModel",
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
 
-                                    
+                                    lookupMethodViewModel.CurrencySymbol(selectedMachine().CurrencySymbol());
                                     $("#isSheetFedRadio").css("display", "none");
                                     
                                     var pagetype = Request.QueryString("type").toString();
@@ -467,10 +472,16 @@ define("machine/machine.viewModel",
                                     if (pagetype != null) {
                                         if (pagetype == 'press') {
                                             if (data.machine.isSheetFed == true) {
-                                                MachineType(0);
-                                                selectedMachine().isSheetFed("true");
-                                                lookupMethodViewModel.CurrencySymbol(selectedMachine().CurrencySymbol());
-                                                lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineClickChargeZones, 1, null);
+                                                if (data.machine.LookupMethod.Type == 5) { // Click Charge Zone applied
+                                                    MachineType(0);
+                                                    selectedMachine().isSheetFed("true");
+                                                    lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineClickChargeZones, 1, null);
+                                                } else { //Speed Weight applied
+                                                    MachineType(4);
+                                                    selectedMachine().isClickChargezone("true");
+                                                    lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineSpeedWeightLookups, 4, null);
+                                                }
+                                                
                                             }
                                             else
                                             {
@@ -565,14 +576,23 @@ define("machine/machine.viewModel",
 
 
                                 if (selectedMachine().isSheetFed() == "true" || selectedMachine().isSheetFed() == true) {
-                                    lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
-                                    lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(false);
+                                    if (selectedMachine().isClickChargezone() == "true" || selectedMachine().isClickChargezone() == true) {
+                                        lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
+                                        lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(false);
+                                        lookupMethodViewModel.isSpeedWeightVisible(false);
+                                    } else {
+                                        lookupMethodViewModel.isClickChargeZonesEditorVisible(false);
+                                        lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(false);
+                                        lookupMethodViewModel.isSpeedWeightVisible(true);
+                                    }
+                                    
 
                                     
                                 }
                                 else {
                                     lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(true);
                                     lookupMethodViewModel.isClickChargeZonesEditorVisible(false);
+                                    lookupMethodViewModel.isSpeedWeightVisible(false);
                                 }
 
 
@@ -581,7 +601,7 @@ define("machine/machine.viewModel",
                                 lookupMethodViewModel.isGuillotineClickChargeEditorVisible(true);
                                 lookupMethodViewModel.isClickChargeZonesEditorVisible(false);
                                 lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(false);
-
+                                lookupMethodViewModel.isSpeedWeightVisible(false);
 
                             }
 

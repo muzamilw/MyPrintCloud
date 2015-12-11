@@ -10,14 +10,19 @@ using System.Web.Http;
 using MPC.Interfaces.Common;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.WebStoreServices;
+using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
 using MPC.WebBase.Mvc;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Interfaces.MISServices;
 using Newtonsoft.Json;
-using MPC.Models.DomainModels;
+using CostCentre = MPC.Models.DomainModels.CostCentre;
+using CostcentreInstruction = MPC.Models.DomainModels.CostcentreInstruction;
+using CostcentreWorkInstructionsChoice = MPC.Models.DomainModels.CostcentreWorkInstructionsChoice;
 using ICompanyService = MPC.Interfaces.MISServices.ICompanyService;
+using Organisation = MPC.Models.DomainModels.Organisation;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -92,7 +97,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Cost Center Execution
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage ExecuteCostCentre(string CostCentreId, string ClonedItemId, string OrderedQuantity, string CallMode, QuestionAndInputQueues Queues, string qty2, string qty3, string itemSectionId)
+        public HttpResponseMessage ExecuteCostCentre(string CostCentreId, string ClonedItemId, string OrderedQuantity, string CallMode, CostCenterExecutionParamRequest paramRequest, string qty2, string qty3, string itemSectionId)
         {
             double dblResult1 = 0;
             double dblResult2 = 0;
@@ -102,8 +107,15 @@ namespace MPC.MIS.Areas.Api.Controllers
             object[] _CostCentreParamsArray = new object[12];
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
-
-            dblResult1 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, CallMode, Queues, ref _CostCentreParamsArray, itemSectionId);
+            QuestionAndInputQueues Queues = paramRequest != null && paramRequest.Queues != null
+                ? paramRequest.Queues
+                : null;
+            ItemSection section = paramRequest != null && paramRequest.CurrentItemSection != null
+                ? paramRequest.CurrentItemSection
+                : null;
+                
+            _CostCentreParamsArray[5] = 1;
+            dblResult1 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, CallMode, Queues, ref _CostCentreParamsArray, itemSectionId, section);
             oResult.TotalPrice = dblResult1;
 
             if (Queues != null)
@@ -111,13 +123,13 @@ namespace MPC.MIS.Areas.Api.Controllers
                 if (Convert.ToInt32(qty2) > 0)
                 {
                     OrderedQuantity = qty2;
-                    dblResult2 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, "UpdateAllCostCentreOnQuantityChange", Queues, ref _CostCentreParamsArray, itemSectionId);
+                    dblResult2 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, "UpdateAllCostCentreOnQuantityChange", Queues, ref _CostCentreParamsArray, itemSectionId, section);
                     oResult.TotalPriceQty2 = dblResult2;
                 }
                 if (Convert.ToInt32(qty3) > 0)
                 {
                     OrderedQuantity = qty3;
-                    dblResult3 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, "UpdateAllCostCentreOnQuantityChange", Queues, ref _CostCentreParamsArray, itemSectionId);
+                    dblResult3 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, "UpdateAllCostCentreOnQuantityChange", Queues, ref _CostCentreParamsArray, itemSectionId, section);
                     oResult.TotalPriceQty3 = dblResult3;
                 }
             }
@@ -414,19 +426,19 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
 
-        private double GetCostCenterPrice(string CostCentreId, string ClonedItemId, string OrderedQuantity, string CallMode, QuestionAndInputQueues Queues, ref object[] _CostCentreParamsArray, string itemSectionId)
+        private double GetCostCenterPrice(string CostCentreId, string ClonedItemId, string OrderedQuantity, string CallMode, QuestionAndInputQueues Queues, ref object[] _CostCentreParamsArray, string itemSectionId, ItemSection section)
         {
             double dblPrice = 0;
             if (CallMode == "" && Queues == null && Convert.ToInt32(itemSectionId) > 0)
             {
                 if (!string.IsNullOrEmpty(itemSectionId) && Convert.ToInt32(itemSectionId) > 0)
                 {
-                    var section = _itemSectionService.GetItemSectionById(Convert.ToInt64(itemSectionId));
-                    if (section != null)
+                    var oSection = section.CreateFrom(); //_itemSectionService.GetItemSectionById(Convert.ToInt64(itemSectionId));
+                    if (oSection != null)
                     {
-                        section.Qty1 = Convert.ToInt32(OrderedQuantity);
+                        oSection.Qty1 = Convert.ToInt32(OrderedQuantity);
                     }
-                    _CostCentreParamsArray[8] = section;
+                    _CostCentreParamsArray[8] = oSection;
                 }
             }
             if ((CallMode == "UpdateAllCostCentreOnQuantityChange" && Queues != null) || CallMode != "UpdateAllCostCentreOnQuantityChange")
@@ -567,7 +579,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                     //CostCentreQueue
                     _CostCentreParamsArray[4] = 1;
 
-                    _CostCentreParamsArray[5] = 1;
+                   // _CostCentreParamsArray[5] = 1;
                     //MultipleQuantities
 
 
@@ -580,12 +592,12 @@ namespace MPC.MIS.Areas.Api.Controllers
                     //InputQueue
                     if (!string.IsNullOrEmpty(itemSectionId))
                     {
-                        var section = _itemSectionService.GetItemSectionById(Convert.ToInt64(itemSectionId));
+                        //_itemSectionService.GetItemSectionById(Convert.ToInt64(itemSectionId));
                         if (section != null)
                         {
                             section.Qty1 = Convert.ToInt32(OrderedQuantity);
                         }
-                        _CostCentreParamsArray[8] = section;
+                        _CostCentreParamsArray[8] = section != null ? section.CreateFrom() : null;
                     }
                     //if (!string.IsNullOrEmpty(ClonedItemId))
                     //{

@@ -127,7 +127,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Passes = source.Passes,
                 IsSpotColor = source.IsSpotColor,
                 MachineInkCoverages = source.MachineInkCoverages == null ? null : source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList(),
-                LookupMethod = source.MachineInkCoverages == null ? null : source.LookupMethod.CreateFrom(),
+                LookupMethod = source.LookupMethod == null ? null : source.LookupMethod.CreateFrom(),
             };
         }
 
