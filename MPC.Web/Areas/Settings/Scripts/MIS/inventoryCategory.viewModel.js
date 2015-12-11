@@ -73,7 +73,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to Delete . Error: " + response);
+                                toastr.error("Failed to Delete . Alert: " + response);
                             }
                         });
                     },
@@ -185,6 +185,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                                 selectedStockSubCategory(undefined);
                                 if (data != null) {
                                     selectedStockCategory(model.InventoryCategory.Create(data.StockCategories[0]));
+                                    selectedStockCategory().reset();
                                 }
                                 isLoadingStockCategories(false);
                             },

@@ -618,7 +618,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
-                        selectedPurchaseOrderDetail().itemCode(stockItem.code);
+                        selectedPurchaseOrderDetail().itemCode(stockItem.supplierCode);
                         selectedPurchaseOrderDetail().serviceDetail(stockItem.name);
                         selectedPurchaseOrderDetail().packqty(stockItem.packageQty);
                         selectedPurchaseOrderDetail().refItemId(stockItem.id);
@@ -643,7 +643,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 view.initializeLabelPopovers();
                             }
                         } else {
-                            toastr.error("Please select customer");
+                            toastr.error("Please select supplier");
                         }
                     },
                     // add To List
