@@ -56,7 +56,7 @@ namespace MPC.Webstore.Controllers
 
 
 
-            return PartialView("PartialViews/Header", model);
+            return PartialView("PartialViews/EzyHeader", model);
         }
     }
 }
