@@ -1594,12 +1594,14 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
             QuestionQueues: globalQuestionQueueItemsList,
             InputQueues: globalInputQueueItemsList
         };
-        jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
-        costCentreQueueItems = jsonObjectsOfGlobalQueue;
+        //jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
+        //costCentreQueueItems = jsonObjectsOfGlobalQueue;
+        costCentreQueueItems = inputAndQuestionQueues;
 
     } else {
         var isUpdated = false;
-        inputAndQuestionQueues = JSON.parse(costCentreQueueItems);
+        // inputAndQuestionQueues = JSON.parse(costCentreQueueItems);
+        inputAndQuestionQueues = costCentreQueueItems;
         if (inputAndQuestionQueues.InputQueues == null) {
             inputAndQuestionQueues.InputQueues = [];
             if (globalInputQueueItemsList) {
@@ -1652,17 +1654,20 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
             }
         }
 
-        if (inputAndQuestionQueues) {
-            costCentreQueueItems = JSON.stringify(inputAndQuestionQueues, null, 2);
-        }
+        //if (inputAndQuestionQueues) {
+        //    costCentreQueueItems = JSON.stringify(inputAndQuestionQueues, null, 2);
+        //}
     }
     //Section added by Naveed to pass one object containing queue and current section
     paramRequest = {
-        CurrentItemSection: JSON.stringify(currentSection, null, 2),
+        CurrentItemSection: currentSection,
         Queues: costCentreQueueItems
     };
+    if (paramRequest) {
+        paramRequest = JSON.stringify(paramRequest, null, 2);
+    }
     //---------------
-    var updatedGlobalQueueArray = JSON.parse(costCentreQueueItems);
+    var updatedGlobalQueueArray = JSON.parse(JSON.stringify(costCentreQueueItems, null, 2));
     var costCentreQueueObjectToSaveInDb = [];
     if (!isCalledAfterQuestionPrompt) {
         globalAfterCostCenterExecution = afterCostCenterExecution;
@@ -1689,8 +1694,8 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
     var options = {
         type: "POST",
         url: to,
-        //data: costCentreQueueItems,
         data: paramRequest,
+        //data: costCentreQueueItems,
         contentType: "application/json",
         async: true,
         success: function (response) {

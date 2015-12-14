@@ -88,6 +88,7 @@ define("invoice/invoice.viewModel",
                       counterForSection = -1000,
                       //Is Estimate Screen
                     isEstimateScreen = ko.observable(false),
+                    saveFrom = ko.observable(),
                     // Active Order
                     selectedInvoice = ko.observable(),
                     selectedInvoiceForListView = ko.observable(),
@@ -502,7 +503,7 @@ define("invoice/invoice.viewModel",
                 // Open Item Detail
                 openItemDetail = function () {
                     isItemDetailVisible(true);
-                    itemDetailVm.showItemDetail(selectedProduct(), selectedInvoice(), closeItemDetail, isEstimateScreen());
+                    itemDetailVm.showItemDetail(selectedProduct(), selectedInvoice(), closeItemDetail, isEstimateScreen(), null, saveFrom);
                     view.initializeLabelPopovers();
                 },
                 // Edit Section
