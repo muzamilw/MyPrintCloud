@@ -102,10 +102,67 @@ namespace MPC.Implementation.MISServices
 
         public bool Delete(int stockCategoryId)
         {
-            var stockCategoryToBeDeleted = GetStockCategoryById(stockCategoryId);
-            if (stockCategoryToBeDeleted.StockItems.Where(c => c.isDisabled != true).ToList().Count > 0)
+            long CategoyId = 0;
+            long SubCategoryId = 0;
+
+            List<StockCategory> GetTopStockCat = stockCategoryRepository.getStockCatByOrgid();
+
+            StockCategory Category = GetTopStockCat.Where(c => c.StockSubCategories.Count > 0).FirstOrDefault();
+            if(Category != null)
             {
-                throw new Exception (" It is Being used In Stock Items! ");
+                CategoyId = Category.CategoryId;
+                if(Category.StockSubCategories != null && Category.StockSubCategories.Count > 0)
+                {
+                    SubCategoryId = Category.StockSubCategories.Select(c => c.SubCategoryId).FirstOrDefault();
+                }
+               
+            }
+            else
+            {
+
+                StockCategory stockCat = stockCategoryRepository.getDefaulStockCat().Where(c => c.StockSubCategories.Count > 0).FirstOrDefault();
+                if(stockCat != null)
+                {
+                    CategoyId = stockCat.CategoryId;
+                    if(stockCat.StockSubCategories != null && stockCat.StockSubCategories.Count > 0)
+                    {
+                        SubCategoryId = stockCat.StockSubCategories.Select(c => c.SubCategoryId).FirstOrDefault();
+                    }
+                }
+                
+            }
+
+            var stockCategoryToBeDeleted = GetStockCategoryById(stockCategoryId);
+            List<StockItem> stocks = stockCategoryToBeDeleted.StockItems.ToList();
+            if(stocks != null && stocks.Count > 0)
+            {
+                foreach(var stock in stocks)
+                {
+                    if (stock.isDisabled != true)
+                    {
+                        throw new Exception(" It is Being used In Stock Items! ");
+                    }
+                    else
+                    {
+                        stock.CategoryId = CategoyId;
+                        stock.SubCategoryId = SubCategoryId;
+                        stockCategoryRepository.UpdateStockItemForCatDeleteion(stock.StockItemId, CategoyId, SubCategoryId);
+                    }
+                }
+            }
+            //if (stockCategoryToBeDeleted.StockItems.Where(c => c.isDisabled != true).ToList().Count > 0)
+            //{
+            //    throw new Exception (" It is Being used In Stock Items! ");
+            //}
+            List<StockSubCategory> subCat = stockCategoryRepository.getStockSubCategoryByCategoryId(stockCategoryId);
+
+            if(subCat != null && subCat.Count > 0)
+            {
+                foreach(var sc in subCat)
+                {
+                    stockSubCategoryRepository.Delete(sc);
+                }
+                
             }
             stockCategoryRepository.Delete(GetStockCategoryById(stockCategoryId));
             stockCategoryRepository.SaveChanges();
@@ -114,6 +171,7 @@ namespace MPC.Implementation.MISServices
 
         public StockCategory GetStockCategoryById(int id)
         {
+
             return stockCategoryRepository.Find(id);
         }
 
