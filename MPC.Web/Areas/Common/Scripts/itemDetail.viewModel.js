@@ -1869,12 +1869,12 @@ define("common/itemDetail.viewModel",
                     // Add Pre Press Cost Center
                     onAddPrePressCostCenter = function () {
                         prePressOrPostPress(1);
-                        onItemSectionUpdate(showPrePressCostCenters);
-                        //showPrePressCostCenters();
+                       // onItemSectionUpdate(showPrePressCostCenters);
+                        showPrePressCostCenters();
                     },
                     showPrePressCostCenters = function() {
                         addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress, true,
-                            selectedProduct().id());
+                            selectedProduct().id(), selectedSection().convertToServerData());
                     },
                     openJobCardsTab = function() {
                         $("#sectionTabTabs a[href=#tab-jobs]").tab('show');
@@ -1882,7 +1882,8 @@ define("common/itemDetail.viewModel",
                     // Add Post Press Cost Center
                     onAddPostPressCostCenter = function () {
                         prePressOrPostPress(2);
-                        onItemSectionUpdate(showPostPressCostCenter);
+                        //onItemSectionUpdate(showPostPressCostCenter);
+                        showPostPressCostCenter();
                     },
                     showPostPressCostCenter = function() {
                         addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress, true,
@@ -2149,7 +2150,6 @@ define("common/itemDetail.viewModel",
                     onCloseSectionCostCenter: onCloseSectionCostCenter,
                     onItemSectionUpdate: onItemSectionUpdate,
                     updateCostCentersOnQtyChange: updateCostCentersOnQtyChange
-                    
                     //#endregion
                 };
             })()

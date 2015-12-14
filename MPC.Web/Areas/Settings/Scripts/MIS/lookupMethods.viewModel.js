@@ -23,10 +23,10 @@
                     lookupMeterPerHourClickChargeList = ko.observableArray([]),
                     CurrencySymbol = ko.observable(),
                     WeightUnit = ko.observable(),
-            LengthUnit = ko.observable(),
+                    LengthUnit = ko.observable(),
                     selectedlookup = ko.observable(),
                     selectedClickCharge = ko.observable(),
-                    selectedSpeedWeight = ko.observable(),
+                    selectedSpeedWeight = ko.observable(model.SpeedWeightLookup()),
                     selectedPerHour = ko.observable(),
                     selectedClickChargeZones = ko.observable(model.ClickChargeZone()),
                     selectedGuillotineClickCharge = ko.observable(model.GuillotineCalc()),
@@ -38,6 +38,7 @@
                     isGuillotineClickChargeEditorVisible = ko.observable(),
                     isMeterPerHourClickChargeEditorVisible = ko.observable(),
                     IsSelected = ko.observable(),
+                    isSpeedWeightVisible = ko.observable(false),
                     hasChanges = ko.computed(function () {
                         //if (selectedClickChargeZones() != undefined) {
                         //    if (ist.machine != null)
@@ -599,6 +600,13 @@
 
                         
                     }
+                    else if (MachineType == 4) {//  Type for Speed Weight Calculation
+                        
+                        selectedSpeedWeight(model.SpeedWeightLookup(lookup[0]));
+                        sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
+
+
+                    }
                 },
 
                 oncloseEditor = function (olookup, MachineType) {
@@ -824,6 +832,7 @@
                     oMeterPerHour: oMeterPerHour,
                     WeightUnit : WeightUnit,
                     LengthUnit: LengthUnit,
+                    isSpeedWeightVisible: isSpeedWeightVisible,
                    hasChanges: hasChanges
                 }
             })()

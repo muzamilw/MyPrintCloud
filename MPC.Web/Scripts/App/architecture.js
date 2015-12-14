@@ -10,6 +10,7 @@ var ist = {
     minutePattern: "mm",
     dateTimePattern: "DD/MM/YY HH:mm",
     dateTimeWithSecondsPattern: "DD/MM/YY HH:mm:ss",
+    dateTimeWithSeconds: "YYYY-MM-DD HH:mm:ss",
     // UTC Date Format
     utcFormat: "YYYY-MM-DDTHH:mm:ss",
     // For Reporting 
@@ -1583,21 +1584,24 @@ var response3;
 // Set Global Cost Centre Queue
 function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueueItemsList, costCentreId, costCentreType,
     clonedItemId, selectedCostCentreCheckBoxId, desriptionOfQuestion, itemPrice, currencyCode, isPromptAQuestion, taxRate, orderedQty, itemAddOns, costCenter,
-    afterCostCenterExecution, isCalledAfterQuestionPrompt, qty2, qty3, itemSectionId, callMode) {
+    afterCostCenterExecution, isCalledAfterQuestionPrompt, qty2, qty3, itemSectionId, callMode, currentSection) {
 
     var jsonObjectsOfGlobalQueue = null;
     var inputAndQuestionQueues;
+    var paramRequest;
     if (!costCentreQueueItems) {
         inputAndQuestionQueues = {
             QuestionQueues: globalQuestionQueueItemsList,
             InputQueues: globalInputQueueItemsList
         };
-        jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
-        costCentreQueueItems = jsonObjectsOfGlobalQueue;
+        //jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
+        //costCentreQueueItems = jsonObjectsOfGlobalQueue;
+        costCentreQueueItems = inputAndQuestionQueues;
 
     } else {
         var isUpdated = false;
-        inputAndQuestionQueues = JSON.parse(costCentreQueueItems);
+        // inputAndQuestionQueues = JSON.parse(costCentreQueueItems);
+        inputAndQuestionQueues = costCentreQueueItems;
         if (inputAndQuestionQueues.InputQueues == null) {
             inputAndQuestionQueues.InputQueues = [];
             if (globalInputQueueItemsList) {
@@ -1650,12 +1654,20 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
             }
         }
 
-        if (inputAndQuestionQueues) {
-            costCentreQueueItems = JSON.stringify(inputAndQuestionQueues, null, 2);
-        }
+        //if (inputAndQuestionQueues) {
+        //    costCentreQueueItems = JSON.stringify(inputAndQuestionQueues, null, 2);
+        //}
     }
-
-    var updatedGlobalQueueArray = JSON.parse(costCentreQueueItems);
+    //Section added by Naveed to pass one object containing queue and current section
+    paramRequest = {
+        CurrentItemSection: currentSection,
+        Queues: costCentreQueueItems
+    };
+    if (paramRequest) {
+        paramRequest = JSON.stringify(paramRequest, null, 2);
+    }
+    //---------------
+    var updatedGlobalQueueArray = JSON.parse(JSON.stringify(costCentreQueueItems, null, 2));
     var costCentreQueueObjectToSaveInDb = [];
     if (!isCalledAfterQuestionPrompt) {
         globalAfterCostCenterExecution = afterCostCenterExecution;
@@ -1671,7 +1683,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
         qty2 = 0;
     if (qty3 == undefined)
         qty3 = 0;
-    if (callMode == undefined)
+    if (callMode == undefined || callMode == "")
         callMode = "New";
     else {
         callMode = "UpdateAllCostCentreOnQuantityChange";
@@ -1682,7 +1694,8 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
     var options = {
         type: "POST",
         url: to,
-        data: costCentreQueueItems,
+        data: paramRequest,
+        //data: costCentreQueueItems,
         contentType: "application/json",
         async: true,
         success: function (response) {

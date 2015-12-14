@@ -68,12 +68,17 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
+                                    isStockCategoryEditorVisible(false);
                                     stockCategories.remove(selectedStockCategory());
                                     toastr.success(" Deleted Successfully !");
+                                    getStockCategories();
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    }
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to Delete . Error: " + response);
+                                toastr.error("Failed to Delete . Alert: " + response);
                             }
                         });
                     },
@@ -185,6 +190,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                                 selectedStockSubCategory(undefined);
                                 if (data != null) {
                                     selectedStockCategory(model.InventoryCategory.Create(data.StockCategories[0]));
+                                    selectedStockCategory().reset();
                                 }
                                 isLoadingStockCategories(false);
                             },

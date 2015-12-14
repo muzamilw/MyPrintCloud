@@ -67,7 +67,9 @@
                 deliveryNPrefix: deliveryNPrefix,
                 deliveryNNext: deliveryNNext,
                 grnPrefix: grnPrefix,
-                grnNext: grnNext
+                grnNext: grnNext,
+                poPrefix: poPrefix,
+                poNext: poNext
             }),
             isValid = ko.computed(function() {
                 return errors().length === 0 ? true : false;;
@@ -90,7 +92,9 @@
                 deliveryNPrefix: deliveryNPrefix,
                 deliveryNNext: deliveryNNext,
                 grnPrefix: grnPrefix,
-                grnNext: grnNext
+                grnNext: grnNext,
+                poPrefix: poPrefix,
+                poNext: poNext
             }),
             hasChanges = ko.computed(function() {
                 return dirtyFlag.isDirty();

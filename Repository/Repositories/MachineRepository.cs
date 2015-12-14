@@ -155,18 +155,12 @@ namespace MPC.Repository.Repositories
 
         public MachineResponseModel GetMachineByID(long MachineID)
         {
-            Machine omachine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault();
-           
+            Machine omachine = DbSet.FirstOrDefault(g => g.MachineId == MachineID);
+           List<MachineGuilotinePtv> optv = new List<MachineGuilotinePtv>();
             
-           List<MachineGuilotinePtv> optv = db.MachineGuilotinePtvs.Where(c => c.GuilotineId == omachine.MachineId).ToList();
-
-           
-            
-           
-            bool IsGuillotine = false;
-            if (omachine.MachineCatId == 4)
+            if (omachine != null && omachine.MachineCatId == 4)
             {
-                IsGuillotine = true;
+                 optv = db.MachineGuilotinePtvs.Where(c => c.GuilotineId == omachine.MachineId).ToList();
             }
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
             return new MachineResponseModel

@@ -599,6 +599,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactResponseForCalendar.cs" />
     <Compile Include="Areas\Api\Models\CompanyVariableIconeDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\ContactResponseForOrder.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterExecutionParamRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />

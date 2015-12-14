@@ -23,7 +23,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              completiondateTimeCalculation = ko.observable(specifiedJobEstimatedCompletionDateTime),
               // Job Estimated Start Date Time
                 jobEstimatedStartDateTime = ko.observable(specifiedJobEstimatedStartDateTime ? moment(specifiedJobEstimatedStartDateTime).toDate() : undefined),
-             jobEstimatedCompletionDateTime = ko.observable((specifiedJobEstimatedCompletionDateTime !== null && specifiedJobEstimatedCompletionDateTime !== undefined) ? moment(specifiedJobEstimatedCompletionDateTime, ist.datePattern).toDate() : undefined),
+             //jobEstimatedCompletionDateTime = ko.observable((specifiedJobEstimatedCompletionDateTime !== null && specifiedJobEstimatedCompletionDateTime !== undefined) ? moment(specifiedJobEstimatedCompletionDateTime, ist.datePattern).toDate() : undefined),
+             jobEstimatedCompletionDateTime = ko.observable((specifiedJobEstimatedCompletionDateTime !== null && specifiedJobEstimatedCompletionDateTime !== undefined) ? moment(specifiedJobEstimatedCompletionDateTime).toDate() : undefined),
              qty1NetTotal = ko.observable(specifiedQty1NetTotal),
              convertToServerData = function () {
                  return {

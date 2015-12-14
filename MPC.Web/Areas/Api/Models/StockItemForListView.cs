@@ -146,5 +146,6 @@ namespace MPC.MIS.Areas.Api.Models
         }
 
         public double CostPrice { get; set; }
+        public string SupplierCode { get; set; }
     }
 }

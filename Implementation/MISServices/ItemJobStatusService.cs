@@ -60,9 +60,10 @@ namespace MPC.Implementation.MISServices
                         {
                             EstimateId = item.EstimateId,
                             ItemId = item.ItemId,
-                            ItemCode = item.ItemCode,
+                            ItemCode = item.JobCode,
                             OrderCode = estimate.Order_Code,
-                            CompanyName = item.Company != null ? item.Company.Name : string.Empty,
+                            //CompanyName = item.Company != null ? item.Company.Name : string.Empty,
+                            CompanyName = estimate.Company != null ? estimate.Company.Name : string.Empty,
                             ProductName = item.ProductName,
                             Qty1 = item.Qty1,
                             StatusId = item.JobStatusId,

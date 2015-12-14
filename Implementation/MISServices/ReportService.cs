@@ -61,7 +61,7 @@ namespace MPC.Implementation.MISServices
         {
             return _IReportRepository.GetReportCategories();
         }
-        public SectionReport GetReport(int iReportID, long itemid)
+        public SectionReport GetReport(int iReportID, long itemid, int ComboValue, string DateFrom, string DateTo, string ParamTextBoxValue)
         {
             //, long iRecordID, ReportType type, long OrderID
             string sFilePath = string.Empty;
@@ -119,7 +119,44 @@ namespace MPC.Implementation.MISServices
                     }
                     else
                     {
-                        currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(iReportID, "");
+                        List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(iReportID);
+
+                        string CriteriaField = string.Empty;
+                      
+                        if (reportParams != null && reportParams.Count > 0)
+                        {
+                            foreach (var param in reportParams)
+                            {
+                                if (param.ControlType == 1)// means drop down
+                                {
+                                    CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                }
+                                else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges
+                                {
+                                    
+
+                                    if(!string.IsNullOrEmpty(DateFrom) && !string.IsNullOrEmpty(DateTo))
+                                    {
+                                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + DateFrom + "' and '" + DateTo + "'";
+                                    }
+                                   
+
+                                }
+                                else if (param.ControlType == 3)// means textbox value
+                                {
+                                    if(!string.IsNullOrEmpty(ParamTextBoxValue))
+                                    {
+                                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " like '%" + ParamTextBoxValue + "%'";
+                                    }
+
+                                    
+
+                                }
+                            }
+                        }
+
+                       
+                        currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaField);
                     }
 
                     //currReport.Document.pr
@@ -328,13 +365,57 @@ namespace MPC.Implementation.MISServices
             //if(type == ReportType.Internal)
             //    type
 
-          string Path =  ExportReportHelper.ExportPDF((int)request.Reportid, request.RecordId, request.ReportType, request.OrderId, request.CriteriaParam);
-            string[] stringSeparators = new string[] {"MPC_Content"};
-            string[] SplitPath = Path.Split(stringSeparators, StringSplitOptions.None);
+            if (request != null)
+            {
+                List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(request.Reportid);
 
-            string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/mis/mpc_content/" + SplitPath[1];
-          //  return ReportRepository.GetReportEmailBaseData(request, PathFull);
-            return PathFull;
+                string CriteriaField = string.Empty;
+
+                if (reportParams != null && reportParams.Count > 0)
+                {
+                    foreach (var param in reportParams)
+                    {
+                        if (param.ControlType == 1)// means drop down
+                        {
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + request.ComboValue + " ";
+                        }
+                        else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges
+                        {
+
+
+                            if (!string.IsNullOrEmpty(request.DateFrom) && !string.IsNullOrEmpty(request.DateTo))
+                            {
+                                CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + request.DateFrom + "' and '" + request.DateTo + "'";
+                            }
+
+
+                        }
+                        else if (param.ControlType == 3)// means textbox value
+                        {
+                            if(!string.IsNullOrEmpty(request.ParamValue))
+                            {
+                                CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " like '%" + request.ParamValue + "%'";
+                            }
+
+                           
+
+                        }
+                    }
+                }
+
+
+
+                string Path = ExportReportHelper.ExportPDF((int)request.Reportid, request.RecordId, request.ReportType, request.OrderId, CriteriaField);
+                string[] stringSeparators = new string[] { "MPC_Content" };
+                string[] SplitPath = Path.Split(stringSeparators, StringSplitOptions.None);
+
+                string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/mis/mpc_content/" + SplitPath[1];
+                //  return ReportRepository.GetReportEmailBaseData(request, PathFull);
+                return PathFull;
+            }
+            else
+                return string.Empty;
+            
 
         }
         public void SendEmail(string EmailTo,string EmailCC, string EmailSubject, string Signature, long ContactId,Guid SystemUserId,string Path)
@@ -389,86 +470,86 @@ namespace MPC.Implementation.MISServices
             return Path;
         }
 
-        public SectionReport GetReportByParams(long ReportId,long ComboValue, string DateFrom, string DateTo, string ParamValue)
-        {
-            //, long iRecordID, ReportType type, long OrderID
-            string sFilePath = string.Empty;
-            try
-            {
-                long OrganisationID = 0;
-                Organisation org = organisationRepository.GetOrganizatiobByID();
-                if (org != null)
-                {
-                    OrganisationID = org.OrganisationId;
-                }
-                Report currentReport = ReportRepository.GetReportByReportID(ReportId);
+        //public SectionReport GetReportByParams(long ReportId,long ComboValue, string DateFrom, string DateTo, string ParamValue)
+        //{
+        //    //, long iRecordID, ReportType type, long OrderID
+        //    string sFilePath = string.Empty;
+        //    try
+        //    {
+        //        long OrganisationID = 0;
+        //        Organisation org = organisationRepository.GetOrganizatiobByID();
+        //        if (org != null)
+        //        {
+        //            OrganisationID = org.OrganisationId;
+        //        }
+        //        Report currentReport = ReportRepository.GetReportByReportID(ReportId);
 
-                SectionReport currReport = new SectionReport();
+        //        SectionReport currReport = new SectionReport();
 
-                if (currentReport.ReportId > 0)
-                {
-                    byte[] rptBytes = null;
-                    rptBytes = System.Text.Encoding.Unicode.GetBytes(currentReport.ReportTemplate);
+        //        if (currentReport.ReportId > 0)
+        //        {
+        //            byte[] rptBytes = null;
+        //            rptBytes = System.Text.Encoding.Unicode.GetBytes(currentReport.ReportTemplate);
 
-                    System.IO.MemoryStream ms = new System.IO.MemoryStream(rptBytes);
+        //            System.IO.MemoryStream ms = new System.IO.MemoryStream(rptBytes);
 
-                    ms.Position = 0;
+        //            ms.Position = 0;
 
 
-                    currReport.LoadLayout(ms);
+        //            currReport.LoadLayout(ms);
 
-                    List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(ReportId);
+        //            List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(ReportId);
 
-                    string CriteriaField = string.Empty;
-                    CriteriaField = " and ";
-                    if(reportParams != null && reportParams.Count > 0)
-                    {
-                        foreach(var param in reportParams)
-                        {
-                            if (param.ControlType == 1)// means drop down
-                            {
-                                CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + ComboValue;
-                            }
-                            else if(param.ControlType == 2)// means date ranges
-                            {
+        //            string CriteriaField = string.Empty;
+        //            CriteriaField = " and ";
+        //            if(reportParams != null && reportParams.Count > 0)
+        //            {
+        //                foreach(var param in reportParams)
+        //                {
+        //                    if (param.ControlType == 1)// means drop down
+        //                    {
+        //                        CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + ComboValue;
+        //                    }
+        //                    else if(param.ControlType == 2)// means date ranges
+        //                    {
 
-                                CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + DateFrom;
+        //                        CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + DateFrom;
                             
-                            }
-                            else if (param.ControlType == 2)// means date ranges
-                            {
+        //                    }
+        //                    else if (param.ControlType == 2)// means date ranges
+        //                    {
 
-                                CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + DateFrom;
+        //                        CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + DateFrom;
 
-                            }
-                            else if (param.ControlType == 3)// means textbox value
-                            {
+        //                    }
+        //                    else if (param.ControlType == 3)// means textbox value
+        //                    {
 
-                                CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + ParamValue;
+        //                        CriteriaField = CriteriaField + param.ComboIDFieldName + " = " + ParamValue;
 
-                            }
-                        }
-                    }
+        //                    }
+        //                }
+        //            }
 
-                    currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(ReportId, CriteriaField);
+        //            currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(ReportId, CriteriaField);
                   
 
-                    //currReport.Document.pr
-                    //DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
-                    //currReport.DataSource = dataSourceList;
+        //            //currReport.Document.pr
+        //            //DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+        //            //currReport.DataSource = dataSourceList;
 
-                    // List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, 0);
-
-
+        //            // List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, 0);
 
 
-                }
-                return currReport;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+
+
+        //        }
+        //        return currReport;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //}
     }
 }

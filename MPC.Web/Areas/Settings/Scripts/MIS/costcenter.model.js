@@ -190,6 +190,7 @@
             isTimeVariable: isTimeVariable,
             isDisabled: isDisabled,
             timeQuestionDefaultValue: timeQuestionDefaultValue,
+            timeVariableId : timeVariableId,
             //isTimePrompt: isTimePrompt
             isQtyVariable: isQtyVariable
             //isQtyPrompt: isQtyPrompt

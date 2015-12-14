@@ -207,7 +207,7 @@ define("order/order.viewModel",
                     inquiryDetailItemCounter = -1,
                     isNewinquiryDetailItem = ko.observable(false),
                     isCopyiedEstimate = ko.observable(false),
-                    saveFrom = ko.observable();
+                    saveFrom = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Select Estimate Phrase Container

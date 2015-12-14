@@ -91,8 +91,16 @@ namespace MPC.Repository.Repositories
                 // for drop down
                 if (item.ControlType == 1)
                 {
-
-                    string queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName;
+                    string queryString = string.Empty;
+                    if(Id == 519) // stock report hard code id because of organisation id check
+                    {
+                        queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName + " " + OrganisationId;
+                    }
+                    else
+                    {
+                        queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName;
+                    }
+                   
 
                     SqlCommand command = new SqlCommand(queryString, oConn);
                     SqlDataReader reader = command.ExecuteReader();
@@ -106,8 +114,8 @@ namespace MPC.Repository.Repositories
 
                     if (columns.Contains("CompanyId")) // company records
                     {
-                        DataColumn colId = dtrpt.Columns["YourColumnName"];
-                        DataColumn colName = dtrpt.Columns["YourColumnName"];
+                        DataColumn colId = dtrpt.Columns["CompanyId"];
+                        DataColumn colName = dtrpt.Columns["Name"];
 
                         reportpar.ComboList = new List<ReportparamComboCollection>();
 
@@ -126,6 +134,24 @@ namespace MPC.Repository.Repositories
                     {
                         DataColumn colId = dtrpt.Columns["StatusId"];
                         DataColumn colName = dtrpt.Columns["StatusName"];
+
+                        reportpar.ComboList = new List<ReportparamComboCollection>();
+
+                        foreach (DataRow row in dtrpt.Rows) // Loop over the rows.
+                        {
+                            ReportparamComboCollection objCombo = new ReportparamComboCollection();
+
+                            objCombo.ComboId = row[colId].ToString();
+
+                            objCombo.ComboText = row[colName].ToString();
+
+                            reportpar.ComboList.Add(objCombo);
+                        }
+                    }
+                    if (columns.Contains("CategoryId")) // company records
+                    {
+                        DataColumn colId = dtrpt.Columns["CategoryId"];
+                        DataColumn colName = dtrpt.Columns["Name"];
 
                         reportpar.ComboList = new List<ReportparamComboCollection>();
 
@@ -307,7 +333,7 @@ namespace MPC.Repository.Repositories
                         //    CriteriaParam = CriteriaParam.Replace("where", " and ");
                         //}
 
-                        string queryString = "select " + report.ReportDataSource + "OrganisationId = " + OrganisationId +  CriteriaParam;
+                        string queryString = "select " + report.ReportDataSource + OrganisationId +  CriteriaParam;
 
                         SqlCommand command = new SqlCommand(queryString, oConn);
                         SqlDataReader reader = command.ExecuteReader();
