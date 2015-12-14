@@ -54,7 +54,12 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(stockCategory => stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId == 0).ToList();
         }
-
+        public List<StockCategory> getDefaulStockCat()
+        {
+            db.Configuration.LazyLoadingEnabled = true;
+            db.Configuration.ProxyCreationEnabled = true;
+            return db.StockCategories.Where(c => c.OrganisationId == 0).ToList();
+        }
         /// <summary>
         /// Get Stock Categories For Inventory
         /// </summary>
@@ -142,6 +147,37 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
+        }
+
+        public List<StockCategory> getStockCatByOrgid()
+        {
+            db.Configuration.LazyLoadingEnabled = true;
+            db.Configuration.ProxyCreationEnabled = true;
+            return db.StockCategories.Where(c => c.OrganisationId == OrganisationId).ToList();
+        }
+
+        public void UpdateStockItemForCatDeleteion(long StockId,long CategoryId,long SubCategoryId)
+        {
+            try
+            {
+                StockItem stockItems = db.StockItems.Where(c => c.StockItemId == StockId).FirstOrDefault();
+                if(stockItems != null)
+                {
+                    stockItems.CategoryId = CategoryId;
+                    stockItems.SubCategoryId = SubCategoryId;
+
+                    db.SaveChanges();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<StockSubCategory> getStockSubCategoryByCategoryId(long CatId)
+        {
+            return db.StockSubCategories.Where(c => c.CategoryId == CatId).ToList();
         }
         #endregion
     }

@@ -68,8 +68,13 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
+                                    isStockCategoryEditorVisible(false);
                                     stockCategories.remove(selectedStockCategory());
                                     toastr.success(" Deleted Successfully !");
+                                    getStockCategories();
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    }
                                 }
                             },
                             error: function (response) {
