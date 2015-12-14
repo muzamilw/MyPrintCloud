@@ -103,7 +103,7 @@
                     <div class="controlParentDiv">
                         <div class="controlDiv" style="float: inherit;">
                             <label>Listing ID</label>
-                            @Html.TextBoxFor(model => model.ClientListingId, new { id = "ClientListingId", @class = "generalTextBox {{ListingID}}", maxlength = 255 })
+                            @Html.TextBoxFor(model => model.ClientListingId, new { id = "ClientListingId", @class = "generalTextBox {{ListingID}}", maxlength = 255, placeholder = "ClientListingId" })
                             @*<input  type="text" id="txtListingId" class="generalTextBox {{ListingID}}" placeholder="Listing Id" value="@Model.ClientListingId" >*@
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                     <div class="controlParentDiv">
                         <div class="controlDiv">
                             <label>Starta Admin</label>
-                            @Html.TextBoxFor(model => model.StrataAdmin, new { id = "txtStartaAdmin", @class = "generalTextBox {{StrataAdmin}}", maxlength = 255 })
+                            @Html.TextBoxFor(model => model.StrataAdmin, new { id = "txtStartaAdmin", @class = "generalTextBox {{StrataAdmin}}", maxlength = 255, placeholder = "StartaAdmin" })
                             @*<input type="text" id="txtStartaAdmin" class="generalTextBox {{StrataAdmin}}" placeholder="Starta Admin" value="@Model.StrataAdmin">*@
                         </div>
                         <div class="fntSize11px">
@@ -627,7 +627,7 @@
                     </div>
                     <div class="controlDiv controlParentDiv" style="width: 100%;">
 
-                        <label>summary</label>
+                        <label>Summary</label>
                         @*<textarea rows="4" cols="50" id="txtSignboardSummery" class="MultilineTextBox full-width-boxes {{SignBoardSummary}}" placeholder="Property summary"  >@Model.SignBoardSummary</textarea>
                 </div>*@
 
@@ -659,7 +659,7 @@
                     </div>
                     <div>
                         <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
-                            <label>summary</label>
+                            <label>Summary</label>
                             @Html.TextAreaFor(model => model.AdvertsSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Summary" })
                             @*<textarea rows="4" cols="50" id="txtPressSummery" class="MultilineTextBox full-width-boxes {{AdvertsSummary}}" placeholder="Property summary" >@Model.AdvertsSummary</textarea>*@
                         </div>
@@ -2309,9 +2309,9 @@
         if($("#txtWebsite").val()=='')
         {
         
-            isValidInput = false;
-            $("#txtWebsite").css("background", "rgb(187, 140, 140)");
-            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the website url.</p>";
+            //isValidInput = false;
+            //$("#txtWebsite").css("background", "rgb(187, 140, 140)");
+            //validationSummeryhtm = validationSummeryhtm + "<p>Please enter the website url.</p>";
         }
         else
         {
@@ -2324,41 +2324,41 @@
             }
         }
 
-        if($("#txtPostcode").val()=='')
-        {
+        //if($("#txtPostcode").val()=='')
+        //{
         
-            isValidInput = false;
-            $("#txtPostcode").css("background", "rgb(187, 140, 140)");
-            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the Post Code .</p>";
-        }
-        if($("#txtInspectionStartTime").val()=='')
-        {
+        //    isValidInput = false;
+        //    $("#txtPostcode").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the Post Code .</p>";
+        //}
+        //if($("#txtInspectionStartTime").val()=='')
+        //{
         
-            isValidInput = false;
-            $("#txtInspectionStartTime").css("background", "rgb(187, 140, 140)");
-            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection start time .</p>";
-        }
-        if($("#txtInspectionEndTime").val()=='')
-        {
+        //    isValidInput = false;
+        //    $("#txtInspectionStartTime").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection start time .</p>";
+        //}
+        //if($("#txtInspectionEndTime").val()=='')
+        //{
         
-            isValidInput = false;
-            $("#txtInspectionEndTime").css("background", "rgb(187, 140, 140)");
-            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection end time .</p>";
-        }
-        if($("#AuctionStratTime").val()=='')
-        {
+        //    isValidInput = false;
+        //    $("#txtInspectionEndTime").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection end time .</p>";
+        //}
+        //if($("#AuctionStratTime").val()=='')
+        //{
         
-            isValidInput = false;
-            $("#AuctionStratTime").css("background", "rgb(187, 140, 140)");
-            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection start time .</p>";
-        }
-        if($("#txtAuctionEndTime").val()=='')
-        {
+        //    isValidInput = false;
+        //    $("#AuctionStratTime").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection start time .</p>";
+        //}
+        //if($("#txtAuctionEndTime").val()=='')
+        //{
         
-            isValidInput = false;
-            $("#txtAuctionEndTime").css("background", "rgb(187, 140, 140)");
-            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection end time .</p>";
-        }
+        //    isValidInput = false;
+        //    $("#txtAuctionEndTime").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection end time .</p>";
+        //}
         if (isValidInput == false) {
             $("#MainContent_ValidationSummery").html(validationSummeryhtm);
             $("#MainContent_ValidationSummery").css("display", "block");
