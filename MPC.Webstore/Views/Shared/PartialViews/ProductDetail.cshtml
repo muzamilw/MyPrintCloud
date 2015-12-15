@@ -333,8 +333,9 @@
                                 <div class="mrginBtm">
                                     <label id="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId))</label>
                                 </div>
-                                <label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
-                                <br />
+                                <label id="lblCategoryCodeHeading" class="code-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHeadingProductCode", UserCookieManager.WBStoreId))</label>
+                                <label id="lblCategoryCode" class="marginall5 cat-code-cs">@ViewBag.lblCategoryCode</label>
+                                <div class="clearBoth"></div>
                                 <p class="marginall5" style="width: 285px;">
                                     <label id="lblCatDes">@Html.Raw(ViewBag.lblCatDes)</label>
                                 </p>

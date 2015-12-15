@@ -225,15 +225,12 @@ namespace MPC.Webstore.Controllers
                     ViewData["ItemVideo"] = null;
                 }
 
-
-
-                if (!string.IsNullOrEmpty(ItemRecord.File1))
+                if (!string.IsNullOrEmpty(ItemModel.File1))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File1);
-                    if (FileExtension == ".ai")
+                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File1);
+                    if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
-
-                        ViewBag.File1Url = "/Content/Images/IcoIllustrator.png";
+                        ViewBag.File1Url = "/Content/Images/ai.gif";
                     }
                     else if (FileExtension == ".jpg")
                     {
@@ -245,15 +242,27 @@ namespace MPC.Webstore.Controllers
                     }
                     else if (FileExtension == ".psd")
                     {
-                        ViewBag.File1Url = "/Content/Images/IcoPhotoshop.png";
+                        ViewBag.File1Url = "/Content/Images/photoshop.gif";
                     }
-                    else if (FileExtension == ".indd" || FileExtension == ".ind")
+                    else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                     {
-                        ViewBag.File1Url = "/Content/Images/Icoindesign.png";
+                        ViewBag.File1Url = "/Content/Images/id.gif";
                     }
                     else if (FileExtension == ".pdf")
                     {
                         ViewBag.File1Url = "/Content/Images/Page_pdf.png";
+                    }
+                    else if (FileExtension == ".potx")
+                    {
+                        ViewBag.File1Url = "/Content/Images/powerpoint.png";
+                    }
+                    else if (FileExtension == ".pub")
+                    {
+                        ViewBag.File1Url = "/Content/Images/publisher.png";
+                    }
+                    else if (FileExtension == ".dotx")
+                    {
+                        ViewBag.File1Url = "/Content/Images/word.png";
                     }
                     else
                     {
@@ -261,13 +270,12 @@ namespace MPC.Webstore.Controllers
                     }
 
                 }
-                if (!string.IsNullOrEmpty(ItemRecord.File2))
+                if (!string.IsNullOrEmpty(ItemModel.File2))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File2);
-                    if (FileExtension == ".ai")
+                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File2);
+                    if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
-
-                        ViewBag.File2Url = "/Content/Images/IcoIllustrator.png";
+                        ViewBag.File2Url = "/Content/Images/ai.gif";
                     }
                     else if (FileExtension == ".jpg")
                     {
@@ -279,15 +287,27 @@ namespace MPC.Webstore.Controllers
                     }
                     else if (FileExtension == ".psd")
                     {
-                        ViewBag.File2Url = "/Content/Images/IcoPhotoshop.png";
+                        ViewBag.File2Url = "/Content/Images/photoshop.gif";
                     }
-                    else if (FileExtension == ".indd" || FileExtension == ".ind")
+                    else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                     {
-                        ViewBag.File2Url = "/Content/Images/Icoindesign.png";
+                        ViewBag.File2Url = "/Content/Images/id.gif";
                     }
                     else if (FileExtension == ".pdf")
                     {
                         ViewBag.File2Url = "/Content/Images/Page_pdf.png";
+                    }
+                    else if (FileExtension == ".potx")
+                    {
+                        ViewBag.File2Url = "/Content/Images/powerpoint.png";
+                    }
+                    else if (FileExtension == ".pub")
+                    {
+                        ViewBag.File2Url = "/Content/Images/publisher.png";
+                    }
+                    else if (FileExtension == ".dotx")
+                    {
+                        ViewBag.File2Url = "/Content/Images/word.png";
                     }
                     else
                     {
@@ -295,13 +315,12 @@ namespace MPC.Webstore.Controllers
                     }
 
                 }
-                if (!string.IsNullOrEmpty(ItemRecord.File3))
+                if (!string.IsNullOrEmpty(ItemModel.File3))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File3);
-                    if (FileExtension == ".ai")
+                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File3);
+                    if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
-
-                        ViewBag.File3Url = "/Content/Images/IcoIllustrator.png";
+                        ViewBag.File3Url = "/Content/Images/ai.gif";
                     }
                     else if (FileExtension == ".jpg")
                     {
@@ -313,28 +332,39 @@ namespace MPC.Webstore.Controllers
                     }
                     else if (FileExtension == ".psd")
                     {
-                        ViewBag.File3Url = "/Content/Images/IcoPhotoshop.png";
+                        ViewBag.File3Url = "/Content/Images/photoshop.gif";
                     }
-                    else if (FileExtension == ".indd" || FileExtension == ".ind")
+                    else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                     {
-                        ViewBag.File3Url = "/Content/Images/Icoindesign.png";
+                        ViewBag.File3Url = "/Content/Images/id.gif";
                     }
                     else if (FileExtension == ".pdf")
                     {
                         ViewBag.File3Url = "/Content/Images/Page_pdf.png";
+                    }
+                    else if (FileExtension == ".potx")
+                    {
+                        ViewBag.File3Url = "/Content/Images/powerpoint.png";
+                    }
+                    else if (FileExtension == ".pub")
+                    {
+                        ViewBag.File3Url = "/Content/Images/publisher.png";
+                    }
+                    else if (FileExtension == ".dotx")
+                    {
+                        ViewBag.File3Url = "/Content/Images/word.png";
                     }
                     else
                     {
                         ViewBag.File3Url = "/Content/download.png";
                     }
                 }
-                if (!string.IsNullOrEmpty(ItemRecord.File4))
+                if (!string.IsNullOrEmpty(ItemModel.File4))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File4);
-                    if (FileExtension == ".ai")
+                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File4);
+                    if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
-
-                        ViewBag.File4Url = "/Content/Images/IcoIllustrator.png";
+                        ViewBag.File4Url = "/Content/Images/ai.gif";
                     }
                     else if (FileExtension == ".jpg")
                     {
@@ -346,28 +376,39 @@ namespace MPC.Webstore.Controllers
                     }
                     else if (FileExtension == ".psd")
                     {
-                        ViewBag.File4Url = "/Content/Images/IcoPhotoshop.png";
+                        ViewBag.File4Url = "/Content/Images/photoshop.gif";
                     }
-                    else if (FileExtension == ".indd" || FileExtension == ".ind")
+                    else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                     {
-                        ViewBag.File4Url = "/Content/Images/Icoindesign.png";
+                        ViewBag.File4Url = "/Content/Images/id.gif";
                     }
                     else if (FileExtension == ".pdf")
                     {
                         ViewBag.File4Url = "/Content/Images/Page_pdf.png";
+                    }
+                    else if (FileExtension == ".potx")
+                    {
+                        ViewBag.File4Url = "/Content/Images/powerpoint.png";
+                    }
+                    else if (FileExtension == ".pub")
+                    {
+                        ViewBag.File4Url = "/Content/Images/publisher.png";
+                    }
+                    else if (FileExtension == ".dotx")
+                    {
+                        ViewBag.File4Url = "/Content/Images/word.png";
                     }
                     else
                     {
                         ViewBag.File4Url = "/Content/download.png";
                     }
                 }
-                if (!string.IsNullOrEmpty(ItemRecord.File5))
+                if (!string.IsNullOrEmpty(ItemModel.File5))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File5);
-                    if (FileExtension == ".ai")
+                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File5);
+                    if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
-
-                        ViewBag.File5Url = "/Content/Images/IcoIllustrator.png";
+                        ViewBag.File5Url = "/Content/Images/ai.gif";
                     }
                     else if (FileExtension == ".jpg")
                     {
@@ -379,15 +420,27 @@ namespace MPC.Webstore.Controllers
                     }
                     else if (FileExtension == ".psd")
                     {
-                        ViewBag.File5Url = "/Content/Images/IcoPhotoshop.png";
+                        ViewBag.File5Url = "/Content/Images/photoshop.gif";
                     }
-                    else if (FileExtension == ".indd" || FileExtension == ".ind")
+                    else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                     {
-                        ViewBag.File5Url = "/Content/Images/Icoindesign.png";
+                        ViewBag.File5Url = "/Content/Images/id.gif";
                     }
                     else if (FileExtension == ".pdf")
                     {
                         ViewBag.File5Url = "/Content/Images/Page_pdf.png";
+                    }
+                    else if (FileExtension == ".potx")
+                    {
+                        ViewBag.File5Url = "/Content/Images/powerpoint.png";
+                    }
+                    else if (FileExtension == ".pub")
+                    {
+                        ViewBag.File5Url = "/Content/Images/publisher.png";
+                    }
+                    else if (FileExtension == ".dotx")
+                    {
+                        ViewBag.File5Url = "/Content/Images/word.png";
                     }
                     else
                     {

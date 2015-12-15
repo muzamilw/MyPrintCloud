@@ -717,26 +717,26 @@
         }
     </script>
     @*<script>
-            $('[id="hlProductDetail"]').each(function () {
-                var hrefLink = "";
-            $(this).removeAttr('href');
-            $($(this).parent().next().next().next().next().children()).each(function () {
-                console.log("child id link" + $(this).attr('id'));
-                if($(this).attr('id') == "lnkPRoductdetail"){
-
-                    hrefLink = $(this).attr('href');
-                }
-            });
-            $(this).attr('href', hrefLink);
-        });
-        </script>
-
-        <script>
         $('[id="hlProductDetail"]').each(function () {
-            $(this).removeAttr('href');
-            var hrefLink = $(this).parent().next().next().next().next().children().next().next().attr('href');
-            console.log("href link" + hrefLink);
-            $(this).attr('href', hrefLink);
+            var hrefLink = "";
+        $(this).removeAttr('href');
+        $($(this).parent().next().next().next().next().next().children()).each(function () {
+            console.log("child id link" + $(this).attr('id'));
+            if($(this).attr('id') == "lnkPRoductdetail"){
+
+                hrefLink = $(this).attr('href');
+            }
         });
-        </script>*@
+        $(this).attr('href', hrefLink);
+    });
+    </script>
+
+    <script>
+    $('[id="hlProductDetail"]').each(function () {
+        $(this).removeAttr('href');
+        var hrefLink = $(this).parent().next().next().next().next().children().next().next().attr('href');
+        console.log("href link" + hrefLink);
+        $(this).attr('href', hrefLink);
+    });
+    </script>*@
 }
