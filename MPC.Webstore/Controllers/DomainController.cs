@@ -90,7 +90,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                UserCookieManager.WBStoreId = 0;
+                UserCookieManager.WEBOrderId = 0;
                 if (UserCookieManager.WBStoreId == 0)
                 {
                     UserCookieManager.WBStoreId = storeId;

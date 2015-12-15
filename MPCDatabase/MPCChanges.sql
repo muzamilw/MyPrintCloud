@@ -8912,3 +8912,8 @@ Alter table items add UploadTypeByUser int
 alter table StockSubCategory add OrganisationId bigint
 ------------------Executed on Europe,UK servers 20151127---------------
 Alter table ItemAttachment add ImageFileType nvarchar(50) 
+
+-----------------------
+
+
+alter table reportparam alter column CriteriaFieldName varchar(100)

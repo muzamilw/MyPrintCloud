@@ -1590,7 +1590,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     if(bleedareaSize != 0 ){
                          
-                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
+                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - (bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - (bleedareaSize)).ToString());
                     }
                     int FontID = 0;
                     var pFont = FontsList.Where(g => g.FontName == "Arial Black").FirstOrDefault();
@@ -1924,7 +1924,7 @@ namespace MPC.Implementation.WebStoreServices
                         if (bleedareaSize != 0)
                         {
 
-                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
+                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - (bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - (bleedareaSize)).ToString());
                         }
                     }
                     //crop marks or margins
@@ -2705,7 +2705,7 @@ namespace MPC.Implementation.WebStoreServices
             Template product = null;
             if (productID == 0)
             {
-                product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width,itemId);
+                product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width,itemId,organisationId);
                // _templatePageService.CreateBlankBackgroundPDFs(product.ProductId,Convert.ToDouble( product.PDFTemplateHeight),Convert.ToDouble( product.PDFTemplateWidth), 1, organisationId);
             }
             else
@@ -3136,7 +3136,7 @@ namespace MPC.Implementation.WebStoreServices
 
                      }
                 }
-                _templateRepository.SaveTemplate(productID, lstTemplatePages, lstTemplatesObjects);
+               bleedAreaSize =  _templateRepository.SaveTemplate(productID, lstTemplatePages, lstTemplatesObjects);
                bool result=  GenerateTemplatePdf(productID, organisationID, printCropMarks, printWaterMarks, isRoundCorners, true,bleedAreaSize,isMultipageProduct);
                return result.ToString();
             }
@@ -3286,7 +3286,8 @@ namespace MPC.Implementation.WebStoreServices
 
         public string GenerateProof(DesignerPostSettings objSettings, double bleedAreaSize)
         {
-            bleedAreaSize = _templateRepository.getOrganisationBleedArea(objSettings.organisationId);
+         //   bleedAreaSize = _templateRepository.getOrganisationBleedArea(objSettings.organisationId); // always use template bleed area size
+         //   bleedAreaSize = DesignerUtils.PixelToPoint(objSettings.);
             List<TemplateObject> lstTemplatesObjects = objSettings.objects;
             return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs,bleedAreaSize,objSettings.isMultiPageProduct);
         }
