@@ -10,7 +10,7 @@
     var Listing = ViewBag.Listings as MPC.Models.DomainModels.Listing;
     //var ListingAgents = ViewBag.ListingAgents as List<MPC.Models.DomainModels.CompanyContact>;
    // var CurrentItem = ViewBag.CurrentItem as MPC.Models.DomainModels.GetCategoryProduct;
-  var  txtInspectionDate=String.Format("{0:MM/dd/yyyy}", Model.AvailableDate);
+   var txtInspectionDate=String.Format("{0:MM/dd/yyyy}", Model.AvailableDate);
    var txtAuctionDate = String.Format("{0:MM/dd/yyyy}", Model.AuctionDate);
    
    
@@ -59,11 +59,11 @@
                         <div class="controlDiv">
                             <label>Unit Number</label>
                             @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
-                            @Html.TextBoxFor(model => model.UnitNumber, new { id = "txtUnitNumber", @class = "generalTextBox {{UnitNum}}", maxlength = 255, PlaceHolder = "Unit number" })
+                            @Html.TextBoxFor(model => model.UnitNumber, new { id = "txtUnitNumber", @class = "generalTextBox {{UnitNum}}", maxlength = 255, PlaceHolder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlUnitNumber", UserCookieManager.WBStoreId, "Unit number")) })
                         </div>
                         <div class="fntSize11px">
                             <label>Street No.</label>
-                            @Html.TextBoxFor(model => model.StreetNumber, new { id = "txtStreetNumber", @class = "generalTextBox {{StreetNum}}", maxlength = 255, placeholder = "Street number" })
+                            @Html.TextBoxFor(model => model.StreetNumber, new { id = "txtStreetNumber", @class = "generalTextBox {{StreetNum}}", maxlength = 255, placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlStreetNumber", UserCookieManager.WBStoreId, "Street number"))})
                             @*<input type="text" id="txtStreetNumber" class="generalTextBox {{StreetNum}}" placeholder="Street number" value="@Model.StreetNumber">*@
                         </div>
                     </div>
@@ -71,14 +71,14 @@
                         <div class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Property Name</label>
                             @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
-                            @Html.TextBoxFor(model => model.PropertyName, new { id = "PropertyName", @class = "generalTextBox fullWidth {{UnitNum}}", maxlength = 255, PlaceHolder = "Property Name" })
+                            @Html.TextBoxFor(model => model.PropertyName, new { id = "PropertyName", @class = "generalTextBox fullWidth {{UnitNum}}", maxlength = 255, PlaceHolder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPropertyName", UserCookieManager.WBStoreId, "Property Name")) })
                         </div>
                     </div>
                     <div>
                         <div class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Street Name</label>
                             @*<input type="text" id="txtStreetName" class="generalTextBox full-width-boxes {{Street}}" style="" placeholder="Street name" value="@Model.Street">*@
-                            @Html.TextBoxFor(model => model.Street, new { id = "txtStreetName", @class = "generalTextBox fullWidth {{Street}}", maxlength = 255, placeholder = "Street name" })
+                            @Html.TextBoxFor(model => model.Street, new { id = "txtStreetName", @class = "generalTextBox fullWidth {{Street}}", maxlength = 255, placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlStreetName", UserCookieManager.WBStoreId, "Street name")) })
                         </div>
                     </div>
                     <div>
@@ -183,7 +183,7 @@
                         <div class="fntSize11px">
                             <label>Building Size</label>
                             @*<input type="text" id="txtBuildingSize" class="generalTextBox {{BuildingAreaSqm}}" placeholder="Building Size" value="@Model.BuildingAreaSqm">*@
-                            @Html.TextBoxFor(model => model.BuildingAreaSqm, new { id = "txtBuildingSize", @class = "generalTextBox {{BuildingAreaSqm}}", maxlength = 255 })
+                            @Html.TextBoxFor(model => model.BuildingAreaSqm, new { id = "txtBuildingSize", @class = "generalTextBox {{BuildingAreaSqm}}", maxlength = 255, placeholder = "Building Size" })
                         </div>
                     </div>
                     <div class="controlParentDiv">
@@ -1014,16 +1014,25 @@
 <script src="/Scripts/bootstrap-datepicker.js"></script>
 
     <script type="text/javascript">
-        $("#txtInspectionDate").datepicker({format: 'dd/mm/yyyy'
-        
-        });
-        
-        $("#txtAuctionDate").datepicker({format: 'dd/mm/yyyy'
-        });
-
-
         var  spectionDate='@txtInspectionDate';
         var Auctindate='@txtAuctionDate';
+
+
+       
+        //$("#txtInspectionDate").datepicker({format: 'dd/mm/yyyy'
+        
+        //});
+        
+        //$("#txtAuctionDate").datepicker({format: 'dd/mm/yyyy'
+        //});
+
+        $("#txtInspectionDate").datepicker(
+        
+        );
+        
+        $("#txtAuctionDate").datepicker(
+        );
+      
 
 
     var DeleteImagesList= [];
@@ -1165,8 +1174,7 @@
 
         $(function () {
 
-            $('#txtInspectionDate').val(spectionDate);
-            $('#txtAuctionDate').val(Auctindate);
+          
             //if($("#txtWebsite").val()=='')
             //{
             //    $("#txtWebsite").val('http://');
@@ -1580,7 +1588,9 @@
 
     $(document).ready(function () {
         
-
+        $('#txtInspectionDate').val(spectionDate);
+        //alert(Auctindate);
+        $('#txtAuctionDate').val(Auctindate);
         $('#SaveBtnBulletPoint').on("click", function () {
             if (BulletPValidation() == true) {
                 var tr = $(this).parents('tr:first');
