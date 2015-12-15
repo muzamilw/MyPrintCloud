@@ -28,8 +28,8 @@ namespace MPC.Interfaces.Repository
         bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listNewPages, List<TemplatePage> listOldPages, List<TemplateObject> listObjects);
         long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long OrganisationID, out List<TemplateBackgroundImage> objImages);
         long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, long organisationID, out List<TemplateFont> fontsToDownload, int mode, long localTemplateID);
-        void SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects);
-        Template CreateTemplate(long productID, long categoryIdv2, double height, double width, long itemId);
+        double SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects);
+        Template CreateTemplate(long productID, long categoryIdv2, double height, double width, long itemId, long organisationId);
 
         double getOrganisationBleedArea(long organisationID);
 

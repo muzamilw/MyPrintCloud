@@ -3199,7 +3199,7 @@
           <Property Name="ComboTableName" Type="varchar" MaxLength="50" />
           <Property Name="ComboIDFieldName" Type="varchar" MaxLength="50" />
           <Property Name="ComboTextFieldName" Type="varchar" MaxLength="50" />
-          <Property Name="CriteriaFieldName" Type="varchar" MaxLength="50" />
+          <Property Name="CriteriaFieldName" Type="varchar" MaxLength="100" />
           <Property Name="OrderByFieldName" Type="varchar" MaxLength="50" />
           <Property Name="SameAsPArmId" Type="int" />
           <Property Name="Caption2" Type="varchar" MaxLength="50" />
@@ -14505,7 +14505,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ComboTableName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ComboIDFieldName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ComboTextFieldName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CriteriaFieldName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CriteriaFieldName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="OrderByFieldName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SameAsPArmId" Type="Int32" />
           <Property Name="Caption2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
