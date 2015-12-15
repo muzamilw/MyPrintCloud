@@ -107,13 +107,17 @@ namespace MPC.MIS.Areas.Api.Controllers
             object[] _CostCentreParamsArray = new object[12];
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+            //QuestionAndInputQueues Queues = new QuestionAndInputQueues();
+
             QuestionAndInputQueues Queues = paramRequest != null && paramRequest.Queues != null
                 ? paramRequest.Queues
                 : null;
             ItemSection section = paramRequest != null && paramRequest.CurrentItemSection != null
                 ? paramRequest.CurrentItemSection
                 : null;
-                
+            //ItemSection section = paramRequest != null 
+            //    ? paramRequest.CurrentItemSection
+            //    : null;
             _CostCentreParamsArray[5] = 1;
             dblResult1 = GetCostCenterPrice(CostCentreId, ClonedItemId, OrderedQuantity, CallMode, Queues, ref _CostCentreParamsArray, itemSectionId, section);
             oResult.TotalPrice = dblResult1;
@@ -596,6 +600,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                         if (section != null)
                         {
                             section.Qty1 = Convert.ToInt32(OrderedQuantity);
+                            section.SectionInkCoverages = null;
                         }
                         _CostCentreParamsArray[8] = section != null ? section.CreateFrom() : null;
                     }
