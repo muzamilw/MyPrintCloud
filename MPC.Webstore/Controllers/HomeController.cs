@@ -927,14 +927,16 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public JsonResult LoadStoreByContactInfo(long OrganisationId, string email, string password)
         {
-            bool Result = false;
+
+            string Message = "ok";
+
             if (System.Text.RegularExpressions.Regex.IsMatch(email, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
             {
                 CompanyContact oContact = _myCompanyService.GetContactOnUserNamePass(OrganisationId, email, password);
 
                 if (oContact != null)
                 {
-                    Result = true;
+                   // Result = true;
                     MPC.Models.DomainModels.Company ContactCompany = _myCompanyService.GetCompanyByCompanyID(oContact.CompanyId);
                     long StoreId = 0;
                     if (ContactCompany.IsCustomer == (int)StoreMode.Corp)
@@ -989,21 +991,24 @@ namespace MPC.Webstore.Controllers
                             UserCookieManager.PerformAutoLogin = true;
                             ControllerContext.HttpContext.Response.Redirect("/");
                             return null;
-
+                            
                         }
                         else
                         {
+                            Message = "No record found";
                             // no record found
                         }
 
                     }
                     else 
                     {
+                        Message = "No record found";
                         // no record found
                     }
                 }
                 else
                 {
+                    Message = "Invalid email or pass";
                     //invalid email or pass
                 }
 
@@ -1011,8 +1016,9 @@ namespace MPC.Webstore.Controllers
             else 
             {
                 // return message email is invalid
+                Message = "Invalid is invalid";
             }
-            return Json(Result, JsonRequestBehavior.DenyGet);
+            return Json(Message, JsonRequestBehavior.DenyGet);
 
         }
        
