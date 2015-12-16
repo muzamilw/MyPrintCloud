@@ -57,6 +57,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IProductCategoryVoucherRepository _productCategoryVoucherRepository;
         private readonly ISectionInkCoverageRepository _SectionInkCoverageRepository;
         private readonly ICompanyVoucherRedeemRepository _CompanyVoucherRedeemRepository;
+        private readonly IMarketingBriefHistoryRepository _marketingBriefHistoryRepository;
         #region Constructor
 
         /// <summary>
@@ -74,7 +75,8 @@ namespace MPC.Implementation.WebStoreServices
             , IMarkupRepository markupRepository, IDiscountVoucherRepository DVRepository, IItemsVoucherRepository ItemVRepository
             , ICurrencyRepository currencyRepository, IProductCategoryVoucherRepository productCategoryVoucherRepository
             , ISectionInkCoverageRepository SectionInkCoverageRepository
-            , ICompanyVoucherRedeemRepository CompanyVoucherRedeemRepository)
+            , ICompanyVoucherRedeemRepository CompanyVoucherRedeemRepository
+            , IMarketingBriefHistoryRepository marketingBriefHistoryRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -110,6 +112,7 @@ namespace MPC.Implementation.WebStoreServices
             this._productCategoryVoucherRepository = productCategoryVoucherRepository;
             this._SectionInkCoverageRepository = SectionInkCoverageRepository;
             this._CompanyVoucherRedeemRepository = CompanyVoucherRedeemRepository;
+            this._marketingBriefHistoryRepository = marketingBriefHistoryRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -3656,6 +3659,19 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
                 _ItemRepository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void SaveMarketingBriefHistory(MarketingBriefHistory model)
+        {
+            try
+            {
+                _marketingBriefHistoryRepository.Add(model);
+                _marketingBriefHistoryRepository.SaveChanges();
             }
             catch (Exception ex)
             {
