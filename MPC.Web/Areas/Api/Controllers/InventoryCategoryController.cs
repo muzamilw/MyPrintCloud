@@ -43,6 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public StockCategoryResponse Get([FromUri] StockCategoryRequestModel request)
         {
+            
             var result = stockCategoryService.GetAll(request);
             return new StockCategoryResponse
             {

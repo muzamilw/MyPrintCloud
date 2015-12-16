@@ -1,14 +1,8 @@
-﻿using MPC.ExceptionHandling.Logger;
-using MPC.Interfaces.WebStoreServices;
+﻿using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
-using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MPC.Webstore.Controllers

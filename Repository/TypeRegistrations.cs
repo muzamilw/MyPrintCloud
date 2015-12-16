@@ -149,6 +149,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IReportNoteRepository, ReportNoteRepository>();
             unityContainer.RegisterType<IVariableExtensionRespository, VariableExtensionRespository>();
             unityContainer.RegisterType<IListingBulletPointsRepository, ListingBulletPointsRepository>();
+            unityContainer.RegisterType<IMarketingBriefHistoryRepository, MarketingBriefHistoryRepository>();
         }
     }
 }

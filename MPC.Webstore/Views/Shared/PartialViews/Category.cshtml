@@ -573,14 +573,14 @@
     <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script>
-        $(document).ready(function(){
-            HideLoader();
-        });
-        var tID = 0;
-        var itemId = 0;
-        function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
-            //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
-            $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId,
+    $(document).ready(function(){
+        HideLoader();
+    });
+    var tID = 0;
+    var itemId = 0;
+    function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
+        //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
+        $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId + "/" + @UserCookieManager.WBStoreId,
                           function (DT) {
                               parts = DT.split("_");
                               //templateid = part[1]
@@ -589,154 +589,154 @@
                               //temporaryCustomerId = part[3];
                               itemId= parts[0];
                               var storeMode =  @UserCookieManager.WEBStoreMode;
-                              if(storeMode == 4)
-                              {
-                                  createCookie("TemporaryCompanyId",parts[3]);
-                              }
-                              createCookie("WEBOrderId",parts[2]);
-                              k0(parts[1],productName);
-                              $(".productTitle").html(productName);
+                          if(storeMode == 4)
+                          {
+                              createCookie("TemporaryCompanyId",parts[3]);
+                          }
+                          createCookie("WEBOrderId",parts[2]);
+                          k0(parts[1],productName);
+                          $(".productTitle").html(productName);
 
 
-                          });
+                      });
+    }
+    function createCookie(name, value, days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toGMTString();
         }
-        function createCookie(name, value, days) {
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                var expires = "; expires=" + date.toGMTString();
-            }
-            else var expires = "";
-            document.cookie = name + "=" + value + expires + "; path=/";
+        else var expires = "";
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    function k0(tsID,productName) {
+        tID= tsID;
+        organisationId = @ViewBag.organisationId;
+        if ($(window).width() > 1200 ) {
+            $('#PreviewerContainerDesigner').css("width", "1200px");
+            $('#PreviewerDesigner').css("width", "1176px");
+            $('#sliderFrame').css("width", "1140px");
+            $('#sliderDesigner').css("width", "942px");
+            $('.sliderLine').css("width", "1144px");
+            $('#previewProofingDesigner').css("width", "1160px");
+            $('.divTxtProofingDesigner').css("margin-left", "208px");
         }
-        function k0(tsID,productName) {
-            tID= tsID;
-            organisationId = @ViewBag.organisationId;
-            if ($(window).width() > 1200 ) {
-                $('#PreviewerContainerDesigner').css("width", "1200px");
-                $('#PreviewerDesigner').css("width", "1176px");
-                $('#sliderFrame').css("width", "1140px");
-                $('#sliderDesigner').css("width", "942px");
-                $('.sliderLine').css("width", "1144px");
-                $('#previewProofingDesigner').css("width", "1160px");
-                $('.divTxtProofingDesigner').css("margin-left", "208px");
-            }
-            $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
-            $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
-            $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
-            $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
-            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
-            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
-            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+        $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
+        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
+        $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
+        $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+        $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+        $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
 
-            $.getJSON("/designerapi/templatepage/GetTemplatePages/" + tID,
-                function (DT) {
-                    var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
-                    $.each(DT, function (i, IT) {
+        $.getJSON("/designerapi/templatepage/GetTemplatePages/" + tID,
+            function (DT) {
+                var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
+                $.each(DT, function (i, IT) {
 
-                        $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=2"  alt="' + IT.PageName + '" />');
-                        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+                    $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=2"  alt="' + IT.PageName + '" />');
+                    $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
-                    });
-                    $.each(DT, function (i, IT) {
-                        $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2"  alt="' + IT.PageName + '" />');
-                        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
-                    });
-                    $("#PreviewerContainerDesigner").css("display","block");
-                    StopDesignerLoader();
                 });
-
-
-        }
-        function e6() {
-            HideLoader();StopDesignerLoader();
-            $("#PreviewerContainerDesigner").css("display","none");
-        }
-        $("#lblCheckSpelling").click(function (event) {
-            $("#lblCheckSpelling").toggleClass("ckeckboxChecked");
-        });
-        $("#btnNextProofing").click(function (event) {
-            if ($("#chkCheckSpelling").is(':checked')) {
-                var designerName = $('.productTitle').html();
-
-                while (designerName.indexOf('/') != -1)
-                    designerName = designerName.replace("/", "__");
-                while (designerName.indexOf('&') != -1)
-                    designerName = designerName.replace("&", "__");
-
-                while (designerName.indexOf(' ') != -1)
-                    designerName = designerName.replace(" ", "-");
-                while (designerName.indexOf(';') != -1)
-                    designerName = designerName.replace(";", "-");
-                while (designerName.indexOf('&#34;') != -1)
-                    designerName = designerName.replace("&#34;", "-");
-                while (designerName.indexOf('+') != -1)
-                    designerName = designerName.replace("+", "-");
-                StartDesignerLoader("Please wait while we add this item to your cart...");
-
-                $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + itemId + "/" +  @ViewBag.CompanyID + "/" + designerName + "/designer/" + @ViewBag.organisationId,
-                  function (DT) {
-                      window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
-                  });
-            } else {
-                alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmspell", UserCookieManager.WBStoreId, "Please Confirm spellings and details!"))');
-                return false;
-            }
-        });
-        function StartDesignerLoader(msg) {
-            loaderLoading = true;
-            var3 = 1;
-            if (msg == null || msg == "") {
-                msg = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgenerateproof", UserCookieManager.WBStoreId, "Please wait while we generate proof of your design..."))';
-            }
-            $("#paraLoaderMsg").text(msg);
-            $("#MainLoader").css("display", "block");
-            $(".progressValue").css("width", "1%");
-            $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
-            var2 = setInterval((function () {
-                var3 += 1;
-                if (var3 <= 95) {
-                    $(".progressValue").css("width", var3 + "%");
-                }
-
-            }), 25);
-        }
-        function StopDesignerLoader() {
-            var3 = 99;
-            loaderLoading = false;
-            $(".progressValue").css("width", 100 + "%");
-            $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
-            function (e) {
-                if (!loaderLoading) {
-                    $("#MainLoader").css("display", "none");
-                    clearInterval(var2);
-                }
+                $.each(DT, function (i, IT) {
+                    $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2"  alt="' + IT.PageName + '" />');
+                    $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+                });
+                $("#PreviewerContainerDesigner").css("display","block");
+                StopDesignerLoader();
             });
 
 
+    }
+    function e6() {
+        HideLoader();StopDesignerLoader();
+        $("#PreviewerContainerDesigner").css("display","none");
+    }
+    $("#lblCheckSpelling").click(function (event) {
+        $("#lblCheckSpelling").toggleClass("ckeckboxChecked");
+    });
+    $("#btnNextProofing").click(function (event) {
+        if ($("#chkCheckSpelling").is(':checked')) {
+            var designerName = $('.productTitle').html();
+
+            while (designerName.indexOf('/') != -1)
+                designerName = designerName.replace("/", "__");
+            while (designerName.indexOf('&') != -1)
+                designerName = designerName.replace("&", "__");
+
+            while (designerName.indexOf(' ') != -1)
+                designerName = designerName.replace(" ", "-");
+            while (designerName.indexOf(';') != -1)
+                designerName = designerName.replace(";", "-");
+            while (designerName.indexOf('&#34;') != -1)
+                designerName = designerName.replace("&#34;", "-");
+            while (designerName.indexOf('+') != -1)
+                designerName = designerName.replace("+", "-");
+            StartDesignerLoader("Please wait while we add this item to your cart...");
+
+            $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + itemId + "/" +  @ViewBag.CompanyID + "/" + designerName + "/designer/" + @ViewBag.organisationId,
+              function (DT) {
+                  window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+              });
+        } else {
+            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmspell", UserCookieManager.WBStoreId, "Please Confirm spellings and details!"))');
+            return false;
         }
+    });
+    function StartDesignerLoader(msg) {
+        loaderLoading = true;
+        var3 = 1;
+        if (msg == null || msg == "") {
+            msg = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgenerateproof", UserCookieManager.WBStoreId, "Please wait while we generate proof of your design..."))';
+        }
+        $("#paraLoaderMsg").text(msg);
+        $("#MainLoader").css("display", "block");
+        $(".progressValue").css("width", "1%");
+        $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
+        var2 = setInterval((function () {
+            var3 += 1;
+            if (var3 <= 95) {
+                $(".progressValue").css("width", var3 + "%");
+            }
+
+        }), 25);
+    }
+    function StopDesignerLoader() {
+        var3 = 99;
+        loaderLoading = false;
+        $(".progressValue").css("width", 100 + "%");
+        $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
+        function (e) {
+            if (!loaderLoading) {
+                $("#MainLoader").css("display", "none");
+                clearInterval(var2);
+            }
+        });
+
+
+    }
     </script>
     @*<script>
-            $('[id="hlProductDetail"]').each(function () {
-                var hrefLink = "";
-            $(this).removeAttr('href');
-            $($(this).parent().next().next().next().next().children()).each(function () {
-                console.log("child id link" + $(this).attr('id'));
-                if($(this).attr('id') == "lnkPRoductdetail"){
-
-                    hrefLink = $(this).attr('href');
-                }
-            });
-            $(this).attr('href', hrefLink);
-        });
-        </script>
-
-        <script>
         $('[id="hlProductDetail"]').each(function () {
-            $(this).removeAttr('href');
-            var hrefLink = $(this).parent().next().next().next().next().children().next().next().attr('href');
-            console.log("href link" + hrefLink);
-            $(this).attr('href', hrefLink);
+            var hrefLink = "";
+        $(this).removeAttr('href');
+        $($(this).parent().next().next().next().next().next().children()).each(function () {
+            console.log("child id link" + $(this).attr('id'));
+            if($(this).attr('id') == "lnkPRoductdetail"){
+
+                hrefLink = $(this).attr('href');
+            }
         });
-        </script>*@
+        $(this).attr('href', hrefLink);
+    });
+    </script>
+
+    <script>
+    $('[id="hlProductDetail"]').each(function () {
+        $(this).removeAttr('href');
+        var hrefLink = $(this).parent().next().next().next().next().children().next().next().attr('href');
+        console.log("href link" + hrefLink);
+        $(this).attr('href', hrefLink);
+    });
+    </script>*@
 }

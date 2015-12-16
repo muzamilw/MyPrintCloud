@@ -114,15 +114,15 @@ namespace MPC.Webstore.Controllers
                 {
 
                     model = GetStoreAndUpdatePageSettings(model, UserCookieManager.WBStoreId);
-                   
+
                 }
                 else
                 {
-                  
-                        TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
-                        return RedirectToAction("Error");
-                 
-                
+
+                    TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                    return RedirectToAction("Error");
+
+
                 }
 
 
@@ -253,7 +253,7 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About(string mode)
         {
-            
+
             //if (mode == "compile")
             //{
             //   _CostCentreService.SaveCostCentre(Convert.ToInt32(mode), 1, "Test");
@@ -382,7 +382,7 @@ namespace MPC.Webstore.Controllers
                 {
                     var fb = new FacebookClient(authorization.AccessToken);
                     dynamic myInfo = fb.Get("/me?fields=email,name,id"); // specify the email field
-                   
+
                     //string webResponse = "";
                     string email = myInfo.email;
                     string firstname = myInfo.name;
@@ -458,10 +458,10 @@ namespace MPC.Webstore.Controllers
 
 
                 requestToken = oauthhelper.GetRequestToken(oCompany.twitterAppId, oCompany.twitterAppKey, callBackLink);
-               
+
                 if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     Response.Redirect(oauthhelper.GetAuthorizeUrl(requestToken));
-               
+
             }
             else if (Provider == 2)
             {
@@ -473,7 +473,7 @@ namespace MPC.Webstore.Controllers
                     OAuthHelper oauthhelper = new OAuthHelper();
 
                     oauthhelper.GetUserTwAccessToken(oauth_token, oauth_verifier, oCompany.twitterAppId, oCompany.twitterAppKey);
-                   
+
 
                     if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     {
@@ -486,12 +486,12 @@ namespace MPC.Webstore.Controllers
                         }
                         else
                         {
-                           
+
                             CompanyContact user = null;
                             if (!string.IsNullOrEmpty(oauthhelper.screen_name))
                             {
                                 user = _myCompanyService.GetContactByFirstName(oauthhelper.screen_name, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, UserCookieManager.WEBStoreMode, oauthhelper.user_id);
-                                
+
                             }
                             if (user != null)
                             {
@@ -516,46 +516,46 @@ namespace MPC.Webstore.Controllers
             string returnString = "";
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-                if (user.isArchived.HasValue && user.isArchived.Value == true)
-                {
-                    returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=" + Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.WBStoreId) + "' </script>";
-                   
-                }
-                else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
-                {
-                    returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=" + Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.WBStoreId) + "' </script>";
-                   
-                }
-                else
-                {
+            if (user.isArchived.HasValue && user.isArchived.Value == true)
+            {
+                returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=" + Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.WBStoreId) + "' </script>";
 
-                    UserCookieManager.isRegisterClaims = 1;
-                    UserCookieManager.WEBContactFirstName = user.FirstName;
-                    UserCookieManager.WEBContactLastName = user.LastName == null ? "" : user.LastName;
-                    UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
-                    UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? false;
-                    UserCookieManager.CanPlaceOrder = user.isPlaceOrder ?? false;
-                    UserCookieManager.WEBEmail = user.Email;
+            }
+            else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
+            {
+                returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Message=" + Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.WBStoreId) + "' </script>";
 
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+            }
+            else
+            {
+
+                UserCookieManager.isRegisterClaims = 1;
+                UserCookieManager.WEBContactFirstName = user.FirstName;
+                UserCookieManager.WEBContactLastName = user.LastName == null ? "" : user.LastName;
+                UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
+                UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? false;
+                UserCookieManager.CanPlaceOrder = user.isPlaceOrder ?? false;
+                UserCookieManager.WEBEmail = user.Email;
+
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                {
+                    long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
+
+                    if (Orderid > 0)
                     {
-                        long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId);
+                        UserCookieManager.TemporaryCompanyId = 0;
+                        ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart", new { OrderId = Orderid });
+                        returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/ShopCart?OrderId=" + Orderid + "' </script>";
 
-                        if (Orderid > 0)
-                        {
-                            UserCookieManager.TemporaryCompanyId = 0;
-                             ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart", new { OrderId = Orderid });
-                             returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/ShopCart?OrderId=" + Orderid + "' </script>";
-                   
-              
-                        }
+
                     }
-
-                    returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/' </script>";
-                   
                 }
 
-                return returnString;
+                returnString = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/' </script>";
+
+            }
+
+            return returnString;
         }
 
         [HttpGet]
@@ -819,7 +819,7 @@ namespace MPC.Webstore.Controllers
                             {
                                 return RedirectToAction("Error", "Home", new { Message = "Please enter valid URl." });
                             }
-                            else 
+                            else
                             {
                                 UserCookieManager.WEBOrganisationID = OrganisationId;
                             }
@@ -924,6 +924,98 @@ namespace MPC.Webstore.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult LoadStoreByContactInfo(long OrganisationId, string email, string password)
+        {
+            bool Result = false;
+            if (System.Text.RegularExpressions.Regex.IsMatch(email, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
+            {
+                CompanyContact oContact = _myCompanyService.GetContactOnUserNamePass(OrganisationId, email, password);
+
+                if (oContact != null)
+                {
+                    Result = true;
+                    MPC.Models.DomainModels.Company ContactCompany = _myCompanyService.GetCompanyByCompanyID(oContact.CompanyId);
+                    long StoreId = 0;
+                    if (ContactCompany.IsCustomer == (int)StoreMode.Corp)
+                    {
+                        StoreId = oContact.CompanyId;
+
+                    }
+                    else
+                    {
+                        if (ContactCompany.IsCustomer == (int)CustomerTypes.Customers)
+                        {
+                            StoreId = Convert.ToInt64(ContactCompany.StoreId);
+
+                        }
+                    }
+
+                    if (StoreId > 0)
+                    {
+                        string CacheKeyName = "CompanyBaseResponse";
+                        ObjectCache cache = MemoryCache.Default;
+                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreFromCache(StoreId);
+                       
+                        if (StoreBaseResopnse.Company != null)
+                        {
+                            // set company cookie
+                            UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                            UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
+                            UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
+                            UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
+
+                            // set user cookies
+                            UserCookieManager.isRegisterClaims = 1;
+                            UserCookieManager.WEBContactFirstName = oContact.FirstName;
+                            UserCookieManager.WEBContactLastName = oContact.LastName == null ? "" : oContact.LastName;
+                            UserCookieManager.ContactCanEditProfile = oContact.CanUserEditProfile ?? false;
+                            UserCookieManager.ShowPriceOnWebstore = oContact.IsPricingshown ?? true;
+                            UserCookieManager.WEBEmail = oContact.Email;
+                            string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
+
+                            CultureInfo ci = null;
+
+                            if (string.IsNullOrEmpty(languageName))
+                            {
+                                languageName = "en-US";
+                            }
+
+                            ci = new CultureInfo(languageName);
+
+                            Thread.CurrentThread.CurrentUICulture = ci;
+                            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+
+                            UserCookieManager.PerformAutoLogin = true;
+                            ControllerContext.HttpContext.Response.Redirect("/");
+                            return null;
+
+                        }
+                        else
+                        {
+                            // no record found
+                        }
+
+                    }
+                    else 
+                    {
+                        // no record found
+                    }
+                }
+                else
+                {
+                    //invalid email or pass
+                }
+
+            }
+            else 
+            {
+                // return message email is invalid
+            }
+            return Json(Result, JsonRequestBehavior.DenyGet);
+
+        }
+       
     }
 
 }

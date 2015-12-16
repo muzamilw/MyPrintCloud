@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -560,7 +561,11 @@ namespace MPC.Repository.Repositories
                 long updatedListingID = UpdateListingXML(objProperty.Listing, listing);
                 ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId, OrgId, updatedListingID);
                 UpdateListingImagesXML(updatedListingID, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
-                UpdateListingFloorPlansXML(updatedListingID, objProperty.Listing.ListingFloorplans.floorplans);
+                if(objProperty.Listing.ListingFloorplans != null)
+                {
+                    UpdateListingFloorPlansXML(updatedListingID, objProperty.Listing.ListingFloorplans.floorplans);
+                }
+                
                 
                 dataAdded = true;
                 return dataAdded;
@@ -673,8 +678,8 @@ namespace MPC.Repository.Repositories
                     tbl_listing.RendPeriod = (String.IsNullOrEmpty(listing.RentPeriod)) ? 0 : Convert.ToInt32(listing.RentPeriod);
 
                     if (!String.IsNullOrEmpty(listing.AvailableDate))
-                        //tbl_listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
-                         tbl_listing.AvailableDate = DateTime.Parse(listing.AvailableDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                        tbl_listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
+                        
                         
                     if (!String.IsNullOrEmpty(listing.SoldDate))
                         //tbl_listing.SoldDate = Convert.ToDateTime(listing.SoldDate, new System.Globalization.CultureInfo("en-AU"));
@@ -884,7 +889,7 @@ namespace MPC.Repository.Repositories
 
                         if (!String.IsNullOrEmpty(propertyListing.AvailableDate))
                             //listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
-                            listing.AvailableDate = DateTime.Parse(propertyListing.AvailableDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                            listing.AvailableDate = DateTime.Parse(propertyListing.AvailableDate);
 
                         if (!String.IsNullOrEmpty(propertyListing.SoldDate))
                             //listing.SoldDate = Convert.ToDateTime(listing.SoldDate, new System.Globalization.CultureInfo("en-AU"));
@@ -2863,8 +2868,11 @@ namespace MPC.Repository.Repositories
                     }
 
                     listing.AutionVenue = propertyListing.AutionVenue;
-                    listing.AuctionDate = propertyListing.AuctionDate; //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-
+                     
+                   // listing.AuctionDate =Convert.ToDateTime( propertyListing.AuctionDate).;
+                   // DateTime myDate = new DateTime(myDate.Year, myDate.Month, myDate.Day);
+                    listing.AuctionDate =propertyListing.AuctionDate;  //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    //    
                     //listing.AutionVenue = propertyListing.AuctionVenue;
 
                     //if (!String.IsNullOrEmpty(propertyListing.EOIClosingDate))
@@ -2902,9 +2910,12 @@ namespace MPC.Repository.Repositories
                     {
                         listing.RendPeriod = propertyListing.RendPeriod;
                     }
-
-                    listing.AvailableDate = propertyListing.AvailableDate; //DateTime.ParseExact(propertyListing.AvailableDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-
+                 //   DateTime dtIN = DateTime.ParseExact(propertyListing.AvailableDate.ToString(), "{0:MM/dd/yyyy}", CultureInfo.InvariantCulture);
+                    //listing.AvailableDate = DateTime.ParseExact(propertyListing.AvailableDate.ToString(), "yyyyMMdd ", null); //DateTime.ParseExact(propertyListing.AvailableDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    listing.AvailableDate = propertyListing.AvailableDate;
+                    //propertyListing.AvailableDate.ToString("yyyy-MM-dd")
+                    //listing.AvailableDate = DateTime.Parse();
+                   
                     listing.InspectionTimeFrom2 = propertyListing.InspectionTimeFrom2;
 
 

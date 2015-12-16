@@ -11,6 +11,8 @@ using MPC.Webstore.Models;
 using MPC.Models.Common;
 using System.Runtime.Caching;
 using MPC.Models.ResponseModels;
+using System.Globalization;
+using System.Threading;
 namespace MPC.Webstore.Controllers
 {
     public class LoginController : Controller
@@ -234,7 +236,7 @@ namespace MPC.Webstore.Controllers
             
             return null;
         }
-
+       
         private void SetViewFlags(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
         {
             if (StoreBaseResopnse != null)
@@ -274,5 +276,25 @@ namespace MPC.Webstore.Controllers
             }
 
         }
+       
+
+        //public void LoadStore(long OrganisationId,string email ,string password)
+        //{
+        //    CompanyContact Contact = _myCompanyService.GetContactOnUserNamePass(OrganisationId, email, password);
+        //    MPC.Models.DomainModels.Company GetCompany = _myCompanyService.GetCompanyByCompanyID(Contact.CompanyId);
+
+        //    if ((GetCompany.IsCustomer==(int)StoreMode.Corp))
+        //    {
+                
+
+        //    }
+        //    else
+        //    {
+        //        if ((GetCompany.IsCustomer == (int)CustomerTypes.Customers))
+        //        {
+                  
+        //        }
+        //    }
+        //}
     }
 }
