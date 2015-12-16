@@ -1231,7 +1231,10 @@ namespace MPC.Repository.Repositories
 
                     listOfApprovers = (from c in db.CompanyContacts
                                        join cc in db.Companies on ContactCompnyID equals cc.CompanyId
-                                       where (c.ContactRoleId == admin || (c.ContactRoleId == Manager && c.TerritoryId == loggedinTerritoryId)) && (cc.IsCustomer == (int)CustomerTypes.Corporate) && c.CompanyId == ContactCompnyID
+                                       where (c.ContactRoleId == admin || 
+                                       (c.ContactRoleId == Manager && c.TerritoryId == loggedinTerritoryId)) 
+                                       && (cc.IsCustomer == (int)CustomerTypes.Corporate) 
+                                       && c.CompanyId == ContactCompnyID
                                        select c).ToList();
                     if (listOfApprovers.Count() > 0)
                     {

@@ -13,6 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password);
         void AddlistingImages(long ListingId, List<ListingImage> Images);
         bool DeleteLisitngData(long ListingId);
         long AddNewListing(MPC.Models.DomainModels.Listing propertyListing);

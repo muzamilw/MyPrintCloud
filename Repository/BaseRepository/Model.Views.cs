@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets6CE4489F4C111FBCD3A233721CD0F04BBC4CA47ED46617AF0008CA5A75AA89AD))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets9754536012613A86EF6190975EC996269154C404A4E3B4E8D1564109EAA07438))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets6CE4489F4C111FBCD3A233721CD0F04BBC4CA47ED46617AF0008CA5A75AA89AD : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets9754536012613A86EF6190975EC996269154C404A4E3B4E8D1564109EAA07438 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets6CE4489F4C111FBCD3A233721CD0F04BBC4CA47ED46617AF0008CA5A75AA89AD()
+        public ViewsForBaseEntitySets9754536012613A86EF6190975EC996269154C404A4E3B4E8D1564109EAA07438()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "45e2c27b3427804fb1cf9aaa53eedc784c8ada481d56496f9d036fd9631c702d";
-            this.HashOverAllExtentViews = "32227323adab1699654e482ba91a1cae5f67ac7c403664a735cab0fdf70a3109";
+            this.HashOverMappingClosure = "1a1cdccc5715526ca270b77508a3bb3c1fceace0bbb52ffad4a7514945bd373a";
+            this.HashOverAllExtentViews = "155f86767064f6a096d172347e86c00502fb36e7e0e43e9e24166e316b3bc9c1";
             this.ViewCount = 360;
         }
         
@@ -13755,7 +13755,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MarketingBriefHistory", @"
     SELECT VALUE -- Constructing MarketingBriefHistory
-        [DomainModels.Store.MarketingBriefHistory](T1.MarketingBriefHistory_MarketingBriefHistoryId, T1.MarketingBriefHistory_HtmlMsg, T1.MarketingBriefHistory_CompanyId, T1.MarketingBriefHistory_OrganisationId, T1.MarketingBriefHistory_ContactId, T1.MarketingBriefHistory_ItemId)
+        [DomainModels.Store.MarketingBriefHistory](T1.MarketingBriefHistory_MarketingBriefHistoryId, T1.MarketingBriefHistory_HtmlMsg, T1.MarketingBriefHistory_CompanyId, T1.MarketingBriefHistory_OrganisationId, T1.MarketingBriefHistory_ContactId, T1.MarketingBriefHistory_ItemId, T1.MarketingBriefHistory_CreationDate)
     FROM (
         SELECT 
             T.MarketingBriefHistoryId AS MarketingBriefHistory_MarketingBriefHistoryId, 
@@ -13764,6 +13764,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.OrganisationId AS MarketingBriefHistory_OrganisationId, 
             T.ContactId AS MarketingBriefHistory_ContactId, 
             T.ItemId AS MarketingBriefHistory_ItemId, 
+            T.CreationDate AS MarketingBriefHistory_CreationDate, 
             True AS _from0
         FROM BaseDbContext.MarketingBriefHistories AS T
     ) AS T1");
@@ -13776,7 +13777,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MarketingBriefHistories", @"
     SELECT VALUE -- Constructing MarketingBriefHistories
-        [DomainModels.MarketingBriefHistory](T1.MarketingBriefHistory_MarketingBriefHistoryId, T1.MarketingBriefHistory_HtmlMsg, T1.MarketingBriefHistory_CompanyId, T1.MarketingBriefHistory_OrganisationId, T1.MarketingBriefHistory_ContactId, T1.MarketingBriefHistory_ItemId)
+        [DomainModels.MarketingBriefHistory](T1.MarketingBriefHistory_MarketingBriefHistoryId, T1.MarketingBriefHistory_HtmlMsg, T1.MarketingBriefHistory_CompanyId, T1.MarketingBriefHistory_OrganisationId, T1.MarketingBriefHistory_ContactId, T1.MarketingBriefHistory_ItemId, T1.MarketingBriefHistory_CreationDate)
     FROM (
         SELECT 
             T.MarketingBriefHistoryId AS MarketingBriefHistory_MarketingBriefHistoryId, 
@@ -13785,6 +13786,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.OrganisationId AS MarketingBriefHistory_OrganisationId, 
             T.ContactId AS MarketingBriefHistory_ContactId, 
             T.ItemId AS MarketingBriefHistory_ItemId, 
+            T.CreationDate AS MarketingBriefHistory_CreationDate, 
             True AS _from0
         FROM DomainModelsStoreContainer.MarketingBriefHistory AS T
     ) AS T1");

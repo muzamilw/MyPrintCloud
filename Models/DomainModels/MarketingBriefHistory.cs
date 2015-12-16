@@ -14,5 +14,7 @@ namespace MPC.Models.DomainModels
         public Nullable<long> OrganisationId { get; set; }
         public Nullable<long> ContactId { get; set; }
         public Nullable<long> ItemId { get; set; }
+
+        public DateTime? CreationDate { get; set; }
     }
 }

@@ -678,8 +678,8 @@ namespace MPC.Repository.Repositories
                     tbl_listing.RendPeriod = (String.IsNullOrEmpty(listing.RentPeriod)) ? 0 : Convert.ToInt32(listing.RentPeriod);
 
                     if (!String.IsNullOrEmpty(listing.AvailableDate))
-                        //tbl_listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
-                         tbl_listing.AvailableDate = DateTime.Parse(listing.AvailableDate);
+                        tbl_listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
+                        
                         
                     if (!String.IsNullOrEmpty(listing.SoldDate))
                         //tbl_listing.SoldDate = Convert.ToDateTime(listing.SoldDate, new System.Globalization.CultureInfo("en-AU"));

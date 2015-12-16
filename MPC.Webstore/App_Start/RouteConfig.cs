@@ -50,12 +50,12 @@ namespace MPC.Webstore
               , new { controller = "Home", action = "Index", name = "" 
             });
 
-            routes.MapRoute(
+            
+              routes.MapRoute(
                 "BillingShippingAddressManager"
               , "BillingShippingAddressManager"
               , new { controller = "Home", action = "Index", name = "" 
             });
-
             routes.MapRoute(
                 "BillingShipping",
                 "BillingShippingAddressManager/FillAddresses",
@@ -67,7 +67,11 @@ namespace MPC.Webstore
                 "RealestateSideBarWithSlider/LogOut",
                 new { controller = "RealestateSideBarWithSlider", action = "LogOut", id = UrlParameter.Optional }
             );
-
+            routes.MapRoute(
+                "LoadStoresWebstore",
+                "Login/LoadStore",
+                new { controller = "Login", action = "LoadStore", id = UrlParameter.Optional }
+            );
             routes.MapRoute(
               "SmartForm",
               "RealEstateSmartForm/{PropertyId}",
