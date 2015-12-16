@@ -1894,5 +1894,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             _listingRepository.AddlistingImages(ListingId, Images);
         }
+        public CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password)
+        {
+            return _CompanyContactRepository.GetContactOnUserNamePass(OrganisationId, Email, password);
+        }
     }
 }

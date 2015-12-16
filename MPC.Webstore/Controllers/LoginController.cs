@@ -11,6 +11,8 @@ using MPC.Webstore.Models;
 using MPC.Models.Common;
 using System.Runtime.Caching;
 using MPC.Models.ResponseModels;
+using System.Globalization;
+using System.Threading;
 namespace MPC.Webstore.Controllers
 {
     public class LoginController : Controller
@@ -234,7 +236,7 @@ namespace MPC.Webstore.Controllers
             
             return null;
         }
-
+       
         private void SetViewFlags(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
         {
             if (StoreBaseResopnse != null)
@@ -274,5 +276,99 @@ namespace MPC.Webstore.Controllers
             }
 
         }
+        [HttpPost]
+        public JsonResult LoadStore(long OrganisationId, string email, string password)
+        {
+            bool Result=false;
+            CompanyContact Contact = _myCompanyService.GetContactOnUserNamePass(OrganisationId, email, password);
+
+            if (Contact != null)
+            {
+                Result = true;
+                MPC.Models.DomainModels.Company GetCompany = _myCompanyService.GetCompanyByCompanyID(Contact.CompanyId);
+                MPC.Models.DomainModels.Company cCompany;
+                if ((GetCompany.IsCustomer == (int)StoreMode.Corp))
+                {
+
+                    SetStoreData(GetCompany.CompanyId, out cCompany);
+                }
+                else
+                {
+                    if ((GetCompany.IsCustomer == (int)CustomerTypes.Customers))
+                    {
+                        SetStoreData(GetCompany.StoreId ?? 0, out cCompany);
+                    }
+                }
+            }
+            return Json(Result, JsonRequestBehavior.DenyGet);
+        }
+        public void SetStoreData(long StoreId, out MPC.Models.DomainModels.Company Rcompany)
+        {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MyCompanyDomainBaseReponse StoreBaseResopnse = null;
+            if ((cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>).ContainsKey(StoreId))
+            {
+                StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[StoreId];
+            }
+            else
+            {
+                StoreBaseResopnse = _myCompanyService.GetStoreFromCache(StoreId);
+            }
+            Rcompany = StoreBaseResopnse.Company;
+            if (StoreBaseResopnse.Company != null)
+            {
+                UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
+                UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
+                UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
+                UserCookieManager.WEBOrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
+                UserCookieManager.isRegisterClaims = 2;
+                // set global language of store
+
+                string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
+
+                CultureInfo ci = null;
+
+                if (string.IsNullOrEmpty(languageName))
+                {
+                    languageName = "en-US";
+                }
+
+                ci = new CultureInfo(languageName);
+
+                Thread.CurrentThread.CurrentUICulture = ci;
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+
+                if (StoreBaseResopnse.Company.IsCustomer == 3)// corporate customer
+                {
+                    Response.Redirect("/Login");
+                }
+                else
+                {
+                    Response.Redirect("/");
+                }
+            }
+
+        }
+
+        //public void LoadStore(long OrganisationId,string email ,string password)
+        //{
+        //    CompanyContact Contact = _myCompanyService.GetContactOnUserNamePass(OrganisationId, email, password);
+        //    MPC.Models.DomainModels.Company GetCompany = _myCompanyService.GetCompanyByCompanyID(Contact.CompanyId);
+
+        //    if ((GetCompany.IsCustomer==(int)StoreMode.Corp))
+        //    {
+                
+
+        //    }
+        //    else
+        //    {
+        //        if ((GetCompany.IsCustomer == (int)CustomerTypes.Customers))
+        //        {
+                  
+        //        }
+        //    }
+        //}
     }
 }

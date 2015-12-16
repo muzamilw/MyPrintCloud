@@ -408,6 +408,7 @@
     <Compile Include="Controllers\HeaderWithCategoriesAndProducts.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
+    <Compile Include="Controllers\HttpPost.cs" />
     <Compile Include="Controllers\LoginBarWithCountersController.cs" />
     <Compile Include="Controllers\LoginBarWithPhoneInfoController.cs" />
     <Compile Include="Controllers\LoginEazyPrintController.cs" />
@@ -794,6 +795,7 @@
     <Content Include="Content\TFEHotels.css" />
     <Content Include="Content\Valleyedge.css" />
     <Content Include="Content\zoomslider.css" />
+    <Content Include="HtmlJsonPage\Login.html" />
     <Content Include="HtmlJsonPage\RealEstateJsonPage.html" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
     <Content Include="LightBox\Images\blank.gif" />

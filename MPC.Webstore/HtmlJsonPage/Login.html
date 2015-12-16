@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div class="Container">
+        <input type="text" id="email" placeholder="Email" />
+        <input id="password" type ="password" placeholder="password" />
+        <input id="Orgidd" type="text" placeholder="OrganisationId" />
+        <input type="button" value="Submit" onclick="PostData();" />
+    </div>
+</body>
+
+</html>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+    function PostData() {
+        var OrgId=$("#Orgidd").val();
+        var Email = $("#email").val();
+        var Pass = $("#password").val();
+        alert(Pass);
+        var pdata = { OrganisationId: OrgId, email: Email, password: Pass };
+        $.ajax({
+            type: "POST",
+            url: "/Login/LoadStore",
+            contentType: "application/json",
+            data: JSON.stringify(pdata),
+            async: true,
+            success: function (response) {
+                alert(response);
+                if (response==false) {
+                    alert();
+                }
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
+  
+</script>
