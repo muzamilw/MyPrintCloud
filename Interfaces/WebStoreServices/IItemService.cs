@@ -18,7 +18,7 @@ namespace MPC.Interfaces.WebStoreServices
         Item GetItemByIdDesigner(long ItemId);
 
 
-        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false, long PropertyId = 0, bool isSetTemplateIdToNull = false);
+        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId,bool isUploadDesignMode = false, long PropertyId = 0, bool isSetTemplateIdToNull = false);
         List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId, long OrganisationId);
 
         string specialCharactersEncoder(string value);
@@ -182,7 +182,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         long getParentTemplateID(long itemId);
 
-        string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID);
+        string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID, long StoreId);
         /// <summary>
         /// get category name
         /// </summary>
@@ -206,7 +206,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="TemporaryRetailCompanyIdFromCookie"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId, long PropertyId = 0);
+        ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId,long StoreId ,long PropertyId = 0);
          /// <summary>
         /// delete single attachment record
         /// </summary>

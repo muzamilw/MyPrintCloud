@@ -225,9 +225,9 @@ namespace MPC.Webstore.Controllers
                     ViewData["ItemVideo"] = null;
                 }
 
-                if (!string.IsNullOrEmpty(ItemModel.File1))
+                if (!string.IsNullOrEmpty(ItemRecord.File1))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File1);
+                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File1);
                     if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
                         ViewBag.File1Url = "/Content/Images/ai.gif";
@@ -270,9 +270,9 @@ namespace MPC.Webstore.Controllers
                     }
 
                 }
-                if (!string.IsNullOrEmpty(ItemModel.File2))
+                if (!string.IsNullOrEmpty(ItemRecord.File2))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File2);
+                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File2);
                     if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
                         ViewBag.File2Url = "/Content/Images/ai.gif";
@@ -315,9 +315,9 @@ namespace MPC.Webstore.Controllers
                     }
 
                 }
-                if (!string.IsNullOrEmpty(ItemModel.File3))
+                if (!string.IsNullOrEmpty(ItemRecord.File3))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File3);
+                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File3);
                     if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
                         ViewBag.File3Url = "/Content/Images/ai.gif";
@@ -359,9 +359,9 @@ namespace MPC.Webstore.Controllers
                         ViewBag.File3Url = "/Content/download.png";
                     }
                 }
-                if (!string.IsNullOrEmpty(ItemModel.File4))
+                if (!string.IsNullOrEmpty(ItemRecord.File4))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File4);
+                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File4);
                     if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
                         ViewBag.File4Url = "/Content/Images/ai.gif";
@@ -403,9 +403,9 @@ namespace MPC.Webstore.Controllers
                         ViewBag.File4Url = "/Content/download.png";
                     }
                 }
-                if (!string.IsNullOrEmpty(ItemModel.File5))
+                if (!string.IsNullOrEmpty(ItemRecord.File5))
                 {
-                    string FileExtension = System.IO.Path.GetExtension(ItemModel.File5);
+                    string FileExtension = System.IO.Path.GetExtension(ItemRecord.File5);
                     if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                     {
                         ViewBag.File5Url = "/Content/Images/ai.gif";
@@ -1093,7 +1093,7 @@ namespace MPC.Webstore.Controllers
                         }
 
                     }
-                    ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemID, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, ContactID, CompanyID, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+                    ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemID, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, ContactID, CompanyID, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                     UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
                     UserCookieManager.WEBOrderId = cloneObject.OrderId;
                     Response.Redirect(cloneObject.RedirectUrl);
@@ -1230,7 +1230,7 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult CloneItem(long id)
         {
-            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(id, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(id, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID,UserCookieManager.WBStoreId);
             UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
             UserCookieManager.WEBOrderId = cloneObject.OrderId;
             Response.Redirect(cloneObject.RedirectUrl);
