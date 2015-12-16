@@ -561,7 +561,11 @@ namespace MPC.Repository.Repositories
                 long updatedListingID = UpdateListingXML(objProperty.Listing, listing);
                 ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId, OrgId, updatedListingID);
                 UpdateListingImagesXML(updatedListingID, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
-                UpdateListingFloorPlansXML(updatedListingID, objProperty.Listing.ListingFloorplans.floorplans);
+                if(objProperty.Listing.ListingFloorplans != null)
+                {
+                    UpdateListingFloorPlansXML(updatedListingID, objProperty.Listing.ListingFloorplans.floorplans);
+                }
+                
                 
                 dataAdded = true;
                 return dataAdded;

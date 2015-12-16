@@ -2662,6 +2662,7 @@
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="ContactId" Type="bigint" />
           <Property Name="ItemId" Type="bigint" />
+          <Property Name="CreationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Markup">
           <Key>
@@ -15313,6 +15314,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="ContactId" Type="Int64" />
           <Property Name="ItemId" Type="Int64" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="vw_RealEstateProperties">
           <Key>
@@ -20335,6 +20337,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="MarketingBriefHistories">
             <EntityTypeMapping TypeName="DomainModels.MarketingBriefHistory">
               <MappingFragment StoreEntitySet="MarketingBriefHistory">
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="ContactId" ColumnName="ContactId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
