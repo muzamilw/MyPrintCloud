@@ -18,7 +18,7 @@ public class ListingBackgroundTask : Registry
         if (OrganisationId > 0)
         {
             Schedule(() => _listingService.SaveListingData(OrganisationId))
-               .ToRunNow().AndEvery(30).Seconds();
+               .ToRunNow().AndEvery(2).Minutes();
         }
     }
 
