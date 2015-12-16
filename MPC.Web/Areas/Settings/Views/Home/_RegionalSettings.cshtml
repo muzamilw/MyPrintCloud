@@ -99,11 +99,17 @@
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     <label for="txtBleedArea" class="control-label text-right tooltip-float">
-                        Bleed Size
+                        Template Bleed Size for designer
                     </label>
                 </div>
                 <div class="col-lg-2">
-                    <input type="text" class="form-control text-right" id="txtBleedArea" placeholder="Enter Bleed Size" data-bind="value:bleedAreaSize">
+                    
+                    <input type="text" class="form-control text-right" id="txtBleedAreaMetric" placeholder="Enter Bleed Size" data-bind="autoNumeric: bleedAreaSize , settings:{mDec:2}, visible: $root.selectedMyOrganization().isImperical() == 'false'">
+                    
+                    <input type="text" class="form-control text-right" id="txtBleedAreaImperial" placeholder="Enter Bleed Size" data-bind="autoNumeric: bleedAreaSize , settings:{mDec:5}, visible: $root.selectedMyOrganization().isImperical() == 'true'">
+                </div>
+                <div class="col-lg-2">
+                    <label class="control-label" id="lblBleedArea" data-bind="text:$root.selectedMyOrganization().isImperical() == 'true' ? 'Inch' : 'mm'"></label>
                 </div>
 
             </div>

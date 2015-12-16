@@ -1887,7 +1887,7 @@ define("common/itemDetail.viewModel",
                     },
                     showPostPressCostCenter = function() {
                         addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress, true,
-                            selectedProduct().id());
+                            selectedProduct().id(), selectedSection().convertToServerData());
                     },
                     // After adding cost center
                     addCostCenter = function(costCenter) {
