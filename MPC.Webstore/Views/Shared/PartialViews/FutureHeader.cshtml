@@ -25,13 +25,13 @@
                         {
                             <div class="linkCol">
                                 <li class="dropdownHeading">@topCat.CategoryName</li>
-                                
+
                                 @{var subCat = subCategories.Where(i => i.ParentCategoryId == topCat.ProductCategoryId).ToList();}
                                 @foreach (ProductCategory subCats in subCat)
                                 {
 
                                     <li><a href="/Category/@Utils.specialCharactersEncoder(subCats.CategoryName)/@subCats.ProductCategoryId">&gt; @subCats.CategoryName</a></li>
-                                  
+
                                 }
 
                                 @if(subCat.Count == 0)
@@ -43,16 +43,24 @@
                         }
                         <div class="clearfix"></div>
                     </div>
-                    @if (ViewBag.SeeMore == 1) 
+                    @if (ViewBag.SeeMore == 1)
                     {
                         <div class="seeMoreProducts">
-                            <a href="/AllProducts"  onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkMoreProducts", UserCookieManager.WBStoreId, "More Products"))</a>
+                            <a href="/AllProducts" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkMoreProducts", UserCookieManager.WBStoreId, "More Products"))</a>
 
                         </div>
                     }
                 </ul>
             </li>
-            @if(ViewBag.AboutUs != null)
+            @if (Model.IsAllowRequestaQuote == true)
+            {
+                <li>
+                    <a href="/RequestQuote" >@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a>
+                    
+                </li>
+            }
+
+            @if (ViewBag.AboutUs != null)
             {
                 <li>
                     <a href="/pages/@Utils.specialCharactersEncoder(ViewBag.AboutUs.PageTitle)/@ViewBag.AboutUs.PageId">About Us</a>

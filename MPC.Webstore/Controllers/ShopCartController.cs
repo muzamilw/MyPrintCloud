@@ -489,7 +489,7 @@ namespace MPC.Webstore.Controllers
         {
             Item newCloneditem = null;
 
-            newCloneditem = _ItemService.CloneItem(ItemID, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, true, _myClaimHelper.loginContactID(), UserCookieManager.WEBOrganisationID);
+            newCloneditem = _ItemService.CloneItem(ItemID, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, true, _myClaimHelper.loginContactID(), UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
             Estimate objOrder = _OrderService.GetOrderByID(OrderID);
 

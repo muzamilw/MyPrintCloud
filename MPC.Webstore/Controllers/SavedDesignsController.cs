@@ -339,7 +339,7 @@ namespace MPC.Webstore.Controllers
 
                     Item clonedItem = null;
 
-                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID, ExistingProduct.RefItemID ?? 0, OrderID, _myClaimHelper.loginContactCompanyID(), ExistingProduct.TemplateID ?? 0, 0, null, true, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
+                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID, ExistingProduct.RefItemID ?? 0, OrderID, _myClaimHelper.loginContactCompanyID(), ExistingProduct.TemplateID ?? 0, 0, null, true, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, StoreBaseResopnse.Company.CompanyId);
 
                     // Code to copy item attachments ..
                     Estimate objOrder = _IOrderService.GetOrderByID(OrderID);

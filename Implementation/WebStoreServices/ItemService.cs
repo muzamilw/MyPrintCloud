@@ -125,7 +125,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemByIdDesigner(ItemId);
         }
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false, long PropertyId = 0, bool isSetTemplateIdToNull = false)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId,bool isUploadDesignMode = false, long PropertyId = 0, bool isSetTemplateIdToNull = false)
         {
 
             try
@@ -290,7 +290,7 @@ namespace MPC.Implementation.WebStoreServices
                         long? clonedTemplateID = result;
                         clonedTemplate = _TemplateRepository.Find((int)clonedTemplateID);//  db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
 
-                        var oCutomer = _CompanyRepository.Find(CustomerID); //db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
+                        var oCutomer = _CompanyRepository.Find(StoreId); //db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
                         clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
 
                         if (PropertyId > 0)
@@ -1795,7 +1795,7 @@ namespace MPC.Implementation.WebStoreServices
             return _ItemRepository.getParentTemplateID(itemId);
         }
         // called from category page to generate template and order if skip designer mode is selected
-        public string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID)
+        public string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID, long StoreId)
         {
             long ItemID = 0;
             long TemplateID = 0;
@@ -1836,7 +1836,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                Item item = CloneItem(itemID, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+                Item item = CloneItem(itemID, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId);
 
                 if (item != null)
                 {
@@ -1876,7 +1876,7 @@ namespace MPC.Implementation.WebStoreServices
                     CompanyID = TemporaryCompanyId;
                     ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
                 }
-                Item item = CloneItem(itemID, 0, WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+                Item item = CloneItem(itemID, 0, WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId);
 
                 if (item != null)
                 {
@@ -2067,7 +2067,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <param name="TemporaryRetailCompanyIdFromCookie"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        public ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId, long PropertyId = 0)
+        public ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId,long StoreId, long PropertyId = 0)
         {
 
             ItemCloneResult itemCloneObj = new ItemCloneResult();
@@ -2119,7 +2119,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, false, PropertyId);
+                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, false, PropertyId);
 
                 if (item != null)
                 {
@@ -2174,7 +2174,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
 
-                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, false, PropertyId);
+                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, false, PropertyId);
 
                 if (item != null)
                 {
