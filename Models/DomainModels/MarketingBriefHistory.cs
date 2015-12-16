@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MPC.Models.DomainModels
 {
     public class MarketingBriefHistory
-    {
+    {//
         public long MarketingBriefHistoryId { get; set; }
         public string HtmlMsg { get; set; }
         public Nullable<long> CompanyId { get; set; }
