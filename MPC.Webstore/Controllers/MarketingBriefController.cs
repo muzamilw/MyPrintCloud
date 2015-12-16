@@ -177,6 +177,15 @@ namespace MPC.Webstore.Controllers
                     MEsg += Utils.GetKeyValueFromResourceFile("plzseeAtt", UserCookieManager.WBStoreId, "Please also see the attachments.") + "<br />";
                 }
 
+                MarketingBriefHistory briefHistoryObj = new MarketingBriefHistory();
+                briefHistoryObj.CompanyId = UserCookieManager.WBStoreId;
+                briefHistoryObj.OrganisationId = UserCookieManager.WEBOrganisationID;
+                briefHistoryObj.HtmlMsg = MEsg;
+                briefHistoryObj.CreationDate = DateTime.Now;
+                briefHistoryObj.ContactId = _myClaimHelper.loginContactID();
+                briefHistoryObj.ItemId = Model.ItemID;
+
+                _IItemService.SaveMarketingBriefHistory(briefHistoryObj);
 
                 string SecondEmail = _IUserManagerService.GetMarketingRoleIDByName();
                 Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);

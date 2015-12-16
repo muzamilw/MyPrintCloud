@@ -463,7 +463,9 @@ define("machine/machine.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
-
+                                    //selectedMachine().lookupMethod(model.lookupMethod(data.machine.LookupMethod));
+                                    //lookupMethodViewModel.GetSpeedWeightLookup(data.machine.LookupMethod.MachineSpeedWeightLookups[0]);
+                                    //selectedMachine().lookupMethod().SpedWeightLookups[0](data.machine.LookupMethod);
                                     lookupMethodViewModel.CurrencySymbol(selectedMachine().CurrencySymbol());
                                     $("#isSheetFedRadio").css("display", "none");
                                     

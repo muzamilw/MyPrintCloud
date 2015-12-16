@@ -24,5 +24,7 @@ namespace MPC.Interfaces.Repository
 
         List<StockSubCategory> getStockSubCategoryByCategoryId(long CatId);
 
+        StockCategory getStockCategoryByCategoryId(long CatId);
+
     }
 }

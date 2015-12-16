@@ -35,6 +35,10 @@ namespace MPC.Implementation.MISServices
         {
             //stockCategory.CompanyId = 324234;todo
             stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
+            if(stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.Count > 0)
+            {
+                stockCategory.StockSubCategories.ToList().ForEach(x => x.OrganisationId = stockCategoryRepository.OrganisationId);
+            }
             stockCategoryRepository.Add(stockCategory);
             stockCategoryRepository.SaveChanges();
             return stockCategory;
@@ -43,17 +47,22 @@ namespace MPC.Implementation.MISServices
         public StockCategory Update(StockCategory stockCategory)
         {
             stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
-            var stockDbVersion = stockCategoryRepository.Find(stockCategory.CategoryId);
+            var stockDbVersion = stockCategoryRepository.getStockCategoryByCategoryId(stockCategory.CategoryId);
             #region Sub Stock Categories Items
             //Add  SubStockCategories 
             if (stockCategory.StockSubCategories != null)
             {
                 foreach (var item in stockCategory.StockSubCategories)
                 {
-                    if (stockDbVersion.StockSubCategories.All(x => x.SubCategoryId != item.SubCategoryId) || item.SubCategoryId == 0)
+                    if (stockDbVersion.StockSubCategories.All(x => x.SubCategoryId != item.SubCategoryId) || item.SubCategoryId == 0 )
                     {
                         item.CategoryId = stockCategory.CategoryId;
+                        item.OrganisationId = stockCategoryRepository.OrganisationId;
                         stockDbVersion.StockSubCategories.Add(item);
+                    }
+                    else
+                    {
+                        item.OrganisationId = stockCategoryRepository.OrganisationId;
                     }
                 }
             }
@@ -63,10 +72,14 @@ namespace MPC.Implementation.MISServices
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (StockSubCategory dbversionStockSubCategories in stockDbVersion.StockSubCategories)
             {
-                if (stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.All(x => x.SubCategoryId != dbversionStockSubCategories.SubCategoryId))
+                if(dbversionStockSubCategories.OrganisationId == stockCategoryRepository.OrganisationId)
                 {
-                    missingStockSubCategories.Add(dbversionStockSubCategories);
+                    if (stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.All(x => x.SubCategoryId != dbversionStockSubCategories.SubCategoryId && x.OrganisationId == stockCategoryRepository.OrganisationId))
+                    {
+                        missingStockSubCategories.Add(dbversionStockSubCategories);
+                    }
                 }
+               
             }
 
             //remove missing items
