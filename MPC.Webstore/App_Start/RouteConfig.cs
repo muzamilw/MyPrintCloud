@@ -61,7 +61,11 @@ namespace MPC.Webstore
                 "BillingShippingAddressManager/FillAddresses",
                 new { controller = "BillingShippingAddressManager", action = "FillAddresses", id = UrlParameter.Optional }
            );
-
+            routes.MapRoute(
+               "LoadStoreWithContactInfo",
+               "Login/LoadStoreByContactInfo",
+               new { controller = "Login", action = "LoadStoreByContactInfo", id = UrlParameter.Optional }
+           );
             routes.MapRoute(
                 "Logoutrealestate",
                 "RealestateSideBarWithSlider/LogOut",
@@ -448,7 +452,7 @@ namespace MPC.Webstore
                 "autologin/{C}/{F}/{L}/{E}/{CC}",
                 new { controller = "Home", action = "AutoLoginOrRegister", C = UrlParameter.Optional, F = UrlParameter.Optional, L = UrlParameter.Optional, E = UrlParameter.Optional, CC = UrlParameter.Optional }
             );
-
+           
             routes.MapRoute(
                 "RemoveArtwork",
                 "DeleteArtworkAttachment/{AttachmentID}",

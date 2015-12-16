@@ -20,6 +20,7 @@ using System.Configuration;
 using GrapeCity.ActiveReports;
 using MPC.Web.Reports;
 using MPC.MIS.Models;
+using FluentScheduler;
 
 namespace MPC.MIS.Controllers
 {
@@ -36,11 +37,13 @@ namespace MPC.MIS.Controllers
             get { return HttpContext.GetOwinContext().Authentication; }
         }
         private IOrderService orderService{ get; set; }
+        private readonly MPC.Interfaces.MISServices.IListingService _listingService;
 
-        public HomeController(IOrderService orderService, IReportService reportService)
+        public HomeController(IOrderService orderService, IReportService reportService, IListingService listingService)
         {
             this.orderService = orderService;
             this.IReportService = reportService;
+            this._listingService = listingService;
         }
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -126,6 +129,9 @@ namespace MPC.MIS.Controllers
                 email = validationInfo.Email;
                 isTrial = validationInfo.IsTrial;
                 trialCount = validationInfo.TrialCount;
+
+                // for lisitng
+                TaskManager.Initialize(new ListingBackgroundTask(_listingService,organisationId));
             }
             else
             {
