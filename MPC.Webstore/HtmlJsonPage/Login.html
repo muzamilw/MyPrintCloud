@@ -1,36 +1,188 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title></title>
 </head>
+<style>
+   body {
+    margin-left: 0px;
+    margin-top: 0px;
+}
+   p {
+    color: #666;
+    font-family: "Lato";
+    font-size: 20px;
+}
+   header {
+    width: 100%;
+    height: 100px;
+    background: #333 none repeat scroll 0% 0%;
+}
+   .list {
+    font-size: 18px;
+    line-height: 1.8;
+}
+   .list i {
+    margin-right: 10px;
+    color: #8FC041;
+}
+p {
+    color: #666;
+    font-family: "Lato";
+    font-size: 20px;
+}
+   .sidebar {
+    box-sizing: border-box;
+    width: 40%;
+    float: left;
+    padding: 0px 45px;
+}
+    .content {
+    width: 100%;
+    margin-top: 30px;
+}
+    .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0px auto;
+}
+    .loginbox {
+    box-sizing: border-box;
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    width: 60%;
+    float: left;
+    padding: 45px;
+}
+    h1 {
+    font-family: "Lato";
+    font-weight: 900;
+    margin: 0px 0px 20px;
+    color: #8FC041;
+}
+    .formbox {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #EFEFEF;
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 16px;
+}
+    
+.messageBoxNew {
+    border: 1px solid green;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    color: green;
+    padding: 20px;
+    display: none;
+}
+    .rounded_corners {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+    .button {
+    cursor: pointer;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #FFF;
+    background: #8FC041 none repeat scroll 0% 0%;
+    border-radius: 3px;
+    border: 1px solid #8FC041;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+</style>
 <body>
-    <div class="Container">
-        <input type="text" id="email" placeholder="Email" />
-        <input id="password" type ="password" placeholder="password" />
-        <input id="Orgidd" type="text" placeholder="OrganisationId" />
-        <input type="button" value="Submit" onclick="PostData();" />
+
+    <header></header><!--banner-->
+    <div class="content">
+        <div class="container">
+            <div id="messgetodisply" class="rounded_corners messageBoxNew" style="display:none;"></div>
+            <br />
+            <div class="loginbox">
+                <h1>Login</h1>
+                <form action="http://mpc/login/LoadStoreByContactInfo" method="post">
+                    <input id="email" name="email" type="text" placeholder="Email" class="formbox">
+                    <input id="password" type="password" name="password" placeholder="Password" class="formbox">
+                    <input id="Orgidd" name="OrganisationId" type="text" placeholder="OrganisationId" class="formbox">
+                    <input name="login" type="button" onclick="Fire();" value="LOGIN" class="button">
+                    <input id="tempbtn" type="submit" style="visibility:hidden" />
+                </form>
+            </div>
+            <div class="sidebar">
+                
+                <p>With your account you can:</p>
+                <p class="list">
+                    <i class="fa fa-check"></i>Save your designs<br>
+                    <i class="fa fa-check"></i>View and track order history<br>
+                    <i class="fa fa-check"></i>Re-order quickly<br>
+                    <i class="fa fa-check"></i>Subscribe to our newsletter<br>
+                    <i class="fa fa-check"></i>Get latest voucher promotions<br>
+                </p>
+            </div>
+        </div>
     </div>
 </body>
 
-</html>
+<link href='http://fonts.googleapis.com/css?family=Lato:400,900|Lora:400,400italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
+
+  
+    $(document).ready(function () {
+        var name = GetParameterValues('message');
+        
+        if (name=='1')
+        {
+            $("#messgetodisply").css('display', 'block');
+            $("#messgetodisply").html('No record found!');
+            
+        }
+        else if (name == '2')
+        {
+            $("#messgetodisply").css('display', 'block');
+            $("#messgetodisply").html('Invalid email or pass!');
+            
+        }
+        else if (name == '3') {
+            $("#messgetodisply").css('display', 'block');
+            $("#messgetodisply").html('Email is invalid!');
+        }
+        function GetParameterValues(param) {
+            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < url.length; i++) {
+                var urlparam = url[i].split('=');
+                if (urlparam[0] == param) {
+                    return urlparam[1];
+                }
+            }
+        }
+    });
     function PostData() {
         var OrgId=$("#Orgidd").val();
         var Email = $("#email").val();
         var Pass = $("#password").val();
-        alert(Pass);
+     
         var pdata = { OrganisationId: OrgId, email: Email, password: Pass };
         $.ajax({
             type: "POST",
-            url: "/Login/LoadStore",
+            url: "/Login/LoadStoreByContactInfo",
             contentType: "application/json",
             data: JSON.stringify(pdata),
             async: true,
             success: function (response) {
-                alert(response);
-                if (response==false) {
-                    alert();
+                
+                if (!response=='ok') {
+                    ShowPopUp('Message', response);
                 }
             },
             error: function (error) {
@@ -38,6 +190,35 @@
             }
         });
     }
-
-  
+   
+          function ComputeData()
+          {
+              $("#messgetodisply").css('display', 'none');
+              $("#messgetodisply").html('');
+              var Isvalid = true;
+              if (!$("#Orgidd").val() == '') {
+                  if ($.isNumeric($("#Orgidd").val())) {
+                      
+                      $("#messgetodisply").css('display', 'none');
+                      $("#messgetodisply").html('');
+                  }
+                  else {
+                     
+                      Isvalid = false;
+                      $("#messgetodisply").css('display', 'block');
+                      $("#messgetodisply").html('Organisation id should be numeric!');
+                  }
+              }
+              else {
+                  Isvalid = false;
+                  $("#messgetodisply").css('display', 'block');
+                  $("#messgetodisply").html('Enter organisation id!');
+              }
+        return Isvalid;
+       }
+    function Fire() {
+        if (ComputeData() == true) {
+            $("#tempbtn").trigger('click');
+        }
+    }
 </script>

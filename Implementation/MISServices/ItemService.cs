@@ -451,6 +451,12 @@ namespace MPC.Implementation.MISServices
                 itemTarget.Template.PDFTemplateWidth = 
                     lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.PDFTemplateWidth.Value, organisation.LengthUnit);
             }
+            if (!itemTarget.Template.CuttingMargin.HasValue)
+            {
+                if (organisation.BleedAreaSize != null)
+                    itemTarget.Template.CuttingMargin =
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(organisation.BleedAreaSize??0, organisation.LengthUnit);
+            }
 
             // Convert Template Pages length to Points
             if (itemTarget.Template.TemplatePages == null)

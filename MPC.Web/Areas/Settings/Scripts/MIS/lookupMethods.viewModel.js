@@ -5,10 +5,9 @@
         ist.lookupMethods = {
 
             viewModel: (function () {
-                var
-                    view,
+                var view,
                     errorList = ko.observableArray([]),
-                   // isEditorVisible = ko.observable(false),
+                    // isEditorVisible = ko.observable(false),
                     lookupClickCharge = ko.observable(),
                     lookupSpeedWeight = ko.observable(),
                     lookupPerHour = ko.observable(),
@@ -38,6 +37,8 @@
                     isGuillotineClickChargeEditorVisible = ko.observable(),
                     isMeterPerHourClickChargeEditorVisible = ko.observable(),
                     IsSelected = ko.observable(),
+                    speedWeightCalculation = ko.observable();
+                
                     isSpeedWeightVisible = ko.observable(false),
                     hasChanges = ko.computed(function () {
                         //if (selectedClickChargeZones() != undefined) {
@@ -511,7 +512,10 @@
                 //    });
                 //},
 
-
+                GetSpeedWeightLookup = function (currentSpeedWeight, updatedSpeedWeight) {
+                    speedWeightCalculation = updatedSpeedWeight;
+                    speedWeightCalculation(model.SpeedWeightLookup(currentSpeedWeight));
+                },
 
                 GetLookupMethodById = function (mMethodId,MachineType) {
                     //selectedSpeedWeight(null);
@@ -833,7 +837,8 @@
                     WeightUnit : WeightUnit,
                     LengthUnit: LengthUnit,
                     isSpeedWeightVisible: isSpeedWeightVisible,
-                   hasChanges: hasChanges
+                    hasChanges: hasChanges,
+                    GetSpeedWeightLookup: GetSpeedWeightLookup
                 }
             })()
         };

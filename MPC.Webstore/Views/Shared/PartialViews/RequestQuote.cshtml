@@ -372,9 +372,19 @@
 
     //$(document).ready(function () {
 
-    $("#txtInquiryDate1").datepicker();
-    $("#txtInquiryDate2").datepicker();
-    $("#txtInquiryDate3").datepicker();
+    $("#txtInquiryDate1").datepicker(
+       {
+           format: 'dd/mm/yyyy',
+         
+       });
+    $("#txtInquiryDate2").datepicker({
+        format: 'dd/mm/yyyy',
+
+    });
+    $("#txtInquiryDate3").datepicker({
+        format: 'dd/mm/yyyy',
+
+    });
     $("#AddNewInquiryItemList").click(function () {
         AddNew();
     });

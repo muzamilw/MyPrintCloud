@@ -1012,10 +1012,10 @@ namespace MPC.Repository.Repositories
                         db.Listings.Attach(listing);
 
                         db.Entry(listing).State = EntityState.Modified;
-                        if (db.SaveChanges() > 0)
-                        {
+                     //   if (db.SaveChanges() > 0)
+                      //  {
                             updatedListing = listing.ListingId;
-                        }
+                       // }
                     }
                 
 
@@ -3547,12 +3547,12 @@ namespace MPC.Repository.Repositories
             listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
             listing.AdvertsSummary = propertyListing.AdvertsSummary;
             db.Listings.Add(listing);
-            if (db.SaveChanges() > 0)
-            {
+            //if (db.SaveChanges() > 0)
+           // {
 
                 ListingId = listing.ListingId;
 
-            }
+           // }
             return ListingId;
         }
 

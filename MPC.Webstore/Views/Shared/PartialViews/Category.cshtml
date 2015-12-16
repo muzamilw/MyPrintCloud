@@ -580,7 +580,7 @@
     var itemId = 0;
     function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
         //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
-        $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId + @UserCookieManager.WBStoreId,
+        $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId + "/" + @UserCookieManager.WBStoreId,
                           function (DT) {
                               parts = DT.split("_");
                               //templateid = part[1]
