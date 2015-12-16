@@ -87,7 +87,7 @@ namespace MPC.Implementation.MISServices
             return new InventoryBaseResponse
             {
                 StockCategories = stocks,
-                StockSubCategories = stocks.SelectMany(s => s.StockSubCategories).ToList(),
+                StockSubCategories = stocks.SelectMany(s => s.StockSubCategories.Where(u => u.OrganisationId == stockSubCategoryRepository.OrganisationId)).ToList(),
                 PaperSizes = paperSizeRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagForInventory(),
                 WeightUnits = weightUnitRepository.GetAll(),

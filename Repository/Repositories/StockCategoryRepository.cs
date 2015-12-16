@@ -70,28 +70,47 @@ namespace MPC.Repository.Repositories
         }
         public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {
-            int fromRow = (request.PageNo - 1) * request.PageSize;
-            int toRow = request.PageSize;
-            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
-            bool isCategoryIdSpecified = request.StockCategoryId != 0;
-            Expression<Func<StockCategory, bool>> query =
-                s =>
-                    (isStringSpecified && (s.Name.Contains(request.SearchString)) || !isStringSpecified) &&
-                    ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified) &&
-                    s.OrganisationId == OrganisationId;
+            int rowCount = 0;
+            IEnumerable<StockCategory> stockCategories = null;
+            if(request.StockCategoryId > 0) // edit case
+            {
 
-            int rowCount = DbSet.Count(query);
-            IEnumerable<StockCategory> stockCategories = request.IsAsc
-                ? DbSet.Where(query)
-                    .OrderBy(stockCategoryOrderByClause[request.StockCategoryOrderBy])
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList()
-                : DbSet.Where(query)
-                    .OrderByDescending(stockCategoryOrderByClause[request.StockCategoryOrderBy])
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList();
+                stockCategories = db.StockCategories.Where(c => c.CategoryId == request.StockCategoryId).ToList();
+
+                if (stockCategories != null && stockCategories.Count() > 0)
+                {
+                    foreach (var sc in stockCategories)
+                    {
+                        sc.StockSubCategories = sc.StockSubCategories.Where(c => c.OrganisationId == OrganisationId).ToList();
+                    }
+                }
+               
+            }
+            else // list case
+            {
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
+                bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+                bool isCategoryIdSpecified = request.StockCategoryId != 0;
+                Expression<Func<StockCategory, bool>> query =
+                    s =>
+                        (isStringSpecified && (s.Name.Contains(request.SearchString)) || !isStringSpecified) &&
+                        ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified) &&
+                        (s.OrganisationId == OrganisationId || s.OrganisationId == 0) && s.CategoryId != 3 && s.CategoryId != 4;
+
+                rowCount = DbSet.Count(query);
+                stockCategories = request.IsAsc
+                    ? DbSet.Where(query)
+                        .OrderBy(stockCategoryOrderByClause[request.StockCategoryOrderBy])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList()
+                    : DbSet.Where(query)
+                        .OrderByDescending(stockCategoryOrderByClause[request.StockCategoryOrderBy])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList();
+            }
 
             return new StockCategoryResponse
                    {
@@ -178,6 +197,20 @@ namespace MPC.Repository.Repositories
         public List<StockSubCategory> getStockSubCategoryByCategoryId(long CatId)
         {
             return db.StockSubCategories.Where(c => c.CategoryId == CatId).ToList();
+        }
+
+        public StockCategory getStockCategoryByCategoryId(long CatId)
+        {
+            StockCategory category = db.StockCategories.Where(c => c.CategoryId == CatId).FirstOrDefault();
+
+            //if(category != null)
+            //{
+            //    if(category.StockSubCategories != null && category.StockSubCategories.Count > 0)
+            //    {
+            //        category.StockSubCategories = category.StockSubCategories.Where(c => c.OrganisationId == OrganisationId).ToList();
+            //    }
+            //}
+            return category;
         }
         #endregion
     }
