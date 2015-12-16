@@ -931,6 +931,7 @@ namespace MPC.Repository.Repositories
                     ||
                     (contact.Email.Contains(request.SearchFilter)) ||
                     contact.Company.Name.Contains(request.SearchFilter)) &&
+                    (contact.Company.IsCustomer != 2) &&
                    // (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
                     (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId
 

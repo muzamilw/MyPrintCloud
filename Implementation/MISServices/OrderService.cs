@@ -1092,7 +1092,7 @@ namespace MPC.Implementation.MISServices
         {
             Estimate target = CreateNewOrder();
             target.isEstimate = false;
-            target.StatusId = (short)OrderStatus.PendingOrder;
+            target.StatusId = (short)OrderStatus.ConfirmedOrder;
 
             Estimate est_Source = GetById(source.EstimateId);
             est_Source.StatusId = 39;
@@ -1112,7 +1112,7 @@ namespace MPC.Implementation.MISServices
         {
             // Clone Estimate
             source.Clone(target);
-            target.Order_Date = clientSource.Order_Date;
+            target.Order_Date = DateTime.Now;
             target.OrderManagerId = clientSource.OrderManagerId;
             target.IsOfficialOrder = clientSource.IsOfficialOrder;
             target.CustomerPO = clientSource.CustomerPO;

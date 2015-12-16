@@ -242,7 +242,8 @@
                 LookupMethodId: LookupMethodId,
                 MachineSpoilageItems: MachineSpoilageItems,
                 MachineLookupMethods: MachineLookupMethods,
-                MachineInkCoverages: MachineInkCoverages
+                MachineInkCoverages: MachineInkCoverages,
+                lookupMethod: lookupMethod
             }),
             hasChanges = ko.computed(function () {
 
@@ -345,7 +346,8 @@
             onSelectStockItem: onSelectStockItem,
             CurrencySymbol: CurrencySymbol,
             WeightUnit: WeightUnit,
-            LengthUnit: LengthUnit
+            LengthUnit: LengthUnit,
+            lookupMethod: lookupMethod
           
         };
         return self;
@@ -360,6 +362,12 @@
         var self = this;
         self.MethodId = ko.observable(data.MethodId);
         self.Name = ko.observable(data.Name);
+        self.Type = ko.observable(data.Type);
+        self.SpedWeightLookups = ko.observable([]);
+        //_.each(data.MachineSpeedWeightLookups, function (item) {
+        //    self.SpedWeightLookups().push(Loo.Create(item));
+        //});
+        return self;
     };
 
     var MachineLookupMethods = function(data) {
@@ -942,7 +950,8 @@
         omachine.CurrencySymbol(source.CurrencySymbol);
         omachine.WeightUnit(source.WeightUnit);
         omachine.LengthUnit(source.LengthUnit);
-        omachine.isSheetFed(true);
+        
+        
         //for (i = 0; i < 8; i++) {
         //    omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
         //  }

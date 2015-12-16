@@ -36,7 +36,7 @@
 
                     <div style="text-align: right; padding-right:0px;margin-top:-10px; ">
                         <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
-                        <button type="button" class="btn btn-primary" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible:$root.selectedOrder().statusId() === 6 && !$root.showSectionDetail(),click:$root.openExternalReportsJob">Print Job Card</button>
+                        <button type="button" class="btn btn-primary" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible: ($root.selectedOrder().statusId() === 6 || $root.selectedOrder().statusId() === 7 || $root.selectedOrder().statusId() === 10)&& !$root.showSectionDetail(),click:$root.openExternalReportsJob">Print Job Card</button>
                         <!--/ko-->
 
                         <button data-bind="visible:$root.showSectionDetail,click:$root.closeSectionDetailEditor" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
