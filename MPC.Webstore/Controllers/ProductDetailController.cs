@@ -73,7 +73,7 @@ namespace MPC.Webstore.Controllers
                 {
                     if (ItemRecord.ProductDisplayOptions == (int)ProductDisplayOption.ThumbWithMultipleBanners)
                     {
-
+                        ViewBag.hfEditTempType = "FinishedGood";
                         loadfinishedGoodsImages(ItemRecord, ItemID, ItemRecord.ImagePath);
                     }
 
@@ -162,17 +162,10 @@ namespace MPC.Webstore.Controllers
 
 
 
-                    //Handle corporate scenario
-                    //HandleCorporateScenario(curProduct);
-
-
-                    LoadRelatedItems(ItemID, ItemRecord.ProductName, StoreBaseResopnse, IsShowPrices);
-
-
-
-
                     if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                     {
+                        LoadRelatedItems(Convert.ToInt64(ItemRecord.RefItemId));
+
                         if (TemplateID > 0)
                         {
 
@@ -645,43 +638,43 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+                loadfinishedGoodsImages(RecItem, ItemID, RecItem.ImagePath);
+                //if (ItemID > 0)
+                //{
+                //    ViewBag.IsTemplateProductWithBanner = false;
+                //    html = "  <div id='slider' style='height:450px;'> ";
+                //    for (int i = 1; i <= count; i++)
+                //    {
+                //        string path = "/MPC_Content/Designer/Organisation" + OID + "/Templates/" + TempID + "/p" + i + ".png";
+                //        //  string drURL = System.Web.HttpContext.Current.Server.MapPath(path);
+                //        // string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
+                //        if (LstTempPages != null)
+                //            html += "<img class='sliderImgs' src=" + path + " alt='" + LstTempPages[i - 1].PageName + "'  />";// orignal for image slider 
+                //        else
+                //            html += "<img class='sliderImgs' src=" + path + "/>";// orignal for image slider 
+                //    }
+                //    html += "</div>";
+                //    ViewBag.Html = html;
 
-                if (ItemID > 0)
-                {
-                    ViewBag.IsTemplateProductWithBanner = false;
-                    html = "  <div id='slider' style='height:450px;'> ";
-                    for (int i = 1; i <= count; i++)
-                    {
-                        string path = "/MPC_Content/Designer/Organisation" + OID + "/Templates/" + TempID + "/p" + i + ".png";
-                        //  string drURL = System.Web.HttpContext.Current.Server.MapPath(path);
-                        // string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
-                        if (LstTempPages != null)
-                            html += "<img class='sliderImgs' src=" + path + " alt='" + LstTempPages[i - 1].PageName + "'  />";// orignal for image slider 
-                        else
-                            html += "<img class='sliderImgs' src=" + path + "/>";// orignal for image slider 
-                    }
-                    html += "</div>";
-                    ViewBag.Html = html;
 
+                //}
+                //else
+                //{
+                //    string TemplateDesignerUrl = WebConfigurationManager.AppSettings["TemplateDesignsUrl"];
+                //    ViewBag.IsTemplateProductWithBanner = false;
+                //    html = "  <div id='slider' style='height:450px;'> ";
+                //    for (int i = 1; i <= count; i++)
+                //    {
+                //        string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
+                //        if (LstTempPages != null)
+                //            html += "<img class='sliderImgs' src=" + imgurl + " alt='" + LstTempPages[i - 1].PageName + "'  />";// orignal for image slider 
+                //        else
+                //            html += "<img class='sliderImgs' src=" + imgurl + "/>";// orignal for image slider 
+                //    }
+                //    html += "</div>";
+                //    ViewBag.Html = html;
 
-                }
-                else
-                {
-                    string TemplateDesignerUrl = WebConfigurationManager.AppSettings["TemplateDesignsUrl"];
-                    ViewBag.IsTemplateProductWithBanner = false;
-                    html = "  <div id='slider' style='height:450px;'> ";
-                    for (int i = 1; i <= count; i++)
-                    {
-                        string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
-                        if (LstTempPages != null)
-                            html += "<img class='sliderImgs' src=" + imgurl + " alt='" + LstTempPages[i - 1].PageName + "'  />";// orignal for image slider 
-                        else
-                            html += "<img class='sliderImgs' src=" + imgurl + "/>";// orignal for image slider 
-                    }
-                    html += "</div>";
-                    ViewBag.Html = html;
-
-                }
+                //}
 
             }
         }
@@ -695,33 +688,26 @@ namespace MPC.Webstore.Controllers
             //btnMatchingSets.Visible = false;
             // ifrCon.Visible = false;
 
-            ViewBag.hfEditTempType = "FinishedGood";
+           
             // loading finished goods
 
             //lblTemplateName.Text = "";
             List<ItemImage> images = _IItemService.getItemImagesByItemID(objItem.ItemId);
             // AppBasePath + images[0].ImageURL
             string html = "  <div id='slider' class='product-detail-slider'> ";
-            if (images.Count != 0)
-            {
+            
                 ViewBag.txtNoOfPages = images.Count.ToString();
-                //string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
+                string AppBasePath = "";
                 foreach (var image in images)
                 {
-                    string imgurl = string.Format("{0}{1}", Utils.GetAppBasePath(), image.ImageURL);
+                    AppBasePath = image.ImageURL.Replace("\\","/");
+                    AppBasePath = AppBasePath.Replace("\\", "/");
+                    string imgurl = string.Format("{0}{1}", "/", AppBasePath);
 
                     html += "<img class='sliderImgs' src=" + imgurl + "   />";// orignal for image slider // alt='" + image.ImageTitle + "'
 
                 }
-            }
-            else
-            {
-                ViewBag.txtNoOfPages = "1";
-
-
-                html += "<img class='sliderImgs' src=" + Utils.GetAppBasePath() + imagePath + "   />";// orignal for image slider // alt='" + image.ImageTitle + "'
-
-            }
+            
             html += "</div>";
             ViewBag.Html = html;
 
@@ -984,35 +970,26 @@ namespace MPC.Webstore.Controllers
             return tblRefItemsPriceMatrix;
         }
 
-
-
-
-        public void LoadRelatedItems(long ItemID, string sProductName, MyCompanyDomainBaseReponse baseResponseCurrency, bool IsShowPrices)
+        #region RelatedItems
+        private void LoadRelatedItems(long ItemId)
         {
-            List<ProductItem> allRelatedItemsList = null;
 
-            allRelatedItemsList = _IItemService.GetRelatedItemsByItemID(ItemID);
+            List<ProductItem> allRelatedItemsList = new List<ProductItem>();
+
+            allRelatedItemsList =  _IItemService.GetRelatedItemsList(ItemId);
 
 
-
-            if (allRelatedItemsList != null && allRelatedItemsList.Count > 0)
+            if (allRelatedItemsList.Count > 0)
             {
 
-                allRelatedItemsList = allRelatedItemsList.OrderBy(i => i.SortOrder).ToList();
+                ViewData["RIViewModel"] = allRelatedItemsList;
 
-                RIviewModel.ProductItems = allRelatedItemsList;
-                RIviewModel.ProductName = sProductName;
-                RIviewModel.CurrencySymbol = baseResponseCurrency.Currency;
-                RIviewModel.isShowPrices = IsShowPrices;
-                ViewData["RIViewModel"] = RIviewModel;
             }
-            else
-            {
-                ViewData["RIViewModel"] = null;
-            }
+
 
         }
 
+        #endregion
 
         public ActionResult EditDesign(string DesignState, string EditType, long ItemID, long TemplateId)
         {

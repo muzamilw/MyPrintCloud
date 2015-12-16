@@ -12,7 +12,7 @@
     string htmlVal = string.Empty;
     string lblTaxLabel = string.Empty;
     stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
-
+    string RedirectURL = string.Empty;
 }
 @{
     Layout = null;
@@ -771,18 +771,79 @@
                     }
 
 
+                }
+                
+                @{
+                List<MPC.Models.Common.ProductItem> RIViewModel = null;
+                RIViewModel = ViewData["RIViewModel"] as List<MPC.Models.Common.ProductItem>;
+                }
+                @if (RIViewModel != null)
+                {
+                    <div class="feature_product_main_heading  col-md-12 col-lg-12 col-xs-12">
 
-                    // call related items to show lists of related items
-                    RelatedItemViewModel RIViewModel = new RelatedItemViewModel();
-                    RIViewModel = ViewData["RIViewModel"] as RelatedItemViewModel;
-                    if (RIViewModel != null)
+
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("mifgrLikeRelatedItemlbl", UserCookieManager.WBStoreId, "You may also be interested in the following product(s)"))
+
+                    </div>
+                    foreach (var item in RIViewModel as List<ProductItem>)
                     {
-                        @Html.Partial("PartialViews/RelatedItems", RIViewModel);
+                        <div class="BD_CatProducts_RelItems rounded_corners">
+                            <div class="pad5">
+                                <div class="LCLB">
+                                    @{
+                        var OriginalProductName = item.ProductName;
+                        item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
+                                    }
+
+                                    @* condition for marketing brief*@
+                                    @if (item.ProductType == (int)ProductType.MarketingBrief)
+                                    {
+
+                                        RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemID + "/" + item.ProductCategoryID;
+
+                                    }
+                                    else if (item.ProductType == (int)ProductType.PrintProduct)
+                                    {
+
+                                        RedirectURL = "/ProductOptions/" + item.ProductCategoryID + "/" + item.ItemID + "/DesignOrUpload";
+
+
+                                    }
+                                    <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
+                                        <div class="PDTC_CatProd FI_CatProd">
+                                            @{
+                                                <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+
+                                            }
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="product_detail_image_heading_IRI">
+                                    <p style="  width: 100%;  float: left;  word-wrap: break-word;">
+                                        @if (!string.IsNullOrEmpty(item.ItemFriendlyName))
+                                        {
+                                            @item.ItemFriendlyName
+                                        }
+                                        else
+                                        {
+                                            @OriginalProductName
+                                        }
+
+
+                                    </p>
+                                    <div class="clearBoth">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                     }
-                    else
-                    {
-                        <label id="lbl_RelatedItems" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRelatedItems", UserCookieManager.WBStoreId))</label>
-                    }
+
+
+
+
                 }
             </div>
         </div>
