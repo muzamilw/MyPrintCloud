@@ -71,6 +71,22 @@ p {
     font-weight: 400;
     font-size: 16px;
 }
+    
+.messageBoxNew {
+    border: 1px solid green;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    color: green;
+    padding: 20px;
+    display: none;
+}
+    .rounded_corners {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
     .button {
     cursor: pointer;
     width: 100%;
@@ -89,13 +105,16 @@ p {
     <header></header><!--banner-->
     <div class="content">
         <div class="container">
+            <div id="messgetodisply" class="rounded_corners messageBoxNew" style="display:none;"></div>
+            <br />
             <div class="loginbox">
                 <h1>Login</h1>
-                <form action="" method="get">
+                <form action="http://mpc/login/LoadStoreByContactInfo" method="post">
                     <input id="email" name="email" type="text" placeholder="Email" class="formbox">
-                    <input id="password" type="text" placeholder="Password" class="formbox">
-                    <input name="Orgidd" type="text" placeholder="OrganisationId" class="formbox">
-                    <input name="login" type="button" value="LOGIN" class="button" onclick="PostData();">
+                    <input id="password" type="password" name="password" placeholder="Password" class="formbox">
+                    <input id="Orgidd" name="OrganisationId" type="text" placeholder="OrganisationId" class="formbox">
+                    <input name="login" type="button" onclick="Fire();" value="LOGIN" class="button">
+                    <input id="tempbtn" type="submit" style="visibility:hidden" />
                 </form>
             </div>
             <div class="sidebar">
@@ -117,22 +136,53 @@ p {
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
+
+  
+    $(document).ready(function () {
+        var name = GetParameterValues('message');
+        
+        if (name=='1')
+        {
+            $("#messgetodisply").css('display', 'block');
+            $("#messgetodisply").html('No record found!');
+            
+        }
+        else if (name == '2')
+        {
+            $("#messgetodisply").css('display', 'block');
+            $("#messgetodisply").html('Invalid email or pass!');
+            
+        }
+        else if (name == '3') {
+            $("#messgetodisply").css('display', 'block');
+            $("#messgetodisply").html('Email is invalid!');
+        }
+        function GetParameterValues(param) {
+            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < url.length; i++) {
+                var urlparam = url[i].split('=');
+                if (urlparam[0] == param) {
+                    return urlparam[1];
+                }
+            }
+        }
+    });
     function PostData() {
         var OrgId=$("#Orgidd").val();
         var Email = $("#email").val();
         var Pass = $("#password").val();
-        alert(Pass);
+     
         var pdata = { OrganisationId: OrgId, email: Email, password: Pass };
         $.ajax({
             type: "POST",
-            url: "/Login/LoadStore",
+            url: "/Login/LoadStoreByContactInfo",
             contentType: "application/json",
             data: JSON.stringify(pdata),
             async: true,
             success: function (response) {
-                alert(response);
-                if (response==false) {
-                    alert();
+                
+                if (!response=='ok') {
+                    ShowPopUp('Message', response);
                 }
             },
             error: function (error) {
@@ -140,6 +190,35 @@ p {
             }
         });
     }
-
-  
+   
+          function ComputeData()
+          {
+              $("#messgetodisply").css('display', 'none');
+              $("#messgetodisply").html('');
+              var Isvalid = true;
+              if (!$("#Orgidd").val() == '') {
+                  if ($.isNumeric($("#Orgidd").val())) {
+                      
+                      $("#messgetodisply").css('display', 'none');
+                      $("#messgetodisply").html('');
+                  }
+                  else {
+                     
+                      Isvalid = false;
+                      $("#messgetodisply").css('display', 'block');
+                      $("#messgetodisply").html('Organisation id should be numeric!');
+                  }
+              }
+              else {
+                  Isvalid = false;
+                  $("#messgetodisply").css('display', 'block');
+                  $("#messgetodisply").html('Enter organisation id!');
+              }
+        return Isvalid;
+       }
+    function Fire() {
+        if (ComputeData() == true) {
+            $("#tempbtn").trigger('click');
+        }
+    }
 </script>
