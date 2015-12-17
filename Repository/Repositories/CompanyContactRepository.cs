@@ -2387,7 +2387,7 @@ namespace MPC.Repository.Repositories
 
         public CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password)
         {
-            List<CompanyContact> contact = db.CompanyContacts.Where(c => c.Email == Email && c.OrganisationId == OrganisationId).ToList();
+            List<CompanyContact> contact = db.CompanyContacts.Where(c => c.Email == Email && c.OrganisationId == OrganisationId && (c.isArchived.HasValue && c.isArchived.Value == false)).ToList();
             if(contact != null)
             {
                 return contact.Where(contct => HashingManager.VerifyHashSha1(password, contct.Password) == true).FirstOrDefault();

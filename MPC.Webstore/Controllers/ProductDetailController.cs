@@ -257,6 +257,10 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.File1Url = "/Content/Images/word.png";
                     }
+                    else if (FileExtension == ".rar" || FileExtension == ".zip")
+                    {
+                        ViewBag.File1Url = "/Content/Images/winrar-icon.png";
+                    }
                     else
                     {
                         ViewBag.File1Url = "/Content/download.png";
@@ -301,6 +305,10 @@ namespace MPC.Webstore.Controllers
                     else if (FileExtension == ".dotx")
                     {
                         ViewBag.File2Url = "/Content/Images/word.png";
+                    }
+                    else if (FileExtension == ".rar" || FileExtension == ".zip")
+                    {
+                        ViewBag.File2Url = "/Content/Images/winrar-icon.png";
                     }
                     else
                     {
@@ -347,6 +355,10 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.File3Url = "/Content/Images/word.png";
                     }
+                    else if (FileExtension == ".rar" || FileExtension == ".zip")
+                    {
+                        ViewBag.File3Url = "/Content/Images/winrar-icon.png";
+                    }
                     else
                     {
                         ViewBag.File3Url = "/Content/download.png";
@@ -391,6 +403,10 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.File4Url = "/Content/Images/word.png";
                     }
+                    else if (FileExtension == ".rar" || FileExtension == ".zip")
+                    {
+                        ViewBag.File4Url = "/Content/Images/winrar-icon.png";
+                    }
                     else
                     {
                         ViewBag.File4Url = "/Content/download.png";
@@ -434,6 +450,10 @@ namespace MPC.Webstore.Controllers
                     else if (FileExtension == ".dotx")
                     {
                         ViewBag.File5Url = "/Content/Images/word.png";
+                    }
+                    else if (FileExtension == ".rar" || FileExtension == ".zip")
+                    {
+                        ViewBag.File5Url = "/Content/Images/winrar-icon.png";
                     }
                     else
                     {

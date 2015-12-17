@@ -128,7 +128,7 @@
                         </div>
                         <div class="fntSize11px">
                             <label>Land</label>
-                            @Html.TextBoxFor(model => model.LandArea, new { id = "txtLand", @class = "generalTextBox {{LandTax}}", maxlength = 255, placeholder = "Land" })
+                            @Html.TextBoxFor(model => model.LandTax, new { id = "txtLand", @class = "generalTextBox {{LandTax}}", maxlength = 255, placeholder = "Land" })
                             @*<input type="text" id="txtLand" class="generalTextBox {{LandTax}}" placeholder="Land" value="@Model.LandTax">*@
                         </div>
                     </div>
@@ -1047,7 +1047,14 @@
         if (input.files && input.files[0]) {
             var ImageDir = new FileReader();
             ImageDir.onload = function (e) {
-                $('#NewImage').attr('src', e.target.result);
+               // $(this).parent().parent().find("#NewImage").attr('src', e.target.result);
+             //    var tr = input.parents('tr:first');
+            //    var a=  tr.find('#NewImage').val();
+              //  alert(a);
+             //   tr.find('#NewImage').attr('src', e.target.result);
+                // input.closest("td>img").attr('src', e.target.result);
+
+               $('#NewImage').attr('src', e.target.result);
             }
             ImageDir.readAsDataURL(input.files[0]);
             CloseUploader(input);
@@ -1170,7 +1177,7 @@
                 return false;
             }
         }
-
+        
 
         $(function () {
 
