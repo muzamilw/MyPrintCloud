@@ -1017,6 +1017,7 @@ namespace MPC.Repository.Repositories
                       //  {
                             updatedListing = listing.ListingId;
                        // }
+                        //awais
                     }
                 
 
@@ -3156,11 +3157,12 @@ namespace MPC.Repository.Repositories
                     db.Listings.Attach(listing);
 
                     db.Entry(listing).State = EntityState.Modified;
-                    if (db.SaveChanges() > 0)
-                    {
+                  //  if (db.SaveChanges() > 0)
+                  //  {
+                    db.SaveChanges();
                         updatedListing = listing.ListingId;
 
-                    }
+                  //  }
                 }
                 return updatedListing;
             }
