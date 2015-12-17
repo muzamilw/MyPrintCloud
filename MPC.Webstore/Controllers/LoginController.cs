@@ -291,6 +291,7 @@ namespace MPC.Webstore.Controllers
                 {
                     // Result = true;
                     MPC.Models.DomainModels.Company ContactCompany = _myCompanyService.GetCompanyByCompanyID(oContact.CompanyId);
+                    
                     long StoreId = 0;
                     if (ContactCompany.IsCustomer == (int)StoreMode.Corp)
                     {
@@ -308,51 +309,58 @@ namespace MPC.Webstore.Controllers
 
                     if (StoreId > 0)
                     {
-                        string CacheKeyName = "CompanyBaseResponse";
-                        ObjectCache cache = MemoryCache.Default;
-                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreFromCache(StoreId);
+                        //string CacheKeyName = "CompanyBaseResponse";
+                        //ObjectCache cache = MemoryCache.Default;
+                        //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreFromCache(StoreId);
 
-                        if (StoreBaseResopnse.Company != null)
-                        {
-                            // set company cookie
-                            UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
-                            UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
-                            UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
-                            UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
+                        //if (StoreBaseResopnse.Company != null)
+                        //{
+                            MPC.Models.DomainModels.CompanyDomain domain = _myCompanyService.GetDomainByCompanyId(StoreId);
+                            //// set company cookie
+                            //UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                            //UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
+                            //UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
+                            //UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
 
-                            // set user cookies
-                            UserCookieManager.isRegisterClaims = 1;
-                            UserCookieManager.WEBContactFirstName = oContact.FirstName;
-                            UserCookieManager.WEBContactLastName = oContact.LastName == null ? "" : oContact.LastName;
-                            UserCookieManager.ContactCanEditProfile = oContact.CanUserEditProfile ?? false;
-                            UserCookieManager.ShowPriceOnWebstore = oContact.IsPricingshown ?? true;
-                            UserCookieManager.WEBEmail = oContact.Email;
-                            string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
+                            //// set user cookies
+                            //UserCookieManager.isRegisterClaims = 1;
+                            //UserCookieManager.WEBContactFirstName = oContact.FirstName;
+                            //UserCookieManager.WEBContactLastName = oContact.LastName == null ? "" : oContact.LastName;
+                            //UserCookieManager.ContactCanEditProfile = oContact.CanUserEditProfile ?? false;
+                            //UserCookieManager.ShowPriceOnWebstore = oContact.IsPricingshown ?? true;
+                            //UserCookieManager.WEBEmail = oContact.Email;
+                            //string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
 
-                            CultureInfo ci = null;
+                            //CultureInfo ci = null;
 
-                            if (string.IsNullOrEmpty(languageName))
+                            //if (string.IsNullOrEmpty(languageName))
+                            //{
+                            //    languageName = "en-US";
+                            //}
+
+                            //ci = new CultureInfo(languageName);
+
+                            //Thread.CurrentThread.CurrentUICulture = ci;
+                            //Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+
+                            //UserCookieManager.PerformAutoLogin = true;
+                            if (domain != null)
                             {
-                                languageName = "en-US";
+                                string domainurl = domain.Domain.Substring(0, domain.Domain.Length - 1);
+                                Response.Redirect(domainurl);
                             }
-
-                            ci = new CultureInfo(languageName);
-
-                            Thread.CurrentThread.CurrentUICulture = ci;
-                            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-
-                            UserCookieManager.PerformAutoLogin = true;
-                            ControllerContext.HttpContext.Response.Redirect("http://mpc.foo.com");
+                            
                             return null;
 
-                        }
-                        else
-                        {
-                            Message = "1";
-                            Url.Encode(Message);
-                            ControllerContext.HttpContext.Response.Redirect("http://mpc/HtmlJsonPage/Login.html?message="+Message +"");
-                            // no record found
-                        }
+                        //}
+                        //else
+                        //{
+                        //    Message = "1";
+                        //    Url.Encode(Message);
+                          
+                        //    ControllerContext.HttpContext.Response.Redirect("http://mpc/HtmlJsonPage/Login.html?message="+Message +"");
+                        //    // no record found
+                        //}
 
                     }
                     else

@@ -34,7 +34,7 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult CloneRealEstateItem(long id,long PropertyId)
         {
-            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(id,(StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, PropertyId);
+            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(id,(StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID,UserCookieManager.WBStoreId, PropertyId);
             UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
             UserCookieManager.WEBOrderId = cloneObject.OrderId;
             Response.Redirect(cloneObject.RedirectUrl);

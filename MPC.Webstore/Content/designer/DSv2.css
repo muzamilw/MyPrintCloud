@@ -6849,7 +6849,7 @@ input[type="radio"] {
 }
 
 .divTxtAlignmentControls button:hover, .divGroupAlignControls button:hover {
-    background-color: rgb(39, 44, 51) !important;
+    background-color: rgb(160, 151, 151) !important;
     border-radius: 5px;
 }
 
@@ -7384,6 +7384,7 @@ to {
     font-size: 112%;
     text-align: center;
     margin-left: -57px;
+
 }
 
 .propertyPanelTxtArea {

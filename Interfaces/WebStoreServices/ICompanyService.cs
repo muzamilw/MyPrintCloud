@@ -280,5 +280,6 @@ namespace MPC.Interfaces.WebStoreServices
         void AddScopeVariables(long ContactId, long StoreId);
         long GetOrganisationIdByRequestUrl(string Url);
         CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email);
+        CompanyDomain GetDomainByCompanyId(long CompanyId);
     }
 }

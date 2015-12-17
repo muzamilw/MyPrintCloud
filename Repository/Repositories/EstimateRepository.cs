@@ -316,6 +316,8 @@ namespace MPC.Repository.Repositories
             string misLogoUrl = db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.MISLogo).FirstOrDefault();
             if (string.IsNullOrEmpty(misLogoUrl))
                 misLogoUrl = "Content/themes/Centaurus/img/logo.png";
+
+            
             var response = new DashBoardChartsResponse
             {
 

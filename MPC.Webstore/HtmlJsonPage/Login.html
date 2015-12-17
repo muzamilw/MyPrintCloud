@@ -99,9 +99,53 @@ p {
     font-size: 18px;
     margin-bottom: 20px;
 }
+    .opaqueLayer {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+    background-color: gray;
+    z-Index: 9999;
+    width: 100% !important;
+    height: 100% !important;
+}
+    .mp-onpageLoader {
+              border: 1px solid #c5c5c5;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    background: white;
+    padding: 10px;
+    margin: 20px auto;
+    -webkit-box-shadow: 0 0 10px rgba(50,50,50,0.2);
+    -moz-box-shadow: 0 0 10px rgba(50,50,50,0.2);
+    box-shadow: 0 0 10px rgba(50,50,50,0.2);
+    position: relative;
+    z-index: 999;
+    font-family: monospace;
+    font-weight: bold;
+       width: 165px;
+    height: 15px;
+            }
+
+            .mp-loadercenter {
+                position: fixed !important;
+                margin: auto !important;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
+                z-index: 9999;
+            }
 </style>
 <body>
-
+    <div id="layer" class="opaqueLayer"></div>
+    <div id="innerLayer">
+    </div>
     <header></header><!--banner-->
     <div class="content">
         <div class="container">
@@ -109,13 +153,13 @@ p {
             <br />
             <div class="loginbox">
                 <h1>Login</h1>
-                <form action="http://mpc/login/LoadStoreByContactInfo" method="post">
+                
                     <input id="email" name="email" type="text" placeholder="Email" class="formbox">
                     <input id="password" type="password" name="password" placeholder="Password" class="formbox">
-                    <input id="Orgidd" name="OrganisationId" type="text" placeholder="OrganisationId" class="formbox">
-                    <input name="login" type="button" onclick="Fire();" value="LOGIN" class="button">
+                 
+                    <input name="login" type="button" onclick="PostData();" value="LOGIN" class="button">
                     <input id="tempbtn" type="submit" style="visibility:hidden" />
-                </form>
+               
             </div>
             <div class="sidebar">
                 
@@ -132,93 +176,127 @@ p {
     </div>
 </body>
 
+
 <link href='http://fonts.googleapis.com/css?family=Lato:400,900|Lora:400,400italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
-
   
-    $(document).ready(function () {
-        var name = GetParameterValues('message');
-        
-        if (name=='1')
-        {
-            $("#messgetodisply").css('display', 'block');
-            $("#messgetodisply").html('No record found!');
-            
-        }
-        else if (name == '2')
-        {
-            $("#messgetodisply").css('display', 'block');
-            $("#messgetodisply").html('Invalid email or pass!');
-            
-        }
-        else if (name == '3') {
-            $("#messgetodisply").css('display', 'block');
-            $("#messgetodisply").html('Email is invalid!');
-        }
-        function GetParameterValues(param) {
-            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-            for (var i = 0; i < url.length; i++) {
-                var urlparam = url[i].split('=');
-                if (urlparam[0] == param) {
-                    return urlparam[1];
-                }
-            }
-        }
-    });
-    function PostData() {
-        var OrgId=$("#Orgidd").val();
-        var Email = $("#email").val();
-        var Pass = $("#password").val();
-     
-        var pdata = { OrganisationId: OrgId, email: Email, password: Pass };
-        $.ajax({
-            type: "POST",
-            url: "/Login/LoadStoreByContactInfo",
-            contentType: "application/json",
-            data: JSON.stringify(pdata),
-            async: true,
-            success: function (response) {
-                
-                if (!response=='ok') {
-                    ShowPopUp('Message', response);
-                }
-            },
-            error: function (error) {
+    function ShowLoader() {
 
-            }
-        });
+        //var container = '<div class="fancyLoaderCs"><img src="/Content/Images/fancybox_loading.gif" /></div>';
+        var container = '<div class="mp-onpageLoader mp-loadercenter" style="display: block;">Loading please wait...</div>'
+        var bws = getBrowserHeight();
+        var shadow = document.getElementById("innerLayer");
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+
+        var left = parseInt((bws.width - 25) / 2);
+        var top = parseInt((bws.height - 25) / 2);
+
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.top = top + "px";
+        document.getElementById("innerLayer").style.left = left + "px";
+
+        //  document.getElementById("innerLayer").style.width = "25px";
+        // document.getElementById("innerLayer").style.height = "25px";
+
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        document.getElementById("innerLayer").style.background = "transparent";
     }
-   
-          function ComputeData()
-          {
-              $("#messgetodisply").css('display', 'none');
-              $("#messgetodisply").html('');
-              var Isvalid = true;
-              if (!$("#Orgidd").val() == '') {
-                  if ($.isNumeric($("#Orgidd").val())) {
-                      
-                      $("#messgetodisply").css('display', 'none');
-                      $("#messgetodisply").html('');
-                  }
-                  else {
-                     
-                      Isvalid = false;
-                      $("#messgetodisply").css('display', 'block');
-                      $("#messgetodisply").html('Organisation id should be numeric!');
-                  }
-              }
-              else {
-                  Isvalid = false;
-                  $("#messgetodisply").css('display', 'block');
-                  $("#messgetodisply").html('Enter organisation id!');
-              }
-        return Isvalid;
-       }
-    function Fire() {
-        if (ComputeData() == true) {
-            $("#tempbtn").trigger('click');
+    function PostData() {
+        if ($("#email").val() == "" || $("#password").val() == "") {
+            $("#messgetodisply").css("display", "block");
+            $("#messgetodisply").html("Please enter email or password to proceed.");
+
+        }else
+        {
+            var OrganisationDomain = "realestatecampaignsnew.myprintcloud.com";
+            var Email = $("#email").val();
+            var Pass = $("#password").val();
+            ShowLoader();
+            var urlToRe = "http://" + OrganisationDomain + "/webstoreapi/ValidateLogin/ValidateUserLogin?OrganisationDomain=" + OrganisationDomain + "&Email=" + Email + "&UserPassword=" + Pass;
+
+            $.ajax({
+
+                // The 'type' property sets the HTTP method.
+                // A value of 'PUT' or 'DELETE' will trigger a preflight request.
+                type: 'GET',
+
+                // The URL to make the request to.
+                url: urlToRe,
+
+                // The 'contentType' property sets the 'Content-Type' header.
+                // The JQuery default for this property is
+                // 'application/x-www-form-urlencoded; charset=UTF-8', which does not trigger
+                // a preflight. If you set this value to anything other than
+                // application/x-www-form-urlencoded, multipart/form-data, or text/plain,
+                // you will trigger a preflight request.
+                contentType: 'text/plain',
+
+                xhrFields: {
+                    // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+                    // This can be used to set the 'withCredentials' property.
+                    // Set the value to 'true' if you'd like to pass cookies to the server.
+                    // If this is enabled, your server must respond with the header
+                    // 'Access-Control-Allow-Credentials: true'.
+                    withCredentials: false
+                },
+
+                headers: {
+                    // Set any custom headers here.
+                    // If you set any non-simple headers, your server must include these
+                    // headers in the 'Access-Control-Allow-Headers' response header.
+                },
+
+                success: function (response) {
+                    // Here's where you handle a successful response.
+                    if (response[0] == "Fail") {
+                        $("#messgetodisply").css("display", "block");
+                        $("#messgetodisply").html(response[1]);
+                        HideLoader();
+
+                    } else if (response[0] == "Success") {
+                        $("#messgetodisply").css("display", "none");
+                        window.location.href = response[1];
+                    }
+                },
+
+                error: function () {
+                    // Here's where you handle an error response.
+                    // Note that if the error was due to a CORS issue,
+                    // this function will still fire, but there won't be any additional
+                    // information about the error.
+                }
+            });
         }
+       
+    }
+    function HideLoader() {
+
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function getBrowserHeight() {
+        var intH = 0;
+        var intW = 0;
+        if (typeof window.innerWidth == 'number') {
+            intH = window.innerHeight;
+            intW = window.innerWidth;
+        }
+        else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+            intH = document.documentElement.clientHeight;
+            intW = document.documentElement.clientWidth;
+        }
+        else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
+            intH = document.body.clientHeight;
+            intW = document.body.clientWidth;
+        }
+        return { width: parseInt(intW), height: parseInt(intH) };
     }
 </script>
