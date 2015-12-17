@@ -7,13 +7,10 @@ using System.Net.Http;
 
 public class ListingBackgroundTask : Registry
 {
-
-    private readonly IListingService _listingService;
- //   public ICampaignService campaignService;
-
-    public ListingBackgroundTask(MPC.Interfaces.MISServices.IListingService listingService)
+    public string Url { get; set; }
+    public ListingBackgroundTask(string sUrl)
     {
-
+        this.Url = sUrl;
         Schedule(() => SubmitListingData())
                .ToRunNow().AndEvery(2).Minutes();
             

@@ -210,9 +210,9 @@ namespace MPC.Implementation.MISServices
                 using (FtpWebResponse responseDelete = (FtpWebResponse)request.GetResponse())
                 {
                     string dd = responseDelete.StatusDescription;
-                    //throw ex;
-                }   
-               
+                   
+                }
+                throw ex;
             }
         }
 
