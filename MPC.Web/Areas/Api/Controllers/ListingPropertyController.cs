@@ -35,7 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [HttpGet]
         public string SaveListingData(long OrganisationId)
         {
-            return listingService.SaveListingData();
+            return listingService.SaveListingData(OrganisationId);
         }
     }
 }

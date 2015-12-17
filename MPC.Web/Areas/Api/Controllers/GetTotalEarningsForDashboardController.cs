@@ -51,7 +51,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            TaskManager.Initialize(new ListingBackgroundTask(_listingService));
+            //TaskManager.Initialize(new ListingBackgroundTask(_listingService));
             DashBoardChartsResponse resp = dashboardService.GetChartsForDashboard();
             
             return resp;

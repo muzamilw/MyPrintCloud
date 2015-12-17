@@ -131,7 +131,8 @@ namespace MPC.MIS.Controllers
                 trialCount = validationInfo.TrialCount;
 
                 // for lisitng
-                //TaskManager.Initialize(new ListingBackgroundTask(_listingService, organisationId));
+                if(organisationId == 1682)
+                     TaskManager.Initialize(new ListingBackgroundTask(_listingService));
             }
             else
             {

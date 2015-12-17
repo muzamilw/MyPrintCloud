@@ -3,6 +3,7 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Implementation.MISServices;
 using MPC.Webstore.Common;
 using System;
+using System.Net.Http;
 
 public class ListingBackgroundTask : Registry
 {
@@ -12,12 +13,30 @@ public class ListingBackgroundTask : Registry
 
     public ListingBackgroundTask(MPC.Interfaces.MISServices.IListingService listingService)
     {
-        
-            Schedule(() => listingService.SaveListingData())
+
+        Schedule(() => SubmitListingData())
                .ToRunNow().AndEvery(2).Minutes();
             
     }
     
+    public string SubmitListingData()
+    {
+        using (var client = new HttpClient())
+        {
+            string ourl = "http://mpc/mis/";
+            client.BaseAddress = new Uri(ourl);
+            client.DefaultRequestHeaders.Accept.Clear();
+            string url = "api/ListingProperty?OrganisationId=1";
+            var response = client.GetAsync(url);
+            if (response.Result.IsSuccessStatusCode)
+            {
+                string responsestr = response.Result.Content.ReadAsStringAsync().Result;
 
+            }
+
+        }
+
+        return string.Empty;
+    }
     
 }
