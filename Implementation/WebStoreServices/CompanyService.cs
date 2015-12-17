@@ -1898,5 +1898,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetContactOnUserNamePass(OrganisationId, Email, password);
         }
+
+        public CompanyDomain GetDomainByCompanyId(long CompanyId)
+        {
+            return _companyDomainRepository.GetDomainByCompanyId(CompanyId);
+        }
     }
 }
