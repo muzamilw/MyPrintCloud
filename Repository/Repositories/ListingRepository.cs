@@ -943,7 +943,7 @@ namespace MPC.Repository.Repositories
                         listing.YearRenovated = propertyListing.YearRenovated;
                         listing.Construction = propertyListing.Construction;
                         listing.PropertyCondition = propertyListing.PropertyCondition;
-
+                        
                         if (propertyListing.EnergyRating != null)
                         {
                             strForParse = propertyListing.EnergyRating;
