@@ -862,7 +862,8 @@ namespace MPC.Repository.Repositories
                         if (!String.IsNullOrEmpty(propertyListing.AuctionDate))
                             //listing.AuctionDate = Convert.ToDateTime(listing.AuctionDate, new System.Globalization.CultureInfo("en-AU"));
                             listing.AuctionDate = DateTime.Parse(propertyListing.AuctionDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
+                            //      .ToString("dd/MM/yyyy")
+                          //  listing.AuctionDate = propertyListing.AuctionDate.ToString("dd/MM/yyyy");
                         listing.AutionVenue = propertyListing.AuctionVenue;
 
                         if (!String.IsNullOrEmpty(propertyListing.EOIClosingDate))
@@ -2873,12 +2874,10 @@ namespace MPC.Repository.Repositories
                      
                    // listing.AuctionDate =Convert.ToDateTime( propertyListing.AuctionDate).;
                    // DateTime myDate = new DateTime(myDate.Year, myDate.Month, myDate.Day);
-                    listing.AuctionDate =propertyListing.AuctionDate;  //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-                    //    
-                    //listing.AutionVenue = propertyListing.AuctionVenue;
-
-                    //if (!String.IsNullOrEmpty(propertyListing.EOIClosingDate))
-                    //    listing.EOIClosingDate = DateTime.Parse(propertyListing.EOIClosingDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                  //  listing.AuctionDate =propertyListing.AuctionDate;  //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    
+                     listing.AuctionDate = DateTime.Parse(propertyListing.AuctionDate.ToString(), culture, System.Globalization.DateTimeStyles.AssumeLocal).Date;
+                   
 
                     if (propertyListing.DisplayPrice != null)
                     {
