@@ -34,7 +34,7 @@ namespace MPC.Implementation.MISServices
             return listingRepository.GetRealEstatePropertyCompaigns(request);
         }
 
-        public string SaveListingData(long OrganisationId)
+        public string SaveListingData()
         {
             string FTPServer = string.Empty;
                     string FTPUserName = string.Empty;
@@ -42,7 +42,7 @@ namespace MPC.Implementation.MISServices
                     string UnprocessedFileName = string.Empty;
             try
             {
-                if (OrganisationId == 1682)
+                if (listingRepository.OrganisationId == 1)
                 {
                     // Read the file as one string.
                     string XMLData = string.Empty;
@@ -267,10 +267,10 @@ namespace MPC.Implementation.MISServices
                 //}
                 //else
                 //{
-                    long GetOrganisationID = 1682; //GetOrganisationIdByEmail(objProperty.MpcLoginEmail);
+                long GetOrganisationID = 1;// 1682; //GetOrganisationIdByEmail(objProperty.MpcLoginEmail);
                     if (GetOrganisationID > 0)
                     {
-                        iContactCompanyID = 37106; // GetContactCompanyID(objProperty.StoreCode, GetOrganisationID);
+                        iContactCompanyID = 32857; // GetContactCompanyID(objProperty.StoreCode, GetOrganisationID);
                     }
 
                     //int territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.StoreCode);
@@ -371,5 +371,14 @@ namespace MPC.Implementation.MISServices
                 throw;
             }
         }
+        //public void SubmitListingData(long OrganisationId)
+        //{
+            
+        //    if (OrganisationId > 0)
+        //    {
+        //        Schedule(() => SaveListingData(OrganisationId))
+        //           .ToRunNow().AndEvery(2).Minutes();
+        //    }
+        //}
     }
 }

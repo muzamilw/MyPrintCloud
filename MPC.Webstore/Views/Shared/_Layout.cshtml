@@ -36,9 +36,8 @@
         @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
         @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "~/Content/ListingPropertiesCarousel.css")
         @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "~/Content/js-image-slider.css")
-
-        <script type="text/javascript">load_css_async('@ViewBag.StyleSheet')</script>
-
+    <link href="@ViewBag.StyleSheet" rel="stylesheet" />
+       
         @Styles.Render("~/Content/CSS")
 
       
