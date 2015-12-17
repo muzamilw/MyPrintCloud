@@ -8917,3 +8917,7 @@ Alter table ItemAttachment add ImageFileType nvarchar(50)
 
 
 alter table reportparam alter column CriteriaFieldName varchar(100)
+
+------------------Executed on AUS,UK servers 20151217---------------
+
+alter table MarketingBriefHistory add CreationDate Datetime null
