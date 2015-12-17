@@ -451,11 +451,11 @@ namespace MPC.Webstore.Controllers
                     {
                         _myCompanyService.AddBulletPoint(BulletList, UpdatedLisTingID);
                     }
-                    if (UpdatedLisTingID > 0)
-                    {
-                        // return RedirectToAction("Index", "RealEstateListingGrid");
+             //   /    if (UpdatedLisTingID > 0)
+                  //  {
+               //         // return RedirectToAction("Index", "RealEstateListingGrid");
                         Response.Redirect("/RealEstateListingGrid");
-                    }
+                 //   }
                 
                // else
                 //{
