@@ -4971,15 +4971,18 @@ function togglePage(pId) {
         if (Tpage.Width != null && Tpage.Width != 0) {
             w= Tpage.Width ;
         }
-    
         h = h / 96 * 72;
         w = w / 96 * 72;
         h = h / 2.834645669;
         w = w / 2.834645669;
         w = w.toFixed(3);
-        h = h.toFixed(3); 
-        h = h - 10;
-        w = w - 10; 
+        h = h.toFixed(3);
+        cuttingInMM = Template.CuttingMargin / 96 * 72
+        cuttingInMM = cuttingInMM / 2.834645669;
+        if (Template.CuttingMargin == 0 || Template.CuttingMargin == null)
+            cuttingInMM = 10;
+        h = h - cuttingInMM.toFixed(3);
+        w = w - cuttingInMM.toFixed(3);
         if (item != null ) {
             var res = item.TemplateDimensionConvertionRatio.split("__");
             w = w * res[0];
