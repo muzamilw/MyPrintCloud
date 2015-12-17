@@ -2875,8 +2875,8 @@ namespace MPC.Repository.Repositories
                    // listing.AuctionDate =Convert.ToDateTime( propertyListing.AuctionDate).;
                    // DateTime myDate = new DateTime(myDate.Year, myDate.Month, myDate.Day);
                   //  listing.AuctionDate =propertyListing.AuctionDate;  //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-                    
-                     listing.AuctionDate = DateTime.Parse(propertyListing.AuctionDate.ToString(), culture, System.Globalization.DateTimeStyles.AssumeLocal).Date;
+
+                    listing.AuctionDate = propertyListing.AuctionDate;
                    
 
                     if (propertyListing.DisplayPrice != null)
