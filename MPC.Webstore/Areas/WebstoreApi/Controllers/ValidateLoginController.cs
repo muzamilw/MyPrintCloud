@@ -32,56 +32,71 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage ValidateUserLogin(long OrganisationId, string Email, string UserPassword)
+        public HttpResponseMessage ValidateUserLogin(string OrganisationDomain, string Email, string UserPassword)
         {
             List<string> messages = new List<string>();
-            CompanyContact oContact = _myCompanyService.GetContactOnUserNamePass(OrganisationId, Email, UserPassword);
 
-            if (oContact != null)
+            long OrganisationId = 0;
+
+            OrganisationId = _myCompanyService.GetOrganisationIdByRequestUrl(OrganisationDomain);
+
+            if (OrganisationId > 0)
             {
-                // Result = true;
-                MPC.Models.DomainModels.Company ContactCompany = _myCompanyService.GetCompanyByCompanyID(oContact.CompanyId);
+                CompanyContact oContact = _myCompanyService.GetContactOnUserNamePass(OrganisationId, Email, UserPassword);
 
-                long StoreId = 0;
-                if (ContactCompany.IsCustomer == (int)StoreMode.Corp)
+                if (oContact != null)
                 {
-                    StoreId = oContact.CompanyId;
+                    // Result = true;
+                    MPC.Models.DomainModels.Company ContactCompany = _myCompanyService.GetCompanyByCompanyID(oContact.CompanyId);
 
-                }
-                else
-                {
-                    StoreId = Convert.ToInt64(ContactCompany.StoreId);
-                    ContactCompany = _myCompanyService.GetCompanyByCompanyID(StoreId);
-                }
-
-                if (StoreId > 0)
-                {
-                    MPC.Models.DomainModels.CompanyDomain domain = _myCompanyService.GetDomainByCompanyId(StoreId);
-                    string domainurl = "";
-                    if (domain != null && ContactCompany != null)
+                    long StoreId = 0;
+                    if (ContactCompany.IsCustomer == (int)StoreMode.Corp)
                     {
-                        domainurl = domain.Domain.Substring(0, domain.Domain.Length - 1);
-                        if(domainurl.Contains("/store"))
-                        {
-                            string[] listOfSplitedDomain = domainurl.Split('/');
-                            domainurl = "http://" +  listOfSplitedDomain[0] + "/autologin?C="+ContactCompany.WebAccessCode+"&F="+ oContact.FirstName +"&L="+oContact.LastName+"&E="+oContact.Email;
-                        }
+                        StoreId = oContact.CompanyId;
+
                     }
-                    messages.Add("Success");
-                    messages.Add(domainurl);
+                    else
+                    {
+                        StoreId = Convert.ToInt64(ContactCompany.StoreId);
+                        ContactCompany = _myCompanyService.GetCompanyByCompanyID(StoreId);
+                    }
+
+                    if (StoreId > 0)
+                    {
+                        MPC.Models.DomainModels.CompanyDomain domain = _myCompanyService.GetDomainByCompanyId(StoreId);
+                        string domainurl = "";
+                        if (domain != null && ContactCompany != null)
+                        {
+                            domainurl = domain.Domain.Substring(0, domain.Domain.Length - 1);
+                            if (domainurl.Contains("/store"))
+                            {
+                                string[] listOfSplitedDomain = domainurl.Split('/');
+                                domainurl = "http://" + listOfSplitedDomain[0] + "/autologin?C=" + ContactCompany.WebAccessCode + "&F=" + oContact.FirstName + "&L=" + oContact.LastName + "&E=" + oContact.Email;
+                            }
+                        }
+                        messages.Add("Success");
+                        messages.Add(domainurl);
+                    }
+                    else
+                    {
+                        messages.Add("Fail");
+                        messages.Add("Invalid customer");
+
+                    }
                 }
                 else
                 {
                     messages.Add("Fail");
-                    messages.Add("Invalid customer");
-
+                    messages.Add("Invalid login or password.");
                 }
             }
-            else
+            else 
             {
                 messages.Add("Fail");
-                messages.Add("Invalid login or password.");
+                messages.Add("Invalid Domain.");
             }
+
+            
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
             //System.Web.HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Origin", "*");

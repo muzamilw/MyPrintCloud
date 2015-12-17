@@ -214,13 +214,13 @@ p {
             $("#messgetodisply").css("display", "block");
             $("#messgetodisply").html("Please enter email or password to proceed.");
 
-        } else
+        }else
         {
-            var OrgId = 1682;
+            var OrganisationDomain = "realestatecampaignsnew.myprintcloud.com";
             var Email = $("#email").val();
             var Pass = $("#password").val();
             ShowLoader();
-            var urlToRe = "http://realestatecampaignsnew.myprintcloud.com/webstoreapi/ValidateLogin/ValidateUserLogin?OrganisationId=" + OrgId + "&Email=" + Email + "&UserPassword=" + Pass;
+            var urlToRe = "http://" + OrganisationDomain + "/webstoreapi/ValidateLogin/ValidateUserLogin?OrganisationDomain=" + OrganisationDomain + "&Email=" + Email + "&UserPassword=" + Pass;
 
             $.ajax({
 
