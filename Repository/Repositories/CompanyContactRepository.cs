@@ -2387,20 +2387,15 @@ namespace MPC.Repository.Repositories
 
         public CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password)
         {
-
-
-
-            List<CompanyContact> contact = db.CompanyContacts.Where(c => c.Email.Equals(Email) && c.OrganisationId == OrganisationId).ToList();
+            List<CompanyContact> contact = db.CompanyContacts.Where(c => c.Email == Email && c.OrganisationId == OrganisationId).ToList();
             if(contact != null)
             {
-                return contact.ToList().Where(contct => HashingManager.VerifyHashSha1(password, contct.Password) == true).FirstOrDefault();
+                return contact.Where(contct => HashingManager.VerifyHashSha1(password, contct.Password) == true).FirstOrDefault();
             }
             else
             {
                 return null;
             }
-
-
         }
 
     }

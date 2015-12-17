@@ -943,7 +943,7 @@ namespace MPC.Repository.Repositories
                         listing.YearRenovated = propertyListing.YearRenovated;
                         listing.Construction = propertyListing.Construction;
                         listing.PropertyCondition = propertyListing.PropertyCondition;
-
+                        
                         if (propertyListing.EnergyRating != null)
                         {
                             strForParse = propertyListing.EnergyRating;
@@ -951,7 +951,7 @@ namespace MPC.Repository.Repositories
                             if (!result.Equals(string.Empty))
                                 listing.EnergyRating = Convert.ToDouble(result);
                         }
-
+                          
                         listing.Features = propertyListing.Features;
 
                         if (propertyListing.LandTax != null)
@@ -1012,10 +1012,12 @@ namespace MPC.Repository.Repositories
                         db.Listings.Attach(listing);
 
                         db.Entry(listing).State = EntityState.Modified;
+                        db.SaveChanges();
                      //   if (db.SaveChanges() > 0)
                       //  {
                             updatedListing = listing.ListingId;
                        // }
+                        //awais
                     }
                 
 
@@ -3155,11 +3157,12 @@ namespace MPC.Repository.Repositories
                     db.Listings.Attach(listing);
 
                     db.Entry(listing).State = EntityState.Modified;
-                    if (db.SaveChanges() > 0)
-                    {
+                  //  if (db.SaveChanges() > 0)
+                  //  {
+                    db.SaveChanges();
                         updatedListing = listing.ListingId;
 
-                    }
+                  //  }
                 }
                 return updatedListing;
             }
@@ -3547,6 +3550,7 @@ namespace MPC.Repository.Repositories
             listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
             listing.AdvertsSummary = propertyListing.AdvertsSummary;
             db.Listings.Add(listing);
+            db.SaveChanges();
             //if (db.SaveChanges() > 0)
            // {
 
@@ -3555,7 +3559,6 @@ namespace MPC.Repository.Repositories
            // }
             return ListingId;
         }
-
 
         public List<ListingImage> GetAllListingImages(long ListingID)
         {
@@ -3604,7 +3607,6 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
-
         public void AddlistingImages(long ListingId,List<ListingImage> Images)
         {
             foreach (var item in Images)
@@ -3617,5 +3619,6 @@ namespace MPC.Repository.Repositories
             }
         
         }
+
     }
 }

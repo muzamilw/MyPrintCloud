@@ -378,6 +378,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\UMController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\ValidateLoginController.cs" />
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\CostCentreTemplate.cs" />
@@ -510,6 +511,7 @@
     <Compile Include="WebGridExtension\WebGridExt.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\BannerMart.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\carousel.css" />
@@ -557,6 +559,7 @@
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
     <Content Include="Content\download.png" />
+    <Content Include="Content\EazyPrint.css" />
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\home.png" />
