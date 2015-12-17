@@ -430,6 +430,7 @@ namespace MPC.Webstore.Controllers
                     updateListing.AdvertsMainHeadLine = Listing.AdvertsMainHeadLine;
                     updateListing.AdvertsSummary = Listing.AdvertsSummary;
                     updateListing.SignBoardInstallInstruction = Listing.SignBoardInstallInstruction;
+                   
                     updateListing.CompanyId = UserCookieManager.WBStoreId;
                     MPC.Models.DomainModels.Listing listing = _myCompanyService.GetListingByListingID(LisId);//Listing
                     if (DeleteImagesList != null)
