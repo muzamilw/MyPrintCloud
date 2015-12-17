@@ -128,7 +128,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemByIdDesigner(ItemId);
         }
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId,bool isUploadDesignMode = false, long PropertyId = 0, bool isSetTemplateIdToNull = false)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId, long PropertyId, bool isUploadDesignMode = false, bool isSetTemplateIdToNull = false)
         {
 
             try
@@ -1839,7 +1839,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                Item item = CloneItem(itemID, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId);
+                Item item = CloneItem(itemID, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId,0);
 
                 if (item != null)
                 {
@@ -1879,7 +1879,7 @@ namespace MPC.Implementation.WebStoreServices
                     CompanyID = TemporaryCompanyId;
                     ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
                 }
-                Item item = CloneItem(itemID, 0, WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId);
+                Item item = CloneItem(itemID, 0, WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId,0);
 
                 if (item != null)
                 {
@@ -2122,7 +2122,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, false, PropertyId);
+                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false);
 
                 if (item != null)
                 {
@@ -2177,7 +2177,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
 
-                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, false, PropertyId);
+                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false);
 
                 if (item != null)
                 {
