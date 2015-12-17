@@ -140,11 +140,11 @@ namespace MPC.Webstore.Controllers
                             {
                                 if (ViewToFire == "ProductOptionsAndDetails" && ItemMode == "DesignOrUpload")
                                 {
-                                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, true);
+                                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId,0, true);
                                 }
                                 else 
                                 {
-                                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, true,0, true);
+                                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, 0, true, true);
                                 }
                                 
                             }
@@ -853,6 +853,10 @@ namespace MPC.Webstore.Controllers
                 {
                     ItemModel.File1Url = "/Content/Images/word.png";
                 }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File1Url = "/Content/Images/winrar-icon.png";
+                }
                 else
                 {
                     ItemModel.File1Url = "/Content/download.png";
@@ -897,6 +901,10 @@ namespace MPC.Webstore.Controllers
                 else if (FileExtension == ".dotx")
                 {
                     ItemModel.File2Url = "/Content/Images/word.png";
+                }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File2Url = "/Content/Images/winrar-icon.png";
                 }
                 else
                 {
@@ -943,6 +951,10 @@ namespace MPC.Webstore.Controllers
                 {
                     ItemModel.File3Url = "/Content/Images/word.png";
                 }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File3Url = "/Content/Images/winrar-icon.png";
+                }
                 else
                 {
                     ItemModel.File3Url = "/Content/download.png";
@@ -987,6 +999,10 @@ namespace MPC.Webstore.Controllers
                 {
                     ItemModel.File4Url = "/Content/Images/word.png";
                 }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File4Url = "/Content/Images/winrar-icon.png";
+                }
                 else
                 {
                     ItemModel.File4Url = "/Content/download.png";
@@ -1030,6 +1046,10 @@ namespace MPC.Webstore.Controllers
                 else if (FileExtension == ".dotx")
                 {
                     ItemModel.File5Url = "/Content/Images/word.png";
+                }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File5Url = "/Content/Images/winrar-icon.png";
                 }
                 else
                 {
@@ -1161,7 +1181,7 @@ namespace MPC.Webstore.Controllers
 
                 if (clonedItem == null)
                 {
-                    clonedItem = _myItemService.CloneItem(ItemId, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, true);
+                    clonedItem = _myItemService.CloneItem(ItemId, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId,0, true);
 
                 }
 
