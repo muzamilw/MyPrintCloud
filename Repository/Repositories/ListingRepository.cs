@@ -483,13 +483,13 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                MPC.Models.DomainModels.Listing listing;
-                listing = (from l in db.Listings
-                               where l.ClientListingId == clientListingID
-                               select l).FirstOrDefault();
-
-
-                return listing;
+                //MPC.Models.DomainModels.Listing listing;
+                //listing = (from l in db.Listings
+                //               where l.ClientListingId == clientListingID
+                //               select l).FirstOrDefault();
+               
+                return db.Listings.Where(c => c.ClientListingId == clientListingID).FirstOrDefault();
+                //return listing;
             }
             catch (Exception ex)
             {
