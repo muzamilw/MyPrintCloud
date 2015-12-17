@@ -1012,6 +1012,7 @@ namespace MPC.Repository.Repositories
                         db.Listings.Attach(listing);
 
                         db.Entry(listing).State = EntityState.Modified;
+                        db.SaveChanges();
                      //   if (db.SaveChanges() > 0)
                       //  {
                             updatedListing = listing.ListingId;
@@ -3547,6 +3548,7 @@ namespace MPC.Repository.Repositories
             listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
             listing.AdvertsSummary = propertyListing.AdvertsSummary;
             db.Listings.Add(listing);
+            db.SaveChanges();
             //if (db.SaveChanges() > 0)
            // {
 
@@ -3555,7 +3557,6 @@ namespace MPC.Repository.Repositories
            // }
             return ListingId;
         }
-
 
         public List<ListingImage> GetAllListingImages(long ListingID)
         {
@@ -3604,7 +3605,6 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
-
         public void AddlistingImages(long ListingId,List<ListingImage> Images)
         {
             foreach (var item in Images)
@@ -3617,5 +3617,6 @@ namespace MPC.Repository.Repositories
             }
         
         }
+
     }
 }
