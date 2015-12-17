@@ -951,7 +951,7 @@ namespace MPC.Repository.Repositories
                             if (!result.Equals(string.Empty))
                                 listing.EnergyRating = Convert.ToDouble(result);
                         }
-
+                          
                         listing.Features = propertyListing.Features;
 
                         if (propertyListing.LandTax != null)
