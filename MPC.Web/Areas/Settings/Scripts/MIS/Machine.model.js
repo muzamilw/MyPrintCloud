@@ -140,8 +140,6 @@
             Maximumsheetweight = ko.observable(),
             Maximumsheetheight = ko.observable(),
             Maximumsheetwidth = ko.observable(),
-            Minimumsheetheight = ko.observable(),
-            Minimumsheetwidth = ko.observable(),
             LookupMethodId = ko.observable(),
             CurrencySymbol = ko.observable(),
             lookupMethod = ko.observable(),
@@ -237,8 +235,6 @@
                 Maximumsheetweight: Maximumsheetweight,
                 Maximumsheetheight: Maximumsheetheight,
                 Maximumsheetwidth: Maximumsheetwidth,
-                Minimumsheetheight: Minimumsheetheight,
-                Minimumsheetwidth: Minimumsheetwidth,
                 LookupMethodId: LookupMethodId,
                 MachineSpoilageItems: MachineSpoilageItems,
                 MachineLookupMethods: MachineLookupMethods,
@@ -320,8 +316,6 @@
             Maximumsheetweight : Maximumsheetweight,
             Maximumsheetheight : Maximumsheetheight,
             Maximumsheetwidth : Maximumsheetwidth,
-            Minimumsheetheight : Minimumsheetheight,
-            Minimumsheetwidth : Minimumsheetwidth,
             LookupMethodId: LookupMethodId,
             RunningSpoilage: RunningSpoilage,
             SetupSpoilage: SetupSpoilage,
@@ -642,7 +636,8 @@
         omachine.maximumsheetweight(source.machine.maximumsheetweight);
         omachine.maximumsheetheight(source.machine.maximumsheetheight);
         omachine.maximumsheetwidth(source.machine.maximumsheetwidth);
-
+        omachine.minimumsheetheight(source.machine.minimumsheetheight);
+        omachine.minimumsheetwidth(source.machine.minimumsheetwidth);
         if (!(source.machine.gripdepth == 0 || source.machine.gripdepth == null || source.machine.gripdepth == undefined)) {
             omachine.gripdepth(source.machine.gripdepth);
         }
@@ -700,8 +695,6 @@
         //omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
         //omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
         //omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
-        //omachine.Minimumsheetheight(source.machine.Minimumsheetheight);
-        //omachine.Minimumsheetwidth(source.machine.Minimumsheetwidth);
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
         omachine.isClickChargezone(source.machine.isSheetFed ? 'true' : 'false');
@@ -820,8 +813,6 @@
         omachine.Maximumsheetweight = machine.Maximumsheetweight();
         omachine.Maximumsheetheight = machine.Maximumsheetheight();
         omachine.Maximumsheetwidth = machine.Maximumsheetwidth();
-        omachine.Minimumsheetheight = machine.Minimumsheetheight();
-        omachine.Minimumsheetwidth = machine.Minimumsheetwidth();
         omachine.LookupMethodId = machine.LookupMethodId();
         omachine.SetupSpoilage = machine.SetupSpoilage();
         omachine.RunningSpoilage = machine.RunningSpoilage();

@@ -133,7 +133,7 @@ namespace MPC.MIS.Controllers
                 // for lisitng
                 if (organisationId == 1682)
                 {
-                    string sUrl = string.Format("{0}://{1}/mis", System.Web.HttpContext.Current.Request.Url.Scheme,
+                    string sUrl = string.Format("{0}://{1}/mis/", System.Web.HttpContext.Current.Request.Url.Scheme,
                         System.Web.HttpContext.Current.Request.Url.Authority);
                         TaskManager.Initialize(new ListingBackgroundTask(sUrl));
                 }

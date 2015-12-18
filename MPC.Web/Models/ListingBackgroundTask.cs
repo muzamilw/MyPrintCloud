@@ -20,10 +20,10 @@ public class ListingBackgroundTask : Registry
     {
         using (var client = new HttpClient())
         {
-            string ourl = "http://mpc/mis/";
+            string ourl = Url;
             client.BaseAddress = new Uri(ourl);
             client.DefaultRequestHeaders.Accept.Clear();
-            string url = "api/ListingProperty?OrganisationId=1";
+            string url = "api/ListingProperty?OrganisationId=1682";
             var response = client.GetAsync(url);
             if (response.Result.IsSuccessStatusCode)
             {

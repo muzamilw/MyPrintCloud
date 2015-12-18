@@ -1145,9 +1145,10 @@ namespace MPC.Implementation.MISServices
             return companyContactRepository.GetStoreContactForZapier(contactId);
         }
 
-        public void PostDataToZapier(long contactId)
+        public void PostDataToZapier(long contactId, long organisationId = 0)
         {
-            var org = organisationRepository.GetOrganizatiobByID();
+            Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
+            
             if (org.IsZapierEnable == true)
             {
                 List<string> contactUrls = organisationRepository.GetZapsUrListByOrganisation(1);
