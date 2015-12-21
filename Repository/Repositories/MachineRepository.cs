@@ -541,8 +541,8 @@ namespace MPC.Repository.Repositories
                 omachine.maximumsheetweight = machine.maximumsheetweight;
                 omachine.maximumsheetheight = machine.maximumsheetheight;
                 omachine.maximumsheetwidth = machine.maximumsheetwidth;
-                // omachine.minimumsheetheight = machine.minimumsheetheight;
-                // omachine.minimumsheetwidth = machine.minimumsheetwidth;
+                omachine.minimumsheetheight = machine.minimumsheetheight;
+                omachine.minimumsheetwidth = machine.minimumsheetwidth;
                 omachine.gripdepth = machine.gripdepth;
                 omachine.gripsideorientaion = machine.gripsideorientaion;
                 omachine.gutterdepth = machine.gutterdepth;

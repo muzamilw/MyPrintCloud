@@ -164,7 +164,7 @@ namespace MPC.Repository.Repositories
             List<ZapierInvoiceDetail> lstInvoiceDetails = new List<ZapierInvoiceDetail>();
             var inv = DbSet.FirstOrDefault(i => i.InvoiceId == invoiceId);
 
-            if (inv != null)
+            if (inv != null && inv.InvoiceStatus == Convert.ToInt16(InvoiceStatuses.Posted))
             {
                 var address = inv.Company != null
                     ? inv.Company.Addresses.FirstOrDefault(a => a.AddressId == (inv.AddressId ?? 0)): null;

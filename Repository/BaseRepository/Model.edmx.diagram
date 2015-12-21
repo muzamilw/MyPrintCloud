@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="19">
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="12">
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="9.125" PointY="3.125" />
@@ -346,6 +346,11 @@
         <EntityTypeShape EntityType="DomainModels.ZapierWebHookTargetUrl" Width="1.5" PointX="39.375" PointY="11.75" />
         <EntityTypeShape EntityType="DomainModels.ListingBulletPoint" Width="1.5" PointX="35.625" PointY="48.625" />
         <AssociationConnector Association="DomainModels.FK__ListingBu__Listi__01EB81A5" />
+        <EntityTypeShape EntityType="DomainModels.Asset" Width="1.5" PointX="10.25" PointY="53.125" />
+        <EntityTypeShape EntityType="DomainModels.Folder" Width="1.5" PointX="3" PointY="61.375" />
+        <AssociationConnector Association="DomainModels.FK_Assets_Company" />
+        <AssociationConnector Association="DomainModels.FK_Assets_Folder" />
+        <AssociationConnector Association="DomainModels.FK_Folder_Folder" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -402,23 +402,61 @@ namespace MPC.Implementation.MISServices
         {
 
             var org = organisationRepository.GetOrganizatiobByID();
-            string sPostUrl = string.Empty;
-            sPostUrl = org.IsZapierEnable == true ? org.CreateInvoiceZapTargetUrl : string.Empty;
-            if (!string.IsNullOrEmpty(sPostUrl))
+            if (org.IsZapierEnable == true)
             {
-                var resp = GetZapierInvoiceDetail(invoiceId);
-                string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-                var request = System.Net.WebRequest.Create(sPostUrl);
-                request.ContentType = "application/json";
-                request.Method = "POST";
-                byte[] byteArray = Encoding.UTF8.GetBytes(sData);
-                request.ContentLength = byteArray.Length;
-                using (Stream dataStream = request.GetRequestStream())
+                List<string> invoiceUrls = organisationRepository.GetZapsUrListByOrganisation(2);
+                if (invoiceUrls != null && invoiceUrls.Count > 0)
                 {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    var response = request.GetResponse();
+                    foreach (var sPostUrl in invoiceUrls)
+                    {
+                        if (!string.IsNullOrEmpty(sPostUrl))
+                        {
+                            var resp = GetZapierInvoiceDetail(invoiceId);
+                            string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+                            var request = System.Net.WebRequest.Create(sPostUrl);
+                            request.ContentType = "application/json";
+                            request.Method = "POST";
+                            byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                            request.ContentLength = byteArray.Length;
+                            using (Stream dataStream = request.GetRequestStream())
+                            {
+                                dataStream.Write(byteArray, 0, byteArray.Length);
+                                var response = request.GetResponse();
+                                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                                {
+                                    string responseFromServer = reader.ReadToEnd();
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
+            
+            
+            
+            
+            
+            
+            
+           // var org = organisationRepository.GetOrganizatiobByID();
+            //string sPostUrl = string.Empty;
+            //sPostUrl = org.IsZapierEnable == true ? org.CreateInvoiceZapTargetUrl : string.Empty;
+            //if (!string.IsNullOrEmpty(sPostUrl))
+            //{
+            //    var resp = GetZapierInvoiceDetail(invoiceId);
+            //    string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+            //    var request = System.Net.WebRequest.Create(sPostUrl);
+            //    request.ContentType = "application/json";
+            //    request.Method = "POST";
+            //    byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+            //    request.ContentLength = byteArray.Length;
+            //    using (Stream dataStream = request.GetRequestStream())
+            //    {
+            //        dataStream.Write(byteArray, 0, byteArray.Length);
+            //        var response = request.GetResponse();
+            //    }
+            //}
 
 
         }

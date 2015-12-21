@@ -3464,5 +3464,14 @@ namespace MPC.Repository.Repositories
                 SaveChanges();
             }
         }
+
+        public List<string> GetZapsUrListByOrganisation(int webHookEvent)
+        {
+            
+            return
+                db.ZapierWebHookTargetUrls.Where(o => o.OrganisationId == OrganisationId && o.WebHookEvent == webHookEvent).Select(o => o.TargetUrl)
+                    .ToList();
+        }
+        
     }
 }
