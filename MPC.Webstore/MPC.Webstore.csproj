@@ -413,6 +413,7 @@
     <Compile Include="Controllers\LoginBarWithCountersController.cs" />
     <Compile Include="Controllers\LoginBarWithPhoneInfoController.cs" />
     <Compile Include="Controllers\LoginEazyPrintController.cs" />
+    <Compile Include="Controllers\ManageAssetsController.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
     <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
@@ -773,6 +774,8 @@
     <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\jquery.lightbox-0.5.css" />
     <Content Include="Content\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Content\ManageAssets\normalize.css" />
+    <Content Include="Content\ManageAssets\style.css" />
     <Content Include="Content\metroboostrap.css" />
     <Content Include="Content\MetroStyles.css" />
     <Content Include="Content\mp-loading.gif" />
@@ -1100,6 +1103,7 @@
     <Content Include="Views\Shared\PartialViews\SystemPageBanner.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateListingGrid.cshtml" />
     <Content Include="Views\Shared\PartialViews\EzyHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ManageAssets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1123,6 +1127,7 @@
     <Folder Include="Views\LoginBarWithCounters\" />
     <Folder Include="Views\LoginBarWithPhoneInfo\" />
     <Folder Include="Views\LoginEazyPrint\" />
+    <Folder Include="Views\ManageAssets\" />
     <Folder Include="Views\ProductOptionsAndDetails\" />
     <Folder Include="Views\RealEstateListingGrid\" />
     <Folder Include="Views\SystemPageBanner\" />

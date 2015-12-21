@@ -184,6 +184,14 @@ namespace MPC.Webstore.Controllers
                         //BCDetail.PageNavigateURl = "/UserManager";
                         //BCDetail.IsChangePassword = false;
                         //BCDashBordItems.Add(BCDetail);
+                        BCDetail = new DashboardViewModel(4);
+                        // Order In production
+                        BCDetail.Name = "Manage Assets"; // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
+                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("btnProductDetails", UserCookieManager.WBStoreId, "Description");//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
+                        BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
+                        BCDetail.PageNavigateURl = "/ManageAssets";
+                        BCDetail.IsChangePassword = false;
+                        BCDashBordItems.Add(BCDetail);
                     }
 
                 }

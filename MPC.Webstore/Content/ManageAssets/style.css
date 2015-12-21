@@ -1,0 +1,409 @@
+@charset "UTF-8";
+/* CSS Document */
+
+@import url(https://fonts.googleapis.com/css?family=Muli:400,400italic,300);
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800);
+
+body {
+	font-family: 'Open Sans', sans-serif;
+    background-position-x: center;
+    background-position-y: top;
+    font-style: normal;
+    font-weight: normal !important;
+    font-size: 13px;
+    margin: 0px auto 0px auto;
+    padding: 0px;
+    text-align: left;
+    width: 100%;
+    color: #444444;
+    background-color: #FFFFFF !important;
+}
+
+.container {
+	width:80%;
+	max-width: 1170px;
+	margin:0 auto;
+}
+
+.clear {
+	clear:both;
+}
+
+/* TYPOGRAPHY ======= */
+
+.catTitle {
+	margin-top:0;
+	width:70%;
+	float:left;
+}
+
+/* HEADER =========== */
+
+header {
+	background:#1D2F42;
+	width:100%;
+	padding: 25px 0;
+}
+
+.logo {
+	width:25%;
+	float:left;
+	text-align:left;
+}
+
+.logo p {
+	color:#FFFFFF;
+}
+
+nav {
+	float:right;
+	width:70%;
+	text-align:right;
+}
+
+nav ul {
+	list-style:none;
+}
+
+nav ul li {
+	display:inline;
+	font-size:1.3em;
+	padding:0 7px;
+}
+
+nav ul li a {
+	display: inline-block;
+	color:#FFFFFF;
+}
+
+
+/* LEFT AREA ====== */
+
+.assetLeft {
+	float:left;
+	width:18%;
+	margin-right:2%;
+	padding:20px 2%;
+	border:1px solid #CCCCCC;
+}
+
+.assetSearch h2 {
+	margin:0 0 10px 0;
+	
+}
+
+.assetSearch input {
+	width:90%;	
+	border-radius:3px;
+	border:1px solid #CCCCCC;
+	padding:10px 3%;
+}
+
+.assetCatMenu {
+	width:100%;
+	margin:30px 0;
+}
+
+.assetCatMenu h2 {
+	font-size:1.3em;
+}
+
+.assetCatMenu ul {
+	margin: 0;
+    padding: 0 15px;
+    list-style: none;
+}
+
+.assetCatMenu ul li:before { 
+    content: "";
+    border-color: transparent #777777;
+    border-style: solid;
+    border-width: 0.30em 0 0.30em 0.40em;
+    display: block;
+    height: 0;
+    width: 0;
+    left: -1em;
+    top: 1.1em;
+    position: relative;
+}
+
+
+.assetCatMenu ul li {
+	margin:0 ;
+	font-size:1.2em;
+	line-height:100%;
+	margin: 0 0 5px;
+}
+
+.assetCatMenu ul li a {
+	color:#777777;
+}
+
+.assetCatMenu ul li a:hover {
+	color:#1D2F42;
+}
+
+.assetFileTypeMenu {
+	margin-bottom:30px;
+}
+
+.assetFileTypeMenu h2 {
+	font-size:1.3em;
+}
+
+.assetFileTypeMenu form {
+	color:#777777;
+	font-weight:300;
+	font-size:1.1em;
+}
+
+.assetFileTypeMenu input {
+	color:#777777;
+	margin:8px 5px;
+}
+
+.assetTagMenu {
+	margin-bottom:30px;
+}
+
+.assetTagMenu h2 {
+	font-size:1.3em;
+}
+
+.assetTagMenu form {
+	color:#777777;
+	font-weight:300;
+	font-size:1.1em;
+}
+
+.assetTagMenu input {
+	color:#777777;
+	margin:8px 5px;
+}
+
+/* CONTENT AREA ====== */
+
+.wrapper {
+	padding:30px 0;
+}
+
+.assetRight {
+	float:right;
+	width:71%;
+	padding:20px 2%;
+	border:1px solid #CCCCCC;
+}
+
+.catHeader {
+	padding-bottom:15px;
+}
+
+.assetFilter {
+	float:right;
+	width:25%;
+	max-width:150px;
+}
+
+.assetFilter select {
+	width:100%;
+}
+
+/* CATEGORIES ======== */
+
+.assetCategory {
+	width:30%;
+	display:inline-block;
+	margin:5px 0.5% 10px;
+	padding: 0.6% 0.6% 15px;
+	border:1px solid #DDDDDD;
+	border-radius:2px;
+}
+
+.assetCategory img {
+	background:#069;
+	height:auto;
+	width:100%;
+	display:block;
+	border:none;
+}
+
+.catAssetName {
+	font-size:1.2em;
+	text-align:center;
+	display:block;
+	padding:8px 5px;
+	font-weight:600;
+}
+
+.catAssetName:hover {
+	color:#666666;
+}
+
+.assetOptions {
+	padding:5px;
+}
+
+.catButton {
+	background:#1e4961;
+	color:#FFFFFF;
+	padding:6px 2.5%;
+	margin-bottom:6px;
+	margin:0 1.25%;
+	text-align:center;
+	border-radius:5px;
+	display:block;
+	width:40%;
+	line-height: 24px;
+	float:left;
+} 
+
+.catButton:hover {
+	background:#555555;
+}
+
+.catButton.icon {
+padding-left: 11px;
+}
+
+.catButton.icon.basket span {
+padding-left: 24px;
+height:18px;
+background: url(images/download.png) no-repeat 0 -2px;
+}
+
+.catButton.icon.share span {
+padding-left: 24px;
+height:18px;
+background: url(images/share.png) no-repeat 0 -2px;
+}
+
+.share {
+	background:#4890c3;
+}
+
+.basket {
+	background:#216ca1;
+}
+
+/* SHARE WINDOW ========== */
+
+.popupOverlay {
+	position:fixed;
+	background-color: rgba(100, 100, 100, 0.8);
+	width:100%;
+	height:100%;
+}
+
+.shareWindow {
+	 position:fixed;
+    top: 50%;
+    left: 50%;
+    width:500px;
+    height:300px;
+	padding:20px;
+    margin-top: -170px; /*set to a negative number 1/2 of your height*/
+    margin-left: -290px; /*set to a negative number 1/2 of your width*/
+    border: 1px solid #ccc;
+    background-color: #f3f3f3;
+}
+
+.shareWindow h1 {
+	margin:0 0 20px;
+	font-weight:600;
+	font-size:1.6em;
+}
+
+.shareWindow h2{
+	margin-bottom:10px;
+	font-size:1.25em;
+}
+
+.shareFields {
+	padding:10px 5%;
+	border:none;
+	margin-bottom:10px;
+	width:85%;
+	font-size:1.1em;
+	color:#666666;
+	border:1px solid #CCCCCC;
+}
+
+.shareButton {
+	background:#2582ad;
+	color:#FFFFFF;
+	padding:10px 15px;
+	border:none;
+	font-size:1.2em;
+	margin-top:10px;
+}
+
+.shareButton:hover {
+	background:#555555;
+}
+
+
+/* BASKET WINDOW ======== */
+
+.basketWindow {
+	 position:fixed;
+    top: 50%;
+    left: 50%;
+    width:500px;
+    height:300px;
+	padding:20px;
+    margin-top: -170px; /*set to a negative number 1/2 of your height*/
+    margin-left: -290px; /*set to a negative number 1/2 of your width*/
+    border: 1px solid #ccc;
+    background-color: #f3f3f3;
+}
+
+.basketWindow h1 {
+	margin:0 0 5px;
+	font-weight:600;
+	font-size:1.6em;
+}
+
+.basketWindow h2 {
+	margin:5px 0 10px;
+	font-weight:400;
+	font-size:1.25em;
+}
+
+.basketWindow h3 {
+	margin:10px 0 10px;
+	font-weight:400;
+	font-size:0.95em;
+}
+
+.fileIcons {
+	margin:30px 0 20px;
+}
+
+.fileIcons h2 {
+	margin-bottom:12px;
+	font-size:1.1em;
+	font-weight:600; 
+}
+
+.fileButtons {
+	padding:10px;
+	border:1px solid #999999;
+	background:#F3F3F3;
+	margin-right:5px;
+}
+
+.basketButton {
+	background:#2582ad;
+	color:#FFFFFF;
+	padding:10px 5%;
+	border:none;
+	font-size:1.2em;
+	width:auto;
+	margin-right:10px;
+}
+
+.basketButton:hover {
+	background:#555555;
+}
+
