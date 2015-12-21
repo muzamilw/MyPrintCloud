@@ -8921,3 +8921,75 @@ alter table reportparam alter column CriteriaFieldName varchar(100)
 ------------------Executed on AUS,UK servers 20151217---------------
 
 alter table MarketingBriefHistory add CreationDate Datetime null
+
+
+
+------------------20151221---------------
+
+
+CREATE TABLE [dbo].[Folder](
+	[FolderId] [bigint] IDENTITY(1,1) NOT NULL,
+	[FolderName] [varchar](50) NULL,
+	[Description] [varchar](max) NULL,
+	[ImagePath] [nvarchar](400) NULL,
+	[DisplayOrder] [int] NULL,
+	[ParentFolderId] [bigint] NULL,
+	[CompanyId] [bigint] NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_Folder] PRIMARY KEY CLUSTERED 
+(
+	[FolderId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[Folder]  WITH CHECK ADD  CONSTRAINT [FK_Folder_Folder] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[Company] ([CompanyId])
+GO
+
+ALTER TABLE [dbo].[Folder] CHECK CONSTRAINT [FK_Folder_Folder]
+GO
+
+
+
+CREATE TABLE [dbo].[Assets](
+	[AssetId] [bigint] IDENTITY(1,1) NOT NULL,
+	[AssetName] [nvarchar](500) NULL,
+	[Description] [varchar](max) NULL,
+	[ImagePath] [nvarchar](1000) NULL,
+	[Keywords] [ntext] NULL,
+	[CreationDateTime] [datetime] NULL,
+	[Price] [float] NULL,
+	[Quantity] [int] NULL,
+	[FileType] [varchar](50) NULL,
+	[FolderId] [bigint] NULL,
+	[CompanyId] [bigint] NULL,
+ CONSTRAINT [PK_Assets] PRIMARY KEY CLUSTERED 
+(
+	[AssetId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[Assets]  WITH CHECK ADD  CONSTRAINT [FK_Assets_Company] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[Company] ([CompanyId])
+GO
+
+ALTER TABLE [dbo].[Assets] CHECK CONSTRAINT [FK_Assets_Company]
+GO
+
+ALTER TABLE [dbo].[Assets]  WITH CHECK ADD  CONSTRAINT [FK_Assets_Folder] FOREIGN KEY([FolderId])
+REFERENCES [dbo].[Folder] ([FolderId])
+GO
+
+ALTER TABLE [dbo].[Assets] CHECK CONSTRAINT [FK_Assets_Folder]
+GO
