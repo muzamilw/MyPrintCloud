@@ -1976,8 +1976,7 @@ namespace MPC.Repository.Repositories
                     bullet = list[count - 1];
 
                 fieldValue = bullet.BulletPoint;
-
-             
+                 
             }
             return fieldValue;
         }
