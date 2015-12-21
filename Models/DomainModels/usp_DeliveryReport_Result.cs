@@ -29,5 +29,8 @@ namespace MPC.Models.DomainModels
         public int DeliveryNoteID { get; set; }
         public string DeliveryStatus { get; set; }
         public string ReportBanner { get; set; }
+
+        public string UserNotes { get; set; }
+        
     }
 }

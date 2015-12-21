@@ -1,0 +1,135 @@
+﻿
+@{
+    var Assets = ViewBag.Assets as List<MPC.Models.DomainModels.Asset>;
+    var Folder = ViewBag.Folders as List<MPC.Models.DomainModels.Folder>;
+     
+}
+<header>
+    <div class="container">
+        <div class="logo">
+            <p>LOGO</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">DAM</a></li>
+                <li><a href="#">Stationery</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="clear"></div>
+    </div>
+</header>
+
+<div class="wrapper">
+    <div class="container">
+        <div class="assetLeft">
+            <div class="assetSearch">
+                <input placeholder="Search...">
+            </div>
+            <div class="assetCatMenu">
+                <h2>Categories</h2>
+                <ul>
+                    <li><a href="#">Asset Category 1</a></li>
+                    <li><a href="#">Asset Category 2</a></li>
+                    <li><a href="#">Asset Category 3</a></li>
+                    <li><a href="#">Asset Category 4</a></li>
+                    <li><a href="#">Asset Category 5</a></li>
+                </ul>
+            </div>
+            <div class="assetFileTypeMenu">
+                <h2>File Types</h2>
+                <form action="">
+                    <input type="checkbox" name="PSD" value="PSD">PSD (2)<br>
+                    <input type="checkbox" name="AI" value="AI">AI (15)<br>
+                    <input type="checkbox" name="ID" value="ID">ID (1)<br>
+                    <input type="checkbox" name="PDF" value="PDF">PDF (14)<br>
+                    <input type="checkbox" name="Image" value="Image">Image (3)<br>
+                    <input type="checkbox" name="Document" value="Document">Document (5)<br>
+                </form>
+            </div>
+            <div class="assetTagMenu">
+                <h2>Tags</h2>
+                <form action="">
+                    <input type="checkbox">Yellow<br>
+                    <input type="checkbox">Red<br>
+                    <input type="checkbox">Blue<br>
+                    <input type="checkbox">Black<br>
+                    <input type="checkbox">Orange<br>
+                    <input type="checkbox">Grey<br>
+                </form>
+            </div>
+        </div>
+        <div class="assetRight">
+            <div class="catHeader">
+                <h1 class="catTitle">Sample Asset Management</h1>
+                <div class="assetFilter">
+                    <select>
+                        <option value="a-z">Sort Alphabetically</option>
+                        <option value="a-z">Sort By Date Added</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="assetCategory">
+                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
+                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
+            </div>
+            <div class="assetCategory">
+                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
+                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
+            </div>
+            <div class="assetCategory">
+                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
+                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
+            </div>
+            <div class="assetCategory">
+                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
+                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
+            </div>
+            <div class="assetCategory">
+                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
+                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
+            </div>
+            <div class="assetCategory">
+                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
+                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
+            </div>
+            <div class="assetCategory">
+                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
+                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
+            </div>
+            <div class="assetCategory">
+                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
+                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="shareWindow" style="display:none">
+    <div class="shareIcons">
+        <h1>Share</h1>
+        <h2>Share URL:</h2>
+        <input class="shareFields" type="text" placeholder="">
+        <h2>Email URL to:</h2>
+        <input class="shareFields" type="text" placeholder="Enter email address here...">
+        <button class="shareButton" value="Email Link" type="submit">Email Link</button>
+    </div>
+</div>
+<link href="/Content/ManageAssets/style.css" rel="stylesheet" />
+<link href="/Content/ManageAssets/normalize.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+    });
+    function AddAsset()
+    {
+        var panelHtml = $("#Vorder").html();
+        AssetsPopUp("Add Asset", panelHtml)
+    }
+
+    
+</script>

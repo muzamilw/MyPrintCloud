@@ -1047,17 +1047,19 @@
         if (input.files && input.files[0]) {
             var ImageDir = new FileReader();
             ImageDir.onload = function (e) {
-               // $(this).parent().parent().find("#NewImage").attr('src', e.target.result);
-             //    var tr = input.parents('tr:first');
+              //  $(this).parent().closest('td').find("#NewImage").attr('src', e.target.result);
+            
+                $(this).parent().prev('td').find('#NewImage').attr('src', e.target.result);
+                //$(this).closest("td").next().find("img").attr('src', e.target.result);
             //    var a=  tr.find('#NewImage').val();
               //  alert(a);
              //   tr.find('#NewImage').attr('src', e.target.result);
                 // input.closest("td>img").attr('src', e.target.result);
-
-               $('#NewImage').attr('src', e.target.result);
+                
+            //  $('#NewImage').attr('src', e.target.result);
             }
             ImageDir.readAsDataURL(input.files[0]);
-            CloseUploader(input);
+          //  CloseUploader(input);
         }
     }
     

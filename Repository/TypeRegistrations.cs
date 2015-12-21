@@ -150,6 +150,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IVariableExtensionRespository, VariableExtensionRespository>();
             unityContainer.RegisterType<IListingBulletPointsRepository, ListingBulletPointsRepository>();
             unityContainer.RegisterType<IMarketingBriefHistoryRepository, MarketingBriefHistoryRepository>();
+            unityContainer.RegisterType<IAssetsRepository,AssetsRepository>();
+            unityContainer.RegisterType<IFolderRepository,FolderRepository>();
         }
     }
 }

@@ -584,14 +584,16 @@ namespace MPC.Repository.Repositories
 
                 To = Email;
 
-
+                if(systemUser != null)
+                    signature = systemUser.EmailSignature;
 
                 return new ReportEmailResponseModel
                 {
                     Attachment = subject + ".pdf",
                     AttachmentPath = Path,
                     Subject = subject,
-                    To = To
+                    To = To,
+                    Signature = signature
                 };
 
 
