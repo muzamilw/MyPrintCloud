@@ -1145,34 +1145,41 @@ namespace MPC.Implementation.MISServices
             return companyContactRepository.GetStoreContactForZapier(contactId);
         }
 
-        public void PostDataToZapier(long contactId)
+        public void PostDataToZapier(long contactId, long organisationId = 0)
         {
-            var org = organisationRepository.GetOrganizatiobByID();
-            if (org != null)
+            Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
+            
+            if (org.IsZapierEnable == true)
             {
-                string sPostUrl = string.Empty;
-                sPostUrl = org.IsZapierEnable == true ? org.CreateContactZapTargetUrl : string.Empty;
-
-                if (!string.IsNullOrEmpty(sPostUrl))
+                List<string> contactUrls = organisationRepository.GetZapsUrListByOrganisation(1);
+                if (contactUrls != null && contactUrls.Count > 0)
                 {
-                    var resp = GetStoreContactForZapier(contactId);
-                    string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-                    var request = System.Net.WebRequest.Create(sPostUrl);
-                    request.ContentType = "application/json";
-                    request.Method = "POST";
-                    byte[] byteArray = Encoding.UTF8.GetBytes(sData);
-                    request.ContentLength = byteArray.Length;
-                    using (Stream dataStream = request.GetRequestStream())
+                    foreach (var sPostUrl in contactUrls)
                     {
-                        dataStream.Write(byteArray, 0, byteArray.Length);
-                        var response = request.GetResponse();
-                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        if (!string.IsNullOrEmpty(sPostUrl))
                         {
-                           string responseFromServer = reader.ReadToEnd();
+                            var resp = GetStoreContactForZapier(contactId);
+                            string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+                            var request = System.Net.WebRequest.Create(sPostUrl);
+                            request.ContentType = "application/json";
+                            request.Method = "POST";
+                            byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                            request.ContentLength = byteArray.Length;
+                            using (Stream dataStream = request.GetRequestStream())
+                            {
+                                dataStream.Write(byteArray, 0, byteArray.Length);
+                                var response = request.GetResponse();
+                                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                                {
+                                    string responseFromServer = reader.ReadToEnd();
+                                }
+                            }
                         }
                     }
-                }
+
+                } 
             }
+            
             
 
         }

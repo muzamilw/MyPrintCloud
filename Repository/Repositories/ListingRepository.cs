@@ -487,7 +487,9 @@ namespace MPC.Repository.Repositories
                 //listing = (from l in db.Listings
                 //               where l.ClientListingId == clientListingID
                 //               select l).FirstOrDefault();
-               
+
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
                 return db.Listings.Where(c => c.ClientListingId == clientListingID).FirstOrDefault();
                 //return listing;
             }
@@ -560,7 +562,9 @@ namespace MPC.Repository.Repositories
 
                 long updatedListingID = UpdateListingXML(objProperty.Listing, listing);
                 ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId, OrgId, updatedListingID);
-                UpdateListingImagesXML(updatedListingID, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
+               
+                if(objProperty.Listing.ListingImages != null)
+                    UpdateListingImagesXML(updatedListingID, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
                 if(objProperty.Listing.ListingFloorplans != null)
                 {
                     UpdateListingFloorPlansXML(updatedListingID, objProperty.Listing.ListingFloorplans.floorplans);
@@ -2086,7 +2090,9 @@ namespace MPC.Repository.Repositories
                 address.Address1 = listingOffice.SubNumber + ", " + listingOffice.StreetNumber + " " + listingOffice.Street;
              
                 address.City = listingOffice.Suburb;
-                address.State.StateName = listingOffice.State;
+                if (address.State != null)
+                    address.State.StateName = listingOffice.State;
+                
                 address.PostCode = listingOffice.PostCode;
                 address.TerritoryId = territoryId;
                
@@ -2875,8 +2881,8 @@ namespace MPC.Repository.Repositories
                    // listing.AuctionDate =Convert.ToDateTime( propertyListing.AuctionDate).;
                    // DateTime myDate = new DateTime(myDate.Year, myDate.Month, myDate.Day);
                   //  listing.AuctionDate =propertyListing.AuctionDate;  //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-                    
-                     listing.AuctionDate = DateTime.Parse(propertyListing.AuctionDate.ToString(), culture, System.Globalization.DateTimeStyles.AssumeLocal).Date;
+
+                    listing.AuctionDate = propertyListing.AuctionDate;
                    
 
                     if (propertyListing.DisplayPrice != null)

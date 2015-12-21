@@ -34,7 +34,7 @@ namespace MPC.Implementation.MISServices
             return listingRepository.GetRealEstatePropertyCompaigns(request);
         }
 
-        public string SaveListingData()
+        public string SaveListingData(long OrganisationId)
         {
             string FTPServer = string.Empty;
                     string FTPUserName = string.Empty;
@@ -42,7 +42,7 @@ namespace MPC.Implementation.MISServices
                     string UnprocessedFileName = string.Empty;
             try
             {
-                if (listingRepository.OrganisationId == 1)
+                if (OrganisationId == 1682)
                 {
                     // Read the file as one string.
                     string XMLData = string.Empty;
@@ -210,9 +210,9 @@ namespace MPC.Implementation.MISServices
                 using (FtpWebResponse responseDelete = (FtpWebResponse)request.GetResponse())
                 {
                     string dd = responseDelete.StatusDescription;
-                    throw ex;
-                }   
-               
+                   
+                }
+                throw ex;
             }
         }
 
@@ -267,10 +267,10 @@ namespace MPC.Implementation.MISServices
                 //}
                 //else
                 //{
-                long GetOrganisationID = 1;// 1682; //GetOrganisationIdByEmail(objProperty.MpcLoginEmail);
+                long GetOrganisationID =  1682; //GetOrganisationIdByEmail(objProperty.MpcLoginEmail);
                     if (GetOrganisationID > 0)
                     {
-                        iContactCompanyID = 32857; // GetContactCompanyID(objProperty.StoreCode, GetOrganisationID);
+                        iContactCompanyID = 37106; // GetContactCompanyID(objProperty.StoreCode, GetOrganisationID);
                     }
 
                     //int territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.StoreCode);
