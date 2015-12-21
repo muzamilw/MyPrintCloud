@@ -20,7 +20,5 @@ namespace MPC.Models.DomainModels
         public string FileType { get; set; }
         public Nullable<long> FolderId { get; set; }
         public Nullable<long> CompanyId { get; set; }
-
-        public virtual Folder Folder { get; set; }
     }
 }

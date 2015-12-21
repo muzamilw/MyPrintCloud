@@ -1,4 +1,6 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
+using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +13,22 @@ namespace MPC.Webstore.Controllers
     {
         // GET: ManageAssets
         private readonly ICompanyService _myCompanyService;
-
+       
         public ManageAssetsController(ICompanyService _myCompanyService)
         {
             this._myCompanyService = _myCompanyService;
         }
         public ActionResult Index()
         {
-
+           List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyID(UserCookieManager.WBStoreId);
+           List<Folder> GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+           ViewBag.Assets = GetAssets;
+           ViewBag.Folders = GetFolder;
             return View("PartialViews/ManageAssets");
         }
         [HttpPost]
-        public ActionResult Index()
+        public ActionResult Index( Asset Model)
         {
-
             return View("PartialViews/ManageAssets");
         }
     }

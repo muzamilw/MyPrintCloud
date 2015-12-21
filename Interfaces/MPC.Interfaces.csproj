@@ -108,6 +108,7 @@
     <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="MISServices\ISystemUserService.cs" />
     <Compile Include="MISServices\SectionReport.cs" />
+    <Compile Include="Repository\IAssetsRepository.cs" />
     <Compile Include="Repository\ICampaignImageRepository.cs" />
     <Compile Include="Repository\ICMSOfferRepository.cs" />
     <Compile Include="Repository\ICompanyVoucherRedeemRepository.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Repository\IDeliveryNoteDetailRepository.cs" />
     <Compile Include="Repository\IDeliveryNoteRepository.cs" />
     <Compile Include="Repository\IEstimateInquiryRepository.cs" />
+    <Compile Include="Repository\IFolderRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
     <Compile Include="Repository\IGoodsReceivedNoteDetailRepository.cs" />
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />

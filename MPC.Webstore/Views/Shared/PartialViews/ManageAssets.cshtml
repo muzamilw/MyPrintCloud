@@ -1,4 +1,10 @@
-﻿<header>
+﻿
+@{
+    var Assets = ViewBag.Assets as List<MPC.Models.DomainModels.Asset>;
+    var Folder = ViewBag.Folders as List<MPC.Models.DomainModels.Folder>;
+     
+}
+<header>
     <div class="container">
         <div class="logo">
             <p>LOGO</p>

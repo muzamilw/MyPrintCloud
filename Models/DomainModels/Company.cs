@@ -212,7 +212,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Inquiry> Inquiries { get; set; }
         public virtual ICollection<Purchase> Purchases { get; set; }
         public virtual ICollection<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
-
+        public virtual ICollection<Asset> Assets { get; set; }
+        public virtual ICollection<Folder> Folders { get; set; }
             #region Additional Properties
 
         /// <summary>
