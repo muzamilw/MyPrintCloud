@@ -22,12 +22,14 @@ namespace MPC.Webstore.Controllers
         private readonly IUserManagerService _userManagerService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
         private readonly IItemService _ItemService;
+        private readonly MPC.Interfaces.MISServices.ICompanyContactService _misCompanyService;
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
         public SignUpController(ICompanyService myCompanyService, ICampaignService myCampaignService, IUserManagerService userManagerService
-            , IItemService ItemService)
+            , IItemService ItemService
+            , MPC.Interfaces.MISServices.ICompanyContactService misCompanyService)
         {
             if (myCompanyService == null)
             {
@@ -38,6 +40,8 @@ namespace MPC.Webstore.Controllers
             this._campaignService = myCampaignService;
             this._userManagerService = userManagerService;
             this._ItemService = ItemService;
+            this._misCompanyService = misCompanyService;
+
         }
 
         #endregion
@@ -462,7 +466,7 @@ namespace MPC.Webstore.Controllers
                         }
 
                     }
-
+                    _misCompanyService.PostDataToZapier(loginUser.ContactId, UserCookieManager.WEBOrganisationID);
                 }
                 else
                 {
@@ -521,6 +525,7 @@ namespace MPC.Webstore.Controllers
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlwebacces", UserCookieManager.WBStoreId, "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.");
                 }
                 StoreBaseResopnse = null;
+                _misCompanyService.PostDataToZapier(CorpContact.ContactId, UserCookieManager.WEBOrganisationID);
                 return;
             }
 
