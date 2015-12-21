@@ -10,6 +10,7 @@ namespace MPC.Interfaces.Repository
     public  interface IAssetsRepository:IBaseRepository<Asset, long>
     {
         List<Asset> GetAssetsByCompanyID(long CompanyID);
-
+        void DeleteAsset(long AssetID);
+        void UpdateAsset(long AssetID);
     }
 }

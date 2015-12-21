@@ -13,6 +13,8 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void UpdateAsset(long AssetID);
+        void DeleteAsset(long AssetID);
         List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID);
         CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password);
         void AddlistingImages(long ListingId, List<ListingImage> Images);

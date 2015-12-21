@@ -24,12 +24,18 @@ namespace MPC.Webstore.Controllers
            List<Folder> GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
            ViewBag.Assets = GetAssets;
            ViewBag.Folders = GetFolder;
-            return View("PartialViews/ManageAssets");
+           return View("PartialViews/ManageAssets");
         }
         [HttpPost]
         public ActionResult Index( Asset Model)
         {
             return View("PartialViews/ManageAssets");
         }
+        [HttpPost]
+        public void DeleteAsset(long AssetID)
+        {
+           _myCompanyService.DeleteAsset(AssetID);
+        }
+        //UpdateAsset has been made in the repository
     }
 }

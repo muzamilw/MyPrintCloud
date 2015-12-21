@@ -34,6 +34,19 @@ namespace MPC.Repository.Repositories
         {
             return db.Assets.Where(i => i.CompanyId == CompanyID).ToList();
         }
+
+        public void  DeleteAsset(long AssetID)
+        {
+            Asset Asset = db.Assets.Where(i => i.AssetId == AssetID).FirstOrDefault();
+            db.Assets.Remove(Asset);
+            db.SaveChanges();
+        }
+        public void UpdateAsset(long AssetID)
+        {
+            Asset Asset = db.Assets.Where(i => i.AssetId == AssetID).FirstOrDefault();
+            db.Assets.Attach(Asset);
+            db.Entry(Asset).State = EntityState.Modified;
+        }
     }
 
 }
