@@ -8,7 +8,6 @@ namespace MPC.Models.DomainModels
 {
     public class Asset
     {
-
         public long AssetId { get; set; }
         public string AssetName { get; set; }
         public string Description { get; set; }
@@ -20,5 +19,8 @@ namespace MPC.Models.DomainModels
         public string FileType { get; set; }
         public Nullable<long> FolderId { get; set; }
         public Nullable<long> CompanyId { get; set; }
+
+        public virtual Company Company { get; set; }
+        public virtual Folder Folder { get; set; }
     }
 }
