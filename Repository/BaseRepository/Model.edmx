@@ -95,6 +95,22 @@
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="DisplayOnContactUs" Type="bit" />
         </EntityType>
+        <EntityType Name="Assets">
+          <Key>
+            <PropertyRef Name="AssetId" />
+          </Key>
+          <Property Name="AssetId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetName" Type="nvarchar" MaxLength="500" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Keywords" Type="ntext" />
+          <Property Name="CreationDateTime" Type="datetime" />
+          <Property Name="Price" Type="float" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="FileType" Type="varchar" MaxLength="50" />
+          <Property Name="FolderId" Type="bigint" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
         <EntityType Name="Campaign">
           <Key>
             <PropertyRef Name="CampaignId" />
@@ -1211,6 +1227,19 @@
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="IsSystem" Type="bit" />
           <Property Name="VariableTitle" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Name="FolderId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FolderName" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="400" />
+          <Property Name="DisplayOrder" Type="int" />
+          <Property Name="ParentFolderId" Type="bigint" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="GlobalLanguage">
           <Key>
@@ -4479,6 +4508,30 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Assets_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Assets" Type="Self.Assets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Assets">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assets_Folder">
+          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
+          <End Role="Assets" Type="Self.Assets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="FolderId" />
+            </Principal>
+            <Dependent Role="Assets">
+              <PropertyRef Name="FolderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CampaignEmailVariable_Section">
           <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
           <End Role="CampaignEmailVariable" Type="Self.CampaignEmailVariable" Multiplicity="*" />
@@ -4757,6 +4810,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               <PropertyRef Name="CompanyId" />
             </Principal>
             <Dependent Role="FieldVariable">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Folder_Folder">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Folder" Type="Self.Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Folder">
               <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -6432,6 +6497,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ActivityType" EntityType="Self.ActivityType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Assets" EntityType="Self.Assets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignEmailQueue" EntityType="Self.CampaignEmailQueue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignEmailVariable" EntityType="Self.CampaignEmailVariable" Schema="dbo" store:Type="Tables" />
@@ -6482,6 +6548,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FavoriteDesign" EntityType="Self.FavoriteDesign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FieldVariable" EntityType="Self.FieldVariable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Folder" EntityType="Self.Folder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceivedNote" EntityType="Self.GoodsReceivedNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceivedNoteDetail" EntityType="Self.GoodsReceivedNoteDetail" Schema="dbo" store:Type="Tables" />
@@ -6963,6 +7030,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplatePage" EntitySet="TemplatePage" />
           </AssociationSet>
+          <AssociationSet Name="FK_Assets_Company" Association="Self.FK_Assets_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Assets" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assets_Folder" Association="Self.FK_Assets_Folder">
+            <End Role="Folder" EntitySet="Folder" />
+            <End Role="Assets" EntitySet="Assets" />
+          </AssociationSet>
           <AssociationSet Name="FK_CampaignEmailVariable_Section" Association="Self.FK_CampaignEmailVariable_Section">
             <End Role="Section" EntitySet="Section" />
             <End Role="CampaignEmailVariable" EntitySet="CampaignEmailVariable" />
@@ -7054,6 +7129,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_FieldVariable_Company" Association="Self.FK_FieldVariable_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="FieldVariable" EntitySet="FieldVariable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Folder_Folder" Association="Self.FK_Folder_Folder">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Folder" EntitySet="Folder" />
           </AssociationSet>
           <AssociationSet Name="FK_GoodsReceivedNote_Company" Association="Self.FK_GoodsReceivedNote_Company">
             <End Role="Company" EntitySet="Company" />
@@ -8290,10 +8369,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Estimate" EntitySet="Estimates" />
             <End Role="ShippingInformation" EntitySet="ShippingInformations" />
           </AssociationSet>
-          <FunctionImport Name="usp_DeliveryReport" ReturnType="Collection(DomainModels.usp_DeliveryReport_Result)">
-            <Parameter Name="OrganisationID" Mode="In" Type="Int64" />
-            <Parameter Name="DeliveryID" Mode="In" Type="Int64" />
-          </FunctionImport>
           <AssociationSet Name="FK_ShippingInformation_Address" Association="DomainModels.FK_ShippingInformation_Address">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="ShippingInformation" EntitySet="ShippingInformations" />
@@ -8532,6 +8607,24 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Listing" EntitySet="Listings" />
             <End Role="ListingBulletPoint" EntitySet="ListingBulletPoints" />
           </AssociationSet>
+          <FunctionImport Name="usp_DeliveryReport" ReturnType="Collection(DomainModels.usp_DeliveryReport_Result)">
+            <Parameter Name="OrganisationID" Mode="In" Type="Int64" />
+            <Parameter Name="DeliveryID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="Assets" EntityType="DomainModels.Asset" />
+          <EntitySet Name="Folders" EntityType="DomainModels.Folder" />
+          <AssociationSet Name="FK_Assets_Company" Association="DomainModels.FK_Assets_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assets_Folder" Association="DomainModels.FK_Assets_Folder">
+            <End Role="Folder" EntitySet="Folders" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Folder_Folder" Association="DomainModels.FK_Folder_Folder">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Folder" EntitySet="Folders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8677,6 +8770,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRegisterPlaceDirectOrder" Type="Boolean" />
           <Property Name="IsRegisterPlaceOrderWithoutApproval" Type="Boolean" />
           <Property Name="IsAllowRequestaQuote" Type="Boolean" />
+          <NavigationProperty Name="Assets" Relationship="DomainModels.FK_Assets_Company" FromRole="Company" ToRole="Asset" />
+          <NavigationProperty Name="Folders" Relationship="DomainModels.FK_Folder_Folder" FromRole="Company" ToRole="Folder" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -14446,30 +14541,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="usp_DeliveryReport_Result">
-          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
-          <Property Type="Int64" Name="OrganisationId" Nullable="true" />
-          <Property Type="String" Name="CotactFullName" Nullable="false" MaxLength="101" />
-          <Property Type="String" Name="AddressName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Address1" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="StateName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Tel1" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Description" Nullable="true" MaxLength="Max" />
-          <Property Type="Int32" Name="ItemQty" Nullable="true" />
-          <Property Type="Double" Name="GrossItemTotal" Nullable="true" />
-          <Property Type="String" Name="Code" Nullable="true" MaxLength="20" />
-          <Property Type="DateTime" Name="DeliveryDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="OrderReff" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CustomerOrderReff" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CsNo" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="DeliveryNoteID" Nullable="false" />
-          <Property Type="String" Name="DeliveryStatus" Nullable="true" MaxLength="12" />
-          <Property Type="String" Name="ReportBanner" Nullable="true" MaxLength="700" />
-        </ComplexType>
         <Association Name="FK_ShippingInformation_Address">
           <End Type="DomainModels.Address" Role="Address" Multiplicity="0..1" />
           <End Type="DomainModels.ShippingInformation" Role="ShippingInformation" Multiplicity="*" />
@@ -15626,6 +15697,100 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ListingBulletPoint">
               <PropertyRef Name="ListingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="usp_DeliveryReport_Result">
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="200" />
+          <Property Type="Int64" Name="OrganisationId" Nullable="true" />
+          <Property Type="String" Name="UserNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="CotactFullName" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="Address1" Nullable="true" MaxLength="797" />
+          <Property Type="String" Name="AddressName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="StateName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tel1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="Max" />
+          <Property Type="Int32" Name="ItemQty" Nullable="true" />
+          <Property Type="Double" Name="GrossItemTotal" Nullable="true" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="DeliveryDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="OrderReff" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CustomerOrderReff" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CsNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DeliveryNoteID" Nullable="false" />
+          <Property Type="String" Name="DeliveryStatus" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="ReportBanner" Nullable="true" MaxLength="700" />
+        </ComplexType>
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="AssetId" />
+          </Key>
+          <Property Name="AssetId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Keywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreationDateTime" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="FileType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FolderId" Type="Int64" />
+          <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Assets_Company" FromRole="Asset" ToRole="Company" />
+          <NavigationProperty Name="Folder" Relationship="DomainModels.FK_Assets_Folder" FromRole="Asset" ToRole="Folder" />
+        </EntityType>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Name="FolderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FolderName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayOrder" Type="Int32" />
+          <Property Name="ParentFolderId" Type="Int64" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Assets" Relationship="DomainModels.FK_Assets_Folder" FromRole="Folder" ToRole="Asset" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Folder_Folder" FromRole="Folder" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_Assets_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Asset" Role="Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assets_Folder">
+          <End Type="DomainModels.Folder" Role="Folder" Multiplicity="0..1" />
+          <End Type="DomainModels.Asset" Role="Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="FolderId" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="FolderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Folder_Folder">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Folder" Role="Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Folder">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -19858,34 +20023,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="usp_DeliveryReport" FunctionName="DomainModels.Store.usp_DeliveryReport">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DomainModels.usp_DeliveryReport_Result">
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="CotactFullName" ColumnName="CotactFullName" />
-                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="StateName" ColumnName="StateName" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
-                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
-                <ScalarProperty Name="GrossItemTotal" ColumnName="GrossItemTotal" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="OrderReff" ColumnName="OrderReff" />
-                <ScalarProperty Name="CustomerOrderReff" ColumnName="CustomerOrderReff" />
-                <ScalarProperty Name="CsNo" ColumnName="CsNo" />
-                <ScalarProperty Name="DeliveryNoteID" ColumnName="DeliveryNoteID" />
-                <ScalarProperty Name="DeliveryStatus" ColumnName="DeliveryStatus" />
-                <ScalarProperty Name="ReportBanner" ColumnName="ReportBanner" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Reportparams">
             <EntityTypeMapping TypeName="DomainModels.Reportparam">
               <MappingFragment StoreEntitySet="Reportparam">
@@ -20672,6 +20809,66 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="ListingId" ColumnName="ListingId" />
                 <ScalarProperty Name="BulletPoint" ColumnName="BulletPoint" />
                 <ScalarProperty Name="BulletPointId" ColumnName="BulletPointId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_DeliveryReport" FunctionName="DomainModels.Store.usp_DeliveryReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_DeliveryReport_Result">
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="UserNotes" ColumnName="UserNotes" />
+                <ScalarProperty Name="CotactFullName" ColumnName="CotactFullName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
+                <ScalarProperty Name="GrossItemTotal" ColumnName="GrossItemTotal" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="OrderReff" ColumnName="OrderReff" />
+                <ScalarProperty Name="CustomerOrderReff" ColumnName="CustomerOrderReff" />
+                <ScalarProperty Name="CsNo" ColumnName="CsNo" />
+                <ScalarProperty Name="DeliveryNoteID" ColumnName="DeliveryNoteID" />
+                <ScalarProperty Name="DeliveryStatus" ColumnName="DeliveryStatus" />
+                <ScalarProperty Name="ReportBanner" ColumnName="ReportBanner" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Assets">
+            <EntityTypeMapping TypeName="DomainModels.Asset">
+              <MappingFragment StoreEntitySet="Assets">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="FolderId" ColumnName="FolderId" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AssetName" ColumnName="AssetName" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Folders">
+            <EntityTypeMapping TypeName="DomainModels.Folder">
+              <MappingFragment StoreEntitySet="Folder">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ParentFolderId" ColumnName="ParentFolderId" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="FolderId" ColumnName="FolderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
