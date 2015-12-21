@@ -381,6 +381,10 @@ namespace MPC.Repository.Repositories
                                     isRealEstateVariable = true;
                                     fieldValue = GetRealEstateAgent(obj.FieldVariable, ListingId);
                                     break;
+                                case "ListingBulletPoint": //from users table based on company id and agent count
+                                    isRealEstateVariable = true;
+                                    fieldValue = GetRealEstateBullets(obj.FieldVariable, ListingId);
+                                    break;
                                 case "ListingOFIs":
                                     isRealEstateVariable = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
@@ -668,6 +672,10 @@ namespace MPC.Repository.Repositories
                             case "ListingAgent": //from users table based on company id and agent count
                                 isRealEstateVariable = true;
                                 fieldValue = GetRealEstateAgent(obj, ListingId);
+                                break;
+                            case "ListingBulletPoint": //from users table based on company id and agent count
+                                isRealEstateVariable = true;
+                                fieldValue = GetRealEstateBullets(obj, ListingId);
                                 break;
                             case "ListingOFIs":
                                 isRealEstateVariable = true;
@@ -1313,6 +1321,10 @@ namespace MPC.Repository.Repositories
                                             isRealEstateVariable = true;
                                             fieldValue = GetRealEstateAgent(FieldVariable, ListingId);
                                             break;
+                                        case "ListingBulletPoint": //from users table based on company id and agent count
+                                            isRealEstateVariable = true;
+                                            fieldValue = GetRealEstateBullets(FieldVariable, ListingId);
+                                            break;
                                         case "ListingOFIs":
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
@@ -1945,6 +1957,27 @@ namespace MPC.Repository.Repositories
                     }
                 }
 
+            }
+            return fieldValue;
+        }
+        public string GetRealEstateBullets(FieldVariable obj, long propertyId)
+        {
+            int count = 1;
+            string fieldValue = "";
+            count = Convert.ToInt32(obj.VariableTag.Replace("{{Bullet", "").Replace("}}", ""));
+           // var property = db.Listings.Where(g => g.ListingId == propertyId).SingleOrDefault();
+            List<ListingBulletPoint> list = db.ListingBulletPoints.Where(c => c.ListingId == propertyId).ToList();
+            if (list != null && list.Count > 0)
+            {
+                ListingBulletPoint bullet = new ListingBulletPoint();
+                if (list.Count < count)
+                    bullet = list[0];
+                else
+                    bullet = list[count - 1];
+
+                fieldValue = bullet.BulletPoint;
+
+             
             }
             return fieldValue;
         }
