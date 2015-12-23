@@ -11,5 +11,7 @@
         public string ApiKey { get; set; }
         public string ApiPassword { get; set; }
         public bool? isEnable { get; set; }
+
+        public string CarrierPhone { get; set; }
     }
 }

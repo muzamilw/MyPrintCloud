@@ -8993,3 +8993,7 @@ GO
 
 ALTER TABLE [dbo].[Assets] CHECK CONSTRAINT [FK_Assets_Folder]
 GO
+
+
+alter table deliverynote add OrganisationId bigint null
+

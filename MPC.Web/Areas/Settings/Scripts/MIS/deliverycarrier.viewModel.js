@@ -18,6 +18,8 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     //Selected Paper Sheet
                     selectedCarrier = editorViewModel.itemForEditing,
 
+                   
+
                 createNewDeliveryDialog = function ()
                 {
                     var deliverycarrier = new model.DeliveryCarrier();
@@ -132,7 +134,9 @@ define("deliverycarrier/deliverycarrier.viewModel",
                       view = specifiedView;
                       ko.applyBindings(view.viewModel, view.bindingRoot);
                       getBase();
+                     
                   };
+
                 return {
                     // Observables
                     
@@ -146,7 +150,8 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     onsaveDeliveryCarrier: onsaveDeliveryCarrier,
                     // Utility Methods
                     initialize: initialize,
-                    openDialog: openDialog
+                    openDialog: openDialog,
+                    
                     
                 };
             })()

@@ -31,6 +31,7 @@ namespace MPC.Models.ModelMappers
             target.SupplierId = source.SupplierId;
             target.SupplierTelNo = source.SupplierTelNo;
             target.UserNotes = source.UserNotes;
+            target.OrganisationId = source.OrganisationId;
         }
 
         private static void UpdateDeliveryNoteDetails(DeliveryNote source, DeliveryNote target,

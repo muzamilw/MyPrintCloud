@@ -207,7 +207,7 @@
                                 <label class="control-label text-right tooltip-float">Carriers</label>
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="options: $root.deliveryCarriers, optionsText: 'CarrierName', optionsValue: 'CarrierId', optionsCaption: 'Select a carrier ',value:supplierId"></select>
+                                <select class="form-control" data-bind="options: $root.deliveryCarriers, optionsText: 'CarrierName', optionsValue: 'CarrierId', optionsCaption: 'Select a carrier ',value:$root.carrierFilter"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
@@ -217,8 +217,8 @@
                                 <label class="control-label text-right tooltip-float">Carrier Phone</label>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" data-bind="value:supplierTelNo">
-
+                                <input type="text" class="form-control" data-bind="value:$root.CarriarPhone">
+                                @*supplierTelNo*@
                             </div>
                         </div>
                         <div class="form-group">

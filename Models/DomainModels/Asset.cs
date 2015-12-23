@@ -22,5 +22,7 @@ namespace MPC.Models.DomainModels
 
         public virtual Company Company { get; set; }
         public virtual Folder Folder { get; set; }
+
+        public virtual ICollection<AssetItem> Assets { get; set; }
     }
 }

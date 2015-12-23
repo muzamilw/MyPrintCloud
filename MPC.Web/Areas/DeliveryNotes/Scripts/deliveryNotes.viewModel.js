@@ -29,6 +29,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     // #endregion
                     // is editor visible 
                     isEditorVisible = ko.observable(false),
+                    // is edit SCREEN
+                     isEditCall = ko.observable(false),
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
                     deliveryNoteEditorHeader = ko.observable(),
@@ -43,6 +45,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     searchFilter = ko.observable(),
                     //Pager
                     pager = ko.observable(),
+                    //phone
+                    CarriarPhone = ko.observable(),
                      //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -50,6 +54,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                      // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
 
+                    //Category Filter
+                    carrierFilter = ko.observable(),
                       // is open report
                      isOpenReport = ko.observable(false),
                       // is open report Email
@@ -138,8 +144,12 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     }, {
                         success: function (data) {
                             if (data !== null && data !== undefined) {
+
+                                isEditCall(true);
                                 var dNote = model.DeliveryNote.Create(data);
                                 selectedDeliveryNote(dNote);
+                                CarriarPhone(dNote.supplierTelNo());
+                                carrierFilter(dNote.supplierId())
                                 selectedDeliveryNote().companyName(data.CompanyName);
                                 // Get Base Data For Company
                                 if (data.CompanyId) {
@@ -154,6 +164,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                     getBaseForCompany(data.CompanyId, storeId);
                                 }
                             }
+
                         },
                         error: function () {
                             toastr.error("Failed to Items.");
@@ -396,6 +407,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         if (!dobeforeSave()) {
                             return;
                         }
+                        var phone = CarriarPhone();
+                        selectedDeliveryNote().supplierTelNo(phone);
                         var deliveryNotes = selectedDeliveryNote().convertToServerData();
                         _.each(selectedDeliveryNote().deliveryNoteDetails(), function (item) {
                             deliveryNotes.DeliveryNoteDetails.push(item.convertToServerData(item));
@@ -525,8 +538,19 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
                     getBaseData();
                     getdeliveryNotes();
+                    carrierFilter.subscribe(function (carrier) {
+                        _.each(deliveryCarriers(), function (Dcarrier) {
+                            if (Dcarrier.CarrierId == carrier) {
+                                
+                                CarriarPhone(Dcarrier.CarrierPhone);
+                                
+                            }
+                        });
 
-                };
+                        selectedDeliveryNote().supplierId(carrier);
+                    });
+                  };
+               
                 //#endregion 
 
 
@@ -571,7 +595,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     openExternalEmailDeliveryReport: openExternalEmailDeliveryReport,
                     formatSelection: formatSelection,
                     formatResult: formatResult,
-                    deliveryNoteEditorHeader: deliveryNoteEditorHeader
+                    deliveryNoteEditorHeader: deliveryNoteEditorHeader,
+                    carrierFilter: carrierFilter,
+                    CarriarPhone: CarriarPhone
 
                 };
             })()

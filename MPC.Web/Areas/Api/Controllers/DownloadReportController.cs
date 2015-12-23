@@ -1,6 +1,7 @@
 ﻿using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,12 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
         // GET: Api/ReportManager
       //  ReportCategoryRequestModel
-        [HttpGet]
-       public string get(int ReportId, bool Mode)
+      
+       public string get([FromUri] ReportEmailRequestModel request)
        {
            //bool GG = true;
-           return _IReportService.DownloadExternalReport(ReportId, Mode);
+           return _IReportService.DownloadExternalReport(request);
+           
        }
     }
 }

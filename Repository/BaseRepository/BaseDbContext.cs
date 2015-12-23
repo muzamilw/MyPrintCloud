@@ -727,6 +727,8 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Asset> Assets { get; set; }
 
         public DbSet<Folder> Folders { get; set; }
+
+        public DbSet<AssetItem> AssetItems { get; set; }
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>

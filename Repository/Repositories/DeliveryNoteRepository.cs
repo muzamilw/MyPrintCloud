@@ -50,7 +50,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<DeliveryNote, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) ||
-                      item.CustomerOrderReff.Contains(request.SearchString)) && item.IsStatus == request.Status);
+                      item.CustomerOrderReff.Contains(request.SearchString)) && item.IsStatus == request.Status && item.OrganisationId == OrganisationId);
             IEnumerable<DeliveryNote> deliveryNotes = request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(_deliveryNoteByClause[request.ItemOrderBy])

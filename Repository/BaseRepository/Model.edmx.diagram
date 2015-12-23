@@ -351,6 +351,8 @@
         <AssociationConnector Association="DomainModels.FK_Assets_Company" />
         <AssociationConnector Association="DomainModels.FK_Assets_Folder" />
         <AssociationConnector Association="DomainModels.FK_Folder_Folder" />
+        <EntityTypeShape EntityType="DomainModels.AssetItem" Width="1.5" PointX="12.5" PointY="82.125" />
+        <AssociationConnector Association="DomainModels.FK_AssetItem_Assets" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

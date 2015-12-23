@@ -995,8 +995,8 @@ namespace MPC.Repository.Repositories
                         convertedValue =  (Input * ConversionUnit);
                         break;
                     case MPC.Models.Common.LengthUnit.Inch:
-                        ConversionUnit = (double)oRows.Inch;
-                        convertedValue =  (Input * ConversionUnit * 8) / 8.0d;
+                        ConversionUnit =Math.Round( (double)oRows.Inch,3);
+                        convertedValue =   DesignerUtils.MMToPoint(Input);// (Input * ConversionUnit * 8) / 8.0d;
                         break;
                     case MPC.Models.Common.LengthUnit.Mm:
                         ConversionUnit = (double)oRows.MM;
