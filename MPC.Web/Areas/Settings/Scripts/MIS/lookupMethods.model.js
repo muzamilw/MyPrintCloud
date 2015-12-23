@@ -787,109 +787,79 @@
         return self;
 
     }
-    var SpeedWeightLookup = function (source) {
+    var SpeedWeightLookup = function(source) {
         var self
-        if (source != undefined) {
-            Id = ko.observable(source.Id),
-                MethodId = ko.observable(source.MethodId),
-                SheetsQty1 = ko.observable(source.SheetsQty1),
-                SheetsQty2 = ko.observable(source.SheetsQty2),
-                SheetsQty3 = ko.observable(source.SheetsQty3),
-                SheetsQty4 = ko.observable(source.SheetsQty4),
-                SheetsQty5 = ko.observable(source.SheetsQty5),
-                SheetWeight1 = ko.observable(source.SheetWeight1),
-                speedqty11 = ko.observable(source.speedqty11),
-                speedqty12 = ko.observable(source.speedqty12),
-                speedqty13 = ko.observable(source.speedqty13),
-                speedqty14 = ko.observable(source.speedqty14),
-                speedqty15 = ko.observable(source.speedqty15),
-                SheetWeight2 = ko.observable(source.SheetWeight2),
-                speedqty21 = ko.observable(source.speedqty21),
-                speedqty22 = ko.observable(source.speedqty22),
-                speedqty23 = ko.observable(source.speedqty23),
-                speedqty24 = ko.observable(source.speedqty24),
-                speedqty25 = ko.observable(source.speedqty25),
-                SheetWeight3 = ko.observable(source.SheetWeight3),
-                speedqty31 = ko.observable(source.speedqty31),
-                speedqty32 = ko.observable(source.speedqty32),
-                speedqty33 = ko.observable(source.speedqty33),
-                speedqty34 = ko.observable(source.speedqty34),
-                speedqty35 = ko.observable(source.speedqty35),
-                hourlyCost = ko.observable(source.hourlyCost),
-                hourlyPrice = ko.observable(source.hourlyPrice)
-        } else {
-            Id = ko.observable(),
-                MethodId = ko.observable(),
-                SheetsQty1 = ko.observable(),
-                SheetsQty2 = ko.observable(),
-                SheetsQty3 = ko.observable(),
-                SheetsQty4 = ko.observable(),
-                SheetsQty5 = ko.observable(),
-                SheetWeight1 = ko.observable(),
-                speedqty11 = ko.observable(),
-                speedqty12 = ko.observable(),
-                speedqty13 = ko.observable(),
-                speedqty14 = ko.observable(),
-                speedqty15 = ko.observable(),
-                SheetWeight2 = ko.observable(),
-                speedqty21 = ko.observable(),
-                speedqty22 = ko.observable(),
-                speedqty23 = ko.observable(),
-                speedqty24 = ko.observable(),
-                speedqty25 = ko.observable(),
-                SheetWeight3 = ko.observable(),
-                speedqty31 = ko.observable(),
-                speedqty32 = ko.observable(),
-                speedqty33 = ko.observable(),
-                speedqty34 = ko.observable(),
-                speedqty35 = ko.observable(),
-                hourlyCost = ko.observable(),
-                hourlyPrice = ko.observable()
-        }
+        Id = ko.observable(source != undefined ? source.Id : undefined),
+            MethodId = ko.observable(source != undefined ? source.MethodId : undefined),
+            SheetsQty1 = ko.observable(source != undefined ? source.SheetsQty1 : undefined),
+            SheetsQty2 = ko.observable(source != undefined ? source.SheetsQty2 : undefined),
+            SheetsQty3 = ko.observable(source != undefined ? source.SheetsQty3 : undefined),
+            SheetsQty4 = ko.observable(source != undefined ? source.SheetsQty4 : undefined),
+            SheetsQty5 = ko.observable(source != undefined ? source.SheetsQty5 : undefined),
+            SheetWeight1 = ko.observable(source != undefined ? source.SheetWeight1 : undefined),
+            speedqty11 = ko.observable(source != undefined ? source.speedqty11 : undefined),
+            speedqty12 = ko.observable(source != undefined ? source.speedqty12 : undefined),
+            speedqty13 = ko.observable(source != undefined ? source.speedqty13 : undefined),
+            speedqty14 = ko.observable(source != undefined ? source.speedqty14 : undefined),
+            speedqty15 = ko.observable(source != undefined ? source.speedqty15 : undefined),
+            SheetWeight2 = ko.observable(source != undefined ? source.SheetWeight2 : undefined),
+            speedqty21 = ko.observable(source != undefined ? source.speedqty21 : undefined),
+            speedqty22 = ko.observable(source != undefined ? source.speedqty22 : undefined),
+            speedqty23 = ko.observable(source != undefined ? source.speedqty23 : undefined),
+            speedqty24 = ko.observable(source != undefined ? source.speedqty24 : undefined),
+            speedqty25 = ko.observable(source != undefined ? source.speedqty25 : undefined),
+            SheetWeight3 = ko.observable(source != undefined ? source.SheetWeight3 : undefined),
+            speedqty31 = ko.observable(source != undefined ? source.speedqty31 : undefined),
+            speedqty32 = ko.observable(source != undefined ? source.speedqty32 : undefined),
+            speedqty33 = ko.observable(source != undefined ? source.speedqty33 : undefined),
+            speedqty34 = ko.observable(source != undefined ? source.speedqty34 : undefined),
+            speedqty35 = ko.observable(source != undefined ? source.speedqty35 : undefined),
+            hourlyCost = ko.observable(source != undefined ? source.hourlyCost : undefined),
+            hourlyPrice = ko.observable(source != undefined ? source.hourlyPrice : undefined),
         errors = ko.validation.group({
+            
         }),
-        // Is Valid
-      isValid = ko.computed(function () {
-          return errors().length === 0;
-      }),
-      dirtyFlag = new ko.dirtyFlag({
-          Id: Id,
-          MethodId: MethodId,
-          SheetsQty1: SheetsQty1,
-          SheetsQty2: SheetsQty2,
-          SheetsQty3: SheetsQty3,
-          SheetsQty4: SheetsQty4,
-          SheetsQty5: SheetsQty5,
-          SheetWeight1: SheetWeight1,
-          speedqty11: speedqty11,
-          speedqty12: speedqty12,
-          speedqty13: speedqty13,
-          speedqty14: speedqty14,
-          speedqty15: speedqty15,
-          SheetWeight2: SheetWeight2,
-          speedqty21: speedqty21,
-          speedqty22: speedqty22,
-          speedqty23: speedqty23,
-          speedqty24: speedqty24,
-          speedqty25: speedqty25,
-          SheetWeight3: SheetWeight3,
-          speedqty31: speedqty31,
-          speedqty32: speedqty32,
-          speedqty33: speedqty33,
-          speedqty34: speedqty34,
-          speedqty35: speedqty35,
-          hourlyCost: hourlyCost,
-          hourlyPrice: hourlyPrice
-
-      }),
-        // Has Changes
-      hasChanges = ko.computed(function () {
-          return dirtyFlag.isDirty();
-      }),
-        // Reset
-      reset = function () {
-          dirtyFlag.reset();
-      };
+            // Is Valid
+        isValid = ko.computed(function() {
+            return errors().length === 0;
+        }),
+        dirtyFlag = new ko.dirtyFlag({
+            Id: Id,
+            MethodId: MethodId,
+            SheetsQty1: SheetsQty1,
+            SheetsQty2: SheetsQty2,
+            SheetsQty3: SheetsQty3,
+            SheetsQty4: SheetsQty4,
+            SheetsQty5: SheetsQty5,
+            SheetWeight1: SheetWeight1,
+            speedqty11: speedqty11,
+            speedqty12: speedqty12,
+            speedqty13: speedqty13,
+            speedqty14: speedqty14,
+            speedqty15: speedqty15,
+            SheetWeight2: SheetWeight2,
+            speedqty21: speedqty21,
+            speedqty22: speedqty22,
+            speedqty23: speedqty23,
+            speedqty24: speedqty24,
+            speedqty25: speedqty25,
+            SheetWeight3: SheetWeight3,
+            speedqty31: speedqty31,
+            speedqty32: speedqty32,
+            speedqty33: speedqty33,
+            speedqty34: speedqty34,
+            speedqty35: speedqty35,
+            hourlyCost: hourlyCost,
+            hourlyPrice: hourlyPrice
+        }),
+            // Has Changes
+        hasChanges = ko.computed(function() {
+            return dirtyFlag.isDirty();
+        }),
+            // Reset
+        reset = function() {
+            dirtyFlag.reset();
+        };
 
         self = {
             Id: Id,
@@ -924,11 +894,20 @@
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
-
         };
         return self;
 
-    }
+    };
+        SpeedWeightLookup.create = function() {
+            var speedweight = new SpeedWeightLookup({
+                ID: 0, MethodId: 0, SheetsQty1: 0, SheetsQty2: 0, SheetsQty3: 0, SheetsQty4: 0,
+                SheetsQty5: 0, SheetWeight1: 0, speedqty11: 0, speedqty12: 0, speedqty13: 0, speedqty14: 0, speedqty15: 0,
+                SheetWeight2: 0, speedqty21: 0, speedqty22: 0, speedqty23: 0, speedqty24: 0, speedqty25: 0,
+                SheetWeight3: 0, speedqty31: 0, speedqty32: 0, speedqty33: 0, speedqty34: 0, speedqty35: 0,hourlyCost:0, hourlyPrice:0
+            });
+            return speedweight;
+        }
+    
     var GuillotineClickPTV = function (source) {
         var self
         if (source != undefined) {
@@ -1272,37 +1251,37 @@
             ClickChargeZoneLookup.IsRoundUp = ClickChargeZone.IsRoundUp();
             ClickChargeZoneLookup.TimePerHour = ClickChargeZone.TimePerHour();
         }
-        var SpeedWeightLookup = {};
+        //var SpeedWeightLookup = {};
 
-        if (SpeedWeight != undefined) {
-            SpeedWeightLookup.Id = SpeedWeight.Id();
-            SpeedWeightLookup.MethodId = SpeedWeight.MethodId();
-            SpeedWeightLookup.SheetsQty1 = SpeedWeight.SheetsQty1();
-            SpeedWeightLookup.SheetsQty2 = SpeedWeight.SheetsQty2();
-            SpeedWeightLookup.SheetsQty3 = SpeedWeight.SheetsQty3();
-            SpeedWeightLookup.SheetsQty4 = SpeedWeight.SheetsQty4();
-            SpeedWeightLookup.SheetsQty5 = SpeedWeight.SheetsQty5();
-            SpeedWeightLookup.SheetWeight1 = SpeedWeight.SheetWeight1();
-            SpeedWeightLookup.speedqty11 = SpeedWeight.speedqty11();
-            SpeedWeightLookup.speedqty12 = SpeedWeight.speedqty12();
-            SpeedWeightLookup.speedqty13 = SpeedWeight.speedqty13();
-            SpeedWeightLookup.speedqty14 = SpeedWeight.speedqty14();
-            SpeedWeightLookup.speedqty15 = SpeedWeight.speedqty15();
-            SpeedWeightLookup.SheetWeight2 = SpeedWeight.SheetWeight2();
-            SpeedWeightLookup.speedqty21 = SpeedWeight.speedqty21();
-            SpeedWeightLookup.speedqty22 = SpeedWeight.speedqty22();
-            SpeedWeightLookup.speedqty23 = SpeedWeight.speedqty23();
-            SpeedWeightLookup.speedqty24 = SpeedWeight.speedqty24();
-            SpeedWeightLookup.speedqty25 = SpeedWeight.speedqty25();
-            SpeedWeightLookup.SheetWeight3 = SpeedWeight.SheetWeight3();
-            SpeedWeightLookup.speedqty31 = SpeedWeight.speedqty31();
-            SpeedWeightLookup.speedqty32 = SpeedWeight.speedqty32();
-            SpeedWeightLookup.speedqty33 = SpeedWeight.speedqty33();
-            SpeedWeightLookup.speedqty34 = SpeedWeight.speedqty34();
-            SpeedWeightLookup.speedqty35 = SpeedWeight.speedqty35();
-            SpeedWeightLookup.hourlyCost = SpeedWeight.hourlyCost();
-            SpeedWeightLookup.hourlyPrice = SpeedWeight.hourlyPrice();
-        }
+        //if (SpeedWeight != undefined) {
+        //    SpeedWeightLookup.Id = SpeedWeight.Id();
+        //    SpeedWeightLookup.MethodId = SpeedWeight.MethodId();
+        //    SpeedWeightLookup.SheetsQty1 = SpeedWeight.SheetsQty1();
+        //    SpeedWeightLookup.SheetsQty2 = SpeedWeight.SheetsQty2();
+        //    SpeedWeightLookup.SheetsQty3 = SpeedWeight.SheetsQty3();
+        //    SpeedWeightLookup.SheetsQty4 = SpeedWeight.SheetsQty4();
+        //    SpeedWeightLookup.SheetsQty5 = SpeedWeight.SheetsQty5();
+        //    SpeedWeightLookup.SheetWeight1 = SpeedWeight.SheetWeight1();
+        //    SpeedWeightLookup.speedqty11 = SpeedWeight.speedqty11();
+        //    SpeedWeightLookup.speedqty12 = SpeedWeight.speedqty12();
+        //    SpeedWeightLookup.speedqty13 = SpeedWeight.speedqty13();
+        //    SpeedWeightLookup.speedqty14 = SpeedWeight.speedqty14();
+        //    SpeedWeightLookup.speedqty15 = SpeedWeight.speedqty15();
+        //    SpeedWeightLookup.SheetWeight2 = SpeedWeight.SheetWeight2();
+        //    SpeedWeightLookup.speedqty21 = SpeedWeight.speedqty21();
+        //    SpeedWeightLookup.speedqty22 = SpeedWeight.speedqty22();
+        //    SpeedWeightLookup.speedqty23 = SpeedWeight.speedqty23();
+        //    SpeedWeightLookup.speedqty24 = SpeedWeight.speedqty24();
+        //    SpeedWeightLookup.speedqty25 = SpeedWeight.speedqty25();
+        //    SpeedWeightLookup.SheetWeight3 = SpeedWeight.SheetWeight3();
+        //    SpeedWeightLookup.speedqty31 = SpeedWeight.speedqty31();
+        //    SpeedWeightLookup.speedqty32 = SpeedWeight.speedqty32();
+        //    SpeedWeightLookup.speedqty33 = SpeedWeight.speedqty33();
+        //    SpeedWeightLookup.speedqty34 = SpeedWeight.speedqty34();
+        //    SpeedWeightLookup.speedqty35 = SpeedWeight.speedqty35();
+        //    SpeedWeightLookup.hourlyCost = SpeedWeight.hourlyCost();
+        //    SpeedWeightLookup.hourlyPrice = SpeedWeight.hourlyPrice();
+        //}
         var PerHourLookup = {};
         if (PerHour != undefined) {
             PerHourLookup.Id = PerHour.Id();

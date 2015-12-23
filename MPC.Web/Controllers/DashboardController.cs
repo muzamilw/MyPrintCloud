@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using MPC.ExceptionHandling;
@@ -94,8 +97,71 @@ namespace MPC.MIS.Controllers
 
 
        }
+       [System.Web.Http.AcceptVerbs("POST")]
+       [HttpPost]
+       [AllowAnonymous]
+       public string CreateInvoiceZapAction()
+       {
+           long organisationId = 1;
+           
+           string param = HttpContext.Request.Url.Query;
+           string responsestr = _organizationService.GetActiveOrganisationId(param);
+           // responsestr = Temporarily set for local testing
+           if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
+           {
+               throw new MPCException("Service Not Authenticated!", organisationId);
+           }
+           else
+           {
+               organisationId = Convert.ToInt64(responsestr);
+           }
+           StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream());
+           string scont = reader.ReadToEndAsync().Result;
+           //ZapierPostResponse zapierResponse = JsonConvert.DeserializeObject<ZapierPostResponse>(scont);
 
-        
+           //var formatter = new JsonMediaTypeFormatter();
+           //var json = formatter.SerializerSettings;
+           //json.Formatting = Newtonsoft.Json.Formatting.Indented;
+           //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+           //return HttpContext.Request.CreateResponse(HttpStatusCode.OK, _companyContactService.GetContactForZapierPooling(0), formatter);
+
+           return scont;
+
+       }
+
+       [System.Web.Http.AcceptVerbs("POST")]
+       [HttpPost]
+       [AllowAnonymous]
+       public string CreateContactZapAction()
+       {
+           long organisationId = 1;
+
+           string param = HttpContext.Request.Url.Query;
+           string responsestr = _organizationService.GetActiveOrganisationId(param);
+           // responsestr = Temporarily set for local testing
+           if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
+           {
+               throw new MPCException("Service Not Authenticated!", organisationId);
+           }
+           else
+           {
+               organisationId = Convert.ToInt64(responsestr);
+           }
+           StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream());
+           string scont = reader.ReadToEndAsync().Result;
+           //ZapierPostResponse zapierResponse = JsonConvert.DeserializeObject<ZapierPostResponse>(scont);
+
+           //var formatter = new JsonMediaTypeFormatter();
+           //var json = formatter.SerializerSettings;
+           //json.Formatting = Newtonsoft.Json.Formatting.Indented;
+           //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+           //return HttpContext.Request.CreateResponse(HttpStatusCode.OK, _companyContactService.GetContactForZapierPooling(0), formatter);
+
+           return scont;
+
+       }
 
     }
 }
