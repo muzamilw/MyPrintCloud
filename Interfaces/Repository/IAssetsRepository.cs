@@ -12,5 +12,8 @@ namespace MPC.Interfaces.Repository
         List<Asset> GetAssetsByCompanyID(long CompanyID);
         void DeleteAsset(long AssetID);
         void UpdateAsset(long AssetID);
+        List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId);
+        long AddAsset(Asset Asset);
+        void UpdateAssetImage(Asset Asset);
     }
 }

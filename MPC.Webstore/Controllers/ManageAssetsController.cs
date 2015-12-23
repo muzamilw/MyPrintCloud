@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
 using System;
@@ -18,12 +19,19 @@ namespace MPC.Webstore.Controllers
         {
             this._myCompanyService = _myCompanyService;
         }
-        public ActionResult Index()
+        public ActionResult Index(string folderId)
         {
-           List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyID(UserCookieManager.WBStoreId);
-           List<Folder> GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
-           ViewBag.Assets = GetAssets;
-           ViewBag.Folders = GetFolder;
+            long FolderId = Convert.ToInt64(folderId);
+           // if (folderId > 0)
+           // {
+            List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, FolderId);
+           // }
+            List<Folder> GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+          // ViewBag.Assets = GetAssets;
+            ViewBag.Folders = GetFolder;
+            List<TreeViewNodeVM> TreeModel = _myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            ViewBag.TreeModel = TreeModel;
+            ViewBag.Assets = GetAssets;
            return View("PartialViews/ManageAssets");
         }
         [HttpPost]
@@ -35,6 +43,35 @@ namespace MPC.Webstore.Controllers
         public void DeleteAsset(long AssetID)
         {
            _myCompanyService.DeleteAsset(AssetID);
+        }
+        [HttpGet]
+        public JsonResult GetFolders()
+        {
+            List<Folder> GetFolder = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            
+            JsonResponse obj = new JsonResponse();
+            obj.Folders = GetFolder;
+            return Json(obj, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult GetChildFolders(long FolderID)
+        {
+            JsonResponse obj = new JsonResponse();
+            Folder folder = _myCompanyService.GetFolderByFolderId(FolderID);
+            if (folder.ParentFolderId != null && folder.ParentFolderId != 0)
+            {
+
+                List<Folder> GetFolder = _myCompanyService.GetChildFolders(folder.ParentFolderId??0);
+
+                obj.Folders = GetFolder;
+            }
+            
+             return Json(obj, JsonRequestBehavior.AllowGet);
+        }
+        public class JsonResponse
+        {
+            public List<Folder> Folders;
+            public List<Asset> Assets;
         }
         //UpdateAsset has been made in the repository
     }

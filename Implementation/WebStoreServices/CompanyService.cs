@@ -1915,5 +1915,49 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _FolderRepository.GetFoldersByCompanyId(CompanyID, OrganisationID);
         }
+        public void DeleteAsset(long AssetID)
+        {
+            _AssestsRepository.DeleteAsset(AssetID);
+        }
+        public void UpdateAsset(long AssetID)
+        {
+            _AssestsRepository.UpdateAsset(AssetID);
+        }
+        public List<Folder> GetChildFolders(long ParentFolderId)
+        {
+            return _FolderRepository.GetChildFolders(ParentFolderId);
+        }
+        public long AddFolder(Folder NewFolder)
+        {
+            return _FolderRepository.AddFolder(NewFolder);
+        }
+       public bool UpdateImage(Folder folder)
+        {
+            return _FolderRepository.UpdateImage(folder);
+        }
+       public Folder GetFolderByFolderId(long FolderID)
+       {
+           return _FolderRepository.GetFolderByFolderId(FolderID);
+       }
+       public List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId)
+       {
+           return _FolderRepository.GetTreeVeiwList(CompanyId, OrganisationId);
+       }
+       public List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId)
+       {
+           return _AssestsRepository.GetAssetsByCompanyIDAndFolderID(CompanyID, FolderId);
+       }
+       public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
+       {
+           return _FolderRepository.GetAllFolders(CompanyID, OrganisationID);
+       }
+       public long AddAsset(Asset Asset)
+       {
+           return _AssestsRepository.AddAsset(Asset);
+       }
+       public void UpdateAssetImage(Asset Asset)
+       {
+            _AssestsRepository.UpdateAssetImage(Asset);
+       }
     }
 }

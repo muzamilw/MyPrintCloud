@@ -1,12 +1,18 @@
 ﻿
+@using MPC.Models.Common;
+
+@using MPC.Webstore.Common
 @{
     var Assets = ViewBag.Assets as List<MPC.Models.DomainModels.Asset>;
     var Folder = ViewBag.Folders as List<MPC.Models.DomainModels.Folder>;
-     
+    var Tree = ViewBag.TreeModel as List<MPC.Models.Common.TreeViewNodeVM>;
+    
 }
 <header>
     <div class="container">
         <div class="logo">
+            <input id="AddFolder" type="button" value="Add Folder" onclick="AddFolder()" />
+            <input id="AddAsset" type="button" value="Add Asset" onclick="AddAsset()" />
             <p>LOGO</p>
         </div>
         <nav>
@@ -21,23 +27,18 @@
     </div>
 </header>
 
-<div class="wrapper">
+
     <div class="container">
         <div class="assetLeft">
             <div class="assetSearch">
                 <input placeholder="Search...">
             </div>
             <div class="assetCatMenu">
-                <h2>Categories</h2>
-                <ul>
-                    <li><a href="#">Asset Category 1</a></li>
-                    <li><a href="#">Asset Category 2</a></li>
-                    <li><a href="#">Asset Category 3</a></li>
-                    <li><a href="#">Asset Category 4</a></li>
-                    <li><a href="#">Asset Category 5</a></li>
-                </ul>
+               
+                @Html.Partial("PartialViews/TreeChildNodes", Tree)
+                
             </div>
-            <div class="assetFileTypeMenu">
+            @*<div class="assetFileTypeMenu">
                 <h2>File Types</h2>
                 <form action="">
                     <input type="checkbox" name="PSD" value="PSD">PSD (2)<br>
@@ -47,8 +48,8 @@
                     <input type="checkbox" name="Image" value="Image">Image (3)<br>
                     <input type="checkbox" name="Document" value="Document">Document (5)<br>
                 </form>
-            </div>
-            <div class="assetTagMenu">
+            </div>*@
+           @*<div class="assetTagMenu">
                 <h2>Tags</h2>
                 <form action="">
                     <input type="checkbox">Yellow<br>
@@ -58,7 +59,7 @@
                     <input type="checkbox">Orange<br>
                     <input type="checkbox">Grey<br>
                 </form>
-            </div>
+            </div>*@
         </div>
         <div class="assetRight">
             <div class="catHeader">
@@ -71,65 +72,428 @@
                 </div>
                 <div class="clear"></div>
             </div>
-
-            <div class="assetCategory">
-                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
-                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
-            </div>
-            <div class="assetCategory">
-                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
-                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
-            </div>
-            <div class="assetCategory">
-                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
-                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
-            </div>
-            <div class="assetCategory">
-                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
-                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
-            </div>
-            <div class="assetCategory">
-                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
-                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
-            </div>
-            <div class="assetCategory">
-                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
-                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
-            </div>
-            <div class="assetCategory">
-                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
-                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
-            </div>
-            <div class="assetCategory">
-                <a href="Asset-Level.html"><img src="images/Sample-Thumnail.png"></a>
-                <a href="Asset-Level.html" class="catAssetName">Category Folder</a>
-            </div>
-            <div class="clear"></div>
-        </div>
+                        @foreach(var ParentFolder in Folder)
+                               {
+  
+                                <div class="assetCategory">
+                                    <a href='@Url.Action("Index", "ManageAssets",
+                                           new { folderId =ParentFolder.FolderId})'><img src="@ParentFolder.ImagePath"></a>
+                                    <a href='@Url.Action("Index", "ManageAssets",
+                                           new { folderId =ParentFolder.FolderId})' class="catAssetName">@ParentFolder.FolderName</a>
+                                </div>
+                            
+                            
+                                }
+                                <br />
+                                <br />
+                                <br />
+              @if(Assets!=null&&Assets.Count>0)
+              {
+                  
+                   <h2>Assets</h2>
+                  foreach(var assets in Assets)
+                  {
+                    <div class="assetCategory">
+                      <a href=''><img src="@assets.ImagePath"></a>
+                   <a href="Asset-Level.html" class="catAssetName">@assets.AssetName</a>
+                  </div>
+                 }
+              }
+                                <div class="clear"></div>
+</div>
         <div class="clear"></div>
     </div>
-</div>
-<div class="shareWindow" style="display:none">
+
+<div class="shareWindow"  id="AddFolderPanel">
     <div class="shareIcons">
-        <h1>Share</h1>
-        <h2>Share URL:</h2>
-        <input class="shareFields" type="text" placeholder="">
-        <h2>Email URL to:</h2>
-        <input class="shareFields" type="text" placeholder="Enter email address here...">
-        <button class="shareButton" value="Email Link" type="submit">Email Link</button>
+        <h1 style="text-align:center;">Add Folder</h1>
+        <div style="width:100%;">
+            <div class="float_left" style="width:50%">
+                <img id="AddFoldImg" style="width:140px;height:140px;" />
+                <br />
+                <br />
+                <input type="file" id="ImageUploader" onchange="ShowPreview(this);" />
+                <input id="FilesUploader" type="file" multiple="multiple" class="file_upload_box185" />
+                <div id="selectedFiles"></div>
+            </div>
+            <div class="float_left" style="width:50%">
+                <select id="folderDropDown" class="newTxtBox" />
+
+                <input id="FolderName" class="folder_desc" type="text" placeholder="Name">
+               
+                <textarea placeholder="Description" id="FoldDescription" cols="20" rows="4"></textarea>
+                <br />
+                <br />
+                <input id="Qty" class="folder_desc" type="text" placeholder="Quantity">
+                <br />
+                <input id="price" class="folder_desc" type="text" placeholder="Price">
+                <br />
+                <input id="keywords" class="folder_desc" type="text" placeholder="keywords">
+            </div>
+            <div class="clearBoth">
+
+            </div>
+        </div>
+        
+        
+        <button id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>
+        <button style="display:none;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>
+        <button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>
     </div>
 </div>
 <link href="/Content/ManageAssets/style.css" rel="stylesheet" />
 <link href="/Content/ManageAssets/normalize.css" rel="stylesheet" />
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="/Scripts/jquery.MultiFile.js"></script>
 <script type="text/javascript">
+    var mbImagesFiles = new FormData();
+    var removedFiles = [];
     $(document).ready(function () {
-       
+        buidPopup();
+        $("#popupBody").append($("#AddFolderPanel"));
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    });
+    function clearTextboxes()
+    {
+        $("#AddFoldImg").val('');
+        $("#ImageUploader").val('');
+        $("#folderDropDown").val('');
+        $("#FolderName").val('');
+        $("#keywords").val('');
+        $("#FoldDescription").val('');
+        $("#Qty").val('');
+        $("#price").val('');
+        $("#keywords").val('');
+      
+    }
+    function LoadFolders() {
+        $.ajax({
+            type: "GET",
+            url: "/ManageAssets/GetFolders",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                var CountriesDD = $("#folderDropDown");
+                CountriesDD.html('');
+                CountriesDD.append($('<option></option>').val(0).html('Select Folder'));
+                $.each(response.Folders, function (id, option) {
+                    
+                    CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                });
+               
+            }
+        });
+    }
+
+    function LaodChildFolders(FolderId)
+    {
+
+        var Data = { FolderId: FolderId };
+        $.ajax({
+            type: "GET",
+            url: "/ManageAssets/GetChildFolders",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+                
+                var CountriesDD = $("#folderDropDown");
+                CountriesDD.html('');
+                if (response.Folders == null) {
+                    CountriesDD.append($('<option></option>').val(0).html('have no subfolders'));
+                }
+                else {
+                    CountriesDD.append($('<option></option>').val(0).html(''));
+                }
+                $.each(response.Folders, function (id, option) {
+                    alert(option.FolderId);
+                    CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                });
+
+            }
+        });
+
+    }
+   
+
+    $(document).on('change', '#folderDropDown', function () {
+        var ChildFoldrId = $(this).val();
+        
+
+
+      //  if (ChildFoldrId > 0) {
+        //    LaodChildFolders(ChildFoldrId);
+      //  }
+      //  else {
+        //    LoadFolders();
+       // }
+        //if (ChildFoldrId != null && ChildFoldrId != '')
+        //{
+        //    LaodChildFolders(FolderID);
+        //}
+    });
+    function HideMessagePopUpCustom() {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $("#AddFoldImg").attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    $("input[id^='FilesUploader']").change(function (e) {
+        //  removedFiles = [];
+        doReCreate();
     });
     function AddAsset()
     {
-        var panelHtml = $("#Vorder").html();
-        AssetsPopUp("Add Asset", panelHtml)
+        
+        $("#modelTitle").text("Add Asset");
+         clearTextboxes();
+         $("#folderDropDown").css("display", "none");
+         $("#Qty").css("display", "block");
+         $("#price").css("display", "block");
+         $("#keywords").css("display", "block");
+         $("#SaveAsset").css("display", "block");
+         //SaveAsset
+         document.getElementById("layer").style.display = "block";
+         document.getElementById("innerLayer").style.display = "block";
+       // var panelHtml = $("#Vorder").html();
+       // AssetsPopUp("Add Asset", panelHtml)
+    }
+    function AddFolder()
+    {
+        
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $("#folderDropDown").css("display", "block");
+        $("#SaveAsset").css("display", "none");
+        LoadFolders();
+       // var panelHtml = $("#AddFolderPanel").html();
+       // AssetsPopUp("Add Folder", panelHtml)
+
+    }
+    function AddAsset()
+    {
+
+
+    }
+    function buidPopup() {
+        //popupBody
+        //modelTitle
+        var bws = getBrowserHeight();
+
+        var shadow = document.getElementById("innerLayer");
+
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+        var left = 0;
+        var container = "";
+        if (bws.width < 700 && bws.width > 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:500px;"></div></div>';
+
+        }
+        else if (bws.width == 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;"></div></div>';
+
+        }
+        else if (bws.width < 640 && bws.width > 600) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:550px;"></div></div>';
+
+        }
+        else if (bws.width < 600 && bws.width > 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:350px;"></div></div>';
+
+        } else if (bws.width < 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:300px;"></div></div>';
+        }
+        else {
+
+            left = parseInt((bws.width - 730) / 2);
+            document.getElementById("innerLayer").style.width = "730px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;" ></div></div>';
+        }
+
+
+
+        // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.left = left + "px";
+        document.getElementById("innerLayer").style.top = "0px";
+
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function SaveFolder()
+    {
+        var FolderName = $("#FolderName").val();
+        var FolderDescription = $("#FoldDescription").val();
+        var ParentFolderId = $("#folderDropDown").val();
+        
+        var data = new FormData();
+        var files = $("#ImageUploader").get(0).files;
+
+        // Add the uploaded image content to the form data collection
+        if (files.length > 0) {
+            data.append("UploadedImage", files[0]);
+        }
+        alert(ParentFolderId);
+      $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddFolderData?FolderName=" + FolderName + "&Description=" + FolderDescription + "&ParentFolderId="+ParentFolderId+"",
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+                window.location.href = "/ManageAssets";
+            },
+            error: function (error) {
+               
+
+            }
+        });
     }
 
-    
+    function SaveAsset() {
+        var FolderName = $("#FolderName").val();
+        var FolderDescription = $("#FoldDescription").val();
+        var Quantity = $("#Qty").val();
+
+        var Price = $("#price").val();
+        var Keywords = $("#keywords").val();
+        var Folderid = 0;
+       // var data = new FormData();
+      //  var files = $("#ImageUploader").get(0).files;
+
+        // Add the uploaded image content to the form data collection
+        if (files.length > 0) {
+            data.append("UploadedImageAsset", files[0]);
+        }
+        alert(ParentFolderId);
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddFolderData?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "",
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+                window.location.href = "/ManageAssets";
+            },
+            error: function (error) {
+
+
+            }
+        });
+    }
+    //function LoadAllStates() {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/BillingShippingAddressManager/LoadAllStates",
+    //        contentType: "application/json",
+    //        async: true,
+    //        success: function (response) {
+    //            var States = $("#DDSate");
+    //            States.html('');
+    //            States.append($('<option></option>').val(0).html('Select State'));
+    //            $.each(response.State, function (id, option) {
+    //                States.append($('<option></option>').val(option.StateId).html(option.StateName));
+    //            });
+    //        }
+    //    });
+    //}
+    function removeAtt(name, t) {
+
+        removedFiles.push(name);
+        storedFiles = $.grep(storedFiles, function (n, i) {
+            return (n != name);
+        });
+
+        $(t).parent().remove();
+        if (postedFiles.length < (4 + removedFiles.length)) {
+            $("#FilesUploader").css("display", "block");
+        }
+        // doReCreate();
+    }
+    var postedFiles = [];
+    function doReCreate() {
+        selDiv = document.querySelector("#selectedFiles");
+        //formData = new FormData();
+        storedFiles = [];
+        var FileName = "";
+        var files = $("#FilesUploader").get(0).files;
+        if (files.length > 0) {
+            console.log(postedFiles.length < (4 + removedFiles.length));
+            if (files.length > 4) {
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
+            } else {
+              
+                var isAddfile = 1;
+                for (i = 0; i < files.length; i++) {
+
+                    var fileext = files[i].name.split('.');
+                    var lastIndex = fileext.length;
+                    var extname = fileext[lastIndex - 1];
+                    if (files[i].size != null && files[i].size > 52428800) {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 10 MB are allowed only !");
+                        isAddfile = 0;
+                    }
+                    if (extname != "png" && extname != "jpg" && extname != "jpeg" && extname != "pdf" && extname != "gif") {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "File format is not allowed!");
+                        isAddfile = 0;
+                    } else {
+                        isAddfile = 1;
+                    }
+                }
+                if (isAddfile == 1) {
+
+                    for (i = 0; i < files.length; i++) {
+                        var isRemovedFile = false;
+                        for (var d = 0; d < removedFiles.length; d++) {
+                            if (files[i].name == removedFiles[d])
+                                isRemovedFile = true;
+                        }
+                        if (!isRemovedFile) {
+                            postedFiles.push({ fname: files[i].name, fObj: files[i] });
+                            // formData.append("file" + i, files[i]);
+                            mbImagesFiles.append("file" + i, files[i]);
+                            alert(i);
+                            selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
+                            FileName = files[i].name;
+                            while (files[i].name.indexOf('/') != -1)
+                                FileName = files[i].name.replace("/", "__")
+                            storedFiles.push(FileName);
+                        }
+                    }
+                }
+
+            }
+
+        }
+        if (postedFiles.length > (3 + removedFiles.length)) {
+            $("#FilesUploader").css("display", "none");
+        }
+    }
 </script>

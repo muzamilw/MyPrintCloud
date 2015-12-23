@@ -180,6 +180,7 @@
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\TemplateFontResponseModel.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
+    <Compile Include="Common\TreeViewNodeVM.cs" />
     <Compile Include="Common\TrialCountClaimValue.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="Common\USTaxInfo.cs" />

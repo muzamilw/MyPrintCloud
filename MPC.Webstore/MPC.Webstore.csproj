@@ -1104,6 +1104,7 @@
     <Content Include="Views\Shared\PartialViews\RealEstateListingGrid.cshtml" />
     <Content Include="Views\Shared\PartialViews\EzyHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\ManageAssets.cshtml" />
+    <Content Include="Views\Shared\PartialViews\TreeChildNodes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
