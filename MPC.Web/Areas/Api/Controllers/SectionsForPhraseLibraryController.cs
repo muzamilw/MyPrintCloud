@@ -44,8 +44,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public IEnumerable<SectionForPhraseLibrary> Get()
         {
-            return phraseLibraryService.GetSections().Select(s => s.CreateFrom());
+            IEnumerable<SectionForPhraseLibrary> sections = phraseLibraryService.GetSections().Select(s => s.CreateFrom());
 
+            return sections;
         }
 
         /// <summary>

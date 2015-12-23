@@ -55,7 +55,15 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
         }
 
-        
+        public HttpResponseMessage Post(string value)
+        {
+            
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, _companyContactService.GetContactForZapierPooling(0), formatter);
+        }
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)
         {

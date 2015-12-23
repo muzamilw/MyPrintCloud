@@ -56,7 +56,7 @@
         };
         return self;
     };
-    var machine = function () {
+    var machine = function (callbacks) {
         var self,
             MachineId = ko.observable(),
             MachineName = ko.observable().extend({ required: true }),
@@ -82,6 +82,22 @@
             minimumsheetheight = ko.observable(50),
             minimumsheetwidth = ko.observable(50),
             isClickChargezone = ko.observable('true'),
+            isClickChargezoneUi = ko.computed({
+                read: function () {
+
+                    return isClickChargezone();
+                },
+                write: function (value) {
+                    var zone = value;
+                    if (zone === isClickChargezone()) {
+                        return;
+                    }
+                    if (callbacks && typeof callbacks === "function") {
+                        callbacks();
+                    }
+                    isClickChargezone(zone);
+                }
+            }),
             gripdepth = ko.observable(10),
             gripsideorientaion = ko.observable(),
             Orientation = ko.observableArray([
@@ -341,7 +357,8 @@
             CurrencySymbol: CurrencySymbol,
             WeightUnit: WeightUnit,
             LengthUnit: LengthUnit,
-            lookupMethod: lookupMethod
+            lookupMethod: lookupMethod,
+            isClickChargezoneUi: isClickChargezoneUi
           
         };
         return self;
@@ -358,9 +375,12 @@
         self.Name = ko.observable(data.Name);
         self.Type = ko.observable(data.Type);
         self.SpedWeightLookups = ko.observable([]);
-        //_.each(data.MachineSpeedWeightLookups, function (item) {
-        //    self.SpedWeightLookups().push(Loo.Create(item));
-        //});
+        if (data.Type == 3) {
+            _.each(data.MachineSpeedWeightLookups, function (item) {
+                self.SpedWeightLookups().push(SpeedWeightLookup(item));
+            });
+        }
+        
         return self;
     };
 
@@ -591,8 +611,8 @@
         result.isSheetFed = source.isSheetFed;
         return result;
     };
-    var machineClientMapper = function (source) {
-        var omachine = new machine();
+    var machineClientMapper = function (source, callback) {
+        var omachine = new machine(callback);
         omachine.MachineId(source.machine.MachineId);
         omachine.MachineName(source.machine.MachineName);
         omachine.MachineCatId(source.machine.MachineCatId);
@@ -736,19 +756,20 @@
 
         //})
 
-        _.each(source.machine.MachineLookupMethods, function (item) {
-            omachine.MachineLookupMethods.push(MachineLookupMethodsItemsMapper(item));
-        })
+        //_.each(source.machine.LookupMethod, function (item) {
+        //    omachine.MachineLookupMethods.push(MachineLookupMethodsItemsMapper(item));
+        //});
 
           return omachine;
     };
-    var machineServerMapper = function (machine, ClickChargeZone, MeterPerHourClickCharge, GuillotineClickCharge, Type) {
+    var machineServerMapper = function (machine, ClickChargeZone, MeterPerHourClickCharge, GuillotineClickCharge, Type, speedWeightCal) {
         var oType = 0;
         oType = Type;
         var oMeterPerHour = {};
         var oGuillotineZone = {};
         var oGuillotinePtvList = [];
         var omachine = {};
+        var oSpeedWeightLookup = {};
         omachine.MachineId = machine.MachineId();
         omachine.MachineName = machine.MachineName();
         omachine.MachineCatId = machine.MachineCatId();
@@ -825,6 +846,7 @@
         //omachine.LookupMethod = machine.lookupMethod();
         oMeterPerHour = MeterPerHourClickCharge;
         oGuillotineZone = GuillotineClickCharge;
+        oSpeedWeightLookup = speedWeightCal;
         if (GuillotineClickCharge != null)
         {
             oGuillotinePtvList = GuillotineClickCharge.GuillotinePtvList;
@@ -921,7 +943,8 @@
             ClickChargeZone: ClickChargeZoneLookup,
             MeterPerHourLookup: oMeterPerHour,
             GuillotineCalc: oGuillotineZone,
-            GuilotinePtv: oGuillotinePtvList
+            GuilotinePtv: oGuillotinePtvList,
+            SpeedWeightCal: oSpeedWeightLookup
         };
 
     };
@@ -1089,7 +1112,7 @@
         return MachineLookupItem;
 
     }
-    var MachineInkCoveragesListServerMapper = function (source) {
+    var MachineInkCoveragesListServerMapper = function(source) {
         var InkCoveragesItem = {};
         InkCoveragesItem.Id = source.Id;
         InkCoveragesItem.SideInkOrder = source.SideInkOrder();
@@ -1098,7 +1121,162 @@
 
         return InkCoveragesItem;
 
-    }
+    },
+        SpeedWeightLookup = function(source) {
+            var Id = ko.observable(source != undefined ? source.Id : undefined),
+                MethodId = ko.observable(source != undefined ? source.MethodId : undefined),
+                SheetsQty1 = ko.observable(source != undefined ? source.SheetsQty1 : undefined),
+                SheetsQty2 = ko.observable(source != undefined ? source.SheetsQty2 : undefined),
+                SheetsQty3 = ko.observable(source != undefined ? source.SheetsQty3 : undefined),
+                SheetsQty4 = ko.observable(source != undefined ? source.SheetsQty4 : undefined),
+                SheetsQty5 = ko.observable(source != undefined ? source.SheetsQty5 : undefined),
+                SheetWeight1 = ko.observable(source != undefined ? source.SheetWeight1 : undefined),
+                speedqty11 = ko.observable(source != undefined ? source.speedqty11 : undefined),
+                speedqty12 = ko.observable(source != undefined ? source.speedqty12 : undefined),
+                speedqty13 = ko.observable(source != undefined ? source.speedqty13 : undefined),
+                speedqty14 = ko.observable(source != undefined ? source.speedqty14 : undefined),
+                speedqty15 = ko.observable(source != undefined ? source.speedqty15 : undefined),
+                SheetWeight2 = ko.observable(source != undefined ? source.SheetWeight2 : undefined),
+                speedqty21 = ko.observable(source != undefined ? source.speedqty21 : undefined),
+                speedqty22 = ko.observable(source != undefined ? source.speedqty22 : undefined),
+                speedqty23 = ko.observable(source != undefined ? source.speedqty23 : undefined),
+                speedqty24 = ko.observable(source != undefined ? source.speedqty24 : undefined),
+                speedqty25 = ko.observable(source != undefined ? source.speedqty25 : undefined),
+                SheetWeight3 = ko.observable(source != undefined ? source.SheetWeight3 : undefined),
+                speedqty31 = ko.observable(source != undefined ? source.speedqty31 : undefined),
+                speedqty32 = ko.observable(source != undefined ? source.speedqty32 : undefined),
+                speedqty33 = ko.observable(source != undefined ? source.speedqty33 : undefined),
+                speedqty34 = ko.observable(source != undefined ? source.speedqty34 : undefined),
+                speedqty35 = ko.observable(source != undefined ? source.speedqty35 : undefined),
+                hourlyCost = ko.observable(source != undefined ? source.hourlyCost : undefined),
+                hourlyPrice = ko.observable(source != undefined ? source.hourlyPrice : undefined),
+                errors = ko.validation.group({                
+                    
+                }),
+                dirtyFlag = new ko.dirtyFlag({
+                    Id: Id,
+                    MethodId: MethodId,
+                    SheetsQty1: SheetsQty1,
+                    SheetsQty2: SheetsQty2,
+                    SheetsQty3: SheetsQty3,
+                    SheetsQty4: SheetsQty4,
+                    SheetsQty5: SheetsQty5,
+                    SheetWeight1: SheetWeight1,
+                    speedqty11: speedqty11,
+                    speedqty12: speedqty12,
+                    speedqty13: speedqty13,
+                    speedqty14: speedqty14,
+                    speedqty15: speedqty15,
+                    SheetWeight2: SheetWeight2,
+                    speedqty21: speedqty21,
+                    speedqty22: speedqty22,
+                    speedqty23: speedqty23,
+                    speedqty24: speedqty24,
+                    speedqty25: speedqty25,
+                    SheetWeight3: SheetWeight3,
+                    speedqty31: speedqty31,
+                    speedqty32: speedqty32,
+                    speedqty33: speedqty33,
+                    speedqty34: speedqty34,
+                    speedqty35: speedqty35,
+                    hourlyCost: hourlyCost,
+                    hourlyPrice: hourlyPrice
+                }),
+                // Is Valid
+                isValid = ko.computed(function() {
+                    return errors().length === 0;
+                }),        
+                // Has Changes
+                hasChanges = ko.computed(function() {
+                    return dirtyFlag.isDirty();
+                }),            
+                // Reset
+                reset = function() {
+                    dirtyFlag.reset();
+                };
+
+            return {
+                Id: Id,
+                MethodId: MethodId,
+                SheetsQty1: SheetsQty1,
+                SheetsQty2: SheetsQty2,
+                SheetsQty3: SheetsQty3,
+                SheetsQty4: SheetsQty4,
+                SheetsQty5: SheetsQty5,
+                SheetWeight1: SheetWeight1,
+                speedqty11: speedqty11,
+                speedqty12: speedqty12,
+                speedqty13: speedqty13,
+                speedqty14: speedqty14,
+                speedqty15: speedqty15,
+                SheetWeight2: SheetWeight2,
+                speedqty21: speedqty21,
+                speedqty22: speedqty22,
+                speedqty23: speedqty23,
+                speedqty24: speedqty24,
+                speedqty25: speedqty25,
+                SheetWeight3: SheetWeight3,
+                speedqty31: speedqty31,
+                speedqty32: speedqty32,
+                speedqty33: speedqty33,
+                speedqty34: speedqty34,
+                speedqty35: speedqty35,
+                hourlyCost: hourlyCost,
+                hourlyPrice: hourlyPrice,
+                errors: errors,
+                isValid: isValid,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                reset: reset
+            };
+
+
+        },
+       
+    
+        speedWeightconvertToServerData = function(source) {
+            return {
+                Id: source.Id(),
+                MethodId: source.MethodId(),
+                SheetsQty1: source.SheetsQty1(),
+                SheetsQty2: source.SheetsQty2(),
+                SheetsQty3: source.SheetsQty3(),
+                SheetsQty4: source.SheetsQty4(),
+                SheetsQty5: source.SheetsQty5(),
+
+                SheetWeight1: source.SheetWeight1(),
+                speedqty11: source.speedqty11(),
+                speedqty12: source.speedqty12(),
+                speedqty13: source.speedqty13(),
+                speedqty14: source.speedqty14(),
+                speedqty15: source.speedqty15(),
+
+                SheetWeight2: source.SheetWeight2(),
+                speedqty21: source.speedqty21(),
+                speedqty22: source.speedqty22(),
+                speedqty23: source.speedqty23(),
+                speedqty24: source.speedqty24(),
+                speedqty25: source.speedqty25(),
+
+                SheetWeight3: source.SheetWeight3(),
+                speedqty31: source.speedqty31(),
+                speedqty32: source.speedqty32(),
+                speedqty33: source.speedqty33(),
+                speedqty34: source.speedqty34(),
+                speedqty35: source.speedqty35(),
+                hourlyCost: source.hourlyCost(),
+                hourlyPrice: source.hourlyPrice(),
+            };
+        };
+    SpeedWeightLookup.create = function() {
+        var speedweight = new SpeedWeightLookup({
+            ID: 0, MethodId: 0, SheetsQty1: 0, SheetsQty2: 0, SheetsQty3: 0, SheetsQty4: 0,
+            SheetsQty5: 0, SheetWeight1: 0, speedqty11: 0, speedqty12: 0, speedqty13: 0, speedqty14: 0, speedqty15: 0,
+            SheetWeight2: 0, speedqty21: 0, speedqty22: 0, speedqty23: 0, speedqty24: 0, speedqty25: 0,
+            SheetWeight3: 0, speedqty31: 0, speedqty32: 0, speedqty33: 0, speedqty34: 0, speedqty35: 0,hourlyCost:0, hourlyPrice:0
+        });
+        return speedweight;
+    };
 
     return {
         machineList: machineList,
@@ -1119,6 +1297,8 @@
         newMachineInkCoveragesListClientMapper: newMachineInkCoveragesListClientMapper,
         machineListClientMapperSelectedItem: machineListClientMapperSelectedItem,
         MachineLookupClientMapper: MachineLookupClientMapper,
-        GuilotinePtvServerMapper: GuilotinePtvServerMapper
+        GuilotinePtvServerMapper: GuilotinePtvServerMapper,
+        speedWeightconvertToServerData: speedWeightconvertToServerData,
+        SpeedWeightLookup: SpeedWeightLookup
     };
 });

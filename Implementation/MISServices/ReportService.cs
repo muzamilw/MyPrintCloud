@@ -144,7 +144,7 @@ namespace MPC.Implementation.MISServices
                                 }
                                 else if (param.ControlType == 3)// means textbox value
                                 {
-                                    if(!string.IsNullOrEmpty(ParamTextBoxValue))
+                                    if(!string.IsNullOrEmpty(ParamTextBoxValue) && ParamTextBoxValue != "undefined")
                                     {
                                         CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " like '%" + ParamTextBoxValue + "%'";
                                     }
@@ -155,7 +155,7 @@ namespace MPC.Implementation.MISServices
                             }
                         }
 
-                       
+                     
                         currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaField);
                     }
 
@@ -392,7 +392,7 @@ namespace MPC.Implementation.MISServices
                         }
                         else if (param.ControlType == 3)// means textbox value
                         {
-                            if(!string.IsNullOrEmpty(request.ParamValue))
+                            if (!string.IsNullOrEmpty(request.ParamValue) && request.ParamValue != "undefined")
                             {
                                 CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " like '%" + request.ParamValue + "%'";
                             }
@@ -454,16 +454,55 @@ namespace MPC.Implementation.MISServices
 
         }
 
-        public string DownloadExternalReport(int ReportId,bool isPDF)
+        public string DownloadExternalReport(ReportEmailRequestModel request)
         {
             string Path = string.Empty;
-            if(isPDF)
+
+            List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(request.Reportid);
+
+            string CriteriaField = string.Empty;
+
+            if (reportParams != null && reportParams.Count > 0)
             {
-                Path = ExportReportHelper.ExportPDF(ReportId, 0, ReportType.Internal, 0, string.Empty,0,false);
+                foreach (var param in reportParams)
+                {
+                    if (param.ControlType == 1)// means drop down
+                    {
+                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + request.ComboValue + " ";
+                    }
+                    else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges
+                    {
+
+
+                        if (!string.IsNullOrEmpty(request.DateFrom) && !string.IsNullOrEmpty(request.DateTo))
+                        {
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + request.DateFrom + "' and '" + request.DateTo + "'";
+                        }
+
+
+                    }
+                    else if (param.ControlType == 3)// means textbox value
+                    {
+                        if (!string.IsNullOrEmpty(request.ParamValue) && request.ParamValue != "undefined")
+                        {
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " like '%" + request.ParamValue + "%'";
+                        }
+
+
+
+                    }
+                }
+            }
+
+
+
+            if(request.Mode == true)// means pdf export
+            {
+                Path = ExportReportHelper.ExportPDF((int)request.Reportid, 0, ReportType.Internal, 0, CriteriaField, 0, false);
             }
             else
             {
-                Path = ExportReportHelper.ExportExcel(ReportId, 0, ReportType.Internal, 0, string.Empty,0,false);
+                Path = ExportReportHelper.ExportExcel((int)request.Reportid, 0, ReportType.Internal, 0, CriteriaField, 0, false);
             }
 
          
