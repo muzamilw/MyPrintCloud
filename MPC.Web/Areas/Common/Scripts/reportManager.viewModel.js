@@ -181,20 +181,27 @@
                          DateTo = moment(ParamDateTo()).format(ist.dateTimeWithSeconds);
 
 
-                         var scr = "/mis/Home/Viewer?id=" + selectedReportId() + "&itemId=" + selectedItemId() + "&ComboValue=" + ComboValue() + "&Datefrom=" + DateFrom + "&DateTo=" + DateTo + "&ParamTextValue=" + ParamValue();
-                         selectedReportId(selectedReportId());
-                         $("#ReportViewerIframid").attr("src", scr);    
-                         errorList.removeAll();
 
 
                          if (outputTo() == "preview") {
-                             
+
+                             var scr = "/mis/Home/Viewer?id=" + selectedReportId() + "&itemId=" + selectedItemId() + "&ComboValue=" + ComboValue() + "&Datefrom=" + DateFrom + "&DateTo=" + DateTo + "&ParamTextValue=" + ParamValue();
+                             selectedReportId(selectedReportId());
+                             $("#ReportViewerIframid").attr("src", scr);
+                             errorList.removeAll();
+
                              view.hide();
                              view.hideReportParamView();
                              showProgress();
                              view.showWebViewer();
                              hideProgress();
                          } else if (outputTo() == "email") {
+
+                             var scr = "/mis/Home/Viewer?id=" + selectedReportId() + "&itemId=" + selectedItemId() + "&ComboValue=" + ComboValue() + "&Datefrom=" + DateFrom + "&DateTo=" + DateTo + "&ParamTextValue=" + ParamValue();
+                             selectedReportId(selectedReportId());
+                             $("#ReportViewerIframid").attr("src", scr);
+                             errorList.removeAll();
+
                              view.hideReportParamView();
                              showEmailView();
                          } else if (outputTo() == "pdf") {
@@ -382,11 +389,19 @@
                         getReportEmailBaseData();
                     },
 
+                   
+               
                     downloadPDFReport = function () {
                         if (selectedReportId() > 0) {
+                            var dropDownvalue = ComboValue();
+
                             dataservice.downloadExternalReport({
-                                ReportId: selectedReportId(),
-                                Mode: true
+                                Reportid: selectedReportId(),
+                                ComboValue: dropDownvalue,
+                                DateFrom: DateFrom,
+                                DateTo: DateTo,
+                                ParamValue: ParamValue(),
+                                Mode: true,
                             }, {
                                 success: function (data) {
                                     if (data != null) {
@@ -408,9 +423,17 @@
                     },
 
                      downloadExcelReport = function () {
+
+                        
                          if (selectedReportId() > 0) {
+                             var dropDownvalue = ComboValue();
+
                              dataservice.downloadExternalReport({
-                                 ReportId: selectedReportId(),
+                                 Reportid: selectedReportId(),
+                                 ComboValue: dropDownvalue,
+                                 DateFrom: DateFrom,
+                                 DateTo: DateTo,
+                                 ParamValue: ParamValue(),
                                  Mode: false
                              }, {
                                  success: function (data) {

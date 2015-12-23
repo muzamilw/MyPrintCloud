@@ -15,8 +15,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Url = source.Url,
                 ApiKey = source.ApiKey,
                 ApiPassword = source.ApiPassword,
-                isEnable = source.isEnable
-
+                isEnable = source.isEnable,
+                CarrierPhone = source.CarrierPhone
             };
         }
 
@@ -29,7 +29,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Url = source.Url,
                 ApiKey = source.ApiKey,
                 ApiPassword = source.ApiPassword,
-                isEnable = source.isEnable
+                isEnable = source.isEnable,
+                CarrierPhone = source.CarrierPhone
 
             };
         }
@@ -39,6 +40,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CarrierId = source.CarrierId,
                 CarrierName = source.CarrierName,
+                CarrierPhone = source.CarrierPhone
             };
         }
     }

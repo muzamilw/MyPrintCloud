@@ -53,7 +53,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         public string gggg(int ReportId, int Mode)
         {
             bool GG = true;
-            return _IReportService.DownloadExternalReport(ReportId, GG);
+            return string.Empty;
         }
 
 
