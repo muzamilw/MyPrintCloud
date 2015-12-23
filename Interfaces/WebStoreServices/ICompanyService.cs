@@ -13,6 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID);
         CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password);
         void AddlistingImages(long ListingId, List<ListingImage> Images);
         bool DeleteLisitngData(long ListingId);
@@ -281,5 +282,6 @@ namespace MPC.Interfaces.WebStoreServices
         long GetOrganisationIdByRequestUrl(string Url);
         CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email);
         CompanyDomain GetDomainByCompanyId(long CompanyId);
+        List<Asset> GetAssetsByCompanyID(long CompanyID);
     }
 }

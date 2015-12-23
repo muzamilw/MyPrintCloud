@@ -44,6 +44,17 @@ namespace MPC.Webstore
               , new { controller = "Home", action = "Index", name = "" 
             });
 
+            routes.MapRoute(
+              "ManageTheAssets"
+            , "ManageAssets"
+            , new
+            {
+                controller = "Home",
+                action = "Index",
+                name = ""
+            });
+
+
              routes.MapRoute(
                 "UserManager"
               , "UserManager"

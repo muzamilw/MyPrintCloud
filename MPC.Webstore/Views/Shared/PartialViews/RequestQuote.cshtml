@@ -725,6 +725,22 @@
             return false;
 
         } else {
+            var outdateArray = "";
+            if (InquiryItemDeliveryDate1 != '')
+            {
+                outdateArray = InquiryItemDeliveryDate1.split('/');
+                InquiryItemDeliveryDate1 =outdateArray[1] + "/" + outdateArray[0] + "/" + outdateArray[2];
+            }
+
+            if (InquiryItemDeliveryDate2 != '') {
+                outdateArray = InquiryItemDeliveryDate2.split('/');
+                InquiryItemDeliveryDate2 = outdateArray[1] + "/" + outdateArray[0] + "/" + outdateArray[2];
+            }
+
+            if (InquiryItemDeliveryDate3 != '') {
+                outdateArray = InquiryItemDeliveryDate3.split('/');
+                InquiryItemDeliveryDate3 = outdateArray[1] + "/" + outdateArray[0] + "/" + outdateArray[2];
+            }
             $.ajax({
                 type: "POST",
                 @*"/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,*@
@@ -755,7 +771,7 @@
 
                             ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqsubsucces", UserCookieManager.WBStoreId, "Inquiry submitted successfully!"))');
                         }
-
+                    window.location.href = "/";
                 },
                 error: function (error) {
                     HideLoader();

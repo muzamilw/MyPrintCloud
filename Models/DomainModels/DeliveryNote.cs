@@ -39,6 +39,8 @@ namespace MPC.Models.DomainModels
         public int? SystemSiteId { get; set; }
         public bool? IsRead { get; set; }
         public bool? IsPrinted { get; set; }
+
+        public long? OrganisationId { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
         public virtual SectionFlag SectionFlag { get; set; }

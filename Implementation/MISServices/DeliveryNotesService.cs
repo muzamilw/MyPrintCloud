@@ -52,6 +52,7 @@ namespace MPC.Implementation.MISServices
             deliveryNoteRepository.Add(itemTarget);
             itemTarget.CreationDateTime = DateTime.Now;
             itemTarget.Code = deliveryNoteCode;
+            itemTarget.OrganisationId = deliveryNoteRepository.OrganisationId;
             return itemTarget;
         }
 
@@ -105,6 +106,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public DeliveryNote SaveDeliveryNote(DeliveryNote deliveryNote)
         {
+
+            deliveryNote.OrganisationId = deliveryNoteRepository.OrganisationId;
             // Get Order if exists else create new
             DeliveryNote deliveryNoteTarget = GetById(deliveryNote.DeliveryNoteId) ?? CreateNewDeliveryNote();
             // Update Order

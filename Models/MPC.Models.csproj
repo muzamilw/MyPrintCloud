@@ -192,8 +192,11 @@
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\Asset.cs" />
+    <Compile Include="DomainModels\AssetItem.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVoucherRedeem.cs" />
+    <Compile Include="DomainModels\Folder.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />

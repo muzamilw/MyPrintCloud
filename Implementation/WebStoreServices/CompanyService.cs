@@ -56,7 +56,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IScopeVariableRepository _IScopeVariableRepository;
         private readonly ICompanyDomainRepository _companyDomainRepository;
         private readonly IListingBulletPointsRepository _listingBulletPontRepository;
-
+        private readonly IAssetsRepository _AssestsRepository;
+        private readonly IFolderRepository _FolderRepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -76,7 +77,7 @@ namespace MPC.Implementation.WebStoreServices
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
             , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
             ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
-            ,ICompanyDomainRepository companyDomainRepository,IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository)
+            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository)
         {
             this._listingRepository = _listingRepository;
             this._CompanyRepository = companyRepository;
@@ -107,6 +108,8 @@ namespace MPC.Implementation.WebStoreServices
             this._IScopeVariableRepository = IScopeVariableRepository;
             this._companyDomainRepository = companyDomainRepository;
             this._listingBulletPontRepository = _listingBulletPontRepository;
+            this._AssestsRepository = _AssestsRepository;
+            this._FolderRepository = _FolderRepository;
         }
 
         #endregion
@@ -1902,6 +1905,15 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyDomain GetDomainByCompanyId(long CompanyId)
         {
             return _companyDomainRepository.GetDomainByCompanyId(CompanyId);
+        }
+        public List<Asset> GetAssetsByCompanyID(long CompanyID)
+        {
+            return _AssestsRepository.GetAssetsByCompanyID(CompanyID);
+        
+        }
+        public List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID)
+        {
+            return _FolderRepository.GetFoldersByCompanyId(CompanyID, OrganisationID);
         }
     }
 }

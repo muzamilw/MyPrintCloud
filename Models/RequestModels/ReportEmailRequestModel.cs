@@ -31,6 +31,8 @@ namespace MPC.Models.RequestModels
         public string DateTo { get; set; }
 
         public string ParamValue { get; set; }
+
+        public bool Mode { get; set; }
        
     }
 }

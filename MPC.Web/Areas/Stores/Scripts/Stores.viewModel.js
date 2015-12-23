@@ -490,7 +490,9 @@ define("stores/stores.viewModel",
                                 success: function(data) {
                                     stores.removeAll();
                                     if (data != null) {
-                                        _.each(data.Companies, function(item) {
+                                        _.each(data.Companies, function (item) {
+                                            console.log("storeItem");
+                                            console.log(item);
                                             var module = model.StoreListView.Create(item);
                                             stores.push(module);
                                         });
