@@ -17,7 +17,7 @@ namespace MPC.Common
         {
             return val * 2.834645669;
         }
-
+         
         public static double PointToMM(double val)
         {
             return val / 2.834645669;
