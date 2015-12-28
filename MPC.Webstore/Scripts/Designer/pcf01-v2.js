@@ -4988,6 +4988,9 @@ function togglePage(pId) {
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
+            var dif = cuttingInMM * (parseFloat(res[2]) - 1);
+            w += dif;
+            h += dif;
             conversionRatio = parseFloat(res[2]) * 2.834645669 * 96 / 72;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {
