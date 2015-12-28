@@ -62,8 +62,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post([FromBody]string value)
         {
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetInvoiceDetailForZapierPooling(0), formatter);
         }
 
         // PUT api/<controller>/5

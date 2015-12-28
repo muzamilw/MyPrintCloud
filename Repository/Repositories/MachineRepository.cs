@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -515,7 +516,7 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public bool UpdateMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineCalc, IEnumerable<MachineGuilotinePtv> GuillotinePtv, int type)
+        public bool UpdateMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineCalc, IEnumerable<MachineGuilotinePtv> GuillotinePtv, int type, MachineSpeedWeightLookup speedWeightLookup)
         {
             try
             {
@@ -757,6 +758,30 @@ namespace MPC.Repository.Repositories
                         
                     }
                 }
+                else if (type == 4) //Speed Weight Calculation Method
+                {
+                    var dbSpeedWeight = omachine.LookupMethod.MachineSpeedWeightLookups.FirstOrDefault();
+                    if (dbSpeedWeight != null && speedWeightLookup != null)
+                    {
+                        dbSpeedWeight = UpdateMachineSpeedWeightLookup(speedWeightLookup, dbSpeedWeight);
+
+                    }
+                    else if (dbSpeedWeight == null && speedWeightLookup != null)
+                    {
+                        LookupMethod newLookupMethod = new LookupMethod
+                        {
+                            Type = 3,
+                            Name = "Speed Weight Calculation",
+                            OrganisationId = Convert.ToInt32(this.OrganisationId) 
+                        };
+                        MachineSpeedWeightLookup newSpeedWeightLookup = new MachineSpeedWeightLookup();
+                        newSpeedWeightLookup = UpdateMachineSpeedWeightLookup(speedWeightLookup, newSpeedWeightLookup);
+                        newLookupMethod.MachineSpeedWeightLookups = new Collection<MachineSpeedWeightLookup>();
+                        newLookupMethod.MachineSpeedWeightLookups.Add(newSpeedWeightLookup);
+                        omachine.LookupMethod = newLookupMethod;
+
+                    }
+                }
                
                // omachine.LookupMethod.MachineClickChargeZones.FirstOrDefault() = ClickCharge;
                 //foreach (var item in machine.MachineInkCoverages)
@@ -789,6 +814,39 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
+        }
+
+        private MachineSpeedWeightLookup UpdateMachineSpeedWeightLookup(MachineSpeedWeightLookup source,
+            MachineSpeedWeightLookup target)
+        {
+            target.SheetWeight1 = source.SheetWeight1;
+            target.SheetWeight2 = source.SheetWeight2;
+            target.SheetWeight3 = source.SheetWeight3;
+            target.SheetsQty1 = source.SheetsQty1;
+            target.SheetsQty2 = source.SheetsQty2;
+            target.SheetsQty3 = source.SheetsQty3;
+            target.SheetsQty4 = source.SheetsQty4;
+            target.SheetsQty5 = source.SheetsQty5;
+            target.speedqty11 = source.speedqty11;
+            target.speedqty12 = source.speedqty12;
+            target.speedqty13 = source.speedqty13;
+            target.speedqty14 = source.speedqty14;
+            target.speedqty15 = source.speedqty15;
+
+            target.speedqty21 = source.speedqty21;
+            target.speedqty22 = source.speedqty22;
+            target.speedqty23 = source.speedqty23;
+            target.speedqty24 = source.speedqty24;
+            target.speedqty25 = source.speedqty25;
+
+            target.speedqty31 = source.speedqty31;
+            target.speedqty32 = source.speedqty32;
+            target.speedqty33 = source.speedqty33;
+            target.speedqty34 = source.speedqty34;
+            target.speedqty35 = source.speedqty35;
+            target.hourlyCost = source.hourlyCost;
+            target.hourlyPrice = source.hourlyPrice;
+            return target;
         }
         public IEnumerable<MachineSpoilage> GetMachineSpoilageItems(long machineId)
         {

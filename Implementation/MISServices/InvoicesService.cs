@@ -404,7 +404,7 @@ namespace MPC.Implementation.MISServices
             var org = organisationRepository.GetOrganizatiobByID();
             if (org.IsZapierEnable == true)
             {
-                List<string> invoiceUrls = organisationRepository.GetZapsUrListByOrganisation(2);
+                List<string> invoiceUrls = organisationRepository.GetZapsUrListByOrganisation(2, org.OrganisationId);
                 if (invoiceUrls != null && invoiceUrls.Count > 0)
                 {
                     foreach (var sPostUrl in invoiceUrls)

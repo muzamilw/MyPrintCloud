@@ -1148,10 +1148,10 @@ namespace MPC.Implementation.MISServices
         public void PostDataToZapier(long contactId, long organisationId = 0)
         {
             Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
-            
-            if (org.IsZapierEnable == true)
+
+            if (org != null && org.IsZapierEnable == true)
             {
-                List<string> contactUrls = organisationRepository.GetZapsUrListByOrganisation(1);
+                List<string> contactUrls = organisationRepository.GetZapsUrListByOrganisation(1, org.OrganisationId);
                 if (contactUrls != null && contactUrls.Count > 0)
                 {
                     foreach (var sPostUrl in contactUrls)
