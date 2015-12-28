@@ -4975,8 +4975,6 @@ function togglePage(pId) {
         w = w / 96 * 72;
         h = h / 2.834645669;
         w = w / 2.834645669;
-     //   w = w.toFixed(3);
-      //  h = h.toFixed(3);
         cuttingInMM = Template.CuttingMargin / 96 * 72
         cuttingInMM = cuttingInMM / 2.834645669;
         if (Template.CuttingMargin == 0 || Template.CuttingMargin == null)
