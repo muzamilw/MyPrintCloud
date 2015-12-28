@@ -601,7 +601,7 @@
                     <div class="controlDiv controlParentDiv marginForTextAreas marginForTextAreas" style="width: 100%;">
                         <label>Summary</label>
 
-                        @Html.TextAreaFor(model => model.BrochureSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Summary" })
+                        @Html.TextAreaFor(model => model.BrochureSummary, 20, 10, new { @class = "generalTextBoxFoTextArea {{BrochureSummary}}", placeholder = "Property Summary" })
                         @*<textarea rows="4" cols="50"  id="txtbrochuresSummery" class="MultilineTextBox full-width-boxes {{BrochureSummary}}" style="height:auto !important;" placeholder="Property summary">@Model.BrochureSummary</textarea>
             </div>*@
                     </div>
@@ -609,7 +609,7 @@
                         <label>Description</label>
                         @*<textarea rows="4" cols="50" id="txtbrochuresDesc" class="MultilineTextBox full-width-boxes {{BrochureDescription}}" style="" placeholder="Property Description" >@Model.BrochureDescription</textarea>
             </div>*@
-                        @Html.TextAreaFor(model => model.BrochureDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
+                        @Html.TextAreaFor(model => model.BrochureDescription, 20, 10, new { @class = "generalTextBoxFoTextArea {{BrochureDescription}}", placeholder = "Property Description" })
                     </div>
                     <div class="Clearboth"></div>
                 </div>
@@ -1006,13 +1006,12 @@
     <input type="hidden"  id="hfisChangesSaved" />
     
 <link href="Styles/RealEstate_StyleSheet.css" rel="stylesheet" />
-@*<script src="/Scripts/jquery-1.10.1.min.js"></script>*@
 <script src="/Content/jquery-1.8.2.min.js"></script>
 <script src="/Scripts/bootstrap.js"></script>
 <link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <script src="/Scripts/respond.js"></script>
 <script src="/Scripts/bootstrap-datepicker.js"></script>
-
+<script src="~/Scripts/PopUp.js"></script>
     <script type="text/javascript">
         var  spectionDate='@txtInspectionDate';
         var Auctindate='@txtAuctionDate';
