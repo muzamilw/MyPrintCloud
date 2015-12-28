@@ -9375,3 +9375,36 @@ update report set reporttemplate = '<?xml version="1.0" encoding="utf-8"?>
   <Parameters />
 </ActiveReportsLayout>
 ' where reportid = 30
+
+/****************20151223******************/
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[AssetItem](
+ [AssetItemId] [bigint] IDENTITY(1,1) NOT NULL,
+ [AssetId] [bigint] NULL,
+ [FileUrl] [varchar](200) NULL,
+ CONSTRAINT [PK_AssetItem] PRIMARY KEY CLUSTERED 
+(
+ [AssetItemId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[AssetItem]  WITH CHECK ADD  CONSTRAINT [FK_AssetItem_Assets] FOREIGN KEY([AssetId])
+REFERENCES [dbo].[Assets] ([AssetId])
+GO
+
+ALTER TABLE [dbo].[AssetItem] CHECK CONSTRAINT [FK_AssetItem_Assets]
+GO
