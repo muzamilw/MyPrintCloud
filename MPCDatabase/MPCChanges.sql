@@ -9458,3 +9458,6 @@ from costcentrevariable where varid = 711
 insert into costcentrevariable(Name, RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, PropertyType, VariableDescription, VariableValue, SystemSiteId)
 select 'Section Width', RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, 41, VariableDescription, VariableValue, SystemSiteId
 from costcentrevariable where varid = 711
+
+alter table company add IsEnableDataAsset bit
+alter table template add IsAllowCustomSize bit
