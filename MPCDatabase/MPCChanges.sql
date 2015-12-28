@@ -9408,3 +9408,46 @@ GO
 
 ALTER TABLE [dbo].[AssetItem] CHECK CONSTRAINT [FK_AssetItem_Assets]
 GO
+
+
+----------------------------------------------
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Brochure Main HeadLine', N'Listing', N'BrochureMainHeadLine', 2, N'{{BrochureMainHeadLine}}', 9, N'ListingId', 2, NULL, 5, N'BrochureMainHeadLine', NULL, NULL, NULL, 1, NULL)
+
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Brochure Summary', N'Listing', N'BrochureSummary', 2, N'{{BrochureSummary}}', 9, N'ListingId', 2, NULL, 5, N'BrochureSummary', NULL, NULL, NULL, 1, NULL)
+
+  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Brochure Description', N'Listing', N'BrochureDescription', 2, N'{{BrochureDescription}}', 9, N'ListingId', 2, NULL, 5, N'BrochureDescription', NULL, NULL, NULL, 1, NULL)
+
+
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'SignBoard Main HeadLine', N'Listing', N'SignBoardMainHeadLine', 2, N'{{SignBoardMainHeadLine}}', 9, N'ListingId', 2, NULL, 5, N'SignBoardMainHeadLine', NULL, NULL, NULL, 1, NULL)
+
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'SignBoard Summary', N'Listing', N'SignBoardSummary', 2, N'{{SignBoardSummary}}', 9, N'ListingId', 2, NULL, 5, N'SignBoardSummary', NULL, NULL, NULL, 1, NULL)
+
+  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'SignBoard Description', N'Listing', N'SignBoardDescription', 2, N'{{SignBoardDescription}}', 9, N'ListingId', 2, NULL, 5, N'SignBoardDescription', NULL, NULL, NULL, 1, NULL)
+
+
+  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Adverts Main HeadLine', N'Listing', N'AdvertsMainHeadLine', 2, N'{{AdvertsMainHeadLine}}', 9, N'ListingId', 2, NULL, 5, N'AdvertsMainHeadLine', NULL, NULL, NULL, 1, NULL)
+
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Adverts Summary', N'Listing', N'AdvertsSummary', 2, N'{{AdvertsSummary}}', 9, N'ListingId', 2, NULL, 5, N'AdvertsSummary', NULL, NULL, NULL, 1, NULL)
+
+  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Adverts Description', N'Listing', N'AdvertsDescription', 2, N'{{AdvertsDescription}}', 9, N'ListingId', 2, NULL, 5, N'AdvertsDescription', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Style', N'Listing', N'Features', 2, N'{{Style}}', 9, N'ListingId', 2, NULL, 5, N'Features', NULL, NULL, NULL, 1, NULL)
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Auction End Time', N'Listing', N'AuctionEndTime', 2, N'{{AuctionEndTime}}', 9, N'ListingId', 2, NULL, 5, N'AuctionEndTime', NULL, NULL, NULL, 1, NULL)
+ -------------------------------------------------------------------
