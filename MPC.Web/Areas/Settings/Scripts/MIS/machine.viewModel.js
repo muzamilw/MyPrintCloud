@@ -35,7 +35,6 @@ define("machine/machine.viewModel",
                     isGuillotineList = ko.observable(),
                     UpdatedPapperStockID = ko.observable(),
                     MachineName = ko.observable(),
-                    
                    // templateToUse = 'itemMachineTemplate',
                     makeEditable = ko.observable(false),
                     LookupMethodHasChange = ko.observable(false);
@@ -45,6 +44,7 @@ define("machine/machine.viewModel",
                        var ClickChargeChange = false;
                        var MeterPerHour = false;
                        var GuillotineCharge = false;
+                       var isSpeedWeightChange = false;
 
                        if (selectedMachine()) {
                            hasChanges = selectedMachine().hasChanges();
@@ -59,9 +59,17 @@ define("machine/machine.viewModel",
                                    if (selectedMachine().MachineId() > 0)
                                    {
                                        if (selectedMachine().isSheetFed() == true || selectedMachine().isSheetFed() == "true") {
-                                           if (lookupMethodViewModel.selectedClickChargeZones()) {
-                                               ClickChargeChange = lookupMethodViewModel.selectedClickChargeZones().hasChanges();
+                                           
+                                           if (MachineType() == 4) {
+                                               if (lookupMethodViewModel.selectedSpeedWeight()) {
+                                                   isSpeedWeightChange = lookupMethodViewModel.selectedSpeedWeight().hasChanges();
+                                               }
+                                           } else {
+                                               if (lookupMethodViewModel.selectedClickChargeZones()) {
+                                                   ClickChargeChange = lookupMethodViewModel.selectedClickChargeZones().hasChanges();
+                                               }
                                            }
+                                           
                                        }
                                        else {
                                            if (lookupMethodViewModel.selectedMeterPerHourClickCharge()) {
@@ -88,7 +96,7 @@ define("machine/machine.viewModel",
                      
                       
                        
-                       return hasChanges || ClickChargeChange || MeterPerHour || GuillotineCharge;
+                       return hasChanges || ClickChargeChange || MeterPerHour || GuillotineCharge || isSpeedWeightChange;
                          
                      }),
                    gotoElement = function (validation) {
@@ -314,7 +322,15 @@ define("machine/machine.viewModel",
                                             //saveNewMachine(lookupMethodViewModel.selectedClickChargeZones(), lookupMethodViewModel.selectedGuillotineClickCharge(), lookupMethodViewModel.selectedMeterPerHourClickCharge(), lookupMethodViewModel.selectedGuillotineClickCharge() != null ? lookupMethodViewModel.selectedGuillotineClickCharge().GuillotinePTVList() : null);
 
                                             //MachineType(5);
-                                            saveNewMachine(lookupMethodViewModel.selectedClickChargeZones(), null, null, 5);
+                                            var speedWeightLookup = null;
+                                            if (MachineType() == 4) {
+                                                speedWeightLookup = lookupMethodViewModel.selectedSpeedWeight();
+                                                speedWeightLookup = model.speedWeightconvertToServerData(speedWeightLookup);
+                                                saveNewMachine(lookupMethodViewModel.selectedClickChargeZones(), null, null, 4, speedWeightLookup);
+                                            } else {
+                                                saveNewMachine(lookupMethodViewModel.selectedClickChargeZones(), null, null, 5);
+                                            }
+                                            
 
                                         }
                                         else
@@ -366,7 +382,7 @@ define("machine/machine.viewModel",
                            }
                        } else {
                            if (currentClickChargeZone() == undefined || currentClickChargeZone().length == 0) {
-                               currentClickChargeZone.push(lookupMethodViewModel.selectedClickChargeZones());
+                               currentClickChargeZone.push(model.NewClickChargeZoneLookup());
                                lookupMethodViewModel.SetLookupMethod(currentClickChargeZone(), 1, null);
                                ko.cleanNode($("#divlookupMethodBinding")[0]);
                                ko.applyBindings(ist.lookupMethods.view.viewModel, $("#divlookupMethodBinding")[0]);
@@ -430,9 +446,9 @@ define("machine/machine.viewModel",
                             }
                         });
                     },
-                    saveNewMachine = function (mClickChargeZone,mSelectedGuillotineClickCharge,mMeterPerHour,mType) {
+                    saveNewMachine = function (mClickChargeZone,mSelectedGuillotineClickCharge,mMeterPerHour,mType, speedWeight) {
 
-                        dataservice.saveNewMachine(model.machineServerMapper(selectedMachine(), mClickChargeZone, mMeterPerHour, mSelectedGuillotineClickCharge, mType), {
+                        dataservice.saveNewMachine(model.machineServerMapper(selectedMachine(), mClickChargeZone, mMeterPerHour, mSelectedGuillotineClickCharge, mType, speedWeight), {
                             success: function (data) {
                                 selectedMachine().reset();
                                 errorList.removeAll();
@@ -513,6 +529,8 @@ define("machine/machine.viewModel",
                                         if (pagetype == 'press') {
                                             if (data.machine.isSheetFed == true) {
                                                 selectedMachine().isSheetFed("true");
+                                                currentClickChargeZone.removeAll();
+                                                currentSpeedWeight.removeAll();
                                                 if (data.machine.LookupMethod.Type == 5) { // Click Charge Zone applied
                                                     MachineType(0);
                                                     selectedMachine().isClickChargezone("true");
