@@ -329,7 +329,9 @@ namespace MPC.Models.Common
         PressSizeRatio = 36,
         SectionPaperWeightExSelfQty_ProRata = 37,
         WashupQty = 38,
-        MakeReadyQty = 39
+        MakeReadyQty = 39,
+        SectionHeight = 40,
+        SectionWidth = 41
     }
     public enum PrintViewOrientation : int
     {

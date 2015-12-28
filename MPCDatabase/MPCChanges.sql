@@ -9451,3 +9451,10 @@ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName
  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
  VALUES (N'Auction End Time', N'Listing', N'AuctionEndTime', 2, N'{{AuctionEndTime}}', 9, N'ListingId', 2, NULL, 5, N'AuctionEndTime', NULL, NULL, NULL, 1, NULL)
  -------------------------------------------------------------------
+
+insert into costcentrevariable(Name, RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, PropertyType, VariableDescription, VariableValue, SystemSiteId)
+select 'Section Height', RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, 40, VariableDescription, VariableValue, SystemSiteId
+from costcentrevariable where varid = 711
+insert into costcentrevariable(Name, RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, PropertyType, VariableDescription, VariableValue, SystemSiteId)
+select 'Section Width', RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, 41, VariableDescription, VariableValue, SystemSiteId
+from costcentrevariable where varid = 711
