@@ -590,5 +590,36 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
           return ImagePath;
       }
+      [HttpPost]
+      public void AddAssetAttachments( long AssetID)
+      {
+          if (HttpContext.Current.Request != null)
+          {
+              List<AssetItem> listOfAttachment = new List<AssetItem>();
+              string folderPath = "mpc_content/DigitalAssets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/" + AssetID + "/";
+              string virtualFolderPth = string.Empty;
+
+              string folderPathToMap = "/" + folderPath;
+
+              virtualFolderPth = HttpContext.Current.Server.MapPath(folderPathToMap);
+              if (!System.IO.Directory.Exists(virtualFolderPth))
+                  System.IO.Directory.CreateDirectory(virtualFolderPth);
+
+              for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
+              {
+                  //HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
+                  HttpPostedFile postedFile = HttpContext.Current.Request.Files["UploadedFile" + i];
+                  string fileName = string.Format("{0}{1}", i, Path.GetFileName(postedFile.FileName));
+                  AssetItem Item = new AssetItem();
+                  Item.FileUrl = "/" + folderPath;
+                  Item.AssetId = AssetID;
+                  listOfAttachment.Add(Item);
+                  string filevirtualpath = virtualFolderPth + "/" + fileName;
+                  postedFile.SaveAs(virtualFolderPth + "/" + fileName);
+              }
+                 _companyService.AddAssetItems(listOfAttachment);
+          }
+      
+      }
     }
 }

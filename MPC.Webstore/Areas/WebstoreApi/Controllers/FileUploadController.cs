@@ -29,7 +29,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     List<string> messages = new List<string>();
                     foreach (var file in streamProvider.FileData)
                     {
-                       
 
                         FileInfo fi = new FileInfo(file.LocalFileName);
                         string newfile = Guid.NewGuid().ToString() + fi.Name;

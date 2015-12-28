@@ -13,6 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        bool AddAssetItems(List<AssetItem> AssetItemsList);
         void UpdateAssetImage(Asset Asset);
         long AddAsset(Asset Asset);
         List<Folder> GetAllFolders(long CompanyID, long OrganisationID);

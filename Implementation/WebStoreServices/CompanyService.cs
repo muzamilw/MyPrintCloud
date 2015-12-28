@@ -27,6 +27,7 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         /// 
         private readonly IListingRepository _listingRepository;
+        private readonly IAssetItemsRepository _AssetItemsRepository;
         public readonly ICompanyRepository _CompanyRepository;
         public readonly ICompanyContactRepository _CompanyContactRepository;
         private readonly ISystemUserRepository _SystemUserRepository;
@@ -77,7 +78,7 @@ namespace MPC.Implementation.WebStoreServices
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
             , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
             ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
-            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository)
+            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository, IAssetItemsRepository _AssetItemsRepository)
         {
             this._listingRepository = _listingRepository;
             this._CompanyRepository = companyRepository;
@@ -110,6 +111,7 @@ namespace MPC.Implementation.WebStoreServices
             this._listingBulletPontRepository = _listingBulletPontRepository;
             this._AssestsRepository = _AssestsRepository;
             this._FolderRepository = _FolderRepository;
+            this._AssetItemsRepository = _AssetItemsRepository;
         }
 
         #endregion
@@ -1958,6 +1960,11 @@ namespace MPC.Implementation.WebStoreServices
        public void UpdateAssetImage(Asset Asset)
        {
             _AssestsRepository.UpdateAssetImage(Asset);
+       }
+       public bool AddAssetItems(List<AssetItem> AssetItemsList)
+       {
+           return _AssetItemsRepository.AddAssetItems(AssetItemsList);
+          
        }
     }
 }

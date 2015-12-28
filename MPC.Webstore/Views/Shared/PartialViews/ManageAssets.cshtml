@@ -113,6 +113,8 @@
                 <br />
                 <br />
                 <input type="file" id="ImageUploader" onchange="ShowPreview(this);" />
+                <br />
+                <span>AssetsItems</span>
                 <input id="FilesUploader" type="file" multiple="multiple" class="file_upload_box185" />
                 <div id="selectedFiles"></div>
             </div>
@@ -123,11 +125,11 @@
                
                 <textarea placeholder="Description" id="FoldDescription" cols="20" rows="4"></textarea>
                 <br />
-                <br />
+                
                 <input id="Qty" class="folder_desc" type="text" placeholder="Quantity">
-                <br />
+                
                 <input id="price" class="folder_desc" type="text" placeholder="Price">
-                <br />
+                
                 <input id="keywords" class="folder_desc" type="text" placeholder="keywords">
             </div>
             <div class="clearBoth">
@@ -137,7 +139,7 @@
         
         
         <button id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>
-        <button style="display:none;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>
+        <button style="display:none;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="SaveAsset();">Save</button>
         <button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>
     </div>
 </div>
@@ -256,14 +258,17 @@
         
         $("#modelTitle").text("Add Asset");
          clearTextboxes();
-         $("#folderDropDown").css("display", "none");
+         
          $("#Qty").css("display", "block");
          $("#price").css("display", "block");
          $("#keywords").css("display", "block");
          $("#SaveAsset").css("display", "block");
+         $("#SaveFolder").css("display", "none");
          //SaveAsset
          document.getElementById("layer").style.display = "block";
          document.getElementById("innerLayer").style.display = "block";
+         LoadFolders();
+
        // var panelHtml = $("#Vorder").html();
        // AssetsPopUp("Add Asset", panelHtml)
     }
@@ -279,11 +284,7 @@
        // AssetsPopUp("Add Folder", panelHtml)
 
     }
-    function AddAsset()
-    {
-
-
-    }
+   
     function buidPopup() {
         //popupBody
         //modelTitle
@@ -367,6 +368,7 @@
             async: true,
             processData: false,
             success: function (response) {
+
                 window.location.href = "/ManageAssets";
             },
             error: function (error) {
@@ -375,8 +377,48 @@
             }
         });
     }
+    function AddAssetAttachments()
+    {
+        //var data = new FormData();
+        //var files = $("#FilesUploader").get(0).files;
+
+        //if (files.length > 0) {
+        //    for (i = 0; i < files.length; i++) {
+        //        //var name1 = files[i].name.replace(/C:\\fakepath\\/i, '');
+        //        //fileExtension = name1.substr(name1.lastIndexOf('.') + 1);
+        //        //if (["pdf", "jpg", "jpeg", "eps", "tiff", "csv", "xls", "xlsx", "png"].indexOf(fileExtension) < 0) {
+        //        //    notAllowedFilesCount = parseInt(notAllowedFilesCount) + 1;
+        //        //    console.log(name1);
+        //        //}
+        //        //else {
+        //        //    if (files[i].size != null && files[i].size > 52428800) {
+
+        //        //        limitExceed = 1;
+        //        //    }
+        //        //}
+                
+        //        data.append("UploadedFile" + i, files[i]);
+        //    }
+        //}
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddAssetAttachments",
+            contentType: false,
+            data: mbImagesFiles,
+            async: true,
+            processData: false,
+            success: function (response) {
+                window.location.href = "/ManageAssets";
+            },
+            error: function (error) {
+
+            }
+        });
+        //AddAssetAttachments
+    }
 
     function SaveAsset() {
+
         var FolderName = $("#FolderName").val();
         var FolderDescription = $("#FoldDescription").val();
         var Quantity = $("#Qty").val();
@@ -384,8 +426,8 @@
         var Price = $("#price").val();
         var Keywords = $("#keywords").val();
         var Folderid = 0;
-       // var data = new FormData();
-      //  var files = $("#ImageUploader").get(0).files;
+        var data = new FormData();
+        var files = $("#ImageUploader").get(0).files;
 
         // Add the uploaded image content to the form data collection
         if (files.length > 0) {
@@ -400,10 +442,10 @@
             async: true,
             processData: false,
             success: function (response) {
-                window.location.href = "/ManageAssets";
+                // window.location.href = "/ManageAssets";
+                AddAssetAttachments();
             },
             error: function (error) {
-
 
             }
         });
