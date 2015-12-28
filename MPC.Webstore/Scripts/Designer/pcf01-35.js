@@ -3617,6 +3617,13 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                     {
                         shifts = 2;
                     }
+                } else if (postPend == "") {
+                    if ((i + 1) == objs.length - 1)
+                    {
+                        if (prePend[prePend.length - 1] == "\n") {
+                            content = content.substring(0, objs[i].length - 1);
+                        }
+                    }
                 }
                 if(shifts == 1)
                 {
