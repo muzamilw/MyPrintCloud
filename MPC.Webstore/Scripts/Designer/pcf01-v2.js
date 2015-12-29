@@ -4963,6 +4963,7 @@ function togglePage(pId) {
     }
 
     function pcl41_ApplyDimensions(Tpage) {
+        debugger;
         var w = Template.PDFTemplateWidth;
         var h = Template.PDFTemplateHeight;
         if (Tpage.Height != null && Tpage.Height != 0) {
@@ -4979,16 +4980,18 @@ function togglePage(pId) {
         cuttingInMM = cuttingInMM / 2.834645669;
         if (Template.CuttingMargin == 0 || Template.CuttingMargin == null)
             cuttingInMM = 10;
-        h =( h - cuttingInMM).toFixed(3);
-        w =( w - cuttingInMM).toFixed(3);
+        h = (h - cuttingInMM);
+        w = (w - cuttingInMM);
         if (item != null ) {
             var res = item.TemplateDimensionConvertionRatio.split("__");
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
-            var dif = cuttingInMM * (parseFloat(res[2]) - 1);
+            var dif = cuttingInMM * ((parseFloat(res[2])/parseFloat(res[0])) - 1);
             w += dif;
             h += dif;
+            h = h.toFixed(3);
+            w = w.toFixed(3);
             conversionRatio = parseFloat(res[2]) * 2.834645669 * 96 / 72;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {

@@ -3376,16 +3376,16 @@ namespace MPC.Implementation.WebStoreServices
             }
             else if (organisation.SystemLengthUnit == 2)
             {
-                height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Cm);
-                height = Math.Round(height, 3);
+                height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Cm);
+             //   height = Math.Round(height, 3);
                 scaledHeight *= height;
                 resultDimentions =scaledHeight;
                 unit = "cm";
             }
             else if (organisation.SystemLengthUnit == 3)
             {
-                height = _templateRepository.ConvertLength(Convert.ToDouble(1),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Inch);
-                height = Math.Round(height, 3);
+                height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Inch);
+              //  height = Math.Round(height, 3);
                 scaledHeight *= height;
                 resultDimentions =  scaledHeight ;
                 unit = "inch";

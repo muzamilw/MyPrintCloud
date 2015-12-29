@@ -966,11 +966,11 @@ namespace MPC.Repository.Repositories
                 
                     if (organisation.SystemLengthUnit == 2)
                     {
-                        bleedArea = ConvertLength(bleedArea, MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Cm);
+                        bleedArea = ConvertLength(bleedArea, MPC.Models.Common.LengthUnit.Cm);
                     }
                     else if (organisation.SystemLengthUnit == 3)
                     {
-                        bleedArea = ConvertLength(Convert.ToDouble(bleedArea), MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Inch);
+                        bleedArea = ConvertLength(Convert.ToDouble(bleedArea), MPC.Models.Common.LengthUnit.Inch);
                     }
 
                 }
@@ -981,11 +981,12 @@ namespace MPC.Repository.Repositories
             }
             return bleedArea;
         }
-        public double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit)
+        // input unit will always be mm 
+        public double ConvertLength(double Input, MPC.Models.Common.LengthUnit OutputUnit)
         {
             double ConversionUnit = 0;
             double convertedValue = 0;
-            MPC.Models.DomainModels.LengthUnit oRows = db.LengthUnits.Where(o => o.Id == (int)InputUnit).FirstOrDefault();
+            MPC.Models.DomainModels.LengthUnit oRows = db.LengthUnits.Where(o => o.Id == (int)MPC.Models.Common.LengthUnit.Mm).FirstOrDefault();
             if (oRows != null)
             {
                 switch (OutputUnit)
@@ -995,8 +996,8 @@ namespace MPC.Repository.Repositories
                         convertedValue =  (Input * ConversionUnit);
                         break;
                     case MPC.Models.Common.LengthUnit.Inch:
-                        ConversionUnit =Math.Round( (double)oRows.Inch,3);
-                        convertedValue =   DesignerUtils.MMToPoint(Input);// (Input * ConversionUnit * 8) / 8.0d;
+                        //ConversionUnit =Math.Round( (double)oRows.Inch,3);
+                        convertedValue =  DesignerUtils.PointToInch( DesignerUtils.MMToPoint(Input));// (Input * ConversionUnit * 8) / 8.0d;
                         break;
                     case MPC.Models.Common.LengthUnit.Mm:
                         ConversionUnit = (double)oRows.MM;

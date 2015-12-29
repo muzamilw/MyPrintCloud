@@ -34,7 +34,7 @@ namespace MPC.Interfaces.Repository
         double getOrganisationBleedArea(long organisationID);
 
        
-        double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit);
+        double ConvertLength(double Input, MPC.Models.Common.LengthUnit OutputUnit);
 
         bool updatecontactId(long templateId, long contactId);
     }
