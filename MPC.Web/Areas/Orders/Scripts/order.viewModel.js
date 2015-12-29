@@ -1334,8 +1334,10 @@ define("order/order.viewModel",
                         // If Estimate Screen then set IsEstimate = true
                         if (!selectedOrder().id() && isEstimateScreen()) {
                             selectedOrder().isEstimate(true);
+                            //selectedOrder().orderDate(null);
                             selectedOrder().statusId(estimatesStatus.draftEstimate); // Draft Estimate
                         }
+                       
                         if (saveFrom() == "section") {
                             removeItemSectionWithAddFlagTrue();
                         }
