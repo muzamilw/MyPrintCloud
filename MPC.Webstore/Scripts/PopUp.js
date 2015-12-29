@@ -740,10 +740,6 @@ function ShowOrderingPolicyPopUp(title, Tvalue) {
 }
 function ViewOrderPopUp(Type, panelHtml) {
 
-<<<<<<< HEAD
-
-    var bws = getBrowserHeight();
-=======
 
     var bws = getBrowserHeight();
 
@@ -785,28 +781,13 @@ function ViewOrderPopUp(Type, panelHtml) {
 }
     function ViewOrderPopUp(Type, panelHtml) {
 
->>>>>>> 6eb0ecaa6c204a14b7c7fad48c0590bc10531628
 
         var bws = getBrowserHeight();
 
         var shadow = document.getElementById("innerLayer");
 
-<<<<<<< HEAD
-    var left = 0;
-    var container = "";
-    if (bws.width >= 481 && bws.width < 641) {
-        document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
-        document.getElementById("innerLayer").style.height = "536px";
-    }
-    else if (bws.width <= 481) {
-        document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
-        document.getElementById("innerLayer").style.height = "536px";
-=======
         document.getElementById("layer").style.width = bws.width + "px";
         document.getElementById("layer").style.height = bws.height + "px";
->>>>>>> 6eb0ecaa6c204a14b7c7fad48c0590bc10531628
 
         var left = 0;
         var container = "";
@@ -820,17 +801,6 @@ function ViewOrderPopUp(Type, panelHtml) {
             container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
             document.getElementById("innerLayer").style.height = "536px";
 
-<<<<<<< HEAD
-    }
-    document.getElementById("innerLayer").innerHTML = container;
-
-    document.getElementById("innerLayer").style.left = left + "px";
-    document.getElementById("innerLayer").style.top = "0px";
-
-
-    document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
-=======
         } else {
             left = parseInt((bws.width - 730) / 2);
             document.getElementById("innerLayer").style.width = "730px";
@@ -854,7 +824,6 @@ function ViewOrderPopUp(Type, panelHtml) {
 
 
         var bws = getBrowserHeight();
->>>>>>> 6eb0ecaa6c204a14b7c7fad48c0590bc10531628
 
         var shadow = document.getElementById("innerLayer");
 
