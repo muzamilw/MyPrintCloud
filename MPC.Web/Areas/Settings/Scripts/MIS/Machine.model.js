@@ -948,8 +948,8 @@
         };
 
     };
-    var newMachineClientMapper = function (source) {
-        var omachine = new machine();
+    var newMachineClientMapper = function (source, callback) {
+        var omachine = new machine(callback);
 
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);

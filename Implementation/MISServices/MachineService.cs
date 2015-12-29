@@ -32,9 +32,9 @@ namespace MPC.Implementation.MISServices
         {
             return _machineRepository.UpdateMachine(machine,ClickCharge,MeterPerHour,GuillotineLookup,GuillotinePtv,type, speedWeightLookup);
         }
-        public long AddMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int Type)
+        public long AddMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv, int Type, MachineSpeedWeightLookup speedWeightLookup)
         {
-            return _machineRepository.AddMachine(machine, ClickChargeZone, MeterPerHour, GuillotineLookup,GuillotinePtv,Type);
+            return _machineRepository.AddMachine(machine, ClickChargeZone, MeterPerHour, GuillotineLookup,GuillotinePtv,Type, speedWeightLookup);
         }
         public bool archiveMachine(long machineId)
         {

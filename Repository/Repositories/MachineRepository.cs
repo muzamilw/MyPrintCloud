@@ -211,7 +211,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public long AddMachine(Machine machine,MachineClickChargeZone ClickChargeZone,MachineMeterPerHourLookup MeterPerHour,MachineGuillotineCalc GuillotineCalc, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int oType)
+        public long AddMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineCalc, IEnumerable<MachineGuilotinePtv> GuillotinePtv, int oType, MachineSpeedWeightLookup speedWeightLookup)
         {
             try
             {
@@ -237,12 +237,19 @@ namespace MPC.Repository.Repositories
                     oLookupMethod.Type = 6;
                   //  Type = 6;
                 }
+                else if (oType == 4)
+                {
+                    oLookupMethod.Name = "Speed Weight Lookup";
+                    oLookupMethod.Type = 4;
+                }
 
                 oLookupMethod.OrganisationId = Convert.ToInt32(OrganisationId);
-                db.LookupMethods.Add(oLookupMethod);
-                db.SaveChanges();
+                //db.LookupMethods.Add(oLookupMethod);
+                //db.SaveChanges();
 
-                NewLookupID = oLookupMethod.MethodId;
+                //NewLookupID = oLookupMethod.MethodId;
+                
+                
 
 
                 long NewMachineID = 0;
@@ -323,7 +330,7 @@ namespace MPC.Repository.Repositories
                 omachine.Passes = machine.Passes;
                 omachine.IsSpotColor = machine.IsSpotColor;
                 db.Machines.Add(omachine);
-              //  db.SaveChanges();
+               // db.SaveChanges();
 
                
 
@@ -418,7 +425,10 @@ namespace MPC.Repository.Repositories
                                 ClickChargeZoneLookup.isaccumulativecharge = ClickChargeZone.isaccumulativecharge;
                                 ClickChargeZoneLookup.IsRoundUp = ClickChargeZone.IsRoundUp;
                                 ClickChargeZoneLookup.TimePerHour = ClickChargeZone.TimePerHour;
-                                db.MachineClickChargeZones.Add(ClickChargeZoneLookup);
+                               // db.MachineClickChargeZones.Add(ClickChargeZoneLookup);
+                                oLookupMethod.MachineClickChargeZones = new Collection<MachineClickChargeZone>();
+                                oLookupMethod.MachineClickChargeZones.Add(ClickChargeZoneLookup);
+                                omachine.LookupMethod = oLookupMethod;
                             }
                           
                             
@@ -487,10 +497,22 @@ namespace MPC.Repository.Repositories
                                 oMeterPerHourLookup.speedqty35 = MeterPerHour.speedqty35;
                                 oMeterPerHourLookup.hourlyCost = MeterPerHour.hourlyCost;
                                 oMeterPerHourLookup.hourlyPrice = MeterPerHour.hourlyPrice;
-                                db.MachineMeterPerHourLookups.Add(oMeterPerHourLookup);
+                                //db.MachineMeterPerHourLookups.Add(oMeterPerHourLookup);
+                                oLookupMethod.MachineMeterPerHourLookups = new Collection<MachineMeterPerHourLookup>();
+                                oLookupMethod.MachineMeterPerHourLookups.Add(oMeterPerHourLookup);
+                                omachine.LookupMethod = oLookupMethod;
                             }
                            
                             break;
+                        case 4:
+                                
+                            MachineSpeedWeightLookup newSpeedWeightLookup = new MachineSpeedWeightLookup();
+                            newSpeedWeightLookup = UpdateMachineSpeedWeightLookup(speedWeightLookup, newSpeedWeightLookup);
+                            oLookupMethod.MachineSpeedWeightLookups = new Collection<MachineSpeedWeightLookup>();
+                            oLookupMethod.MachineSpeedWeightLookups.Add(newSpeedWeightLookup);
+                            omachine.LookupMethod = oLookupMethod;
+                            break;
+                            
                         default:
                             return 0;
 

@@ -243,11 +243,11 @@ define("machine/machine.viewModel",
                                     lookupMethodViewModel.WeightUnit(data.WeightUnit);
                                     lookupMethodViewModel.LengthUnit(data.LengthUnit);
                                     
-                                    selectedMachine(model.newMachineClientMapper(data));
+                                    selectedMachine(model.newMachineClientMapper(data, onCalculationMethodChange));
                                     selectedMachine().isSheetFed("true");
                                     selectedMachine().IsSpotColor("true");
                                     selectedMachine().reset();
-                                    showMachineDetail();
+                                    
                                    
 
                                     var pagetype = Request.QueryString("type").toString();
@@ -255,11 +255,16 @@ define("machine/machine.viewModel",
                                     if (pagetype != null) {
                                         if (pagetype == 'press') {
                                             $("#isSheetFedRadio").css("display", "block");
+                                            
+                                            currentClickChargeZone.removeAll();
+                                            currentSpeedWeight.removeAll();
+                                            currentClickChargeZone.push(lookupMethodViewModel.selectedClickChargeZones());
                                         }
                                         else {
                                             $("#isSheetFedRadio").css("display", "none");
                                         }
                                     }
+                                    showMachineDetail();
                                 }
 
                             },
@@ -271,15 +276,14 @@ define("machine/machine.viewModel",
                     //Save Machine
                     saveMachine = function (item) {
                         if (selectedMachine() != undefined && doBeforeSave()) {
-                            if (selectedMachine().MachineId() > 0) {
-                                
-                                if (selectedMachine().isSheetFed() == "true") {
-                                    if (selectedMachine().isClickChargezone() == "true") {
-                                        MachineType(0);
-                                    } else {
-                                        MachineType(4);
-                                    }
+                            if (selectedMachine().isSheetFed() == "true") {
+                                if (selectedMachine().isClickChargezone() == "true") {
+                                    MachineType(0);
+                                } else {
+                                    MachineType(4);
                                 }
+                            }
+                            if (selectedMachine().MachineId() > 0) {
                                 
                                 saveEdittedMachine();
 
