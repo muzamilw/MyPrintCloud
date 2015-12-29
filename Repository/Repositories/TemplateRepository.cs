@@ -643,7 +643,7 @@ namespace MPC.Repository.Repositories
                 oTemplate.ProductName = "Untitled design";
                 oTemplate.ProductId = 0;
                // oTemplate.ProductCategoryId = categoryIdv2;
-                oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(getOrganisationBleedArea(organisationId )));
+                oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(getOrganisationBleedArea(organisationId ,true)));
                 oTemplate.PDFTemplateHeight =(DesignerUtils.MMToPoint(height));
                 oTemplate.PDFTemplateWidth = (DesignerUtils.MMToPoint(width));
                 oTemplate.isSpotTemplate = false;
@@ -951,7 +951,7 @@ namespace MPC.Repository.Repositories
             }
         }
         // returns mm bleed of the organisation default is 5
-        public double getOrganisationBleedArea(long organisationID)
+        public double getOrganisationBleedArea(long organisationID,bool convertToSystemUnit)
         {
            
             double bleedArea = 5;
@@ -963,16 +963,17 @@ namespace MPC.Repository.Repositories
                     if(organisation.BleedAreaSize.HasValue)
                         bleedArea = organisation.BleedAreaSize.Value;
 
-                
-                    if (organisation.SystemLengthUnit == 2)
+                    if (convertToSystemUnit)
                     {
-                        bleedArea = ConvertLength(bleedArea, MPC.Models.Common.LengthUnit.Cm);
+                        if (organisation.SystemLengthUnit == 2)
+                        {
+                            bleedArea = ConvertLength(bleedArea, MPC.Models.Common.LengthUnit.Cm);
+                        }
+                        else if (organisation.SystemLengthUnit == 3)
+                        {
+                            bleedArea = ConvertLength(Convert.ToDouble(bleedArea), MPC.Models.Common.LengthUnit.Inch);
+                        }
                     }
-                    else if (organisation.SystemLengthUnit == 3)
-                    {
-                        bleedArea = ConvertLength(Convert.ToDouble(bleedArea), MPC.Models.Common.LengthUnit.Inch);
-                    }
-
                 }
             }
             catch(Exception ex)

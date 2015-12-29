@@ -1583,10 +1583,12 @@ namespace MPC.Implementation.WebStoreServices
 
 
                     bool isWaterMarkText = objProduct.isWatermarkText ?? true;
-                    if (System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"] != null) // sytem.web.confiurationmanager
-                    {
-                        TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
-                    }
+                    //if (System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"] != null) // sytem.web.confiurationmanager
+                    //{
+                    //    TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
+                    //}
+                    if (objProduct.CuttingMargin.HasValue)
+                        TrimBoxSize = DesignerUtils.PointToMM(DesignerUtils.PixelToPoint( objProduct.CuttingMargin.Value));
                     doc.SetInfo(doc.Page, "/TrimBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(TrimBoxSize)).ToString());
                     if (System.Configuration.ConfigurationManager.AppSettings["ArtBoxSize"] != null)
                     {
@@ -1597,6 +1599,10 @@ namespace MPC.Implementation.WebStoreServices
                     if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
                     {
                         BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
+                        if (TrimBoxSize != 5)
+                        {
+                            BleedBoxSize = 1;
+                        }
                         doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
                     }
                     if(bleedareaSize != 0 ){
@@ -1915,10 +1921,12 @@ namespace MPC.Implementation.WebStoreServices
                     double BleedBoxSize = 0;
                     if (drawBleedArea)
                     {
-                        if (System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"] != null) // sytem.web.confiurationmanager
-                        {
-                            TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
-                        }
+                        //if (System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"] != null) // sytem.web.confiurationmanager
+                        //{
+                        //    TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
+                        //}
+                        if(objProduct.CuttingMargin.HasValue)
+                            TrimBoxSize = DesignerUtils.PointToMM(DesignerUtils.PixelToPoint(objProduct.CuttingMargin.Value));
                         doc.SetInfo(doc.Page, "/TrimBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(TrimBoxSize)).ToString());
                         if (System.Configuration.ConfigurationManager.AppSettings["ArtBoxSize"] != null)
                         {

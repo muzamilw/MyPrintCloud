@@ -31,7 +31,7 @@ namespace MPC.Interfaces.Repository
         double SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects);
         Template CreateTemplate(long productID, long categoryIdv2, double height, double width, long itemId, long organisationId);
 
-        double getOrganisationBleedArea(long organisationID);
+        double getOrganisationBleedArea(long organisationID, bool convertToSystemUnit);
 
        
         double ConvertLength(double Input, MPC.Models.Common.LengthUnit OutputUnit);
