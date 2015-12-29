@@ -14,24 +14,37 @@ namespace MPC.Webstore.Controllers
     {
         // GET: ManageAssets
         private readonly ICompanyService _myCompanyService;
-       
-        public ManageAssetsController(ICompanyService _myCompanyService)
+        private readonly IWebstoreClaimsHelperService _webclaims;
+        public ManageAssetsController(ICompanyService _myCompanyService, IWebstoreClaimsHelperService _webclaims)
         {
             this._myCompanyService = _myCompanyService;
+            this._webclaims = _webclaims;
         }
         public ActionResult Index(string folderId)
         {
             long FolderId = Convert.ToInt64(folderId);
-           // if (folderId > 0)
-           // {
+            List<Folder> GetFolder = new List<Folder>();
             List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, FolderId);
-           // }
-            List<Folder> GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            if (FolderId > 0)
+            {
+
+                GetFolder = _myCompanyService.GetChildFolders(FolderId);
+
+            }
+            else
+            {
+
+                 GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            }
           // ViewBag.Assets = GetAssets;
             ViewBag.Folders = GetFolder;
             List<TreeViewNodeVM> TreeModel = _myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             ViewBag.TreeModel = TreeModel;
             ViewBag.Assets = GetAssets;
+            //CompanyContact contact = _myCompanyService.GetContactByID(_webclaims.loginContactID());
+            ViewBag.LoginContact = _webclaims.loginContactRoleID();
+            ViewBag.Admin = Roles.Adminstrator;
+            ViewBag.Manager = Roles.Manager;
            return View("PartialViews/ManageAssets");
         }
         [HttpPost]
@@ -39,11 +52,7 @@ namespace MPC.Webstore.Controllers
         {
             return View("PartialViews/ManageAssets");
         }
-        [HttpPost]
-        public void DeleteAsset(long AssetID)
-        {
-           _myCompanyService.DeleteAsset(AssetID);
-        }
+       
         [HttpGet]
         public JsonResult GetFolders()
         {
@@ -68,6 +77,7 @@ namespace MPC.Webstore.Controllers
             
              return Json(obj, JsonRequestBehavior.AllowGet);
         }
+        
         public class JsonResponse
         {
             public List<Folder> Folders;

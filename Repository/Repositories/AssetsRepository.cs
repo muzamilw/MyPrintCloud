@@ -43,15 +43,31 @@ namespace MPC.Repository.Repositories
 
         public void  DeleteAsset(long AssetID)
         {
+            List<AssetItem> Items = db.AssetItems.Where(i => i.AssetId == AssetID).ToList();
+            foreach (var item in Items)
+            {
+                db.AssetItems.Remove(item);
+            }
             Asset Asset = db.Assets.Where(i => i.AssetId == AssetID).FirstOrDefault();
             db.Assets.Remove(Asset);
             db.SaveChanges();
         }
-        public void UpdateAsset(long AssetID)
+        public void UpdateAsset(Asset UpdatedAsset)
         {
-            Asset Asset = db.Assets.Where(i => i.AssetId == AssetID).FirstOrDefault();
+            Asset Asset = db.Assets.Where(i => i.AssetId == UpdatedAsset.AssetId).FirstOrDefault();
+            Asset.AssetName = UpdatedAsset.AssetName;
+            Asset.Description = UpdatedAsset.Description;
+            Asset.FolderId = UpdatedAsset.FolderId;
+            if (UpdatedAsset.ImagePath != null && UpdatedAsset.ImagePath != string.Empty)
+            {
+                Asset.ImagePath = UpdatedAsset.ImagePath;
+            }
+            Asset.Keywords = UpdatedAsset.Keywords;
+            Asset.Price = UpdatedAsset.Price;
+            Asset.Quantity = UpdatedAsset.Quantity;
             db.Assets.Attach(Asset);
             db.Entry(Asset).State = EntityState.Modified;
+            db.SaveChanges();
         }
         public long AddAsset(Asset Asset)
         {
@@ -80,6 +96,12 @@ namespace MPC.Repository.Repositories
             db.Entry(getAsset).State = EntityState.Modified;
             db.SaveChanges();
         }
+        public Asset GetAsset(long AssetId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.Assets.Where(i => i.AssetId == AssetId).FirstOrDefault();
+        }
+
     }
 
 }

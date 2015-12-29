@@ -508,22 +508,30 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           }
       }
       [HttpPost]
-      public void SaveAsset(string AssetName, string Description, string Keywords, long FolderId, int Quantity, double Price)
+      public HttpResponseMessage SaveAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price)
       {
+          string message = string.Empty;
           var httpPostedFile = HttpContext.Current.Request.Files["UploadedImageAsset"];
           Asset Asset = new Asset();
           Asset.AssetName = AssetName;
-          Asset.Description = Description;
+          Asset.Description = Description; 
           Asset.Keywords = Keywords;
           Asset.FolderId = FolderId;
           Asset.Price = Price;
           Asset.Quantity = Quantity;
+          Asset.CompanyId = UserCookieManager.WBStoreId;
           long AsseetId = _companyService.AddAsset(Asset);
           Asset UpdatedAsset = new Asset();
 
-          UpdatedAsset.ImagePath = UpdateAssetImage(httpPostedFile, AsseetId);
+          UpdatedAsset.ImagePath = UpdateAssetImage(httpPostedFile, AsseetId,false);
+          UpdatedAsset.AssetId = AsseetId;
           _companyService.UpdateAssetImage(UpdatedAsset);
-
+          string Message = AsseetId.ToString();
+          var formatterr = new JsonMediaTypeFormatter();
+          var jsons = formatterr.SerializerSettings;
+          jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+          jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          return Request.CreateResponse(HttpStatusCode.OK, Message, formatterr);
       }
       private string UpdateFolderImage(HttpPostedFile Request,long FolderID)
       {
@@ -542,10 +550,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
               {
                   System.IO.Directory.CreateDirectory(virtualFolderPth);
               }
-           //   if (contact.image != null || contact.image != "")
-            //  {
-           //       RemovePreviousFile(contact.image);
-            //  }
+              //if (flag)
+              //{
+              //    Asset Asset=_companyService.GetAsset()
+              //    if (contact.image != null || contact.image != "")
+              //    {
+              //        RemovePreviousFile(contact.image);
+              //    }
+              //}
               var fileName = Path.GetFileName(Request.FileName);
               Request.SaveAs(virtualFolderPth + "/" + fileName);
               ImagePath = folderPath + "/" + fileName;
@@ -558,7 +570,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           return ImagePath;
       }
 
-      private string UpdateAssetImage(HttpPostedFile Request, long Assetid)
+      private string UpdateAssetImage(HttpPostedFile Request, long Assetid,bool flag)
       {
           string ImagePath = string.Empty;
           //  CompanyContact contact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
@@ -575,10 +587,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
               {
                   System.IO.Directory.CreateDirectory(virtualFolderPth);
               }
-              //   if (contact.image != null || contact.image != "")
-              //  {
-              //       RemovePreviousFile(contact.image);
-              //  }
+              if (flag)
+              {
+                  Asset GetAsset = _companyService.GetAsset(Assetid);
+                  if (GetAsset.ImagePath != null&&GetAsset.ImagePath != "")
+                  {
+                      RemovePreviousFile(GetAsset.ImagePath);
+                  }
+              }
               var fileName = Path.GetFileName(Request.FileName);
               Request.SaveAs(virtualFolderPth + "/" + fileName);
               ImagePath = folderPath + "/" + fileName;
@@ -608,7 +624,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
               for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
               {
                   //HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
-                  HttpPostedFile postedFile = HttpContext.Current.Request.Files["UploadedFile" + i];
+                  HttpPostedFile postedFile = HttpContext.Current.Request.Files["file" + i];
                   string fileName = string.Format("{0}{1}", i, Path.GetFileName(postedFile.FileName));
                   AssetItem Item = new AssetItem();
                   Item.FileUrl = "/" + folderPath;
@@ -620,6 +636,49 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                  _companyService.AddAssetItems(listOfAttachment);
           }
       
+      }
+      [HttpPost]
+      public void UpdateAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price,long AssetId)
+      {
+          var httpPostedFile = HttpContext.Current.Request.Files["UploadedImageAsset"];
+          Asset Asset = new Asset();
+          Asset.AssetId = AssetId;
+          Asset.AssetName = AssetName;
+          Asset.Description =Description;
+          Asset.FolderId = FolderId;
+          if (httpPostedFile != null)
+          {
+              Asset.ImagePath = UpdateAssetImage(httpPostedFile, AssetId, true);
+          }
+          Asset.Keywords = Keywords;
+          Asset.Price = Price;
+          Asset.Quantity = Quantity;
+         _companyService.UpdateAsset(Asset);
+      }
+      [HttpGet]
+      public HttpResponseMessage GetAssetByAssetID(long AssetId)
+      {
+          Asset GAsset = _companyService.GetAsset(AssetId);
+          var formatterr = new JsonMediaTypeFormatter();
+          var jsons = formatterr.SerializerSettings;
+          jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+          jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          return Request.CreateResponse(HttpStatusCode.OK, GAsset, formatterr);
+      }
+      [HttpPost]
+      public void DeleteAsset(long AssetID)
+      {
+          _companyService.DeleteAsset(AssetID);
+      }
+      [HttpPost]
+      public HttpResponseMessage GetFolderByFolderId(long folderId)
+      {
+          Folder folder = _companyService.GetFolderByFolderId(folderId);
+          var formatterr = new JsonMediaTypeFormatter();
+          var jsons = formatterr.SerializerSettings;
+          jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+          jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          return Request.CreateResponse(HttpStatusCode.OK, folder, formatterr);
       }
     }
 }

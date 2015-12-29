@@ -1921,9 +1921,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             _AssestsRepository.DeleteAsset(AssetID);
         }
-        public void UpdateAsset(long AssetID)
+        public void UpdateAsset(Asset UpdatedAsset)
         {
-            _AssestsRepository.UpdateAsset(AssetID);
+            _AssestsRepository.UpdateAsset(UpdatedAsset);
         }
         public List<Folder> GetChildFolders(long ParentFolderId)
         {
@@ -1965,6 +1965,10 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _AssetItemsRepository.AddAssetItems(AssetItemsList);
           
+       }
+       public Asset GetAsset(long AssetId)
+       {
+           return _AssestsRepository.GetAsset(AssetId);
        }
     }
 }

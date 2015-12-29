@@ -6,7 +6,11 @@
     var Assets = ViewBag.Assets as List<MPC.Models.DomainModels.Asset>;
     var Folder = ViewBag.Folders as List<MPC.Models.DomainModels.Folder>;
     var Tree = ViewBag.TreeModel as List<MPC.Models.Common.TreeViewNodeVM>;
-    
+
+    //var Contact = ViewBag.LoginContact as MPC.Models.DomainModels.CompanyContact;
+    var Contact = ViewBag.LoginContact;
+    var Admin = ViewBag.Admin;
+    var Manager = ViewBag.Manager;
 }
 <header>
     <div class="container">
@@ -74,15 +78,12 @@
             </div>
                         @foreach(var ParentFolder in Folder)
                                {
-  
+                                   var RedirectUrl = "/ManageAssets/" + ParentFolder.FolderId; 
                                 <div class="assetCategory">
-                                    <a href='@Url.Action("Index", "ManageAssets",
-                                           new { folderId =ParentFolder.FolderId})'><img src="@ParentFolder.ImagePath"></a>
-                                    <a href='@Url.Action("Index", "ManageAssets",
-                                           new { folderId =ParentFolder.FolderId})' class="catAssetName">@ParentFolder.FolderName</a>
+                                    <a href="@RedirectUrl"><img src="@ParentFolder.ImagePath" ></a>
+                                    <a href="@RedirectUrl" class="catAssetName">@ParentFolder.FolderName</a>
+                                    <a onclick="ActionForFolder(@ParentFolder.FolderId,'@ParentFolder.ImagePath')" class="catButton icon basket"><span>Edit</span></a>
                                 </div>
-                            
-                            
                                 }
                                 <br />
                                 <br />
@@ -94,8 +95,8 @@
                   foreach(var assets in Assets)
                   {
                     <div class="assetCategory">
-                      <a href=''><img src="@assets.ImagePath"></a>
-                   <a href="Asset-Level.html" class="catAssetName">@assets.AssetName</a>
+                      <a ><img src="@assets.ImagePath" onclick="Action(@assets.AssetId,'@assets.ImagePath')"></a>
+                        <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catAssetName">@assets.AssetName</a>
                   </div>
                  }
               }
@@ -106,7 +107,7 @@
 
 <div class="shareWindow"  id="AddFolderPanel">
     <div class="shareIcons">
-        <h1 style="text-align:center;">Add Folder</h1>
+        @*<h1 style="text-align:center;">Add Folder</h1>*@
         <div style="width:100%;">
             <div class="float_left" style="width:50%">
                 <img id="AddFoldImg" style="width:140px;height:140px;" />
@@ -115,7 +116,8 @@
                 <input type="file" id="ImageUploader" onchange="ShowPreview(this);" />
                 <br />
                 <span>AssetsItems</span>
-                <input id="FilesUploader" type="file" multiple="multiple" class="file_upload_box185" />
+                @*<input id="FilesUploader" type="file" multiple="multiple" class="file_upload_box185" />*@
+                <input id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
                 <div id="selectedFiles"></div>
             </div>
             <div class="float_left" style="width:50%">
@@ -139,8 +141,23 @@
         
         
         <button id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>
-        <button style="display:none;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="SaveAsset();">Save</button>
+        <button style="display:none;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
+        <button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
         <button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>
+    </div>
+    <div class="basketWindow" id="basketWindow" style="display:none;">
+        <h1>A4 Double Sided Flyer</h1>
+        <h2>Category: December Xmas Campaign</h2>
+        <h3>Asset Updated: 03/11/2016</h3>
+        <div class="fileIcons">
+            <h2>Select your required filetype(s):</h2>
+            <button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
+            <button class="fileButtons"><img src="~/Content/images/AI.png"></button>
+            <button class="fileButtons"><img src="~/Content/images/IND.png"></button>
+            <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>
+        </div>
+        <button class="basketButton" onclick="GoToDownload(ImgUrl)" value="Download" type="submit">Download</button>
+        <button class="basketButton" value="Add to basket" type="submit">Add to basket</button>
     </div>
 </div>
 <link href="/Content/ManageAssets/style.css" rel="stylesheet" />
@@ -148,7 +165,14 @@
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script src="/Scripts/jquery.MultiFile.js"></script>
 <script type="text/javascript">
+
+
+    var  UpdateAsset=false;
+    var UpdateStatusFolder=false;
+    var AsssetsID=0;
     var mbImagesFiles = new FormData();
+    var ImgUrl;
+    var FolderIDD=0;
     var removedFiles = [];
     $(document).ready(function () {
         buidPopup();
@@ -156,9 +180,30 @@
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
     });
+    function GoToDownload(ImgUrl)
+    {
+        window.location.href = ImgUrl;
+    }
+
+    function ActionAsset()
+    {
+        if(UpdateAsset==false)
+        {
+
+            SaveAsset();
+
+        }
+        else
+        {
+
+
+            UpdateAssset(AsssetsID);
+        }
+
+    }
     function clearTextboxes()
     {
-        $("#AddFoldImg").val('');
+        $('#AddFoldImg').attr("src",'');
         $("#ImageUploader").val('');
         $("#folderDropDown").val('');
         $("#FolderName").val('');
@@ -167,7 +212,6 @@
         $("#Qty").val('');
         $("#price").val('');
         $("#keywords").val('');
-      
     }
     function LoadFolders() {
         $.ajax({
@@ -180,14 +224,30 @@
                 CountriesDD.html('');
                 CountriesDD.append($('<option></option>').val(0).html('Select Folder'));
                 $.each(response.Folders, function (id, option) {
-                    
+
                     CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
                 });
-               
+
             }
         });
     }
+    function LoadFoldersForAddAssets() {
+        $.ajax({
+            type: "GET",
+            url: "/ManageAssets/GetFolders",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                var CountriesDD = $("#folderDropDown");
+                CountriesDD.html('');
 
+                $.each(response.Folders, function (id, option) {
+
+                    CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                });
+            }
+        });
+    }
     function LaodChildFolders(FolderId)
     {
 
@@ -199,7 +259,7 @@
             async: true,
             data:Data,
             success: function (response) {
-                
+
                 var CountriesDD = $("#folderDropDown");
                 CountriesDD.html('');
                 if (response.Folders == null) {
@@ -217,19 +277,39 @@
         });
 
     }
-   
+
+    function SetSelectedFolder(FolderID)
+    {
+        $.ajax({
+            type: "GET",
+            url: "/ManageAssets/GetFolders",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                var CountriesDD = $("#folderDropDown");
+                CountriesDD.html('');
+
+                $.each(response.Folders, function (id, option) {
+
+                    CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                });
+                SetSelectedFolderrr(response.Folders,FolderID);
+            }
+        });
+    }
+
 
     $(document).on('change', '#folderDropDown', function () {
         var ChildFoldrId = $(this).val();
-        
 
 
-      //  if (ChildFoldrId > 0) {
+
+        //  if (ChildFoldrId > 0) {
         //    LaodChildFolders(ChildFoldrId);
-      //  }
-      //  else {
+        //  }
+        //  else {
         //    LoadFolders();
-       // }
+        // }
         //if (ChildFoldrId != null && ChildFoldrId != '')
         //{
         //    LaodChildFolders(FolderID);
@@ -248,43 +328,53 @@
             ImageDir.readAsDataURL(input.files[0]);
         }
     }
-    
+
     $("input[id^='FilesUploader']").change(function (e) {
-        //  removedFiles = [];
+        removedFiles = [];
         doReCreate();
     });
     function AddAsset()
     {
-        
-        $("#modelTitle").text("Add Asset");
-         clearTextboxes();
-         
-         $("#Qty").css("display", "block");
-         $("#price").css("display", "block");
-         $("#keywords").css("display", "block");
-         $("#SaveAsset").css("display", "block");
-         $("#SaveFolder").css("display", "none");
-         //SaveAsset
-         document.getElementById("layer").style.display = "block";
-         document.getElementById("innerLayer").style.display = "block";
-         LoadFolders();
 
-       // var panelHtml = $("#Vorder").html();
-       // AssetsPopUp("Add Asset", panelHtml)
+        $("#modelTitle").text('Add Asset');
+        clearTextboxes();
+
+        $("#Qty").css("display", "block");
+        $("#price").css("display", "block");
+        $("#keywords").css("display", "block");
+        $("#SaveAsset").css("display", "block");
+        $("#SaveFolder").css("display", "none");
+        $("#FilesUploader").css("display", "block");
+        //SaveAsset
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        LoadFoldersForAddAssets();
+
+        // var panelHtml = $("#Vorder").html();
+        // AssetsPopUp("Add Asset", panelHtml)
     }
     function AddFolder()
     {
-        
+        $("#modelTitle").text('Add Folder');
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
         $("#folderDropDown").css("display", "block");
         $("#SaveAsset").css("display", "none");
+
+        $("#Qty").css("display", "none");
+        $("#price").css("display", "none");
+        $("#keywords").css("display", "none");
+        $("#SaveAsset").css("display", "none");
+        $("#SaveFolder").css("display", "block");
+        $("#DeleteAsset").css("display", "none");
+        $("#FilesUploader").css("display", "none");
+        clearTextboxes();
         LoadFolders();
-       // var panelHtml = $("#AddFolderPanel").html();
-       // AssetsPopUp("Add Folder", panelHtml)
+        // var panelHtml = $("#AddFolderPanel").html();
+        // AssetsPopUp("Add Folder", panelHtml)
 
     }
-   
+
     function buidPopup() {
         //popupBody
         //modelTitle
@@ -348,10 +438,11 @@
     }
     function SaveFolder()
     {
+        alert('save asset');
         var FolderName = $("#FolderName").val();
         var FolderDescription = $("#FoldDescription").val();
         var ParentFolderId = $("#folderDropDown").val();
-        
+
         var data = new FormData();
         var files = $("#ImageUploader").get(0).files;
 
@@ -359,10 +450,10 @@
         if (files.length > 0) {
             data.append("UploadedImage", files[0]);
         }
-        alert(ParentFolderId);
-      $.ajax({
+
+        $.ajax({
             type: "POST",
-            url: "/webstoreapi/ContactImageUploader/AddFolderData?FolderName=" + FolderName + "&Description=" + FolderDescription + "&ParentFolderId="+ParentFolderId+"",
+            url: "/webstoreapi/ContactImageUploader/AddFolderData?FolderName=" + FolderName + "&Description=" + FolderDescription + "&ParentFolderId=" + ParentFolderId + "",
             contentType: false,
             data: data,
             async: true,
@@ -372,14 +463,14 @@
                 window.location.href = "/ManageAssets";
             },
             error: function (error) {
-               
+
 
             }
         });
     }
-    function AddAssetAttachments()
+    function AddAssetAttachments(AssetId)
     {
-        //var data = new FormData();
+        var data = new FormData();
         //var files = $("#FilesUploader").get(0).files;
 
         //if (files.length > 0) {
@@ -396,25 +487,42 @@
         //        //        limitExceed = 1;
         //        //    }
         //        //}
-                
+
         //        data.append("UploadedFile" + i, files[i]);
         //    }
         //}
-        $.ajax({
-            type: "POST",
-            url: "/webstoreapi/ContactImageUploader/AddAssetAttachments",
-            contentType: false,
-            data: mbImagesFiles,
-            async: true,
-            processData: false,
-            success: function (response) {
-                window.location.href = "/ManageAssets";
-            },
-            error: function (error) {
 
+
+
+        if (AssetId != null && AssetId != '') {
+
+            var formData = new FormData();
+
+            // formData.append("file" + i, files[i]);
+            for (i = 0; i < postedFiles.length; i++) {
+                var isRemovedFile = false;
+                for (var d = 0; d < removedFiles.length; d++) {
+                    if (postedFiles[i].fname == removedFiles[d])
+                        isRemovedFile = true;
+                }
+                if (!isRemovedFile) {
+                    formData.append("file" + i, postedFiles[i].fObj);
+                }
             }
-        });
-        //AddAssetAttachments
+            $.ajax({
+                type: "POST",
+                url: "/webstoreapi/ContactImageUploader/AddAssetAttachments?AssetID=" + AssetId + "",
+                contentType: false,
+                data: formData,
+                async: true,
+                processData: false,
+                success: function (response) {
+                    window.location.href = "/ManageAssets";
+                },
+                error: function (error) {
+                }
+            });
+        }
     }
 
     function SaveAsset() {
@@ -425,7 +533,8 @@
 
         var Price = $("#price").val();
         var Keywords = $("#keywords").val();
-        var Folderid = 0;
+        var Folderid = $("#folderDropDown").val();
+        alert(Folderid);
         var data = new FormData();
         var files = $("#ImageUploader").get(0).files;
 
@@ -433,17 +542,20 @@
         if (files.length > 0) {
             data.append("UploadedImageAsset", files[0]);
         }
-        alert(ParentFolderId);
+
+
+
         $.ajax({
             type: "POST",
-            url: "/webstoreapi/ContactImageUploader/AddFolderData?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "",
+            url: "/webstoreapi/ContactImageUploader/SaveAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "",
             contentType: false,
             data: data,
             async: true,
             processData: false,
             success: function (response) {
+
                 // window.location.href = "/ManageAssets";
-                AddAssetAttachments();
+                AddAssetAttachments(response);
             },
             error: function (error) {
 
@@ -466,17 +578,224 @@
     //        }
     //    });
     //}
+
+    function UpdateAssset(AssetId)
+    {
+        if(AssetId>0)
+        {
+            var FolderName = $("#FolderName").val();
+            var FolderDescription = $("#FoldDescription").val();
+            var Quantity = $("#Qty").val();
+
+            var Price = $("#price").val();
+            var Keywords = $("#keywords").val();
+            var Folderid = $("#folderDropDown").val();
+
+            var data = new FormData();
+            var files = $("#ImageUploader").get(0).files;
+
+            // Add the uploaded image content to the form data collection
+            if (files.length > 0) {
+                data.append("UploadedImageAsset", files[0]);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/webstoreapi/ContactImageUploader/UpdateAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "&AssetId="+AssetId+"",
+                contentType: false,
+                data: data,
+                async: true,
+                processData: false,
+                success: function (response) {
+                    alert(response);
+                    // window.location.href = "/ManageAssets";
+                    AddAssetAttachments(AssetId);
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+    }
+    function Edit(AssetId)
+    {
+        $("#modelTitle").text('Update Asset');
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $("#DeleteAsset").css("display", "block");
+        $("#SaveFolder").css("display", "none");
+
+        $("#SaveAsset").css("display", "block");
+        clearTextboxes();
+        UpdateAsset=true;
+        AsssetsID=AssetId;
+
+        var Data = { AssetId: AssetId };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+                SetSelectedFolder(response.FolderId)
+                $('#AddFoldImg').attr("src",response.ImagePath);
+                $("#ImageUploader").val('');
+                //  $("#folderDropDown").val();
+                $("#FolderName").val(response.AssetName);
+                $("#keywords").val(response.Keywords);
+                $("#FoldDescription").val(response.Description);
+                $("#Qty").val(response.Quantity);
+                $("#price").val(response.Price);
+
+            }
+        });
+    }
+
+    function EditFolder(FolderID)
+    {
+        $("#modelTitle").text('Update Folder');
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $("#DeleteAsset").css("display", "block");
+        $("#SaveFolder").css("display", "none");
+
+        $("#SaveAsset").css("display", "block");
+        clearTextboxes();
+        UpdateStatusFolder=true;
+       
+
+        //var Data = { folderId: FolderID };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetFolderByFolderId?folderId="+FolderID+"",
+            contentType: "application/json",
+            async: true,
+            //data:Data,
+            success: function (response) {
+                SetSelectedFolder(response.FolderId);
+                //$('#AddFoldImg').attr("src",response.ImagePath);
+                //$("#ImageUploader").val('');
+                ////  $("#folderDropDown").val();
+                //$("#FolderName").val(response.AssetName);
+                //$("#keywords").val(response.Keywords);
+                //$("#FoldDescription").val(response.Description);
+                //$("#Qty").val(response.Quantity);
+                //$("#price").val(response.Price);
+
+            }
+        });
+    }
+    function DeleteAsset()
+    {
+        // var Data = { AssetID: AsssetsID };
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/DeleteAsset?AssetID="+AsssetsID+"",
+            contentType: "application/json",
+            async: true,
+            //data:Data,
+            success: function (response) {
+                window.location.href = "/ManageAssets";
+                //SetSelectedFolder(FolderID)
+                //$('#AddFoldImg').attr("src",loc);
+                //$("#ImageUploader").val('');
+                //$("#folderDropDown").val('');
+                //$("#FolderName").val('');
+                //$("#keywords").val('');
+                //$("#FoldDescription").val('');
+                //$("#Qty").val('');
+                //$("#price").val('');
+                //$("#keywords").val('');
+            }
+        });
+    }
+
+    function SetSelectedFolderrr(obj, FolderId) {
+
+        var index = 0;
+        $.each(obj, function (id, option) {
+            if (option.FolderId==FolderId) {
+                alert(index);
+                $("#folderDropDown")[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+
+    function Action(AssetID,imagpath)
+    {
+        ImgUrl=imagpath;
+        AsssetsID=AssetID;
+        if(@Contact==1||@Contact==2)
+        {
+            Edit(AssetID);
+        }
+        else
+        {
+            ShowDownloadWindow(imagpath);
+        }
+
+    }
+
+    function ActionForFolder(FolderId,imagpath)
+    {
+        ImgUrl=imagpath;
+        
+        FolderIDD=FolderId;
+        if(@Contact==1||@Contact==2)
+        {
+            EditFolder(FolderId);
+        }
+        else
+        {
+            ShowDownloadWindow(imagpath);
+        }
+
+    }
+
+
+
+
+   function ShowDownloadWindow(imagpath)
+    {
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $("#basketWindow").css("display", "block");
+        $("#AddFolderPanel").css("display", "none");
+   }
+
+
+
+
     function removeAtt(name, t) {
 
         removedFiles.push(name);
         storedFiles = $.grep(storedFiles, function (n, i) {
+
             return (n != name);
         });
 
         $(t).parent().remove();
-        if (postedFiles.length < (4 + removedFiles.length)) {
-            $("#FilesUploader").css("display", "block");
-        }
+        //if (postedFiles.length < (4 + removedFiles.length)) {
+        //    $("#FilesUploader").css("display", "block");
+        //}
+
+
+
+
+        //postedFiles = $.grep(postedFiles, function (n, i) {
+
+        //    return (n != name);
+        //});
+
+        var postedFiles = $.grep(postedFiles, function (e) {
+            return e.fname != name;
+            alert(e.id);
+        });
+
+
+     //   alert(postedFiles.length);
         // doReCreate();
     }
     var postedFiles = [];
@@ -486,12 +805,13 @@
         storedFiles = [];
         var FileName = "";
         var files = $("#FilesUploader").get(0).files;
+        debugger;
         if (files.length > 0) {
             console.log(postedFiles.length < (4 + removedFiles.length));
             if (files.length > 4) {
                 ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
             } else {
-              
+
                 var isAddfile = 1;
                 for (i = 0; i < files.length; i++) {
 
@@ -514,18 +834,19 @@
                     for (i = 0; i < files.length; i++) {
                         var isRemovedFile = false;
                         for (var d = 0; d < removedFiles.length; d++) {
-                            if (files[i].name == removedFiles[d])
-                                isRemovedFile = true;
+                            alert(i);
+                            isRemovedFile = true;
                         }
                         if (!isRemovedFile) {
                             postedFiles.push({ fname: files[i].name, fObj: files[i] });
                             // formData.append("file" + i, files[i]);
-                            mbImagesFiles.append("file" + i, files[i]);
-                            alert(i);
+                            mbImagesFiles.append("UploadedFile" + i, files[i]);
+
                             selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
                             FileName = files[i].name;
                             while (files[i].name.indexOf('/') != -1)
                                 FileName = files[i].name.replace("/", "__")
+
                             storedFiles.push(FileName);
                         }
                     }
