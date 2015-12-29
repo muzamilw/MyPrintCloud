@@ -139,7 +139,7 @@
     var ClickChargeZone = function (source) {
         var self
         if (source != undefined) {
-            Id = ko.observable(source.Id),
+            Id = ko.observable(source != undefined ? source.Id : undefined),
             MethodId = ko.observable(source.MethodId),
             From1 = ko.observable(source.From1),
             To1 = ko.observable(source.To1),
@@ -301,8 +301,7 @@
             IsRoundUp = ko.observable(),
             TimePerHour = ko.observable()
         }
-
-
+        
         errors = ko.validation.group({
         }),
         // Is Valid

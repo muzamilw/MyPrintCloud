@@ -1272,7 +1272,7 @@ function d6(width, height, showguides) {
         var rightline = i4([width - 1, 0, width - 1, cutmargin + height - cutmargin], -982, '#EBECED', cutmargin * 2);
         var bottomline = i4([cutmargin + 0.39, height, cutmargin + width - 0.39 - cutmargin * 2, height], -983, '#EBECED', cutmargin * 2);
        
-        var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 10, 'Bleed Area', -975, 0, 'gray');
+        var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 8, 'Bleed Area', -975, 0, 'gray');
         var leftCutMarginTxt = i5(height / 2, width - (12 * dfZ1l), 17, 100, 10, 'Bleed Area', -974, 90, 'gray');
         var rightCutMarginTxt = i5(height / 2, (13 * dfZ1l), 17, 100, 10, 'Bleed Area', -973, -90, 'gray');
         var bottomCutMarginTxt = i5(height - 6, width / 2, 17, 100, 10, 'Bleed Area', -972, 0, 'gray');
@@ -4975,19 +4975,24 @@ function togglePage(pId) {
         w = w / 96 * 72;
         h = h / 2.834645669;
         w = w / 2.834645669;
-     //   w = w.toFixed(3);
-      //  h = h.toFixed(3);
         cuttingInMM = Template.CuttingMargin / 96 * 72
         cuttingInMM = cuttingInMM / 2.834645669;
         if (Template.CuttingMargin == 0 || Template.CuttingMargin == null)
-            cuttingInMM = 10;
-        h =( h - cuttingInMM).toFixed(3);
-        w =( w - cuttingInMM).toFixed(3);
+            cuttingInMM = 5;
+
+        cuttingInMM *= 2;
+        h = (h - cuttingInMM);
+        w = (w - cuttingInMM);
         if (item != null ) {
             var res = item.TemplateDimensionConvertionRatio.split("__");
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
+            var dif = cuttingInMM * ((parseFloat(res[2])/parseFloat(res[0])) - 1);
+            w += dif;
+            h += dif;
+            h = h.toFixed(3);
+            w = w.toFixed(3);
             conversionRatio = parseFloat(res[2]) * 2.834645669 * 96 / 72;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {

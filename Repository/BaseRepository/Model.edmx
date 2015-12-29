@@ -524,6 +524,7 @@
           <Property Name="IsRegisterPlaceDirectOrder" Type="bit" />
           <Property Name="IsRegisterPlaceOrderWithoutApproval" Type="bit" />
           <Property Name="IsAllowRequestaQuote" Type="bit" />
+          <Property Name="IsEnableDataAsset" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -3764,6 +3765,7 @@
           <Property Name="ProductCategoryId" Type="bigint" />
           <Property Name="contactId" Type="bigint" />
           <Property Name="realEstateId" Type="bigint" />
+          <Property Name="IsAllowCustomSize" Type="bit" />
         </EntityType>
         <EntityType Name="TemplateBackgroundImage">
           <Key>
@@ -8804,6 +8806,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsAllowRequestaQuote" Type="Boolean" />
           <NavigationProperty Name="Assets" Relationship="DomainModels.FK_Assets_Company" FromRole="Company" ToRole="Asset" />
           <NavigationProperty Name="Folders" Relationship="DomainModels.FK_Folder_Folder" FromRole="Company" ToRole="Folder" />
+          <Property Name="IsEnableDataAsset" Type="Boolean" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -11768,6 +11771,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="TemplateFonts" Relationship="DomainModels.FK_ProductFonts_Products" FromRole="Template" ToRole="TemplateFont" />
           <Property Name="contactId" Type="Int64" />
           <Property Name="realEstateId" Type="Int64" />
+          <Property Name="IsAllowCustomSize" Type="Boolean" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -15859,6 +15863,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="IsEnableDataAsset" ColumnName="IsEnableDataAsset" />
                 <ScalarProperty Name="IsAllowRequestaQuote" ColumnName="IsAllowRequestaQuote" />
                 <ScalarProperty Name="IsRegisterPlaceOrderWithoutApproval" ColumnName="IsRegisterPlaceOrderWithoutApproval" />
                 <ScalarProperty Name="IsRegisterPlaceDirectOrder" ColumnName="IsRegisterPlaceDirectOrder" />
@@ -18113,6 +18118,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Templates">
             <EntityTypeMapping TypeName="DomainModels.Template">
               <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="IsAllowCustomSize" ColumnName="IsAllowCustomSize" />
                 <ScalarProperty Name="realEstateId" ColumnName="realEstateId" />
                 <ScalarProperty Name="contactId" ColumnName="contactId" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />

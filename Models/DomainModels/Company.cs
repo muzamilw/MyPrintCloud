@@ -119,6 +119,7 @@ namespace MPC.Models.DomainModels
         public bool? IsRegisterPlaceDirectOrder { get; set; }
         public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
         public bool? IsAllowRequestaQuote { get; set; }
+        public bool? IsEnableDataAsset { get; set; }
         /// <summary>
         /// Map Image Url
         /// </summary>

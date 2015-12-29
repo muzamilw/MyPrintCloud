@@ -15,7 +15,7 @@ namespace MPC.Interfaces.Repository
         MachineResponseModel CreateMachineByType(bool isGuillotine);
         bool archiveMachine(long id);
         bool UpdateMachine(Machine machine, MachineClickChargeZone ClickCharge, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int type, MachineSpeedWeightLookup speedWeightLookup);
-        long AddMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int Type);
+        long AddMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv, int Type, MachineSpeedWeightLookup speedWeightLookup);
         //   List<Machine> GetMachineList();
         MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request);
 

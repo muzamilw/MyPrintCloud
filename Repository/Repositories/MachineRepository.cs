@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.Practices.ObjectBuilder2;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -210,7 +211,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public long AddMachine(Machine machine,MachineClickChargeZone ClickChargeZone,MachineMeterPerHourLookup MeterPerHour,MachineGuillotineCalc GuillotineCalc, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int oType)
+        public long AddMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineCalc, IEnumerable<MachineGuilotinePtv> GuillotinePtv, int oType, MachineSpeedWeightLookup speedWeightLookup)
         {
             try
             {
@@ -236,12 +237,19 @@ namespace MPC.Repository.Repositories
                     oLookupMethod.Type = 6;
                   //  Type = 6;
                 }
+                else if (oType == 4)
+                {
+                    oLookupMethod.Name = "Speed Weight Lookup";
+                    oLookupMethod.Type = 4;
+                }
 
                 oLookupMethod.OrganisationId = Convert.ToInt32(OrganisationId);
-                db.LookupMethods.Add(oLookupMethod);
-                db.SaveChanges();
+                //db.LookupMethods.Add(oLookupMethod);
+                //db.SaveChanges();
 
-                NewLookupID = oLookupMethod.MethodId;
+                //NewLookupID = oLookupMethod.MethodId;
+                
+                
 
 
                 long NewMachineID = 0;
@@ -322,7 +330,7 @@ namespace MPC.Repository.Repositories
                 omachine.Passes = machine.Passes;
                 omachine.IsSpotColor = machine.IsSpotColor;
                 db.Machines.Add(omachine);
-              //  db.SaveChanges();
+               // db.SaveChanges();
 
                
 
@@ -417,7 +425,10 @@ namespace MPC.Repository.Repositories
                                 ClickChargeZoneLookup.isaccumulativecharge = ClickChargeZone.isaccumulativecharge;
                                 ClickChargeZoneLookup.IsRoundUp = ClickChargeZone.IsRoundUp;
                                 ClickChargeZoneLookup.TimePerHour = ClickChargeZone.TimePerHour;
-                                db.MachineClickChargeZones.Add(ClickChargeZoneLookup);
+                               // db.MachineClickChargeZones.Add(ClickChargeZoneLookup);
+                                oLookupMethod.MachineClickChargeZones = new Collection<MachineClickChargeZone>();
+                                oLookupMethod.MachineClickChargeZones.Add(ClickChargeZoneLookup);
+                                omachine.LookupMethod = oLookupMethod;
                             }
                           
                             
@@ -486,10 +497,22 @@ namespace MPC.Repository.Repositories
                                 oMeterPerHourLookup.speedqty35 = MeterPerHour.speedqty35;
                                 oMeterPerHourLookup.hourlyCost = MeterPerHour.hourlyCost;
                                 oMeterPerHourLookup.hourlyPrice = MeterPerHour.hourlyPrice;
-                                db.MachineMeterPerHourLookups.Add(oMeterPerHourLookup);
+                                //db.MachineMeterPerHourLookups.Add(oMeterPerHourLookup);
+                                oLookupMethod.MachineMeterPerHourLookups = new Collection<MachineMeterPerHourLookup>();
+                                oLookupMethod.MachineMeterPerHourLookups.Add(oMeterPerHourLookup);
+                                omachine.LookupMethod = oLookupMethod;
                             }
                            
                             break;
+                        case 4:
+                                
+                            MachineSpeedWeightLookup newSpeedWeightLookup = new MachineSpeedWeightLookup();
+                            newSpeedWeightLookup = UpdateMachineSpeedWeightLookup(speedWeightLookup, newSpeedWeightLookup);
+                            oLookupMethod.MachineSpeedWeightLookups = new Collection<MachineSpeedWeightLookup>();
+                            oLookupMethod.MachineSpeedWeightLookups.Add(newSpeedWeightLookup);
+                            omachine.LookupMethod = oLookupMethod;
+                            break;
+                            
                         default:
                             return 0;
 
@@ -595,88 +618,32 @@ namespace MPC.Repository.Repositories
 
                 if (type == 0)
                 {
-                    foreach (var ClickChargeZoneLookup in omachine.LookupMethod.MachineClickChargeZones)
+
+                    var dbClickChargeZone = omachine.LookupMethod.MachineClickChargeZones.FirstOrDefault();
+                    if (dbClickChargeZone != null && ClickChargeZone != null) //case when click charge zone values are updated
                     {
+                        dbClickChargeZone = updateMachineClickChargeZone(ClickChargeZone, dbClickChargeZone);
+                    }
+                    else if (dbClickChargeZone == null && ClickChargeZone != null)//case when lookup method changed to Click charge zone
+                    {
+                        if (omachine.LookupMethod != null)
+                        {
+                            omachine.LookupMethod.MachineSpeedWeightLookups.ForEach(z => db.MachineSpeedWeightLookups.ToList().Remove(z));
+                            db.LookupMethods.Remove(omachine.LookupMethod);
+                        }
 
+                        LookupMethod newLookupMethod = new LookupMethod
+                        {
+                            Type = 5,
+                            Name = "Click Charge Zone",
+                            OrganisationId = Convert.ToInt32(this.OrganisationId)
+                        };
+                        MachineClickChargeZone newClickChargeZoneLookup = new MachineClickChargeZone();
+                        newClickChargeZoneLookup = updateMachineClickChargeZone(ClickChargeZone, newClickChargeZoneLookup);
+                        newLookupMethod.MachineClickChargeZones = new Collection<MachineClickChargeZone>();
+                        newLookupMethod.MachineClickChargeZones.Add(newClickChargeZoneLookup);
+                        omachine.LookupMethod = newLookupMethod;
 
-                        ClickChargeZoneLookup.From1 = ClickChargeZone.From1;
-                        ClickChargeZoneLookup.To1 = ClickChargeZone.To1;
-                        ClickChargeZoneLookup.Sheets1 = ClickChargeZone.Sheets1;
-                        ClickChargeZoneLookup.SheetCost1 = ClickChargeZone.SheetCost1;
-                        ClickChargeZoneLookup.SheetPrice1 = ClickChargeZone.SheetPrice1;
-                        ClickChargeZoneLookup.From2 = ClickChargeZone.From2;
-                        ClickChargeZoneLookup.To2 = ClickChargeZone.To2;
-                        ClickChargeZoneLookup.Sheets2 = ClickChargeZone.Sheets2;
-                        ClickChargeZoneLookup.SheetCost2 = ClickChargeZone.SheetCost2;
-                        ClickChargeZoneLookup.SheetPrice2 = ClickChargeZone.SheetPrice2;
-                        ClickChargeZoneLookup.From3 = ClickChargeZone.From3;
-                        ClickChargeZoneLookup.To3 = ClickChargeZone.To3;
-                        ClickChargeZoneLookup.Sheets3 = ClickChargeZone.Sheets3;
-                        ClickChargeZoneLookup.SheetCost3 = ClickChargeZone.SheetCost3;
-                        ClickChargeZoneLookup.SheetPrice3 = ClickChargeZone.SheetPrice3;
-                        ClickChargeZoneLookup.From4 = ClickChargeZone.From4;
-                        ClickChargeZoneLookup.To4 = ClickChargeZone.To4;
-                        ClickChargeZoneLookup.Sheets4 = ClickChargeZone.Sheets4;
-                        ClickChargeZoneLookup.SheetCost4 = ClickChargeZone.SheetCost4;
-                        ClickChargeZoneLookup.SheetPrice4 = ClickChargeZone.SheetPrice4;
-                        ClickChargeZoneLookup.From5 = ClickChargeZone.From5;
-                        ClickChargeZoneLookup.To5 = ClickChargeZone.To5;
-                        ClickChargeZoneLookup.Sheets5 = ClickChargeZone.Sheets5;
-                        ClickChargeZoneLookup.SheetCost5 = ClickChargeZone.SheetCost5;
-                        ClickChargeZoneLookup.SheetPrice5 = ClickChargeZone.SheetPrice5;
-                        ClickChargeZoneLookup.From6 = ClickChargeZone.From6;
-                        ClickChargeZoneLookup.To6 = ClickChargeZone.To6;
-                        ClickChargeZoneLookup.Sheets6 = ClickChargeZone.Sheets6;
-                        ClickChargeZoneLookup.SheetCost6 = ClickChargeZone.SheetCost6;
-                        ClickChargeZoneLookup.SheetPrice6 = ClickChargeZone.SheetPrice6;
-                        ClickChargeZoneLookup.From7 = ClickChargeZone.From7;
-                        ClickChargeZoneLookup.To7 = ClickChargeZone.To7;
-                        ClickChargeZoneLookup.Sheets7 = ClickChargeZone.Sheets7;
-                        ClickChargeZoneLookup.SheetCost7 = ClickChargeZone.SheetCost7;
-                        ClickChargeZoneLookup.SheetPrice7 = ClickChargeZone.SheetPrice7;
-                        ClickChargeZoneLookup.From8 = ClickChargeZone.From8;
-                        ClickChargeZoneLookup.To8 = ClickChargeZone.To8;
-                        ClickChargeZoneLookup.Sheets8 = ClickChargeZone.Sheets8;
-                        ClickChargeZoneLookup.SheetCost8 = ClickChargeZone.SheetCost8;
-                        ClickChargeZoneLookup.SheetPrice8 = ClickChargeZone.SheetPrice8;
-                        ClickChargeZoneLookup.From9 = ClickChargeZone.From9;
-                        ClickChargeZoneLookup.To9 = ClickChargeZone.To9;
-                        ClickChargeZoneLookup.Sheets9 = ClickChargeZone.Sheets9;
-                        ClickChargeZoneLookup.SheetCost9 = ClickChargeZone.SheetCost9;
-                        ClickChargeZoneLookup.SheetPrice9 = ClickChargeZone.SheetPrice9;
-                        ClickChargeZoneLookup.From10 = ClickChargeZone.From10;
-                        ClickChargeZoneLookup.To10 = ClickChargeZone.To10;
-                        ClickChargeZoneLookup.Sheets10 = ClickChargeZone.Sheets10;
-                        ClickChargeZoneLookup.SheetCost10 = ClickChargeZone.SheetCost10;
-                        ClickChargeZoneLookup.SheetPrice10 = ClickChargeZone.SheetPrice10;
-                        ClickChargeZoneLookup.From11 = ClickChargeZone.From11;
-                        ClickChargeZoneLookup.To11 = ClickChargeZone.To11;
-                        ClickChargeZoneLookup.Sheets11 = ClickChargeZone.Sheets11;
-                        ClickChargeZoneLookup.SheetCost11 = ClickChargeZone.SheetCost11;
-                        ClickChargeZoneLookup.SheetPrice11 = ClickChargeZone.SheetPrice11;
-                        ClickChargeZoneLookup.From12 = ClickChargeZone.From12;
-                        ClickChargeZoneLookup.To12 = ClickChargeZone.To12;
-                        ClickChargeZoneLookup.Sheets12 = ClickChargeZone.Sheets12;
-                        ClickChargeZoneLookup.SheetCost12 = ClickChargeZone.SheetCost12;
-                        ClickChargeZoneLookup.SheetPrice12 = ClickChargeZone.SheetPrice12;
-                        ClickChargeZoneLookup.From13 = ClickChargeZone.From13;
-                        ClickChargeZoneLookup.To13 = ClickChargeZone.To13;
-                        ClickChargeZoneLookup.Sheets13 = ClickChargeZone.Sheets13;
-                        ClickChargeZoneLookup.SheetCost13 = ClickChargeZone.SheetCost13;
-                        ClickChargeZoneLookup.SheetPrice13 = ClickChargeZone.SheetPrice13;
-                        ClickChargeZoneLookup.From14 = ClickChargeZone.From14;
-                        ClickChargeZoneLookup.To14 = ClickChargeZone.To14;
-                        ClickChargeZoneLookup.Sheets14 = ClickChargeZone.Sheets14;
-                        ClickChargeZoneLookup.SheetCost14 = ClickChargeZone.SheetCost14;
-                        ClickChargeZoneLookup.SheetPrice14 = ClickChargeZone.SheetPrice14;
-                        ClickChargeZoneLookup.From15 = ClickChargeZone.From15;
-                        ClickChargeZoneLookup.To15 = ClickChargeZone.To15;
-                        ClickChargeZoneLookup.Sheets15 = ClickChargeZone.Sheets15;
-                        ClickChargeZoneLookup.SheetCost15 = ClickChargeZone.SheetCost15;
-                        ClickChargeZoneLookup.SheetPrice15 = ClickChargeZone.SheetPrice15;
-                        ClickChargeZoneLookup.isaccumulativecharge = ClickChargeZone.isaccumulativecharge;
-                        ClickChargeZoneLookup.IsRoundUp = ClickChargeZone.IsRoundUp;
-                        ClickChargeZoneLookup.TimePerHour = ClickChargeZone.TimePerHour;
                     }
 
                 }
@@ -761,13 +728,19 @@ namespace MPC.Repository.Repositories
                 else if (type == 4) //Speed Weight Calculation Method
                 {
                     var dbSpeedWeight = omachine.LookupMethod.MachineSpeedWeightLookups.FirstOrDefault();
-                    if (dbSpeedWeight != null && speedWeightLookup != null)
+                    if (dbSpeedWeight != null && speedWeightLookup != null) //case when speed weight values are updated
                     {
                         dbSpeedWeight = UpdateMachineSpeedWeightLookup(speedWeightLookup, dbSpeedWeight);
 
                     }
-                    else if (dbSpeedWeight == null && speedWeightLookup != null)
+                    else if (dbSpeedWeight == null && speedWeightLookup != null)//case when lookup method changed to speed weight
                     {
+                        if (omachine.LookupMethod != null)
+                        {
+                            omachine.LookupMethod.MachineClickChargeZones.ForEach(z => db.MachineClickChargeZones.ToList().Remove(z));
+                            db.LookupMethods.Remove(omachine.LookupMethod);
+                        }
+
                         LookupMethod newLookupMethod = new LookupMethod
                         {
                             Type = 3,
@@ -846,6 +819,91 @@ namespace MPC.Repository.Repositories
             target.speedqty35 = source.speedqty35;
             target.hourlyCost = source.hourlyCost;
             target.hourlyPrice = source.hourlyPrice;
+            return target;
+        }
+
+        private MachineClickChargeZone updateMachineClickChargeZone(MachineClickChargeZone source,
+            MachineClickChargeZone target)
+        {
+            target.From1 = source.From1;
+            target.To1 = source.To1;
+            target.Sheets1 = source.Sheets1;
+            target.SheetCost1 = source.SheetCost1;
+            target.SheetPrice1 = source.SheetPrice1;
+            target.From2 = source.From2;
+            target.To2 = source.To2;
+            target.Sheets2 = source.Sheets2;
+            target.SheetCost2 = source.SheetCost2;
+            target.SheetPrice2 = source.SheetPrice2;
+            target.From3 = source.From3;
+            target.To3 = source.To3;
+            target.Sheets3 = source.Sheets3;
+            target.SheetCost3 = source.SheetCost3;
+            target.SheetPrice3 = source.SheetPrice3;
+            target.From4 = source.From4;
+            target.To4 = source.To4;
+            target.Sheets4 = source.Sheets4;
+            target.SheetCost4 = source.SheetCost4;
+            target.SheetPrice4 = source.SheetPrice4;
+            target.From5 = source.From5;
+            target.To5 = source.To5;
+            target.Sheets5 = source.Sheets5;
+            target.SheetCost5 = source.SheetCost5;
+            target.SheetPrice5 = source.SheetPrice5;
+            target.From6 = source.From6;
+            target.To6 = source.To6;
+            target.Sheets6 = source.Sheets6;
+            target.SheetCost6 = source.SheetCost6;
+            target.SheetPrice6 = source.SheetPrice6;
+            target.From7 = source.From7;
+            target.To7 = source.To7;
+            target.Sheets7 = source.Sheets7;
+            target.SheetCost7 = source.SheetCost7;
+            target.SheetPrice7 = source.SheetPrice7;
+            target.From8 = source.From8;
+            target.To8 = source.To8;
+            target.Sheets8 = source.Sheets8;
+            target.SheetCost8 = source.SheetCost8;
+            target.SheetPrice8 = source.SheetPrice8;
+            target.From9 = source.From9;
+            target.To9 = source.To9;
+            target.Sheets9 = source.Sheets9;
+            target.SheetCost9 = source.SheetCost9;
+            target.SheetPrice9 = source.SheetPrice9;
+            target.From10 = source.From10;
+            target.To10 = source.To10;
+            target.Sheets10 = source.Sheets10;
+            target.SheetCost10 = source.SheetCost10;
+            target.SheetPrice10 = source.SheetPrice10;
+            target.From11 = source.From11;
+            target.To11 = source.To11;
+            target.Sheets11 = source.Sheets11;
+            target.SheetCost11 = source.SheetCost11;
+            target.SheetPrice11 = source.SheetPrice11;
+            target.From12 = source.From12;
+            target.To12 = source.To12;
+            target.Sheets12 = source.Sheets12;
+            target.SheetCost12 = source.SheetCost12;
+            target.SheetPrice12 = source.SheetPrice12;
+            target.From13 = source.From13;
+            target.To13 = source.To13;
+            target.Sheets13 = source.Sheets13;
+            target.SheetCost13 = source.SheetCost13;
+            target.SheetPrice13 = source.SheetPrice13;
+            target.From14 = source.From14;
+            target.To14 = source.To14;
+            target.Sheets14 = source.Sheets14;
+            target.SheetCost14 = source.SheetCost14;
+            target.SheetPrice14 = source.SheetPrice14;
+            target.From15 = source.From15;
+            target.To15 = source.To15;
+            target.Sheets15 = source.Sheets15;
+            target.SheetCost15 = source.SheetCost15;
+            target.SheetPrice15 = source.SheetPrice15;
+            target.isaccumulativecharge = source.isaccumulativecharge;
+            target.IsRoundUp = source.IsRoundUp;
+            target.TimePerHour = source.TimePerHour;
+
             return target;
         }
         public IEnumerable<MachineSpoilage> GetMachineSpoilageItems(long machineId)
