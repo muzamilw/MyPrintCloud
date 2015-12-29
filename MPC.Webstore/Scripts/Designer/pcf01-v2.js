@@ -4975,8 +4975,6 @@ function togglePage(pId) {
         w = w / 96 * 72;
         h = h / 2.834645669;
         w = w / 2.834645669;
-     //   w = w.toFixed(3);
-      //  h = h.toFixed(3);
         cuttingInMM = Template.CuttingMargin / 96 * 72
         cuttingInMM = cuttingInMM / 2.834645669;
         if (Template.CuttingMargin == 0 || Template.CuttingMargin == null)
@@ -4988,6 +4986,9 @@ function togglePage(pId) {
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
+            var dif = cuttingInMM * (parseFloat(res[2]) - 1);
+            w += dif;
+            h += dif;
             conversionRatio = parseFloat(res[2]) * 2.834645669 * 96 / 72;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {
