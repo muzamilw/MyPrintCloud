@@ -87,6 +87,7 @@ nav ul li a {
 	padding:20px 2%;
 	border:1px solid #CCCCCC;
 }
+<<<<<<< HEAD
 .folder_desc
 {
     padding: 10px 1%;
@@ -101,6 +102,22 @@ nav ul li a {
     width: 542px;
   /* width: auto; */
   margin-left: auto;
+=======
+.folder_desc
+{
+    padding: 10px 1%;
+  border: none;
+  margin-bottom: 10px;
+  width:100%;
+  font-size: 1.1em;
+  color: #666666;
+  border: 1px solid #CCCCCC;
+}
+.shareIcons {
+    width: 542px;
+  /* width: auto; */
+  margin-left: auto;
+>>>>>>> 2ec5fd5bb07087131b53d31db5e5e7306a722c5b
   margin-right: auto;
 }
 .assetSearch h2 {
@@ -311,6 +328,7 @@ background: url(images/share.png) no-repeat 0 -2px;
 }
 
 .shareWindow {
+<<<<<<< HEAD
   position: fixed;
   top: 39%;
   left: 50%;
@@ -320,6 +338,17 @@ background: url(images/share.png) no-repeat 0 -2px;
   margin-top: -170px;
   margin-left: -290px;
   border: 1px solid #ccc;
+=======
+  position: fixed;
+  top: 39%;
+  left: 50%;
+  /* width: 500px; */
+  height: 416px;
+  padding: 20px;
+  margin-top: -170px;
+  margin-left: -290px;
+  border: 1px solid #ccc;
+>>>>>>> 2ec5fd5bb07087131b53d31db5e5e7306a722c5b
   background-color: #f3f3f3;
 }
 

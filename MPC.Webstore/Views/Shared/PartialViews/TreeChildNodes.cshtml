@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿
 @using MPC.Models.Common;
 @model IEnumerable <MPC.Models.Common.TreeViewNodeVM>
@@ -18,3 +19,25 @@
         }
     </ul>
 }
+=======
+﻿
+@using MPC.Models.Common;
+@model IEnumerable <MPC.Models.Common.TreeViewNodeVM>
+@foreach(var treeNode in Model)
+{
+    <ul>
+        @if (treeNode != null)
+        {
+            <li>
+                <a href="#">
+                    @treeNode.FolderName
+                </a>
+                @if (treeNode.ChildNode.Count > 0)
+                {
+                    @Html.Partial("PartialViews/TreeChildNodes", treeNode.ChildNode)
+                }
+            </li>
+        }
+    </ul>
+}
+>>>>>>> 2ec5fd5bb07087131b53d31db5e5e7306a722c5b
