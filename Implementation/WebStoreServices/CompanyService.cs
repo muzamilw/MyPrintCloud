@@ -1970,5 +1970,13 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _AssestsRepository.GetAsset(AssetId);
        }
+       public void UpdateFolder(Folder Ufolder)
+       {
+           _FolderRepository.UpdateFolder(Ufolder);
+       }
+       public void DeleteFolder(long folderID)
+       {
+           _FolderRepository.DeleteFolder(folderID);
+       }
     }
 }

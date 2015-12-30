@@ -9,8 +9,10 @@
 
     //var Contact = ViewBag.LoginContact as MPC.Models.DomainModels.CompanyContact;
     var Contact = ViewBag.LoginContact;
+    
     var Admin = ViewBag.Admin;
     var Manager = ViewBag.Manager;
+    
 }
 <header>
     <div class="container">
@@ -140,9 +142,11 @@
         </div>
         
         
-        <button id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>
+        @*<button id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>*@
         <button style="display:none;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
+        <button style="display:none;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
         <button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
+        <button style="display:none;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
         <button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>
     </div>
     <div class="basketWindow" id="basketWindow" style="display:none;">
@@ -200,6 +204,21 @@
             UpdateAssset(AsssetsID);
         }
 
+    }
+
+    function ActionFolder()
+    {
+        if(UpdateStatusFolder==false)
+        {
+            alert('new');
+            SaveFolder();
+        }
+        else
+        {
+            alert('update');
+           UpdateFolder(FolderIDD);
+        }
+    
     }
     function clearTextboxes()
     {
@@ -269,7 +288,7 @@
                     CountriesDD.append($('<option></option>').val(0).html(''));
                 }
                 $.each(response.Folders, function (id, option) {
-                    alert(option.FolderId);
+                    
                     CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
                 });
 
@@ -278,7 +297,7 @@
 
     }
 
-    function SetSelectedFolder(FolderID)
+    function SetSelectedFolder(FolderID,flag)
     {
         $.ajax({
             type: "GET",
@@ -288,12 +307,21 @@
             success: function (response) {
                 var CountriesDD = $("#folderDropDown");
                 CountriesDD.html('');
-
+                if(flag)
+                {
+                    CountriesDD.append($('<option></option>').val(0).html('Select Folder'));
+                }
                 $.each(response.Folders, function (id, option) {
 
                     CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
                 });
-                SetSelectedFolderrr(response.Folders,FolderID);
+                if(flag)
+                {
+                    SetSelectedFolderrr(response.Folders,FolderID,1);
+                }
+                else{
+                    SetSelectedFolderrr(response.Folders,FolderID,0);
+                }
             }
         });
     }
@@ -438,7 +466,7 @@
     }
     function SaveFolder()
     {
-        alert('save asset');
+        
         var FolderName = $("#FolderName").val();
         var FolderDescription = $("#FoldDescription").val();
         var ParentFolderId = $("#folderDropDown").val();
@@ -525,6 +553,7 @@
         }
     }
 
+
     function SaveAsset() {
 
         var FolderName = $("#FolderName").val();
@@ -534,7 +563,7 @@
         var Price = $("#price").val();
         var Keywords = $("#keywords").val();
         var Folderid = $("#folderDropDown").val();
-        alert(Folderid);
+        
         var data = new FormData();
         var files = $("#ImageUploader").get(0).files;
 
@@ -607,7 +636,7 @@
                 async: true,
                 processData: false,
                 success: function (response) {
-                    alert(response);
+                    
                     // window.location.href = "/ManageAssets";
                     AddAssetAttachments(AssetId);
                 },
@@ -616,6 +645,45 @@
                 }
             });
         }
+    }
+
+
+    function UpdateFolder(FolderId)
+    {
+    
+        if(FolderId>0)
+        {
+            var FolderName = $("#FolderName").val();
+            var FolderDescription = $("#FoldDescription").val();
+           
+            var data = new FormData();
+            var files = $("#ImageUploader").get(0).files;
+
+            // Add the uploaded image content to the form data collection
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: "/webstoreapi/ContactImageUploader/UpdateFolder?FolderName=" + FolderName + "&Description=" + FolderDescription + "&FolderId="+FolderId+"",
+                contentType: false,
+                data: data,
+                async: true,
+                processData: false,
+                success: function (response) {
+                   
+                     window.location.href = "/ManageAssets";
+                   
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+    
+    
     }
     function Edit(AssetId)
     {
@@ -638,7 +706,7 @@
             async: true,
             data:Data,
             success: function (response) {
-                SetSelectedFolder(response.FolderId)
+                SetSelectedFolder(response.FolderId,false);
                 $('#AddFoldImg').attr("src",response.ImagePath);
                 $("#ImageUploader").val('');
                 //  $("#folderDropDown").val();
@@ -657,10 +725,20 @@
         $("#modelTitle").text('Update Folder');
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
-        $("#DeleteAsset").css("display", "block");
+        $("#DeleteAsset").css("display", "none");
         $("#SaveFolder").css("display", "none");
 
-        $("#SaveAsset").css("display", "block");
+        $("#SaveAsset").css("display", "none");
+        $("#SaveFolder").css("display", "block");
+        $("#Qty").css("display", "none");
+        $("#price").css("display", "none");
+        $("#keywords").css("display", "none");
+        $("#SaveAsset").css("display", "none");
+        $("#SaveFolder").css("display", "block");
+        $("#DeleteAsset").css("display", "none");
+        $("#FilesUploader").css("display", "none");
+        
+        $("#DeleteFolder").css("display", "block");
         clearTextboxes();
         UpdateStatusFolder=true;
        
@@ -673,15 +751,14 @@
             async: true,
             //data:Data,
             success: function (response) {
-                SetSelectedFolder(response.FolderId);
-                //$('#AddFoldImg').attr("src",response.ImagePath);
-                //$("#ImageUploader").val('');
-                ////  $("#folderDropDown").val();
-                //$("#FolderName").val(response.AssetName);
-                //$("#keywords").val(response.Keywords);
-                //$("#FoldDescription").val(response.Description);
-                //$("#Qty").val(response.Quantity);
-                //$("#price").val(response.Price);
+                SetSelectedFolder(response.FolderId,true);
+                $('#AddFoldImg').attr("src",response.ImagePath);
+                $("#ImageUploader").val('');
+                //  $("#folderDropDown").val();
+                $("#FolderName").val(response.FolderName);
+               
+                $("#FoldDescription").val(response.Description);
+               
 
             }
         });
@@ -710,18 +787,44 @@
             }
         });
     }
+    function DeleteFolder()
+    {
+        // var Data = { AssetID: AsssetsID };
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/DeleteFolder?folderID="+FolderIDD+"",
+            contentType: "application/json",
+            async: true,
+            //data:Data,
+            success: function (response) {
+                window.location.href = "/ManageAssets";
+                //SetSelectedFolder(FolderID)
+                //$('#AddFoldImg').attr("src",loc);
+                //$("#ImageUploader").val('');
+                //$("#folderDropDown").val('');
+                //$("#FolderName").val('');
+                //$("#keywords").val('');
+                //$("#FoldDescription").val('');
+                //$("#Qty").val('');
+                //$("#price").val('');
+                //$("#keywords").val('');
+            }
+        });
+    }
+    function SetSelectedFolderrr(obj, FolderId,Index) {
 
-    function SetSelectedFolderrr(obj, FolderId) {
-
-        var index = 0;
+        var index = Index;
         $.each(obj, function (id, option) {
             if (option.FolderId==FolderId) {
-                alert(index);
+                
                 $("#folderDropDown")[0].selectedIndex = index;
             }
             index++;
         });
     }
+
+
+
 
     function Action(AssetID,imagpath)
     {
@@ -741,7 +844,7 @@
     function ActionForFolder(FolderId,imagpath)
     {
         ImgUrl=imagpath;
-        
+        UpdateStatusFolder=true;
         FolderIDD=FolderId;
         if(@Contact==1||@Contact==2)
         {
@@ -758,11 +861,11 @@
 
 
    function ShowDownloadWindow(imagpath)
-    {
+   {
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
         $("#basketWindow").css("display", "block");
-        $("#AddFolderPanel").css("display", "none");
+        $(".shareIcons").css("display", "none");
    }
 
 
@@ -791,7 +894,7 @@
 
         var postedFiles = $.grep(postedFiles, function (e) {
             return e.fname != name;
-            alert(e.id);
+            
         });
 
 
@@ -834,7 +937,7 @@
                     for (i = 0; i < files.length; i++) {
                         var isRemovedFile = false;
                         for (var d = 0; d < removedFiles.length; d++) {
-                            alert(i);
+                            
                             isRemovedFile = true;
                         }
                         if (!isRemovedFile) {

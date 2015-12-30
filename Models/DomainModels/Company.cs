@@ -438,6 +438,7 @@ namespace MPC.Models.DomainModels
             target.ActiveBannerSetId = ActiveBannerSetId;
             target.StoreName = StoreName;
             target.IsAllowRequestaQuote = IsAllowRequestaQuote;
+            target.IsEnableDataAsset = IsEnableDataAsset;
    
         }
 

@@ -10,6 +10,8 @@ namespace MPC.Interfaces.Repository
 {
     public interface IFolderRepository : IBaseRepository<Folder, long>
     {
+        void DeleteFolder(long folderID);
+        void UpdateFolder(Folder Ufolder);
         long AddFolder(Folder NewFolder);
         List<Folder> GetChildFolders(long ParentFolderId);
         List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID);

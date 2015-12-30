@@ -31,6 +31,7 @@ namespace MPC.Models.ModelMappers
             target.PDFTemplateWidth = source.PDFTemplateWidth;
             target.FileSource = source.FileSource;
             target.FileName = source.FileName;
+            target.IsAllowCustomSize = source.IsAllowCustomSize;
         }
 
         #endregion

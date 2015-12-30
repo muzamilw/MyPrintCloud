@@ -126,10 +126,44 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public void UpdateFolder(Folder Ufolder)
+        {
+            Folder model = db.Folders.Where(i => i.FolderId == Ufolder.FolderId).FirstOrDefault();
+            model.FolderName = Ufolder.FolderName;
+            model.Description =Ufolder.Description;
+            model.FolderId = Ufolder.FolderId;
+           // model.ParentFolderId = Ufolder.ParentFolderId;
+            if (Ufolder.ImagePath != null && Ufolder.ImagePath != string.Empty)
+            {
+                model.ImagePath = Ufolder.ImagePath;
+            }
+            db.Folders.Attach(model);
+            db.Entry(model).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
         //public TreeViewNodeVM FoldersTree(long ComapnyId, long OrganisationId)
         //{
         //    return GetTreeVeiwList(ComapnyId, OrganisationId);
         //}
+        public void DeleteFolder(long folderID)
+        {
+            List<Asset> Assets = db.Assets.Where(i => i.FolderId == folderID).ToList();
+            foreach (var Asset in Assets)
+            {
+                List<AssetItem> listitem = db.AssetItems.Where(i => i.Asset.AssetId == Asset.AssetId).ToList();
+                foreach (var i in listitem)
+                {
+                    db.AssetItems.Remove(i);
+                }
+
+                db.Assets.Remove(Asset);
+            }
+            Folder folder = db.Folders.Where(i => i.FolderId == folderID).FirstOrDefault();
+
+            db.Folders.Remove(folder);
+            db.SaveChanges();
+        }
     }
    
 }

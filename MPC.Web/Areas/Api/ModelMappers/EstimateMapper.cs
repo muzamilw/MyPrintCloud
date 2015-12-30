@@ -69,6 +69,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RefEstimateId = source.RefEstimateId,
                 InvoiceStatus = source.InvoiceStatus,
                 IsExtraOrder = source.IsExtraOrder,
+                EstimateDate = source.EstimateDate,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).OrderBy(item => item.ProductName).ToList() :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
@@ -130,6 +131,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Estimate_Code = source.EstimateCode,
                 StatusId = source.StatusId,
                 Estimate_Name = source.EstimateName,
+                
                 EnquiryId = source.EnquiryId,
                 SectionFlagId = source.SectionFlagId,
                 CompanyId = source.CompanyId,
@@ -138,7 +140,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isDirectSale = source.IsDirectSale,
                 IsCreditApproved = source.IsCreditApproved == true ? 1 : 0,
                 IsOfficialOrder = source.IsOfficialOrder == true ? 1 : 0,
-                Order_Date = source.OrderDate,
+               
+                
+
+
                 StartDeliveryDate = source.StartDeliveryDate,
                 FinishDeliveryDate = source.FinishDeliveryDate,
                 HeadNotes = source.HeadNotes,
@@ -166,6 +171,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 isEstimate = source.IsEstimate,
                 Estimate_Total = source.EstimateTotal,
+                EstimateDate = source.IsEstimate == true ? source.EstimateDate : null,
+                Order_Date = source.IsEstimate == false ? source.OrderDate : null,
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : new List<DomainModels.PrePayment>(),
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).ToList() :
                 new List<DomainModels.Item>(),

@@ -1248,6 +1248,35 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // On Select File
             onSelectImage = function (file, data, fileType) {
+                var url = "/mis/Content/Images/AnyFile.png";
+
+                var ext = file.name.split('.').pop();
+                // for pdf
+                if (ext == "pdf") {
+                    url = "/mis/Content/Images/PDFFile.png";
+
+                }// for psd
+                else if (ext == "psd") {
+                    url = "/mis/Content/Images/PSDFile.png";
+                  
+                }// for ai
+                else if (ext == "ai") {
+                    url = "/mis/Content/Images/IllustratorFile.png";
+                   
+                } // for indd
+                else if (ext == "indd") {
+                    url = "/mis/Content/Images/InDesignFile.png";
+                    
+                }// for jpg
+                else if (ext == "jpg" || ext == "jpeg") {
+                     url = "/mis/Content/Images/JPGFile.png";
+                   
+                }//for png
+                else if (ext == "png") {
+                    url = "/mis/Content/Images/PNGFile.png";
+                    
+                }
+
                 switch (fileType) {
                     case itemFileTypes.thumbnail:
                         thumbnail(data);
@@ -1268,34 +1297,41 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         var availableSlot = getAvailableSlotForTemplateLayoutFile();
                         switch (availableSlot) {
                             case 1:
-                                file1(data);
+                               // file1(data);
                                 file1FileSource(data);
                                 file1FileName(file.name);
                                 file1Deleted(false);
+                                file1(url);
+                              
+                               
                                 break;
                             case 2:
-                                file2(data);
+                                //file2(data);
                                 file2FileSource(data);
                                 file2FileName(file.name);
                                 file2Deleted(false);
+                                file2(url);
                                 break;
                             case 3:
-                                file3(data);
+                              //  file3(data);
                                 file3FileSource(data);
                                 file3FileName(file.name);
                                 file3Deleted(false);
+                                file3(url);
                                 break;
                             case 4:
-                                file4(data);
+                               // file4(data);
                                 file4FileSource(data);
                                 file4FileName(file.name);
                                 file4Deleted(false);
+                                file4(url);
                                 break;
                             case 5:
-                                file5(data);
+                                //file5(data);
                                 file5FileSource(data);
                                 file5FileName(file.name);
                                 file5Deleted(false);
+                                file5(url);
                                 break;
                         }
                         break;
@@ -2302,7 +2338,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Entity
     // ReSharper disable InconsistentNaming
-    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource) {
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource, specifiedIsAllowCustomSize) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2352,6 +2388,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }
             }),
+
+            isAllowCustomSize = ko.observable(specifiedIsAllowCustomSize),
             // File Name
             fileName = ko.observable(),
             // Template Pages
@@ -2467,7 +2505,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 pdfTemplateHeight: pdfTemplateHeight,
                 isCreatedManual: isCreatedManual,
                 isSpotTemplate: isSpotTemplate,
-                templatePages: templatePages
+                templatePages: templatePages,
+                isAllowCustomSize: isAllowCustomSize
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2493,6 +2532,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsSpotTemplate: isSpotTemplate(),
                     FileName: fileName(),
                     FileSource: fileSource(),
+                    isAllowCustomSize: isAllowCustomSize(),
                     TemplatePages: templatePages.map(function (templatePage, index) {
                         var templatePageItem = templatePage.convertToServerData();
                         templatePageItem.PageNo = index + 1;
@@ -2513,6 +2553,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canAddTemplatePages: canAddTemplatePages,
             fileSource: fileSource,
             fileName: fileName,
+            isAllowCustomSize: isAllowCustomSize,
             onSelectFile: onSelectFile,
             templatePages: templatePages,
             addTemplatePage: addTemplatePage,
@@ -4253,7 +4294,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Template Factory
     Template.Create = function (source) {
         var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate,
-        source.FileOriginalSource);
+        source.FileOriginalSource, source.IsAllowCustomSize);
 
         // Map Template Pages if any
         if (source.TemplatePages != null) {
