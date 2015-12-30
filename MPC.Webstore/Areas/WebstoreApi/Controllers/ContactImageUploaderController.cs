@@ -502,7 +502,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           if (FolderId > 0)
           {
               Folder UpdateImage = new Folder();
-              UpdateImage.ImagePath = UpdateFolderImage(httpPostedFile, FolderId);
+              UpdateImage.ImagePath = UpdateFolderImage(httpPostedFile, FolderId,false);
               UpdateImage.FolderId = FolderId;
               _companyService.UpdateImage(UpdateImage);
           }
@@ -533,7 +533,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
           return Request.CreateResponse(HttpStatusCode.OK, Message, formatterr);
       }
-      private string UpdateFolderImage(HttpPostedFile Request,long FolderID)
+      private string UpdateFolderImage(HttpPostedFile Request,long FolderID,bool flag)
       {
           string ImagePath = string.Empty;
         //  CompanyContact contact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
@@ -550,14 +550,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
               {
                   System.IO.Directory.CreateDirectory(virtualFolderPth);
               }
-              //if (flag)
-              //{
-              //    Asset Asset=_companyService.GetAsset()
-              //    if (contact.image != null || contact.image != "")
-              //    {
-              //        RemovePreviousFile(contact.image);
-              //    }
-              //}
+              if (flag)
+              {
+                  Folder folder = _companyService.GetFolderByFolderId(FolderID);
+                  if (folder.ImagePath != null || folder.ImagePath != "")
+                  {
+                      RemovePreviousFile(folder.ImagePath);
+                  }
+              }
               var fileName = Path.GetFileName(Request.FileName);
               Request.SaveAs(virtualFolderPth + "/" + fileName);
               ImagePath = folderPath + "/" + fileName;
@@ -653,8 +653,25 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           Asset.Keywords = Keywords;
           Asset.Price = Price;
           Asset.Quantity = Quantity;
-         _companyService.UpdateAsset(Asset);
+          _companyService.UpdateAsset(Asset);
       }
+       [HttpPost]
+      public void UpdateFolder(string FolderName, string Description,long FolderId)
+      { 
+          var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+          Folder NewFolder = new Folder();
+          NewFolder.FolderName = FolderName;
+          NewFolder.Description = Description;
+          NewFolder.FolderId = FolderId;
+         // NewFolder.ParentFolderId = ParentFolderId;
+          if (httpPostedFile != null)
+          {
+              NewFolder.ImagePath = UpdateFolderImage(httpPostedFile, FolderId, true);
+          }
+
+          _companyService.UpdateFolder(NewFolder);
+      }
+
       [HttpGet]
       public HttpResponseMessage GetAssetByAssetID(long AssetId)
       {
@@ -670,7 +687,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
       {
           _companyService.DeleteAsset(AssetID);
       }
-      [HttpPost]
+      [System.Web.Http.AcceptVerbs("GET", "POST")]
+      [System.Web.Http.HttpGet]
       public HttpResponseMessage GetFolderByFolderId(long folderId)
       {
           Folder folder = _companyService.GetFolderByFolderId(folderId);
@@ -679,6 +697,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
           jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
           return Request.CreateResponse(HttpStatusCode.OK, folder, formatterr);
+      }
+      [HttpPost]
+      public void DeleteFolder( long folderID)
+      {
+
+          _companyService.DeleteFolder(folderID);
       }
     }
 }
