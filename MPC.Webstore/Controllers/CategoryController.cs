@@ -62,7 +62,7 @@ namespace MPC.Webstore.Controllers
          
            
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-
+            ViewBag.Organisation = StoreBaseResopnse.Organisation;
             includeVAT = StoreBaseResopnse.Company.isIncludeVAT ?? false;
             TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
             ViewBag.organisationId = StoreBaseResopnse.Organisation.OrganisationId;

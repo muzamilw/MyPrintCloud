@@ -10,6 +10,9 @@
     string CategoryDescription = "";
     string SkipDesignerPopUp = "";
     List<AddOnCostsCenter> productCC = ViewData["ProductCostCenterList"] as List<AddOnCostsCenter>;
+
+    var Organisation = ViewBag.Organisation as MPC.Models.DomainModels.Organisation;
+    
 }
 
 @if (Model != null)
@@ -151,7 +154,10 @@
                                                         isUploadImage = false;
 
                                                         RedirectURL = "/Category/CloneItem/" + item.ItemId;
-
+                                                        if (item.IsAllowCustomSize??false)
+                                                        { 
+                                                         SkipDesignerPopUp = "ShowTemplatePopup(" + item.PDFTemplateHeight + ","+item.PDFTemplateWidth+");";
+                                                        }
                                                         //}
                                                     }
 
@@ -584,13 +590,15 @@
         $("#popupBody").append($("#TemplateSizeCa"));
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
+        alert('@Organisation.SystemLengthUnit');
     });
 
-    function ShowTemplatePopup()
+    function ShowTemplatePopup(height,width)
     {
+
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
-
+        
         $("#PdfTemplatewidth").val();
          $("#PdfTemplateheight").val();
     }
