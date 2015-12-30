@@ -4028,6 +4028,9 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
           <Property Name="ItemFriendlyName" Type="varchar" MaxLength="50" />
           <Property Name="ProductCode" Type="varchar" MaxLength="50" />
+          <Property Name="PDFTemplateHeight" Type="float" />
+          <Property Name="PDFTemplateWidth" Type="float" />
+          <Property Name="IsAllowCustomSize" Type="bit" />
           <Property Name="ProductCategoryName" Type="nvarchar(max)" />
           <Property Name="MinPrice" Type="float" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
@@ -6703,6 +6706,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [GetCategoryProducts].[ProductName] AS [ProductName], 
     [GetCategoryProducts].[ItemFriendlyName] AS [ItemFriendlyName], 
     [GetCategoryProducts].[ProductCode] AS [ProductCode], 
+    [GetCategoryProducts].[PDFTemplateHeight] AS [PDFTemplateHeight], 
+    [GetCategoryProducts].[PDFTemplateWidth] AS [PDFTemplateWidth], 
+    [GetCategoryProducts].[IsAllowCustomSize] AS [IsAllowCustomSize], 
     [GetCategoryProducts].[ProductCategoryName] AS [ProductCategoryName], 
     [GetCategoryProducts].[MinPrice] AS [MinPrice], 
     [GetCategoryProducts].[ImagePath] AS [ImagePath], 
@@ -12192,6 +12198,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="DesignerCategoryId" Type="Int32" />
           <Property Name="CompanyId" Type="Int64" />
           <Property Name="ItemFriendlyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PDFTemplateHeight" Type="Double" />
+          <Property Name="PDFTemplateWidth" Type="Double" />
+          <Property Name="IsAllowCustomSize" Type="Boolean" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -18400,6 +18409,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="IsAllowCustomSize" ColumnName="IsAllowCustomSize" />
+                <ScalarProperty Name="PDFTemplateWidth" ColumnName="PDFTemplateWidth" />
+                <ScalarProperty Name="PDFTemplateHeight" ColumnName="PDFTemplateHeight" />
                 <ScalarProperty Name="ItemFriendlyName" ColumnName="ItemFriendlyName" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="DesignerCategoryId" ColumnName="DesignerCategoryId" />
