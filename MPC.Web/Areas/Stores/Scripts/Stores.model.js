@@ -206,6 +206,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPlaceDirectOrder = ko.observable(undefined),
             isRegisterPlaceOrderWithoutApproval = ko.observable(undefined),
             isAllowRequestaQuote = ko.observable(undefined),
+             isEnableDataAsset = ko.observable(undefined),
+
 
             // Display VoucherCode
             isDisplayDiscountVoucherCode = ko.observable(undefined),
@@ -391,6 +393,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
             isRegisterPlaceOrderWithoutApproval: isRegisterPlaceOrderWithoutApproval,
             isAllowRequestaQuote: isAllowRequestaQuote,
+            isEnableDataAsset: isEnableDataAsset,
             canUserEditProfile: canUserEditProfile,
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
@@ -473,7 +476,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.IsRegisterPlaceDirectOrder = source.isRegisterPlaceDirectOrder();
             result.IsRegisterPlaceOrderWithoutApproval = source.isRegisterPlaceOrderWithoutApproval();
             result.IsAllowRequestaQuote = source.isAllowRequestaQuote();
-
+            result.IsEnableDataAsset = source.isEnableDataAsset();
             result.IsDisplayDiscountVoucherCode = source.isDisplayDiscountVoucherCode();
             result.CanUserEditProfile = source.canUserEditProfile();
             result.isWhiteLabel = source.isWhiteLabel();
@@ -667,7 +670,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
             isRegisterPlaceOrderWithoutApproval:isRegisterPlaceOrderWithoutApproval,
             isAllowRequestaQuote: isAllowRequestaQuote,
-
+            isEnableDataAsset: isEnableDataAsset,
             isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
             canUserEditProfile: canUserEditProfile,
             isWhiteLabel: isWhiteLabel,
@@ -846,7 +849,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.isRegisterPlaceDirectOrder(source.IsRegisterPlaceDirectOrder);
         store.isRegisterPlaceOrderWithoutApproval(source.IsRegisterPlaceOrderWithoutApproval);
         store.isAllowRequestaQuote(source.IsAllowRequestaQuote);
-
+        store.isEnableDataAsset(source.IsEnableDataAsset);
         
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
