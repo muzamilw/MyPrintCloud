@@ -13,6 +13,21 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void DeleteFolder(long folderID);
+        void UpdateFolder(Folder Ufolder);
+        Asset GetAsset(long AssetId);
+        bool AddAssetItems(List<AssetItem> AssetItemsList);
+        void UpdateAssetImage(Asset Asset);
+        long AddAsset(Asset Asset);
+        List<Folder> GetAllFolders(long CompanyID, long OrganisationID);
+        List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId);
+        List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId);
+        Folder GetFolderByFolderId(long FolderID);
+        bool UpdateImage(Folder folder);
+        long AddFolder(Folder NewFolder);
+        List<Folder> GetChildFolders(long ParentFolderId);
+        void UpdateAsset(Asset UpdatedAsset);
+        void DeleteAsset(long AssetID);
         List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID);
         CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password);
         void AddlistingImages(long ListingId, List<ListingImage> Images);

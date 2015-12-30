@@ -44,6 +44,17 @@ namespace MPC.Common
             graphics.Dispose();
             return bmp;
         }
+        public static double InchtoPoint(double val)
+        {
+            return val * 25.4 * 2.834645669;
+
+        }
+
+        public static double PointToInch(double val)
+        {
+            return val / (25.4 * 2.834645669);
+
+        }
         // download file from remote server 
         public static bool DownloadFile(string SourceURL, string DestinationBasePath)
         {
