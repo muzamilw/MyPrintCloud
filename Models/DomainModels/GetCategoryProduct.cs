@@ -40,5 +40,9 @@ namespace MPC.Models.DomainModels
         public Nullable<long> TemplateId { get; set; }
         public Nullable<int> DesignerCategoryId { get; set; }
         public string ItemFriendlyName { get; set; }
+
+        public float PDFTemplateHeight { get; set; }
+        public float PDFTemplateWidth { get; set; }
+        public Nullable<bool> IsAllowCustomSize { get; set; }
     }
 }
