@@ -9461,3 +9461,61 @@ from costcentrevariable where varid = 711
 
 alter table company add IsEnableDataAsset bit
 alter table template add IsAllowCustomSize bit
+
+
+
+-------------------------------------- executed on staging 20151229
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 2', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet2}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 3', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet3}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 4', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet4}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 5', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet5}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 6', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet6}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 7', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet7}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 8', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet8}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 9', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet9}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 10', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet10}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 11', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet11}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 12', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet12}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 13', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet13}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 14', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet14}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 15', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet15}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
