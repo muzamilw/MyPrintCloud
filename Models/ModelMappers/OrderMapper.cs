@@ -35,6 +35,7 @@ namespace MPC.Models.ModelMappers
             target.SectionFlagId = source.SectionFlagId;
             target.IsCreditApproved = source.IsCreditApproved;
             target.Order_Date = source.Order_Date;
+            target.EstimateDate = source.EstimateDate;
             target.FinishDeliveryDate = source.FinishDeliveryDate;
             target.CreationDate = (!source.CreationDate.HasValue || source.CreationDate.Value <= DateTime.MinValue) ? DateTime.Now : source.CreationDate;
             target.CreationTime = source.CreationTime <= DateTime.MinValue ? DateTime.Now : source.CreationTime;

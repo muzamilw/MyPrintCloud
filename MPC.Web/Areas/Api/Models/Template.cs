@@ -77,6 +77,9 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public string FileName { get; set; }
 
+
+
+        public bool? IsAllowCustomSize { get; set; }
         /// <summary>
         /// File Bytes Original
         /// </summary>
