@@ -1478,7 +1478,8 @@ define("product/product.viewModel",
                             item.miniPrice(data.MinPrice || 0);
                             item.templateId(data.TemplateId || undefined);
                             item.templateType(data.TemplateType || undefined);
-                            item.thumbnail(data.ThumbnailImageSource || undefined);
+                            //item.thumbnail(data.ThumbnailImageSource || undefined);
+                            item.thumbnail(data.ThumbnailPath || undefined);
                             item.printCropMarks(data.PrintCropMarks || false);
                             item.drawWatermarkText(data.DrawWaterMarkTxt || false);
                             // Update Template
@@ -1831,6 +1832,8 @@ define("product/product.viewModel",
                                     var file3Path = data.File3;
                                     var file4Path = data.File4;
                                     var file5Path = data.File5;
+                                    var thumbnailPath = data.ThumbnailPath;
+                                    var gridimage = data.GridImage;
 
                                     selectedProduct(model.Item.Create(data, itemActions, itemStateTaxConstructorParams));
 
@@ -1839,6 +1842,9 @@ define("product/product.viewModel",
                                     selectedProduct().file3(file3Path);
                                     selectedProduct().file4(file4Path);
                                     selectedProduct().file5(file5Path);
+                                  
+                                    selectedProduct().thumbnail(thumbnailPath);
+                                    selectedProduct().gridImage(gridimage);
 
                                     if (callback && typeof callback === "function") {
                                         callback();
