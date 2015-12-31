@@ -9410,7 +9410,7 @@ ALTER TABLE [dbo].[AssetItem] CHECK CONSTRAINT [FK_AssetItem_Assets]
 GO
 
 
-----------------------------------------------
+----------------------------------------------executed on staging, australia 20151229
 
 INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
 VALUES (N'Brochure Main HeadLine', N'Listing', N'BrochureMainHeadLine', 2, N'{{BrochureMainHeadLine}}', 9, N'ListingId', 2, NULL, 5, N'BrochureMainHeadLine', NULL, NULL, NULL, 1, NULL)
@@ -9464,7 +9464,7 @@ alter table template add IsAllowCustomSize bit
 
 
 
--------------------------------------- executed on staging 20151229
+-------------------------------------- executed on staging, australia 20151229
 
 INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
 VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
@@ -9511,11 +9511,33 @@ VALUES (N'Bullet point 14', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bulle
 INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
 VALUES (N'Bullet point 15', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet15}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
 
-INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
-VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+--------------------------------------2015-12-31  executed on australia 
 
-INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
-VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+SET ANSI_NULLS ON
+GO
 
-INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
-VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER view [dbo].[GetCategoryProducts] as
+SELECT        p.CompanyId,p.ItemId, p.ItemCode, p.isQtyRanged, p.EstimateId, p.ProductName, p.Title as ItemFriendlyName, p.ProductCode,tempp.PDFTemplateHeight,tempp.PDFTemplateWidth,tempp.IsAllowCustomSize,
+ (select 
+STUFF((select ', ' + pc.CategoryName
+from dbo.ProductCategoryItem pci 
+join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
+where pci.ItemId = p.ItemId
+FOR XML PATH(''), TYPE
+            ).value('.', 'NVARCHAR(MAX)') 
+
+        ,1,2,'')) as ProductCategoryName,
+   
+                         ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
+                         p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
+       p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage,CAST ( p.isTemplateDesignMode as int) as isTemplateDesignMode, p.DefaultItemTax, p.isUploadImage,p.isMarketingBrief,pcat.ProductCategoryId,p.TemplateId,p.DesignerCategoryId
+FROM            dbo.Items p
+inner join dbo.ProductCategoryItem pc2 on p.ItemId = pc2.ItemId
+inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
+left outer join dbo.Template tempp on tempp.ProductId = p.TemplateId
+
+GO
