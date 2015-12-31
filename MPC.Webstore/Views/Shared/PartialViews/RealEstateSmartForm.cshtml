@@ -1013,6 +1013,7 @@
 <script src="/Scripts/bootstrap-datepicker.js"></script>
 <script src="~/Scripts/PopUp.js"></script>
     <script type="text/javascript">
+        var ImgIndex=0;
         var  spectionDate='@txtInspectionDate';
         var Auctindate='@txtAuctionDate';
 
@@ -1385,7 +1386,7 @@
 
         });
         $('#NewImageClick').on("click", function () {
-
+            NewImageClick++;
             //var tr = $(this).parents('tr:first');
             //tr.find('.editImg, .display').toggle();
             //tr.find('#IsertBtn, .display').toggle();
@@ -2512,6 +2513,7 @@
 
     function AddImages()
     {
+        alert();
         var pointrowNo = 0;
         if ($("#HfNewlyAddedListingImages").val() != undefined || $("#HfNewlyAddedListingImages").val() != "") {
             pointrowNo = parseInt($("#HfNewlyAddedListingImages").val()) + 1;

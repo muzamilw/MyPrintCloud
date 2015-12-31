@@ -1825,7 +1825,20 @@ define("product/product.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
+
+                                    var file1Path = data.File1;
+                                    var file2Path = data.File2;
+                                    var file3Path = data.File3;
+                                    var file4Path = data.File4;
+                                    var file5Path = data.File5;
+
                                     selectedProduct(model.Item.Create(data, itemActions, itemStateTaxConstructorParams));
+
+                                    selectedProduct().file1(file1Path);
+                                    selectedProduct().file2(file2Path);
+                                    selectedProduct().file3(file3Path);
+                                    selectedProduct().file4(file4Path);
+                                    selectedProduct().file5(file5Path);
 
                                     if (callback && typeof callback === "function") {
                                         callback();

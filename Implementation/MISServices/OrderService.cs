@@ -88,10 +88,12 @@ namespace MPC.Implementation.MISServices
             if (isEstimate)
             {
                 itemTarget.Estimate_Code = orderCode;
+                itemTarget.Order_Date = null;
             }
             else
             {
                 itemTarget.Order_Code = orderCode;
+               
             }
             itemTarget.OrganisationId = orderRepository.OrganisationId;
             return itemTarget;

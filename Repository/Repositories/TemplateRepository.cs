@@ -643,7 +643,7 @@ namespace MPC.Repository.Repositories
                 oTemplate.ProductName = "Untitled design";
                 oTemplate.ProductId = 0;
                // oTemplate.ProductCategoryId = categoryIdv2;
-                oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(getOrganisationBleedArea(organisationId )));
+                oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(getOrganisationBleedArea(organisationId ,true)));
                 oTemplate.PDFTemplateHeight =(DesignerUtils.MMToPoint(height));
                 oTemplate.PDFTemplateWidth = (DesignerUtils.MMToPoint(width));
                 oTemplate.isSpotTemplate = false;
@@ -951,7 +951,7 @@ namespace MPC.Repository.Repositories
             }
         }
         // returns mm bleed of the organisation default is 5
-        public double getOrganisationBleedArea(long organisationID)
+        public double getOrganisationBleedArea(long organisationID,bool convertToSystemUnit)
         {
            
             double bleedArea = 5;
@@ -963,16 +963,17 @@ namespace MPC.Repository.Repositories
                     if(organisation.BleedAreaSize.HasValue)
                         bleedArea = organisation.BleedAreaSize.Value;
 
-                
-                    if (organisation.SystemLengthUnit == 2)
+                    if (convertToSystemUnit)
                     {
-                        bleedArea = ConvertLength(bleedArea, MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Cm);
+                        if (organisation.SystemLengthUnit == 2)
+                        {
+                            bleedArea = ConvertLength(bleedArea, MPC.Models.Common.LengthUnit.Cm);
+                        }
+                        else if (organisation.SystemLengthUnit == 3)
+                        {
+                            bleedArea = ConvertLength(Convert.ToDouble(bleedArea), MPC.Models.Common.LengthUnit.Inch);
+                        }
                     }
-                    else if (organisation.SystemLengthUnit == 3)
-                    {
-                        bleedArea = ConvertLength(Convert.ToDouble(bleedArea), MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Inch);
-                    }
-
                 }
             }
             catch(Exception ex)
@@ -981,11 +982,12 @@ namespace MPC.Repository.Repositories
             }
             return bleedArea;
         }
-        public double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit)
+        // input unit will always be mm 
+        public double ConvertLength(double Input, MPC.Models.Common.LengthUnit OutputUnit)
         {
             double ConversionUnit = 0;
             double convertedValue = 0;
-            MPC.Models.DomainModels.LengthUnit oRows = db.LengthUnits.Where(o => o.Id == (int)InputUnit).FirstOrDefault();
+            MPC.Models.DomainModels.LengthUnit oRows = db.LengthUnits.Where(o => o.Id == (int)MPC.Models.Common.LengthUnit.Mm).FirstOrDefault();
             if (oRows != null)
             {
                 switch (OutputUnit)
@@ -995,8 +997,8 @@ namespace MPC.Repository.Repositories
                         convertedValue =  (Input * ConversionUnit);
                         break;
                     case MPC.Models.Common.LengthUnit.Inch:
-                        ConversionUnit =Math.Round( (double)oRows.Inch,3);
-                        convertedValue =   DesignerUtils.MMToPoint(Input);// (Input * ConversionUnit * 8) / 8.0d;
+                        //ConversionUnit =Math.Round( (double)oRows.Inch,3);
+                        convertedValue =  DesignerUtils.PointToInch( DesignerUtils.MMToPoint(Input));// (Input * ConversionUnit * 8) / 8.0d;
                         break;
                     case MPC.Models.Common.LengthUnit.Mm:
                         ConversionUnit = (double)oRows.MM;
@@ -1029,6 +1031,21 @@ namespace MPC.Repository.Repositories
             {
                 return false;
             }
+        }
+
+        public bool UpdateTemplatePdfDimensions(Template Template)
+        {
+            bool result = false;
+            Template model=db.Templates.Where(i=>i.ProductId==Template.ProductId).FirstOrDefault();
+             model.PDFTemplateHeight = Template.PDFTemplateHeight;
+             model.PDFTemplateWidth = Template.PDFTemplateWidth;
+             db.Templates.Attach(model);
+             db.Entry(model).State = EntityState.Modified;
+             if (db.SaveChanges() > 0)
+             {
+                 result = true;
+             }
+             return result;
         }
 
     #endregion

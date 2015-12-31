@@ -152,6 +152,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IMarketingBriefHistoryRepository, MarketingBriefHistoryRepository>();
             unityContainer.RegisterType<IAssetsRepository,AssetsRepository>();
             unityContainer.RegisterType<IFolderRepository,FolderRepository>();
+            unityContainer.RegisterType<IAssetItemsRepository, AssetItemsRepository>();
         }
     }
 }

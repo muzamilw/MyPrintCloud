@@ -12,7 +12,11 @@ namespace MPC.Models.DomainModels
         public Nullable<bool> isQtyRanged { get; set; }
         public Nullable<long> EstimateId { get; set; }
         public string ProductName { get; set; }
+        public string ItemFriendlyName { get; set; }
         public string ProductCode { get; set; }
+        public Nullable<double> PDFTemplateHeight { get; set; }
+        public Nullable<double> PDFTemplateWidth { get; set; }
+        public Nullable<bool> IsAllowCustomSize { get; set; }
         public string ProductCategoryName { get; set; }
         public double MinPrice { get; set; }
         public string ImagePath { get; set; }
@@ -39,6 +43,5 @@ namespace MPC.Models.DomainModels
         public long ProductCategoryId { get; set; }
         public Nullable<long> TemplateId { get; set; }
         public Nullable<int> DesignerCategoryId { get; set; }
-        public string ItemFriendlyName { get; set; }
     }
 }

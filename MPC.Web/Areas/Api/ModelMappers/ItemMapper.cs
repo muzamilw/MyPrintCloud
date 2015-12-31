@@ -143,14 +143,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     item.ImagePathImage = File.ReadAllBytes(imagePath);
                 }
             }
-
+            string sUrl = string.Format("{0}://{1}/mis/", System.Web.HttpContext.Current.Request.Url.Scheme, System.Web.HttpContext.Current.Request.Url.Authority);
             // Load File1
             if (!string.IsNullOrEmpty(source.File1))
             {
                 string file1Path = HttpContext.Current.Server.MapPath("~/" + source.File1);
+
                 if (File.Exists(file1Path))
                 {
-                    item.File1Bytes = File.ReadAllBytes(file1Path);
+
+                    item.File1 = GetfilePath(file1Path);
+                  //  item.File1Bytes = File.ReadAllBytes(file1Path);
                 }
             }
 
@@ -160,7 +163,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 string file2Path = HttpContext.Current.Server.MapPath("~/" + source.File2);
                 if (File.Exists(file2Path))
                 {
-                    item.File2Bytes = File.ReadAllBytes(file2Path);
+
+                    item.File2 = GetfilePath(file2Path);
+                   // item.File2Bytes = File.ReadAllBytes(file2Path);
                 }
             }
             // Load File3
@@ -169,7 +174,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 string file3Path = HttpContext.Current.Server.MapPath("~/" + source.File3);
                 if (File.Exists(file3Path))
                 {
-                    item.File3Bytes = File.ReadAllBytes(file3Path);
+                    item.File3 = GetfilePath(file3Path);
+                   // item.File3Bytes = File.ReadAllBytes(file3Path);
                 }
             }
             // Load File4
@@ -178,7 +184,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 string file4Path = HttpContext.Current.Server.MapPath("~/" + source.File4);
                 if (File.Exists(file4Path))
                 {
-                    item.File4Bytes = File.ReadAllBytes(file4Path);
+                    item.File4 = GetfilePath(file4Path);
+                  //  item.File4Bytes = File.ReadAllBytes(file4Path);
                 }
             }
             // Load File5
@@ -187,13 +194,52 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 string file5Path = HttpContext.Current.Server.MapPath("~/" + source.File5);
                 if (File.Exists(file5Path))
                 {
-                    item.File5Bytes = File.ReadAllBytes(file5Path);
+                    item.File5 = GetfilePath(file5Path);
+                  //  item.File5Bytes = File.ReadAllBytes(file5Path);
                 }
             }
 
             return item;
         }
 
+        public static string GetfilePath(string Path)
+        {
+            var url = "/mis/Content/Images/AnyFile.png";
+
+            // for pdf
+            if (Path.Contains(".pdf"))
+            {
+                url = "/mis/Content/Images/PDFFile.png";
+
+            }// for psd
+            else if (Path.Contains(".psd"))
+            {
+                url = "/mis/Content/Images/PSDFile.png";
+
+            }// for ai
+            else if (Path.Contains(".ai"))
+            {
+                url = "/mis/Content/Images/IllustratorFile.png";
+
+            } // for indd
+            else if (Path.Contains(".indd"))
+            {
+                url = "/mis/Content/Images/InDesignFile.png";
+
+            }// for jpg
+            else if (Path.Contains(".jpg") || Path.Contains(".jpeg"))
+            {
+                url = "/mis/Content/Images/JPGFile.png";
+
+            }//for png
+            else if (Path.Contains(".png"))
+            {
+                url = "/mis/Content/Images/PNGFile.png";
+
+            }
+
+            return url;
+        }
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
