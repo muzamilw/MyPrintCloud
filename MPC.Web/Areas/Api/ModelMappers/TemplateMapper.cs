@@ -24,6 +24,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsCreatedManual = source.isCreatedManual,
                 IsSpotTemplate = source.isSpotTemplate,
                 FileOriginalBytes = source.FileOriginalBytes,
+                IsAllowCustomSize = source.IsAllowCustomSize,
                 TemplatePages = source.TemplatePages != null ? source.TemplatePages.Select(vdp => vdp.CreateFrom()) : new List<TemplatePage>()
             };
         }
@@ -43,6 +44,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isSpotTemplate = source.IsSpotTemplate,
                 FileName = source.FileName,
                 FileSource = source.FileSource,
+                IsAllowCustomSize = source.IsAllowCustomSize,
                 TemplatePages = source.TemplatePages != null ? source.TemplatePages.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.TemplatePage>()
             };
         }

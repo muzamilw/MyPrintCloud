@@ -67,10 +67,28 @@ namespace MPC.Webstore
               , "BillingShippingAddressManager"
               , new { controller = "Home", action = "Index", name = "" 
             });
+
+
             routes.MapRoute(
                 "BillingShipping",
                 "BillingShippingAddressManager/FillAddresses",
                 new { controller = "BillingShippingAddressManager", action = "FillAddresses", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+                "LoadFolders",
+                "ManageAssets/GetFolders",
+                new { controller = "ManageAssets", action = "GetFolders", id = UrlParameter.Optional }
+           );
+
+            routes.MapRoute(
+                "LoadFoldersChild",
+                "ManageAssets/GetChildFolders",
+                new { controller = "ManageAssets", action = "GetChildFolders", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+                "TempDimenions",
+                "Category/UpdateTemplateDimensions",
+                new { controller = "Category", action = "UpdateTemplateDimensions", id = UrlParameter.Optional }
            );
             routes.MapRoute(
                "LoadStoreWithContactInfo",
@@ -92,6 +110,12 @@ namespace MPC.Webstore
               "RealEstateSmartForm/{PropertyId}",
               new { controller = "Home", action = "Index", id = UrlParameter.Optional, PropertyId = UrlParameter.Optional }
           );
+
+            routes.MapRoute(
+          "AssetsLoad",
+          "ManageAssets/{folderId}",
+          new { controller = "Home", action = "Index", id = UrlParameter.Optional, folderId = UrlParameter.Optional }
+      );
 
             routes.MapRoute(
               "ListingGrid",
@@ -395,6 +419,12 @@ namespace MPC.Webstore
                 "CloneItem",
                 "CloneItem/{id}",
                 new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                "SetPdfDimesions",
+                "UpdateTemplateDimensions/{PDFTemplateWidth}/{PDFTemplateHeight}/{ItemId}",
+                new { controller = "Category", action = "UpdateTemplateDimensions", PDFTemplateWidth = UrlParameter.Optional, PDFTemplateHeight = UrlParameter.Optional, ItemId = UrlParameter.Optional }
             );
 
             routes.MapRoute(

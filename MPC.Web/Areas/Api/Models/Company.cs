@@ -123,6 +123,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string DefaultContact { get; set; }
 
         public byte[] MapImageS2CBytes { get; set; }
+
+        public bool? IsEnableDataAsset { get; set; }
         /// <summary>
         /// Default Sprite Image Source
         /// </summary>

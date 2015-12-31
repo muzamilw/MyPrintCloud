@@ -487,5 +487,222 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                             }
                             
       }
+      [HttpPost]
+      public void AddFolderData(string FolderName, string Description,long ParentFolderId )
+      {
+          var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+          Folder NewFolder = new Folder();
+          NewFolder.FolderName = FolderName;
+          NewFolder.Description = Description;
+          
+          NewFolder.ParentFolderId = ParentFolderId;
+          NewFolder.CompanyId = UserCookieManager.WBStoreId;
+          NewFolder.OrganisationId = UserCookieManager.WEBOrganisationID;
+          long FolderId= _companyService.AddFolder(NewFolder);
+          if (FolderId > 0)
+          {
+              Folder UpdateImage = new Folder();
+              UpdateImage.ImagePath = UpdateFolderImage(httpPostedFile, FolderId,false);
+              UpdateImage.FolderId = FolderId;
+              _companyService.UpdateImage(UpdateImage);
+          }
+      }
+      [HttpPost]
+      public HttpResponseMessage SaveAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price)
+      {
+          string message = string.Empty;
+          var httpPostedFile = HttpContext.Current.Request.Files["UploadedImageAsset"];
+          Asset Asset = new Asset();
+          Asset.AssetName = AssetName;
+          Asset.Description = Description; 
+          Asset.Keywords = Keywords;
+          Asset.FolderId = FolderId;
+          Asset.Price = Price;
+          Asset.Quantity = Quantity;
+          Asset.CompanyId = UserCookieManager.WBStoreId;
+          long AsseetId = _companyService.AddAsset(Asset);
+          Asset UpdatedAsset = new Asset();
+
+          UpdatedAsset.ImagePath = UpdateAssetImage(httpPostedFile, AsseetId,false);
+          UpdatedAsset.AssetId = AsseetId;
+          _companyService.UpdateAssetImage(UpdatedAsset);
+          string Message = AsseetId.ToString();
+          var formatterr = new JsonMediaTypeFormatter();
+          var jsons = formatterr.SerializerSettings;
+          jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+          jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          return Request.CreateResponse(HttpStatusCode.OK, Message, formatterr);
+      }
+      private string UpdateFolderImage(HttpPostedFile Request,long FolderID,bool flag)
+      {
+          string ImagePath = string.Empty;
+        //  CompanyContact contact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+          if (Request != null)
+          {
+              string folderPath = "/mpc_content/DigitalAssets" + "/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Folders/" + FolderID + "";
+              string virtualFolderPth = string.Empty;
+
+              // virtualFolderPth = @Server.MapPath(folderPath);
+              //  virtualFolderPth = Request.MapPath(folderPath);
+              virtualFolderPth = HttpContext.Current.Server.MapPath(folderPath);
+              /// virtualFolderPth = System.Web.Http.HttpServer.
+              if (!System.IO.Directory.Exists(virtualFolderPth))
+              {
+                  System.IO.Directory.CreateDirectory(virtualFolderPth);
+              }
+              if (flag)
+              {
+                  Folder folder = _companyService.GetFolderByFolderId(FolderID);
+                  if (folder.ImagePath != null || folder.ImagePath != "")
+                  {
+                      RemovePreviousFile(folder.ImagePath);
+                  }
+              }
+              var fileName = Path.GetFileName(Request.FileName);
+              Request.SaveAs(virtualFolderPth + "/" + fileName);
+              ImagePath = folderPath + "/" + fileName;
+          }
+          else
+          {
+              ImagePath = string.Empty;
+          }
+
+          return ImagePath;
+      }
+
+      private string UpdateAssetImage(HttpPostedFile Request, long Assetid,bool flag)
+      {
+          string ImagePath = string.Empty;
+          //  CompanyContact contact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+          if (Request != null)
+          {
+              string folderPath = "/mpc_content/DigitalAssets" + "/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Assets/" + Assetid + "";
+              string virtualFolderPth = string.Empty;
+
+              // virtualFolderPth = @Server.MapPath(folderPath);
+              //  virtualFolderPth = Request.MapPath(folderPath);
+              virtualFolderPth = HttpContext.Current.Server.MapPath(folderPath);
+              /// virtualFolderPth = System.Web.Http.HttpServer.
+              if (!System.IO.Directory.Exists(virtualFolderPth))
+              {
+                  System.IO.Directory.CreateDirectory(virtualFolderPth);
+              }
+              if (flag)
+              {
+                  Asset GetAsset = _companyService.GetAsset(Assetid);
+                  if (GetAsset.ImagePath != null&&GetAsset.ImagePath != "")
+                  {
+                      RemovePreviousFile(GetAsset.ImagePath);
+                  }
+              }
+              var fileName = Path.GetFileName(Request.FileName);
+              Request.SaveAs(virtualFolderPth + "/" + fileName);
+              ImagePath = folderPath + "/" + fileName;
+          }
+          else
+          {
+              ImagePath = string.Empty;
+          }
+
+          return ImagePath;
+      }
+      [HttpPost]
+      public void AddAssetAttachments( long AssetID)
+      {
+          if (HttpContext.Current.Request != null)
+          {
+              List<AssetItem> listOfAttachment = new List<AssetItem>();
+              string folderPath = "mpc_content/DigitalAssets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/" + AssetID + "/";
+              string virtualFolderPth = string.Empty;
+
+              string folderPathToMap = "/" + folderPath;
+
+              virtualFolderPth = HttpContext.Current.Server.MapPath(folderPathToMap);
+              if (!System.IO.Directory.Exists(virtualFolderPth))
+                  System.IO.Directory.CreateDirectory(virtualFolderPth);
+
+              for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
+              {
+                  //HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
+                  HttpPostedFile postedFile = HttpContext.Current.Request.Files["file" + i];
+                  string fileName = string.Format("{0}{1}", i, Path.GetFileName(postedFile.FileName));
+                  AssetItem Item = new AssetItem();
+                  Item.FileUrl = "/" + folderPath;
+                  Item.AssetId = AssetID;
+                  listOfAttachment.Add(Item);
+                  string filevirtualpath = virtualFolderPth + "/" + fileName;
+                  postedFile.SaveAs(virtualFolderPth + "/" + fileName);
+              }
+                 _companyService.AddAssetItems(listOfAttachment);
+          }
+      
+      }
+      [HttpPost]
+      public void UpdateAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price,long AssetId)
+      {
+          var httpPostedFile = HttpContext.Current.Request.Files["UploadedImageAsset"];
+          Asset Asset = new Asset();
+          Asset.AssetId = AssetId;
+          Asset.AssetName = AssetName;
+          Asset.Description =Description;
+          Asset.FolderId = FolderId;
+          if (httpPostedFile != null)
+          {
+              Asset.ImagePath = UpdateAssetImage(httpPostedFile, AssetId, true);
+          }
+          Asset.Keywords = Keywords;
+          Asset.Price = Price;
+          Asset.Quantity = Quantity;
+          _companyService.UpdateAsset(Asset);
+      }
+       [HttpPost]
+      public void UpdateFolder(string FolderName, string Description,long FolderId)
+      { 
+          var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+          Folder NewFolder = new Folder();
+          NewFolder.FolderName = FolderName;
+          NewFolder.Description = Description;
+          NewFolder.FolderId = FolderId;
+         // NewFolder.ParentFolderId = ParentFolderId;
+          if (httpPostedFile != null)
+          {
+              NewFolder.ImagePath = UpdateFolderImage(httpPostedFile, FolderId, true);
+          }
+
+          _companyService.UpdateFolder(NewFolder);
+      }
+
+      [HttpGet]
+      public HttpResponseMessage GetAssetByAssetID(long AssetId)
+      {
+          Asset GAsset = _companyService.GetAsset(AssetId);
+          var formatterr = new JsonMediaTypeFormatter();
+          var jsons = formatterr.SerializerSettings;
+          jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+          jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          return Request.CreateResponse(HttpStatusCode.OK, GAsset, formatterr);
+      }
+      [HttpPost]
+      public void DeleteAsset(long AssetID)
+      {
+          _companyService.DeleteAsset(AssetID);
+      }
+      [System.Web.Http.AcceptVerbs("GET", "POST")]
+      [System.Web.Http.HttpGet]
+      public HttpResponseMessage GetFolderByFolderId(long folderId)
+      {
+          Folder folder = _companyService.GetFolderByFolderId(folderId);
+          var formatterr = new JsonMediaTypeFormatter();
+          var jsons = formatterr.SerializerSettings;
+          jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+          jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          return Request.CreateResponse(HttpStatusCode.OK, folder, formatterr);
+      }
+      [HttpPost]
+      public void DeleteFolder( long folderID)
+      {
+
+          _companyService.DeleteFolder(folderID);
+      }
     }
 }

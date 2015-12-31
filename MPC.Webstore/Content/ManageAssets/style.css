@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /* CSS Document */
 
 @import url(https://fonts.googleapis.com/css?family=Muli:400,400italic,300);
@@ -87,7 +87,22 @@ nav ul li a {
 	padding:20px 2%;
 	border:1px solid #CCCCCC;
 }
-
+.folder_desc
+{
+    padding: 10px 1%;
+  border: none;
+  margin-bottom: 10px;
+  width:100%;
+  font-size: 1.1em;
+  color: #666666;
+  border: 1px solid #CCCCCC;
+}
+.shareIcons {
+    width: 542px;
+  /* width: auto; */
+  margin-left: auto;
+  margin-right: auto;
+}
 .assetSearch h2 {
 	margin:0 0 10px 0;
 	
@@ -296,16 +311,16 @@ background: url(images/share.png) no-repeat 0 -2px;
 }
 
 .shareWindow {
-	 position:fixed;
-    top: 50%;
-    left: 50%;
-    width:500px;
-    height:300px;
-	padding:20px;
-    margin-top: -170px; /*set to a negative number 1/2 of your height*/
-    margin-left: -290px; /*set to a negative number 1/2 of your width*/
-    border: 1px solid #ccc;
-    background-color: #f3f3f3;
+  position: fixed;
+  top: 39%;
+  left: 50%;
+  /* width: 500px; */
+  height: 416px;
+  padding: 20px;
+  margin-top: -170px;
+  margin-left: -290px;
+  border: 1px solid #ccc;
+  background-color: #f3f3f3;
 }
 
 .shareWindow h1 {

@@ -128,7 +128,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemByIdDesigner(ItemId);
         }
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId, long PropertyId, bool isUploadDesignMode = false, bool isSetTemplateIdToNull = false)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId, long PropertyId, bool isUploadDesignMode = false, bool isSetTemplateIdToNull = false, double PdfTemplatewidth=0.0, double PdfTemplateheight=0.0)
         {
 
             try
@@ -245,6 +245,15 @@ namespace MPC.Implementation.WebStoreServices
                     tblItemSectionCloned = Clone<ItemSection>(tblItemSection);
                     tblItemSectionCloned.ItemSectionId = 0;
                     tblItemSectionCloned.ItemId = newItem.ItemId;
+                    // assign vales
+                    if (PdfTemplateheight > 0)
+                    {
+                        tblItemSectionCloned.SectionSizeHeight = PdfTemplateheight;
+                    }
+                    if (PdfTemplatewidth > 0)
+                    {
+                        tblItemSectionCloned.SectionSizeWidth = PdfTemplatewidth;
+                    }
                     _ItemSectionRepository.Add(tblItemSectionCloned);
                     _ItemSectionRepository.SaveChanges();
                     //db.ItemSections.Add(tblItemSectionCloned); //ContextAdded
@@ -295,7 +304,16 @@ namespace MPC.Implementation.WebStoreServices
 
                         var oCutomer = _CompanyRepository.Find(StoreId); //db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
                         clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
-
+                        
+                            if(PdfTemplatewidth>0)
+                            {
+                                clonedTemplate.PDFTemplateWidth=PdfTemplatewidth;
+                            }
+                            if (PdfTemplateheight > 0)
+                            {
+                                clonedTemplate.PDFTemplateHeight =PdfTemplateheight;
+                            }
+                            ///assign
                         if (PropertyId > 0)
                         {
                             clonedTemplate.realEstateId = PropertyId;
@@ -2070,9 +2088,8 @@ namespace MPC.Implementation.WebStoreServices
         /// <param name="TemporaryRetailCompanyIdFromCookie"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        public ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId,long StoreId, long PropertyId = 0)
+        public ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId, long StoreId, long PropertyId = 0, double PdfTemplatewidth = 0.0, double PdfTemplateheight = 0.0)
         {
-
             ItemCloneResult itemCloneObj = new ItemCloneResult();
             Item item = null;
             long ItemID = 0;
@@ -2122,7 +2139,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false);
+                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false,false, PdfTemplatewidth,PdfTemplateheight);
 
                 if (item != null)
                 {
@@ -2177,7 +2194,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
 
-                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false);
+                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false,false, PdfTemplatewidth, PdfTemplateheight);
 
                 if (item != null)
                 {

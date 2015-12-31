@@ -240,6 +240,7 @@ namespace MPC.Repository.Repositories
                         c.isStoreLive,
                         c.CanUserUpdateAddress,
                         c.MarketingBriefRecipient,
+                        c.IsEnableDataAsset,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined == true).Take(5).Select(cms => new
                         {
@@ -378,6 +379,7 @@ namespace MPC.Repository.Repositories
                         isStoreLive = c.isStoreLive,
                         CanUserUpdateAddress = c.CanUserUpdateAddress,
                         MarketingBriefRecipient = c.MarketingBriefRecipient,
+                        IsEnableDataAsset = c.IsEnableDataAsset,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,

@@ -571,6 +571,7 @@
     <Content Include="Content\Images\8_Time-Icon.png" />
     <Content Include="Content\Images\9_Location-Icon.png" />
     <Content Include="Content\Images\ai.gif" />
+    <Content Include="Content\Images\AI.png" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
@@ -580,6 +581,7 @@
     <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\Deliver-Icon.png" />
     <Content Include="Content\Images\download-icon.png" />
+    <Content Include="Content\Images\download.png" />
     <Content Include="Content\Images\edit.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
@@ -721,6 +723,7 @@
     <Content Include="Content\Images\icoJPG.png" />
     <Content Include="Content\Images\icoPNG.png" />
     <Content Include="Content\Images\id.gif" />
+    <Content Include="Content\Images\IND.png" />
     <Content Include="Content\Images\linkedin.png" />
     <Content Include="Content\Images\LinkedInNew.png" />
     <Content Include="Content\Images\linkInShare.PNG" />
@@ -737,10 +740,12 @@
     <Content Include="Content\Images\notFound.svg" />
     <Content Include="Content\Images\olsonReviewImg.PNG" />
     <Content Include="Content\Images\Page_pdf.png" />
+    <Content Include="Content\Images\PDF.png" />
     <Content Include="Content\Images\photoshop.gif" />
     <Content Include="Content\Images\powerpoint.png" />
     <Content Include="Content\Images\prev-horizontal.png" />
     <Content Include="Content\Images\ProfileImage.png" />
+    <Content Include="Content\Images\PS.png" />
     <Content Include="Content\Images\publisher.png" />
     <Content Include="Content\Images\re-order.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
@@ -1104,6 +1109,7 @@
     <Content Include="Views\Shared\PartialViews\RealEstateListingGrid.cshtml" />
     <Content Include="Views\Shared\PartialViews\EzyHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\ManageAssets.cshtml" />
+    <Content Include="Views\Shared\PartialViews\TreeChildNodes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

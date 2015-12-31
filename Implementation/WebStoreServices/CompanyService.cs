@@ -27,6 +27,7 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         /// 
         private readonly IListingRepository _listingRepository;
+        private readonly IAssetItemsRepository _AssetItemsRepository;
         public readonly ICompanyRepository _CompanyRepository;
         public readonly ICompanyContactRepository _CompanyContactRepository;
         private readonly ISystemUserRepository _SystemUserRepository;
@@ -58,6 +59,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IListingBulletPointsRepository _listingBulletPontRepository;
         private readonly IAssetsRepository _AssestsRepository;
         private readonly IFolderRepository _FolderRepository;
+        private readonly ITemplateRepository _templaterepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -77,7 +79,7 @@ namespace MPC.Implementation.WebStoreServices
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
             , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
             ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
-            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository)
+            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository, IAssetItemsRepository _AssetItemsRepository, ITemplateRepository _templaterepository)
         {
             this._listingRepository = _listingRepository;
             this._CompanyRepository = companyRepository;
@@ -110,6 +112,8 @@ namespace MPC.Implementation.WebStoreServices
             this._listingBulletPontRepository = _listingBulletPontRepository;
             this._AssestsRepository = _AssestsRepository;
             this._FolderRepository = _FolderRepository;
+            this._AssetItemsRepository = _AssetItemsRepository;
+            this._templaterepository = _templaterepository;
         }
 
         #endregion
@@ -1915,5 +1919,70 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _FolderRepository.GetFoldersByCompanyId(CompanyID, OrganisationID);
         }
+        public void DeleteAsset(long AssetID)
+        {
+            _AssestsRepository.DeleteAsset(AssetID);
+        }
+        public void UpdateAsset(Asset UpdatedAsset)
+        {
+            _AssestsRepository.UpdateAsset(UpdatedAsset);
+        }
+        public List<Folder> GetChildFolders(long ParentFolderId)
+        {
+            return _FolderRepository.GetChildFolders(ParentFolderId);
+        }
+        public long AddFolder(Folder NewFolder)
+        {
+            return _FolderRepository.AddFolder(NewFolder);
+        }
+       public bool UpdateImage(Folder folder)
+        {
+            return _FolderRepository.UpdateImage(folder);
+        }
+       public Folder GetFolderByFolderId(long FolderID)
+       {
+           return _FolderRepository.GetFolderByFolderId(FolderID);
+       }
+       public List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId)
+       {
+           return _FolderRepository.GetTreeVeiwList(CompanyId, OrganisationId);
+       }
+       public List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId)
+       {
+           return _AssestsRepository.GetAssetsByCompanyIDAndFolderID(CompanyID, FolderId);
+       }
+       public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
+       {
+           return _FolderRepository.GetAllFolders(CompanyID, OrganisationID);
+       }
+       public long AddAsset(Asset Asset)
+       {
+           return _AssestsRepository.AddAsset(Asset);
+       }
+       public void UpdateAssetImage(Asset Asset)
+       {
+            _AssestsRepository.UpdateAssetImage(Asset);
+       }
+       public bool AddAssetItems(List<AssetItem> AssetItemsList)
+       {
+           return _AssetItemsRepository.AddAssetItems(AssetItemsList);
+          
+       }
+       public Asset GetAsset(long AssetId)
+       {
+           return _AssestsRepository.GetAsset(AssetId);
+       }
+       public void UpdateFolder(Folder Ufolder)
+       {
+           _FolderRepository.UpdateFolder(Ufolder);
+       }
+       public void DeleteFolder(long folderID)
+       {
+           _FolderRepository.DeleteFolder(folderID);
+       }
+       public bool UpdateTemplatePdfDimensions(Template Template)
+       {
+           return _templaterepository.UpdateTemplatePdfDimensions(Template);
+       }
     }
 }

@@ -160,6 +160,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CanUserUpdateAddress = source.CanUserUpdateAddress,
                 IsClickReached = source.IsClickReached,
                MarketingBriefRecipient = source.MarketingBriefRecipient,
+               IsEnableDataAsset = source.IsEnableDataAsset,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =
@@ -444,8 +445,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard == true ? true : false,
                 IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder == true ? true : false,
                 IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval == true ? true : false,
-                IsAllowRequestaQuote = source.IsAllowRequestaQuote == true ? true : false
- 
+                IsAllowRequestaQuote = source.IsAllowRequestaQuote == true ? true : false,
+                IsEnableDataAsset = source.IsEnableDataAsset == true ? true : false
             };
 
             return company;

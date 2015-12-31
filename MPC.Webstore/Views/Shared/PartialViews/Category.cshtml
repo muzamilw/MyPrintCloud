@@ -10,6 +10,9 @@
     string CategoryDescription = "";
     string SkipDesignerPopUp = "";
     List<AddOnCostsCenter> productCC = ViewData["ProductCostCenterList"] as List<AddOnCostsCenter>;
+
+    var Organisation = ViewBag.Organisation as MPC.Models.DomainModels.Organisation;
+    
 }
 
 @if (Model != null)
@@ -151,7 +154,24 @@
                                                         isUploadImage = false;
 
                                                         RedirectURL = "/Category/CloneItem/" + item.ItemId;
-
+                                                        //if (item.IsAllowCustomSize??false)
+                                                        //{ 
+                                                        //    var convertedheight=0.0;
+                                                        //    var convertedwidth=0.0;
+                                                        //    if (Organisation.SystemLengthUnit == 1)
+                                                        //    {
+                                                        //        //mm
+                                                        //        convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
+                                                        //        convertedwidth = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
+                                                        //    }
+                                                        //    if (Organisation.SystemLengthUnit == 3)
+                                                        //    { 
+                                                        //      //Inch
+                                                        //        convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
+                                                        //        convertedwidth = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
+                                                        //    }
+                                                        //    SkipDesignerPopUp = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + ");";
+                                                        //}
                                                         //}
                                                     }
 
@@ -368,8 +388,28 @@
                                                 else
                                                 {
 
+                                                    //if (item.IsAllowCustomSize ?? false)
+                                                    //{
+                                                    //    var convertedheight = 0.0;
+                                                    //    var convertedwidth = 0.0;
+                                                    //    if (Organisation.SystemLengthUnit == 1)
+                                                    //    {
+                                                    //        //mm
+                                                    //        convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
+                                                    //        convertedwidth = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
+                                                    //    }
+                                                    //    if (Organisation.SystemLengthUnit == 3)
+                                                    //    {
+                                                    //        //Inch
+                                                    //        convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
+                                                    //        convertedwidth = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
+                                                    //    }
+                                                    //    SkipDesignerPopUp = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + ");";
+                                                    //}
+                                                    //else
+                                                    //{ 
                                                     <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
-
+                                                   // }
 
                                                 }
                                                 @if (item.ProductType == (int)ProductType.MarketingBrief)
@@ -395,15 +435,69 @@
                                                 {
                                                     if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
                                                     {
+
+
+                                                        if (item.IsAllowCustomSize ?? false)
+                                                        {
+                                                            var convertedheight = 0.0;
+                                                            var convertedwidth = 0.0;
+                                                            if (Organisation.SystemLengthUnit == 1)
+                                                            {
+                                                                //mm
+                                                                convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
+                                                                convertedwidth = Utils.PointToMM(item.PDFTemplateWidth ?? 0.0);
+                                                            }
+                                                            if (Organisation.SystemLengthUnit == 3)
+                                                            {
+                                                                //Inch
+                                                                convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
+                                                                convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
+                                                            }
+                                                            <a onclick="ShowTemplatePopup(@convertedheight,@convertedwidth,@item.TemplateId,@item.ItemId)">
+                                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
+                                                            </a>
+                                                            // SkipDesignerPopUp = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + ");";
+                                                        }
+                                                        else
+                                                        {
                                                         <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,'@item.ProductName');">
-                                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
-                                                        </a>
+        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
+    </a>
+                                                        }
+
                                                     }
                                                     else
                                                     {
-                                                        <a href='@Url.Action("CloneItem", "Category", new { id = item.ItemId })' onclick="ShowLoader();">
-                                                            <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
-                                                        </a>
+
+                                                        if (item.IsAllowCustomSize ?? false)
+                                                        {
+                                                            var convertedheight = 0.0;
+                                                            var convertedwidth = 0.0;
+                                                            if (Organisation.SystemLengthUnit == 1)
+                                                            {
+                                                                //mm
+                                                                convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
+                                                                convertedwidth = Utils.PointToMM(item.PDFTemplateWidth ?? 0.0);
+                                                            }
+                                                            if (Organisation.SystemLengthUnit == 3)
+                                                            {
+                                                                //Inch
+                                                                convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
+                                                                convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
+                                                            }
+                                                            <a onclick="ShowTemplatePopup(@convertedheight,@convertedwidth,@item.TemplateId,@item.ItemId)">
+                                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
+                                                            </a>
+
+                                                            // SkipDesignerPopUp = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + ");";
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href='@Url.Action("CloneItem", "Category", new { id = item.ItemId })' onclick="ShowLoader();">
+                                                                    <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
+                                                                </a>
+                                                        }
+
                                                     }
 
                                                     if (item.isUploadImage == true)
@@ -525,6 +619,11 @@
         <input type="hidden" id="hfPrintCropMarks" />
         <input type="hidden" id="hfSvcRespone" />
     </div>
+    <div id="TemplateSizeCa">
+        <input type="text" id="PdfTemplatewidth"/>
+        <input type="text" id="PdfTemplateheight" />
+        <input id="savenCon" type="button" value="DesignNow" onclick="UpdateTemplatePdfParameters()" />
+    </div>
     <section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
         <div class="mask on"></div>
         <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
@@ -573,9 +672,48 @@
     <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script>
+        var TemplateID=0;
+        var ItemId=0;
     $(document).ready(function(){
         HideLoader();
+        buidPopup();
+        $("#popupBody").append($("#TemplateSizeCa"));
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+       
     });
+
+    function ShowTemplatePopup(height,width,templateId,ItemmId)
+    {
+        TemplateID=templateId;
+        ItemId=ItemmId;
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        var tempwidth= $("#PdfTemplatewidth").val(width.toFixed(2));
+        var tempheight=$("#PdfTemplateheight").val(height.toFixed(2));
+        
+        
+    }
+
+    function UpdateTemplatePdfParameters()
+    {
+
+        alert();
+        var Tempwidth = $("#PdfTemplatewidth").val();
+        var TempHeight = $("#PdfTemplateheight").val();
+        window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"";
+        //var Data = { productId: TemplateID,PDFTemplateWidth:Tempwidth,PDFTemplateHeight:TempHeight };
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Category/UpdateTemplatePdfDimensions",
+        //    contentType: "application/json",
+        //    async: true,
+        //    data:Data,
+        //    success: function (response) {
+                
+        //    }
+        //});
+    }
     var tID = 0;
     var itemId = 0;
     function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
@@ -589,16 +727,77 @@
                               //temporaryCustomerId = part[3];
                               itemId= parts[0];
                               var storeMode =  @UserCookieManager.WEBStoreMode;
-                          if(storeMode == 4)
-                          {
-                              createCookie("TemporaryCompanyId",parts[3]);
-                          }
-                          createCookie("WEBOrderId",parts[2]);
-                          k0(parts[1],productName);
-                          $(".productTitle").html(productName);
+                              if(storeMode == 4)
+                              {
+                                  createCookie("TemporaryCompanyId",parts[3]);
+                              }
+                              createCookie("WEBOrderId",parts[2]);
+                              k0(parts[1],productName);
+                              $(".productTitle").html(productName);
 
 
-                      });
+                          });
+    }
+    function buidPopup() {
+        //popupBody
+        //modelTitle
+        var bws = getBrowserHeight();
+
+        var shadow = document.getElementById("innerLayer");
+
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+        var left = 0;
+        var container = "";
+        if (bws.width < 700 && bws.width > 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:500px;"></div></div>';
+
+        }
+        else if (bws.width == 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;"></div></div>';
+
+        }
+        else if (bws.width < 640 && bws.width > 600) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:550px;"></div></div>';
+
+        }
+        else if (bws.width < 600 && bws.width > 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:350px;"></div></div>';
+
+        } else if (bws.width < 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:300px;"></div></div>';
+        }
+        else {
+
+            left = parseInt((bws.width - 730) / 2);
+            document.getElementById("innerLayer").style.width = "730px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;" ></div></div>';
+        }
+
+
+
+        // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.left = left + "px";
+        document.getElementById("innerLayer").style.top = "0px";
+
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
     }
     function createCookie(name, value, days) {
         if (days) {

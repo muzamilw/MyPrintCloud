@@ -19,7 +19,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
             specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy, specifiedReportSignedBy,
-            specifiedInvoiceStatus,specifiedStoreName) {
+            specifiedInvoiceStatus,specifiedStoreName,specifiedEstimateDate) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -303,6 +303,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 hasDeletedPrepayments = ko.observable(false),
                 // Has Deleted Delivery Schedules
                 hasDeletedDeliverySchedules = ko.observable(false),
+
+                // estimateDate
+                estimteDate = ko.observable(specifiedEstimateDate ? moment(specifiedEstimateDate).toDate() : moment().toDate()),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -398,7 +401,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     footNotes: footNotes,
                     sectionFlagId: sectionFlagId,
                     invoiceStatus:invoiceStatus,
-                    statusId: statusId
+                    statusId: statusId,
+                    estimteDate: estimteDate
                 }),
                 // Item Has Changes
                 itemHasChanges = function () {
@@ -457,6 +461,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         IsOfficialOrder: isOfficialOrder(),
                         IsCreditApproved: isCreditApproved(),
                         OrderDate: orderDate() ? moment(orderDate()).format(ist.utcFormat) + 'Z' : undefined,
+                        EstimateDate: estimteDate() ? moment(estimteDate()).format(ist.utcFormat) + 'Z' : undefined,
                         StartDeliveryDate: startDeliveryDate() ? moment(startDeliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
                         FinishDeliveryDate: finishDeliveryDate() ? moment(finishDeliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
                         HeadNotes: headNotes(),
@@ -488,6 +493,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         PrePayments: [],
                         ShippingInformations: [],
                         Items: []
+
                     };
                 };
 
@@ -514,6 +520,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 isOfficialOrder: isOfficialOrder,
                 isCreditApproved: isCreditApproved,
                 orderDate: orderDate,
+                estimteDate: estimteDate,
                 startDeliveryDate: startDeliveryDate,
                 finishDeliveryDate: finishDeliveryDate,
                 headNotes: headNotes,
@@ -826,7 +833,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.OrderCreationDateTime, source.OrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId,
-        source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus,source.StoreName);
+        source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus,source.StoreName,source.EstimateDate);
 
         estimate.statusId(source.StatusId);
         estimate.originalStatusId(source.StatusId);
