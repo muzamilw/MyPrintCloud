@@ -1033,6 +1033,21 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public bool UpdateTemplatePdfDimensions(Template Template)
+        {
+            bool result = false;
+            Template model=db.Templates.Where(i=>i.ProductId==Template.ProductId).FirstOrDefault();
+             model.PDFTemplateHeight = Template.PDFTemplateHeight;
+             model.PDFTemplateWidth = Template.PDFTemplateWidth;
+             db.Templates.Attach(model);
+             db.Entry(model).State = EntityState.Modified;
+             if (db.SaveChanges() > 0)
+             {
+                 result = true;
+             }
+             return result;
+        }
+
     #endregion
      
        

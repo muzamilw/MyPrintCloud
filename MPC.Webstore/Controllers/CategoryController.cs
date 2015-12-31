@@ -368,6 +368,40 @@ namespace MPC.Webstore.Controllers
             }
 
         }
+       
+        public ActionResult UpdateTemplateDimensions(double PDFTemplateWidth, double PDFTemplateHeight, long ItemId)
+        {
+            double UpdatedPDFTemplateWidth = 0.0;
+            double UpdatedPDFTemplateHeight = 0.0;
+
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+            if (StoreBaseResopnse.Organisation.SystemLengthUnit == 1)
+            {
+                //mm
+                UpdatedPDFTemplateHeight = Utils.MMToPoint(PDFTemplateHeight);
+                UpdatedPDFTemplateWidth = Utils.MMToPoint(PDFTemplateWidth);
+            }
+            if (StoreBaseResopnse.Organisation.SystemLengthUnit == 3)
+            {
+                //Inch
+                UpdatedPDFTemplateHeight = Utils.InchtoPoint(PDFTemplateHeight);
+                UpdatedPDFTemplateWidth = Utils.InchtoPoint(PDFTemplateWidth);
+            }
+          //  Template newModel = new Template();
+           // newModel.ProductId = productId;
+
+            
+          //  newModel.PDFTemplateWidth = PDFTemplateWidth;
+          //  newModel.PDFTemplateHeight = PDFTemplateHeight;
+
+          // _myCompanyService.UpdateTemplatePdfDimensions(newModel);
+
+            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId, 0, UpdatedPDFTemplateWidth, UpdatedPDFTemplateHeight);
+            UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
+            UserCookieManager.WEBOrderId = cloneObject.OrderId;
+            Response.Redirect(cloneObject.RedirectUrl);
+            return null;
+        }
 
     }
 }

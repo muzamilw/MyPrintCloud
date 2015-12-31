@@ -59,6 +59,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IListingBulletPointsRepository _listingBulletPontRepository;
         private readonly IAssetsRepository _AssestsRepository;
         private readonly IFolderRepository _FolderRepository;
+        private readonly ITemplateRepository _templaterepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -78,7 +79,7 @@ namespace MPC.Implementation.WebStoreServices
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
             , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
             ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
-            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository, IAssetItemsRepository _AssetItemsRepository)
+            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository, IAssetItemsRepository _AssetItemsRepository, ITemplateRepository _templaterepository)
         {
             this._listingRepository = _listingRepository;
             this._CompanyRepository = companyRepository;
@@ -112,6 +113,7 @@ namespace MPC.Implementation.WebStoreServices
             this._AssestsRepository = _AssestsRepository;
             this._FolderRepository = _FolderRepository;
             this._AssetItemsRepository = _AssetItemsRepository;
+            this._templaterepository = _templaterepository;
         }
 
         #endregion
@@ -1977,6 +1979,10 @@ namespace MPC.Implementation.WebStoreServices
        public void DeleteFolder(long folderID)
        {
            _FolderRepository.DeleteFolder(folderID);
+       }
+       public bool UpdateTemplatePdfDimensions(Template Template)
+       {
+           return _templaterepository.UpdateTemplatePdfDimensions(Template);
        }
     }
 }
