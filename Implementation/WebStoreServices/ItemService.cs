@@ -2204,7 +2204,7 @@ namespace MPC.Implementation.WebStoreServices
                     ProductName = specialCharactersEncoder(item.ProductName);
                 }
             }
-
+            itemCloneObj.ItemId = ItemID;
             int isCalledFrom = 0;
             if (ModeOfStore == StoreMode.Corp)
                 isCalledFrom = 4;
@@ -2271,6 +2271,16 @@ namespace MPC.Implementation.WebStoreServices
         public GetCategoryProduct GetPublishedProductByItemID(int itemID)
         {
             return _ItemRepository.GetPublishedProductByItemID(itemID);
+        }
+        public List<TemplatePage> GetTemplatePagesByItemId(long clonedItemId)
+        {
+            Item clonedItem =  _ItemRepository.GetItemByItemID(clonedItemId);
+            if (clonedItem != null)
+            {
+                return _TemplatePageRepository.GetTemplatePages(clonedItem.TemplateId ?? 0);
+            }
+
+            return null;
         }
         #region PrivateFunctions
         public T Clone<T>(T source)
