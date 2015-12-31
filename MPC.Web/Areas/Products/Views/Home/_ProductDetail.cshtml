@@ -2464,7 +2464,11 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <img style="height: 180px; width: 270px; object-fit: contain" data-bind="attr: { src: thumbnail }" />
+                                               @* <img style="height: 180px; width: 270px; object-fit: contain" data-bind="visible:thumbnail()==undefined ,attr: { src: '@Url.Content("~/")' + thumbnail() }" />*@
+                                                <img style="height: 180px; width: 270px; object-fit: contain" data-bind="visible:thumbnail()!==undefined,attr: { src: thumbnail }" />
+
+
+                                               @* <img style="height: 180px; width: 270px; object-fit: contain" data-bind="attr: { src: thumbnail }" />*@
 
                                                 <div style="width:270px;text-align:center;">
                                                     <div>

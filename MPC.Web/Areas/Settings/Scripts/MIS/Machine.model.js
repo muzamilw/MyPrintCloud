@@ -972,8 +972,11 @@
 
         var StockItemforInkList = ko.observableArray([]);
         StockItemforInkList.removeAll();
-        ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
-        StockItemforInkList.valueHasMutated();
+        if (source.StockItemforInk != null) {
+            ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+            StockItemforInkList.valueHasMutated();
+        }
+        
 
         //var InkCoveragItemsList = ko.observableArray([]);
         //InkCoveragItemsList.removeAll();
@@ -1272,31 +1275,31 @@
         var speedweight = new SpeedWeightLookup({
             ID: 0,
             MethodId: 0,
-            SheetsQty1: 0,
-            SheetsQty2: 0,
-            SheetsQty3: 0,
-            SheetsQty4: 0,
-            SheetsQty5: 0,
-            SheetWeight1: 0,
-            speedqty11: 0,
-            speedqty12: 0,
-            speedqty13: 0,
-            speedqty14: 0,
-            speedqty15: 0,
-            SheetWeight2: 0,
-            speedqty21: 0,
-            speedqty22: 0,
-            speedqty23: 0,
-            speedqty24: 0,
-            speedqty25: 0,
-            SheetWeight3: 0,
-            speedqty31: 0,
-            speedqty32: 0,
-            speedqty33: 0,
-            speedqty34: 0,
-            speedqty35: 0,
-            hourlyCost: 0,
-            hourlyPrice: 0
+            SheetsQty1: 2500,
+            SheetsQty2: 5000,
+            SheetsQty3: 10000,
+            SheetsQty4: 20000,
+            SheetsQty5: 50000,
+            SheetWeight1: 100,
+            speedqty11: 4000,
+            speedqty12: 7000,
+            speedqty13: 8000,
+            speedqty14: 9000,
+            speedqty15: 12000,
+            SheetWeight2: 170,
+            speedqty21: 3000,
+            speedqty22: 6000,
+            speedqty23: 7000,
+            speedqty24: 8000,
+            speedqty25: 9000,
+            SheetWeight3: 300,
+            speedqty31: 2000,
+            speedqty32: 5000,
+            speedqty33: 6000,
+            speedqty34: 7000,
+            speedqty35: 8000,
+            hourlyCost: 1,
+            hourlyPrice: 2
         });
         return speedweight;
     },

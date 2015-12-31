@@ -83,6 +83,10 @@ namespace MPC.Repository.Repositories
         {
             return db.MachineSpeedWeightLookups.Where(l => l.MethodId == Id).FirstOrDefault();
         }
+        public MachineMeterPerHourLookup GetMachinemeterPerHourLookup(long id)
+        {
+            return db.MachineMeterPerHourLookups.FirstOrDefault(l => l.MethodId == id);
+        }
         public MachinePerHourLookup GetMachinePerHourLookup(long Id)
         {
             return db.MachinePerHourLookups.Where(p => p.MethodId == Id).FirstOrDefault();
