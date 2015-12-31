@@ -907,7 +907,7 @@ namespace MPC.Repository.Repositories
         {
 
             string oResult = null;
-            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(5000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
             oResult = result.FirstOrDefault();
             return oResult;
         }
