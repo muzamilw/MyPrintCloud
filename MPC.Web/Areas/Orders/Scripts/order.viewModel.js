@@ -498,6 +498,7 @@ define("order/order.viewModel",
                     openItemDetail = function () {
                         isItemDetailVisible(true);
                         selectedOrder().taxRate(selectedCompanyTaxRate());
+                       // itemDetailVm.filterPresses(selectedProduct().itemSections()[0].printingTypeUi());
                         itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail, isEstimateScreen(), saveOrder, saveFrom);
                         view.initializeLabelPopovers();
                     },

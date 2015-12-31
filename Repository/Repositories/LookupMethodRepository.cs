@@ -583,6 +583,11 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        public List<LookupMethod> GetLookupMethosListbyOrganisation(long organisationId = 0)
+        {
+            return DbSet.Where(l => l.OrganisationId == organisationId && l.Type == 0).ToList();
+        }
+
         #endregion
     }
 }

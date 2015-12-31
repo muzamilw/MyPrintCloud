@@ -131,12 +131,12 @@
                                                 </label>
                                             </div>
                                             <div class="col-sm-2 text-center">
-                                                <button style="margin-left: -45%;" data-bind="click: swapSectionHeightWidth, enable: isSectionSizeCustom" class="btn btn-primary btn-Toggle">
+                                                <button style="margin-left: -45%;" data-bind="click: swapSectionHeightWidth" class="btn btn-primary btn-Toggle">
                                                     <i class="fa fa-sm"></i>&nbsp;< >
                                                 </button>
                                             </div>
                                             <div class="col-sm-5" style="padding-right: 0px;">
-                                                <input type="text" id="sectionSizeWidthTextbox" class="form-control" data-bind="numberValue: sectionSizeWidth,numberFormat: ist.lengthFormat, enable: printingTypeUi() !== '2', validationTooltip: sectionSizeWidth, validationDependsOn: sectionSizeWidth, validationOnElement: sectionSizeWidth" />
+                                                <input type="text" id="sectionSizeWidthTextbox" class="form-control" data-bind="numberValue: sectionSizeWidth,numberFormat: ist.lengthFormat, validationTooltip: sectionSizeWidth, validationDependsOn: sectionSizeWidth, validationOnElement: sectionSizeWidth" />
                                                 <label class="help-block">
                                                     Width
                                                     (
@@ -167,12 +167,12 @@
                                                 <label class="help-block">Height(<span data-bind="text:$root.lengthUnit"></span>)</label>
                                             </div>
                                             <div class="col-sm-2 text-center" style="padding-left: 1.5%; ">
-                                                <button style="padding-left: 36%; padding-bottom: 6px" data-bind="click: swapItemHeightWidth, enable: isItemSizeCustom" class="btn btn-primary btn-Toggle">
+                                                <button style="padding-left: 36%; padding-bottom: 6px" data-bind="click: swapItemHeightWidth" class="btn btn-primary btn-Toggle">
                                                     <i class="fa fa-sm"></i>&nbsp;< >
                                                 </button>
                                             </div>
                                             <div class="col-sm-5" style="padding-right: 0px; width: 39%; padding-left: 0px; margin-left: 15px; ">
-                                                <input type="text" id="itemSizeWidthTextbox" style=" margin-left: 2px; width: 77.5px;" class="form-control" data-bind="numberValue: itemSizeWidth,numberFormat: ist.lengthFormat, enable:isItemSizeCustom, validationTooltip: itemSizeWidth, validationDependsOn: itemSizeWidth, validationOnElement: itemSizeWidth" />
+                                                <input type="text" id="itemSizeWidthTextbox" style=" margin-left: 2px; width: 77.5px;" class="form-control" data-bind="numberValue: itemSizeWidth,numberFormat: ist.lengthFormat, validationTooltip: itemSizeWidth, validationDependsOn: itemSizeWidth, validationOnElement: itemSizeWidth" />
                                                 <label class="help-block">Width(<span data-bind="text:$root.lengthUnit"></span>)</label>
                                             </div>
                                         </div>
