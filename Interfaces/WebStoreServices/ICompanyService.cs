@@ -13,6 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        bool UpdateTemplatePdfDimensions(Template Template);
         void DeleteFolder(long folderID);
         void UpdateFolder(Folder Ufolder);
         Asset GetAsset(long AssetId);

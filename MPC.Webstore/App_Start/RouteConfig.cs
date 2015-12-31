@@ -85,7 +85,11 @@ namespace MPC.Webstore
                 "ManageAssets/GetChildFolders",
                 new { controller = "ManageAssets", action = "GetChildFolders", id = UrlParameter.Optional }
            );
-
+            routes.MapRoute(
+                "TempDimenions",
+                "Category/UpdateTemplateDimensions",
+                new { controller = "Category", action = "UpdateTemplateDimensions", id = UrlParameter.Optional }
+           );
             routes.MapRoute(
                "LoadStoreWithContactInfo",
                "Login/LoadStoreByContactInfo",
@@ -415,6 +419,12 @@ namespace MPC.Webstore
                 "CloneItem",
                 "CloneItem/{id}",
                 new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                "SetPdfDimesions",
+                "UpdateTemplateDimensions/{PDFTemplateWidth}/{PDFTemplateHeight}/{ItemId}",
+                new { controller = "Category", action = "UpdateTemplateDimensions", PDFTemplateWidth = UrlParameter.Optional, PDFTemplateHeight = UrlParameter.Optional, ItemId = UrlParameter.Optional }
             );
 
             routes.MapRoute(
