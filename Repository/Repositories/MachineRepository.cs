@@ -22,6 +22,7 @@ namespace MPC.Repository.Repositories
 
         #region Private
         private readonly IOrganisationRepository organisationRepository;
+        private readonly ILookupMethodRepository lookupMethodRepository;
         private readonly Dictionary<MachineListColumns, Func<Machine, object>> OrderByClause = new Dictionary<MachineListColumns, Func<Machine, object>>
                     {
                         {MachineListColumns.MachineName, d => d.MachineName},
@@ -41,10 +42,11 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Constructor
         /// </summary>
-        public MachineRepository(IUnityContainer container, IOrganisationRepository organisationRepository)
+        public MachineRepository(IUnityContainer container, IOrganisationRepository organisationRepository, ILookupMethodRepository lookupMethodRepository)
             : base(container)
         {
             this.organisationRepository = organisationRepository;
+            this.lookupMethodRepository = lookupMethodRepository;
         }
         #endregion
 
@@ -195,13 +197,14 @@ namespace MPC.Repository.Repositories
             return new MachineResponseModel
             {
                 machine = machine,
-                lookupMethods = GetAllLookupMethodList(IsGuillotine),
+                //lookupMethods = GetAllLookupMethodList(IsGuillotine), Commented by Naveed and set just click chargze zone by default on line below
+                lookupMethods = lookupMethodRepository.GetLookupMethosListbyOrganisation().Where(o => o.MethodId == 5).ToList(),
                 Markups = null,
-                StockItemforInk = GetAllStockItemforInk(),
+                StockItemforInk = null, //GetAllStockItemforInk(), Commented by Naveed as inks are not being used on Press UI
                 MachineSpoilageItems = null,
                 deFaultPaperSizeName = null,
                 deFaultPlatesName = null,
-                InkCoveragItems = GetInkCoveragItems(),
+                InkCoveragItems = null, //GetInkCoveragItems(), Commented by Naveed as inks are not being used on Press UI
                 CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol,
                 WeightUnit = organisation == null ? null : organisation.WeightUnit.UnitName,
                 LengthUnit = organisation == null ? null : organisation.LengthUnit.UnitName
@@ -936,6 +939,7 @@ namespace MPC.Repository.Repositories
             else
             {
                 return db.LookupMethods.Where(g => g.MethodId != 6 && g.Type != 6 && g.OrganisationId == 0 || g.MethodId != 6 && g.Type != 6 && g.OrganisationId == OrganisationId).ToList();
+                
             }
 
         }

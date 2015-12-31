@@ -56,7 +56,8 @@
 
             </div>
             <div class="col-lg-1">
-                <label class="control-label" data-bind="text:'Weight (' + $root.WeightUnit() + ')'"></label>
+                @*<label class="control-label" data-bind="text:'Weight (' + $root.WeightUnit() + ')'"></label>*@
+                <label class="control-label" style="text-align: left" data-bind="text:'Weight (gsm)'"></label>
             </div>
             <div class="col-lg-1">
                 <label class="control-label">Units Per Hour</label>
@@ -168,11 +169,11 @@
             </div>
             <label class="control-label text-right tooltip-float">Enter hourly charge cost</label>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-2">
 
             <div class="input-group">
                 <span class="input-group-addon" tabindex="-1" data-bind="text: $root.CurrencySymbol()"></span>
-                <input type="text" class="form-control" data-bind="value: $root.selectedMeterPerHourClickCharge().hourlyCost , settings:{mDec:2}" placeholder="Hourly charge Cost">
+                <input type="text" class="form-control text-right" data-bind="autoNumeric: $root.selectedMeterPerHourClickCharge().hourlyCost , settings:{mDec:2}" placeholder="Hourly charge Cost">
                 
             </div>
 
@@ -187,13 +188,13 @@
                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                 </a>
             </div>
-            <label class="control-label text-right tooltip-float">Enter hourly charge price</label>
+            <label class="control-label text-right tooltip-float">Enter hourly charge price (used in estimating)</label>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-2">
 
             <div class="input-group">
                 <span class="input-group-addon" tabindex="-1" data-bind="text:$root.CurrencySymbol()"></span>
-                <input type="text" class="form-control" data-bind="value: $root.selectedMeterPerHourClickCharge().hourlyPrice , settings:{mDec:2}" placeholder="Hourly Charge Price">
+                <input type="text" class="form-control text-right" data-bind="autoNumeric: $root.selectedMeterPerHourClickCharge().hourlyPrice , settings:{mDec:2}" placeholder="Hourly Charge Price">
                 
             </div>
 

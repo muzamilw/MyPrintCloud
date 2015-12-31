@@ -118,8 +118,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 if (File.Exists(thumbnailPath))
                 {
 
-                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
-                    item.ThumbnailPath = thumbnailPath;
+                   // item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = "/mis/" + source.ThumbnailPath;
                 }
             }
 
@@ -129,8 +129,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 string gridImagePath = HttpContext.Current.Server.MapPath("~/" + source.GridImage);
                 if (File.Exists(gridImagePath))
                 {
-                    item.GridImageBytes = File.ReadAllBytes(gridImagePath);
-                    item.GridImage = gridImagePath;
+                   // item.GridImageBytes = File.ReadAllBytes(gridImagePath);
+                  //  item.GridImage = gridImagePath;
+                    item.GridImage = "/mis/" + source.GridImage;
                 }
             }
 
@@ -143,7 +144,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     item.ImagePathImage = File.ReadAllBytes(imagePath);
                 }
             }
-            string sUrl = string.Format("{0}://{1}/mis/", System.Web.HttpContext.Current.Request.Url.Scheme, System.Web.HttpContext.Current.Request.Url.Authority);
+            
             // Load File1
             if (!string.IsNullOrEmpty(source.File1))
             {
@@ -576,6 +577,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty2GrossTotal = source.Qty2GrossTotal,
                 Qty3GrossTotal = source.Qty3GrossTotal,
                 Qty2 = source.Qty2,
+                Qty3 = source.Qty3,
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
@@ -645,6 +647,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty2GrossTotal = source.Qty2GrossTotal,
                 Qty3GrossTotal = source.Qty3GrossTotal,
                 Qty2 = source.Qty2,
+                Qty3 = source.Qty3,
                 JobSelectedQty = source.JobSelectedQty,
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
