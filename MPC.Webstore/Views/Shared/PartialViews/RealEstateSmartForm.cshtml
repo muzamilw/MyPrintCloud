@@ -1016,7 +1016,7 @@
         var ImgIndex=0;
         var  spectionDate='@txtInspectionDate';
         var Auctindate='@txtAuctionDate';
-
+        var NewImageClick=1;
 
        
         //$("#txtInspectionDate").datepicker({format: 'dd/mm/yyyy'
@@ -1048,15 +1048,22 @@
             var ImageDir = new FileReader();
             ImageDir.onload = function (e) {
               //  $(this).parent().closest('td').find("#NewImage").attr('src', e.target.result);
-            
-                $(this).parent().prev('td').find('#NewImage').attr('src', e.target.result);
+             //   var tr = $(this).parents('tr:first>.WebGridPaddingSmartForm');
+
+
+                //  tr.find('#NewImage').attr('src', e.target.result); 
+                var id=(input.id).replace ( /[^\d.]/g, '' )
+
+                
+               // $(this).parent().prev().find("NewImage").attr('src', e.target.result);
                 //$(this).closest("td").next().find("img").attr('src', e.target.result);
             //    var a=  tr.find('#NewImage').val();
               //  alert(a);
              //   tr.find('#NewImage').attr('src', e.target.result);
                 // input.closest("td>img").attr('src', e.target.result);
                 
-            //  $('#NewImage').attr('src', e.target.result);
+                   var ImgId='#NewImage'+id;
+                  $(ImgId).attr('src', e.target.result);
             }
             ImageDir.readAsDataURL(input.files[0]);
           //  CloseUploader(input);
@@ -1283,32 +1290,33 @@
 
 
              function AgainCall()
-             {
+        {
+                 
                  tfootAddAnother = "<tr class='tfootrowFor gridViewRowStyleForWebGrid'>" +
 
-                            "<td class='WebGridPaddingSmartForm'>" +
-                                "<span class='display'/>" +
-                                "<img id='NewImage' src='/Content/Images/realplaceholder.gif'  class = 'editImg'  style='height:120px;width: 170px'/> " +
-                                "</td>" +
-                            "<td>" +
-                                "<span class='display'/>" +
-                                "<input type='file' class = 'editImg' onchange='ShowPreview(this)' id='ListingImageUploader' />" +
-                            "</td>" +
+                             "<td class='WebGridPaddingSmartForm'>" +
+                                 "<span class='display'/>" +
+                                '<img id=NewImage'+NewImageClick+' src="/Content/Images/realplaceholder.gif" class="hheditImg" style="height:120px;width: 170px" />' +
+                                 "</td>" +
+                             "<td>" +
+                                 "<span class='display'/>" +
+                                 '<input type="file" class = "editImg" onchange="ShowPreview(this)" id=ListingImageUploader'+NewImageClick+'/>' +
+                             "</td>" +
 
-                            "<td> " +
-                                //"<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
-                                "<i style='font-size:18px;' id='ImageDel' title='Delete' class='fa fa-times CloseBtnForImageDisplay' onclick='CloseRow(this)'></i>" +
+                             "<td> " +
+                                 //"<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
+                                 "<i style='font-size:18px;' id='ImageDel' title='Delete' class='fa fa-times CloseBtnForImageDisplay' onclick='CloseRow(this)'></i>" +
                                
-                            "</td>" +
-                        "</tr>"
-
+                             "</td>" +
+                         "</tr>"
+                 
                  //$("#listImage>table>tfoot tr:first").before(tfootAddAnother);
                  //  var rows = $("#ajaxgridForListingImages").find('> tbody > tr');
                  // alert(rows);
                  //$("#listImage>table>tbody tr:last").after(tfootAddAnother);
                  //   if (ListingImages == 0) {
                  $("#listImage>table>tbody").after(tfootAddAnother);
-
+                 ImgIndex++;
              }
        //  }
       //   else {
@@ -2513,7 +2521,7 @@
 
     function AddImages()
     {
-        alert();
+        
         var pointrowNo = 0;
         if ($("#HfNewlyAddedListingImages").val() != undefined || $("#HfNewlyAddedListingImages").val() != "") {
             pointrowNo = parseInt($("#HfNewlyAddedListingImages").val()) + 1;
