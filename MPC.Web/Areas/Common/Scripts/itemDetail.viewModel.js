@@ -692,7 +692,7 @@ define("common/itemDetail.viewModel",
                             if (value) {
                                 selectedSection().pressIdSide2(selectedSection().pressId());
                             }
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // On Select Sheet Size
@@ -1859,6 +1859,20 @@ define("common/itemDetail.viewModel",
                         //var section = defaultSection() ? defaultSection() : {}; commented by Naveed to set Copy of first section if it is blank product
                         var section = selectedProduct().itemSections().length > 0 ? selectedProduct().itemSections()[0] : null;
                         var itemSection = section != null ? model.ItemSection.Create(section.convertToServerData()) : model.ItemSection.Create({});
+                        var inkcounter = 0;
+                        _.each(itemSection.sectionInkCoverageList(), function (item) {
+                            item.sectionId(undefined);
+                            if (item.id() > 0) {
+                                inkcounter = inkcounter - 1;
+                                item.id(inkcounter);
+                            }
+                                
+                        });
+                        _.each(itemSection.sectionCostCentres(), function (item) {
+                            item.itemSectionId(undefined);
+                            if (item.sectionCostCentreDetails().length > 0)
+                                item.sectionCostCentreDetails.removeAll();
+                        });
                         counter = counter - 1;
                         itemSection.id(counter);
                         itemSection.itemId(selectedProduct().id());
