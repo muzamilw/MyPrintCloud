@@ -423,8 +423,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                 "SetPdfDimesions",
-                "UpdateTemplateDimensions/{PDFTemplateWidth}/{PDFTemplateHeight}/{ItemId}",
-                new { controller = "Category", action = "UpdateTemplateDimensions", PDFTemplateWidth = UrlParameter.Optional, PDFTemplateHeight = UrlParameter.Optional, ItemId = UrlParameter.Optional }
+                "UpdateTemplateDimensions/{PDFTemplateWidth}/{PDFTemplateHeight}/{ItemId}/{Check}",
+                new { controller = "Category", action = "UpdateTemplateDimensions", PDFTemplateWidth = UrlParameter.Optional, PDFTemplateHeight = UrlParameter.Optional, ItemId = UrlParameter.Optional, Check = UrlParameter.Optional }
             );
 
             routes.MapRoute(

@@ -372,41 +372,48 @@ namespace MPC.Webstore.Controllers
             }
 
         }
-       
-        public ActionResult UpdateTemplateDimensions(double PDFTemplateWidth, double PDFTemplateHeight, long ItemId)
+
+        public ActionResult UpdateTemplateDimensions(double PDFTemplateWidth, double PDFTemplateHeight, long ItemId, bool Check)
         {
             double UpdatedPDFTemplateWidth = 0.0;
             double UpdatedPDFTemplateHeight = 0.0;
 
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-            if (StoreBaseResopnse.Organisation.SystemLengthUnit == 1)
+
+            if (Check)
             {
-                //mm
-                UpdatedPDFTemplateHeight = Utils.MMToPoint(PDFTemplateHeight);
-                UpdatedPDFTemplateWidth = Utils.MMToPoint(PDFTemplateWidth);
+                if (StoreBaseResopnse.Organisation.SystemLengthUnit == 1)
+                {
+                    //mm
+                    UpdatedPDFTemplateHeight = Utils.MMToPoint(PDFTemplateHeight);
+                    UpdatedPDFTemplateWidth = Utils.MMToPoint(PDFTemplateWidth);
+                }
+                if (StoreBaseResopnse.Organisation.SystemLengthUnit == 3)
+                {
+                    //Inch
+                    UpdatedPDFTemplateHeight = Utils.InchtoPoint(PDFTemplateHeight);
+                    UpdatedPDFTemplateWidth = Utils.InchtoPoint(PDFTemplateWidth);
+                }
+                int lengthunit = Convert.ToInt32(StoreBaseResopnse.Organisation.SystemLengthUnit);
+
+                ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId, 0, PDFTemplateWidth, PDFTemplateHeight, lengthunit);
+                List<TemplatePage> templatespages = _IItemService.GetTemplatePagesByItemId(cloneObject.ItemId);
+                if (templatespages != null && templatespages.Count > 0)
+                {
+                    _templatePageService.CreateBlankBackgroundPDFsByPages(templatespages.FirstOrDefault().ProductId ?? 0, UpdatedPDFTemplateHeight, UpdatedPDFTemplateWidth, 1, templatespages, UserCookieManager.WEBOrganisationID);
+                }
+                UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
+
+                UserCookieManager.WEBOrderId = cloneObject.OrderId;
+
+                Response.Redirect(cloneObject.RedirectUrl);
+                return null;
             }
-            if (StoreBaseResopnse.Organisation.SystemLengthUnit == 3)
+            else 
             {
-                //Inch
-                UpdatedPDFTemplateHeight = Utils.InchtoPoint(PDFTemplateHeight);
-                UpdatedPDFTemplateWidth = Utils.InchtoPoint(PDFTemplateWidth);
+                CloneItem(ItemId);
+                return null;
             }
-        
-            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId, 0, UpdatedPDFTemplateWidth, UpdatedPDFTemplateHeight);
-            
-            List<TemplatePage> templatespages = _IItemService.GetTemplatePagesByItemId(cloneObject.ItemId);
-
-            if (templatespages != null && templatespages.Count > 0) 
-            {
-                _templatePageService.CreateBlankBackgroundPDFsByPages(templatespages.FirstOrDefault().ProductId ?? 0, UpdatedPDFTemplateHeight, UpdatedPDFTemplateWidth, 1, templatespages, UserCookieManager.WEBOrganisationID );
-            }
-
-            UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
-
-            UserCookieManager.WEBOrderId = cloneObject.OrderId;
-
-            Response.Redirect(cloneObject.RedirectUrl);
-            return null;
         }
 
     }
