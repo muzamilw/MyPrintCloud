@@ -3410,7 +3410,7 @@ namespace MPC.Implementation.MISServices
         {
 
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
-            string sMinimumCost = null;
+            string sMinimumCost = string.Empty;
             double UnitPrice = 0;
             double PackPrice = 0;
             //'For Unit Price Calculation of Paper
@@ -3421,16 +3421,16 @@ namespace MPC.Implementation.MISServices
             int OrderPTV = 0;
             int PrintSheetPTV = 0;
 
-            double[] OrderPaperLengthWithSpoilage = null;
-            double[] OrderPaperLengthWithoutSpoilage = null;
-            double[] OrderPaperLengthWithSpoilageSqMeters = null;
-            double[] OrderPaperLengthWithoutSpoilageSqMeters = null;
-            double[] OrderPaperReelsWithSpoilageQty = null;
-            double[] OrderPaperReelsWithoutSpoilageQty = null;
-            double[] OrderPaperWeightWithSpoilage = null;
-            double[] OrderPaperWeightWithoutSpoilage = null;
+            double[] OrderPaperLengthWithSpoilage = new double[3];
+            double[] OrderPaperLengthWithoutSpoilage = new double[3];
+            double[] OrderPaperLengthWithSpoilageSqMeters = new double[3];
+            double[] OrderPaperLengthWithoutSpoilageSqMeters = new double[3];
+            double[] OrderPaperReelsWithSpoilageQty = new double[3];
+            double[] OrderPaperReelsWithoutSpoilageQty = new double[3];
+            double[] OrderPaperWeightWithSpoilage = new double[3];
+            double[] OrderPaperWeightWithoutSpoilage = new double[3];
             int TempQuantity = 0;
-            double[] Spoilage = null;
+            double[] Spoilage = new double[3];
             //converted into mm heights/widths
             double SectionHeight = 0;
             double SectionWidth = 0;
@@ -3449,19 +3449,19 @@ namespace MPC.Implementation.MISServices
 
 
             if (oPaperDTO.RollStandards == (int)lengthunit.Cm)
-                ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, lengthunit.Cm, lengthunit.Mm);
+                ReelWidth = ConvertLength(Convert.ToDouble(oPaperDTO.RollWidth), lengthunit.Cm, lengthunit.Mm);
             else if (oPaperDTO.RollStandards == (int)lengthunit.Inch)
-                ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, lengthunit.Inch, lengthunit.Mm);
+                ReelWidth = ConvertLength(Convert.ToDouble(oPaperDTO.RollWidth), lengthunit.Inch, lengthunit.Mm);
             else
                 ReelWidth = Convert.ToDouble(oPaperDTO.RollWidth);
 
             // ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, roleStandard , MPC.Models.Common.LengthUnit.Mm);
             //roll length is always going into meters
-            ReelLength = (double)oPaperDTO.RollLength;
+            ReelLength = Convert.ToDouble(oPaperDTO.RollLength);
 
-            SectionHeight = ConvertLength((double)oItemSection.SectionSizeHeight, (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
+            SectionHeight = ConvertLength(Convert.ToDouble(oItemSection.SectionSizeHeight), (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
 
-            SectionWidth = ConvertLength((double)oItemSection.SectionSizeWidth, (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
+            SectionWidth = ConvertLength(Convert.ToDouble(oItemSection.SectionSizeWidth), (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
 
             if (oItemSection.PrintViewLayout == 1) // 1 is for Landscape 0 is for portrait
             {
@@ -3500,13 +3500,13 @@ namespace MPC.Implementation.MISServices
                 //in case spoilage is in sheets
                 if (oItemSection.WebSpoilageType == (int)WebSpoilageTypes.inSheets)
                 {
-                    Spoilage[i] = (double)(oItemSection.SetupSpoilage + (SectionQtyWithoutSpoilage * oItemSection.RunningSpoilage / 100));
+                    Spoilage[i] = Convert.ToDouble((oItemSection.SetupSpoilage + (SectionQtyWithoutSpoilage * oItemSection.RunningSpoilage / 100)));
                     SectionQtyWithSpoilage += Spoilage[i];
                 }
                 else
                 {
                     //in case spoilage is in Meters
-                    Spoilage[i] = (double)(oItemSection.SetupSpoilage * SectionHeight / 1000 + (SectionQtyWithoutSpoilage * oItemSection.RunningSpoilage / 100 * SectionHeight / 1000));
+                    Spoilage[i] = Convert.ToDouble((oItemSection.SetupSpoilage * SectionHeight / 1000 + (SectionQtyWithoutSpoilage * oItemSection.RunningSpoilage / 100 * SectionHeight / 1000)));
                     SectionQtyWithSpoilage += Spoilage[i];
                 }
                 //calculating paper required in meters
@@ -3517,11 +3517,11 @@ namespace MPC.Implementation.MISServices
                 OrderPaperLengthWithSpoilageSqMeters[i] = (OrderPaperLengthWithSpoilage[i] * SectionWidth / 1000) / 100;
                 OrderPaperLengthWithoutSpoilageSqMeters[i] = (OrderPaperLengthWithoutSpoilage[i] * SectionWidth / 1000) / 100;
 
-                OrderPaperReelsWithSpoilageQty[i] = (double)(OrderPaperLengthWithSpoilage[i] / ReelLength);
-                OrderPaperReelsWithoutSpoilageQty[i] = (double)(OrderPaperLengthWithoutSpoilage[i] / ReelLength);
+                OrderPaperReelsWithSpoilageQty[i] = (OrderPaperLengthWithSpoilage[i] / ReelLength);
+                OrderPaperReelsWithoutSpoilageQty[i] = (OrderPaperLengthWithoutSpoilage[i] / ReelLength);
 
-                OrderPaperWeightWithSpoilage[i] = (ConvertWeight((double)oPaperDTO.ItemWeight, WeightUnits.GSM, WeightUnits.lbs) * 100 * OrderPaperLengthWithSpoilageSqMeters[i]);
-                OrderPaperWeightWithoutSpoilage[i] = (ConvertWeight((double)oPaperDTO.ItemWeight, WeightUnits.GSM, WeightUnits.lbs) * 100 * OrderPaperLengthWithoutSpoilageSqMeters[i]);
+                OrderPaperWeightWithSpoilage[i] = (ConvertWeight(Convert.ToDouble(oPaperDTO.ItemWeight), WeightUnits.GSM, WeightUnits.lbs) * 100 * OrderPaperLengthWithSpoilageSqMeters[i]);
+                OrderPaperWeightWithoutSpoilage[i] = (ConvertWeight(Convert.ToDouble(oPaperDTO.ItemWeight), WeightUnits.GSM, WeightUnits.lbs) * 100 * OrderPaperLengthWithoutSpoilageSqMeters[i]);
 
             }
             oItemSection.PaperWeight1 = OrderPaperWeightWithSpoilage[0];
@@ -3532,6 +3532,13 @@ namespace MPC.Implementation.MISServices
 
             //GlobalData gData = GetItemPriceCost(oItemSection.StockItemID1, UnitCost, UnitPrice, PackCost, PackPrice);
             GlobalData gData = GetItemPriceCost((int)oItemSection.StockItemID1);
+            if (gData != null)
+            {
+                UnitCost = gData.dblUnitCost;
+                UnitPrice = gData.dblUnitPrice;
+                PackCost = gData.dblPackCost;
+                PackPrice = gData.dblPackPrice;
+            }
 
             //Updating the Cost price per pack of Stock used in Item Section
             oItemSection.PaperPackPrice = gData.dblPackPrice;
@@ -3577,7 +3584,7 @@ namespace MPC.Implementation.MISServices
 
             //if paper is not supplied and we have to use it ourself then add the prices :)
 
-            if (oItemSection.IsPaperSupplied == false)
+            if (oItemSection.IsPaperSupplied != true)
             {
                 oItemSectionCostCenter.Qty1Charge = OrderPaperLengthWithSpoilageSqMeters[0] * UnitPrice;
 
@@ -3878,7 +3885,7 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenterDetail.Qty3 = OrderPaperLengthWithSpoilageSqMeters[2];
             }
 
-            if (oItemSection.IsPaperSupplied == false)
+            if (oItemSection.IsPaperSupplied != true)
             {
                 oItemSectionCostCenterDetail.CostPrice = UnitPrice;
             }
@@ -6705,13 +6712,13 @@ namespace MPC.Implementation.MISServices
                 StockItem oPaperDTO = new StockItem();
                 oPaperDTO = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.StockItemID1));
 
-                double[] OrderPaperLengthWithSpoilage = new double[1];
-                double[] OrderPaperLengthWithoutSpoilage = new double[1];
-                double[] OrderPaperLengthWithSpoilageSqMeters = new double[1];
+                double[] OrderPaperLengthWithSpoilage = new double[3];
+                double[] OrderPaperLengthWithoutSpoilage = new double[3];
+                double[] OrderPaperLengthWithSpoilageSqMeters = new double[3];
                 double[] OrderPaperLengthWithoutSpoilageSqMeters = new double[3];
                 double[] OrderPaperReelsWithSpoilageQty = new double[1];
                 double[] OrderPaperReelsWithoutSpoilageQty = new double[1];
-                double[] OrderPaperWeightWithSpoilage = new double[1];
+                double[] OrderPaperWeightWithSpoilage = new double[3];
                 double[] OrderPaperWeightWithoutSpoilage = new double[3];
                 double[] SectionQtyWithoutSpoilage = new double[3];
                 double[] SectionQtyWithSpoilage = new double[3];
@@ -6721,18 +6728,18 @@ namespace MPC.Implementation.MISServices
                 double SectionHeight = 0;
                 double SectionWidth = 0;
 
-                double ReelLength = 0;
-                double ReelWidth = 0;
+                //double ReelLength = 0;
+                //double ReelWidth = 0;
 
-                //convert reel width from whatever standard into mm
-                if (oPaperDTO.RollStandards == (int)lengthunit.Cm)
-                    ReelWidth = ConvertLength(Convert.ToDouble(oPaperDTO.RollWidth), lengthunit.Cm, lengthunit.Mm);
-                else if (oPaperDTO.RollStandards == (int)lengthunit.Inch)
-                    ReelWidth = ConvertLength(Convert.ToDouble(oPaperDTO.RollWidth), lengthunit.Inch, lengthunit.Mm);
-                else
-                    ReelWidth = Convert.ToDouble(oPaperDTO.RollWidth);
-                //roll length is always going into meters
-                ReelLength = oPaperDTO.RollLength ?? 1;
+                ////convert reel width from whatever standard into mm
+                //if (oPaperDTO.RollStandards == (int)lengthunit.Cm)
+                //    ReelWidth = ConvertLength(Convert.ToDouble(oPaperDTO.RollWidth), lengthunit.Cm, lengthunit.Mm);
+                //else if (oPaperDTO.RollStandards == (int)lengthunit.Inch)
+                //    ReelWidth = ConvertLength(Convert.ToDouble(oPaperDTO.RollWidth), lengthunit.Inch, lengthunit.Mm);
+                //else
+                //    ReelWidth = Convert.ToDouble(oPaperDTO.RollWidth);
+                ////roll length is always going into meters
+                //ReelLength = oPaperDTO.RollLength ?? 1;
 
                 SectionHeight = oItemSection.SectionSizeHeight ?? 1;
 
