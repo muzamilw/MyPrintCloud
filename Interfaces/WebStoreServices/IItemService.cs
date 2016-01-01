@@ -231,5 +231,6 @@ namespace MPC.Interfaces.WebStoreServices
         void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId);
         void UpdateUploadFlagInItem(long ItemId, int? FlagValue);
         void SaveMarketingBriefHistory(MarketingBriefHistory model);
+        List<TemplatePage> GetTemplatePagesByItemId(long clonedItemId);
     }
 }

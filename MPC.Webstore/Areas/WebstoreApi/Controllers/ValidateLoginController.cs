@@ -99,7 +99,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             
             JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
-            //System.Web.HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+            System.Web.HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Request.CreateResponse(HttpStatusCode.OK, messages);
         }
 

@@ -9450,6 +9450,14 @@ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName
 
  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
  VALUES (N'Auction End Time', N'Listing', N'AuctionEndTime', 2, N'{{AuctionEndTime}}', 9, N'ListingId', 2, NULL, 5, N'AuctionEndTime', NULL, NULL, NULL, 1, NULL)
+
+ 
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'SignBoard Installation Instructions', N'Listing', N'SignBoardInstallInstruction', 2, N'{{SignBoardInstallInstruction}}', 9, N'ListingId', 2, NULL, 5, N'SignBoardInstallInstruction', NULL, NULL, NULL, 1, NULL)
+
+ update fieldvariable
+set CriteriaFieldName = 'ClientListingId'
+ where reftablename like '%listing' and variabletag like '%{{WebID}}%'
  -------------------------------------------------------------------
 
 insert into costcentrevariable(Name, RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, PropertyType, VariableDescription, VariableValue, SystemSiteId)

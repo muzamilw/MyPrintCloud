@@ -619,10 +619,26 @@
         <input type="hidden" id="hfPrintCropMarks" />
         <input type="hidden" id="hfSvcRespone" />
     </div>
-    <div id="TemplateSizeCa">
-        <input type="text" id="PdfTemplatewidth"/>
-        <input type="text" id="PdfTemplateheight" />
-        <input id="savenCon" type="button" value="DesignNow" onclick="UpdateTemplatePdfParameters()" />
+    <div id="TemplateSizeCa" style="width:100%;">
+        <div class="md-content">
+        <div class="modal-header">
+            @*<button class="md-close close" onclick="HideMessagePopUp();">×</button><h4 class="modal-title left_align">Message</h4>*@
+            </div><div class="modal-body left_align">
+            <div id="CCErrorMesgContainer"></div>
+            <div class="cost-centre-left-container">
+                <label>Height</label>
+            </div>
+            <div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplateheight"></div><br><div class="clearBoth"></div>
+
+                      <div class="cost-centre-left-container">
+                          <label>Width</label>
+                      </div>
+                      <div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplatewidth"></div><br><div class="clearBoth"></div>
+            <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
+                <button style="width:100px;" id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" onclick="ClosePopUp();">Cancel</button>
+            <button style="margin-right:15px!important;width:100px;" id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" onclick="UpdateTemplatePdfParameters();">Continue</button>
+                
+            <img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader" style="height: 20px; margin-right: 10px;margin-top:8px; display:none;"></div></div></div>
     </div>
     <section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
         <div class="mask on"></div>
@@ -680,7 +696,7 @@
         $("#popupBody").append($("#TemplateSizeCa"));
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
-       
+        $("#modelTitle").text('Message');
     });
 
     function ShowTemplatePopup(height,width,templateId,ItemmId)
@@ -689,19 +705,17 @@
         ItemId=ItemmId;
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
-        var tempwidth= $("#PdfTemplatewidth").val(width.toFixed(2));
-        var tempheight=$("#PdfTemplateheight").val(height.toFixed(2));
-        
-        
+        var tempwidth= $("#PdfTemplatewidth").val(width.toFixed(3));
+        var tempheight=$("#PdfTemplateheight").val(height.toFixed(3));
     }
 
     function UpdateTemplatePdfParameters()
     {
 
-        alert();
         var Tempwidth = $("#PdfTemplatewidth").val();
         var TempHeight = $("#PdfTemplateheight").val();
         window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"";
+        ShowLoader();
         //var Data = { productId: TemplateID,PDFTemplateWidth:Tempwidth,PDFTemplateHeight:TempHeight };
         //$.ajax({
         //    type: "POST",
@@ -713,6 +727,12 @@
                 
         //    }
         //});
+    }
+
+    function ClosePopUp()
+    {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
     }
     var tID = 0;
     var itemId = 0;

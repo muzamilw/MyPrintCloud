@@ -128,7 +128,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemByIdDesigner(ItemId);
         }
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId, long PropertyId, bool isUploadDesignMode = false, bool isSetTemplateIdToNull = false, double PdfTemplatewidth=0.0, double PdfTemplateheight=0.0)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId, long PropertyId, bool isUploadDesignMode = false, bool isSetTemplateIdToNull = false, double PdfTemplatewidth = 0.0, double PdfTemplateheight = 0.0)
         {
 
             try
@@ -191,14 +191,14 @@ namespace MPC.Implementation.WebStoreServices
 
                 newItem.TemplateType = ActualItem.TemplateType;
 
-                if (isSetTemplateIdToNull == true) 
+                if (isSetTemplateIdToNull == true)
                 {
                     if (isUploadDesignMode == true)
                     {
                         newItem.TemplateId = null;
                     }
                 }
-               
+
                 if (isCopyProduct)
                 {
                     newItem.IsOrderedItem = true;
@@ -248,11 +248,11 @@ namespace MPC.Implementation.WebStoreServices
                     // assign vales
                     if (PdfTemplateheight > 0)
                     {
-                        tblItemSectionCloned.SectionSizeHeight = PdfTemplateheight;
+                        tblItemSectionCloned.SectionSizeHeight = PdfTemplateheight * (ActualItem.Scalar ?? 1);
                     }
                     if (PdfTemplatewidth > 0)
                     {
-                        tblItemSectionCloned.SectionSizeWidth = PdfTemplatewidth;
+                        tblItemSectionCloned.SectionSizeWidth = PdfTemplatewidth * (ActualItem.Scalar ?? 1); 
                     }
                     _ItemSectionRepository.Add(tblItemSectionCloned);
                     _ItemSectionRepository.SaveChanges();
@@ -304,16 +304,13 @@ namespace MPC.Implementation.WebStoreServices
 
                         var oCutomer = _CompanyRepository.Find(StoreId); //db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
                         clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
-                        
-                            if(PdfTemplatewidth>0)
-                            {
-                                clonedTemplate.PDFTemplateWidth=PdfTemplatewidth;
-                            }
-                            if (PdfTemplateheight > 0)
-                            {
-                                clonedTemplate.PDFTemplateHeight =PdfTemplateheight;
-                            }
-                            ///assign
+                        if (PdfTemplatewidth > 0 && PdfTemplateheight > 0) 
+                        {
+                            clonedTemplate.PDFTemplateWidth = PdfTemplatewidth;
+                            clonedTemplate.PDFTemplateHeight = PdfTemplateheight;
+                        }
+                       
+                        ///assign
                         if (PropertyId > 0)
                         {
                             clonedTemplate.realEstateId = PropertyId;
@@ -329,6 +326,17 @@ namespace MPC.Implementation.WebStoreServices
 
                         }
                         _TemplateRepository.SaveChanges();
+
+                        if (PdfTemplatewidth > 0 && PdfTemplateheight > 0) 
+                        {
+                           List<TemplatePage> listOfTemPages = _TemplatePageRepository.GetTemplatePages(clonedTemplate.ProductId);
+                           foreach (TemplatePage pg in listOfTemPages) 
+                           {
+                               pg.Height = PdfTemplateheight;
+                               pg.Width = PdfTemplatewidth;
+                           }
+                            _TemplatePageRepository.SaveChanges();
+                        }
                         // here 
 
                         //  VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
@@ -1857,7 +1865,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                Item item = CloneItem(itemID, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId,0);
+                Item item = CloneItem(itemID, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, 0);
 
                 if (item != null)
                 {
@@ -1897,7 +1905,7 @@ namespace MPC.Implementation.WebStoreServices
                     CompanyID = TemporaryCompanyId;
                     ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
                 }
-                Item item = CloneItem(itemID, 0, WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId,0);
+                Item item = CloneItem(itemID, 0, WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, 0);
 
                 if (item != null)
                 {
@@ -2139,7 +2147,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false,false, PdfTemplatewidth,PdfTemplateheight);
+                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false, false, PdfTemplatewidth, PdfTemplateheight);
 
                 if (item != null)
                 {
@@ -2194,7 +2202,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
 
-                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false,false, PdfTemplatewidth, PdfTemplateheight);
+                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false, false, PdfTemplatewidth, PdfTemplateheight);
 
                 if (item != null)
                 {
@@ -2204,7 +2212,7 @@ namespace MPC.Implementation.WebStoreServices
                     ProductName = specialCharactersEncoder(item.ProductName);
                 }
             }
-
+            itemCloneObj.ItemId = ItemID;
             int isCalledFrom = 0;
             if (ModeOfStore == StoreMode.Corp)
                 isCalledFrom = 4;
@@ -2271,6 +2279,16 @@ namespace MPC.Implementation.WebStoreServices
         public GetCategoryProduct GetPublishedProductByItemID(int itemID)
         {
             return _ItemRepository.GetPublishedProductByItemID(itemID);
+        }
+        public List<TemplatePage> GetTemplatePagesByItemId(long clonedItemId)
+        {
+            Item clonedItem = _ItemRepository.GetItemByItemID(clonedItemId);
+            if (clonedItem != null)
+            {
+                return _TemplatePageRepository.GetTemplatePages(clonedItem.TemplateId ?? 0);
+            }
+
+            return null;
         }
         #region PrivateFunctions
         public T Clone<T>(T source)
@@ -3227,12 +3245,12 @@ namespace MPC.Implementation.WebStoreServices
 
                             if (voucher.CouponUseType == (int)CouponUseType.OneTimeUsePerCustomer)
                             {
-                               CompanyVoucherRedeem oVRedeem =  _CompanyVoucherRedeemRepository.GetReedeemVoucherRecord(ContactId,CompanyId, voucher.DiscountVoucherId);
-                               if (oVRedeem != null) 
-                               {
-                                   _CompanyVoucherRedeemRepository.Delete(oVRedeem);
-                                   _CompanyVoucherRedeemRepository.SaveChanges();
-                               }
+                                CompanyVoucherRedeem oVRedeem = _CompanyVoucherRedeemRepository.GetReedeemVoucherRecord(ContactId, CompanyId, voucher.DiscountVoucherId);
+                                if (oVRedeem != null)
+                                {
+                                    _CompanyVoucherRedeemRepository.Delete(oVRedeem);
+                                    _CompanyVoucherRedeemRepository.SaveChanges();
+                                }
                             }
                         }
 
@@ -3669,7 +3687,7 @@ namespace MPC.Implementation.WebStoreServices
             {
 
                 Item clonedItem = _ItemRepository.GetItemByItemID(ItemId);
-                
+
                 if (clonedItem != null)
                 {
                     clonedItem.UploadTypeByUser = 1;
