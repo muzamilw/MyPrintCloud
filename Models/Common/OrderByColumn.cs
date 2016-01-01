@@ -23,6 +23,11 @@
         /// <summary>
         /// Order Code
         /// </summary>
-        OrderCode = 4
+        OrderCode = 4,
+        /// <summary>
+        /// Order Date
+        /// </summary>
+        OrderDate = 5,
+        EstimateDate = 6
     }
 }

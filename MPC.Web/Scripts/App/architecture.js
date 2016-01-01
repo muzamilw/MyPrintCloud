@@ -32,7 +32,8 @@ var ist = {
     //server exceptions enumeration 
     exceptionType: {
         MPCGeneralException: 'MPCGeneralException',
-        UnspecifiedException: 'UnspecifiedException'
+        UnspecifiedException: 'UnspecifiedException',
+        MPCSpecifiedException: 'MPC.ExceptionHandling.MPCException'
     },
     //verify if the string is a valid json
     verifyValidJSON: function (str) {
@@ -141,7 +142,9 @@ amplify.request.decoders = {
                     errorObject.errorDetail = JSON.parse(xhr.responseText);;
                     if (errorObject.errorDetail.ExceptionType === ist.exceptionType.MPCGeneralException) {
                         error(errorObject.errorDetail.Message, ist.exceptionType.MPCGeneralException);
-                    } else {
+                    } else if (errorObject.errorDetail.ExceptionType === ist.exceptionType.MPCSpecifiedException) {
+                        error(errorObject.errorDetail.ExceptionMessage, ist.exceptionType.MPCSpecifiedException);
+                    }else {
                         error("Unspecified exception", ist.exceptionType.UnspecifiedException);
                     }
                 } else {
