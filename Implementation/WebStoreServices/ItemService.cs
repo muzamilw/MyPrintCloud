@@ -16,7 +16,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-
+using MPC.Webstore.Common;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -128,11 +128,13 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemByIdDesigner(ItemId);
         }
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId, long PropertyId, bool isUploadDesignMode = false, bool isSetTemplateIdToNull = false, double PdfTemplatewidth = 0.0, double PdfTemplateheight = 0.0)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId, long PropertyId, bool isUploadDesignMode = false, bool isSetTemplateIdToNull = false, double PdfTemplatewidth = 0.0, double PdfTemplateheight = 0.0, int SystemLengthUnit=0)
         {
 
             try
             {
+                double UpdatedPDFTemplateHeight = 0.0;
+                double UpdatedPDFTemplateWidth = 0.0;
                 Template clonedTemplate = null;
 
                 ItemSection tblItemSectionCloned = new ItemSection();
@@ -246,8 +248,11 @@ namespace MPC.Implementation.WebStoreServices
                     tblItemSectionCloned.ItemSectionId = 0;
                     tblItemSectionCloned.ItemId = newItem.ItemId;
                     // assign vales
+                    
+                    
                     if (PdfTemplateheight > 0)
                     {
+                        
                         tblItemSectionCloned.SectionSizeHeight = PdfTemplateheight * (ActualItem.Scalar ?? 1);
                     }
                     if (PdfTemplatewidth > 0)
@@ -306,8 +311,22 @@ namespace MPC.Implementation.WebStoreServices
                         clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
                         if (PdfTemplatewidth > 0 && PdfTemplateheight > 0) 
                         {
-                            clonedTemplate.PDFTemplateWidth = PdfTemplatewidth;
-                            clonedTemplate.PDFTemplateHeight = PdfTemplateheight;
+                           
+                            if (SystemLengthUnit == 1)
+                            {
+                                //mm
+                                UpdatedPDFTemplateHeight = MMToPoint(PdfTemplateheight);
+                                UpdatedPDFTemplateWidth = MMToPoint(PdfTemplatewidth);
+                            }
+                            if (SystemLengthUnit == 3)
+                            {
+                                //Inch
+                                UpdatedPDFTemplateHeight=InchtoPoint(PdfTemplateheight);
+                                UpdatedPDFTemplateWidth = InchtoPoint(PdfTemplatewidth);
+                            }
+
+                            clonedTemplate.PDFTemplateWidth = UpdatedPDFTemplateWidth;
+                            clonedTemplate.PDFTemplateHeight = UpdatedPDFTemplateHeight;
                         }
                        
                         ///assign
@@ -332,8 +351,8 @@ namespace MPC.Implementation.WebStoreServices
                            List<TemplatePage> listOfTemPages = _TemplatePageRepository.GetTemplatePages(clonedTemplate.ProductId);
                            foreach (TemplatePage pg in listOfTemPages) 
                            {
-                               pg.Height = PdfTemplateheight;
-                               pg.Width = PdfTemplatewidth;
+                               pg.Height =UpdatedPDFTemplateHeight;
+                               pg.Width = UpdatedPDFTemplateWidth;
                            }
                             _TemplatePageRepository.SaveChanges();
                         }
@@ -2096,7 +2115,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <param name="TemporaryRetailCompanyIdFromCookie"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        public ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId, long StoreId, long PropertyId = 0, double PdfTemplatewidth = 0.0, double PdfTemplateheight = 0.0)
+        public ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId, long StoreId, long PropertyId = 0, double PdfTemplatewidth = 0.0, double PdfTemplateheight = 0.0 ,int SystemLengthUnit=0)
         {
             ItemCloneResult itemCloneObj = new ItemCloneResult();
             Item item = null;
@@ -2147,7 +2166,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false, false, PdfTemplatewidth, PdfTemplateheight);
+                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false, false, PdfTemplatewidth, PdfTemplateheight, SystemLengthUnit);
 
                 if (item != null)
                 {
@@ -2289,6 +2308,26 @@ namespace MPC.Implementation.WebStoreServices
             }
 
             return null;
+        }
+        public  double MMToPoint(double val)
+        {
+            return val * 2.834645669;
+        }
+
+        public  double PointToMM(double val)
+        {
+            return val / 2.834645669;
+        }
+        public  double InchtoPoint(double val)
+        {
+            return val * 25.4 * 2.834645669;
+
+        }
+
+        public  double PointToInch(double val)
+        {
+            return val / (25.4 * 2.834645669);
+
         }
         #region PrivateFunctions
         public T Clone<T>(T source)

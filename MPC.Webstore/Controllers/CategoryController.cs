@@ -372,8 +372,8 @@ namespace MPC.Webstore.Controllers
             }
 
         }
-       
-        public ActionResult UpdateTemplateDimensions(double PDFTemplateWidth, double PDFTemplateHeight, long ItemId)
+
+        public ActionResult UpdateTemplateDimensions(double PDFTemplateWidth, double PDFTemplateHeight, long ItemId, bool Check)
         {
             double UpdatedPDFTemplateWidth = 0.0;
             double UpdatedPDFTemplateHeight = 0.0;
@@ -391,14 +391,17 @@ namespace MPC.Webstore.Controllers
                 UpdatedPDFTemplateHeight = Utils.InchtoPoint(PDFTemplateHeight);
                 UpdatedPDFTemplateWidth = Utils.InchtoPoint(PDFTemplateWidth);
             }
-        
-            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId, 0, UpdatedPDFTemplateWidth, UpdatedPDFTemplateHeight);
-            
-            List<TemplatePage> templatespages = _IItemService.GetTemplatePagesByItemId(cloneObject.ItemId);
-
-            if (templatespages != null && templatespages.Count > 0) 
+            int lengthunit =Convert.ToInt32(StoreBaseResopnse.Organisation.SystemLengthUnit);
+            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId, 0, PDFTemplateWidth, PDFTemplateHeight,lengthunit);
+            if (Check)
             {
-                _templatePageService.CreateBlankBackgroundPDFsByPages(templatespages.FirstOrDefault().ProductId ?? 0, UpdatedPDFTemplateHeight, UpdatedPDFTemplateWidth, 1, templatespages, UserCookieManager.WEBOrganisationID );
+                List<TemplatePage> templatespages = _IItemService.GetTemplatePagesByItemId(cloneObject.ItemId);
+
+
+                if (templatespages != null && templatespages.Count > 0)
+                {
+                    _templatePageService.CreateBlankBackgroundPDFsByPages(templatespages.FirstOrDefault().ProductId ?? 0, UpdatedPDFTemplateHeight, UpdatedPDFTemplateWidth, 1, templatespages, UserCookieManager.WEBOrganisationID);
+                }
             }
 
             UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;

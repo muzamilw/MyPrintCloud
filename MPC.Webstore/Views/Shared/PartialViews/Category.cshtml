@@ -12,7 +12,9 @@
     List<AddOnCostsCenter> productCC = ViewData["ProductCostCenterList"] as List<AddOnCostsCenter>;
 
     var Organisation = ViewBag.Organisation as MPC.Models.DomainModels.Organisation;
-    
+    var convertedheight = 0.0;
+    var convertedwidth = 0.0;
+    var TakeTemplateHeightWidth = "";
 }
 
 @if (Model != null)
@@ -144,35 +146,32 @@
                                                     }
                                                     else
                                                     {
-                                                        //if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-                                                        //{
-                                                        //    isUploadImage = true;
-                                                        //    RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                                        //}
-                                                        //else
-                                                        //{
-                                                        isUploadImage = false;
+                                                      
 
-                                                        RedirectURL = "/Category/CloneItem/" + item.ItemId;
-                                                        //if (item.IsAllowCustomSize??false)
-                                                        //{ 
-                                                        //    var convertedheight=0.0;
-                                                        //    var convertedwidth=0.0;
-                                                        //    if (Organisation.SystemLengthUnit == 1)
-                                                        //    {
-                                                        //        //mm
-                                                        //        convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
-                                                        //        convertedwidth = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
-                                                        //    }
-                                                        //    if (Organisation.SystemLengthUnit == 3)
-                                                        //    { 
-                                                        //      //Inch
-                                                        //        convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
-                                                        //        convertedwidth = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
-                                                        //    }
-                                                        //    SkipDesignerPopUp = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + ");";
-                                                        //}
-                                                        //}
+                                                        if (item.IsAllowCustomSize ?? false)
+                                                        {
+                                                            
+                                                            if (Organisation.SystemLengthUnit == 1)
+                                                            {
+                                                                //mm
+                                                                convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
+                                                                convertedwidth = Utils.PointToMM(item.PDFTemplateWidth ?? 0.0);
+                                                            }
+                                                            if (Organisation.SystemLengthUnit == 3)
+                                                            {
+                                                                //Inch
+                                                                convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
+                                                                convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
+                                                            }
+                                                            RedirectURL = "#";
+                                                            TakeTemplateHeightWidth = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + "," + item.TemplateId + "," + item.ItemId + "," + item.ProductName + "," + Organisation.SystemLengthUnit + ");";
+                                                            
+                                                        }
+                                                        else
+                                                        {
+                                                            isUploadImage = false;
+                                                            RedirectURL = "/Category/CloneItem/" + item.ItemId; 
+                                                        }
                                                     }
 
 
@@ -232,7 +231,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader(); @SkipDesignerPopUp">
+                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="@SkipDesignerPopUp @TakeTemplateHeightWidth">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -388,28 +387,9 @@
                                                 else
                                                 {
 
-                                                    //if (item.IsAllowCustomSize ?? false)
-                                                    //{
-                                                    //    var convertedheight = 0.0;
-                                                    //    var convertedwidth = 0.0;
-                                                    //    if (Organisation.SystemLengthUnit == 1)
-                                                    //    {
-                                                    //        //mm
-                                                    //        convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
-                                                    //        convertedwidth = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
-                                                    //    }
-                                                    //    if (Organisation.SystemLengthUnit == 3)
-                                                    //    {
-                                                    //        //Inch
-                                                    //        convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
-                                                    //        convertedwidth = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
-                                                    //    }
-                                                    //    SkipDesignerPopUp = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + ");";
-                                                    //}
-                                                    //else
-                                                    //{ 
+                                                     
                                                     <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
-                                                   // }
+                                                   
 
                                                 }
                                                 @if (item.ProductType == (int)ProductType.MarketingBrief)
@@ -437,59 +417,23 @@
                                                     {
 
 
-                                                        if (item.IsAllowCustomSize ?? false)
-                                                        {
-                                                            var convertedheight = 0.0;
-                                                            var convertedwidth = 0.0;
-                                                            if (Organisation.SystemLengthUnit == 1)
-                                                            {
-                                                                //mm
-                                                                convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
-                                                                convertedwidth = Utils.PointToMM(item.PDFTemplateWidth ?? 0.0);
-                                                            }
-                                                            if (Organisation.SystemLengthUnit == 3)
-                                                            {
-                                                                //Inch
-                                                                convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
-                                                                convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
-                                                            }
-                                                            <a onclick="ShowTemplatePopup(@convertedheight,@convertedwidth,@item.TemplateId,@item.ItemId)">
-                                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
-                                                            </a>
-                                                            // SkipDesignerPopUp = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + ");";
-                                                        }
-                                                        else
-                                                        {
+                                                       
                                                         <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,'@item.ProductName');">
         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
     </a>
-                                                        }
-
+                                                       
                                                     }
                                                     else
                                                     {
 
                                                         if (item.IsAllowCustomSize ?? false)
                                                         {
-                                                            var convertedheight = 0.0;
-                                                            var convertedwidth = 0.0;
-                                                            if (Organisation.SystemLengthUnit == 1)
-                                                            {
-                                                                //mm
-                                                                convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
-                                                                convertedwidth = Utils.PointToMM(item.PDFTemplateWidth ?? 0.0);
-                                                            }
-                                                            if (Organisation.SystemLengthUnit == 3)
-                                                            {
-                                                                //Inch
-                                                                convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
-                                                                convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
-                                                            }
-                                                            <a onclick="ShowTemplatePopup(@convertedheight,@convertedwidth,@item.TemplateId,@item.ItemId)">
+                                                            
+                                                            <a onclick="ShowTemplatePopup(@convertedheight,@convertedwidth,@item.TemplateId,@item.ItemId,'@item.ProductName',@Organisation.SystemLengthUnit)">
                                                                 <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
                                                             </a>
 
-                                                            // SkipDesignerPopUp = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + ");";
+                                                           
                                                         }
                                                         else
                                                         {
@@ -621,25 +565,25 @@
     </div>
     <div id="TemplateSizeCa" style="width:100%;">
         <div class="md-content">
-        <div class="modal-header">
+        
             @*<button class="md-close close" onclick="HideMessagePopUp();">×</button><h4 class="modal-title left_align">Message</h4>*@
             </div><div class="modal-body left_align">
             <div id="CCErrorMesgContainer"></div>
             <div class="cost-centre-left-container">
                 <label>Height</label>
             </div>
-            <div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplateheight"></div><br><div class="clearBoth"></div>
+            <div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplateheight"><span style="margin-left:4px;" id="Systemunitt"></span></div><br><div class="clearBoth"></div>
 
                       <div class="cost-centre-left-container">
                           <label>Width</label>
                       </div>
-                      <div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplatewidth"></div><br><div class="clearBoth"></div>
+                      <div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplatewidth"><span style="margin-left:4px;" id="Systemunit"></span></div><br><div class="clearBoth"></div>
             <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
-                <button style="width:100px;" id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" onclick="ClosePopUp();">Cancel</button>
+              
             <button style="margin-right:15px!important;width:100px;" id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" onclick="UpdateTemplatePdfParameters();">Continue</button>
                 
             <img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader" style="height: 20px; margin-right: 10px;margin-top:8px; display:none;"></div></div></div>
-    </div>
+   
     <section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
         <div class="mask on"></div>
         <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
@@ -690,32 +634,89 @@
     <script>
         var TemplateID=0;
         var ItemId=0;
+        var Ftempheight=0;
+        var FtempWidth=0;
     $(document).ready(function(){
         HideLoader();
         buidPopup();
         $("#popupBody").append($("#TemplateSizeCa"));
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
-        $("#modelTitle").text('Message');
+      //  $('#btnCostCentreCalculator').attr("disabled",true);
+        
+        
     });
 
-    function ShowTemplatePopup(height,width,templateId,ItemmId)
+    function ShowTemplatePopup(height,width,templateId,ItemmId,ItemName,lengthunit)
     {
+        HideLoader();
         TemplateID=templateId;
         ItemId=ItemmId;
+        var SystemUnit='';
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
-        var tempwidth= $("#PdfTemplatewidth").val(width.toFixed(3));
-        var tempheight=$("#PdfTemplateheight").val(height.toFixed(3));
+       $("#PdfTemplatewidth").val(width.toFixed(3));
+        FtempWidth=$("#PdfTemplatewidth").val();
+        
+        $("#PdfTemplateheight").val(height.toFixed(3));
+        Ftempheight= $("#PdfTemplateheight").val();
+        var heading='Enter your custom dimensions for'+' '+ItemName;
+        $("#modelTitle").text(heading);
+        if(lengthunit==1)
+        {
+            SystemUnit='mm';
+        }
+        if(lengthunit==3)
+        {
+            SystemUnit='inch';
+        }
+        
+        $("#Systemunit").text(SystemUnit);
+        $("#Systemunitt").text(SystemUnit);
     }
-
+    //$("#PdfTemplatewidth").on('change keyup paste mouseup', function() {
+    //    if ($(this).val() != FtempWidth) {
+    //        lastValue = $(this).val();
+    //        console.log('The text box really changed this time');
+    //        $('#btnCostCentreCalculator').attr("enabled", true);
+    //    }
+    //    else
+    //    {
+            
+            
+    //    }
+    //});
+    //$("#PdfTemplateheight").on('change keyup paste mouseup', function() {
+    //    if ($(this).val() != Ftempheight) {
+    //        lastValue = $(this).val();
+    //        console.log('The text box really changed this time');
+    //        $('#btnCostCentreCalculator').attr("enabled", true);
+    //    }
+    //    else
+    //    {
+            
+           
+    //    }
+    //});
     function UpdateTemplatePdfParameters()
     {
 
         var Tempwidth = $("#PdfTemplatewidth").val();
         var TempHeight = $("#PdfTemplateheight").val();
-        window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"";
-        ShowLoader();
+        var flagTrue=true;
+        var Flagfalse=false;
+        
+        if(FtempWidth!=Tempwidth||Ftempheight!=TempHeight)
+        {
+            
+            window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"&Check="+flagTrue+"";
+            ShowLoader();
+        }
+        else
+        {
+            window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"&Check="+Flagfalse+"";
+            ShowLoader();
+        }
         //var Data = { productId: TemplateID,PDFTemplateWidth:Tempwidth,PDFTemplateHeight:TempHeight };
         //$.ajax({
         //    type: "POST",
@@ -730,6 +731,11 @@
     }
 
     function ClosePopUp()
+    {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function  HideMessagePopUpCustom()
     {
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
@@ -772,36 +778,36 @@
         if (bws.width < 700 && bws.width > 640) {
             //left = parseInt((bws.width) / 2);
             document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:500px;"></div></div>';
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:248px;"></div></div>';
 
         }
         else if (bws.width == 640) {
             //left = parseInt((bws.width) / 2);
             document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;"></div></div>';
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
 
         }
         else if (bws.width < 640 && bws.width > 600) {
             //left = parseInt((bws.width) / 2);
             document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:550px;"></div></div>';
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
 
         }
         else if (bws.width < 600 && bws.width > 500) {
             //left = parseInt((bws.width) / 2);
             document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:350px;"></div></div>';
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
 
         } else if (bws.width < 500) {
             //left = parseInt((bws.width) / 2);
             document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:300px;"></div></div>';
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
         }
         else {
 
             left = parseInt((bws.width - 730) / 2);
             document.getElementById("innerLayer").style.width = "730px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;" ></div></div>';
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;" ></div></div>';
         }
 
 
