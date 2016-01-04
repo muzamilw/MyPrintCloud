@@ -9549,3 +9549,7 @@ inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
 left outer join dbo.Template tempp on tempp.ProductId = p.TemplateId
 
 GO
+
+-----------------------------------------
+
+alter table report add SortOrder varchar(250) 

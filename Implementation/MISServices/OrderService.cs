@@ -1357,6 +1357,8 @@ namespace MPC.Implementation.MISServices
 
                 }
 
+                if (oOrder.StatusId == 4 || oOrder.StatusId == 5)
+                    IncludeJobCardReport = false;
                 if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
                 {
                     IncludeOrderReport = true;

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsEB86C09BE14D899E4F1EAB9EE793F463E9B3625FC9AA117CD325E99AFC9A26B7))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsFF8E46B98AE56D40C33629756D6DAE378EA7D3E8C6AD36F4521A204D6AE08279))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsEB86C09BE14D899E4F1EAB9EE793F463E9B3625FC9AA117CD325E99AFC9A26B7 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsFF8E46B98AE56D40C33629756D6DAE378EA7D3E8C6AD36F4521A204D6AE08279 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsEB86C09BE14D899E4F1EAB9EE793F463E9B3625FC9AA117CD325E99AFC9A26B7()
+        public ViewsForBaseEntitySetsFF8E46B98AE56D40C33629756D6DAE378EA7D3E8C6AD36F4521A204D6AE08279()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "1746fa787c085ea8bbc3340ff24433653158b1696ac79c15f4341d07d91ea05b";
-            this.HashOverAllExtentViews = "b0231559641487a1d3c6d51dd46a0d7fb9d9c470579df7df7e64d2be7c6183da";
+            this.HashOverMappingClosure = "854e0b7d03186b98db5aad5c5d851dd95a95e2c61d1fce425450198dd580df7e";
+            this.HashOverAllExtentViews = "b440902d08ae3065176c3563624ccf65fffd5afd93b8ea1d206cfed346480480";
             this.ViewCount = 366;
         }
         
@@ -12391,23 +12391,24 @@ namespace Edm_EntityMappingGeneratedViews
                     "_ReportTemplateOriginal, T1.Report_IsEditable, T1.Report_ParentReportId, T1.Repo" +
                     "rt_IsByReflection, T1.Report_CompanyId, T1.Report_IsSystemReport, T1.Report_Repo" +
                     "rtOrder, T1.Report_HasSubReport, T1.Report_SubReportTemplate, T1.Report_SubRepor" +
-                    "tDataSource, T1.Report_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n           " +
-                    " T.ReportId AS Report_ReportId, \r\n            T.Name AS Report_Name, \r\n         " +
-                    "   T.Path AS Report_Path, \r\n            T.FileName AS Report_FileName, \r\n       " +
-                    "     T.CategoryId AS Report_CategoryId, \r\n            T.Description AS Report_De" +
-                    "scription, \r\n            T.ReportDataSource AS Report_ReportDataSource, \r\n      " +
-                    "      T.NameSpace AS Report_NameSpace, \r\n            T.IsExternal AS Report_IsEx" +
-                    "ternal, \r\n            T.IsFixed AS Report_IsFixed, \r\n            T.ReportTemplat" +
-                    "e AS Report_ReportTemplate, \r\n            T.ReportTemplateOriginal AS Report_Rep" +
-                    "ortTemplateOriginal, \r\n            T.IsEditable AS Report_IsEditable, \r\n        " +
-                    "    T.ParentReportId AS Report_ParentReportId, \r\n            T.IsByReflection AS" +
-                    " Report_IsByReflection, \r\n            T.CompanyId AS Report_CompanyId, \r\n       " +
-                    "     T.IsSystemReport AS Report_IsSystemReport, \r\n            T.ReportOrder AS R" +
-                    "eport_ReportOrder, \r\n            T.HasSubReport AS Report_HasSubReport, \r\n      " +
-                    "      T.SubReportTemplate AS Report_SubReportTemplate, \r\n            T.SubReport" +
-                    "DataSource AS Report_SubReportDataSource, \r\n            T.OrganisationId AS Repo" +
-                    "rt_OrganisationId, \r\n            True AS _from0\r\n        FROM BaseDbContext.Repo" +
-                    "rts AS T\r\n    ) AS T1");
+                    "tDataSource, T1.Report_OrganisationId, T1.Report_SortOrder)\r\n    FROM (\r\n       " +
+                    " SELECT \r\n            T.ReportId AS Report_ReportId, \r\n            T.Name AS Rep" +
+                    "ort_Name, \r\n            T.Path AS Report_Path, \r\n            T.FileName AS Repor" +
+                    "t_FileName, \r\n            T.CategoryId AS Report_CategoryId, \r\n            T.Des" +
+                    "cription AS Report_Description, \r\n            T.ReportDataSource AS Report_Repor" +
+                    "tDataSource, \r\n            T.NameSpace AS Report_NameSpace, \r\n            T.IsEx" +
+                    "ternal AS Report_IsExternal, \r\n            T.IsFixed AS Report_IsFixed, \r\n      " +
+                    "      T.ReportTemplate AS Report_ReportTemplate, \r\n            T.ReportTemplateO" +
+                    "riginal AS Report_ReportTemplateOriginal, \r\n            T.IsEditable AS Report_I" +
+                    "sEditable, \r\n            T.ParentReportId AS Report_ParentReportId, \r\n          " +
+                    "  T.IsByReflection AS Report_IsByReflection, \r\n            T.CompanyId AS Report" +
+                    "_CompanyId, \r\n            T.IsSystemReport AS Report_IsSystemReport, \r\n         " +
+                    "   T.ReportOrder AS Report_ReportOrder, \r\n            T.HasSubReport AS Report_H" +
+                    "asSubReport, \r\n            T.SubReportTemplate AS Report_SubReportTemplate, \r\n  " +
+                    "          T.SubReportDataSource AS Report_SubReportDataSource, \r\n            T.O" +
+                    "rganisationId AS Report_OrganisationId, \r\n            T.SortOrder AS Report_Sort" +
+                    "Order, \r\n            True AS _from0\r\n        FROM BaseDbContext.Reports AS T\r\n  " +
+                    "  ) AS T1");
         }
         
         /// <Summary>
@@ -12468,23 +12469,24 @@ namespace Edm_EntityMappingGeneratedViews
                     "rtTemplateOriginal, T1.Report_IsEditable, T1.Report_ParentReportId, T1.Report_Is" +
                     "ByReflection, T1.Report_CompanyId, T1.Report_IsSystemReport, T1.Report_ReportOrd" +
                     "er, T1.Report_HasSubReport, T1.Report_SubReportTemplate, T1.Report_SubReportData" +
-                    "Source, T1.Report_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.Re" +
-                    "portId AS Report_ReportId, \r\n            T.Name AS Report_Name, \r\n            T." +
-                    "Path AS Report_Path, \r\n            T.FileName AS Report_FileName, \r\n            " +
-                    "T.CategoryId AS Report_CategoryId, \r\n            T.Description AS Report_Descrip" +
-                    "tion, \r\n            T.ReportDataSource AS Report_ReportDataSource, \r\n           " +
-                    " T.NameSpace AS Report_NameSpace, \r\n            T.IsExternal AS Report_IsExterna" +
-                    "l, \r\n            T.IsFixed AS Report_IsFixed, \r\n            T.ReportTemplate AS " +
-                    "Report_ReportTemplate, \r\n            T.ReportTemplateOriginal AS Report_ReportTe" +
-                    "mplateOriginal, \r\n            T.IsEditable AS Report_IsEditable, \r\n            T" +
-                    ".ParentReportId AS Report_ParentReportId, \r\n            T.IsByReflection AS Repo" +
-                    "rt_IsByReflection, \r\n            T.CompanyId AS Report_CompanyId, \r\n            " +
-                    "T.IsSystemReport AS Report_IsSystemReport, \r\n            T.ReportOrder AS Report" +
-                    "_ReportOrder, \r\n            T.HasSubReport AS Report_HasSubReport, \r\n           " +
-                    " T.SubReportTemplate AS Report_SubReportTemplate, \r\n            T.SubReportDataS" +
-                    "ource AS Report_SubReportDataSource, \r\n            T.OrganisationId AS Report_Or" +
-                    "ganisationId, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContai" +
-                    "ner.Report AS T\r\n    ) AS T1");
+                    "Source, T1.Report_OrganisationId, T1.Report_SortOrder)\r\n    FROM (\r\n        SELE" +
+                    "CT \r\n            T.ReportId AS Report_ReportId, \r\n            T.Name AS Report_N" +
+                    "ame, \r\n            T.Path AS Report_Path, \r\n            T.FileName AS Report_Fil" +
+                    "eName, \r\n            T.CategoryId AS Report_CategoryId, \r\n            T.Descript" +
+                    "ion AS Report_Description, \r\n            T.ReportDataSource AS Report_ReportData" +
+                    "Source, \r\n            T.NameSpace AS Report_NameSpace, \r\n            T.IsExterna" +
+                    "l AS Report_IsExternal, \r\n            T.IsFixed AS Report_IsFixed, \r\n           " +
+                    " T.ReportTemplate AS Report_ReportTemplate, \r\n            T.ReportTemplateOrigin" +
+                    "al AS Report_ReportTemplateOriginal, \r\n            T.IsEditable AS Report_IsEdit" +
+                    "able, \r\n            T.ParentReportId AS Report_ParentReportId, \r\n            T.I" +
+                    "sByReflection AS Report_IsByReflection, \r\n            T.CompanyId AS Report_Comp" +
+                    "anyId, \r\n            T.IsSystemReport AS Report_IsSystemReport, \r\n            T." +
+                    "ReportOrder AS Report_ReportOrder, \r\n            T.HasSubReport AS Report_HasSub" +
+                    "Report, \r\n            T.SubReportTemplate AS Report_SubReportTemplate, \r\n       " +
+                    "     T.SubReportDataSource AS Report_SubReportDataSource, \r\n            T.Organi" +
+                    "sationId AS Report_OrganisationId, \r\n            T.SortOrder AS Report_SortOrder" +
+                    ", \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.Report A" +
+                    "S T\r\n    ) AS T1");
         }
         
         /// <Summary>
