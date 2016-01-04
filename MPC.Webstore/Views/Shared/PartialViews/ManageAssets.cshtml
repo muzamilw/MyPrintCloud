@@ -112,10 +112,10 @@
         @*<h1 style="text-align:center;">Add Folder</h1>*@
         <div style="width:100%;">
             <div class="float_left" style="width:50%">
-                <img id="AddFoldImg" style="width:140px;height:140px;" />
+                <img id="AddFoldImg" style="width:140px;height:107px;" />
                 <br />
                 <br />
-                <input value="Upload" class="upladerbtn" type="button"  /> 
+                <input value="Upload/Update" id="uploderFikes" type="button"  /> 
                 <input style="visibility:hidden;" type="file" id="ImageUploader" onchange="ShowPreview(this);" />
                 <br />
                 <span id="AssetsItems">AssetsItems</span>
@@ -150,11 +150,11 @@
         
         
         @*<button id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>*@
-        <button style="display:none;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
-        <button style="display:none;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
-        <button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
-        <button style="display:none;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
-        <button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>
+        <button style="display:none;float:right;"  id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
+        <button style="display:none;float:right;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
+        <button style="display:none;float:right;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
+        <button style="display:none;float:right;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
+        @*<button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>*@
     </div>
     <div class="basketWindow" id="basketWindow" style="display:none;">
         <h1>A4 Double Sided Flyer</h1>
@@ -192,7 +192,7 @@
         document.getElementById("innerLayer").style.display = "none";
     });
 
-    $('.upladerbtn').click(function(){
+    $('#uploderFikes').click(function(){
         $('input[type=file]').click();
         return false;
     });

@@ -88,16 +88,14 @@ nav ul li a {
 	border:1px solid #CCCCCC;
 }
 
- .upladerbtn 
- { position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
+ #uploderFikes 
+ {
+       background-color: #5c7894;
+  width: 140px;
+  height: 32px;
+  
+  color: white;
+  /* font-weight: bold; */
 }
 .folder_desc_txtarea {
   padding: 10px 1%;
