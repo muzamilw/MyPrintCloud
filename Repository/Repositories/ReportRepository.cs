@@ -307,6 +307,8 @@ namespace MPC.Repository.Repositories
 
                         string queryString = "select " + report.ReportDataSource + OrganisationId;
 
+                      
+
                         SqlCommand command = new SqlCommand(queryString, oConn);
                         SqlDataReader reader = command.ExecuteReader();
 
@@ -333,7 +335,9 @@ namespace MPC.Repository.Repositories
                         //    CriteriaParam = CriteriaParam.Replace("where", " and ");
                         //}
 
-                        string queryString = "select " + report.ReportDataSource + OrganisationId +  CriteriaParam;
+                        string queryString = "select " + report.ReportDataSource + OrganisationId +  CriteriaParam + " " + report.SortOrder;
+
+                         
 
                         SqlCommand command = new SqlCommand(queryString, oConn);
                         SqlDataReader reader = command.ExecuteReader();
