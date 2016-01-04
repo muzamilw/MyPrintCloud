@@ -28,5 +28,7 @@ namespace MPC.MIS.Areas.Api.Models
         public Boolean? IsDirectSale { get; set; }
         public DateTime? OrderDate { get; set; }
         public string CurrencySymbol { get; set; }
+        public DateTime? EstimateDate { get; set; }
+
     }
 }

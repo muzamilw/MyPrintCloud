@@ -2221,7 +2221,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
 
-                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false, false, PdfTemplatewidth, PdfTemplateheight);
+                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId, StoreId, PropertyId, false, false, PdfTemplatewidth, PdfTemplateheight, SystemLengthUnit);
 
                 if (item != null)
                 {

@@ -379,37 +379,41 @@ namespace MPC.Webstore.Controllers
             double UpdatedPDFTemplateHeight = 0.0;
 
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-            if (StoreBaseResopnse.Organisation.SystemLengthUnit == 1)
-            {
-                //mm
-                UpdatedPDFTemplateHeight = Utils.MMToPoint(PDFTemplateHeight);
-                UpdatedPDFTemplateWidth = Utils.MMToPoint(PDFTemplateWidth);
-            }
-            if (StoreBaseResopnse.Organisation.SystemLengthUnit == 3)
-            {
-                //Inch
-                UpdatedPDFTemplateHeight = Utils.InchtoPoint(PDFTemplateHeight);
-                UpdatedPDFTemplateWidth = Utils.InchtoPoint(PDFTemplateWidth);
-            }
-            int lengthunit =Convert.ToInt32(StoreBaseResopnse.Organisation.SystemLengthUnit);
-            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId, 0, PDFTemplateWidth, PDFTemplateHeight,lengthunit);
+
             if (Check)
             {
+                if (StoreBaseResopnse.Organisation.SystemLengthUnit == 1)
+                {
+                    //mm
+                    UpdatedPDFTemplateHeight = Utils.MMToPoint(PDFTemplateHeight);
+                    UpdatedPDFTemplateWidth = Utils.MMToPoint(PDFTemplateWidth);
+                }
+                if (StoreBaseResopnse.Organisation.SystemLengthUnit == 3)
+                {
+                    //Inch
+                    UpdatedPDFTemplateHeight = Utils.InchtoPoint(PDFTemplateHeight);
+                    UpdatedPDFTemplateWidth = Utils.InchtoPoint(PDFTemplateWidth);
+                }
+                int lengthunit = Convert.ToInt32(StoreBaseResopnse.Organisation.SystemLengthUnit);
+
+                ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId, 0, PDFTemplateWidth, PDFTemplateHeight, lengthunit);
                 List<TemplatePage> templatespages = _IItemService.GetTemplatePagesByItemId(cloneObject.ItemId);
-
-
                 if (templatespages != null && templatespages.Count > 0)
                 {
                     _templatePageService.CreateBlankBackgroundPDFsByPages(templatespages.FirstOrDefault().ProductId ?? 0, UpdatedPDFTemplateHeight, UpdatedPDFTemplateWidth, 1, templatespages, UserCookieManager.WEBOrganisationID);
                 }
+                UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
+
+                UserCookieManager.WEBOrderId = cloneObject.OrderId;
+
+                Response.Redirect(cloneObject.RedirectUrl);
+                return null;
             }
-
-            UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
-
-            UserCookieManager.WEBOrderId = cloneObject.OrderId;
-
-            Response.Redirect(cloneObject.RedirectUrl);
-            return null;
+            else 
+            {
+                CloneItem(ItemId);
+                return null;
+            }
         }
 
     }
