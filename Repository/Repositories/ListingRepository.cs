@@ -2896,7 +2896,7 @@ namespace MPC.Repository.Repositories
                     {
                         listing.DisplayPrice = null;
                     }
-                    if (propertyListing.SearchPrice == null || propertyListing.SearchPrice.Equals(string.Empty))
+                    if (!string.IsNullOrEmpty(propertyListing.SearchPrice))
                     {
                         strForParse = propertyListing.SearchPrice.ToString();
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
