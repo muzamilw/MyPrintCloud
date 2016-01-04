@@ -164,7 +164,7 @@
                                                                 convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
                                                             }
                                                             RedirectURL = "#";
-                                                            TakeTemplateHeightWidth = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + "," + item.TemplateId + "," + item.ItemId + "," + item.ProductName + "," + Organisation.SystemLengthUnit + ");";
+                                                            TakeTemplateHeightWidth = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + "," + item.TemplateId + "," + item.ItemId + ",'" +item.ProductName+"'," + Organisation.SystemLengthUnit + ");";
                                                             
                                                         }
                                                         else

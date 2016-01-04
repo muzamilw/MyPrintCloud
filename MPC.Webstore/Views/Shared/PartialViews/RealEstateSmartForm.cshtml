@@ -470,7 +470,11 @@
                             @*<a class="edit save-btn">Save</a>
                             <a class="edit cancel-btn">Close</a>*@
                             @*<a class="display" id="ImageDel" onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL');">Delete</a>*@
-                            <i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
+                            
+                                <span style="visibility:hidden;" class='display' ></span>
+                            <input style="visibility:hidden;" type='file' id='ListingImageUploader' class='editImg' />
+                           
+                            @*<i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>*@
                         </text>
                 },
                 new WebGridColumn{
@@ -480,7 +484,7 @@
                         @*<a class="edit save-btn">Save</a>
                             <a class="edit cancel-btn">Close</a>*@
                         @*<a class="display" id="ImageDel" onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL');">Delete</a>*@
-                        <i style="font-size:18px; visibility:hidden;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
+                        <i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
                     </text>
                 }
             };
@@ -1314,8 +1318,14 @@
                  //  var rows = $("#ajaxgridForListingImages").find('> tbody > tr');
                  // alert(rows);
                  //$("#listImage>table>tbody tr:last").after(tfootAddAnother);
-                 //   if (ListingImages == 0) {
-                 $("#listImage>table>tbody").after(tfootAddAnother);
+                 if (ListingImages == 0) {
+                     $("#listImage>table>tbody").after(tfootAddAnother);
+                 }
+                 else
+                 {
+                     
+                     $("#listImage>table>tbody tr:last").after(tfootAddAnother);
+                 }
                  ImgIndex++;
              }
        //  }
