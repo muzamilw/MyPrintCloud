@@ -87,6 +87,28 @@ nav ul li a {
 	padding:20px 2%;
 	border:1px solid #CCCCCC;
 }
+
+ .upladerbtn 
+ { position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.folder_desc_txtarea {
+  padding: 10px 1%;
+  border: none;
+  margin-bottom: 10px;
+  width: 100%;
+  font-size: 1.1em;
+  color: #666666;
+  border: 1px solid #CCCCCC;
+  height: 63px;
+}
 .folder_desc
 {
     padding: 10px 1%;
@@ -96,6 +118,7 @@ nav ul li a {
   font-size: 1.1em;
   color: #666666;
   border: 1px solid #CCCCCC;
+  height:27px;
 }
 .shareIcons {
     width: 542px;
