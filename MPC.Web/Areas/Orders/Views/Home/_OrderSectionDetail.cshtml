@@ -41,13 +41,13 @@
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
                                 <div class="col-sm-3 col-lg-2 col-md-3 text-left" style="padding-left: 2.5%;">
-                                    <label for="switchPrintOnBothSides" data-bind="visible: printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Print on both sides</label>
+                                    <label for="switchPrintOnBothSides"  style="float:left" class="control-label text-left tooltip-float">Print on both sides</label> @*data-bind="visible: printingTypeUi() !== '2'"*@
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->
                                 </div>
                                 <div class="col-sm-4" style="width: 28.1%">
-                                    <div class="onoffswitch" data-bind="visible: printingTypeUi() !== '2'">
+                                    <div class="onoffswitch" > @*data-bind="visible: printingTypeUi() !== '2'"*@
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPrintOnBothSides" data-bind="checked: isDoubleSidedUi">
                                         <label class="onoffswitch-label" for="switchPrintOnBothSides">
                                             <div class="onoffswitch-inner"></div>
@@ -227,7 +227,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="form-group" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'" style="margin-bottom: 2px;">
+                            <div class="form-group" data-bind="visible: isDoubleSidedUi()" style="margin-bottom: 2px;">
                                 <div class="col-sm-5 text-right" style="padding-left: 2.5%">
                                     <label data-bind="text: !isWorknTurn() ? 'Side 2' : 'Side 2 - Double side and Work n Trun, Passes = 2'" class="control-label tooltip-float" style="float: left;">Side 2 - Double side and Work n Trun, Passes = 2</label>
                                 </div>
@@ -243,7 +243,7 @@
 
                                 </div>
                             </div>
-                            <div class="form-group" style="" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2' && !isWorknTurn()">
+                            <div class="form-group" style="" data-bind="visible: isDoubleSidedUi() && !isWorknTurn()">
                                 <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
                                     <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
                                 </div>

@@ -1561,7 +1561,7 @@ define("common/itemDetail.viewModel",
                                 }
                             },
                             error: function(response) {
-                                toastr.error("Error: Failed to Load System Cost Centers." + response);
+                                toastr.error("Error: " + response);
                             }
                         });
                     },

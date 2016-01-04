@@ -40,7 +40,7 @@
                 <div id="pnlCatList">
                     <div id="divContainer" class="cursor_pointer">
                         @grid.Table(
-    htmlAttributes: new { id = "BillingShippingGrid" },
+    htmlAttributes: new { id = "ShowListingsGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
              headerStyle: "WebGridheader",
@@ -75,7 +75,7 @@
 }
 
                         
-                        </text>,style:"WebGridPadding Width360"),
+                        </text>,style:"WebGridPadding Width360 setpadding"),
 
 
     grid.Column("Name",format:@<p>@item.PropertyName</p>,style:"hidden-xs hidden-sm"),

@@ -18,6 +18,7 @@ using System.Xml;
 using MPC.Models.ResponseModels;
 using MPC.Models.RequestModels;
 using lengthunit = MPC.Models.Common.LengthUnit;
+using MPC.ExceptionHandling;
 
 namespace MPC.Implementation.MISServices
 {
@@ -3897,6 +3898,7 @@ namespace MPC.Implementation.MISServices
             oItemSectionCostCenterDetail.StockName = oPaperDTO.ItemName;
             oItemSectionCostCenterDetail.SupplierId = Convert.ToInt32(oPaperDTO.SupplierId);
 
+            oItemSectionCostCenter.Name = oPaperDTO.ItemName;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
             oItemSectionCostCenter.Qty3 = oItemSection.Qty3;
@@ -6756,7 +6758,7 @@ namespace MPC.Implementation.MISServices
 
                 if (PrintSheetPTV == 0)
                 {
-                    return oItemSection;
+                    throw new MPCException("Please set correct print dimensions.", itemsectionRepository.OrganisationId);
                 }
 
 
@@ -6866,8 +6868,8 @@ namespace MPC.Implementation.MISServices
 
                         //There are 3 GSM Setting their Values
                         intGSM[1] = Convert.ToInt32(oModelSpeedWeight.SheetWeight1);
-                        intGSM[2] = Convert.ToInt32(oModelSpeedWeight.SheetWeight1);
-                        intGSM[3] = Convert.ToInt32(oModelSpeedWeight.SheetWeight1);
+                        intGSM[2] = Convert.ToInt32(oModelSpeedWeight.SheetWeight2);
+                        intGSM[3] = Convert.ToInt32(oModelSpeedWeight.SheetWeight3);
                         //Setting the Sheet Values
                         intSheets[1] = Convert.ToInt32(oModelSpeedWeight.SheetsQty1);
                         intSheets[2] = Convert.ToInt32(oModelSpeedWeight.SheetsQty2);
@@ -6896,8 +6898,8 @@ namespace MPC.Implementation.MISServices
                         //Checking that the press support this GSM or Not
                         if (oPaperDTO.ItemWeight > oPressDTO.maximumsheetweight)
                         {
-                            return oItemSection;
-                            //Please select a paper that can be supported by the selected press.
+                            throw new MPCException(LanguageResources.ItemService_PressNoSupported, itemsectionRepository.OrganisationId);
+                            
                         }
 
                         byte btGSM = 0;
@@ -7716,7 +7718,7 @@ namespace MPC.Implementation.MISServices
             }
             catch (Exception ex)
             {
-                throw new Exception("CalculatePressCost", ex);
+                throw ex;
             }
             return oItemSection;
         }
