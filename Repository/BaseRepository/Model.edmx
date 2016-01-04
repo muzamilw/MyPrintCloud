@@ -2143,10 +2143,10 @@
           <Property Name="WebLink" Type="varchar" MaxLength="200" />
           <Property Name="AddressDisplay" Type="varchar" MaxLength="255" />
           <Property Name="StreetAddress" Type="varchar" MaxLength="255" />
-          <Property Name="LevelNumber" Type="int" />
-          <Property Name="LotNumber" Type="int" />
-          <Property Name="UnitNumber" Type="int" />
-          <Property Name="StreetNumber" Type="int" />
+          <Property Name="LevelNumber" Type="varchar" MaxLength="255" />
+          <Property Name="LotNumber" Type="varchar" MaxLength="255" />
+          <Property Name="UnitNumber" Type="varchar" MaxLength="255" />
+          <Property Name="StreetNumber" Type="varchar" MaxLength="255" />
           <Property Name="Street" Type="varchar" MaxLength="255" />
           <Property Name="Suburb" Type="varchar" MaxLength="50" />
           <Property Name="State" Type="varchar" MaxLength="50" />
@@ -2164,44 +2164,44 @@
           <Property Name="AuctionDate" Type="datetime" />
           <Property Name="AutionVenue" Type="varchar" MaxLength="255" />
           <Property Name="EOIClosingDate" Type="datetime" />
-          <Property Name="DisplayPrice" Type="float" />
-          <Property Name="SearchPrice" Type="float" />
+          <Property Name="DisplayPrice" Type="varchar" MaxLength="255" />
+          <Property Name="SearchPrice" Type="varchar" MaxLength="255" />
           <Property Name="RendPeriod" Type="int" />
           <Property Name="AvailableDate" Type="datetime" />
           <Property Name="SoldDate" Type="datetime" />
-          <Property Name="SoldPrice" Type="float" />
+          <Property Name="SoldPrice" Type="varchar" MaxLength="255" />
           <Property Name="IsSoldPriceConfidential" Type="bit" />
           <Property Name="MainHeadLine" Type="varchar" MaxLength="255" />
           <Property Name="MainDescription" Type="varchar" MaxLength="2000" />
           <Property Name="CustomCopy" Type="varchar" MaxLength="2000" />
-          <Property Name="BedRooms" Type="int" />
-          <Property Name="BathRooms" Type="int" />
-          <Property Name="LoungeRooms" Type="int" />
-          <Property Name="Toilets" Type="int" />
-          <Property Name="Studies" Type="int" />
-          <Property Name="Pools" Type="int" />
-          <Property Name="Garages" Type="int" />
-          <Property Name="Carports" Type="int" />
-          <Property Name="CarSpaces" Type="int" />
+          <Property Name="BedRooms" Type="varchar" MaxLength="255" />
+          <Property Name="BathRooms" Type="varchar" MaxLength="255" />
+          <Property Name="LoungeRooms" Type="varchar" MaxLength="255" />
+          <Property Name="Toilets" Type="varchar" MaxLength="255" />
+          <Property Name="Studies" Type="varchar" MaxLength="255" />
+          <Property Name="Pools" Type="varchar" MaxLength="255" />
+          <Property Name="Garages" Type="varchar" MaxLength="255" />
+          <Property Name="Carports" Type="varchar" MaxLength="255" />
+          <Property Name="CarSpaces" Type="varchar" MaxLength="255" />
           <Property Name="TotalParking" Type="int" />
-          <Property Name="LandArea" Type="float" />
+          <Property Name="LandArea" Type="varchar" MaxLength="255" />
           <Property Name="LandAreaUnit" Type="varchar" MaxLength="10" />
-          <Property Name="BuildingAreaSqm" Type="int" />
-          <Property Name="ExternalAreaSqm" Type="int" />
-          <Property Name="FrontageM" Type="int" />
+          <Property Name="BuildingAreaSqm" Type="varchar" MaxLength="255" />
+          <Property Name="ExternalAreaSqm" Type="varchar" MaxLength="255" />
+          <Property Name="FrontageM" Type="varchar" MaxLength="255" />
           <Property Name="Aspect" Type="varchar" MaxLength="10" />
           <Property Name="YearBuilt" Type="varchar" MaxLength="10" />
           <Property Name="YearRenovated" Type="varchar" MaxLength="10" />
           <Property Name="Construction" Type="varchar" MaxLength="50" />
           <Property Name="PropertyCondition" Type="varchar" MaxLength="255" />
-          <Property Name="EnergyRating" Type="float" />
+          <Property Name="EnergyRating" Type="varchar" MaxLength="255" />
           <Property Name="Features" Type="varchar" MaxLength="2000" />
-          <Property Name="WaterRates" Type="float" />
-          <Property Name="LandTax" Type="float" />
-          <Property Name="CounsilRates" Type="float" />
-          <Property Name="StrataAdmin" Type="float" />
-          <Property Name="StrataSinking" Type="float" />
-          <Property Name="OtherOutgoings" Type="float" />
+          <Property Name="WaterRates" Type="varchar" MaxLength="255" />
+          <Property Name="LandTax" Type="varchar" MaxLength="255" />
+          <Property Name="CounsilRates" Type="varchar" MaxLength="255" />
+          <Property Name="StrataAdmin" Type="varchar" MaxLength="255" />
+          <Property Name="StrataSinking" Type="varchar" MaxLength="255" />
+          <Property Name="OtherOutgoings" Type="varchar" MaxLength="255" />
           <Property Name="LegalDescription" Type="varchar" MaxLength="1000" />
           <Property Name="LegalLot" Type="varchar" MaxLength="100" />
           <Property Name="LegalDP" Type="varchar" MaxLength="100" />
@@ -2209,7 +2209,7 @@
           <Property Name="LegalFolio" Type="varchar" MaxLength="100" />
           <Property Name="Zoning" Type="varchar" MaxLength="100" />
           <Property Name="ClientListingId" Type="varchar" MaxLength="100" />
-          <Property Name="TotalOutgoings" Type="float" />
+          <Property Name="TotalOutgoings" Type="varchar" MaxLength="255" />
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="AirConditioning" Type="varchar" MaxLength="50" />
           <Property Name="AlarmSystem" Type="varchar" MaxLength="50" />
@@ -8122,7 +8122,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </FunctionImport>
           <EntitySet Name="CustomCopies" EntityType="DomainModels.CustomCopy" />
           <EntitySet Name="FavoriteDesigns" EntityType="DomainModels.FavoriteDesign" />
-          <EntitySet Name="Listings" EntityType="DomainModels.Listing" />
           <EntitySet Name="ListingAgents" EntityType="DomainModels.ListingAgent" />
           <EntitySet Name="ListingConjunctionAgents" EntityType="DomainModels.ListingConjunctionAgent" />
           <EntitySet Name="ListingFloorPlans" EntityType="DomainModels.ListingFloorPlan" />
@@ -8639,10 +8638,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="EstimateID" Mode="In" Type="Int64" />
           </FunctionImport>
           <EntitySet Name="ListingBulletPoints" EntityType="DomainModels.ListingBulletPoint" />
-          <AssociationSet Name="FK__ListingBu__Listi__01EB81A5" Association="DomainModels.FK__ListingBu__Listi__01EB81A5">
-            <End Role="Listing" EntitySet="Listings" />
-            <End Role="ListingBulletPoint" EntitySet="ListingBulletPoints" />
-          </AssociationSet>
           <FunctionImport Name="usp_DeliveryReport" ReturnType="Collection(DomainModels.usp_DeliveryReport_Result)">
             <Parameter Name="OrganisationID" Mode="In" Type="Int64" />
             <Parameter Name="DeliveryID" Mode="In" Type="Int64" />
@@ -8665,6 +8660,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_AssetItem_Assets" Association="DomainModels.FK_AssetItem_Assets">
             <End Role="Asset" EntitySet="Assets" />
             <End Role="AssetItem" EntitySet="AssetItems" />
+          </AssociationSet>
+          <EntitySet Name="Listings" EntityType="DomainModels.Listing" />
+          <AssociationSet Name="FK__ListingBu__Listi__01EB81A5" Association="DomainModels.FK__ListingBu__Listi__01EB81A5">
+            <End Role="Listing" EntitySet="Listings" />
+            <End Role="ListingBulletPoint" EntitySet="ListingBulletPoints" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
@@ -12554,136 +12554,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" FromRole="FavoriteDesign" ToRole="CompanyContact" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_items" FromRole="FavoriteDesign" ToRole="Item" />
         </EntityType>
-        <EntityType Name="Listing">
-          <Key>
-            <PropertyRef Name="ListingId" />
-          </Key>
-          <Property Name="ListingId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="WebID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="WebLink" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="AddressDisplay" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="StreetAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="LevelNumber" Type="Int32" />
-          <Property Name="LotNumber" Type="Int32" />
-          <Property Name="UnitNumber" Type="Int32" />
-          <Property Name="StreetNumber" Type="Int32" />
-          <Property Name="Street" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Suburb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PostCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PropertyName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="PropertyType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PropertyCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ListingType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ListingDate" Type="DateTime" Precision="3" />
-          <Property Name="ListingExpiryDate" Type="DateTime" Precision="3" />
-          <Property Name="ListingStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ListingMethod" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ListingAuthority" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="InspectionTypye" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="AuctionDate" Type="DateTime" Precision="3" />
-          <Property Name="AutionVenue" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="EOIClosingDate" Type="DateTime" Precision="3" />
-          <Property Name="DisplayPrice" Type="Double" />
-          <Property Name="SearchPrice" Type="Double" />
-          <Property Name="RendPeriod" Type="Int32" />
-          <Property Name="AvailableDate" Type="DateTime" Precision="3" />
-          <Property Name="SoldDate" Type="DateTime" Precision="3" />
-          <Property Name="SoldPrice" Type="Double" />
-          <Property Name="IsSoldPriceConfidential" Type="Boolean" />
-          <Property Name="MainHeadLine" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="MainDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="CustomCopy" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="BedRooms" Type="Int32" />
-          <Property Name="BathRooms" Type="Int32" />
-          <Property Name="LoungeRooms" Type="Int32" />
-          <Property Name="Toilets" Type="Int32" />
-          <Property Name="Studies" Type="Int32" />
-          <Property Name="Pools" Type="Int32" />
-          <Property Name="Garages" Type="Int32" />
-          <Property Name="Carports" Type="Int32" />
-          <Property Name="CarSpaces" Type="Int32" />
-          <Property Name="TotalParking" Type="Int32" />
-          <Property Name="LandArea" Type="Double" />
-          <Property Name="LandAreaUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="BuildingAreaSqm" Type="Int32" />
-          <Property Name="ExternalAreaSqm" Type="Int32" />
-          <Property Name="FrontageM" Type="Int32" />
-          <Property Name="Aspect" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="YearBuilt" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="YearRenovated" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Construction" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PropertyCondition" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="EnergyRating" Type="Double" />
-          <Property Name="Features" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="WaterRates" Type="Double" />
-          <Property Name="LandTax" Type="Double" />
-          <Property Name="CounsilRates" Type="Double" />
-          <Property Name="StrataAdmin" Type="Double" />
-          <Property Name="StrataSinking" Type="Double" />
-          <Property Name="OtherOutgoings" Type="Double" />
-          <Property Name="LegalDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="LegalLot" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LegalDP" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LegalVol" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LegalFolio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Zoning" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ClientListingId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TotalOutgoings" Type="Double" />
-          <Property Name="CompanyId" Type="Int64" />
-          <Property Name="AirConditioning" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AlarmSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Intercom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OpenFirePlace" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TennisCourt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RempoteGarage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DishWasher" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BuiltinRaboes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Gym" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkShop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RumpusRoom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FloorBoards" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BroadBand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PayTV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DuctedHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DuctedCooling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SplitSystemHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ReverseCycleAircon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EvaporateCooling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="VacuumSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PoolInGround" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PoolAboveGround" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Balcony" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Deck" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CourtYard" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OutDoorEnt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Shed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FullyFenced" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="InsideSPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OutSideSPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="HydronicHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SplitSystemAircon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PriceView" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="AuctionTime" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="InspectionDate1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="InspectionTimeFrom1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="InspectionTimeTo1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="InspectionDate2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="InspectionTimeFrom2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="InspectionTimeTo2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="BrochureMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="BrochureSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="BrochureDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="SignBoardMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="SignBoardSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="SignBoardDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="SignBoardInstallInstruction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AdvertsDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AdvertsSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AdvertsMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AuctionEndTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ListingBulletPoints" Relationship="DomainModels.FK__ListingBu__Listi__01EB81A5" FromRole="Listing" ToRole="ListingBulletPoint" />
-        </EntityType>
         <EntityType Name="ListingAgent">
           <Key>
             <PropertyRef Name="AgentId" />
@@ -15737,18 +15607,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ListingId" Type="Int64" />
           <NavigationProperty Name="Listing" Relationship="DomainModels.FK__ListingBu__Listi__01EB81A5" FromRole="ListingBulletPoint" ToRole="Listing" />
         </EntityType>
-        <Association Name="FK__ListingBu__Listi__01EB81A5">
-          <End Type="DomainModels.Listing" Role="Listing" Multiplicity="0..1" />
-          <End Type="DomainModels.ListingBulletPoint" Role="ListingBulletPoint" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Listing">
-              <PropertyRef Name="ListingId" />
-            </Principal>
-            <Dependent Role="ListingBulletPoint">
-              <PropertyRef Name="ListingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="usp_DeliveryReport_Result">
           <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="200" />
@@ -15862,6 +15720,148 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="AssetItem">
               <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Listing">
+          <Key>
+            <PropertyRef Name="ListingId" />
+          </Key>
+          <Property Name="ListingId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WebLink" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AddressDisplay" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StreetAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LevelNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LotNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UnitNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StreetNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Suburb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PostCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ListingType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ListingDate" Type="DateTime" Precision="3" />
+          <Property Name="ListingExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="ListingStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ListingMethod" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ListingAuthority" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InspectionTypye" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AuctionDate" Type="DateTime" Precision="3" />
+          <Property Name="AutionVenue" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EOIClosingDate" Type="DateTime" Precision="3" />
+          <Property Name="DisplayPrice" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SearchPrice" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RendPeriod" Type="Int32" />
+          <Property Name="AvailableDate" Type="DateTime" Precision="3" />
+          <Property Name="SoldDate" Type="DateTime" Precision="3" />
+          <Property Name="SoldPrice" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsSoldPriceConfidential" Type="Boolean" />
+          <Property Name="MainHeadLine" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MainDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="CustomCopy" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="BedRooms" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BathRooms" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LoungeRooms" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Toilets" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Studies" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Pools" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Garages" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Carports" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CarSpaces" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TotalParking" Type="Int32" />
+          <Property Name="LandArea" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LandAreaUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="BuildingAreaSqm" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ExternalAreaSqm" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FrontageM" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Aspect" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="YearBuilt" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="YearRenovated" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Construction" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyCondition" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EnergyRating" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Features" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="WaterRates" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LandTax" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CounsilRates" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StrataAdmin" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StrataSinking" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OtherOutgoings" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LegalDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="LegalLot" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LegalDP" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LegalVol" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LegalFolio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Zoning" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ClientListingId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TotalOutgoings" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="AirConditioning" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AlarmSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Intercom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OpenFirePlace" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TennisCourt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RempoteGarage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DishWasher" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BuiltinRaboes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gym" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WorkShop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RumpusRoom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FloorBoards" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BroadBand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PayTV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DuctedHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DuctedCooling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SplitSystemHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReverseCycleAircon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EvaporateCooling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VacuumSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PoolInGround" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PoolAboveGround" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Balcony" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Deck" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CourtYard" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OutDoorEnt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Shed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FullyFenced" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InsideSPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OutSideSPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HydronicHeating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SplitSystemAircon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PriceView" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AuctionTime" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="InspectionDate1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="InspectionTimeFrom1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="InspectionTimeTo1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="InspectionDate2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="InspectionTimeFrom2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="InspectionTimeTo2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BrochureMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BrochureSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BrochureDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignBoardMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignBoardSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignBoardDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignBoardInstallInstruction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdvertsDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdvertsSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdvertsMainHeadLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AuctionEndTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ListingBulletPoints" Relationship="DomainModels.FK__ListingBu__Listi__01EB81A5" FromRole="Listing" ToRole="ListingBulletPoint" />
+        </EntityType>
+        <Association Name="FK__ListingBu__Listi__01EB81A5">
+          <End Type="DomainModels.Listing" Role="Listing" Multiplicity="0..1" />
+          <End Type="DomainModels.ListingBulletPoint" Role="ListingBulletPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listing">
+              <PropertyRef Name="ListingId" />
+            </Principal>
+            <Dependent Role="ListingBulletPoint">
+              <PropertyRef Name="ListingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18611,136 +18611,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Listings">
-            <EntityTypeMapping TypeName="DomainModels.Listing">
-              <MappingFragment StoreEntitySet="Listing">
-                <ScalarProperty Name="AuctionEndTime" ColumnName="AuctionEndTime" />
-                <ScalarProperty Name="AdvertsMainHeadLine" ColumnName="AdvertsMainHeadLine" />
-                <ScalarProperty Name="AdvertsSummary" ColumnName="AdvertsSummary" />
-                <ScalarProperty Name="AdvertsDescription" ColumnName="AdvertsDescription" />
-                <ScalarProperty Name="SignBoardInstallInstruction" ColumnName="SignBoardInstallInstruction" />
-                <ScalarProperty Name="SignBoardDescription" ColumnName="SignBoardDescription" />
-                <ScalarProperty Name="SignBoardSummary" ColumnName="SignBoardSummary" />
-                <ScalarProperty Name="SignBoardMainHeadLine" ColumnName="SignBoardMainHeadLine" />
-                <ScalarProperty Name="BrochureDescription" ColumnName="BrochureDescription" />
-                <ScalarProperty Name="BrochureSummary" ColumnName="BrochureSummary" />
-                <ScalarProperty Name="BrochureMainHeadLine" ColumnName="BrochureMainHeadLine" />
-                <ScalarProperty Name="InspectionTimeTo2" ColumnName="InspectionTimeTo2" />
-                <ScalarProperty Name="InspectionTimeFrom2" ColumnName="InspectionTimeFrom2" />
-                <ScalarProperty Name="InspectionDate2" ColumnName="InspectionDate2" />
-                <ScalarProperty Name="InspectionTimeTo1" ColumnName="InspectionTimeTo1" />
-                <ScalarProperty Name="InspectionTimeFrom1" ColumnName="InspectionTimeFrom1" />
-                <ScalarProperty Name="InspectionDate1" ColumnName="InspectionDate1" />
-                <ScalarProperty Name="AuctionTime" ColumnName="AuctionTime" />
-                <ScalarProperty Name="PriceView" ColumnName="PriceView" />
-                <ScalarProperty Name="SplitSystemAircon" ColumnName="SplitSystemAircon" />
-                <ScalarProperty Name="HydronicHeating" ColumnName="HydronicHeating" />
-                <ScalarProperty Name="OutSideSPA" ColumnName="OutSideSPA" />
-                <ScalarProperty Name="InsideSPA" ColumnName="InsideSPA" />
-                <ScalarProperty Name="FullyFenced" ColumnName="FullyFenced" />
-                <ScalarProperty Name="Shed" ColumnName="Shed" />
-                <ScalarProperty Name="OutDoorEnt" ColumnName="OutDoorEnt" />
-                <ScalarProperty Name="CourtYard" ColumnName="CourtYard" />
-                <ScalarProperty Name="Deck" ColumnName="Deck" />
-                <ScalarProperty Name="Balcony" ColumnName="Balcony" />
-                <ScalarProperty Name="PoolAboveGround" ColumnName="PoolAboveGround" />
-                <ScalarProperty Name="PoolInGround" ColumnName="PoolInGround" />
-                <ScalarProperty Name="VacuumSystem" ColumnName="VacuumSystem" />
-                <ScalarProperty Name="EvaporateCooling" ColumnName="EvaporateCooling" />
-                <ScalarProperty Name="ReverseCycleAircon" ColumnName="ReverseCycleAircon" />
-                <ScalarProperty Name="SplitSystemHeating" ColumnName="SplitSystemHeating" />
-                <ScalarProperty Name="DuctedCooling" ColumnName="DuctedCooling" />
-                <ScalarProperty Name="DuctedHeating" ColumnName="DuctedHeating" />
-                <ScalarProperty Name="PayTV" ColumnName="PayTV" />
-                <ScalarProperty Name="BroadBand" ColumnName="BroadBand" />
-                <ScalarProperty Name="FloorBoards" ColumnName="FloorBoards" />
-                <ScalarProperty Name="RumpusRoom" ColumnName="RumpusRoom" />
-                <ScalarProperty Name="WorkShop" ColumnName="WorkShop" />
-                <ScalarProperty Name="Gym" ColumnName="Gym" />
-                <ScalarProperty Name="BuiltinRaboes" ColumnName="BuiltinRaboes" />
-                <ScalarProperty Name="DishWasher" ColumnName="DishWasher" />
-                <ScalarProperty Name="RempoteGarage" ColumnName="RempoteGarage" />
-                <ScalarProperty Name="TennisCourt" ColumnName="TennisCourt" />
-                <ScalarProperty Name="OpenFirePlace" ColumnName="OpenFirePlace" />
-                <ScalarProperty Name="Intercom" ColumnName="Intercom" />
-                <ScalarProperty Name="AlarmSystem" ColumnName="AlarmSystem" />
-                <ScalarProperty Name="AirConditioning" ColumnName="AirConditioning" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="TotalOutgoings" ColumnName="TotalOutgoings" />
-                <ScalarProperty Name="ClientListingId" ColumnName="ClientListingId" />
-                <ScalarProperty Name="Zoning" ColumnName="Zoning" />
-                <ScalarProperty Name="LegalFolio" ColumnName="LegalFolio" />
-                <ScalarProperty Name="LegalVol" ColumnName="LegalVol" />
-                <ScalarProperty Name="LegalDP" ColumnName="LegalDP" />
-                <ScalarProperty Name="LegalLot" ColumnName="LegalLot" />
-                <ScalarProperty Name="LegalDescription" ColumnName="LegalDescription" />
-                <ScalarProperty Name="OtherOutgoings" ColumnName="OtherOutgoings" />
-                <ScalarProperty Name="StrataSinking" ColumnName="StrataSinking" />
-                <ScalarProperty Name="StrataAdmin" ColumnName="StrataAdmin" />
-                <ScalarProperty Name="CounsilRates" ColumnName="CounsilRates" />
-                <ScalarProperty Name="LandTax" ColumnName="LandTax" />
-                <ScalarProperty Name="WaterRates" ColumnName="WaterRates" />
-                <ScalarProperty Name="Features" ColumnName="Features" />
-                <ScalarProperty Name="EnergyRating" ColumnName="EnergyRating" />
-                <ScalarProperty Name="PropertyCondition" ColumnName="PropertyCondition" />
-                <ScalarProperty Name="Construction" ColumnName="Construction" />
-                <ScalarProperty Name="YearRenovated" ColumnName="YearRenovated" />
-                <ScalarProperty Name="YearBuilt" ColumnName="YearBuilt" />
-                <ScalarProperty Name="Aspect" ColumnName="Aspect" />
-                <ScalarProperty Name="FrontageM" ColumnName="FrontageM" />
-                <ScalarProperty Name="ExternalAreaSqm" ColumnName="ExternalAreaSqm" />
-                <ScalarProperty Name="BuildingAreaSqm" ColumnName="BuildingAreaSqm" />
-                <ScalarProperty Name="LandAreaUnit" ColumnName="LandAreaUnit" />
-                <ScalarProperty Name="LandArea" ColumnName="LandArea" />
-                <ScalarProperty Name="TotalParking" ColumnName="TotalParking" />
-                <ScalarProperty Name="CarSpaces" ColumnName="CarSpaces" />
-                <ScalarProperty Name="Carports" ColumnName="Carports" />
-                <ScalarProperty Name="Garages" ColumnName="Garages" />
-                <ScalarProperty Name="Pools" ColumnName="Pools" />
-                <ScalarProperty Name="Studies" ColumnName="Studies" />
-                <ScalarProperty Name="Toilets" ColumnName="Toilets" />
-                <ScalarProperty Name="LoungeRooms" ColumnName="LoungeRooms" />
-                <ScalarProperty Name="BathRooms" ColumnName="BathRooms" />
-                <ScalarProperty Name="BedRooms" ColumnName="BedRooms" />
-                <ScalarProperty Name="CustomCopy" ColumnName="CustomCopy" />
-                <ScalarProperty Name="MainDescription" ColumnName="MainDescription" />
-                <ScalarProperty Name="MainHeadLine" ColumnName="MainHeadLine" />
-                <ScalarProperty Name="IsSoldPriceConfidential" ColumnName="IsSoldPriceConfidential" />
-                <ScalarProperty Name="SoldPrice" ColumnName="SoldPrice" />
-                <ScalarProperty Name="SoldDate" ColumnName="SoldDate" />
-                <ScalarProperty Name="AvailableDate" ColumnName="AvailableDate" />
-                <ScalarProperty Name="RendPeriod" ColumnName="RendPeriod" />
-                <ScalarProperty Name="SearchPrice" ColumnName="SearchPrice" />
-                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
-                <ScalarProperty Name="EOIClosingDate" ColumnName="EOIClosingDate" />
-                <ScalarProperty Name="AutionVenue" ColumnName="AutionVenue" />
-                <ScalarProperty Name="AuctionDate" ColumnName="AuctionDate" />
-                <ScalarProperty Name="InspectionTypye" ColumnName="InspectionTypye" />
-                <ScalarProperty Name="ListingAuthority" ColumnName="ListingAuthority" />
-                <ScalarProperty Name="ListingMethod" ColumnName="ListingMethod" />
-                <ScalarProperty Name="ListingStatus" ColumnName="ListingStatus" />
-                <ScalarProperty Name="ListingExpiryDate" ColumnName="ListingExpiryDate" />
-                <ScalarProperty Name="ListingDate" ColumnName="ListingDate" />
-                <ScalarProperty Name="ListingType" ColumnName="ListingType" />
-                <ScalarProperty Name="PropertyCategory" ColumnName="PropertyCategory" />
-                <ScalarProperty Name="PropertyType" ColumnName="PropertyType" />
-                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
-                <ScalarProperty Name="Street" ColumnName="Street" />
-                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
-                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
-                <ScalarProperty Name="LotNumber" ColumnName="LotNumber" />
-                <ScalarProperty Name="LevelNumber" ColumnName="LevelNumber" />
-                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
-                <ScalarProperty Name="AddressDisplay" ColumnName="AddressDisplay" />
-                <ScalarProperty Name="WebLink" ColumnName="WebLink" />
-                <ScalarProperty Name="WebID" ColumnName="WebID" />
-                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ListingAgents">
             <EntityTypeMapping TypeName="DomainModels.ListingAgent">
               <MappingFragment StoreEntitySet="ListingAgent">
@@ -20957,6 +20827,136 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
                 <ScalarProperty Name="AssetId" ColumnName="AssetId" />
                 <ScalarProperty Name="AssetItemId" ColumnName="AssetItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Listings">
+            <EntityTypeMapping TypeName="DomainModels.Listing">
+              <MappingFragment StoreEntitySet="Listing">
+                <ScalarProperty Name="AuctionEndTime" ColumnName="AuctionEndTime" />
+                <ScalarProperty Name="AdvertsMainHeadLine" ColumnName="AdvertsMainHeadLine" />
+                <ScalarProperty Name="AdvertsSummary" ColumnName="AdvertsSummary" />
+                <ScalarProperty Name="AdvertsDescription" ColumnName="AdvertsDescription" />
+                <ScalarProperty Name="SignBoardInstallInstruction" ColumnName="SignBoardInstallInstruction" />
+                <ScalarProperty Name="SignBoardDescription" ColumnName="SignBoardDescription" />
+                <ScalarProperty Name="SignBoardSummary" ColumnName="SignBoardSummary" />
+                <ScalarProperty Name="SignBoardMainHeadLine" ColumnName="SignBoardMainHeadLine" />
+                <ScalarProperty Name="BrochureDescription" ColumnName="BrochureDescription" />
+                <ScalarProperty Name="BrochureSummary" ColumnName="BrochureSummary" />
+                <ScalarProperty Name="BrochureMainHeadLine" ColumnName="BrochureMainHeadLine" />
+                <ScalarProperty Name="InspectionTimeTo2" ColumnName="InspectionTimeTo2" />
+                <ScalarProperty Name="InspectionTimeFrom2" ColumnName="InspectionTimeFrom2" />
+                <ScalarProperty Name="InspectionDate2" ColumnName="InspectionDate2" />
+                <ScalarProperty Name="InspectionTimeTo1" ColumnName="InspectionTimeTo1" />
+                <ScalarProperty Name="InspectionTimeFrom1" ColumnName="InspectionTimeFrom1" />
+                <ScalarProperty Name="InspectionDate1" ColumnName="InspectionDate1" />
+                <ScalarProperty Name="AuctionTime" ColumnName="AuctionTime" />
+                <ScalarProperty Name="PriceView" ColumnName="PriceView" />
+                <ScalarProperty Name="SplitSystemAircon" ColumnName="SplitSystemAircon" />
+                <ScalarProperty Name="HydronicHeating" ColumnName="HydronicHeating" />
+                <ScalarProperty Name="OutSideSPA" ColumnName="OutSideSPA" />
+                <ScalarProperty Name="InsideSPA" ColumnName="InsideSPA" />
+                <ScalarProperty Name="FullyFenced" ColumnName="FullyFenced" />
+                <ScalarProperty Name="Shed" ColumnName="Shed" />
+                <ScalarProperty Name="OutDoorEnt" ColumnName="OutDoorEnt" />
+                <ScalarProperty Name="CourtYard" ColumnName="CourtYard" />
+                <ScalarProperty Name="Deck" ColumnName="Deck" />
+                <ScalarProperty Name="Balcony" ColumnName="Balcony" />
+                <ScalarProperty Name="PoolAboveGround" ColumnName="PoolAboveGround" />
+                <ScalarProperty Name="PoolInGround" ColumnName="PoolInGround" />
+                <ScalarProperty Name="VacuumSystem" ColumnName="VacuumSystem" />
+                <ScalarProperty Name="EvaporateCooling" ColumnName="EvaporateCooling" />
+                <ScalarProperty Name="ReverseCycleAircon" ColumnName="ReverseCycleAircon" />
+                <ScalarProperty Name="SplitSystemHeating" ColumnName="SplitSystemHeating" />
+                <ScalarProperty Name="DuctedCooling" ColumnName="DuctedCooling" />
+                <ScalarProperty Name="DuctedHeating" ColumnName="DuctedHeating" />
+                <ScalarProperty Name="PayTV" ColumnName="PayTV" />
+                <ScalarProperty Name="BroadBand" ColumnName="BroadBand" />
+                <ScalarProperty Name="FloorBoards" ColumnName="FloorBoards" />
+                <ScalarProperty Name="RumpusRoom" ColumnName="RumpusRoom" />
+                <ScalarProperty Name="WorkShop" ColumnName="WorkShop" />
+                <ScalarProperty Name="Gym" ColumnName="Gym" />
+                <ScalarProperty Name="BuiltinRaboes" ColumnName="BuiltinRaboes" />
+                <ScalarProperty Name="DishWasher" ColumnName="DishWasher" />
+                <ScalarProperty Name="RempoteGarage" ColumnName="RempoteGarage" />
+                <ScalarProperty Name="TennisCourt" ColumnName="TennisCourt" />
+                <ScalarProperty Name="OpenFirePlace" ColumnName="OpenFirePlace" />
+                <ScalarProperty Name="Intercom" ColumnName="Intercom" />
+                <ScalarProperty Name="AlarmSystem" ColumnName="AlarmSystem" />
+                <ScalarProperty Name="AirConditioning" ColumnName="AirConditioning" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TotalOutgoings" ColumnName="TotalOutgoings" />
+                <ScalarProperty Name="ClientListingId" ColumnName="ClientListingId" />
+                <ScalarProperty Name="Zoning" ColumnName="Zoning" />
+                <ScalarProperty Name="LegalFolio" ColumnName="LegalFolio" />
+                <ScalarProperty Name="LegalVol" ColumnName="LegalVol" />
+                <ScalarProperty Name="LegalDP" ColumnName="LegalDP" />
+                <ScalarProperty Name="LegalLot" ColumnName="LegalLot" />
+                <ScalarProperty Name="LegalDescription" ColumnName="LegalDescription" />
+                <ScalarProperty Name="OtherOutgoings" ColumnName="OtherOutgoings" />
+                <ScalarProperty Name="StrataSinking" ColumnName="StrataSinking" />
+                <ScalarProperty Name="StrataAdmin" ColumnName="StrataAdmin" />
+                <ScalarProperty Name="CounsilRates" ColumnName="CounsilRates" />
+                <ScalarProperty Name="LandTax" ColumnName="LandTax" />
+                <ScalarProperty Name="WaterRates" ColumnName="WaterRates" />
+                <ScalarProperty Name="Features" ColumnName="Features" />
+                <ScalarProperty Name="EnergyRating" ColumnName="EnergyRating" />
+                <ScalarProperty Name="PropertyCondition" ColumnName="PropertyCondition" />
+                <ScalarProperty Name="Construction" ColumnName="Construction" />
+                <ScalarProperty Name="YearRenovated" ColumnName="YearRenovated" />
+                <ScalarProperty Name="YearBuilt" ColumnName="YearBuilt" />
+                <ScalarProperty Name="Aspect" ColumnName="Aspect" />
+                <ScalarProperty Name="FrontageM" ColumnName="FrontageM" />
+                <ScalarProperty Name="ExternalAreaSqm" ColumnName="ExternalAreaSqm" />
+                <ScalarProperty Name="BuildingAreaSqm" ColumnName="BuildingAreaSqm" />
+                <ScalarProperty Name="LandAreaUnit" ColumnName="LandAreaUnit" />
+                <ScalarProperty Name="LandArea" ColumnName="LandArea" />
+                <ScalarProperty Name="TotalParking" ColumnName="TotalParking" />
+                <ScalarProperty Name="CarSpaces" ColumnName="CarSpaces" />
+                <ScalarProperty Name="Carports" ColumnName="Carports" />
+                <ScalarProperty Name="Garages" ColumnName="Garages" />
+                <ScalarProperty Name="Pools" ColumnName="Pools" />
+                <ScalarProperty Name="Studies" ColumnName="Studies" />
+                <ScalarProperty Name="Toilets" ColumnName="Toilets" />
+                <ScalarProperty Name="LoungeRooms" ColumnName="LoungeRooms" />
+                <ScalarProperty Name="BathRooms" ColumnName="BathRooms" />
+                <ScalarProperty Name="BedRooms" ColumnName="BedRooms" />
+                <ScalarProperty Name="CustomCopy" ColumnName="CustomCopy" />
+                <ScalarProperty Name="MainDescription" ColumnName="MainDescription" />
+                <ScalarProperty Name="MainHeadLine" ColumnName="MainHeadLine" />
+                <ScalarProperty Name="IsSoldPriceConfidential" ColumnName="IsSoldPriceConfidential" />
+                <ScalarProperty Name="SoldPrice" ColumnName="SoldPrice" />
+                <ScalarProperty Name="SoldDate" ColumnName="SoldDate" />
+                <ScalarProperty Name="AvailableDate" ColumnName="AvailableDate" />
+                <ScalarProperty Name="RendPeriod" ColumnName="RendPeriod" />
+                <ScalarProperty Name="SearchPrice" ColumnName="SearchPrice" />
+                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
+                <ScalarProperty Name="EOIClosingDate" ColumnName="EOIClosingDate" />
+                <ScalarProperty Name="AutionVenue" ColumnName="AutionVenue" />
+                <ScalarProperty Name="AuctionDate" ColumnName="AuctionDate" />
+                <ScalarProperty Name="InspectionTypye" ColumnName="InspectionTypye" />
+                <ScalarProperty Name="ListingAuthority" ColumnName="ListingAuthority" />
+                <ScalarProperty Name="ListingMethod" ColumnName="ListingMethod" />
+                <ScalarProperty Name="ListingStatus" ColumnName="ListingStatus" />
+                <ScalarProperty Name="ListingExpiryDate" ColumnName="ListingExpiryDate" />
+                <ScalarProperty Name="ListingDate" ColumnName="ListingDate" />
+                <ScalarProperty Name="ListingType" ColumnName="ListingType" />
+                <ScalarProperty Name="PropertyCategory" ColumnName="PropertyCategory" />
+                <ScalarProperty Name="PropertyType" ColumnName="PropertyType" />
+                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="LotNumber" ColumnName="LotNumber" />
+                <ScalarProperty Name="LevelNumber" ColumnName="LevelNumber" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="AddressDisplay" ColumnName="AddressDisplay" />
+                <ScalarProperty Name="WebLink" ColumnName="WebLink" />
+                <ScalarProperty Name="WebID" ColumnName="WebID" />
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
