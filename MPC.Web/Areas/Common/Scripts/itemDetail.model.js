@@ -638,7 +638,9 @@
                             if (isDoubleSidedUi) {
                                 isDoubleSidedUi(false);
                             }
+                            
                         }
+                       
                     }
                 }),
                 // Is Section Size Custom
@@ -2221,7 +2223,7 @@
     //#region Machine
     // Machine Entity        
 // ReSharper disable InconsistentNaming
-    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses)
+    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses, specifiedSheetFed)
         // ReSharper restore InconsistentNaming
     {
         return {
@@ -2231,7 +2233,8 @@
             maxSheetWidth: specifiedMaxSheetWidth,
             colourHeads: specifiedColourHeads,
             isSpotColor: specifiedIsSpotColor,
-            passes: specifiedPasses
+            passes: specifiedPasses,
+            isSheetFed: specifiedSheetFed
         };
     };
     //#endregion
@@ -2491,7 +2494,7 @@
     //#region Machine Factory
     // Machine Factory
     Machine.Create = function (source) {
-        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes);
+        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes, source.isSheetFed);
     };
     //#endregion
 

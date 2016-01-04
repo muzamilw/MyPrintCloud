@@ -150,4 +150,7 @@
   <data name="ItemService_TemplateDeleteFailed" xml:space="preserve">
     <value>Failed to delete template.</value>
   </data>
+  <data name="ItemService_PressNoSupported" xml:space="preserve">
+    <value>Please select a paper that can be supported by the selected press.</value>
+  </data>
 </root>

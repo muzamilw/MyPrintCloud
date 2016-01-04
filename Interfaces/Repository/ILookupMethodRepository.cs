@@ -16,6 +16,7 @@ namespace MPC.Interfaces.Repository
         bool DeleteGuillotinePTVId(long id);
         bool DeleteMachineLookup(long id);
         LookupMethodListResponse GetAll();
-        
+        List<LookupMethod> GetLookupMethosListbyOrganisation(long organisationId = 0);
+
     }
 }

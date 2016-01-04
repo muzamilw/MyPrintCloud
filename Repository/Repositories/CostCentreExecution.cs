@@ -274,7 +274,7 @@ namespace MPC.Repository.Repositories
                     {
                         oVariable.VarId = reader.GetInt32(0);
                         oVariable.Name = reader.GetString(1);
-                        oVariable.RefTableName = reader.GetString(2);
+                        oVariable.RefTableName = reader.IsDBNull(2) == true ? "" : reader.GetString(2);
                         oVariable.RefFieldName = reader.IsDBNull(3) == true ? "" : reader.GetString(3);
                         oVariable.CriteriaFieldName = reader.IsDBNull(4) == true ? "" : reader.GetString(4);
                         oVariable.Criteria = reader.IsDBNull(5) == true ? "" : reader.GetString(5);

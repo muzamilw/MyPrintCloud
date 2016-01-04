@@ -53,5 +53,6 @@ namespace MPC.Interfaces.Repository
         ItemSection GetFirstSectionOfItem(long ItemId);
         ItemSection GetSectionByItemId(long ItemId);
         ItemSection GetItemSectionById(long itemSectionId);
+        MachineMeterPerHourLookup GetMachinemeterPerHourLookup(long id);
     }
 }

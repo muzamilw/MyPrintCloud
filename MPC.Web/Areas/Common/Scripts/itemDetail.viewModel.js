@@ -48,6 +48,7 @@ define("common/itemDetail.viewModel",
                     systemUsers = ko.observableArray([]),
                     // Press list
                     presses = ko.observableArray([]),
+                    allPresses = ko.observableArray([]),
                     prePressOrPostPress = ko.observable(),
                 
                     // Impression Coverages
@@ -569,6 +570,7 @@ define("common/itemDetail.viewModel",
                         closeItemDetailSection = closeItemDetailParam;
                         saveOrderFromSection = saveOrderFromSectionParam;
                         saveFrom = saveFromParam;
+                        
                     },
                     closeItemDetail = function() {
                         showItemDetailsSection(false);
@@ -600,23 +602,23 @@ define("common/itemDetail.viewModel",
 
                         var orient = selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape() ? 0 : 1;
                         dataservice.getPTV({
-                                orientation: orient,
-                                reversRows: 0,
-                                revrseCols: 0,
-                                isDoubleSided: selectedSection().isDoubleSided(),
-                                isWorknTurn: selectedSection().isWorknTurn(),
-                                isWorknTumble: false,
-                                applyPress: false,
-                                itemHeight: selectedSection().itemSizeHeight(),
-                                itemWidth: selectedSection().itemSizeWidth(),
-                                printHeight: selectedSection().sectionSizeHeight(),
-                                printWidth: selectedSection().sectionSizeWidth(),
-                                grip: 1,
-                                gripDepth: 0,
-                                headDepth: 0,
-                                printGutter: selectedSection().itemGutterHorizontal(),
-                                itemHorizentalGutter: selectedSection().itemGutterHorizontal(),
-                                itemVerticalGutter: selectedSection().itemGutterHorizontal()
+                            Orientation: orient,
+                            ReversePtvRows: 0,
+                            ReversePtvCols: 0,
+                            isDoubleSided: selectedSection().isDoubleSided(),
+                            isWorknTrun: selectedSection().isWorknTurn(),
+                            isWorknTumble: false,
+                            ApplyPressRestrict: false,
+                            ItemHeight: selectedSection().itemSizeHeight(),
+                            ItemWidth: selectedSection().itemSizeWidth(),
+                            PrintHeight: selectedSection().sectionSizeHeight(),
+                            PrintWidth: selectedSection().sectionSizeWidth(),
+                            Grip: 1,
+                            GripDepth: 0,
+                            HeadDepth: 0,
+                            PrintGutter: selectedSection().itemGutterHorizontal(),
+                            ItemHorizentalGutter: selectedSection().itemGutterHorizontal(),
+                            ItemVerticalGutter: selectedSection().itemGutterHorizontal()
                             }, {
                                 success: function(data) {
                                     if (data != null) {
@@ -690,7 +692,7 @@ define("common/itemDetail.viewModel",
                             if (value) {
                                 selectedSection().pressIdSide2(selectedSection().pressId());
                             }
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // On Select Sheet Size
@@ -815,6 +817,13 @@ define("common/itemDetail.viewModel",
 
                             getPtvCalculation(getSectionSystemCostCenters);
                         });
+                        //On change of Print Type Roll Fed or Sheet Fed
+                        selectedSection().printingTypeUi.subscribe(function (value) {
+                            if (value !== selectedSection().printingTypeUi()) {
+                                selectedSection().printingTypeUi(value);
+                            }
+                            filterPresses();
+                        });
 
                         // On Press Change set Section Size Width to Press Max Width
                         selectedSection().pressId.subscribe(function(value) {
@@ -874,9 +883,12 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
                             var qty1Value = parseInt(value);
-                            if (qty1Value !== parseInt(selectedProduct().qty1())) {
-                                selectedProduct().qty1(qty1Value);
+                            if (selectedSection() == selectedProduct().itemSections()[0]) {
+                                if (qty1Value !== parseInt(selectedProduct().qty1())) {
+                                    selectedProduct().qty1(qty1Value);
+                                }
                             }
+                            
                             // If Product is of type Finished Goods then don't get cost centres
                             if (selectedProduct().productType() === 3) {
                                 return;
@@ -890,9 +902,12 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
                             var qty2Value = parseInt(value);
-                            if (qty2Value !== parseInt(selectedProduct().qty2())) {
-                                selectedProduct().qty2(qty2Value);
+                            if (selectedSection() == selectedProduct().itemSections()[0]) {
+                                if (qty2Value !== parseInt(selectedProduct().qty2())) {
+                                    selectedProduct().qty2(qty2Value);
+                                }
                             }
+                            
                             // If Product is of type Finished Goods then don't get cost centres
                             if (selectedProduct().productType() === 3) {
                                 return;
@@ -906,9 +921,12 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
                             var qty3Value = parseInt(value);
-                            if (qty3Value !== parseInt(selectedProduct().qty3())) {
-                                selectedProduct().qty3(qty3Value);
+                            if (selectedSection() == selectedProduct().itemSections()[0]) {
+                                if (qty3Value !== parseInt(selectedProduct().qty3())) {
+                                    selectedProduct().qty3(qty3Value);
+                                }
                             }
+                            
                             // If Product is of type Finished Goods then don't get cost centres
                             if (selectedProduct().productType() === 3) {
                                 return;
@@ -942,6 +960,13 @@ define("common/itemDetail.viewModel",
                         selectedSection().impressionCoverageSide2.subscribe(function(value) {
                             if (value !== selectedSection().impressionCoverageSide2()) {
                                 selectedSection().impressionCoverageSide2(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        selectedSection().stockItemId.subscribe(function (value) {
+                            if (value !== selectedSection().stockItemId()) {
+                                selectedSection().stockItemId(value);
                             }
                             getSectionSystemCostCenters();
 
@@ -1189,8 +1214,14 @@ define("common/itemDetail.viewModel",
                                 }
                                 // Machines
                                 presses.removeAll();
+                                allPresses.removeAll();
+                                if (data.Machines) {
+                                    mapList(allPresses, data.Machines, model.Machine);
+                                    
+                                }
                                 if (data.Machines) {
                                     mapList(presses, data.Machines, model.Machine);
+
                                 }
                                 defaultMarkUpId(data.DefaultMarkUpId);
                                 currencySymbol(data.CurrencySymbol);
@@ -1300,23 +1331,23 @@ define("common/itemDetail.viewModel",
 
                         isPtvCalculationInProgress(true);
                         dataservice.getPTVCalculation({
-                                orientation: orient,
-                                reversRows: 0,
-                                revrseCols: 0,
+                                Orientation: orient,
+                                ReversePtvRows: 0,
+                                ReversePtvCols: 0,
                                 isDoubleSided: selectedSection().isDoubleSided(),
-                                isWorknTurn: selectedSection().isWorknTurn(),
+                                isWorknTrun: selectedSection().isWorknTurn(),
                                 isWorknTumble: false,
-                                applyPress: false,
-                                itemHeight: selectedSection().itemSizeHeight(),
-                                itemWidth: selectedSection().itemSizeWidth(),
-                                printHeight: selectedSection().sectionSizeHeight(),
-                                printWidth: selectedSection().sectionSizeWidth(),
-                                grip: 1,
-                                gripDepth: 0,
-                                headDepth: 0,
-                                printGutter: selectedSection().itemGutterHorizontal(),
-                                itemHorizentalGutter: selectedSection().itemGutterHorizontal(),
-                                itemVerticalGutter: selectedSection().itemGutterHorizontal()
+                                ApplyPressRestrict: false,
+                                ItemHeight: selectedSection().itemSizeHeight(),
+                                ItemWidth: selectedSection().itemSizeWidth(),
+                                PrintHeight: selectedSection().sectionSizeHeight(),
+                                PrintWidth: selectedSection().sectionSizeWidth(),
+                                Grip: 1,
+                                GripDepth: 0,
+                                HeadDepth: 0,
+                                PrintGutter: selectedSection().itemGutterHorizontal(),
+                                ItemHorizentalGutter: selectedSection().itemGutterHorizontal(),
+                                ItemVerticalGutter: selectedSection().itemGutterHorizontal()
                             }, {
                                 success: function(data) {
                                     if (data != null) {
@@ -1479,15 +1510,20 @@ define("common/itemDetail.viewModel",
                     }),
                     getSectionSystemCostCenters = function() {
                         if (!selectedSection().pressId()) {
-                            toastr.info("Please Select Side 1 Press in order to get Cost Centers");
+                            toastr.info("Please Select Side 1 Press in order to get Cost Centers.");
                             return;
                         } else if (selectedSection().isDoubleSided() && !selectedSection().pressIdSide2()) {
-                            toastr.info("Please Select Side 2 Press in order to get Cost Centers");
+                            toastr.info("Please Select Side 2 Press in order to get Cost Centers.");
                             return;
                         } else if (selectedSection().numberUp() <= 0) {
-                            toastr.info("Sheet plan cannot be zero in order to get Cost Centers");
+                            toastr.info("Sheet plan cannot be zero in order to get Cost Centers.");
                             return;
                         }
+                        else if (selectedSection().stockItemId() == undefined) {
+                            toastr.info("Please select stock.");
+                            return;
+                        }
+                        
                         var currSec = selectedSection().convertToServerData();
                         if (currSec.SectionInkCoverages == null || currSec.SectionInkCoverages == undefined) {
                             currSec.SectionInkCoverages = [];
@@ -1525,7 +1561,7 @@ define("common/itemDetail.viewModel",
                                 }
                             },
                             error: function(response) {
-                                toastr.error("Error: Failed to Load System Cost Centers." + response);
+                                toastr.error("Error: " + response);
                             }
                         });
                     },
@@ -1820,8 +1856,23 @@ define("common/itemDetail.viewModel",
                     counter = 0,
                     // Create new Item Section
                     createNewItemSection = function() {
-                        var section = defaultSection() ? defaultSection() : {};
-                        var itemSection = model.ItemSection.Create(section);
+                        //var section = defaultSection() ? defaultSection() : {}; commented by Naveed to set Copy of first section if it is blank product
+                        var section = selectedProduct().itemSections().length > 0 ? selectedProduct().itemSections()[0] : null;
+                        var itemSection = section != null ? model.ItemSection.Create(section.convertToServerData()) : model.ItemSection.Create({});
+                        var inkcounter = 0;
+                        _.each(itemSection.sectionInkCoverageList(), function (item) {
+                            item.sectionId(undefined);
+                            if (item.id() > 0) {
+                                inkcounter = inkcounter - 1;
+                                item.id(inkcounter);
+                            }
+                                
+                        });
+                        _.each(itemSection.sectionCostCentres(), function (item) {
+                            item.itemSectionId(undefined);
+                            if (item.sectionCostCentreDetails().length > 0)
+                                item.sectionCostCentreDetails.removeAll();
+                        });
                         counter = counter - 1;
                         itemSection.id(counter);
                         itemSection.itemId(selectedProduct().id());
@@ -1833,8 +1884,8 @@ define("common/itemDetail.viewModel",
                         }
 
                         selectedSection(itemSection);
-                        selectedSection().qty1MarkUpId(defaultMarkUpId());
-                        selectedSection().qty2MarkUpId(defaultMarkUpId());
+                        //selectedSection().qty1MarkUpId(defaultMarkUpId()); commented while setting first section as new if creating
+                        //selectedSection().qty2MarkUpId(defaultMarkUpId());
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
@@ -1999,6 +2050,35 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
                         return;
                     },
+                    filterPresses = function (printType) {
+                        if (printType == undefined)
+                            printType = selectedSection().printingTypeUi();
+                        // Filter Roll Fed Presses
+                        if (allPresses) {
+                            presses.removeAll();
+                            var list = [];
+                            if (printType == 2) {
+                                _.each(allPresses(), function (item) {
+                                    if(item.isSheetFed == false)
+                                    list.push(item);
+                                });
+                                // Push to Original Array
+                                ko.utils.arrayPushAll(presses(), list);
+                                presses.valueHasMutated();
+                            } else {
+                                _.each(allPresses(), function (item) {
+                                    if (item.isSheetFed == true)
+                                        list.push(item);
+                                });
+                                // Push to Original Array
+                                ko.utils.arrayPushAll(presses(), list);
+                                presses.valueHasMutated();
+                            }
+                           
+                        }
+                        
+                        
+                    },
                     onItemSectionUpdate = function (callback) {
                         //var currSec = selectedSection().convertToServerData();
                         //dataservice.updateItemSection(currSec, {
@@ -2149,7 +2229,8 @@ define("common/itemDetail.viewModel",
                     openExternalReportsJob: openExternalReportsJob,
                     onCloseSectionCostCenter: onCloseSectionCostCenter,
                     onItemSectionUpdate: onItemSectionUpdate,
-                    updateCostCentersOnQtyChange: updateCostCentersOnQtyChange
+                    updateCostCentersOnQtyChange: updateCostCentersOnQtyChange,
+                    filterPresses: filterPresses
                     //#endregion
                 };
             })()
