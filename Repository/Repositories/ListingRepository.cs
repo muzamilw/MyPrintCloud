@@ -628,10 +628,10 @@ namespace MPC.Repository.Repositories
                     tbl_listing.WebLink = listing.WebLink;
                     tbl_listing.AddressDisplay = listing.AddressDisplay;
                     tbl_listing.StreetAddress = listing.StreetAddress;
-                    tbl_listing.LevelNumber = (String.IsNullOrEmpty(listing.LevelNum)) ? 0 : Convert.ToInt32(listing.LevelNum);
-                    tbl_listing.LotNumber = (String.IsNullOrEmpty(listing.LotNum)) ? 0 : Convert.ToInt32(listing.LotNum);
-                    tbl_listing.UnitNumber = (String.IsNullOrEmpty(listing.UnitNum)) ? 0 : Convert.ToInt32(listing.UnitNum);
-                    tbl_listing.StreetNumber = (String.IsNullOrEmpty(listing.StreetNum)) ? 0 : Convert.ToInt32(listing.StreetNum);
+                    tbl_listing.LevelNumber = (String.IsNullOrEmpty(listing.LevelNum)) ? "0" : listing.LevelNum;
+                    tbl_listing.LotNumber = (String.IsNullOrEmpty(listing.LotNum)) ? "0" : listing.LotNum;
+                    tbl_listing.UnitNumber = (String.IsNullOrEmpty(listing.UnitNum)) ? "0" : listing.UnitNum;
+                    tbl_listing.StreetNumber = (String.IsNullOrEmpty(listing.StreetNum)) ? "0" : listing.StreetNum;
                     tbl_listing.Street = listing.Street;
                     tbl_listing.Suburb = listing.Suburb;
                     tbl_listing.State = listing.State;
@@ -668,7 +668,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.DisplayPrice;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.DisplayPrice = Convert.ToDouble(result);
+                            tbl_listing.DisplayPrice = result;
                     }
 
                     if (listing.SearchPrice != null)
@@ -676,7 +676,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.SearchPrice;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.SearchPrice = Convert.ToDouble(result);
+                            tbl_listing.SearchPrice = result;
                     }
 
                     tbl_listing.RendPeriod = (String.IsNullOrEmpty(listing.RentPeriod)) ? 0 : Convert.ToInt32(listing.RentPeriod);
@@ -694,7 +694,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.SoldPrice;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.SoldPrice = Convert.ToDouble(result);
+                            tbl_listing.SoldPrice = result;
                     }
 
                     string confid = listing.SoldPriceConfidential;
@@ -709,15 +709,15 @@ namespace MPC.Repository.Repositories
 
                     tbl_listing.MainHeadLine = listing.MainHeadline;
                     tbl_listing.MainDescription = listing.MainDescription;
-                    tbl_listing.BedRooms = (String.IsNullOrEmpty(listing.BedRooms)) ? 0 : Convert.ToInt32(listing.BedRooms);
-                    tbl_listing.BathRooms = (String.IsNullOrEmpty(listing.BathRooms)) ? 0 : Convert.ToInt32(listing.BathRooms);
-                    tbl_listing.LoungeRooms = (String.IsNullOrEmpty(listing.LoungeRooms)) ? 0 : Convert.ToInt32(listing.LoungeRooms);
-                    tbl_listing.Toilets = (String.IsNullOrEmpty(listing.Toilets)) ? 0 : Convert.ToInt32(listing.Toilets);
-                    tbl_listing.Studies = (String.IsNullOrEmpty(listing.Studies)) ? 0 : Convert.ToInt32(listing.Studies);
-                    tbl_listing.Pools = (String.IsNullOrEmpty(listing.Pools)) ? 0 : Convert.ToInt32(listing.Pools);
-                    tbl_listing.Garages = (String.IsNullOrEmpty(listing.Garages)) ? 0 : Convert.ToInt32(listing.Garages);
-                    tbl_listing.Carports = (String.IsNullOrEmpty(listing.Carports)) ? 0 : Convert.ToInt32(listing.Carports);
-                    tbl_listing.CarSpaces = (String.IsNullOrEmpty(listing.CarSpaces)) ? 0 : Convert.ToInt32(listing.CarSpaces);
+                    tbl_listing.BedRooms = (String.IsNullOrEmpty(listing.BedRooms)) ? "0" : listing.BedRooms;
+                    tbl_listing.BathRooms = (String.IsNullOrEmpty(listing.BathRooms)) ? "0" : listing.BathRooms;
+                    tbl_listing.LoungeRooms = (String.IsNullOrEmpty(listing.LoungeRooms)) ? "0" : listing.LoungeRooms;
+                    tbl_listing.Toilets = (String.IsNullOrEmpty(listing.Toilets)) ? "0" : listing.Toilets;
+                    tbl_listing.Studies = (String.IsNullOrEmpty(listing.Studies)) ? "0" : listing.Studies;
+                    tbl_listing.Pools = (String.IsNullOrEmpty(listing.Pools)) ? "0" : listing.Pools;
+                    tbl_listing.Garages = (String.IsNullOrEmpty(listing.Garages)) ? "0" : listing.Garages;
+                    tbl_listing.Carports = (String.IsNullOrEmpty(listing.Carports)) ? "0" : listing.Carports;
+                    tbl_listing.CarSpaces = (String.IsNullOrEmpty(listing.CarSpaces)) ? "0" : listing.CarSpaces;
                     tbl_listing.TotalParking = (String.IsNullOrEmpty(listing.TotalParking)) ? 0 : Convert.ToInt32(listing.TotalParking);
 
                     if (listing.LandArea != null)
@@ -725,13 +725,13 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.LandArea;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.LandArea = Convert.ToDouble(result);
+                            tbl_listing.LandArea = result;
                     }
 
                     tbl_listing.LandAreaUnit = listing.LandAreaUnit;
-                    tbl_listing.BuildingAreaSqm = (String.IsNullOrEmpty(listing.BuildingAreaSqm)) ? 0 : Convert.ToInt32(listing.BuildingAreaSqm);
-                    tbl_listing.ExternalAreaSqm = (String.IsNullOrEmpty(listing.ExternalAreaSqm)) ? 0 : Convert.ToInt32(listing.ExternalAreaSqm);
-                    tbl_listing.FrontageM = (String.IsNullOrEmpty(listing.FrontageM)) ? 0 : Convert.ToInt32(listing.FrontageM);
+                    tbl_listing.BuildingAreaSqm = (String.IsNullOrEmpty(listing.BuildingAreaSqm)) ? "0" : listing.BuildingAreaSqm;
+                    tbl_listing.ExternalAreaSqm = (String.IsNullOrEmpty(listing.ExternalAreaSqm)) ? "0" : listing.ExternalAreaSqm;
+                    tbl_listing.FrontageM = (String.IsNullOrEmpty(listing.FrontageM)) ? "0" : listing.FrontageM;
                     tbl_listing.Aspect = listing.Aspect;
                     tbl_listing.YearBuilt = listing.YearBuilt;
                     tbl_listing.YearRenovated = listing.YearRenovated;
@@ -743,7 +743,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.EnergyRating;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.EnergyRating = Convert.ToDouble(result);
+                            tbl_listing.EnergyRating = result;
                     }
 
                     tbl_listing.Features = listing.Features;
@@ -753,7 +753,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.LandTax;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.LandTax = Convert.ToDouble(result);
+                            tbl_listing.LandTax = result;
                     }
 
                     if (listing.CounsilRates != null)
@@ -761,7 +761,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.CounsilRates;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.CounsilRates = Convert.ToDouble(result);
+                            tbl_listing.CounsilRates = result;
                     }
 
                     if (listing.StrataAdmin != null)
@@ -769,7 +769,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.StrataAdmin;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.StrataAdmin = Convert.ToDouble(result);
+                            tbl_listing.StrataAdmin = result;
                     }
 
                     if (listing.StrataSinking != null)
@@ -777,7 +777,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.StrataSinking;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.StrataSinking = Convert.ToDouble(result);
+                            tbl_listing.StrataSinking = result;
                     }
 
                     if (listing.OtherOutgoings != null)
@@ -785,7 +785,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.OtherOutgoings;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.OtherOutgoings = Convert.ToDouble(result);
+                            tbl_listing.OtherOutgoings = result;
                     }
 
                     if (listing.TotalOutgoings != null)
@@ -793,7 +793,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.TotalOutgoings;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.TotalOutgoings = Convert.ToDouble(result);
+                            tbl_listing.TotalOutgoings = result;
                     }
 
                     tbl_listing.LegalDescription = listing.LegalDescription;
@@ -838,10 +838,10 @@ namespace MPC.Repository.Repositories
                         listing.WebLink = propertyListing.WebLink;
                         listing.AddressDisplay = propertyListing.AddressDisplay;
                         listing.StreetAddress = propertyListing.StreetAddress;
-                        listing.LevelNumber = (String.IsNullOrEmpty(propertyListing.LevelNum)) ? 0 : Convert.ToInt32(propertyListing.LevelNum);
-                        listing.LotNumber = (String.IsNullOrEmpty(propertyListing.LotNum)) ? 0 : Convert.ToInt32(propertyListing.LotNum);
-                        listing.UnitNumber = (String.IsNullOrEmpty(propertyListing.UnitNum)) ? 0 : Convert.ToInt32(propertyListing.UnitNum);
-                        listing.StreetNumber = (String.IsNullOrEmpty(propertyListing.StreetNum)) ? 0 : Convert.ToInt32(propertyListing.StreetNum);
+                        listing.LevelNumber = (String.IsNullOrEmpty(propertyListing.LevelNum)) ? "0" : propertyListing.LevelNum;
+                        listing.LotNumber = (String.IsNullOrEmpty(propertyListing.LotNum)) ? "0" : propertyListing.LotNum;
+                        listing.UnitNumber = (String.IsNullOrEmpty(propertyListing.UnitNum)) ? "0" : propertyListing.UnitNum;
+                        listing.StreetNumber = (String.IsNullOrEmpty(propertyListing.StreetNum)) ? "0" : propertyListing.StreetNum;
                         listing.Street = propertyListing.Street;
                         listing.Suburb = propertyListing.Suburb;
                         listing.State = propertyListing.State;
@@ -879,7 +879,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.DisplayPrice;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.DisplayPrice = Convert.ToDouble(result);
+                                listing.DisplayPrice =result;
                         }
 
                         if (propertyListing.SearchPrice != null)
@@ -887,7 +887,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.SearchPrice;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.SearchPrice = Convert.ToDouble(result);
+                                listing.SearchPrice = result;
                         }
 
                         listing.RendPeriod = (String.IsNullOrEmpty(propertyListing.RentPeriod)) ? 0 : Convert.ToInt32(propertyListing.RentPeriod);
@@ -905,7 +905,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.SoldPrice;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.SoldPrice = Convert.ToDouble(result);
+                                listing.SoldPrice = result;
                         }
 
                         string confid = propertyListing.SoldPriceConfidential;
@@ -920,15 +920,15 @@ namespace MPC.Repository.Repositories
 
                         listing.MainHeadLine = propertyListing.MainHeadline;
                         listing.MainDescription = propertyListing.MainDescription;
-                        listing.BedRooms = (String.IsNullOrEmpty(propertyListing.BedRooms)) ? 0 : Convert.ToInt32(propertyListing.BedRooms);
-                        listing.BathRooms = (String.IsNullOrEmpty(propertyListing.BathRooms)) ? 0 : Convert.ToInt32(propertyListing.BathRooms);
-                        listing.LoungeRooms = (String.IsNullOrEmpty(propertyListing.LoungeRooms)) ? 0 : Convert.ToInt32(propertyListing.LoungeRooms);
-                        listing.Toilets = (String.IsNullOrEmpty(propertyListing.Toilets)) ? 0 : Convert.ToInt32(propertyListing.Toilets);
-                        listing.Studies = (String.IsNullOrEmpty(propertyListing.Studies)) ? 0 : Convert.ToInt32(propertyListing.Studies);
-                        listing.Pools = (String.IsNullOrEmpty(propertyListing.Pools)) ? 0 : Convert.ToInt32(propertyListing.Pools);
-                        listing.Garages = (String.IsNullOrEmpty(propertyListing.Garages)) ? 0 : Convert.ToInt32(propertyListing.Garages);
-                        listing.Carports = (String.IsNullOrEmpty(propertyListing.Carports)) ? 0 : Convert.ToInt32(propertyListing.Carports);
-                        listing.CarSpaces = (String.IsNullOrEmpty(propertyListing.CarSpaces)) ? 0 : Convert.ToInt32(propertyListing.CarSpaces);
+                        listing.BedRooms = (String.IsNullOrEmpty(propertyListing.BedRooms)) ? "0" : propertyListing.BedRooms;
+                        listing.BathRooms = (String.IsNullOrEmpty(propertyListing.BathRooms)) ? "0" : propertyListing.BathRooms;
+                        listing.LoungeRooms = (String.IsNullOrEmpty(propertyListing.LoungeRooms)) ? "0" : propertyListing.LoungeRooms;
+                        listing.Toilets = (String.IsNullOrEmpty(propertyListing.Toilets)) ? "0" : propertyListing.Toilets;
+                        listing.Studies = (String.IsNullOrEmpty(propertyListing.Studies)) ? "0" : propertyListing.Studies;
+                        listing.Pools = (String.IsNullOrEmpty(propertyListing.Pools)) ? "0" : propertyListing.Pools;
+                        listing.Garages = (String.IsNullOrEmpty(propertyListing.Garages)) ? "0" : propertyListing.Garages;
+                        listing.Carports = (String.IsNullOrEmpty(propertyListing.Carports)) ? "0" : propertyListing.Carports;
+                        listing.CarSpaces = (String.IsNullOrEmpty(propertyListing.CarSpaces)) ? "0" : propertyListing.CarSpaces;
                         listing.TotalParking = (String.IsNullOrEmpty(propertyListing.TotalParking)) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
 
                         if (propertyListing.LandArea != null)
@@ -936,13 +936,13 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.LandArea;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.LandArea = Convert.ToDouble(result);
+                                listing.LandArea = result;
                         }
 
                         listing.LandAreaUnit = propertyListing.LandAreaUnit;
-                        listing.BuildingAreaSqm = (String.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? 0 : Convert.ToInt32(propertyListing.BuildingAreaSqm);
-                        listing.ExternalAreaSqm = (String.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? 0 : Convert.ToInt32(propertyListing.ExternalAreaSqm);
-                        listing.FrontageM = (String.IsNullOrEmpty(propertyListing.FrontageM)) ? 0 : Convert.ToInt32(propertyListing.FrontageM);
+                        listing.BuildingAreaSqm = (String.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? "0" : propertyListing.BuildingAreaSqm;
+                        listing.ExternalAreaSqm = (String.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? "0" : propertyListing.ExternalAreaSqm;
+                        listing.FrontageM = (String.IsNullOrEmpty(propertyListing.FrontageM)) ? "0" : propertyListing.FrontageM;
                         listing.Aspect = propertyListing.Aspect;
                         listing.YearBuilt = propertyListing.YearBuilt;
                         listing.YearRenovated = propertyListing.YearRenovated;
@@ -954,7 +954,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.EnergyRating;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.EnergyRating = Convert.ToDouble(result);
+                                listing.EnergyRating = result;
                         }
                           
                         listing.Features = propertyListing.Features;
@@ -964,7 +964,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.LandTax;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.LandTax = Convert.ToDouble(result);
+                                listing.LandTax = result;
                         }
 
                         if (propertyListing.CounsilRates != null)
@@ -972,7 +972,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.CounsilRates;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.CounsilRates = Convert.ToDouble(result);
+                                listing.CounsilRates = result;
                         }
 
                         if (propertyListing.StrataAdmin != null)
@@ -980,7 +980,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.StrataAdmin;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.StrataAdmin = Convert.ToDouble(result);
+                                listing.StrataAdmin = result;
                         }
 
                         if (propertyListing.StrataSinking != null)
@@ -988,7 +988,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.StrataSinking;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.StrataSinking = Convert.ToDouble(result);
+                                listing.StrataSinking = result;
                         }
 
                         if (propertyListing.OtherOutgoings != null)
@@ -996,7 +996,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.OtherOutgoings;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.OtherOutgoings = Convert.ToDouble(result);
+                                listing.OtherOutgoings = result;
                         }
 
                         if (propertyListing.TotalOutgoings != null)
@@ -1004,7 +1004,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.TotalOutgoings;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.TotalOutgoings = Convert.ToDouble(result);
+                                listing.TotalOutgoings = result;
                         }
 
                         listing.LegalDescription = propertyListing.LegalDescription;
@@ -2478,7 +2478,7 @@ namespace MPC.Repository.Repositories
                 {
                     listing.ClientListingId = propertyListing.ClientListingId;
                     listing.WebID = propertyListing.AgentId;
-                    listing.DisplayPrice = propertyListing.Price != null ? Convert.ToDouble(propertyListing.Price): 0;
+                    listing.DisplayPrice = propertyListing.Price != null ? propertyListing.Price: "0";
                     listing.PriceView = propertyListing.PriceView;
                     listing.WebLink = propertyListing.ExternalLink != null ? propertyListing.ExternalLink.href : "";
                     listing.PropertyCategory = propertyListing.PropertyCategory != null ? propertyListing.PropertyCategory.Name : string.Empty;
@@ -2486,19 +2486,19 @@ namespace MPC.Repository.Repositories
                     listing.MainDescription = propertyListing.MainDescription;
                     listing.InspectionTypye = propertyListing.InspectionTimes;
                     listing.ListingAuthority = propertyListing.ListingAuthority != null ? propertyListing.ListingAuthority.value : "";
-                    listing.BedRooms = (String.IsNullOrEmpty(propertyListing.features.BedRooms)) ? 0 : Convert.ToInt32(propertyListing.features.BedRooms);
-                    listing.BathRooms = (String.IsNullOrEmpty(propertyListing.features.BathRooms)) ? 0 : Convert.ToInt32(propertyListing.features.BathRooms);
-                    listing.Garages = (String.IsNullOrEmpty(propertyListing.features.Garages)) ? 0 : Convert.ToInt32(propertyListing.features.Garages);
-                    listing.Carports = (String.IsNullOrEmpty(propertyListing.features.Carports)) ? 0 : Convert.ToInt32(propertyListing.features.Carports);
+                    listing.BedRooms = (String.IsNullOrEmpty(propertyListing.features.BedRooms)) ? "0" : propertyListing.features.BedRooms;
+                    listing.BathRooms = (String.IsNullOrEmpty(propertyListing.features.BathRooms)) ? "0" : propertyListing.features.BathRooms;
+                    listing.Garages = (String.IsNullOrEmpty(propertyListing.features.Garages)) ? "0" : propertyListing.features.Garages;
+                    listing.Carports = (String.IsNullOrEmpty(propertyListing.features.Carports)) ? "0" : propertyListing.features.Carports;
                     listing.AirConditioning = propertyListing.features.AirConditioning;
                     listing.AlarmSystem = propertyListing.features.AlarmSystem;
                     listing.Intercom = propertyListing.features.Intercom;
                     listing.OpenFirePlace = propertyListing.features.OpenFirePlace;
                     listing.TennisCourt = propertyListing.features.TennisCourt;
-                    listing.Toilets = (String.IsNullOrEmpty(propertyListing.features.Toilets)) ? 0 : Convert.ToInt32(propertyListing.features.Toilets);
+                    listing.Toilets = (String.IsNullOrEmpty(propertyListing.features.Toilets)) ? "0" : propertyListing.features.Toilets;
                     listing.RempoteGarage = propertyListing.features.RempoteGarage;
                     listing.TotalParking = (String.IsNullOrEmpty(propertyListing.features.SecureParking)) ? 0 : Convert.ToInt32(propertyListing.features.SecureParking);
-                    listing.Studies = (String.IsNullOrEmpty(propertyListing.features.Study)) ? 0 : Convert.ToInt32(propertyListing.features.Study);
+                    listing.Studies = (String.IsNullOrEmpty(propertyListing.features.Study)) ? "0" : propertyListing.features.Study;
                     listing.DishWasher = propertyListing.features.DishWasher;
                     listing.BuiltinRaboes = propertyListing.features.BuiltinRaboes;
                     listing.Gym = propertyListing.features.Gym;
@@ -2594,7 +2594,7 @@ namespace MPC.Repository.Repositories
                 MPC.Models.DomainModels.Listing listing = new MPC.Models.DomainModels.Listing();
                 listing.ClientListingId = propertyListing.ClientListingId;
                 listing.WebID = propertyListing.AgentId;
-                listing.DisplayPrice = propertyListing.Price != null ? Convert.ToDouble(propertyListing.Price) : 0;
+                listing.DisplayPrice = propertyListing.Price != null ? propertyListing.Price : "0";
                 listing.PriceView = propertyListing.PriceView;
                 listing.WebLink = propertyListing.ExternalLink != null ? propertyListing.ExternalLink.href : "";
                 listing.PropertyCategory = propertyListing.PropertyCategory != null ? propertyListing.PropertyCategory.Name : string.Empty;
@@ -2602,19 +2602,19 @@ namespace MPC.Repository.Repositories
                 listing.MainDescription = propertyListing.MainDescription;
                 listing.InspectionTypye = propertyListing.InspectionTimes;
                 listing.ListingAuthority = propertyListing.ListingAuthority != null ? propertyListing.ListingAuthority.value : "";
-                listing.BedRooms = (String.IsNullOrEmpty(propertyListing.features.BedRooms)) ? 0 : Convert.ToInt32(propertyListing.features.BedRooms);
-                listing.BathRooms = (String.IsNullOrEmpty(propertyListing.features.BathRooms)) ? 0 : Convert.ToInt32(propertyListing.features.BathRooms);
-                listing.Garages = (String.IsNullOrEmpty(propertyListing.features.Garages)) ? 0 : Convert.ToInt32(propertyListing.features.Garages);
-                listing.Carports = (String.IsNullOrEmpty(propertyListing.features.Carports)) ? 0 : Convert.ToInt32(propertyListing.features.Carports);
+                listing.BedRooms = (String.IsNullOrEmpty(propertyListing.features.BedRooms)) ? "0" : propertyListing.features.BedRooms;
+                listing.BathRooms = (String.IsNullOrEmpty(propertyListing.features.BathRooms)) ? "0" : propertyListing.features.BathRooms;
+                listing.Garages = (String.IsNullOrEmpty(propertyListing.features.Garages)) ? "0" : propertyListing.features.Garages;
+                listing.Carports = (String.IsNullOrEmpty(propertyListing.features.Carports)) ? "0" : propertyListing.features.Carports;
                 listing.AirConditioning = propertyListing.features.AirConditioning;
                 listing.AlarmSystem = propertyListing.features.AlarmSystem;
                 listing.Intercom = propertyListing.features.Intercom;
                 listing.OpenFirePlace = propertyListing.features.OpenFirePlace;
                 listing.TennisCourt = propertyListing.features.TennisCourt;
-                listing.Toilets = (String.IsNullOrEmpty(propertyListing.features.Toilets)) ? 0 : Convert.ToInt32(propertyListing.features.Toilets);
+                listing.Toilets = (String.IsNullOrEmpty(propertyListing.features.Toilets)) ? "0" : propertyListing.features.Toilets;
                 listing.RempoteGarage = propertyListing.features.RempoteGarage;
                 listing.TotalParking = (String.IsNullOrEmpty(propertyListing.features.SecureParking)) ? 0 : Convert.ToInt32(propertyListing.features.SecureParking);
-                listing.Studies = (String.IsNullOrEmpty(propertyListing.features.Study)) ? 0 : Convert.ToInt32(propertyListing.features.Study);
+                listing.Studies = (String.IsNullOrEmpty(propertyListing.features.Study)) ? "0" : propertyListing.features.Study;
                 listing.DishWasher = propertyListing.features.DishWasher;
                 listing.BuiltinRaboes = propertyListing.features.BuiltinRaboes;
                 listing.Gym = propertyListing.features.Gym;
@@ -2792,7 +2792,7 @@ namespace MPC.Repository.Repositories
                     listing.ClientListingId = propertyListing.ClientListingId;
                     if (propertyListing.LevelNumber == null || propertyListing.LevelNumber.Equals(string.Empty))
                     {
-                        listing.LevelNumber = 0;
+                        listing.LevelNumber = "0";
                     }
                     else
                     {
@@ -2800,7 +2800,7 @@ namespace MPC.Repository.Repositories
                     }
                     if (propertyListing.LotNumber == null || propertyListing.LotNumber.Equals(string.Empty))
                     {
-                        listing.LotNumber = 0;
+                        listing.LotNumber = "0";
                     }
                     else
                     {
@@ -2811,7 +2811,7 @@ namespace MPC.Repository.Repositories
 
                     if (propertyListing.UnitNumber == null || propertyListing.UnitNumber.Equals(string.Empty))
                     {
-                        listing.UnitNumber = 0;
+                        listing.UnitNumber = "0";
                     }
 
                     else
@@ -2823,7 +2823,7 @@ namespace MPC.Repository.Repositories
 
                     if (propertyListing.StreetNumber == null || propertyListing.StreetNumber.Equals(string.Empty))
                     {
-                        propertyListing.StreetNumber = 0;
+                        propertyListing.StreetNumber = "0";
                     }
                     else
                     {
@@ -2855,7 +2855,7 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        listing.WaterRates = 0;
+                        listing.WaterRates = "0";
                     }
 
                     if (propertyListing.StrataAdmin != null && !propertyListing.StrataAdmin.Equals(string.Empty))
@@ -2864,7 +2864,7 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        listing.StrataAdmin = 0;
+                        listing.StrataAdmin = "0";
                     }
 
                     if (propertyListing.StrataSinking != null && !propertyListing.StrataSinking.Equals(string.Empty))
@@ -2873,7 +2873,7 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        listing.StrataSinking = 0;
+                        listing.StrataSinking = "0";
                     }
 
                     listing.AutionVenue = propertyListing.AutionVenue;
@@ -2890,7 +2890,7 @@ namespace MPC.Repository.Repositories
                         strForParse = propertyListing.DisplayPrice.ToString();
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            listing.DisplayPrice = Convert.ToDouble(result);
+                            listing.DisplayPrice = result;
                     }
                     else
                     {
@@ -2901,7 +2901,7 @@ namespace MPC.Repository.Repositories
                         strForParse = propertyListing.SearchPrice.ToString();
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            listing.SearchPrice = Convert.ToDouble(result);
+                            listing.SearchPrice = result;
                     }
                     else
                     {
@@ -2942,7 +2942,7 @@ namespace MPC.Repository.Repositories
                         strForParse = propertyListing.SoldPrice.ToString();
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            listing.SoldPrice = Convert.ToDouble(result);
+                            listing.SoldPrice = result;
                     }
                     else
                     {
@@ -2970,16 +2970,16 @@ namespace MPC.Repository.Repositories
                     listing.MainHeadLine = propertyListing.MainHeadLine;
 
                     listing.MainDescription = propertyListing.MainDescription;
-                    listing.BedRooms = (String.IsNullOrEmpty(propertyListing.BedRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.BedRooms);
-                    listing.BathRooms = (String.IsNullOrEmpty(propertyListing.BathRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.BathRooms);
-                    listing.LoungeRooms = (String.IsNullOrEmpty(propertyListing.LoungeRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.LoungeRooms);
-                    listing.Toilets = (String.IsNullOrEmpty(propertyListing.Toilets.ToString())) ? 0 : Convert.ToInt32(propertyListing.Toilets);
-                    listing.Studies = (String.IsNullOrEmpty(propertyListing.Studies.ToString())) ? 0 : Convert.ToInt32(propertyListing.Studies);
-                    listing.Pools = (String.IsNullOrEmpty(propertyListing.Pools.ToString())) ? 0 : Convert.ToInt32(propertyListing.Pools);
-                    listing.Garages = (String.IsNullOrEmpty(propertyListing.Garages.ToString())) ? 0 : Convert.ToInt32(propertyListing.Garages);
-                    listing.Carports = (String.IsNullOrEmpty(propertyListing.Carports.ToString())) ? 0 : Convert.ToInt32(propertyListing.Carports);
-                    listing.CarSpaces = (String.IsNullOrEmpty(propertyListing.CarSpaces.ToString())) ? 0 : Convert.ToInt32(propertyListing.CarSpaces);
-                    listing.TotalParking = (String.IsNullOrEmpty(propertyListing.TotalParking.ToString())) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
+                    listing.BedRooms = (string.IsNullOrEmpty(propertyListing.BedRooms)) ? "0" : propertyListing.BedRooms;
+                    listing.BathRooms = (string.IsNullOrEmpty(propertyListing.BathRooms)) ? "0" : propertyListing.BathRooms;
+                    listing.LoungeRooms = (string.IsNullOrEmpty(propertyListing.LoungeRooms)) ? "0" : propertyListing.LoungeRooms;
+                    listing.Toilets = (string.IsNullOrEmpty(propertyListing.Toilets)) ? "0" : propertyListing.Toilets;
+                    listing.Studies = (string.IsNullOrEmpty(propertyListing.Studies)) ? "0" : propertyListing.Studies;
+                    listing.Pools = (string.IsNullOrEmpty(propertyListing.Pools)) ? "0" : propertyListing.Pools;
+                    listing.Garages = (string.IsNullOrEmpty(propertyListing.Garages)) ? "0" : propertyListing.Garages;
+                    listing.Carports = (string.IsNullOrEmpty(propertyListing.Carports)) ? "0" : propertyListing.Carports;
+                    listing.CarSpaces = (string.IsNullOrEmpty(propertyListing.CarSpaces)) ? "0" : propertyListing.CarSpaces;
+                    listing.TotalParking = (string.IsNullOrEmpty(propertyListing.TotalParking.ToString())) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
 
                     if (propertyListing.LandArea != null)
                     {
@@ -2987,7 +2987,7 @@ namespace MPC.Repository.Repositories
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
                         {
-                            listing.LandArea = Convert.ToDouble(result);
+                            listing.LandArea = result;
                         }
                         else
                         {
@@ -3000,9 +3000,9 @@ namespace MPC.Repository.Repositories
                         listing.LandArea = null;
                     }
                     listing.LandAreaUnit = propertyListing.LandAreaUnit;
-                    listing.BuildingAreaSqm = (String.IsNullOrEmpty(propertyListing.BuildingAreaSqm.ToString())) ? 0 : Convert.ToInt32(propertyListing.BuildingAreaSqm);
-                    listing.ExternalAreaSqm = (String.IsNullOrEmpty(propertyListing.ExternalAreaSqm.ToString())) ? 0 : Convert.ToInt32(propertyListing.ExternalAreaSqm);
-                    listing.FrontageM = (String.IsNullOrEmpty(propertyListing.FrontageM.ToString())) ? 0 : Convert.ToInt32(propertyListing.FrontageM);
+                    listing.BuildingAreaSqm = (string.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? "0" : propertyListing.BuildingAreaSqm;
+                    listing.ExternalAreaSqm = (string.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? "0" : propertyListing.ExternalAreaSqm;
+                    listing.FrontageM = (string.IsNullOrEmpty(propertyListing.FrontageM)) ? "0" : propertyListing.FrontageM;
                     listing.Aspect = propertyListing.Aspect;
                     listing.YearBuilt = propertyListing.YearBuilt;
                     listing.YearRenovated = propertyListing.YearRenovated;
@@ -3015,7 +3015,7 @@ namespace MPC.Repository.Repositories
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
                         {
-                            listing.EnergyRating = Convert.ToDouble(result);
+                            listing.EnergyRating = result;
                         }
                         else
                         {
@@ -3037,7 +3037,7 @@ namespace MPC.Repository.Repositories
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
                         {
-                            listing.LandTax = Convert.ToDouble(result);
+                            listing.LandTax = result;
                         }
                         else
                         {
@@ -3055,7 +3055,7 @@ namespace MPC.Repository.Repositories
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
                         {
-                            listing.CounsilRates = Convert.ToDouble(result);
+                            listing.CounsilRates = result;
                         }
                         else
                         {
@@ -3074,7 +3074,7 @@ namespace MPC.Repository.Repositories
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
                         {
-                            listing.StrataAdmin = Convert.ToDouble(result);
+                            listing.StrataAdmin = result;
                         }
                         else
                         {
@@ -3092,7 +3092,7 @@ namespace MPC.Repository.Repositories
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
                         {
-                            listing.StrataSinking = Convert.ToDouble(result);
+                            listing.StrataSinking =result;
                         }
                         else
                         {
@@ -3111,7 +3111,7 @@ namespace MPC.Repository.Repositories
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
                         {
-                            listing.OtherOutgoings = Convert.ToDouble(result);
+                            listing.OtherOutgoings = result;
                         }
                         else
                         {
@@ -3129,7 +3129,7 @@ namespace MPC.Repository.Repositories
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
                         {
-                            listing.TotalOutgoings = Convert.ToDouble(result);
+                            listing.TotalOutgoings = result;
                         }
                         else
                         {
@@ -3192,7 +3192,7 @@ namespace MPC.Repository.Repositories
             listing.ClientListingId = propertyListing.ClientListingId;
             if (propertyListing.LevelNumber == null || propertyListing.LevelNumber.Equals(string.Empty))
             {
-                listing.LevelNumber = 0;
+                listing.LevelNumber = "0";
             }
             else
             {
@@ -3200,7 +3200,7 @@ namespace MPC.Repository.Repositories
             }
             if (propertyListing.LotNumber == null || propertyListing.LotNumber.Equals(string.Empty))
             {
-                listing.LotNumber = 0;
+                listing.LotNumber = "0";
             }
             else
             {
@@ -3211,7 +3211,7 @@ namespace MPC.Repository.Repositories
 
             if (propertyListing.UnitNumber == null || propertyListing.UnitNumber.Equals(string.Empty))
             {
-                listing.UnitNumber = 0;
+                listing.UnitNumber = "0";
             }
 
             else
@@ -3223,7 +3223,7 @@ namespace MPC.Repository.Repositories
 
             if (propertyListing.StreetNumber == null || propertyListing.StreetNumber.Equals(string.Empty))
             {
-                propertyListing.StreetNumber = 0;
+                propertyListing.StreetNumber = "0";
             }
             else
             {
@@ -3255,7 +3255,7 @@ namespace MPC.Repository.Repositories
             }
             else
             {
-                listing.WaterRates = 0;
+                listing.WaterRates = "0";
             }
 
             if (propertyListing.StrataAdmin != null && !propertyListing.StrataAdmin.Equals(string.Empty))
@@ -3264,7 +3264,7 @@ namespace MPC.Repository.Repositories
             }
             else
             {
-                listing.StrataAdmin = 0;
+                listing.StrataAdmin = "0";
             }
 
             if (propertyListing.StrataSinking != null && !propertyListing.StrataSinking.Equals(string.Empty))
@@ -3273,7 +3273,7 @@ namespace MPC.Repository.Repositories
             }
             else
             {
-                listing.StrataSinking = 0;
+                listing.StrataSinking = "0";
             }
 
             listing.AutionVenue = propertyListing.AutionVenue;
@@ -3289,18 +3289,18 @@ namespace MPC.Repository.Repositories
                 strForParse = propertyListing.DisplayPrice.ToString();
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
-                    listing.DisplayPrice = Convert.ToDouble(result);
+                    listing.DisplayPrice = result;
             }
             else
             {
                 listing.DisplayPrice = null;
             }
-            if (propertyListing.SearchPrice == null || propertyListing.SearchPrice.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(propertyListing.SearchPrice))
             {
                 strForParse = propertyListing.SearchPrice.ToString();
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
-                    listing.SearchPrice = Convert.ToDouble(result);
+                    listing.SearchPrice = result;
             }
             else
             {
@@ -3338,7 +3338,7 @@ namespace MPC.Repository.Repositories
                 strForParse = propertyListing.SoldPrice.ToString();
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
-                    listing.SoldPrice = Convert.ToDouble(result);
+                    listing.SoldPrice = result;
             }
             else
             {
@@ -3366,16 +3366,16 @@ namespace MPC.Repository.Repositories
             listing.MainHeadLine = propertyListing.MainHeadLine;
 
             listing.MainDescription = propertyListing.MainDescription;
-            listing.BedRooms = (String.IsNullOrEmpty(propertyListing.BedRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.BedRooms);
-            listing.BathRooms = (String.IsNullOrEmpty(propertyListing.BathRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.BathRooms);
-            listing.LoungeRooms = (String.IsNullOrEmpty(propertyListing.LoungeRooms.ToString())) ? 0 : Convert.ToInt32(propertyListing.LoungeRooms);
-            listing.Toilets = (String.IsNullOrEmpty(propertyListing.Toilets.ToString())) ? 0 : Convert.ToInt32(propertyListing.Toilets);
-            listing.Studies = (String.IsNullOrEmpty(propertyListing.Studies.ToString())) ? 0 : Convert.ToInt32(propertyListing.Studies);
-            listing.Pools = (String.IsNullOrEmpty(propertyListing.Pools.ToString())) ? 0 : Convert.ToInt32(propertyListing.Pools);
-            listing.Garages = (String.IsNullOrEmpty(propertyListing.Garages.ToString())) ? 0 : Convert.ToInt32(propertyListing.Garages);
-            listing.Carports = (String.IsNullOrEmpty(propertyListing.Carports.ToString())) ? 0 : Convert.ToInt32(propertyListing.Carports);
-            listing.CarSpaces = (String.IsNullOrEmpty(propertyListing.CarSpaces.ToString())) ? 0 : Convert.ToInt32(propertyListing.CarSpaces);
-            listing.TotalParking = (String.IsNullOrEmpty(propertyListing.TotalParking.ToString())) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
+            listing.BedRooms = (string.IsNullOrEmpty(propertyListing.BedRooms)) ? "0" : propertyListing.BedRooms;
+            listing.BathRooms = (string.IsNullOrEmpty(propertyListing.BathRooms)) ? "0" : propertyListing.BathRooms;
+            listing.LoungeRooms = (string.IsNullOrEmpty(propertyListing.LoungeRooms)) ? "0" : propertyListing.LoungeRooms;
+            listing.Toilets = (string.IsNullOrEmpty(propertyListing.Toilets)) ? "0" : propertyListing.Toilets;
+            listing.Studies = (string.IsNullOrEmpty(propertyListing.Studies)) ? "0" : propertyListing.Studies;
+            listing.Pools = (string.IsNullOrEmpty(propertyListing.Pools)) ? "0" : propertyListing.Pools;
+            listing.Garages = (string.IsNullOrEmpty(propertyListing.Garages)) ? "0" : propertyListing.Garages;
+            listing.Carports = (string.IsNullOrEmpty(propertyListing.Carports)) ? "0" : propertyListing.Carports;
+            listing.CarSpaces = (string.IsNullOrEmpty(propertyListing.CarSpaces)) ? "0" : propertyListing.CarSpaces;
+            listing.TotalParking = (string.IsNullOrEmpty(propertyListing.TotalParking.ToString())) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
 
             if (propertyListing.LandArea != null)
             {
@@ -3383,7 +3383,7 @@ namespace MPC.Repository.Repositories
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
                 {
-                    listing.LandArea = Convert.ToDouble(result);
+                    listing.LandArea = result;
                 }
                 else
                 {
@@ -3396,9 +3396,9 @@ namespace MPC.Repository.Repositories
                 listing.LandArea = null;
             }
             listing.LandAreaUnit = propertyListing.LandAreaUnit;
-            listing.BuildingAreaSqm = (String.IsNullOrEmpty(propertyListing.BuildingAreaSqm.ToString())) ? 0 : Convert.ToInt32(propertyListing.BuildingAreaSqm);
-            listing.ExternalAreaSqm = (String.IsNullOrEmpty(propertyListing.ExternalAreaSqm.ToString())) ? 0 : Convert.ToInt32(propertyListing.ExternalAreaSqm);
-            listing.FrontageM = (String.IsNullOrEmpty(propertyListing.FrontageM.ToString())) ? 0 : Convert.ToInt32(propertyListing.FrontageM);
+            listing.BuildingAreaSqm = (string.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? "0" :propertyListing.BuildingAreaSqm;
+            listing.ExternalAreaSqm = (string.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? "0" :propertyListing.ExternalAreaSqm;
+            listing.FrontageM = (string.IsNullOrEmpty(propertyListing.FrontageM)) ? "0" : propertyListing.FrontageM;
             listing.Aspect = propertyListing.Aspect;
             listing.YearBuilt = propertyListing.YearBuilt;
             listing.YearRenovated = propertyListing.YearRenovated;
@@ -3411,7 +3411,7 @@ namespace MPC.Repository.Repositories
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
                 {
-                    listing.EnergyRating = Convert.ToDouble(result);
+                    listing.EnergyRating = result;
                 }
                 else
                 {
@@ -3433,7 +3433,7 @@ namespace MPC.Repository.Repositories
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
                 {
-                    listing.LandTax = Convert.ToDouble(result);
+                    listing.LandTax = result;
                 }
                 else
                 {
@@ -3451,7 +3451,7 @@ namespace MPC.Repository.Repositories
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
                 {
-                    listing.CounsilRates = Convert.ToDouble(result);
+                    listing.CounsilRates = result;
                 }
                 else
                 {
@@ -3470,7 +3470,7 @@ namespace MPC.Repository.Repositories
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
                 {
-                    listing.StrataAdmin = Convert.ToDouble(result);
+                    listing.StrataAdmin = result;
                 }
                 else
                 {
@@ -3488,7 +3488,7 @@ namespace MPC.Repository.Repositories
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
                 {
-                    listing.StrataSinking = Convert.ToDouble(result);
+                    listing.StrataSinking = result;
                 }
                 else
                 {
@@ -3507,7 +3507,7 @@ namespace MPC.Repository.Repositories
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
                 {
-                    listing.OtherOutgoings = Convert.ToDouble(result);
+                    listing.OtherOutgoings = result;
                 }
                 else
                 {
@@ -3525,7 +3525,7 @@ namespace MPC.Repository.Repositories
                 string result = Regex.Replace(strForParse, @"[^\d]", "");
                 if (!result.Equals(string.Empty))
                 {
-                    listing.TotalOutgoings = Convert.ToDouble(result);
+                    listing.TotalOutgoings = result;
                 }
                 else
                 {
@@ -3543,7 +3543,7 @@ namespace MPC.Repository.Repositories
             listing.LegalVol = propertyListing.LegalVol;
             listing.LegalFolio = propertyListing.LegalFolio;
             listing.Zoning = propertyListing.Zoning;
-            //    listing.ContactCompanyID = (String.IsNullOrEmpty(propertyListing.ContactCompanyID)) ? 0 : Convert.ToInt32(propertyListing.ContactCompanyID);
+            //    listing.ContactCompanyID = (string.IsNullOrEmpty(propertyListing.ContactCompanyID)) ? 0 : Convert.ToInt32(propertyListing.ContactCompanyID);
             listing.BrochureDescription = propertyListing.BrochureDescription;
             listing.BrochureMainHeadLine = propertyListing.BrochureMainHeadLine;
             listing.BrochureSummary = propertyListing.BrochureSummary;
