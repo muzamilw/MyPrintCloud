@@ -103,13 +103,13 @@
                             @if (ViewBag.ShowFacebookSignInLink == 1)
                             {
 
-                                <input id="facebookbtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign in with Facebook"))' class="social_button face float_left_simple" onclick="SocialSignUp(1)" />
+                                <input id="facebookbtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignupfb", UserCookieManager.WBStoreId, "Sign up with Facebook"))' class="social_button face float_left_simple" onclick="SocialSignUp(1)" />
 
                             }
                             @if (ViewBag.ShowTwitterSignInLink == 1)
                             {
 
-                                <input id="twitterBtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign in with Twitter"))' onclick=" SocialSignUp(0)" class="social_button twitter" />
+                                <input id="twitterBtn" type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsignuptwitter", UserCookieManager.WBStoreId, "Sign up with Twitter"))' onclick=" SocialSignUp(0)" class="social_button twitter" />
                                 <br />
                             }
 
@@ -207,8 +207,14 @@
 </script>
 
 <script>
+    $('#txtFirstName').blur(function () {
+        $('#txttweetUrl').val("@@" + $('#txtFirstName').val() + $('#txtLastName').val());
+    });
 
-  
+    $('#txtLastName').blur(function () {
 
+        $('#txttweetUrl').val("@@" + $('#txtFirstName').val() + $('#txtLastName').val());
+
+    });
 
 </script>

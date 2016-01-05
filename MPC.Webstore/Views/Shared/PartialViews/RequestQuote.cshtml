@@ -370,8 +370,27 @@
 <script src="/Scripts/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 
-    //$(document).ready(function () {
+    $(document).ready(function () {
+        console.log(getUrlParameter('Message'));
+        if (getUrlParameter('Message') == "Success") {
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqsubsucces", UserCookieManager.WBStoreId, "Inquiry submitted successfully!"))');
+        }
+    });
 
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
     $("#txtInquiryDate1").datepicker(
        {
            format: 'dd/mm/yyyy',
@@ -407,7 +426,7 @@
             $("#hfNoOfRec").val((recNo - 1));
         }
     }
-    //});
+    
     function ShowGUI() {
 
         var numofRec = $("#hfNoOfRec").val();
@@ -713,7 +732,6 @@
                         limitExceed = 1;
                     }
                 }
-                alert(i);
                 data.append("UploadedFile" + i, files[i]);
             }
         }
@@ -763,16 +781,9 @@
                             ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalreadysubscribed", UserCookieManager.WBStoreId, "Sorry,this email already exists please login and then place an inquiry or signup with other email address."))');
                         }
                         else {
-                            $("#txtBoxUserName").val(''); $("#LastName").val(''); $("#UserEmail").val(''); $("#Phone").val('');
-                            $("#txtInquiryTitle").val(''); $("#txtTitle1").val(''); $("#txtItemNote1").val(''); $("#txtInquiryDate1").val('');
-                            $("#txtTitle2").val(''); $("#itemnotes2").val(''); $("#txtInquiryDate2").val('');
-                            $("#txtTitle3").val(''); $("#txtItemNote3").val(''); $("#txtInquiryDate3").val('');
-                            $("#hfNoOfRec").val(1);
-                            $("#InquiryAttachment").val('');
-
-                            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqsubsucces", UserCookieManager.WBStoreId, "Inquiry submitted successfully!"))');
+                            window.location.href = "/RequestQuote?Message=Success";
                         }
-                    window.location.href = "/";
+                   
                 },
                 error: function (error) {
                     HideLoader();
