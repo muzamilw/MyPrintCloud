@@ -36,12 +36,12 @@ namespace MPC.Webstore.Controllers
 
                  GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             }
-          // ViewBag.Assets = GetAssets;
+         
             ViewBag.Folders = GetFolder;
             List<TreeViewNodeVM> TreeModel = _myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             ViewBag.TreeModel = TreeModel;
             ViewBag.Assets = GetAssets;
-            //CompanyContact contact = _myCompanyService.GetContactByID(_webclaims.loginContactID());
+          
             ViewBag.LoginContact = _webclaims.loginContactRoleID();
             ViewBag.Admin = Roles.Adminstrator;
             ViewBag.Manager = Roles.Manager;
