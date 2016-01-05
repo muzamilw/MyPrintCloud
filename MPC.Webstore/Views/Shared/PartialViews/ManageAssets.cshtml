@@ -17,8 +17,8 @@
 <header>
     <div class="container">
         <div class="logo">
-            <input id="AddFolder" type="button" value="Add Folder" onclick="AddFolder()" />
-            <input id="AddAsset" type="button" value="Add Asset" onclick="AddAsset()" />
+            <input id="AddFolder" class="headbtns" type="button" value="Add Folder" onclick="AddFolder()" />
+            <input id="AddAsset" class="headbtns" type="button" value="Add Asset" onclick="AddAsset()" />
             <p>LOGO</p>
         </div>
         <nav>
@@ -69,12 +69,15 @@
         </div>
         <div class="assetRight">
             <div class="catHeader">
-                <h1 class="catTitle">Sample Asset Management</h1>
+                <h1 class="catTitle">Asset Management</h1>
                 <div class="assetFilter">
-                    <select>
+                    <label id=dropdownlabel>
+                        <select>
                         <option value="a-z">Sort Alphabetically</option>
                         <option value="a-z">Sort By Date Added</option>
                     </select>
+                        </label>
+                    
                 </div>
                 <div class="clear"></div>
             </div>
@@ -115,13 +118,16 @@
                 <img id="AddFoldImg" style="width:140px;height:107px;" />
                 <br />
                 <br />
-                <input value="Upload/Update" id="uploderFikes" type="button"  /> 
+                <input id="imgloader" value="Upload/Update" class="uploderFikes"  type="button" /> 
+                <button style="display:none;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
                 <input style="visibility:hidden;" type="file" id="ImageUploader" onchange="ShowPreview(this);" />
-                <br />
-                <span id="AssetsItems">AssetsItems</span>
+                
+                <label id="AssetsItems">Assets Items:</label>
                 @*<input id="FilesUploader" type="file" multiple="multiple" class="file_upload_box185" />*@
-                <input id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
+                <input id="uploadfiesss" value="Upload Files" type="button" class="uploderFikes" />
+               
                 <div id="selectedFiles"></div>
+                <button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
             </div>
             <div class="float_left" style="width:50%">
                 
@@ -129,12 +135,16 @@
                 <input id="FolderName" class="folder_desc" type="text" placeholder="Name">
                 <div>
                     <label  class="float_left" id="Category">Category</label>
-                    <select class="float_left" id="folderDropDown" />
+                    <label id="dropdownlabel">
+                        <select class="float_left" id="folderDropDown" />
+                    </label>
                     <div class="clearBoth"></div>
                 </div>
-                <div class="clearBoth"></div>
-                <label id="Descrip">Description</label>
                 
+                
+                <label id="Descrip">Description</label>
+                <br />
+                <br />
                 <textarea placeholder="Description" class="folder_desc_txtarea" id="FoldDescription" cols="20" rows="4"></textarea>
                 <label id="Quantity">Quantity</label>
                 <input id="Qty" class="folder_desc" type="text" placeholder="Quantity">
@@ -142,18 +152,23 @@
                 <input id="price" class="folder_desc" type="text" placeholder="Price">
                 <label id="Keywords">Keywords</label>
                 <input id="keywords" class="folder_desc" type="text" placeholder="keywords">
+                <div id="GridTable" style="display:none;"></div>
             </div>
-            <div class="clearBoth">
-
-            </div>
+            
         </div>
         
         
         @*<button id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>*@
         <button style="display:none;float:right;"  id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
-        <button style="display:none;float:right;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
-        <button style="display:none;float:right;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
-        <button style="display:none;float:right;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
+        <div id="svfolderpanel">
+            <button style="display:none;float:right;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
+            <div class="clearBoth"></div>
+        </div>
+        
+        @*<button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>*@
+        @*<button style="display:none;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>*@
+        <input style="visibility:hidden;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
+        
         @*<button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>*@
     </div>
     <div class="basketWindow" id="basketWindow" style="display:none;">
@@ -191,9 +206,14 @@
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
     });
+    FilesUploader
+    $('#imgloader').click(function(){
+        $('#ImageUploader').click();
+        return false;
+    });
 
-    $('#uploderFikes').click(function(){
-        $('input[type=file]').click();
+    $('#uploadfiesss').click(function(){
+        $('#FilesUploader').click();
         return false;
     });
     function GoToDownload(ImgUrl)
@@ -203,34 +223,51 @@
 
     function ActionAsset()
     {
-        if(UpdateAsset==false)
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        if($("#FolderName").val()!='')
         {
+            if(UpdateAsset==false)
+            {
 
-            SaveAsset();
+                SaveAsset();
 
+            }
+            else
+            {
+
+
+                UpdateAssset(AsssetsID);
+            }
+            $("#FolderName").css("border", "1px solid #c1c6cc");
         }
         else
         {
-
-
-            UpdateAssset(AsssetsID);
+            $("#FolderName").css("border", "2px solid red");
+        
         }
-
     }
 
     function ActionFolder()
     {
-        if(UpdateStatusFolder==false)
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        if($("#FolderName").val()!='')
         {
-            alert('new');
-            SaveFolder();
+            if(UpdateStatusFolder==false)
+            {
+            
+                SaveFolder();
+            }
+            else
+            {
+            
+                UpdateFolder(FolderIDD);
+            }
+
         }
         else
         {
-            alert('update');
-           UpdateFolder(FolderIDD);
+            $("#FolderName").css("border", "2px solid red");
         }
-    
     }
     function clearTextboxes()
     {
@@ -375,7 +412,11 @@
     });
     function AddAsset()
     {
+        $("#FolderName").css("border", "1px solid #c1c6cc");
 
+        $("#popupBody ").height(386);
+
+        $("#innerLayer").width(515);
         $("#modelTitle").text('Add Asset');
         clearTextboxes();
 
@@ -391,7 +432,10 @@
         $("#Price").css("display", "block");
         $("#Keywords").css("display", "block");
         $("#AssetsItems").css("display", "block");
-        
+        $("#uploadfiesss").css("display", "block");
+        $("#FilesUploader").css("display", "none");
+        $("#DeleteFolder").css("display", "none");
+        $("#DeleteAsset").css("display", "none");
         //SaveAsset
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -415,15 +459,18 @@
         $("#SaveFolder").css("display", "block");
         $("#DeleteAsset").css("display", "none");
         $("#FilesUploader").css("display", "none");
-
-
-
+        $("#uploadfiesss").css("display", "none");
+        $("#popupBody").height(200);
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        $("#innerLayer").width(495);
 
         $("#Quantity").css("display", "none");
         $("#Qty").css("display", "none");
         $("#Price").css("display", "none");
         $("#Keywords").css("display", "none");
         $("#AssetsItems").css("display", "none");
+        $("#DeleteFolder").css("display", "none");
+
         clearTextboxes();
         LoadFolders();
         // var panelHtml = $("#AddFolderPanel").html();
@@ -735,15 +782,15 @@
             data:Data,
             success: function (response) {
                 SetSelectedFolder(response.FolderId,false);
-                $('#AddFoldImg').attr("src",response.ImagePath);
+                $('#AddFoldImg').attr("src",response.Asset.ImagePath);
                 $("#ImageUploader").val('');
                 //  $("#folderDropDown").val();
-                $("#FolderName").val(response.AssetName);
-                $("#keywords").val(response.Keywords);
-                $("#FoldDescription").val(response.Description);
-                $("#Qty").val(response.Quantity);
-                $("#price").val(response.Price);
-
+                $("#FolderName").val(response.Asset.AssetName);
+                $("#keywords").val(response.Asset.Keywords);
+                $("#FoldDescription").val(response.Asset.Description);
+                $("#Qty").val(response.Asset.Quantity);
+                $("#price").val(response.Asset.Price);
+                BindFileItems(response.Asset.AssetItems);
             }
         });
     }
@@ -867,8 +914,53 @@
             ShowDownloadWindow(imagpath);
         }
 
+        $("#selectedFiles").css("display", "block");
+        $("#popupBody ").height(386);
+
+        $("#innerLayer").width(515);
+        $("#DeleteFolder").css("display", "none");
+        $("#AssetsItems").css("display", "block");
+        $("#Quantity").css("display", "block");
+        $("#Price").css("display", "block");
+        $("#Keywords").css("display", "block");
+
+        $("#FoldDescription").css("display", "block");
+        $("#Qty").css("display", "block");
+        $("#price").css("display", "block");
+        $("#keywords").css("display", "block");
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        $("#uploadfiesss").css("display", "block");
+        $("#AssetsItems").css("display", "block");
+        
     }
 
+    function BindFileItems(Items)
+    {
+        var GridItems = Items;
+        var InnerHtml = "";
+       
+        InnerHtml = "<table'>";
+        $.each(GridItems, function (i, IT) {
+            
+            var url=(IT.FileUrl).split("/");
+            InnerHtml = InnerHtml.concat('<tr><td>'+url[5]+'</td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+           
+        }
+        );
+        InnerHtml += '</table>';
+        alert(InnerHtml);
+        $("#GridTable").css("display", "block");
+
+        $("#GridTable").html(InnerHtml);
+    }
+    function DeleteItem(AssetID,btndel)
+    {
+            if (typeof(btndel) == "object") {
+                $(btndel).closest("tr").remove();
+            } else {
+                return false;
+            }
+    }
     function ActionForFolder(FolderId,imagpath)
     {
         ImgUrl=imagpath;
@@ -882,7 +974,20 @@
         {
             ShowDownloadWindow(imagpath);
         }
+        
+        $("#uploadfiesss").css("display", "none");
+        $("#AssetsItems").css("display", "none");
+        $("#Quantity").css("display", "none");
+        $("#Price").css("display", "none");
+        $("#Keywords").css("display", "none");
 
+        $("#selectedFiles").css("display", "none");
+
+        $("#popupBody").height(200);
+
+        $("#innerLayer").width(495);
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        $("#DeleteFolder").css("display", "block");
     }
 
 
