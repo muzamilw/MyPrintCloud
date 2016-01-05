@@ -970,14 +970,14 @@ namespace MPC.Repository.Repositories
                                     if (res)
                                     {
 
-                                        string filePath = string.Empty;
-                                        string[] Allfiles = record.FileAttachment.Split('|');
-                                        foreach (var file in Allfiles)
-                                        {
-                                            filePath = hcontext.Server.MapPath(file);
-                                            if (File.Exists(filePath))
-                                                File.Delete(filePath);
-                                        }
+                                        //string filePath = string.Empty;
+                                        //string[] Allfiles = record.FileAttachment.Split('|');
+                                        //foreach (var file in Allfiles)
+                                        //{
+                                        //    filePath = hcontext.Server.MapPath(file);
+                                        //    if (File.Exists(filePath))
+                                        //        File.Delete(filePath);
+                                        //}
 
                                     }
                                     db.CampaignEmailQueues.Remove(record);
