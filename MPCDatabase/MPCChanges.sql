@@ -9553,3 +9553,6 @@ GO
 -----------------------------------------
 
 alter table report add SortOrder varchar(250) 
+
+
+alter table report add ReportCode varchar(250) 

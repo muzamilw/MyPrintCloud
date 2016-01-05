@@ -33,6 +33,7 @@ define("common/stockItem.viewModel",
                     stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
                     //Company Tax Rate
                     companyTaxRate = null,
+                    paperType = null,
                     // Search Stock Items
                     searchStockItems = function () {
                         stockDialogPager().reset();
@@ -61,11 +62,12 @@ define("common/stockItem.viewModel",
                     },
                      currency = ko.observable(),
                     // Show
-                    show = function (afterSelectCallback, stockCategoryId, isStockCategoryFilterVisible, currencySmb, companyTaxRateParam) {
+                    show = function (afterSelectCallback, stockCategoryId, isStockCategoryFilterVisible, currencySmb, companyTaxRateParam, paperTypeParam) {
                         currency(currencySmb);
                         resetStockItems();
                         view.showDialog();
                         companyTaxRate = companyTaxRateParam;
+                        paperType = paperTypeParam;
                         if (stockCategoryId) {
                             // reset field
                             isPageLoaded(false);
@@ -126,7 +128,8 @@ define("common/stockItem.viewModel",
                             PageSize: stockDialogPager().pageSize(),
                             PageNo: stockDialogPager().currentPage(),
                             CategoryId: stockDialogCatFilter(),
-                            SubCategoryId: stockDialogSubCatFilter()
+                            SubCategoryId: stockDialogSubCatFilter(),
+                            PaperType: paperType
                         }, {
                             success: function (data) {
                                 stockItems.removeAll();

@@ -88,6 +88,7 @@ nav ul li a {
 	border:1px solid #CCCCCC;
 }
 
+<<<<<<< HEAD
 #dropdownlabel {position:relative}
 
 #dropdownlabel:after {
@@ -167,6 +168,26 @@ select {
   color: #666666;
   border: 1px solid #CCCCCC;
   height: 63px;
+=======
+ #uploderFikes 
+ {
+       background-color: #5c7894;
+  width: 140px;
+  height: 32px;
+  
+  color: white;
+  /* font-weight: bold; */
+}
+.folder_desc_txtarea {
+  padding: 10px 1%;
+  border: none;
+  margin-bottom: 10px;
+  width: 100%;
+  font-size: 1.1em;
+  color: #666666;
+  border: 1px solid #CCCCCC;
+  height: 63px;
+>>>>>>> 8ec620f7cf318f6de52f7585a764d6b41d1cf0c8
 }
 .folder_desc
 {

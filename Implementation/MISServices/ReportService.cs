@@ -67,14 +67,28 @@ namespace MPC.Implementation.MISServices
             string sFilePath = string.Empty;
             try
             {
+                Report currentReport = new Report();
                 long OrganisationID = 0;
                 Organisation org = organisationRepository.GetOrganizatiobByID();
                 if (org != null)
                 {
                     OrganisationID = org.OrganisationId;
                 }
-                Report currentReport = ReportRepository.GetReportByReportID(iReportID);
-               
+
+                if(iReportID == 165)
+                {
+                    currentReport = ReportRepository.CheckCustomReportOfOrg();
+                    if(currentReport == null)
+                    {
+                        currentReport = ReportRepository.GetReportByReportID(iReportID);
+                    }
+                }
+                else
+                {
+                    currentReport = ReportRepository.GetReportByReportID(iReportID);
+                }
+                
+                 
                 SectionReport currReport = new SectionReport();
              
                 if (currentReport.ReportId > 0)
