@@ -1152,29 +1152,46 @@ namespace MPC.Implementation.MISServices
                 if (targetItemSource != null)
                 {
                     targetItem.JobSelectedQty = targetItemSource.JobSelectedQty;
+                    item.JobSelectedQty = targetItemSource.JobSelectedQty;
                 }
-                if (item.JobSelectedQty != null && targetItem.ItemType != 2)
+                if (targetItem.JobSelectedQty != null && targetItem.ItemType != 2)
                 {
-                    if (item.JobSelectedQty == 1)
+                    if (targetItem.JobSelectedQty == 1)
                     {
                         targetItem.Qty1 = item.Qty1;
                         targetItem.Qty2 = 0;
                         targetItem.Qty3 = 0;
+                        targetItem.Qty1BaseCharge1 = item.Qty1BaseCharge1;
+                        targetItem.Qty1MarkUp1Value = item.Qty1MarkUp1Value;
+                        targetItem.Qty1MarkUpPercentageValue = item.Qty1MarkUpPercentageValue;
+                        targetItem.Qty1GrossTotal = item.Qty1GrossTotal;
+                        targetItem.Qty1NetTotal = item.Qty1NetTotal;
+                        
                     }
                     else if (item.JobSelectedQty == 2)
                     {
                         targetItem.Qty1 = item.Qty2;
                         targetItem.Qty2 = 0;
                         targetItem.Qty3 = 0;
+                        targetItem.Qty1BaseCharge1 = item.Qty2BaseCharge2;
+                        targetItem.Qty1MarkUp1Value = item.Qty2MarkUp2Value;
+                        targetItem.Qty1MarkUpPercentageValue = item.Qty2MarkUpPercentageValue;
+                        targetItem.Qty1GrossTotal = item.Qty2GrossTotal;
+                        targetItem.Qty1NetTotal = item.Qty2NetTotal;
                     }
                     else if (item.JobSelectedQty == 3)
                     {
                         targetItem.Qty1 = item.Qty3;
                         targetItem.Qty2 = 0;
                         targetItem.Qty3 = 0;
+                        targetItem.Qty1BaseCharge1 = item.Qty3BaseCharge3;
+                        targetItem.Qty1MarkUp1Value = item.Qty3MarkUp3Value;
+                        targetItem.Qty1MarkUpPercentageValue = item.Qty3MarkUpPercentageValue;
+                        targetItem.Qty1GrossTotal = item.Qty3GrossTotal;
+                        targetItem.Qty1NetTotal = item.Qty3NetTotal;
                     }
                 }
-
+                target.Estimate_Total = source.Items.ToList().Sum(a => a.Qty1NetTotal);
                 // Clone Item Sections
                 CloneItemSections(item, targetItem);
             }
@@ -1205,9 +1222,32 @@ namespace MPC.Implementation.MISServices
                 itemSection.CloneForOrder(targetItemSection);
                 if (source.JobSelectedQty != null && target.ItemType != 2)
                 {
-                    targetItemSection.Qty1 = source.Qty1;
-                    targetItemSection.Qty2 = 0;
-                    targetItemSection.Qty3 = 0;
+                    if (source.JobSelectedQty == 1)
+                    {
+                        targetItemSection.Qty1 = source.Qty1;
+                        targetItemSection.Qty2 = 0;
+                        targetItemSection.Qty3 = 0;
+                        targetItemSection.Qty1MarkUpID = itemSection.Qty1MarkUpID;
+                        targetItemSection.BaseCharge1 = itemSection.BaseCharge1;
+                        
+                    }
+                    else if (source.JobSelectedQty == 2)
+                    {
+                        targetItemSection.Qty1 = source.Qty2;
+                        targetItemSection.Qty2 = 0;
+                        targetItemSection.Qty3 = 0;
+                        targetItemSection.Qty1MarkUpID = itemSection.Qty2MarkUpID;
+                        targetItemSection.BaseCharge1 = itemSection.BaseCharge2;
+                    }
+                    else if (source.JobSelectedQty == 3)
+                    {
+                        targetItemSection.Qty1 = source.Qty3;
+                        targetItemSection.Qty2 = 0;
+                        targetItemSection.Qty3 = 0;
+                        targetItemSection.Qty1MarkUpID = itemSection.Qty3MarkUpID;
+                        targetItemSection.BaseCharge1 = itemSection.Basecharge3;
+                    }
+                    
                 }
                 CloneSectionCostCenter(itemSection, targetItemSection);
             }
@@ -1232,9 +1272,39 @@ namespace MPC.Implementation.MISServices
                 targetSectionCostcentre.ItemSectionId = target.ItemSectionId;
                 target.SectionCostcentres.Add(targetSectionCostcentre);
                 sectionCostcentre.Clone(targetSectionCostcentre);
-                targetSectionCostcentre.Qty1 = source.Qty1;
-                targetSectionCostcentre.Qty2 = 0;
-                targetSectionCostcentre.Qty3 = 0;
+                if (source.Item.JobSelectedQty != null && target.Item.ItemType != 2)
+                {
+                    if (source.Item.JobSelectedQty == 1)
+                    {
+                        targetSectionCostcentre.Qty1 = source.Qty1;
+                        targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty1Charge;
+                        targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty1MarkUpID;
+                        targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty1NetTotal;
+
+                    }
+                    else if (source.Item.JobSelectedQty == 2)
+                    {
+                        targetSectionCostcentre.Qty1 = source.Qty2;
+                        targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty2Charge;
+                        targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty2MarkUpID;
+                        targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty2NetTotal;
+                    }
+                    else if (source.Item.JobSelectedQty == 3)
+                    {
+                        targetSectionCostcentre.Qty1 = source.Qty3;
+                        targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty3Charge;
+                        targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty3MarkUpID;
+                        targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty3NetTotal;
+                    }
+
+                }
+                else
+                {
+                    targetSectionCostcentre.Qty1 = source.Qty1;
+                    targetSectionCostcentre.Qty2 = 0;
+                    targetSectionCostcentre.Qty3 = 0;
+                }
+               
                 CloneSectionCostCenterDetail(sectionCostcentre, targetSectionCostcentre);
             }
         }
