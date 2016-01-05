@@ -18,6 +18,7 @@ namespace MPC.Models.RequestModels
         ///Sub Category Id
         /// </summary>
         public long? SubCategoryId { get; set; }
+        public int? PaperType { get; set; }
         
         /// <summary>
         /// Stock Category By Column for sorting

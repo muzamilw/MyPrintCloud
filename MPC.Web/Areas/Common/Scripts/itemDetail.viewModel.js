@@ -12,7 +12,6 @@ define("common/itemDetail.viewModel",
                     view,
                     //#region Observables
                     showItemDetailsSection = ko.observable(false),
-
                     showSectionDetail = ko.observable(false),
                     selectedProduct = ko.observable(model.Item.Create({})),
                     selectedAttachment = ko.observable(model.ItemAttachment.Create({})),
@@ -50,7 +49,7 @@ define("common/itemDetail.viewModel",
                     presses = ko.observableArray([]),
                     allPresses = ko.observableArray([]),
                     prePressOrPostPress = ko.observable(),
-                
+                    
                     // Impression Coverages
                     impressionCoverages = ko.observableArray([
                         {
@@ -585,7 +584,7 @@ define("common/itemDetail.viewModel",
                     openStockItemDialog = function() {
                         stockDialog.show(function(stockItem) {
                             selectedSection().selectStock(stockItem);
-                        }, stockCategory.paper, false, currencySymbol(), selectedOrder().taxRate());
+                        }, stockCategory.paper, false, currencySymbol(), selectedOrder().taxRate(), selectedSection().printingTypeUi());
                     },
                     //Section Cost Center Dialog
                     openSectionCostCenterDialog = function(costCenter, qty) {
@@ -822,7 +821,7 @@ define("common/itemDetail.viewModel",
                             if (value !== selectedSection().printingTypeUi()) {
                                 selectedSection().printingTypeUi(value);
                             }
-                            filterPresses();
+                            filterPresses(value, null, null);
                         });
 
                         // On Press Change set Section Size Width to Press Max Width
@@ -1213,16 +1212,14 @@ define("common/itemDetail.viewModel",
                                     mapList(systemUsers, data.SystemUsers, model.SystemUser);
                                 }
                                 // Machines
-                                presses.removeAll();
+                                //presses.removeAll();
                                 allPresses.removeAll();
                                 if (data.Machines) {
                                     mapList(allPresses, data.Machines, model.Machine);
                                     
                                 }
-                                if (data.Machines) {
-                                    mapList(presses, data.Machines, model.Machine);
-
-                                }
+                               
+                                
                                 defaultMarkUpId(data.DefaultMarkUpId);
                                 currencySymbol(data.CurrencySymbol);
                                 lengthUnit(data.LengthUnit || '');
@@ -1757,6 +1754,7 @@ define("common/itemDetail.viewModel",
                     },
                     showSectionDetailEditor = function(section) {
                         errorList.removeAll();
+                        filterPresses(section.printingTypeUi(), section.pressId(), section.pressIdSide2());
                         selectedSection(section);
                         subscribeSectionChanges();
                         showSectionDetail(true);
@@ -2050,7 +2048,9 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
                         return;
                     },
-                    filterPresses = function (printType) {
+                    filterPresses = function (printType, currPress, currPress2) {
+                        
+                        
                         if (printType == undefined)
                             printType = selectedSection().printingTypeUi();
                         // Filter Roll Fed Presses
@@ -2074,10 +2074,13 @@ define("common/itemDetail.viewModel",
                                 ko.utils.arrayPushAll(presses(), list);
                                 presses.valueHasMutated();
                             }
-                           
+
                         }
-                        
-                        
+                        selectedSection().pressId(currPress != null ? currPress : presses()[0].id);
+                        if (selectedSection().isDoubleSidedUi()) {
+                            selectedSection().pressIdSide2(currPress2 != null ? currPress2 : presses()[0].id);
+                        }
+
                     },
                     onItemSectionUpdate = function (callback) {
                         //var currSec = selectedSection().convertToServerData();
@@ -2108,6 +2111,9 @@ define("common/itemDetail.viewModel",
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     getBaseData();
+                   
+                   
+                    
                     //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
                 };
 

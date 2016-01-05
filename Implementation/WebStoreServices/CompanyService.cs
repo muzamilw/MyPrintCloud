@@ -1984,5 +1984,13 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _templaterepository.UpdateTemplatePdfDimensions(Template);
        }
+       public List<AssetItem> GetAssetItemsByAssetID(long AssetID)
+       {
+           return _AssetItemsRepository.GetAssetItemsByAssetID(AssetID);
+       }
+       public void RemoveAssetItem(long AssetID)
+       {
+           _AssetItemsRepository.RemoveAssetItem(AssetID);
+       }
     }
 }
