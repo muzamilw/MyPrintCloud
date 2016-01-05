@@ -89,6 +89,7 @@ nav ul li a {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #dropdownlabel {position:relative}
 
 #dropdownlabel:after {
@@ -169,6 +170,8 @@ select {
   border: 1px solid #CCCCCC;
   height: 63px;
 =======
+=======
+>>>>>>> e0d54d5ce2bb98e85f00b0aeec7b7c28d090a9d1
  #uploderFikes 
  {
        background-color: #5c7894;
@@ -187,7 +190,10 @@ select {
   color: #666666;
   border: 1px solid #CCCCCC;
   height: 63px;
+<<<<<<< HEAD
 >>>>>>> 8ec620f7cf318f6de52f7585a764d6b41d1cf0c8
+=======
+>>>>>>> e0d54d5ce2bb98e85f00b0aeec7b7c28d090a9d1
 }
 .folder_desc
 {
