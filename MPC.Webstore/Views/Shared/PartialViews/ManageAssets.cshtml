@@ -171,8 +171,9 @@
         <button class="fileButtons"><img src="~/Content/images/IND.png"></button>
         <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>
     </div>
-    <button class="basketButton" onclick="GoToDownload(ImgUrl)" value="Download" type="submit">Download</button>
-    <button class="basketButton" value="Add to basket" type="submit">Add to basket</button>
+    <button class="basketButton"  value="Download" type="button">Download</button>
+    <button class="basketButton" onclick="HideBasketWindow();" value="Close" type="button">Close</button>
+    @*onclick="GoToDownload(ImgUrl)"*@
 </div>
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script src="/Scripts/jquery.MultiFile.js"></script>
@@ -205,6 +206,9 @@
     function GoToDownload(ImgUrl)
     {
         window.location.href = ImgUrl;
+    }
+    function HideBasketWindow(){
+        $("#basketWindow").css("display", "none");
     }
 
     function ActionAsset()
@@ -783,25 +787,15 @@
             url: "/webstoreapi/ContactImageUploader/DeleteAsset?AssetID="+AsssetsID+"",
             contentType: "application/json",
             async: true,
-            //data:Data,
+            
             success: function (response) {
                 window.location.href = "/ManageAssets";
-                //SetSelectedFolder(FolderID)
-                //$('#AddFoldImg').attr("src",loc);
-                //$("#ImageUploader").val('');
-                //$("#folderDropDown").val('');
-                //$("#FolderName").val('');
-                //$("#keywords").val('');
-                //$("#FoldDescription").val('');
-                //$("#Qty").val('');
-                //$("#price").val('');
-                //$("#keywords").val('');
+             
             }
         });
     }
     function DeleteFolder()
     {
-        // var Data = { AssetID: AsssetsID };
         $.ajax({
             type: "POST",
             url: "/webstoreapi/ContactImageUploader/DeleteFolder?folderID="+FolderIDD+"",
@@ -810,16 +804,7 @@
             //data:Data,
             success: function (response) {
                 window.location.href = "/ManageAssets";
-                //SetSelectedFolder(FolderID)
-                //$('#AddFoldImg').attr("src",loc);
-                //$("#ImageUploader").val('');
-                //$("#folderDropDown").val('');
-                //$("#FolderName").val('');
-                //$("#keywords").val('');
-                //$("#FoldDescription").val('');
-                //$("#Qty").val('');
-                //$("#price").val('');
-                //$("#keywords").val('');
+               
             }
         });
     }
@@ -948,7 +933,7 @@
             success: function (response) {
                 console.log(response);
                 $("#assetNameUser").text(response.Asset.AssetName);
-                $("#assetCatNameUser").text(response.Asset.Keywords);
+                $("#assetCatNameUser").text(response.AssetFolder.FolderName);
               //  assetFilesUser
                 BindFileItems(response.Asset.AssetItems);
             }
