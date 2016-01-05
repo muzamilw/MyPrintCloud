@@ -27,7 +27,10 @@
         public string SubReportTemplate { get; set; }
         public string SubReportDataSource { get; set; }
         public long? OrganisationId { get; set; }
+        public string SortOrder { get; set; }
 
+        public string ReportCode { get; set; }
+        
         public virtual ReportCategory ReportCategory { get; set; }
     }
 }

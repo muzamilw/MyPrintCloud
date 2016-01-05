@@ -112,12 +112,13 @@
         @*<h1 style="text-align:center;">Add Folder</h1>*@
         <div style="width:100%;">
             <div class="float_left" style="width:50%">
-                <img id="AddFoldImg" style="width:140px;height:140px;" />
+                <img id="AddFoldImg" style="width:140px;height:107px;" />
                 <br />
                 <br />
-                <input type="file" id="ImageUploader" onchange="ShowPreview(this);" />
+                <input value="Upload/Update" id="uploderFikes" type="button"  /> 
+                <input style="visibility:hidden;" type="file" id="ImageUploader" onchange="ShowPreview(this);" />
                 <br />
-                <span>AssetsItems</span>
+                <span id="AssetsItems">AssetsItems</span>
                 @*<input id="FilesUploader" type="file" multiple="multiple" class="file_upload_box185" />*@
                 <input id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
                 <div id="selectedFiles"></div>
@@ -131,9 +132,10 @@
                     <select class="float_left" id="folderDropDown" />
                     <div class="clearBoth"></div>
                 </div>
-                <label id="Description">Description</label>
-                <textarea placeholder="Description" id="FoldDescription" cols="20" rows="4"></textarea>
+                <div class="clearBoth"></div>
+                <label id="Descrip">Description</label>
                 
+                <textarea placeholder="Description" class="folder_desc_txtarea" id="FoldDescription" cols="20" rows="4"></textarea>
                 <label id="Quantity">Quantity</label>
                 <input id="Qty" class="folder_desc" type="text" placeholder="Quantity">
                 <label id="Price">Price</label>
@@ -148,11 +150,11 @@
         
         
         @*<button id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="SaveFolder();">Save</button>*@
-        <button style="display:none;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
-        <button style="display:none;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
-        <button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
-        <button style="display:none;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
-        <button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>
+        <button style="display:none;float:right;"  id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
+        <button style="display:none;float:right;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
+        <button style="display:none;float:right;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
+        <button style="display:none;float:right;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
+        @*<button class="shareButton" value="Close" type="submit" onclick="HideMessagePopUpCustom();">Close</button>*@
     </div>
     <div class="basketWindow" id="basketWindow" style="display:none;">
         <h1>A4 Double Sided Flyer</h1>
@@ -188,6 +190,11 @@
         $("#popupBody").append($("#AddFolderPanel"));
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
+    });
+
+    $('#uploderFikes').click(function(){
+        $('input[type=file]').click();
+        return false;
     });
     function GoToDownload(ImgUrl)
     {
@@ -378,6 +385,13 @@
         $("#SaveAsset").css("display", "block");
         $("#SaveFolder").css("display", "none");
         $("#FilesUploader").css("display", "block");
+
+        $("#Quantity").css("display", "block");
+        $("#Qty").css("display", "block");
+        $("#Price").css("display", "block");
+        $("#Keywords").css("display", "block");
+        $("#AssetsItems").css("display", "block");
+        
         //SaveAsset
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -401,6 +415,15 @@
         $("#SaveFolder").css("display", "block");
         $("#DeleteAsset").css("display", "none");
         $("#FilesUploader").css("display", "none");
+
+
+
+
+        $("#Quantity").css("display", "none");
+        $("#Qty").css("display", "none");
+        $("#Price").css("display", "none");
+        $("#Keywords").css("display", "none");
+        $("#AssetsItems").css("display", "none");
         clearTextboxes();
         LoadFolders();
         // var panelHtml = $("#AddFolderPanel").html();

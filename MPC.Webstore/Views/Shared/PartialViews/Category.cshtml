@@ -146,11 +146,11 @@
                                                     }
                                                     else
                                                     {
-                                                      
+
 
                                                         if (item.IsAllowCustomSize ?? false)
                                                         {
-                                                            
+
                                                             if (Organisation.SystemLengthUnit == 1)
                                                             {
                                                                 //mm
@@ -164,13 +164,13 @@
                                                                 convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
                                                             }
                                                             RedirectURL = "#";
-                                                            TakeTemplateHeightWidth = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + "," + item.TemplateId + "," + item.ItemId + "," + item.ProductName + "," + Organisation.SystemLengthUnit + ");";
-                                                            
+                                                            TakeTemplateHeightWidth = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + "," + item.TemplateId + "," + item.ItemId + ",'" +item.ProductName+"'," + Organisation.SystemLengthUnit + ");";
+
                                                         }
                                                         else
                                                         {
                                                             isUploadImage = false;
-                                                            RedirectURL = "/Category/CloneItem/" + item.ItemId; 
+                                                            RedirectURL = "/Category/CloneItem/" + item.ItemId;
                                                         }
                                                     }
 
@@ -387,9 +387,9 @@
                                                 else
                                                 {
 
-                                                     
+
                                                     <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
-                                                   
+
 
                                                 }
                                                 @if (item.ProductType == (int)ProductType.MarketingBrief)
@@ -417,29 +417,29 @@
                                                     {
 
 
-                                                       
+
                                                         <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,'@item.ProductName');">
-        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
-    </a>
-                                                       
+                                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
+                                                        </a>
+
                                                     }
                                                     else
                                                     {
 
                                                         if (item.IsAllowCustomSize ?? false)
                                                         {
-                                                            
+
                                                             <a onclick="ShowTemplatePopup(@convertedheight,@convertedwidth,@item.TemplateId,@item.ItemId,'@item.ProductName',@Organisation.SystemLengthUnit)">
                                                                 <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
                                                             </a>
 
-                                                           
+
                                                         }
                                                         else
                                                         {
                                                             <a href='@Url.Action("CloneItem", "Category", new { id = item.ItemId })' onclick="ShowLoader();">
-                                                                    <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
-                                                                </a>
+                                                                <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
+                                                            </a>
                                                         }
 
                                                     }
@@ -564,26 +564,37 @@
         <input type="hidden" id="hfSvcRespone" />
     </div>
     <div id="TemplateSizeCa" style="width:100%;">
-        <div class="md-content">
-        
-            @*<button class="md-close close" onclick="HideMessagePopUp();">×</button><h4 class="modal-title left_align">Message</h4>*@
-            </div><div class="modal-body left_align">
+        <div class="modal-body left_align">
             <div id="CCErrorMesgContainer"></div>
+
+            <div class="cost-centre-left-container">
+                <label>Width</label>
+            </div>
+            <div class="cost-centre-right-container">
+                <input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplatewidth">
+                <span style="margin-left:4px;" id="Systemunit"></span>
+            </div>
+            <br><div class="clearBoth">
+            </div>
             <div class="cost-centre-left-container">
                 <label>Height</label>
             </div>
-            <div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplateheight"><span style="margin-left:4px;" id="Systemunitt"></span></div><br><div class="clearBoth"></div>
+            <div class="cost-centre-right-container">
+                <input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplateheight">
+                <span style="margin-left:4px;" id="Systemunitt"></span>
+            </div><br>
+            <div class="clearBoth"></div>
 
-                      <div class="cost-centre-left-container">
-                          <label>Width</label>
-                      </div>
-                      <div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplatewidth"><span style="margin-left:4px;" id="Systemunit"></span></div><br><div class="clearBoth"></div>
-            <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
-              
-            <button style="margin-right:15px!important;width:100px;" id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" onclick="UpdateTemplatePdfParameters();">Continue</button>
-                
-            <img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader" style="height: 20px; margin-right: 10px;margin-top:8px; display:none;"></div></div></div>
-   
+           
+        </div>
+        <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
+
+            <button style="margin-right:15px!important;" id="btnCostCentreCalculator" type="button" class="goto-designer-button float_right" onclick="UpdateTemplatePdfParameters();">@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))</button>
+
+            <img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader" style="height: 20px; margin-right: 10px;margin-top:8px; display:none;">
+        </div>
+    </div>
+
     <section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
         <div class="mask on"></div>
         <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
@@ -636,332 +647,338 @@
         var ItemId=0;
         var Ftempheight=0;
         var FtempWidth=0;
-    $(document).ready(function(){
-        HideLoader();
-        buidPopup();
-        $("#popupBody").append($("#TemplateSizeCa"));
-        document.getElementById("layer").style.display = "none";
-        document.getElementById("innerLayer").style.display = "none";
-      //  $('#btnCostCentreCalculator').attr("disabled",true);
-        
-        
-    });
+        $(document).ready(function(){
+            HideLoader();
+            buidPopup();
+            $("#popupBody").append($("#TemplateSizeCa"));
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
+            //  $('#btnCostCentreCalculator').attr("disabled",true);
 
-    function ShowTemplatePopup(height,width,templateId,ItemmId,ItemName,lengthunit)
-    {
-        HideLoader();
-        TemplateID=templateId;
-        ItemId=ItemmId;
-        var SystemUnit='';
-        document.getElementById("layer").style.display = "block";
-        document.getElementById("innerLayer").style.display = "block";
-       $("#PdfTemplatewidth").val(width.toFixed(3));
-        FtempWidth=$("#PdfTemplatewidth").val();
-        
-        $("#PdfTemplateheight").val(height.toFixed(3));
-        Ftempheight= $("#PdfTemplateheight").val();
-        var heading='Enter your custom dimensions for'+' '+ItemName;
-        $("#modelTitle").text(heading);
-        if(lengthunit==1)
-        {
-            SystemUnit='mm';
-        }
-        if(lengthunit==3)
-        {
-            SystemUnit='inch';
-        }
-        
-        $("#Systemunit").text(SystemUnit);
-        $("#Systemunitt").text(SystemUnit);
-    }
-    //$("#PdfTemplatewidth").on('change keyup paste mouseup', function() {
-    //    if ($(this).val() != FtempWidth) {
-    //        lastValue = $(this).val();
-    //        console.log('The text box really changed this time');
-    //        $('#btnCostCentreCalculator').attr("enabled", true);
-    //    }
-    //    else
-    //    {
-            
-            
-    //    }
-    //});
-    //$("#PdfTemplateheight").on('change keyup paste mouseup', function() {
-    //    if ($(this).val() != Ftempheight) {
-    //        lastValue = $(this).val();
-    //        console.log('The text box really changed this time');
-    //        $('#btnCostCentreCalculator').attr("enabled", true);
-    //    }
-    //    else
-    //    {
-            
-           
-    //    }
-    //});
-    function UpdateTemplatePdfParameters()
-    {
 
-        var Tempwidth = $("#PdfTemplatewidth").val();
-        var TempHeight = $("#PdfTemplateheight").val();
-        var flagTrue=true;
-        var Flagfalse=false;
-        
-        if(FtempWidth!=Tempwidth||Ftempheight!=TempHeight)
+        });
+
+        function ShowTemplatePopup(height,width,templateId,ItemmId,ItemName,lengthunit)
         {
+            HideLoader();
+            TemplateID=templateId;
+            ItemId=ItemmId;
+            var SystemUnit='';
+            document.getElementById("layer").style.display = "block";
+            document.getElementById("innerLayer").style.display = "block";
             
-            window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"&Check="+flagTrue+"";
-            ShowLoader();
+            var heading='Enter your custom dimensions for'+' '+ItemName;
+            $("#modelTitle").text(heading);
+            if(lengthunit==1)
+            {
+                $("#PdfTemplatewidth").val(width.toFixed(2));
+                FtempWidth=$("#PdfTemplatewidth").val();
+
+                $("#PdfTemplateheight").val(height.toFixed(2));
+                Ftempheight= $("#PdfTemplateheight").val();
+                SystemUnit='mm';
+            }
+            if(lengthunit==3)
+            {
+                $("#PdfTemplatewidth").val(width.toFixed(3));
+                FtempWidth=$("#PdfTemplatewidth").val();
+
+                $("#PdfTemplateheight").val(height.toFixed(3));
+                Ftempheight= $("#PdfTemplateheight").val();
+                SystemUnit='inch';
+            }
+
+            $("#Systemunit").text(SystemUnit);
+            $("#Systemunitt").text(SystemUnit);
         }
-        else
-        {
-            window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"&Check="+Flagfalse+"";
-            ShowLoader();
-        }
-        //var Data = { productId: TemplateID,PDFTemplateWidth:Tempwidth,PDFTemplateHeight:TempHeight };
-        //$.ajax({
-        //    type: "POST",
-        //    url: "/Category/UpdateTemplatePdfDimensions",
-        //    contentType: "application/json",
-        //    async: true,
-        //    data:Data,
-        //    success: function (response) {
-                
+        //$("#PdfTemplatewidth").on('change keyup paste mouseup', function() {
+        //    if ($(this).val() != FtempWidth) {
+        //        lastValue = $(this).val();
+        //        console.log('The text box really changed this time');
+        //        $('#btnCostCentreCalculator').attr("enabled", true);
+        //    }
+        //    else
+        //    {
+
+
         //    }
         //});
-    }
-
-    function ClosePopUp()
-    {
-        document.getElementById("layer").style.display = "none";
-        document.getElementById("innerLayer").style.display = "none";
-    }
-    function  HideMessagePopUpCustom()
-    {
-        document.getElementById("layer").style.display = "none";
-        document.getElementById("innerLayer").style.display = "none";
-    }
-    var tID = 0;
-    var itemId = 0;
-    function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
-        //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
-        $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId + "/" + @UserCookieManager.WBStoreId,
-                          function (DT) {
-                              parts = DT.split("_");
-                              //templateid = part[1]
-                              // itemID = part[0];
-                              //orderid = part[2];
-                              //temporaryCustomerId = part[3];
-                              itemId= parts[0];
-                              var storeMode =  @UserCookieManager.WEBStoreMode;
-                              if(storeMode == 4)
-                              {
-                                  createCookie("TemporaryCompanyId",parts[3]);
-                              }
-                              createCookie("WEBOrderId",parts[2]);
-                              k0(parts[1],productName);
-                              $(".productTitle").html(productName);
+        //$("#PdfTemplateheight").on('change keyup paste mouseup', function() {
+        //    if ($(this).val() != Ftempheight) {
+        //        lastValue = $(this).val();
+        //        console.log('The text box really changed this time');
+        //        $('#btnCostCentreCalculator').attr("enabled", true);
+        //    }
+        //    else
+        //    {
 
 
-                          });
-    }
-    function buidPopup() {
-        //popupBody
-        //modelTitle
-        var bws = getBrowserHeight();
+        //    }
+        //});
+        function UpdateTemplatePdfParameters()
+        {
 
-        var shadow = document.getElementById("innerLayer");
+            var Tempwidth = $("#PdfTemplatewidth").val();
+            var TempHeight = $("#PdfTemplateheight").val();
+            var flagTrue=true;
+            var Flagfalse=false;
 
-        document.getElementById("layer").style.width = bws.width + "px";
-        document.getElementById("layer").style.height = bws.height + "px";
-        var left = 0;
-        var container = "";
-        if (bws.width < 700 && bws.width > 640) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:248px;"></div></div>';
+            if(FtempWidth!=Tempwidth||Ftempheight!=TempHeight)
+            {
 
-        }
-        else if (bws.width == 640) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+                window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"&Check="+flagTrue+"";
+                ShowLoader();
+            }
+            else
+            {
+                window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"&Check="+Flagfalse+"";
+                ShowLoader();
+            }
+            //var Data = { productId: TemplateID,PDFTemplateWidth:Tempwidth,PDFTemplateHeight:TempHeight };
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Category/UpdateTemplatePdfDimensions",
+            //    contentType: "application/json",
+            //    async: true,
+            //    data:Data,
+            //    success: function (response) {
 
-        }
-        else if (bws.width < 640 && bws.width > 600) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
-
-        }
-        else if (bws.width < 600 && bws.width > 500) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
-
-        } else if (bws.width < 500) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
-        }
-        else {
-
-            left = parseInt((bws.width - 730) / 2);
-            document.getElementById("innerLayer").style.width = "730px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;" ></div></div>';
+            //    }
+            //});
         }
 
-
-
-        // document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        document.getElementById("innerLayer").innerHTML = container;
-
-        document.getElementById("innerLayer").style.left = left + "px";
-        document.getElementById("innerLayer").style.top = "0px";
-
-        document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
-
-
-        document.getElementById("layer").style.display = "none";
-        document.getElementById("innerLayer").style.display = "none";
-    }
-    function createCookie(name, value, days) {
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            var expires = "; expires=" + date.toGMTString();
+        function ClosePopUp()
+        {
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
         }
-        else var expires = "";
-        document.cookie = name + "=" + value + expires + "; path=/";
-    }
-    function k0(tsID,productName) {
-        tID= tsID;
-        organisationId = @ViewBag.organisationId;
-        if ($(window).width() > 1200 ) {
-            $('#PreviewerContainerDesigner').css("width", "1200px");
-            $('#PreviewerDesigner').css("width", "1176px");
-            $('#sliderFrame').css("width", "1140px");
-            $('#sliderDesigner').css("width", "942px");
-            $('.sliderLine').css("width", "1144px");
-            $('#previewProofingDesigner').css("width", "1160px");
-            $('.divTxtProofingDesigner').css("margin-left", "208px");
+        function  HideMessagePopUpCustom()
+        {
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
         }
-        $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
-        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
-        $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
-        $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
-        $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
-        $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
-        $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+        var tID = 0;
+        var itemId = 0;
+        function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
+            //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
+            $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId + "/" + @UserCookieManager.WBStoreId,
+                              function (DT) {
+                                  parts = DT.split("_");
+                                  //templateid = part[1]
+                                  // itemID = part[0];
+                                  //orderid = part[2];
+                                  //temporaryCustomerId = part[3];
+                                  itemId= parts[0];
+                                  var storeMode =  @UserCookieManager.WEBStoreMode;
+                                  if(storeMode == 4)
+                                  {
+                                      createCookie("TemporaryCompanyId",parts[3]);
+                                  }
+                                  createCookie("WEBOrderId",parts[2]);
+                                  k0(parts[1],productName);
+                                  $(".productTitle").html(productName);
 
-        $.getJSON("/designerapi/templatepage/GetTemplatePages/" + tID,
-            function (DT) {
-                var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
-                $.each(DT, function (i, IT) {
 
-                    $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=2"  alt="' + IT.PageName + '" />');
-                    $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+                              });
+        }
+        function buidPopup() {
+            //popupBody
+            //modelTitle
+            var bws = getBrowserHeight();
 
+            var shadow = document.getElementById("innerLayer");
+
+            document.getElementById("layer").style.width = bws.width + "px";
+            document.getElementById("layer").style.height = bws.height + "px";
+            var left = 0;
+            var container = "";
+            if (bws.width < 700 && bws.width > 640) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:248px;"></div></div>';
+
+            }
+            else if (bws.width == 640) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+
+            }
+            else if (bws.width < 640 && bws.width > 600) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+
+            }
+            else if (bws.width < 600 && bws.width > 500) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+
+            } else if (bws.width < 500) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+            }
+            else {
+
+                left = parseInt((bws.width - 730) / 2);
+                document.getElementById("innerLayer").style.width = "730px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;" ></div></div>';
+            }
+
+
+
+            // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            document.getElementById("innerLayer").innerHTML = container;
+
+            document.getElementById("innerLayer").style.left = left + "px";
+            document.getElementById("innerLayer").style.top = "0px";
+
+            document.getElementById("innerLayer").style.position = "fixed";
+            document.getElementById("innerLayer").style.zIndex = "9999";
+
+
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
+        }
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+        function k0(tsID,productName) {
+            tID= tsID;
+            organisationId = @ViewBag.organisationId;
+            if ($(window).width() > 1200 ) {
+                $('#PreviewerContainerDesigner').css("width", "1200px");
+                $('#PreviewerDesigner').css("width", "1176px");
+                $('#sliderFrame').css("width", "1140px");
+                $('#sliderDesigner').css("width", "942px");
+                $('.sliderLine').css("width", "1144px");
+                $('#previewProofingDesigner').css("width", "1160px");
+                $('.divTxtProofingDesigner').css("margin-left", "208px");
+            }
+            $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
+            $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+            $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
+            $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+
+            $.getJSON("/designerapi/templatepage/GetTemplatePages/" + tID,
+                function (DT) {
+                    var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
+                    $.each(DT, function (i, IT) {
+
+                        $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=2"  alt="' + IT.PageName + '" />');
+                        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+
+                    });
+                    $.each(DT, function (i, IT) {
+                        $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2"  alt="' + IT.PageName + '" />');
+                        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+                    });
+                    $("#PreviewerContainerDesigner").css("display","block");
+                    StopDesignerLoader();
                 });
-                $.each(DT, function (i, IT) {
-                    $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2"  alt="' + IT.PageName + '" />');
-                    $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
-                });
-                $("#PreviewerContainerDesigner").css("display","block");
-                StopDesignerLoader();
+
+
+        }
+        function e6() {
+            HideLoader();StopDesignerLoader();
+            $("#PreviewerContainerDesigner").css("display","none");
+        }
+        $("#lblCheckSpelling").click(function (event) {
+            $("#lblCheckSpelling").toggleClass("ckeckboxChecked");
+        });
+        $("#btnNextProofing").click(function (event) {
+            if ($("#chkCheckSpelling").is(':checked')) {
+                var designerName = $('.productTitle').html();
+
+                while (designerName.indexOf('/') != -1)
+                    designerName = designerName.replace("/", "__");
+                while (designerName.indexOf('&') != -1)
+                    designerName = designerName.replace("&", "__");
+
+                while (designerName.indexOf(' ') != -1)
+                    designerName = designerName.replace(" ", "-");
+                while (designerName.indexOf(';') != -1)
+                    designerName = designerName.replace(";", "-");
+                while (designerName.indexOf('&#34;') != -1)
+                    designerName = designerName.replace("&#34;", "-");
+                while (designerName.indexOf('+') != -1)
+                    designerName = designerName.replace("+", "-");
+                StartDesignerLoader("Please wait while we add this item to your cart...");
+
+                $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + itemId + "/" +  @ViewBag.CompanyID + "/" + designerName + "/designer/" + @ViewBag.organisationId,
+                  function (DT) {
+                      window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+                  });
+            } else {
+                alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmspell", UserCookieManager.WBStoreId, "Please Confirm spellings and details!"))');
+                return false;
+            }
+        });
+        function StartDesignerLoader(msg) {
+            loaderLoading = true;
+            var3 = 1;
+            if (msg == null || msg == "") {
+                msg = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgenerateproof", UserCookieManager.WBStoreId, "Please wait while we generate proof of your design..."))';
+            }
+            $("#paraLoaderMsg").text(msg);
+            $("#MainLoader").css("display", "block");
+            $(".progressValue").css("width", "1%");
+            $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
+            var2 = setInterval((function () {
+                var3 += 1;
+                if (var3 <= 95) {
+                    $(".progressValue").css("width", var3 + "%");
+                }
+
+            }), 25);
+        }
+        function StopDesignerLoader() {
+            var3 = 99;
+            loaderLoading = false;
+            $(".progressValue").css("width", 100 + "%");
+            $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
+            function (e) {
+                if (!loaderLoading) {
+                    $("#MainLoader").css("display", "none");
+                    clearInterval(var2);
+                }
             });
 
 
-    }
-    function e6() {
-        HideLoader();StopDesignerLoader();
-        $("#PreviewerContainerDesigner").css("display","none");
-    }
-    $("#lblCheckSpelling").click(function (event) {
-        $("#lblCheckSpelling").toggleClass("ckeckboxChecked");
-    });
-    $("#btnNextProofing").click(function (event) {
-        if ($("#chkCheckSpelling").is(':checked')) {
-            var designerName = $('.productTitle').html();
-
-            while (designerName.indexOf('/') != -1)
-                designerName = designerName.replace("/", "__");
-            while (designerName.indexOf('&') != -1)
-                designerName = designerName.replace("&", "__");
-
-            while (designerName.indexOf(' ') != -1)
-                designerName = designerName.replace(" ", "-");
-            while (designerName.indexOf(';') != -1)
-                designerName = designerName.replace(";", "-");
-            while (designerName.indexOf('&#34;') != -1)
-                designerName = designerName.replace("&#34;", "-");
-            while (designerName.indexOf('+') != -1)
-                designerName = designerName.replace("+", "-");
-            StartDesignerLoader("Please wait while we add this item to your cart...");
-
-            $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + itemId + "/" +  @ViewBag.CompanyID + "/" + designerName + "/designer/" + @ViewBag.organisationId,
-              function (DT) {
-                  window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
-              });
-        } else {
-            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmspell", UserCookieManager.WBStoreId, "Please Confirm spellings and details!"))');
-            return false;
         }
-    });
-    function StartDesignerLoader(msg) {
-        loaderLoading = true;
-        var3 = 1;
-        if (msg == null || msg == "") {
-            msg = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgenerateproof", UserCookieManager.WBStoreId, "Please wait while we generate proof of your design..."))';
-        }
-        $("#paraLoaderMsg").text(msg);
-        $("#MainLoader").css("display", "block");
-        $(".progressValue").css("width", "1%");
-        $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
-        var2 = setInterval((function () {
-            var3 += 1;
-            if (var3 <= 95) {
-                $(".progressValue").css("width", var3 + "%");
-            }
-
-        }), 25);
-    }
-    function StopDesignerLoader() {
-        var3 = 99;
-        loaderLoading = false;
-        $(".progressValue").css("width", 100 + "%");
-        $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
-        function (e) {
-            if (!loaderLoading) {
-                $("#MainLoader").css("display", "none");
-                clearInterval(var2);
-            }
-        });
-
-
-    }
     </script>
     @*<script>
-        $('[id="hlProductDetail"]').each(function () {
-            var hrefLink = "";
-        $(this).removeAttr('href');
-        $($(this).parent().next().next().next().next().next().children()).each(function () {
-            console.log("child id link" + $(this).attr('id'));
-            if($(this).attr('id') == "lnkPRoductdetail"){
+            $('[id="hlProductDetail"]').each(function () {
+                var hrefLink = "";
+            $(this).removeAttr('href');
+            $($(this).parent().next().next().next().next().next().children()).each(function () {
+                console.log("child id link" + $(this).attr('id'));
+                if($(this).attr('id') == "lnkPRoductdetail"){
 
-                hrefLink = $(this).attr('href');
-            }
+                    hrefLink = $(this).attr('href');
+                }
+            });
+            $(this).attr('href', hrefLink);
         });
-        $(this).attr('href', hrefLink);
-    });
-    </script>
+        </script>
 
-    <script>
-    $('[id="hlProductDetail"]').each(function () {
-        $(this).removeAttr('href');
-        var hrefLink = $(this).parent().next().next().next().next().children().next().next().attr('href');
-        console.log("href link" + hrefLink);
-        $(this).attr('href', hrefLink);
-    });
-    </script>*@
+        <script>
+        $('[id="hlProductDetail"]').each(function () {
+            $(this).removeAttr('href');
+            var hrefLink = $(this).parent().next().next().next().next().children().next().next().attr('href');
+            console.log("href link" + hrefLink);
+            $(this).attr('href', hrefLink);
+        });
+        </script>*@
 }

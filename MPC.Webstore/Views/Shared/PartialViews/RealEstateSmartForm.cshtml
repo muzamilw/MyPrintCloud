@@ -470,7 +470,11 @@
                             @*<a class="edit save-btn">Save</a>
                             <a class="edit cancel-btn">Close</a>*@
                             @*<a class="display" id="ImageDel" onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL');">Delete</a>*@
-                            <i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
+                            
+                                @*<span style="visibility:hidden;" class='display' ></span>
+                            <input style="visibility:hidden;" type='file' id='ListingImageUploader' class='editImg' />*@
+                           
+                            @*<i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>*@
                         </text>
                 },
                 new WebGridColumn{
@@ -480,7 +484,7 @@
                         @*<a class="edit save-btn">Save</a>
                             <a class="edit cancel-btn">Close</a>*@
                         @*<a class="display" id="ImageDel" onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL');">Delete</a>*@
-                        <i style="font-size:18px; visibility:hidden;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
+                        <i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
                     </text>
                 }
             };
@@ -530,7 +534,7 @@
                         <div  id="GRids" style="width:100%;">
                             
                             <div id="listImage" style="width:50%;float:left;">
-                                @Imagesgrid.Table(columns: colss, tableStyle: "WebGridTableStyle", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")
+                                @Imagesgrid.Table(columns: colss, tableStyle: "WebGridTableStyle selTable", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")
                                 @*<div class="controlDiv controlParentDiv" style="width: 100%;">
 
                                     <div class="float_left_simple" style="width:74px;"><label>Image</label><input type="button" id="MainContent_Image" class="AgentBtn" value="+ Image" onclick="AddImages();" style="font-size: 9px !important;"></div>
@@ -1126,28 +1130,59 @@
         //        }
         //    }
         //}
+        
         var i=0;
-        $('#listImage>table>tr>td').children('input').each(function () {
+        // $('#listImage>table>tr>td').children('input').each(function () {
+        if (ListingImages == 0) {
+            $('.selTable>tr>td').children('input').each(function () {
            
-            var files = $(this).get(0).files;
-           
-            if (files.length > 0) {
+                var files = $(this).get(0).files;
                
-              //  for (i = 0; i < files.length; i++) {
-                  
-                          data.append("ListingImage"+i, files[0]);
-                // }
-                          i++;
-            }
+                if (files.length > 0) {
+               
+                    //  for (i = 0; i < files.length; i++) {
+                    
+                    data.append("ListingImage"+i, files[0]);
+                    // }
+
+                    i++;
+                }
 
 
-            //var files = $("#fuImageUpload").get(0).files;
+                //var files = $("#fuImageUpload").get(0).files;
 
-            //// Add the uploaded image content to the form data collection
-            //if (files.length > 0) {
-            //    data.append("UploadedImage", files[0]);
-            //}
-       });
+                //// Add the uploaded image content to the form data collection
+                //if (files.length > 0) {
+                //    data.append("UploadedImage", files[0]);
+                //}
+            });
+        }
+        else
+        {
+            
+            $('.selTable>tbody>tr>td').children('input').each(function () {
+           
+                var files = $(this).get(0).files;
+               
+                if (files.length > 0) {
+               
+                    //  for (i = 0; i < files.length; i++) {
+                    
+                    data.append("ListingImage"+i, files[0]);
+                    // }
+
+                    i++;
+                }
+
+
+                //var files = $("#fuImageUpload").get(0).files;
+
+                //// Add the uploaded image content to the form data collection
+                //if (files.length > 0) {
+                //    data.append("UploadedImage", files[0]);
+                //}
+            });
+        }
         // alert(this.value); // "this" is the current element in the loop
         ShowLoader();
         $.ajax({
@@ -1314,8 +1349,16 @@
                  //  var rows = $("#ajaxgridForListingImages").find('> tbody > tr');
                  // alert(rows);
                  //$("#listImage>table>tbody tr:last").after(tfootAddAnother);
-                 //   if (ListingImages == 0) {
-                 $("#listImage>table>tbody").after(tfootAddAnother);
+               //  var rowCount = $('#listImage tr').length;
+                // alert(rowCount);
+                 if (ListingImages == 0) {
+                     $("#listImage>table>tbody").after(tfootAddAnother);
+                   //  alert();
+                 }
+                 else
+                 {
+                     $("#listImage>table>tbody tr:last").after(tfootAddAnother);
+                 }
                  ImgIndex++;
              }
        //  }
