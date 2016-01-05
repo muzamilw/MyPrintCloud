@@ -352,9 +352,11 @@
                 });
                 if(flag)
                 {
+                   
                     SetSelectedFolderrr(response.Folders,FolderID,1);
                 }
                 else{
+                    
                     SetSelectedFolderrr(response.Folders,FolderID,0);
                 }
             }
@@ -718,7 +720,8 @@
             async: true,
             data:Data,
             success: function (response) {
-                SetSelectedFolder(response.FolderId,false);
+                
+                SetSelectedFolder(response.Asset.FolderId,false);
                 $('#AddFoldImg').attr("src",response.Asset.ImagePath);
                 $("#ImageUploader").val('');
                 //  $("#folderDropDown").val();
@@ -768,10 +771,7 @@
                 $("#ImageUploader").val('');
                 //  $("#folderDropDown").val();
                 $("#FolderName").val(response.FolderName);
-
                 $("#FoldDescription").val(response.Description);
-
-
             }
         });
     }
@@ -824,11 +824,13 @@
         });
     }
     function SetSelectedFolderrr(obj, FolderId,Index) {
-
+      
         var index = Index;
+        
         $.each(obj, function (id, option) {
+            
             if (option.FolderId==FolderId) {
-
+                
                 $("#folderDropDown")[0].selectedIndex = index;
             }
             index++;
@@ -886,7 +888,7 @@
         }
         );
         InnerHtml += '</table>';
-        alert(InnerHtml);
+        
         $("#GridTable").css("display", "block");
 
         $("#GridTable").html(InnerHtml);
