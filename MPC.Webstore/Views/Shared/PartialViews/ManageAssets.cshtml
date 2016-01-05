@@ -158,22 +158,22 @@
         <input style="visibility:hidden;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
 
     </div>
-    <div class="basketWindow" id="basketWindow" style="display:none;">
-        <h1>A4 Double Sided Flyer</h1>
-        <h2>Category: December Xmas Campaign</h2>
-        <h3>Asset Updated: 03/11/2016</h3>
-        <div class="fileIcons">
-            <h2>Select your required filetype(s):</h2>
-            <button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
-            <button class="fileButtons"><img src="~/Content/images/AI.png"></button>
-            <button class="fileButtons"><img src="~/Content/images/IND.png"></button>
-            <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>
-        </div>
-        <button class="basketButton" onclick="GoToDownload(ImgUrl)" value="Download" type="submit">Download</button>
-        <button class="basketButton" value="Add to basket" type="submit">Add to basket</button>
-    </div>
+  
 </div>
-
+<div class="basketWindow" id="basketWindow" style="display:none;">
+    <h1 id="assetNameUser">A4 Double Sided Flyer</h1>
+    <h2 id="assetCatNameUser">Category: December Xmas Campaign</h2>
+    
+    <div class="fileIcons" id="assetFilesUser">
+        <h2>Select your required filetype(s):</h2>
+        <button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
+        <button class="fileButtons"><img src="~/Content/images/AI.png"></button>
+        <button class="fileButtons"><img src="~/Content/images/IND.png"></button>
+        <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>
+    </div>
+    <button class="basketButton" onclick="GoToDownload(ImgUrl)" value="Download" type="submit">Download</button>
+    <button class="basketButton" value="Add to basket" type="submit">Add to basket</button>
+</div>
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script src="/Scripts/jquery.MultiFile.js"></script>
 <script type="text/javascript">
@@ -547,28 +547,7 @@
     function AddAssetAttachments(AssetId)
     {
         var data = new FormData();
-        //var files = $("#FilesUploader").get(0).files;
-
-        //if (files.length > 0) {
-        //    for (i = 0; i < files.length; i++) {
-        //        //var name1 = files[i].name.replace(/C:\\fakepath\\/i, '');
-        //        //fileExtension = name1.substr(name1.lastIndexOf('.') + 1);
-        //        //if (["pdf", "jpg", "jpeg", "eps", "tiff", "csv", "xls", "xlsx", "png"].indexOf(fileExtension) < 0) {
-        //        //    notAllowedFilesCount = parseInt(notAllowedFilesCount) + 1;
-        //        //    console.log(name1);
-        //        //}
-        //        //else {
-        //        //    if (files[i].size != null && files[i].size > 52428800) {
-
-        //        //        limitExceed = 1;
-        //        //    }
-        //        //}
-
-        //        data.append("UploadedFile" + i, files[i]);
-        //    }
-        //}
-
-
+      
 
         if (AssetId != null && AssetId != '') {
 
@@ -639,22 +618,7 @@
             }
         });
     }
-    //function LoadAllStates() {
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "/BillingShippingAddressManager/LoadAllStates",
-    //        contentType: "application/json",
-    //        async: true,
-    //        success: function (response) {
-    //            var States = $("#DDSate");
-    //            States.html('');
-    //            States.append($('<option></option>').val(0).html('Select State'));
-    //            $.each(response.State, function (id, option) {
-    //                States.append($('<option></option>').val(option.StateId).html(option.StateName));
-    //            });
-    //        }
-    //    });
-    //}
+  
 
     function UpdateAssset(AssetId)
     {
@@ -881,30 +845,31 @@
         if(@ContactRole==1||@ContactRole==2)
         {
             Edit(AssetID);
+            $("#selectedFiles").css("display", "block");
+    
+            $("#innerLayer").width(515);
+            $("#DeleteFolder").css("display", "none");
+            $("#AssetsItems").css("display", "block");
+            $("#Quantity").css("display", "block");
+            $("#Price").css("display", "block");
+            $("#Keywords").css("display", "block");
+
+            $("#FoldDescription").css("display", "block");
+            $("#Qty").css("display", "block");
+            $("#price").css("display", "block");
+            $("#keywords").css("display", "block");
+            $("#FolderName").css("border", "1px solid #c1c6cc");
+            $("#uploadfiesss").css("display", "block");
+            $("#AssetsItems").css("display", "block");
+            $("#AddFolderPanel").css("display", "block");
+
         }
         else
         {
-            ShowDownloadWindow(imagpath);
+            ShowDownloadWindow(imagpath,AssetID);
         }
 
-        $("#selectedFiles").css("display", "block");
-    
-        $("#innerLayer").width(515);
-        $("#DeleteFolder").css("display", "none");
-        $("#AssetsItems").css("display", "block");
-        $("#Quantity").css("display", "block");
-        $("#Price").css("display", "block");
-        $("#Keywords").css("display", "block");
-
-        $("#FoldDescription").css("display", "block");
-        $("#Qty").css("display", "block");
-        $("#price").css("display", "block");
-        $("#keywords").css("display", "block");
-        $("#FolderName").css("border", "1px solid #c1c6cc");
-        $("#uploadfiesss").css("display", "block");
-        $("#AssetsItems").css("display", "block");
-        $("#AddFolderPanel").css("display", "block");
-
+     
     }
 
     function BindFileItems(Items)
@@ -945,7 +910,7 @@
         }
         else
         {
-            ShowDownloadWindow(imagpath);
+          //  ShowDownloadWindow(imagpath);
         }
 
         $("#uploadfiesss").css("display", "none");
@@ -969,10 +934,23 @@
 
 
 
-    function ShowDownloadWindow(imagpath)
+    function ShowDownloadWindow(imagpath, Assetid)
     {
-        document.getElementById("layer").style.display = "block";
-        document.getElementById("innerLayer").style.display = "block";
+        var Data = { AssetId: Assetid };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+                console.log(response);
+                $("#assetNameUser").text(response.Asset.AssetName);
+                $("#assetCatNameUser").text(response.Asset.Keywords);
+              //  assetFilesUser
+                BindFileItems(response.Asset.AssetItems);
+            }
+        });
         $("#basketWindow").css("display", "block");
         $(".shareIcons").css("display", "none");
     }
