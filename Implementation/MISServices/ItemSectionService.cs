@@ -6841,7 +6841,7 @@ namespace MPC.Implementation.MISServices
                 LookupMethod oModelLookUpMethod = new LookupMethod();
                 oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethodId));
 
-                double[] dblPrintCost = new double[1];
+                double[] dblPrintCost = new double[3];
                 double[] dblPrintPrice = new double[3];
                 double[] dblPrintRun = new double[3];
                 double[] dblPrintPlateQty = new double[3];
@@ -7656,7 +7656,7 @@ namespace MPC.Implementation.MISServices
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
                                 oItemSectionCostCenter.Qty3WorkInstructions += " ;  Number of Passes = " +
-                                                                               (PassesBack + PassesFront) +
+                                                                               dblPressPass +
                                                                                Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsImpressionCount == true)
@@ -7718,7 +7718,7 @@ namespace MPC.Implementation.MISServices
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new MPCException(ex.Message, itemsectionRepository.OrganisationId);
             }
             return oItemSection;
         }

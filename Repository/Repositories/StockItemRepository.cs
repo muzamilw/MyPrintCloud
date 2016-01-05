@@ -156,7 +156,7 @@ namespace MPC.Repository.Repositories
                  query =
               stockItem =>
                   (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
-                  (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId) &&
+                  (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && ((!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId) && request.CategoryId == 1) && (!request.PaperType.HasValue || request.PaperType == stockItem.PaperType) &&
                   stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
             }
             else
@@ -164,7 +164,7 @@ namespace MPC.Repository.Repositories
                 query =
               stockItem =>
                   (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
-                  (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) &&
+                  (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && ((!request.PaperType.HasValue || request.PaperType == stockItem.PaperType) && request.CategoryId == 1) &&
                   stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
 
             }
