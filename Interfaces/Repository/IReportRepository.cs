@@ -43,5 +43,7 @@ namespace MPC.Interfaces.Repository
 
         List<Reportparam> getReportParamsByReportId(long ReportId);
 
+        Report CheckCustomReportOfOrg();
+
     }
 }

@@ -621,6 +621,18 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public Report CheckCustomReportOfOrg()
+        {
+            try
+            {
+                return db.Reports.Where(c => c.ReportCode == "JCR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         // GetReportsByOrganisationID
     }
 }

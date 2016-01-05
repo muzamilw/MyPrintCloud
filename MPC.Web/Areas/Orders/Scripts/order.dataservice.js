@@ -99,6 +99,8 @@ define("order/order.dataservice", function () {
                     amplify.request.define('saveOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/Order',
                         dataType: 'json',
+                        dataMap: JSON.stringify,
+                        contentType: "application/json; charset=utf-8",
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
