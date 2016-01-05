@@ -633,6 +633,18 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public Report CheckCustomReportOfPrchase()
+        {
+            try
+            {
+                return db.Reports.Where(c => c.ReportCode == "POR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         // GetReportsByOrganisationID
     }
 }

@@ -45,5 +45,6 @@ namespace MPC.Interfaces.Repository
 
         Report CheckCustomReportOfOrg();
 
+        Report CheckCustomReportOfPrchase();
     }
 }

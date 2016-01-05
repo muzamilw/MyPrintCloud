@@ -34,7 +34,7 @@ namespace MPC.Repository.Repositories
         {
             db.Configuration.LazyLoadingEnabled = false;
 
-            return db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID && i.ParentFolderId == null || i.ParentFolderId==0).ToList();
+            return db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID && (i.ParentFolderId == null || i.ParentFolderId == 0)).ToList();
         }
         public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
         {
@@ -89,7 +89,7 @@ namespace MPC.Repository.Repositories
         public List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId,long OrganisationId)
         {
             List<TreeViewNodeVM> rootNode = (from e1 in db.Folders
-                                       where e1.CompanyId == CompanyId && e1.OrganisationId == OrganisationId && e1.ParentFolderId == null || e1.ParentFolderId == 0
+                                       where e1.CompanyId == CompanyId && e1.OrganisationId == OrganisationId && (e1.ParentFolderId == null || e1.ParentFolderId == 0)
                                        select new TreeViewNodeVM()
                                        {
                                            FolderName = e1.FolderName,
