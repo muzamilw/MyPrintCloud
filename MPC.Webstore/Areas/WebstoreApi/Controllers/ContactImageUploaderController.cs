@@ -627,7 +627,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                   HttpPostedFile postedFile = HttpContext.Current.Request.Files["file" + i];
                   string fileName = string.Format("{0}{1}", i, Path.GetFileName(postedFile.FileName));
                   AssetItem Item = new AssetItem();
-                  Item.FileUrl = "/" + folderPath;
+                  Item.FileUrl = folderPath + fileName;
                   Item.AssetId = AssetID;
                   listOfAttachment.Add(Item);
                   string filevirtualpath = virtualFolderPth + "/" + fileName;
@@ -675,12 +675,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
       [HttpGet]
       public HttpResponseMessage GetAssetByAssetID(long AssetId)
       {
-          Asset GAsset = _companyService.GetAsset(AssetId);
+          AssetDeposit obj = new AssetDeposit();
+          obj.Asset=_companyService.GetAsset(AssetId);
+          obj.ListItems = _companyService.GetAssetItemsByAssetID(AssetId);
           var formatterr = new JsonMediaTypeFormatter();
           var jsons = formatterr.SerializerSettings;
           jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
           jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-          return Request.CreateResponse(HttpStatusCode.OK, GAsset, formatterr);
+          return Request.CreateResponse(HttpStatusCode.OK, obj, formatterr);
       }
       [HttpPost]
       public void DeleteAsset(long AssetID)
@@ -704,5 +706,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
           _companyService.DeleteFolder(folderID);
       }
+     
+    }
+    public class AssetDeposit
+    {
+        public Asset Asset { get; set;}
+        public List<AssetItem> ListItems { get; set;}
     }
 }

@@ -88,6 +88,88 @@ nav ul li a {
 	border:1px solid #CCCCCC;
 }
 
+#dropdownlabel {position:relative}
+
+#dropdownlabel:after {
+    content:'<>';
+    font:11px "Consolas", monospace;
+    color:#aaa;
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform:rotate(90deg);
+    right:8px; top:2px;
+    padding:0 0 2px;
+    border-bottom:1px solid #ddd;
+    position:absolute;
+    pointer-events:none;
+}
+#dropdownlabel:before {
+    content:'';
+    right:6px; top:0px;
+    width:20px; height:20px;
+    background:#f8f8f8;
+    position:absolute;
+    pointer-events:none;
+    display:block;
+}
+#folderDropDown {
+    width:256px!important;
+}
+select {
+    padding:3px;
+    margin: 0;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    background: #f8f8f8;
+    color:#888;
+    border:none;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+#DeleteFolder {
+      margin-left: 2px!important;
+  width: 138px!important;
+  background-color: #c13737!important;
+}
+#DeleteAsset {
+    width: 138px!important;
+  background-color: #c13737!important;
+  margin-left: 2px;
+}
+#Category {
+    padding-left:0px!important;
+}
+ .uploderFikes 
+ {
+       background-color: #5c7894;
+  width: 140px;
+  height: 32px;
+  
+  color: white;
+  /* font-weight: bold; */
+}
+.folder_desc_txtarea {
+  padding: 10px 1%;
+  border: none;
+  margin-bottom: 10px;
+  width:255px;
+  font-size: 1.1em;
+  color: #666666;
+  border: 1px solid #CCCCCC;
+  height: 63px;
+=======
+=======
+>>>>>>> e0d54d5ce2bb98e85f00b0aeec7b7c28d090a9d1
  #uploderFikes 
  {
        background-color: #5c7894;
@@ -112,21 +194,20 @@ nav ul li a {
     padding: 10px 1%;
   border: none;
   margin-bottom: 10px;
-  width:100%;
+  width:255px;
   font-size: 1.1em;
   color: #666666;
   border: 1px solid #CCCCCC;
   height:27px;
 }
 .shareIcons {
-    width: 542px;
+     width: 409px;
   /* width: auto; */
   margin-left: auto;
   margin-right: auto;
 }
 .assetSearch h2 {
 	margin:0 0 10px 0;
-	
 }
 
 .assetSearch input {
@@ -289,7 +370,7 @@ nav ul li a {
 	text-align:center;
 	border-radius:5px;
 	display:block;
-	width:40%;
+	width:98%;
 	line-height: 24px;
 	float:left;
 } 
@@ -303,11 +384,23 @@ padding-left: 11px;
 }
 
 .catButton.icon.basket span {
-padding-left: 24px;
+padding-left:0px;
 height:18px;
 background: url(images/download.png) no-repeat 0 -2px;
 }
-
+.headbtns {
+    background: #1e4961;
+  color: #FFFFFF;
+  padding: 6px 2.5%;
+  margin-bottom: 6px;
+  margin: 0 1.25%;
+  text-align: center;
+  border-radius: 5px;
+  display: block;
+  width: 36%;
+  line-height: 24px;
+  float: left;
+}
 .catButton.icon.share span {
 padding-left: 24px;
 height:18px;
@@ -333,15 +426,13 @@ background: url(images/share.png) no-repeat 0 -2px;
 
 .shareWindow {
   position: fixed;
-  top: 39%;
-  left: 50%;
+  top: 7%;
+  left: 44%;
   /* width: 500px; */
-  height: 416px;
+  /* height: 416px; */
   padding: 20px;
-  margin-top: -170px;
+  /* margin-top: -170px; */
   margin-left: -290px;
-  border: 1px solid #ccc;
-  background-color: #f3f3f3;
 }
 
 .shareWindow h1 {
@@ -366,19 +457,32 @@ background: url(images/share.png) no-repeat 0 -2px;
 }
 
 .shareButton {
-	background:#2582ad;
-	color:#FFFFFF;
-	padding:10px 15px;
-	border:none;
-	font-size:1.2em;
-	margin-top:10px;
+	  background: #5c7894;
+  color: #FFFFFF;
+  padding: 10px 15px;
+  border: none;
+  font-size: 1em;
+  margin-top: 10px;
+  width: 122px;
+  height: 32px;
+}
+#AddFolderPanel > label {
+    color:#848484!important;
 }
 
-.shareButton:hover {
-	background:#555555;
+#name, #Category,#Quantity,
+#Price,
+#Keywords {
+     color:#848484!important;
+     font-size:13px!important;
+     font-weight:bold!important;
 }
-
-
+#svfolderpanel {
+    margin-right:-54px!important;
+}
+#SaveAsset{
+    margin-right:-54px!important;
+}
 /* BASKET WINDOW ======== */
 
 .basketWindow {

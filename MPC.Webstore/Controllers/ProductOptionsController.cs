@@ -272,15 +272,33 @@ namespace MPC.Webstore.Controllers
                         else
                             isCalledFrom = 3;
 
-                        if (clonedItem != null && clonedItem.TemplateType == 3)
+                        if (_myClaimHelper.loginContactID() > 0)
                         {
-                            ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
-                        }
-                        else
-                        {
-                            ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+                            if (clonedItem != null && clonedItem.TemplateType == 3)
+                            {
+                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+                            }
+                            else
+                            {
+                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
 
+                            }
                         }
+                        else 
+                        {
+                            long temporaryContactID = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
+                            if (clonedItem != null && clonedItem.TemplateType == 3)
+                            {
+                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+                            }
+                            else
+                            {
+                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+
+                            }
+                        }
+
+                        
                        
 
                     }
