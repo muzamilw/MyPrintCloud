@@ -198,7 +198,13 @@ namespace MPC.Models.Common
     public enum ItemStatuses
     {
         ShoppingCart = 3,
-        NotProgressedToJob = 17
+        NotProgressedToJob = 17,
+        NeedAssigning = 11,
+        InStudio = 12,
+        InPrintPress = 13,
+        InPostPress = 14,
+        ReadyForShipping = 15,
+        ShippedInvoiced = 16
     }
     public enum PaymentRequestStatus
     {
@@ -223,7 +229,7 @@ namespace MPC.Models.Common
         Completed_NotShipped = 7,
 
 
-        CompletedAndShipped_Invoiced = 8,
+        CompletedAndShipped_Invoiced = 36,
 
 
         CancelledOrder = 9,
