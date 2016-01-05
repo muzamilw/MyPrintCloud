@@ -53,6 +53,8 @@ define("deliveryNotes/deliveryNotes.dataservice", function () {
                     amplify.request.define('saveDeliveryNote', 'ajax', {
                         url: ist.siteUrl + '/Api/DeliveryNotes',
                         dataType: 'json',
+                        dataMap: JSON.stringify,
+                        contentType: "application/json; charset=utf-8",
                         type: 'Post'
                     });
 

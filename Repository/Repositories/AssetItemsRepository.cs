@@ -47,5 +47,15 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
+        public List<AssetItem> GetAssetItemsByAssetID(long AssetID)
+        {
+            return db.AssetItems.Where(i => i.AssetId == AssetID).ToList();
+        }
+        public void RemoveAssetItem(long AssetID)
+        {
+          AssetItem item=  db.AssetItems.Where(i => i.AssetId == AssetID).FirstOrDefault();
+          db.AssetItems.Remove(item);
+          db.SaveChanges();
+        }
     }
 }

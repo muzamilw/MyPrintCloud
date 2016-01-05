@@ -65,6 +65,8 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                     amplify.request.define('savePurchase', 'ajax', {
                         url: ist.siteUrl + '/Api/PurchaseOrder',
                         dataType: 'json',
+                        dataMap: JSON.stringify,
+                        contentType: "application/json; charset=utf-8",
                         type: 'Post'
                     });
 

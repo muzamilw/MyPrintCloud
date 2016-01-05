@@ -42,6 +42,8 @@ define("invoice/invoice.dataservice", function () {
                     amplify.request.define('saveInvoice', 'ajax', {
                         url: ist.siteUrl + '/Api/Invoice',
                         dataType: 'json',
+                        dataMap: JSON.stringify,
+                        contentType: "application/json; charset=utf-8",
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
