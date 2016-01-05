@@ -9,7 +9,7 @@
             @if (Model != null)
             {
                 <div class="footerCol">
-                    <h1>@Html.Raw(Html.GetKeyValueFromResourceFile("lblGetInTouch", UserCookieManager.WBStoreId, "Get in touch"))</h1>
+                    <h1>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgetintouch", UserCookieManager.WBStoreId, "Get in touch"))</h1>
                     <p>
                         @if (Model.Tel != null)
                         {
@@ -32,13 +32,13 @@
             }
 
             <div class="footerCol">
-                <h1>Opening Times</h1>
+                <h1>@Html.Raw(Html.GetKeyValueFromResourceFile("lblOpeningTimes", UserCookieManager.WBStoreId, "Opening Times"))</h1>
                 <p>
                     @Html.Raw(ViewBag.Notes)
                 </p>
             </div>
             <div class="footerCol">
-                <h1>Products</h1>
+                <h1>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlproductsss", UserCookieManager.WBStoreId, "Products"))</h1>
                 <ul>
                     @foreach (var categories in ViewData["parentCatList"] as List<MPC.Models.DomainModels.ProductCategory>)
                     {
@@ -49,7 +49,7 @@
                 </ul>
             </div>
             <div class="footerCol">
-                <h1>Useful Links</h1>
+                <h1>@Html.Raw(Html.GetKeyValueFromResourceFile("lblUsefulLinks", UserCookieManager.WBStoreId, "Useful Links"))</h1>
                 @foreach (var item in ViewData["PageCategory"] as List<MPC.Models.DomainModels.PageCategory>)
                 {
                    
