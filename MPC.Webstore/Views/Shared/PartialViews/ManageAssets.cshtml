@@ -192,7 +192,7 @@
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
     });
-    FilesUploader
+    
     $('#imgloader').click(function(){
         $('#ImageUploader').click();
         return false;
@@ -914,15 +914,36 @@
         var GridItems = Items;
         var InnerHtml = "";
 
-        InnerHtml = "<table'>";
+        InnerHtml = "<table>";
         $.each(GridItems, function (i, IT) {
-
             var url=(IT.FileUrl).split("/");
-            InnerHtml = InnerHtml.concat('<tr><td>'+url[5]+'</td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+            var getExt=url.split(".");
+            var Extension=getExt[1];
+            if(Extension=='PS')
+            {
+                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/Images/PS.png"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+            }
+            else if(Extension=='A1')
+            {
+                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/Images/PS.png"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+            }
+            else if(Extension=='IND')
+            {
+                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/images/IND.png"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+            }
+            else if(Extension=='PDF')
+            {
+                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/images/PDF.png"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+            }
+            else
+            {
+                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/images/text.gif"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+            
+            }
 
         }
         );
-        InnerHtml += '</table>';
+        InnerHtml += "</table>";
         
         $("#GridTable").css("display", "block");
 
