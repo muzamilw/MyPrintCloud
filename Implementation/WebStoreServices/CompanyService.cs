@@ -1992,5 +1992,13 @@ namespace MPC.Implementation.WebStoreServices
        {
            _AssetItemsRepository.RemoveAssetItem(AssetID);
        }
+       public void RemoveAssetItems(List<AssetItem> RemoveAssetItemsIDs)
+       {
+           _AssetItemsRepository.RemoveAssetItems(RemoveAssetItemsIDs);
+       }
+       public string AssetItemFilePath(long AssetItemId)
+       {
+           return _AssetItemsRepository.AssetItemFilePath(AssetItemId);
+       }
     }
 }

@@ -70,7 +70,7 @@
                         <a href="@RedirectUrl" class="catAssetName">@ParentFolder.FolderName</a>
                         @if (ContactRole != 3)
                         {
-                            <a onclick="ActionForFolder(@ParentFolder.FolderId,'@ParentFolder.ImagePath')" class="catButton icon basket"><span>Edit</span></a>
+                            <a onclick="ActionForFolder(@ParentFolder.FolderId,'@ParentFolder.ImagePath')" class="catButton icon basket"><span>Edit Folder</span></a>
                         }
 
                     </div>
@@ -84,7 +84,7 @@
                             <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catAssetName">@assets.AssetName</a>
                             @if (ContactRole != 3)
                             {
-                                <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catButton icon basket"><span>Edit</span></a>
+                                <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catButton icon basket"><span>Edit Asset</span></a>
                             }
 
                         </div>
@@ -94,7 +94,7 @@
             </div>
             <div class="clearBoth"></div>
         </div>
-       
+
         <div class="clearBoth"></div>
     }
 
@@ -135,9 +135,10 @@
             <label id="Descrip">Description</label>
 
             <textarea placeholder="Description" class="folder_desc_txtarea txtBoxLoginPage" id="FoldDescription" cols="20" rows="4"></textarea>
-           
+            
             <label id="Keywords">Keywords</label>
             <textarea placeholder="Enter keywords..." class="folder_desc_txtarea txtBoxLoginPage" id="keywords" cols="20" rows="4"></textarea>
+            <h5 style="display:none;" id="attachmentheading">Your saved files:</h5>
             <div id="GridTable" style="display:none;"></div>
         </div>
 
@@ -158,22 +159,23 @@
         <input style="visibility:hidden;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
 
     </div>
-    <div class="basketWindow" id="basketWindow" style="display:none;">
-        <h1>A4 Double Sided Flyer</h1>
-        <h2>Category: December Xmas Campaign</h2>
-        <h3>Asset Updated: 03/11/2016</h3>
-        <div class="fileIcons">
-            <h2>Select your required filetype(s):</h2>
-            <button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
-            <button class="fileButtons"><img src="~/Content/images/AI.png"></button>
-            <button class="fileButtons"><img src="~/Content/images/IND.png"></button>
-            <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>
-        </div>
-        <button class="basketButton" onclick="GoToDownload(ImgUrl)" value="Download" type="submit">Download</button>
-        <button class="basketButton" value="Add to basket" type="submit">Add to basket</button>
-    </div>
-</div>
 
+</div>
+<div class="basketWindow" id="basketWindow" style="display:none;">
+    <h1 id="assetNameUser">A4 Double Sided Flyer</h1>
+    <h2 id="assetCatNameUser">Category: December Xmas Campaign</h2>
+    <h2>Select your required filetype(s):</h2>
+    <div class="fileIcons" id="assetFilesUser">
+        
+        @*<button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
+        <button class="fileButtons"><img src="~/Content/images/AI.png"></button>
+        <button class="fileButtons"><img src="~/Content/images/IND.png"></button>
+        <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>*@
+    </div>
+    <button class="basketButton" value="Download" type="button">Download</button>
+    <button class="basketButton" onclick="HideBasketWindow();" value="Close" type="button">Close</button>
+    @*onclick="GoToDownload(ImgUrl)"*@
+</div>
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script src="/Scripts/jquery.MultiFile.js"></script>
 <script type="text/javascript">
@@ -186,13 +188,13 @@
     var ImgUrl;
     var FolderIDD=0;
     var removedFiles = [];
+    var RemovedID='';
     $(document).ready(function () {
         buidPopup();
         $("#assetPopupBody").append($("#AddFolderPanel"));
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
     });
-    
     $('#imgloader').click(function(){
         $('#ImageUploader').click();
         return false;
@@ -205,6 +207,9 @@
     function GoToDownload(ImgUrl)
     {
         window.location.href = ImgUrl;
+    }
+    function HideBasketWindow(){
+        $("#basketWindow").css("display", "none");
     }
 
     function ActionAsset()
@@ -222,7 +227,7 @@
             {
 
 
-                UpdateAssset(AsssetsID);
+                UpdateAssset(AsssetsID,RemovedID);
             }
             $("#FolderName").css("border", "1px solid #c1c6cc");
         }
@@ -352,11 +357,11 @@
                 });
                 if(flag)
                 {
-                   
+
                     SetSelectedFolderrr(response.Folders,FolderID,1);
                 }
                 else{
-                    
+
                     SetSelectedFolderrr(response.Folders,FolderID,0);
                 }
             }
@@ -390,7 +395,7 @@
     function AddAsset()
     {
         $("#FolderName").css("border", "1px solid #c1c6cc");
-
+        UpdateAsset=false;
         $("#innerLayer").width(515);
         $("#modelTitle").text('Add Asset');
         clearTextboxes();
@@ -416,7 +421,9 @@
         document.getElementById("innerLayer").style.display = "block";
         LoadFoldersForAddAssets();
         $("#AddFolderPanel").css("display", "block");
-
+        $("#attachmentheading").css("display", "none");
+        $("#GridTable").css("display", "none");
+        $("#GridTable").html("");
         // var panelHtml = $("#Vorder").html();
         // AssetsPopUp("Add Asset", panelHtml)
     }
@@ -436,7 +443,7 @@
         $("#DeleteAsset").css("display", "none");
         $("#FilesUploader").css("display", "none");
         $("#uploadfiesss").css("display", "none");
-       
+
         $("#FolderName").css("border", "1px solid #c1c6cc");
         $("#innerLayer").width(495);
 
@@ -447,7 +454,9 @@
         $("#AssetsItems").css("display", "none");
         $("#DeleteFolder").css("display", "none");
         $("#AddFolderPanel").css("display", "block");
-
+        $("#attachmentheading").css("display", "none");
+        $("#GridTable").css("display", "none");
+        $("#GridTable").html("");
         clearTextboxes();
         LoadFolders();
 
@@ -549,27 +558,6 @@
     function AddAssetAttachments(AssetId)
     {
         var data = new FormData();
-        //var files = $("#FilesUploader").get(0).files;
-
-        //if (files.length > 0) {
-        //    for (i = 0; i < files.length; i++) {
-        //        //var name1 = files[i].name.replace(/C:\\fakepath\\/i, '');
-        //        //fileExtension = name1.substr(name1.lastIndexOf('.') + 1);
-        //        //if (["pdf", "jpg", "jpeg", "eps", "tiff", "csv", "xls", "xlsx", "png"].indexOf(fileExtension) < 0) {
-        //        //    notAllowedFilesCount = parseInt(notAllowedFilesCount) + 1;
-        //        //    console.log(name1);
-        //        //}
-        //        //else {
-        //        //    if (files[i].size != null && files[i].size > 52428800) {
-
-        //        //        limitExceed = 1;
-        //        //    }
-        //        //}
-
-        //        data.append("UploadedFile" + i, files[i]);
-        //    }
-        //}
-
 
 
         if (AssetId != null && AssetId != '') {
@@ -641,24 +629,9 @@
             }
         });
     }
-    //function LoadAllStates() {
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "/BillingShippingAddressManager/LoadAllStates",
-    //        contentType: "application/json",
-    //        async: true,
-    //        success: function (response) {
-    //            var States = $("#DDSate");
-    //            States.html('');
-    //            States.append($('<option></option>').val(0).html('Select State'));
-    //            $.each(response.State, function (id, option) {
-    //                States.append($('<option></option>').val(option.StateId).html(option.StateName));
-    //            });
-    //        }
-    //    });
-    //}
 
-    function UpdateAssset(AssetId)
+
+    function UpdateAssset(AssetId,RemovedIDs)
     {
         if(AssetId>0)
         {
@@ -680,7 +653,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/webstoreapi/ContactImageUploader/UpdateAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "&AssetId="+AssetId+"",
+                url: "/webstoreapi/ContactImageUploader/UpdateAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "&AssetId="+AssetId+"&RemovedItemsIDs="+RemovedIDs+"",
                 contentType: false,
                 data: data,
                 async: true,
@@ -756,7 +729,7 @@
             async: true,
             data:Data,
             success: function (response) {
-                
+
                 SetSelectedFolder(response.Asset.FolderId,false);
                 $('#AddFoldImg').attr("src",response.Asset.ImagePath);
                 $("#ImageUploader").val('');
@@ -766,9 +739,12 @@
                 $("#FoldDescription").val(response.Asset.Description);
                 $("#Qty").val(response.Asset.Quantity);
                 $("#price").val(response.Asset.Price);
-                BindFileItems(response.Asset.AssetItems);
+                BindFileItems(response.Asset.AssetItems,false);
             }
         });
+        $("#assetPopupBody").height(450);
+        jQuery('#assetPopupBody').css("overflow-y", "scroll");
+        $("#AddFolderPanel").css("display", "block");
     }
 
     function EditFolder(FolderID)
@@ -788,7 +764,7 @@
         $("#SaveFolder").css("display", "block");
         $("#DeleteAsset").css("display", "none");
         $("#FilesUploader").css("display", "none");
-
+        $("#AddFolderPanel").css("display", "block");
         $("#DeleteFolder").css("display", "block");
         clearTextboxes();
         UpdateStatusFolder=true;
@@ -819,25 +795,15 @@
             url: "/webstoreapi/ContactImageUploader/DeleteAsset?AssetID="+AsssetsID+"",
             contentType: "application/json",
             async: true,
-            //data:Data,
+
             success: function (response) {
                 window.location.href = "/ManageAssets";
-                //SetSelectedFolder(FolderID)
-                //$('#AddFoldImg').attr("src",loc);
-                //$("#ImageUploader").val('');
-                //$("#folderDropDown").val('');
-                //$("#FolderName").val('');
-                //$("#keywords").val('');
-                //$("#FoldDescription").val('');
-                //$("#Qty").val('');
-                //$("#price").val('');
-                //$("#keywords").val('');
+
             }
         });
     }
     function DeleteFolder()
     {
-        // var Data = { AssetID: AsssetsID };
         $.ajax({
             type: "POST",
             url: "/webstoreapi/ContactImageUploader/DeleteFolder?folderID="+FolderIDD+"",
@@ -846,27 +812,18 @@
             //data:Data,
             success: function (response) {
                 window.location.href = "/ManageAssets";
-                //SetSelectedFolder(FolderID)
-                //$('#AddFoldImg').attr("src",loc);
-                //$("#ImageUploader").val('');
-                //$("#folderDropDown").val('');
-                //$("#FolderName").val('');
-                //$("#keywords").val('');
-                //$("#FoldDescription").val('');
-                //$("#Qty").val('');
-                //$("#price").val('');
-                //$("#keywords").val('');
+
             }
         });
     }
     function SetSelectedFolderrr(obj, FolderId,Index) {
-      
+
         var index = Index;
-        
+
         $.each(obj, function (id, option) {
-            
+
             if (option.FolderId==FolderId) {
-                
+
                 $("#folderDropDown")[0].selectedIndex = index;
             }
             index++;
@@ -880,82 +837,195 @@
     {
         ImgUrl=imagpath;
         AsssetsID=AssetID;
+        UpdateAsset=true;
         if(@ContactRole==1||@ContactRole==2)
         {
             Edit(AssetID);
+            $("#selectedFiles").css("display", "block");
+
+            $("#innerLayer").width(515);
+            $("#DeleteFolder").css("display", "none");
+            $("#AssetsItems").css("display", "block");
+            $("#Quantity").css("display", "block");
+            $("#Price").css("display", "block");
+            $("#Keywords").css("display", "block");
+
+            $("#FoldDescription").css("display", "block");
+            $("#Qty").css("display", "block");
+            $("#price").css("display", "block");
+            $("#keywords").css("display", "block");
+            $("#FolderName").css("border", "1px solid #c1c6cc");
+            $("#uploadfiesss").css("display", "block");
+            $("#AssetsItems").css("display", "block");
+            $("#AddFolderPanel").css("display", "block");
+
         }
         else
         {
-            ShowDownloadWindow(imagpath);
+            ShowDownloadWindow(imagpath,AssetID);
         }
 
-        $("#selectedFiles").css("display", "block");
-    
-        $("#innerLayer").width(515);
-        $("#DeleteFolder").css("display", "none");
-        $("#AssetsItems").css("display", "block");
-        $("#Quantity").css("display", "block");
-        $("#Price").css("display", "block");
-        $("#Keywords").css("display", "block");
-
-        $("#FoldDescription").css("display", "block");
-        $("#Qty").css("display", "block");
-        $("#price").css("display", "block");
-        $("#keywords").css("display", "block");
-        $("#FolderName").css("border", "1px solid #c1c6cc");
-        $("#uploadfiesss").css("display", "block");
-        $("#AssetsItems").css("display", "block");
-        $("#AddFolderPanel").css("display", "block");
 
     }
 
-    function BindFileItems(Items)
+    function BindFileItems(Items,isdownloadWindow)
     {
         var GridItems = Items;
         var InnerHtml = "";
+        if(isdownloadWindow)
+        {
+          //  if(GridItems!=''&&GridItems!=null)
+           /// {
 
-        InnerHtml = "<table>";
-        $.each(GridItems, function (i, IT) {
-            var url=(IT.FileUrl).split("/");
-            var getExt=url.split(".");
-            var Extension=getExt[1];
-            if(Extension=='PS')
-            {
-                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/Images/PS.png"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+              //  $("#attachmentheading").css("display", "block");
+           // }
+           // else
+           // {
+
+             //   $("#attachmentheading").css("display", "none");
+          //  }
+            InnerHtml = "<table><tr>";
+            $.each(GridItems, function (i, IT) {
+                var fullFileUrl=IT.FileUrl;
+                var url=(IT.FileUrl).split("/");
+
+                var getExt=(IT.FileUrl).split(".");
+                var Extension=getExt[1];
+
+                //if(Extension=='ps')
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+                //else if(Extension=='a1')
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+                //else if(Extension=='ind')
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+                //else if(Extension=='pdf')
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+                //else
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+
+
+
+                if(Extension=='ps')
+                {
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a></td>')
+                }
+                else if(Extension=='a1')
+                {
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a></td>')
+                }
+                else if(Extension=='ind')
+                {
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/images/IND.png"></button></a></td>')
+                }
+                else if(Extension=='pdf')
+                {
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/images/PDF.png"></button></a></td>')
+                }
+                else
+                {
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/images/text.gif"></button></a></td>')
+                }
+
             }
-            else if(Extension=='A1')
+            );
+            InnerHtml += "</table></tr>";
+
+            $("#assetFilesUser").css("display", "block");
+
+            $("#assetFilesUser").html(InnerHtml);
+        }
+        else
+        {
+            if(GridItems!=''&&GridItems!=null)
             {
-                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/Images/PS.png"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
-            }
-            else if(Extension=='IND')
-            {
-                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/images/IND.png"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
-            }
-            else if(Extension=='PDF')
-            {
-                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/images/PDF.png"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
+
+                $("#attachmentheading").css("display", "block");
             }
             else
             {
-                InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img src="~/Content/images/text.gif"></button></td><td><i style="font-size:11px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this)"></td></tr>')
-            
+
+                $("#attachmentheading").css("display", "none");
             }
+            InnerHtml = "<table><tr>";
+            $.each(GridItems, function (i, IT) {
+                var url=(IT.FileUrl).split("/");
 
+                var getExt=(IT.FileUrl).split(".");
+                var Extension=getExt[1];
+
+                //if(Extension=='ps')
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+                //else if(Extension=='a1')
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+                //else if(Extension=='ind')
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+                //else if(Extension=='pdf')
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+                //else
+                //{
+                //    InnerHtml = InnerHtml.concat('<tr><td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button></td><td><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -28px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td></tr>')
+                //}
+
+
+
+                if(Extension=='ps')
+                {
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                }
+                else if(Extension=='a1')
+                {
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                }
+                else if(Extension=='ind')
+                {
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                }
+                else if(Extension=='pdf')
+                {
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                }
+                else
+                {
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                }
+
+            }
+            );
+            InnerHtml += "</table></tr>";
+
+            $("#GridTable").css("display", "block");
+
+            $("#GridTable").html(InnerHtml);
         }
-        );
-        InnerHtml += "</table>";
-        
-        $("#GridTable").css("display", "block");
-
-        $("#GridTable").html(InnerHtml);
     }
-    function DeleteItem(AssetID,btndel)
+    function DeleteItem(AssetID,btndel,AssestItemId)
     {
         if (typeof(btndel) == "object") {
-            $(btndel).closest("tr").remove();
+            $(btndel).closest("td").remove();
         } else {
             return false;
         }
+
+        RemovedID+='/'+AssestItemId;
+
     }
     function ActionForFolder(FolderId,imagpath)
     {
@@ -968,7 +1038,7 @@
         }
         else
         {
-            ShowDownloadWindow(imagpath);
+            //  ShowDownloadWindow(imagpath);
         }
 
         $("#uploadfiesss").css("display", "none");
@@ -992,10 +1062,23 @@
 
 
 
-    function ShowDownloadWindow(imagpath)
+    function ShowDownloadWindow(imagpath, Assetid)
     {
-        document.getElementById("layer").style.display = "block";
-        document.getElementById("innerLayer").style.display = "block";
+        var Data = { AssetId: Assetid };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+                $("#assetNameUser").text(response.Asset.AssetName);
+              //  $("#assetCatNameUser").text(response.AssetFolder.FolderName);
+                //  assetFilesUser
+
+                BindFileItems(response.Asset.AssetItems,true);
+            }
+        });
         $("#basketWindow").css("display", "block");
         $(".shareIcons").css("display", "none");
     }

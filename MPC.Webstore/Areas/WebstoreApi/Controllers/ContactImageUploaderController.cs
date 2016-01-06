@@ -638,9 +638,35 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
       
       }
       [HttpPost]
-      public void UpdateAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price,long AssetId)
+      public void UpdateAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price,long AssetId,string RemovedItemsIDs)
       {
           var httpPostedFile = HttpContext.Current.Request.Files["UploadedImageAsset"];
+
+          List<AssetItem> List = new List<AssetItem>();
+          if (RemovedItemsIDs != null && RemovedItemsIDs != string.Empty)
+          {
+              string[] words = RemovedItemsIDs.Split('/');
+              foreach (var i in words)
+              {
+                  AssetItem model = new AssetItem();
+                  if (i != string.Empty)
+                  {
+                      model.AssetItemId = Convert.ToInt64(i);
+                      List.Add(model);
+                  }
+              }
+              foreach (var item in List)
+              {
+                  string PathUrl = _companyService.AssetItemFilePath(item.AssetItemId);
+                  if (PathUrl != null && PathUrl != "")
+                  {
+                      RemovePreviousFile(PathUrl);
+                  }
+              }
+              _companyService.RemoveAssetItems(List);
+
+              
+          }
           Asset Asset = new Asset();
           Asset.AssetId = AssetId;
           Asset.AssetName = AssetName;

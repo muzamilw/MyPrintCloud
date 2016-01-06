@@ -22,6 +22,7 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index(string folderId)
         {
+            long contac = _webclaims.loginContactID();
             long FolderId = Convert.ToInt64(folderId);
             List<Folder> GetFolder = new List<Folder>();
             List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, FolderId);
