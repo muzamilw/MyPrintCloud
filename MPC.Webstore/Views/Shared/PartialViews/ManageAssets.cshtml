@@ -159,20 +159,22 @@
         <input style="visibility:hidden;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
 
     </div>
-
+  
 </div>
 <div class="basketWindow" id="basketWindow" style="display:none;">
     <h1 id="assetNameUser">A4 Double Sided Flyer</h1>
     <h2 id="assetCatNameUser">Category: December Xmas Campaign</h2>
-    <h2>Select your required filetype(s):</h2>
+    
     <div class="fileIcons" id="assetFilesUser">
+        <h2>Select your required filetype(s):</h2>
+        <button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
         
         @*<button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
         <button class="fileButtons"><img src="~/Content/images/AI.png"></button>
         <button class="fileButtons"><img src="~/Content/images/IND.png"></button>
-        <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>*@
+        <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>
     </div>
-    <button class="basketButton" value="Download" type="button">Download</button>
+    <button class="basketButton"  value="Download" type="button">Download</button>
     <button class="basketButton" onclick="HideBasketWindow();" value="Close" type="button">Close</button>
     @*onclick="GoToDownload(ImgUrl)"*@
 </div>
@@ -558,7 +560,7 @@
     function AddAssetAttachments(AssetId)
     {
         var data = new FormData();
-
+      
 
         if (AssetId != null && AssetId != '') {
 
@@ -629,6 +631,7 @@
             }
         });
     }
+  
 
 
     function UpdateAssset(AssetId,RemovedIDs)
@@ -795,10 +798,10 @@
             url: "/webstoreapi/ContactImageUploader/DeleteAsset?AssetID="+AsssetsID+"",
             contentType: "application/json",
             async: true,
-
+            
             success: function (response) {
                 window.location.href = "/ManageAssets";
-
+             
             }
         });
     }
@@ -812,7 +815,7 @@
             //data:Data,
             success: function (response) {
                 window.location.href = "/ManageAssets";
-
+               
             }
         });
     }
@@ -864,6 +867,9 @@
         {
             ShowDownloadWindow(imagpath,AssetID);
         }
+
+     
+    }
 
 
     }
@@ -1038,7 +1044,7 @@
         }
         else
         {
-            //  ShowDownloadWindow(imagpath);
+          //  ShowDownloadWindow(imagpath);
         }
 
         $("#uploadfiesss").css("display", "none");
@@ -1072,11 +1078,11 @@
             async: true,
             data:Data,
             success: function (response) {
+                console.log(response);
                 $("#assetNameUser").text(response.Asset.AssetName);
-              //  $("#assetCatNameUser").text(response.AssetFolder.FolderName);
-                //  assetFilesUser
-
-                BindFileItems(response.Asset.AssetItems,true);
+                $("#assetCatNameUser").text(response.AssetFolder.FolderName);
+              //  assetFilesUser
+                BindFileItems(response.Asset.AssetItems);
             }
         });
         $("#basketWindow").css("display", "block");

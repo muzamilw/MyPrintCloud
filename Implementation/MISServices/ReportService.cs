@@ -75,9 +75,16 @@ namespace MPC.Implementation.MISServices
                     OrganisationID = org.OrganisationId;
                 }
 
-                if(iReportID == 165)
+                if(iReportID == 165 || iReportID == 100)
                 {
-                    currentReport = ReportRepository.CheckCustomReportOfOrg();
+                    if(iReportID == 165) // jobcard
+                    {
+                        currentReport = ReportRepository.CheckCustomReportOfOrg();
+                    }
+                    else if(iReportID == 100)
+                    {
+                        currentReport = ReportRepository.CheckCustomReportOfPrchase();
+                    }
                     if(currentReport == null)
                     {
                         currentReport = ReportRepository.GetReportByReportID(iReportID);
@@ -87,6 +94,8 @@ namespace MPC.Implementation.MISServices
                 {
                     currentReport = ReportRepository.GetReportByReportID(iReportID);
                 }
+
+              
                 
                  
                 SectionReport currReport = new SectionReport();

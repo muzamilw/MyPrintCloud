@@ -704,6 +704,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           AssetDeposit obj = new AssetDeposit();
           obj.Asset=_companyService.GetAsset(AssetId);
           obj.ListItems = _companyService.GetAssetItemsByAssetID(AssetId);
+          obj.AssetFolder = _companyService.GetFolderByFolderId(Convert.ToInt64(obj.Asset.FolderId));
           var formatterr = new JsonMediaTypeFormatter();
           var jsons = formatterr.SerializerSettings;
           jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -737,6 +738,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
     public class AssetDeposit
     {
         public Asset Asset { get; set;}
+        public Folder AssetFolder { get; set; }
         public List<AssetItem> ListItems { get; set;}
     }
 }
