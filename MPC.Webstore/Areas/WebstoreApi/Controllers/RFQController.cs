@@ -109,9 +109,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     cep.AddressId = NewInqury.CompanyId??0;
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                     cep.StoreId = UserCookieManager.WBStoreId;
-
+                    cep.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
                     SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-
+                  
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId,NewInqury.CompanyId??0, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
@@ -158,7 +158,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 cep.ContactId = NewInqury.ContactId;
-
+                cep.InquiryId = InquiryId;
                 cep.OrganisationId = 1;
                 cep.AddressId =NewInqury.CompanyId??0;
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
