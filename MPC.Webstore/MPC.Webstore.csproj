@@ -762,6 +762,7 @@
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\Images\Telephone-Icon-Blue.png" />
+    <Content Include="Content\Images\text.gif" />
     <Content Include="Content\Images\tiger.jpg" />
     <Content Include="Content\Images\topnav_bg.jpg" />
     <Content Include="Content\Images\TwitterNew.png" />

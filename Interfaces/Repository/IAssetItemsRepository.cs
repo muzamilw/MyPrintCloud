@@ -12,5 +12,7 @@ namespace MPC.Interfaces.Repository
         bool AddAssetItems(List<AssetItem> AssetItemsList);
         List<AssetItem> GetAssetItemsByAssetID(long AssetID);
         void RemoveAssetItem(long AssetID);
+        void RemoveAssetItems(List<AssetItem> RemoveAssetItemsIDs);
+        string AssetItemFilePath(long AssetItemId);
     }
 }
