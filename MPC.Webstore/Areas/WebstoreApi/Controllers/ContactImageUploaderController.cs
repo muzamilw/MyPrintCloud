@@ -697,7 +697,18 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
           _companyService.UpdateFolder(NewFolder);
       }
-
+       //[System.Web.Http.AcceptVerbs("GET", "POST")]
+       //[System.Web.Http.HttpGet]
+       //public HttpResponseMessage GetFolderIntellisenseData(string prefixText)
+       //{
+       //    List<Folder> FolderList = _companyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+       //    List<Folder> FilterFolderList = FolderList.Where(i => i.FolderName.Contains(prefixText)).OrderBy(ad => ad.FolderName).ToList();
+       //    var formatterr = new JsonMediaTypeFormatter();
+       //    var jsons = formatterr.SerializerSettings;
+       //    jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+       //    jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+       //    return Request.CreateResponse(HttpStatusCode.OK, FilterFolderList, formatterr);
+       //}
       [HttpGet]
       public HttpResponseMessage GetAssetByAssetID(long AssetId)
       {
@@ -733,7 +744,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
           _companyService.DeleteFolder(folderID);
       }
-     
     }
     public class AssetDeposit
     {
