@@ -45,7 +45,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             if (list != null)
             {
                response.StockCategories = list.Select(category => category.CreateFromDropDown());
-               response.StockSubCategories = list.SelectMany(c => c.StockSubCategories).Select(c => c.CreateFromDropDownSubCat());
+               response.StockSubCategories = list.SelectMany(c => c.StockSubCategories.Where(x => x.OrganisationId == c.OrganisationId)).Select(c => c.CreateFromDropDownSubCat());
                
             }
             return response;

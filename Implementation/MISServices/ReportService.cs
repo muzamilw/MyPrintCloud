@@ -75,16 +75,11 @@ namespace MPC.Implementation.MISServices
                     OrganisationID = org.OrganisationId;
                 }
 
-                if(iReportID == 165 || iReportID == 100)
+                if(iReportID == 165 || iReportID == 100 || iReportID  == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105)
                 {
-                    if(iReportID == 165) // jobcard
-                    {
-                        currentReport = ReportRepository.CheckCustomReportOfOrg();
-                    }
-                    else if(iReportID == 100)
-                    {
-                        currentReport = ReportRepository.CheckCustomReportOfPrchase();
-                    }
+                    
+                    currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID);
+                   
                     if(currentReport == null)
                     {
                         currentReport = ReportRepository.GetReportByReportID(iReportID);
@@ -204,7 +199,7 @@ namespace MPC.Implementation.MISServices
        
         public List<StoresListResponse> GetStoreNameByOrganisationId()
         {
-            return CompanyRepository.GetStoresNameByOrganisationId();
+            return CompanyRepository.GetStoreqsNameByOrganisationId();
         }
 
         public List<ReportNote> GetReportNoteByCompanyID(long CompanyID)

@@ -622,11 +622,40 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Report CheckCustomReportOfOrg()
+        public Report CheckCustomReportOfOrg(long ReportId)
         {
             try
             {
-                return db.Reports.Where(c => c.ReportCode == "JCR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                if (ReportId == 165) // JOB card
+                {
+                    return db.Reports.Where(c => c.ReportCode == "JCR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if (ReportId == 100) // purchase order 
+                {
+                    return db.Reports.Where(c => c.ReportCode == "POR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if(ReportId == 103) // order report
+                {
+                    return db.Reports.Where(c => c.ReportCode == "OR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if(ReportId == 30) // delivery note report
+                {
+                    return db.Reports.Where(c => c.ReportCode == "DNR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if (ReportId == 105) // invoice report
+                {
+                    return db.Reports.Where(c => c.ReportCode == "IR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if (ReportId == 48) // estimate report
+                {
+                    return db.Reports.Where(c => c.ReportCode == "ER" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                } 
+                else
+                {
+                    return null;
+                }
+
+                
             }
             catch(Exception ex)
             {
@@ -634,17 +663,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Report CheckCustomReportOfPrchase()
-        {
-            try
-            {
-                return db.Reports.Where(c => c.ReportCode == "POR" && c.OrganisationId == OrganisationId).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+    
         // GetReportsByOrganisationID
     }
 }
