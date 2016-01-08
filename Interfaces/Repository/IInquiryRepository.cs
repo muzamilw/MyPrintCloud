@@ -11,6 +11,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface IInquiryRepository
     {
-        long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems);
+        int AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems);
     }
 }

@@ -1593,7 +1593,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <param name="GetServiceTAX"></param>
         /// <param name="TaxRate"></param>
         /// <returns></returns>
-        public long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems)
+        public int AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems)
         {
             try
             {

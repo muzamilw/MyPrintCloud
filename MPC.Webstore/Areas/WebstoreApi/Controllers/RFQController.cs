@@ -90,7 +90,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
 
-                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty,  UserCookieManager.WEBOrganisationID, StoreBaseResopnse.Company.CompanyId, Contact);
+                long Customer = _companyService.CreateCustomer(FirstName + " " + LastName, false, false, CompanyTypes.SalesCustomer, string.Empty, UserCookieManager.WEBOrganisationID, StoreBaseResopnse.Company.CompanyId, Contact);
 
                 if (Customer > 0)
                 {
@@ -135,21 +135,21 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             NewInqury.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
             NewInqury.Status = 25; // unproccessed status of inquiry
             int iMaxFileSize = 50000000;
-            long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
-            long InquiryId = result;
+            int InquiryId = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
+            
 
             if (Request != null)
             {
                 if (HttpContext.Current.Request.ContentLength < iMaxFileSize)
                 {
-                    FillAttachments(result);
+                    FillAttachments(InquiryId);
                 }
                 else
                 {
                     return Request.CreateResponse(HttpStatusCode.OK,"gs");
                 }
             }
-            if (result > 0)
+            if (InquiryId > 0)
             {
 
                 MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
@@ -177,12 +177,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         cep.CorporateManagerID = MID;
                         int ManagerID = (int)MID;
 
-                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM, "", "", InquiryId);
                     }
                     else
                     {
 
-                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM, "", "", InquiryId);
 
                     }
 
