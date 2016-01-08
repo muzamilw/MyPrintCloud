@@ -39,7 +39,7 @@
     border: 1px solid #ebebeb;">
             <div class="assetLeftPanelWithSearchBar float_left_simple" style=" min-height: 400px;">
                 <div class="assetSearchPanel">
-@using (Html.BeginForm())
+                @using (Html.BeginForm())
                         {
                     if(ViewBag.Searchfolder!=null&&ViewBag.Searchfolder!=string.Empty)
                     { 
@@ -76,33 +76,51 @@
                 {
                     var RedirectUrl = "/ManageAssets/" + ParentFolder.FolderId;
                     <div class="assetCategory">
-                        <div class="assetImgCnt">
-                            <a href="@RedirectUrl"><img src="@ParentFolder.ImagePath"></a>
+                        <div class="assetCategoryInnerCnt">
+                            <div class="assetImgCnt">
+                                <a href="@RedirectUrl"><img src="@ParentFolder.ImagePath"></a>
+                            </div>
+                            <div class="assetNameCnt">
+                                <a href="@RedirectUrl" class="catAssetName">@ParentFolder.FolderName</a>
+                            </div>
+
+
                         </div>
-                        <div class="assetNameCnt">
-                            <a href="@RedirectUrl" class="catAssetName">@ParentFolder.FolderName</a>
-                        </div>
-                        
                         @if (ContactRole != 3)
                         {
-                            <a onclick="ActionForFolder(@ParentFolder.FolderId,'@ParentFolder.ImagePath')" class="catButton icon basket"><span>Edit Folder</span></a>
+                            <div class="editBtnCnt">
+                                <a onclick="ActionForFolder(@ParentFolder.FolderId,'@ParentFolder.ImagePath')" class="catButton icon basket"><span>Edit Folder</span></a>
+                            </div>
+                            
                         }
 
                     </div>
+
                 }
                 @if (Assets != null && Assets.Count > 0)
                 {
                     foreach (var assets in Assets)
                     {
                         <div class="assetCategory">
-                            <a><img src="@assets.ImagePath" onclick="Action(@assets.AssetId,'@assets.ImagePath')"></a>
-                            <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catAssetName">@assets.AssetName</a>
-                            @if (ContactRole != 3)
-                            {
-                                <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catButton icon basket"><span>Edit Asset</span></a>
-                            }
+                            <div class="assetCategoryInnerCnt">
+                                <div class="assetImgCnt">
+                                    <a><img src="@assets.ImagePath" onclick="Action(@assets.AssetId,'@assets.ImagePath')"></a>
+                                </div>
+                                <div class="assetNameCnt">
+                                    <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catAssetName">@assets.AssetName</a>
+                                </div>
 
+                               
+
+                            </div>
+                            <div>
+                                @if (ContactRole != 3)
+                                {
+                                    <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catButton icon basket"><span>Edit Asset</span></a>
+                                }
+                            </div>
                         </div>
+                       
                     }
                 }
                 <div class="clearBoth"></div>
@@ -1091,23 +1109,23 @@
 
                 if(Extension=='ps')
                 {
-                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
                 }
                 else if(Extension=='a1')
                 {
-                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
                 }
                 else if(Extension=='ind')
                 {
-                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
                 }
                 else if(Extension=='pdf')
                 {
-                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
                 }
                 else
                 {
-                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
                 }
 
             }
