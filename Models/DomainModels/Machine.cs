@@ -79,6 +79,7 @@ namespace MPC.Models.DomainModels
         public bool? isSheetFed { get; set; }
         public int? Passes { get; set; }
         public bool? IsSpotColor { get; set; }
+        public bool? IsDigitalPress { get; set; }
 
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }

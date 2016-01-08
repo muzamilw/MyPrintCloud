@@ -200,11 +200,11 @@ namespace MPC.Repository.Repositories
                 //lookupMethods = GetAllLookupMethodList(IsGuillotine), Commented by Naveed and set just click chargze zone by default on line below
                 lookupMethods = lookupMethodRepository.GetLookupMethosListbyOrganisation().Where(o => o.MethodId == 5).ToList(),
                 Markups = null,
-                StockItemforInk = null, //GetAllStockItemforInk(), Commented by Naveed as inks are not being used on Press UI
+                StockItemforInk = GetAllStockItemforInk(),
                 MachineSpoilageItems = null,
                 deFaultPaperSizeName = null,
                 deFaultPlatesName = null,
-                InkCoveragItems = null, //GetInkCoveragItems(), Commented by Naveed as inks are not being used on Press UI
+                InkCoveragItems = GetInkCoveragItems(), //Commented by Naveed as inks are not being used on Press UI
                 CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol,
                 WeightUnit = organisation == null ? null : organisation.WeightUnit.UnitName,
                 LengthUnit = organisation == null ? null : organisation.LengthUnit.UnitName
@@ -949,8 +949,13 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<StockItem> GetAllStockItemforInk()
         {
-            return db.StockItems.Join(db.StockCategories, SI => SI.CategoryId, SC => SC.CategoryId, (SI, SC) => new { SI, SC }).Where(IC => IC.SC.Code == "INK").Select(IC => IC.SI).ToList();
+            return db.StockItems.Where(
+                s =>
+                    s.CategoryId == (int) SystemStockCategory.Ink && s.isDisabled != true &&
+                    s.OrganisationId == this.OrganisationId).ToList();
+           // return db.StockItems.Join(db.StockCategories, SI => SI.CategoryId, SC => SC.CategoryId, (SI, SC) => new { SI, SC }).Where(IC => IC.SC.Code == "INK").Select(IC => IC.SI).ToList();
 
+            
             //return (from SI in db.StockItems
             //      join CI in db.StockCategories on SI.CategoryId equals CI.CategoryId
             //      where CI.Code == "INK"
