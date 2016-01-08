@@ -359,6 +359,7 @@ namespace MPC.Webstore.Controllers
                 if(!string.IsNullOrEmpty(model.tweetURl))
                 {
                     companyName = model.tweetURl;
+                    companyName = companyName.Replace("@", "");
                 }
                 CompanyID = _myCompanyService.CreateCustomer(companyName, true, true, CompanyTypes.SalesCustomer, TwitterScreenName, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), StoreBaseResopnse.Company.CompanyId, contact);
 

@@ -208,12 +208,12 @@
 
 <script>
     $('#txtFirstName').blur(function () {
-        $('#txttweetUrl').val("@@" + $('#txtFirstName').val() + $('#txtLastName').val());
+        $('#txttweetUrl').val("@@" + $('#txtFirstName').val() + " " + $('#txtLastName').val());
     });
 
     $('#txtLastName').blur(function () {
 
-        $('#txttweetUrl').val("@@" + $('#txtFirstName').val() + $('#txtLastName').val());
+        $('#txttweetUrl').val("@@" + $('#txtFirstName').val() + " " + $('#txtLastName').val());
 
     });
 
