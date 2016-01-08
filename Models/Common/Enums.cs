@@ -578,4 +578,12 @@ namespace MPC.Models.Common
         SpecialProducts = 3,
         AllProducts = 4
     }
+
+    public enum SystemStockCategory
+    {
+        Paper = 1,
+        Ink = 2,
+        Film = 3,
+        Plates = 4
+    }
 }

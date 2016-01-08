@@ -151,6 +151,7 @@
             CoverageMedium = ko.observable().extend({number: true, max: 10, min: 0, message:'Max value can be 10'}),
             CoverageLow = ko.observable().extend({number: true, max: 10, min: 0, message:'Max value can be 10'}),
             isSheetFed = ko.observable(),
+            isDigitalPress = ko.observable(),
             Passes = ko.observable(),
             ReelMakereadyTime = ko.observable(),
             Maximumsheetweight = ko.observable(),
@@ -255,7 +256,8 @@
                 MachineSpoilageItems: MachineSpoilageItems,
                 MachineLookupMethods: MachineLookupMethods,
                 MachineInkCoverages: MachineInkCoverages,
-                lookupMethod: lookupMethod
+                lookupMethod: lookupMethod,
+                isDigitalPress: isDigitalPress
             }),
             hasChanges = ko.computed(function () {
 
@@ -358,7 +360,8 @@
             WeightUnit: WeightUnit,
             LengthUnit: LengthUnit,
             lookupMethod: lookupMethod,
-            isClickChargezoneUi: isClickChargezoneUi
+            isClickChargezoneUi: isClickChargezoneUi,
+            isDigitalPress: isDigitalPress
           
         };
         return self;
@@ -718,7 +721,7 @@
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
         omachine.isClickChargezone(source.machine.isSheetFed ? 'true' : 'false');
-        
+        omachine.isDigitalPress(source.machine.IsDigitalPress || source.machine.IsDigitalPress == null ? 'true' : 'false');
         //omachine.lookupList.removeAll();
         //ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         //omachine.lookupList.valueHasMutated();
@@ -843,6 +846,7 @@
         omachine.isSheetFed = machine.isSheetFed();
         omachine.Passes = machine.Passes();
         omachine.IsSpotColor = machine.IsSpotColor();
+        omachine.IsDigitalPress = machine.isDigitalPress();
         //omachine.LookupMethod = machine.lookupMethod();
         oMeterPerHour = MeterPerHourClickCharge;
         oGuillotineZone = GuillotineClickCharge;
@@ -957,7 +961,10 @@
         omachine.SetupSpoilage(source.machine.SetupSpoilage);
         omachine.RunningSpoilage(source.machine.RunningSpoilage);
         omachine.Passes(source.machine.Passes);
+        omachine.MachineId(source.machine.MachineId);
         omachine.MachineName(source.machine.MachineName);
+        omachine.ColourHeads(8);
+        omachine.isDigitalPress('true');
         //omachine.markupList.removeAll();
         //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
         //omachine.markupList.valueHasMutated();
@@ -978,16 +985,19 @@
         }
         
 
-        //var InkCoveragItemsList = ko.observableArray([]);
-        //InkCoveragItemsList.removeAll();
-        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        //InkCoveragItemsList.valueHasMutated();
+        var InkCoveragItemsList = ko.observableArray([]);
+        InkCoveragItemsList.removeAll();
+        if (source.InkCoveragItems != null) {
+            ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+            InkCoveragItemsList.valueHasMutated();
+        }
+        
 
 
 
-        //for (i = 0; i < 8; i++) {
-        //    omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
-        //}
+        for (i = 0; i < 8; i++) {
+            omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
+        }
 
         return omachine;
     };
