@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,5 +14,8 @@ namespace MPC.Models.DomainModels
         public string FileUrl { get; set; }
 
         public virtual Asset Asset { get; set; }
+
+        [NotMapped]
+        public string AssetFolderName { get; set; }
     }
 }

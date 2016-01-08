@@ -638,9 +638,35 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
       
       }
       [HttpPost]
-      public void UpdateAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price,long AssetId)
+      public void UpdateAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price,long AssetId,string RemovedItemsIDs)
       {
           var httpPostedFile = HttpContext.Current.Request.Files["UploadedImageAsset"];
+
+          List<AssetItem> List = new List<AssetItem>();
+          if (RemovedItemsIDs != null && RemovedItemsIDs != string.Empty)
+          {
+              string[] words = RemovedItemsIDs.Split('/');
+              foreach (var i in words)
+              {
+                  AssetItem model = new AssetItem();
+                  if (i != string.Empty)
+                  {
+                      model.AssetItemId = Convert.ToInt64(i);
+                      List.Add(model);
+                  }
+              }
+              foreach (var item in List)
+              {
+                  string PathUrl = _companyService.AssetItemFilePath(item.AssetItemId);
+                  if (PathUrl != null && PathUrl != "")
+                  {
+                      RemovePreviousFile(PathUrl);
+                  }
+              }
+              _companyService.RemoveAssetItems(List);
+
+              
+          }
           Asset Asset = new Asset();
           Asset.AssetId = AssetId;
           Asset.AssetName = AssetName;
@@ -671,13 +697,25 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
           _companyService.UpdateFolder(NewFolder);
       }
-
+       //[System.Web.Http.AcceptVerbs("GET", "POST")]
+       //[System.Web.Http.HttpGet]
+       //public HttpResponseMessage GetFolderIntellisenseData(string prefixText)
+       //{
+       //    List<Folder> FolderList = _companyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+       //    List<Folder> FilterFolderList = FolderList.Where(i => i.FolderName.Contains(prefixText)).OrderBy(ad => ad.FolderName).ToList();
+       //    var formatterr = new JsonMediaTypeFormatter();
+       //    var jsons = formatterr.SerializerSettings;
+       //    jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+       //    jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+       //    return Request.CreateResponse(HttpStatusCode.OK, FilterFolderList, formatterr);
+       //}
       [HttpGet]
       public HttpResponseMessage GetAssetByAssetID(long AssetId)
       {
           AssetDeposit obj = new AssetDeposit();
           obj.Asset=_companyService.GetAsset(AssetId);
           obj.ListItems = _companyService.GetAssetItemsByAssetID(AssetId);
+          obj.AssetFolder = _companyService.GetFolderByFolderId(Convert.ToInt64(obj.Asset.FolderId));
           var formatterr = new JsonMediaTypeFormatter();
           var jsons = formatterr.SerializerSettings;
           jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -706,11 +744,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
           _companyService.DeleteFolder(folderID);
       }
-     
     }
     public class AssetDeposit
     {
         public Asset Asset { get; set;}
+        public Folder AssetFolder { get; set; }
         public List<AssetItem> ListItems { get; set;}
     }
 }
