@@ -222,10 +222,16 @@
                     <button class="basketButton" onclick="HideBasketWindow();" value="Close" type="button">Close</button>
                     @*onclick="GoToDownload(ImgUrl)"*@
             </div>
+            <div class="clearBoth">
+
+            </div>
             <div style="text-align:left;">
                 <button class="basketButton" value="Add to basket" type="submit">Add to basket</button>
                 <button class="basketButton" onclick='CloseDownloadPopUp(this)' value="Download" type="submit">Close</button>
 
+
+            </div>
+            <div class="clearBoth">
 
             </div>
         </div>
@@ -1032,23 +1038,23 @@
 
                         if(Extension=='ps')
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></td>')
                         }
                         else if(Extension=='a1')
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></td>')
                         }
                         else if(Extension=='ind')
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></td>')
                         }
                         else if(Extension=='pdf')
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></td>')
                         }
                         else
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></td>')
                         }
 
                     }
@@ -1296,6 +1302,10 @@
                 if (postedFiles.length > (3 + removedFiles.length)) {
                     $("#FilesUploader").css("display", "none");
                 }
+            }
+
+            function RedirectToGUrl(url){
+                window.location.href = url;
             }
         </script>
 
