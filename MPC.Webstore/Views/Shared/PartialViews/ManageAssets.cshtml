@@ -236,6 +236,22 @@
 
        // $("#dvLoading").css("display", "none");
     });
+    //function ExpandCollapseCategory(dataid) {
+
+    //    var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
+    //    if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('in')) {
+    //        $("#" + idOfCatPro + "").parent().parent().next().removeClass('in');
+    //        $("#" + idOfCatPro + "").parent().parent().next().addClass('collapse');
+    //        $("#" + idOfCatPro + "").parent().parent().next().css("display", "none");
+    //        $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "0");
+    //    } else if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('collapse')) {
+    //        $("#" + idOfCatPro + "").parent().parent().next().removeClass('collapse');
+    //        $("#" + idOfCatPro + "").parent().parent().next().addClass('in');
+    //        $("#" + idOfCatPro + "").parent().parent().next().css("display", "block");
+    //        $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "1");
+    //    }
+
+    //}
     function CloseDownloadPopUp()
     {
         $("#basketWindow").css("display", "none");
@@ -999,7 +1015,7 @@
            // {
 
              //   $("#attachmentheading").css("display", "none");
-          //  }
+            //  }
             InnerHtml = "<table><tr>";
             $.each(GridItems, function (i, IT) {
                 var fullFileUrl=IT.FileUrl;
@@ -1007,8 +1023,6 @@
 
                 var getExt=(IT.FileUrl).split(".");
                 var Extension=getExt[1];
-
-                
 
                 if(Extension=='ps')
                 {
@@ -1030,7 +1044,6 @@
                 {
                     InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></td>')
                 }
-
             }
             );
             InnerHtml += "</table></tr>";
@@ -1058,8 +1071,11 @@
 
                 var getExt=(IT.FileUrl).split(".");
                 var Extension=getExt[1];
-                //if(i>=4)
+               
+                //if(i>=3)
                 //{
+                    
+                //    InnerHtml = "<tr>";
                 //    if(Extension=='ps')
                 //    {
                 //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
@@ -1080,7 +1096,7 @@
                 //    {
                 //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
                 //    }
-                
+                //    InnerHtml += "</tr>";
                 //}
 
 

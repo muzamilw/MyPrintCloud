@@ -8,14 +8,39 @@
         {
             var RedirectUrl="/ManageAssets/"+treeNode.FolderId;
             <li>
-                <a href="@RedirectUrl" class="FolderElements">
+                <a data-toggle="collapse" href="@RedirectUrl" class="FolderElements" onclick="ExpandCollapseCategory(@treeNode.FolderId)" data-id="@treeNode.FolderId">
+                    
                     @treeNode.FolderName
                 </a>
                 @if (treeNode.ChildNode.Count > 0)
                 {
                     @Html.Partial("PartialViews/TreeChildNodes", treeNode.ChildNode)
                 }
+                
             </li>
         }
     </ul>
 }
+@*<script type="text/javascript">
+
+
+    function ExpandCollapseCategory(dataid) {
+
+        alert(dataid);
+        var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
+        if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('in')) {
+            $("#" + idOfCatPro + "").parent().parent().next().removeClass('in');
+            $("#" + idOfCatPro + "").parent().parent().next().addClass('collapse');
+            $("#" + idOfCatPro + "").parent().parent().next().css("display", "none");
+            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "0");
+        } else if ($("#" + idOfCatPro + "").parent().parent().next().hasClass('collapse')) {
+            $("#" + idOfCatPro + "").parent().parent().next().removeClass('collapse');
+            $("#" + idOfCatPro + "").parent().parent().next().addClass('in');
+            $("#" + idOfCatPro + "").parent().parent().next().css("display", "block");
+            $("#" + idOfCatPro + "").parent().parent().next().css("opacity", "1");
+        }
+
+    }
+
+
+</script>*@
