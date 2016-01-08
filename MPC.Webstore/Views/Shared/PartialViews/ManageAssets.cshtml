@@ -76,8 +76,13 @@
                 {
                     var RedirectUrl = "/ManageAssets/" + ParentFolder.FolderId;
                     <div class="assetCategory">
-                        <a href="@RedirectUrl"><img src="@ParentFolder.ImagePath"></a>
-                        <a href="@RedirectUrl" class="catAssetName">@ParentFolder.FolderName</a>
+                        <div class="assetImgCnt">
+                            <a href="@RedirectUrl"><img src="@ParentFolder.ImagePath"></a>
+                        </div>
+                        <div class="assetNameCnt">
+                            <a href="@RedirectUrl" class="catAssetName">@ParentFolder.FolderName</a>
+                        </div>
+                        
                         @if (ContactRole != 3)
                         {
                             <a onclick="ActionForFolder(@ParentFolder.FolderId,'@ParentFolder.ImagePath')" class="catButton icon basket"><span>Edit Folder</span></a>
