@@ -30,7 +30,7 @@ namespace MPC.Repository.Repositories
                 return db.Inquiries;
             }
         }
-        public long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems)
+        public int AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems)
         {
             
             try

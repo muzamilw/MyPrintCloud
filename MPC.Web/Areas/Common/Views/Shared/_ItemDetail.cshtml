@@ -52,7 +52,7 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs" id="sectionTabTabs">
                             <li id="printProduct" class="active"><a href="#tab-detail" data-toggle="tab">Print Product</a></li>
-                            <li id="jobCards" data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId!==undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li id="jobCards" data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId!==undefined && ($root.selectedOrder().statusId() === 6 || $root.selectedOrder().statusId() === 7 || $root.selectedOrder().statusId() === 10)" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
                             <li id="attachmentTab"><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
                         </ul>
                         <div class="tab-content">
@@ -67,7 +67,7 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
-                                                <a style="margin-top: 33px;" href="#" class="btn btn-success pull-left" data-bind="click:$root.openJobCardsTab, visible:$root.selectedOrder().statusId() === 6">
+                                                <a style="margin-top: 33px;" href="#" class="btn btn-success pull-left" data-bind="click:$root.openJobCardsTab, visible:$root.selectedOrder().statusId() === 6 || $root.selectedOrder().statusId() === 7 || $root.selectedOrder().statusId() === 10">
                                                     <i class="fa fa-lg"></i>&nbsp;Current Job Status
                                                 </a>
                                                 <!--/ko-->

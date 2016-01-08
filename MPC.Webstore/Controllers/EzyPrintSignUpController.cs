@@ -355,7 +355,12 @@ namespace MPC.Webstore.Controllers
 
             if (StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Retail)
             {
-                CompanyID = _myCompanyService.CreateCustomer(model.FirstName, true, true, CompanyTypes.SalesCustomer, TwitterScreenName, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), StoreBaseResopnse.Company.CompanyId, contact);
+                string companyName = model.FirstName + " " + model.LastName;
+                if(!string.IsNullOrEmpty(model.tweetURl))
+                {
+                    companyName = model.tweetURl;
+                }
+                CompanyID = _myCompanyService.CreateCustomer(companyName, true, true, CompanyTypes.SalesCustomer, TwitterScreenName, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), StoreBaseResopnse.Company.CompanyId, contact);
 
                 if (CompanyID > 0)
                 {

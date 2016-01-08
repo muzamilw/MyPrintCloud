@@ -192,7 +192,8 @@
             timeQuestionDefaultValue: timeQuestionDefaultValue,
             timeVariableId : timeVariableId,
             //isTimePrompt: isTimePrompt
-            isQtyVariable: isQtyVariable
+            isQtyVariable: isQtyVariable,
+            defaultVaId: defaultVaId
             //isQtyPrompt: isQtyPrompt
            
         }),

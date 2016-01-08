@@ -23,6 +23,7 @@ define("machine/machine.viewModel",
                     sortIsAsc = ko.observable(true),
                     // machine lookup methods
                     machinelookups = ko.observableArray([]),
+                    machineInkCovergeList = ko.observableArray([]),
                     //Pager
                     pager = ko.observable(),
                     currentSpeedWeight = ko.observableArray([]),
@@ -230,6 +231,22 @@ define("machine/machine.viewModel",
                         isEditorVisible(false);
                         errorList.removeAll();
                     },
+                   subscribeMachineChange = function () {
+                       selectedMachine().ColourHeads.subscribe(function (value) {
+                           if (value !== selectedMachine().ColourHeads()) {
+                               selectedMachine().ColourHeads(value);
+                           }
+                           filterInkCoverage(value);
+                       });
+                   },
+                   filterInkCoverage = function(count) {
+                       selectedMachine().MachineInkCoverages.removeAll();
+                       ko.utils.arrayPushAll(selectedMachine().MachineInkCoverages(), machineInkCovergeList.take(count));
+                       selectedMachine().MachineInkCoverages.valueHasMutated();
+                       //for (var i = 0; i < count; i++) {
+                       //    selectedMachine().MachineInkCoverages.push();
+                       //}
+                   },
                  
 
                     createNewMachine = function (oMachine) {
@@ -247,9 +264,10 @@ define("machine/machine.viewModel",
                                     selectedMachine().isSheetFed("true");
                                     selectedMachine().IsSpotColor("true");
                                     selectedMachine().reset();
+                                    ko.utils.arrayPushAll(machineInkCovergeList(), selectedMachine().MachineInkCoverages());
+                                    machineInkCovergeList.valueHasMutated();
                                     
-                                   
-
+                                    subscribeMachineChange();
                                     var pagetype = Request.QueryString("type").toString();
 
                                     if (pagetype != null) {
@@ -745,7 +763,7 @@ define("machine/machine.viewModel",
                                 MachineName("Press Name");
                                 isGuillotineList(false);
                                 getMachines();
-                               
+                                
                                  
                                 $("#isSheetFedRadio").css("display", "block");
                             }

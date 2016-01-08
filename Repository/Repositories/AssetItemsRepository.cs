@@ -33,9 +33,10 @@ namespace MPC.Repository.Repositories
         {
             bool result = false;
             List<AssetItem> ModelList = new List<AssetItem>();
-            AssetItem Model = new AssetItem();
+           
             foreach (var item in AssetItemsList)
             {
+                AssetItem Model = new AssetItem();
                 Model.AssetId = item.AssetId;
                 Model.FileUrl = item.FileUrl;
                 db.AssetItems.Add(Model);
@@ -56,6 +57,22 @@ namespace MPC.Repository.Repositories
           AssetItem item=  db.AssetItems.Where(i => i.AssetId == AssetID).FirstOrDefault();
           db.AssetItems.Remove(item);
           db.SaveChanges();
+        }
+        public void RemoveAssetItems(List<AssetItem> RemoveAssetItemsIDs)
+        {
+            foreach (var item in RemoveAssetItemsIDs)
+            {
+                AssetItem assetsItems = db.AssetItems.Where(i => i.AssetItemId == item.AssetItemId).FirstOrDefault();
+                db.AssetItems.Remove(assetsItems);
+            }
+            db.SaveChanges();
+        }
+        public string AssetItemFilePath(long AssetItemId)
+        {
+            string url = string.Empty;
+            AssetItem item= db.AssetItems.Where(i => i.AssetItemId == AssetItemId).FirstOrDefault();
+            url = item.FileUrl;
+            return url;
         }
     }
 }

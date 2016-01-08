@@ -1756,9 +1756,18 @@ define("common/itemDetail.viewModel",
                         errorList.removeAll();
                         filterPresses(section.printingTypeUi(), section.pressId(), section.pressIdSide2());
                         selectedSection(section);
+                        setCurrentPresses(section);
                         subscribeSectionChanges();
                         showSectionDetail(true);
                         selectedQty(1);
+                    },
+                    setCurrentPresses = function(section) {
+                        if (selectedSection() != undefined) {
+                            selectedSection().pressId(section.pressId() != null ? section.pressId() : presses()[0].id);
+                            if (selectedSection().isDoubleSidedUi()) {
+                                selectedSection().pressIdSide2(section.pressIdSide2() != null ? section.pressIdSide2() : presses()[0].id);
+                            }
+                        }
                     },
                     closeSectionDetailEditor = function() {
                         if (!selectedSection().isValid()) {
@@ -2076,11 +2085,13 @@ define("common/itemDetail.viewModel",
                             }
 
                         }
-                        selectedSection().pressId(currPress != null ? currPress : presses()[0].id);
-                        if (selectedSection().isDoubleSidedUi()) {
-                            selectedSection().pressIdSide2(currPress2 != null ? currPress2 : presses()[0].id);
+                        if (selectedSection() != undefined) {
+                            selectedSection().pressId(currPress != null ? currPress : presses()[0].id);
+                            if (selectedSection().isDoubleSidedUi()) {
+                                selectedSection().pressIdSide2(currPress2 != null ? currPress2 : presses()[0].id);
+                            }
                         }
-
+                       
                     },
                     onItemSectionUpdate = function (callback) {
                         //var currSec = selectedSection().convertToServerData();

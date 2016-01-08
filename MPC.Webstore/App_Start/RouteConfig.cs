@@ -81,6 +81,13 @@ namespace MPC.Webstore
            );
 
             routes.MapRoute(
+              "LoadFoldersIntellisense",
+              "ManageAssets/GetFolderIntellisenseData",
+              new { controller = "ManageAssets", action = "GetFolderIntellisenseData", id = UrlParameter.Optional }
+         );
+
+
+            routes.MapRoute(
                 "LoadFoldersChild",
                 "ManageAssets/GetChildFolders",
                 new { controller = "ManageAssets", action = "GetChildFolders", id = UrlParameter.Optional }
@@ -113,9 +120,16 @@ namespace MPC.Webstore
 
             routes.MapRoute(
           "AssetsLoad",
-          "ManageAssets/{folderId}",
-          new { controller = "Home", action = "Index", id = UrlParameter.Optional, folderId = UrlParameter.Optional }
+          "ManageAssets/{folderId}/{Searchfolder}",
+          new { controller = "Home", action = "Index", id = UrlParameter.Optional, folderId = UrlParameter.Optional, Searchfolder = UrlParameter.Optional }
       );
+
+            routes.MapRoute(
+      "FoldersLoad",
+      "LoadFoldersOnSearch/{Searchfolder}",
+      new { controller = "ManageAssets", action = "LoadFoldersOnSearch",Searchfolder = UrlParameter.Optional }
+  );
+
 
             routes.MapRoute(
               "ListingGrid",
