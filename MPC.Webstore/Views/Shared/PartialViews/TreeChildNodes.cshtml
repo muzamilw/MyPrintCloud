@@ -8,14 +8,36 @@
         {
             var RedirectUrl="/ManageAssets/"+treeNode.FolderId;
             <li>
-                <a href="@RedirectUrl" class="FolderElements">
+                <a  href="@RedirectUrl" class="FolderElements"  >
+                    
                     @treeNode.FolderName
                 </a>
                 @if (treeNode.ChildNode.Count > 0)
                 {
                     @Html.Partial("PartialViews/TreeChildNodes", treeNode.ChildNode)
                 }
+                
             </li>
         }
     </ul>
 }
+
+
+
+@*@foreach (var treeNode in Model)
+{
+    <ul>
+        @if (treeNode != null)
+        {
+            <li>
+                <a href="#">
+                    @treeNode.NodeName
+                </a>
+                @if (treeNode.ChildNode.Count > 0)
+                {
+                    @Html.Partial("ChildNode", treeNode.ChildNode)
+                }
+            </li>
+        }
+    </ul>
+}*@
