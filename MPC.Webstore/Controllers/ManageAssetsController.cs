@@ -57,6 +57,11 @@ namespace MPC.Webstore.Controllers
                 long FolderId = Convert.ToInt64(folderId);
                 List<Folder> GetFolder = new List<Folder>();
                 List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, FolderId);
+                //foreach (var time in GetAssets)
+                //{
+                //    var txtAuctionDate = String.Format("{0:MM/dd/yyyy}", time.CreationDateTime);
+                
+                //}
                 if (FolderId > 0)
                 {
 

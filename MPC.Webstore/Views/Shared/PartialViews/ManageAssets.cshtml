@@ -59,7 +59,7 @@
                     }
                     else
                     {
-                        <div>Folders</div>
+                        <div id="FoldersHeading">Folders</div>
                         @Html.Partial("PartialViews/TreeChildNodes", Tree)
                     }
 
@@ -109,72 +109,81 @@
     }
 
 </div>
+@*<div id="dvLoading"></div>*@
 
 <div class="shareWindow" id="AddFolderPanel" style="display:none;">
-    <div class="shareIcons">
+    @*<div id="dialog1" title="Waiting" style="display:none">*@
+   
+        <div class="shareIcons">
 
 
-        <div class="float_left_simple popUpLeftContent">
-            <img id="AddFoldImg" style="width:140px;height:107px;" />
-            <br />
-            <br />
-            <input id="imgloader" value="Upload/Update" class="uploderFikes" type="button" />
-            <button style="display:none;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
-            <input style="visibility:hidden;" type="file" id="ImageUploader" onchange="ShowPreview(this);" />
+            <div class="float_left_simple popUpLeftContent">
+                <img id="AddFoldImg" style="width:140px;height:107px;" />
+                <br />
+                <br />
+                <input id="imgloader" value="Upload/Update" class="uploderFikes" type="button" />
+                <button style="display:none;" id="DeleteFolder" class="shareButton" value="Save" type="submit" onclick="DeleteFolder();">Delete Folder</button>
+                <input style="visibility:hidden;" type="file" id="ImageUploader" onchange="ShowPreview(this);" />
 
-            <label id="AssetsItems">Assets Items:</label>
+                <label id="AssetsItems">Assets Items:</label>
 
-            <input id="uploadfiesss" value="Upload Files" type="button" class="uploderFikes" />
+                <input id="uploadfiesss" value="Upload Files" type="button" class="uploderFikes" />
 
-            <div id="selectedFiles"></div>
-            <button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
+                <div id="selectedFiles"></div>
+                <button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAsset();">Delete Asset</button>
+            </div>
+            <div class="float_left_simple popUpRightContent">
+
+                <label id="name">Name</label>
+                <input id="FolderName" class="folder_desc_txtarea txtBoxLoginPage" type="text" placeholder="Enter folder name">
+
+                <label id="Category">Category</label>
+                <select class="folder_desc_txtarea txtBoxLoginPage" id="folderDropDown"></select>
+
+                <label id="Quantity">Quantity</label>
+                <input id="Qty" class="folder_desc_txtarea txtBoxLoginPage" type="text" placeholder="Enter quantity">
+                <label id="Price">Price</label>
+                <input id="price" class="folder_desc_txtarea txtBoxLoginPage" type="number" placeholder="Enter price">
+
+                <label id="Descrip">Description</label>
+
+                <textarea placeholder="Description" class="folder_desc_txtarea txtBoxLoginPage" id="FoldDescription" cols="20" rows="4"></textarea>
+
+                <label id="Keywords">Keywords</label>
+                <textarea placeholder="Enter keywords..." class="folder_desc_txtarea txtBoxLoginPage" id="keywords" cols="20" rows="4"></textarea>
+                <h5 style="display:none;" id="attachmentheading">Your saved files:</h5>
+                <div id="GridTable" style="display:none;"></div>
+            </div>
+
+            <div class="clearBoth">
+
+            </div>
+
+
+            <button style="display:none;float:right;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
+            <div class="clearBoth">
+
+            </div>
+
+            <div id="svfolderpanel">
+                <button style="display:none;float:right;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
+                <div class="clearBoth"></div>
+            </div>
+            <input style="visibility:hidden;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
+
         </div>
-        <div class="float_left_simple popUpRightContent">
-
-            <label id="name">Name</label>
-            <input id="FolderName" class="folder_desc_txtarea txtBoxLoginPage" type="text" placeholder="Enter folder name">
-
-            <label id="Category">Category</label>
-            <select class="folder_desc_txtarea txtBoxLoginPage" id="folderDropDown"></select>
-
-            <label id="Quantity">Quantity</label>
-            <input id="Qty" class="folder_desc_txtarea txtBoxLoginPage" type="text" placeholder="Enter quantity">
-            <label id="Price">Price</label>
-            <input id="price" class="folder_desc_txtarea txtBoxLoginPage" type="number" placeholder="Enter price">
-
-            <label id="Descrip">Description</label>
-
-            <textarea placeholder="Description" class="folder_desc_txtarea txtBoxLoginPage" id="FoldDescription" cols="20" rows="4"></textarea>
-            
-            <label id="Keywords">Keywords</label>
-            <textarea placeholder="Enter keywords..." class="folder_desc_txtarea txtBoxLoginPage" id="keywords" cols="20" rows="4"></textarea>
-            <h5 style="display:none;" id="attachmentheading">Your saved files:</h5>
-            <div id="GridTable" style="display:none;"></div>
-        </div>
-
-        <div class="clearBoth">
-
-        </div>
-
-
-        <button style="display:none;float:right;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
-        <div class="clearBoth">
-
-        </div>
-
-        <div id="svfolderpanel">
-            <button style="display:none;float:right;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
-            <div class="clearBoth"></div>
-        </div>
-        <input style="visibility:hidden;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
 
     </div>
-  
-</div>
 <div class="basketWindow" id="basketWindow" style="display:none;">
-    <h1 id="assetNameUser">A4 Double Sided Flyer</h1>
-    <h2 id="assetCatNameUser">Category: December Xmas Campaign</h2>
-    
+    <i style='font-size:18px;' id='ImageDelforDownload' title='Close' class='fa fa-times CloseBtnForImageDisplay' onclick='CloseDownloadPopUp(this)'></i>
+    <div style="text-align:left">
+        <h1 id="assetNameUser">A4 Double Sided Flyer</h1>
+        <h2 id="assetCatNameUser">Category: December Xmas Campaign</h2>
+        <h3 id="assetupdated"></h3>
+        <br />
+        <h2 id="requifiletypes">Select your required filetype(s):</h2>
+    </div>
+  
     <div class="fileIcons" id="assetFilesUser">
         <h2>Select your required filetype(s):</h2>
         <button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
@@ -204,13 +213,34 @@
     var FolderIDD=0;
     var removedFiles = [];
     var RemovedID='';
+    //$(window).load(function(){
+        
+    //    $('#dvLoading').fadeOut(2000);
+        
+    //});
+
     $(document).ready(function () {
         buidPopup();
         $("#assetPopupBody").append($("#AddFolderPanel"));
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
-    });
+        //$("#dialog1").dialog({
+        //    autoOpen: false,
+        //    height: 150,
+        //    weight: 50,
+        //    resizable: false,   
+        //    modal: true 
+        //});
+        
+       // $('#dvLoading').fadeOut(2000);
 
+       // $("#dvLoading").css("display", "none");
+    });
+    function CloseDownloadPopUp()
+    {
+        $("#basketWindow").css("display", "none");
+       // $("#basketWindow").html("");
+    }
     $("#Searchfolder").keypress(function (event) {
         if (event.keyCode == 13) {
             if ($("#txtsearch").val() == '') {
@@ -617,7 +647,7 @@
         if (files.length > 0) {
             data.append("UploadedImage", files[0]);
         }
-
+        ShowLoader();
         $.ajax({
             type: "POST",
             url: "/webstoreapi/ContactImageUploader/AddFolderData?FolderName=" + FolderName + "&Description=" + FolderDescription + "&ParentFolderId=" + ParentFolderId + "",
@@ -691,7 +721,7 @@
         }
 
 
-
+        ShowLoader();
         $.ajax({
             type: "POST",
             url: "/webstoreapi/ContactImageUploader/SaveAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "",
@@ -731,7 +761,7 @@
             if (files.length > 0) {
                 data.append("UploadedImageAsset", files[0]);
             }
-
+            ShowLoader();
             $.ajax({
                 type: "POST",
                 url: "/webstoreapi/ContactImageUploader/UpdateAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "&AssetId="+AssetId+"&RemovedItemsIDs="+RemovedIDs+"",
@@ -754,7 +784,8 @@
 
     function UpdateFolder(FolderId)
     {
-
+       // $('#dvLoading').fadeOut(6000);
+        $("#SaveFolder").css("display", "block");
         if(FolderId>0)
         {
             var FolderName = $("#FolderName").val();
@@ -767,8 +798,8 @@
             if (files.length > 0) {
                 data.append("UploadedImage", files[0]);
             }
-
-
+            ShowLoader();
+            
             $.ajax({
                 type: "POST",
                 url: "/webstoreapi/ContactImageUploader/UpdateFolder?FolderName=" + FolderName + "&Description=" + FolderDescription + "&FolderId="+FolderId+"",
@@ -956,6 +987,7 @@
     {
         var GridItems = Items;
         var InnerHtml = "";
+        
         if(isdownloadWindow)
         {
           //  if(GridItems!=''&&GridItems!=null)
@@ -980,23 +1012,23 @@
 
                 if(Extension=='ps')
                 {
-                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a></td>')
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></td>')
                 }
                 else if(Extension=='a1')
                 {
-                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a></td>')
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></td>')
                 }
                 else if(Extension=='ind')
                 {
-                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/images/IND.png"></button></a></td>')
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></td>')
                 }
                 else if(Extension=='pdf')
                 {
-                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/images/PDF.png"></button></a></td>')
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></td>')
                 }
                 else
                 {
-                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:32px;width:32px" src="/Content/images/text.gif"></button></a></td>')
+                    InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></td>')
                 }
 
             }
@@ -1140,9 +1172,14 @@
             success: function (response) {
                 console.log(response);
                 $("#assetNameUser").text(response.Asset.AssetName);
-                $("#assetCatNameUser").text(response.AssetFolder.FolderName);
-              //  assetFilesUser
-                BindFileItems(response.Asset.AssetItems);
+                $("#assetCatNameUser").text("Category:"+response.AssetFolder.FolderName);
+                
+                var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+                var changedate=newDate.split("-");
+                var getd=changedate[2].split("T");
+                
+                $("#assetupdated").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+                BindFileItems(response.Asset.AssetItems,true);
             }
         });
         $("#basketWindow").css("display", "block");
