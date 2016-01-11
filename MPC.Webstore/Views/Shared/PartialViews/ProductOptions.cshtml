@@ -1530,11 +1530,7 @@
         }
 
         var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
-        console.log(addOnJasonData);
-        @*var selectedStockItemId = parseInt(@ViewBag.SelectedStockItemId);
-        console.log("parseInt()" + selectedStockItemId);*@
-        //$(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
-
+      
         if (addOnJasonData != null) {
 
             for (var i = 0; i < $(addOnJasonData).length; i++) {
@@ -1570,16 +1566,8 @@
 
             }
         }
-        // itemsList = itemsList + ", " + $(this).parent().next().text();
 
-        // check the costcenter if its type is fixed then we will take its setup cost
-        //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-        //var actualPrice = selectedCheckBox.ActualPrice;
         console.log(selectedCheckBox.isChecked);
-
-
-
-        //});
 
         selectedCheckBox = null;
         unSelectedCheckBox = null;
@@ -2300,4 +2288,26 @@
         };
         var returnText = $.ajax(options).responseText;
     }
+
+    
 </script>
+
+
+@*<script>
+
+    window.onload = function () {ExecuteCustomCostCentersOnPageLoad();}
+
+    function ExecuteCustomCostCentersOnPageLoad() {
+        var ItemstockOptionID = $('input:radio[class=' + $('input:radio[name=StockPaper]:checked').attr('class') + ']').attr("data-Id");
+        console.log("outer st: " +ItemstockOptionID);
+        $(".extra_item").each(function(i, val) {
+
+            if($(this).parent().attr('data-stockid') == ItemstockOptionID){
+
+                if($(this).children().next().text().toLowerCase().indexOf("custom") > -1){
+                    $(this).children().click();
+                }
+            }
+        });
+    }
+</script>*@
