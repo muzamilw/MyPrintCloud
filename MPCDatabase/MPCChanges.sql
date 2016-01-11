@@ -9556,3 +9556,7 @@ alter table report add SortOrder varchar(250)
 
 
 alter table report add ReportCode varchar(250) 
+
+--------------------------------------2015-01-05  executed on all servers
+
+ alter table machine add IsDigitalPress bit

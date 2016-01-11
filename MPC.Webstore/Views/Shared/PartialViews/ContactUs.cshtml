@@ -45,8 +45,9 @@
                             &nbsp;
                         </div>
                         <div class="float_left cntEmailImageCntctUS">
-                            @*<label id="lbl_Email">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.StoreId)):</label>*@
-                            <label style="  font-weight: normal;">@ViewBag.DefaultAddress.Email</label><br />
+                            <a style="  font-weight: normal;" href="mailto:@ViewBag.DefaultAddress.Email">@ViewBag.DefaultAddress.Email</a>
+                            
+                            <br />
                         </div>
                         <div class="dashboard_vertical_item_separator">
                             &nbsp;
@@ -140,7 +141,7 @@
                             <td>
 
                                 <label id="lbl_CompanyName">@Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.WBStoreId, "Company Name"))</label>
-                                <label id="ltrlcompany" ></label>
+                                <label id="ltrlcompany"></label>
                             </td>
 
                         </tr>
@@ -153,23 +154,24 @@
                         </tr>
                         <tr>
                             <td>
-                                <label>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluremail", UserCookieManager.WBStoreId, "Your email"))
-</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @Html.TextBoxFor(u => u.Email, new { @class = "text_box400 rounded_corners5" })
+                                <label>
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("ltrluremail", UserCookieManager.WBStoreId, "Your email"))
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(u => u.Email, new { @class = "text_box400 rounded_corners5" })
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td align="right">
-                                <input type="submit" class="start_creating_btn rounded_corners5" />
-                            </td>
-                        </tr>
-                    </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="right">
+                            <input type="submit" class="start_creating_btn rounded_corners5" />
+                        </td>
+                    </tr>
+                </table>
                 }
             </div>
         </div>
