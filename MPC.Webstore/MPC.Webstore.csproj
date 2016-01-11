@@ -806,6 +806,12 @@
     <Content Include="Content\style.css" />
     <Content Include="Content\Sunny.css" />
     <Content Include="Content\TFEHotels.css" />
+    <Content Include="Content\TreeView\d.png" />
+    <Content Include="Content\TreeView\dots_rtl.gif" />
+    <Content Include="Content\TreeView\jquery-1.10.2.min.js" />
+    <Content Include="Content\TreeView\jstree.js" />
+    <Content Include="Content\TreeView\style.css" />
+    <Content Include="Content\TreeView\throbber.gif" />
     <Content Include="Content\Valleyedge.css" />
     <Content Include="Content\zoomslider.css" />
     <Content Include="HtmlJsonPage\Login.html" />
