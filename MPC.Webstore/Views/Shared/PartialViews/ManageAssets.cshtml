@@ -49,6 +49,7 @@
                         {
                             <input id="Searchfolder" value="@ViewBag.Searchfolder" placeholder="Search Folder" class="txtBoxLoginPage" name="Searchfolder">
                         }
+                        <input type="hidden" id="SelectedTreeID" name="SelectedTreeID" />
                     }
                 </div>
                 <div class="assetCatMenu">
@@ -257,15 +258,43 @@
             var FolderIDD=0;
             var removedFiles = [];
             var RemovedID='';
+            var SelectedTreeID='@ViewBag.SelectedTreeID';
 
             $('#treeDemo').jstree();
+         //   this.toggle_node(e.target);
             $(document).ready(function () {
                 buidPopup();
                 $("#assetPopupBody").append($("#AddFolderPanel"));
                 document.getElementById("layer").style.display = "none";
                 document.getElementById("innerLayer").style.display = "none";
 
+                SetTreeState(SelectedTreeID);
+               
+                //
             });
+
+            function SetTreeState(id)
+            {
+               
+                if(id!=null&&id!='')
+                {
+                    $('#treeDemo>ul>li>i').each(function(i, obj) {
+                    
+                        $(this).trigger('click');
+                    
+                    });
+                    $('#treeDemo>ul>li>ul>li>i').each(function(i, obj) {
+                    
+                        $(this).trigger('click');
+                    
+                    });
+                    var SelID="#"+id;
+                    $(SelID).css("color", "#1D2F42");
+
+                }
+            }
+
+
             function CloseDownloadPopUp()
             {
                 $(".popupOverlay").css("display", "none");
@@ -1304,8 +1333,10 @@
                 }
             }
 
-            function RedirectToGUrl(url){
+            function RedirectToGUrl(url,id){
+                $("#SelectedTreeID").val(id);
                 window.location.href = url;
+                
             }
         </script>
 
