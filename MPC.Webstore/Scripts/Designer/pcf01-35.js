@@ -2905,6 +2905,10 @@ function pcL29(fontSize, isBold, ContentString) {
     TO.push(D1NTO);
     lAObj = D1NTO.ObjectID;
     canvas.setActiveObject(uiTextObject);
+    canvas.bringToFront(uiTextObject);
+    //   c2(D1AO);
+    canvas.renderAll();
+    g7();
 }
 var listToPass = [];
 function save_rrs_se_se(obj) {
