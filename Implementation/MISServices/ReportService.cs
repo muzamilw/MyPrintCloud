@@ -199,7 +199,7 @@ namespace MPC.Implementation.MISServices
        
         public List<StoresListResponse> GetStoreNameByOrganisationId()
         {
-            return CompanyRepository.GetStoreqsNameByOrganisationId();
+            return CompanyRepository.GetStoresNameByOrganisationId();
         }
 
         public List<ReportNote> GetReportNoteByCompanyID(long CompanyID)
