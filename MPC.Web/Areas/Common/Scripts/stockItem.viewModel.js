@@ -217,6 +217,7 @@ define("common/stockItem.viewModel",
                     resetStockItems: resetStockItems,
                     stockDialogPager: stockDialogPager,
                     //Utilities
+                    isCategoryFilterVisible:isCategoryFilterVisible,
                     companyTaxRate: companyTaxRate,
                     onSelectStockItem: onSelectStockItem,
                     initialize: initialize,

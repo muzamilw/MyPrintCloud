@@ -584,7 +584,7 @@ define("common/itemDetail.viewModel",
                     openStockItemDialog = function() {
                         stockDialog.show(function(stockItem) {
                             selectedSection().selectStock(stockItem);
-                        }, stockCategory.paper, false, currencySymbol(), selectedOrder().taxRate(), selectedSection().printingTypeUi());
+                        }, stockCategory.paper, true, currencySymbol(), selectedOrder().taxRate(), selectedSection().printingTypeUi());
                     },
                     //Section Cost Center Dialog
                     openSectionCostCenterDialog = function(costCenter, qty) {
