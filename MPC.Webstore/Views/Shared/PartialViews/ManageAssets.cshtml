@@ -227,7 +227,7 @@
 
             </div>
             <div style="text-align:left;">
-                <a id="basketId" href=""><button id="AddtoBasket" class="basketButton" value="Add to basket" type="submit">Add to basket</button></a>
+                <a id="basketId" onclick="ShowLoader();" href=""><button id="AddtoBasket" class="basketButton" value="Add to basket" type="submit">Add to basket</button></a>
                 <button class="basketButton" onclick='CloseDownloadPopUp(this)' value="Download" type="submit">Close</button>
 
             </div>
@@ -1270,6 +1270,7 @@
                 var url= "/CloneItemForManageAsset/"+Assetid+"";
                
                 $("#basketId").attr("href",url);
+
                 var Data = { AssetId: Assetid };
                 $.ajax({
                     type: "GET",
