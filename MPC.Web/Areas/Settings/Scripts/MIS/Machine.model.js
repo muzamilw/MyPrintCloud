@@ -61,7 +61,7 @@
             MachineId = ko.observable(),
             MachineName = ko.observable().extend({ required: true }),
             MachineCatId = ko.observable(),
-            ColourHeads = ko.observable(0),
+            ColourHeads = ko.observable(0).extend({ number: true, max: 8, min: 0, message: 'Max value can be 8'}),
             isPerfecting = ko.observable(),
             SetupCharge = ko.observable(0),
             WashupPrice = ko.observable(0),
@@ -164,7 +164,7 @@
             LengthUnit = ko.observable(),
             IsSpotColor = ko.observable(),
             onSelectStockItem = function (ostockItem) {
-                if (ostockItem.category == "Plates") {
+                if (ostockItem) {
                     deFaultPlatesName(ostockItem.name);
                     DefaultPlateId(ostockItem.id);
                 }
@@ -738,21 +738,30 @@
 
 
         
-        //var StockItemforInkList = ko.observableArray([]);
-        //StockItemforInkList.removeAll();
-        //ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
-        //StockItemforInkList.valueHasMutated();
+        var StockItemforInkList = ko.observableArray([]);
+        StockItemforInkList.removeAll();
+        if (source.StockItemforInk != null) {
+            ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+            StockItemforInkList.valueHasMutated();
+        }
+        
 
-        //var InkCoveragItemsList = ko.observableArray([]);
-        //InkCoveragItemsList.removeAll();
-        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        //InkCoveragItemsList.valueHasMutated();
+        var InkCoveragItemsList = ko.observableArray([]);
+        InkCoveragItemsList.removeAll();
+        if (source.InkCoveragItems != null) {
+            ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+            InkCoveragItemsList.valueHasMutated();
+        }
+        
        
 
-
-        //_.each(source.machine.MachineInkCoverages, function (item) {
-        //    var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
-        //    omachine.MachineInkCoverages.push(module);
+        if (source.machine.MachineInkCoverages != null) {
+            _.each(source.machine.MachineInkCoverages, function(item) {
+                var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
+                omachine.MachineInkCoverages.push(module);
+            });
+        }
+        
 
 
 
@@ -850,6 +859,13 @@
         //omachine.LookupMethod = machine.lookupMethod();
         oMeterPerHour = MeterPerHourClickCharge;
         oGuillotineZone = GuillotineClickCharge;
+        
+        omachine.MachineInkCoverages = [];
+        if (machine.MachineInkCoverages().length > 0) {
+            _.each(machine.MachineInkCoverages(), function (item) {
+                omachine.MachineInkCoverages.push(MachineInkCoveragesListServerMapper(item));
+            });
+        }
         oSpeedWeightLookup = speedWeightCal;
         if (GuillotineClickCharge != null)
         {

@@ -17,8 +17,8 @@ using System.Text;
 using Ionic.Zip;
 using Newtonsoft.Json;
 using System.Net;
-using MailChimp.Types;
-using MailChimp;
+//using MailChimp.Types;
+//using MailChimp;
 
 namespace MPC.Implementation.MISServices
 {
@@ -1316,38 +1316,42 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        //public bool PostDataToMailChimp(CompanyContact contact, long organisationId = 0)
-        //{
-        //    Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
+        public bool PostDataToMailChimp(CompanyContact contact, long organisationId = 0)
+        {
+            Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
 
-        //    if (org != null && org.isMailChimpActive == true)
-        //    {
-        //        string apiKey = org.MailChimpApikey;   // Replace it before
-        //        string listId = org.MailChimpApiId;                      // Replace it before
+            if (org != null && org.isMailChimpActive == true)
+            {
+                //string apiKey = org.MailChimpApikey;   // Replace it before
+                //string listId = org.MailChimpApiId;                      // Replace it before
 
-        //        var options = new List.SubscribeOptions();
-        //        options.DoubleOptIn = true;
-        //        options.EmailType = List.EmailType.Html;
-        //        options.SendWelcome = false;
+                //var options = new List.SubscribeOptions();
+                //options.DoubleOptIn = true;
+                //options.EmailType = List.EmailType.Html;
+                //options.SendWelcome = false;
 
-        //        var mergeText = new List.Merges(contact.Email, List.EmailType.Text)
-        //            {
-        //                {"FNAME", "John"},
-        //                {"LNAME", "Smith"}
-        //            };
-        //        var merges = new List<List.Merges> { mergeText };
+                //var mergeText = new List.Merges(contact.Email, List.EmailType.Text)
+                //    {
+                //        {"FNAME", contact.FirstName},
+                //        {"LNAME", contact.LastName}
+                //    };
+                //var merges = new List<List.Merges> { mergeText };
 
-        //        var mcApi = new MCApi(apiKey, false);
-        //        var batchSubscribe = mcApi.ListBatchSubscribe(listId, merges, options);
+                //var mcApi = new MCApi(apiKey, false);
+                //var batchSubscribe = mcApi.ListBatchSubscribe(listId, merges, options);
 
-        //        if (batchSubscribe.Errors.Count > 0)
-        //            Console.WriteLine("Error:{0}", batchSubscribe.Errors[0].Message);
-        //        else
-        //            Console.WriteLine("Success");
+                //if (batchSubscribe.Errors.Count > 0)
+                //    return false;
+                //else
+                //    return true;
 
-        //        Console.ReadKey();
-        //    }
-        //}
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
     }
 }

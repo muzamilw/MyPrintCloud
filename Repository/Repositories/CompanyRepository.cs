@@ -1022,6 +1022,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                List<FieldVariable> fieldVariables = db.FieldVariables.Where(c => c.CompanyId == CompanyId || c.IsSystem == true).ToList();
+                List<CostCentre> costCentre = db.CostCentres.Where(c => c.OrganisationId == OrganisationId).ToList();
+
                 List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
                 ExportOrganisation ObjExportOrg = new ExportOrganisation();
                 db.Configuration.LazyLoadingEnabled = false;
@@ -1152,6 +1155,31 @@ namespace MPC.Repository.Repositories
                     ObjCompany.TemplateColorStyles = lstTemplateColorStyle;
 
                 }
+
+                if (ObjCompany.SmartForms != null && ObjCompany.SmartForms.Count > 0)
+                {
+                    foreach (var sf in ObjCompany.SmartForms)
+                    {
+                        if (sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                        {
+                            foreach (var sfdetail in sf.SmartFormDetails)
+                            {
+                                string fieldName = fieldVariables.Where(c => c.VariableId == sfdetail.VariableId).Select(c => c.VariableName).FirstOrDefault();
+                                sfdetail.VariableName = fieldName;
+                            }
+                        }
+                    }
+                }
+                if (ObjCompany.CompanyCostCentres != null && ObjCompany.CompanyCostCentres.Count > 0)
+                {
+                    foreach (var ccc in ObjCompany.CompanyCostCentres)
+                    {
+                        string Name = costCentre.Where(c => c.CostCentreId == ccc.CostCentreId).Select(c => c.Name).FirstOrDefault();
+                        ccc.CostCentreName = Name;
+
+                    }
+                }
+
 
 
 
@@ -1571,6 +1599,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                List<FieldVariable> fieldVariables = db.FieldVariables.Where(c => c.CompanyId == CompanyId || c.IsSystem == true).ToList();
+                List<CostCentre> costCentre = db.CostCentres.Where(c => c.OrganisationId == OrganisationId).ToList();
+                
                 List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
                 ExportOrganisation ObjExportOrg = new ExportOrganisation();
                 db.Configuration.LazyLoadingEnabled = false;
@@ -1697,6 +1728,30 @@ namespace MPC.Repository.Repositories
                 {
                     ObjCompany.TemplateColorStyles = lstTemplateColorStyle;
 
+                }
+
+                if (ObjCompany.SmartForms != null && ObjCompany.SmartForms.Count > 0)
+                {
+                    foreach (var sf in ObjCompany.SmartForms)
+                    {
+                        if (sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                        {
+                            foreach (var sfdetail in sf.SmartFormDetails)
+                            {
+                                string fieldName = fieldVariables.Where(c => c.VariableId == sfdetail.VariableId).Select(c => c.VariableName).FirstOrDefault();
+                                sfdetail.VariableName = fieldName;
+                            }
+                        }
+                    }
+                }
+                if (ObjCompany.CompanyCostCentres != null && ObjCompany.CompanyCostCentres.Count > 0)
+                {
+                    foreach (var ccc in ObjCompany.CompanyCostCentres)
+                    {
+                        string Name = costCentre.Where(c => c.CostCentreId == ccc.CostCentreId).Select(c => c.Name).FirstOrDefault();
+                        ccc.CostCentreName = Name;
+
+                    }
                 }
 
                 var omappedCompany = Mapper.Map<Company, Company>(ObjCompany);

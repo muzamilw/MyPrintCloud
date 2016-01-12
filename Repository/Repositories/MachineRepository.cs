@@ -174,12 +174,12 @@ namespace MPC.Repository.Repositories
                 GuilotinePtv = optv,
               //  lookupMethods = GetAllLookupMethodList(IsGuillotine),
                 Markups = null,
-               // StockItemforInk = GetAllStockItemforInk(),
+                StockItemforInk = GetAllStockItemforInk(),
                // MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
                // MachineLookupMethods = GetMachineLookupMethods(MachineID),
-                deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
-                deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
-               // InkCoveragItems = GetInkCoveragItems(),
+                deFaultPaperSizeName = "", //GetStockItemName(omachine.DefaultPaperId),
+                deFaultPlatesName = GetStockItemName(omachine != null ? omachine.DefaultPlateId ?? 0 : 0),
+                InkCoveragItems = GetInkCoveragItems(),
                 CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol,
                 WeightUnit = organisation == null ? null : organisation.WeightUnit.UnitName,
                 LengthUnit = organisation == null ? null : organisation.LengthUnit.UnitName
@@ -332,6 +332,16 @@ namespace MPC.Repository.Repositories
                 omachine.isSheetFed = machine.isSheetFed;
                 omachine.Passes = machine.Passes;
                 omachine.IsSpotColor = machine.IsSpotColor;
+                omachine.IsDigitalPress = machine.IsDigitalPress;
+                if (machine.MachineInkCoverages != null && machine.MachineInkCoverages.Count > 0)
+                {
+                    omachine.MachineInkCoverages = new Collection<MachineInkCoverage>();
+                    foreach (var inkCoverage in machine.MachineInkCoverages)
+                    {
+                        omachine.MachineInkCoverages.Add(new MachineInkCoverage{SideInkOrder = inkCoverage.SideInkOrder, SideInkOrderCoverage = inkCoverage.SideInkOrderCoverage});
+                    }
+                }
+                
                 db.Machines.Add(omachine);
                // db.SaveChanges();
 
@@ -760,12 +770,39 @@ namespace MPC.Repository.Repositories
                 }
                
                // omachine.LookupMethod.MachineClickChargeZones.FirstOrDefault() = ClickCharge;
-                //foreach (var item in machine.MachineInkCoverages)
-                //{
-                //    MachineInkCoverage obj = db.MachineInkCoverages.Where(g => g.Id == item.Id).SingleOrDefault();
-                //    obj.SideInkOrder = item.SideInkOrder;
-                //    obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
-                //}
+                List<MachineInkCoverage> dbMachineInkCoverages =
+                    db.MachineInkCoverages.Where(a => a.MachineId == machine.MachineId).ToList();
+
+                if (machine.MachineInkCoverages != null && machine.MachineInkCoverages.Count > 0)
+                {
+                    foreach (var item in machine.MachineInkCoverages)
+                    {
+                        MachineInkCoverage obj = dbMachineInkCoverages.FirstOrDefault(g => g.Id == item.Id);
+                        if (obj != null)
+                        {
+                            obj.SideInkOrder = item.SideInkOrder;
+                            obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
+                        }
+                        else
+                        {
+                            obj = new MachineInkCoverage
+                            {
+                                SideInkOrder = item.SideInkOrder,
+                                SideInkOrderCoverage = item.SideInkOrderCoverage,
+                                MachineId = machine.MachineId
+                            };
+                            omachine.MachineInkCoverages.Add(obj);
+                        }
+
+                    }
+                }
+
+                List<MachineInkCoverage> linesToBeRemoved = dbMachineInkCoverages.Where(
+                vdp => !IsNewInkCoverage(vdp) && machine.MachineInkCoverages.All(sourceVdp => sourceVdp.Id != vdp.Id))
+                  .ToList();
+                linesToBeRemoved.ForEach(line => db.MachineInkCoverages.Remove(line));
+                
+                
 
                 //foreach (var item in MachineSpoilages)
                 //{
@@ -790,6 +827,10 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
+        }
+        private static bool IsNewInkCoverage(MachineInkCoverage sourceItem)
+        {
+            return sourceItem.Id <= 0;
         }
 
         private MachineSpeedWeightLookup UpdateMachineSpeedWeightLookup(MachineSpeedWeightLookup source,

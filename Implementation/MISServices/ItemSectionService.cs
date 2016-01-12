@@ -2561,7 +2561,7 @@ namespace MPC.Implementation.MISServices
             return oItemSection;//.tbl_section_costcentres.ToList();
         }
 
-        public ItemSection CalculatePlateCost(ItemSection oItemSection, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
+        public ItemSection CalculatePlateCost(ItemSection oItemSection, bool IsReRun = false, bool IsWorkInstructionsLocked = false, bool isSide1 = true)
         {
 
             // oItemSection.SectionCostcentres.ToList().ForEach(c => oItemSection.SectionCostcentres.Remove(c));
@@ -2581,10 +2581,11 @@ namespace MPC.Implementation.MISServices
             StockItem oPlateDTO = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.PlateId));
             CostCentre oPlateCostCentreDTO = itemsectionRepository.GetCostCenterBySystemType((int)SystemCostCenterTypes.Plate);
             double dblItemProcessingCharge = 0;
-            int PlatesQty = (oItemSection.Side1PlateQty > 0 ? (int)oItemSection.Side1PlateQty : 0) + (oItemSection.Side2PlateQty > 0 ? (int)oItemSection.Side2PlateQty : 0);
+            //int PlatesQty = (oItemSection.Side1PlateQty > 0 ? (int)oItemSection.Side1PlateQty : 0) + (oItemSection.Side2PlateQty > 0 ? (int)oItemSection.Side2PlateQty : 0); //Commented when code changed for both sides calculation seperately
+            int PlatesQty = isSide1 ? oItemSection.Side1PlateQty ?? 0 : oItemSection.Side2PlateQty ?? 0;
             if (oItemSection.IsPlateUsed != false && oItemSection.IsPlateSupplied == false)
             {
-                int PlateID = (int)oItemSection.PlateId;
+                int PlateID = Convert.ToInt32(oItemSection.PlateId);
                 GlobalData gData = GetItemPriceCost(PlateID, true);
                 if (gData != null)
                 {
@@ -2594,10 +2595,10 @@ namespace MPC.Implementation.MISServices
                     dblPlateProcessingPrice = gData.dblPlateProcessingPrice;
                 }
 
-                dblPlateUnitCost = oPlateDTO.PerQtyQty > 0 ? dblPlateUnitCost / (double)oPlateDTO.PerQtyQty : 0;
-                dblPlateUnitPrice = oPlateDTO.PerQtyQty > 0 ? dblPlateUnitPrice / (double)oPlateDTO.PerQtyQty : 0;
+                dblPlateUnitCost = oPlateDTO.PerQtyQty > 0 ? dblPlateUnitCost / Convert.ToDouble(oPlateDTO.PerQtyQty) : 0;
+                dblPlateUnitPrice = oPlateDTO.PerQtyQty > 0 ? dblPlateUnitPrice / Convert.ToDouble(oPlateDTO.PerQtyQty) : 0;
 
-                dblItemProcessingCharge = oPlateDTO.ItemProcessingCharge > 0 ? (double)oPlateDTO.ItemProcessingCharge : 0;
+                dblItemProcessingCharge = oPlateDTO.ItemProcessingCharge > 0 ? Convert.ToDouble(oPlateDTO.ItemProcessingCharge) : 0;
 
                 dblPlateCost = PlatesQty > 0 ? PlatesQty * (dblPlateUnitCost + dblPlateProcessingtCost) : 0;
                 dblPlateUnitCost += dblPlateProcessingtCost;
@@ -2619,12 +2620,12 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenter = new SectionCostcentre();
 
                 oItemSectionCostCenter.ItemSectionId = oItemSection.ItemSectionId;
-                oItemSectionCostCenter.CostCentreId = itemsectionRepository.GetSystemCostCentreID(SystemCostCenterTypes.Plate);  //13 is Plate Type cost center
+                oItemSectionCostCenter.CostCentreId = oPlateCostCentreDTO.CostCentreId;  //13 is Plate Type cost center
                 oItemSectionCostCenter.SystemCostCentreType = (int)SystemCostCenterTypes.Plate; // Cost Center system type 14;
                 oItemSectionCostCenter.Order = 104;
                 oItemSectionCostCenter.IsOptionalExtra = 0;
                 oItemSectionCostCenter.CostCentreType = 1;
-                oItemSectionCostCenter.IsDirectCost = (short)oPlateCostCentreDTO.IsDirectCost;
+                oItemSectionCostCenter.IsDirectCost = Convert.ToInt16(oPlateCostCentreDTO.IsDirectCost);
                 oItemSectionCostCenter.IsPrintable = oJobCardOptionsDTO.IsdefaultPlateUsed != null ? oJobCardOptionsDTO.IsdefaultPlateUsed == true ? (short)1 : (short)0 : (short)0;
                 oItemSectionCostCenter.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
             }
@@ -2647,7 +2648,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter = new SectionCostcentre();
 
                     oItemSectionCostCenter.ItemSectionId = oItemSection.ItemSectionId;
-                    oItemSectionCostCenter.CostCentreId = 13;
+                    oItemSectionCostCenter.CostCentreId = oPlateCostCentreDTO.CostCentreId;
                     oItemSectionCostCenter.SystemCostCentreType = (int)SystemCostCenterTypes.Plate;
                     oItemSectionCostCenter.Order = 104;
                     oItemSectionCostCenter.IsOptionalExtra = 0;
@@ -2781,7 +2782,7 @@ namespace MPC.Implementation.MISServices
 
             oItemSectionCostCenterDetail.SupplierId = Convert.ToInt32(oPlateDTO.SupplierId);
 
-            oItemSectionCostCenter.Name = "Plate ( " + oPlateDTO.ItemName + " )";
+            oItemSectionCostCenter.Name = string.Format("Plate Side {0} ({1}) ", isSide1 ? 1 : 2, oPlateDTO.ItemName);// "Plate ( " + oPlateDTO.ItemName + " )" + isSide1 ? "Side 1" : "Side 2";
 
 
             if (IsReRun == false || IsSectionCostCentreFoundInReRun == false)
@@ -2793,7 +2794,7 @@ namespace MPC.Implementation.MISServices
             return oItemSection;
         }
 
-        public ItemSection CalculateWashUpCost(ItemSection objSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
+        public ItemSection CalculateWashUpCost(ItemSection objSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, bool isSide1 = true)
         {
             // objSection.SectionCostcentres.ToList().ForEach(c => objSection.SectionCostcentres.Remove(c));
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
@@ -2815,7 +2816,7 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenter = new SectionCostcentre();
 
                 oItemSectionCostCenter.ItemSectionId = oItemSection.ItemSectionId;
-                oItemSectionCostCenter.CostCentreId = itemsectionRepository.GetSystemCostCentreID(SystemCostCenterTypes.Washup); ;
+                oItemSectionCostCenter.CostCentreId = oWashupCostCentreDTO.CostCentreId; ;
                 oItemSectionCostCenter.SystemCostCentreType = (int)SystemCostCenterTypes.Washup;
                 oItemSectionCostCenter.Order = 106;
                 oItemSectionCostCenter.IsOptionalExtra = (short)0;
@@ -2869,14 +2870,14 @@ namespace MPC.Implementation.MISServices
                 double ProfitMargin = 0;
                 var markup = itemsectionRepository.GetMarkupById(oWashupCostCentreDTO.DefaultVAId);
                 if (markup != null)
-                    ProfitMargin = (double)markup.MarkUpRate;
+                    ProfitMargin = Convert.ToDouble(markup.MarkUpRate);
 
                 oItemSectionCostCenter.Qty1MarkUpID = oWashupCostCentreDTO.DefaultVAId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
                 oItemSectionCostCenter.Qty1EstimatedPlantCost = dblWashUpCost;
-                oItemSectionCostCenter.Qty1EstimatedTime = Math.Round((double)(oItemSection.WashupQty * oPressDTO.WashupTime) / 60, 2);
+                oItemSectionCostCenter.Qty1EstimatedTime = Math.Round(Convert.ToDouble(oItemSection.WashupQty * oPressDTO.WashupTime) / 60, 2);
 
                 if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsDefaultWashupUsed == true)
                 {
@@ -2905,7 +2906,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
                     oItemSectionCostCenter.Qty2EstimatedPlantCost = dblWashUpCost;
-                    oItemSectionCostCenter.Qty2EstimatedTime = Math.Round((double)((oItemSection.WashupQty * oPressDTO.WashupTime) / 60), 2);
+                    oItemSectionCostCenter.Qty2EstimatedTime = Math.Round(Convert.ToDouble((oItemSection.WashupQty * oPressDTO.WashupTime) / 60), 2);
 
                     if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsDefaultWashupUsed == true)
                     {
@@ -2934,7 +2935,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
                     oItemSectionCostCenter.Qty3EstimatedPlantCost = dblWashUpCost;
-                    oItemSectionCostCenter.Qty1EstimatedTime = Math.Round((double)(oItemSection.WashupQty * oPressDTO.WashupTime) / 60, 2);
+                    oItemSectionCostCenter.Qty1EstimatedTime = Math.Round(Convert.ToDouble(oItemSection.WashupQty * oPressDTO.WashupTime) / 60, 2);
 
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultWashupUsed == true)
                     {
@@ -2989,8 +2990,8 @@ namespace MPC.Implementation.MISServices
             {
                 oItemSectionCostCenterDetail.CostPrice = 0;
             }
-
-            oItemSectionCostCenter.Name = "Washups";
+            string side = isSide1 ? "Sdie 1" : "Side 2";
+            oItemSectionCostCenter.Name = "Washups " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
             oItemSectionCostCenter.Qty3 = oItemSection.Qty3;
@@ -3066,7 +3067,7 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
-                oItemSectionCostCenter.Qty1EstimatedTime = Math.Round((double)(oPressDTO.ReelMakereadyTime / 60 * oItemSection.WebReelMakereadyQty), 2);
+                oItemSectionCostCenter.Qty1EstimatedTime = Math.Round(Convert.ToDouble(oPressDTO.ReelMakereadyTime / 60 * oItemSection.WebReelMakereadyQty), 2);
 
                 if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsReelMakeReady == true)
                 {
@@ -3096,7 +3097,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
-                    oItemSectionCostCenter.Qty2EstimatedTime = Math.Round((double)(oPressDTO.ReelMakereadyTime / 60 * oItemSection.WebReelMakereadyQty), 2);
+                    oItemSectionCostCenter.Qty2EstimatedTime = Math.Round(Convert.ToDouble(oPressDTO.ReelMakereadyTime / 60 * oItemSection.WebReelMakereadyQty), 2);
 
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsReelMakeReady == true)
                     {
@@ -3127,7 +3128,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
-                    oItemSectionCostCenter.Qty3EstimatedTime = Math.Round((double)(oPressDTO.ReelMakereadyTime / 60 * oItemSection.WebReelMakereadyQty), 2);
+                    oItemSectionCostCenter.Qty3EstimatedTime = Math.Round(Convert.ToDouble(oPressDTO.ReelMakereadyTime / 60 * oItemSection.WebReelMakereadyQty), 2);
 
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsReelMakeReady == true)
                     {
@@ -3203,7 +3204,7 @@ namespace MPC.Implementation.MISServices
             return oItemSection;
         }
 
-        public ItemSection CalculateMakeReadyCost(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
+        public ItemSection CalculateMakeReadyCost(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, bool isSide1 = true)
         {
 
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
@@ -3246,10 +3247,10 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenter.IsOptionalExtra = 0;
                 oItemSectionCostCenter.CostCentreType = 1;
                 oItemSectionCostCenter.IsDirectCost = Convert.ToInt16(oMakeReadyCostCentreDTO.IsDirectCost);
-                if (oItemSectionCostCenter.SectionCostCentreDetails == null)
-                    oItemSectionCostCenter.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
-
             }
+            if (oItemSectionCostCenter.SectionCostCentreDetails == null)
+                oItemSectionCostCenter.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
+
             var markup = itemsectionRepository.GetMarkupById(oMakeReadyCostCentreDTO.DefaultVAId);
             var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
             oItemSectionCostCenter.IsPrintable = Convert.ToInt16(oJobCardOptionsDTO.IsDefaultMakereadyUsed);
@@ -3270,7 +3271,7 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
-                oItemSectionCostCenter.Qty1EstimatedTime = Math.Round((double)((oPressDTO.MakeReadyTime * oItemSection.MakeReadyQty) / 60), 2);
+                oItemSectionCostCenter.Qty1EstimatedTime = Math.Round(Convert.ToDouble((oPressDTO.MakeReadyTime * oItemSection.MakeReadyQty) / 60), 2);
 
                 if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsDefaultMakereadyUsed == true)
                 {
@@ -3299,7 +3300,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
-                    oItemSectionCostCenter.Qty2EstimatedTime = Math.Round((double)((oPressDTO.MakeReadyTime * oItemSection.MakeReadyQty) / 60), 2);
+                    oItemSectionCostCenter.Qty2EstimatedTime = Math.Round(Convert.ToDouble((oPressDTO.MakeReadyTime * oItemSection.MakeReadyQty) / 60), 2);
                     if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsDefaultMakereadyUsed == true)
                     {
                         oItemSectionCostCenter.Qty2WorkInstructions = "Plate Makereadies:= " + oItemSection.MakeReadyQty.ToString() + Environment.NewLine;
@@ -3329,7 +3330,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
-                    oItemSectionCostCenter.Qty3EstimatedTime = Math.Round((double)((oPressDTO.MakeReadyTime * oItemSection.MakeReadyQty) / 60), 2);
+                    oItemSectionCostCenter.Qty3EstimatedTime = Math.Round(Convert.ToDouble((oPressDTO.MakeReadyTime * oItemSection.MakeReadyQty) / 60), 2);
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultMakereadyUsed == true)
                     {
                         oItemSectionCostCenter.Qty3WorkInstructions = "Plate Makereadies:= " + oItemSection.MakeReadyQty.ToString() + Environment.NewLine;
@@ -3361,7 +3362,7 @@ namespace MPC.Implementation.MISServices
             }
 
             SectionCostCentreDetail oItemSectionCostCenterDetail;
-            if (IsReRun == false | IsSectionCostCentreFoundInReRun == false)
+            if (IsReRun == false || IsSectionCostCentreFoundInReRun == false)
             {
                 oItemSectionCostCenterDetail = new SectionCostCentreDetail();
             }
@@ -3392,8 +3393,8 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenterDetail.CostPrice = 0;
             }
 
-
-            oItemSectionCostCenter.Name = "Plate Makereadies";
+            string side = isSide1 ? "Sdie 1" : "Side 2";
+            oItemSectionCostCenter.Name = "Plate Makereadies " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
             oItemSectionCostCenter.Qty3 = oItemSection.Qty3;
@@ -6571,7 +6572,7 @@ namespace MPC.Implementation.MISServices
            // updatedSection = CalculateInkCost(updatedSection, 1, PressId, false, false, AllInks); //Ink Cost Center
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre
             {
-                updatedSection = CalculatePaperCostWebPress(updatedSection, (int)updatedSection.PressId, false, false);
+                updatedSection = CalculatePaperCostWebPress(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false);
             }
             else
             {
@@ -6579,27 +6580,26 @@ namespace MPC.Implementation.MISServices
                     updatedSection.PrintViewLayout = 0;
                 else
                     updatedSection.PrintViewLayout = 1;
-                updatedSection = CalculatePaperCost(updatedSection, (int)updatedSection.PressId, false, false);
+                updatedSection = CalculatePaperCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false);
             }
-            //if (updatedSection.IsPlateUsed != null && updatedSection.IsPlateUsed != false)//Plates
-            //{
-            //    if (updatedSection.IsPlateSupplied == null)
-            //        updatedSection.IsPlateSupplied = false;
-            //    updatedSection = CalculatePlateCost(updatedSection, false, false);
-            //}
-            //if (updatedSection.IsMakeReadyUsed == true)//Make Readies
-            //{
-            //    if (updatedSection.IsDoubleSided == true)
-            //        updatedSection.MakeReadyQty = updatedSection.Side1Inks + updatedSection.Side2Inks;
-            //    else
-            //        updatedSection.MakeReadyQty = updatedSection.Side1Inks; // is to set later
-            //    updatedSection = CalculateMakeReadyCost(updatedSection, (int)updatedSection.PressId, false, false);
-            //}
-            //if (updatedSection.IsWashup != null && updatedSection.IsWashup == true)//Washups
-            //{
-            //    updatedSection.WashupQty = updatedSection.WashupQty ?? 0;
-            //    updatedSection = CalculateWashUpCost(updatedSection, (int)updatedSection.PressId, false, false);
-            //}
+            if (pressSide1.isplateused != null && pressSide1.isplateused != false)//Plates
+            {
+                if (updatedSection.IsPlateSupplied == null)
+                    updatedSection.IsPlateSupplied = false;
+                updatedSection.Side1PlateQty = pressSide1.ColourHeads;
+                updatedSection.PlateId = pressSide1.DefaultPlateId;
+                updatedSection = CalculatePlateCost(updatedSection, false, false, true);
+            }
+            if (pressSide1.ismakereadyused != null && pressSide1.ismakereadyused == true)//Make Readies
+            {
+                updatedSection.MakeReadyQty = pressSide1.ColourHeads;
+                updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
+            }
+            if (pressSide1.iswashupused != null && pressSide1.iswashupused == true)//Washups
+            {
+                updatedSection.WashupQty = pressSide1.ColourHeads;
+                updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
+            }
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)
             {
                // CalculatePressCostWebPress
@@ -6614,6 +6614,26 @@ namespace MPC.Implementation.MISServices
 
             if (updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true && (updatedSection.PrintingType != null && updatedSection.PrintingType == (int)PrintingTypeEnum.SheetFed))
             {
+                if (pressSide2.isplateused != null && pressSide2.isplateused != false)//Plates
+                {
+                    if (updatedSection.IsPlateSupplied == null)
+                        updatedSection.IsPlateSupplied = false;
+                    updatedSection.Side2PlateQty = pressSide2.ColourHeads;
+                    updatedSection.PlateId = pressSide1.DefaultPlateId;
+                    updatedSection = CalculatePlateCost(updatedSection, false, false, false);
+                }
+                if (pressSide2.ismakereadyused != null && pressSide2.ismakereadyused == true)//Make Readies
+                {
+                    updatedSection.MakeReadyQty = pressSide2.ColourHeads;
+                    updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
+                }
+                if (pressSide2.iswashupused != null && pressSide2.iswashupused == true)//Washups
+                {
+                    updatedSection.WashupQty = pressSide2.ColourHeads;
+                    updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
+                }
+                
+                
                 if(updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
                     updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, false, true);
             }

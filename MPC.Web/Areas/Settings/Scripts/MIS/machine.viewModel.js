@@ -208,6 +208,10 @@ define("machine/machine.viewModel",
                             setValidationSummary(selectedMachine());
                             flag = false;
                         }
+                        else if (selectedMachine().isplateused() && (selectedMachine().DefaultPlateId() == undefined || selectedMachine().DefaultPlateId() <= 0)) {
+                            toastr.error("Error: Please select default plate if press require plates.");
+                            flag = false;
+                        }
                         return flag;
                     },
                     onCloseMachineEditor = function () {
@@ -239,13 +243,30 @@ define("machine/machine.viewModel",
                            filterInkCoverage(value);
                        });
                    },
-                   filterInkCoverage = function(count) {
-                       selectedMachine().MachineInkCoverages.removeAll();
-                       ko.utils.arrayPushAll(selectedMachine().MachineInkCoverages(), machineInkCovergeList.take(count));
-                       selectedMachine().MachineInkCoverages.valueHasMutated();
-                       //for (var i = 0; i < count; i++) {
-                       //    selectedMachine().MachineInkCoverages.push();
-                       //}
+                   filterInkCoverage = function (count) {
+                       if (selectedMachine().MachineId() > 0) {
+                           if (count < selectedMachine().MachineInkCoverages().length) {
+                               selectedMachine().MachineInkCoverages().splice(count, selectedMachine().MachineInkCoverages().length - count);
+                               selectedMachine().MachineInkCoverages.valueHasMutated();
+                           }
+                           else if (count > selectedMachine().MachineInkCoverages().length) {
+                               var number = count - selectedMachine().MachineInkCoverages().length;
+                               var inkList = selectedMachine().MachineInkCoverages()[0].StockItemforInkList();
+                               var coverageList = selectedMachine().MachineInkCoverages()[0].InkCoveragItems();
+                               var newCoverage = { Id: 0, SideInkOrder: inkList[0].StockItemId, SideInkOrderCoverage: coverageList[0].CoverageGroupId, MachineId: selectedMachine().MachineId() };
+                               for (i = 0; i < number; i++) {
+                                   selectedMachine().MachineInkCoverages().push(model.MachineInkCoveragesListClientMapper(newCoverage, inkList, coverageList));
+                                 }
+                               selectedMachine().MachineInkCoverages.valueHasMutated();
+                           }
+                           
+                       } else {
+                           selectedMachine().MachineInkCoverages.removeAll();
+                           ko.utils.arrayPushAll(selectedMachine().MachineInkCoverages(), machineInkCovergeList.take(count));
+                           selectedMachine().MachineInkCoverages.valueHasMutated();
+                       }
+                       
+                       
                    },
                  
 
@@ -382,6 +403,7 @@ define("machine/machine.viewModel",
                             selectedMachine().ismakereadyused(false);
                             selectedMachine().MakeReadyPrice(0);
                             selectedMachine().WashupPrice(0);
+                            selectedMachine().DefaultPlateId(null);
                         }
                     },
                     onismakereadyusedChange = function () {
@@ -543,12 +565,17 @@ define("machine/machine.viewModel",
                                     //lookupMethodViewModel.GetSpeedWeightLookup(data.machine.LookupMethod.MachineSpeedWeightLookups[0]);
                                     //selectedMachine().lookupMethod().SpedWeightLookups[0](data.machine.LookupMethod);
                                     lookupMethodViewModel.CurrencySymbol(selectedMachine().CurrencySymbol());
-                                    $("#isSheetFedRadio").css("display", "none");
+                                    //$("#isSheetFedRadio").css("display", "none");
                                     
                                     var pagetype = Request.QueryString("type").toString();
 
                                     if (pagetype != null) {
                                         if (pagetype == 'press') {
+                                            if (data.machine.IsDigitalPress != false)
+                                                selectedMachine().isDigitalPress("true");
+                                            else {
+                                                selectedMachine().isDigitalPress("false");
+                                            }
                                             if (data.machine.isSheetFed == true) {
                                                 selectedMachine().isSheetFed("true");
                                                 currentClickChargeZone.removeAll();
@@ -613,9 +640,9 @@ define("machine/machine.viewModel",
 
                                     selectedMachine().reset();
                                     showMachineDetail();
+                                    subscribeMachineChange();
 
-
-                                  //  lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
+                                    //  lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
 
                                     ////Machine lookups
                                     //machinelookups.removeAll();
@@ -626,8 +653,6 @@ define("machine/machine.viewModel",
                                     //});
                                     //ko.utils.arrayPushAll(machinelookups(), machinesLookupList);
                                     //machinelookups.valueHasMutated();
-
-
 
 
                                 }
