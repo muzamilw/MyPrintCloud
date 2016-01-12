@@ -2640,7 +2640,17 @@ namespace MPC.Implementation.WebStoreServices
                 foreach (var obj in lstObjs)
                 {
                     string imgName = obj.ContentString.Replace("__clip_mpc.png", ".jpg");
-                    string imagefile = System.Web.Hosting.HostingEnvironment.MapPath("~/Mpc_Content") + "/" + imgName;
+                    string imagefile = imgName;
+                    if (imagefile.IndexOf("http://") != -1)
+                    {
+                        string[] data = imgName.Split(new string[] { "mpc_content" }, StringSplitOptions.None);
+                        imagefile =System.Web.Hosting.HostingEnvironment.MapPath("~/Mpc_Content") + "/" +  data[data.Length-1];
+
+                    }
+                    else
+                    {
+                        imagefile = System.Web.Hosting.HostingEnvironment.MapPath("~/Mpc_Content") + "/" + imgName;
+                    }
                     image = p.load_image("auto", imagefile, "");
 
                     if (image == -1)
