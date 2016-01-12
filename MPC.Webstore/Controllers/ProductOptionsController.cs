@@ -129,7 +129,7 @@ namespace MPC.Webstore.Controllers
                             OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                             UserCookieManager.WEBOrderId = OrderID;
                             UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-                            clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID);
+                            // clone asset
                         }
                         else
                         {

@@ -16,6 +16,7 @@ namespace MPC.Interfaces.WebStoreServices
          double PointToMM(double val);
          double InchtoPoint(double val);
           double PointToInch(double val);
+         Item CloneItem(long Organisation, long OrderID,Asset GetAsset);
         GetCategoryProduct GetPublishedProductByItemID(int itemID);
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
         Item GetItemById(long ItemId);
