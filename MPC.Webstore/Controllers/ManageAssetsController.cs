@@ -170,6 +170,21 @@ namespace MPC.Webstore.Controllers
             }
             return FilterFolderList;
         }
+
+        public void CloneItemForManageAsset(long AssetId)
+        {
+            // refitemid = assetid 
+            // image,thubnail path = asset path
+            // producttype = 4
+            // create section
+            // set qty = 1
+            // set qty1, qtybase , net total, grosstotal = 0
+            Item NewItem = new Item();
+            NewItem.RefItemId = 0;
+            NewItem.ImagePath = "";
+            NewItem.ThumbnailPath = "";
+        
+        }
         //public void BindData(long FolderId)
         //{ 
         

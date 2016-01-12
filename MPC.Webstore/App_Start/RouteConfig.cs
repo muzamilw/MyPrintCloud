@@ -44,15 +44,7 @@ namespace MPC.Webstore
               , new { controller = "Home", action = "Index", name = "" 
             });
 
-            routes.MapRoute(
-              "ManageTheAssets"
-            , "ManageAssets"
-            , new
-            {
-                controller = "Home",
-                action = "Index",
-                name = ""
-            });
+        
 
 
              routes.MapRoute(
@@ -119,9 +111,16 @@ namespace MPC.Webstore
           );
 
             routes.MapRoute(
+              "AsssetsHistory",
+              "ManageAssets/{folderId}/{Searchfolder}/{SelectedTreeID}",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional, folderId = UrlParameter.Optional, Searchfolder = UrlParameter.Optional, SelectedTreeID = UrlParameter.Optional }
+          );
+
+
+            routes.MapRoute(
           "AssetsLoad",
-          "ManageAssets/{folderId}/{Searchfolder}/{SelectedTreeID}",
-          new { controller = "Home", action = "Index", id = UrlParameter.Optional, folderId = UrlParameter.Optional, Searchfolder = UrlParameter.Optional, SelectedTreeID = UrlParameter.Optional }
+          "CloneItemForManageAsset/{AssetId}",
+          new { controller = "ManageAssets", action = "CloneItemForManageAsset", AssetId = UrlParameter.Optional}
       );
 
             routes.MapRoute(
@@ -559,7 +558,15 @@ namespace MPC.Webstore
          "ShopCartAddressSelect/AddDeliveryToOrder/{DeliveryMethodId}",
          new { controller = "ShopCartAddressSelect", action = "AddDeliveryToOrder", DeliveryMethodId = UrlParameter.Optional }
        );
-   
+        routes.MapRoute(
+               "ManageTheAssets"
+             , "ManageAssets"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

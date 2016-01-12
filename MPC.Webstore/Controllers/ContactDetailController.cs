@@ -181,22 +181,7 @@ namespace MPC.Webstore.Controllers
                UpdateContact.quickWebsite = Model.quickWebsite;
                UpdateContact.image = UpdateImage(fuImageUpload, Model);
                UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
-           //    if (MarketAndPromotion.Equals("true"))
-              // {
-               //  UpdateContact.IsEmailSubscription = true;
-               //}
-               //else
-               //{
-               //    UpdateContact.IsEmailSubscription = false;
-               //}
-               //if (NewsLetterSubscription.Equals("true"))
-               //{
-               //    UpdateContact.IsNewsLetterSubscription = true;
-               //}
-               //else
-               //{
-               //    UpdateContact.IsNewsLetterSubscription = false;
-               //}
+         
 
                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                {
