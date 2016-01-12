@@ -1491,6 +1491,7 @@ namespace MPC.Repository.Repositories
                     oContct.image = Instance.image;
                     oContct.IsEmailSubscription = Instance.IsEmailSubscription;
                     oContct.IsNewsLetterSubscription = Instance.IsNewsLetterSubscription;
+                    oContct.HasClippingPath = Instance.HasClippingPath;
                     db.CompanyContacts.Attach(oContct);
 
                     db.Entry(oContct).State = EntityState.Modified;
@@ -1544,7 +1545,7 @@ namespace MPC.Repository.Repositories
                     oContct.AdditionalField3 = Instance.AdditionalField3;
                     oContct.AdditionalField4 = Instance.AdditionalField4;
                     oContct.AdditionalField5 = Instance.AdditionalField5;
-
+                    oContct.HasClippingPath = Instance.HasClippingPath;
                     db.CompanyContacts.Attach(oContct);
 
                     db.Entry(oContct).State = EntityState.Modified;
