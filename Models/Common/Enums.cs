@@ -172,7 +172,8 @@ namespace MPC.Models.Common
     {
         PrintProduct = 1,
         MarketingBrief = 2,
-        NonPrintProduct = 3
+        NonPrintProduct = 3,
+        AssetProduct = 4
 
     }
 
