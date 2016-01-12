@@ -227,9 +227,8 @@
 
             </div>
             <div style="text-align:left;">
-                <button class="basketButton" value="Add to basket" type="submit">Add to basket</button>
+                <a href="/CloneItemForManageAsset/2222"><button id="AddtoBasket" class="basketButton" value="Add to basket" type="submit">Add to basket</button></a>
                 <button class="basketButton" onclick='CloseDownloadPopUp(this)' value="Download" type="submit">Close</button>
-
 
             </div>
             <div class="clearBoth">
@@ -259,6 +258,8 @@
             var removedFiles = [];
             var RemovedID='';
             var SelectedTreeID='@ViewBag.SelectedTreeID';
+            var GlobalImagePAth='';
+
 
             $('#treeDemo').jstree();
          //   this.toggle_node(e.target);
@@ -272,6 +273,17 @@
                
                
             });
+
+            ////$("#AddtoBasket").click(function(){
+               
+            ////    GOForCloneItem(GlobalImagePAth);
+
+
+            ////});
+            ////function GOForCloneItem(ImagePath)
+            ////{
+            ////    window.location.href = "/ManageAssets/CloneItemForManageAsset?AssetId=2222";
+            ////}
 
             function SetTreeState(id)
             {
@@ -1067,23 +1079,23 @@
 
                         if(Extension=='ps')
                         {
-                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
                         }
                         else if(Extension=='a1')
                         {
-                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
                         }
                         else if(Extension=='ind')
                         {
-                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></div>')
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></div>')
                         }
                         else if(Extension=='pdf')
                         {
-                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></div>')
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></div>')
                         }
                         else
                         {
-                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></div>')
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></div>')
                         }
 
                     }
@@ -1210,8 +1222,8 @@
                 } else {
                     return false;
                 }
-                //$(this).parent().remove();
-                //RemovedID+='/'+AssestItemId;
+                
+                RemovedID+='/'+AssestItemId;
 
             }
             function ActionForFolder(FolderId,imagpath)
@@ -1251,6 +1263,7 @@
 
             function ShowDownloadWindow(imagpath, Assetid)
             {
+                GlobalImagePAth=imagpath;
                 var Data = { AssetId: Assetid };
                 $.ajax({
                     type: "GET",
