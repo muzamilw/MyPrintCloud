@@ -17,8 +17,8 @@ using System.Text;
 using Ionic.Zip;
 using Newtonsoft.Json;
 using System.Net;
-using MailChimp.Types;
-using MailChimp;
+//using MailChimp.Types;
+//using MailChimp;
 
 namespace MPC.Implementation.MISServices
 {
@@ -1322,30 +1322,30 @@ namespace MPC.Implementation.MISServices
 
             if (org != null && org.isMailChimpActive == true)
             {
-                string apiKey = org.MailChimpApikey;   // Replace it before
-                string listId = org.MailChimpApiId;                      // Replace it before
+                //string apiKey = org.MailChimpApikey;   // Replace it before
+                //string listId = org.MailChimpApiId;                      // Replace it before
 
-                var options = new List.SubscribeOptions();
-                options.DoubleOptIn = true;
-                options.EmailType = List.EmailType.Html;
-                options.SendWelcome = false;
+                //var options = new List.SubscribeOptions();
+                //options.DoubleOptIn = true;
+                //options.EmailType = List.EmailType.Html;
+                //options.SendWelcome = false;
 
-                var mergeText = new List.Merges(contact.Email, List.EmailType.Text)
-                    {
-                        {"FNAME", contact.FirstName},
-                        {"LNAME", contact.LastName}
-                    };
-                var merges = new List<List.Merges> { mergeText };
+                //var mergeText = new List.Merges(contact.Email, List.EmailType.Text)
+                //    {
+                //        {"FNAME", contact.FirstName},
+                //        {"LNAME", contact.LastName}
+                //    };
+                //var merges = new List<List.Merges> { mergeText };
 
-                var mcApi = new MCApi(apiKey, false);
-                var batchSubscribe = mcApi.ListBatchSubscribe(listId, merges, options);
+                //var mcApi = new MCApi(apiKey, false);
+                //var batchSubscribe = mcApi.ListBatchSubscribe(listId, merges, options);
 
-                if (batchSubscribe.Errors.Count > 0)
-                    return false;
-                else
-                    return true;
+                //if (batchSubscribe.Errors.Count > 0)
+                //    return false;
+                //else
+                //    return true;
 
-               
+                return false;
             }
             else
             {
