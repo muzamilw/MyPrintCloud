@@ -193,10 +193,10 @@
                 <button style="display:none;float:right;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
                 <div class="clearBoth"></div>
             </div>
-            <input style="visibility:hidden;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
+            <input  style="visibility:hidden;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
 
         </div>
-
+        
     </div>
 
     <div class="popupOverlay" style="display:none;">
@@ -207,7 +207,7 @@
                 <h2 id="assetCatNameUser">Category: December Xmas Campaign</h2>
                 <h3 id="assetupdated"></h3>
                 <br />
-                <h2 id="requifiletypes">Select your required filetype(s):</h2>
+                <h2  id="requifiletypes">Select your required filetype(s):</h2>
             </div>
 
             <div class="fileIcons" id="assetFilesUser">
@@ -270,7 +270,7 @@
 
                 SetTreeState(SelectedTreeID);
                
-                //
+               
             });
 
             function SetTreeState(id)
@@ -1055,7 +1055,7 @@
 
                     //   $("#attachmentheading").css("display", "none");
                     //  }
-                    InnerHtml = "<table><tr>";
+                    InnerHtml = "<div>";
                     $.each(GridItems, function (i, IT) {
                         var fullFileUrl=IT.FileUrl;
                         var url=(IT.FileUrl).split("/");
@@ -1067,28 +1067,28 @@
 
                         if(Extension=='ps')
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
                         }
                         else if(Extension=='a1')
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
                         }
                         else if(Extension=='ind')
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></div>')
                         }
                         else if(Extension=='pdf')
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></div>')
                         }
                         else
                         {
-                            InnerHtml = InnerHtml.concat('<td><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></td>')
+                            InnerHtml = InnerHtml.concat('<div><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></div>')
                         }
 
                     }
                     );
-                    InnerHtml += "</table></tr>";
+                    InnerHtml += "</div>";
 
                     $("#assetFilesUser").css("display", "block");
 
@@ -1096,6 +1096,58 @@
                 }
                 else
                 {
+                    //if(GridItems!=''&&GridItems!=null)
+                    //{
+
+                    //    $("#attachmentheading").css("display", "block");
+                    //}
+                    //else
+                    //{
+
+                    //    $("#attachmentheading").css("display", "none");
+                    //}
+                    //InnerHtml = "<table><tr>";
+
+                    //$.each(GridItems, function (i, IT) {
+                    //    var url=(IT.FileUrl).split("/");
+
+                    //    var getExt=(IT.FileUrl).split(".");
+                    //    var Extension=getExt[1];
+
+
+                    //    if(Extension=='ps')
+                    //    {
+                    //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    //    }
+                    //    else if(Extension=='a1')
+                    //    {
+                    //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    //    }
+                    //    else if(Extension=='ind')
+                    //    {
+                    //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    //    }
+                    //    else if(Extension=='pdf')
+                    //    {
+                    //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    //    }
+                    //    else
+                    //    {
+                    //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                    //    }
+
+                    //}
+                    //);
+                    //InnerHtml += "</table></tr>";
+
+                    //$("#GridTable").css("display", "block");
+
+                    //$("#GridTable").html(InnerHtml);
+
+
+
+
+
                     if(GridItems!=''&&GridItems!=null)
                     {
 
@@ -1106,78 +1158,60 @@
 
                         $("#attachmentheading").css("display", "none");
                     }
-                    InnerHtml = "<table><tr>";
+                    InnerHtml = "<div>";
 
                     $.each(GridItems, function (i, IT) {
                         var url=(IT.FileUrl).split("/");
 
                         var getExt=(IT.FileUrl).split(".");
                         var Extension=getExt[1];
-                        //if(i>=4)
-                        //{
-                        //    if(Extension=='ps')
-                        //    {
-                        //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-                        //    }
-                        //    else if(Extension=='a1')
-                        //    {
-                        //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-                        //    }
-                        //    else if(Extension=='ind')
-                        //    {
-                        //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-                        //    }
-                        //    else if(Extension=='pdf')
-                        //    {
-                        //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-                        //    }
-                        //    else
-                        //    {
-                        //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button><i style="font-size: 13px;position: absolute;margin-left: -16px;margin-top: -2px;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-                        //    }
-
-                        //}
-
+                        
 
                         if(Extension=='ps')
                         {
-                            InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                            InnerHtml += '<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>'
                         }
                         else if(Extension=='a1')
                         {
-                            InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                           
+
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                         }
                         else if(Extension=='ind')
                         {
-                            InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                            
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                         }
                         else if(Extension=='pdf')
                         {
-                            InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                           
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                         }
                         else
                         {
-                            InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
+                           
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                         }
 
                     }
                     );
-                    InnerHtml += "</table></tr>";
-
+                    InnerHtml += "</div>";
+                    console.log(InnerHtml);
                     $("#GridTable").css("display", "block");
 
                     $("#GridTable").html(InnerHtml);
+
                 }
             }
             function DeleteItem(AssetID,btndel,AssestItemId)
             {
                 if (typeof(btndel) == "object") {
-                    $(btndel).closest("td").remove();
+                    $(btndel).closest("div").remove();
                 } else {
                     return false;
                 }
-
-                RemovedID+='/'+AssestItemId;
+                //$(this).parent().remove();
+                //RemovedID+='/'+AssestItemId;
 
             }
             function ActionForFolder(FolderId,imagpath)
