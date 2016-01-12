@@ -267,6 +267,7 @@ function fu04_01() {
                   } else if (IT.ObjectType == 12) {
                       if (item.userImage != "") {
                           IT.ContentString = item.userImage;
+                          IT.hasClippingPath = item.isProfileImageClippingPath;
                       }
                       if (item.contactImageHeight != 0 && item.contactImageWidth != 0)
                       {
