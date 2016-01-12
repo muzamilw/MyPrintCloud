@@ -64,7 +64,7 @@
                     <div id="treeDemo">
                         <ul id="tree">
                             <li>
-                                <a href="#">Folders</a>
+                               <a href="#"></a>
                                 @Html.Partial("PartialViews/TreeChildNodes", Tree)
                             </li>
                         </ul>
@@ -159,22 +159,22 @@
             <div class="float_left_simple popUpRightContent">
 
                 <label id="name">Name</label>
-                <input id="FolderName" class="folder_desc_txtarea txtBoxLoginPage" type="text" placeholder="Enter folder name">
+                <input maxlength="500" id="FolderName" class="folder_desc_txtarea txtBoxLoginPage" type="text" placeholder="Enter folder name">
 
                 <label id="Category">Category</label>
                 <select class="folder_desc_txtarea txtBoxLoginPage" id="folderDropDown"></select>
 
                 <label id="Quantity">Quantity</label>
-                <input id="Qty" class="folder_desc_txtarea txtBoxLoginPage" type="text" placeholder="Enter quantity">
+                <input maxlength="150" id="Qty" class="folder_desc_txtarea txtBoxLoginPage" type="text" placeholder="Enter quantity">
                 <label id="Price">Price</label>
-                <input id="price" class="folder_desc_txtarea txtBoxLoginPage" type="number" placeholder="Enter price">
+                <input maxlength="150" id="price" class="folder_desc_txtarea txtBoxLoginPage" type="number" placeholder="Enter price">
 
                 <label id="Descrip">Description</label>
 
-                <textarea placeholder="Description" class="folder_desc_txtarea txtBoxLoginPage" id="FoldDescription" cols="20" rows="4"></textarea>
+                <textarea maxlength="100000" placeholder="Description" class="folder_desc_txtarea txtBoxLoginPage" id="FoldDescription" cols="20" rows="4"></textarea>
 
                 <label id="Keywords">Keywords</label>
-                <textarea placeholder="Enter keywords..." class="folder_desc_txtarea txtBoxLoginPage" id="keywords" cols="20" rows="4"></textarea>
+                <textarea maxlength="100000" placeholder="Enter keywords..." class="folder_desc_txtarea txtBoxLoginPage" id="keywords" cols="20" rows="4"></textarea>
                 <h5 style="display:none;" id="attachmentheading">Your saved files:</h5>
                 <div id="GridTable" style="display:none;"></div>
             </div>
@@ -227,7 +227,7 @@
 
             </div>
             <div style="text-align:left;">
-                <a href="/CloneItemForManageAsset/2222"><button id="AddtoBasket" class="basketButton" value="Add to basket" type="submit">Add to basket</button></a>
+                <a id="basketId" href=""><button id="AddtoBasket" class="basketButton" value="Add to basket" type="submit">Add to basket</button></a>
                 <button class="basketButton" onclick='CloseDownloadPopUp(this)' value="Download" type="submit">Close</button>
 
             </div>
@@ -260,6 +260,7 @@
             var SelectedTreeID='@ViewBag.SelectedTreeID';
             var GlobalImagePAth='';
 
+            var AssetIdd=0;
 
             $('#treeDemo').jstree();
          //   this.toggle_node(e.target);
@@ -268,7 +269,11 @@
                 $("#assetPopupBody").append($("#AddFolderPanel"));
                 document.getElementById("layer").style.display = "none";
                 document.getElementById("innerLayer").style.display = "none";
-
+                $('#treeDemo>ul>li>i').each(function(i, obj) {
+                    
+                    $(this).trigger('click');
+                    
+                });
                 SetTreeState(SelectedTreeID);
                
                
@@ -290,18 +295,15 @@
                
                 if(id!=null&&id!='')
                 {
-                    $('#treeDemo>ul>li>i').each(function(i, obj) {
                     
-                        $(this).trigger('click');
+                    //$('#treeDemo>ul>li>ul>li>i').each(function(i, obj) {
                     
-                    });
-                    $('#treeDemo>ul>li>ul>li>i').each(function(i, obj) {
+                    //    $(this).trigger('click');
                     
-                        $(this).trigger('click');
-                    
-                    });
+                    //});
                     var SelID="#"+id;
-                    $(SelID).css("color", "#1D2F42");
+                    $(SelID).parent().parent().parent().children("i").trigger('click');
+                    $(SelID).css("color", "green");
 
                 }
             }
@@ -1055,6 +1057,7 @@
                 var GridItems = Items;
                 var InnerHtml = "";
 
+
                 if(isdownloadWindow)
                 {
                     //  if(GridItems!=''&&GridItems!=null)
@@ -1181,28 +1184,28 @@
 
                         if(Extension=='ps')
                         {
-                            InnerHtml += '<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>'
+                            InnerHtml += '<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" cursor onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>'
                         }
                         else if(Extension=='a1')
                         {
                            
 
-                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/P1.png"></button><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                         }
                         else if(Extension=='ind')
                         {
                             
-                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/IND.png"></button><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                         }
                         else if(Extension=='pdf')
                         {
-                           
-                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                            
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PDF.png"></button><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                         }
                         else
                         {
                            
-                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                            InnerHtml = InnerHtml.concat('<div class="float_left"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                         }
 
                     }
@@ -1263,7 +1266,10 @@
 
             function ShowDownloadWindow(imagpath, Assetid)
             {
-                GlobalImagePAth=imagpath;
+                AssetIdd=Assetid;
+                var url= "/CloneItemForManageAsset/"+Assetid+"";
+               
+                $("#basketId").attr("href",url);
                 var Data = { AssetId: Assetid };
                 $.ajax({
                     type: "GET",
