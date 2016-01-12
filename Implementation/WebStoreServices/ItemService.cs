@@ -2325,7 +2325,7 @@ namespace MPC.Implementation.WebStoreServices
                 newItem = new Item();
 
                 newItem.ItemId = 0;
-
+                newItem.ProductName = GetAsset.AssetName + " (Asset)";
                 newItem.IsPublished = false;
 
                 newItem.IsEnabled = false;
