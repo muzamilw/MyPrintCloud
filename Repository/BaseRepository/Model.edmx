@@ -656,6 +656,7 @@
           <Property Name="RegistrationDate" Type="datetime" />
           <Property Name="LoginProvider" Type="nvarchar(max)" />
           <Property Name="ProviderKey" Type="nvarchar(max)" />
+          <Property Name="HasClippingPath" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -2804,6 +2805,10 @@
           <Property Name="CreateInvoiceZapTargetUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="IsZapierEnable" Type="bit" />
           <Property Name="DefaultPOTax" Type="float" />
+          <Property Name="MailChimpApikey" Type="nvarchar" MaxLength="255" />
+          <Property Name="MailChimpApiId" Type="nvarchar" MaxLength="255" />
+          <Property Name="isMailChimpActive" Type="bit" />
+          <Property Name="MailChimpListName" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -3671,6 +3676,7 @@
           <Property Name="ThresholdProductionQuantity" Type="int" />
           <Property Name="isAllowBackOrder" Type="bit" />
           <Property Name="IsImperical" Type="bit" />
+          <Property Name="PlateRunLength" Type="int" />
         </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
@@ -8976,6 +8982,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CreateInvoiceZapTargetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsZapierEnable" Type="Boolean" />
           <Property Name="DefaultPOTax" Type="Double" />
+          <Property Name="MailChimpApikey" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MailChimpApiId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isMailChimpActive" Type="Boolean" />
+          <Property Name="MailChimpListName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -9362,6 +9372,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="StockItem" ToRole="ItemSection" />
           <Property Name="IsImperical" Type="Boolean" />
           <NavigationProperty Name="ItemStockUpdateHistories" Relationship="DomainModels.FK_ItemStockUpdateHistory_StockItem" FromRole="StockItem" ToRole="ItemStockUpdateHistory" />
+          <Property Name="PlateRunLength" Type="Int32" />
         </EntityType>
         <Association Name="FK_tbl_stockitems_tbl_stockcategories">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
@@ -9565,6 +9576,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
           <Property Name="LoginProvider" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProviderKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HasClippingPath" Type="Boolean" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -16108,6 +16120,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="MailChimpListName" ColumnName="MailChimpListName" />
+                <ScalarProperty Name="isMailChimpActive" ColumnName="isMailChimpActive" />
+                <ScalarProperty Name="MailChimpApiId" ColumnName="MailChimpApiId" />
+                <ScalarProperty Name="MailChimpApikey" ColumnName="MailChimpApikey" />
                 <ScalarProperty Name="DefaultPOTax" ColumnName="DefaultPOTax" />
                 <ScalarProperty Name="IsZapierEnable" ColumnName="IsZapierEnable" />
                 <ScalarProperty Name="CreateInvoiceZapTargetUrl" ColumnName="CreateInvoiceZapTargetUrl" />
@@ -16353,6 +16369,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="StockItems">
             <EntityTypeMapping TypeName="DomainModels.StockItem">
               <MappingFragment StoreEntitySet="StockItem">
+                <ScalarProperty Name="PlateRunLength" ColumnName="PlateRunLength" />
                 <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="isAllowBackOrder" ColumnName="isAllowBackOrder" />
                 <ScalarProperty Name="ThresholdProductionQuantity" ColumnName="ThresholdProductionQuantity" />
@@ -16474,6 +16491,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="CompanyContacts">
             <EntityTypeMapping TypeName="DomainModels.CompanyContact">
               <MappingFragment StoreEntitySet="CompanyContact">
+                <ScalarProperty Name="HasClippingPath" ColumnName="HasClippingPath" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />

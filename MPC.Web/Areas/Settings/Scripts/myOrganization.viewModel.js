@@ -84,6 +84,7 @@ define("myOrganization/myOrganization.viewModel",
                     isApiDetailVisible = ko.observable(false),
                     isUnleashedApiDetailVisible = ko.observable(false),
                     isZapierlVisible = ko.observable(false),
+                    ismailChimpVisible = ko.observable(false),
                     // for specifice name of screan
                     HeadingName = ko.observable(),
                     // #region Utility Functions
@@ -129,6 +130,11 @@ define("myOrganization/myOrganization.viewModel",
                             HeadingName("Zapier Integration");
                             isZapierlVisible(true);
                         }
+                        else if (page == "mailchimp") {
+                            HeadingName("MailChimp Integration");
+                            ismailChimpVisible(true);
+                        }
+
                         
                         getBase();
                         view.initializeForm();
@@ -793,7 +799,8 @@ define("myOrganization/myOrganization.viewModel",
                     isApiDetailVisible: isApiDetailVisible,
                     isUnleashedApiDetailVisible:isUnleashedApiDetailVisible,
                     isRegionalSettingVisible: isRegionalSettingVisible,
-                    isZapierlVisible:isZapierlVisible,
+                    isZapierlVisible: isZapierlVisible,
+                    ismailChimpVisible: ismailChimpVisible,
                     isLanguageEditorVisible: isLanguageEditorVisible,
 
                     HeadingName: HeadingName,

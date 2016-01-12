@@ -73,6 +73,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             chartOfAccountsInMyOrganization = ko.observableArray([]),
             //Flag for change 
             flagForChanges = ko.observable(),
+
+             mailchimpAPIKey = ko.observable(),
+             mailchimpAPIId = ko.observable(),
+             ismailChimpActive = ko.observable(),
+             mailchimpListName = ko.observable(),
+
             //Language Editor List
             languageEditors = ko.observableArray([]),
              // Errors
@@ -115,6 +121,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  bleedAreaSize: bleedAreaSize,
                  showBleedArea: showBleedArea,
                  agileApiKey: agileApiKey,
+                 mailchimpAPIKey: mailchimpAPIKey,
+                 mailchimpAPIId: mailchimpAPIId ,
+                 ismailChimpActive: ismailChimpActive,
+                 mailchimpListName: mailchimpListName,
                  isAgileApiActive: isAgileApiActive,
                  unleashedApiId: unleashedApiId,
                  unleashedApiKey: unleashedApiKey,
@@ -163,6 +173,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              bleedAreaSize: bleedAreaSize,
              showBleedArea: showBleedArea,
              agileApiKey: agileApiKey,
+             mailchimpAPIKey: mailchimpAPIKey,
+             mailchimpAPIId: mailchimpAPIId,
+             ismailChimpActive: ismailChimpActive,
+             mailchimpListName: mailchimpListName,
              isAgileApiActive: isAgileApiActive,
              unleashedApiId: unleashedApiId,
              unleashedApiKey: unleashedApiKey,
@@ -372,6 +386,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.unleashedApiKey(source.XeroApiKey);
         companySites.isUnleashedApiActive(source.isXeroIntegrationRequired);
         companySites.isZapierActive(source.IsZapierEnable);
+        companySites.mailchimpAPIKey(source.MailChimpApikey);
+        companySites.mailchimpAPIId(source.MailChimpApiId);
+        companySites.ismailChimpActive(source.isMailChimpActive);
+        companySites.mailchimpListName(source.MailChimpListName);
         return companySites;
     };
     //Convert Server To Client
@@ -424,6 +442,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.DefaultPOTax = source.defaultPOTax() === undefined ? null : source.defaultPOTax();
         result.BleedAreaSize = source.bleedAreaSize() === undefined ? null : source.bleedAreaSize();
         result.ShowBleedArea = source.showBleedArea() === undefined ? null : source.showBleedArea();
+        result.MailChimpApikey = source.mailchimpAPIKey() === undefined ? null : source.mailchimpAPIKey();
+        result.MailChimpApiId = source.mailchimpAPIId() === undefined ? null : source.mailchimpAPIId();
+        result.isMailChimpActive = source.ismailChimpActive() === undefined ? null : source.ismailChimpActive();
+        result.MailChimpListName = source.mailchimpListName() === undefined ? null : source.mailchimpListName();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

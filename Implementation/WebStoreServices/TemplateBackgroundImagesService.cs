@@ -870,6 +870,59 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _templateImagesRepository.getPropertyImages(propertyId);
         }
+        // path is relative to Mpc_content, can be called from webstore and mis for profile image
+        public bool generateClippingPath(string path)
+        {
+            bool containsClippingPath = false;
+            try
+            {
+
+                if (System.IO.Path.GetExtension(path).Contains("jpg"))
+                {
+                    string ClippingPath = System.IO.Path.GetFileNameWithoutExtension(path) + "__clip_mpc.png";
+                    string uploadedClippingPath = HttpContext.Current.Server.MapPath(ClippingPath);
+                    using (var reader = new JpegReader(path))
+                    using (var bitmap = reader.Frames[0].GetBitmap())
+                    using (var maskBitmap = new agm.Bitmap(bitmap.Width, bitmap.Height, agm.PixelFormat.Format8bppGrayscale, new agm.GrayscaleColor(0)))
+                    using (var graphics = maskBitmap.GetAdvancedGraphics())
+                    {
+                        try
+                        {
+                            if (reader.ClippingPaths != null && reader.ClippingPaths.Count > 0)
+                            {
+                                containsClippingPath = true;
+                                var graphicsPath = reader.ClippingPaths[0].CreateGraphicsPath(reader.Width, reader.Height);
+
+                                graphics.FillPath(new agmAD.SolidBrush(new agm.GrayscaleColor(255)), Aurigma.GraphicsMill.AdvancedDrawing.Path.Create(graphicsPath));
+
+                                bitmap.Channels.SetAlpha(maskBitmap);
+
+                                bitmap.Save(uploadedClippingPath);
+
+                                string sp = uploadedClippingPath;
+                                //string ext = Path.GetExtension(uploadPath);
+                                string[] results = sp.Split(new string[] { ".png" }, StringSplitOptions.None);
+                                string destPath = results[0] + "_thumb" + ".png";
+                                GenerateThumbNail(sp, destPath, 98);
+                            }
+                            else
+                            {
+                                Console.WriteLine("no path found");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            //  throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // licence expired 
+            }
+            return containsClippingPath;
+        }
         #endregion
     }
    

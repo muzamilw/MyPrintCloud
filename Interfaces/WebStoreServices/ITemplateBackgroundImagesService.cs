@@ -28,5 +28,6 @@ namespace MPC.Interfaces.WebStoreServices
         bool UpdateImgTerritories(long imgID, string territory);
 
         List<RealEstateImage> getPropertyImages(long propertyId);
+        bool generateClippingPath(string path);
     }
 }

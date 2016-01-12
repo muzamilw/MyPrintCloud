@@ -30,6 +30,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         private readonly ICompanyContactRepository _companyContact;
         private readonly IListingService listingService;
         private readonly MPC.Implementation.MISServices.CompanyService myCompanyService;
+        private readonly ITemplateBackgroundImagesService _templateBackgroundImagesService;
         #endregion
         #region Constructor
 
@@ -38,7 +39,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// </summary>
         /// <param name="companyService"></param>
         private readonly IOrderService _orderService;
-        public ContactImageUploaderController(IItemService ItemService, IOrderService _orderService, ICompanyService companyService, IWebstoreClaimsHelperService _webstoreAuthorizationChecker, ICampaignService _campaignService, IUserManagerService _usermanagerService, ICompanyContactRepository _companyContact, IListingService listingService)
+        public ContactImageUploaderController(IItemService ItemService, IOrderService _orderService, ICompanyService companyService, IWebstoreClaimsHelperService _webstoreAuthorizationChecker, ICampaignService _campaignService, IUserManagerService _usermanagerService, ICompanyContactRepository _companyContact, IListingService listingService, ITemplateBackgroundImagesService templateBackgroundImagesService)
         {
             
             this._ItemService = ItemService;
@@ -49,7 +50,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             this._usermanagerService = _usermanagerService;
             this._companyContact = _companyContact;
             this.listingService = listingService;
-           
+            this._templateBackgroundImagesService = templateBackgroundImagesService;
         }
 
         #endregion
@@ -74,6 +75,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 UpdateContact.FAX = FAX;
                 UpdateContact.quickWebsite = quickWebsite;
                 UpdateContact.image = UpdateImage(httpPostedFile);
+                if (!string.IsNullOrEmpty(UpdateContact.image))
+                {
+                   bool isClipGenerated = _templateBackgroundImagesService.generateClippingPath(UpdateContact.image);
+                   if (isClipGenerated) 
+                   {
+                       UpdateContact.HasClippingPath = true;
+                   }
+                }
                 UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
                 UpdateContact.IsEmailSubscription = IsEmailSubscription;
                 UpdateContact.IsNewsLetterSubscription = IsNewsLetterSubscription;
