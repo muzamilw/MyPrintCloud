@@ -169,7 +169,7 @@
 									sel.collapse();
 								} catch (er) { }
 							}
-						}
+						}ss
 					})
 				.on("click.jstree", ".jstree-ocl", $.proxy(function (e) {
 						this.toggle_node(e.target);
@@ -1544,41 +1544,41 @@ Adds checkboxes to the tree.
 
 			if(this.settings.checkbox.three_state) {
 				this.element
-					.on('changed.jstree', $.proxy(function (e, data) {
-							var action = data.action || '',
-								node = false,
-								change = false;
-							switch(action) {
-								case 'select_node':
-									node = data.node.parent();
-									data.node.find('.jstree-anchor:not(.jstree-clicked)').each($.proxy(function (i,v) {
-										change = true;
-										this.select_node(v, true);
-									}, this)).end().find('.jstree-undetermined').removeClass('jstree-undetermined');
-									break;
-								case 'deselect_node':
-									node = data.node.parent();
-									data.node.find('.jstree-clicked').each($.proxy(function (i,v) {
-										change = true;
-										this.deselect_node(v, true);
-									}, this)).end().find('.jstree-undetermined').removeClass('jstree-undetermined');
-									break;
-								case 'deselect_all':
-									this.element.find('.jstree-undetermined').removeClass('jstree-undetermined');
-									break;
-								case 'delete_node':
-									node = data.parent;
-									break;
-								default:
-									break;
-							}
-							if(node && this.check_up(node)) {
-								change = true;
-							}
-							if(change) {
-								this.trigger('changed', { 'action' : 'checkbox_three_state', 'selected' : this._data.core.selected });
-							}
-						}, this))
+					//.on('changed.jstree', $.proxy(function (e, data) {
+					//		var action = data.action || '',
+					//			node = false,
+					//			change = false;
+					//		switch(action) {
+					//			case 'select_node':
+					//				node = data.node.parent();
+					//				data.node.find('.jstree-anchor:not(.jstree-clicked)').each($.proxy(function (i,v) {
+					//					change = true;
+					//					this.select_node(v, true);
+					//				}, this)).end().find('.jstree-undetermined').removeClass('jstree-undetermined');
+					//				break;
+					//			case 'deselect_node':
+					//				node = data.node.parent();
+					//				data.node.find('.jstree-clicked').each($.proxy(function (i,v) {
+					//					change = true;
+					//					this.deselect_node(v, true);
+					//				}, this)).end().find('.jstree-undetermined').removeClass('jstree-undetermined');
+					//				break;
+					//			case 'deselect_all':
+					//				this.element.find('.jstree-undetermined').removeClass('jstree-undetermined');
+					//				break;
+					//			case 'delete_node':
+					//				node = data.parent;
+					//				break;
+					//			default:
+					//				break;
+					//		}
+					//		if(node && this.check_up(node)) {
+					//			change = true;
+					//		}
+					//		if(change) {
+					//			this.trigger('changed', { 'action' : 'checkbox_three_state', 'selected' : this._data.core.selected });
+					//		}
+					//	}, this))
 					.on('move_node.jstree copy_node.jstree', $.proxy(function (e, data) {
 							if(data.old_instance && data.old_instance.check_up && data.old_instance.check_up(data.old_parent)) {
 								data.old_instance.trigger('changed', { 'action' : 'checkbox_three_state', 'selected' : data.old_instance._data.core.selected });

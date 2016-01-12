@@ -120,8 +120,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
           "AssetsLoad",
-          "ManageAssets/{folderId}/{Searchfolder}",
-          new { controller = "Home", action = "Index", id = UrlParameter.Optional, folderId = UrlParameter.Optional, Searchfolder = UrlParameter.Optional }
+          "ManageAssets/{folderId}/{Searchfolder}/{SelectedTreeID}",
+          new { controller = "Home", action = "Index", id = UrlParameter.Optional, folderId = UrlParameter.Optional, Searchfolder = UrlParameter.Optional, SelectedTreeID = UrlParameter.Optional }
       );
 
             routes.MapRoute(
