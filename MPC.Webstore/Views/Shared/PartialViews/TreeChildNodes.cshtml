@@ -8,14 +8,19 @@
         {
             var RedirectUrl="/ManageAssets/"+treeNode.FolderId;
             <li>
-                <a href="@RedirectUrl" class="FolderElements">
+                <a href="@RedirectUrl" id="@treeNode.FolderId" onclick="RedirectToGUrl('@RedirectUrl',@treeNode.FolderId);" class="FolderElements">
+
                     @treeNode.FolderName
                 </a>
                 @if (treeNode.ChildNode.Count > 0)
                 {
                     @Html.Partial("PartialViews/TreeChildNodes", treeNode.ChildNode)
                 }
+                
             </li>
         }
     </ul>
 }
+
+
+

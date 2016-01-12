@@ -22,8 +22,9 @@ namespace MPC.Webstore.Controllers
             this._webclaims = _webclaims;
         }
 
-        public ActionResult Index(string folderId, string Searchfolder)
+        public ActionResult Index(string folderId, string Searchfolder, string SelectedTreeID)
         {
+            ViewBag.SelectedTreeID = folderId;
             if (Searchfolder != null && Searchfolder != string.Empty)
             {
                 Searchfolder = Searchfolder.Replace("___", " ");
@@ -168,6 +169,21 @@ namespace MPC.Webstore.Controllers
                 FilterFolderList = FolderList.Where(i => i.FolderName.Equals(prefixText)).OrderBy(ad => ad.FolderName).ToList();
             }
             return FilterFolderList;
+        }
+
+        public void CloneItemForManageAsset(long AssetId)
+        {
+            // refitemid = assetid 
+            // image,thubnail path = asset path
+            // producttype = 4
+            // create section
+            // set qty = 1
+            // set qty1, qtybase , net total, grosstotal = 0
+            Item NewItem = new Item();
+            NewItem.RefItemId = 0;
+            NewItem.ImagePath = "";
+            NewItem.ThumbnailPath = "";
+        
         }
         //public void BindData(long FolderId)
         //{ 

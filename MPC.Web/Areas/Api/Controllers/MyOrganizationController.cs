@@ -49,7 +49,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public Organisation Get()
         {
-            return myOrganizationService.GetOrganisationDetail().CreateFrom();
+            Organisation org = myOrganizationService.GetOrganisationDetail().CreateFrom();
+
+            return org;
         }
 
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]

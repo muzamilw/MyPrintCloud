@@ -1,0 +1,95 @@
+﻿
+
+<div class="main-box-body clearfix" data-bind="visible: $root.ismailChimpVisible" style="display:none;">
+    <div class="col-md-12 form-horizontal" style="margin-top:25px;padding-left:0px;">
+        <div style="margin-bottom:15px;">
+            <p class="group-header-description"> Configure the MailChimp Credentials</p>
+            <div style="height:20px;">
+                &nbsp;
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-lg-5 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a style="display:none;" class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+
+                    <label for="txtApiKey" class="control-label text-right tooltip-float">
+                        MailChimp API Key
+                    </label>
+
+                </div>
+
+                <div class="col-lg-6">
+                    <input type="text" class="form-control" id="txtApiKey" placeholder="Enter API key" data-bind="value:mailchimpAPIKey">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-5 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a style="display:none;" class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label for="txtApiUrl" class="control-label text-right tooltip-float">
+                        MailChimp Id
+                    </label>
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control" id="txtApiUrl" placeholder="Enter API URL" data-bind="value:mailchimpAPIId">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-5 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your subscribers will see this, so make it something appropriate. Good Example: 'Acme Company Newsletter' Bad Example: 'Cust_11_01_2007'." data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label for="txtApiUrl" class="control-label text-right tooltip-float">
+                        MailChimp List Name
+                    </label>
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control" id="txtApiUrl" placeholder="Enter API URL" data-bind="value:mailchimpListName">
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-lg-5 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a style="display:none;" class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label for="txtApiUrl" class="control-label text-right tooltip-float">
+                        Active
+                    </label>
+                </div>
+                <div class="col-lg-6">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchActiveMailChimp" data-bind="checked:ismailChimpActive">
+                        <label class="onoffswitch-label" for="switchActiveMailChimp">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+          
+
+
+          
+        </div>
+    </div>
+</div>
