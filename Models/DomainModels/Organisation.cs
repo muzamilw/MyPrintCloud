@@ -226,6 +226,15 @@ namespace MPC.Models.DomainModels
         public bool? IsZapierEnable { get; set; }
 
         public double? DefaultPOTax { get; set; }
+
+        public string MailChimpApikey { get; set; }
+
+        public string MailChimpApiId { get; set; }
+
+        public bool? isMailChimpActive { get; set; }
+
+        public string MailChimpListName { get; set; }
+
         #endregion
         
         #region Reference Properties

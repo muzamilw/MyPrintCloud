@@ -9556,3 +9556,27 @@ alter table report add SortOrder varchar(250)
 
 
 alter table report add ReportCode varchar(250) 
+
+--------------------------------------2015-01-05  executed on all servers
+
+ alter table machine add IsDigitalPress bit
+
+
+ -----------------------------------2015-01-12 
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.CompanyContact ADD
+	HasClippingPath bit NULL
+GO
+ALTER TABLE dbo.CompanyContact SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT

@@ -266,6 +266,15 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public bool? ShowBleedArea { get; set; }
 
+
+        public string MailChimpApikey { get; set; }
+
+        public string MailChimpApiId { get; set; }
+
+        public bool? isMailChimpActive { get; set; }
+
+        public string MailChimpListName { get; set; }
+
         /// <summary>
         /// Image Source
         /// </summary>

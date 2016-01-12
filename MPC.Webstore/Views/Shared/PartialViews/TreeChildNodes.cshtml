@@ -8,7 +8,7 @@
         {
             var RedirectUrl="/ManageAssets/"+treeNode.FolderId;
             <li>
-                <a href="@RedirectUrl" onclick="RedirectToGUrl('@RedirectUrl');" class="FolderElements">
+                <a href="@RedirectUrl" id="@treeNode.FolderId" onclick="RedirectToGUrl('@RedirectUrl',@treeNode.FolderId);" class="FolderElements">
 
                     @treeNode.FolderName
                 </a>
