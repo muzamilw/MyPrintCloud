@@ -290,6 +290,11 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.DefaultPOTax = organisation.DefaultPOTax;
             organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
             organisationDbVersion.BleedAreaSize = organisation.BleedAreaSize;
+            organisationDbVersion.MailChimpApikey = organisation.MailChimpApikey;
+            organisationDbVersion.MailChimpApiId = organisation.MailChimpApiId;
+            organisationDbVersion.isMailChimpActive = organisation.isMailChimpActive;
+            organisationDbVersion.MailChimpListName = organisation.MailChimpListName;
+
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;

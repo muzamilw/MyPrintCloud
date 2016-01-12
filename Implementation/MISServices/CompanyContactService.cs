@@ -17,6 +17,8 @@ using System.Text;
 using Ionic.Zip;
 using Newtonsoft.Json;
 using System.Net;
+using MailChimp.Types;
+using MailChimp;
 
 namespace MPC.Implementation.MISServices
 {
@@ -1312,6 +1314,40 @@ namespace MPC.Implementation.MISServices
                 return "Exception caught!!!\n" + e.ToString();
             }
         }
+
+
+        //public bool PostDataToMailChimp(CompanyContact contact, long organisationId = 0)
+        //{
+        //    Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
+
+        //    if (org != null && org.isMailChimpActive == true)
+        //    {
+        //        string apiKey = org.MailChimpApikey;   // Replace it before
+        //        string listId = org.MailChimpApiId;                      // Replace it before
+
+        //        var options = new List.SubscribeOptions();
+        //        options.DoubleOptIn = true;
+        //        options.EmailType = List.EmailType.Html;
+        //        options.SendWelcome = false;
+
+        //        var mergeText = new List.Merges(contact.Email, List.EmailType.Text)
+        //            {
+        //                {"FNAME", "John"},
+        //                {"LNAME", "Smith"}
+        //            };
+        //        var merges = new List<List.Merges> { mergeText };
+
+        //        var mcApi = new MCApi(apiKey, false);
+        //        var batchSubscribe = mcApi.ListBatchSubscribe(listId, merges, options);
+
+        //        if (batchSubscribe.Errors.Count > 0)
+        //            Console.WriteLine("Error:{0}", batchSubscribe.Errors[0].Message);
+        //        else
+        //            Console.WriteLine("Success");
+
+        //        Console.ReadKey();
+        //    }
+        //}
 
     }
 }
