@@ -938,7 +938,7 @@ namespace MPC.Repository.Repositories
         /// <param name="isCorpFlow"></param>
         /// <returns></returns>
         /// UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal,deliveryCompletionTime, deliveryCost, UserCookieManager.StoreMode)
-        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow)
+        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow,CompanyContact Contact)
         {
             bool result = false;
             Estimate tblOrder = null;
@@ -959,8 +959,19 @@ namespace MPC.Repository.Repositories
 
                         tblOrder.DeliveryCompletionTime = deliveryEstimatedCompletionTime;
                         tblOrder.CreationDate = DateTime.Now;
-                        UpdateNewOrderData(tblOrder, deliveryEstimatedCompletionTime, loggedInContactID); // sets end and start delivery data                    
 
+                        // if null then not update address detail
+                        if (Contact != null)
+                        {
+                            tblOrder.AddressId =Convert.ToInt32(Contact.AddressId);
+                            tblOrder.BillingAddressId =Convert.ToInt32(Contact.ShippingAddressId);
+                        }
+
+                         UpdateNewOrderData(tblOrder, deliveryEstimatedCompletionTime, loggedInContactID); // sets end and start delivery data                    
+                       
+                           
+                        
+                        
                         if (db.SaveChanges() > 0)
                         {
                             result = true;

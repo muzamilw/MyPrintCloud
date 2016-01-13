@@ -200,7 +200,6 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
 
                     
-                   
                 }
                 else
                 {
@@ -220,11 +219,11 @@ namespace MPC.Webstore.Controllers
 
                 }
 
-            Item item = _myItemService.CloneItem(UserCookieManager.WEBOrganisationID, UserCookieManager.WEBOrderId, GetAsset);
+            Item item = _myItemService.CloneItem(UserCookieManager.WEBOrganisationID, OrderID, GetAsset);
             if (item.ItemId > 0)
             {
 
-                Response.Redirect("/ShopCart?Orderid=" + UserCookieManager.WEBOrderId + "");
+                Response.Redirect("/ShopCart?Orderid=" + OrderID + "");
             }
         }
         //public void BindData(long FolderId)

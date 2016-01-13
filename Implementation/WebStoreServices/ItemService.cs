@@ -2431,6 +2431,15 @@ namespace MPC.Implementation.WebStoreServices
             return val / (25.4 * 2.834645669);
 
         }
+       public long TotalProductTypeFourItems(long OrderId)
+       {
+           return _ItemRepository.TotalProductTypeFourItems(OrderId);
+       }
+       public long OtherTheTypeFourItems(long OrderId)
+       {
+           return _ItemRepository.OtherTheTypeFourItems(OrderId);
+       }
+
         #region PrivateFunctions
         public T Clone<T>(T source)
         {
