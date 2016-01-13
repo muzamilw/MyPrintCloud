@@ -462,7 +462,7 @@ define("product/product.viewModel",
                     openStockItemDialog = function (stockCategoryId) {
                         stockDialog.show(function (stockItem) {
                             selectedProduct().onSelectStockItem(stockItem);
-                        }, stockCategoryId, false);
+                        }, stockCategoryId, true);
                     },
                     // Search Press Items
                     searchPressItems = function () {

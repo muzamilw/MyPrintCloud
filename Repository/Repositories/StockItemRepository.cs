@@ -148,7 +148,8 @@ namespace MPC.Repository.Repositories
             bool isImperical = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(c => c.IsImperical ?? false).FirstOrDefault();
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-
+            if (request.CategoryId != 1 && request.PaperType.HasValue)
+                request.PaperType = null;
            
             Expression<Func<StockItem, bool>> query = null;
             if(request.SubCategoryId > 0)
@@ -156,7 +157,7 @@ namespace MPC.Repository.Repositories
                  query =
               stockItem =>
                   (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
-                  (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && ((!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId) && request.CategoryId == 1) && (!request.PaperType.HasValue || request.PaperType == stockItem.PaperType) &&
+                  (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId) && (!request.PaperType.HasValue || request.PaperType == stockItem.PaperType) &&
                   stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
             }
             else
@@ -164,7 +165,7 @@ namespace MPC.Repository.Repositories
                 query =
               stockItem =>
                   (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
-                  (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && ((!request.PaperType.HasValue || request.PaperType == stockItem.PaperType) && request.CategoryId == 1) &&
+                  (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && (!request.PaperType.HasValue || request.PaperType == stockItem.PaperType) &&
                   stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
 
             }

@@ -9571,6 +9571,7 @@ alter table report add ReportCode varchar(250)
 
   alter table StockItem add PlateRunLength int
 
+ -----------------------------------2015-01-12 executed on europe
 BEGIN TRANSACTION
 SET QUOTED_IDENTIFIER ON
 SET ARITHABORT ON
@@ -9586,6 +9587,25 @@ ALTER TABLE dbo.CompanyContact ADD
 	HasClippingPath bit NULL
 GO
 ALTER TABLE dbo.CompanyContact SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+ -----------------------------------2015-01-13 
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.ItemAddonCostCentre ADD
+	IsSelectedOnLoad bit NULL
+GO
+ALTER TABLE dbo.ItemAddonCostCentre SET (LOCK_ESCALATION = TABLE)
 GO
 COMMIT
 

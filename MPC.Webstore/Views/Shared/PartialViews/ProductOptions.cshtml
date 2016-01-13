@@ -2295,19 +2295,31 @@
 
 @*<script>
 
-    window.onload = function () {ExecuteCustomCostCentersOnPageLoad();}
+    window.onload = function () {
+        if(window.location.href.toLowerCase().indexOf("modify") == -1){
+            ExecuteCustomCostCentersOnPageLoad();
+        }
+
+    }
 
     function ExecuteCustomCostCentersOnPageLoad() {
         var ItemstockOptionID = $('input:radio[class=' + $('input:radio[name=StockPaper]:checked').attr('class') + ']').attr("data-Id");
-        console.log("outer st: " +ItemstockOptionID);
+
         $(".extra_item").each(function(i, val) {
 
             if($(this).parent().attr('data-stockid') == ItemstockOptionID){
 
-                if($(this).children().next().text().toLowerCase().indexOf("custom") > -1){
+                if($(this).children().next().text().toLowerCase().indexOf("custom") > -1
+                    || $(this).children().next().text().toLowerCase().indexOf("concealed") > -1
+                    || $(this).children().next().text().toLowerCase().indexOf("pin mount") > -1
+                    || $(this).children().next().text().toLowerCase().indexOf("flush mount") > -1
+                    || $(this).children().next().text().toLowerCase().indexOf("acrylic stand") > -1){
                     $(this).children().click();
                 }
             }
         });
     }
+
 </script>*@
+
+

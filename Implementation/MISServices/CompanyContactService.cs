@@ -17,8 +17,10 @@ using System.Text;
 using Ionic.Zip;
 using Newtonsoft.Json;
 using System.Net;
-using MailChimp.Types;
 using MailChimp;
+using MailChimp.Types;
+//using MailChimp.Types;
+//using MailChimp;
 
 namespace MPC.Implementation.MISServices
 {
@@ -1328,7 +1330,6 @@ namespace MPC.Implementation.MISServices
                 string apiKey = org.MailChimpApikey;   // Replace it before
                 string listId = org.MailChimpApiId;                      // Replace it before
                 // testing
-
                 var mcApi = new MCApi(apiKey, true);
                 var merges = new List.Merges();
                 merges.Add("FNAME", contact.FirstName);
@@ -1339,6 +1340,7 @@ namespace MPC.Implementation.MISServices
                 subscriptionOptions.DoubleOptIn = false;
                 subscriptionOptions.SendWelcome = true;
                 return mcApi.ListSubscribe(listId, contact.Email, merges, subscriptionOptions);
+              
             }
             else
             {

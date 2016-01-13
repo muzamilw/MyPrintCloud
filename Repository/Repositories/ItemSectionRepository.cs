@@ -64,7 +64,7 @@ namespace MPC.Repository.Repositories
         }
         public CostCentre GetCostCenterBySystemType(int systemType)
         {
-            return db.CostCentres.Where(c => c.SystemTypeId == systemType && c.SystemSiteId == 1 && c.OrganisationId == this.OrganisationId).FirstOrDefault();
+            return db.CostCentres.FirstOrDefault(c => c.SystemTypeId == systemType && c.SystemSiteId == 1 && c.OrganisationId == this.OrganisationId);
         }
         public StockItem GetStockById(long StockItemId)
         {

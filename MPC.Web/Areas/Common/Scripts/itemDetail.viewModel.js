@@ -584,7 +584,7 @@ define("common/itemDetail.viewModel",
                     openStockItemDialog = function() {
                         stockDialog.show(function(stockItem) {
                             selectedSection().selectStock(stockItem);
-                        }, stockCategory.paper, false, currencySymbol(), selectedOrder().taxRate(), selectedSection().printingTypeUi());
+                        }, stockCategory.paper, true, currencySymbol(), selectedOrder().taxRate(), selectedSection().printingTypeUi());
                     },
                     //Section Cost Center Dialog
                     openSectionCostCenterDialog = function(costCenter, qty) {
@@ -676,7 +676,7 @@ define("common/itemDetail.viewModel",
                             if (selectedSection().printingTypeUi() === '2') {
                                 return;
                             }
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // Work n Turn
@@ -727,7 +727,7 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
 
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // Section Width
@@ -740,7 +740,7 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
 
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // On Select Item Size
@@ -841,13 +841,28 @@ define("common/itemDetail.viewModel",
                             selectedSection().passesSide1(press.passes);
                             // Update Section Ink Coverage
                             selectedSection().sectionInkCoverageList.removeAll(selectedSection().sectionInkCoveragesSide1());
-                            for (var i = 0; i < press.colourHeads; i++) {
-                                selectedSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
-                                    SectionId: selectedSection().id(),
-                                    Side: 1,
-                                    InkOrder: i + 1
-                                }));
+                            if (press.inkCoverages.length > 0) {
+                                selectedSection().pressIdSide1ColourHeads(press.inkCoverages.length || 0);
+                                var iCounter = 0;
+                                _.each(press.inkCoverages, function (item) {
+                                    iCounter++;
+                                    selectedSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
+                                        SectionId: selectedSection().id(),
+                                        Side: 1,
+                                        InkOrder: iCounter,
+                                        InkId: item.SideInkOrder
+                                    }));
+                                });
+                            } else {
+                                for (var i = 0; i < press.colourHeads; i++) {
+                                    selectedSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
+                                        SectionId: selectedSection().id(),
+                                        Side: 1,
+                                        InkOrder: i + 1
+                                    }));
+                                }
                             }
+                            
                             getSectionSystemCostCenters();
                         });
 
@@ -867,13 +882,29 @@ define("common/itemDetail.viewModel",
                             selectedSection().passesSide2(press.passes);
                             // Update Section Ink Coverage
                             selectedSection().sectionInkCoverageList.removeAll(selectedSection().sectionInkCoveragesSide2());
-                            for (var i = 0; i < press.colourHeads; i++) {
-                                selectedSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
-                                    SectionId: selectedSection().id(),
-                                    Side: 2,
-                                    InkOrder: i + 1
-                                }));
+                            
+                            if (press.inkCoverages.length > 0) {
+                                selectedSection().pressIdSide2ColourHeads(press.inkCoverages.length || 0);
+                                var iCounter = 0;
+                                _.each(press.inkCoverages, function (item) {
+                                    iCounter++;
+                                    selectedSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
+                                        SectionId: selectedSection().id(),
+                                        Side: 2,
+                                        InkOrder: iCounter,
+                                        InkId: item.SideInkOrder
+                                    }));
+                                });
+                            } else {
+                                for (var i = 0; i < press.colourHeads; i++) {
+                                    selectedSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
+                                        SectionId: selectedSection().id(),
+                                        Side: 2,
+                                        InkOrder: i + 1
+                                    }));
+                                }
                             }
+                          
                             getSectionSystemCostCenters();
                         });
 
