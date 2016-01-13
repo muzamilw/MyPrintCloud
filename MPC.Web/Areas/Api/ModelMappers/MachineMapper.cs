@@ -226,7 +226,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ColourHeads = source.ColourHeads,
                 IsSpotColor = source.IsSpotColor,
                 Passes = source.Passes,
-                isSheetFed = source.isSheetFed
+                isSheetFed = source.isSheetFed,
+                MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(ic => ic.CreateFrom()) : null
             };
         }
         #endregion
