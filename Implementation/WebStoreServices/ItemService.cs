@@ -193,6 +193,11 @@ namespace MPC.Implementation.WebStoreServices
 
                 newItem.TemplateType = ActualItem.TemplateType;
 
+                if(PdfTemplateheight > 0 && PdfTemplatewidth > 0)
+                {
+                    newItem.ProductName = ActualItem.ProductName + "(" + PdfTemplatewidth + " x + " + PdfTemplateheight + ")";
+                }
+
                 if (isSetTemplateIdToNull == true)
                 {
                     if (isUploadDesignMode == true)
@@ -328,16 +333,18 @@ namespace MPC.Implementation.WebStoreServices
                            
                             if (clonedTemplate.CuttingMargin > 0)
                             {
-                                UpdatedPDFTemplateWidth += clonedTemplate.CuttingMargin ?? 0;
-                                UpdatedPDFTemplateHeight += clonedTemplate.CuttingMargin ?? 0;
+                                double cMrgn = clonedTemplate.CuttingMargin ?? 0;
+                                cMrgn = cMrgn * 2;
+
+                                UpdatedPDFTemplateWidth += cMrgn;
+                                UpdatedPDFTemplateHeight += cMrgn;
                             }
                             else
                             {
-                                double tempCuttingMargin=28.3465;
-                                UpdatedPDFTemplateWidth += tempCuttingMargin;
-                                UpdatedPDFTemplateHeight += tempCuttingMargin;
+                                UpdatedPDFTemplateWidth += 28.3465;
+                                UpdatedPDFTemplateHeight += 28.3465;
                             }
-                            clonedTemplate.PDFTemplateWidth = UpdatedPDFTemplateWidth;
+                            clonedTemplate.PDFTemplateWidth = UpdatedPDFTemplateWidth ;
                             clonedTemplate.PDFTemplateHeight = UpdatedPDFTemplateHeight;
                         }
                        
@@ -363,8 +370,8 @@ namespace MPC.Implementation.WebStoreServices
                            List<TemplatePage> listOfTemPages = _TemplatePageRepository.GetTemplatePages(clonedTemplate.ProductId);
                            foreach (TemplatePage pg in listOfTemPages) 
                            {
-                               pg.Height =UpdatedPDFTemplateHeight;
-                               pg.Width = UpdatedPDFTemplateWidth;
+                               pg.Height = UpdatedPDFTemplateHeight;
+                               pg.Width =  UpdatedPDFTemplateWidth;
                            }
                             _TemplatePageRepository.SaveChanges();
                         }
