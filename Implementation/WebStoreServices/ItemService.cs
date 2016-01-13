@@ -252,8 +252,8 @@ namespace MPC.Implementation.WebStoreServices
                     
                     if (PdfTemplateheight > 0)
                     {
-                        
                         tblItemSectionCloned.SectionSizeHeight = PdfTemplateheight * (ActualItem.Scalar ?? 1);
+
                     }
                     if (PdfTemplatewidth > 0)
                     {
@@ -325,6 +325,18 @@ namespace MPC.Implementation.WebStoreServices
                                 UpdatedPDFTemplateWidth = InchtoPoint(PdfTemplatewidth);
                             }
 
+                           
+                            if (clonedTemplate.CuttingMargin > 0)
+                            {
+                                UpdatedPDFTemplateWidth += clonedTemplate.CuttingMargin ?? 0;
+                                UpdatedPDFTemplateHeight += clonedTemplate.CuttingMargin ?? 0;
+                            }
+                            else
+                            {
+                                double tempCuttingMargin=28.3465;
+                                UpdatedPDFTemplateWidth += tempCuttingMargin;
+                                UpdatedPDFTemplateHeight += tempCuttingMargin;
+                            }
                             clonedTemplate.PDFTemplateWidth = UpdatedPDFTemplateWidth;
                             clonedTemplate.PDFTemplateHeight = UpdatedPDFTemplateHeight;
                         }
@@ -2152,7 +2164,6 @@ namespace MPC.Implementation.WebStoreServices
                         ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
                     }
                     CompanyID = TemporaryRetailCompanyId;
-
                 }
                 else
                 {
