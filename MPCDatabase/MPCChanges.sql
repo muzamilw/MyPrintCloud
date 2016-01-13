@@ -9561,8 +9561,16 @@ alter table report add ReportCode varchar(250)
 
  alter table machine add IsDigitalPress bit
 
+   alter table Organisation add MailChimpApiId nvarchar(255)
 
- -----------------------------------2015-01-12 
+ alter table Organisation add MailChimpApikey nvarchar(255)
+
+ alter table Organisation add isMailChimpActive bit
+
+ alter table Organisation add MailChimpListName nvarchar(500)
+
+  alter table StockItem add PlateRunLength int
+
 BEGIN TRANSACTION
 SET QUOTED_IDENTIFIER ON
 SET ARITHABORT ON
@@ -9580,3 +9588,5 @@ GO
 ALTER TABLE dbo.CompanyContact SET (LOCK_ESCALATION = TABLE)
 GO
 COMMIT
+
+ -----------------------------------2015-01-12  executed on usa server

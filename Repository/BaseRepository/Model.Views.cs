@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsA1159A89AAC311D3389133E3F80D810D8538B6CE784754C56252C138C93383EB))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets8A1529C1C19FE59C81309762EF0C4360C8F7340AE30F3893F865EBCEED69FE98))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsA1159A89AAC311D3389133E3F80D810D8538B6CE784754C56252C138C93383EB : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets8A1529C1C19FE59C81309762EF0C4360C8F7340AE30F3893F865EBCEED69FE98 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsA1159A89AAC311D3389133E3F80D810D8538B6CE784754C56252C138C93383EB()
+        public ViewsForBaseEntitySets8A1529C1C19FE59C81309762EF0C4360C8F7340AE30F3893F865EBCEED69FE98()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "207cd96fd8285c4af224e9659eb7c80f5d142b4bc61925848e442f86d4ba1e12";
-            this.HashOverAllExtentViews = "7eba29e6ed1aa4612859f8b317d98c70c4a3d3ab831523ba81eb8ba19b71b512";
+            this.HashOverMappingClosure = "d609aa55275a970460f084cb955341da2923cbf137b1aedf9966e891e5bd0a95";
+            this.HashOverAllExtentViews = "dcfd1822f117e66cb9ba0b05059d4ab2242fe01ba8ab3bd9575d898aa30ce9e5";
             this.ViewCount = 366;
         }
         
@@ -4127,7 +4127,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemAddonCostCentre", @"
     SELECT VALUE -- Constructing ItemAddonCostCentre
-        [DomainModels.Store.ItemAddonCostCentre](T1.ItemAddonCostCentre_ProductAddOnId, T1.ItemAddonCostCentre_ItemStockOptionId, T1.ItemAddonCostCentre_CostCentreId, T1.ItemAddonCostCentre_DiscountPercentage, T1.ItemAddonCostCentre_IsDiscounted, T1.ItemAddonCostCentre_Sequence, T1.ItemAddonCostCentre_IsMandatory)
+        [DomainModels.Store.ItemAddonCostCentre](T1.ItemAddonCostCentre_ProductAddOnId, T1.ItemAddonCostCentre_ItemStockOptionId, T1.ItemAddonCostCentre_CostCentreId, T1.ItemAddonCostCentre_DiscountPercentage, T1.ItemAddonCostCentre_IsDiscounted, T1.ItemAddonCostCentre_Sequence, T1.ItemAddonCostCentre_IsMandatory, T1.ItemAddonCostCentre_IsSelectedOnLoad)
     FROM (
         SELECT 
             T.ProductAddOnId AS ItemAddonCostCentre_ProductAddOnId, 
@@ -4137,6 +4137,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.IsDiscounted AS ItemAddonCostCentre_IsDiscounted, 
             T.Sequence AS ItemAddonCostCentre_Sequence, 
             T.IsMandatory AS ItemAddonCostCentre_IsMandatory, 
+            T.IsSelectedOnLoad AS ItemAddonCostCentre_IsSelectedOnLoad, 
             True AS _from0
         FROM BaseDbContext.ItemAddonCostCentres AS T
     ) AS T1");
@@ -8502,7 +8503,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemAddonCostCentres", @"
     SELECT VALUE -- Constructing ItemAddonCostCentres
-        [DomainModels.ItemAddonCostCentre](T1.ItemAddonCostCentre_ProductAddOnId, T1.ItemAddonCostCentre_ItemStockOptionId, T1.ItemAddonCostCentre_CostCentreId, T1.ItemAddonCostCentre_DiscountPercentage, T1.ItemAddonCostCentre_IsDiscounted, T1.ItemAddonCostCentre_Sequence, T1.ItemAddonCostCentre_IsMandatory)
+        [DomainModels.ItemAddonCostCentre](T1.ItemAddonCostCentre_ProductAddOnId, T1.ItemAddonCostCentre_ItemStockOptionId, T1.ItemAddonCostCentre_CostCentreId, T1.ItemAddonCostCentre_DiscountPercentage, T1.ItemAddonCostCentre_IsDiscounted, T1.ItemAddonCostCentre_Sequence, T1.ItemAddonCostCentre_IsMandatory, T1.ItemAddonCostCentre_IsSelectedOnLoad)
     FROM (
         SELECT 
             T.ProductAddOnId AS ItemAddonCostCentre_ProductAddOnId, 
@@ -8512,6 +8513,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.IsDiscounted AS ItemAddonCostCentre_IsDiscounted, 
             T.Sequence AS ItemAddonCostCentre_Sequence, 
             T.IsMandatory AS ItemAddonCostCentre_IsMandatory, 
+            T.IsSelectedOnLoad AS ItemAddonCostCentre_IsSelectedOnLoad, 
             True AS _from0
         FROM DomainModelsStoreContainer.ItemAddonCostCentre AS T
     ) AS T1");
