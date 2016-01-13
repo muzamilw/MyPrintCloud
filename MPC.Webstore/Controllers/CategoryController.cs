@@ -400,8 +400,21 @@ namespace MPC.Webstore.Controllers
                 List<TemplatePage> templatespages = _IItemService.GetTemplatePagesByItemId(cloneObject.ItemId);
                 if (templatespages != null && templatespages.Count > 0)
                 {
+                    double cuttingMargin = _myCompanyService.GetTemplateCuttingMargin(ItemId);
+                    if (cuttingMargin > 0)
+                    {
+                        UpdatedPDFTemplateHeight += cuttingMargin;
+                        UpdatedPDFTemplateWidth += cuttingMargin;
+                    }
+                    else {
+                        double tempCuttingMargin = 28.3465;
+                        UpdatedPDFTemplateHeight += tempCuttingMargin;
+                        UpdatedPDFTemplateWidth += tempCuttingMargin;
+                    }
+
                     _templatePageService.CreateBlankBackgroundPDFsByPages(templatespages.FirstOrDefault().ProductId ?? 0, UpdatedPDFTemplateHeight, UpdatedPDFTemplateWidth, 1, templatespages, UserCookieManager.WEBOrganisationID);
                 }
+
                 UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
 
                 UserCookieManager.WEBOrderId = cloneObject.OrderId;

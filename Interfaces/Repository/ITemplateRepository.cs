@@ -9,6 +9,7 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ITemplateRepository : IBaseRepository<Template, int>
     {
+        double GetTemplateCuttingMargin(long ProductId);
         bool UpdateTemplatePdfDimensions(Template Template);
         int DeleteTemplate(long templateId);
 
