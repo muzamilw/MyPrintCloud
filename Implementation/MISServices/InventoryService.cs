@@ -308,6 +308,7 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.isAllowBackOrder = stockItem.isAllowBackOrder;
             stockItemDbVersion.ThresholdLevel = stockItem.ThresholdLevel;
             stockItemDbVersion.inStock = stockItem.inStock;
+            stockItemDbVersion.PlateRunLength = stockItem.PlateRunLength;
 
             UpdateItemStockUpdateHistories(stockItem, stockItemDbVersion);
             UpdateStockCostAndPrice(stockItem, stockItemDbVersion);

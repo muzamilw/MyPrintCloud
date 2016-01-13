@@ -68,8 +68,9 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            var savedContact = companyContactService.Save(companyContact.Createfrom()).CreateFrom();
+            CompanyContact savedContact = companyContactService.Save(companyContact.Createfrom()).CreateFrom();
             companyContactService.PostDataToZapier(savedContact.ContactId);
+            
             return savedContact;
         }
 

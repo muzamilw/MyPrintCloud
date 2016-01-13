@@ -420,7 +420,9 @@ namespace MPC.Implementation.MISServices
                             dblPrintRun[i] = (dblPressPass * intWorkSheetQty[i]);
                             dblPrintPrice[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice) * dblCoverageMultiple )+ oPressDTO.SetupCharge);
                         }
-
+                        oItemSection.PressSpeed1 = Convert.ToInt32(dblPrintRun[0]);
+                        oItemSection.PressSpeed2 = Convert.ToInt32(dblPrintRun[1]);
+                        oItemSection.PressSpeed3 = Convert.ToInt32(dblPrintRun[2]);
 
                         if (PressReRunMode == (int)PressReRunModes.NotReRun)
                         {
@@ -2574,7 +2576,7 @@ namespace MPC.Implementation.MISServices
             double dblPlateUnitCost = 0;
             double dblPlateUnitPrice = 0;
             double dblPlateCost = 0;
-            double dblPlatePrice = 0;
+            double[] dblPlatePrice = new double[3];
             double dblPlateProcessingtCost = 0;
             double dblPlateProcessingPrice = 0;
 
@@ -2582,7 +2584,40 @@ namespace MPC.Implementation.MISServices
             CostCentre oPlateCostCentreDTO = itemsectionRepository.GetCostCenterBySystemType((int)SystemCostCenterTypes.Plate);
             double dblItemProcessingCharge = 0;
             //int PlatesQty = (oItemSection.Side1PlateQty > 0 ? (int)oItemSection.Side1PlateQty : 0) + (oItemSection.Side2PlateQty > 0 ? (int)oItemSection.Side2PlateQty : 0); //Commented when code changed for both sides calculation seperately
-            int PlatesQty = isSide1 ? oItemSection.Side1PlateQty ?? 0 : oItemSection.Side2PlateQty ?? 0;
+            int[] platesQty = new int[3];
+            double[] dblPrintRun = new double[3];
+
+            dblPrintRun[0] = oItemSection.PrintSheetQty1 ?? 0;
+            dblPrintRun[1] = oItemSection.PrintSheetQty2 ?? 0;
+            dblPrintRun[2] = oItemSection.PrintSheetQty3 ?? 0;
+            if (dblPrintRun[0] > (oPlateDTO.PlateRunLength ?? 0))
+            {
+                var plates = (dblPrintRun[0]/oPlateDTO.PlateRunLength ?? 1);
+                platesQty[0] = Convert.ToInt32(plates + oItemSection.NoofUniqueInks ?? 0);
+            }
+            else
+            {
+                platesQty[0] = oItemSection.NoofUniqueInks ?? 0;
+            }
+            if (dblPrintRun[1] > (oPlateDTO.PlateRunLength ?? 0))
+            {
+                var plates = (dblPrintRun[1] / oPlateDTO.PlateRunLength ?? 1);
+                platesQty[1] = Convert.ToInt32(plates + oItemSection.NoofUniqueInks ?? 0);
+            }
+            else
+            {
+                platesQty[1] = oItemSection.NoofUniqueInks ?? 0;
+            }
+            if (dblPrintRun[2] > (oPlateDTO.PlateRunLength ?? 0))
+            {
+                var plates = (dblPrintRun[2] / oPlateDTO.PlateRunLength ?? 1);
+                platesQty[2] = Convert.ToInt32(plates + oItemSection.NoofUniqueInks ?? 0);
+            }
+            else
+            {
+                platesQty[2] = oItemSection.NoofUniqueInks ?? 0;
+            }
+           // int PlatesQty = isSide1 ? oItemSection.Side1PlateQty ?? 0 : oItemSection.Side2PlateQty ?? 0;
             if (oItemSection.IsPlateUsed != false && oItemSection.IsPlateSupplied == false)
             {
                 int PlateID = Convert.ToInt32(oItemSection.PlateId);
@@ -2600,17 +2635,19 @@ namespace MPC.Implementation.MISServices
 
                 dblItemProcessingCharge = oPlateDTO.ItemProcessingCharge > 0 ? Convert.ToDouble(oPlateDTO.ItemProcessingCharge) : 0;
 
-                dblPlateCost = PlatesQty > 0 ? PlatesQty * (dblPlateUnitCost + dblPlateProcessingtCost) : 0;
+                dblPlateCost = platesQty[0] > 0 ? platesQty[0] * (dblPlateUnitCost + dblPlateProcessingtCost) : 0;
                 dblPlateUnitCost += dblPlateProcessingtCost;
 
-                dblPlatePrice = PlatesQty > 0 ? PlatesQty * (dblPlateUnitPrice + dblPlateProcessingPrice) : 0;
+                dblPlatePrice[0] = platesQty[0] > 0 ? platesQty[0] * (dblPlateUnitPrice + dblPlateProcessingPrice) : 0;
+                dblPlatePrice[1] = platesQty[1] > 0 ? platesQty[1] * (dblPlateUnitPrice + dblPlateProcessingPrice) : 0;
+                dblPlatePrice[2] = platesQty[2] > 0 ? platesQty[2] * (dblPlateUnitPrice + dblPlateProcessingPrice) : 0;
                 dblPlateUnitPrice += dblPlateProcessingPrice;
             }
             else
             {
                 dblPlateCost = 0;
                 dblPlateUnitCost = 0;
-                dblPlatePrice = 0;
+                dblPlatePrice[0] = 0;
                 dblPlateUnitPrice = 0;
             }
 
@@ -2659,9 +2696,9 @@ namespace MPC.Implementation.MISServices
                 }
             }
 
-            oItemSectionCostCenter.Qty1Charge = dblPlatePrice;
+            oItemSectionCostCenter.Qty1Charge = dblPlatePrice[0];
 
-            if (oItemSectionCostCenter.Qty1Charge < oPlateCostCentreDTO.MinimumCost && PlatesQty > 0)
+            if (oItemSectionCostCenter.Qty1Charge < oPlateCostCentreDTO.MinimumCost && platesQty[0] > 0)
             {
                 oItemSectionCostCenter.Qty1Charge = oPlateCostCentreDTO.MinimumCost;
                 sMinimumCost = "1";
@@ -2682,16 +2719,16 @@ namespace MPC.Implementation.MISServices
             if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsdefaultPlateUsed == true)
             {
                 if (Convert.ToBoolean(oItemSection.IsPlateSupplied) == false)
-                    oItemSectionCostCenter.Qty1WorkInstructions = "Plate Qty:= " + PlatesQty + Environment.NewLine + "Plate Supplied:= No";
+                    oItemSectionCostCenter.Qty1WorkInstructions = "Plate Qty:= " + platesQty[0] + Environment.NewLine + "Plate Supplied:= No";
                 else
-                    oItemSectionCostCenter.Qty1WorkInstructions = "Plate Qty:= " + PlatesQty + Environment.NewLine + "Plate Supplied:= Yes";
+                    oItemSectionCostCenter.Qty1WorkInstructions = "Plate Qty:= " + platesQty[0] + Environment.NewLine + "Plate Supplied:= Yes";
             }
 
             if (oItemSection.Qty2 > 0)
             {
-                oItemSectionCostCenter.Qty2Charge = dblPlatePrice;
+                oItemSectionCostCenter.Qty2Charge = dblPlatePrice[1];
 
-                if (oItemSectionCostCenter.Qty2Charge < oPlateCostCentreDTO.MinimumCost & PlatesQty > 0)
+                if (oItemSectionCostCenter.Qty2Charge < oPlateCostCentreDTO.MinimumCost & platesQty[1] > 0)
                 {
                     oItemSectionCostCenter.Qty2Charge = oPlateCostCentreDTO.MinimumCost;
                     sMinimumCost += "1";
@@ -2708,17 +2745,17 @@ namespace MPC.Implementation.MISServices
                 if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsdefaultPlateUsed == true)
                 {
                     if (Convert.ToBoolean(oItemSection.IsPlateSupplied) == false)
-                        oItemSectionCostCenter.Qty2WorkInstructions = "Plate Qty:= " + PlatesQty + Environment.NewLine + "Plate Supplied:= No";
+                        oItemSectionCostCenter.Qty2WorkInstructions = "Plate Qty:= " + platesQty[1] + Environment.NewLine + "Plate Supplied:= No";
                     else
-                        oItemSectionCostCenter.Qty2WorkInstructions = "Plate Qty:= " + PlatesQty + Environment.NewLine + "Plate Supplied:= Yes";
+                        oItemSectionCostCenter.Qty2WorkInstructions = "Plate Qty:= " + platesQty[1] + Environment.NewLine + "Plate Supplied:= Yes";
                 }
 
             }
             if (oItemSection.Qty3 > 0)
             {
-                oItemSectionCostCenter.Qty3Charge = dblPlatePrice;
+                oItemSectionCostCenter.Qty3Charge = dblPlatePrice[2];
 
-                if (oItemSectionCostCenter.Qty3Charge < oPlateCostCentreDTO.MinimumCost & PlatesQty > 0)
+                if (oItemSectionCostCenter.Qty3Charge < oPlateCostCentreDTO.MinimumCost & platesQty[2] > 0)
                 {
                     oItemSectionCostCenter.Qty3Charge = oPlateCostCentreDTO.MinimumCost;
                     sMinimumCost += "1";
@@ -2734,9 +2771,9 @@ namespace MPC.Implementation.MISServices
                 if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsdefaultPlateUsed == true)
                 {
                     if (Convert.ToBoolean(oItemSection.IsPlateSupplied) == false)
-                        oItemSectionCostCenter.Qty3WorkInstructions = "Plate Qty:= " + PlatesQty + Environment.NewLine + "Plate Supplied:= No";
+                        oItemSectionCostCenter.Qty3WorkInstructions = "Plate Qty:= " + platesQty[2] + Environment.NewLine + "Plate Supplied:= No";
                     else
-                        oItemSectionCostCenter.Qty3WorkInstructions = "Plate Qty:= " + PlatesQty + Environment.NewLine + "Plate Supplied:= Yes";
+                        oItemSectionCostCenter.Qty3WorkInstructions = "Plate Qty:= " + platesQty[2] + Environment.NewLine + "Plate Supplied:= Yes";
                 }
 
             }
@@ -2753,11 +2790,11 @@ namespace MPC.Implementation.MISServices
 
             if (oItemSection.Qty1 > 0)
             {
-                oItemSectionCostCenterDetail.Qty1 = Convert.ToDouble(PlatesQty);
+                oItemSectionCostCenterDetail.Qty1 = Convert.ToDouble(platesQty[0]);
                 if (oItemSection.Qty2 > 0)
-                    oItemSectionCostCenterDetail.Qty2 = Convert.ToDouble(PlatesQty);
+                    oItemSectionCostCenterDetail.Qty2 = Convert.ToDouble(platesQty[1]);
                 if (oItemSection.Qty3 > 0)
-                    oItemSectionCostCenterDetail.Qty3 = Convert.ToDouble(PlatesQty);
+                    oItemSectionCostCenterDetail.Qty3 = Convert.ToDouble(platesQty[2]);
 
             }
             else
@@ -6582,11 +6619,13 @@ namespace MPC.Implementation.MISServices
                     updatedSection.PrintViewLayout = 1;
                 updatedSection = CalculatePaperCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false);
             }
+            //***********************Side 1 Calculation *************
             if (pressSide1.isplateused != null && pressSide1.isplateused != false)//Plates
             {
-                if (updatedSection.IsPlateSupplied == null)
-                    updatedSection.IsPlateSupplied = false;
-                updatedSection.Side1PlateQty = pressSide1.ColourHeads;
+                int uniqueInks =
+                    pressSide1.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
+                updatedSection.IsPlateSupplied = false;
+                updatedSection.NoofUniqueInks = uniqueInks;
                 updatedSection.PlateId = pressSide1.DefaultPlateId;
                 updatedSection = CalculatePlateCost(updatedSection, false, false, true);
             }
@@ -6611,14 +6650,19 @@ namespace MPC.Implementation.MISServices
                 updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
                // updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
+            
+            //***********************Side 1 Calculation Ends*************
 
             if (updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true && (updatedSection.PrintingType != null && updatedSection.PrintingType == (int)PrintingTypeEnum.SheetFed))
             {
+
+                int uniqueInks =
+                    pressSide2.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
+                updatedSection.NoofUniqueInks = uniqueInks;
+
                 if (pressSide2.isplateused != null && pressSide2.isplateused != false)//Plates
                 {
-                    if (updatedSection.IsPlateSupplied == null)
-                        updatedSection.IsPlateSupplied = false;
-                    updatedSection.Side2PlateQty = pressSide2.ColourHeads;
+                    updatedSection.IsPlateSupplied = false;
                     updatedSection.PlateId = pressSide1.DefaultPlateId;
                     updatedSection = CalculatePlateCost(updatedSection, false, false, false);
                 }
@@ -6632,10 +6676,22 @@ namespace MPC.Implementation.MISServices
                     updatedSection.WashupQty = pressSide2.ColourHeads;
                     updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
                 }
+
                 
+                if (updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
+                {
+                    if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)
+                    {
+                        updatedSection = CalculatePressCostWebPress(updatedSection, pressSide2, false, false, PressReRunModes.NotReRun, 1, 0, true);
+                    }
+                    else
+                    {
+                        updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, false, true);  
+                    }
+                }
+                    
+
                 
-                if(updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
-                    updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, false, true);
             }
 
             if (updatedSection.IsSecondTrim == true)
