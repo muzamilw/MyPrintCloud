@@ -13,6 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        double GetTemplateCuttingMargin(long ProductId);
         string AssetItemFilePath(long AssetItemId);
         void RemoveAssetItem(long AssetID);
         List<AssetItem> GetAssetItemsByAssetID(long AssetID);

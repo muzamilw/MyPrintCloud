@@ -193,6 +193,11 @@ namespace MPC.Implementation.WebStoreServices
 
                 newItem.TemplateType = ActualItem.TemplateType;
 
+                if(PdfTemplateheight > 0 && PdfTemplatewidth > 0)
+                {
+                    newItem.ProductName = ActualItem.ProductName + "(" + PdfTemplatewidth + " x + " + PdfTemplateheight + ")";
+                }
+
                 if (isSetTemplateIdToNull == true)
                 {
                     if (isUploadDesignMode == true)
@@ -252,8 +257,8 @@ namespace MPC.Implementation.WebStoreServices
                     
                     if (PdfTemplateheight > 0)
                     {
-                        
                         tblItemSectionCloned.SectionSizeHeight = PdfTemplateheight * (ActualItem.Scalar ?? 1);
+
                     }
                     if (PdfTemplatewidth > 0)
                     {
@@ -325,7 +330,21 @@ namespace MPC.Implementation.WebStoreServices
                                 UpdatedPDFTemplateWidth = InchtoPoint(PdfTemplatewidth);
                             }
 
-                            clonedTemplate.PDFTemplateWidth = UpdatedPDFTemplateWidth;
+                           
+                            if (clonedTemplate.CuttingMargin > 0)
+                            {
+                                double cMrgn = clonedTemplate.CuttingMargin ?? 0;
+                                cMrgn = cMrgn * 2;
+
+                                UpdatedPDFTemplateWidth += cMrgn;
+                                UpdatedPDFTemplateHeight += cMrgn;
+                            }
+                            else
+                            {
+                                UpdatedPDFTemplateWidth += 28.3465;
+                                UpdatedPDFTemplateHeight += 28.3465;
+                            }
+                            clonedTemplate.PDFTemplateWidth = UpdatedPDFTemplateWidth ;
                             clonedTemplate.PDFTemplateHeight = UpdatedPDFTemplateHeight;
                         }
                        
@@ -351,8 +370,8 @@ namespace MPC.Implementation.WebStoreServices
                            List<TemplatePage> listOfTemPages = _TemplatePageRepository.GetTemplatePages(clonedTemplate.ProductId);
                            foreach (TemplatePage pg in listOfTemPages) 
                            {
-                               pg.Height =UpdatedPDFTemplateHeight;
-                               pg.Width = UpdatedPDFTemplateWidth;
+                               pg.Height = UpdatedPDFTemplateHeight;
+                               pg.Width =  UpdatedPDFTemplateWidth;
                            }
                             _TemplatePageRepository.SaveChanges();
                         }
@@ -2152,7 +2171,6 @@ namespace MPC.Implementation.WebStoreServices
                         ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
                     }
                     CompanyID = TemporaryRetailCompanyId;
-
                 }
                 else
                 {
@@ -2296,7 +2314,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-        public Item CloneItem(long Organisation, long OrderID,Asset GetAsset)
+        public Item CloneItem(long Organisation, long OrderID,Asset GetAsset,string ImagePAth)
         {
             // refitemid = assetid 
             // image,thubnail path = asset path
@@ -2306,8 +2324,11 @@ namespace MPC.Implementation.WebStoreServices
             // set qty1, qtybase , net total, grosstotal = 0
             // status = 3
 
+            string ImagePath = GetAsset.ImagePath;
+            string[] path = ImagePath.Split('/');
 
-
+            string properPath = path[1] + "/" + path[2] + "/" + path[3] + "/" + path[4] + "/" + path[5] + "/" + path[6] + "/" + path[7];
+            
             try
             {
                 ItemSection tblItemSectionCloned = new ItemSection();
@@ -2325,14 +2346,16 @@ namespace MPC.Implementation.WebStoreServices
                 newItem = new Item();
 
                 newItem.ItemId = 0;
-
+                newItem.ProductName = GetAsset.AssetName + " (Asset)";
                 newItem.IsPublished = false;
 
                 newItem.IsEnabled = false;
 
                 newItem.EstimateId = OrderID;
-                newItem.ImagePath = GetAsset.ImagePath;
-                newItem.ThumbnailPath = GetAsset.ImagePath;
+
+
+                newItem.ImagePath = properPath;
+                newItem.ThumbnailPath = properPath;
 
                 newItem.StatusId = (short)ItemStatuses.ShoppingCart; //tblStatuses.StatusID; //shopping cart
 
@@ -2431,6 +2454,18 @@ namespace MPC.Implementation.WebStoreServices
             return val / (25.4 * 2.834645669);
 
         }
+       public long TotalProductTypeFourItems(long OrderId)
+       {
+           return _ItemRepository.TotalProductTypeFourItems(OrderId);
+       }
+       public long OtherTheTypeFourItems(long OrderId)
+       {
+           return _ItemRepository.OtherTheTypeFourItems(OrderId);
+       }
+       public bool typeFourItemsStatus(long OrderID)
+       {
+           return _ItemRepository.typeFourItemsStatus(OrderID);
+       }
         #region PrivateFunctions
         public T Clone<T>(T source)
         {

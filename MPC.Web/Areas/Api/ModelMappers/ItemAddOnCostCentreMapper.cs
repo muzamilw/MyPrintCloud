@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsMandatory = source.IsMandatory,
                 CostCentreId = source.CostCentreId,
                 Sequence = source.Sequence,
+                IsSelectedOnLoad = source.IsSelectedOnLoad
             };
 
             if (source.CostCentre == null)
@@ -63,7 +64,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemStockOptionId = source.ItemStockOptionId,
                 IsMandatory = source.IsMandatory,
                 CostCentreId = source.CostCentreId,
-                Sequence = source.Sequence
+                Sequence = source.Sequence,
+                IsSelectedOnLoad = source.IsSelectedOnLoad
+
             };
         }
 

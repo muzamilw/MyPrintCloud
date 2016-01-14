@@ -9561,8 +9561,17 @@ alter table report add ReportCode varchar(250)
 
  alter table machine add IsDigitalPress bit
 
+   alter table Organisation add MailChimpApiId nvarchar(255)
 
- -----------------------------------2015-01-12 
+ alter table Organisation add MailChimpApikey nvarchar(255)
+
+ alter table Organisation add isMailChimpActive bit
+
+ alter table Organisation add MailChimpListName nvarchar(500)
+
+  alter table StockItem add PlateRunLength int
+
+ -----------------------------------2015-01-12 executed on europe
 BEGIN TRANSACTION
 SET QUOTED_IDENTIFIER ON
 SET ARITHABORT ON
@@ -9580,3 +9589,24 @@ GO
 ALTER TABLE dbo.CompanyContact SET (LOCK_ESCALATION = TABLE)
 GO
 COMMIT
+
+ -----------------------------------2015-01-13 
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.ItemAddonCostCentre ADD
+	IsSelectedOnLoad bit NULL
+GO
+ALTER TABLE dbo.ItemAddonCostCentre SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+ -----------------------------------2015-01-12  executed on usa server

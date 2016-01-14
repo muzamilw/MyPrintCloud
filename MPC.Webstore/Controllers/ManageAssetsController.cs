@@ -189,6 +189,7 @@ namespace MPC.Webstore.Controllers
             // set qty = 1
             // set qty1, qtybase , net total, grosstotal = 0
             // status = 3
+
             long OrderID = 0;
             long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
 
@@ -197,9 +198,6 @@ namespace MPC.Webstore.Controllers
                     OrderID = _orderService.ProcessPublicUserOrder(string.Empty, UserCookieManager.WEBOrganisationID, (StoreMode)UserCookieManager.WEBStoreMode, _webclaims.loginContactCompanyID(), _webclaims.loginContactID(), ref TemporaryRetailCompanyId);
                     UserCookieManager.WEBOrderId = OrderID;
                     UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-
-                    
-                   
                 }
                 else
                 {
@@ -215,15 +213,15 @@ namespace MPC.Webstore.Controllers
                         // clone aset
                        //  _myItemService.CloneItem()
                     }
-                    
 
                 }
 
-            Item item = _myItemService.CloneItem(UserCookieManager.WEBOrganisationID, UserCookieManager.WEBOrderId, GetAsset);
+            Item item = _myItemService.CloneItem(UserCookieManager.WEBOrganisationID, OrderID, GetAsset, string.Empty);
+
             if (item.ItemId > 0)
             {
 
-                Response.Redirect("/ShopCart?Orderid=" + UserCookieManager.WEBOrderId + "");
+                Response.Redirect("/ShopCart?Orderid=" + OrderID + "");
             }
         }
         //public void BindData(long FolderId)

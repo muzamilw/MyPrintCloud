@@ -1484,6 +1484,7 @@
           <Property Name="IsDiscounted" Type="bit" />
           <Property Name="Sequence" Type="int" />
           <Property Name="IsMandatory" Type="bit" />
+          <Property Name="IsSelectedOnLoad" Type="bit" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -11606,6 +11607,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsMandatory" Type="Boolean" />
           <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="ItemAddonCostCentre" ToRole="CostCentre" />
           <NavigationProperty Name="ItemStockOption" Relationship="DomainModels.FK_ItemAddonCostCentre_ItemStockOption" FromRole="ItemAddonCostCentre" ToRole="ItemStockOption" />
+          <Property Name="IsSelectedOnLoad" Type="Boolean" />
         </EntityType>
         <EntityType Name="ItemVideo">
           <Key>
@@ -18089,6 +18091,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="ItemAddonCostCentres">
             <EntityTypeMapping TypeName="DomainModels.ItemAddonCostCentre">
               <MappingFragment StoreEntitySet="ItemAddonCostCentre">
+                <ScalarProperty Name="IsSelectedOnLoad" ColumnName="IsSelectedOnLoad" />
                 <ScalarProperty Name="IsMandatory" ColumnName="IsMandatory" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="IsDiscounted" ColumnName="IsDiscounted" />

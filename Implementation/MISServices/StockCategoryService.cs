@@ -46,8 +46,10 @@ namespace MPC.Implementation.MISServices
 
         public StockCategory Update(StockCategory stockCategory)
         {
-            stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
+            //stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
             var stockDbVersion = stockCategoryRepository.getStockCategoryByCategoryId(stockCategory.CategoryId);
+            stockCategory.OrganisationId = stockDbVersion.OrganisationId;
+
             #region Sub Stock Categories Items
             //Add  SubStockCategories 
             if (stockCategory.StockSubCategories != null)

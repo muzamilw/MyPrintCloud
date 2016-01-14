@@ -17,6 +17,8 @@ using System.Text;
 using Ionic.Zip;
 using Newtonsoft.Json;
 using System.Net;
+using MailChimp;
+using MailChimp.Types;
 //using MailChimp.Types;
 //using MailChimp;
 
@@ -196,6 +198,9 @@ namespace MPC.Implementation.MISServices
                     contact = Create(companyContact);
                     //contactToReturn = companyContactRepository.GetContactByContactId(contact.ContactId);
                     //companyContactRepository.LoadProperty(contactToReturn, () => contactToReturn.Company);
+                    // post data to mail chimp
+                    if (contact != null)
+                        PostDataToMailChimp(contact.ContactId);
                     return contact;
                 }
                 contact = Update(companyContact);
@@ -1316,41 +1321,32 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public bool PostDataToMailChimp(CompanyContact contact, long organisationId = 0)
+        public bool PostDataToMailChimp(long ContactId, long organisationId = 0)
         {
             Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
-
+            CompanyContact contact = companyContactRepository.GetContactByID(ContactId);
             if (org != null && org.isMailChimpActive == true)
             {
-                //string apiKey = org.MailChimpApikey;   // Replace it before
-                //string listId = org.MailChimpApiId;                      // Replace it before
+                string apiKey = org.MailChimpApikey;   // Replace it before
+                string listId = org.MailChimpApiId;                      // Replace it before
+                // testing
+                var mcApi = new MCApi(apiKey, true);
+                var merges = new List.Merges();
+                merges.Add("FNAME", contact.FirstName);
+                merges.Add("LNAME", contact.LastName);
 
-                //var options = new List.SubscribeOptions();
-                //options.DoubleOptIn = true;
-                //options.EmailType = List.EmailType.Html;
-                //options.SendWelcome = false;
-
-                //var mergeText = new List.Merges(contact.Email, List.EmailType.Text)
-                //    {
-                //        {"FNAME", contact.FirstName},
-                //        {"LNAME", contact.LastName}
-                //    };
-                //var merges = new List<List.Merges> { mergeText };
-
-                //var mcApi = new MCApi(apiKey, false);
-                //var batchSubscribe = mcApi.ListBatchSubscribe(listId, merges, options);
-
-                //if (batchSubscribe.Errors.Count > 0)
-                //    return false;
-                //else
-                //    return true;
-
-                return false;
+                var subscriptionOptions = new List.SubscribeOptions();
+                subscriptionOptions.UpdateExisting = true;
+                subscriptionOptions.DoubleOptIn = false;
+                subscriptionOptions.SendWelcome = true;
+                return mcApi.ListSubscribe(listId, contact.Email, merges, subscriptionOptions);
+              
             }
             else
             {
                 return false;
             }
+           
         }
 
     }

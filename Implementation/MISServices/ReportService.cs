@@ -153,9 +153,19 @@ namespace MPC.Implementation.MISServices
                                 {
                                     
 
-                                    if(!string.IsNullOrEmpty(DateFrom) && !string.IsNullOrEmpty(DateTo))
+                                    if(DateFrom != "undefined" && DateTo != "undefined")
                                     {
                                         CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + DateFrom + "' and '" + DateTo + "'";
+                                        //CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " >= '" +  DateFrom + "' and " + param.ComboIDFieldName + " <= '" + DateTo + "'";
+                                    }
+                                    else if(DateFrom != "undefined" &&  DateTo == "undefined")
+                                    {
+                                        DateTo = Convert.ToString(DateTime.Now);
+                                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + DateFrom + "' and '" + DateTo + "'";
+                                    }
+                                    else if(DateFrom != "undefined" &&  DateTo == "undefined")
+                                    {
+                                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName +  " <= '" + DateTo + "'";
                                     }
                                    
 

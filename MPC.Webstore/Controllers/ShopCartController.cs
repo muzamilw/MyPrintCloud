@@ -227,163 +227,214 @@ namespace MPC.Webstore.Controllers
             ShoppingCart shopCart = null;
             if (IsCallFrom == "Checkout")// to redirect add select page if login successfull
             {
-                bool result = false;
+                //bool IsAllItemtypefour = false;
 
-                long sOrderID = 0;
-                string voucherCode = string.Empty;
-                int deliverCostCenterID = 0;
-                double deliveryCost = 0;
-                string deliveryCompletionTime = string.Empty;
-                int DeliveryTime = 0;//Standard is seven
-                bool hasWebAccess;
-                bool IsPlaceOrder = _myCompanyService.canContactPlaceOrder(_myClaimHelper.loginContactID(), out hasWebAccess);
-                double grandOrderTotal = 0;
-                string DeliveryName = null;
+                //ShoppingCart shopCartobj = _OrderService.GetShopCartOrderAndDetails(Convert.ToInt64(OrderID), OrderStatus.ShoppingCart);
+                //int i = 0;
+                //foreach (var item in shopCartobj.CartItemsList)
+                //{
 
-                if (!string.IsNullOrEmpty(OrderID))
-                {
-                    sOrderID = Convert.ToInt32(OrderID);
-                }
+                //    if(item.ProductType == 4)
+                //    {
+                //        IsAllItemtypefour = true;
+                //    }
+                //    else{
+                //        i++;
+                //    }
+                //}
+                  // long TypeFourItems = _ItemService.TotalProductTypeFourItems(Convert.ToInt64(OrderID));
+                  // long NotTypeFourItems = _ItemService.OtherTheTypeFourItems(Convert.ToInt64(OrderID));
 
-                if (_myClaimHelper.isUserLoggedIn())
-                {
-                    string total = Request.Form["hfGrandTotal"].ToString();
-                    if (!string.IsNullOrEmpty(total))
+
+                    bool result = false;
+
+                    long sOrderID = 0;
+                    string voucherCode = string.Empty;
+                    int deliverCostCenterID = 0;
+                    double deliveryCost = 0;
+                    string deliveryCompletionTime = string.Empty;
+                    int DeliveryTime = 0;//Standard is seven
+                    bool hasWebAccess;
+                    bool IsPlaceOrder = _myCompanyService.canContactPlaceOrder(_myClaimHelper.loginContactID(), out hasWebAccess);
+                    double grandOrderTotal = 0;
+                    string DeliveryName = null;
+
+                    if (!string.IsNullOrEmpty(OrderID))
                     {
-                        grandOrderTotal = Convert.ToDouble(total);
+                        sOrderID = Convert.ToInt32(OrderID);
                     }
 
-
-
-                    deliveryCompletionTime = Request.Form["numberOfDaysAddedTodelivery"];
-
-                    if (!string.IsNullOrEmpty(deliveryCompletionTime))
+                    if (_myClaimHelper.isUserLoggedIn())
                     {
-                        DeliveryTime = 0;
-                    }
-
-
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                    {
-                        result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp);
-                    }
-                    else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-                    {
-                        result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Retail);
-                    }
-
-
-                    if (result)
-                    {
-                        StoreBaseResopnse = null;
-
-                        Response.Redirect("/ShopCartAddressSelect/" + sOrderID);
-                        return null;
-                    }
-                    else
-                    {
-
-                        return null;
-                    }
-                }
-                else
-                {
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                    {
-                        ValidateOrderForCorporateLogin(sOrderID, IsPlaceOrder, StoreBaseResopnse, hasWebAccess); // rediret user to the corp login page.
-                    }
-
-                    StoreBaseResopnse = null;
-                    Response.Redirect("/Login");
-                    return null;
-                }
-            }
-            else
-            {
-                if (IsCallFrom == "RemoveVoucherCode")
-                {
-                    long FreeShippingVoucherId = 0;
-                    _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, false, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
-                    _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(Convert.ToInt64(OrderID), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), ref FreeShippingVoucherId);
-                    if (FreeShippingVoucherId > 0)
-                    {
-                        UserCookieManager.FreeShippingVoucherId = FreeShippingVoucherId;
-                    }
-                    else
-                    {
-                        FreeShippingVoucherId = _ItemService.IsStoreHaveFreeShippingDiscountVoucher(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID,Convert.ToInt64(OrderID));
-                        if (FreeShippingVoucherId == 0)
+                        string total = Request.Form["hfGrandTotal"].ToString();
+                        if (!string.IsNullOrEmpty(total))
                         {
-                            UserCookieManager.FreeShippingVoucherId = 0;
-                            _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                            grandOrderTotal = Convert.ToDouble(total);
+                        }
+
+
+
+                        deliveryCompletionTime = Request.Form["numberOfDaysAddedTodelivery"];
+
+                        if (!string.IsNullOrEmpty(deliveryCompletionTime))
+                        {
+                            DeliveryTime = 0;
+                        }
+
+                        // if cart has items with product type other than 4 then do not make any change and redirect to address select page
+                        //if cart has only asset item then get login user record update billing and shipping address in estimate and redriret to order confirmation
+
+                        CompanyContact LoginContact=_myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (_ItemService.typeFourItemsStatus(Convert.ToInt64(OrderID)) == false)
+                            {
+                               result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp,null);
+                            }
+                            else
+                            {
+                                result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp, LoginContact);
+                            }
+                        }
+                        else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                        {
+                            if (_ItemService.typeFourItemsStatus(Convert.ToInt64(OrderID)) == false)
+                            {
+                            result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Retail,LoginContact);
+                            }
+                            else
+                            {
+                                result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Retail, LoginContact);
+                            }
+                            
+                        }
+
+
+                        if (result)
+                        {
+                            StoreBaseResopnse = null;
+                            if (_ItemService.typeFourItemsStatus(Convert.ToInt64(OrderID)) == false)
+                            {
+                                Response.Redirect("/ShopCartAddressSelect/" + sOrderID);
+                                return null;
+                            }
+                            else
+                            {
+                                Response.Redirect("/OrderConfirmation/" + sOrderID);
+                                return null;
+                            }
                         }
                         else
                         {
-                            UserCookieManager.FreeShippingVoucherId = FreeShippingVoucherId;
-                            ApplyVoucherOnDeliveryItem(Convert.ToInt64(OrderID), FreeShippingVoucherId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+
+                            return null;
                         }
+
+                    }
+                    else
+                    {
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            ValidateOrderForCorporateLogin(sOrderID, IsPlaceOrder, StoreBaseResopnse, hasWebAccess); // rediret user to the corp login page.
+                        }
+
+                        StoreBaseResopnse = null;
+                        Response.Redirect("/Login");
+                        return null;
                     }
                 }
-                else if (IsCallFrom == "RemoveDeliveryVoucherCode")
-                {
-                    _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
-                    Estimate order = _OrderService.GetOrderByID(Convert.ToInt64(OrderID));
-                    order.DiscountVoucherID = null;
-                    order.VoucherDiscountRate = null;
-                    _OrderService.SaveOrUpdateOrder();
-                    UserCookieManager.FreeShippingVoucherId = 0;
-
-                }
+                
+            
+                
                 else
                 {
-                    CopyProduct(Convert.ToInt64(ItemID), Convert.ToInt64(OrderID));
-                }
+                    if (IsCallFrom == "RemoveVoucherCode")
+                    {
+                        long FreeShippingVoucherId = 0;
+                        _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, false, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                        _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(Convert.ToInt64(OrderID), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), ref FreeShippingVoucherId);
+                        if (FreeShippingVoucherId > 0)
+                        {
+                            UserCookieManager.FreeShippingVoucherId = FreeShippingVoucherId;
+                        }
+                        else
+                        {
+                            FreeShippingVoucherId = _ItemService.IsStoreHaveFreeShippingDiscountVoucher(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToInt64(OrderID));
+                            if (FreeShippingVoucherId == 0)
+                            {
+                                UserCookieManager.FreeShippingVoucherId = 0;
+                                _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                            }
+                            else
+                            {
+                                UserCookieManager.FreeShippingVoucherId = FreeShippingVoucherId;
+                                ApplyVoucherOnDeliveryItem(Convert.ToInt64(OrderID), FreeShippingVoucherId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            }
+                        }
+                    }
+                    else if (IsCallFrom == "RemoveDeliveryVoucherCode")
+                    {
+                        _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                        Estimate order = _OrderService.GetOrderByID(Convert.ToInt64(OrderID));
+                        order.DiscountVoucherID = null;
+                        order.VoucherDiscountRate = null;
+                        _OrderService.SaveOrUpdateOrder();
+                        UserCookieManager.FreeShippingVoucherId = 0;
 
-                if (StoreBaseResopnse.Company.IsDisplayDiscountVoucherCode == true)
-                {
-                    ViewBag.DisableCouponCode = 0;
-                }
-                else 
-                {
-                    ViewBag.DisableCouponCode = 1;
-                }
-                if (StoreBaseResopnse.Company.ShowPrices ?? true)
-                {
-                    ViewBag.IsShowPrices = true;
+                    }
+                    else
+                    {
+                        CopyProduct(Convert.ToInt64(ItemID), Convert.ToInt64(OrderID));
+                    }
 
-                }
-                else
-                {
-                    ViewBag.IsShowPrices = false;
+                    if (StoreBaseResopnse.Company.IsDisplayDiscountVoucherCode == true)
+                    {
+                        ViewBag.DisableCouponCode = 0;
+                    }
+                    else
+                    {
+                        ViewBag.DisableCouponCode = 1;
+                    }
+                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
+                    {
+                        ViewBag.IsShowPrices = true;
 
-                }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
 
-                if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
-                {
-                    ViewBag.isIncludeVAT = false;
-                }
-                else
-                {
-                    ViewBag.isIncludeVAT = true;
-                }
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && UserCookieManager.CanPlaceOrder == false)
-                {
-                    ViewBag.CanPlaceOrder = 0;
-                }
-                else
-                {
-                    ViewBag.CanPlaceOrder = 1;
-                }
-                shopCart = LoadShoppingCart(Convert.ToInt64(OrderID));
+                    }
 
-                BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false, Convert.ToInt64(OrderID));
-                if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
-                    SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
+                    if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
+                    {
+                        ViewBag.isIncludeVAT = false;
+                    }
+                    else
+                    {
+                        ViewBag.isIncludeVAT = true;
+                    }
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && UserCookieManager.CanPlaceOrder == false)
+                    {
+                        ViewBag.CanPlaceOrder = 0;
+                    }
+                    else
+                    {
+                        ViewBag.CanPlaceOrder = 1;
+                    }
+                    shopCart = LoadShoppingCart(Convert.ToInt64(OrderID));
 
-                ViewBag.OrderID = OrderID;
-                ViewBag.Currency = StoreBaseResopnse.Currency;
-                StoreBaseResopnse = null;
-                return View("PartialViews/ShopCart", shopCart);
+                    BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false, Convert.ToInt64(OrderID));
+                    if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
+                        SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
+
+                    ViewBag.OrderID = OrderID;
+                    ViewBag.Currency = StoreBaseResopnse.Currency;
+                    StoreBaseResopnse = null;
+                
+                    return View("PartialViews/ShopCart", shopCart);
+                
+                
             }
         }
         private ShoppingCart LoadShoppingCart(long orderID)

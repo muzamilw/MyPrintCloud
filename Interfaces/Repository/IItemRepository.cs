@@ -17,6 +17,10 @@ namespace MPC.Interfaces.Repository
         /// Get Items With Details
         /// </summary>
         /// 
+        bool typeFourItemsStatus(long OrderID);
+        long TotalProductTypeFourItems(long OrderId);
+        long OtherTheTypeFourItems(long OrderId);
+       
         GetCategoryProduct GetPublishedProductByItemID(int itemID);
         List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
         int GetSavedDesignCountByContactId(long ContactID);

@@ -175,12 +175,22 @@
 
 
                         
-
-
-                         DateFrom = moment(ParamDateFrom()).format(ist.dateTimeWithSeconds);
-                         DateTo = moment(ParamDateTo()).format(ist.dateTimeWithSeconds);
-
-
+                         if (ParamDateFrom() != undefined)
+                         {
+                             DateFrom = moment(ParamDateFrom()).format(ist.datePatternUs);
+                         }
+                         else
+                         {
+                             DateFrom = undefined;
+                         }
+                         if (ParamDateTo() != undefined)
+                         {
+                             DateTo = moment(ParamDateTo()).format(ist.datePatternUs);
+                         }
+                         else
+                         {
+                             DateTo = undefined;
+                         }
 
 
                          if (outputTo() == "preview") {

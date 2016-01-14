@@ -53,5 +53,7 @@ namespace MPC.Interfaces.MISServices
 
         string AddAgileCrmContact(string email, string fullname, string Company, string phone, string region, string domain);
 
+        bool PostDataToMailChimp(long ContactId, long organisationId = 0);
+
     }
 }

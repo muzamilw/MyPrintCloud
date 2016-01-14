@@ -12,11 +12,15 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IItemService
     {
+        bool typeFourItemsStatus(long OrderID);
          double MMToPoint(double val);
          double PointToMM(double val);
          double InchtoPoint(double val);
           double PointToInch(double val);
-         Item CloneItem(long Organisation, long OrderID,Asset GetAsset);
+        long TotalProductTypeFourItems(long OrderId);
+        long OtherTheTypeFourItems(long OrderId);
+
+        Item CloneItem(long Organisation, long OrderID, Asset GetAsset, string ImagePAth);
         GetCategoryProduct GetPublishedProductByItemID(int itemID);
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
         Item GetItemById(long ItemId);

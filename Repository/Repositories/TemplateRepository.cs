@@ -1048,6 +1048,15 @@ namespace MPC.Repository.Repositories
              return result;
         }
 
+        public double GetTemplateCuttingMargin(long ProductId)
+        {
+            Item item = db.Items.Where(i => i.ItemId == ProductId).FirstOrDefault();
+            return db.Templates.Where(i => i.ProductId == item.TemplateId).FirstOrDefault().CuttingMargin ?? 0;
+        
+        }
+
+
+
     #endregion
      
        
