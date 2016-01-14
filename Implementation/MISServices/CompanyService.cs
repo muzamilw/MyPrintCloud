@@ -1014,7 +1014,9 @@ namespace MPC.Implementation.MISServices
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
+            
             companyRepository.SaveChanges();
+            
             //Save Files
             SaveSpriteImage(companySavingModel.Company);
            // SaveCompanyCss(companySavingModel.Company);

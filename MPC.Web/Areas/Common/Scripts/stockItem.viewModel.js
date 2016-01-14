@@ -68,20 +68,25 @@ define("common/stockItem.viewModel",
                         view.showDialog();
                         companyTaxRate = companyTaxRateParam;
                         paperType = paperTypeParam;
-                        if (stockCategoryId) {
-                            // reset field
-                            isPageLoaded(false);
-                            stockDialogCatFilter(stockCategoryId);
-                        }
+                        
                         if (isStockCategoryFilterVisible !== null && isStockCategoryFilterVisible !== undefined) {
                             isCategoryFilterVisible(isStockCategoryFilterVisible);
+                            
                         }
-                        afterSelect = afterSelectCallback;
-                       
+                        if (isCategoryFilterVisible()) {
+                            if (stockCategoryId) {
+                                // reset field
+                                isPageLoaded(false);
+                                stockDialogCatFilter(stockCategoryId);
+                            }
+                            if (!isBaseDataLoaded())
+                                getStockCategories();
+                        }
+                        
 
-                        getStockItems();
-                        if (!isBaseDataLoaded())
-                        getStockCategories();
+                        getStockItems(stockCategoryId);
+                        afterSelect = afterSelectCallback;
+                        
                     },
                     // On Select Stock Item
                     onSelectStockItem = function (stockItem) {
@@ -122,12 +127,12 @@ define("common/stockItem.viewModel",
                         stockItems.valueHasMutated();
                     },
                     // Get Stock Items
-                    getStockItems = function () {
+                    getStockItems = function (catId) {
                         dataservice.getStockItems({
                             SearchString: stockDialogFilter(),
                             PageSize: stockDialogPager().pageSize(),
                             PageNo: stockDialogPager().currentPage(),
-                            CategoryId: stockDialogCatFilter(),
+                            CategoryId: catId != undefined? catId :stockDialogCatFilter(),
                             SubCategoryId: stockDialogSubCatFilter(),
                             PaperType: paperType
                         }, {

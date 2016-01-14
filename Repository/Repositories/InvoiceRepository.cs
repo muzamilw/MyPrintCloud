@@ -198,7 +198,7 @@ namespace MPC.Repository.Repositories
                         TaxValue = p.Qty1Tax1Value ?? 0,
                         GrossTotal = p.Qty1GrossTotal ?? 0,
                         ProductName = p.ProductName,
-                        PricePerUnit = (p.Qty1GrossTotal??0 / p.Qty1 ?? 0)
+                        PricePerUnit = ((p.Qty1GrossTotal ?? 0) / (p.Qty1 ?? 0))
 
                     }).ToList()
                 });
@@ -211,57 +211,100 @@ namespace MPC.Repository.Repositories
 
         public List<ZapierInvoiceDetail> GetInvoiceDetailForZapierPolling(long organisationId)
         {
+            //List<ZapierInvoiceDetail> lstInvoiceDetails = new List<ZapierInvoiceDetail>();
+            //lstInvoiceDetails.Add(new ZapierInvoiceDetail
+            //{
+            //    CustomerName = "Sample Company My Print Store",
+            //    Address1 = "Sample Address 1",
+            //        Address2 = "Sample Address 2",
+            //        AddressCity = "Sydney",
+            //        AddressCountry = "Australia",
+            //        AddressState = "Australian Capital Territory (ACT)",
+            //        AddressName = "Head Offiec Address",
+            //        AddressPostalCode = "1234",
+            //        ContactId = 121,
+            //        ContactFirstName = "John",
+            //        ContactLastName = "Doe",
+            //        ContactEmail = "john_doe@myprintstore.com",
+            //        ContactPhone = "+61 121 234 4567",
+            //        VatNumber = "ATG101",
+            //        CustomerUrl = "http://www.myprintstore.com",
+            //        TaxRate = 20,
+            //    InvoiceCode = "INV-001-1214",
+            //    InvoiceDate = DateTime.Now,
+            //    InvoiceDueDate = DateTime.Now.AddDays(1),
+            //    InvoiceId = 1144
+            //});
+            //List<ZapierInvoiceItem> zapInvItems = new List<ZapierInvoiceItem>();
+
+            //zapInvItems.Add(new ZapierInvoiceItem
+            //{
+            //    ProductCode = "ITM-001-1144",
+            //    ProductDescription = "This is sample product pooling to Zapier sample data",
+            //    Quantity = 1000,
+            //    PricePerUnit = 2.5,
+            //    NetTotal = 2500,
+            //    TaxValue = 500,
+            //    GrossTotal = 3000,
+            //    ProductName = "Sample Business Cards"
+
+            //});
+            //zapInvItems.Add(new ZapierInvoiceItem
+            //{
+            //    ProductCode = "ITM-001-1145",
+            //    ProductDescription = "This is second sample product pooling to Zapier sample data",
+            //    Quantity = 2000,
+            //    PricePerUnit = 2.00,
+            //    NetTotal = 4000,
+            //    TaxValue = 800,
+            //    GrossTotal = 4800,
+            //    ProductName = "Sample Gloss Matt Business Cards"
+
+            //});
+            //lstInvoiceDetails.FirstOrDefault().InvoiceItems = zapInvItems;
+            //return lstInvoiceDetails; 
             List<ZapierInvoiceDetail> lstInvoiceDetails = new List<ZapierInvoiceDetail>();
-            lstInvoiceDetails.Add(new ZapierInvoiceDetail
-            {
-                CustomerName = "Sample Company My Print Store",
-                Address1 = "Sample Address 1",
-                    Address2 = "Sample Address 2",
-                    AddressCity = "Sydney",
-                    AddressCountry = "Australia",
-                    AddressState = "Australian Capital Territory (ACT)",
-                    AddressName = "Head Offiec Address",
-                    AddressPostalCode = "1234",
-                    ContactId = 121,
-                    ContactFirstName = "John",
-                    ContactLastName = "Doe",
-                    ContactEmail = "john_doe@myprintstore.com",
-                    ContactPhone = "+61 121 234 4567",
-                    VatNumber = "ATG101",
-                    CustomerUrl = "http://www.myprintstore.com",
-                    TaxRate = 20,
-                InvoiceCode = "INV-001-1214",
-                InvoiceDate = DateTime.Now,
-                InvoiceDueDate = DateTime.Now.AddDays(1),
-                InvoiceId = 1144
-            });
-            List<ZapierInvoiceItem> zapInvItems = new List<ZapierInvoiceItem>();
+            var inv = DbSet.ToList().LastOrDefault(i => i.InvoiceStatus == Convert.ToInt16(InvoiceStatuses.Posted) && i.OrganisationId == organisationId);
 
-            zapInvItems.Add(new ZapierInvoiceItem
+            if (inv != null)
             {
-                ProductCode = "ITM-001-1144",
-                ProductDescription = "This is sample product pooling to Zapier sample data",
-                Quantity = 1000,
-                PricePerUnit = 2.5,
-                NetTotal = 2500,
-                TaxValue = 500,
-                GrossTotal = 3000,
-                ProductName = "Sample Business Cards"
+                var address = inv.Company != null
+                    ? inv.Company.Addresses.FirstOrDefault(a => a.AddressId == (inv.AddressId ?? 0)) : null;
+                lstInvoiceDetails.Add(new ZapierInvoiceDetail
+                {
+                    CustomerName = inv.Company != null ? inv.Company.Name : string.Empty,
+                    Address1 = address != null ? address.Address1 : "",
+                    Address2 = address != null ? address.Address2 : "",
+                    AddressCity = address != null ? address.City : "",
+                    AddressCountry = address != null ? address.Country != null ? address.Country.CountryName : "" : "",
+                    AddressName = address != null ? address.AddressName : "",
+                    AddressState = address != null ? address.State != null ? address.State.StateName : "" : "",
+                    AddressPostalCode = address != null ? address.PostCode : "",
+                    VatNumber = inv.Company != null ? inv.Company.VATRegNumber : string.Empty,
+                    CustomerUrl = inv.Company != null ? inv.Company.URL : string.Empty,
+                    ContactFirstName = inv.CompanyContact != null ? inv.CompanyContact.FirstName : string.Empty,
+                    ContactLastName = inv.CompanyContact != null ? inv.CompanyContact.LastName : string.Empty,
+                    ContactEmail = inv.CompanyContact != null ? inv.CompanyContact.Email : string.Empty,
+                    ContactPhone = inv.CompanyContact != null ? inv.CompanyContact.HomeTel1 : string.Empty,
+                    TaxRate = inv.Company != null ? inv.Company.TaxRate ?? 0 : 0,
+                    InvoiceCode = inv.InvoiceCode,
+                    InvoiceDate = inv.InvoiceDate ?? DateTime.Now,
+                    InvoiceId = inv.InvoiceId,
+                    ContactId = inv.CompanyContact != null ? inv.CompanyContact.ContactId : 0,
+                    InvoiceItems = inv.Items.Select(p => new ZapierInvoiceItem
+                    {
+                        ProductCode = p.ProductCode,
+                        ProductDescription = p.ProductSpecification,
+                        Quantity = p.Qty1 ?? 0,
+                        NetTotal = p.Qty1NetTotal ?? 0,
+                        TaxValue = p.Qty1Tax1Value ?? 0,
+                        GrossTotal = p.Qty1GrossTotal ?? 0,
+                        ProductName = p.ProductName,
+                        PricePerUnit = ((p.Qty1GrossTotal ?? 0) / (p.Qty1 ?? 0))
 
-            });
-            zapInvItems.Add(new ZapierInvoiceItem
-            {
-                ProductCode = "ITM-001-1145",
-                ProductDescription = "This is second sample product pooling to Zapier sample data",
-                Quantity = 2000,
-                PricePerUnit = 2.00,
-                NetTotal = 4000,
-                TaxValue = 800,
-                GrossTotal = 4800,
-                ProductName = "Sample Gloss Matt Business Cards"
-
-            });
-            lstInvoiceDetails.FirstOrDefault().InvoiceItems = zapInvItems;
+                    }).ToList()
+                });
+            }
             return lstInvoiceDetails; 
         }
 
