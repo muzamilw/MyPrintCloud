@@ -879,9 +879,10 @@ namespace MPC.Implementation.WebStoreServices
 
                 if (System.IO.Path.GetExtension(path).Contains("jpg"))
                 {
-                    string ClippingPath = System.IO.Path.GetFileNameWithoutExtension(path) + "__clip_mpc.png";
+                    string ClippingPath = path.Replace(System.IO.Path.GetExtension(path),"__clip_mpc.png")  ;
                     string uploadedClippingPath = HttpContext.Current.Server.MapPath(ClippingPath);
-                    using (var reader = new JpegReader(path))
+                    string uploadedPath = HttpContext.Current.Server.MapPath("~" + path);
+                    using (var reader = new JpegReader(uploadedPath))
                     using (var bitmap = reader.Frames[0].GetBitmap())
                     using (var maskBitmap = new agm.Bitmap(bitmap.Width, bitmap.Height, agm.PixelFormat.Format8bppGrayscale, new agm.GrayscaleColor(0)))
                     using (var graphics = maskBitmap.GetAdvancedGraphics())

@@ -1200,9 +1200,10 @@ namespace MPC.Repository.Repositories
         }
         public string[] GetContactImageAndCompanyLogo(long contactID)
         {
-            string[] array = new string[6];
+            string[] array = new string[7];
             string CompanyLogo = "";
             string ContactLogo = "";
+            bool hasClippingPath = false;
             int contactLogoHeight = 0, contactLogoWidth = 0, companyLogoHeight = 0, companyLogoWidth = 0;
             CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
             if(contact != null)
@@ -1212,6 +1213,10 @@ namespace MPC.Repository.Repositories
                 Company company = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
                 if(contact.image != null && contact.image != ""){
                     ContactLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + contact.image;
+                    if (contact.HasClippingPath.HasValue)
+                        hasClippingPath = contact.HasClippingPath.Value;
+                    if (hasClippingPath == true)
+                        ContactLogo = ContactLogo.Replace(System.IO.Path.GetExtension(ContactLogo), "__clip_mpc.png");
                     try
                     {
                         using (objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath( "~/" + contact.image)))
@@ -1270,6 +1275,7 @@ namespace MPC.Repository.Repositories
             array[3] = companyLogoWidth.ToString();
             array[4] = contactLogoHeight.ToString();
             array[5] = contactLogoWidth.ToString();
+            array[6] = hasClippingPath.ToString();
             return array;
         }
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
@@ -1711,6 +1717,8 @@ namespace MPC.Repository.Repositories
                 {
                     if (logos[1] != "")
                     {
+                        if (logos[6] == "true")
+                            obj.hasClippingPath = true;
                         obj.ContentString = logos[1];
                     }
                 }
