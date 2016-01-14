@@ -196,6 +196,12 @@ namespace MPC.Implementation.WebStoreServices
                 if(PdfTemplateheight > 0 && PdfTemplatewidth > 0)
                 {
                     newItem.ProductName = ActualItem.ProductName + "(" + PdfTemplatewidth + " x + " + PdfTemplateheight + ")";
+
+                    if (!string.IsNullOrEmpty(ActualItem.Title)) 
+                    {
+                        newItem.Title = ActualItem.Title + "(" + PdfTemplatewidth + " x + " + PdfTemplateheight + ")";
+                    }
+                   
                 }
 
                 if (isSetTemplateIdToNull == true)
