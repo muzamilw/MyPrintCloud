@@ -928,7 +928,33 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.display = "block";
 
     }
+    function ConfirmPopUpForRemoveFolder() {
 
+        var Type = "Alert!";
+        var Message = "Are you sure you want to remove folder?"
+        var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="button" id="ApproveOk"  class="btn btn-primary" value="Yes" onclick="DeleteFolder()" /><input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="No()"></button></div></div></div>';
+        var bws = getBrowserHeight();
+        var shadow = document.getElementById("innerLayer");
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+
+        var left = parseInt((bws.width - 500) / 2);
+        var top = parseInt((bws.height - 170) / 2);
+
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.top = top + "px";
+        document.getElementById("innerLayer").style.left = left + "px";
+
+        document.getElementById("innerLayer").style.width = "500px";
+        document.getElementById("innerLayer").style.height = "170px";
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+
+    }
     function ConfirmPopUpForReject() {
 
         var Type = "Alert!";

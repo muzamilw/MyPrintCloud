@@ -614,7 +614,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     openStockItemDialogForAddingStock = function () {
                         stockVM.show(function (stockItem) {
                             onSaveStockItem(stockItem);
-                        }, stockCategory.paper, false, currencySymbol(), 0);
+                        }, stockCategory.paper, true, currencySymbol(), 0);
                     },
                     //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {

@@ -661,7 +661,7 @@ define("order/order.viewModel",
                         } else {
                             stockDialog.show(function (stockItem) {
                                 createNewInventoryProduct(stockItem);
-                            }, stockCategory.paper, false, currencySymbol(), selectedCompanyTaxRate());
+                            }, stockCategory.paper, true, currencySymbol(), selectedCompanyTaxRate());
                         }
                     },
                     // Edit Section

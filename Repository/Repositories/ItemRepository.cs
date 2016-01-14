@@ -4735,7 +4735,18 @@ namespace MPC.Repository.Repositories
 
             
         }
-
+        public bool typeFourItemsStatus(long OrderID)
+        {
+            bool Result = false;
+            long Count = db.Items.Where(i => i.EstimateId == OrderID && i.ProductType== 4).ToList().Count;
+            long TotalCount = db.Items.Where(i => i.EstimateId == OrderID).ToList().Count;
+            long counter = TotalCount - Count;
+            if (counter== 0)
+            {
+                Result = true;
+            }
+            return Result;
+        }
         //public List<MPC.Models.Common.TemplateVariable> GetAllVariablesUsedInTemplate(List<MPC.Models.Common.TemplateVariable> lstPageControls, int itemID, int contactID, int propertyID)
         //{
         //    List<MPC.Models.Common.TemplateVariable> defaultValues = new List<MPC.Models.Common.TemplateVariable>();
