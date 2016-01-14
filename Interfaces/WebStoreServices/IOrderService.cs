@@ -44,7 +44,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <returns></returns>
         long GetOrderIdByContactId(long contactId, long companyId);
 
-        bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow);
+        bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow, CompanyContact Contact);
 
         bool IsOrderBelongToCorporate(long orderID, out long customerID);
 

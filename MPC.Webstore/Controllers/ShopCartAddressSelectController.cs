@@ -743,6 +743,7 @@ namespace MPC.Webstore.Controllers
                 CompanyContact contact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
 
                 bool Result = ConfirmOrder(1, addLine1, city, PostCode, StoreBaseResopnse.Company, model, StoreBaseResopnse.Organisation);
+
                 if (Result)
                 {
                     Response.Redirect("/OrderConfirmation/" + UserCookieManager.WEBOrderId);

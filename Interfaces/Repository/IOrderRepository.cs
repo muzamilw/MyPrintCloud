@@ -58,7 +58,7 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         long GetCartOrderId(long contactId, long CompanyId);
 
-        bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow);
+        bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow, CompanyContact Contact);
 
         bool IsOrderBelongToCorporate(long orderID, out long customerID);
         /// <summary>

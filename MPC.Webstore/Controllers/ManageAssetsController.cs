@@ -16,10 +16,16 @@ namespace MPC.Webstore.Controllers
         // GET: ManageAssets
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _webclaims;
-        public ManageAssetsController(ICompanyService _myCompanyService, IWebstoreClaimsHelperService _webclaims)
+        private readonly IOrderService _orderService;
+
+        private readonly IItemService _myItemService;
+        public ManageAssetsController(ICompanyService _myCompanyService, IWebstoreClaimsHelperService _webclaims, IItemService myItemService, IOrderService orderService)
         {
             this._myCompanyService = _myCompanyService;
             this._webclaims = _webclaims;
+
+            this._myItemService = myItemService;
+            this._orderService = orderService;
         }
 
         public ActionResult Index(string folderId, string Searchfolder, string SelectedTreeID)
@@ -121,7 +127,7 @@ namespace MPC.Webstore.Controllers
         [HttpGet]
         public JsonResult GetFolders()
         {
-            List<Folder> GetFolder = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            List<Folder> GetFolder = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).OrderBy(i=>i.FolderName).ToList();
             
             JsonResponse obj = new JsonResponse();
             obj.Folders = GetFolder;
@@ -173,17 +179,52 @@ namespace MPC.Webstore.Controllers
 
         public void CloneItemForManageAsset(long AssetId)
         {
+
+            Asset GetAsset = _myCompanyService.GetAsset(AssetId);
+
             // refitemid = assetid 
             // image,thubnail path = asset path
             // producttype = 4
             // create section
             // set qty = 1
             // set qty1, qtybase , net total, grosstotal = 0
-            Item NewItem = new Item();
-            NewItem.RefItemId = 0;
-            NewItem.ImagePath = "";
-            NewItem.ThumbnailPath = "";
-        
+            // status = 3
+
+            long OrderID = 0;
+            long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+            if (UserCookieManager.WEBOrderId == 0 || _orderService.IsRealCustomerOrder(UserCookieManager.WEBOrderId, _webclaims.loginContactID(), _webclaims.loginContactCompanyID()) == false)
+                {
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, UserCookieManager.WEBOrganisationID, (StoreMode)UserCookieManager.WEBStoreMode, _webclaims.loginContactCompanyID(), _webclaims.loginContactID(), ref TemporaryRetailCompanyId);
+                    UserCookieManager.WEBOrderId = OrderID;
+                    UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+
+                    
+                }
+                else
+                {
+                    OrderID = UserCookieManager.WEBOrderId;
+
+                    MPC.Models.DomainModels.Estimate oCookieOrder = _orderService.GetOrderByOrderID(OrderID);
+
+                    if (oCookieOrder != null && oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                    {
+                        OrderID = _orderService.ProcessPublicUserOrder(string.Empty, UserCookieManager.WEBOrganisationID, (StoreMode)UserCookieManager.WEBStoreMode, _webclaims.loginContactCompanyID(), _webclaims.loginContactID(), ref TemporaryRetailCompanyId);
+                        UserCookieManager.WEBOrderId = OrderID;
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        // clone aset
+                       //  _myItemService.CloneItem()
+                    }
+                    
+
+                }
+
+            Item item = _myItemService.CloneItem(UserCookieManager.WEBOrganisationID, OrderID, GetAsset);
+            if (item.ItemId > 0)
+            {
+
+                Response.Redirect("/ShopCart?Orderid=" + OrderID + "");
+            }
         }
         //public void BindData(long FolderId)
         //{ 

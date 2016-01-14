@@ -14,6 +14,7 @@ namespace MPC.Models.DomainModels
         public int? Sequence { get; set; }
         public bool? IsMandatory { get; set; }
 
+        public bool? IsSelectedOnLoad { get; set; }
         public virtual CostCentre CostCentre { get; set; }
 
         public virtual ItemStockOption ItemStockOption { get; set; }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 
@@ -634,13 +635,17 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
               {
                   //HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
                   HttpPostedFile postedFile = HttpContext.Current.Request.Files["file" + i];
-                  string fileName = string.Format("{0}{1}", i, Path.GetFileName(postedFile.FileName));
+                  string fileName = string.Format("{0}{1}", i, Path.GetFileName(postedFile.FileName.Trim())).Trim();
+                 
+                  fileName = Regex.Replace(fileName, @"\s+", "");
+
+                  
                   AssetItem Item = new AssetItem();
-                  Item.FileUrl = folderPath + fileName;
+                  Item.FileUrl = folderPath + fileName.Trim();
                   Item.AssetId = AssetID;
                   listOfAttachment.Add(Item);
-                  string filevirtualpath = virtualFolderPth + "/" + fileName;
-                  postedFile.SaveAs(virtualFolderPth + "/" + fileName);
+                  string filevirtualpath = virtualFolderPth + "/" + fileName.Trim();
+                  postedFile.SaveAs(virtualFolderPth + "/" + fileName.Trim());
               }
                  _companyService.AddAssetItems(listOfAttachment);
           }

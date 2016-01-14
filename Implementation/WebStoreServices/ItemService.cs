@@ -193,6 +193,11 @@ namespace MPC.Implementation.WebStoreServices
 
                 newItem.TemplateType = ActualItem.TemplateType;
 
+                if(PdfTemplateheight > 0 && PdfTemplatewidth > 0)
+                {
+                    newItem.ProductName = ActualItem.ProductName + "(" + PdfTemplatewidth + " x + " + PdfTemplateheight + ")";
+                }
+
                 if (isSetTemplateIdToNull == true)
                 {
                     if (isUploadDesignMode == true)
@@ -252,8 +257,8 @@ namespace MPC.Implementation.WebStoreServices
                     
                     if (PdfTemplateheight > 0)
                     {
-                        
                         tblItemSectionCloned.SectionSizeHeight = PdfTemplateheight * (ActualItem.Scalar ?? 1);
+
                     }
                     if (PdfTemplatewidth > 0)
                     {
@@ -325,7 +330,21 @@ namespace MPC.Implementation.WebStoreServices
                                 UpdatedPDFTemplateWidth = InchtoPoint(PdfTemplatewidth);
                             }
 
-                            clonedTemplate.PDFTemplateWidth = UpdatedPDFTemplateWidth;
+                           
+                            if (clonedTemplate.CuttingMargin > 0)
+                            {
+                                double cMrgn = clonedTemplate.CuttingMargin ?? 0;
+                                cMrgn = cMrgn * 2;
+
+                                UpdatedPDFTemplateWidth += cMrgn;
+                                UpdatedPDFTemplateHeight += cMrgn;
+                            }
+                            else
+                            {
+                                UpdatedPDFTemplateWidth += 28.3465;
+                                UpdatedPDFTemplateHeight += 28.3465;
+                            }
+                            clonedTemplate.PDFTemplateWidth = UpdatedPDFTemplateWidth ;
                             clonedTemplate.PDFTemplateHeight = UpdatedPDFTemplateHeight;
                         }
                        
@@ -351,8 +370,8 @@ namespace MPC.Implementation.WebStoreServices
                            List<TemplatePage> listOfTemPages = _TemplatePageRepository.GetTemplatePages(clonedTemplate.ProductId);
                            foreach (TemplatePage pg in listOfTemPages) 
                            {
-                               pg.Height =UpdatedPDFTemplateHeight;
-                               pg.Width = UpdatedPDFTemplateWidth;
+                               pg.Height = UpdatedPDFTemplateHeight;
+                               pg.Width =  UpdatedPDFTemplateWidth;
                            }
                             _TemplatePageRepository.SaveChanges();
                         }
@@ -2152,7 +2171,6 @@ namespace MPC.Implementation.WebStoreServices
                         ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
                     }
                     CompanyID = TemporaryRetailCompanyId;
-
                 }
                 else
                 {
@@ -2295,6 +2313,108 @@ namespace MPC.Implementation.WebStoreServices
                 throw e;
             }
         }
+
+        public Item CloneItem(long Organisation, long OrderID,Asset GetAsset)
+        {
+            // refitemid = assetid 
+            // image,thubnail path = asset path
+            // producttype = 4
+            // create section
+            // set qty = 1
+            // set qty1, qtybase , net total, grosstotal = 0
+            // status = 3
+
+
+
+            try
+            {
+                ItemSection tblItemSectionCloned = new ItemSection();
+
+                ItemAttachment Attacments = new ItemAttachment();
+
+                SectionCostcentre tblISectionCostCenteresCloned = new SectionCostcentre();
+
+               
+                Item newItem = new Item();
+
+
+                // get asset
+                //******************new item*********************
+                newItem = new Item();
+
+                newItem.ItemId = 0;
+                newItem.ProductName = GetAsset.AssetName + " (Asset)";
+                newItem.IsPublished = false;
+
+                newItem.IsEnabled = false;
+
+                newItem.EstimateId = OrderID;
+                newItem.ImagePath = GetAsset.ImagePath;
+                newItem.ThumbnailPath = GetAsset.ImagePath;
+
+                newItem.StatusId = (short)ItemStatuses.ShoppingCart; //tblStatuses.StatusID; //shopping cart
+
+                newItem.Qty1 = 1; //qty
+                
+                newItem.Qty1BaseCharge1 = 0; //productSelection.PriceTotal + productSelection.AddonTotal; //item price
+
+                newItem.Qty1Tax1Value = 0; // say vat
+
+                newItem.Qty1NetTotal = 0;
+
+                newItem.Qty1GrossTotal = 0;
+
+                newItem.ProductType = 4;
+                newItem.Qty1BaseCharge1 = 0;
+                newItem.InvoiceId = null;
+                
+               
+                newItem.ProductType = 4;
+
+                    newItem.IsOrderedItem = true;
+               // newItem.Status
+                  
+                    newItem.RefItemId =Convert.ToInt32(GetAsset.AssetId);
+                _ItemRepository.Add(newItem);
+                _ItemRepository.SaveChanges();
+
+                    tblItemSectionCloned = new ItemSection();
+                    tblItemSectionCloned.ItemSectionId = 0;
+                    tblItemSectionCloned.ItemId = newItem.ItemId;
+                    tblItemSectionCloned.SectionNo = 1;
+                    _ItemSectionRepository.Add(tblItemSectionCloned);
+                    _ItemSectionRepository.SaveChanges();
+                  
+
+                    //*****************Section Cost Centeres*********************************
+                
+                //select id,name from Costcentre where organisationid = 1 and type = 29
+
+
+                            tblISectionCostCenteresCloned = new SectionCostcentre();
+                            tblISectionCostCenteresCloned.SectionCostcentreId = 0;
+                            tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+                            _ItemSectionCostCentreRepository.Add(tblISectionCostCenteresCloned);
+                           
+                        _ItemSectionCostCentreRepository.SaveChanges();
+                    
+
+               
+                newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
+
+                _ItemRepository.SaveChanges();
+
+                return newItem;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
+
         public GetCategoryProduct GetPublishedProductByItemID(int itemID)
         {
             return _ItemRepository.GetPublishedProductByItemID(itemID);
@@ -2329,6 +2449,15 @@ namespace MPC.Implementation.WebStoreServices
             return val / (25.4 * 2.834645669);
 
         }
+       public long TotalProductTypeFourItems(long OrderId)
+       {
+           return _ItemRepository.TotalProductTypeFourItems(OrderId);
+       }
+       public long OtherTheTypeFourItems(long OrderId)
+       {
+           return _ItemRepository.OtherTheTypeFourItems(OrderId);
+       }
+
         #region PrivateFunctions
         public T Clone<T>(T source)
         {

@@ -101,7 +101,8 @@
 			icons			: true,
 			dir				: false
 		},
-		base_height		: false
+		base_height		: false,
+        expand_selected_onload:true
 	};
 	$.jstree.core.prototype = {
 		plugin : function (deco, opts) {

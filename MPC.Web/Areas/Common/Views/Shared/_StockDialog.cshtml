@@ -10,7 +10,7 @@
                     <header class="main-box-header clearfix">
                         <div class="filter-body set-filter-margin" id="filter">
                                 <div class="filter-block" style="margin-top: 2px">
-                                    <div class="form-group">
+                                    <div class="form-group" data-bind="visible:$root.isCategoryFilterVisible">
                                         <div class="col-sm-2">
                                             <label for="category" style="margin-top: 9px;" class="control-label">Inventory Category</label>
                                         </div>
@@ -22,7 +22,7 @@
 
                                 
 
-                                    <div class="form-group">
+                                    <div class="form-group" data-bind="visible:$root.isCategoryFilterVisible">
                                         <div class="col-sm-2">
                                             <label for="category" style="margin-top: 9px;" class="control-label">Sub Category</label>
                                         </div>

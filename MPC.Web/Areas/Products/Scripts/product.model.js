@@ -2821,7 +2821,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Addon Cost Centre Entity
     ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
-        specifiedCostCentreType,specifiedSequence, callbacks) {
+        specifiedCostCentreType,specifiedSequence,specifiedIsSelectedonLoad, callbacks) {
         // ReSharper restore InconsistentNaming
         var
             // self reference
@@ -2856,6 +2856,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // Item Stock Option Id
             itemStockOptionId = ko.observable(specifiedItemStockOptionId || 0),
+            isSelectedonLoad = ko.observable(specifiedIsSelectedonLoad || undefined),
             // Errors
             errors = ko.validation.group({
             }),
@@ -2868,7 +2869,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag = new ko.dirtyFlag({
                 isMandatory: isMandatory,
                 sequence: sequence,
-                costCentreId: costCentreId
+                costCentreId: costCentreId,
+                isSelectedonLoad: isSelectedonLoad
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2885,7 +2887,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsMandatory: isMandatory(),
                     Sequence : sequence(),
                     CostCentreId: costCentreId(),
-                    ItemStockOptionId: itemStockOptionId()
+                    ItemStockOptionId: itemStockOptionId(),
+                    IsSelectedOnLoad: isSelectedonLoad()
                 };
             };
 
@@ -2897,6 +2900,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreType: costCentreType,
             isMandatory: isMandatory,
             sequence: sequence,
+            isSelectedonLoad: isSelectedonLoad,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -4323,7 +4327,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Addon Cost Centre Factory
     ItemAddonCostCentre.Create = function (source, callbacks) {
         return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-            source.CostCentreTypeName,source.Sequence, callbacks);
+            source.CostCentreTypeName,source.Sequence,source.IsSelectedOnLoad, callbacks);
     };
 
     // Item Stock Option Factory

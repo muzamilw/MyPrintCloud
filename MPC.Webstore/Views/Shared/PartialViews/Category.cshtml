@@ -15,6 +15,7 @@
     var convertedheight = 0.0;
     var convertedwidth = 0.0;
     var TakeTemplateHeightWidth = "";
+    int matCount = 0;
 }
 
 @if (Model != null)
@@ -270,8 +271,8 @@
                                     {
                                         string stockLabel = string.Empty;
                                         string quantity = string.Empty;
-
-
+                                        string pricelbl = "lblPrice";
+                                        string pricecnt = "matrixItemColumn";
                                         List<MPC.Webstore.ViewModels.ItemStockOptionList> sqn = ViewData["StockOptions"] as List<MPC.Webstore.ViewModels.ItemStockOptionList>;
                                         stockLabel = sqn.Where(s => s.ItemID == item.ItemId).Select(c => c.StockLabel).FirstOrDefault();
 
@@ -282,6 +283,7 @@
                                             matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
                                         }
 
+                                     
 
 
 
@@ -302,6 +304,7 @@
                                             </tr>
                                             @if (matrix != null)
                                             {
+                                                
                                                 foreach (var Objmatrix in matrix)
                                                 {
                                                     <tr>
@@ -311,23 +314,18 @@
                                                         </td>
                                                         <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
                                                             style="text-align: right;">
-                                                            <div id="matrixItemColumn1">
+                                                            <div id="@pricecnt@matCount">
                                                                 @if (ViewBag.IsShowPrices == true)
                                                                 {
-                                                                    <label id="lblPrice1">@Objmatrix.Price</label>
+
+                                                                    <label id="@pricelbl@matCount">@Objmatrix.Price</label>
 
                                                                 }
-
-
                                                             </div>
                                                         </td>
                                                     </tr>
-
+                                                    matCount = matCount + 1;
                                                 }
-
-
-
-
                                             }
                                         </table>
 

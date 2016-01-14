@@ -66,7 +66,7 @@ namespace MPC.Repository.Repositories
         public IEnumerable<StockCategory> GetStockCategoriesForInventory()
         {
             return DbSet.Where(stockCategory => (stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId == 0)
-                && stockCategory.CategoryId != 3 && stockCategory.CategoryId != 4).ToList();
+                && stockCategory.CategoryId != 3).ToList();
         }
         public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {
