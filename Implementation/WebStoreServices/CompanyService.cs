@@ -2000,5 +2000,9 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _AssetItemsRepository.AssetItemFilePath(AssetItemId);
        }
+       public double GetTemplateCuttingMargin(long ProductId)
+       {
+           return _templaterepository.GetTemplateCuttingMargin(ProductId);
+       }
     }
 }

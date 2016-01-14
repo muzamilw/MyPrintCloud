@@ -199,7 +199,14 @@ namespace MPC.Repository.Repositories
             }
 
         }
-
+         public long TotalProductTypeFourItems(long OrderId)
+         {
+             return db.Items.Where(i => i.EstimateId == OrderId && i.ProductType == 4).ToList().Count;
+         }
+         public long OtherTheTypeFourItems(long OrderId)
+         {
+             return db.Items.Where(i => i.EstimateId == OrderId && i.ProductType!=4).ToList().Count;
+         }
         public ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId)
         {
             try
