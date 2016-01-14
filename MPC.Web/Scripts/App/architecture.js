@@ -2,6 +2,7 @@
 // Global Variable
 var ist = {
     datePattern: "DD/MM/YY",
+    datePatternUs: "MM/DD/YY",
     shortDatePattern: "dd-M-yy",
     customShortDatePattern: "dd-mm-yy",
     customDatePattern: "DD-MMM-YYYY",
