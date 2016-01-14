@@ -138,7 +138,7 @@ define("common/stockItem.viewModel",
                         }, {
                             success: function (data) {
                                 stockItems.removeAll();
-                                
+                                stockItems.valueHasMutated();
                                 if (data && data.TotalCount > 0) {
                                     mapStockItems(data.StockItems);
                                     stockDialogPager().totalCount(data.TotalCount);

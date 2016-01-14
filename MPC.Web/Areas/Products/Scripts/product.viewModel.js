@@ -167,7 +167,7 @@ define("product/product.viewModel",
                             closeRelatedItemDialog();
                         },
                         onChooseStockItem: function (stockCategoryId) {
-                            openStockItemDialog(stockCategoryId);
+                            openStockItemDialog(stockCategoryId != undefined? stockCategoryId : 1);
                         },
                         onSelectStockItem: function () {
                         },

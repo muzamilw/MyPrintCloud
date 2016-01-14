@@ -1648,7 +1648,7 @@ define("common/itemDetail.viewModel",
                         isAddProductForSectionCostCenter(true);
                         stockDialog.show(function(stockItem) {
                             onSaveStockItem(stockItem);
-                        }, stockCategory.paper, false, currencySymbol(), selectedOrder().taxRate());
+                        }, stockCategory.paper, true, currencySymbol(), selectedOrder().taxRate());
                     },
                     //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function(stockItem) {
