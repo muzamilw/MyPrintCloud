@@ -198,8 +198,6 @@ namespace MPC.Webstore.Controllers
                     OrderID = _orderService.ProcessPublicUserOrder(string.Empty, UserCookieManager.WEBOrganisationID, (StoreMode)UserCookieManager.WEBStoreMode, _webclaims.loginContactCompanyID(), _webclaims.loginContactID(), ref TemporaryRetailCompanyId);
                     UserCookieManager.WEBOrderId = OrderID;
                     UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-
-                    
                 }
                 else
                 {
@@ -215,11 +213,11 @@ namespace MPC.Webstore.Controllers
                         // clone aset
                        //  _myItemService.CloneItem()
                     }
-                    
 
                 }
 
-            Item item = _myItemService.CloneItem(UserCookieManager.WEBOrganisationID, OrderID, GetAsset);
+            Item item = _myItemService.CloneItem(UserCookieManager.WEBOrganisationID, OrderID, GetAsset, string.Empty);
+
             if (item.ItemId > 0)
             {
 

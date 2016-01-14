@@ -242,8 +242,8 @@ namespace MPC.Webstore.Controllers
                 //        i++;
                 //    }
                 //}
-                   long TypeFourItems = _ItemService.TotalProductTypeFourItems(Convert.ToInt64(OrderID));
-                   long NotTypeFourItems = _ItemService.OtherTheTypeFourItems(Convert.ToInt64(OrderID));
+                  // long TypeFourItems = _ItemService.TotalProductTypeFourItems(Convert.ToInt64(OrderID));
+                  // long NotTypeFourItems = _ItemService.OtherTheTypeFourItems(Convert.ToInt64(OrderID));
 
 
                     bool result = false;
@@ -287,13 +287,9 @@ namespace MPC.Webstore.Controllers
                         CompanyContact LoginContact=_myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
                         if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                         {
-                            if (TypeFourItems>0&& NotTypeFourItems>0)
+                            if (_ItemService.typeFourItemsStatus(Convert.ToInt64(OrderID)) == false)
                             {
-                            result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp,null);
-                            }
-                            else if (TypeFourItems > 0 && NotTypeFourItems == 0)
-                            {
-                                result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp, LoginContact);
+                               result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp,null);
                             }
                             else
                             {
@@ -302,32 +298,24 @@ namespace MPC.Webstore.Controllers
                         }
                         else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                         {
-                            if (TypeFourItems > 0 && NotTypeFourItems > 0)
+                            if (_ItemService.typeFourItemsStatus(Convert.ToInt64(OrderID)) == false)
                             {
                             result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Retail,LoginContact);
                             }
-                            else if (TypeFourItems > 0 && NotTypeFourItems == 0)
+                            else
                             {
                                 result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Retail, LoginContact);
                             }
-                            else
-                            {
-                                result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Retail, null);
-                            }
+                            
                         }
 
 
                         if (result)
                         {
                             StoreBaseResopnse = null;
-                            if (TypeFourItems > 0 && NotTypeFourItems > 0)
+                            if (_ItemService.typeFourItemsStatus(Convert.ToInt64(OrderID)) == false)
                             {
                                 Response.Redirect("/ShopCartAddressSelect/" + sOrderID);
-                                return null;
-                            }
-                            else if (TypeFourItems > 0 && NotTypeFourItems == 0)
-                            {
-                                Response.Redirect("/OrderConfirmation/" + sOrderID);
                                 return null;
                             }
                             else
