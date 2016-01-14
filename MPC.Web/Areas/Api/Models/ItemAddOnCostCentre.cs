@@ -19,5 +19,6 @@
         public int? CostCentreTimeSourceType { get; set; }
         public int? CalculationMethodType { get; set; }
         public double? TotalPrice { get; set; }
+        public bool? IsSelectedOnLoad { get; set; }
     }
 }
