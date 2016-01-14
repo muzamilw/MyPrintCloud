@@ -62,6 +62,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 companyImageWidth = images[3],
                 contactImageHeight = images[4],
                 contactImageWidth = images[5],
+                isProfileImageClippingPath = images[6],
                 ScaleFactor = item.Scalar,
                 ParentTemplateId = parentTemplateID,
                 RefItemId = parentItemID,
