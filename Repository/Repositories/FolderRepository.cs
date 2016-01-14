@@ -159,6 +159,24 @@ namespace MPC.Repository.Repositories
 
                 db.Assets.Remove(Asset);
             }
+            //removingchildfolders
+            List<Folder> ChildFolders = db.Folders.Where(i => i.ParentFolderId == folderID).ToList();
+            foreach (var child in ChildFolders)
+            {
+                
+                List<Asset> Assetss = db.Assets.Where(i => i.FolderId == child.FolderId).ToList();
+                foreach (var Asset in Assetss)
+                {
+                    List<AssetItem> listitem = db.AssetItems.Where(i => i.Asset.AssetId == Asset.AssetId).ToList();
+                    foreach (var i in listitem)
+                    {
+                        db.AssetItems.Remove(i);
+                    }
+
+                    db.Assets.Remove(Asset);
+                }
+                db.Folders.Remove(child);
+            }
             Folder folder = db.Folders.Where(i => i.FolderId == folderID).FirstOrDefault();
 
             db.Folders.Remove(folder);
