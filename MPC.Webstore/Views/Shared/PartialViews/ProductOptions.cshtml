@@ -2156,7 +2156,7 @@
                 }
 
                 noRefiningOpt = 0;
-                if ("@ViewBag.Mode" != "Modify" || isCalledOnPageLoad == 0) {
+                if ("@ViewBag.Mode" != "Modify" && isCalledOnPageLoad == 0) {
                     if($(val).attr('data-isautoexec') == 1){
                         $(val).children().next().children().click();
                     }
@@ -2299,9 +2299,10 @@
     }
 
     function ExecuteAutoCostCenters() {
-       
+        var ItemstockOptionID = $('input:radio[class=' + $('input:radio[name=StockPaper]:checked').attr('class') + ']').attr("data-Id");
+
         $(".CostCenterItems").each(function(i, val) {
-            if (StockId == $(val).attr('data-StockId')) {
+            if (ItemstockOptionID == $(val).attr('data-StockId')) {
                 if ("@ViewBag.Mode" != "Modify") {
                     if($(val).attr('data-isautoexec') == 1){
                         $(val).children().next().children().click();

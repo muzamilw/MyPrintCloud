@@ -2693,7 +2693,7 @@ namespace MPC.Implementation.WebStoreServices
                         Prefix prefix = _prefixRepository.GetDefaultPrefix();
                         if (prefix != null)
                         {
-                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                             prefix.OrderNext = prefix.OrderNext + 1;
                         }
                         shopCartOrder.Order_CompletionDate = null;
