@@ -54,7 +54,7 @@ namespace MPC.Implementation.MISServices
             {
                 if (estimate.Items != null)
                 {
-                    foreach (var item in estimate.Items)
+                    foreach (var item in estimate.Items.Where(i => i.ItemType != 2))
                     {
                         ItemForItemJobStatus itemForItemJobStatus = new ItemForItemJobStatus()
                         {

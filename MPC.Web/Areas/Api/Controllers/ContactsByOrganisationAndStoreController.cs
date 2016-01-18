@@ -40,11 +40,23 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             try
             {
+                long organisationId = 1;
+                string param = Request.RequestUri.Query;
+                string responsestr = GetActiveOrganisationId(param);
+                // responsestr = Temporarily set for local testing
+                if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
+                {
+                    throw new MPCException("Service Not Authenticated!", organisationId);
+                }
+                else
+                {
+                    organisationId = Convert.ToInt64(responsestr);
+                }
                 var formatter = new JsonMediaTypeFormatter();
                 var json = formatter.SerializerSettings;
                 json.Formatting = Newtonsoft.Json.Formatting.Indented;
                 json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                return Request.CreateResponse(HttpStatusCode.OK, _companyContactService.GetContactForZapierPooling(0), formatter);
+                return Request.CreateResponse(HttpStatusCode.OK, _companyContactService.GetContactForZapierPooling(organisationId), formatter);
 
 
             }
@@ -77,8 +89,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         private string GetActiveOrganisationId(string param)
         {
             string responsestr = string.Empty;
-            string credentials = param.Substring(param.IndexOf("username="),
-                    param.Length - param.IndexOf("username="));
+            string credentials = !string.IsNullOrEmpty(param) ? param.Substring(param.IndexOf("username="), param.Length - param.IndexOf("username=")) : string.Empty;
             if (!string.IsNullOrEmpty(credentials))
                 credentials = credentials.Replace("username=", "email=");
             using (var client = new HttpClient())

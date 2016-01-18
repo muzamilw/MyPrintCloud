@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
@@ -17,6 +18,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly ICompanyService companyService;
+        private readonly ICompanyContactService companyConatcService;
 
         #endregion
 
@@ -26,9 +28,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public CompanyController(ICompanyService companyService)
+        public CompanyController(ICompanyService companyService, ICompanyContactService companyContactService)
         {
             this.companyService = companyService;
+            this.companyConatcService = companyContactService;
         }
 
         #endregion
@@ -156,7 +159,30 @@ namespace MPC.MIS.Areas.Api.Controllers
                 : null,
             };
 
-            return companyService.SaveCompany(companySavingModel).CreateFrom();
+            List<string> newUsersList = new List<string>();
+            if (companySavingModel.Company.IsCustomer != 2)
+            {
+                if (companySavingModel.NewAddedCompanyContacts != null)
+                {
+                    companySavingModel.NewAddedCompanyContacts.Where(a => a.ContactId <= 0).ToList().ForEach(c => newUsersList.Add(c.Email));
+                } 
+            }
+            
+
+            var dbResponse = companyService.SaveCompany(companySavingModel);
+            var response = dbResponse.CreateFrom();
+            if (newUsersList.Count > 0)
+            {
+                var newIds = dbResponse.CompanyContacts.Where(e => newUsersList.All(a => a == e.Email)).Select(c => c.ContactId).ToList();
+                if (newIds.Any())
+                {
+                    foreach (var newId in newIds)
+                    {
+                        companyConatcService.PostDataToZapier(newId);
+                    }
+                }
+            }
+            return response;
         }
 
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
