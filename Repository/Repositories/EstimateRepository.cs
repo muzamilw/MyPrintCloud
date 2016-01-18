@@ -301,8 +301,6 @@ namespace MPC.Repository.Repositories
                 var now = DateTime.Now;
                 return db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31), OrganisationId);
 
-
-
             }
             catch (Exception ex)
             {

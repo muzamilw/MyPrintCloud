@@ -2392,6 +2392,7 @@ namespace MPC.Implementation.WebStoreServices
                     tblItemSectionCloned = new ItemSection();
                     tblItemSectionCloned.ItemSectionId = 0;
                     tblItemSectionCloned.ItemId = newItem.ItemId;
+                    tblItemSectionCloned.SectionName = GetAsset.AssetName;
                     tblItemSectionCloned.SectionNo = 1;
                     _ItemSectionRepository.Add(tblItemSectionCloned);
                     _ItemSectionRepository.SaveChanges();
