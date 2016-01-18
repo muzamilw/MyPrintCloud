@@ -90,7 +90,10 @@
                         <h1 class="pull-left" style="padding-left:0px;">Inventory Category Detail</h1>
                     </div>
                     <div class="pull-right top-page-ui">
+                        <!-- ko if: fixed() !== 1 -->
                         <button type="button" class="btn btn-danger" data-bind="click: $root.onDeleteStockCategory">Delete</button>
+                        <!-- /ko -->
+                        
                         <button type="button" class="btn btn-primary" data-bind="click: $root.saveStockCategory, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                         <button type="button" class="btn btn-default removeLeftMargin" data-bind="click: $root.closeEditDialog">Close</button>
                     </div>

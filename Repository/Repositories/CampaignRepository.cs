@@ -1262,6 +1262,7 @@ namespace MPC.Repository.Repositories
 
         public void POEmailToSalesManager(long orderID, long companyID, long contactID, int reportNotesID, long supplierCompanyID, string AttachmentListStr,Company objCompany)
         {
+            Guid saleManagerId = new Guid();
             List<string> AttachmentList = new List<string>();
             string[] objs = AttachmentListStr.Split('|');
             foreach (string item in objs)
@@ -1276,7 +1277,17 @@ namespace MPC.Repository.Repositories
 
             db.Configuration.LazyLoadingEnabled = false;
 
-            Guid saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
+            if(objCompany.IsCustomer == 3)// corporate
+            {
+                saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
+            }
+            else
+            {
+                // if retail
+                var manageriD = db.Companies.Where(c => c.CompanyId == objCompany.StoreId).Select(c => c.SalesAndOrderManagerId1).FirstOrDefault();
+                saleManagerId = manageriD ?? Guid.NewGuid();
+            }
+            
             SalesManager = db.SystemUsers.Where(c => c.SystemUserId == saleManagerId).FirstOrDefault();
             if (SalesManager != null)
             {
@@ -1309,6 +1320,7 @@ namespace MPC.Repository.Repositories
         }
         public void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany, bool isCancellation)
         {
+             Guid saleManagerId  = new Guid();
             List<string> AttachmentList = new List<string>();
             string[] objs = AttachmentListStr.Split('|');
             foreach (string item in objs)
@@ -1323,44 +1335,59 @@ namespace MPC.Repository.Repositories
             Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
 
             SystemUser SalesManager = null;
-            Guid saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
-            SalesManager = db.SystemUsers.Where(c => c.SystemUserId == saleManagerId).FirstOrDefault();
-            if (supplieruser != null)
+
+            if (objCompany.IsCustomer == 3)// corporate
             {
-                
-                CampaignEmailParams CEP = new CampaignEmailParams();
-                if (isCancellation)
-                {
-                    EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), OrganisationId, companyID);
-                }
-                else
-                {
-                    EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), OrganisationId, companyID);
-                }
-               
-                CEP.EstimateId = orderID;
-                CEP.CompanyId = companyID;
-                CEP.ContactId = contactID;
-                CEP.StoreId = companyID;
-                CEP.SalesManagerContactID = contactID;
-                CEP.OrganisationId = OrganisationId;
-                CEP.AddressId = companyID;
-                CEP.Id = reportNotesID;
-                CEP.EstimateId = orderID;
-
-                if (objCompany.IsCustomer == 3)
-                {
-
-                    emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList);
-                    
-                }
-                else
-                {
-                    emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Retail, "", "", "", SalesManager.Email, "", "", AttachmentList);
-                }
-
-              //  emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser,StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList, "", null, "", "", null, "", "", "", 0, "", 0);
+                saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
             }
+            else
+            {
+                // if retail
+                var manageriD = db.Companies.Where(c => c.CompanyId == objCompany.StoreId).Select(c => c.SalesAndOrderManagerId1).FirstOrDefault();
+                saleManagerId = manageriD ?? Guid.NewGuid();
+            }
+
+            SalesManager = db.SystemUsers.Where(c => c.SystemUserId == saleManagerId).FirstOrDefault();
+            if(SalesManager != null)
+            {
+                if (supplieruser != null)
+                {
+
+                    CampaignEmailParams CEP = new CampaignEmailParams();
+                    if (isCancellation)
+                    {
+                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), OrganisationId, companyID);
+                    }
+                    else
+                    {
+                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), OrganisationId, companyID);
+                    }
+
+                    CEP.EstimateId = orderID;
+                    CEP.CompanyId = companyID;
+                    CEP.ContactId = contactID;
+                    CEP.StoreId = companyID;
+                    CEP.SalesManagerContactID = contactID;
+                    CEP.OrganisationId = OrganisationId;
+                    CEP.AddressId = companyID;
+                    CEP.Id = reportNotesID;
+                    CEP.EstimateId = orderID;
+
+                    if (objCompany.IsCustomer == 3)
+                    {
+
+                        emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList);
+
+                    }
+                    else
+                    {
+                        emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Retail, "", "", "", SalesManager.Email, "", "", AttachmentList);
+                    }
+
+                    //  emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser,StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList, "", null, "", "", null, "", "", "", 0, "", 0);
+                }
+            }
+           
         }
         public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid, long StockItemId, long OrderId)
         {

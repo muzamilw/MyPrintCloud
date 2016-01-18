@@ -2592,8 +2592,8 @@ namespace MPC.Implementation.MISServices
             dblPrintRun[2] = oItemSection.PrintSheetQty3 ?? 0;
             if (dblPrintRun[0] > (oPlateDTO.PlateRunLength ?? 0))
             {
-                var plates = (dblPrintRun[0]/oPlateDTO.PlateRunLength ?? 1);
-                platesQty[0] = Convert.ToInt32(plates + oItemSection.NoofUniqueInks ?? 0);
+                var plates = Math.Ceiling((dblPrintRun[0] / oPlateDTO.PlateRunLength ?? 1));
+                platesQty[0] = Convert.ToInt32(plates * oItemSection.NoofUniqueInks ?? 0);
             }
             else
             {
@@ -2601,8 +2601,8 @@ namespace MPC.Implementation.MISServices
             }
             if (dblPrintRun[1] > (oPlateDTO.PlateRunLength ?? 0))
             {
-                var plates = (dblPrintRun[1] / oPlateDTO.PlateRunLength ?? 1);
-                platesQty[1] = Convert.ToInt32(plates + oItemSection.NoofUniqueInks ?? 0);
+                var plates = Math.Ceiling((dblPrintRun[1] / oPlateDTO.PlateRunLength ?? 1));
+                platesQty[1] = Convert.ToInt32(plates * oItemSection.NoofUniqueInks ?? 0);
             }
             else
             {
@@ -2610,8 +2610,8 @@ namespace MPC.Implementation.MISServices
             }
             if (dblPrintRun[2] > (oPlateDTO.PlateRunLength ?? 0))
             {
-                var plates = (dblPrintRun[2] / oPlateDTO.PlateRunLength ?? 1);
-                platesQty[2] = Convert.ToInt32(plates + oItemSection.NoofUniqueInks ?? 0);
+                var plates = Math.Ceiling((dblPrintRun[2] / oPlateDTO.PlateRunLength ?? 1));
+                platesQty[2] = Convert.ToInt32(plates * oItemSection.NoofUniqueInks ?? 0);
             }
             else
             {
@@ -3027,7 +3027,7 @@ namespace MPC.Implementation.MISServices
             {
                 oItemSectionCostCenterDetail.CostPrice = 0;
             }
-            string side = isSide1 ? "Sdie 1" : "Side 2";
+            string side = isSide1 ? "Side 1" : "Side 2";
             oItemSectionCostCenter.Name = "Washups " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
@@ -6663,17 +6663,20 @@ namespace MPC.Implementation.MISServices
                 if (pressSide2.isplateused != null && pressSide2.isplateused != false)//Plates
                 {
                     updatedSection.IsPlateSupplied = false;
-                    updatedSection.PlateId = pressSide1.DefaultPlateId;
+                    updatedSection.IsPlateUsed = true;
+                    updatedSection.PlateId = pressSide2.DefaultPlateId;
                     updatedSection = CalculatePlateCost(updatedSection, false, false, false);
                 }
                 if (pressSide2.ismakereadyused != null && pressSide2.ismakereadyused == true)//Make Readies
                 {
                     updatedSection.MakeReadyQty = pressSide2.ColourHeads;
+                    updatedSection.IsMakeReadyUsed = true;
                     updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
                 }
                 if (pressSide2.iswashupused != null && pressSide2.iswashupused == true)//Washups
                 {
                     updatedSection.WashupQty = pressSide2.ColourHeads;
+                    updatedSection.IsWashup = true;
                     updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
                 }
 

@@ -650,7 +650,7 @@ namespace MPC.Implementation.MISServices
             // Get Order if exists else create new
 
             Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
-
+            var OldstatusId = order.StatusId;
             if (estimate.EstimateId == 0 && estimate.isEstimate == true)
             {
                 var flags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate);
@@ -698,8 +698,8 @@ namespace MPC.Implementation.MISServices
                 PostOrderToXero(order.EstimateId);
             //Update Purchase Orders
             //Req. Whenever Its Status is inProduction Update Purchase Orders
-            
-            if (estimate.StatusId == (int)OrderStatus.InProduction)
+
+            if ((OldstatusId == (int)OrderStatus.ConfirmedOrder || OldstatusId == (int)OrderStatus.PendingOrder) && (estimate.StatusId == (int)OrderStatus.InProduction || estimate.StatusId == (int)OrderStatus.Completed_NotShipped || estimate.StatusId == (int)OrderStatus.CompletedAndShipped_Invoiced || estimate.StatusId == (int)OrderStatus.Invoice))
             {
                 try
                 {
@@ -710,6 +710,7 @@ namespace MPC.Implementation.MISServices
                     throw new MPCException("Saved Sucessfully but failed to create Purchase Order. Error: " + exp.Message, estimateRepository.OrganisationId);
                 }
             }
+            
 
             //Delete Purchase Orders
             //Req. Whenever Its Status is Cancelled Call Delete Stored Procedure or delete sp if reversing from in production to below statuses
