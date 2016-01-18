@@ -218,34 +218,14 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index()
         {
-         
-            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
             string IsCallFrom = Request.Form["hfIsCallFrom"];
             string OrderID = Request.Form["hfOrderID"].ToString();
             string ItemID = Request.Form["hfItemID"].ToString();
             ShoppingCart shopCart = null;
             if (IsCallFrom == "Checkout")// to redirect add select page if login successfull
             {
-                //bool IsAllItemtypefour = false;
-
-                //ShoppingCart shopCartobj = _OrderService.GetShopCartOrderAndDetails(Convert.ToInt64(OrderID), OrderStatus.ShoppingCart);
-                //int i = 0;
-                //foreach (var item in shopCartobj.CartItemsList)
-                //{
-
-                //    if(item.ProductType == 4)
-                //    {
-                //        IsAllItemtypefour = true;
-                //    }
-                //    else{
-                //        i++;
-                //    }
-                //}
-                  // long TypeFourItems = _ItemService.TotalProductTypeFourItems(Convert.ToInt64(OrderID));
-                  // long NotTypeFourItems = _ItemService.OtherTheTypeFourItems(Convert.ToInt64(OrderID));
-
-
                     bool result = false;
 
                     long sOrderID = 0;

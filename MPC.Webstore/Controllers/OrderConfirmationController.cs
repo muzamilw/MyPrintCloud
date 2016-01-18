@@ -15,6 +15,7 @@ using System.IO;
 using WebSupergoo.ABCpdf8;
 using System.Configuration;
 using MPC.Models.ResponseModels;
+using System.Web.UI;
 namespace MPC.Webstore.Controllers
 {
     public class OrderConfirmationController : Controller
@@ -112,6 +113,95 @@ namespace MPC.Webstore.Controllers
 
         private ShoppingCart PlaceOrder(int modOverride, long OrderId)
         {
+            string ItemTypeFourHtml = string.Empty;
+            string URl = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority;
+            CampaignEmailParams cep = new CampaignEmailParams();
+            if (_ItemService.typeFourItemsStatus(Convert.ToInt64(OrderId)) == true)
+            {
+                cep.AssetId = 1;
+                List<Item> GetAllItems = _ItemService.GetItemsByOrderID(OrderId);
+                //foreach (var item in GetAllItems)
+                //{
+                //    Asset Asset = _myCompanyService.GetAsset(Convert.ToInt64(item.RefItemId));
+                //    List<AssetItem> AssetItems = _myCompanyService.GetAssetItemsByAssetID(Asset.AssetId);
+                //}
+
+                StringWriter stringWriter = new StringWriter();
+                
+
+                using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
+                {
+                    string clearboth = "clearBoth";
+                    string FloatLeft = "float_left";
+                    string FloatRight = "float_right";
+                    string fullWidth = "Width100Percent";
+                    string halfwidth = "width50p";
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth); //Main Div
+                    writer.RenderBeginTag(HtmlTextWriterTag.Div);//Main Div
+
+
+
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetsDiv
+                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                    foreach (var item in GetAllItems)
+                    {
+
+                        Asset Asset = _myCompanyService.GetAsset(Convert.ToInt64(item.RefItemId));
+                        List<AssetItem> AssetItems = _myCompanyService.GetAssetItemsByAssetID(Asset.AssetId);
+
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetNameDiv
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                        writer.Write(Asset.AssetName);
+                        writer.RenderEndTag();
+                        foreach (var AssetItem in AssetItems)
+                        {
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetDetailsDiv
+                            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetNameDiv
+                         
+                       
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetDownloadDiv
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
+                            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
+                            writer.AddAttribute(HtmlTextWriterAttribute.Href,URl+"/"+AssetItem.FileUrl);
+                            writer.RenderBeginTag(HtmlTextWriterTag.A);
+
+                            string[] Tokens = (AssetItem.FileUrl).Split('/');
+                           
+
+                            string[] TokenComma = Tokens[5].Split('.');
+                            
+                            
+                            writer.Write("Download "+TokenComma[1].ToUpper()+"");
+                            
+                            writer.RenderEndTag();
+
+                            writer.RenderEndTag();
+
+                        }
+                        writer.RenderBeginTag(HtmlTextWriterTag.Br);///
+                        writer.RenderEndTag();//
+
+                        writer.AddAttribute(HtmlTextWriterAttribute.Class, clearboth);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                        //Clearoth
+                        writer.RenderEndTag();
+
+                        writer.RenderEndTag();
+
+                    }
+                    writer.RenderEndTag();//AssetsDiv
+
+                    writer.RenderEndTag();//Main Div
+                }
+
+                ItemTypeFourHtml = stringWriter.ToString();
+            }
             ShoppingCart shopCart = null;
             //string CacheKeyName = "CompanyBaseResponse";
             //ObjectCache cache = MemoryCache.Default;
@@ -125,7 +215,7 @@ namespace MPC.Webstore.Controllers
 
             CompanyContact user = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID()); //LoginUser;
 
-            CampaignEmailParams cep = new CampaignEmailParams();
+           
             //    PageManager pageMgr = new PageManager();
             string HTMLOfShopReceipt = null;
             cep.ContactId = _myClaimHelper.loginContactID();
@@ -158,14 +248,28 @@ namespace MPC.Webstore.Controllers
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
                             Estimate updatedOrder = _OrderService.GetOrderByID(OrderId);
                             UserCookieManager.WEBOrderId = 0;
-                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
-                            List<string> AttachmentList = new List<string>();
-                            AttachmentList.Add(AttachmentPath);
-                            SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
+                           
+                            
+                          
 
-                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                          //  string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                          //  List<string> AttachmentList = new List<string>();
+                         //   AttachmentList.Add(AttachmentPath);
+
+                            // string contains table 
+
+                            SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
+                            if (ItemTypeFourHtml != null && ItemTypeFourHtml != string.Empty)
+                            {
+                                _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", null, "", null, "", "", "", "", "", 0, "", 0, ItemTypeFourHtml);
+                            }
+                            else
+                            {
+                                _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", null);
+                            }
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-                     
+
+                                 
 
                             // For demo mode as enter the pre payment with the known parameters
                             PrePayment tblPrePayment = new PrePayment()

@@ -12,7 +12,7 @@ namespace MPC.Interfaces.WebStoreServices
     {
         Campaign GetCampaignRecordByEmailEvent(int iEmailEvent, long OrganisationId, long CompanyId);
 
-        bool emailBodyGenerator(Campaign oCampaign, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, int OrganisationId, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0);
+        bool emailBodyGenerator(Campaign oCampaign, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, int OrganisationId, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0, string ITemtypefourHtml = "");
 
         void SendEmailToSalesManager(int Event, long ContactId, long CompanyId, long OrderId, long OrganisationId,
             int CorporateManagerID, StoreMode Mode, long StoreId, SystemUser SaleManager, string NameOfBrokerComp = "",

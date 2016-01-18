@@ -52,7 +52,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public bool emailBodyGenerator(Campaign oCampaign, Organisation SeverSettings, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0)
+        public bool emailBodyGenerator(Campaign oCampaign, Organisation SeverSettings, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0,string ITemtypefourHtml="")
         {
             try
             {
@@ -66,11 +66,7 @@ namespace MPC.Repository.Repositories
                 string mailPassword = null;
                 string HtmlText = null;
 
-
-
                 HttpContext oHttpContext = HttpContext.Current;
-
-
 
                 bool result = false;
 
@@ -84,8 +80,6 @@ namespace MPC.Repository.Repositories
                     }
 
                     HtmlText = oCampaign.HTMLMessageA;
-
-
 
 
 
@@ -112,7 +106,7 @@ namespace MPC.Repository.Repositories
                         PropertyInfo[] propertyInfos = variablValues.GetType().GetProperties();
                         // RESOLVE VARIABLES FOR MESS BODY
 
-                        DecodedHtml = ResolveVariablesInHtml(DecodedHtml, propertyInfos, variablValues, SeverSettings, ModeOfStore, emailOfSalesManager, oHttpContext, password, PostCodes, Convert.ToString(SubscriptionEndDate), PayyPalGatwayEmail, SubscriptionPath, MarkBreifSumm, UnOrderedTotalItems, UnOrderedItemsTotal, SavedDesignsCount);
+                        DecodedHtml = ResolveVariablesInHtml(DecodedHtml, propertyInfos, variablValues, SeverSettings, ModeOfStore, emailOfSalesManager, oHttpContext, password, PostCodes, Convert.ToString(SubscriptionEndDate), PayyPalGatwayEmail, SubscriptionPath, MarkBreifSumm, UnOrderedTotalItems, UnOrderedItemsTotal, SavedDesignsCount, ITemtypefourHtml);
 
                         mesgBody = DecodedHtml;
 
@@ -355,7 +349,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        private string ResolveVariablesInHtml(string HtmlDocToResolve, PropertyInfo[] propertyInfos, CampaignEmailParams variablValues, Organisation OrganizationRec, StoreMode Mode, string OrgSMEmail, System.Web.HttpContext oContext, string password = "", string PostCodes = "", string SubscriptionEndDate = "", string PayyPalGatwayEmail = "", string subScriptionPath = "", string BreifSummry = "", int EstmateTotalItems = 0, string EstimateTotall = "", int CountOFSaveDesigns = 0)
+        private string ResolveVariablesInHtml(string HtmlDocToResolve, PropertyInfo[] propertyInfos, CampaignEmailParams variablValues, Organisation OrganizationRec, StoreMode Mode, string OrgSMEmail, System.Web.HttpContext oContext, string password = "", string PostCodes = "", string SubscriptionEndDate = "", string PayyPalGatwayEmail = "", string subScriptionPath = "", string BreifSummry = "", int EstmateTotalItems = 0, string EstimateTotall = "", int CountOFSaveDesigns = 0, string ITemtypefourHtml = "")
         {
             try
             {
@@ -388,8 +382,6 @@ namespace MPC.Repository.Repositories
 
                                 string Tag = HtmlDocToResolve.Substring(firstindex, subtract);
 
-
-
                                 var tagRecord = GetTag(Tag);
                                 if (tagRecord != null)
                                 {
@@ -410,12 +402,14 @@ namespace MPC.Repository.Repositories
                                     {
                                         HtmlDocToResolve = HtmlDocToResolve.Replace(Tag, PayyPalGatwayEmail);
                                     }
+                                    else if (Tag.Contains("AssetID"))
+                                    {
+                                        HtmlDocToResolve = HtmlDocToResolve.Replace(Tag, ITemtypefourHtml);
+                                    }
                                     else
                                     {
                                         foreach (PropertyInfo propertyInfo in propertyInfos)
                                         {
-
-
 
                                             if (propertyInfo.Name == tagRecord.CriteriaFieldName)
                                             {
@@ -580,6 +574,10 @@ namespace MPC.Repository.Repositories
                                                     {
                                                         Guid SystemUserId = (Guid)propertyInfo.GetValue(variablValues, null);
                                                         tagValue = DynamicQueryToSystemUserRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, SystemUserId);
+                                                    }
+                                                    else if (propertyInfo.Name == "AssetID")
+                                                    {
+                                                        tagValue = ITemtypefourHtml;
                                                     }
                                                     else
                                                         tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
