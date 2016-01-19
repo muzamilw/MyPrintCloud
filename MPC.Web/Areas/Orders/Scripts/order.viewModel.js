@@ -847,6 +847,7 @@ define("order/order.viewModel",
                                 isApplyToAll.subscribe(function (value) {
                                     applyJobSettingsToAll();
                                 });
+                                progressToJobItemCounter = 0;
                                 changeAllItemProgressToJob();
                             });
                             confirmation.afterCancel(function () {
@@ -3376,7 +3377,7 @@ define("order/order.viewModel",
                     onDeleteShippingItem: onDeleteShippingItem,
                     copyOrder: copyOrder,
                     isStoreLive: isStoreLive,
-                    AttachmentFilePath: AttachmentFilePath
+                    AttachmentFilePath: AttachmentFilePath,
                     multipleQtyItems: multipleQtyItems,
                     clickOnJobToPrevious: clickOnJobToPrevious,
                     wizardButtonLabel: wizardButtonLabel,
