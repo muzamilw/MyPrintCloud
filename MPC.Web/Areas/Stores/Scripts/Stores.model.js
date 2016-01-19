@@ -293,7 +293,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         activeBannerSetId = ko.observable().extend({ required: true }),
         priceFlagId = ko.observable(specifiedPriceFlagId),
         isStoreSetLive = ko.observable(specifiedIsStoreLive),
-       
+       isEmailChange = ko.observable(),
         // Errors
         errors = ko.validation.group({
             companyId: companyId,
@@ -400,7 +400,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserUpdateAddress: canUserUpdateAddress,
             isWidgetItemsChange: isWidgetItemsChange,
             marketingBriefRecipientEmail:marketingBriefRecipientEmail,
-            isNewThemeApplied: isNewThemeApplied
+            isNewThemeApplied: isNewThemeApplied,
+            isEmailChange: isEmailChange
            
             //#endregion
         }),
@@ -641,7 +642,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             defaultSpriteImageFileName: defaultSpriteImageFileName,
             userDefinedSpriteImageSource: userDefinedSpriteImageSource,
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
-           // isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
+            // isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
             pickupAddressId: pickupAddressId,
             customCSS: customCSS,
             companyDomains: companyDomains,
@@ -668,7 +669,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPlaceOrder: isRegisterPlaceOrder,
             isRegisterPayOnlyByCreditCard: isRegisterPayOnlyByCreditCard,
             isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
-            isRegisterPlaceOrderWithoutApproval:isRegisterPlaceOrderWithoutApproval,
+            isRegisterPlaceOrderWithoutApproval: isRegisterPlaceOrderWithoutApproval,
             isAllowRequestaQuote: isAllowRequestaQuote,
             isEnableDataAsset: isEnableDataAsset,
             isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
@@ -680,11 +681,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isStoreSetLive: isStoreSetLive,
             canUserUpdateAddress: canUserUpdateAddress,
             isWidgetItemsChange: isWidgetItemsChange,
-            marketingBriefRecipientEmail:marketingBriefRecipientEmail,
-            isNewThemeApplied: isNewThemeApplied
-           
-            //#endregion
-        };
+            marketingBriefRecipientEmail: marketingBriefRecipientEmail,
+            isNewThemeApplied: isNewThemeApplied,
+            isEmailChange: isEmailChange
+
+        //#endregion
+    };
         return self;
     };
     Store.CreateFromClientModel = function (source) {

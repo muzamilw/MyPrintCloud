@@ -3019,14 +3019,9 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenterDetail.Qty3 = Convert.ToDouble(oItemSection.WashupQty);
             }
 
-            if (!(oItemSection.IsWashup == false))
-            {
-                oItemSectionCostCenterDetail.CostPrice = dblWashupPrice;
-            }
-            else
-            {
-                oItemSectionCostCenterDetail.CostPrice = 0;
-            }
+            oItemSectionCostCenterDetail.CostPrice = oItemSection.IsWashup == true ? oPressDTO.WashupPrice : 0;
+
+            
             string side = isSide1 ? "Side 1" : "Side 2";
             oItemSectionCostCenter.Name = "Washups " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
@@ -3421,16 +3416,9 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenterDetail.Qty3 = Convert.ToDouble(oItemSection.MakeReadyQty);
             }
 
-            if (!(oItemSection.IsMakeReadyUsed == false))
-            {
-                oItemSectionCostCenterDetail.CostPrice = oPressDTO.MakeReadyCost;
-            }
-            else
-            {
-                oItemSectionCostCenterDetail.CostPrice = 0;
-            }
-
-            string side = isSide1 ? "Sdie 1" : "Side 2";
+            oItemSectionCostCenterDetail.CostPrice = oItemSection.IsMakeReadyUsed == true? oPressDTO.MakeReadyPrice : 0;
+            
+            string side = isSide1 ? "Side 1" : "Side 2";
             oItemSectionCostCenter.Name = "Plate Makereadies " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
@@ -6619,26 +6607,33 @@ namespace MPC.Implementation.MISServices
                     updatedSection.PrintViewLayout = 1;
                 updatedSection = CalculatePaperCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false);
             }
+            int uniqueInks1 =
+                   pressSide1.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
             //***********************Side 1 Calculation *************
-            if (pressSide1.isplateused != null && pressSide1.isplateused != false)//Plates
+            if (pressSide1.IsDigitalPress == false)
             {
-                int uniqueInks =
-                    pressSide1.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
-                updatedSection.IsPlateSupplied = false;
-                updatedSection.NoofUniqueInks = uniqueInks;
-                updatedSection.PlateId = pressSide1.DefaultPlateId;
-                updatedSection = CalculatePlateCost(updatedSection, false, false, true);
+                if (pressSide1.isplateused != null && pressSide1.isplateused != false)//Plates
+                {
+                    updatedSection.IsPlateSupplied = false;
+                    updatedSection.IsPlateUsed = true;
+                    updatedSection.NoofUniqueInks = uniqueInks1;
+                    updatedSection.PlateId = pressSide1.DefaultPlateId;
+                    updatedSection = CalculatePlateCost(updatedSection, false, false, true);
+                }
+                if (pressSide1.ismakereadyused != null && pressSide1.ismakereadyused == true)//Make Readies
+                {
+                    updatedSection.MakeReadyQty = uniqueInks1;
+                    updatedSection.IsMakeReadyUsed = true;
+                    updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
+                }
+                if (pressSide1.iswashupused != null && pressSide1.iswashupused == true)//Washups
+                {
+                    updatedSection.WashupQty = uniqueInks1;
+                    updatedSection.IsWashup = true;
+                    updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
+                }
             }
-            if (pressSide1.ismakereadyused != null && pressSide1.ismakereadyused == true)//Make Readies
-            {
-                updatedSection.MakeReadyQty = pressSide1.ColourHeads;
-                updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
-            }
-            if (pressSide1.iswashupused != null && pressSide1.iswashupused == true)//Washups
-            {
-                updatedSection.WashupQty = pressSide1.ColourHeads;
-                updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
-            }
+            
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)
             {
                // CalculatePressCostWebPress
@@ -6659,25 +6654,27 @@ namespace MPC.Implementation.MISServices
                 int uniqueInks =
                     pressSide2.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
                 updatedSection.NoofUniqueInks = uniqueInks;
-
-                if (pressSide2.isplateused != null && pressSide2.isplateused != false)//Plates
+                if (pressSide2.IsDigitalPress == false)
                 {
-                    updatedSection.IsPlateSupplied = false;
-                    updatedSection.IsPlateUsed = true;
-                    updatedSection.PlateId = pressSide2.DefaultPlateId;
-                    updatedSection = CalculatePlateCost(updatedSection, false, false, false);
-                }
-                if (pressSide2.ismakereadyused != null && pressSide2.ismakereadyused == true)//Make Readies
-                {
-                    updatedSection.MakeReadyQty = pressSide2.ColourHeads;
-                    updatedSection.IsMakeReadyUsed = true;
-                    updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
-                }
-                if (pressSide2.iswashupused != null && pressSide2.iswashupused == true)//Washups
-                {
-                    updatedSection.WashupQty = pressSide2.ColourHeads;
-                    updatedSection.IsWashup = true;
-                    updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
+                    if (pressSide2.isplateused != null && pressSide2.isplateused != false)//Plates
+                    {
+                        updatedSection.IsPlateSupplied = false;
+                        updatedSection.IsPlateUsed = true;
+                        updatedSection.PlateId = pressSide2.DefaultPlateId;
+                        updatedSection = CalculatePlateCost(updatedSection, false, false, false);
+                    }
+                    if (pressSide2.ismakereadyused != null && pressSide2.ismakereadyused == true)//Make Readies
+                    {
+                        updatedSection.MakeReadyQty = uniqueInks;
+                        updatedSection.IsMakeReadyUsed = true;
+                        updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
+                    }
+                    if (pressSide2.iswashupused != null && pressSide2.iswashupused == true)//Washups
+                    {
+                        updatedSection.WashupQty = uniqueInks;
+                        updatedSection.IsWashup = true;
+                        updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
+                    }
                 }
 
                 
@@ -6692,8 +6689,6 @@ namespace MPC.Implementation.MISServices
                         updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, false, true);  
                     }
                 }
-                    
-
                 
             }
 

@@ -67,7 +67,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnJobToProgressWizard">Ok</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnJobToPrevious, visible: $root.isPreVisible">Previous</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnJobToProgressWizard, text: $root.wizardButtonLabel">Next</button>
                 @*<button type="button" class="btn btn-default" data-bind="click:$root.clickOnJobToProgressWizard">Cancel</button>*@
             </div>
         </div>

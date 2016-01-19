@@ -10,7 +10,7 @@
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId, specifiedIsFinishedGood) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -270,6 +270,7 @@
                 qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0).extend({ numberInput: ist.numberFormat }),
                 tax1 = ko.observable(specifiedTax1 || undefined),
                 taxRateIsDisabled = ko.observable(false),
+                isFinishedGood = ko.observable(specifiedIsFinishedGood),
                 // Item Type
                 itemType = ko.observable(specifiedItemType || undefined),
                 // Estimate Id
@@ -487,6 +488,7 @@
                         JobSelectedQty: jobSelectedQty(),
                         InvoiceDescription: invoiceDescription(),
                         RefItemId: refItemId(),
+                        IsFinishedGoodPrivate: isFinishedGood(),
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
@@ -572,6 +574,7 @@
                 setJobProgressedBy: setJobProgressedBy,
                 jobSignedByUser: jobSignedByUser,
                 refItemId: refItemId,
+                isFinishedGood : isFinishedGood,
                 hasDeletedSections: hasDeletedSections,
                 hasDeletedAttachments: hasDeletedAttachments,
                 errors: errors,
@@ -2254,7 +2257,7 @@
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
             source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId,
-            source.JobSelectedQty, source.RefItemId);
+            source.JobSelectedQty, source.RefItemId, source.IsFinishedGoodPrivate);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {

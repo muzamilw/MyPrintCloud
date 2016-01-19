@@ -110,7 +110,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
-                Status = source.Status != null ? source.Status.StatusName : string.Empty,
+                Status = source.Status != null ? source.Status.StatusId == 4 ? "Confirmed STARTS" : source.Status.StatusName : string.Empty,
                 EstimateTotal = source.Estimate_Total,
                 IsDirectSale = source.isDirectSale,
                 SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null,
