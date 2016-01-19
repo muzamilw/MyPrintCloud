@@ -171,6 +171,9 @@ define("order/order.viewModel",
                     currencySymbol = ko.observable(''),
                     loggedInUser = ko.observable(),
                     itemIdFromDashboard = ko.observable(),
+
+                    AttachmentFilePath = ko.observable(),
+
                     inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
                     selectedInquiryItem = inquiryDetailEditorViewModel.itemForEditing,
                     //On Order Status change to progress to job that will open wizard
@@ -2664,10 +2667,39 @@ define("order/order.viewModel",
                             }
                         });
 
+                        var ext = file.name.split('.').pop();
+
+                        // for pdf
+                        if (ext == "pdf") {
+                            url = "/mis/Content/Images/PDFFile.png";
+
+                        }// for psd
+                        else if (ext == "psd") {
+                            url = "/mis/Content/Images/PSDFile.png";
+
+                        }// for ai
+                        else if (ext == "ai") {
+                            url = "/mis/Content/Images/IllustratorFile.png";
+
+                        } // for indd
+                        else if (ext == "indd") {
+                            url = "/mis/Content/Images/InDesignFile.png";
+
+                        }// for jpg
+                        else if (ext == "jpg" || ext == "jpeg") {
+                            url = "/mis/Content/Images/JPGFile.png";
+
+                        }//for png
+                        else if (ext == "png") {
+                            url = "/mis/Content/Images/PNGFile.png";
+
+                        }
+
                         if (flag) {
                             var attachment = model.InquiryAttachment.Create({});
                             attachment.attachmentId(undefined);
                             attachment.attachmentPath(data);
+                            attachment.attachmentFileURL(url);
                             attachment.orignalFileName(file.name);
                             attachment.extension(file.type);
                             attachment.inquiryId(selectedInquiry().inquiryId());
@@ -3255,7 +3287,8 @@ define("order/order.viewModel",
                     sectionFlagsForListView: sectionFlagsForListView,
                     onDeleteShippingItem: onDeleteShippingItem,
                     copyOrder: copyOrder,
-                    isStoreLive:isStoreLive
+                    isStoreLive: isStoreLive,
+                    AttachmentFilePath: AttachmentFilePath
                     //#endregion
                 };
             })()
