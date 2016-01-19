@@ -1237,7 +1237,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     //#region INQUIRY ATTACHMENT
 
     var InquiryAttachment = function (
-        specifiedAttachmentId, specifiedOrignalFileName, specifiedAttachmentPath, specifiedInquiryId, specifiedExtension
+        specifiedAttachmentId, specifiedOrignalFileName, specifiedAttachmentPath, specifiedInquiryId, specifiedExtension, specifiedURL
     ) {
         var self,
         attachmentId = ko.observable(specifiedAttachmentId),
@@ -1245,6 +1245,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         attachmentPath = ko.observable(specifiedAttachmentPath),
         inquiryId = ko.observable(specifiedInquiryId),
         extension = ko.observable(specifiedExtension),
+        attachmentFileURL = ko.observable(specifiedURL),
         errors = ko.validation.group({
 
         }),
@@ -1259,7 +1260,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             orignalFileName: orignalFileName,
             attachmentPath: attachmentPath,
             inquiryId: inquiryId,
-            extension: extension
+            extension: extension,
+            attachmentFileURL: attachmentFileURL
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -1272,7 +1274,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     OrignalFileName: orignalFileName(),
                     AttachmentPath: attachmentPath(),
                     InquiryId: inquiryId(),
-                    Extension: extension()
+                    Extension: extension(),
+                    AttachmentFileURL: attachmentFileURL()
                 };
             },
             // Reset
@@ -1287,6 +1290,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             attachmentPath: attachmentPath,
             inquiryId: inquiryId,
             extension: extension,
+            attachmentFileURL: attachmentFileURL,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1303,7 +1307,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               source.OrignalFileName,
               source.AttachmentPath,
               source.InquiryId,
-              source.Extension
+              source.Extension,
+              source.AttachmentFileURL
             );
         return inquiryAttachment;
     };
