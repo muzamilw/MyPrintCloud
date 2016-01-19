@@ -564,7 +564,7 @@ define("common/itemDetail.viewModel",
                         showItemDetailsSection(true);
                         selectedProduct().systemUsers(systemUsers());
                         selectedOrder(selectedOrderParam);
-                        selectedSection(selectedProduct().itemSections()[0]);
+                        //selectedSection(selectedProduct().itemSections()[0]);
                         isEstimateScreen(isEstimateScreenFlag);
                         closeItemDetailSection = closeItemDetailParam;
                         saveOrderFromSection = saveOrderFromSectionParam;
@@ -1687,6 +1687,7 @@ define("common/itemDetail.viewModel",
                         sectionCostCenter.qty3EstimatedStockCost(0);
                         sectionCostCenter.costCentreId(selectedCostCentre().id());
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
+                        sectionCostCenter.systemCostCenterType(9);
                         sectionCostCenter.name(selectedCostCentre().name());
                         sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
                         sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());

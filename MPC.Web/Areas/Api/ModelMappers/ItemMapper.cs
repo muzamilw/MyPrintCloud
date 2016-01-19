@@ -582,6 +582,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
                 JobSelectedQty = source.JobSelectedQty,
+                IsFinishedGoodPrivate = source.IsFinishedGoodPrivate,
                 ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
             };
             return item;
@@ -648,6 +649,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty3GrossTotal = source.Qty3GrossTotal,
                 Qty2 = source.Qty2,
                 Qty3 = source.Qty3,
+                IsFinishedGoodPrivate = source.IsFinishedGoodPrivate,
                 JobSelectedQty = source.JobSelectedQty,
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,

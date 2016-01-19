@@ -168,7 +168,6 @@ namespace MPC.Webstore.Controllers
             return View("PartialViews/BillingShippingAddressManager");
         }
 
-
         [HttpPost]
         public JsonResult FillAddresses(long AddressID)
         {

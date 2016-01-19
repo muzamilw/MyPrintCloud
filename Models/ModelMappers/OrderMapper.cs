@@ -803,6 +803,7 @@ namespace MPC.Models.ModelMappers
             target.ItemId = source.ItemId;
             target.SupplierId = source.SupplierId;
             target.SupplierId2 = source.SupplierId2;
+            target.IsFinishedGoodPrivate = source.IsFinishedGoodPrivate;
             if (source.RefItemId != null)
             {
                 target.RefItemId = source.RefItemId;
