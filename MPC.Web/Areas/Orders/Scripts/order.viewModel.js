@@ -50,8 +50,11 @@ define("order/order.viewModel",
                     paperSizes = ko.observableArray([]),
                     // Ink Plate Sides Methods
                     inkPlateSides = ko.observableArray([]),
+                    multipleQtyItems = ko.observableArray([]),
                     //Counter for New Section Id
                     counterForSection = -1000,
+                    wizardButtonLabel = ko.observable(),
+                    isPreVisible = ko.observable(),
                     //
                     selectedCompanyTaxRate = ko.observable(),
                     selectedCompanyJobManagerUser = ko.observable(),
@@ -307,7 +310,7 @@ define("order/order.viewModel",
                         }
                         selectedOrder().footNotes(footNotes());
                         selectedOrder().headNotes(headNotes());
-                        view.setOrderState(4); // Pending Order
+                        view.setOrderState(4); // Pending Order. on 2016 01 18 renamed this status to Confirmed and hide the status Confirmed starts
                         selectedOrder().statusId(4);
                         selectedOrder().status("Open/Draft Estimate");
                         $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
@@ -485,6 +488,11 @@ define("order/order.viewModel",
                             if (!itemHasChanges) {
                                 item.reset();
                             }
+                        }
+                        if (item.productType() == 3 && item.isFinishedGood() != 0)
+                            item.isFinishedGood(1);
+                        else {
+                            item.isFinishedGood(0);
                         }
                         selectedProduct(item);
                         if (!orderGotChanges) {
@@ -666,8 +674,8 @@ define("order/order.viewModel",
                     },
                     // Edit Section
                     editSection = function (item) {
-                        sectionHeader("SECTION - " + item.sectionNo());
-                        selectedSection(item);
+                        //sectionHeader("SECTION - " + item.sectionNo());
+                        //selectedSection(item);
                         openSectionDetail();
 
                     },
@@ -701,17 +709,18 @@ define("order/order.viewModel",
                             view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
                             return;
                         }
-                            
+                        if (selectedOrder().statusId() == 4)
+                            selectedOrder().statusId(5);
                         // For Cancel Order
-                        if (status === 5) {
+                        if (status === 4) {
                             forOrderStatusCancel();
 
                         } else {
-                            status = status === 4 ? status + 6 : (status === 5 ? status + 5 : status + 4);
+                            status = status === 3 ? status + 7 : (status === 4 ? status + 6 : status + 5);
                             // Cancel to shippend & Invoice
-                            if (status == 10 && selectedOrder().statusId() === 9) {
+                            if (status == 9 && selectedOrder().statusId() === 8) {
                                 statusNavigationBackward(status);
-                            } else if (selectedOrder().statusId() < status) {
+                            } else if (selectedOrder().statusId() <= status) {
                                 // Before status change to In Production, Items must exist in order
 
                                 statusNavigationForward(status);
@@ -840,6 +849,7 @@ define("order/order.viewModel",
                         }
                     },
                     progressToJobItemCounter = 0,
+                    
                     // Change All items status Progress to job
                     changeAllItemProgressToJob = function () {
                         if (selectedOrder().nonDeliveryItems().length > 0) {
@@ -852,7 +862,10 @@ define("order/order.viewModel",
                                 selectedItemForProgressToJobWizard().systemUsers(systemUsers());
                             }
                             selectedItemForProgressToJobWizard().setJobProgressedBy(loggedInUser());
+                            wizardButtonLabel(progressToJobItemCounter == selectedOrder().nonDeliveryItems().length - 1 ? "Finish" : "Next");
+                            isPreVisible(progressToJobItemCounter > 0 && selectedOrder().nonDeliveryItems().length - 1 ? true : false);
                             progressToJobItemCounter = progressToJobItemCounter + 1;
+                            
                             //Update Order Items On Progress to order
                             //setting job manager and signed by of items on progress to order
                             updateOrderItemsOnProgressToOrder();
@@ -872,9 +885,26 @@ define("order/order.viewModel",
                             view.hideOrderStatusProgressToJobDialog();
                             progressToJobItemCounter = 0;
                         } else {
+                            if (progressToJobItemCounter == 0)
+                                progressToJobItemCounter = 1;
                             changeAllItemProgressToJob();
                         }
 
+                    },
+                    clickOnJobToPrevious = function () {
+                        if (progressToJobItemCounter == 1)
+                            progressToJobItemCounter = 2;
+                        progressToJobItemCounter = progressToJobItemCounter - 2;
+                        selectedItemForProgressToJobWizard(selectedOrder().nonDeliveryItems()[progressToJobItemCounter]);
+                        //selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
+                        //selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
+                        //selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
+                        selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
+                        if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
+                            selectedItemForProgressToJobWizard().systemUsers(systemUsers());
+                        }
+                        wizardButtonLabel(progressToJobItemCounter == selectedOrder().nonDeliveryItems().length - 1 ? "Finish" : "Next");
+                        isPreVisible(progressToJobItemCounter > 0 && selectedOrder().nonDeliveryItems().length - 1 ? true : false);
                     },
                     // Show Confirmation on forward Navigation of Order Status Change
                     showConfirmationMessageForForwardNavigationOnStatusChange = function (status) {
@@ -1051,8 +1081,8 @@ define("order/order.viewModel",
                         item.qty2NetTotal(selectedCostCentre().setupCost2());
                         item.qty3NetTotal(selectedCostCentre().setupCost3());
                         //Req: Item Product code is set to '2', so while editting item's section is non mandatory
-                        item.productType(2);
-
+                        item.productType(3);
+                        item.isFinishedGood(0);
                         var itemSection = itemModel.ItemSection.Create({});
                         counterForSection = counterForSection - 1;
                         itemSection.id(counterForSection);
@@ -1074,7 +1104,7 @@ define("order/order.viewModel",
                         sectionCostCenter.costCentreId(selectedCostCentre().id());
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
                         sectionCostCenter.name(selectedCostCentre().name());
-
+                        sectionCostCenter.systemCostCenterType(9);
                         sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
                         sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
                         
@@ -1759,6 +1789,7 @@ define("order/order.viewModel",
                         });
                         // Set Default Section to be used as a default for new sections in this item
                         itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
+                        newItem.isFinishedGood(1);
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
 
@@ -1871,6 +1902,10 @@ define("order/order.viewModel",
                         }
                     },
                     onSaveProductInventory = function () {
+                        if (selectedCostCentre().quantity1() == undefined || selectedCostCentre().quantity1() <= 0) {
+                            toastr.error("Please enter quantity 1 to proceed.");
+                            return;
+                        }
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: inventoryStockItemToCreate().id });
                         item.productName(inventoryStockItemToCreate().name);
 
@@ -1881,6 +1916,7 @@ define("order/order.viewModel",
                         //Req: Item Product type is set to '2', so while editting item's section is non mandatory
                         //Naveed: set as 3 so it should not show print section
                         item.productType(3);
+                        item.isFinishedGood(0);
                         item.qty1NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity1());
                         item.qty2NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
                         item.qty3NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
@@ -1908,7 +1944,7 @@ define("order/order.viewModel",
                         sectionCostCenter.qty3(selectedCostCentre().quantity3());
                         sectionCostCenter.costCentreId(getStockCostCenterId(139));
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
-                        sectionCostCenter.name('Stock(s)');
+                        sectionCostCenter.name(inventoryStockItemToCreate().name);
                         sectionCostCenter.qty1NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity1());
                         sectionCostCenter.qty2NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
                         sectionCostCenter.qty3NetTotal(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
@@ -1919,6 +1955,7 @@ define("order/order.viewModel",
                         sectionCostCenter.qty2Charge(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity2());
                         sectionCostCenter.qty3Charge(inventoryStockItemToCreate().actualprice * selectedCostCentre().quantity3());
                         sectionCostCenter.costCentreType('139');
+                        sectionCostCenter.systemCostCenterType(1);
 
                         var sectionCostCenterDetail = itemModel.SectionCostCenterDetail.Create({});
                         sectionCostCenterDetail.stockName(inventoryStockItemToCreate().name);
@@ -2018,6 +2055,7 @@ define("order/order.viewModel",
                         sectionCostCenter.qty2NetTotal(0);
                         sectionCostCenter.qty3NetTotal(0);
                         sectionCostCenter.qty1NetTotal(qty1Total || 0);
+                        sectionCostCenter.systemCostCenterType(9);
 
                         //Item's Quantity
                         newItem.qty1(selectedProductQuanityParam);
@@ -2919,25 +2957,40 @@ define("order/order.viewModel",
                     //#endregion
                     //#region Progress To Order
                     progressToOrderHandler = function () {
-                        estimateToBeProgressed(model.Estimate.Create(selectedOrder().convertToServerData(), { SystemUsers: systemUsers() }));
-                        estimateToBeProgressed().setCreditiLimitSetBy(loggedInUser());
-                        estimateToBeProgressed().setAllowJobWoCreditCheckSetBy(loggedInUser());
-                        estimateToBeProgressed().setOfficialOrderSetBy(loggedInUser());
-                        // Map Items if any
                         if (selectedOrder().items() && selectedOrder().items().length > 0) {
+                            
+                            estimateToBeProgressed(model.Estimate.Create(selectedOrder().convertToServerData(), { SystemUsers: systemUsers() }));
+                            estimateToBeProgressed().setCreditiLimitSetBy(loggedInUser());
+                            estimateToBeProgressed().setAllowJobWoCreditCheckSetBy(loggedInUser());
+                            estimateToBeProgressed().setOfficialOrderSetBy(loggedInUser());
+                            // Map Items if any
+                            multipleQtyItems.removeAll();
+                            var multipleQtys = [];
                             var items = [];
-
+                            _.each(selectedOrder().items(), function (item) {
+                                item.jobSelectedQty('1');
+                                if(item.qty2() > 0)
+                                    multipleQtys.push(itemModel.Item.Create(item.convertToServerData()));
+                            });
+                            ko.utils.arrayPushAll(multipleQtyItems(), multipleQtys);
+                            multipleQtyItems.valueHasMutated();
+                            
                             _.each(selectedOrder().items(), function (item) {
                                 //item.id(undefined);
                                 item.jobSelectedQty('1');
-                                items.push(itemModel.Item.Create(item.convertToServerData()));
+                                if(item.qty2() <= 0 && item.qty3() <= 0)
+                                    items.push(itemModel.Item.Create(item.convertToServerData()));
                             });
 
                             // Push to Original Item
                             ko.utils.arrayPushAll(estimateToBeProgressed().items(), items);
                             estimateToBeProgressed().items.valueHasMutated();
+                            
+                            view.showProgressToOrderDialog();
+                        } else {
+                            toastr.error("Estimate without items can not be progressed to order.");
                         }
-                        view.showProgressToOrderDialog();
+                        
                     },
 
                     onSaveEstimateProgressedToOrder = function () {
@@ -2945,7 +2998,10 @@ define("order/order.viewModel",
                             estimateToBeProgressed().statusId(5); // Confirmed Starts orders
                         }
                         var order = estimateToBeProgressed().convertToServerData();
-
+                        if (multipleQtyItems().length > 0) {
+                            ko.utils.arrayPushAll(estimateToBeProgressed().items(), multipleQtyItems());
+                            estimateToBeProgressed().items.valueHasMutated();
+                        }
                         // Map Items if any
                         var itemsArray = [];
                         _.each(estimateToBeProgressed().items(), function (obj) {
@@ -3255,7 +3311,11 @@ define("order/order.viewModel",
                     sectionFlagsForListView: sectionFlagsForListView,
                     onDeleteShippingItem: onDeleteShippingItem,
                     copyOrder: copyOrder,
-                    isStoreLive:isStoreLive
+                    isStoreLive: isStoreLive,
+                    multipleQtyItems: multipleQtyItems,
+                    clickOnJobToPrevious: clickOnJobToPrevious,
+                    wizardButtonLabel: wizardButtonLabel,
+                    isPreVisible: isPreVisible
                     //#endregion
                 };
             })()

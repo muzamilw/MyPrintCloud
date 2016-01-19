@@ -87,12 +87,12 @@ define("order/order.view",
                     $("#orderCostCentersQuanity").modal("hide");
                 },
                 setOrderState = function (state, isFromEstimate) {
-                    orderstate(state);
+                    orderstate(state == 4 ? 5 : state);
                     $(function () {
                         // set up an array to hold the order Status
-                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Ready For Shipping", "Shipped & Invoiced", "Cancelled"];
-
-
+                        //var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Ready For Shipping", "Shipped & Invoiced", "Cancelled"];
+                        var orderStatusArray = ["Confirmed Start", "In Production", "Ready For Shipping", "Shipped & Invoiced", "Cancelled"];
+                       
                         $(".slider").slider().slider("pips");
                         $(".slider")
 
@@ -100,7 +100,7 @@ define("order/order.view",
                             .slider({
                                 min: 0,
                                 max: orderStatusArray.length - 1,
-                                value: orderstate() !== 0 ? (orderstate() === 9 ? orderstate() - 4 : (orderstate() === 10 ? orderstate() - 6 : orderstate() - 4)) : orderstate()
+                                value: orderstate() !== 0 ? (orderstate() === 9 ? orderstate() - 5 : (orderstate() === 10 ? orderstate() - 7 : orderstate() - 5)) : orderstate()
                                 //value: orderstate()
                             })
 
@@ -113,7 +113,7 @@ define("order/order.view",
                             // and whenever the slider changes, lets echo out the month
                             .on("slidechange", function (e, ui) {
                                 var oldSatate = orderstate();
-                                orderstate((ui.value) + 4);
+                                orderstate((ui.value) + 5);
                                 if (oldSatate !== orderstate()) {
                                     orderViewModel.onOrderStatusChange(ui.value);
                                     // toastr.success("You selected " + orderStatusArray[ui.value] + " (" + ui.value + ")");
