@@ -905,7 +905,6 @@ define("order/order.viewModel",
                         }
                         wizardButtonLabel(progressToJobItemCounter == selectedOrder().nonDeliveryItems().length - 1 ? "Finish" : "Next");
                         isPreVisible(progressToJobItemCounter > 0 && selectedOrder().nonDeliveryItems().length - 1 ? true : false);
-                        
                     },
                     // Show Confirmation on forward Navigation of Order Status Change
                     showConfirmationMessageForForwardNavigationOnStatusChange = function (status) {
