@@ -87,5 +87,7 @@ namespace MPC.Interfaces.MISServices
         List<Item> GetOrderItems(long EstimateId);
         string DownloadOrderXml(int orderId, long organisationId);
 
+        string DownloadInquiryAttachment(long id, out string fileName, out string fileTpe);
+
     }
 }

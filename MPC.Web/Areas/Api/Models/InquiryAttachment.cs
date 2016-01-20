@@ -10,6 +10,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string AttachmentPath { get; set; }
         public int InquiryId { get; set; }
         public string Extension { get; set; }
+        [NotMapped]
+        public string AttachmentFileURL { get; set; }
         #region Additional Properties
 
         /// <summary>

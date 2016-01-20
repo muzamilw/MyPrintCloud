@@ -55,6 +55,8 @@ define("order/order.viewModel",
                     counterForSection = -1000,
                     wizardButtonLabel = ko.observable(),
                     isPreVisible = ko.observable(),
+                    isApplyToAll = ko.observable(),
+                    isApplyButtonVisible = ko.observable(),
                     //
                     selectedCompanyTaxRate = ko.observable(),
                     selectedCompanyJobManagerUser = ko.observable(),
@@ -174,6 +176,9 @@ define("order/order.viewModel",
                     currencySymbol = ko.observable(''),
                     loggedInUser = ko.observable(),
                     itemIdFromDashboard = ko.observable(),
+
+                    AttachmentFilePath = ko.observable(),
+
                     inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
                     selectedInquiryItem = inquiryDetailEditorViewModel.itemForEditing,
                     //On Order Status change to progress to job that will open wizard
@@ -838,6 +843,11 @@ define("order/order.viewModel",
                                 }
                                 selectedOrder().statusId(status);
                                 view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
+                                isApplyButtonVisible(selectedOrder().nonDeliveryItems().length > 1 ? true: false);
+                                isApplyToAll.subscribe(function (value) {
+                                    applyJobSettingsToAll();
+                                });
+                                progressToJobItemCounter = 0;
                                 changeAllItemProgressToJob();
                             });
                             confirmation.afterCancel(function () {
@@ -854,13 +864,18 @@ define("order/order.viewModel",
                     changeAllItemProgressToJob = function () {
                         if (selectedOrder().nonDeliveryItems().length > 0) {
                             selectedItemForProgressToJobWizard(selectedOrder().nonDeliveryItems()[progressToJobItemCounter]);
-                            selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
-                            selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
-                            selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
-                            selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
+                            if (selectedItemForProgressToJobWizard().jobStatusId() == undefined)
+                                selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
+                            if (selectedItemForProgressToJobWizard().jobEstimatedStartDateTime() == undefined)
+                                selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
+                            if (selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime() == undefined)
+                                selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
                             if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
                                 selectedItemForProgressToJobWizard().systemUsers(systemUsers());
                             }
+                            if (selectedItemForProgressToJobWizard().jobManagerUser() == undefined)
+                                selectedItemForProgressToJobWizard().jobManagerUser(systemUsers().length > 0 ? systemUsers()[0] : selectedCompanyJobManagerUser());
+                            
                             selectedItemForProgressToJobWizard().setJobProgressedBy(loggedInUser());
                             wizardButtonLabel(progressToJobItemCounter == selectedOrder().nonDeliveryItems().length - 1 ? "Finish" : "Next");
                             isPreVisible(progressToJobItemCounter > 0 && selectedOrder().nonDeliveryItems().length - 1 ? true : false);
@@ -872,11 +887,32 @@ define("order/order.viewModel",
                             view.showOrderStatusProgressToJobDialog();
                         }
                     },
+                    applyJobSettingsToAll = function () {
+                        if (isApplyToAll() == true) {
+                            progressToJobItemCounter = selectedOrder().nonDeliveryItems().length;
+                            wizardButtonLabel("Finish");
+                            if (selectedItemForProgressToJobWizard() != undefined) {
+                                _.each(selectedOrder().nonDeliveryItems(), function (item) {
+                                    item.jobManagerId(selectedItemForProgressToJobWizard().jobManagerId());
+                                    item.jobSignedBy(selectedItemForProgressToJobWizard().jobSignedBy());
+                                    
+                                    item.jobStatusId(selectedItemForProgressToJobWizard().jobStatusId());
+                                    item.jobEstimatedStartDateTime(selectedItemForProgressToJobWizard().jobEstimatedStartDateTime());
+                                    item.jobEstimatedCompletionDateTime(selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime());
+                                    item.setJobProgressedBy(selectedItemForProgressToJobWizard().setJobProgressedBy());
+                                });
+                            }
+                        } else {
+                            progressToJobItemCounter = 0;
+                            wizardButtonLabel("Next");
+                        }
+                        
+                    },
                     //Update Order Items On Progress to order
                     //setting job manager and signed by of items on progress to order
                     updateOrderItemsOnProgressToOrder = function() {
                         _.each(selectedOrder().nonDeliveryItems(), function(item) {
-                            item.jobManagerId(selectedCompanyJobManagerUser());
+                            //item.jobManagerId(selectedCompanyJobManagerUser());
                             item.jobSignedBy(loggedInUser());
                         });
                     },
@@ -899,10 +935,10 @@ define("order/order.viewModel",
                         //selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
                         //selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
                         //selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
-                        selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
-                        if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
-                            selectedItemForProgressToJobWizard().systemUsers(systemUsers());
-                        }
+                        //selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
+                        //if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
+                        //    selectedItemForProgressToJobWizard().systemUsers(systemUsers());
+                        //}
                         wizardButtonLabel(progressToJobItemCounter == selectedOrder().nonDeliveryItems().length - 1 ? "Finish" : "Next");
                         isPreVisible(progressToJobItemCounter > 0 && selectedOrder().nonDeliveryItems().length - 1 ? true : false);
                     },
@@ -2702,10 +2738,39 @@ define("order/order.viewModel",
                             }
                         });
 
+                        var ext = file.name.split('.').pop();
+
+                        // for pdf
+                        if (ext == "pdf") {
+                            url = "/mis/Content/Images/PDFFile.png";
+
+                        }// for psd
+                        else if (ext == "psd") {
+                            url = "/mis/Content/Images/PSDFile.png";
+
+                        }// for ai
+                        else if (ext == "ai") {
+                            url = "/mis/Content/Images/IllustratorFile.png";
+
+                        } // for indd
+                        else if (ext == "indd") {
+                            url = "/mis/Content/Images/InDesignFile.png";
+
+                        }// for jpg
+                        else if (ext == "jpg" || ext == "jpeg") {
+                            url = "/mis/Content/Images/JPGFile.png";
+
+                        }//for png
+                        else if (ext == "png") {
+                            url = "/mis/Content/Images/PNGFile.png";
+
+                        }
+
                         if (flag) {
                             var attachment = model.InquiryAttachment.Create({});
                             attachment.attachmentId(undefined);
                             attachment.attachmentPath(data);
+                            attachment.attachmentFileURL(url);
                             attachment.orignalFileName(file.name);
                             attachment.extension(file.type);
                             attachment.inquiryId(selectedInquiry().inquiryId());
@@ -3312,10 +3377,13 @@ define("order/order.viewModel",
                     onDeleteShippingItem: onDeleteShippingItem,
                     copyOrder: copyOrder,
                     isStoreLive: isStoreLive,
+                    AttachmentFilePath: AttachmentFilePath,
                     multipleQtyItems: multipleQtyItems,
                     clickOnJobToPrevious: clickOnJobToPrevious,
                     wizardButtonLabel: wizardButtonLabel,
-                    isPreVisible: isPreVisible
+                    isPreVisible: isPreVisible,
+                    isApplyToAll: isApplyToAll,
+                    isApplyButtonVisible: isApplyButtonVisible
                     //#endregion
                 };
             })()

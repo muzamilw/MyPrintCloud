@@ -42,8 +42,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return inquiryService.GetInquiryById(id).CreateFrom();
-            return null;
+            Inquiry Inq = inquiryService.GetInquiryById(id).CreateFrom();
+            return Inq;
         }
         /// <summary>
         /// Get All Inquiries
