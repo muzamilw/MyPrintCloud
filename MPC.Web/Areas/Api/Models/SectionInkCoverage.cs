@@ -12,6 +12,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int? InkOrder { get; set; }
         public int? InkId { get; set; }
         public int? CoverageGroupId { get; set; }
+        public double? CoverageRate { get; set; }
         public int? Side { get; set; }
     }
 }

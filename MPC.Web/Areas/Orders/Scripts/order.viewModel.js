@@ -1076,6 +1076,10 @@ define("order/order.viewModel",
                     },
                     //Opens Cost Center dialog for Cost Center
                     onCostCenterClick = function () {
+                        if (selectedOrder().companyId() === undefined) {
+                            toastr.error("Please select customer.");
+                            return;
+                        }
                         isAddProductFromInventory(false);
                         isCostCenterDialogForShipping(false);
                         onAddCostCenterForProduct();
@@ -1774,7 +1778,6 @@ define("order/order.viewModel",
                     },
                     // Add Finished Goods
                      onAddFinishedGoods = function () {
-
                          if (selectedOrder().companyId() === undefined) {
                              toastr.error("Please select customer.");
                          } else {
@@ -2124,6 +2127,10 @@ define("order/order.viewModel",
                     //#endregion
                     //#region Add Blank Print Product
                     onCreateNewBlankPrintProduct = function () {
+                        if (selectedOrder().companyId() === undefined) {
+                            toastr.error("Please select customer.");
+                            return;
+                        }
                         var newItem = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         applyProductTax(newItem);
                         //Req: Item Product code is set to '1', so while editting item's section is mandatory

@@ -126,6 +126,8 @@ namespace MPC.Implementation.MISServices
             double PressRunTime1 = 0;
             double PressRunTime2 = 0;
             double PressRunTime3 = 0;
+            int[] zoneChargedSheets = new int[3];
+            double[] zoneChargedPrices = new double[3];
 
 
             //'# of times the printsheets need to be passed thru the given press, based on the # of colours
@@ -396,24 +398,24 @@ namespace MPC.Implementation.MISServices
                             }
 
                             double dblCoverageMultiple = 1;
-                            if (isPressSide2)
-                            {
-                                if (oItemSection.ImpressionCoverageSide2 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
-                            else
-                            {
-                                if (oItemSection.ImpressionCoverageSide1 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
+                            //if (isPressSide2)
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide2 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
+                            //else
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide1 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
 
                             //Checing Whether Print is Double sided and Press can't perform perfecting
                             dblPrintCost[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost) * dblCoverageMultiple) + oPressDTO.SetupCharge);
@@ -667,6 +669,13 @@ namespace MPC.Implementation.MISServices
                                 dblCostCZ[i] = dblClickCost[14];
                                 dblPriceCZ[i] = dblClickPrice[14];
                             }
+                            zoneChargedSheets[0] = intPrintChgeCZ[0];
+                            zoneChargedSheets[1] = intPrintChgeCZ[1];
+                            zoneChargedSheets[2] = intPrintChgeCZ[2];
+                            zoneChargedPrices[0] = dblPriceCZ[0];
+                            zoneChargedPrices[1] = dblPriceCZ[1];
+                            zoneChargedPrices[2] = dblPriceCZ[2];
+
                         }
 
                         //Checking whether if press is Accumulative click charge 
@@ -719,24 +728,25 @@ namespace MPC.Implementation.MISServices
 
                             //Check the coverage high, medium and low and set multiplier.
                             double dblCoverageMultiple = 1;
-                            if(isPressSide2)
-                            {
-                                if (oItemSection.ImpressionCoverageSide2 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh??1;
-                                else if(oItemSection.ImpressionCoverageSide2 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
-                            else
-                            {
-                                if (oItemSection.ImpressionCoverageSide1 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
+                            //Commented coverage multiple as its removed from UI and added into inks 2016 01 21
+                            //if(isPressSide2)
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide2 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh??1;
+                            //    else if(oItemSection.ImpressionCoverageSide2 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
+                            //else
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide1 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
 
 
                             //dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
@@ -1152,6 +1162,34 @@ namespace MPC.Implementation.MISServices
                 //oItemSectionCostCenterDetail.StockId = oItemSection.PressID;
                 oItemSectionCostCenterDetail.CostPrice = dblPrintCost[0];
                 //Naveed: condition added for setting name of the press while calling this function to get best press list from service
+                string sMethodName = oModelLookUpMethod.Type == (int) MethodTypes.SpeedWeight
+                    ? "Speed Weight"
+                    : oModelLookUpMethod.Type == (int) MethodTypes.MeterPerHour ? "Meter Per Hour" : "Click Charge Zone";
+                string zoneRatesQty1 = (oModelLookUpMethod.Type == (int) MethodTypes.ClickChargeZone) ? " Zone Rate Charged : " + zoneChargedPrices[0] : "";
+                string zoneRatesQty2 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[1] : "";
+                string zoneRatesQty3 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[2] : "";
+                if (!isPressSide2)
+                {
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+                    if(oItemSection.Qty2 > 0)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2??0) + zoneRatesQty2 + Environment.NewLine;
+                    if(oItemSection.Qty3 > 0)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3??0) + zoneRatesQty3 + Environment.NewLine;
+                    oItemSectionCostCenter.IsScheduleable = 0;
+                }
+                else
+                {
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+                    if (oItemSection.Qty2 > 0)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    if (oItemSection.Qty3 > 0)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
+                    oItemSectionCostCenter.IsScheduleable = 1;
+                }
                 string sSide = isPressSide2 ? "Side 2" : "Side 1";
                 if (isBestPress)
                     oItemSectionCostCenter.Name = oPressDTO.MachineName;
