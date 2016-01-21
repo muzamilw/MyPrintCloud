@@ -126,6 +126,8 @@ namespace MPC.Implementation.MISServices
             double PressRunTime1 = 0;
             double PressRunTime2 = 0;
             double PressRunTime3 = 0;
+            int[] zoneChargedSheets = new int[3];
+            double[] zoneChargedPrices = new double[3];
 
 
             //'# of times the printsheets need to be passed thru the given press, based on the # of colours
@@ -667,6 +669,13 @@ namespace MPC.Implementation.MISServices
                                 dblCostCZ[i] = dblClickCost[14];
                                 dblPriceCZ[i] = dblClickPrice[14];
                             }
+                            zoneChargedSheets[0] = intPrintChgeCZ[0];
+                            zoneChargedSheets[1] = intPrintChgeCZ[1];
+                            zoneChargedSheets[2] = intPrintChgeCZ[2];
+                            zoneChargedPrices[0] = dblPriceCZ[0];
+                            zoneChargedPrices[1] = dblPriceCZ[1];
+                            zoneChargedPrices[2] = dblPriceCZ[2];
+
                         }
 
                         //Checking whether if press is Accumulative click charge 
@@ -1152,6 +1161,30 @@ namespace MPC.Implementation.MISServices
                 //oItemSectionCostCenterDetail.StockId = oItemSection.PressID;
                 oItemSectionCostCenterDetail.CostPrice = dblPrintCost[0];
                 //Naveed: condition added for setting name of the press while calling this function to get best press list from service
+                string sMethodName = oModelLookUpMethod.Type == (int) MethodTypes.SpeedWeight
+                    ? "Speed Weight"
+                    : oModelLookUpMethod.Type == (int) MethodTypes.MeterPerHour ? "Meter Per Hour" : "Click Charge Zone";
+                string zoneRatesQty1 = (oModelLookUpMethod.Type == (int) MethodTypes.ClickChargeZone) ? " Zone Rate Charged : " + zoneChargedPrices[0] : "";
+                string zoneRatesQty2 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[1] : "";
+                string zoneRatesQty3 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[2] : "";
+                if (!isPressSide2)
+                {
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2??0) + zoneRatesQty2 + Environment.NewLine;
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3??0) + zoneRatesQty3 + Environment.NewLine;
+                    oItemSectionCostCenter.IsScheduleable = 0;
+                }
+                else
+                {
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
+                    oItemSectionCostCenter.IsScheduleable = 1;
+                }
                 string sSide = isPressSide2 ? "Side 2" : "Side 1";
                 if (isBestPress)
                     oItemSectionCostCenter.Name = oPressDTO.MachineName;

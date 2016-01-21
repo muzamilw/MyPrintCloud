@@ -48,6 +48,7 @@ define("common/itemDetail.viewModel",
                     // Press list
                     presses = ko.observableArray([]),
                     allPresses = ko.observableArray([]),
+                    selectedPressInstructions = ko.observable(),
                     prePressOrPostPress = ko.observable(),
                     
                     // Impression Coverages
@@ -590,6 +591,7 @@ define("common/itemDetail.viewModel",
                     openSectionCostCenterDialog = function(costCenter, qty) {
                         isSectionCostCenterDialogOpen(false);
                         selectedSectionCostCenter(costCenter);
+                        selectedPressInstructions(costCenter.isSecondPress() === 1 ? costCenter.workInstruction5() : costCenter.workInstruction4());
                         selectedQty(qty);
                         view.showSectionCostCenterDialogModel();
                         isSectionCostCenterDialogOpen(true);
@@ -835,7 +837,7 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
 
-                            selectedSection().sectionSizeWidth(press.maxSheetWidth || 0);
+                            //selectedSection().sectionSizeWidth(press.maxSheetWidth || 0);
                             selectedSection().pressIdSide1ColourHeads(press.colourHeads || 0);
                             selectedSection().pressIdSide1IsSpotColor(press.isSpotColor || false);
                             selectedSection().passesSide1(press.passes);
@@ -2279,7 +2281,8 @@ define("common/itemDetail.viewModel",
                     onCloseSectionCostCenter: onCloseSectionCostCenter,
                     onItemSectionUpdate: onItemSectionUpdate,
                     updateCostCentersOnQtyChange: updateCostCentersOnQtyChange,
-                    filterPresses: filterPresses
+                    filterPresses: filterPresses,
+                    selectedPressInstructions: selectedPressInstructions
                     //#endregion
                 };
             })()
