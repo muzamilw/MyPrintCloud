@@ -29,6 +29,7 @@ namespace MPC.Models.ModelMappers
             target.InkOrder = source.InkOrder;
             target.SectionId = source.SectionId;
             target.Side = source.Side;
+            target.CoverageRate = source.CoverageRate;
             target.CoverageGroupId = source.CoverageGroupId;
         }
 

@@ -75,6 +75,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPurchaseRepository purchaseRepository;
         private readonly ICampaignRepository campaignRepository;
         private readonly IInvoiceRepository invoiceRepository;
+        private readonly IInquiryAttachmentRepository inquiryAttachmentRepository;
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
@@ -470,7 +471,7 @@ namespace MPC.Implementation.MISServices
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
             ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper
-            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository)
+            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
         {
             if (estimateRepository == null)
             {
@@ -593,6 +594,7 @@ namespace MPC.Implementation.MISServices
             this.exportReportHelper = exportReportHelper;
             this.purchaseRepository = purchaseRepository;
             this.campaignRepository = campaignRepository;
+            this.inquiryAttachmentRepository = inquiryAttachmentRepository;
         }
 
         #endregion
@@ -2092,6 +2094,20 @@ namespace MPC.Implementation.MISServices
             //string mapPath1 = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
             string mapPath = server.MapPath("~/" + attachment.FolderPath + "/");
             string attachmentMapPath = mapPath + attachment.FileName + attachment.FileType;
+            return attachmentMapPath;
+        }
+
+        public string DownloadInquiryAttachment(long id, out string fileName, out string fileTpe)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            InquiryAttachment attachment = inquiryAttachmentRepository.Find(id);
+            fileName = attachment.OrignalFileName;
+            fileTpe = attachment.Extension;
+
+            //string mapPath1 = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
+            string mapPath = server.MapPath("~/" + attachment.AttachmentPath + "/");
+            string attachmentMapPath = mapPath + attachment.OrignalFileName;
             return attachmentMapPath;
         }
 

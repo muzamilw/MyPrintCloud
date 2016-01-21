@@ -1873,6 +1873,7 @@ define("stores/stores.viewModel",
                                 updateCampaignListViewItem(email);
                             }
                             email.reset();
+                            selectedStore().isEmailChange(true);
                             view.hideEmailCamapaignDialog();
                         }
                     },

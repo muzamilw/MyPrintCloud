@@ -334,14 +334,14 @@
                             {
                                 <div class=float_left_simple style="height:55px;">
                                     <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                    <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                    <label for=radio1 class=grayRadiantbtn onclick="SelectStockOption('@stockClassName', 0);"> @stock.StockLabel </label>
                                 </div>
                             }
                             else
                             {
                                 <div class=float_left_simple style="height:55px;">
                                     <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                    <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                    <label for=radio1 class=grayRadiantbtn onclick="SelectStockOption('@stockClassName', 0);"> @stock.StockLabel </label>
                                 </div>
                             }
                         }
@@ -353,14 +353,14 @@
 
                                 <div class=float_left_simple style="height:55px;">
                                     <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                    <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                    <label for=radio1 class=grayRadiantbtn onclick="SelectStockOption('@stockClassName', 0);"> @stock.StockLabel </label>
                                 </div>
                             }
                             else
                             {
                                 <div class=float_left_simple style="height:55px;">
                                     <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                    <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                    <label for=radio1 class=grayRadiantbtn onclick="SelectStockOption('@stockClassName', 0);"> @stock.StockLabel </label>
                                 </div>
                             }
                         }
@@ -941,7 +941,7 @@
                         @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                         {
 
-                                <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none;">
+                                <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-isautoexec="@costcenter.IsAutoExec" data-stockid="@costcenter.ItemStockOptionId" style="display:none;">
                                     <div class="float_left_simple spacerbottom CcImageContainer">
                                         <img class="RfgImgCs" src=/@costcenter.AddOnImage />
                                     </div>
@@ -951,7 +951,7 @@
 
                                         <label class="margin5 colorBlack">@costcenter.AddOnName</label>
                                         @{
-                            extraPricingId = "extrapricing" + costcenter.ProductAddOnID;
+                                            extraPricingId = "extrapricing" + costcenter.ProductAddOnID;
                                         }
                                         <div id="@extraPricingId" class="extra_pricing float_right">
                                             @if (ViewBag.IsShowPrices == true)
@@ -1518,7 +1518,7 @@
 
         }
 
-        SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
+        SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'), 1);
 
         SetAddOnsPriceOnPageLoad();
 
@@ -1530,6 +1530,7 @@
 
         SetCostCentreQueueLabelsOnModify();
 
+        ExecuteAutoCostCenters();
     });
 
     $("#priceToggle").click(function() {
@@ -1705,7 +1706,7 @@
 
     }
 
-    function SelectStockOption(classname) {
+    function SelectStockOption(classname, isCalledOnPageLoad) {
 
         $('input:radio[class=' + classname + ']').prop('checked', true);
 
@@ -1761,7 +1762,7 @@
             //  CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
         }
 
-        LoadCostCentersByStockId(ItemstockOptionID);
+        LoadCostCentersByStockId(ItemstockOptionID, isCalledOnPageLoad);
     }
 
 
@@ -2729,8 +2730,8 @@
         }
     }
 
-    function LoadCostCentersByStockId(StockId) {
-
+    function LoadCostCentersByStockId(StockId, isCalledOnPageLoad) {
+        debugger;
         var noRefiningOpt = 1;
         mandatoryRefiningOptIds = "";
         $(".CostCenterItems").each(function(i, val) {
@@ -2746,6 +2747,12 @@
                 }
 
                 noRefiningOpt = 0;
+
+                if ("@ViewBag.Mode" != "Modify" && isCalledOnPageLoad == 0) {
+                    if($(val).attr('data-isautoexec') == 1){
+                        $(val).children().next().children().click();
+                    }
+                }
             } else {
 
                 $(val).css("display", "none");
@@ -2905,6 +2912,19 @@
         }
     }
 
+    function ExecuteAutoCostCenters() {
+        var ItemstockOptionID = $('input:radio[class=' + $('input:radio[name=StockPaper]:checked').attr('class') + ']').attr("data-Id");
+
+        $(".CostCenterItems").each(function(i, val) {
+            if (ItemstockOptionID == $(val).attr('data-StockId')) {
+                if ("@ViewBag.Mode" != "Modify") {
+                    if($(val).attr('data-isautoexec') == 1){
+                        $(val).children().next().children().click();
+                    }
+                }
+            } 
+        });
+    }
 </script>
 
     

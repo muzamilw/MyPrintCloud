@@ -210,7 +210,7 @@
                                 </div>
 
                                 <div class="col-sm-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
-                                    <select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide1"></select>
+                                    @*<select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide1"></select>*@
                                 </div>
                                 <div class="col-sm-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
                                     <!-- ko if: pressIdSide1IsSpotColor -->
@@ -249,7 +249,7 @@
                                 </div>
 
                                 <div class="col-sm-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
-                                    <select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide2"></select>
+                                    @*<select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide2"></select>*@
                                 </div>
                                 <div class="col-sm-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
                                     <!-- ko if: pressIdSide2IsSpotColor -->
@@ -334,9 +334,9 @@
                                                 </div>
                                                 
                                                 <div class="col-sm-5">
-                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 --> <label class="col-sm-2" style="margin-right: 5px; padding-top: 10px;">Switch To </label><!--/ko-->
+                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().isFinishedGood() !== 1 --> <label class="col-sm-2" style="margin-right: 5px; padding-top: 10px;">Switch To </label><!--/ko-->
                                                     <input type="button" style="margin-left: 15px;"  class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQty() == 2 || $root.selectedQty() == 3, click: $root.selectQuantity(1), value: 'Qty 1 (' + qty1() + ')'">
-                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().isFinishedGood() !== 1 -->
                                                     <input type="button" style="margin-left: 15px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 3, click: $root.selectQuantity(2), value: 'Qty 2 (' + qty2() + ')'">
                                                     <input type="button" style="margin-left: 15px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 2, click: $root.selectQuantity(3), value: 'Qty 3 (' + qty3() + ')'">
                                                     <!--/ko-->

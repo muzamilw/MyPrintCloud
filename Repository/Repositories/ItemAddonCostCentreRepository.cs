@@ -69,7 +69,8 @@ namespace MPC.Repository.Repositories
                             QuantitySourceType = costcenter.QuantitySourceType ?? 0,
                             TimeSourceType = costcenter.TimeSourceType ?? 0,
                             ItemStockOptionId = options.ItemStockOptionId,
-                            Sequence = addOns.Sequence
+                            Sequence = addOns.Sequence,
+                            IsAutoExec = addOns.IsSelectedOnLoad == true ? 1 : 0,
                         };
             return query.OrderBy(s => s.Sequence).ToList<AddOnCostsCenter>();
         }

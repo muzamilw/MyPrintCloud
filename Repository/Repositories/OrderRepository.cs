@@ -147,7 +147,7 @@ namespace MPC.Repository.Repositories
 
                 if (prefix != null)
                 {
-                    orderObject.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                    orderObject.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                     prefix.OrderNext = prefix.OrderNext + 1;
                 }
 
@@ -693,7 +693,7 @@ namespace MPC.Repository.Repositories
 
             if (prefix != null)
             {
-                tblOrd.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                tblOrd.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                 prefix.OrderNext = prefix.OrderNext + 1;
             }
             tblOrd.CreationDate = DateTime.Now;
@@ -2120,7 +2120,7 @@ namespace MPC.Repository.Repositories
                         Prefix prefix = _prefixrepository.GetDefaultPrefix();
                         if (prefix != null)
                         {
-                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                             prefix.OrderNext = prefix.OrderNext + 1;
                         }
                         shopCartOrder.Order_CompletionDate = null;

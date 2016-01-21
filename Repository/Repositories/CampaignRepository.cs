@@ -263,40 +263,21 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                //UsersManager usermgr = new UsersManager();
-                //  SystemUser SalesManager = null;
                 List<CompanyContact> listOfApprovers = new List<CompanyContact>();
-                // SalesManager = GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
+                
                 if (SalesManager != null)
                 {
                     Campaign EventCampaign = GetCampaignRecordByEmailEvent(Event, OrganisationId, StoreId);
                     CampaignEmailParams EmailParams = new CampaignEmailParams();
                     EmailParams.ContactId = ContactId;
                     EmailParams.CompanyId = CompanyId;
-                    EmailParams.OrganisationId = 1;
+                    EmailParams.OrganisationId = OrganisationId;
                     EmailParams.AddressId = CompanyId;
                     EmailParams.SystemUserId = SalesManager.SystemUserId;
                     EmailParams.InquiryId = RFQId;
                     EmailParams.StoreId = StoreId;
                     EmailParams.SalesManagerContactID = ContactId;
-                    //if (brokerid > 0)
-                    //{
-                    //    EmailParams.CompanyId = brokerid;
-                    //    EmailParams.BrokerID = brokerid;
-                    //    EmailParams.BrokerContactID = BrokerAdminContactID;
-                    //    EmailParams.SalesManagerContactID = BrokerAdminContactID;
-                    //    EmailParams.StoreID = brokerid;
-                    //    EmailParams.AddressID = brokerid;
-                    //    int admin = Convert.ToInt32(Roles.Adminstrator);
-                    //    int Manager = Convert.ToInt32(Roles.Manager);
-
-
-                    //    listOfApprovers = (from c in db.CompanyContacts
-                    //                       join cc in db.Companies on brokerid equals cc.CompanyId
-                    //                       where (c.ContactRoleId == admin || c.ContactRoleId == Manager) && cc.IsCustomer == (int)CustomerTypes.Broker && c.CompanyId == brokerid
-                    //                       select c).ToList();
-
-                    //}
+                  
                     if (CorporateManagerID > 0)
                     {
                         EmailParams.CorporateManagerID = CorporateManagerID;
@@ -317,26 +298,7 @@ namespace MPC.Repository.Repositories
                     {
                         emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName,"", null, "", null, "", NameOfComp);
                     }
-                    //if (OrderId == 0)
-                    //{
-                    //    if (listOfApprovers != null)
-                    //    {
-                    //        foreach (var approver in listOfApprovers)
-                    //        {
-                    //            //EmailParams.SystemUserID = 0;
-                    //            EmailParams.ApprovarID = (int)approver.ContactId;
-                    //            if (!string.IsNullOrEmpty(MarketingBreifMesgSummry))
-                    //            {
-                    //                EmailParams.MarketingID = 1;
-                    //                emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", approver.Email, approver.FirstName, "", null, "", null, "", NameOfBrokerComp, null, "", MarketingBreifMesgSummry);
-                    //            }
-                    //            else
-                    //            {
-                    //                emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", approver.Email, approver.FirstName, "", null, "", null, "", NameOfBrokerComp);
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    
                 }
             }
             catch (Exception ex)
@@ -588,6 +550,15 @@ namespace MPC.Repository.Repositories
                                                         if (Tag.Contains("OrderTotal:7"))
                                                         {
                                                             tagValue = string.Format("{0:n}", Math.Round(Convert.ToDouble(tagValue), 2));
+                                                        }
+                                                        if (Tag.Contains("DeliveryDate") || Tag.Contains("CreationDate"))
+                                                        {
+                                                            if(!string.IsNullOrEmpty(tagValue))
+                                                            {
+                                                                DateTime tagDate = Convert.ToDateTime(tagValue);
+                                                                tagValue = tagDate.Day + "/" + tagDate.Month + "/" + tagDate.Year;
+                                                            }
+                                                            
                                                         }
                                                         HtmlDocToResolve = HtmlDocToResolve.Replace(Tag, tagValue);
                                                     }

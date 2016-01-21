@@ -304,5 +304,6 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email);
         CompanyDomain GetDomainByCompanyId(long CompanyId);
         List<Asset> GetAssetsByCompanyID(long CompanyID);
+        ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName);
     }
 }

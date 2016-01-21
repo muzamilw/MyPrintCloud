@@ -64,7 +64,7 @@ namespace MPC.Webstore.Models
         public string JsonAllInputQueue { get; set; }
 
         public string ItemStockOptionId { get; set; }
-       
+        public string ProductName { get; set; }
     }
 
 

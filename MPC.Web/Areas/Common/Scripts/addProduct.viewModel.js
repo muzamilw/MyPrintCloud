@@ -234,6 +234,7 @@ define("common/addProduct.viewModel",
                         var sectionCostCenter = model.SectionCostCentre.Create({});
                         sectionCostCenter.qty1Charge(selectedProductQuanityPriceWithoutTax());
                         sectionCostCenter.costCentreId(getStockCostCenterId(29));
+                        sectionCostCenter.systemCostCenterType(9);
                         saveSectionCostCenterForproduct(newItem, sectionCostCenter, selectedStockOption(), selectedProductQuanity());
                         return newItem;
                     },

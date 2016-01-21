@@ -126,6 +126,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? DefaultItemTax { get; set; }
         public bool? IsQtyRanged { get; set; }
         public string Status { get; set; }
+        public short? IsFinishedGoodPrivate { get; set; }
         /// <summary>
         /// Qty2 Marup Id 2
         /// </summary>

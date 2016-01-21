@@ -174,11 +174,11 @@
 <script id="needAssigningItemTemplate" type="text/html">
     <li data-bind="if: (statusId()=== 11), drag: $root.dragged" style="">
         <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
-            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
                 <div style="color: #00B0f4; font-weight: bold" data-bind="text:companyName">
                 </div>
             </div>
-            <div class="form-group code" style="margin-left: 0;">
+            <div class="form-group code" style="margin-left: 0;margin-top: 5px;">
                 <div class="col-lg-5" style="padding-left:0;">
                     <div style=" color: #000000; font-weight: bold" data-bind="text:code">
                     </div>
@@ -190,29 +190,20 @@
 
             </div>
 
-            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                <div class="col-lg-2" style="padding-left: 0; ">
-                    <label style=" color: lightslategray;" class="control-label">Qty :</label>
+            <div class="form-group code" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-3" style="padding-left: 0; color: #000000; ">
+                    Qty :
                 </div>
-                <div class="col-lg-6">
-                    <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
+                <div class="col-lg-6" style=" color: #000000;" data-bind="text:qty1">
+
                 </div>
             </div>
-            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
                 <div data-bind="text:productName" style="font-weight: bold">
                 </div>
             </div>
-            @*<div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
-                    </div>
-                </div>*@
-
-            
-            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+           
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;margin-top: 5px;">
                 <div class="col-lg-6" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
                 </div>
             </div>
@@ -221,15 +212,15 @@
                     <label style=" color: lightslategray;">Expected Shipping Date</label>
                 </div>
             </div>
-            <div class="form-group" style="margin-bottom: 3px; margin-left: 0;">
-                <div class="col-lg-5">
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-2">
 
                 </div>
-                <div class="col-lg-3">
-                    <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                <div class="col-lg-3" style="padding-left: 0;">
+                    <a class="btn btn-primary" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
                 </div>
-                <div class="col-lg-3" style="padding-left: 0">
-                    <a class="btn btn-primary openBtn" href="#">Job Card</a>
+                <div class="col-lg-3" style="padding-right: 0; margin-left: 10px;">
+                    <a class="btn btn-primary" href="#">Job Card</a>
                 </div>
             </div>
         </div>

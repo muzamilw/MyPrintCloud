@@ -10,7 +10,7 @@
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId, specifiedIsFinishedGood) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -270,6 +270,7 @@
                 qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0).extend({ numberInput: ist.numberFormat }),
                 tax1 = ko.observable(specifiedTax1 || undefined),
                 taxRateIsDisabled = ko.observable(false),
+                isFinishedGood = ko.observable(specifiedIsFinishedGood),
                 // Item Type
                 itemType = ko.observable(specifiedItemType || undefined),
                 // Estimate Id
@@ -487,6 +488,7 @@
                         JobSelectedQty: jobSelectedQty(),
                         InvoiceDescription: invoiceDescription(),
                         RefItemId: refItemId(),
+                        IsFinishedGoodPrivate: isFinishedGood(),
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
@@ -572,6 +574,7 @@
                 setJobProgressedBy: setJobProgressedBy,
                 jobSignedByUser: jobSignedByUser,
                 refItemId: refItemId,
+                isFinishedGood : isFinishedGood,
                 hasDeletedSections: hasDeletedSections,
                 hasDeletedAttachments: hasDeletedAttachments,
                 errors: errors,
@@ -595,7 +598,7 @@
             specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim, specifiedQty1MarkUpID,
             specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedProductType, specifiedPressIdSide2, specifiedImpressionCoverageSide1, specifiedImpressionCoverageSide2,
             specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
-            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal) {
+            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal, specifiedSpeed1, specifiedSpeed2, specifiedSpeed3, specifiedImpressions1, specifiedImpressions2, specifiedImpressions3) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -814,6 +817,12 @@
                 passesSide1 = ko.observable(specifiedPassesSide1 || 0).extend({ number: true, min: 0, max: 9 }),
                 // Passes Side 2
                 passesSide2 = ko.observable(specifiedPassesSide2 || 0).extend({ number: true, min: 0, max: 9 }),
+                pressSpeedQty1 = ko.observable(specifiedSpeed1),
+                pressSpeedQty2 = ko.observable(specifiedSpeed2),
+                pressSpeedQty3 = ko.observable(specifiedSpeed3),
+                impressionCountQty1 = ko.observable(specifiedImpressions1),
+                impressionCountQty2 = ko.observable(specifiedImpressions2),
+                impressionCountQty3 = ko.observable(specifiedImpressions3),
                 // Press Id Side 1 Colour Heads
                 pressIdSide1ColourHeads = ko.observable(specifiedPressSide1ColourHeads || 0),
                 // Press Id Side 2 Colour Heads
@@ -1008,6 +1017,12 @@
                         InputQueue: inputQueue(),
                         StockQueue: stockQueue(),
                         CostCentreQueue: costCenterQueue(),
+                        ImpressionQty1: impressionCountQty1(),
+                        ImpressionQty2: impressionCountQty2(),
+                        ImpressionQty3: impressionCountQty3(),
+                        PressSpeed1: pressSpeedQty1(),
+                        PressSpeed2: pressSpeedQty2(),
+                        PressSpeed3: pressSpeedQty3(),
                         
                         // to be used in Default Section, that will be used to create new sections // For Client Side Only
                         // #endregion
@@ -1091,6 +1106,12 @@
                 impressionCoverageSide2: impressionCoverageSide2,
                 passesSide1: passesSide1,
                 passesSide2: passesSide2,
+                impressionCountQty1: impressionCountQty1,
+                impressionCountQty2: impressionCountQty2,
+                impressionCountQty3: impressionCountQty3,
+                pressSpeedQty1: pressSpeedQty1,
+                pressSpeedQty2: pressSpeedQty2,
+                pressSpeedQty3: pressSpeedQty3,
                 printingType: printingType,
                 printingTypeUi: printingTypeUi,
                 isFirstTrim: isFirstTrim,
@@ -1124,7 +1145,8 @@
             specifiedQty1MarkUpID, specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedQty1MarkUpValue, specifiedQty2MarkUpValue, specifiedQty3MarkUpValue,
             specifiedQty1NetTotal, specifiedQty2NetTotal, specifiedQty3NetTotal, specifiedQty1, specifiedQty2, specifiedQty3, specifiedCostCentreName,
             specifiedItemSectionId, specifiedQty1WorkInstructions, specifiedQty2WorkInstructions, specifiedQty3WorkInstructions,
-            specifiedQty1EstimatedStockCost, specifiedQty2EstimatedStockCost, specifiedQty3EstimatedStockCost, specifiedSystemType, specifiedCalMethodType) {
+            specifiedQty1EstimatedStockCost, specifiedQty2EstimatedStockCost, specifiedQty3EstimatedStockCost, specifiedSystemType, specifiedCalMethodType, specifiedWorkInstruction4, specifiedWorkInstruction5,
+        specifiedIspress2) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -1198,6 +1220,9 @@
                 systemCostCenterType = ko.observable(specifiedSystemType || undefined),
                 //calculation Method Type
                 calculationMethodType = ko.observable(specifiedCalMethodType || undefined),
+                workInstruction4 = ko.observable(specifiedWorkInstruction4 || undefined),
+                workInstruction5 = ko.observable(specifiedWorkInstruction5 || undefined),
+                isSecondPress = ko.observable(specifiedIspress2),
                 // Errors
                 errors = ko.validation.group({
 
@@ -1273,9 +1298,12 @@
                         Qty1WorkInstructions: qty1WorkInstructions(),
                         Qty2WorkInstructions: qty2WorkInstructions(),
                         Qty3WorkInstructions: qty3WorkInstructions(),
+                        Qty4WorkInstructions: workInstruction4(),
+                        Qty5WorkInstructions: workInstruction5(),
                         SystemCostCentreType: systemCostCenterType(),
                         CostCentreType: costCentreType(),
                         Qty5MarkUpID: calculationMethodType(),
+                        IsScheduleable: isSecondPress(),
                         SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
                             var sectionCc = scc.convertToServerData();
                             if (isNewSectionCostCenter) {
@@ -1316,13 +1344,16 @@
                 qty1WorkInstructions: qty1WorkInstructions,
                 qty2WorkInstructions: qty2WorkInstructions,
                 qty3WorkInstructions: qty3WorkInstructions,
+                workInstruction4: workInstruction4,
+                workInstruction5 : workInstruction5,
                 qty1EstimatedStockCost: qty1EstimatedStockCost,
                 qty2EstimatedStockCost: qty2EstimatedStockCost,
                 qty3EstimatedStockCost: qty3EstimatedStockCost,
                 sectionCostCentreDetails: sectionCostCentreDetails,
                 sectionCostCentreResources: sectionCostCentreResources,
                 systemCostCenterType: systemCostCenterType,
-                calculationMethodType:calculationMethodType,
+                calculationMethodType: calculationMethodType,
+                isSecondPress: isSecondPress,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2068,7 +2099,7 @@
         //#endregion
         //#region Section Ink Coverage Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+        SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide, specifiedRate) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -2082,6 +2113,7 @@
                 coverageGroupId = ko.observable(specifiedCoverageGroupId),
                 //Side
                 side = ko.observable(specifiedSide),
+                coverageRate = ko.observable(specifiedRate).extend({ number: true, min: 0, max: 100, message: 'Max value can be 100'}),
                 // Errors
                 errors = ko.validation.group({
 
@@ -2098,7 +2130,8 @@
                     inkOrder: inkOrder,
                     inkId: inkId,
                     coverageGroupId: coverageGroupId,
-                    side: side
+                    side: side,
+                    coverageRate: coverageRate
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -2116,7 +2149,8 @@
                         InkOrder: inkOrder(),
                         InkId: inkId(),
                         CoverageGroupId: coverageGroupId(),
-                        Side: side()
+                        Side: side(),
+                        CoverageRate: coverageRate()
                     };
                 };
 
@@ -2127,6 +2161,7 @@
                 inkId: inkId,
                 coverageGroupId: coverageGroupId,
                 side: side,
+                coverageRate: coverageRate,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2254,7 +2289,7 @@
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
             source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId,
-            source.JobSelectedQty, source.RefItemId);
+            source.JobSelectedQty, source.RefItemId, source.IsFinishedGoodPrivate);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {
@@ -2302,7 +2337,7 @@
             source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim, source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.ProductType,
             source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType,
             source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
-            source.ItemGutterHorizontal);
+            source.ItemGutterHorizontal, source.PressSpeed1, source.PressSpeed2, source.PressSpeed3, source.ImpressionQty1, source.ImpressionQty2, source.ImpressionQty3);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
@@ -2347,8 +2382,9 @@
             source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
             source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
             source.ItemSectionId, source.Qty1WorkInstructions, source.Qty2WorkInstructions, source.Qty3WorkInstructions,
-            source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost, source.SystemCostCentreType, source.Qty5MarkUpID);
+            source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost, source.SystemCostCentreType, source.Qty5MarkUpID, source.Qty4WorkInstructions, source.Qty5WorkInstructions, source.IsScheduleable);
         //Using Markup5Id just to store calculation method type of actual cost center.
+        // Using source.IsScheduleable to check this cost center for press 1 or press 2
         // Map Section Cost Centre Details if Any
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
             var sectionCostcentresDetails = [];
@@ -2459,7 +2495,7 @@
     //#endregion
     //#region Section Ink Coverage Factory
     SectionInkCoverage.Create = function (source) {
-        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
+        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side, source.CoverageRate);
     };
     //#endregion
     //#region Paper Size Factory

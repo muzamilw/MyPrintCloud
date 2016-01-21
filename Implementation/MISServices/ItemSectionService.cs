@@ -126,6 +126,8 @@ namespace MPC.Implementation.MISServices
             double PressRunTime1 = 0;
             double PressRunTime2 = 0;
             double PressRunTime3 = 0;
+            int[] zoneChargedSheets = new int[3];
+            double[] zoneChargedPrices = new double[3];
 
 
             //'# of times the printsheets need to be passed thru the given press, based on the # of colours
@@ -396,24 +398,24 @@ namespace MPC.Implementation.MISServices
                             }
 
                             double dblCoverageMultiple = 1;
-                            if (isPressSide2)
-                            {
-                                if (oItemSection.ImpressionCoverageSide2 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
-                            else
-                            {
-                                if (oItemSection.ImpressionCoverageSide1 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
+                            //if (isPressSide2)
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide2 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
+                            //else
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide1 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
 
                             //Checing Whether Print is Double sided and Press can't perform perfecting
                             dblPrintCost[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost) * dblCoverageMultiple) + oPressDTO.SetupCharge);
@@ -667,6 +669,13 @@ namespace MPC.Implementation.MISServices
                                 dblCostCZ[i] = dblClickCost[14];
                                 dblPriceCZ[i] = dblClickPrice[14];
                             }
+                            zoneChargedSheets[0] = intPrintChgeCZ[0];
+                            zoneChargedSheets[1] = intPrintChgeCZ[1];
+                            zoneChargedSheets[2] = intPrintChgeCZ[2];
+                            zoneChargedPrices[0] = dblPriceCZ[0];
+                            zoneChargedPrices[1] = dblPriceCZ[1];
+                            zoneChargedPrices[2] = dblPriceCZ[2];
+
                         }
 
                         //Checking whether if press is Accumulative click charge 
@@ -719,24 +728,25 @@ namespace MPC.Implementation.MISServices
 
                             //Check the coverage high, medium and low and set multiplier.
                             double dblCoverageMultiple = 1;
-                            if(isPressSide2)
-                            {
-                                if (oItemSection.ImpressionCoverageSide2 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh??1;
-                                else if(oItemSection.ImpressionCoverageSide2 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
-                            else
-                            {
-                                if (oItemSection.ImpressionCoverageSide1 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
+                            //Commented coverage multiple as its removed from UI and added into inks 2016 01 21
+                            //if(isPressSide2)
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide2 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh??1;
+                            //    else if(oItemSection.ImpressionCoverageSide2 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
+                            //else
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide1 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
 
 
                             //dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
@@ -1152,6 +1162,34 @@ namespace MPC.Implementation.MISServices
                 //oItemSectionCostCenterDetail.StockId = oItemSection.PressID;
                 oItemSectionCostCenterDetail.CostPrice = dblPrintCost[0];
                 //Naveed: condition added for setting name of the press while calling this function to get best press list from service
+                string sMethodName = oModelLookUpMethod.Type == (int) MethodTypes.SpeedWeight
+                    ? "Speed Weight"
+                    : oModelLookUpMethod.Type == (int) MethodTypes.MeterPerHour ? "Meter Per Hour" : "Click Charge Zone";
+                string zoneRatesQty1 = (oModelLookUpMethod.Type == (int) MethodTypes.ClickChargeZone) ? " Zone Rate Charged : " + zoneChargedPrices[0] : "";
+                string zoneRatesQty2 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[1] : "";
+                string zoneRatesQty3 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[2] : "";
+                if (!isPressSide2)
+                {
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
+                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+                    if(oItemSection.Qty2 > 0)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2??0) + zoneRatesQty2 + Environment.NewLine;
+                    if(oItemSection.Qty3 > 0)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3??0) + zoneRatesQty3 + Environment.NewLine;
+                    oItemSectionCostCenter.IsScheduleable = 0;
+                }
+                else
+                {
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
+                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+                    if (oItemSection.Qty2 > 0)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    if (oItemSection.Qty3 > 0)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
+                    oItemSectionCostCenter.IsScheduleable = 1;
+                }
                 string sSide = isPressSide2 ? "Side 2" : "Side 1";
                 if (isBestPress)
                     oItemSectionCostCenter.Name = oPressDTO.MachineName;
@@ -3019,14 +3057,9 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenterDetail.Qty3 = Convert.ToDouble(oItemSection.WashupQty);
             }
 
-            if (!(oItemSection.IsWashup == false))
-            {
-                oItemSectionCostCenterDetail.CostPrice = dblWashupPrice;
-            }
-            else
-            {
-                oItemSectionCostCenterDetail.CostPrice = 0;
-            }
+            oItemSectionCostCenterDetail.CostPrice = oItemSection.IsWashup == true ? oPressDTO.WashupPrice : 0;
+
+            
             string side = isSide1 ? "Side 1" : "Side 2";
             oItemSectionCostCenter.Name = "Washups " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
@@ -3421,16 +3454,9 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenterDetail.Qty3 = Convert.ToDouble(oItemSection.MakeReadyQty);
             }
 
-            if (!(oItemSection.IsMakeReadyUsed == false))
-            {
-                oItemSectionCostCenterDetail.CostPrice = oPressDTO.MakeReadyCost;
-            }
-            else
-            {
-                oItemSectionCostCenterDetail.CostPrice = 0;
-            }
-
-            string side = isSide1 ? "Sdie 1" : "Side 2";
+            oItemSectionCostCenterDetail.CostPrice = oItemSection.IsMakeReadyUsed == true? oPressDTO.MakeReadyPrice : 0;
+            
+            string side = isSide1 ? "Side 1" : "Side 2";
             oItemSectionCostCenter.Name = "Plate Makereadies " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
@@ -6619,26 +6645,33 @@ namespace MPC.Implementation.MISServices
                     updatedSection.PrintViewLayout = 1;
                 updatedSection = CalculatePaperCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false);
             }
+            int uniqueInks1 =
+                   pressSide1.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
             //***********************Side 1 Calculation *************
-            if (pressSide1.isplateused != null && pressSide1.isplateused != false)//Plates
+            if (pressSide1.IsDigitalPress == false)
             {
-                int uniqueInks =
-                    pressSide1.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
-                updatedSection.IsPlateSupplied = false;
-                updatedSection.NoofUniqueInks = uniqueInks;
-                updatedSection.PlateId = pressSide1.DefaultPlateId;
-                updatedSection = CalculatePlateCost(updatedSection, false, false, true);
+                if (pressSide1.isplateused != null && pressSide1.isplateused != false)//Plates
+                {
+                    updatedSection.IsPlateSupplied = false;
+                    updatedSection.IsPlateUsed = true;
+                    updatedSection.NoofUniqueInks = uniqueInks1;
+                    updatedSection.PlateId = pressSide1.DefaultPlateId;
+                    updatedSection = CalculatePlateCost(updatedSection, false, false, true);
+                }
+                if (pressSide1.ismakereadyused != null && pressSide1.ismakereadyused == true)//Make Readies
+                {
+                    updatedSection.MakeReadyQty = uniqueInks1;
+                    updatedSection.IsMakeReadyUsed = true;
+                    updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
+                }
+                if (pressSide1.iswashupused != null && pressSide1.iswashupused == true)//Washups
+                {
+                    updatedSection.WashupQty = uniqueInks1;
+                    updatedSection.IsWashup = true;
+                    updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
+                }
             }
-            if (pressSide1.ismakereadyused != null && pressSide1.ismakereadyused == true)//Make Readies
-            {
-                updatedSection.MakeReadyQty = pressSide1.ColourHeads;
-                updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
-            }
-            if (pressSide1.iswashupused != null && pressSide1.iswashupused == true)//Washups
-            {
-                updatedSection.WashupQty = pressSide1.ColourHeads;
-                updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true);
-            }
+            
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)
             {
                // CalculatePressCostWebPress
@@ -6659,25 +6692,27 @@ namespace MPC.Implementation.MISServices
                 int uniqueInks =
                     pressSide2.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
                 updatedSection.NoofUniqueInks = uniqueInks;
-
-                if (pressSide2.isplateused != null && pressSide2.isplateused != false)//Plates
+                if (pressSide2.IsDigitalPress == false)
                 {
-                    updatedSection.IsPlateSupplied = false;
-                    updatedSection.IsPlateUsed = true;
-                    updatedSection.PlateId = pressSide2.DefaultPlateId;
-                    updatedSection = CalculatePlateCost(updatedSection, false, false, false);
-                }
-                if (pressSide2.ismakereadyused != null && pressSide2.ismakereadyused == true)//Make Readies
-                {
-                    updatedSection.MakeReadyQty = pressSide2.ColourHeads;
-                    updatedSection.IsMakeReadyUsed = true;
-                    updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
-                }
-                if (pressSide2.iswashupused != null && pressSide2.iswashupused == true)//Washups
-                {
-                    updatedSection.WashupQty = pressSide2.ColourHeads;
-                    updatedSection.IsWashup = true;
-                    updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
+                    if (pressSide2.isplateused != null && pressSide2.isplateused != false)//Plates
+                    {
+                        updatedSection.IsPlateSupplied = false;
+                        updatedSection.IsPlateUsed = true;
+                        updatedSection.PlateId = pressSide2.DefaultPlateId;
+                        updatedSection = CalculatePlateCost(updatedSection, false, false, false);
+                    }
+                    if (pressSide2.ismakereadyused != null && pressSide2.ismakereadyused == true)//Make Readies
+                    {
+                        updatedSection.MakeReadyQty = uniqueInks;
+                        updatedSection.IsMakeReadyUsed = true;
+                        updatedSection = CalculateMakeReadyCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
+                    }
+                    if (pressSide2.iswashupused != null && pressSide2.iswashupused == true)//Washups
+                    {
+                        updatedSection.WashupQty = uniqueInks;
+                        updatedSection.IsWashup = true;
+                        updatedSection = CalculateWashUpCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, false);
+                    }
                 }
 
                 
@@ -6692,8 +6727,6 @@ namespace MPC.Implementation.MISServices
                         updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, false, true);  
                     }
                 }
-                    
-
                 
             }
 

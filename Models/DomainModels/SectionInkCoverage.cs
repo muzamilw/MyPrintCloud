@@ -13,6 +13,7 @@ namespace MPC.Models.DomainModels
         public int? InkId { get; set; }
         public int? CoverageGroupId { get; set; }
         public int? Side { get; set; }
+        public double? CoverageRate { get; set; }
 
         public virtual ItemSection ItemSection { get; set; }
 
