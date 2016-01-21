@@ -194,7 +194,8 @@ namespace MPC.Models.Common
         authorizeNET = 2,
         ANZ = 3,
         StGeorge = 5,
-        NAB = 6
+        NAB = 6,
+        PayWay = 8
     }
     public enum ItemStatuses
     {

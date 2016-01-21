@@ -494,7 +494,11 @@ namespace MPC.Webstore
                 "NabSubmit/{OrderID}",
                 new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
             );
-
+            routes.MapRoute(
+             "PayWay",
+             "PayWay/{OrderID}",
+             new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+         );
             //routes.MapRoute(
             //    "ReceiptPlain",
             //    "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",

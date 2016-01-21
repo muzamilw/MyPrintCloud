@@ -1124,11 +1124,12 @@ function ViewOrderPopUp(Type, panelHtml) {
 
     function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode, isPromptAQuestion, TaxRate) {
         console.log("SetGlobalCostCentreQueue function");
+        debugger;
         var jsonObjectsOfGlobalQueue = null;
 
 
         if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null" || $("#costCentreQueueItems").val() == null) {
-
+            console.log("if");
             if (GlobalInputQueueItemsList == null) {
                 GlobalInputQueueItemsList = "";
             }
@@ -1141,7 +1142,7 @@ function ViewOrderPopUp(Type, panelHtml) {
             $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
 
         } else {
-            
+            console.log("else");
             var isUpdated = false;
             var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
 
@@ -1294,6 +1295,9 @@ function ViewOrderPopUp(Type, panelHtml) {
                     displayTotalPrice(ItemPrice, totalVal);
                     TaxAppliedValue = response;
                     TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * TaxRate) / 100);
+
+                    console.log(isPromptAQuestion + " isPromptAQuestion");
+
                     if (isPromptAQuestion == true) {
                         $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
                     } else {

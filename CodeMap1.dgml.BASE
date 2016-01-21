@@ -256,13 +256,9 @@
     </Style>
   </Styles>
   <Paths>
-    <Path Id="81067904-2176-4648-87ab-014b0d76b85e.OutputPath" Value="E:\Development\MyPrintCloud2015\MyPrintCloud\Models\bin\Debug\MPC.Models.dll" />
     <Path Id="81067904-2176-4648-87ab-014b0d76b85e.OutputPathUri" Value="file:///E:/Development/MyPrintCloud2015/MyPrintCloud/Models/bin/Debug/MPC.Models.dll" />
-    <Path Id="97502802-a272-4bcd-bdef-d7a97aad3530.OutputPath" Value="E:\Development\MyPrintCloud2015\MyPrintCloud\MPC.Webstore\bin\MPC.Webstore.dll" />
     <Path Id="97502802-a272-4bcd-bdef-d7a97aad3530.OutputPathUri" Value="file:///E:/Development/MyPrintCloud2015/MyPrintCloud/MPC.Webstore/bin/MPC.Webstore.dll" />
-    <Path Id="98f7a831-6d93-48e9-950f-623772aa607a.OutputPath" Value="E:\Development\MyPrintCloud2015\MyPrintCloud\Interfaces\bin\Debug\MPC.Interfaces.dll" />
     <Path Id="98f7a831-6d93-48e9-950f-623772aa607a.OutputPathUri" Value="file:///E:/Development/MyPrintCloud2015/MyPrintCloud/Interfaces/bin/Debug/MPC.Interfaces.dll" />
-    <Path Id="FxReferenceAssemblies" Value="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework" />
     <Path Id="FxReferenceAssembliesUri" Value="file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework" />
   </Paths>
 </DirectedGraph>
