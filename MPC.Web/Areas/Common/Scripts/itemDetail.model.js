@@ -2099,7 +2099,7 @@
         //#endregion
         //#region Section Ink Coverage Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+        SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide, specifiedRate) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -2113,6 +2113,7 @@
                 coverageGroupId = ko.observable(specifiedCoverageGroupId),
                 //Side
                 side = ko.observable(specifiedSide),
+                coverageRate = ko.observable(specifiedRate).extend({ number: true, min: 0, max: 100, message: 'Max value can be 100'}),
                 // Errors
                 errors = ko.validation.group({
 
@@ -2129,7 +2130,8 @@
                     inkOrder: inkOrder,
                     inkId: inkId,
                     coverageGroupId: coverageGroupId,
-                    side: side
+                    side: side,
+                    coverageRate: coverageRate
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -2147,7 +2149,8 @@
                         InkOrder: inkOrder(),
                         InkId: inkId(),
                         CoverageGroupId: coverageGroupId(),
-                        Side: side()
+                        Side: side(),
+                        CoverageRate: coverageRate()
                     };
                 };
 
@@ -2158,6 +2161,7 @@
                 inkId: inkId,
                 coverageGroupId: coverageGroupId,
                 side: side,
+                coverageRate: coverageRate,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2491,7 +2495,7 @@
     //#endregion
     //#region Section Ink Coverage Factory
     SectionInkCoverage.Create = function (source) {
-        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
+        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side, source.CoverageRate);
     };
     //#endregion
     //#region Paper Size Factory

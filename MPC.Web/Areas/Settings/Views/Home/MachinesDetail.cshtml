@@ -848,7 +848,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th style="width:175px;"><a href="#"><span>Ink Order</span></a></th>
-                                                                <th style="width: 175px;"><span>Coverage</span></th>
+                                                                @*<th style="width: 175px;"><span>Coverage</span></th>*@
 
                                                             </tr>
                                                         </thead>
@@ -1096,7 +1096,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage multiplies the cost of ink and clicks, uplifting the ink calculations by this amount.  Black and White impressions may multiply by 1, while CMYK multiply by 3.5 up to 6 (heavy)" data-original-title="" title="">
@@ -1119,7 +1119,7 @@
                                                     <span class=" help-block text-right">Light</span>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
 
                                     </div>
                                     <div class="col-md-12" style="padding-left:0px;padding-right:0px;">
@@ -1169,9 +1169,9 @@
         <td>
             <select class="form-control" data-bind="options:StockItemforInkList, optionsText: 'ItemName', optionsValue: 'StockItemId', value:SideInkOrder"></select>
         </td>
-        <td>
+        @*<td>
             <select class="form-control" data-bind="options:InkCoveragItems, optionsText: 'GroupName', optionsValue: 'CoverageGroupId', value:SideInkOrderCoverage"></select>
-        </td>
+        </td>*@
 
     </tr>
 </script>

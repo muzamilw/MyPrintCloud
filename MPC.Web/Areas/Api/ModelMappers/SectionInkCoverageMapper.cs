@@ -19,7 +19,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InkId = source.InkId,
                 InkOrder = source.InkOrder,
                 SectionId = source.SectionId,
-                Side = source.Side
+                Side = source.Side,
+                CoverageRate = source.CoverageRate
             };
         }
 
@@ -32,7 +33,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InkId = source.InkId,
                 InkOrder = source.InkOrder,
                 SectionId = source.SectionId,
-                Side = source.Side
+                Side = source.Side,
+                CoverageRate = source.CoverageRate
             };
         }
     }

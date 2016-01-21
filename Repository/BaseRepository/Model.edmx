@@ -3447,6 +3447,7 @@
           <Property Name="InkId" Type="int" />
           <Property Name="CoverageGroupId" Type="int" />
           <Property Name="Side" Type="int" />
+          <Property Name="CoverageRate" Type="float" />
         </EntityType>
         <EntityType Name="ShippingInformation">
           <Key>
@@ -3678,6 +3679,7 @@
           <Property Name="isAllowBackOrder" Type="bit" />
           <Property Name="IsImperical" Type="bit" />
           <Property Name="PlateRunLength" Type="int" />
+          <Property Name="chargePerSquareUnit" Type="float" />
         </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
@@ -9374,6 +9376,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsImperical" Type="Boolean" />
           <NavigationProperty Name="ItemStockUpdateHistories" Relationship="DomainModels.FK_ItemStockUpdateHistory_StockItem" FromRole="StockItem" ToRole="ItemStockUpdateHistory" />
           <Property Name="PlateRunLength" Type="Int32" />
+          <Property Name="ChargePerSquareUnit" Type="Double" />
         </EntityType>
         <Association Name="FK_tbl_stockitems_tbl_stockcategories">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
@@ -14222,6 +14225,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CoverageGroupId" Type="Int32" />
           <Property Name="Side" Type="Int32" />
           <NavigationProperty Name="ItemSection" Relationship="DomainModels.FK_SectionInkCoverage_ItemSection" FromRole="SectionInkCoverage" ToRole="ItemSection" />
+          <Property Name="CoverageRate" Type="Double" />
         </EntityType>
         <Association Name="FK_Estimate_SectionFlag">
           <End Type="DomainModels.SectionFlag" Role="SectionFlag" Multiplicity="1" />
@@ -16371,6 +16375,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="StockItems">
             <EntityTypeMapping TypeName="DomainModels.StockItem">
               <MappingFragment StoreEntitySet="StockItem">
+                <ScalarProperty Name="ChargePerSquareUnit" ColumnName="chargePerSquareUnit" />
                 <ScalarProperty Name="PlateRunLength" ColumnName="PlateRunLength" />
                 <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="isAllowBackOrder" ColumnName="isAllowBackOrder" />
@@ -19821,6 +19826,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="SectionInkCoverages">
             <EntityTypeMapping TypeName="DomainModels.SectionInkCoverage">
               <MappingFragment StoreEntitySet="SectionInkCoverage">
+                <ScalarProperty Name="CoverageRate" ColumnName="CoverageRate" />
                 <ScalarProperty Name="Side" ColumnName="Side" />
                 <ScalarProperty Name="CoverageGroupId" ColumnName="CoverageGroupId" />
                 <ScalarProperty Name="InkId" ColumnName="InkId" />

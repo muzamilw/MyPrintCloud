@@ -398,24 +398,24 @@ namespace MPC.Implementation.MISServices
                             }
 
                             double dblCoverageMultiple = 1;
-                            if (isPressSide2)
-                            {
-                                if (oItemSection.ImpressionCoverageSide2 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
-                            else
-                            {
-                                if (oItemSection.ImpressionCoverageSide1 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
+                            //if (isPressSide2)
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide2 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
+                            //else
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide1 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
 
                             //Checing Whether Print is Double sided and Press can't perform perfecting
                             dblPrintCost[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost) * dblCoverageMultiple) + oPressDTO.SetupCharge);
@@ -728,24 +728,25 @@ namespace MPC.Implementation.MISServices
 
                             //Check the coverage high, medium and low and set multiplier.
                             double dblCoverageMultiple = 1;
-                            if(isPressSide2)
-                            {
-                                if (oItemSection.ImpressionCoverageSide2 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh??1;
-                                else if(oItemSection.ImpressionCoverageSide2 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide2 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
-                            else
-                            {
-                                if (oItemSection.ImpressionCoverageSide1 == 1)
-                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 2)
-                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
-                                else if (oItemSection.ImpressionCoverageSide1 == 3)
-                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
-                            }
+                            //Commented coverage multiple as its removed from UI and added into inks 2016 01 21
+                            //if(isPressSide2)
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide2 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh??1;
+                            //    else if(oItemSection.ImpressionCoverageSide2 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide2 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
+                            //else
+                            //{
+                            //    if (oItemSection.ImpressionCoverageSide1 == 1)
+                            //        dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 2)
+                            //        dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                            //    else if (oItemSection.ImpressionCoverageSide1 == 3)
+                            //        dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            //}
 
 
                             //dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
@@ -1172,8 +1173,10 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty4WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
                     oItemSectionCostCenter.Qty4WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
                     oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
-                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2??0) + zoneRatesQty2 + Environment.NewLine;
-                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3??0) + zoneRatesQty3 + Environment.NewLine;
+                    if(oItemSection.Qty2 > 0)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2??0) + zoneRatesQty2 + Environment.NewLine;
+                    if(oItemSection.Qty3 > 0)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3??0) + zoneRatesQty3 + Environment.NewLine;
                     oItemSectionCostCenter.IsScheduleable = 0;
                 }
                 else
@@ -1181,8 +1184,10 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty5WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
                     oItemSectionCostCenter.Qty5WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
                     oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
-                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
-                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
+                    if (oItemSection.Qty2 > 0)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    if (oItemSection.Qty3 > 0)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
                     oItemSectionCostCenter.IsScheduleable = 1;
                 }
                 string sSide = isPressSide2 ? "Side 2" : "Side 1";

@@ -9610,3 +9610,5 @@ GO
 COMMIT
 
  -----------------------------------2015-01-12  executed on usa server
+alter table SectionInkCoverage add CoverageRate float
+alter table StockItem add ChargePerSquareUnit float
