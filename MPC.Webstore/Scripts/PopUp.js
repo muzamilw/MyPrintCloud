@@ -291,7 +291,7 @@ var GlobalQuestionQueueItemsList = null; // question queues of disfferent cost c
 var idsToValidate = ""; // This variable contain ids of text boxes and validate that each text box must have a correct value
 var GlobalInputQueueItemsList = null;
 function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType, TaxRate, WorkInstructions) {
-  
+    console.log("ShowCostCentrePopup function");
     GlobalQuestionQueueItemsList = QuestionQueueItems;
     GlobalInputQueueItemsList = InputQueueObject;
     var innerHtml = "";
@@ -1123,7 +1123,7 @@ function ViewOrderPopUp(Type, panelHtml) {
     }
 
     function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode, isPromptAQuestion, TaxRate) {
-
+        console.log("SetGlobalCostCentreQueue function");
         var jsonObjectsOfGlobalQueue = null;
 
 
@@ -1141,34 +1141,40 @@ function ViewOrderPopUp(Type, panelHtml) {
             $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
 
         } else {
-
+            
             var isUpdated = false;
             var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
 
             if (InputAndQuestionQueues.InputQueues == null) {
                 InputAndQuestionQueues.InputQueues = [];
-                for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
-                    InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
+                if (GlobalInputQueueItemsList != null) {
+                    for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
+                        InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
+                    }
                 }
+              
             } else {
-                for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
-                    for (var j = 0; j < InputAndQuestionQueues.InputQueues.length; j++) {
+                if (GlobalInputQueueItemsList != null) {
+                    for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
+                        for (var j = 0; j < InputAndQuestionQueues.InputQueues.length; j++) {
 
-                        if (InputAndQuestionQueues.InputQueues[j].CostCentreID == GlobalInputQueueItemsList[i].CostCentreID && InputAndQuestionQueues.InputQueues[j].ID == GlobalInputQueueItemsList[i].ID) {
-                            InputAndQuestionQueues.InputQueues[j].Qty1Answer = GlobalInputQueueItemsList[i].Qty1Answer;
-                            isUpdated = true;
-                            break;
+                            if (InputAndQuestionQueues.InputQueues[j].CostCentreID == GlobalInputQueueItemsList[i].CostCentreID && InputAndQuestionQueues.InputQueues[j].ID == GlobalInputQueueItemsList[i].ID) {
+                                InputAndQuestionQueues.InputQueues[j].Qty1Answer = GlobalInputQueueItemsList[i].Qty1Answer;
+                                isUpdated = true;
+                                break;
+                            }
+                        }
+
+                        if (isUpdated == false) {
+                            InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
+                            isUpdated = false;
                         }
                     }
-
-                    if (isUpdated == false) {
-                        InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
-                        isUpdated = false;
-                    }
                 }
+               
             }
 
-
+            console.log("GlobalQuestionQueueItemsList " + GlobalQuestionQueueItemsList);
 
             for (var i = 0; i < GlobalQuestionQueueItemsList.length; i++) {
                 for (var j = 0; j < InputAndQuestionQueues.QuestionQueues.length; j++) {
@@ -1206,7 +1212,7 @@ function ViewOrderPopUp(Type, panelHtml) {
             contentType: "application/json",
             async: true,
             success: function (response) {
-                debugger;
+               
                 ShowLoader();
 
                 var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
@@ -1360,7 +1366,6 @@ function ViewOrderPopUp(Type, panelHtml) {
             contentType: "application/json",
             async: true,
             success: function (response) {
-                console.log("respon on delete " + response);
                 if (response[0] == "Success") {
                     $("#attachmentUploadContainer").html(response[1]);
                     isImageUploadedOnLandingPage = 1;

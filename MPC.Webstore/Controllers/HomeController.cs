@@ -882,7 +882,23 @@ namespace MPC.Webstore.Controllers
                                     // var action = new HomeController().Index();
                                     //return null;// View();
                                     UserCookieManager.PerformAutoLogin = true;
-                                    ControllerContext.HttpContext.Response.Redirect("/");
+                                    if (!string.IsNullOrEmpty(CC))
+                                    {
+                                        ProductCategory selectedCategory = _myCompanyService.GetlCategorieByName(OrganisationId, StoreBaseResopnse.Company.CompanyId, CC);
+                                        if (selectedCategory != null)
+                                        {
+                                            ControllerContext.HttpContext.Response.Redirect("/Category/" + Utils.specialCharactersEncoder(selectedCategory.CategoryName) + "/" + selectedCategory.ProductCategoryId);
+                                        }
+                                        else
+                                        {
+                                            ControllerContext.HttpContext.Response.Redirect("/");
+                                        }
+                                    }
+                                    else 
+                                    {
+                                        ControllerContext.HttpContext.Response.Redirect("/");
+                                    }
+                                    
                                     return null;
                                     //SetUserClaim(UserCookieManager.WEBOrganisationID);
                                     //List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;

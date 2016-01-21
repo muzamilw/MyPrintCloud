@@ -2004,5 +2004,9 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _templaterepository.GetTemplateCuttingMargin(ProductId);
        }
+       public ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName)
+       {
+           return _productCategoryRepository.GetlCategorieByName(OrganisationId, CompanyId, CategoryName);
+       }
     }
 }

@@ -265,5 +265,19 @@ namespace MPC.Repository.Repositories
         {
             return db.ProductCategories.ToList();
         }
+
+
+        public ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName)
+        {
+            List<ProductCategory> categories = db.ProductCategories.Where(c => c.OrganisationId == OrganisationId && c.CompanyId == CompanyId && c.CategoryName.Contains(CategoryName)).ToList();
+            if (categories != null && categories.Count > 0)
+            {
+                return categories.FirstOrDefault();
+            }
+            else 
+            {
+                return null;
+            }
+        }
     }
 }

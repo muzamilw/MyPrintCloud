@@ -195,7 +195,26 @@ namespace MPC.Implementation.WebStoreServices
 
                 if(PdfTemplateheight > 0 && PdfTemplatewidth > 0)
                 {
-                    newItem.ProductName = ActualItem.ProductName + "(" + PdfTemplatewidth + " x + " + PdfTemplateheight + ")";
+                    if (SystemLengthUnit == 1)
+                    {
+                        //mm
+                        newItem.ProductName = ActualItem.ProductName + "(" + PdfTemplatewidth + "mm" + " x " + PdfTemplateheight + "mm)";
+
+                        if (!string.IsNullOrEmpty(ActualItem.Title))
+                        {
+                            newItem.Title = ActualItem.Title + "(" + PdfTemplatewidth + "mm" + " x " + PdfTemplateheight + "mm)";
+                        }
+                    }
+                    if (SystemLengthUnit == 3)
+                    {
+                        //Inch
+                        newItem.ProductName = ActualItem.ProductName + "(" + PdfTemplatewidth + "inch" + " x + " + PdfTemplateheight + "inch)";
+
+                        if (!string.IsNullOrEmpty(ActualItem.Title))
+                        {
+                            newItem.Title = ActualItem.Title + "(" + PdfTemplatewidth + "inch" + " x + " + PdfTemplateheight + "inch)";
+                        }
+                    }
                 }
 
                 if (isSetTemplateIdToNull == true)
@@ -2688,7 +2707,7 @@ namespace MPC.Implementation.WebStoreServices
                         Prefix prefix = _prefixRepository.GetDefaultPrefix();
                         if (prefix != null)
                         {
-                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                             prefix.OrderNext = prefix.OrderNext + 1;
                         }
                         shopCartOrder.Order_CompletionDate = null;
