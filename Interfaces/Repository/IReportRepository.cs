@@ -45,5 +45,7 @@ namespace MPC.Interfaces.Repository
 
         Report CheckCustomReportOfOrg(long reportId);
 
+        long CheckCustomReportForPOEmail();
+
     }
 }

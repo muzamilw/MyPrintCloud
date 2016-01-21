@@ -2,8 +2,8 @@
     Module with the view model for the item Job Status.
 */
 define("itemJobStatus/itemJobStatus.viewModel",
-    ["jquery", "amplify", "ko", "itemJobStatus/itemJobStatus.dataservice", "itemJobStatus/itemJobStatus.model", "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, shared) {
+    ["jquery", "amplify", "ko", "itemJobStatus/itemJobStatus.dataservice", "itemJobStatus/itemJobStatus.model", "common/sharedNavigation.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, shared, reportManager) {
         var ist = window.ist || {};
         ist.itemJobStatus = {
             viewModel: (function () {
@@ -185,7 +185,20 @@ define("itemJobStatus/itemJobStatus.viewModel",
                         }
                     });
                 },
-                    
+                
+                 openExternalReportsJob = function (item) {
+
+                     reportManager.outputTo("preview");
+
+
+                     reportManager.OpenExternalReport(ist.reportCategoryEnums.JobCards, 1, item.id());
+
+
+
+
+
+                 },
+
                 //Initialize
                initialize = function (specifiedView) {
                    view = specifiedView;
@@ -213,7 +226,7 @@ define("itemJobStatus/itemJobStatus.viewModel",
                     inPostPressTotal: inPostPressTotal,
                     inReadyForShippingTotal: inReadyForShippingTotal,
                     inInvoiceAndShippedTotal: inInvoiceAndShippedTotal,
-
+                    openExternalReportsJob: openExternalReportsJob
                 };
             })()
         };

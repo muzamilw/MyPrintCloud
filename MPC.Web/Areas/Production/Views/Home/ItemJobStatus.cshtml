@@ -1,5 +1,7 @@
 ﻿@{
     ViewBag.Title = "Item Job Status";
+    var displaybuttonsclass = "";
+    var ishiddenclass = "";
     Layout = "~/Areas/Production/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,8 +18,34 @@
                     <li class="active"><span>Item Job Status</span></li>
                 </ol>
                 <div style="margin-top:55px;margin-bottom:23spx;">
-                    <p class="group-header-description">Drag jobs to different columns to update their job statuses.</p>
+                    <div style="float:left;margin-top: 22px;">
+                        <p class="group-header-description">Drag jobs to different columns to update their job statuses.</p>
+                    </div>
+                    <div class="row" style="float:right;margin-right: 1px;">
+                        <a href="~/Production/Home/ItemLateStart" style="text-decoration:none;margin-right:13px;float:left;" class="@displaybuttonsclass ">
+                            <div class="main-box infographic-box inner-box" style="padding-bottom: 33px !important;">
+                                <i class="fa fa-archive emerald-bg" style="margin-right:4px;"></i>
+                                <span class="span-dashboard-widgets">Late Starts</span>
+                                
+                            </div>
+                            <div class="web2print-positioner" style="position:fixed;">
+                            </div>
+                        </a>
+                        <a href="~/Production/Home/LiveJobs" style="text-decoration:none;float:right;" class="@displaybuttonsclass " data-toggle="popover" data-placement="bottom">
+                            @*data-content="Design templates can be created against the products. To create a design template in a product first navigate to the store, select the product and navigate to Template Properties tab. Select either a blank template option or PDF based template to start creating template. "*@
+                            <div class="main-box infographic-box inner-box" style="padding-bottom: 33px !important;">
+                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                <span class="span-dashboard-widgets">Live jobs</span>
+
+                            </div>
+                        </a>
+                    </div>
+                   
                 </div>
+                <div>
+                   
+                </div>
+               
             </div>
         </div>
         <div class="row">
@@ -30,7 +58,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="border-radius: 5px;">
                                             <h4 class="panel-title title">
-                                                <a data-toggle="collapse" data-parent="#accordion1" href="#needAssigning">Need Assigning @*(</a><span data-bind=" text:$root.currencySymbol"></span><span data-bind="numberInput:$root.needAssigningTotal"></span>)*@
+                                                <a data-toggle="collapse" data-parent="#accordion1" href="#needAssigning">In Pre Press@*(</a><span data-bind=" text:$root.currencySymbol"></span><span data-bind="numberInput:$root.needAssigningTotal"></span>)*@
                                             </h4>
                                         </div>
                                         <div id="needAssigning" class="panel-collapse collapse in" style="margin-top: 2%; border-radius: 5px;">
@@ -51,7 +79,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="border-radius: 5px;">
                                             <h4 class="panel-title title">
-                                                <a data-toggle="collapse" data-parent="#accordion2" href="#inStudio">In Studio @*(</a><span data-bind=" text:$root.currencySymbol"></span><span data-bind="numberInput:$root.inStudioTotal "></span>)*@
+                                                <a data-toggle="collapse" data-parent="#accordion2" href="#inStudio">In Print @*(</a><span data-bind=" text:$root.currencySymbol"></span><span data-bind="numberInput:$root.inStudioTotal "></span>)*@
                                             </h4>
                                         </div>
                                         <div id="inStudio" class="panel-collapse collapse in" style="margin-top: 2%; border-radius: 5px;">
@@ -72,7 +100,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="border-radius: 5px;">
                                             <h4 class="panel-title title">
-                                                <a data-toggle="collapse" data-parent="#accordion3" href="#inPrint">In Print @*(</a><span data-bind=" text:$root.currencySymbol"></span><span data-bind="numberInput:$root.inPrintTotal "></span>)*@
+                                                <a data-toggle="collapse" data-parent="#accordion3" href="#inPrint">Digital @*(</a><span data-bind=" text:$root.currencySymbol"></span><span data-bind="numberInput:$root.inPrintTotal "></span>)*@
                                             </h4>
                                         </div>
                                         <div id="inPrint" class="panel-collapse collapse in" style="margin-top: 2%; border-radius: 5px;">
@@ -133,7 +161,7 @@
                             <div class="form-group collapsableView">
                                 <div class="panel-group" id="accordion6">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" style="padding: 6%; border-radius: 5px;">
+                                        <div class="panel-heading" style="padding: 6%; border-radius: 5px;background-color: #2ECC71;">
                                             <h4 class="panel-title title" style="margin-left: -9px;">
                                                 <a data-toggle="collapse" data-parent="#accordion6" href="#invoiceAndShipped">Invoice & Shipped @*(</a><span data-bind=" text:$root.currencySymbol"></span><span data-bind="numberInput:$root.inInvoiceAndShippedTotal "></span>)*@
                                             </h4>
@@ -159,10 +187,14 @@
     </div>
 
 </div>
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportViaEmail.cshtml")
+
 
 @section Scripts{
     <script>
-        require(["itemJobStatus/itemJobStatus.view"]);
+        require(["itemJobStatus/itemJobStatus.view", "common/reportManager.view"]);
+        //require(["common/reportManager.view"]);
         $(function () {
             $('#liproduction').addClass('active');
         });
@@ -216,11 +248,12 @@
                 <div class="col-lg-2">
 
                 </div>
-                <div class="col-lg-3" style="padding-left: 0;">
+                <div class="col-lg-3" style="padding-left: 0;margin-right:3px;">
                     <a class="btn btn-primary" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
                 </div>
                 <div class="col-lg-3" style="padding-right: 0; margin-left: 10px;">
-                    <a class="btn btn-primary" href="#">Job Card</a>
+                   
+                     <a class="btn btn-primary" href="#" data-bind="attr: {href:'#' },click: $root.openExternalReportsJob, clickBubble: false">Job Card</a>
                 </div>
             </div>
         </div>
@@ -230,7 +263,58 @@
 <script id="inStudioItemTemplate" type="text/html">
     <li data-bind="if: (statusId()=== 12), drag: $root.dragged">
         <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
-            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div style="color: #00B0f4; font-weight: bold" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group code" style="margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-5" style="padding-left:0;">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:code">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:orderCode">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group code" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-3" style="padding-left: 0; color: #000000; ">
+                    Qty :
+                </div>
+                <div class="col-lg-6" style=" color: #000000;" data-bind="text:qty1">
+
+                </div>
+            </div>
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div data-bind="text:productName" style="font-weight: bold">
+                </div>
+            </div>
+
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-6" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div>
+                    <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-2">
+
+                </div>
+                <div class="col-lg-3" style="padding-left: 0;margin-right:3px;">
+                    <a class="btn btn-primary" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                </div>
+                <div class="col-lg-3" style="padding-right: 0; margin-left: 10px;">
+                    <a class="btn btn-primary" href="#" data-bind="attr: {href:'#' },click: $root.openExternalReportsJob, clickBubble: false">Job Card</a>
+                </div>
+            </div>
+            
+@*old code*@ 
+            @*<div class="form-group formGroupSmall" style="margin-left: 0%;">
                 <div style="color: #1cc7ed;" data-bind="text:companyName">
                 </div>
             </div>
@@ -250,14 +334,7 @@
                     <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                 </div>
             </div>
-            @*<div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
-                    </div>
-                </div>*@
+          
             <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                 <div>
                     <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
@@ -269,7 +346,7 @@
                 <div>
                     <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
                 </div>
-            </div>
+            </div>*@
         </div>
     </li>
 </script>
@@ -278,7 +355,58 @@
 
     <li data-bind="if: (statusId()=== 13), drag: $root.dragged">
         <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
-            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+           
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div style="color: #00B0f4; font-weight: bold" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group code" style="margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-5" style="padding-left:0;">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:code">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:orderCode">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group code" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-3" style="padding-left: 0; color: #000000; ">
+                    Qty :
+                </div>
+                <div class="col-lg-6" style=" color: #000000;" data-bind="text:qty1">
+
+                </div>
+            </div>
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div data-bind="text:productName" style="font-weight: bold">
+                </div>
+            </div>
+
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-6" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div>
+                    <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-2">
+
+                </div>
+                <div class="col-lg-3" style="padding-left: 0;margin-right:3px;">
+                    <a class="btn btn-primary" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                </div>
+                <div class="col-lg-3" style="padding-right: 0; margin-left: 5px;">
+                    <a class="btn btn-primary" href="#" data-bind="attr: {href:'#' },click: $root.openExternalReportsJob, clickBubble: false">Job Card</a>
+                </div>
+            </div>
+            @*old code start from here*@
+             @*<div class="form-group formGroupSmall" style="margin-left: 0%;">
                 <div style="color: #1cc7ed;" data-bind="text:companyName">
                 </div>
             </div>
@@ -298,14 +426,7 @@
                     <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                 </div>
             </div>
-            @*<div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
-                    </div>
-                </div>*@
+          
             <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                 <div>
                     <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
@@ -317,7 +438,7 @@
                 <div>
                     <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
                 </div>
-            </div>
+            </div>*@
         </div>
     </li>
 </script>
@@ -325,7 +446,58 @@
 <script id="inPostPressItemTemplate" type="text/html">
     <li data-bind="if: (statusId()=== 14), drag: $root.dragged">
         <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
-            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+          
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div style="color: #00B0f4; font-weight: bold" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group code" style="margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-5" style="padding-left:0;">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:code">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:orderCode">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group code" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-3" style="padding-left: 0; color: #000000; ">
+                    Qty :
+                </div>
+                <div class="col-lg-6" style=" color: #000000;" data-bind="text:qty1">
+
+                </div>
+            </div>
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div data-bind="text:productName" style="font-weight: bold">
+                </div>
+            </div>
+
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-6" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div>
+                    <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-2">
+
+                </div>
+                <div class="col-lg-3" style="padding-left: 0;margin-right:3px;">
+                    <a class="btn btn-primary" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                </div>
+                <div class="col-lg-3" style="padding-right: 0; margin-left: 5px;">
+                    <a class="btn btn-primary" href="#" data-bind="attr: {href:'#' },click: $root.openExternalReportsJob, clickBubble: false">Job Card</a>
+                </div>
+            </div>
+            @*old code from here*@
+              @*<div class="form-group formGroupSmall" style="margin-left: 0%;">
                 <div style="color: #1cc7ed;" data-bind="text:companyName">
                 </div>
             </div>
@@ -345,14 +517,7 @@
                     <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                 </div>
             </div>
-            @*<div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
-                    </div>
-                </div>*@
+       
             <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                 <div>
                     <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
@@ -364,7 +529,7 @@
                 <div>
                     <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
                 </div>
-            </div>
+            </div>*@
         </div>
     </li>
 </script>
@@ -372,7 +537,58 @@
 <script id="readyForShippingItemTemplate" type="text/html">
     <li data-bind="if: (statusId()=== 15), drag: $root.dragged">
         <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
-            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+          
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div style="color: #00B0f4; font-weight: bold" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group code" style="margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-5" style="padding-left:0;">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:code">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:orderCode">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group code" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-3" style="padding-left: 0; color: #000000; ">
+                    Qty :
+                </div>
+                <div class="col-lg-6" style=" color: #000000;" data-bind="text:qty1">
+
+                </div>
+            </div>
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div data-bind="text:productName" style="font-weight: bold">
+                </div>
+            </div>
+
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-6" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div>
+                    <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-2">
+
+                </div>
+                <div class="col-lg-3" style="padding-left: 0;margin-right:3px;">
+                    <a class="btn btn-primary" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                </div>
+                <div class="col-lg-3" style="padding-right: 0; margin-left: 10px;">
+                    <a class="btn btn-primary" href="#" data-bind="attr: {href:'#' },click: $root.openExternalReportsJob, clickBubble: false">Job Card</a>
+                </div>
+            </div>
+            @*code starts*@
+              @*<div class="form-group formGroupSmall" style="margin-left: 0%;">
                 <div style="color: #1cc7ed;" data-bind="text:companyName">
                 </div>
             </div>
@@ -392,14 +608,7 @@
                     <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                 </div>
             </div>
-            @*<div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
-                    </div>
-                </div>*@
+          
             <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                 <div>
                     <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
@@ -411,7 +620,7 @@
                 <div>
                     <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
                 </div>
-            </div>
+            </div>*@
         </div>
     </li>
 </script>
@@ -419,7 +628,58 @@
 <script id="invoiceAndShippedItemTemplate" type="text/html">
     <li data-bind="if: (statusId()=== 16), drag: $root.dragged">
         <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
-            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div style="color: #00B0f4; font-weight: bold" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group code" style="margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-5" style="padding-left:0;">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:code">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div style=" color: #000000; font-weight: bold" data-bind="text:orderCode">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group code" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-3" style="padding-left: 0; color: #000000; ">
+                    Qty :
+                </div>
+                <div class="col-lg-6" style=" color: #000000;" data-bind="text:qty1">
+
+                </div>
+            </div>
+            <div class="form-group formGroupSmall" style="margin-left: 0%;margin-top: 5px;">
+                <div data-bind="text:productName" style="font-weight: bold">
+                </div>
+            </div>
+
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;margin-top: 5px;">
+                <div class="col-lg-6" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div>
+                    <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0;margin-top: 5px;">
+                <div class="col-lg-2">
+
+                </div>
+                <div class="col-lg-3" style="padding-left: 0;margin-right:3px;">
+                    <a class="btn btn-primary" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                </div>
+                <div class="col-lg-3" style="padding-right: 0; margin-left: 10px;">
+                    <a class="btn btn-primary" href="#" data-bind="attr: {href:'#' },click: $root.openExternalReportsJob, clickBubble: false">Job Card</a>
+                </div>
+            </div>
+            
+            @*code start from here*@ 
+             @*<div class="form-group formGroupSmall" style="margin-left: 0%;">
                 <div style="color: #1cc7ed;" data-bind="text:companyName">
                 </div>
             </div>
@@ -439,14 +699,7 @@
                     <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                 </div>
             </div>
-            @*<div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
-                    </div>
-                </div>*@
+          
             <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                 <div>
                     <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
@@ -458,7 +711,7 @@
                 <div>
                     <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
                 </div>
-            </div>
+            </div>*@
         </div>
     </li>
 </script>

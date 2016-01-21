@@ -3344,7 +3344,7 @@ define("order/order.viewModel",
                     onDeleteShippingItem: onDeleteShippingItem,
                     copyOrder: copyOrder,
                     isStoreLive: isStoreLive,
-                    AttachmentFilePath: AttachmentFilePath
+                    AttachmentFilePath: AttachmentFilePath,
                     multipleQtyItems: multipleQtyItems,
                     clickOnJobToPrevious: clickOnJobToPrevious,
                     wizardButtonLabel: wizardButtonLabel,
