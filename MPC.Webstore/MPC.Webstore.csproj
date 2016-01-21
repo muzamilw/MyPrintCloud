@@ -119,6 +119,9 @@
     <Reference Include="Owin.Context">
       <HintPath>..\packages\Owin.Context.0.1.0.3\lib\net45\Owin.Context.dll</HintPath>
     </Reference>
+    <Reference Include="PayWayAPI">
+      <HintPath>..\MPC.Common\ExternalDlls\PayWayAPI.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
@@ -424,6 +427,7 @@
     <Compile Include="Controllers\OxfordHeaderController.cs" />
     <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PayWayController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
     <Compile Include="Controllers\PopularProductsController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
@@ -512,6 +516,7 @@
     <Compile Include="WebGridExtension\WebGridExt.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Common\PayWayConfigFiles\PayWayLog.txt" />
     <Content Include="Content\BannerMart.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -572,6 +577,7 @@
     <Content Include="Content\Images\9_Location-Icon.png" />
     <Content Include="Content\Images\ai.gif" />
     <Content Include="Content\Images\AI.png" />
+    <Content Include="Content\Images\amex.gif" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
@@ -580,6 +586,7 @@
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\Deliver-Icon.png" />
+    <Content Include="Content\Images\diners.gif" />
     <Content Include="Content\Images\download-icon.png" />
     <Content Include="Content\Images\download.png" />
     <Content Include="Content\Images\edit.png" />
@@ -733,6 +740,7 @@
     <Content Include="Content\Images\logout.png" />
     <Content Include="Content\Images\map.png" />
     <Content Include="Content\Images\MASTERCARD.gif" />
+    <Content Include="Content\Images\mastercard2.gif" />
     <Content Include="Content\Images\my-jobs.png" />
     <Content Include="Content\Images\new_delete_icon.PNG" />
     <Content Include="Content\Images\next-horizontal.png" />
@@ -768,6 +776,7 @@
     <Content Include="Content\Images\TwitterNew.png" />
     <Content Include="Content\Images\Van-Icon-Blue.png" />
     <Content Include="Content\Images\view-order.png" />
+    <Content Include="Content\Images\visa.gif" />
     <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\Images\winrar-icon.png" />
     <Content Include="Content\jquery-1.8.2.min.js" />
@@ -898,6 +907,7 @@
     <Content Include="Areas\OrderReceipt\Views\_ViewStart.cshtml" />
     <Content Include="Areas\OrderReceipt\Views\OrderReceipt\Index.cshtml" />
     <Content Include="Areas\OrderReceipt\Views\Shared\_Layout.cshtml" />
+    <Content Include="ccapi.q0" />
     <None Include="Properties\PublishProfiles\MPC.Webstore  MZ.pubxml" />
     <None Include="Properties\PublishProfiles\MPCPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1117,6 +1127,7 @@
     <Content Include="Views\Shared\PartialViews\EzyHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\ManageAssets.cshtml" />
     <Content Include="Views\Shared\PartialViews\TreeChildNodes.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PayWay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1141,6 +1152,7 @@
     <Folder Include="Views\LoginBarWithPhoneInfo\" />
     <Folder Include="Views\LoginEazyPrint\" />
     <Folder Include="Views\ManageAssets\" />
+    <Folder Include="Views\PayWay\" />
     <Folder Include="Views\ProductOptionsAndDetails\" />
     <Folder Include="Views\RealEstateListingGrid\" />
     <Folder Include="Views\SystemPageBanner\" />

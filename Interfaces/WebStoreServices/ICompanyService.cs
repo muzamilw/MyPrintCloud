@@ -305,5 +305,8 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyDomain GetDomainByCompanyId(long CompanyId);
         List<Asset> GetAssetsByCompanyID(long CompanyID);
         ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName);
+        
+        bool IsValidNumber(string cardNum);
+        int GetCardTypeIdFromNumber(string cardNum);
     }
 }

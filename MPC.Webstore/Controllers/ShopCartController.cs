@@ -258,7 +258,7 @@ namespace MPC.Webstore.Controllers
 
                         if (!string.IsNullOrEmpty(deliveryCompletionTime))
                         {
-                            DeliveryTime = 0;
+                            DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
                         }
 
                         // if cart has items with product type other than 4 then do not make any change and redirect to address select page
@@ -323,9 +323,6 @@ namespace MPC.Webstore.Controllers
                         return null;
                     }
                 }
-                
-            
-                
                 else
                 {
                     if (IsCallFrom == "RemoveVoucherCode")

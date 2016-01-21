@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ClaimHelper.cs" />
     <Compile Include="ColorDataList.cs" />
+    <Compile Include="CreditCardManager.cs" />
     <Compile Include="DesignerSvgParser.cs" />
     <Compile Include="DesignerUtils.cs" />
     <Compile Include="HashingManager.cs" />
