@@ -55,6 +55,8 @@ define("order/order.viewModel",
                     counterForSection = -1000,
                     wizardButtonLabel = ko.observable(),
                     isPreVisible = ko.observable(),
+                    isApplyToAll = ko.observable(),
+                    isApplyButtonVisible = ko.observable(),
                     //
                     selectedCompanyTaxRate = ko.observable(),
                     selectedCompanyJobManagerUser = ko.observable(),
@@ -841,6 +843,11 @@ define("order/order.viewModel",
                                 }
                                 selectedOrder().statusId(status);
                                 view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
+                                isApplyButtonVisible(selectedOrder().nonDeliveryItems().length > 1 ? true: false);
+                                isApplyToAll.subscribe(function (value) {
+                                    applyJobSettingsToAll();
+                                });
+                                progressToJobItemCounter = 0;
                                 changeAllItemProgressToJob();
                             });
                             confirmation.afterCancel(function () {
@@ -857,13 +864,18 @@ define("order/order.viewModel",
                     changeAllItemProgressToJob = function () {
                         if (selectedOrder().nonDeliveryItems().length > 0) {
                             selectedItemForProgressToJobWizard(selectedOrder().nonDeliveryItems()[progressToJobItemCounter]);
-                            selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
-                            selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
-                            selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
-                            selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
+                            if (selectedItemForProgressToJobWizard().jobStatusId() == undefined)
+                                selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
+                            if (selectedItemForProgressToJobWizard().jobEstimatedStartDateTime() == undefined)
+                                selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
+                            if (selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime() == undefined)
+                                selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
                             if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
                                 selectedItemForProgressToJobWizard().systemUsers(systemUsers());
                             }
+                            if (selectedItemForProgressToJobWizard().jobManagerUser() == undefined)
+                                selectedItemForProgressToJobWizard().jobManagerUser(systemUsers().length > 0 ? systemUsers()[0] : selectedCompanyJobManagerUser());
+                            
                             selectedItemForProgressToJobWizard().setJobProgressedBy(loggedInUser());
                             wizardButtonLabel(progressToJobItemCounter == selectedOrder().nonDeliveryItems().length - 1 ? "Finish" : "Next");
                             isPreVisible(progressToJobItemCounter > 0 && selectedOrder().nonDeliveryItems().length - 1 ? true : false);
@@ -875,11 +887,32 @@ define("order/order.viewModel",
                             view.showOrderStatusProgressToJobDialog();
                         }
                     },
+                    applyJobSettingsToAll = function () {
+                        if (isApplyToAll() == true) {
+                            progressToJobItemCounter = selectedOrder().nonDeliveryItems().length;
+                            wizardButtonLabel("Finish");
+                            if (selectedItemForProgressToJobWizard() != undefined) {
+                                _.each(selectedOrder().nonDeliveryItems(), function (item) {
+                                    item.jobManagerId(selectedItemForProgressToJobWizard().jobManagerId());
+                                    item.jobSignedBy(selectedItemForProgressToJobWizard().jobSignedBy());
+                                    
+                                    item.jobStatusId(selectedItemForProgressToJobWizard().jobStatusId());
+                                    item.jobEstimatedStartDateTime(selectedItemForProgressToJobWizard().jobEstimatedStartDateTime());
+                                    item.jobEstimatedCompletionDateTime(selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime());
+                                    item.setJobProgressedBy(selectedItemForProgressToJobWizard().setJobProgressedBy());
+                                });
+                            }
+                        } else {
+                            progressToJobItemCounter = 0;
+                            wizardButtonLabel("Next");
+                        }
+                        
+                    },
                     //Update Order Items On Progress to order
                     //setting job manager and signed by of items on progress to order
                     updateOrderItemsOnProgressToOrder = function() {
                         _.each(selectedOrder().nonDeliveryItems(), function(item) {
-                            item.jobManagerId(selectedCompanyJobManagerUser());
+                            //item.jobManagerId(selectedCompanyJobManagerUser());
                             item.jobSignedBy(loggedInUser());
                         });
                     },
@@ -902,10 +935,10 @@ define("order/order.viewModel",
                         //selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
                         //selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
                         //selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
-                        selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
-                        if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
-                            selectedItemForProgressToJobWizard().systemUsers(systemUsers());
-                        }
+                        //selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
+                        //if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
+                        //    selectedItemForProgressToJobWizard().systemUsers(systemUsers());
+                        //}
                         wizardButtonLabel(progressToJobItemCounter == selectedOrder().nonDeliveryItems().length - 1 ? "Finish" : "Next");
                         isPreVisible(progressToJobItemCounter > 0 && selectedOrder().nonDeliveryItems().length - 1 ? true : false);
                     },
@@ -1043,6 +1076,10 @@ define("order/order.viewModel",
                     },
                     //Opens Cost Center dialog for Cost Center
                     onCostCenterClick = function () {
+                        if (selectedOrder().companyId() === undefined) {
+                            toastr.error("Please select customer.");
+                            return;
+                        }
                         isAddProductFromInventory(false);
                         isCostCenterDialogForShipping(false);
                         onAddCostCenterForProduct();
@@ -1741,7 +1778,6 @@ define("order/order.viewModel",
                     },
                     // Add Finished Goods
                      onAddFinishedGoods = function () {
-
                          if (selectedOrder().companyId() === undefined) {
                              toastr.error("Please select customer.");
                          } else {
@@ -2091,6 +2127,10 @@ define("order/order.viewModel",
                     //#endregion
                     //#region Add Blank Print Product
                     onCreateNewBlankPrintProduct = function () {
+                        if (selectedOrder().companyId() === undefined) {
+                            toastr.error("Please select customer.");
+                            return;
+                        }
                         var newItem = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         applyProductTax(newItem);
                         //Req: Item Product code is set to '1', so while editting item's section is mandatory
@@ -3348,7 +3388,9 @@ define("order/order.viewModel",
                     multipleQtyItems: multipleQtyItems,
                     clickOnJobToPrevious: clickOnJobToPrevious,
                     wizardButtonLabel: wizardButtonLabel,
-                    isPreVisible: isPreVisible
+                    isPreVisible: isPreVisible,
+                    isApplyToAll: isApplyToAll,
+                    isApplyButtonVisible: isApplyButtonVisible
                     //#endregion
                 };
             })()

@@ -147,7 +147,7 @@ namespace MPC.Repository.Repositories
 
                 if (prefix != null)
                 {
-                    orderObject.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                    orderObject.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                     prefix.OrderNext = prefix.OrderNext + 1;
                 }
 
@@ -693,7 +693,7 @@ namespace MPC.Repository.Repositories
 
             if (prefix != null)
             {
-                tblOrd.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                tblOrd.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                 prefix.OrderNext = prefix.OrderNext + 1;
             }
             tblOrd.CreationDate = DateTime.Now;
@@ -1323,6 +1323,13 @@ namespace MPC.Repository.Repositories
                 if (tblOrder != null)
                 {
                     tblOrder.StatusId = (short)orderStatus;
+                    tblOrder.Order_Date = DateTime.Now;
+                    tblOrder.ArtworkByDate = DateTime.Now.AddDays(2);
+                    tblOrder.DataByDate = DateTime.Now.AddDays(2);
+                    tblOrder.PaperByDate = DateTime.Now.AddDays(2);
+                    tblOrder.TargetPrintDate = DateTime.Now.AddDays(2);
+                    tblOrder.TargetBindDate = DateTime.Now.AddDays(2);
+                 
                     List<Guid> StockManagerIds = new List<Guid>();
                     if (mode == StoreMode.Retail)
                     {
@@ -1341,6 +1348,7 @@ namespace MPC.Repository.Repositories
                                     StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
                                 }
                                 org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
+                                tblOrder.OrderManagerId = Store.AccountManagerId;
                             }
                         }
                     }
@@ -1358,9 +1366,15 @@ namespace MPC.Repository.Repositories
                                 StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
                             }
                             org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
+                            tblOrder.OrderManagerId = Store.AccountManagerId;
                         }
                     }
-
+                    if (StockManagerIds != null && StockManagerIds.Count > 0)
+                    {
+                        tblOrder.SalesPersonId = StockManagerIds[0];
+                        tblOrder.OfficialOrderSetBy = StockManagerIds[0];
+                        tblOrder.CreditLimitSetBy = StockManagerIds[0];
+                    }
                     // Approve the credit after user has pay online
                     tblOrder.IsCreditApproved = 1;
 
@@ -2120,7 +2134,7 @@ namespace MPC.Repository.Repositories
                         Prefix prefix = _prefixrepository.GetDefaultPrefix();
                         if (prefix != null)
                         {
-                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                             prefix.OrderNext = prefix.OrderNext + 1;
                         }
                         shopCartOrder.Order_CompletionDate = null;

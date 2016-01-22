@@ -357,6 +357,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         public bool? IsImperical { get; set; }
         public int? PlateRunLength { get; set; }
+        public double? ChargePerSquareUnit { get; set; }
         
 
         #endregion

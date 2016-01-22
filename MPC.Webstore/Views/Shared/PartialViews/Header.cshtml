@@ -21,8 +21,8 @@
                         {
 
                             <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId, "All Products"))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
-                          
-                           
+
+
                         }
                         @if (Model.IsAllowRequestaQuote == true)
                         {
@@ -39,10 +39,10 @@
                         @if (Model.IsCustomer != 3)
                         {
 
-                           
-                            <a id="lnkContactUs"  href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</a>
+
+                            <a id="lnkContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</a>
                         }
-                       
+
 
 
                     </div>
@@ -92,3 +92,4 @@
     </div>
 </div>
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
+

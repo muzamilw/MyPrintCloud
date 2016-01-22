@@ -53,6 +53,12 @@ namespace MPC.Models.ModelMappers
             target.InputQueue = source.InputQueue;
             target.QuestionQueue = source.QuestionQueue;
             target.StockQueue = source.StockQueue;
+            target.PressSpeed1 = source.PressSpeed1;
+            target.PressSpeed2 = source.PressSpeed2;
+            target.PressSpeed3 = source.PressSpeed3;
+            target.ImpressionQty1 = source.ImpressionQty1;
+            target.ImpressionQty2 = source.ImpressionQty2;
+            target.ImpressionQty3 = source.ImpressionQty3;
         }
 
         /// <summary>

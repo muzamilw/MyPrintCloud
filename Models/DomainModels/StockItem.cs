@@ -362,6 +362,7 @@ namespace MPC.Models.DomainModels
         /// PlateRunLength
         /// </summary>
         public int? PlateRunLength { get; set; }
+        public double? ChargePerSquareUnit { get; set; }
 
         #endregion
 

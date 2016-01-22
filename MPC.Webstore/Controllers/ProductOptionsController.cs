@@ -306,11 +306,11 @@ namespace MPC.Webstore.Controllers
                 
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
-                    DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, true);
+                    DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, true, clonedItem.ProductName,clonedItem.Title);
                 }
                 else
                 {
-                    DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, false);
+                    DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, false, clonedItem.ProductName, clonedItem.Title);
                 }
 
 
@@ -404,7 +404,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse, false);
+                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse, false, cartObject.ProductName, cartObject.ProductName);
 
                 if (Request.Form["ViewToFire"] == "ProductOptionsAndDetails")
                 {
@@ -419,7 +419,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, bool isTemplateProduct)
+        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, bool isTemplateProduct, string ClonedProductName, string ClonedProductFriendlyName)
         {
 
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
@@ -808,8 +808,8 @@ namespace MPC.Webstore.Controllers
             ItemModel.IsQtyRanged = referenceItem.IsQtyRanged ?? false;
 
             ItemModel.ItemPriceMatrices = referenceItem.ItemPriceMatrices.ToList();
-            ItemModel.ProductName = referenceItem.ProductName;
-            ItemModel.ProductFriendlyName = referenceItem.Title;
+            ItemModel.ProductName = ClonedProductName;
+            ItemModel.ProductFriendlyName = ClonedProductFriendlyName;
             ItemModel.WebDescription = referenceItem.WebDescription;
             ItemModel.ItemId = referenceItem.ItemId;
             ItemModel.ProductDisplayOptions = referenceItem.ProductDisplayOptions;

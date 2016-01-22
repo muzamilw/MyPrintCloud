@@ -120,12 +120,7 @@ namespace MPC.Webstore.Controllers
             {
                 cep.AssetId = 1;
                 List<Item> GetAllItems = _ItemService.GetItemsByOrderID(OrderId);
-                //foreach (var item in GetAllItems)
-                //{
-                //    Asset Asset = _myCompanyService.GetAsset(Convert.ToInt64(item.RefItemId));
-                //    List<AssetItem> AssetItems = _myCompanyService.GetAssetItemsByAssetID(Asset.AssetId);
-                //}
-
+                
                 StringWriter stringWriter = new StringWriter();
                 
 
@@ -203,9 +198,7 @@ namespace MPC.Webstore.Controllers
                 ItemTypeFourHtml = stringWriter.ToString();
             }
             ShoppingCart shopCart = null;
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+         
             MyCompanyDomainBaseReponse baseResponse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
@@ -347,6 +340,12 @@ namespace MPC.Webstore.Controllers
                                         break;
 
                                     }
+                                case 8:
+                                    {
+                                        Response.Redirect("/PayWay/" + OrderId);
+                                        break;
+
+                                    }
                                 default:
                                     break;
                             }
@@ -467,6 +466,12 @@ namespace MPC.Webstore.Controllers
                                 case 7:
                                     {
                                         Response.Redirect("payments/PayJunctionSubmit/" + OrderId);
+                                        break;
+
+                                    }
+                                case 8:
+                                    {
+                                        Response.Redirect("/PayWay/" + OrderId);
                                         break;
 
                                     }
