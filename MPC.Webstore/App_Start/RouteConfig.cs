@@ -44,8 +44,16 @@ namespace MPC.Webstore
               , new { controller = "Home", action = "Index", name = "" 
             });
 
-        
 
+            routes.MapRoute(
+               "FeaturedProductss"
+             , "FeaturedProducts"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
 
              routes.MapRoute(
                 "UserManager"
