@@ -852,7 +852,7 @@ namespace MPC.Models.DomainModels
             target.IsUploadImage = IsUploadImage;
             target.IsDigitalDownload = IsDigitalDownload;
             target.IsRealStateProduct = IsRealStateProduct;
-           
+            target.RefItemId = RefItemId;
             target.ItemType = ItemType;
             target.drawWaterMarkTxt = drawWaterMarkTxt;
             target.isAddCropMarks = isAddCropMarks;

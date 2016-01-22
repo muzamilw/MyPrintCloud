@@ -663,7 +663,26 @@ namespace MPC.Repository.Repositories
             }
         }
 
-    
+        public long CheckCustomReportForPOEmail()
+        {
+            try
+            {
+                Report report =  db.Reports.Where(c => c.ReportCode == "POR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+
+                if (report != null)
+                {
+                    return report.ReportId;
+                }
+                else
+                    return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
         // GetReportsByOrganisationID
     }
 }

@@ -68,7 +68,8 @@ namespace MPC.Implementation.MISServices
                             Qty1 = item.Qty1,
                             StatusId = item.JobStatusId,
                             JobEstimatedCompletionDateTime = item.JobEstimatedCompletionDateTime,
-                            Qty1NetTotal = item.Qty1NetTotal
+                            Qty1NetTotal = item.Qty1NetTotal,
+                            OrderdItemsCount = estimate.Items.Count(i => i.ItemType != 2)
                         };
                         itemForItemJobStatuses.Add(itemForItemJobStatus);
                     }

@@ -2008,5 +2008,29 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _productCategoryRepository.GetlCategorieByName(OrganisationId, CompanyId, CategoryName);
        }
+       public bool IsValidNumber(string cardNum)
+       {
+           try
+           {
+               return CreditCardManager.IsValidNumber(cardNum);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+
+       }
+       public int GetCardTypeIdFromNumber(string cardNum)
+       {
+           try
+           {
+               return CreditCardManager.GetCardTypeIdFromNumber(cardNum);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+
+       }
     }
 }

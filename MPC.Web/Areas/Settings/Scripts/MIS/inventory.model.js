@@ -58,7 +58,7 @@
         specifiedItemSizeWidth, specifiedPerQtyType, specifiedPackageQty, specifiedRollWidth, specifiedRollLength, specifiedReOrderLevel, specifiedReorderQty,
         specifiedItemWeight, specifiedItemColour, specifiedInkAbsorption, specifiedPaperBasicAreaId, specifiedItemCoated, specifiedItemCoatedType,
         specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate, specifiedSupplierName, specifiedIsImperical,
-        specifiedisAllowBackOrder, specifiedThresholdLevel, specifiedRunLength) {
+        specifiedisAllowBackOrder, specifiedThresholdLevel, specifiedRunLength, specifiedInkChargePerSquare) {
         var self,
             //item Id
             itemId = ko.observable(specifiedItemId === undefined ? 0 : specifiedItemId),
@@ -75,6 +75,7 @@
             //Sub Category Id
             subCategoryId = ko.observable(specifiedSubCategoryId),
             plateRunLength = ko.observable(specifiedRunLength),
+            inkChargePerSquare = ko.observable(specifiedInkChargePerSquare),
             //Bar Code
             barCode = ko.observable(specifiedBarCode),
             //in Stock
@@ -223,7 +224,8 @@
             thresholdLevel: thresholdLevel,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
             itemStockUpdateHistories: itemStockUpdateHistories,
-            plateRunLength: plateRunLength
+            plateRunLength: plateRunLength,
+            inkChargePerSquare: inkChargePerSquare
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -270,6 +272,7 @@
                 StockCostAndPrices: stockCostAndPriceListInInventory(),
                 isAllowBackOrder: isAllowBackOrder(),
                 PlateRunLength: plateRunLength(),
+                ChargePerSquareUnit: inkChargePerSquare(),
                 ItemStockUpdateHistories: []
             }
         },
@@ -324,7 +327,8 @@
             isAllowBackOrder: isAllowBackOrder,
             thresholdLevel: thresholdLevel,
             itemStockUpdateHistories: itemStockUpdateHistories,
-            plateRunLength:plateRunLength,
+            plateRunLength: plateRunLength,
+            inkChargePerSquare : inkChargePerSquare,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -485,7 +489,7 @@
             source.PerQtyQty, source.ItemSizeCustom, source.StockLocation, source.ItemSizeId, source.ItemSizeHeight, source.ItemSizeWidth, source.PerQtyType, source.PackageQty,
             source.RollWidth, source.RollLength, source.ReOrderLevel, source.ReorderQty, source.ItemWeight, source.ItemColour, source.InkAbsorption, source.PaperBasicAreaId,
             source.ItemCoated, source.ItemCoatedType, source.ItemWeightSelectedUnit, source.Allocated, source.onOrder, source.LastOrderQty, source.LastOrderDate,
-            source.SupplierName, source.IsImperical, source.isAllowBackOrder, source.ThresholdLevel, source.PlateRunLength);
+            source.SupplierName, source.IsImperical, source.isAllowBackOrder, source.ThresholdLevel, source.PlateRunLength, source.ChargePerSquareUnit);
 
         _.each(source.ItemStockUpdateHistories, function (item) {
             stockItem.itemStockUpdateHistories.push(ItemStockUpdateHistory.Create(item));

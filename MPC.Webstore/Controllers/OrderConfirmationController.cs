@@ -337,6 +337,12 @@ namespace MPC.Webstore.Controllers
                                         break;
 
                                     }
+                                case 8:
+                                    {
+                                        Response.Redirect("/PayWay/" + OrderId);
+                                        break;
+
+                                    }
                                 default:
                                     break;
                             }
@@ -457,6 +463,12 @@ namespace MPC.Webstore.Controllers
                                 case 7:
                                     {
                                         Response.Redirect("payments/PayJunctionSubmit/" + OrderId);
+                                        break;
+
+                                    }
+                                case 8:
+                                    {
+                                        Response.Redirect("/PayWay/" + OrderId);
                                         break;
 
                                     }

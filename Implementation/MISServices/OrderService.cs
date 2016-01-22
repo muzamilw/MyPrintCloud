@@ -409,7 +409,12 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var purchase in listPurchases)
                 {
-                    string fileName = exportReportHelper.ExportPDF(100, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
+                    string fileName = string.Empty;
+                    long reportId = ReportRepository.CheckCustomReportForPOEmail();
+                    if(reportId > 0)
+                        fileName = exportReportHelper.ExportPDF((int)reportId, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
+                    else
+                        fileName = exportReportHelper.ExportPDF(100, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
 
                     int itemIDs = orderRepository.GetFirstItemIDByOrderId(orderId);
                     Organisation compOrganisation = organisationRepository.GetOrganizatiobByID();

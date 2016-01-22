@@ -47,6 +47,7 @@ define("inventory/inventory.viewModel",
                     subCategoryFilter = ko.observable(),
                     // bind Label
                     weightLabel = ko.observable(),
+                    lengthLabel = ko.observable(),
                     // Logged In User Id
                     loggedInUserId = ko.observable(),
                     // Logged In User Identity
@@ -198,6 +199,7 @@ define("inventory/inventory.viewModel",
                                     else {
                                         weightLabel("gsm");
                                     }
+                                    lengthLabel(selectedInventory().IsImperical() == true ? "Inch" : "Meter");
 
                                     if (selectedInventory().categoryId() == 1 || selectedInventory().categoryId() == 2 || selectedInventory().categoryId() == 3 || selectedInventory().categoryId() == 4) {
                                         isStockCatEditable(false);
@@ -835,7 +837,8 @@ define("inventory/inventory.viewModel",
                     saveAddStockQuantity: saveAddStockQuantity,
                     formatSelection: formatSelection,
                     formatResult: formatResult,
-                    isStockCatEditable: isStockCatEditable
+                    isStockCatEditable: isStockCatEditable,
+                    lengthLabel: lengthLabel
 
 
                 };
