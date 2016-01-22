@@ -8,7 +8,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once InconsistentNaming
      Item = function (specifiedItemId, specifiedEstimateId, specifiedCode, specifiedCompanyName, specifiedProductName, specifiedQty1, specifiedStatusId,
-         specifiedJobEstimatedCompletionDateTime, specifiedQty1NetTotal, specifiedJobEstimatedStartDateTime, specifiedCodeOrder) {
+         specifiedJobEstimatedCompletionDateTime, specifiedQty1NetTotal, specifiedJobEstimatedStartDateTime, specifiedCodeOrder, specifiedCount) {
 
          var self,
              id = ko.observable(specifiedItemId),
@@ -21,6 +21,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              statusId = ko.observable(specifiedStatusId),
              startdateTimeCalculation = ko.observable(specifiedJobEstimatedStartDateTime),
              completiondateTimeCalculation = ko.observable(specifiedJobEstimatedCompletionDateTime),
+             orderedItemsCount = ko.observable(specifiedCount),
               // Job Estimated Start Date Time
                 jobEstimatedStartDateTime = ko.observable(specifiedJobEstimatedStartDateTime ? moment(specifiedJobEstimatedStartDateTime).toDate() : undefined),
              //jobEstimatedCompletionDateTime = ko.observable((specifiedJobEstimatedCompletionDateTime !== null && specifiedJobEstimatedCompletionDateTime !== undefined) ? moment(specifiedJobEstimatedCompletionDateTime, ist.datePattern).toDate() : undefined),
@@ -45,6 +46,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              qty1: qty1,
              orderCode:orderCode,
              statusId: statusId,
+             orderedItemsCount : orderedItemsCount,
              jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
              qty1NetTotal: qty1NetTotal,
              convertToServerData:convertToServerData
@@ -54,7 +56,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     Item.Create = function (source) {
         return new Item(source.ItemId, source.EstimateId, source.ItemCode, source.CompanyName, source.ProductName, source.Qty1, source.StatusId, source.JobEstimatedCompletionDateTime,
-            source.Qty1NetTotal, source.JobEstimatedStartDateTime, source.OrderCode);
+            source.Qty1NetTotal, source.JobEstimatedStartDateTime, source.OrderCode, source.OrderdItemsCount);
 
     };
     // #endregion __________________  Item   ______________________

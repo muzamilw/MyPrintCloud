@@ -810,6 +810,7 @@ define("order/order.viewModel",
                             } else if (status === 10) {
                                 changeStatusOfItemsForInvoicedAndShipped();
                             }
+                            status = status === 5 ? 4 : status;
                             selectedOrder().statusId(status);
                             view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
                         });
@@ -3030,7 +3031,6 @@ define("order/order.viewModel",
                     //#region Progress To Order
                     progressToOrderHandler = function () {
                         if (selectedOrder().items() && selectedOrder().items().length > 0) {
-                            
                             estimateToBeProgressed(model.Estimate.Create(selectedOrder().convertToServerData(), { SystemUsers: systemUsers() }));
                             estimateToBeProgressed().setCreditiLimitSetBy(loggedInUser());
                             estimateToBeProgressed().setAllowJobWoCreditCheckSetBy(loggedInUser());
@@ -3057,8 +3057,13 @@ define("order/order.viewModel",
                             // Push to Original Item
                             ko.utils.arrayPushAll(estimateToBeProgressed().items(), items);
                             estimateToBeProgressed().items.valueHasMutated();
-                            
-                            view.showProgressToOrderDialog();
+                            if (multipleQtyItems().length > 0)
+                                view.showProgressToOrderDialog();
+                            else {
+                                if (estimateToBeProgressed().items().length > 0) {
+                                    onSaveEstimateProgressedToOrder();
+                                }
+                            }
                         } else {
                             toastr.error("Estimate without items can not be progressed to order.");
                         }
@@ -3068,6 +3073,7 @@ define("order/order.viewModel",
                     onSaveEstimateProgressedToOrder = function () {
                         if (isNaN(view.orderstate()) || view.orderstate() === 0) {
                             estimateToBeProgressed().statusId(5); // Confirmed Starts orders
+                            
                         }
                         var order = estimateToBeProgressed().convertToServerData();
                         if (multipleQtyItems().length > 0) {

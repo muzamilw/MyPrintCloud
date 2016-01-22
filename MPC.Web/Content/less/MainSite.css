@@ -1124,7 +1124,7 @@ div#spinner {
   margin-right: 3px;
 }
 #itemJobStatusBinding .collapsableHeight {
-  max-height: 374px;
+  max-height: 580px;
   overflow-y: auto;
   list-style: none;
   min-height: 374px;
