@@ -259,6 +259,7 @@
     <Compile Include="DomainModels\usp_DashboardROICounter_Result.cs" />
     <Compile Include="DomainModels\usp_DeliveryReport_Result.cs" />
     <Compile Include="DomainModels\usp_EstimateReport_Result.cs" />
+    <Compile Include="DomainModels\usp_ExportStoreProductsAndPrices_Result.cs" />
     <Compile Include="DomainModels\usp_GetLiveStores_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />
     <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />

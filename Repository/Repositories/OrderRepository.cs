@@ -1330,62 +1330,70 @@ namespace MPC.Repository.Repositories
                     tblOrder.TargetPrintDate = DateTime.Now.AddDays(2);
                     tblOrder.TargetBindDate = DateTime.Now.AddDays(2);
                  
-                    List<Guid> StockManagerIds = new List<Guid>();
-                    if (mode == StoreMode.Retail)
-                    {
-                        long? StoreId = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).Select(s => s.StoreId).FirstOrDefault();
-                        if (StoreId != null && StoreId > 0)
-                        {
-                            Company Store = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
-                            if (Store != null)
-                            {
-                                if (Store.StockNotificationManagerId1 != null)
-                                {
-                                    StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
-                                }
-                                if (Store.StockNotificationManagerId2 != null)
-                                {
-                                    StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
-                                }
-                                org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
-                                tblOrder.OrderManagerId = Store.AccountManagerId;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Company Store = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
-                        if (Store != null)
-                        {
-                            if (Store.StockNotificationManagerId1 != null)
-                            {
-                                StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
-                            }
-                            if (Store.StockNotificationManagerId2 != null)
-                            {
-                                StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
-                            }
-                            org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
-                            tblOrder.OrderManagerId = Store.AccountManagerId;
-                        }
-                    }
-                    if (StockManagerIds != null && StockManagerIds.Count > 0)
-                    {
-                        tblOrder.SalesPersonId = StockManagerIds[0];
-                        tblOrder.OfficialOrderSetBy = StockManagerIds[0];
-                        tblOrder.CreditLimitSetBy = StockManagerIds[0];
-                    }
+                    //List<Guid> StockManagerIds = new List<Guid>();
+                    //if (mode == StoreMode.Retail)
+                    //{
+                    //    long? StoreId = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).Select(s => s.StoreId).FirstOrDefault();
+                    //    if (StoreId != null && StoreId > 0)
+                    //    {
+                    //        Company Store = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
+                    //        if (Store != null)
+                    //        {
+                    //            if (Store.StockNotificationManagerId1 != null)
+                    //            {
+                    //                StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
+                    //            }
+                    //            if (Store.StockNotificationManagerId2 != null)
+                    //            {
+                    //                StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
+                    //            }
+                    //            org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
+                    //            tblOrder.OrderManagerId = Store.AccountManagerId;
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    Company Store = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
+                    //    if (Store != null)
+                    //    {
+                    //        if (Store.StockNotificationManagerId1 != null)
+                    //        {
+                    //            StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
+                    //        }
+                    //        if (Store.StockNotificationManagerId2 != null)
+                    //        {
+                    //            StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
+                    //        }
+                    //        org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
+                    //        tblOrder.OrderManagerId = Store.AccountManagerId;
+                    //    }
+                    //}
+                    //if (StockManagerIds != null && StockManagerIds.Count > 0)
+                    //{
+                    //    tblOrder.SalesPersonId = StockManagerIds[0];
+                    //    tblOrder.OfficialOrderSetBy = StockManagerIds[0];
+                    //    tblOrder.CreditLimitSetBy = StockManagerIds[0];
+                    //}
                     // Approve the credit after user has pay online
                     tblOrder.IsCreditApproved = 1;
 
-                    UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, StockManagerIds);
+                   // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, null);
                     db.SaveChanges();
                     result = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString() +
+                         "" + Environment.NewLine + "mode :" + mode + " orderStatus" + orderStatus + "tblOrder" + tblOrder.EstimateId);
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
             }
 
             return result;

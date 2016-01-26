@@ -1232,7 +1232,7 @@ namespace MPC.Implementation.MISServices
                     oSetting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
 
-
+                    
                     Contact oContact = new Contact();
                     //oContact.contact_company_id = CompanyResult.contact_company_id;
                     oContact.Type = "PERSON";

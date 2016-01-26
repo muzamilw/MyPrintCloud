@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="100">
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="12">
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="9.125" PointY="3.125" />
@@ -31,10 +31,6 @@
         <AssociationConnector Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" />
         <AssociationConnector Association="DomainModels.FK_StockCategory_StockSubCategory" />
         <EntityTypeShape EntityType="DomainModels.StockCostAndPrice" Width="1.5" PointX="17.875" PointY="6.375" />
-        <EntityTypeShape EntityType="DomainModels.StockItem" Width="1.5" PointX="15.625" PointY="0.75" />
-        <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stockcategories" />
-        <AssociationConnector Association="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems" />
-        <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" />
         <EntityTypeShape EntityType="DomainModels.PageCategory" Width="1.5" PointX="6.375" PointY="11.125" />
         <EntityTypeShape EntityType="DomainModels.Section" Width="1.5" PointX="12.75" PointY="9.75" />
         <EntityTypeShape EntityType="DomainModels.SectionFlag" Width="1.5" PointX="9.375" PointY="10.125" />
@@ -78,7 +74,6 @@
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_Statuses" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_resources_tbl_section_costcentres" />
-        <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" />
         <EntityTypeShape EntityType="DomainModels.Estimate" Width="1.5" PointX="21.375" PointY="8.25" />
         <EntityTypeShape EntityType="DomainModels.PaymentGateway" Width="1.5" PointX="24.125" PointY="3.625" />
         <EntityTypeShape EntityType="DomainModels.PaymentMethod" Width="1.5" PointX="21.375" PointY="4.875" />
@@ -136,7 +131,6 @@
         <AssociationConnector Association="DomainModels.FK_Template_Items" />
         <EntityTypeShape EntityType="DomainModels.GlobalLanguage" Width="1.5" PointX="26.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CampaignEmailQueue" Width="1.5" PointX="26.375" PointY="3.25" />
-        <AssociationConnector Association="DomainModels.FK_StockItem_ItemStockOption" />
         <AssociationConnector Association="DomainModels.FK_PageCategory_CmsPage" />
         <EntityTypeShape EntityType="DomainModels.CmsPageTag" Width="1.5" PointX="9.625" PointY="32.375" />
         <EntityTypeShape EntityType="DomainModels.CmsTag" Width="1.5" PointX="7.625" PointY="63.375" />
@@ -210,7 +204,6 @@
         <AssociationConnector Association="DomainModels.FK_tbl_costcentre_resources_tbl_costcentres" />
         <AssociationConnector Association="DomainModels.tbl_costcentres_tbl_costcentre_instructions" />
         <AssociationConnector Association="DomainModels.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" />
-        <AssociationConnector Association="DomainModels.FK_StockItem_Company" />
         <EntityTypeShape EntityType="DomainModels.CmsOffer" Width="1.5" PointX="3" PointY="38.875" />
         <AssociationConnector Association="DomainModels.FK_CmsOffer_Company" />
         <EntityTypeShape EntityType="DomainModels.ItemStockUpdateHistory" Width="1.5" PointX="35.375" PointY="12.875" />
@@ -229,7 +222,6 @@
         <EntityTypeShape EntityType="DomainModels.Group" Width="1.5" PointX="18.375" PointY="13.75" />
         <AssociationConnector Association="DomainModels.FK_CampaignEmailVariable_Section" />
         <AssociationConnector Association="DomainModels.FK_ItemSection_Machine" />
-        <AssociationConnector Association="DomainModels.FK_ItemSection_StockItem" />
         <AssociationConnector Association="DomainModels.FK_CompanyContact_ShippingAddress" />
         <AssociationConnector Association="DomainModels.FK_Organisation_Currency" />
         <AssociationConnector Association="DomainModels.FK_Organisation_LengthUnit" />
@@ -327,7 +319,6 @@
         <EntityTypeShape EntityType="DomainModels.VariableExtension" Width="1.5" PointX="9.375" PointY="40.875" />
         <AssociationConnector Association="DomainModels.FK_GoodsReceivedNoteDetail_GoodsReceivedNote" />
         <AssociationConnector Association="DomainModels.FK_VariableExtension_FieldVariable" />
-        <AssociationConnector Association="DomainModels.FK_ItemStockUpdateHistory_StockItem" />
         <AssociationConnector Association="DomainModels.FK_ItemAddonCostCentre_ItemStockOption" />
         <AssociationConnector Association="DomainModels.FK_ItemStockUpdateHistory_SystemUser" />
         <EntityTypeShape EntityType="DomainModels.TemplateVariableExtension" Width="1.5" PointX="10.875" PointY="30" />
@@ -353,6 +344,15 @@
         <AssociationConnector Association="DomainModels.FK_AssetItem_Assets" />
         <EntityTypeShape EntityType="DomainModels.Listing" Width="1.5" PointX="33.375" PointY="48" />
         <AssociationConnector Association="DomainModels.FK__ListingBu__Listi__01EB81A5" />
+        <EntityTypeShape EntityType="DomainModels.StockItem" Width="1.5" PointX="15.625" PointY="0.75" />
+        <AssociationConnector Association="DomainModels.FK_StockItem_Company" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_StockItem" />
+        <AssociationConnector Association="DomainModels.FK_StockItem_ItemStockOption" />
+        <AssociationConnector Association="DomainModels.FK_ItemStockUpdateHistory_StockItem" />
+        <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" />
+        <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stockcategories" />
+        <AssociationConnector Association="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems" />
+        <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
