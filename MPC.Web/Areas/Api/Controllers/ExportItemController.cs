@@ -31,7 +31,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public string Get(long CompanyId)
         {
-            string path = _itemService.ExportItems(CompanyId);
+            string path = _itemService.ExportCompanyIrems(CompanyId);
             return path;
         }
 

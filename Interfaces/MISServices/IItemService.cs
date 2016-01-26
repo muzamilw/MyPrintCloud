@@ -99,5 +99,7 @@ namespace MPC.Interfaces.MISServices
 
         string ExportItems(long CompanyId);
 
+        string ExportCompanyIrems(long CompanyId);
+
     }
 }
