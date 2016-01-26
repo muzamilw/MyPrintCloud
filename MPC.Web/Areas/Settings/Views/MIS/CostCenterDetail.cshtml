@@ -215,8 +215,18 @@
                                                         <label for="txtPriority" class="control-label text-right tooltip-float">Job Card Print Sort Order</label>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <input type="text" class="form-control" id="txtPriority" placeholder="" style="width:50%;float: left;margin-right: 5px;" data-bind="autoNumeric:priority, settings:{mDec:0,vMin:0,vMax:9}">
+                                                        <input type="text" class="form-control text-right" id="txtPriority" placeholder="" style="width:50%;float: left;margin-right: 5px;" data-bind="autoNumeric:priority, settings:{mDec:0,vMin:0,vMax:9}">
                                                         <span class="help-block" style="  margin-top: 8px;">(0-High, 9-Low)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <label for="txtProductionTime" class="control-label text-right tooltip-float">Est. Production Time</label>
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <input type="text" class="form-control text-right" id="txtProductionTime" placeholder="" style="width:50%;float: left;margin-right: 5px;" data-bind="autoNumeric:estimateProductionTime, settings:{mDec:0}">
+                                                        <span class="help-block" style="  margin-top: 8px;">day(s)</span>
                                                     </div>
                                                 </div>
                                             </div>
