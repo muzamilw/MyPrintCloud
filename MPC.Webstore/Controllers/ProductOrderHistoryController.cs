@@ -47,6 +47,8 @@ namespace MPC.Webstore.Controllers
                 model = BindStatusDropdown(STATUS_TYPE_ID);
             }
             ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
+
+            ViewBag.LoginContactId = _myClaimHelper.loginContactID();
             return View("PartialViews/ProductOrderHistory", model);
         }
         public SearchOrderViewModel BindStatusDropdown(int STATUS_TYPE_ID)

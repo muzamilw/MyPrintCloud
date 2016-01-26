@@ -9,42 +9,29 @@
 }
 <div class="row" id="itemJobStatusBinding">
     <div class="col-lg-12">
-        <div class="row" style="margin-bottom: 1%;">
-            <div class="col-lg-12" id="topArea">
-                <ol class="breadcrumb" style="padding-left: 0px;">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li class="active"><span>Item Late Start</span></li>
+        
+        <div class="row" style="  margin-bottom: 1%;">
+            <div class="col-lg-12" style="padding-left:10px;">
+                <ol class="breadcrumb">
+                    <li><a href="#">&nbsp;</a></li>
+
                 </ol>
-               
-            </div>
-        </div>
-       
-        <div class="row" style="padding-right: 8px;padding-left: 8px;">
-            <div style="margin-top:55px;margin-bottom:23px;">
-                <div style="float:left;">
-                    
+                <h1 style="padding-left:0;">Items Late Start</h1>
+                <div class="clearfix pull-left" style="padding-left:0px;">
+                    @*<p class="group-header-description">Drag jobs to different columns to update their job statuses.</p>*@
                 </div>
-                <div class="row" style="float:right;margin-right: 1px;">
-                    <a href="~/Production/Home/ItemJobStatus" style="text-decoration:none;margin-right:13px;float:left;" class="@displaybuttonsclass ">
-                        <div class="main-box infographic-box inner-box" style="padding-bottom: 33px !important;">
-                            <i class="fa fa-clipboard emerald-bg" style="margin-right:4px;"></i>
-                            <span class="span-dashboard-widgets">Production Board</span>
-
-                        </div>
-                        <div class="web2print-positioner" style="position:fixed;">
-                        </div>
-                    </a>
-                    <a href="~/Production/Home/LiveJobs" style="text-decoration:none;float:right;" class="@displaybuttonsclass " data-toggle="popover" data-placement="bottom">
-                        <div class="main-box infographic-box inner-box" style="padding-bottom: 33px !important;">
-                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                            <span class="span-dashboard-widgets">Live jobs</span>
-
-                        </div>
-                    </a>
+                <div class="row" style="float:right;padding-right: 8px; margin-top: -10px;">
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="~/Production/Home/ItemJobStatus">Production Board</a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="~/Production/Home/LiveJobs">Live jobs</a>
+                    </div>
                 </div>
 
             </div>
         </div>
+        
         <div class="row" style="margin-top:10px;">
             <div class="col-lg-12">
                 <div class="main-box no-header clearfix">

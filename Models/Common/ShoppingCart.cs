@@ -91,5 +91,10 @@ namespace MPC.Models.Common
             get;
             set;
         }
+        public int TotalProductionTime
+        {
+            get;
+            set;
+        }
     }
 }

@@ -256,11 +256,13 @@ namespace MPC.Webstore.Controllers
 
 
                         deliveryCompletionTime = Request.Form["numberOfDaysAddedTodelivery"];
-
-                        if (!string.IsNullOrEmpty(deliveryCompletionTime))
+                        shopCart = LoadShoppingCart(Convert.ToInt64(OrderID));
+                        if (shopCart != null) 
                         {
-                            DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
+                            DeliveryTime = shopCart.TotalProductionTime;
                         }
+                        
+                      
 
                         // if cart has items with product type other than 4 then do not make any change and redirect to address select page
                         //if cart has only asset item then get login user record update billing and shipping address in estimate and redriret to order confirmation

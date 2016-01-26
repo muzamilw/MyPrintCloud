@@ -17,7 +17,7 @@ using Qvalent.PayWay;
 
 namespace MPC.Webstore.Controllers
 {
-   
+
     public class PayWayController : Controller
     {
         private readonly IPaymentGatewayService _PaymentGatewayService;
@@ -30,8 +30,8 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private readonly ITemplateService _templateService;
         // GET: NabSubmit
-        public PayWayController(IPaymentGatewayService PaymentGatewayService, IOrderService OrderService, ICompanyService _CompanyService, 
-            ICampaignService _campaignService, IUserManagerService _usermanagerService, 
+        public PayWayController(IPaymentGatewayService PaymentGatewayService, IOrderService OrderService, ICompanyService _CompanyService,
+            ICampaignService _campaignService, IUserManagerService _usermanagerService,
             IPrePaymentService _IPrePaymentService,
             INABTransactionService _INABTransactionService,
             IWebstoreClaimsHelperService myClaimHelper, ITemplateService templateService)
@@ -49,23 +49,49 @@ namespace MPC.Webstore.Controllers
         // GET: PayWay
         public ActionResult Index(int OrderID)
         {
-            NABViewModel model = new NABViewModel();
-            model.OrderId = OrderID;
-            Initialize(model);
-            return View("PartialViews/PayWay", model);
+            Estimate CustomerOrder = null;
+            if (OrderID > 0)
+            {
+                CustomerOrder = _OrderService.GetOrderByID(OrderID);
+                if (CustomerOrder != null && CustomerOrder.StatusId == (int)OrderStatus.ShoppingCart)
+                {
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+                    NABViewModel model = new NABViewModel();
+                    model.OrderId = OrderID;
+                    Initialize(model);
+                    model.OrderTotal = Utils.FormatDecimalValueToTwoDecimal(CustomerOrder.Estimate_Total);
+                    model.Currency = StoreBaseResopnse.Currency;
+                    return View("PartialViews/PayWay", model);
+                }
+                else
+                {
+                    Response.Redirect("/ShopCart/");
+                    return null;
+                }
+            }
+            else
+            {
+                Response.Redirect("/ShopCart/");
+                return null;
+            }
+
         }
 
         [HttpPost]
         public ActionResult Index(NABViewModel model)
         {
+
             int typeid = _CompanyService.GetCardTypeIdFromNumber(model.CardNumber);
             bool result = _CompanyService.IsValidNumber(model.CardNumber);
 
+
+            
             if (model.SelectedCardType != typeid && result == false)
             {
                 intializeModel(MPC.Webstore.Controllers.NabSubmitController.ErrorSummary.InvalidCardTypeNumber, model.OrderId, model);
                 return View("PartialViews/PayWay", model);
-                
+
             }
             else if (model.SelectedCardType != typeid)
             {
@@ -83,12 +109,12 @@ namespace MPC.Webstore.Controllers
                 long StoreId = _OrderService.GetStoreIdByOrderId(model.OrderId);
                 if (StoreId > 0)
                 {
-                     MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(StoreId);
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(StoreId);
 
                     Company Store = StoreBaseResopnse.Company;
-                 
+
                     PaymentGateway oGateWay = null;
-                    if (Store.isAcceptPaymentOnline == true)
+                    if (Store.isPaymentRequired == true)
                     {
                         oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(Store.CompanyId);
                     }
@@ -195,78 +221,131 @@ namespace MPC.Webstore.Controllers
                             }
                             else
                             {
-                                 long PayWayreceiptNo = 0;
-                                 if (!string.IsNullOrEmpty(receiptNo))
-                                 {
-                                     string responseFromServer = "responseCode=" + responseCode + " ,summaryCode=" + summaryCode + " ,description=" + description + " ,receiptNo=" + receiptNo + " ,settlementDate=" + settlementDate + " ,creditGroup=" + creditGroup + " ,previousTxn=" + previousTxn + " ,cardSchemeName=" + cardSchemeName;
-                                     _INABTransactionService.NabTransactionSaveRequest(Convert.ToInt32(receiptNo), responseFromServer);
-                                     int? customerID = null;
-                                     StoreMode modeOfStore = StoreMode.Retail;
+                                long PayWayreceiptNo = 0;
+                                if (!string.IsNullOrEmpty(summaryCode))
+                                {
+                                    string responseFromServer = "responseCode=" + responseCode + " ,summaryCode=" + summaryCode + " ,description=" + description + " ,receiptNo=" + receiptNo + " ,settlementDate=" + settlementDate + " ,creditGroup=" + creditGroup + " ,previousTxn=" + previousTxn + " ,cardSchemeName=" + cardSchemeName;
+                                    _INABTransactionService.NabTransactionSaveRequest(Convert.ToInt32(model.OrderId), responseFromServer);
+                                    if (summaryCode == "0")
+                                    {
+                                        try
+                                        {
+
+                                            int? customerID = null;
+                                            StoreMode modeOfStore = StoreMode.Retail;
 
 
-                                     customerID = Convert.ToInt32(CustomerOrder.ContactId);
+                                            customerID = Convert.ToInt32(CustomerOrder.ContactId);
 
-                                     // order code and order creation date
-                                     CampaignEmailParams cep = new CampaignEmailParams();
-                                     string AttachmentPath = null;
-                                     cep.OrganisationId = Store.OrganisationId ?? 0;
-                                     cep.ContactId = CustomerOrder.ContactId ?? 0; //SessionParameters.ContactID;
-                                     cep.CompanyId = CustomerOrder.CompanyId;
+                                            // order code and order creation date
+                                            CampaignEmailParams cep = new CampaignEmailParams();
+                                            string AttachmentPath = null;
+                                            cep.OrganisationId = Store.OrganisationId ?? 0;
+                                            cep.ContactId = CustomerOrder.ContactId ?? 0; //SessionParameters.ContactID;
+                                            cep.CompanyId = CustomerOrder.CompanyId;
 
-                                     cep.EstimateId = model.OrderId; //PageParameters.OrderID;
+                                            cep.EstimateId = model.OrderId; //PageParameters.OrderID;
 
-                                     Company CustomerCompany = _CompanyService.GetCustomer(Convert.ToInt32(CustomerOrder.CompanyId));
-                                     CompanyContact CustomrContact = _CompanyService.GetContactById(Convert.ToInt32(CustomerOrder.ContactId));
-                                     _OrderService.SetOrderCreationDateAndCode(model.OrderId);
-                                     SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
+                                            Company CustomerCompany = _CompanyService.GetCustomer(Convert.ToInt32(CustomerOrder.CompanyId));
+                                            CompanyContact CustomrContact = _CompanyService.GetContactById(Convert.ToInt32(CustomerOrder.ContactId));
+                                            _OrderService.SetOrderCreationDateAndCode(model.OrderId);
+                                            SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
 
-                                     if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
-                                     {
-                                         modeOfStore = StoreMode.Corp;
-                                         AttachmentPath = _templateService.OrderConfirmationPDF(model.OrderId, StoreId);
-                                     }
-                                     else
-                                     {
-                                         AttachmentPath = _templateService.OrderConfirmationPDF(model.OrderId, StoreId);
-                                     }
-                                     List<string> AttachmentList = new List<string>();
-                                     AttachmentList.Add(AttachmentPath);
-                                     Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
-                                     cep.SalesManagerContactID = Convert.ToInt32(CustomerOrder.ContactId);
-                                     cep.StoreId = Store.CompanyId;
-                                     cep.AddressId = Convert.ToInt32(CustomerOrder.CompanyId);
-                                     long ManagerID = _CompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
-                                     cep.CorporateManagerID = ManagerID;
-                                     if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
-                                     {
-                                         _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                         _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)CustomerOrder.ContactId, (int)CustomerOrder.CompanyId, model.OrderId, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
-                                     }
-                                     else
-                                     {
-                                         _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                         _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(CustomerOrder.ContactId), Convert.ToInt32(CustomerOrder.CompanyId), model.OrderId, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
+                                            if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                                            {
+                                                modeOfStore = StoreMode.Corp;
+                                                AttachmentPath = _templateService.OrderConfirmationPDF(model.OrderId, StoreId);
+                                            }
+                                            else
+                                            {
+                                                AttachmentPath = _templateService.OrderConfirmationPDF(model.OrderId, StoreId);
+                                            }
+                                            List<string> AttachmentList = new List<string>();
+                                            AttachmentList.Add(AttachmentPath);
+                                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
+                                            cep.SalesManagerContactID = Convert.ToInt32(CustomerOrder.ContactId);
+                                            cep.StoreId = Store.CompanyId;
+                                            cep.AddressId = Convert.ToInt32(CustomerOrder.CompanyId);
+                                            long ManagerID = _CompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
+                                            cep.CorporateManagerID = ManagerID;
+                                            if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
+                                            {
+                                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
+                                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)CustomerOrder.ContactId, (int)CustomerOrder.CompanyId, model.OrderId, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
+                                            }
+                                            else
+                                            {
+                                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
+                                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(CustomerOrder.ContactId), Convert.ToInt32(CustomerOrder.CompanyId), model.OrderId, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
 
-                                     }
+                                            }
 
-                                     
-                                     PayWayreceiptNo = Convert.ToInt64(receiptNo);
-                                     
+                                            if (!string.IsNullOrEmpty(receiptNo))
+                                            {
+                                                PayWayreceiptNo = Convert.ToInt64(receiptNo);
+                                            }
+                                            if (string.IsNullOrEmpty(previousTxn))
+                                            {
+                                                previousTxn = "";
+                                            }
+                                            _IPrePaymentService.CreatePrePaymentPayWay(PaymentMethods.PayWay, model.OrderId, Convert.ToInt32(customerID), PayWayreceiptNo, previousTxn, CustomerOrder.Estimate_Total ?? 0);
+                                            List<Guid> StockManagerIds = new List<Guid>();
+                                            if (Store.StockNotificationManagerId1 != null)
+                                            {
+                                                StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
+                                            }
+                                            if (Store.StockNotificationManagerId2 != null)
+                                            {
+                                                StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
+                                            }
+                                            if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
+                                            {
+                                                result = _OrderService.UpdateOrderAndCartStatus(model.OrderId, OrderStatus.PendingOrder, StoreMode.Retail, StoreBaseResopnse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
+                                            }
+                                            else
+                                            {
+                                                result = _OrderService.UpdateOrderAndCartStatus(model.OrderId, OrderStatus.PendingOrder, StoreMode.Corp, StoreBaseResopnse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
+                                            }
 
-                                     _IPrePaymentService.CreatePrePayment(PaymentMethods.PayWay, model.OrderId, Convert.ToInt32(customerID), PayWayreceiptNo, previousTxn, CustomerOrder.Estimate_Total ?? 0, modeOfStore);
-                                     Response.Redirect("/Receipt/" + model.OrderId);
-                                     return null;
-                                 }
-                                 else
-                                 {
-                                     ViewBag.ErrorMessage = description;
-                                 }
+                                            Response.Redirect("/Receipt/" + model.OrderId);
+                                            return null;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                                            using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                                            {
+                                                writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                                                   "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                                                writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                                            }
+                                            return null;
+                                        }
+                                    }
+                                    else if (summaryCode == "1")
+                                    {
+                                        ViewBag.ErrorMessage = "Sorry, the transaction is declined.(" + summaryCode + "). " + description;
+                                    }
+                                    else if (summaryCode == "2")
+                                    {
+                                        ViewBag.ErrorMessage = "Sorry, the transaction is declined.(" + summaryCode + "). " + description;
+                                    }
+                                    else if (summaryCode == "3")
+                                    {
+                                        ViewBag.ErrorMessage = "Sorry, the transaction is rejected.(" + summaryCode + "). " + description;
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.ErrorMessage = description;
+                                }
                             }
                         }
                     }
                 }
-                
-               
+
+
                 return View("PartialViews/PayWay", model);
             }
         }
@@ -326,13 +405,14 @@ namespace MPC.Webstore.Controllers
 
             }
             model.OrderId = OrderID;
+
             Initialize(model);
             return model;
         }
 
         private void Initialize(NABViewModel model)
         {
-            
+
             List<DropdownCardType> sourceOfType = new List<DropdownCardType>();
             sourceOfType.Add(new DropdownCardType
             {

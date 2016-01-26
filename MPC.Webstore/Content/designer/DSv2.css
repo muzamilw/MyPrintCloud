@@ -1148,7 +1148,7 @@ body:not(.compactHeader) .documentMenu.undoDisabled .menuItemContainer {
 
 body:not(.compactHeader) #documentTitleAndMenu {
     right: 130px;
-    width: 845px;
+    width: 760px;
     z-index: 1000;
 }
 
@@ -5110,7 +5110,7 @@ h2 + .gallery {
     vertical-align: top;
 }
 
-.lblchckboxControl {
+.lblchckboxControl ,.divchkboxAutoFitImage{
     font-size: 11px;
     display: inline;
     margin-right: 25px;
@@ -7524,4 +7524,10 @@ to {
 }
 .txtPropertyPanelMin .btmPanelRow {
    
+}
+.imgAutofitBox{
+        height: 50px;
+    padding-top: 7px;
+    position: absolute;
+    left: 255px;bottom: 113px;
 }

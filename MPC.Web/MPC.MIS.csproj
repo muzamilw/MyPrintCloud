@@ -2326,6 +2326,9 @@
       <DependentUpon>Orders.css</DependentUpon>
     </Content>
     <Content Include="Content\less\PurchaseOrder.less" />
+    <Content Include="Content\less\ItemJobStatus.css.map">
+      <DependentUpon>ItemJobStatus.css</DependentUpon>
+    </Content>
     <Content Include="Content\Attachments\ExportItems.rpx" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />

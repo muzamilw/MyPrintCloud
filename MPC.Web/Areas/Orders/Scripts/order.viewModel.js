@@ -3072,7 +3072,7 @@ define("order/order.viewModel",
 
                     onSaveEstimateProgressedToOrder = function () {
                         if (isNaN(view.orderstate()) || view.orderstate() === 0) {
-                            estimateToBeProgressed().statusId(5); // Confirmed Starts orders
+                            estimateToBeProgressed().statusId(4); // Confirmed Starts orders
                             
                         }
                         var order = estimateToBeProgressed().convertToServerData();
