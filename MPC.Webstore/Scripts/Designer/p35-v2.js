@@ -348,7 +348,19 @@ $("#LockImgProperties").click(function () {
     //  c2(D1AO);
     g1_(D1AO);
 });
+$("#chkboxAutoFitImage").click(function () {
 
+    var thisCheck = $(this);
+
+    var D1AO = canvas.getActiveObject();
+    if (thisCheck.is(':checked')) {
+        D1AO.AutofitImage = true;
+    }
+    else {
+        D1AO.AutofitImage = false;
+    }
+    g1_(D1AO);
+});
 function g1_(D1AO) {
     $("#BtnSearchTxt").removeAttr("disabled");
 
