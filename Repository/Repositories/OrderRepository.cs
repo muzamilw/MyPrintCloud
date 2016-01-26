@@ -310,7 +310,7 @@ namespace MPC.Repository.Repositories
 
         private ShoppingCart ExtractShoppingCart(Estimate tblEstimate)
         {
-
+            int DeliveryTime = 0;
             ShoppingCart shopCart = new ShoppingCart();
             List<AddOnCostsCenter> childrenRecordsAllProductItemAddons = null;
             List<Item> ItemsOfOrder = GetOrderItems(Convert.ToInt32(tblEstimate.EstimateId));
@@ -341,7 +341,21 @@ namespace MPC.Repository.Repositories
                     shopCart.DeliveryCost = DeliveryItemOfOrder.Qty1NetTotal ?? 0;
                     shopCart.DeliveryDiscountVoucherID = DeliveryItemOfOrder.DiscountVoucherID;
                 }
-
+                foreach (ProductItem itm in shopCart.CartItemsList)
+                {
+                    if (itm.EstimateProductionTime != null && itm.EstimateProductionTime > 0)
+                    {
+                        DeliveryTime += Convert.ToInt32(itm.EstimateProductionTime);
+                    }
+                }
+                foreach (AddOnCostsCenter cc in shopCart.ItemsSelectedAddonsList)
+                {
+                    if (cc.EstimateProductionTime != null && cc.EstimateProductionTime > 0)
+                    {
+                        DeliveryTime += Convert.ToInt32(cc.EstimateProductionTime);
+                    }
+                }
+                shopCart.TotalProductionTime = DeliveryTime;
             }
             catch (Exception ex)
             {
