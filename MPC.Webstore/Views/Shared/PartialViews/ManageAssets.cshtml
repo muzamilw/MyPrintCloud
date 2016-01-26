@@ -63,7 +63,6 @@
                     {
                         <a href="/ManageAssets/0"><h4>Folders</h4></a>
                         <div id="treeDemo">
-
                             <ul id="tree">
                                 <li>
                                     <a href="#"></a>
@@ -433,6 +432,8 @@
     });
 
     $('#uploadfiesss').click(function(){
+        
+
         $('#FilesUploader').click();
         return false;
     });
@@ -451,7 +452,7 @@
         $("#Qty").css("border", "1px solid #c1c6cc");
         $("#price").css("border", "1px solid #c1c6cc");
         $("#uploadfiesss").css("border", "1px solid #c1c6cc");
-        
+       // alert( $("#selectedFiles").html());
         
             if(UpdateAsset==false)
             {
@@ -476,11 +477,14 @@
     {
         $("#FolderName").css("border", "1px solid #c1c6cc");
         
+       
+
             if(UpdateStatusFolder==false)
             {
                 
                 if(FolderValidation()==true)
                 {
+                   
                     SaveFolder();
                 }
             }
@@ -563,7 +567,7 @@
             $("#price").css("border", "1px solid #c1c6cc");
         }
 
-        if($("#FilesUploader").val()=='')
+        if($("#selectedFiles").html()=='')
         {
             $("#uploadfiesss").css("border", "2px solid red");
             result=false;
@@ -572,6 +576,17 @@
         {
             $("#uploadfiesss").css("border", "1px solid #c1c6cc");
         }
+
+
+        //if($("#FilesUploader").val()=='')
+        //{
+        //    $("#uploadfiesss").css("border", "2px solid red");
+        //    result=false;
+        //}
+        //else
+        //{
+        //    $("#uploadfiesss").css("border", "1px solid #c1c6cc");
+        //}
         return result;
     }
     function clearTextboxes()
@@ -623,7 +638,6 @@
     }
     function LaodChildFolders(FolderId)
     {
-
         var Data = { FolderId: FolderId };
         $.ajax({
             type: "GET",
@@ -645,10 +659,8 @@
 
                     CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
                 });
-
             }
         });
-
     }
 
     function SetSelectedFolder(FolderID,flag)
@@ -663,7 +675,7 @@
                 CountriesDD.html('');
                 if(flag)
                 {
-                    CountriesDD.append($('<option></option>').val(0).html('Select Folder'));
+                    CountriesDD.append($('<option></option>').val(0).html('Set as parent'));
                 }
                 $.each(response.Folders, function (id, option) {
 
@@ -671,8 +683,8 @@
                 });
                 if(flag)
                 {
-
-                    SetSelectedFolderrr(response.Folders,FolderID,1);
+                    
+                    SetSelectedFolderrr(response.Folders,FolderID,0);
                 }
                 else{
 
@@ -729,6 +741,10 @@
         $("#SaveFolder").css("display", "none");
         $("#FilesUploader").css("display", "block");
 
+
+        $("#selectedFiles").html('');
+
+
         $("#Quantity").css("display", "block");
         $("#Qty").css("display", "block");
         $("#Price").css("display", "block");
@@ -751,13 +767,15 @@
     }
     function AddFolder()
     {
+
         $("#modelTitle").text('Add Folder');
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
         $("#folderDropDown").css("display", "block");
         $("#SaveAsset").css("display", "none");
         $("#imgloader").val("Upload Folder Image");
-
+        
+        $("#selectedFiles").html('');
         $("#Qty").css("display", "none");
         $("#price").css("display", "none");
         $("#keywords").css("display", "none");
@@ -765,7 +783,7 @@
         $("#SaveFolder").css("display", "block");
         $("#DeleteAsset").css("display", "none");
         $("#FilesUploader").css("display", "none");
-        $("#uploadfiesss").css("display", "none");
+        $("#uploadfiesss").html('');
 
         $("#FolderName").css("border", "1px solid #c1c6cc");
         $("#imgloader").css("border", "1px solid #c1c6cc");
@@ -784,6 +802,7 @@
         $("#attachmentheading").css("display", "none");
         $("#GridTable").css("display", "none");
         $("#GridTable").html("");
+        UpdateStatusFolder=false;
         clearTextboxes();
         LoadFolders();
 
@@ -1082,6 +1101,7 @@
 
     function EditFolder(FolderID)
     {
+       
         $("#modelTitle").text('Update Folder');
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1174,7 +1194,7 @@
         if(@ContactRole==1||@ContactRole==2)
         {
             Edit(AssetID);
-            $("#selectedFiles").css("display", "block");
+            $("#selectedFiles").html('');
 
             $("#innerLayer").width(515);
             $("#imgloader").val("Update Asset Image");
@@ -1386,13 +1406,14 @@
         ImgUrl=imagpath;
         UpdateStatusFolder=true;
         FolderIDD=FolderId;
+        
         if(@ContactRole==1||@ContactRole==2)
         {
             EditFolder(FolderId);
         }
         else
         {
-            //  ShowDownloadWindow(imagpath);
+            ShowDownloadWindow(imagpath);
         }
         $("#imgloader").val("Update Folder Image");
         $("#uploadfiesss").css("display", "none");
@@ -1401,7 +1422,7 @@
         $("#Price").css("display", "none");
         $("#Keywords").css("display", "none");
 
-        $("#selectedFiles").css("display", "none");
+        $("#selectedFiles").html('');
 
 
         $("#innerLayer").width(495);

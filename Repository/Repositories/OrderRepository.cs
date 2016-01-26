@@ -117,7 +117,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                Prefix prefix = db.Prefixes.Where(c => c.SystemSiteId == 1).FirstOrDefault();
+                Prefix prefix = db.Prefixes.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
 
                 Estimate orderObject = new Estimate();
 

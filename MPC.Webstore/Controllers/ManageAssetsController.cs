@@ -31,6 +31,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(string folderId, string Searchfolder, string SelectedTreeID)
         {
             ViewBag.SelectedTreeID = folderId;
+            long loginContactId = _webclaims.loginContactID();
             if (Searchfolder != null && Searchfolder != string.Empty)
             {
                 Searchfolder = Searchfolder.Replace("___", " ");
