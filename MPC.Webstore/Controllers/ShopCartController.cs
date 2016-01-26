@@ -50,7 +50,8 @@ namespace MPC.Webstore.Controllers
             ShoppingCart shopCart = null;
           
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-
+            bool TypeFourItemStatus = _ItemService.typeFourItemsStatus(Convert.ToInt64(OrderId));
+            ViewBag.TypeFourItemStatus = TypeFourItemStatus;
             if (string.IsNullOrEmpty(optionalOrderId)) // check if parameter have order id
             {
                 if (UserCookieManager.WEBOrderId == 0) // cookie contains order id

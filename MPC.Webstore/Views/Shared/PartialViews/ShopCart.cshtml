@@ -258,8 +258,13 @@
                                                 <br>
                                                 <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
                                                 <br />
-                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
-
+                                                @if (ViewBag.TypeFourItemStatus==false)
+                                                {
+                                                   if(prod.ProductType!=4)
+                                                   { 
+                                                     <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
+                                                  }
+                                                }
                                                 <br />
                                                 <br />
                                                 @if (prod.ProductType == (int)ProductType.PrintProduct)
