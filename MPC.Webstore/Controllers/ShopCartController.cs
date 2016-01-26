@@ -258,7 +258,19 @@ namespace MPC.Webstore.Controllers
 
                         if (!string.IsNullOrEmpty(deliveryCompletionTime))
                         {
-                            DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
+                            if (deliveryCompletionTime.Contains(",")) 
+                            {
+                                string[] delVal = deliveryCompletionTime.Split(',');
+                                deliveryCompletionTime = delVal[0];
+                                DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
+                            }
+                            else if (deliveryCompletionTime.Contains("."))
+                            {
+                                string[] delVal = deliveryCompletionTime.Split('.');
+                                deliveryCompletionTime = delVal[0];
+                                DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
+                            }
+                            
                         }
 
                         // if cart has items with product type other than 4 then do not make any change and redirect to address select page

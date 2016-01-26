@@ -174,7 +174,7 @@ namespace MPC.Webstore.Controllers
                         BCDetail = new DashboardViewModel(3);
                         // Order In production
                         BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrlproductordhis", UserCookieManager.WBStoreId, "Products Order History") + UpdateOrdersInProductionCount(); // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
-                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("btnProductDetails", UserCookieManager.WBStoreId, "Description");//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
+                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("ltrlvieworderdetailsatt", UserCookieManager.WBStoreId, "View order details and attachments");//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
                         BCDetail.PageNavigateURl = "/ProductOrderHistory";
                         BCDetail.IsChangePassword = false;
