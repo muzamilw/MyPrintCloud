@@ -338,7 +338,8 @@
                 else
                     $(SelID).parent().parent().children("i").trigger('click');
                 $(SelID).css("color", "green");
-                $("#treeDemo ul > li ").removeClass("jstree-closed").addClass("jstree-expaned");
+              
+                $(SelID).parent().removeClass("jstree-closed").addClass("jstree-expaned");
             }
         }
     }
@@ -347,7 +348,7 @@
     function CloseDownloadPopUp()
     {
         $("#popupoverlaybasketWindow").css("display", "none");
-        // $("#basketWindow").html("");
+       
     }
     $("#Searchfolder").keypress(function (event) {
         if (event.keyCode == 13) {
@@ -384,16 +385,11 @@
 
 
             var val=$("#Searchfolder").val();
-            // if ($("#Searchfolder").val() == '') {
-            // RebindGrid();
+         
             while (val.indexOf(' ') != -1)
                 val = val.replace(" ", "___");
 
-            // window.location.href = "/SearchAssets/
-            // }
-            //else {
-            // RebindGrid();
-            // $("#btnsearch").trigger('click');
+           
             if ($("#Searchfolder").val() == '') {
                 RebindGrid();
             }
@@ -440,8 +436,7 @@
         $("#Qty").css("border", "1px solid #c1c6cc");
         $("#price").css("border", "1px solid #c1c6cc");
         $("#uploadfiesss").css("border", "1px solid #c1c6cc");
-       // alert( $("#selectedFiles").html());
-        
+      
             if(UpdateAsset==false)
             {
                 if(AssetsValidation()==true)
@@ -454,11 +449,7 @@
                 UpdateAssset(AsssetsID,RemovedID);
             }
 
-           // $("#FolderName").css("border", "1px solid #c1c6cc");
-        
-           // $("#FolderName").css("border", "2px solid red");
-
-        
+          
     }
 
     function ActionFolder()
@@ -565,16 +556,6 @@
             $("#uploadfiesss").css("border", "1px solid #c1c6cc");
         }
 
-
-        //if($("#FilesUploader").val()=='')
-        //{
-        //    $("#uploadfiesss").css("border", "2px solid red");
-        //    result=false;
-        //}
-        //else
-        //{
-        //    $("#uploadfiesss").css("border", "1px solid #c1c6cc");
-        //}
         return result;
     }
     function clearTextboxes()
@@ -748,8 +729,6 @@
         $("#attachmentheading").css("display", "none");
         $("#GridTable").css("display", "none");
         $("#GridTable").html("");
-        // var panelHtml = $("#Vorder").html();
-        // AssetsPopUp("Add Asset", panelHtml)
     }
     function AddFolder()
     {
@@ -1222,16 +1201,6 @@
 
         if(isdownloadWindow)
         {
-            //  if(GridItems!=''&&GridItems!=null)
-            /// {
-
-            //  $("#attachmentheading").css("display", "block");
-            // }
-            // else
-            // {
-
-            //   $("#attachmentheading").css("display", "none");
-            //  }
             InnerHtml = "<div>";
             $.each(GridItems, function (i, IT) {
                 var fullFileUrl=IT.FileUrl;
@@ -1273,58 +1242,7 @@
         }
         else
         {
-            //if(GridItems!=''&&GridItems!=null)
-            //{
-
-            //    $("#attachmentheading").css("display", "block");
-            //}
-            //else
-            //{
-
-            //    $("#attachmentheading").css("display", "none");
-            //}
-            //InnerHtml = "<table><tr>";
-
-            //$.each(GridItems, function (i, IT) {
-            //    var url=(IT.FileUrl).split("/");
-
-            //    var getExt=(IT.FileUrl).split(".");
-            //    var Extension=getExt[1];
-
-
-            //    if(Extension=='ps')
-            //    {
-            //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-            //    }
-            //    else if(Extension=='a1')
-            //    {
-            //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-            //    }
-            //    else if(Extension=='ind')
-            //    {
-            //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/IND.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-            //    }
-            //    else if(Extension=='pdf')
-            //    {
-            //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/PDF.png"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-            //    }
-            //    else
-            //    {
-            //        InnerHtml = InnerHtml.concat('<td><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/images/text.gif"></button><i style="font-size: 13px;position: absolute;margin-left: -12px;margin-top: -5px;     color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></td>')
-            //    }
-
-            //}
-            //);
-            //InnerHtml += "</table></tr>";
-
-            //$("#GridTable").css("display", "block");
-
-            //$("#GridTable").html(InnerHtml);
-
-
-
-
-
+         
             if(GridItems!=''&&GridItems!=null)
             {
 
@@ -1434,9 +1352,7 @@
     function ShowDownloadWindow(imagpath, Assetid)
     {
         AssetIdd=Assetid;
-        //var path=imagpath.split("/");
-        //var properPath=path[1]+"/"+path[2]+"/"+path[3]+"/"+path[4]+"/"+path[5]+"/"+path[6]+"/"+path[7];
-        //alert(properPath);
+      
         var url= "/CloneItemForManageAsset/"+Assetid+"";
 
         $("#basketId").attr("href",url);
@@ -1474,40 +1390,26 @@
         });
 
         $(t).parent().remove();
-        //if (postedFiles.length < (4 + removedFiles.length)) {
-        //    $("#FilesUploader").css("display", "block");
-        //}
-
-
-
-
-        //postedFiles = $.grep(postedFiles, function (n, i) {
-
-        //    return (n != name);
-        //});
-
+       
         var postedFiles = $.grep(postedFiles, function (e) {
             return e.fname != name;
 
         });
 
-
-        //   alert(postedFiles.length);
-        // doReCreate();
     }
     var postedFiles = [];
     function doReCreate() {
         selDiv = document.querySelector("#selectedFiles");
-        //formData = new FormData();
+       
         storedFiles = [];
         var FileName = "";
         var files = $("#FilesUploader").get(0).files;
 
         if (files.length > 0) {
-            console.log(postedFiles.length < (4 + removedFiles.length));
+            @*console.log(postedFiles.length < (4 + removedFiles.length));
             if (files.length > 4) {
                 ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
-            } else {
+            } else {*@
 
                 var isAddfile = 1;
                 for (i = 0; i < files.length; i++) {
@@ -1549,7 +1451,7 @@
                     }
                 }
 
-            }
+           // }
 
         }
         if (postedFiles.length > (3 + removedFiles.length)) {
