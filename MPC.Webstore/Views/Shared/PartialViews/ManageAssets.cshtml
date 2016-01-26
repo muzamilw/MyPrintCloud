@@ -313,6 +313,7 @@
 
         if(id!=null&&id!='')
         {
+
             if($('.jstree-last').trigger('click'))
             {
                 var SelID="#"+id;
@@ -329,6 +330,7 @@
                 }
               
             }
+
         }
     }
 
@@ -979,6 +981,7 @@
 
     function UpdateFolder(FolderId)
     {
+        var ParentFolderId=$("#folderDropDown").val();
         // $('#dvLoading').fadeOut(6000);
         $("#SaveFolder").css("display", "block");
         if(FolderId>0)
@@ -994,10 +997,10 @@
                 data.append("UploadedImage", files[0]);
             }
             ShowLoader();
-
+            UpdateFolder
             $.ajax({
                 type: "POST",
-                url: "/webstoreapi/ContactImageUploader/UpdateFolder?FolderName=" + FolderName + "&Description=" + FolderDescription + "&FolderId="+FolderId+"",
+                url: "/webstoreapi/ContactImageUploader/UpdateFolder?FolderName=" + FolderName + "&Description=" + FolderDescription + "&FolderId="+FolderId+"&ParentFolderId="+ParentFolderId+"",
                 contentType: false,
                 data: data,
                 async: true,
