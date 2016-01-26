@@ -2151,6 +2151,18 @@ define("common/itemDetail.viewModel",
                         }
                         
                     },
+                    onSectionInkCoverageSave = function () {
+                        var hasInkChanges = false;
+                        _.each(selectedSection().sectionInkCoverageList(), function (item) {
+                            if (item.hasChanges() == true)
+                                hasInkChanges = true;
+                        });
+                        
+                       if (hasInkChanges) {
+                           getSectionSystemCostCenters();
+                       }
+                       view.hideInksDialog();
+                    },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -2282,7 +2294,8 @@ define("common/itemDetail.viewModel",
                     onItemSectionUpdate: onItemSectionUpdate,
                     updateCostCentersOnQtyChange: updateCostCentersOnQtyChange,
                     filterPresses: filterPresses,
-                    selectedPressInstructions: selectedPressInstructions
+                    selectedPressInstructions: selectedPressInstructions,
+                    onSectionInkCoverageSave: onSectionInkCoverageSave
                     //#endregion
                 };
             })()

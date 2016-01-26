@@ -309,6 +309,7 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.ThresholdLevel = stockItem.ThresholdLevel;
             stockItemDbVersion.inStock = stockItem.inStock;
             stockItemDbVersion.PlateRunLength = stockItem.PlateRunLength;
+            stockItemDbVersion.ChargePerSquareUnit = stockItem.ChargePerSquareUnit;
 
             UpdateItemStockUpdateHistories(stockItem, stockItemDbVersion);
             UpdateStockCostAndPrice(stockItem, stockItemDbVersion);

@@ -3977,7 +3977,7 @@ namespace MPC.Implementation.MISServices
             return oItemSection;
         }
 
-        public ItemSection CalculateInkCost(ItemSection oItemSection, int CurrentCostCentreIndex, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, List<SectionInkCoverage> oSectionAllInks = null)
+        public ItemSection CalculateInkCost(ItemSection oItemSection, int PressID, bool IsReRun , bool IsWorkInstructionsLocked , bool isSide2, List<SectionInkCoverage> oSectionAllInks)
         {
 
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
@@ -4051,14 +4051,15 @@ namespace MPC.Implementation.MISServices
             List<SectionInkCoverage> oSectionUniqueInks;
             double InkPercentage = 0;
 
-            oSectionUniqueInks = oSectionAllInks;
+            oSectionUniqueInks = oSectionAllInks.GroupBy(a => a.InkId).Select(b => b.First()).Where(i => i.Side == (isSide2 ? 2 : 1)) .ToList();
 
             CostCentre oInksCostcentreDTO = itemsectionRepository.GetCostCenterBySystemType((int)SystemCostCenterTypes.Ink);
             Machine Press = itemsectionRepository.GetPressById(Convert.ToInt32(oItemSection.PressId));
             dblMinCharge = Press != null ? Convert.ToDouble(Press.InkChargeForUniqueColors) : 0;
             // dblMinCharge = oItemSection.Press.InkChargeForUniqueColors;
 
-            UniqueInks = oSectionAllInks.Count; // is to confirm from Muzammil what will be the unique Inks
+            UniqueInks = oSectionUniqueInks.Count(); ; // is to confirm from Muzammil what will be the unique Inks
+                
 
             StockItem oPaper = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.StockItemID1));
 
@@ -4083,35 +4084,34 @@ namespace MPC.Implementation.MISServices
 
             oItemSectionCostCentre.IsPrintable = Convert.ToInt16(oJobCardOptionsDTO.IsDefaultInkColorUsed);
 
-            //handling costcentre resources
-            //oCostCentreDTO = db.CostCentres.Where(c => c.CostCentreId == oItemSectionCostCentre.CostCentreId).FirstOrDefault();
-            lengthunit height = (lengthunit)CompanyGeneralSettings().SystemLengthUnit;
-            lengthunit width = (lengthunit)CompanyGeneralSettings().SystemLengthUnit;
+            
             if (oItemSection.IsSectionSizeCustom == true)
             {
-                intPrintArea = (int)oItemSection.ItemSizeHeight * (int)oItemSection.ItemSizeWidth;
+                intPrintArea = Convert.ToDouble(oItemSection.ItemSizeHeight) * Convert.ToDouble(oItemSection.ItemSizeWidth);
             }
             else
             {
-                intPrintArea = ConvertLength((int)oItemSection.ItemSizeId, height, lengthunit.Inch) * ConvertLength((int)oItemSection.ItemSizeId, width, lengthunit.Inch);
+                PaperSize oPaperSize = itemsectionRepository.GetPaperSizeById(Convert.ToInt32(oItemSection.SectionSizeId));
+                if(oPaperSize != null)
+                    intPrintArea = Convert.ToDouble(oPaperSize.Height) * Convert.ToDouble(oPaperSize.Width);
             }
 
 
             //oItemSection.ItemSizeWidth
             //creation the work instructions / item description
-            foreach (var icounter in oSectionAllInks)
+            foreach (var icounter in oSectionUniqueInks)
             {
                 StockItem oInkDTO = itemsectionRepository.GetStockById((int)icounter.InkId);
                 if (oInkDTO != null)
                 {
                     if (icounter.Side == 1)
                     {
-                        strSide1Description += oInkDTO.ItemName + ", ";
+                        strSide1Description += oInkDTO.ItemName + " " + Convert.ToInt32(icounter.CoverageRate) + "% ," + Environment.NewLine;
                         Side1InkCounter += 1;
                     }
                     else
                     {
-                        strSide2Description += oInkDTO.ItemName + ", ";
+                        strSide2Description += oInkDTO.ItemName + " " + Convert.ToInt32(icounter.CoverageRate) + "% ," + Environment.NewLine;
                         Side2InkCounter += 1;
                     }
                 }
@@ -4127,20 +4127,18 @@ namespace MPC.Implementation.MISServices
             {
                 strSide2Description = strSide2Description.Substring(0, strSide2Description.Length - 2);
             }
-
-            if (Convert.ToBoolean(oItemSection.IsDoubleSided) == true)
+            if (isSide2)
             {
-                InksDescription = "Side 1 : " + Side1InkCounter.ToString() + " Colors" + Environment.NewLine;
-                InksDescription += strSide1Description + Environment.NewLine;
-
-                InksDescription += "Side 2 : " + Side2InkCounter.ToString() + " Colors" + Environment.NewLine;
-                InksDescription += strSide2Description;
+                InksDescription += Side2InkCounter + " Colors" + Environment.NewLine;
+                InksDescription += strSide2Description + Environment.NewLine;
             }
             else
             {
-                InksDescription = "Side 1 : " + Side1InkCounter.ToString() + " Colors" + Environment.NewLine;
-                InksDescription += strSide1Description;
+                InksDescription = Side1InkCounter + " Colors" + Environment.NewLine;
+                InksDescription += strSide1Description + Environment.NewLine;
             }
+
+            
 
             //Looping through each Section Ink Found in Table
             for (int i = 0; i <= oSectionUniqueInks.Count - 1; i++)
@@ -4149,24 +4147,31 @@ namespace MPC.Implementation.MISServices
                 int iInkID = (int)oSectionUniqueInks[i].InkId;
                 StockItem oRowInkDetail;
                 oRowInkDetail = itemsectionRepository.GetStockById(iInkID);
-
+                
                 //loading cost / price tables
                 //, dblInkCost, dblInkPrice
-                GlobalData gData = GetItemPriceCost(Convert.ToInt32(oSectionUniqueInks[i].InkId), true);
-                if (gData != null)
-                {
-                    dblInkCost = gData.dblUnitCost;
-                    dblInkPrice = gData.dblUnitPrice;
-                }
-                int iCoverGroupID = (int)oSectionUniqueInks[i].CoverageGroupId;
-                var InkCoverageGroup = itemsectionRepository.GetInkCoverageById(iCoverGroupID);
-                InkPercentage = InkCoverageGroup != null ? (double)InkCoverageGroup.Percentage : 0;
-                dblQty[0] = Convert.ToDouble((((InkPercentage * 0.01) * (intPrintArea * Convert.ToDouble(oItemSection.FinishedItemQty1)) / oRowInkDetail.InkYield) / 2) * (oPaper.InkAbsorption * 0.01));
-                dblQty[1] = Convert.ToDouble((((InkPercentage * 0.01) * (intPrintArea * Convert.ToDouble(oItemSection.FinishedItemQty2)) / oRowInkDetail.InkYield) / 2) * (oPaper.InkAbsorption * 0.01));
-                dblQty[2] = Convert.ToDouble((((InkPercentage * 0.01) * (intPrintArea * Convert.ToDouble(oItemSection.FinishedItemQty3)) / oRowInkDetail.InkYield) / 2) * (oPaper.InkAbsorption * 0.01));
+               
+                //Code below commented when charge per square meter/inck introduced
+                //GlobalData gData = GetItemPriceCost(Convert.ToInt32(oSectionUniqueInks[i].InkId), true);
+                //if (gData != null)
+                //{
+                //    dblInkCost = gData.dblUnitCost;
+                //    dblInkPrice = gData.dblUnitPrice;
+                //}
+                
+                InkPercentage = Convert.ToInt32(oSectionUniqueInks[i].CoverageRate);
+                
+                //Old logic of calculating quantity is commented when introduced coverage rate per square meter/inch.
+                //dblQty[0] = Convert.ToDouble((((InkPercentage * 0.01) * (intPrintArea * Convert.ToDouble(oItemSection.FinishedItemQty1)) / oRowInkDetail.InkYield) / 2) * (oPaper.InkAbsorption * 0.01));
+                //dblQty[1] = Convert.ToDouble((((InkPercentage * 0.01) * (intPrintArea * Convert.ToDouble(oItemSection.FinishedItemQty2)) / oRowInkDetail.InkYield) / 2) * (oPaper.InkAbsorption * 0.01));
+                //dblQty[2] = Convert.ToDouble((((InkPercentage * 0.01) * (intPrintArea * Convert.ToDouble(oItemSection.FinishedItemQty3)) / oRowInkDetail.InkYield) / 2) * (oPaper.InkAbsorption * 0.01));
+
+                
+                
+                
+                
                 //(((Coverage * 0.01) *(PrintArea * ItemQty) / YeildValue))  /2)*(InkAbsorption * 0.01)  
-                //dblQty(1) = Round(CDbl(oSectionUniqueInks.Rows(i).Item("Percentage")) * 0.001) * (intPrintArea * CLng(oItemSection.FinishedItemQty2))) / oRowInkDetail.InkYield) / 2), 4)
-                //dblQty(2) = Round(CDbl(oSectionUniqueInks.Rows(i).Item("Percentage")) * 0.001) * (intPrintArea * CLng(oItemSection.FinishedItemQty3))) / oRowInkDetail.InkYield) / 2), 4)
+                
 
                 //Else
                 //For BookLet
@@ -4179,8 +4184,9 @@ namespace MPC.Implementation.MISServices
                 //Getting the Press Information
 
                 //Setting Press Minimum DuctCost
-                dblDuctCost = ConvertWeight((int)oPressDTO.MinInkDuctqty, WeightUnits.KG, (WeightUnits)oRowInkDetail.InkStandards) * dblInkCost;
-                dblDuctPrice = ConvertWeight((int)oPressDTO.MinInkDuctqty, WeightUnits.KG, (WeightUnits)oRowInkDetail.InkStandards) * dblInkPrice;
+                //Commented by Naveed as we have no controls on UI for duct quantity and ink standards
+                //dblDuctCost = ConvertWeight((int)oPressDTO.MinInkDuctqty, WeightUnits.KG, (WeightUnits)oRowInkDetail.InkStandards) * dblInkCost;
+                //dblDuctPrice = ConvertWeight((int)oPressDTO.MinInkDuctqty, WeightUnits.KG, (WeightUnits)oRowInkDetail.InkStandards) * dblInkPrice;
 
                 //For j As Integer = 0 To 4
                 //    'Adjusting the Quantity
@@ -4189,9 +4195,13 @@ namespace MPC.Implementation.MISServices
                 //Next
 
                 //Calculating the Total Price for the Previous and This Multiple Qty
-                dblTotalCost[0] = dblTotalCost[0] + (dblInkCost * dblQty[0] + dblDuctCost);
-                dblTotalPrice[0] = dblTotalPrice[0] + (dblInkPrice * dblQty[0] + dblDuctPrice);
+                //dblTotalCost[0] = dblTotalCost[0] + (dblInkCost * dblQty[0] + dblDuctCost);
+                //dblTotalPrice[0] = dblTotalPrice[0] + (dblInkPrice * dblQty[0] + dblDuctPrice);
 
+                //total paper size  in SQ meters x charge per square meter * ink coverage in percentage
+
+                dblTotalPrice[0] = dblTotalPrice[0] + (NoofSheetsQty1 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
+                
                 if (dblTotalPrice[0] < dblMinCharge)
                 {
                     dblTotalPrice[0] = dblMinCharge;
@@ -4205,10 +4215,12 @@ namespace MPC.Implementation.MISServices
 
                 if (oItemSection.Qty2 > 0)
                 {
-                    dblTotalCost[1] = dblTotalCost[1] + (dblInkCost * dblQty[1] + dblDuctCost);
-                    //If dblTotalCost(1) < dblMinCharge Then dblTotalCost(1) = dblMinCharge
+                    //dblTotalCost[1] = dblTotalCost[1] + (dblInkCost * dblQty[1] + dblDuctCost);
+                    ////If dblTotalCost(1) < dblMinCharge Then dblTotalCost(1) = dblMinCharge
 
-                    dblTotalPrice[1] = dblTotalPrice[1] + (dblInkPrice * dblQty[1] + dblDuctPrice);
+                    //dblTotalPrice[1] = dblTotalPrice[1] + (dblInkPrice * dblQty[1] + dblDuctPrice);
+
+                    dblTotalPrice[1] = dblTotalPrice[1] + (NoofSheetsQty2 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
                     if (dblTotalPrice[1] < dblMinCharge)
                     {
                         dblTotalPrice[1] = dblMinCharge;
@@ -4222,10 +4234,12 @@ namespace MPC.Implementation.MISServices
 
                 if (oItemSection.Qty3 > 0)
                 {
-                    dblTotalCost[2] = dblTotalCost[2] + (dblInkCost * dblQty[2] + dblDuctCost);
-                    //If dblTotalCost(2) < dblMinCharge Then dblTotalCost(2) = dblMinCharge
+                    //dblTotalCost[2] = dblTotalCost[2] + (dblInkCost * dblQty[2] + dblDuctCost);
+                    ////If dblTotalCost(2) < dblMinCharge Then dblTotalCost(2) = dblMinCharge
 
-                    dblTotalPrice[2] = dblTotalPrice[2] + (dblInkPrice * dblQty[2] + dblDuctPrice);
+
+                    //dblTotalPrice[2] = dblTotalPrice[2] + (dblInkPrice * dblQty[2] + dblDuctPrice);
+                    dblTotalPrice[2] = dblTotalPrice[2] + (NoofSheetsQty1 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
                     if (dblTotalPrice[2] < dblMinCharge)
                     {
                         dblTotalPrice[2] = dblMinCharge;
@@ -4244,7 +4258,7 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCentreDetail.Qty2 = Math.Round(dblQty[1], 3);
                 oItemSectionCostCentreDetail.Qty3 = Math.Round(dblQty[2], 3);
 
-                oItemSectionCostCentreDetail.CostPrice = dblInkPrice;
+                oItemSectionCostCentreDetail.CostPrice = Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit);
                 oItemSectionCostCentreDetail.StockId = oRowInkDetail.StockItemId;
                 oItemSectionCostCentreDetail.SupplierId = Convert.ToInt32(oRowInkDetail.SupplierId);
                 oItemSectionCostCentreDetail.StockName = oRowInkDetail.ItemName;
@@ -4268,12 +4282,13 @@ namespace MPC.Implementation.MISServices
 
                 if (oJobCardOptionsDTO.IsDefaultInkColorUsed == true)
                 {
+                   InksDescription = InksDescription + Environment.NewLine + "Sheet Quantity : " + NoofSheetsQty1;
                     oItemSectionCostCentre.Qty1WorkInstructions = InksDescription;
                 }
             }
             if (oItemSection.Qty2 > 0)
             {
-                oItemSectionCostCentre.Qty2Charge = dblTotalPrice[1];
+                oItemSectionCostCentre.Qty2Charge = Math.Round(dblTotalPrice[1], 2);
                 oItemSectionCostCentre.Qty2MarkUpID = oInksCostcentreDTO.DefaultVAId;
                 oItemSectionCostCentre.Qty2MarkUpValue = oItemSectionCostCentre.Qty2Charge * ProfitMargin / 100;
                 oItemSectionCostCentre.Qty2NetTotal = oItemSectionCostCentre.Qty2Charge + oItemSectionCostCentre.Qty2MarkUpValue;
@@ -4282,14 +4297,14 @@ namespace MPC.Implementation.MISServices
 
                 if (oJobCardOptionsDTO.IsDefaultInkColorUsed == true)
                 {
-                    oItemSectionCostCentre.Qty2WorkInstructions = InksDescription;
+                    oItemSectionCostCentre.Qty2WorkInstructions = InksDescription + Environment.NewLine + "Sheet Quantity : " + NoofSheetsQty2;
                 }
 
             }
 
             if (oItemSection.Qty3 > 0)
             {
-                oItemSectionCostCentre.Qty3Charge = dblTotalPrice[2];
+                oItemSectionCostCentre.Qty3Charge = Math.Round(dblTotalPrice[2], 2);
                 oItemSectionCostCentre.Qty3MarkUpID = oInksCostcentreDTO.DefaultVAId;
                 oItemSectionCostCentre.Qty3MarkUpValue = oItemSectionCostCentre.Qty3Charge * ProfitMargin / 100;
                 oItemSectionCostCentre.Qty3NetTotal = oItemSectionCostCentre.Qty3Charge + oItemSectionCostCentre.Qty3MarkUpValue;
@@ -4297,7 +4312,7 @@ namespace MPC.Implementation.MISServices
 
                 if (oJobCardOptionsDTO.IsDefaultInkColorUsed == true)
                 {
-                    oItemSectionCostCentre.Qty3WorkInstructions = InksDescription;
+                    oItemSectionCostCentre.Qty3WorkInstructions = InksDescription + Environment.NewLine + "Sheet Quantity : " + NoofSheetsQty3;
                 }
             }
 
@@ -4315,7 +4330,8 @@ namespace MPC.Implementation.MISServices
             oItemSectionCostCentre.Qty3 = oItemSection.Qty3;
             if (IsReRun == false)
             {
-                oItemSectionCostCentre.Name = "Inks";
+                string sSides = isSide2 ? "Side 2" : "Side 1";
+                oItemSectionCostCentre.Name = "Inks " + sSides;
                 if (oItemSection.SectionCostcentres == null)
                 {
                     oItemSection.SectionCostcentres = new List<SectionCostcentre>();
@@ -6632,7 +6648,8 @@ namespace MPC.Implementation.MISServices
             updatedSection.SetupSpoilage = SetupSpoilage;
             updatedSection.RunningSpoilage = Convert.ToInt32(RunningSpoilage);
 
-           // updatedSection = CalculateInkCost(updatedSection, 1, PressId, false, false, AllInks); //Ink Cost Center
+            //************ Ink Calculation**********************
+            updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, false, updatedSection.SectionInkCoverages.ToList());
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre
             {
                 updatedSection = CalculatePaperCostWebPress(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false);
@@ -6647,6 +6664,10 @@ namespace MPC.Implementation.MISServices
             }
             int uniqueInks1 =
                    pressSide1.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
+
+            
+
+            
             //***********************Side 1 Calculation *************
             if (pressSide1.IsDigitalPress == false)
             {
@@ -6692,6 +6713,9 @@ namespace MPC.Implementation.MISServices
                 int uniqueInks =
                     pressSide2.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
                 updatedSection.NoofUniqueInks = uniqueInks;
+                //Ink Side 2
+                updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true, updatedSection.SectionInkCoverages.ToList());
+
                 if (pressSide2.IsDigitalPress == false)
                 {
                     if (pressSide2.isplateused != null && pressSide2.isplateused != false)//Plates

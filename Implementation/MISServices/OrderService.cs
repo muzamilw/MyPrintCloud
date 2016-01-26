@@ -871,7 +871,7 @@ namespace MPC.Implementation.MISServices
                 Markups = markups,
                 PaperSizes = paperSizeRepository.GetAll(),
                 InkPlateSides = inkPlateSideRepository.GetAll(),
-                Inks = stockItemRepository.GetStockItemOfCategoryInk(),
+                Inks = stockItemRepository.GetStockItemOfCategoryInk().Where(i => i.IsImperical == organisation.IsImperical),
                 InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
                 CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty,
                 SystemUsers = systemUserRepository.GetAll(),
