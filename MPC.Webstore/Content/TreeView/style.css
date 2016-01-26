@@ -7,9 +7,9 @@
 .jstree-default i { background-image:url(../TreeView/d.png); background-repeat:no-repeat; background-color:transparent; }
 .jstree-default li { background-position:-90px 0; background-repeat:repeat-y; }
 .jstree-default li.jstree-last { background:transparent; }
-.jstree-default .jstree-open > .jstree-ocl { background-position:-72px 0; }
-.jstree-default .jstree-closed > .jstree-ocl { background-position:-54px 0; }
-.jstree-default .jstree-leaf > .jstree-ocl { background-position:-36px 0; }
+.jstree-default .jstree-open > .jstree-ocl { background-position:-18px 0; }
+.jstree-default .jstree-closed > .jstree-ocl { background-position:1px 0; }
+.jstree-default .jstree-leaf > .jstree-ocl { background-position:13px 0; }
 .jstree-default .jstree-loading > .jstree-ocl { background:url("../TreeView/throbber.gif") center center no-repeat !important; }
 
 /*.jstree-default .jstree-hovered { background:#e7f4f9; border:1px solid #d8f0fa; padding:0 2px 0 1px; border-radius:2px; }
@@ -68,4 +68,7 @@
 .jstree-checkbox, .jstree-themeicon {
     display:none!important;
 }
-  
+  .jstree li.jstree-open > ul {
+   
+    margin-left: 5px;
+}
