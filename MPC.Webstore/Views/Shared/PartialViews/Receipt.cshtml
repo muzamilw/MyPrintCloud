@@ -313,8 +313,11 @@
                                                 @item.ProductName
                                             } 
                                             </span><br>
-                                            <div class="">
+                                            <div class="papertypecls">
+                                                @if (item.PaperType != null && item.PaperType!=string.Empty)
+                                                { 
                                                 <span style="font-size:12px;">Stock: @item.PaperType</span>
+                                                }
                                             </div>
                                          
                                             <div class=" spacer5pxbottom hidden-lg hidden-xs">
