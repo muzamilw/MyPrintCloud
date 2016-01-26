@@ -1633,6 +1633,7 @@ namespace MPC.Implementation.MISServices
                         sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
                            InternalPath = "/" + ImagePathConstants.ReportPath + OrganisationID + "/" + sFileName;
                         xls.Export(currReport.Document, sFilePath);
+                       
                         ms.Close();
                         currReport.Document.Dispose();
                         xls.Dispose();

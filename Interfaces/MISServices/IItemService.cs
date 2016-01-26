@@ -97,5 +97,7 @@ namespace MPC.Interfaces.MISServices
         ItemSection GetItemFirstSectionByItemId(long itemId);
         ItemSection UpdateItemFirstSectionByItemId(long itemId, int quantity);
 
+        string ExportItems(long CompanyId);
+
     }
 }

@@ -201,6 +201,8 @@ namespace MPC.Interfaces.Repository
 
         IEnumerable<Item> GetProductsByCompanyID(long CompanyId);
         void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId);
+
+        List<usp_ExportStoreProductsAndPrices_Result> getExportedItems(long Companyid);
     }
 
 }

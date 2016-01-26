@@ -292,6 +292,26 @@ define("product/product.viewModel",
                         setDefaultsToNewProduct();
                         openProductEditor();
                     },
+                     // export Product
+                    exportProduct = function () {
+                        dataservice.exportItems({
+                            CompanyId: selectedCompany()
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
+                                }
+                               
+                               
+                            },
+                            error: function (response) {
+                                
+                                toastr.error("Error: Failed to Export." + response);
+                            }
+                        });
+                    },
                     // Edit Product
                     editProduct = function (data) {
                         getItemById(data.id(), openProductEditor);
@@ -2170,7 +2190,8 @@ define("product/product.viewModel",
                     selectedSection: selectedSection,
                     subCategories: subCategories,
                     onSelectSubCategory: onSelectSubCategory,
-                    editSubCategory: editSubCategory
+                    editSubCategory: editSubCategory,
+                    exportProduct: exportProduct
                     // For Store
                     // Utility Methods
                 };

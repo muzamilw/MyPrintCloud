@@ -155,12 +155,10 @@ namespace MPC.Webstore.Controllers
                             writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
                             writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetNameDiv
-                         
                        
                             writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetDownloadDiv
                             writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
                             writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
 
                             writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
                             writer.AddAttribute(HtmlTextWriterAttribute.Href,URl+"/"+AssetItem.FileUrl);
@@ -177,9 +175,8 @@ namespace MPC.Webstore.Controllers
                             writer.RenderEndTag();
 
                             writer.RenderEndTag();
-
                         }
-                        writer.RenderBeginTag(HtmlTextWriterTag.Br);///
+                        writer.RenderBeginTag(HtmlTextWriterTag.Br);
                         writer.RenderEndTag();//
 
                         writer.AddAttribute(HtmlTextWriterAttribute.Class, clearboth);

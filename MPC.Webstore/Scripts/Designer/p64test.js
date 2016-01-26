@@ -11463,6 +11463,14 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
   * @type boolean
   */
     IsOverlayObject: false,
+
+      /**
+* AutofitImage  // added by saqib
+* @property
+* @type boolean
+*/
+    AutofitImage: true,
+
       /** ImageClippedInfo  // added by saqib
   * @property
   * @type boolean
@@ -17572,16 +17580,21 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           if (xmlDoc.getElementsByTagName("isCropped")[0] != undefined)
               isCropped = parseFloat(xmlDoc.getElementsByTagName("isCropped")[0].childNodes[0].nodeValue);
           var dx = x + imageMargins.marginX;
-          var dy = y + imageMargins.marginY;
-          //if ($.browser.mozilla)  //firefox fix
-          //{
-          //    if (swidth > dWidth) swidth = dWidth;
-          //    if (sheight > dHeight) sheight = dHeight;
-          //}
-
+          var dy = y + imageMargins.marginY;      
           if (isCropped == 0) {
-          
-              elementToDraw && ctx.drawImage(elementToDraw, dx, dy, swidth , sheight);
+              console.log(this.getSrc() + " " + this.AutofitImage);
+              if (this.AutofitImage == false)
+              {
+                  elementToDraw && ctx.drawImage(elementToDraw,
+                               x + imageMargins.marginX,
+                               y + imageMargins.marginY,
+                               imageMargins.width,
+                               imageMargins.height
+                              );
+              } else {
+                  elementToDraw && ctx.drawImage(elementToDraw, dx, dy, swidth, sheight);
+              }
+              
               //elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight);
           } else {
               elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight,
@@ -19692,7 +19705,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 	'maxWidth', 'customStyles', 'textPaddingTop', 'VAllignment',
 		'maxHeight',
 		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'hasInlineFontFamily', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint', 'bullets'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'hasInlineFontFamily', 'IsOverlayObject', 'AutofitImage', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint', 'bullets'
   );
 
     /**
