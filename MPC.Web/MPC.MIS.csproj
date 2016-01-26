@@ -348,6 +348,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\ExportItemController.cs" />
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportParamController.cs" />
     <Compile Include="Areas\Api\Controllers\SpotColorController.cs" />
@@ -2325,6 +2326,7 @@
       <DependentUpon>Orders.css</DependentUpon>
     </Content>
     <Content Include="Content\less\PurchaseOrder.less" />
+    <Content Include="Content\Attachments\ExportItems.rpx" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -3520,6 +3522,7 @@
     <Folder Include="Areas\Api\Views\DeliveryNoteBase\" />
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\EstimateBase\" />
+    <Folder Include="Areas\Api\Views\ExportItem\" />
     <Folder Include="Areas\Api\Views\GetDashboardData\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportController\" />

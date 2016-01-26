@@ -313,6 +313,10 @@ namespace MPC.Models.ModelMappers
                 sourceItem.StatusId = (short)ItemStatuses.ReadyForShipping;
             else if (target.StatusId == (short)OrderStatus.Invoice)
                 sourceItem.StatusId = (short)ItemStatuses.ShippedInvoiced;
+            if (target.StatusId == (short)OrderStatus.InProduction && (sourceItem.StatusId == (short)ItemStatuses.ShippedInvoiced || sourceItem.StatusId == (short)ItemStatuses.ReadyForShipping))
+                sourceItem.StatusId = (short)ItemStatuses.NeedAssigning;
+            if ((target.StatusId == (short)OrderStatus.ConfirmedOrder || target.StatusId == (short)OrderStatus.PendingOrder) && sourceItem.StatusId != (short)ItemStatuses.NotProgressedToJob)
+                sourceItem.StatusId = (short)ItemStatuses.NotProgressedToJob;
 
             sourceItem.UpdateToForOrder(targetLine, actions, assignJobCodes);
         }

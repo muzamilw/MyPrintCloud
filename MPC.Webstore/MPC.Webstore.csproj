@@ -406,6 +406,7 @@
     <Compile Include="Controllers\EzyHeaderController.cs" />
     <Compile Include="Controllers\EzyPrintSignUpController.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
+    <Compile Include="Controllers\FeaturedProductsController.cs" />
     <Compile Include="Controllers\FooterWithUseFulLinksController.cs" />
     <Compile Include="Controllers\FutureHeaderController.cs" />
     <Compile Include="Controllers\FutureQuickLinksController.cs" />
@@ -1125,6 +1126,7 @@
     <Content Include="Views\Shared\PartialViews\EzyHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\ManageAssets.cshtml" />
     <Content Include="Views\Shared\PartialViews\TreeChildNodes.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FeaturedProducts.cshtml" />
     <Content Include="Views\Shared\PartialViews\PayWay.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1142,6 +1144,7 @@
     <Folder Include="Views\DescriptiveFooter\" />
     <Folder Include="Views\EzyHeader\" />
     <Folder Include="Views\EzyPrintSignUp\" />
+    <Folder Include="Views\FeaturedProducts\" />
     <Folder Include="Views\FooterWithUseFulLinks\" />
     <Folder Include="Views\FutureFormHeader\" />
     <Folder Include="Views\FutureHeader\" />

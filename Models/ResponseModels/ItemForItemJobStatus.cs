@@ -58,5 +58,6 @@ namespace MPC.Models.ResponseModels
         public DateTime? JobEstimatedCompletionDateTime { get; set; }
 
         public DateTime? JobEstimatedStartDateTime { get; set; }
+        public int? OrderdItemsCount { get; set; }
     }
 }

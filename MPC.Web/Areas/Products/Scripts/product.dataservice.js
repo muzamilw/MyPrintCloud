@@ -43,6 +43,12 @@ define("product/product.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
+                    // Define request to Download Artwork of the order
+                    amplify.request.define('exportItems', 'ajax', {
+                        url: ist.siteUrl + '/Api/ExportItem',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     
                     // Define request to get base data
                     amplify.request.define('getBaseDataForProduct', 'ajax', {
@@ -201,6 +207,17 @@ define("product/product.dataservice", function () {
                     data: param
                 });
             },
+            
+        // export Item
+        exportItems = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'exportItems',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
             // Clone Item
             cloneItem = function (param, callbacks) {
                 initialize();
@@ -299,7 +316,8 @@ define("product/product.dataservice", function () {
             getProducts: getProducts,
             deleteItem: deleteItem,
             getPtvCalculation: getPtvCalculation,
-            getPtv: getPtv
+            getPtv: getPtv,
+            exportItems: exportItems
         };
     })();
 

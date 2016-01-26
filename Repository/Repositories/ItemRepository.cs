@@ -4919,6 +4919,22 @@ namespace MPC.Repository.Repositories
 
         //    return lstPageControls;
         //}
+    
+        public List<usp_ExportStoreProductsAndPrices_Result> getExportedItems(long Companyid)
+        {
+            try
+            {
+                List<usp_ExportStoreProductsAndPrices_Result> items = db.usp_ExportStoreProductsAndPrices(Companyid, OrganisationId).ToList();
+
+                return items;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+    
+    
     }
 }
 

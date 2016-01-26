@@ -1254,6 +1254,21 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactByID", ContactIDParameter);
         }
+
+        public ObjectResult<usp_ExportStoreProductsAndPrices_Result> usp_ExportStoreProductsAndPrices(long? StoreId, long? OrganisationId)
+        // ReSharper restore InconsistentNaming
+        {
+            var StoreIDParameter = StoreId.HasValue ?
+                new ObjectParameter("StoreId", StoreId) :
+                new ObjectParameter("StoreId", typeof(long));
+
+            var organisationIdParameter = OrganisationId.HasValue ?
+               new ObjectParameter("OrganisationId", OrganisationId) :
+               new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ExportStoreProductsAndPrices_Result>("usp_ExportStoreProductsAndPrices", organisationIdParameter, StoreIDParameter);
+           
+        }
         #endregion
     }
 }

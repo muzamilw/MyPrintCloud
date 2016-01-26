@@ -162,6 +162,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isAllowBackOrder = source.isAllowBackOrder,
                 ThresholdLevel = source.ThresholdLevel,
                 PlateRunLength = source.PlateRunLength,
+                ChargePerSquareUnit = source.ChargePerSquareUnit,
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null,
                 ItemStockUpdateHistories = source.ItemStockUpdateHistories != null ? source.ItemStockUpdateHistories.Select(cp => cp.CreateFrom()).ToList() : null
             };
@@ -214,6 +215,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isAllowBackOrder = source.isAllowBackOrder,
                 ThresholdLevel = source.ThresholdLevel,
                 PlateRunLength = source.PlateRunLength,
+                ChargePerSquareUnit = source.ChargePerSquareUnit,
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : new List<ApiModels.StockCostAndPrice>(),
                 ItemStockUpdateHistories = source.ItemStockUpdateHistories != null ? source.ItemStockUpdateHistories.Select(cp => cp.CreateFrom()).ToList() : new List<ApiModels.ItemStockUpdateHistory>()
             };
