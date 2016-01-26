@@ -2648,436 +2648,438 @@ namespace MPC.Implementation.MISServices
 
         public string ExportCompanyIrems(long CompanyId)
         {
-           // List<string> FileHeader = new List<string>();
-           // long OrganisationId = 0;
-          
-
-           // FileHeader = HeaderList(FileHeader, true);
-           // List<usp_ExportStoreProductsAndPrices_Result> exportItems = itemRepository.getExportedItems(CompanyId).ToList();
-
-         
-
-
-           // StringBuilder PSV = new StringBuilder();
-           // StringBuilder CSV = new StringBuilder();
-           // string csv = string.Empty;
-           // string psv = string.Empty;
-
-           // foreach (string column in FileHeader)
-           // {
-           //     //Add the Header row for CSV file.
-           //     psv += column + '|';
-           // }
-
-           // //Add new line.
-           // psv += "\r\n";
-           // PSV.Append(psv);
-
-
-           // foreach (string column in FileHeader)
-           // {
-           //     //Add the Header row for CSV file.
-           //     csv += column + ',';
-           // }
-
-           // //Add new line.
-           // csv += "\r\n";
-           // CSV.Append(csv);
-
-
-           // //  sr.WriteLine(csv);
-
-           // //   csv = string.Empty;
-
-           
-
-           // string ProductCode = string.Empty;
-           // string Product_Name = string.Empty;
-           // string Category = string.Empty;
-           // string FinishedSize = string.Empty;
-           // string PrintedPages = string.Empty;
-
-           // string isQtyRanged = string.Empty;
-           // string quantity = string.Empty;
-           // string QtyRangeFrom = string.Empty;
-           // string QtyRangeTo = string.Empty;
-           // string StockLabel1 = string.Empty;
-           // string Price1 = string.Empty;
-
-           // string StockLabel2 = string.Empty;
-           // string Price2 = string.Empty;
-           // string StockLabel3 = string.Empty;
-           // string Price3 = string.Empty;
-           // string StockLabel4 = string.Empty;
-           // string Price4 = string.Empty;
-           // string StockLabel5 = string.Empty;
-           // string Price5 = string.Empty;
-           // string StockLabel6 = string.Empty;
-           // string Price6 = string.Empty;
-           // string StockLabel7 = string.Empty;
-           // string Price7 = string.Empty;
-           // string StockLabel8 = string.Empty;
-           // string Price8 = string.Empty;
-           // string StockLabel9 = string.Empty;
-           // string Price9 = string.Empty;
-           // string Supplier1 = string.Empty;    
-           //  string Supplier2 = string.Empty; 
-           //  string Supplier3 = string.Empty; 
-           //  string Supplier4 = string.Empty; 
-           //  string Supplier5 = string.Empty; 
-           //  string Supplier6 = string.Empty; 
-           //  string Supplier7 = string.Empty; 
-           //  string Supplier8 = string.Empty; 
-           //  string Supplier9 = string.Empty;
-           // string JobDescriptionTitle1 = string.Empty;
-           // string JobDescription1 = string.Empty;
-           // string JobDescriptionTitle2 = string.Empty;
-           // string JobDescription2 = string.Empty;
-           // string JobDescriptionTitle3 = string.Empty;
-           // string JobDescription3 = string.Empty;
-           //  string JobDescriptionTitle4 = string.Empty;
-           // string JobDescription4 = string.Empty;
-           // string JobDescriptionTitle5 = string.Empty;
-           // string JobDescription5 = string.Empty;
-           //string JobDescriptionTitle6 = string.Empty;
-           // string JobDescription6 = string.Empty;
-           //string JobDescriptionTitle7 = string.Empty;
-           // string JobDescription7 = string.Empty;
-
-           // if (exportItems != null && exportItems.Count() > 0)
-           // {
-           //     foreach (var item in exportItems)
-           //     {
-           //         string cdata = string.Empty;
-           //         if (item.ProductCode != null)
-           //         {
-           //             ProductCode = item.ProductCode;
-           //         }
-
-           //         if (item.Product_Name != null)
-           //         {
-           //             Product_Name = item.Product_Name;
-                      
-           //         }
-                   
-                  
-                
-                  
-           //         //string StockLabel1 = string.Empty;
-           //         //string Price1 = string.Empty;
-
-           //         //string StockLabel2 = string.Empty;
-           //         //string Price2 = string.Empty;
-           //         //string StockLabel3 = string.Empty;
-           //         //string Price3 = string.Empty;
-           //         //string StockLabel4 = string.Empty;
-           //         //string Price4 = string.Empty;
-           //         //string StockLabel5 = string.Empty;
-           //         //string Price5 = string.Empty;
-           //         //string StockLabel6 = string.Empty;
-           //         //string Price6 = string.Empty;
-           //         //string StockLabel7 = string.Empty;
-           //         //string Price7 = string.Empty;
-           //         //string StockLabel8 = string.Empty;
-           //         //string Price8 = string.Empty;
-           //         //string StockLabel9 = string.Empty;
-           //         //string Price9 = string.Empty;
-           //         //string Supplier1 = string.Empty;
-           //         //string Supplier2 = string.Empty;
-           //         //string Supplier3 = string.Empty;
-           //         //string Supplier4 = string.Empty;
-           //         //string Supplier5 = string.Empty;
-           //         //string Supplier6 = string.Empty;
-           //         //string Supplier7 = string.Empty;
-           //         //string Supplier8 = string.Empty;
-           //         //string Supplier9 = string.Empty;
-           //         //string JobDescriptionTitle1 = string.Empty;
-           //         //string JobDescription1 = string.Empty;
-           //         //string JobDescriptionTitle2 = string.Empty;
-           //         //string JobDescription2 = string.Empty;
-           //         //string JobDescriptionTitle3 = string.Empty;
-           //         //string JobDescription3 = string.Empty;
-           //         //string JobDescriptionTitle4 = string.Empty;
-           //         //string JobDescription4 = string.Empty;
-           //         //string JobDescriptionTitle5 = string.Empty;
-           //         //string JobDescription5 = string.Empty;
-           //         //string JobDescriptionTitle6 = string.Empty;
-           //         //string JobDescription6 = string.Empty;
-           //         //string JobDescriptionTitle7 = string.Empty;
-           //         //string JobDescription7 = string.Empty;
-
-           //         if (!string.IsNullOrEmpty(item.Category))
-           //             Category = item.Category;
-
-           //         if (!string.IsNullOrEmpty(item.FinishedSize))
-           //             FinishedSize = item.FinishedSize;
-
-           //         if (!string.IsNullOrEmpty(item.PrintedPages))
-           //             PrintedPages = item.PrintedPages;
-
-           //         if (item.isQtyRanged == true)
-           //             isQtyRanged = "true";
-
-           //         if (item.quantity != null)
-           //             quantity = Convert.ToString(item.quantity);
-
-           //         if (item.QtyRangeFrom != null)
-           //             QtyRangeFrom = Convert.ToString(item.QtyRangeFrom);
-
-           //         if (item.QtyRangeTo != null)
-           //             QtyRangeTo = Convert.ToString(item.QtyRangeTo);
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel1))
-           //             StockLabel1 = item.StockLabel1;
-
-           //         if (item.Price1 != null)
-           //             Price1 = Convert.ToString(item.Price1);
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel2))
-           //             StockLabel2 = item.StockLabel2;
-
-           //         if (item.Price2 != null)
-           //             Price2 = Convert.ToString(item.Price2);
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel3))
-           //             StockLabel3 = item.StockLabel3;
-
-           //         if (item.Price3 != null)
-           //             Price3 =  Convert.ToString(item.Price3);
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel4))
-           //             StockLabel4 = item.StockLabel4;
-
-           //         if (item.Price4 != null)
-           //             Price4 = Convert.ToString(item.Price4);
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel5))
-           //             StockLabel5 = item.StockLabel5;
-
-           //         if (item.Price5 != null)
-           //             Price5 = Convert.ToString(item.Price5);
-
-
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel6))
-           //             StockLabel6 = item.StockLabel6;
-
-           //         if (item.Price6 != null)
-           //             Price6 = Convert.ToString(item.Price6);
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel7))
-           //             StockLabel7 = item.StockLabel7;
-
-           //         if (item.Price7 != null)
-           //             Price7 = Convert.ToString(item.Price7);
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel8))
-           //             StockLabel8 = item.StockLabel8;
-
-           //         if (item.Price8 != null)
-           //             Price8 = Convert.ToString(item.Price8);
-
-           //         if (!string.IsNullOrEmpty(item.StockLabel9))
-           //             StockLabel9 = item.StockLabel9;
-
-           //         if (item.Price9 != null)
-           //             Price9 = Convert.ToString(item.Price9);
-
-           //         if (item.Supplier1 != null)
-           //             Supplier1 = Convert.ToString(item.Supplier1);
-           //         if (item.Supplier2 != null)
-           //             Supplier2 = Convert.ToString(item.Supplier2);
-           //         if (item.Supplier3 != null)
-           //             Supplier3 = Convert.ToString(item.Supplier3);
-           //         if (item.Supplier4 != null)
-           //             Supplier4 = Convert.ToString(item.Supplier4);
-           //         if (item.Supplier5 != null)
-           //             Supplier5 = Convert.ToString(item.Supplier5);
-           //         if (item.Supplier6 != null)
-           //             Supplier6 = Convert.ToString(item.Supplier6);
-           //         if (item.Supplier7 != null)
-           //             Supplier7 = Convert.ToString(item.Supplier7);
-           //         if (item.Supplier8 != null)
-           //             Supplier8 = Convert.ToString(item.Supplier8);
-           //         if (item.Supplier9 != null)
-           //             Supplier9 = Convert.ToString(item.Supplier9);
-
-           //         if (!string.IsNullOrEmpty(item.JobDescriptionTitle1))
-           //             JobDescriptionTitle1 = item.JobDescriptionTitle1;
-           //         if (!string.IsNullOrEmpty(item.JobDescription1))
-           //             JobDescription1 = item.JobDescription1;
-
-           //         if (!string.IsNullOrEmpty(item.JobDescriptionTitle2))
-           //             JobDescriptionTitle1 = item.JobDescriptionTitle2;
-           //         if (!string.IsNullOrEmpty(item.JobDescription2))
-           //             JobDescription1 = item.JobDescription2;
-
-           //         if (!string.IsNullOrEmpty(item.JobDescriptionTitle3))
-           //             JobDescriptionTitle3 = item.JobDescriptionTitle3;
-           //         if (!string.IsNullOrEmpty(item.JobDescription3))
-           //             JobDescription3 = item.JobDescription3;
-
-           //         if (!string.IsNullOrEmpty(item.JobDescriptionTitle4))
-           //             JobDescriptionTitle4 = item.JobDescriptionTitle4;
-           //         if (!string.IsNullOrEmpty(item.JobDescription4))
-           //             JobDescription4 = item.JobDescription4;
-
-           //         if (!string.IsNullOrEmpty(item.JobDescriptionTitle5))
-           //             JobDescriptionTitle5 = item.JobDescriptionTitle5;
-           //         if (!string.IsNullOrEmpty(item.JobDescription5))
-           //             JobDescription5 = item.JobDescription5;
-
-           //         if (!string.IsNullOrEmpty(item.JobDescriptionTitle6))
-           //             JobDescriptionTitle6 = item.JobDescriptionTitle6;
-           //         if (!string.IsNullOrEmpty(item.JobDescription6))
-           //             JobDescription6 = item.JobDescription6;
-
-           //         if (!string.IsNullOrEmpty(item.JobDescriptionTitle7))
-           //             JobDescriptionTitle7 = item.JobDescriptionTitle7;
-           //         if (!string.IsNullOrEmpty(item.JobDescription7))
-           //             JobDescription7 = item.JobDescription7;
-                    
-                    
-
-
-           //         //data = StoreName + "|" + UniqueAccessCode + "|" + AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Country + "|" +
-           //         //                            PostCode + "|" + AddressPhone + "|" + Fax + "|" + TerritoryName
-           //         //                            + "|" + FirstName + "|" + LastName + "|" +
-           //         //                            JobTitle + "|" + HomeTel
-           //         //                            + "|" + Email + "|"
-           //         //                            + Mobile + "|"
-           //         //                            + ContactFax
-           //         //                            + "|" + AddField1
-           //         //                            + "|" + AddField2 + "|" +
-           //         //                            AddField3
-           //         //                            + "|" + AddField4
-           //         //                            + "|" + AddField5
-           //         //                            + "|" + SkypeId + "|"
-           //         //                            + LinkedIn + "|"
-           //         //                            + FacebookURL
-           //         //                            + "|" + TwitterURL + "|"
-           //         //                            + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
-           //         //                            + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
-           //         //                            + CanPlaceOrder + "|" + HomeTel
-           //         //                            + "|" + Role + "|" + POBoxAddress + "|" +
-           //         //                            CorporateUnit
-           //         //                            + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + CreditLimit + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
-
-
-
-
-
-           //        // PSV.Append(data);
-
-
-           //         // for comma seperated 
-
-           //         cdata = ProductCode + "," + Product_Name + "," + Category + "," + FinishedSize + "," + PrintedPages + "," + isQtyRanged + "," + QtyRangeFrom + "," + QtyRangeTo + "," +
-           //                            StockLabel1 + "," + Price1 + "," + StockLabel2 + "," + Price2
-           //                            + "," + StockLabel3 + "," + Price3 + "," +
-           //                            StockLabel4 + "," + Price4
-           //                            + "," + StockLabel5 + ","
-           //                            + Price5 + ","
-           //                            + ContactFax
-           //                            + "," + AddField1
-           //                            + "," + AddField2 + "," +
-           //                            AddField3
-           //                            + "," + AddField4
-           //                            + "," + AddField5
-           //                            + "," + SkypeId + ","
-           //                            + LinkedIn + ","
-           //                            + FacebookURL
-           //                            + "," + TwitterURL + ","
-           //                            + CanUserEditProfile + "," + CanPlaceOrderWithoutApproval + "," + CanPlaceDirectOrder
-           //                            + "," + CanPayByPersonalCreditCard + "," + CanSeePrices + "," + HasWebAccess + ","
-           //                            + CanPlaceOrder + "," + HomeTel
-           //                            + "," + Role + "," + POBoxAddress + "," +
-           //                            CorporateUnit
-           //                            + "," + OfficeTradingName + "," + BPayCRN + "," + ACN + "," + ContractorName + "," + ABN + "," + Notes + "," + CreditLimit + "," + IsNewsLetterSubscription + ',' + IsEmailSubscription + "," + IsDefaultContact + "\r\n";
-
-
-           //         CSV.Append(cdata);
-
-           //     }
-           // }
-
-
-           // string PSVSavePath = string.Empty;
-           // string PReturnPath = string.Empty;
-
-           // string CSVSavePath = string.Empty;
-           // string CReturnPath = string.Empty;
-
-           // if (OrganisationId > 0)
-           // {
-           //     PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
-           //     PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeSeperated.csv";
-
-           //     CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsCommaSeperated.csv");
-           //     CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsCommaSeperated.csv";
-
-
-
-           // }
-           // else
-           // {
-           //     PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
-           //     PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsPipeSeperated.csv";
-
-           //     CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsCommaSeperated.csv");
-           //     CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsCommaSeperated.csv";
-
-           // }
-
-           // string DirectoryPath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId);
-           // if (!Directory.Exists(DirectoryPath))
-           // {
-           //     Directory.CreateDirectory(DirectoryPath);
-           // }
-
-
-           // StreamWriter sw = new StreamWriter(PSVSavePath, false, Encoding.UTF8);
-           // sw.Write(PSV);
-           // sw.Close();
-
-           // StreamWriter csw = new StreamWriter(CSVSavePath, false, Encoding.UTF8);
-           // csw.Write(CSV);
-           // csw.Close();
-
-           // string sZipFileName = string.Empty;
-           // using (ZipFile zip = new ZipFile())
-           // {
-
-           //     ZipEntry r = zip.AddFile(PSVSavePath, "");
-           //     r.Comment = "pipe seperated company contacts";
-
-           //     ZipEntry z = zip.AddFile(CSVSavePath, "");
-           //     z.Comment = "comma seperated company contacts";
-
-           //     zip.Comment = "This zip archive was created to export crm company contacts";
-
-           //     string sDirectory = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Reports";
-           //     string name = "ExportedItems";
-
-           //     if (Path.HasExtension(name))
-           //         sZipFileName = name;
-           //     else
-           //         sZipFileName = name + ".zip";
-           //     if (Directory.Exists(sDirectory))
-           //     {
-           //         zip.Save(sDirectory + "\\" + sZipFileName);
-           //     }
-           //     else
-           //     {
-           //         Directory.CreateDirectory(sDirectory);
-           //         zip.Save(sDirectory + "\\" + sZipFileName);
-           //     }
-           // }
-
-           // string ZipPath = "/MPC_Content/Reports/" + sZipFileName;
-
-           // return ZipPath;
-            return "";
+            List<string> FileHeader = new List<string>();
+            long OrganisationId = 0;
+
+
+            FileHeader = HeaderList(FileHeader, true);
+            List<usp_ExportStoreProductsAndPrices_Result> exportItems = itemRepository.getExportedItems(CompanyId).ToList();
+
+
+
+
+            StringBuilder PSV = new StringBuilder();
+            StringBuilder CSV = new StringBuilder();
+            string csv = string.Empty;
+            string psv = string.Empty;
+
+            foreach (string column in FileHeader)
+            {
+                //Add the Header row for CSV file.
+                psv += column + '|';
+            }
+
+            //Add new line.
+            psv += "\r\n";
+            PSV.Append(psv);
+
+
+            foreach (string column in FileHeader)
+            {
+                //Add the Header row for CSV file.
+                csv += column + ',';
+            }
+
+            //Add new line.
+            csv += "\r\n";
+            CSV.Append(csv);
+
+
+            //  sr.WriteLine(csv);
+
+            //   csv = string.Empty;
+
+
+
+            string ProductCode = string.Empty;
+            string Product_Name = string.Empty;
+            string Category = string.Empty;
+            string FinishedSize = string.Empty;
+            string PrintedPages = string.Empty;
+
+            string isQtyRanged = string.Empty;
+            string quantity = string.Empty;
+            string QtyRangeFrom = string.Empty;
+            string QtyRangeTo = string.Empty;
+            string StockLabel1 = string.Empty;
+            string Price1 = string.Empty;
+
+            string StockLabel2 = string.Empty;
+            string Price2 = string.Empty;
+            string StockLabel3 = string.Empty;
+            string Price3 = string.Empty;
+            string StockLabel4 = string.Empty;
+            string Price4 = string.Empty;
+            string StockLabel5 = string.Empty;
+            string Price5 = string.Empty;
+            string StockLabel6 = string.Empty;
+            string Price6 = string.Empty;
+            string StockLabel7 = string.Empty;
+            string Price7 = string.Empty;
+            string StockLabel8 = string.Empty;
+            string Price8 = string.Empty;
+            string StockLabel9 = string.Empty;
+            string Price9 = string.Empty;
+            string Supplier1 = string.Empty;
+            string Supplier2 = string.Empty;
+            string Supplier3 = string.Empty;
+            string Supplier4 = string.Empty;
+            string Supplier5 = string.Empty;
+            string Supplier6 = string.Empty;
+            string Supplier7 = string.Empty;
+            string Supplier8 = string.Empty;
+            string Supplier9 = string.Empty;
+            string JobDescriptionTitle1 = string.Empty;
+            string JobDescription1 = string.Empty;
+            string JobDescriptionTitle2 = string.Empty;
+            string JobDescription2 = string.Empty;
+            string JobDescriptionTitle3 = string.Empty;
+            string JobDescription3 = string.Empty;
+            string JobDescriptionTitle4 = string.Empty;
+            string JobDescription4 = string.Empty;
+            string JobDescriptionTitle5 = string.Empty;
+            string JobDescription5 = string.Empty;
+            string JobDescriptionTitle6 = string.Empty;
+            string JobDescription6 = string.Empty;
+            string JobDescriptionTitle7 = string.Empty;
+            string JobDescription7 = string.Empty;
+
+            if (exportItems != null && exportItems.Count() > 0)
+            {
+                foreach (var item in exportItems)
+                {
+                    string cdata = string.Empty;
+                    if (item.ProductCode != null)
+                    {
+                        ProductCode = item.ProductCode;
+                    }
+
+                    if (item.Product_Name != null)
+                    {
+                        Product_Name = item.Product_Name;
+
+                    }
+
+
+
+
+                    //string StockLabel1 = string.Empty;
+                    //string Price1 = string.Empty;
+
+                    //string StockLabel2 = string.Empty;
+                    //string Price2 = string.Empty;
+                    //string StockLabel3 = string.Empty;
+                    //string Price3 = string.Empty;
+                    //string StockLabel4 = string.Empty;
+                    //string Price4 = string.Empty;
+                    //string StockLabel5 = string.Empty;
+                    //string Price5 = string.Empty;
+                    //string StockLabel6 = string.Empty;
+                    //string Price6 = string.Empty;
+                    //string StockLabel7 = string.Empty;
+                    //string Price7 = string.Empty;
+                    //string StockLabel8 = string.Empty;
+                    //string Price8 = string.Empty;
+                    //string StockLabel9 = string.Empty;
+                    //string Price9 = string.Empty;
+                    //string Supplier1 = string.Empty;
+                    //string Supplier2 = string.Empty;
+                    //string Supplier3 = string.Empty;
+                    //string Supplier4 = string.Empty;
+                    //string Supplier5 = string.Empty;
+                    //string Supplier6 = string.Empty;
+                    //string Supplier7 = string.Empty;
+                    //string Supplier8 = string.Empty;
+                    //string Supplier9 = string.Empty;
+                    //string JobDescriptionTitle1 = string.Empty;
+                    //string JobDescription1 = string.Empty;
+                    //string JobDescriptionTitle2 = string.Empty;
+                    //string JobDescription2 = string.Empty;
+                    //string JobDescriptionTitle3 = string.Empty;
+                    //string JobDescription3 = string.Empty;
+                    //string JobDescriptionTitle4 = string.Empty;
+                    //string JobDescription4 = string.Empty;
+                    //string JobDescriptionTitle5 = string.Empty;
+                    //string JobDescription5 = string.Empty;
+                    //string JobDescriptionTitle6 = string.Empty;
+                    //string JobDescription6 = string.Empty;
+                    //string JobDescriptionTitle7 = string.Empty;
+                    //string JobDescription7 = string.Empty;
+
+                    if (!string.IsNullOrEmpty(item.Category))
+                        Category = item.Category;
+
+                    if (!string.IsNullOrEmpty(item.FinishedSize))
+                        FinishedSize = item.FinishedSize;
+
+                    if (!string.IsNullOrEmpty(item.PrintedPages))
+                        PrintedPages = item.PrintedPages;
+
+                    if (item.isQtyRanged == true)
+                        isQtyRanged = "true";
+
+                    if (item.quantity != null)
+                        quantity = Convert.ToString(item.quantity);
+
+                    if (item.QtyRangeFrom != null)
+                        QtyRangeFrom = Convert.ToString(item.QtyRangeFrom);
+
+                    if (item.QtyRangeTo != null)
+                        QtyRangeTo = Convert.ToString(item.QtyRangeTo);
+
+                    if (!string.IsNullOrEmpty(item.StockLabel1))
+                        StockLabel1 = item.StockLabel1;
+
+                    if (item.Price1 != null)
+                        Price1 = Convert.ToString(item.Price1);
+
+                    if (!string.IsNullOrEmpty(item.StockLabel2))
+                        StockLabel2 = item.StockLabel2;
+
+                    if (item.Price2 != null)
+                        Price2 = Convert.ToString(item.Price2);
+
+                    if (!string.IsNullOrEmpty(item.StockLabel3))
+                        StockLabel3 = item.StockLabel3;
+
+                    if (item.Price3 != null)
+                        Price3 = Convert.ToString(item.Price3);
+
+                    if (!string.IsNullOrEmpty(item.StockLabel4))
+                        StockLabel4 = item.StockLabel4;
+
+                    if (item.Price4 != null)
+                        Price4 = Convert.ToString(item.Price4);
+
+                    if (!string.IsNullOrEmpty(item.StockLabel5))
+                        StockLabel5 = item.StockLabel5;
+
+                    if (item.Price5 != null)
+                        Price5 = Convert.ToString(item.Price5);
+
+
+
+                    if (!string.IsNullOrEmpty(item.StockLabel6))
+                        StockLabel6 = item.StockLabel6;
+
+                    if (item.Price6 != null)
+                        Price6 = Convert.ToString(item.Price6);
+
+                    if (!string.IsNullOrEmpty(item.StockLabel7))
+                        StockLabel7 = item.StockLabel7;
+
+                    if (item.Price7 != null)
+                        Price7 = Convert.ToString(item.Price7);
+
+                    if (!string.IsNullOrEmpty(item.StockLabel8))
+                        StockLabel8 = item.StockLabel8;
+
+                    if (item.Price8 != null)
+                        Price8 = Convert.ToString(item.Price8);
+
+                    if (!string.IsNullOrEmpty(item.StockLabel9))
+                        StockLabel9 = item.StockLabel9;
+
+                    if (item.Price9 != null)
+                        Price9 = Convert.ToString(item.Price9);
+
+                    if (item.Supplier1 != null)
+                        Supplier1 = Convert.ToString(item.Supplier1);
+                    if (item.Supplier2 != null)
+                        Supplier2 = Convert.ToString(item.Supplier2);
+                    if (item.Supplier3 != null)
+                        Supplier3 = Convert.ToString(item.Supplier3);
+                    if (item.Supplier4 != null)
+                        Supplier4 = Convert.ToString(item.Supplier4);
+                    if (item.Supplier5 != null)
+                        Supplier5 = Convert.ToString(item.Supplier5);
+                    if (item.Supplier6 != null)
+                        Supplier6 = Convert.ToString(item.Supplier6);
+                    if (item.Supplier7 != null)
+                        Supplier7 = Convert.ToString(item.Supplier7);
+                    if (item.Supplier8 != null)
+                        Supplier8 = Convert.ToString(item.Supplier8);
+                    if (item.Supplier9 != null)
+                        Supplier9 = Convert.ToString(item.Supplier9);
+
+                    if (!string.IsNullOrEmpty(item.JobDescriptionTitle1))
+                        JobDescriptionTitle1 = item.JobDescriptionTitle1;
+                    if (!string.IsNullOrEmpty(item.JobDescription1))
+                        JobDescription1 = item.JobDescription1;
+
+                    if (!string.IsNullOrEmpty(item.JobDescriptionTitle2))
+                        JobDescriptionTitle1 = item.JobDescriptionTitle2;
+                    if (!string.IsNullOrEmpty(item.JobDescription2))
+                        JobDescription1 = item.JobDescription2;
+
+                    if (!string.IsNullOrEmpty(item.JobDescriptionTitle3))
+                        JobDescriptionTitle3 = item.JobDescriptionTitle3;
+                    if (!string.IsNullOrEmpty(item.JobDescription3))
+                        JobDescription3 = item.JobDescription3;
+
+                    if (!string.IsNullOrEmpty(item.JobDescriptionTitle4))
+                        JobDescriptionTitle4 = item.JobDescriptionTitle4;
+                    if (!string.IsNullOrEmpty(item.JobDescription4))
+                        JobDescription4 = item.JobDescription4;
+
+                    if (!string.IsNullOrEmpty(item.JobDescriptionTitle5))
+                        JobDescriptionTitle5 = item.JobDescriptionTitle5;
+                    if (!string.IsNullOrEmpty(item.JobDescription5))
+                        JobDescription5 = item.JobDescription5;
+
+                    if (!string.IsNullOrEmpty(item.JobDescriptionTitle6))
+                        JobDescriptionTitle6 = item.JobDescriptionTitle6;
+                    if (!string.IsNullOrEmpty(item.JobDescription6))
+                        JobDescription6 = item.JobDescription6;
+
+                    if (!string.IsNullOrEmpty(item.JobDescriptionTitle7))
+                        JobDescriptionTitle7 = item.JobDescriptionTitle7;
+                    if (!string.IsNullOrEmpty(item.JobDescription7))
+                        JobDescription7 = item.JobDescription7;
+
+
+
+
+                    //data = StoreName + "|" + UniqueAccessCode + "|" + AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Country + "|" +
+                    //                            PostCode + "|" + AddressPhone + "|" + Fax + "|" + TerritoryName
+                    //                            + "|" + FirstName + "|" + LastName + "|" +
+                    //                            JobTitle + "|" + HomeTel
+                    //                            + "|" + Email + "|"
+                    //                            + Mobile + "|"
+                    //                            + ContactFax
+                    //                            + "|" + AddField1
+                    //                            + "|" + AddField2 + "|" +
+                    //                            AddField3
+                    //                            + "|" + AddField4
+                    //                            + "|" + AddField5
+                    //                            + "|" + SkypeId + "|"
+                    //                            + LinkedIn + "|"
+                    //                            + FacebookURL
+                    //                            + "|" + TwitterURL + "|"
+                    //                            + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
+                    //                            + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
+                    //                            + CanPlaceOrder + "|" + HomeTel
+                    //                            + "|" + Role + "|" + POBoxAddress + "|" +
+                    //                            CorporateUnit
+                    //                            + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + CreditLimit + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
+
+
+
+
+
+                    // PSV.Append(data);
+
+
+                    // for comma seperated 
+
+                    cdata = ProductCode + "," + Product_Name + "," + Category + "," + FinishedSize + "," + PrintedPages + "," + isQtyRanged + "," + QtyRangeFrom + "," + QtyRangeTo + "," +
+                                       StockLabel1 + "," + Price1 + "," + StockLabel2 + "," + Price2
+                                       + "," + StockLabel3 + "," + Price3 + "," +
+                                       StockLabel4 + "," + Price4
+                                       + "," + StockLabel5 + ","
+                                       + Price5 + ","
+                                       + StockLabel6
+                                       + "," + Price6
+                                       + "," + StockLabel7 + "," +
+                                       Price7
+                                       + "," + StockLabel8
+                                       + "," + Price8
+                                       + "," + StockLabel9 + ","
+                                       + Price9 + ","
+                                       + Supplier1
+                                       + "," + Supplier2 + ","
+                                       + Supplier3 + "," + Supplier4 + "," + Supplier5
+                                       + "," + Supplier6 + "," + Supplier7 + "," + Supplier8 + ","
+                                       + Supplier9 + "," + JobDescriptionTitle1
+                                       + "," + JobDescription1 + "," + JobDescriptionTitle2 + "," +
+                                       JobDescription2
+                                       + "," + JobDescriptionTitle3 + "," + JobDescription3 + "," + JobDescriptionTitle4 + "," + JobDescription4 + "," + JobDescriptionTitle5 + "," + JobDescription5 + "," + JobDescriptionTitle6 + "," + JobDescription6 + ',' + JobDescriptionTitle7 + "," + JobDescription7 + "\r\n";
+
+
+                    CSV.Append(cdata);
+
+                }
+            }
+
+
+            string PSVSavePath = string.Empty;
+            string PReturnPath = string.Empty;
+
+            string CSVSavePath = string.Empty;
+            string CReturnPath = string.Empty;
+
+            if (OrganisationId > 0)
+            {
+                PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
+                PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyItems.csv";
+
+                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsCommaSeperated.csv");
+                CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyItems.csv";
+
+
+
+            }
+            else
+            {
+                PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
+                PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyItems.csv";
+
+                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsCommaSeperated.csv");
+                CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyItems.csv";
+
+            }
+
+            string DirectoryPath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId);
+            if (!Directory.Exists(DirectoryPath))
+            {
+                Directory.CreateDirectory(DirectoryPath);
+            }
+
+
+            //StreamWriter sw = new StreamWriter(PSVSavePath, false, Encoding.UTF8);
+            //sw.Write(PSV);
+            //sw.Close();
+
+            StreamWriter csw = new StreamWriter(CSVSavePath, false, Encoding.UTF8);
+            csw.Write(CSV);
+            csw.Close();
+
+
+            return CSVSavePath;
+            //string sZipFileName = string.Empty;
+            //using (ZipFile zip = new ZipFile())
+            //{
+
+            //    ZipEntry r = zip.AddFile(PSVSavePath, "");
+            //    r.Comment = "pipe seperated company contacts";
+
+            //    ZipEntry z = zip.AddFile(CSVSavePath, "");
+            //    z.Comment = "comma seperated company contacts";
+
+            //    zip.Comment = "This zip archive was created to export crm company contacts";
+
+            //    string sDirectory = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Reports";
+            //    string name = "ExportedItems";
+
+            //    if (Path.HasExtension(name))
+            //        sZipFileName = name;
+            //    else
+            //        sZipFileName = name + ".zip";
+            //    if (Directory.Exists(sDirectory))
+            //    {
+            //        zip.Save(sDirectory + "\\" + sZipFileName);
+            //    }
+            //    else
+            //    {
+            //        Directory.CreateDirectory(sDirectory);
+            //        zip.Save(sDirectory + "\\" + sZipFileName);
+            //    }
+            //}
+
+            //string ZipPath = "/MPC_Content/Reports/" + sZipFileName;
+
+            //return ZipPath;
+            //return "";
 
 
         }

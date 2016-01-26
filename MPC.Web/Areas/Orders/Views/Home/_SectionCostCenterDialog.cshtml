@@ -197,7 +197,7 @@
                     <tbody data-bind="foreach: $root.selectedSectionCostCenter().sectionCostCentreDetails">
                         <tr>
                             <td data-bind="text: stockName"></td>
-                            <td data-bind="text: $root.currencySymbol() + costPrice()"></td>
+                            <td data-bind="text: $root.currencySymbol()+ ' ' + costPrice()"></td>
                             @*<!--ko if:  $root.selectedQty() == 1-->
                             <td data-bind="text: qty1"></td>
                             <!--/ko-->

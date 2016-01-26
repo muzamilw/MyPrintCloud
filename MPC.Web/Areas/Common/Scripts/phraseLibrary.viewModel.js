@@ -36,10 +36,10 @@ define("common/phraseLibrary.viewModel",
                                 sections.removeAll();
                                 _.each(data, function (item) {
                                     var section = new model.Section.Create(item);
-                                    //_.each(item.PhrasesFields, function (phraseFieldItem) {
-                                    //    var phraseField = new model.PhraseField.Create(phraseFieldItem);
-                                    //    section.phrasesFields.push(phraseField);
-                                    //});
+                                    _.each(item.PhrasesFields, function (phraseFieldItem) {
+                                        var phraseField = new model.PhraseField.Create(phraseFieldItem);
+                                        section.phrasesFields.push(phraseField);
+                                    });
                                     sections.push(section);
                                 });
                                 selectDefaultSectionForProduct();
