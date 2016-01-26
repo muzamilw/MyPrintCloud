@@ -4237,6 +4237,7 @@ namespace MPC.Implementation.MISServices
                     //dblTotalCost[2] = dblTotalCost[2] + (dblInkCost * dblQty[2] + dblDuctCost);
                     ////If dblTotalCost(2) < dblMinCharge Then dblTotalCost(2) = dblMinCharge
 
+
                     //dblTotalPrice[2] = dblTotalPrice[2] + (dblInkPrice * dblQty[2] + dblDuctPrice);
                     dblTotalPrice[2] = dblTotalPrice[2] + (NoofSheetsQty1 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
                     if (dblTotalPrice[2] < dblMinCharge)
