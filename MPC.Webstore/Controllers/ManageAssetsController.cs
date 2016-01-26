@@ -31,6 +31,8 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(string folderId, string Searchfolder, string SelectedTreeID)
         {
             ViewBag.SelectedTreeID = folderId;
+            List<Folder> GetFolder = new List<Folder>();
+            List<Asset> GetAssets = new List<Asset>();
             long loginContactId = _webclaims.loginContactID();
             if (Searchfolder != null && Searchfolder != string.Empty)
             {
@@ -41,15 +43,21 @@ namespace MPC.Webstore.Controllers
 
                 FolderList = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 RequiredFolder = FolderList.Where(i => i.FolderName.Contains(Searchfolder)).FirstOrDefault();
-                List<Folder> GetFolder = new List<Folder>();
-                if (RequiredFolder.FolderId > 0)
+                if (RequiredFolder != null)
                 {
+                    if (RequiredFolder.FolderId > 0)
+                    {
 
-                    GetFolder = _myCompanyService.GetChildFolders(RequiredFolder.FolderId);
+                        GetFolder = _myCompanyService.GetChildFolders(RequiredFolder.FolderId);
 
+                    }
+                    GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, RequiredFolder.FolderId);
                 }
-                List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, RequiredFolder.FolderId);
-
+                else
+                {
+                     GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                     GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId,0);
+                }
                 ViewBag.Folders = GetFolder;
                 List<TreeViewNodeVM> TreeModel = _myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 ViewBag.TreeModel = TreeModel;
@@ -63,8 +71,8 @@ namespace MPC.Webstore.Controllers
             {
                 long contac = _webclaims.loginContactID();
                 long FolderId = Convert.ToInt64(folderId);
-                List<Folder> GetFolder = new List<Folder>();
-                List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, FolderId);
+                 GetFolder = new List<Folder>();
+                 GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, FolderId);
                 //foreach (var time in GetAssets)
                 //{
                 //    var txtAuctionDate = String.Format("{0:MM/dd/yyyy}", time.CreationDateTime);
@@ -104,22 +112,31 @@ namespace MPC.Webstore.Controllers
 
             Folder RequiredFolder;
             List<Folder> FolderList;
-
+            List<Asset> GetAssets = new List<Asset>();
             FolderList = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             RequiredFolder = FolderList.Where(i => i.FolderName.Contains(Searchfolder)).FirstOrDefault();
+
             List<Folder> GetFolder = new List<Folder>();
-            if (RequiredFolder.FolderId > 0)
+
+            if (RequiredFolder == null)
             {
-
-                GetFolder = _myCompanyService.GetChildFolders(RequiredFolder.FolderId);
-
+                 GetFolder = FolderList;
+                 GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId,0);
             }
-            List<Asset> GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, RequiredFolder.FolderId);
-
+            else
+            {
+                if (RequiredFolder.FolderId > 0)
+                {
+                    GetFolder = _myCompanyService.GetChildFolders(RequiredFolder.FolderId);
+                    GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, RequiredFolder.FolderId);
+                }
+            }
+          
             ViewBag.Folders = GetFolder;
             List<TreeViewNodeVM> TreeModel = _myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             ViewBag.TreeModel = TreeModel;
-            ViewBag.Assets = GetAssets;
+            ViewBag.Assets=GetAssets;
+
             return View("PartialViews/ManageAssets");
         }
 

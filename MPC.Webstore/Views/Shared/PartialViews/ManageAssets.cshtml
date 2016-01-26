@@ -1253,23 +1253,23 @@
                 
                 if(Extension=='ps')
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PS" style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
                 }
                 else if(Extension=='a1')
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".A1" style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
                 }
                 else if(Extension=='ind')
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".IND"  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></div>')
                 }
                 else if(Extension=='pdf')
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PDF" style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></div>')
                 }
                 else
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img  style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img title=".Other" style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></div>')
                 }
 
             }
@@ -1355,28 +1355,28 @@
 
                 if(Extension=='ps')
                 {
-                    InnerHtml += '<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" cursor onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>'
+                    InnerHtml += '<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".PS" style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" cursor onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>'
                 }
                 else if(Extension=='ai')
                 {
 
 
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/P1.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".A1" style="height:32px;width:32px" src="/Content/Images/P1.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                 }
                 else if(Extension=='ind')
                 {
 
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/IND.png"></button></a><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".IND" style="height:32px;width:32px" src="/Content/Images/IND.png"></button></a><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                 }
                 else if(Extension=='pdf')
                 {
 
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PDF.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".PDF" style="height:32px;width:32px" src="/Content/Images/PDF.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                 }
                 else
                 {
 
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".Other" style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                 }
 
             }
