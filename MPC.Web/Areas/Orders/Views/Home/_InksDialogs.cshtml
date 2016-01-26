@@ -11,7 +11,7 @@
             </div>
             <div class="col-lg-12 form-horizontal" data-bind="with: $root.selectedSection()">
                 <div class="col-lg-12" id="OrderDialogSection1" style="margin-top: 2%; width: 98%; margin-left: 1%">
-                   <div class="col-lg-12 table" style="margin-top: 2%">
+                    <div class="col-lg-12 table" style="margin-top: 2%">
                         <div class="col-lg-12">
                             <div class="col-lg-6">Ink Order</div>
                             <div class="col-lg-6">Coverage Rate</div>
@@ -25,8 +25,11 @@
                     </div>
                 </div>
             </div>
+            <div class="clearfix">
+                &nbsp;
+            </div>
             <div class="modal-footer">
-                <hr />
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSectionInkCoverageSave" style="margin-left: 0; margin-top: 10px;">OK</button>
             </div>
         </div>
     </div>

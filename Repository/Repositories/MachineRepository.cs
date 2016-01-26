@@ -990,10 +990,11 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<StockItem> GetAllStockItemforInk()
         {
+            var isImperial = organisationRepository.GetOrganizatiobByID().IsImperical;
             return db.StockItems.Where(
                 s =>
                     s.CategoryId == (int) SystemStockCategory.Ink && s.isDisabled != true &&
-                    s.OrganisationId == this.OrganisationId).ToList();
+                    s.OrganisationId == this.OrganisationId && s.IsImperical == isImperial).ToList();
            // return db.StockItems.Join(db.StockCategories, SI => SI.CategoryId, SC => SC.CategoryId, (SI, SC) => new { SI, SC }).Where(IC => IC.SC.Code == "INK").Select(IC => IC.SI).ToList();
 
             
