@@ -330,8 +330,6 @@
 
         if(id!=null&&id!='')
         {
-
-
             if($('.jstree-last').trigger('click'))
             {
                 var SelID="#"+id;
@@ -342,17 +340,6 @@
                 $(SelID).css("color", "green");
                 $("#treeDemo ul > li ").removeClass("jstree-closed").addClass("jstree-expaned");
             }
-            //  else
-            // {
-            //$('#treeDemo>ul>li>i').each(function(i, obj) {
-
-            //    $(this).trigger('click');
-
-            //});
-            // $(SelID).css("color", "green");
-            // }
-
-
         }
     }
 
@@ -432,9 +419,10 @@
     });
 
     $('#uploadfiesss').click(function(){
-        
+        $("#selectedFiles").css("display", "block");
 
         $('#FilesUploader').click();
+
         return false;
     });
     function GoToDownload(ImgUrl)
@@ -612,10 +600,8 @@
                 CountriesDD.html('');
                 CountriesDD.append($('<option></option>').val(0).html('Set as parent'));
                 $.each(response.Folders, function (id, option) {
-
                     CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
                 });
-
             }
         });
     }
@@ -665,14 +651,15 @@
 
     function SetSelectedFolder(FolderID,flag)
     {
+        var CountriesDD = $("#folderDropDown");
+        CountriesDD.html('');
         $.ajax({
             type: "GET",
             url: "/ManageAssets/GetFolders",
             contentType: "application/json",
             async: true,
             success: function (response) {
-                var CountriesDD = $("#folderDropDown");
-                CountriesDD.html('');
+               
                 if(flag)
                 {
                     CountriesDD.append($('<option></option>').val(0).html('Set as parent'));
@@ -681,13 +668,12 @@
 
                     CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
                 });
+
                 if(flag)
                 {
-                    
-                    SetSelectedFolderrr(response.Folders,FolderID,0);
+                    SetSelectedFolderrr(response.Folders,FolderID,1);
                 }
                 else{
-
                     SetSelectedFolderrr(response.Folders,FolderID,0);
                 }
             }
@@ -775,6 +761,10 @@
         $("#SaveAsset").css("display", "none");
         $("#imgloader").val("Upload Folder Image");
         
+        $("#uploadfiesss").css("display", "none");
+
+
+
         $("#selectedFiles").html('');
         $("#Qty").css("display", "none");
         $("#price").css("display", "none");
@@ -1131,7 +1121,7 @@
             async: true,
             //data:Data,
             success: function (response) {
-                SetSelectedFolder(response.FolderId,true);
+                SetSelectedFolder(response.ParentFolderId,true);
                 $('#AddFoldImg').attr("src",response.ImagePath);
                 $("#ImageUploader").val('');
                 //  $("#folderDropDown").val();
@@ -1170,13 +1160,14 @@
         });
     }
     function SetSelectedFolderrr(obj, FolderId,Index) {
-
+       
         var index = Index;
 
+        
         $.each(obj, function (id, option) {
 
             if (option.FolderId==FolderId) {
-
+                
                 $("#folderDropDown")[0].selectedIndex = index;
             }
             index++;
