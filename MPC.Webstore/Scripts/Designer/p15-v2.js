@@ -106,19 +106,6 @@ function fu04_1GetItem(DT)
     
     $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID + "/" + organisationId,
          function (result) {
-            
-             //if (result.ZoomFactor > 1)
-             //{
-             //    var zf = parseInt(result.ZoomFactor);
-             //    for(var i = 1; i<zf;i++)
-             //    {
-             //        D1CS = D1CS * D1SF;
-             //        dfZ1l = D1CS;
-             //    }
-             //}
-
-             
-             //update dimestions 
              var w = DT.PDFTemplateWidth;
              var h = DT.PDFTemplateHeight;
              h = h / 96 * 72;
@@ -129,18 +116,11 @@ function fu04_1GetItem(DT)
              h = h.toFixed(3);
              h = h - 10;
              w = w - 10;
-             //if (result.ScaleFactor != null && result.ScaleFactor != 0) {
-             //    w = w * result.ScaleFactor;
-             //    h = h * result.ScaleFactor;
-             //}
              var res = result.TemplateDimensionConvertionRatio.split("__");
              w = w * res[0];
              h = h * res[0];
-             //alert();
-             //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
              $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " " + res[1]);
              productDimensionUpdated = true;
-           //
              item = result;
              if (IsCalledFrom != 2) {
                  if (result.IsTemplateDesignMode == 3) {

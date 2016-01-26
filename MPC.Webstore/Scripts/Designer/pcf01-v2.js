@@ -279,6 +279,7 @@ function c0(cCanvas, TOC) {
     TOL.IsPositionLocked = TOC.IsPositionLocked;
     TOL.autoCollapseText = TOC.autoCollapseText;
     TOL.IsOverlayObject = TOC.IsOverlayObject;
+    TOL.AutofitImage = TOC.AutofitImage;
     TOL.IsHidden = TOC.IsHidden;
     TOL.IsEditable = TOC.IsEditable;
     TOL.IsTextEditable = TOC.IsTextEditable;
@@ -446,6 +447,7 @@ function c2_01(OPT) {
             IT.IsPositionLocked = OPT.IsPositionLocked;
             IT.autoCollapseText = OPT.autoCollapseText;
             IT.IsOverlayObject = OPT.IsOverlayObject;
+            IT.AutofitImage = OPT.AutofitImage;
             IT.IsTextEditable = OPT.IsTextEditable;
             IT.AutoShrinkText = OPT.AutoShrinkText;
             IT.isBulletPoint = OPT.isBulletPoint
@@ -544,6 +546,7 @@ function c8(cCanvas, CO) {
     COL.IsPositionLocked = CO.IsPositionLocked;
     COL.autoCollapseText = CO.autoCollapseText;
     COL.IsOverlayObject = CO.IsOverlayObject;
+    COL.AutofitImage = CO.AutofitImage;
     COL.IsTextEditable = CO.IsTextEditable;
     COL.AutoShrinkText = CO.AutoShrinkText;
     COL.isBulletPoint = CO.isBulletPoint;
@@ -594,6 +597,7 @@ function c9(cCanvas, RO) {
     ROL.IsPositionLocked = RO.IsPositionLocked;
     ROL.autoCollapseText = RO.autoCollapseText;
     ROL.IsOverlayObject = RO.IsOverlayObject;
+    ROL.AutofitImage = RO.AutofitImage;
     ROL.IsTextEditable = RO.IsTextEditable;
     ROL.AutoShrinkText = RO.AutoShrinkText;
     ROL.isBulletPoint = RO.isBulletPoint;
@@ -645,6 +649,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
         loadedObject.autoCollapseText = IO.autoCollapseText;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
+        loadedObject.AutofitImage = IO.AutofitImage;
         loadedObject.C = IO.ColorC;
         loadedObject.M = IO.ColorM;
         loadedObject.Y = IO.ColorY;
@@ -755,6 +760,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
         loadedObject.autoCollapseText = IO.autoCollapseText;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
+        loadedObject.AutofitImage = IO.AutofitImage;
         loadedObject.IsHidden = IO.IsHidden;
         loadedObject.C = IO.ColorC;
         loadedObject.M = IO.ColorM;
@@ -916,6 +922,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.IsPositionLocked = IO.IsPositionLocked;
         IOL.autoCollapseText = IO.autoCollapseText;
         IOL.IsOverlayObject = IO.IsOverlayObject;
+        IOL.AutofitImage = IO.AutofitImage;
         IOL.IsHidden = IO.IsHidden;
         IOL.IsEditable = IO.IsEditable;
         IOL.IsTextEditable = IO.IsTextEditable;
@@ -2844,6 +2851,8 @@ function togglePage(pId) {
                         var path = imgName;
                         j8(path);
                     }
+
+                    $(".collapseDesignerMenu").click();
                 }
             }
         } else {
@@ -4301,6 +4310,7 @@ function togglePage(pId) {
             IOL.IsPositionLocked = IO.IsPositionLocked;
             IOL.autoCollapseText = IO.autoCollapseText;
             IOL.IsOverlayObject = IO.IsOverlayObject;
+            IOL.AutofitImage = IO.AutofitImage;
             IOL.IsTextEditable = IO.IsTextEditable;
             IOL.AutoShrinkText = IO.AutoShrinkText;
             IOL.isBulletPoint = IO.isBulletPoint;

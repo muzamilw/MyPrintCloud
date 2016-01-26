@@ -122,6 +122,7 @@ namespace MPC.Implementation.WebStoreServices
             oTempItem.ColorHex = oColorConv.getColorHex(0, 100, 100, 20);
             oTempItem.originalContentString = oTempItem.ContentString;
             oTempItem.isBulletPoint = false;
+            oTempItem.AutofitImage = true;
             list.Insert(0, oTempItem);
             return list;
         }

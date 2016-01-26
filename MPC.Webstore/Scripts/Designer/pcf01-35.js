@@ -1614,6 +1614,12 @@ function g2_22(mode) {
     } else {
         $("#LockPositionImg").prop('checked', false);
     }
+    if (D1AO.AutofitImage == false) {
+        $("#chkboxAutoFitImage").prop('checked', false);
+    } else {
+        $("#chkboxAutoFitImage").prop('checked', true);
+    }
+    $(".imgAutofitBox").css("display", "none");
     if (mode == 1) {
       //  if ((IsEmbedded && D1AO.IsTextEditable && (IsCalledFrom == 4))) {
       //  } else {
@@ -1635,7 +1641,8 @@ function g2_22(mode) {
             }
             $(".svgColorPanel").css("display", "none"); $(".opacityPanel").css("display", "block");
             $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
-
+            if (IsCalledFrom == 2)
+                $(".imgAutofitBox").css("display", "block");
         // }
           
     } else if (mode == 3) {

@@ -1127,7 +1127,7 @@ div#spinner {
   max-height: 580px;
   overflow-y: auto;
   list-style: none;
-  min-height: 374px;
+  min-height: 580px;
 }
 #itemJobStatusBinding .itemFooterHighlight {
   min-height: 8px;
