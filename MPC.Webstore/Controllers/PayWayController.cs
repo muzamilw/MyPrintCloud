@@ -163,7 +163,8 @@ namespace MPC.Webstore.Controllers
                             // We recommend that you store each transaction request in your database and
                             // that the order number is the primary key for the transaction record in that
                             // database.
-                            string orderNumber = CustomerOrder.Order_Code + "_" + DateTime.Now;
+
+                            string orderNumber = CustomerOrder.Order_Code + "_" + DateTime.Now.Day + DateTime.Now.Minute + DateTime.Now.Second;
                             string cardExpYear = model.SelectedYear.Substring(2, model.SelectedYear.Length - 2);
                             //----------------------------------------------------------------------------
                             //INITIALISE CONNECTION VARIABLES

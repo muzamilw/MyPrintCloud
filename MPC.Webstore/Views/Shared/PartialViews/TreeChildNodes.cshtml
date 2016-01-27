@@ -3,7 +3,7 @@
 @model IEnumerable <MPC.Models.Common.TreeViewNodeVM>
 @foreach(var treeNode in Model)
 {
-    <ul>
+    <ul class="parentUl">
         @if (treeNode != null)
         {
             var RedirectUrl="/ManageAssets/"+treeNode.FolderId;
