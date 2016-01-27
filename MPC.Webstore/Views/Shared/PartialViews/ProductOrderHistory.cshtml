@@ -622,44 +622,66 @@
                 var otherAttachmentLink = "";
                 $.each(GridItems, function (i, IT) {
                     {
-                        if(IT.OtherItemAttatchments != null){
+                        var filePathOfAttachment = "";
+                        if(IT.ProductType == 1){
+                            if(IT.OtherItemTemplateAttatchments != null){
 
-                            if(IT.OtherItemAttatchments.length > 1){
+                                if(IT.OtherItemTemplateAttatchments.length > 1){
 
-                                $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
+                                    $(IT.OtherItemTemplateAttatchments).each(function(i, otherAttachVal) {
 
-                                    if(otherAttachVal.FileName == IT.Attatchment._fileName){
-                                    }else{
-                                        var OtherAttachFileName = otherAttachVal.FileName;
-                                        while (OtherAttachFileName.indexOf(" ") > 0)
-                                        {
-                                            OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                        filePathOfAttachment = otherAttachVal.FilePath;
+                                          
+                                           var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                        
+
+                                    });
+                                }
+                            }
+                          
+
+                        }else{
+                            if(IT.OtherItemAttatchments != null){
+
+                                if(IT.OtherItemAttatchments.length > 1){
+
+                                    $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
+
+                                        if(otherAttachVal.FileName == IT.Attatchment._fileName){
+                                        }else{
+                                            var OtherAttachFileName = otherAttachVal.FileName;
+                                            while (OtherAttachFileName.indexOf(" ") > 0)
+                                            {
+                                                OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                            }
+
+                                            var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
                                         }
 
-                                        var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
-                                        otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
-                                    }
-
-                                });
+                                    });
+                                }
                             }
-                        }
+                          
+                            var AttachFileName = IT.Attatchment._fileName;
 
-
-
-
-                        var AttachFileName = IT.Attatchment._fileName;
-
-                        if(AttachFileName != "" && AttachFileName != null){
-                            while (AttachFileName.indexOf(" ") > 0)
-                            {
-                                AttachFileName = AttachFileName.replace(" ", "%20");
+                            if(AttachFileName != "" && AttachFileName != null){
+                                while (AttachFileName.indexOf(" ") > 0)
+                                {
+                                    AttachFileName = AttachFileName.replace(" ", "%20");
+                                }
                             }
-                        }
-                        var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
+                            filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
 
+                       
+                        }
+                        
+
+
+                        
                         var proFriendlyName = "";
-                        console.log("IT:" );
-                        console.log(IT);
+                      
                         if(IT.ProductFriendlyName != "" && IT.ProductFriendlyName != null){
                             proFriendlyName = IT.ProductFriendlyName;
                         }else{

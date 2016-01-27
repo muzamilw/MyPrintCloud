@@ -309,7 +309,6 @@
     function SetTreeState(id)
     {
 
-
         if(id!=null&&id!='')
         {
 
@@ -325,18 +324,22 @@
                 console.log($(SelID).parent());
                 if($(SelID).parent().hasClass('jstree-leaf')){
                     $(SelID).parent().removeClass("jstree-closed").addClass("jstree-expaned");
+                    $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
                 }else{
                     $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
                 }
-                var parent = $(SelID).parent();   
-                var parentNotFound = true;
-                while(parentNotFound) {
+
+                if(id > 0){
+                    var parent = $(SelID).parent();   
+                    var parentNotFound = true;
+                    while(parentNotFound) {
                  
-                    if(parent.attr("id") == "treeDemo") 
-                        parentNotFound = false;
-                    if(parent.hasClass("jstree-last"))
-                        parent.removeClass("jstree-closed").addClass("jstree-expaned").addClass("jstree-open");
-                    parent = parent.parent();
+                        if(parent.attr("id") == "treeDemo") 
+                            parentNotFound = false;
+                        if(parent.hasClass("jstree-last"))
+                            parent.removeClass("jstree-closed").addClass("jstree-expaned").addClass("jstree-open");
+                        parent = parent.parent();
+                    }
                 }
             }
 
