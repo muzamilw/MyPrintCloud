@@ -200,7 +200,7 @@ namespace MPC.Implementation.MISServices
                     //companyContactRepository.LoadProperty(contactToReturn, () => contactToReturn.Company);
                     // post data to mail chimp
                     if (contact != null)
-                        PostDataToMailChimp(contact.ContactId);
+                        PostDataToMailChimp(contact);
                     return contact;
                 }
                 contact = Update(companyContact);
@@ -1321,10 +1321,10 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public bool PostDataToMailChimp(long ContactId, long organisationId = 0)
+        public void PostDataToMailChimp(CompanyContact Contact, long organisationId = 0)
         {
             Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
-            CompanyContact contact = companyContactRepository.GetContactByID(ContactId);
+            //CompanyContact contact = companyContactRepository.GetContactByID(ContactId);
             if (org != null && org.isMailChimpActive == true)
             {
                 string apiKey = org.MailChimpApikey;   // Replace it before
@@ -1332,20 +1332,17 @@ namespace MPC.Implementation.MISServices
                 // testing
                 var mcApi = new MCApi(apiKey, true);
                 var merges = new List.Merges();
-                merges.Add("FNAME", contact.FirstName);
-                merges.Add("LNAME", contact.LastName);
+                merges.Add("FNAME", Contact.FirstName);
+                merges.Add("LNAME", Contact.LastName);
 
                 var subscriptionOptions = new List.SubscribeOptions();
                 subscriptionOptions.UpdateExisting = true;
                 subscriptionOptions.DoubleOptIn = false;
                 subscriptionOptions.SendWelcome = true;
-                return mcApi.ListSubscribe(listId, contact.Email, merges, subscriptionOptions);
+                mcApi.ListSubscribe(listId, Contact.Email, merges, subscriptionOptions);
               
             }
-            else
-            {
-                return false;
-            }
+            
            
         }
 

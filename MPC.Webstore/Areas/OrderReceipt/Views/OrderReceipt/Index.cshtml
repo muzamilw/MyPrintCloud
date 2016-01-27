@@ -296,7 +296,11 @@
             border-bottom: 2px solid #f3f3f3;" align="top">
                                 <td align="left" style="width:34%; border-left: 0px;
                 border-right: 0px;" valign="top">
-                                    @if (item.Attatchment != null)
+                                    @if (item.ProductType == (int)ProductType.AssetProduct)
+                                    {
+                                        ImageSource = "/" + item.ThumbnailPath;
+                                    }
+                                    else if (item.Attatchment != null)
                                     {
                                         if (!string.IsNullOrWhiteSpace(item.Attatchment.FileName))
                                         {
@@ -370,9 +374,13 @@
                                                 @item.ProductName
                                             }
                                         </span><br>
-                                        <div class="">
-                                            <span style="font-size:12px;font-family:'Open Sans Condensed', sans-serif;">Stock: @item.PaperType</span>
-                                        </div>
+                                        @if (item.PaperType != null && item.PaperType != string.Empty)
+                                        {
+                                            <div class="">
+                                                <span style="font-size:12px;font-family:'Open Sans Condensed', sans-serif;">Stock: @item.PaperType</span>
+                                            </div>
+                                        }
+                                     
                                         <div class=" spacer5pxbottom">
                                             <span style="font-size:12px;font-family:'Open Sans Condensed', sans-serif;">@Html.Raw(item.ProductWebDescription)</span>
                                         </div>

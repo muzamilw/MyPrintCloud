@@ -696,14 +696,15 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           _companyService.UpdateAsset(Asset);
       }
        [HttpPost]
-      public void UpdateFolder(string FolderName, string Description,long FolderId)
+      public void UpdateFolder(string FolderName, string Description,long FolderId,long ParentFolderId)
       { 
           var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
           Folder NewFolder = new Folder();
           NewFolder.FolderName = FolderName;
           NewFolder.Description = Description;
           NewFolder.FolderId = FolderId;
-         // NewFolder.ParentFolderId = ParentFolderId;
+          NewFolder.ParentFolderId = ParentFolderId;
+
           if (httpPostedFile != null)
           {
               NewFolder.ImagePath = UpdateFolderImage(httpPostedFile, FolderId, true);

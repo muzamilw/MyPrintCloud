@@ -4050,8 +4050,9 @@ namespace MPC.Implementation.MISServices
             //List<tbl_section_inkcoverage> oSectionAllInks = ObjectContext.tbl_section_inkcoverage.Where(i => i.SectionID == oItemSection.ItemSectionID).ToList();
             List<SectionInkCoverage> oSectionUniqueInks;
             double InkPercentage = 0;
+            int iSide = isSide2 ? 2 : 1;
 
-            oSectionUniqueInks = oSectionAllInks.GroupBy(a => a.InkId).Select(b => b.First()).Where(i => i.Side == (isSide2 ? 2 : 1)) .ToList();
+            oSectionUniqueInks = oSectionAllInks.Where(i => i.Side == iSide).GroupBy(a => a.InkId).Select(b => b.First()).ToList();
 
             CostCentre oInksCostcentreDTO = itemsectionRepository.GetCostCenterBySystemType((int)SystemCostCenterTypes.Ink);
             Machine Press = itemsectionRepository.GetPressById(Convert.ToInt32(oItemSection.PressId));
@@ -4106,12 +4107,12 @@ namespace MPC.Implementation.MISServices
                 {
                     if (icounter.Side == 1)
                     {
-                        strSide1Description += oInkDTO.ItemName + " " + Convert.ToInt32(icounter.CoverageRate) + "% ," + Environment.NewLine;
+                        strSide1Description += oInkDTO.ItemName + " " + Convert.ToInt32(icounter.CoverageRate) + "% ,";
                         Side1InkCounter += 1;
                     }
                     else
                     {
-                        strSide2Description += oInkDTO.ItemName + " " + Convert.ToInt32(icounter.CoverageRate) + "% ," + Environment.NewLine;
+                        strSide2Description += oInkDTO.ItemName + " " + Convert.ToInt32(icounter.CoverageRate) + "% ,";
                         Side2InkCounter += 1;
                     }
                 }
@@ -4239,7 +4240,7 @@ namespace MPC.Implementation.MISServices
 
 
                     //dblTotalPrice[2] = dblTotalPrice[2] + (dblInkPrice * dblQty[2] + dblDuctPrice);
-                    dblTotalPrice[2] = dblTotalPrice[2] + (NoofSheetsQty1 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
+                    dblTotalPrice[2] = dblTotalPrice[2] + (NoofSheetsQty3 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
                     if (dblTotalPrice[2] < dblMinCharge)
                     {
                         dblTotalPrice[2] = dblMinCharge;
@@ -4282,8 +4283,7 @@ namespace MPC.Implementation.MISServices
 
                 if (oJobCardOptionsDTO.IsDefaultInkColorUsed == true)
                 {
-                   InksDescription = InksDescription + Environment.NewLine + "Sheet Quantity : " + NoofSheetsQty1;
-                    oItemSectionCostCentre.Qty1WorkInstructions = InksDescription;
+                   oItemSectionCostCentre.Qty1WorkInstructions = InksDescription + Environment.NewLine + "Sheet Quantity : " + NoofSheetsQty1;
                 }
             }
             if (oItemSection.Qty2 > 0)

@@ -131,7 +131,7 @@ namespace MPC.Repository.Repositories
             Folder model = db.Folders.Where(i => i.FolderId == Ufolder.FolderId).FirstOrDefault();
             model.FolderName = Ufolder.FolderName;
             model.Description =Ufolder.Description;
-            model.FolderId = Ufolder.FolderId;
+            model.ParentFolderId = Ufolder.ParentFolderId;
            // model.ParentFolderId = Ufolder.ParentFolderId;
             if (Ufolder.ImagePath != null && Ufolder.ImagePath != string.Empty)
             {
