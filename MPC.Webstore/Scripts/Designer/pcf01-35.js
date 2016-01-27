@@ -1641,8 +1641,8 @@ function g2_22(mode) {
             }
             $(".svgColorPanel").css("display", "none"); $(".opacityPanel").css("display", "block");
             $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
-        //    if (IsCalledFrom == 2)
-               // $(".imgAutofitBox").css("display", "block");
+            if (IsCalledFrom == 2)
+                $(".imgAutofitBox").css("display", "block");
         // }
           
     } else if (mode == 3) {
