@@ -1403,6 +1403,8 @@ define("order/order.viewModel",
                         if (isNaN(view.orderstate()) || view.orderstate() === 0) {
                             selectedOrder().statusId(4); // Pending orders
                         }
+                        if (selectedOrder().statusId() == 5)
+                            selectedOrder().statusId(4);
                         // If Estimate Screen then set IsEstimate = true
                         if (!selectedOrder().id() && isEstimateScreen()) {
                             selectedOrder().isEstimate(true);
@@ -3075,6 +3077,7 @@ define("order/order.viewModel",
                             estimateToBeProgressed().statusId(4); // Confirmed Starts orders
                             
                         }
+                        estimateToBeProgressed().statusId(4);
                         var order = estimateToBeProgressed().convertToServerData();
                         if (multipleQtyItems().length > 0) {
                             ko.utils.arrayPushAll(estimateToBeProgressed().items(), multipleQtyItems());
