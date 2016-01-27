@@ -190,7 +190,12 @@
                                                             @{
                                                 string pdfLinkBtn = string.Empty;
                                                 string imgToShowURL = string.Empty;
-                                                if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
+                                                if (prod.ProductType == (int)ProductType.AssetProduct)
+                                                {
+                                                    pdfLinkBtn = "/" + prod.ThumbnailPath;
+                                                    imgToShowURL = "/" + prod.ThumbnailPath;
+                                                }
+                                                else if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
                                                 {
                                                     string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
                                                     if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
@@ -246,8 +251,11 @@
                                                             }
                                                         </span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
                                                         <br>
-                                                        <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
-                                                        <br>
+                                                        @if (!string.IsNullOrEmpty(prod.ProductCategoryName))
+                                                        {
+                                                            <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
+                                                            <br>
+                                                        }
                                                         <br>
                                                         <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
                                                         <br>

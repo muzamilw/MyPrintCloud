@@ -240,7 +240,11 @@
                                 //DeliveryTaxValue += DeliveryTaxValue + item.
                                 <tr class="gridViewWithoutHeaderRowStyle" align="top">
                                     <td align="left" style="width:34%;" valign="top">
-                                        @if (item.Attatchment != null)
+                                        @if (item.ProductType == (int)ProductType.AssetProduct)
+                                        {
+                                            ImageSource = "/" + item.ThumbnailPath;
+                                        }
+                                        else if (item.Attatchment != null)
                                         {
                                             if (!string.IsNullOrWhiteSpace(item.Attatchment.FileName))
                                             {
