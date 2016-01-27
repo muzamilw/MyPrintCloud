@@ -22,7 +22,7 @@
                     
                 </div>
                 <div data-bind="with: selectedInvoice" style="text-align:right; padding-right:19px;margin-bottom:10px;">
-                   
+                    <button class="btn btn-primary" style="margin-top:-10px;" id="btnPost" data-bind="visible:invoiceStatus()===19,click: $root.onPostInvoice">Save</button>
                     <button class="btn btn-primary" style="margin-top:-10px;" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" style="margin-top:-10px;" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>

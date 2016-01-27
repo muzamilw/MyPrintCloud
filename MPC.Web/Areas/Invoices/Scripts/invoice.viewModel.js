@@ -288,6 +288,10 @@ define("invoice/invoice.viewModel",
                     isDetailsVisible(false);
                     errorList.removeAll();
                 },
+                    //Post Invoice
+                    onPostInvoice = function() {
+                        
+                    },
                 // On Archive
                 onArchiveInvoice = function () {
                     confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
@@ -1387,7 +1391,8 @@ define("invoice/invoice.viewModel",
                     onAddFinishedGoods: onAddFinishedGoods,
                     onDeleteShippingItem: onDeleteShippingItem,
                     getInvoices: getInvoices,
-                    onArchiveInvoice: onArchiveInvoice
+                    onArchiveInvoice: onArchiveInvoice,
+                    onPostInvoice: onPostInvoice
                     //#endregion
                 };
             })()
