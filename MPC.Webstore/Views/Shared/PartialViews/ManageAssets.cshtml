@@ -295,7 +295,6 @@
         });
         SetTreeState(SelectedTreeID);
 
-
     });
 
     function No()
@@ -330,7 +329,6 @@
 
         if(id!=null&&id!='')
         {
-
             if($('.jstree-last').trigger('click'))
             {
                 var SelID="#"+id;
@@ -339,10 +337,8 @@
                 else
                     $(SelID).parent().parent().children("i").trigger('click');
                 $(SelID).css("color", "green");
-              
                 $(SelID).parent().removeClass("jstree-closed").addClass("jstree-expaned");
             }
-
         }
     }
 
