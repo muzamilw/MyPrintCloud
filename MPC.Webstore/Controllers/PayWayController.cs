@@ -163,7 +163,8 @@ namespace MPC.Webstore.Controllers
                             // We recommend that you store each transaction request in your database and
                             // that the order number is the primary key for the transaction record in that
                             // database.
-                            string orderNumber = CustomerOrder.Order_Code;
+
+                            string orderNumber = CustomerOrder.Order_Code + "_" + DateTime.Now.Day + DateTime.Now.Minute + DateTime.Now.Second;
                             string cardExpYear = model.SelectedYear.Substring(2, model.SelectedYear.Length - 2);
                             //----------------------------------------------------------------------------
                             //INITIALISE CONNECTION VARIABLES
@@ -429,11 +430,11 @@ namespace MPC.Webstore.Controllers
                 value = 2,
                 Text = "Master"
             });
-            sourceOfType.Add(new DropdownCardType
-            {
-                value = 3,
-                Text = "Diners"
-            });
+            //sourceOfType.Add(new DropdownCardType
+            //{
+            //    value = 3,
+            //    Text = "Diners"
+            //});
             sourceOfType.Add(new DropdownCardType
             {
                 value = 4,
