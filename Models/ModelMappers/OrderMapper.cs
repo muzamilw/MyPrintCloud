@@ -310,7 +310,7 @@ namespace MPC.Models.ModelMappers
             // If Order is in Production then assign Job Codes to Items
             bool assignJobCodes = target.StatusId == (short)OrderStatus.InProduction;
             if (target.StatusId == (short) OrderStatus.Completed_NotShipped)
-                sourceItem.StatusId = (short)ItemStatuses.ReadyForShipping;
+                sourceItem.StatusId = (short)ItemStatuses.ShippedInvoiced;
             else if (target.StatusId == (short)OrderStatus.Invoice)
                 sourceItem.StatusId = (short)ItemStatuses.ShippedInvoiced;
             if (target.StatusId == (short)OrderStatus.InProduction && (sourceItem.StatusId == (short)ItemStatuses.ShippedInvoiced || sourceItem.StatusId == (short)ItemStatuses.ReadyForShipping))

@@ -788,7 +788,7 @@ namespace MPC.Implementation.MISServices
             {
                 itemTarget.FlagID = 0;
             }
-           
+            itemTarget.ReportSignedBy = order.ReportSignedBy;
             order.AddInvoice(itemTarget);
         }
 
@@ -1110,6 +1110,7 @@ namespace MPC.Implementation.MISServices
 
             target = UpdateEstimeteOnCloning(est_Source, target, source);
             target.RefEstimateId = source.EstimateId;
+            target.OrderReportSignedBy = source.ReportSignedBy;
 
             estimateRepository.SaveChanges();
 

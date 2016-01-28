@@ -4547,7 +4547,7 @@ namespace MPC.Repository.Repositories
         {
             return
                 DbSet.Where(
-                    est => est.OrganisationId == OrganisationId && (est.StatusId == (int)OrderStatus.InProduction || est.StatusId == (int)OrderStatus.Completed_NotShipped || est.StatusId == (int)OrderStatus.Invoice))
+                    est => est.OrganisationId == OrganisationId && (est.StatusId == (int)OrderStatus.InProduction || est.StatusId == (int)OrderStatus.Completed_NotShipped))
                     .ToList();
         }
 
