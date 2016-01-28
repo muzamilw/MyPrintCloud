@@ -318,7 +318,7 @@ namespace MPC.Repository.Repositories
             {
 
                 //1. Get All Items and Its Attament in a Singe Instant
-                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, out childrenRecordsAllProductItemAddons);
+                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, Convert.ToInt64(tblEstimate.OrganisationId), out childrenRecordsAllProductItemAddons);
 
                 //2. Get All Addons Used in that Items
                 shopCart.ItemsSelectedAddonsList = childrenRecordsAllProductItemAddons;
@@ -373,7 +373,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 //1. Get All Items and Its Attament in a Singe Instant
-                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, out childrenRecordsAllProductItemAddons);
+                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, Convert.ToInt64(tblEstimate.OrganisationId), out childrenRecordsAllProductItemAddons);
 
                 //3. Extract company address if any
                 shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
@@ -402,7 +402,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        private List<ProductItem> ExtractItemsAndAttatchments(List<Item> orderItemsList, out  List<AddOnCostsCenter> childrenRecordsAllProductItemAddons)
+        private List<ProductItem> ExtractItemsAndAttatchments(List<Item> orderItemsList, long OrganisationId, out  List<AddOnCostsCenter> childrenRecordsAllProductItemAddons)
         {
             List<ProductItem> productItemsList = new List<ProductItem>();
             List<AddOnCostsCenter> allItemsAddOnsList = new List<AddOnCostsCenter>();
@@ -443,6 +443,15 @@ namespace MPC.Repository.Repositories
                             {
                                 prodItem.OtherItemAttatchments = null;
                             }
+
+                            if (item.ProductType == (int)ProductType.PrintProduct)
+                            {
+                                prodItem.OtherItemTemplateAttatchments = GetTemplatePagesWithURL(Convert.ToInt64(item.TemplateId), OrganisationId);
+                            }
+                            else 
+                            {
+                                prodItem.OtherItemTemplateAttatchments = null;
+                            }
                             productItemsList.Add(prodItem);
                             allItemsAddOnsList.AddRange(this.ExtractAdditionalAddons(item)); //Collects the addons for each item
 
@@ -453,6 +462,33 @@ namespace MPC.Repository.Repositories
             childrenRecordsAllProductItemAddons = allItemsAddOnsList;
             return productItemsList;
         }
+
+        private List<ItemTemplatePage> GetTemplatePagesWithURL(long TemplateId, long OrganisationId) 
+        {
+            if (TemplateId > 0)
+            {
+                var query = from tmp in db.TemplatePages
+                            where tmp.ProductId == TemplateId
+                            select new ItemTemplatePage()
+                            {
+                                FilePath = "/mpc_content/Designer/Organisation" + OrganisationId + "/Templates/" + TemplateId + "/",
+                                PageId = tmp.ProductPageId
+                            };
+                List<ItemTemplatePage> temPages = query.ToList<ItemTemplatePage>();
+                int count = 1;
+                foreach (ItemTemplatePage itm in temPages)
+                {
+                    itm.FilePath = itm.FilePath + "p" + count + ".jpg";
+                    count++;
+                }
+                return temPages;
+            }
+            else 
+            {
+                return null;
+            }
+        }
+
         public ProductItem CreateProductItem(Item tblItem, string PaperName)
         {
             short StatusID = 0;

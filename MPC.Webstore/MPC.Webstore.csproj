@@ -730,6 +730,7 @@
     <Content Include="Content\Images\icoJPG.png" />
     <Content Include="Content\Images\icoPNG.png" />
     <Content Include="Content\Images\id.gif" />
+    <Content Include="Content\Images\imgPlc.png" />
     <Content Include="Content\Images\IND.png" />
     <Content Include="Content\Images\linkedin.png" />
     <Content Include="Content\Images\LinkedInNew.png" />
