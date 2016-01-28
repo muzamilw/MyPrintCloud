@@ -2867,7 +2867,7 @@ function togglePage(pId) {
                         j8(path);
                     }
 
-                    $(".collapseDesignerMenu").click();
+                   // $(".collapseDesignerMenu").click();
                 }
             }
         } else {
