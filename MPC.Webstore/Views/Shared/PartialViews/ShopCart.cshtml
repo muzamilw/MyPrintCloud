@@ -210,25 +210,11 @@
                                                     <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL" /></a>
                                                 </div>
                                                 <div class="BtnTemplateModifyContainer visible-xs hidden-sm">
-                                                    @if (prod.ProductType == (int)ProductType.PrintProduct)
+                                                    @if (prod.ProductType != (int)ProductType.AssetProduct)
                                                     {
-                                                        if (ViewBag.TypeFourItemStatus == false)
-                                                        {
-                                                            if (prod.ProductType != 4)
-                                                            {
-                                                                <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
-                                                            }
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (ViewBag.TypeFourItemStatus == false)
-                                                        {
-                                                            if (prod.ProductType != 4)
-                                                            {
-                                                                <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
-                                                            }
-                                                        }
+                                                        
+                                                      <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                          
                                                     }
                                                 </div>
                                             </td>
@@ -286,34 +272,9 @@
                                                 <br>
                                                 <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
                                                 <br />
-                                                @if (ViewBag.TypeFourItemStatus==false)
+                                                @if (prod.ProductType != (int)ProductType.AssetProduct)
                                                 {
-                                                   if(prod.ProductType!=4)
-                                                   {
                                                     <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
-                                                   }
-                                                }
-                                                <br />
-                                                <br />
-                                                @if (prod.ProductType == (int)ProductType.PrintProduct)
-                                                {
-                                                    if (ViewBag.TypeFourItemStatus==false)
-                                                    {
-                                                      if(prod.ProductType!=4)
-                                                      {
-                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
-                                                      }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    if (ViewBag.TypeFourItemStatus==false)
-                                                    {
-                                                      if(prod.ProductType!=4)
-                                                      {
-                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
-                                                      }
-                                                    }
                                                 }
                                             </td>
                                             <td class="PadTop5" align="left" style="width:5%;" valign="top">

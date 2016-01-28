@@ -144,7 +144,7 @@ namespace MPC.Webstore.Controllers
                 CPE.ApprovarID = (int)_myClaimHelper.loginContactID();
                 CPE.SystemUserId = EmailOFSM.SystemUserId;
 
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent(Event, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent(Event, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 _campaignService.emailBodyGenerator(RegistrationCampaign, CPE, userRec, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
             }

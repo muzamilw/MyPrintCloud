@@ -115,14 +115,15 @@ namespace MPC.Webstore.Controllers
         {
             string ItemTypeFourHtml = string.Empty;
             string URl = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority;
+            List<Item> GetAllItems = _ItemService.GetItemsByOrderID(OrderId);
+            GetAllItems = GetAllItems.Where(i => i.IsOrderedItem == true && i.ProductType == 4).ToList();
             CampaignEmailParams cep = new CampaignEmailParams();
-            if (_ItemService.typeFourItemsStatus(Convert.ToInt64(OrderId)) == true)
+            if (GetAllItems != null)
             {
                 cep.AssetId = 1;
-                List<Item> GetAllItems = _ItemService.GetItemsByOrderID(OrderId);
-                
+              
                 StringWriter stringWriter = new StringWriter();
-                
+
 
                 using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
                 {
@@ -142,49 +143,55 @@ namespace MPC.Webstore.Controllers
                     foreach (var item in GetAllItems)
                     {
 
-                        Asset Asset = _myCompanyService.GetAsset(Convert.ToInt64(item.RefItemId));
-                        List<AssetItem> AssetItems = _myCompanyService.GetAssetItemsByAssetID(Asset.AssetId);
+                        Asset ParentAsset = _myCompanyService.GetAsset(Convert.ToInt64(item.RefItemId));
 
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetNameDiv
-                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                        writer.Write(Asset.AssetName);
-                        writer.RenderEndTag();
-                        foreach (var AssetItem in AssetItems)
+                        if(ParentAsset != null)
                         {
-                            writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetDetailsDiv
+
+                            List<AssetItem> AssetItems = _myCompanyService.GetAssetItemsByAssetID(ParentAsset.AssetId);
+
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetNameDiv
                             writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                            writer.Write(ParentAsset.AssetName);
+                            writer.RenderEndTag();
+                            foreach (var AssetItem in AssetItems)
+                            {
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetDetailsDiv
+                                writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-                            writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetNameDiv
-                       
-                            writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetDownloadDiv
-                            writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetNameDiv
+
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetDownloadDiv
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
+                                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
+                                writer.AddAttribute(HtmlTextWriterAttribute.Href, URl + "/" + AssetItem.FileUrl);
+                                writer.RenderBeginTag(HtmlTextWriterTag.A);
+
+                                string[] Tokens = (AssetItem.FileUrl).Split('/');
+
+
+                                string[] TokenComma = Tokens[5].Split('.');
+
+
+                                writer.Write("Download " + TokenComma[1].ToUpper() + "");
+
+                                writer.RenderEndTag();
+
+                                writer.RenderEndTag();
+                            }
+                            writer.RenderBeginTag(HtmlTextWriterTag.Br);
+                            writer.RenderEndTag();//
+
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, clearboth);
                             writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                            writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
-                            writer.AddAttribute(HtmlTextWriterAttribute.Href,URl+"/"+AssetItem.FileUrl);
-                            writer.RenderBeginTag(HtmlTextWriterTag.A);
-
-                            string[] Tokens = (AssetItem.FileUrl).Split('/');
-                           
-
-                            string[] TokenComma = Tokens[5].Split('.');
-                            
-                            
-                            writer.Write("Download "+TokenComma[1].ToUpper()+"");
-                            
+                            //Clearoth
                             writer.RenderEndTag();
 
                             writer.RenderEndTag();
                         }
-                        writer.RenderBeginTag(HtmlTextWriterTag.Br);
-                        writer.RenderEndTag();//
 
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, clearboth);
-                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                        //Clearoth
-                        writer.RenderEndTag();
-
-                        writer.RenderEndTag();
 
                     }
                     writer.RenderEndTag();//AssetsDiv
@@ -193,7 +200,9 @@ namespace MPC.Webstore.Controllers
                 }
 
                 ItemTypeFourHtml = stringWriter.ToString();
+                ItemTypeFourHtml = "Please click on the links below to download your uploaded Asset(s) Item(s): <br />" + ItemTypeFourHtml;
             }
+            
             ShoppingCart shopCart = null;
          
             MyCompanyDomainBaseReponse baseResponse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
