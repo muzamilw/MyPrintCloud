@@ -55,6 +55,19 @@ namespace MPC.Webstore
                  name = ""
              });
 
+
+            routes.MapRoute(
+             "BubbleHeaderss"
+           , "BubbleHeader"
+           , new
+           {
+               controller = "Home",
+               action = "Index",
+               name = ""
+           });
+
+
+
              routes.MapRoute(
                 "UserManager"
               , "UserManager"

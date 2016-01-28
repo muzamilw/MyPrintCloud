@@ -219,14 +219,6 @@
                 <h2>Select your required filetype(s):</h2>
                 <button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
 
-                @*<button class="fileButtons"><img src="~/Content/Images/PS.png"></button>
-                        <button class="fileButtons"><img src="~/Content/images/AI.png"></button>
-                        <button class="fileButtons"><img src="~/Content/images/IND.png"></button>
-                        <button class="fileButtons"><img src="~/Content/images/PDF.png"></button>
-                    </div>
-                    <button class="basketButton"  value="Download" type="button">Download</button>
-                    <button class="basketButton" onclick="HideBasketWindow();" value="Close" type="button">Close</button>
-                    @*onclick="GoToDownload(ImgUrl)"*@
             </div>
             <div class="clearBoth">
 
@@ -307,16 +299,7 @@
     }
 
 
-    ////$("#AddtoBasket").click(function(){
-
-    ////    GOForCloneItem(GlobalImagePAth);
-
-
-    ////});
-    ////function GOForCloneItem(ImagePath)
-    ////{
-    ////    window.location.href = "/ManageAssets/CloneItemForManageAsset?AssetId=2222";
-    ////}
+  
     
     $("#DeleteFolder").click(function(){
         //  ConfirmPopUpForRemoveFolder();
@@ -325,20 +308,38 @@
     
     function SetTreeState(id)
     {
-
+        
 
         if(id!=null&&id!='')
         {
+            
             if($('.jstree-last').trigger('click'))
             {
                 var SelID="#"+id;
                 if($(SelID).parent().parent().parent().hasClass("jstree-last"))
+                {
                     $(SelID).parent().parent().parent().children("i").trigger('click');
+                    //debugger;
+                    //$('.jstree-ocl').each(function(i, obj) {
+
+                    //    $(this).trigger('click');
+
+                    //});
+                }
                 else
                     $(SelID).parent().parent().children("i").trigger('click');
+
                 $(SelID).css("color", "green");
-                $(SelID).parent().removeClass("jstree-closed").addClass("jstree-expaned");
-            }
+
+                console.log($(SelID).parent());
+                if($(SelID).parent().hasClass('jstree-leaf')){
+                    $(SelID).parent().removeClass("jstree-closed").addClass("jstree-expaned");
+                }else{
+
+                    $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
+                }
+             }
+
         }
     }
 
@@ -1089,7 +1090,7 @@
         $("#DeleteFolder").css("display", "block");
         clearTextboxes();
         UpdateStatusFolder=true;
-
+        $("#assetPopupBody").css("height", "inherit")
 
         //var Data = { folderId: FolderID };
         $.ajax({
