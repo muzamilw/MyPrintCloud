@@ -1403,6 +1403,8 @@ define("order/order.viewModel",
                         if (isNaN(view.orderstate()) || view.orderstate() === 0) {
                             selectedOrder().statusId(4); // Pending orders
                         }
+                        if (selectedOrder().statusId() == 5)
+                            selectedOrder().statusId(4);
                         // If Estimate Screen then set IsEstimate = true
                         if (!selectedOrder().id() && isEstimateScreen()) {
                             selectedOrder().isEstimate(true);
@@ -1422,6 +1424,9 @@ define("order/order.viewModel",
                                 });
 
                                 if (isOpenReport() == true) {
+                                    if (selectedOrder().id() == 0 || selectedOrder().id() == undefined) {
+                                        selectedOrder().id(data.EstimateId);
+                                    }
                                     if (isOpenReportEmail() == true) {
                                         if (selectedOrder().isEstimate() == true) {
                                             reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
@@ -1436,12 +1441,6 @@ define("order/order.viewModel",
 
                                         
                                         if (selectedOrder().isEstimate() == true) {
-
-                                            if (selectedOrder().id() == 0)
-                                            {
-                                                selectedOrder().id(data.EstimateId);
-
-                                            }
                                             reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
                                             // toastr.success("Saved Successfully.");
                                             getOrderById(selectedOrder().id());
@@ -1476,6 +1475,13 @@ define("order/order.viewModel",
                                         }
                                         // Add to top of list
                                         orders.splice(0, 0, selectedOrder());
+                                        var actTab = $("#orderTabs li.active");
+                                        if (actTab && actTab[0] && actTab[0].id !== "all-orders") {
+                                            $("#" + actTab[0].id).removeClass("active");
+                                            $("#" + actTab[0].id).removeClass("active");
+                                            $("#all-orders").addClass("active");
+                                            $("#tab-All").addClass("active");
+                                        }
                                     } else {
                                         // Get Order
                                         var orderUpdated = getOrderFromList(selectedOrder().id());
@@ -1795,6 +1801,7 @@ define("order/order.viewModel",
                      },
 
                     addItemFromRetailStore = function (newItem) {
+                        newItem.statusId(17); //Not Progressed to Job
                         selectedProduct(newItem);
                         selectedOrder().items.splice(0, 0, newItem);
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
@@ -1813,6 +1820,7 @@ define("order/order.viewModel",
                         itemDetailVm.applySectionCostCenterMarkup();
                     },
                     addItemFromFinishedGoods = function (newItem) {
+                        newItem.statusId(17); //Not Progressed to Job
                         selectedProduct(newItem);
                         selectedOrder().items.splice(0, 0, newItem);
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
@@ -2139,7 +2147,7 @@ define("order/order.viewModel",
                         newItem.productName("Blank Sheet");
                         newItem.qty1(0);
                         newItem.qty1GrossTotal(0);
-
+                        newItem.statusId(17); //Not Progressed to Job
                         var itemSection = itemModel.ItemSection.Create({});
                         counterForSection = counterForSection - 1;
                         itemSection.id(counterForSection);
@@ -3075,6 +3083,7 @@ define("order/order.viewModel",
                             estimateToBeProgressed().statusId(4); // Confirmed Starts orders
                             
                         }
+                        estimateToBeProgressed().statusId(4);
                         var order = estimateToBeProgressed().convertToServerData();
                         if (multipleQtyItems().length > 0) {
                             ko.utils.arrayPushAll(estimateToBeProgressed().items(), multipleQtyItems());

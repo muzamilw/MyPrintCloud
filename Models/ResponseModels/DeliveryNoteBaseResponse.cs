@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
@@ -24,6 +25,7 @@ namespace MPC.Models.ResponseModels
         /// Delivery Carriers
         /// </summary>
         public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
+        public Guid LoggedInUser { get; set; }
 
        
     }

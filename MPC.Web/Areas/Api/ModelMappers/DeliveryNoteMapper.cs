@@ -32,6 +32,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryCarriers = source.DeliveryCarriers != null ? source.DeliveryCarriers.Select(flag => flag.CreateFromDropDown()) : new List<DeliveryCarrier>(),
                 SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) :
                  new List<SystemUserDropDown>(),
+                 LoggedInUser = source.LoggedInUser
             };
         }
 

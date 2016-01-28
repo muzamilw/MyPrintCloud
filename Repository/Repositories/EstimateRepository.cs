@@ -100,7 +100,7 @@ namespace MPC.Repository.Repositories
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
                     ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
                     item.OrganisationId == OrganisationId &&
-                    (item.StatusId != (int)OrderStatus.ShoppingCart && item.StatusId != (int)OrderStatus.PendingCorporateApprovel));
+                    (item.StatusId != (int)OrderStatus.ShoppingCart && item.StatusId != (int)OrderStatus.PendingCorporateApprovel && item.StatusId != (int)OrderStatus.RejectOrder));
 
             IEnumerable<Estimate> items = DbSet.Where(query)
                    .OrderByDescending(orderByClause[OrderByColumn.OrderDate])

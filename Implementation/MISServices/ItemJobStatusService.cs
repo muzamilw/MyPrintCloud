@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ModelMappers;
 using MPC.Models.ResponseModels;
 
 
@@ -138,11 +140,27 @@ namespace MPC.Implementation.MISServices
         public void UpdateItem(ItemForItemJobStatus item)
         {
             Item itemDbVersion = itemRepository.Find(item.ItemId);
-            if (itemDbVersion != null)
+            Estimate dbEstimate = orderRepository.GetOrderByOrderID(Convert.ToInt64(itemDbVersion.EstimateId));
+            int invoicedItems =
+                dbEstimate.Items.Count(i => i.ItemType != 2 && i.JobStatusId == (int)ItemStatuses.ShippedInvoiced && i.ItemId != item.ItemId);
+
+            if ((dbEstimate.Items.Count(i => i.ItemType != 2) - 1) == invoicedItems && item.StatusId == (int) ItemStatuses.ShippedInvoiced)
             {
                 itemDbVersion.JobStatusId = item.StatusId;
+                itemDbVersion.StatusId = Convert.ToInt16(item.StatusId);
+                dbEstimate.StatusId = (int) OrderStatus.Completed_NotShipped;
                 itemRepository.SaveChanges();
             }
+            else
+            {
+                if (item.StatusId != (int)ItemStatuses.ShippedInvoiced && dbEstimate.StatusId == (int)OrderStatus.Completed_NotShipped)
+                    dbEstimate.StatusId = (int)OrderStatus.InProduction;
+                itemDbVersion.JobStatusId = item.StatusId;
+                itemDbVersion.StatusId = Convert.ToInt16(item.StatusId);
+                itemRepository.SaveChanges();
+            }
+
+            
         }
         #endregion
     }

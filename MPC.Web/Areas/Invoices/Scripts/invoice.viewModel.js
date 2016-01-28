@@ -288,6 +288,27 @@ define("invoice/invoice.viewModel",
                     isDetailsVisible(false);
                     errorList.removeAll();
                 },
+                    //Post Invoice
+                onPostInvoice = function () {
+                    
+                    if (!doBeforeSave()) {
+                        return;
+                    } else if (selectedInvoice().items().length <= 0) {
+                        toastr.error("Invoice without items cannot be posted.");
+                        return;
+                    }
+                    removeItemSectionWithAddFlagTrue();
+                    confirmation.messageText("Are you sure you want to post the invoice.");
+                    confirmation.afterProceed(function () {
+                        selectedInvoice().invoiceStatus(20); //Posted Invoice                              
+                        selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
+                        saveInvoice(closeInvoiceEditor);
+                    });
+                    confirmation.afterCancel(function () {
+                        //Do Nothing on Cancel
+                    });
+                    confirmation.show();
+                },
                 // On Archive
                 onArchiveInvoice = function () {
                     confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
@@ -1387,7 +1408,8 @@ define("invoice/invoice.viewModel",
                     onAddFinishedGoods: onAddFinishedGoods,
                     onDeleteShippingItem: onDeleteShippingItem,
                     getInvoices: getInvoices,
-                    onArchiveInvoice: onArchiveInvoice
+                    onArchiveInvoice: onArchiveInvoice,
+                    onPostInvoice: onPostInvoice
                     //#endregion
                 };
             })()
