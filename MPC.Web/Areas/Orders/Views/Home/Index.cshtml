@@ -53,15 +53,15 @@
         });
 
         $(document).ready(function() {
-            page = Request.QueryString("to").toString();
+            page = Request.QueryString("status").toString();
             if (page != null) {
-                if (page == 'prd') {
+                if (page == 'production') {
                     $("#pending-orders").removeClass("active");
                     $("#tab-PendingOrders").removeClass("active");
                     $("#in-production").addClass("active");
                     $("#tab-InProduction").addClass("active");
                 }
-                else if (page == 'com') {
+                else if (page == 'completed') {
                     $("#pending-orders").removeClass("active");
                     $("#tab-PendingOrders").removeClass("active");
                     $("#ready-shipping").addClass("active");

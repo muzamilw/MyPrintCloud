@@ -22,6 +22,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     sectionFlags = ko.observableArray([]),
                     // System Users
                     systemUsers = ko.observableArray([]),
+                    loggedInUser = ko.observable(),
                     // Delivery Carriers
                     deliveryCarriers = ko.observableArray([]),
                     // Errors List
@@ -149,7 +150,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                 var dNote = model.DeliveryNote.Create(data);
                                 selectedDeliveryNote(dNote);
                                 CarriarPhone(dNote.supplierTelNo());
-                                carrierFilter(dNote.supplierId())
+                                carrierFilter(dNote.supplierId());
                                 selectedDeliveryNote().companyName(data.CompanyName);
                                 // Get Base Data For Company
                                 if (data.CompanyId) {
@@ -214,10 +215,6 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     openExternalReportsDelivery = function () {
 
                         reportManager.outputTo("preview");
-
-
-
-                       
                         if (selectedDeliveryNote().hasChanges()) {
                             isOpenReport(true);
                             isOpenReportEmail(false);
@@ -361,6 +358,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                      ko.utils.arrayPushAll(deliveryCarriers(), data.DeliveryCarriers);
                                      deliveryCarriers.valueHasMutated();
                                  }
+                                 loggedInUser(data.LoggedInUser);
 
                              },
                              error: function (response) {
@@ -372,7 +370,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                      addDeliveryNotes = function () {
                          var deliveryNotes = model.DeliveryNote();
                          deliveryNotes.isStatus(19);
+                         deliveryNotes.raisedBy(loggedInUser());
                          selectedDeliveryNote(deliveryNotes);
+                         
                          deliveryNoteEditorHeader('Add Delivery Notes');
                          isEditorVisible(true);
                          errorList.removeAll();
@@ -469,17 +469,17 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         success: function (data) {
 
                             if (isOpenReport() == true) {
+                                if (selectedDeliveryNote().deliveryNoteId() == 0 || selectedDeliveryNote().deliveryNoteId() == undefined) {
+                                    selectedDeliveryNote().deliveryNoteId(data.DeliveryNoteId);
+                                }
                                 if (isOpenReportEmail() == true) {
                                     reportManager.SetOrderData(selectedDeliveryNote().raisedBy(), selectedDeliveryNote().contactId(), selectedDeliveryNote().deliveryNoteId(), 5, selectedDeliveryNote().deliveryNoteId(), "");
                                     reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
-                                    getDetaildeliveryNote(selectedDeliveryNote().deliveryNoteId());
                                 }
                                 else {
                                     reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
-                                    getDetaildeliveryNote(selectedDeliveryNote().deliveryNoteId());
-                                    
                                 }
-
+                                getDetaildeliveryNote(selectedDeliveryNote().deliveryNoteId());
                                 isOpenReport(false);
                             }
                             else {
@@ -504,9 +504,6 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                 isEditorVisible(false);
                                 toastr.success("Saved Successfully.");
                             }
-
-
-
                            
                         },
                         error: function (exceptionMessage, exceptionType) {
