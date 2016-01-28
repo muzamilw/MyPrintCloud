@@ -327,16 +327,16 @@
     <div class="col-sm-12 form-horizontal main-box-body clearfix">
         <div class="form-group">
             <div class="col-sm-2 text-right">
-                @*<div class="bs-example-tooltips tooltip-float-width">
+                <div class="bs-example-tooltips tooltip-float-width">
                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Comments" data-original-title="" title="">
                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                     </a>
                 </div>
-                <label class="control-label text-right tooltip-float">Comments</label>*@
+                <label class="control-label text-right tooltip-float">Comments</label>
                         </div>
                         <div class="col-sm-6" style="padding-left: 0px;">
                             <div class="col-sm-11" style="padding-right: 5px;padding-left: 5px;">
-                                <textarea class="form-control" rows="3" placeholder="Enter Comments" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: comments"></textarea>
+                                <textarea class="form-control notes" rows="3" placeholder="Enter Comments" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: comments"></textarea>
                             </div>
                         </div>
 
@@ -353,7 +353,26 @@
                             </div>
                            
                         </div>
-                    </div>
+          </div>
+        <div class="form-group">
+            <div class="col-sm-2 text-right">
+                <div class="bs-example-tooltips tooltip-float-width">
+                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>
+                <label class="control-label text-right tooltip-float">Foot Notes</label>
+            </div>
+            <div class="col-sm-6" style="padding-left: 0px;">
+                <div class="col-sm-11" style="padding-right: 5px;padding-left: 5px;">
+                    <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: footnote"></textarea>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+             
+            </div>
+        </div>
                     <div class="form-group">
                         @*<div class="col-sm-2 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
