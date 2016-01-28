@@ -472,6 +472,17 @@ namespace MPC.Models.Common
             get;
             set;
         }
-        
+        public List<ItemTemplatePage> OtherItemTemplateAttatchments
+        {
+            get;
+            set;
+        }
+    }
+
+    public sealed class ItemTemplatePage
+    {
+        public long PageId { get; set; }
+        public string FilePath { get; set; }
+     
     }
 }
