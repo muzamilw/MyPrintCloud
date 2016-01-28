@@ -97,6 +97,7 @@ namespace MPC.Implementation.MISServices
                 SectionFlags = _sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Delivery),
                 SystemUsers = _systemUserRepository.GetAll(),
                 DeliveryCarriers = deliveryCarrierRepository.GetAll(),
+                LoggedInUser = _systemUserRepository.LoggedInUserId
             };
         }
 
