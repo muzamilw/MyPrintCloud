@@ -143,12 +143,11 @@
 
 
             <div class="float_left_simple popUpLeftContent">
-                <div style="    width: 140px;
+                <div style="width: 140px;
     text-align: center;">
-                    <img id="AddFoldImg" style="max-width:140px;max-height:107px;" />
+                    <img id="AddFoldImg" style="max-width:140px;max-height:107px;" src="/Content/Images/imgPlc.png" />
                 </div>
 
-                <br />
                 <br />
                 <input id="imgloader" value="Upload/Update" class="uploderFikes" type="button" />
                 <button style="display:none;" id="DeleteFolder" class="shareButton" value="Save" type="submit" >Delete Folder</button>
@@ -308,7 +307,10 @@
     
     function SetTreeState(id)
     {
+<<<<<<< HEAD
         
+=======
+>>>>>>> e0cef26f60e9e9f74b3b40703deb97851df95db0
 
         if(id!=null&&id!='')
         {
@@ -330,15 +332,37 @@
                     $(SelID).parent().parent().children("i").trigger('click');
 
                 $(SelID).css("color", "green");
+<<<<<<< HEAD
 
+=======
+                console.log(SelID);
+>>>>>>> e0cef26f60e9e9f74b3b40703deb97851df95db0
                 console.log($(SelID).parent());
                 if($(SelID).parent().hasClass('jstree-leaf')){
                     $(SelID).parent().removeClass("jstree-closed").addClass("jstree-expaned");
+                    $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
                 }else{
 
                     $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
                 }
+<<<<<<< HEAD
              }
+=======
+
+                if(id > 0){
+                    var parent = $(SelID).parent();   
+                    var parentNotFound = true;
+                    while(parentNotFound) {
+                 
+                        if(parent.attr("id") == "treeDemo") 
+                            parentNotFound = false;
+                        if(parent.hasClass("jstree-last"))
+                            parent.removeClass("jstree-closed").addClass("jstree-expaned").addClass("jstree-open");
+                        parent = parent.parent();
+                    }
+                }
+            }
+>>>>>>> e0cef26f60e9e9f74b3b40703deb97851df95db0
 
         }
     }
@@ -557,9 +581,10 @@
 
         return result;
     }
+   
     function clearTextboxes()
     {
-        $('#AddFoldImg').attr("src",'');
+        $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
         $("#ImageUploader").val('');
         $("#folderDropDown").val('');
         $("#FolderName").val('');

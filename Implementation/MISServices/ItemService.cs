@@ -3010,10 +3010,10 @@ namespace MPC.Implementation.MISServices
 
             if (OrganisationId > 0)
             {
-                PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
-                PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyItems.csv";
+                //PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
+                //PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyItems.csv";
 
-                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsCommaSeperated.csv");
+                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyItems.csv");
                 CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyItems.csv";
 
 
@@ -3021,10 +3021,10 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
-                PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyItems.csv";
+                //PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
+                //PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyItems.csv";
 
-                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsCommaSeperated.csv");
+                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyItems.csv");
                 CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyItems.csv";
 
             }
@@ -3045,7 +3045,7 @@ namespace MPC.Implementation.MISServices
             csw.Close();
 
 
-            return CSVSavePath;
+            return CReturnPath;
             //string sZipFileName = string.Empty;
             //using (ZipFile zip = new ZipFile())
             //{

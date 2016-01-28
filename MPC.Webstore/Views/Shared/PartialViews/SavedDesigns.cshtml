@@ -1,13 +1,13 @@
 ﻿@using MPC.Models.DomainModels;
-@{ 
+@{
     string thumbname = "Thumb.png";
-    string artworkattachmentThumbPath = "mpc_content/Attachments/"+ UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Products/";
+    string artworkattachmentThumbPath = "mpc_content/Attachments/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Products/";
 }
 @{
     Layout = null;
 }
 @using MPC.Webstore.Common;
-<div id="controlBodyDiv" >
+<div id="controlBodyDiv">
     <div class="container content_area" id="all-SavedDesign-pg">
         <div class="left_right_padding">
             <div class="col-md-12 col-lg-12 col-xs-12">
@@ -39,15 +39,24 @@
                                 <div class="pad5">
                                     <div class="PDTCWB">
                                         <div class="PDTC_SD FISaved" style="display: block;">
-                                            @if (saveDesign.AttachmentFolderPath.Contains("/Production"))
+                                            @if (saveDesign.AttachmentFolderPath != null)
                                             {
-                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="/@artworkattachmentThumbPath@saveDesign.ItemID/@saveDesign.AttachmentFileName@thumbname" />
+                                                if (saveDesign.AttachmentFolderPath.Contains("/Production"))
+                                                {
+                                                    <img id="imgThumbnail" class="svdDesignImgThumb" src="/@artworkattachmentThumbPath@saveDesign.ItemID/@saveDesign.AttachmentFileName@thumbname" />
+                                                }
+                                                else
+                                                {
+                                                    <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath/@saveDesign.AttachmentFileName@thumbname" />
+                                                }
                                             }
                                             else
                                             {
-                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath/@saveDesign.AttachmentFileName@thumbname" />
+                                                
+                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="" />
                                             }
-                                            
+
+
                                         </div>
                                     </div>
                                     <div class="LCLB product_detail_image_heading rounded_corners">
@@ -96,9 +105,8 @@
 
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 
-    <script type="text/javascript">
-        function ReOrderSaveDesign(ItemID)
-        {
-            window.location.href = "/ReOrder/" + ItemID;
-        }
-    </script>
+<script type="text/javascript">
+    function ReOrderSaveDesign(ItemID) {
+        window.location.href = "/ReOrder/" + ItemID;
+    }
+</script>

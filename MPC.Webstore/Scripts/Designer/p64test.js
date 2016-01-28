@@ -17580,41 +17580,43 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           if (xmlDoc.getElementsByTagName("isCropped")[0] != undefined)
               isCropped = parseFloat(xmlDoc.getElementsByTagName("isCropped")[0].childNodes[0].nodeValue);
           var dx = x + imageMargins.marginX;
-          var dy = y + imageMargins.marginY;      
+          var dy = y + imageMargins.marginY;
+
           if (isCropped == 0) {
-              console.log(this.getSrc() + " " + this.AutofitImage);
-              if (this.AutofitImage == false)
-              {
-                  elementToDraw && ctx.drawImage(elementToDraw,
-                               x + imageMargins.marginX,
-                               y + imageMargins.marginY,
-                               imageMargins.width,
-                               imageMargins.height
-                              );
-              } else {
                   elementToDraw && ctx.drawImage(elementToDraw, dx, dy, swidth, sheight);
-              }
-              
               //elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight);
           } else {
-              elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight,
-                                      dx,
-                                      dy,
-                                      dWidth,
-                                      dHeight
-                                      );
+              if (this.AutofitImage == false) {
+                  console.log(this.getSrc());
+                  elementToDraw && ctx.drawImage(elementToDraw,
+                              sx,
+                              sy,
+                            swidth,
+                             sheight,
+                                sx,
+                                sy,
+                               swidth,
+                             sheight
+                             );
+              } else {
+                  elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight,
+                                          dx,
+                                          dy,
+                                          dWidth,
+                                          dHeight
+                                          );
+              }
           }
           // this._element, sx, sy, swidth, sheight, -this.width / 2, -this.height / 2, this.width, this.height);
           //this._element, -this.width / 2, -this.height / 2, this.width,          this.height
       } else
       {
-          elementToDraw && ctx.drawImage(elementToDraw,
-                                   x + imageMargins.marginX,
-                                   y + imageMargins.marginY,
-                                   imageMargins.width,
-                                   imageMargins.height
-                                  );
-
+              elementToDraw && ctx.drawImage(elementToDraw,
+                                  x + imageMargins.marginX,
+                                  y + imageMargins.marginY,
+                                  imageMargins.width,
+                                  imageMargins.height
+                                 );
       }
     
       this._renderStroke(ctx);

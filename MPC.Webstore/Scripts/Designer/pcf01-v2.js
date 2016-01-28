@@ -2757,18 +2757,33 @@ function togglePage(pId) {
                                     newWidth = newHeight * wrh;
                                 }
                                 var XML = new XMLWriter();
-                                XML.BeginNode("Cropped");
-                                XML.Node("sx", "0");
-                                XML.Node("sy", "0");
-                                XML.Node("swidth", (newWidth /dfZ1l).toString());//   XML.Node("swidth", wdth.toString());
-                                XML.Node("sheight", (newHeight / dfZ1l).toString());//    XML.Node("sheight", hght.toString());
-                                XML.Node("crv1", bestPer.toString()); 
-                                XML.Node("crv2", ((newWidth / dfZ1l) * bestPer).toString());
-                                XML.Node("crv3", ((newWidth / dfZ1l) * bestPer).toString());
-                                XML.Node("crv4", "0");
-                                XML.Node("crv5", "0");
-                                XML.Node("isCropped", "0");
-                                XML.EndNode();
+                                if (D1AO.AutofitImage == false) {
+                                    XML.BeginNode("Cropped");
+                                    XML.Node("sx", (-D1AO.getWidth() / 2).toString());
+                                    XML.Node("sy", (-D1AO.getHeight() / 2).toString());
+                                    XML.Node("swidth", D1AO.getWidth().toString());
+                                    XML.Node("sheight", D1AO.getHeight().toString());
+                                    XML.Node("crv1", "1");
+                                    XML.Node("crv2", (D1AO.getWidth()).toString());
+                                    XML.Node("crv3", (D1AO.getHeight()).toString());
+                                    XML.Node("crv4", (-D1AO.getWidth() / 2).toString());
+                                    XML.Node("crv5", (-D1AO.getHeight() / 2).toString());
+                                    XML.Node("isCropped", "1");
+                                    XML.EndNode();
+                                } else {
+                                    XML.BeginNode("Cropped");
+                                    XML.Node("sx", "0");
+                                    XML.Node("sy", "0");
+                                    XML.Node("swidth", (newWidth / dfZ1l).toString());
+                                    XML.Node("sheight", (newHeight / dfZ1l).toString());
+                                    XML.Node("crv1", bestPer.toString());
+                                    XML.Node("crv2", ((newWidth / dfZ1l) * bestPer).toString());
+                                    XML.Node("crv3", ((newWidth / dfZ1l) * bestPer).toString());
+                                    XML.Node("crv4", "0");
+                                    XML.Node("crv5", "0");
+                                    XML.Node("isCropped", "0");
+                                    XML.EndNode();
+                                }
                                 XML.Close();
                                 D1AO.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
                                 D1AO.height = (D1AO.getHeight());
@@ -2852,7 +2867,7 @@ function togglePage(pId) {
                         j8(path);
                     }
 
-                    $(".collapseDesignerMenu").click();
+                   // $(".collapseDesignerMenu").click();
                 }
             }
         } else {
@@ -4383,19 +4398,36 @@ function togglePage(pId) {
                         newHeight = IOL.getHeight();
                         newWidth = newHeight * wrh;
                     }
-                    var XML = new XMLWriter();
-                    XML.BeginNode("Cropped");
-                    XML.Node("sx", "0");
-                    XML.Node("sy", "0");
-                    XML.Node("swidth", (newWidth / dfZ1l).toString());//   XML.Node("swidth", wdth.toString());
-                    XML.Node("sheight", (newHeight / dfZ1l).toString());//    XML.Node("sheight", hght.toString());
-                    XML.Node("crv1", bestPer.toString());
-                    XML.Node("crv2", ((newWidth / dfZ1l) * bestPer).toString());
-                    XML.Node("crv3", ((newWidth / dfZ1l) * bestPer).toString());
-                    XML.Node("crv4", "0");
-                    XML.Node("crv5", "0");
-                    XML.Node("isCropped", "0");
-                    XML.EndNode();
+                    var XML = new XMLWriter(); 
+                    if (IOL.AutofitImage == false) {
+                       
+                        XML.BeginNode("Cropped");
+                        XML.Node("sx", (-IOL.getWidth() / 2).toString());
+                        XML.Node("sy", (-IOL.getHeight() / 2).toString());
+                        XML.Node("swidth", IOL.getWidth().toString());
+                        XML.Node("sheight", IOL.getHeight().toString());
+                        XML.Node("crv1", "1");
+                        XML.Node("crv2", (IOL.getWidth()).toString());
+                        XML.Node("crv3", (IOL.getHeight()).toString());
+                        XML.Node("crv4", (-IOL.getWidth() / 2).toString());
+                        XML.Node("crv5", (-IOL.getHeight() / 2).toString());
+                        XML.Node("isCropped", "1");
+                        XML.EndNode();
+                    } else {
+                        XML.BeginNode("Cropped");
+                        XML.Node("sx", "0");
+                        XML.Node("sy", "0");
+                        XML.Node("swidth", (newWidth / dfZ1l).toString());//   XML.Node("swidth", wdth.toString());
+                        XML.Node("sheight", (newHeight / dfZ1l).toString());//    XML.Node("sheight", hght.toString());
+                        XML.Node("crv1", bestPer.toString());
+                        XML.Node("crv2", ((newWidth / dfZ1l) * bestPer).toString());
+                        XML.Node("crv3", ((newWidth / dfZ1l) * bestPer).toString());
+                        XML.Node("crv4", "0");
+                        XML.Node("crv5", "0");
+                        XML.Node("isCropped", "0");
+                        XML.EndNode();
+                    }
+                 
                     XML.Close();
                     IOL.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
                     //IOL.height = (IOL.getHeight());
