@@ -395,6 +395,8 @@
     <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
     <Compile Include="Controllers\BlackAndWhiteHeaderMenuController.cs" />
     <Compile Include="Controllers\BreadCrumbController.cs" />
+    <Compile Include="Controllers\BubbleBannerController.cs" />
+    <Compile Include="Controllers\BubbleHeaderController.cs" />
     <Compile Include="Controllers\CategoriesAndProductsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
@@ -520,6 +522,8 @@
     <Content Include="Content\BannerMart.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\BubbleFiles\Bubblecss4b.css" />
+    <Content Include="Content\BubbleFiles\BubbleCsscs.css" />
     <Content Include="Content\carousel.css" />
     <Content Include="Content\cbre.css" />
     <Content Include="Content\clublinks.css" />
@@ -840,6 +844,7 @@
     <Content Include="LightBox\Js\jquery.fancybox-thumbs.js" />
     <Content Include="LightBox\Js\jquery.fancybox.js" />
     <Content Include="LightBox\Js\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\BubbleBanner.js" />
     <Content Include="Scripts\cbpHorizontalSlideOutMenu.min.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
     <Content Include="Scripts\Designer\p64test-1.4.js" />
@@ -1129,6 +1134,8 @@
     <Content Include="Views\Shared\PartialViews\TreeChildNodes.cshtml" />
     <Content Include="Views\Shared\PartialViews\FeaturedProducts.cshtml" />
     <Content Include="Views\Shared\PartialViews\PayWay.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleBanner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1142,6 +1149,8 @@
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
+    <Folder Include="Views\BubbleBanner\" />
+    <Folder Include="Views\BubbleHeader\" />
     <Folder Include="Views\DescriptiveFooter\" />
     <Folder Include="Views\EzyHeader\" />
     <Folder Include="Views\EzyPrintSignUp\" />

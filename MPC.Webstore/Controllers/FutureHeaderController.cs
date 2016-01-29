@@ -39,6 +39,7 @@ namespace MPC.Webstore.Controllers
         // GET: FutureHeader
         public ActionResult Index()
         {
+
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             var categories = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
@@ -53,6 +54,8 @@ namespace MPC.Webstore.Controllers
             {
                 ViewData["ParentCats"] = parentCategories.ToList();
             }
+
+
             ViewData["SubCats"] = categories.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).OrderBy(s => s.DisplayOrder).ToList();
             ViewBag.AboutUs = null;
             if (StoreBaseResopnse.SecondaryPages != null)
@@ -71,6 +74,7 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.DefaultUrl = "/";
             }
+
             return PartialView("PartialViews/FutureHeader", StoreBaseResopnse.Company);
         }
     }
