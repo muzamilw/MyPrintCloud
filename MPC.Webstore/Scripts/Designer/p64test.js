@@ -17593,8 +17593,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
                               sy,
                             swidth,
                              sheight,
-                                sx,
-                                sy,
+                                dx,
+                                dy,
                                swidth,
                              sheight
                              );
@@ -20762,16 +20762,13 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     var heightOfLine = this._getHeightOfLine(ctx, i, textLines);
                 }
                 lineHeights += heightOfLine;
+                ctx.save();
                 if (this.isBulletPoint == true) {
-                    this._renderTextLine(
-                      'fillText',
-                      ctx,
-                      bullets[i],
-                      this._getLeftOffset() - (ctx.measureText(bullets[i]).width),
-                      this._getTopOffset() + lineHeights,
-                      i
-                    );
+                    ctx.strokeStyle = this.fill;
+                    ctx.fillStyle = this.fill;
+                    this._renderCharsFast('fillText', ctx, bullets[i], this._getLeftOffset() - (ctx.measureText(bullets[i]).width), this._getTopOffset() + lineHeights); 
                 }
+                ctx.restore();
                 this._renderTextLine(
               'fillText',
               ctx,
