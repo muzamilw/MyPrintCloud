@@ -4740,7 +4740,7 @@ namespace MPC.Repository.Repositories
         {
             bool Result = false;
             long Count = db.Items.Where(i => i.EstimateId == OrderID && i.ProductType== 4).ToList().Count;
-            long TotalCount = db.Items.Where(i => i.EstimateId == OrderID).ToList().Count;
+            long TotalCount = db.Items.Where(i => i.EstimateId == OrderID && i.IsOrderedItem == true).ToList().Count;
             long counter = TotalCount - Count;
             if (counter== 0)
             {

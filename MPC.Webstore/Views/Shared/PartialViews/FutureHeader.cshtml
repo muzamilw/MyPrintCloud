@@ -29,17 +29,13 @@
                                 @{var subCat = subCategories.Where(i => i.ParentCategoryId == topCat.ProductCategoryId).ToList();}
                                 @foreach (ProductCategory subCats in subCat)
                                 {
-
                                     <li><a href="/Category/@Utils.specialCharactersEncoder(subCats.CategoryName)/@subCats.ProductCategoryId">&gt; @subCats.CategoryName</a></li>
-
                                 }
-
                                 @if(subCat.Count == 0)
                                 {
                                     <li><a href="/Category/@Utils.specialCharactersEncoder(topCat.CategoryName)/@topCat.ProductCategoryId">&gt; View @topCat.CategoryName</a></li>
                                 }
                             </div>
-
                         }
                         <div class="clearfix"></div>
                     </div>
