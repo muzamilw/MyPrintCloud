@@ -20538,7 +20538,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             }
             if (this.isBulletPoint)
             {
-                this.drawBulletsCustom(ctx, this.bullets);
+             //   this.drawBulletsCustom(ctx, this.bullets);
                 
             }
             this._setBoundaries(ctx, textLines);
@@ -20755,13 +20755,23 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             var lineHeights = 0 ;  // adding by saqib for vertical allignment
             if (this.VAllignment != 1)
                 lineHeights += this.textPaddingTop;
+            var bullets = this.bullets.split(/\r\n|\r|\n/);
             for (var i = 0, len = textLines.length; i < len; i++) {
                 var heightOfLine = this.fontSize * this.lineHeight;
                 if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
                     var heightOfLine = this._getHeightOfLine(ctx, i, textLines);
                 }
                 lineHeights += heightOfLine;
-
+                if (this.isBulletPoint == true) {
+                    this._renderTextLine(
+                      'fillText',
+                      ctx,
+                      bullets[i],
+                      this._getLeftOffset() - (ctx.measureText(bullets[i]).width),
+                      this._getTopOffset() + lineHeights,
+                      i
+                    );
+                }
                 this._renderTextLine(
               'fillText',
               ctx,
