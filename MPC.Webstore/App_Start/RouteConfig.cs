@@ -55,6 +55,62 @@ namespace MPC.Webstore
                  name = ""
              });
 
+
+            routes.MapRoute(
+             "BubbleHeaderss"
+           , "BubbleHeader"
+           , new
+           {
+               controller = "Home",
+               action = "Index",
+               name = ""
+           });
+
+
+
+            routes.MapRoute(
+               "Percent"
+             , "BubbleSavePercent"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
+
+            routes.MapRoute(
+               "bubblequicklinksss"
+             , "BubbleQuickLinks"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
+
+
+            routes.MapRoute(
+             "BubbleBanners"
+           , "BubbleBanner"
+           , new
+           {
+               controller = "Home",
+               action = "Index",
+               name = ""
+           });
+
+            routes.MapRoute(
+             "BubbleAboutUS"
+           , "BubbleAboutUS"
+           , new
+           {
+               controller = "Home",
+               action = "Index",
+               name = ""
+           });
+
+
+
              routes.MapRoute(
                 "UserManager"
               , "UserManager"

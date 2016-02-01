@@ -128,9 +128,9 @@ grid.Column("Default Shipping",format:@<p>
                                 }
 
                                 </p>,style:"hidden-xs hidden-sm" ),
-
-    grid.Column("Edit", format:@<text> <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
-    </text>,style:"WebGridPadding")
+                            
+    grid.Column("Edit", format:@<text>if(ViewBag.loginContactCompanyID!=item.ContactId){ <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
+    }</text>,style:"WebGridPadding")
     }
 
               )

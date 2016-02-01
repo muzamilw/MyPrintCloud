@@ -11,32 +11,18 @@ using System.Web.Mvc;
 
 namespace MPC.Webstore.Controllers
 {
-    public class FutureHeaderController : Controller
+    public class BubbleHeaderController : Controller
     {
-        #region Private
-
+        // GET: BubbleHeader
         private readonly ICompanyService _myCompanyService;
 
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
 
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public FutureHeaderController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
+        public BubbleHeaderController(ICompanyService _myCompanyService, IWebstoreClaimsHelperService _myClaimHelper)
         {
-            if (myCompanyService == null)
-            {
-                throw new ArgumentNullException("myCompanyService");
-            }
-            this._myCompanyService = myCompanyService;
-            this._myClaimHelper = myClaimHelper;
+            this._myCompanyService = _myCompanyService;
+            this._myClaimHelper = _myClaimHelper;
         }
-
-        #endregion
-        // GET: FutureHeader
         public ActionResult Index()
         {
 
@@ -44,7 +30,6 @@ namespace MPC.Webstore.Controllers
 
             var categories = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             List<ProductCategory> parentCategories = categories.Where(p => p.ParentCategoryId == null || p.ParentCategoryId == 0).OrderBy(s => s.DisplayOrder).ToList();
-            
             if (parentCategories.Count > 5)
             {
                 ViewData["ParentCats"] = parentCategories.Take(5).ToList();
@@ -54,8 +39,6 @@ namespace MPC.Webstore.Controllers
             {
                 ViewData["ParentCats"] = parentCategories.ToList();
             }
-
-
             ViewData["SubCats"] = categories.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).OrderBy(s => s.DisplayOrder).ToList();
             ViewBag.AboutUs = null;
             if (StoreBaseResopnse.SecondaryPages != null)
@@ -75,7 +58,8 @@ namespace MPC.Webstore.Controllers
                 ViewBag.DefaultUrl = "/";
             }
 
-            return PartialView("PartialViews/FutureHeader", StoreBaseResopnse.Company);
+            return PartialView("PartialViews/BubbleHeader", StoreBaseResopnse.Company);
+            
         }
     }
 }
