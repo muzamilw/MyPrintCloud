@@ -6670,6 +6670,12 @@ namespace MPC.Implementation.MISServices
 
             //************ Ink Calculation**********************
             updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, false, updatedSection.SectionInkCoverages.ToList());
+            if (updatedSection.isWorknTurn == true && updatedSection.IsDoubleSided == true)
+            {
+                updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true, updatedSection.SectionInkCoverages.ToList());
+            }
+            
+
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre
             {
                 updatedSection = CalculatePaperCostWebPress(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false);
@@ -6865,11 +6871,9 @@ namespace MPC.Implementation.MISServices
 
             try
             {
-
-
+                
                 StockItem oPaperDTO = new StockItem();
                 oPaperDTO = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.StockItemID1));
-
                 double[] OrderPaperLengthWithSpoilage = new double[3];
                 double[] OrderPaperLengthWithoutSpoilage = new double[3];
                 double[] OrderPaperLengthWithSpoilageSqMeters = new double[3];
