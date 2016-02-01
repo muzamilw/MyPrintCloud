@@ -13,17 +13,16 @@
                 <div id="rev_slider_1_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" style="float: left; padding: 0px; margin: 0px; max-height: 347px; overflow: visible; height: 346px;">
                     <!-- START REVOLUTION SLIDER  fullwidth mode -->
                     <div id="rev_slider_1_1" class="rev_slider fullwidthabanner revslider-initialised tp-simpleresponsive hovered" style="max-height: 347px; height: 346px;">
-                        <ul class="tp-revslider-mainul" style="display: block; overflow: hidden; width: 100%; height: 100%; max-height: 347px;">
-                            <!-- SLIDE  -->
+                        <ul class="bxslider">
+                            @foreach (var banner in Model)
+                            {
 
-                          @foreach (var banner in Model)
-                               {
-                            <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off" class="tp-revslider-slidesli active-revslide current-sr-slide-visible" style="width: 100%; height: 100%; overflow: hidden; z-index: 20; visibility: inherit; opacity: 1;">
-                                <!-- MAIN IMAGE -->
-                                <div class="slotholder" style="width:100%;height:100%;" data-duration="undefined" data-zoomstart="undefined" data-zoomend="undefined" data-rotationstart="undefined" data-rotationend="undefined" data-ease="undefined" data-bgpositionend="undefined" data-bgposition="center top" data-kenburns="undefined" data-easeme="undefined" data-bgfit="cover" data-bgfitend="undefined" data-owidth="undefined" data-oheight="undefined"><div class="tp-bgimg defaultimg" data-lazyload="undefined" data-bgfit="cover" data-bgposition="center top" data-bgrepeat="no-repeat" data-lazydone="undefined" src="@banner.ImageURL" data-src="@banner.ImageURL" style="width: 100%; height: 100%; visibility: inherit; opacity: 1; background-image: url(http://lbprint.liquidbubblehosting.com/media/revslider/slide-1-txt.jpg); background-color: rgba(0, 0, 0, 0); background-size: cover; background-position: 50% 0%; background-repeat: no-repeat;"></div></div>
-                                <!-- LAYERS -->
-                            </li>
-                          }
+                                <li>
+                                    <a id="hlItemUrl" href="@banner.ButtonURL">
+                                        <img id="imgBanner" src="/@banner.ImageURL" />
+                                    </a>
+                                </li>
+                            }
                         </ul>
                         <div class="tp-bannertimer" style="width: 83.5199999999963%; transform: translate3d(0px, 0px, 0px); visibility: visible;"></div><div class="tp-loader spinner0" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
                     </div>
@@ -53,10 +52,9 @@
             </div>
         </div>
     </div>
-
 </div>
-<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/db57826306f2446d41e160fe025abfca.css" media="all" />
-<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/395bacd6701976d216c53ce125e28a4b.css" media="print" />
+@*<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/db57826306f2446d41e160fe025abfca.css" media="all" />
+<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/395bacd6701976d216c53ce125e28a4b.css" media="print" />*@
 
 <script src="/Scripts/BubbleBanner.js"></script>
 <script type="text/javascript">

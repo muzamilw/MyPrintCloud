@@ -67,6 +67,28 @@ namespace MPC.Webstore
            });
 
 
+
+            routes.MapRoute(
+               "Percent"
+             , "BubbleSavePercent"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
+
+            routes.MapRoute(
+               "bubblequicklinksss"
+             , "BubbleQuickLinks"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
+
+
             routes.MapRoute(
              "BubbleBanners"
            , "BubbleBanner"
@@ -76,6 +98,17 @@ namespace MPC.Webstore
                action = "Index",
                name = ""
            });
+
+            routes.MapRoute(
+             "BubbleAboutUS"
+           , "BubbleAboutUS"
+           , new
+           {
+               controller = "Home",
+               action = "Index",
+               name = ""
+           });
+
 
 
              routes.MapRoute(

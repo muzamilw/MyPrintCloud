@@ -60,19 +60,18 @@ namespace MPC.Webstore.Controllers
                     if (Voucher.MinRequiredOrderPrice.HasValue && Voucher.MinRequiredOrderPrice.Value > 0)
                     {
                         OrderPercentageAmount = Voucher.MinRequiredOrderPrice ?? 0;
-                        
                     }
 
                     if (Voucher.MaxRequiredOrderPrice.HasValue && Voucher.MaxRequiredOrderPrice.Value > 0 && OrderPercentageAmount == 0)
                     {
                         OrderPercentageAmount = Voucher.MaxRequiredOrderPrice ?? 0;
-                        
                     }
                 }
             }
 
             ViewBag.OrderPercentageTotal = StoreBaseResopnse.Currency + OrderPercentageAmount;
             ViewBag.OrderPercentage = OrderPercentage + "%";
+
             if(StoreBaseResopnse.StoreDetaultAddress != null)
             {
                 ViewBag.Country = StoreBaseResopnse.StoreDetaultAddress.Country;

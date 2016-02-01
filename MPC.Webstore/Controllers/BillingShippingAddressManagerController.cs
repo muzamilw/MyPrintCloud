@@ -37,6 +37,7 @@ namespace MPC.Webstore.Controllers
 
             Company Company = _companyService.GetCompanyByCompanyID(_myClaimHelper.loginContactCompanyID());
 
+            ViewBag.loginContactCompanyID = _myClaimHelper.loginContactID();
             if (Company.isStoreModePrivate == true)
             {
 

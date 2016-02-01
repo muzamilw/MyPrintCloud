@@ -2725,9 +2725,6 @@ function togglePage(pId) {
             }
         });
     }
-    function j8_FindBestPercentage() {
-
-    }
     function j8(src) {
    
         var fileNameIndex = src.lastIndexOf("/") + 1;
@@ -2758,16 +2755,17 @@ function togglePage(pId) {
                                 }
                                 var XML = new XMLWriter();
                                 if (D1AO.AutofitImage == false) {
+                                    debugger;
                                     XML.BeginNode("Cropped");
-                                    XML.Node("sx", (-D1AO.getWidth() / 2).toString());
-                                    XML.Node("sy", (-D1AO.getHeight() / 2).toString());
+                                    XML.Node("sx", (0).toString());
+                                    XML.Node("sy", (0).toString());
                                     XML.Node("swidth", D1AO.getWidth().toString());
                                     XML.Node("sheight", D1AO.getHeight().toString());
                                     XML.Node("crv1", "1");
                                     XML.Node("crv2", (D1AO.getWidth()).toString());
                                     XML.Node("crv3", (D1AO.getHeight()).toString());
-                                    XML.Node("crv4", (-D1AO.getWidth() / 2).toString());
-                                    XML.Node("crv5", (-D1AO.getHeight() / 2).toString());
+                                    XML.Node("crv4", (IW).toString());
+                                    XML.Node("crv5", (IH).toString());
                                     XML.Node("isCropped", "1");
                                     XML.EndNode();
                                 } else {
@@ -3875,7 +3873,8 @@ function togglePage(pId) {
                                 urlThumbnail = url;
                             } 
                             if (ImIsEditable) {
-
+                                if (IT.ImageTitle == null)
+                                    IT.ImageTitle = "";
                                 var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
                                   '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">'// + '<span class="info btnRemoveImg"><span class=" moreInfo ">✖</span></span>'
                                   + bkContainer + '<span class="info">' + '<span class="moreInfo" title="Show more info" onclick=k26(' + title + "," + index + "," + loaderType + ')>i</span>' +
