@@ -391,12 +391,16 @@
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AreYouLocalController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
     <Compile Include="Controllers\BlackAndWhiteHeaderMenuController.cs" />
     <Compile Include="Controllers\BreadCrumbController.cs" />
+    <Compile Include="Controllers\BubbleAboutUSController.cs" />
     <Compile Include="Controllers\BubbleBannerController.cs" />
     <Compile Include="Controllers\BubbleHeaderController.cs" />
+    <Compile Include="Controllers\BubbleQuickLinksController.cs" />
+    <Compile Include="Controllers\BubbleSavePercentController.cs" />
     <Compile Include="Controllers\CategoriesAndProductsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
@@ -524,6 +528,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\BubbleFiles\Bubblecss4b.css" />
     <Content Include="Content\BubbleFiles\BubbleCsscs.css" />
+    <Content Include="Content\BubbleFiles\Site.css" />
     <Content Include="Content\carousel.css" />
     <Content Include="Content\cbre.css" />
     <Content Include="Content\clublinks.css" />
@@ -727,6 +732,7 @@
     <Content Include="Content\Designer\assets-v2\white.jpg" />
     <Content Include="Content\Designer\p103.css" />
     <Content Include="Content\Designer\DSv2.css" />
+    <Content Include="Content\Images\favicon_1.ico" />
     <Content Include="Content\Images\footer_bg.jpg" />
     <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
@@ -998,6 +1004,9 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="slider.html" />
     <Content Include="test.html" />
+    <Content Include="testinghtml\EasyFastOrdering.html" />
+    <Content Include="testinghtml\EAsytoUK.html" />
+    <Content Include="testinghtml\footer.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1136,6 +1145,10 @@
     <Content Include="Views\Shared\PartialViews\PayWay.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleBanner.cshtml" />
+    <Content Include="Views\AreYouLocal.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleAboutUS.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleQuickLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleSavePercent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1148,9 +1161,14 @@
     <Folder Include="Areas\WebstoreApi\Views\RealEstateSmartForm\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
+    <Folder Include="Content\BubbleImages\" />
+    <Folder Include="Views\AreYouLocal\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
+    <Folder Include="Views\BubbleAboutUS\" />
     <Folder Include="Views\BubbleBanner\" />
     <Folder Include="Views\BubbleHeader\" />
+    <Folder Include="Views\BubbleQuickLinks\" />
+    <Folder Include="Views\BubbleSavePercent\" />
     <Folder Include="Views\DescriptiveFooter\" />
     <Folder Include="Views\EzyHeader\" />
     <Folder Include="Views\EzyPrintSignUp\" />
