@@ -3997,6 +3997,7 @@ namespace MPC.Implementation.MISServices
             double[] dblQty = new double[5];
             //variable to Hold the Ink Qty for each Multiple qty
             double[] dblTotalPrice = new double[3];
+            double[] dblInkCharge = new double[3];
             double[] dblTotalCost = new double[3];
             //Variable to Hold the Total Price for each Multiple Qty
             double dblMinCharge = 0;
@@ -4060,7 +4061,7 @@ namespace MPC.Implementation.MISServices
             // dblMinCharge = oItemSection.Press.InkChargeForUniqueColors;
 
             UniqueInks = oSectionUniqueInks.Count(); ; // is to confirm from Muzammil what will be the unique Inks
-                
+            bool isImperial = organisationRepository.GetOrganizatiobByID().IsImperical ?? false;
 
             StockItem oPaper = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.StockItemID1));
 
@@ -4085,19 +4086,34 @@ namespace MPC.Implementation.MISServices
 
             oItemSectionCostCentre.IsPrintable = Convert.ToInt16(oJobCardOptionsDTO.IsDefaultInkColorUsed);
 
-            
+            //If Imperial then Size is in Inches also we charge ink cost in per square inch otherwise size is in mm so we convert it into meter be dividing to 1000;
             if (oItemSection.IsSectionSizeCustom == true)
             {
-                intPrintArea = Convert.ToDouble(oItemSection.ItemSizeHeight) * Convert.ToDouble(oItemSection.ItemSizeWidth);
+                if (!isImperial)
+                    intPrintArea = Convert.ToDouble(oItemSection.SectionSizeHeight / 1000) * Convert.ToDouble(oItemSection.SectionSizeWidth / 1000);
+                else
+                {
+                    intPrintArea = Convert.ToDouble(oItemSection.SectionSizeHeight) * Convert.ToDouble(oItemSection.SectionSizeWidth);
+                }
+                
             }
             else
             {
                 PaperSize oPaperSize = itemsectionRepository.GetPaperSizeById(Convert.ToInt32(oItemSection.SectionSizeId));
-                if(oPaperSize != null)
-                    intPrintArea = Convert.ToDouble(oPaperSize.Height) * Convert.ToDouble(oPaperSize.Width);
+                if (oPaperSize != null)
+                {
+                    if(!isImperial)
+                        intPrintArea = Convert.ToDouble(oPaperSize.Height /1000) * Convert.ToDouble(oPaperSize.Width/1000);
+                    else
+                    {
+                        intPrintArea = Convert.ToDouble(oPaperSize.Height) * Convert.ToDouble(oPaperSize.Width);   
+                    }
+                }
+                    
             }
 
-
+            
+           
             //oItemSection.ItemSizeWidth
             //creation the work instructions / item description
             foreach (var icounter in oSectionUniqueInks)
@@ -4201,8 +4217,10 @@ namespace MPC.Implementation.MISServices
 
                 //total paper size  in SQ meters x charge per square meter * ink coverage in percentage
 
-                dblTotalPrice[0] = dblTotalPrice[0] + (NoofSheetsQty1 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
-                
+
+                dblTotalPrice[0] = dblTotalPrice[0] + ((NoofSheetsQty1 * intPrintArea) * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
+                dblInkCharge[0] = ((NoofSheetsQty1 * intPrintArea) * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
+
                 if (dblTotalPrice[0] < dblMinCharge)
                 {
                     dblTotalPrice[0] = dblMinCharge;
@@ -4221,7 +4239,8 @@ namespace MPC.Implementation.MISServices
 
                     //dblTotalPrice[1] = dblTotalPrice[1] + (dblInkPrice * dblQty[1] + dblDuctPrice);
 
-                    dblTotalPrice[1] = dblTotalPrice[1] + (NoofSheetsQty2 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
+                    dblTotalPrice[1] = dblTotalPrice[1] + ((NoofSheetsQty2 * intPrintArea) * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
+                    dblInkCharge[1] = ((NoofSheetsQty2 * intPrintArea) * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
                     if (dblTotalPrice[1] < dblMinCharge)
                     {
                         dblTotalPrice[1] = dblMinCharge;
@@ -4240,7 +4259,8 @@ namespace MPC.Implementation.MISServices
 
 
                     //dblTotalPrice[2] = dblTotalPrice[2] + (dblInkPrice * dblQty[2] + dblDuctPrice);
-                    dblTotalPrice[2] = dblTotalPrice[2] + (NoofSheetsQty3 * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
+                    dblTotalPrice[2] = dblTotalPrice[2] + ((NoofSheetsQty3 * intPrintArea) * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
+                    dblInkCharge[2] = ((NoofSheetsQty3 * intPrintArea) * Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit) * (InkPercentage * 0.01));
                     if (dblTotalPrice[2] < dblMinCharge)
                     {
                         dblTotalPrice[2] = dblMinCharge;
@@ -4255,9 +4275,9 @@ namespace MPC.Implementation.MISServices
 
                 //Updating the Quantity
                 SectionCostCentreDetail oItemSectionCostCentreDetail = new SectionCostCentreDetail();
-                oItemSectionCostCentreDetail.Qty1 = Math.Round(dblQty[0], 3);
-                oItemSectionCostCentreDetail.Qty2 = Math.Round(dblQty[1], 3);
-                oItemSectionCostCentreDetail.Qty3 = Math.Round(dblQty[2], 3);
+                oItemSectionCostCentreDetail.Qty1 = Math.Round(dblInkCharge[0], 3);
+                oItemSectionCostCentreDetail.Qty2 = Math.Round(dblInkCharge[1], 3);
+                oItemSectionCostCentreDetail.Qty3 = Math.Round(dblInkCharge[2], 3);
 
                 oItemSectionCostCentreDetail.CostPrice = Convert.ToDouble(oRowInkDetail.ChargePerSquareUnit);
                 oItemSectionCostCentreDetail.StockId = oRowInkDetail.StockItemId;

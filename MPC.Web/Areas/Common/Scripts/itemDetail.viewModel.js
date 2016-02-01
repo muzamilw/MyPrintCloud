@@ -130,6 +130,7 @@ define("common/itemDetail.viewModel",
                     selectedCostCentre = ko.observable(),
                     selectedSectionCostCenter = ko.observable(),
                     selectedQty = ko.observable(1),
+                    selectedCostCenterCategory = ko.observable(1),
                     selectedQtyForItem = ko.observable(),
                     selectedOrder = ko.observable(),
                     currencySymbol = ko.observable(''),
@@ -593,6 +594,7 @@ define("common/itemDetail.viewModel",
                         selectedSectionCostCenter(costCenter);
                         selectedPressInstructions(costCenter.isSecondPress() === 1 ? costCenter.workInstruction5() : costCenter.workInstruction4());
                         selectedQty(qty);
+                        selectedCostCenterCategory(costCenter.systemCostCenterType());
                         view.showSectionCostCenterDialogModel();
                         isSectionCostCenterDialogOpen(true);
                     },
@@ -600,7 +602,7 @@ define("common/itemDetail.viewModel",
                         if (selectedSection().itemSizeHeight() == null || selectedSection().itemSizeWidth() == null || selectedSection().sectionSizeHeight() == null || selectedSection().sectionSizeWidth() == null) {
                             return;
                         }
-
+                        
                         var orient = selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape() ? 0 : 1;
                         dataservice.getPTV({
                             Orientation: orient,
@@ -630,6 +632,9 @@ define("common/itemDetail.viewModel",
                                         showSide1Image(true);
                                         if (data.Side2ImageSource != "") {
                                             side2Image(data.Side2ImageSource);
+                                        }
+                                        if (selectedSection().isWorknTurn() && data.Side2ImageSource == "") {
+                                            side2Image(data.Side1ImageSource);
                                         }
 
                                         itemPlan(data.Side1ImageSource);
@@ -694,6 +699,7 @@ define("common/itemDetail.viewModel",
                                 selectedSection().pressIdSide2(selectedSection().pressId());
                             }
                             getPtvCalculation(getSectionSystemCostCenters);
+                            
                         });
 
                         // On Select Sheet Size
@@ -852,7 +858,8 @@ define("common/itemDetail.viewModel",
                                         SectionId: selectedSection().id(),
                                         Side: 1,
                                         InkOrder: iCounter,
-                                        InkId: item.SideInkOrder
+                                        InkId: item.SideInkOrder,
+                                        CoverageRate: 30
                                     }));
                                 });
                             } else {
@@ -894,7 +901,8 @@ define("common/itemDetail.viewModel",
                                         SectionId: selectedSection().id(),
                                         Side: 2,
                                         InkOrder: iCounter,
-                                        InkId: item.SideInkOrder
+                                        InkId: item.SideInkOrder,
+                                        CoverageRate: 30
                                     }));
                                 });
                             } else {
@@ -2295,7 +2303,8 @@ define("common/itemDetail.viewModel",
                     updateCostCentersOnQtyChange: updateCostCentersOnQtyChange,
                     filterPresses: filterPresses,
                     selectedPressInstructions: selectedPressInstructions,
-                    onSectionInkCoverageSave: onSectionInkCoverageSave
+                    onSectionInkCoverageSave: onSectionInkCoverageSave,
+                    selectedCostCenterCategory: selectedCostCenterCategory
                     //#endregion
                 };
             })()
