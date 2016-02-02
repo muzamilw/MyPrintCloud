@@ -1,0 +1,225 @@
+﻿@model MPC.Models.DomainModels.Company
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
+    Layout = null;
+
+}
+@{
+    var Address = ViewBag.Address as MPC.Webstore.Models.AddressViewModel;
+    string privacyAndTermsHtml = "";
+    string PrivacyPolicy = "";
+    string TermAndCondition = "";
+    if (ViewBag.PrivacyPolicy != null)
+    {
+        PrivacyPolicy = PrivacyPolicy + " <a id='lbl_CopyRightMessage' onclick='ShowLoader();' style='font-size: 12px;  font-weight: normal;' href=/pages/" + Utils.specialCharactersEncoder(ViewBag.PrivacyPolicy.PageTitle) + "/" + ViewBag.PrivacyPolicy.PageId + ">" + Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId, "Privacy Policy")) + "</a>";
+
+    }
+
+    if (ViewBag.TermAndCondition != null)
+    {
+
+        TermAndCondition = TermAndCondition + " <a id='lnkTermsCondtions' class='small_gray_hyperlink S6FooterMLCs hyperTermCond'  href=/pages/" + Utils.specialCharactersEncoder(ViewBag.TermAndCondition.PageTitle) + "/" + ViewBag.TermAndCondition.PageId + " onclick='ShowLoader();'>" + Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId, "Terms And Conditions")) + "</a>";
+
+    }
+    }
+
+
+
+<div class="footer-container">
+    <div class="footer-container2">
+
+        <div class="footer-primary-container section-container">
+            <div class="footer-primary footer container">
+                <div class="inner-container">
+
+                    <div class="footer-primary-bottom nested-container">
+
+                        <div class="footer-left grid12-8">
+                            <div class="footer-left-top">
+                                <div class="footer-box con-info grid12-4">
+                                    <div class="collapsible mobile-collapsible">
+                                        <span class="opener"></span>
+                                        <h6 class="block-title heading">Contact Info</h6>
+                                        <div class="block-content">
+                                            <ul class="add-info">
+                                                <li>
+                                                    <span class="ic add-loc"></span>
+                                                    <span class="add-txt">
+                                                        @Address.Address1,<br>
+                                                        @Address.Address2,<br>
+                                                        @Address.City,<br>
+                                                        @Address.State<br>
+                                                        @Address.Country<br>
+                                                        @Address.ZipCode
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span class="ic add-mob"></span>
+                                                    <span class="add-txt">
+                                                        Phone: <a href="tel:0208 900 1191" title="0208 900 1191" class="phone-call">@Address.Tel</a>
+                                                    </span>
+                                                </li>
+                                                <li class="last">
+                                                    <span class="ic add-mail"></span>
+                                                    <span class="add-txt"><a title="print@liquidbubble.com" href="mailto:@Address.Email">@Address.Email</a></span>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer-box my-account grid12-4">
+                                    <div class="collapsible mobile-collapsible">
+                                        <span class="opener"></span>
+                                        <h6 class="block-title heading">my account</h6>
+                                        <div class="block-content" >
+
+                                            <ul>
+                                                <li><a title="My Account" href="/Dashboard">My Account</a></li>
+                                                <li><a title="My Order" href="/ProductOrderHistory">My Order</a></li>
+                                                <li><a title="My Cart" href="/ShopCart">My Cart</a></li>
+                                                <li><a title="Checkout" href="/ShopCartAddressSelect">Checkout</a></li>
+                                                <li class="last">
+                                                    <a href="/Login" title="Sign In">Sign In</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="footer-box products grid12-4">
+                                    <div class="collapsible mobile-collapsible">
+                                        <span class="opener"></span>
+                                        <h6 class="block-title heading">Products</h6>
+                                        <div class="block-content" >
+                                            <ul>
+                                                <li><a href="#" title="Folder Printing">Folder Printing</a></li>
+                                                <li><a href="#" title="Roller Banners">Roller Banners</a></li>
+                                                <li><a href="#" title="Outdoor Banner Printing">Outdoor Banner Printing</a></li>
+                                                <li><a href="#" title="Brochure Printing">Brochure Printing</a></li>
+                                                <li class="last"><a href="#" title="View All" class="read-more">View All <i class="fa fa-angle-right"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>					<div class="footer-box useful-links grid12-4">
+                                    <div class="collapsible mobile-collapsible">
+                                        <span class="opener"></span>
+                                        <h6 class="block-title heading">useful links</h6>
+                                        <div class="block-content" >
+                                            <ul>
+                                                <li><a href="#" title="FAQs">FAQs</a></li>
+                                                <li><a href="#" title="Templates">Templates</a></li>
+                                                <li><a href="#" title="Design Services">Design Services</a></li>
+                                                <li class="last"><a href="#" title="Delivery and Returns">Delivery and Returns</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>					<div class="footer-box connect-with-us grid12-4">
+                                    <div class="collapsible mobile-collapsible">
+                                        <span class="opener"></span>
+                                        <h6 class="block-title heading">Connect with Us</h6>
+                                        <div class="block-content">
+                                            <ul class="social-footer">
+                                                <li><span><a href="#" title="Like us on Facebook" target="_blank" class="fb">Like us on Facebook</a></span></li>
+                                                <li><span><a href="#" title="Follow us on Twitter" target="_blank" class="twi">Follow us on Twitter</a></span></li>
+                                                <li class="last"><span><a href="#" title="Add us on Google+" target="_blank" class="g-plus">Add us on Google+</a></span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer-right grid12-4">
+                            <div class="contct-form-outer">
+                                <div id="messages_product_view"></div>
+                                <div class="page-title get-touch">
+                                    <h2>Get in touch</h2>
+                                </div>
+                                <div class="form-box">
+                                    
+@using (Html.BeginForm())
+{
+                                        <div class="fieldset">
+                                            <h3 class="legend">We would like to hear from you</h3>
+                                            <ul class="form-list">
+                                                <li class="fields">
+                                                    <div class="field">
+                                                        <label for="name" class="required"><em>*</em>Name</label>
+                                                        <div class="input-box">
+                                                            <input name="name" id="name" title="Name" value="" class="input-text required-entry" type="text" placeholder="Name *">
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <label for="email" class="required"><em>*</em>Email</label>
+                                                        <div class="input-box">
+                                                            <input name="email" id="email" title="Email" value="" class="input-text required-entry validate-email" type="text" placeholder="Email *">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="wide">
+                                                    <label for="comment" class="required"><em>*</em>Message</label>
+                                                    <div class="input-box">
+                                                        <textarea name="comment" id="comment" title="Message" class="required-entry input-text" cols="5" rows="3" placeholder="Message *"></textarea>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="buttons-set">
+                                            <p class="required">* Required Fields</p>
+                                            <input type="text" name="hideit" id="hideit" value="" style="display:none !important;">
+                                            <button type="submit" title="Send" class="button"><span><span>Send</span></span></button>
+                                        </div>
+}
+                                    
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+//<![CDATA[
+    var gettouchcontactForm = new VarienForm('gettouchcontactForm', false);
+//]]>
+                            </script>
+                        </div>
+                        <div class="clear">	</div>
+
+                    </div> <!-- end: footer-primary-bottom -->
+
+                </div> <!-- end: inner-container -->
+            </div> <!-- end: footer-primary -->
+        </div>
+
+
+        <div class="footer-bottom-container section-container">
+            <div class="footer-bottom footer container">
+                <div class="inner-container">
+
+                    <div class="section clearer">
+
+                        <div class="item item-left">
+                            <div class="footer-btm-link">
+                                <ul>
+                                    <li class="first">@Html.Raw(TermAndCondition)</li>
+
+                                    <li><a title="Site Map " href="http://lbprint.liquidbubblehosting.com/sitemap">Site Map</a></li>
+                                    <li class="last">@Html.Raw(PrivacyPolicy)</li>
+                                </ul>
+                            </div>
+                            <p class="footer-copyright">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.WBStoreId, "Copyrights 2015. All Rights Reserved.")) </p>
+                        </div>
+
+                        <div class="item item-right block_footer_payment"><p><img title="Payment methods" src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/infortis/ultimo/custom/payment.png" alt="Payment methods"></p></div>
+
+
+
+                    </div> <!-- end: footer-bottom section -->
+
+                </div> <!-- end: inner-container -->
+            </div> <!-- end: footer-bottom -->
+        </div>
+
+        <a id="scroll-to-top" class="ic ic-up" href="#top" style="display: inline;"></a>
+
+    </div> <!-- end: footer-container2 -->
+</div>

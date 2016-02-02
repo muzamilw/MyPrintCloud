@@ -669,28 +669,36 @@ namespace MPC.Implementation.MISServices
             }
             
             var orderStatusId = estimate.StatusId;
+            try
+            {
+                estimate.UpdateTo(order, new OrderMapperActions
+                {
+                    CreatePrePayment = CreateNewPrePayment,
+                    DeletePrePayment = DeletePrePayment,
+                    CreateItem = CreateItem,
+                    DeleteItem = DeleteItem,
+                    CreateItemSection = CreateItemSection,
+                    DeleteItemSection = DeleteItemSection,
+                    CreateSectionCostCentre = CreateSectionCostCentre,
+                    DeleteSectionCostCenter = DeleteSectionCostCentre,
+                    CreateItemAttachment = CreateItemAttachment,
+                    DeleteItemAttachment = DeleteItemAttachment,
+                    CreateSectionInkCoverage = CreateSectionInkCoverage,
+                    DeleteSectionInkCoverage = DeleteSectionInkCoverage,
+                    CreateShippingInformation = CreateNewShippingInformation,
+                    DeleteShippingInformation = DeleteShippingInformation,
+                    GetNextJobCode = GetJobCodeForItem,
+                    CreateSectionCostCenterDetail = CreateSectionCostCentreDetail,
+                    DeleteSectionCostCenterDetail = DeleteSectionCostCentreDetail,
+                });
+            }
+            catch (Exception exp)
+            {
+                throw new MPCException("Failed to save order. Error: " + exp.Message, estimateRepository.OrganisationId);
+            }
 
             // Update Order
-            estimate.UpdateTo(order, new OrderMapperActions
-                                     {
-                                         CreatePrePayment = CreateNewPrePayment,
-                                         DeletePrePayment = DeletePrePayment,
-                                         CreateItem = CreateItem,
-                                         DeleteItem = DeleteItem,
-                                         CreateItemSection = CreateItemSection,
-                                         DeleteItemSection = DeleteItemSection,
-                                         CreateSectionCostCentre = CreateSectionCostCentre,
-                                         DeleteSectionCostCenter = DeleteSectionCostCentre,
-                                         CreateItemAttachment = CreateItemAttachment,
-                                         DeleteItemAttachment = DeleteItemAttachment,
-                                         CreateSectionInkCoverage = CreateSectionInkCoverage,
-                                         DeleteSectionInkCoverage = DeleteSectionInkCoverage,
-                                         CreateShippingInformation = CreateNewShippingInformation,
-                                         DeleteShippingInformation = DeleteShippingInformation,
-                                         GetNextJobCode = GetJobCodeForItem,
-                                         CreateSectionCostCenterDetail = CreateSectionCostCentreDetail,
-                                         DeleteSectionCostCenterDetail = DeleteSectionCostCentreDetail,
-                                     });
+            
             // Save Changes
             estimateRepository.SaveChanges();
 
