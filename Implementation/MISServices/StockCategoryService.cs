@@ -48,7 +48,12 @@ namespace MPC.Implementation.MISServices
         {
             //stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
             var stockDbVersion = stockCategoryRepository.getStockCategoryByCategoryId(stockCategory.CategoryId);
-            stockCategory.OrganisationId = stockDbVersion.OrganisationId;
+            if (stockCategory.CategoryId > 4) // organisation set to to only categories that are user defined upto 4 these are global categories
+            {
+                stockCategory.OrganisationId = stockDbVersion.OrganisationId;
+            }
+           
+            
 
             #region Sub Stock Categories Items
             //Add  SubStockCategories 
