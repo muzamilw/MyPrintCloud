@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
@@ -36,6 +37,7 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index()
         {
+            MPC.Models.DomainModels.Company model = null;
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
             SystemUser SystemUser = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
             if (_webstoreclaimHelper.isUserLoggedIn())
@@ -53,7 +55,21 @@ namespace MPC.Webstore.Controllers
             ViewBag.email = SystemUser.Email;
             ViewBag.Phone = StoreBaseResopnse.Company.PhoneNo;
             ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
-            return PartialView("PartialViews/BubbleLoginBar");
+
+            if (StoreBaseResopnse.Company != null)
+            {
+                model = StoreBaseResopnse.Company;
+            }
+
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactID() == 0)
+            {
+                ViewBag.DefaultUrl = "/Login";
+            }
+            else
+            {
+                ViewBag.DefaultUrl = "/";
+            }
+            return PartialView("PartialViews/BubbleLoginBar", model);
         }
     }
 }

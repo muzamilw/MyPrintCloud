@@ -1,4 +1,5 @@
-﻿
+﻿@model MPC.Models.DomainModels.Company
+@using MPC.Webstore.Common;
 <div class="Container">
     <div class="page">
         <div class="header-container header-regular" id="top">
@@ -29,8 +30,8 @@
 
                                     <!-- Mobile logo -->
                                     <div class="logo-wrapper--mobile">
-                                        <a class="logo logo--mobile" href="http://lbprint.liquidbubblehosting.com/" title="Liquid Bubble Print">
-                                            <img id="logoImageee" src="http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/logo.png" alt="Liquid Bubble Print">
+                                        <a class="logo logo--mobile" href="@ViewBag.DefaultUrl" title="Liquid Bubble Print">
+                                            <img id="logoImageee" src="/@Model.Image" alt="Liquid Bubble Print">
                                         </a>
                                     </div>
                                     <div class="clearer after-mobile-logo"></div>
@@ -43,7 +44,7 @@
                                     <div class="hp-block h-left regular-logo">
 
                                         <div class="logo-wrapper logo-wrapper--regular">
-                                            <h1 class="logo logo--regular"><strong>@ViewBag.CompanyName</strong><a href="http://lbprint.liquidbubblehosting.com/" title="Liquid Bubble Print"><img id="logoImageee" src="http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/logo.png" alt="Liquid Bubble Print"></a></h1>
+                                            <h1 class="logo logo--regular"><strong>@ViewBag.CompanyName</strong><a href="@ViewBag.DefaultUrl" title="Liquid Bubble Print"><img id="logoImageee" src="/@Model.Image" alt="Liquid Bubble Print"></a></h1>
                                         </div>
 
                                     </div>
@@ -206,6 +207,3 @@
         </div> <!-- end: header-container2 -->
     </div>
 </div>
-@*<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/db57826306f2446d41e160fe025abfca.css" media="all" />
-<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/395bacd6701976d216c53ce125e28a4b.css" media="print" />*@
-<script type="text/javascript" src="http://lbprint.liquidbubblehosting.com/media/js/e095411e426f85c3580928f3310fd876.js"></script>
