@@ -2756,7 +2756,6 @@ function togglePage(pId) {
                                 var XML = new XMLWriter();
                                 if (D1AO.AutofitImage == false) {
                                     debugger;
-                                    var he = 
                                     XML.BeginNode("Cropped");
                                     XML.Node("sx", (0).toString());
                                     XML.Node("sy", (0).toString());
@@ -2765,8 +2764,8 @@ function togglePage(pId) {
                                     XML.Node("crv1", "1");
                                     XML.Node("crv2", (D1AO.getWidth()).toString());
                                     XML.Node("crv3", (D1AO.getHeight()).toString());
-                                    XML.Node("crv4", (D1AO.left).toString());
-                                    XML.Node("crv5", (D1AO.top).toString());
+                                    XML.Node("crv4", (IW).toString());
+                                    XML.Node("crv5", (IH).toString());
                                     XML.Node("isCropped", "1");
                                     XML.EndNode();
                                 } else {
