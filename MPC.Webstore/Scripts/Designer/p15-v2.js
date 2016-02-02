@@ -539,8 +539,15 @@ function k28() {
 
     $.getJSON("/designerapi/TemplateBackgroundImage/GetTerritories/" + CustomerID,
         function (xdata) {
+            if (xdata.length > 1)
+                k29("dropDownTerritories", "ter_all" , "All", "territroyContainer");
             $.each(xdata, function (i, item) {
                 k29("dropDownTerritories", "ter_" + item.TerritoryId, item.TerritoryName, "territroyContainer");
+            });
+            $("#ter_all").click(function (event) {
+                $('#dropDownTerritories  div :input').each(function (i) {
+                    $(this).prop('checked', true);
+                });
             });
         });
 }
