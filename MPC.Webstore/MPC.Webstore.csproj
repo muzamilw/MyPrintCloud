@@ -399,6 +399,7 @@
     <Compile Include="Controllers\BubbleAboutUSController.cs" />
     <Compile Include="Controllers\BubbleBannerController.cs" />
     <Compile Include="Controllers\BubbleHeaderController.cs" />
+    <Compile Include="Controllers\BubbleLoginBarController.cs" />
     <Compile Include="Controllers\BubbleQuickLinksController.cs" />
     <Compile Include="Controllers\BubbleSavePercentController.cs" />
     <Compile Include="Controllers\CategoriesAndProductsController.cs" />
@@ -1149,6 +1150,7 @@
     <Content Include="Views\Shared\PartialViews\BubbleAboutUS.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleQuickLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleSavePercent.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1167,6 +1169,7 @@
     <Folder Include="Views\BubbleAboutUS\" />
     <Folder Include="Views\BubbleBanner\" />
     <Folder Include="Views\BubbleHeader\" />
+    <Folder Include="Views\BubbleLoginBar\" />
     <Folder Include="Views\BubbleQuickLinks\" />
     <Folder Include="Views\BubbleSavePercent\" />
     <Folder Include="Views\DescriptiveFooter\" />
