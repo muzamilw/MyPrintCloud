@@ -1198,7 +1198,8 @@ $("#btnUpdateImgProp").click(function (event) {
 	        $('#dropDownTerritories  div :input').each(function (i) {
 	            if ($(this).prop('checked')) {
 	                var arr = $(this).attr('id').split('_');
-	                Territories += arr[arr.length - 1] + "_";
+	                if (arr[arr.length - 1] != "all")
+	                    Territories += arr[arr.length - 1] + "_";
 	            }
 	        });
 	        //if (Territories != "") {

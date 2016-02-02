@@ -2770,7 +2770,7 @@ function pcL20_newAutoMate(src, he, wd, oI) {
             var cb =  $(".CropControls").css("top",  "50px");
             image.cropbox({ width: wd, height:he, showControls: 'auto', xml: null })
               .on('cropbox', function (event, results, img) {
-                  debugger;
+                 
                   crX = (results.cropX);
                   crY = (results.cropY);
                   crWd = (results.cropW);
