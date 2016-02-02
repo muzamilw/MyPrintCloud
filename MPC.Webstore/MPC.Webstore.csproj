@@ -530,6 +530,12 @@
     <Content Include="Content\BubbleFiles\Site.css" />
     <Content Include="Content\BubbleImages\banner-right-custom-image-1.jpg" />
     <Content Include="Content\BubbleImages\banner-right-custom-image-2.jpg" />
+    <Content Include="Content\BubbleImages\computer.png" />
+    <Content Include="Content\BubbleImages\footer-bg.jpg" />
+    <Content Include="Content\BubbleImages\parallex-bg.jpg" />
+    <Content Include="Content\BubbleImages\payment.png" />
+    <Content Include="Content\BubbleImages\sefo-bg.png" />
+    <Content Include="Content\BubbleImages\social-icon-footer.png" />
     <Content Include="Content\carousel.css" />
     <Content Include="Content\cbre.css" />
     <Content Include="Content\clublinks.css" />
