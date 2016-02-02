@@ -970,7 +970,7 @@ define("order/order.viewModel",
 
                     changeStatusOfItemsForReadyForShipping = function () {
                         _.each(selectedOrder().items(), function (item) {
-                            item.jobStatusId(jobStatuses()[4].StatusId);
+                            item.jobStatusId(jobStatuses()[5].StatusId);
                         });
                     },
                     changeStatusOfItemsForInvoicedAndShipped = function () {
