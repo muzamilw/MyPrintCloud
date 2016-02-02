@@ -16,7 +16,6 @@
                     {
                         <div class="bannerContainer">
                             <div id="top-banner" class="carousel slide hidden-xs " data-interval="6000" data-ride="carousel">
-
                                 @if (Model.Count() > 1)
                                 {
                                     <ol class="carousel-indicators">
@@ -33,7 +32,6 @@
                                         }
                                     </ol>
                                 }
-
                                 <div class="carousel-inner">
                                     @foreach (var banner in Model)
                                     {
@@ -67,14 +65,15 @@
                     <div class="banner-custom">
                         <div class="custom-item1">
                             <div class="item-inner">
-
-                                <img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/banner-right-custom-image-1.jpg" alt="Don't want to order online">
-
+                                @*<img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/banner-right-custom-image-1.jpg" alt="Don't want to order online">*@
+                                <img src="/Content/BubbleImages/banner-right-custom-image-1.jpg" alt="Don't want to order online" />
                             </div>
                         </div>
                         <div class="custom-item2 last">
                             <div class="item-inner">
-                                <img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/banner-right-custom-image-2.jpg" alt="Today's Offer">
+
+                                <img src="/Content/BubbleImages/banner-right-custom-image-2.jpg" alt="Today's Offer" />
+                                @*<img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/banner-right-custom-image-2.jpg" alt="Today's Offer">*@
                             </div>
                         </div>
                     </div>

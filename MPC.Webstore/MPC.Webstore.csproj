@@ -528,6 +528,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\BubbleFiles\Site.css" />
+    <Content Include="Content\BubbleImages\banner-right-custom-image-1.jpg" />
+    <Content Include="Content\BubbleImages\banner-right-custom-image-2.jpg" />
     <Content Include="Content\carousel.css" />
     <Content Include="Content\cbre.css" />
     <Content Include="Content\clublinks.css" />
@@ -1161,7 +1163,6 @@
     <Folder Include="Areas\WebstoreApi\Views\RealEstateSmartForm\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
-    <Folder Include="Content\BubbleImages\" />
     <Folder Include="Views\AreYouLocal\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\BubbleAboutUS\" />
