@@ -88,6 +88,18 @@ namespace MPC.Webstore
                  name = ""
              });
 
+            routes.MapRoute(
+               "BubbleLogin"
+             , "BubbleLoginBar"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
+
+
+
 
             routes.MapRoute(
              "BubbleBanners"
