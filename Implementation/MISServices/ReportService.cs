@@ -147,7 +147,27 @@ namespace MPC.Implementation.MISServices
                             {
                                 if (param.ControlType == 1)// means drop down
                                 {
-                                    CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                    if(iReportID == 1376) // for retail store orders
+                                    {
+                                        if(ComboValue > 0)
+                                        {
+                                            bool isCorporate = ReportRepository.isCorporateCustomer(ComboValue);
+                                            if(isCorporate)
+                                            {
+                                                CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                            }
+                                            else
+                                            {
+                                                CriteriaField = CriteriaField + " and " + "Company.StoreId = " + ComboValue + " ";
+                                            }
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                    }
+                                    
                                 }
                                 else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges
                                 {

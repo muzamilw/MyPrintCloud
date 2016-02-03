@@ -47,5 +47,7 @@ namespace MPC.Interfaces.Repository
 
         long CheckCustomReportForPOEmail();
 
+        bool isCorporateCustomer(int StoreId);
+
     }
 }
