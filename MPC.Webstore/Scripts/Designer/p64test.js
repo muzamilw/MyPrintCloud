@@ -17595,8 +17595,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
                              sheight,
                                 dx,
                                 dy,
-                               swidth,
-                             sheight
+                               dWidth,
+                             dHeight
                              );
               } else {
                   elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight,

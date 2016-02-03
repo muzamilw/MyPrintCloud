@@ -399,6 +399,7 @@
     <Compile Include="Controllers\BubbleAboutUSController.cs" />
     <Compile Include="Controllers\BubbleBannerController.cs" />
     <Compile Include="Controllers\BubbleHeaderController.cs" />
+    <Compile Include="Controllers\BubbleLoginBarController.cs" />
     <Compile Include="Controllers\BubbleQuickLinksController.cs" />
     <Compile Include="Controllers\BubbleSavePercentController.cs" />
     <Compile Include="Controllers\CategoriesAndProductsController.cs" />
@@ -526,9 +527,15 @@
     <Content Include="Content\BannerMart.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\BubbleFiles\Bubblecss4b.css" />
-    <Content Include="Content\BubbleFiles\BubbleCsscs.css" />
     <Content Include="Content\BubbleFiles\Site.css" />
+    <Content Include="Content\BubbleImages\banner-right-custom-image-1.jpg" />
+    <Content Include="Content\BubbleImages\banner-right-custom-image-2.jpg" />
+    <Content Include="Content\BubbleImages\computer.png" />
+    <Content Include="Content\BubbleImages\footer-bg.jpg" />
+    <Content Include="Content\BubbleImages\parallex-bg.jpg" />
+    <Content Include="Content\BubbleImages\payment.png" />
+    <Content Include="Content\BubbleImages\sefo-bg.png" />
+    <Content Include="Content\BubbleImages\social-icon-footer.png" />
     <Content Include="Content\carousel.css" />
     <Content Include="Content\cbre.css" />
     <Content Include="Content\clublinks.css" />
@@ -1149,6 +1156,7 @@
     <Content Include="Views\Shared\PartialViews\BubbleAboutUS.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleQuickLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleSavePercent.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1161,12 +1169,12 @@
     <Folder Include="Areas\WebstoreApi\Views\RealEstateSmartForm\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
-    <Folder Include="Content\BubbleImages\" />
     <Folder Include="Views\AreYouLocal\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\BubbleAboutUS\" />
     <Folder Include="Views\BubbleBanner\" />
     <Folder Include="Views\BubbleHeader\" />
+    <Folder Include="Views\BubbleLoginBar\" />
     <Folder Include="Views\BubbleQuickLinks\" />
     <Folder Include="Views\BubbleSavePercent\" />
     <Folder Include="Views\DescriptiveFooter\" />

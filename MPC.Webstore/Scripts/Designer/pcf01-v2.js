@@ -3371,10 +3371,10 @@ function togglePage(pId) {
             var s = $('#sliderDesigner').css('background-image');
             if (s != undefined) {
                 var p = s.split("?"); 
-                if (s.indexOf("asset") == -1) {
+              //  if (s.indexOf("asset") == -1) {
                     var temp = p[0].split("http://");
                     $(".PreviewerDownloadImg").attr("href", "http://" + temp[1]);
-                }
+              //  }
             }
         }
     }

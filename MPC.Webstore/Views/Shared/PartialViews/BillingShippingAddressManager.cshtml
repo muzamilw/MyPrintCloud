@@ -1,23 +1,23 @@
-﻿
-@using MPC.Webstore.WebGridExtension;
+﻿@using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @{
     Layout = null;
 }
 @{
-    var grid = new WebGrid(source: ViewBag.Address, canPage: true,canSort:false, rowsPerPage: 13);
+    var grid = new WebGrid(source: ViewBag.Address, canPage: true, canSort: false, rowsPerPage: 13);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
 
 <div class="content_area container" id="BillingShiping">
-   
+
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="signin_heading_div float_left_simple ">
-                <label class="sign_in_heading" id="HistryBtn">@Html.Raw(Html.GetKeyValueFromResourceFile("BillShipMangHead", UserCookieManager.WBStoreId, "My Saved Billing & Shipping Details"))
-</label>
+                <label class="sign_in_heading" id="HistryBtn">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("BillShipMangHead", UserCookieManager.WBStoreId, "My Saved Billing & Shipping Details"))
+                </label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
@@ -32,7 +32,7 @@
             <div class="clearBoth">
             </div>
         </div>
-       
+
         <div class="paddingTop15px col-md-12 col-lg-12 col-xs-12">
             <div class="cursor_pointer">
 
@@ -64,12 +64,12 @@
                             </td>
 
                             <td style="padding-left: 10px;">
-                             
+
                                 <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnSearchOrders", UserCookieManager.WBStoreId, "Go"))</button>
                             </td>
 
                             <td style="padding-left: 10px;">
-                             
+
                                 <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear", UserCookieManager.WBStoreId, "Clear"))</button>
                             </td>
                         }
@@ -82,9 +82,9 @@
 
                 </div>
                 <div class="territory_row_paddingNew">
-                   
-                        <div id="divContainer" class="cursor_pointer">
-                            @grid.Table(
+
+                    <div id="divContainer" class="cursor_pointer">
+                        @grid.Table(
     htmlAttributes: new { id = "BillingShippingGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
@@ -97,52 +97,58 @@
     grid.Column("Address Details",format:@<p>@item.Address1</p>,style:"hidden-xs hidden-sm"),
 grid.Column("Default Shipping",format:@<p>
 
-                                @if (item.IsDefaultShippingAddress == true)
+                            @if (item.IsDefaultShippingAddress == true)
+                            {
+                            <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
+                            }
+                            else
+                            {
+                                if (item.IsDefaultShippingAddress == null || item.IsDefaultShippingAddress == false)
                                 {
-                                <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
+                                    <p></p>
                                 }
-                                else
-                                {
-                                    if (item.IsDefaultShippingAddress == null || item.IsDefaultShippingAddress == false)
-                                    {
-                                        <p></p>
-                                    }
-                                }
+                            }
 
-                                </p>,style:"hidden-xs hidden-sm"),
+                            </p>,style:"hidden-xs hidden-sm"),
 
        grid.Column("Default Billing",format:@<p>
 
-                                @if (item.IsDefaultAddress == true)
-                                {
-                                <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
+                            @if (item.IsDefaultAddress == true)
+                            {
+                            <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
 
-                                }
-                                else
+                            }
+                            else
+                            {
+                                if (item.IsDefaultAddress == null || item.IsDefaultAddress == false)
                                 {
-                                    if (item.IsDefaultAddress == null || item.IsDefaultAddress == false)
-                                    {
-                                        <p></p>
-                                    }
-
+                                    <p></p>
                                 }
 
-                                </p>,style:"hidden-xs hidden-sm" ),
-                            
-    grid.Column("Edit", format:@<text>if(ViewBag.loginContactCompanyID!=item.ContactId){ <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
-    }</text>,style:"WebGridPadding")
+                            }
+
+                            </p>,style:"hidden-xs hidden-sm" ),
+
+    grid.Column("Edit", format:@<text>@if (ViewBag.isAdmin == 1)
+    {
+        <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
+    }
+                                      else if (ViewBag.loginContactCompanyID == item.ContactId)
+                                      {
+                                        <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
+                                      }</text>,style:"WebGridPadding")
     }
 
-              )
+                                     )
 
-                            @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
-                            {
-                                <div id="footerr" class="pagination pagination-small pagination-right">
-                                    @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
-                                </div>
-                            }
-                        </div>
-                   
+                        @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
+                        {
+                            <div id="footerr" class="pagination pagination-small pagination-right">
+                                @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
+                            </div>
+                        }
+                    </div>
+
                 </div>
 
                 <div class="float_right"></div>
@@ -151,463 +157,464 @@ grid.Column("Default Shipping",format:@<p>
 
             </div>
         </div>
-        </div>
     </div>
+</div>
 
-<div id="UpdateModelPopUp"  >
+<div id="UpdateModelPopUp">
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
         <div id="container" style="margin-left:64px;">
-     
-        <div class="address_contol_area1">
-            <input type="text" value="Address Name" maxlength="100" id="txtAddressName" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddressName", UserCookieManager.WBStoreId, "Address Name:"))">
-        </div>
-      
-        <div class="address_contol_area2">
-            <input type="text" maxlength="50" id="txtFAO" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlFAO", UserCookieManager.WBStoreId, "FAO"))">
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-      
-        <div class="address_contol_area1">
-            <input type="text" value="Address 1" maxlength="250" id="txtAddress1" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("literalAddress1", UserCookieManager.WBStoreId, "Address 1"))">
-        </div>
-     
-        <div class="address_contol_area2">
-            <input type="text" maxlength="50" id="txtReference" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", UserCookieManager.WBStoreId, "Reference"))">
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-    
-        <div class="address_contol_area1">
-            <input type="text" maxlength="250" id="txtAddress2" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddress2", UserCookieManager.WBStoreId, "Address 2"))">
-        </div>
-      
-        <div class="address_contol_area2">
-            <div class="float_left_simple">
-                <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:160px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("label15", UserCookieManager.WBStoreId, "Telephone"))">
+
+            <div class="address_contol_area1">
+                <input type="text" value="Address Name" maxlength="100" id="txtAddressName" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddressName", UserCookieManager.WBStoreId, "Address Name:"))">
             </div>
-          
-            <div class="float_left">
-                <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:97px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("literalExt1", UserCookieManager.WBStoreId, "Ext 1"))">
+
+            <div class="address_contol_area2">
+                <input type="text" maxlength="50" id="txtFAO" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlFAO", UserCookieManager.WBStoreId, "FAO"))">
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+            <div class="address_contol_area1">
+                <input type="text" value="Address 1" maxlength="250" id="txtAddress1" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("literalAddress1", UserCookieManager.WBStoreId, "Address 1"))">
+            </div>
+
+            <div class="address_contol_area2">
+                <input type="text" maxlength="50" id="txtReference" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", UserCookieManager.WBStoreId, "Reference"))">
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+            <div class="address_contol_area1">
+                <input type="text" maxlength="250" id="txtAddress2" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddress2", UserCookieManager.WBStoreId, "Address 2"))">
+            </div>
+
+            <div class="address_contol_area2">
+                <div class="float_left_simple">
+                    <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:160px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("label15", UserCookieManager.WBStoreId, "Telephone"))">
+                </div>
+
+                <div class="float_left">
+                    <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:97px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("literalExt1", UserCookieManager.WBStoreId, "Ext 1"))">
+                </div>
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+            <div class="address_contol_area1">
+                <input type="text" maxlength="250" id="txtAddress3" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddress3", UserCookieManager.WBStoreId, "Address 3"))">
+            </div>
+
+            <div class="address_contol_area2">
+                <div class="float_left_simple">
+                    <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:160px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTel2", UserCookieManager.WBStoreId, "Tel 2"))">
+                </div>
+
+                <div class="float_left">
+                    <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:96px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("LiteralExt2", UserCookieManager.WBStoreId, "Ext 2"))">
+                </div>
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+            <div class="address_contol_area1">
+                <input type="text" value="City" maxlength="100" id="txtCity" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City "))">
+            </div>
+
+            <div class="address_contol_area2">
+                <input type="text" maxlength="30" id="txtFax" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divfax", UserCookieManager.WBStoreId, "Fax"))">
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+            <div class="address_contol_area1">
+
+
+                <select id="DDCountry" class="newTxtBox"></select>
+
+            </div>
+
+            <div class="address_contol_area2">
+                <input type="text" maxlength="100" id="txtLatitude" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("Latitudelbl", UserCookieManager.WBStoreId, "Latitude"))">
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+            <div class="address_contol_area1">
+                <select id="DDSate" class="newTxtBox"></select>
+
+            </div>
+
+
+            <div class="address_contol_area2">
+                <input type="text" maxlength="100" id="txtLongitude" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlLongitude", UserCookieManager.WBStoreId, "Longitude"))">
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+            <div class="address_contol_area1">
+                <input type="text" value="54000" maxlength="30" id="txtPostalCode" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("LiteralPostalCode", UserCookieManager.WBStoreId, "Postal Code"))">
+            </div>
+            <div class="address_label_area2">
+
+            </div>
+            <div class="address_contol_area2">
+            </div>
+
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+            <div style="width:159px;float:left;">
+                &nbsp;
+            </div>
+            <div class="address_contol_area1_corp">
+
+                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))" id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5 background-green" style="float: left;" onclick="SaveCall();">
+
+                <input value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))" type="button" id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="HideMessagePopUpCustom();">
+            </div>
+            <div class="clearBoth">
+
             </div>
         </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-    
-        <div class="address_contol_area1">
-            <input type="text" maxlength="250" id="txtAddress3" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddress3", UserCookieManager.WBStoreId, "Address 3"))">
-        </div>
-       
-        <div class="address_contol_area2">
-            <div class="float_left_simple">
-                <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:160px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTel2", UserCookieManager.WBStoreId, "Tel 2"))">
-            </div>
-          
-            <div class="float_left">
-                <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:96px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("LiteralExt2", UserCookieManager.WBStoreId, "Ext 2"))">
-            </div>
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-     
-        <div class="address_contol_area1">
-            <input type="text" value="City" maxlength="100" id="txtCity" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City "))">
-        </div>
-      
-        <div class="address_contol_area2">
-            <input type="text" maxlength="30" id="txtFax" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divfax", UserCookieManager.WBStoreId, "Fax"))">
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-     
-        <div class="address_contol_area1">
 
-
-            <select id="DDCountry" class="newTxtBox"></select>
-
-        </div>
-    
-        <div class="address_contol_area2">
-            <input type="text" maxlength="100" id="txtLatitude" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("Latitudelbl", UserCookieManager.WBStoreId, "Latitude"))">
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-       
-        <div class="address_contol_area1">
-            <select id="DDSate" class="newTxtBox"></select>
-
-        </div>
-
-        
-        <div class="address_contol_area2">
-            <input type="text" maxlength="100" id="txtLongitude" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlLongitude", UserCookieManager.WBStoreId, "Longitude"))">
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-      
-        <div class="address_contol_area1">
-            <input type="text" value="54000" maxlength="30" id="txtPostalCode" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("LiteralPostalCode", UserCookieManager.WBStoreId, "Postal Code"))">
-        </div>
-        <div class="address_label_area2">
-
-        </div>
-        <div class="address_contol_area2">
-        </div>
-
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-        <div style="width:159px;float:left;">
-            &nbsp;
-        </div>
-        <div class="address_contol_area1_corp">
-
-            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))" id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5 background-green" style="float: left;" onclick="SaveCall();">
-
-            <input value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))" type="button" id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="HideMessagePopUpCustom();">
-        </div>
-        <div class="clearBoth">
-            
-        </div>
     </div>
-        
-</div>
-      
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-<link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-<script type="text/javascript">
 
-    var AdRessID;
-    var CountryID;
-    var StateID;
-    var UpdateStatus = true;
-    function AddAndUpdate() {
-        if (UpdateStatus == true) {
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript">
 
-            UpdateAddress();
-        }
-        else {
+        var AdRessID;
+        var CountryID;
+        var StateID;
+        var UpdateStatus = true;
+        function AddAndUpdate() {
+            if (UpdateStatus == true) {
 
-            AddNewAddress();
-        }
-    }
+                UpdateAddress();
+            }
+            else {
 
-    function SearchAddress() {
-        var SeearchString = $("#txtsearch").val();
-
-        Search(SeearchString);
-    }
-    $("#txtsearch").keypress(function (event) {
-        if (event.keyCode == 13) {
-            if ($("#txtsearch").val() == '') {
-                RebindGrid();
-                event.preventDefault();
-                return false;
-
+                AddNewAddress();
             }
         }
 
-    });
-    $("#txtsearch").autocomplete({autoFocus: true,
-        source: function (request, response) {
-            // your ajax code
-            $.ajax({
-                url: "/BillingShippingAddressManager/IntellisenceData",
-                data: "{ 'prefixText': '" + request.term + "' }",
-                dataType: "json",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
+        function SearchAddress() {
+            var SeearchString = $("#txtsearch").val();
 
-                    response(data.split(":"))
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrorAutocomp", UserCookieManager.WBStoreId, "Error occured while autocomplete."))');
+            Search(SeearchString);
+        }
+        $("#txtsearch").keypress(function (event) {
+            if (event.keyCode == 13) {
+                if ($("#txtsearch").val() == '') {
+                    RebindGrid();
+                    event.preventDefault();
+                    return false;
+
+                }
+            }
+
+        });
+        $("#txtsearch").autocomplete({
+            autoFocus: true,
+            source: function (request, response) {
+                // your ajax code
+                $.ajax({
+                    url: "/BillingShippingAddressManager/IntellisenceData",
+                    data: "{ 'prefixText': '" + request.term + "' }",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        response(data.split(":"))
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrorAutocomp", UserCookieManager.WBStoreId, "Error occured while autocomplete."))');
+                    }
+                });
+            },
+            select: function (event, ui) {
+
+
+            },
+            minLength: 1,
+            change: function (event, ui) {
+
+                if ($("#txtsearch").val() == '') {
+                    RebindGrid();
+                }
+                else {
+                    $("#btnsearch").trigger('click');
+                }
+
+            }
+
+        });
+
+        function Searching(SearchText) {
+            var data = { text: SearchText }
+            $.ajax({
+                type: "POST",
+                url: "/BillingShippingAddressManager/Index",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                async: true,
+                success: function (response) {
+                }
+
+            });
+        }
+        function Search(SearchText) {
+            var data = { SearchedText: SearchText }
+            $.ajax({
+                type: "POST",
+                url: "/BillingShippingAddressManager/DisplaySearchedData",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                async: true,
+                success: function (response) {
+                }
+
+            });
+        }
+        function ShowBillingShippingDetails(AddressID) {
+            // ShowLoader();
+            UpdateStatus = true;
+            AdRessID = AddressID;
+            var data = { AddressId: AddressID }
+            $.ajax({
+                type: "GET",
+                url: "/webstoreapi/Address/FillAddresses",
+                contentType: "application/json",
+                data: data,
+                async: true,
+                success: function (response) {
+                    // var PHtml = $("#UpdateModelPopUp").html();
+
+
+                    //    ShippingBillingDetails("Update Address", PHtml);
+                    $("#modelTitle").text("Update Address");
+                    $("#txtAddressName").val(response.Address.AddressName);
+                    $("#txtFAO").val(response.Address.FAO);
+                    $('#txtAddress1').val(response.Address.Address1);
+                    $("#txtReference").val(response.Address.Reference);
+                    $("#txtAddress2").val(response.Address.Address2);
+                    $("#txtTel1").val(response.Address.Tel1);
+                    $("#txtExt1").val(response.Address.Extension1);
+                    $("#txtAddress3").val(response.Address.Address3);
+                    $("#txtTel2").val(response.Address.Tel2);
+                    $("#txtExt2").val(response.Address.Extension2);
+                    $("#txtCity").val(response.Address.City);
+                    $("#txtFax").val(response.Address.Fax);
+                    $("#txtLatitude").val(response.Address.GeoLatitude);
+                    $("#txtLongitude").val(response.Address.GeoLongitude);
+                    $("#txtPostalCode").val(response.Address.PostCode);
+                    StateID = response.StateId;
+                    CountryID = response.CountryId;
+                    LoadCountries();
+                    LoadStates();
+                    document.getElementById("layer").style.display = "block";
+                    document.getElementById("innerLayer").style.display = "block";
                 }
             });
-        },
-        select: function (event, ui) {
-
-
-        },
-        minLength: 1,
-        change: function (event, ui) {
-            
-            if ($("#txtsearch").val() == '') {
-                RebindGrid();
-            }
-            else {
-                $("#btnsearch").trigger('click');
-            }
 
         }
 
-    });
-
-    function Searching(SearchText) {
-        var data = { text: SearchText }
-        $.ajax({
-            type: "POST",
-            url: "/BillingShippingAddressManager/Index",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            async: true,
-            success: function (response) {
-            }
-
-        });
-    }
-    function Search(SearchText) {
-        var data = { SearchedText: SearchText }
-        $.ajax({
-            type: "POST",
-            url: "/BillingShippingAddressManager/DisplaySearchedData",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            async: true,
-            success: function (response) {
-            }
-
-        });
-    }
-    function ShowBillingShippingDetails(AddressID) {
-        // ShowLoader();
-        UpdateStatus = true;
-        AdRessID = AddressID;
-        var data = { AddressId: AddressID }
-        $.ajax({
-            type: "GET",
-            url: "/webstoreapi/Address/FillAddresses",
-            contentType: "application/json",
-            data: data,
-            async: true,
-            success: function (response) {
-                // var PHtml = $("#UpdateModelPopUp").html();
-
-
-                //    ShippingBillingDetails("Update Address", PHtml);
-                $("#modelTitle").text("Update Address");
-                $("#txtAddressName").val(response.Address.AddressName);
-                $("#txtFAO").val(response.Address.FAO);
-                $('#txtAddress1').val(response.Address.Address1);
-                $("#txtReference").val(response.Address.Reference);
-                $("#txtAddress2").val(response.Address.Address2);
-                $("#txtTel1").val(response.Address.Tel1);
-                $("#txtExt1").val(response.Address.Extension1);
-                $("#txtAddress3").val(response.Address.Address3);
-                $("#txtTel2").val(response.Address.Tel2);
-                $("#txtExt2").val(response.Address.Extension2);
-                $("#txtCity").val(response.Address.City);
-                $("#txtFax").val(response.Address.Fax);
-                $("#txtLatitude").val(response.Address.GeoLatitude);
-                $("#txtLongitude").val(response.Address.GeoLongitude);
-                $("#txtPostalCode").val(response.Address.PostCode);
-                StateID = response.StateId;
-                CountryID = response.CountryId;
-                LoadCountries();
-                LoadStates();
-                document.getElementById("layer").style.display = "block";
-                document.getElementById("innerLayer").style.display = "block";
-            }
-        });
-
-    }
-
-    function LoadCountries() {
-        $.ajax({
-            type: "GET",
-            url: "/BillingShippingAddressManager/LoadCountriesList",
-            contentType: "application/json",
-            async: true,
-            success: function (response) {
-                var CountriesDD = $("#DDCountry");
-                CountriesDD.html('');
-                CountriesDD.append($('<option></option>').val(0).html('Select Country'));
-                $.each(response.Country, function (id, option) {
-                    CountriesDD.append($('<option></option>').val(option.CountryId).html(option.CountryName));
-                });
-                if (UpdateStatus == true) {
-                    if (CountryID > 0) {
-                        SetSelectedCountry(response.Country, CountryID);
+        function LoadCountries() {
+            $.ajax({
+                type: "GET",
+                url: "/BillingShippingAddressManager/LoadCountriesList",
+                contentType: "application/json",
+                async: true,
+                success: function (response) {
+                    var CountriesDD = $("#DDCountry");
+                    CountriesDD.html('');
+                    CountriesDD.append($('<option></option>').val(0).html('Select Country'));
+                    $.each(response.Country, function (id, option) {
+                        CountriesDD.append($('<option></option>').val(option.CountryId).html(option.CountryName));
+                    });
+                    if (UpdateStatus == true) {
+                        if (CountryID > 0) {
+                            SetSelectedCountry(response.Country, CountryID);
+                        }
+                        else {
+                            $("#DDCountry")[0].selectedIndex = 0;
+                        }
                     }
-                    else {
-                        $("#DDCountry")[0].selectedIndex = 0;
+                    else { $("#DDCountry")[0].selectedIndex = 0; }
+                }
+            });
+        }
+        function LoadStates() {
+            if (UpdateStatus == true) {
+
+                if (StateID > 0) {
+
+                    if (CountryID > 0) {
+
+                        LoadCountryStatesOnLoad(CountryID);
                     }
                 }
-                else { $("#DDCountry")[0].selectedIndex = 0; }
-            }
-        });
-    }
-    function LoadStates() {
-        if (UpdateStatus == true) {
-
-            if (StateID > 0) {
-
-                if (CountryID > 0) {
-
-                    LoadCountryStatesOnLoad(CountryID);
+                else {
+                    LoadAllStates();
+                    $("#DDSate")[0].selectedIndex = 0;
                 }
             }
             else {
+
                 LoadAllStates();
                 $("#DDSate")[0].selectedIndex = 0;
             }
         }
-        else {
 
-            LoadAllStates();
-            $("#DDSate")[0].selectedIndex = 0;
+        function loadCountryStates(CountryID) {
+            var data = { CountryId: CountryID }
+            $.ajax({
+                type: "GET",
+                url: "/BillingShippingAddressManager/LoadStatesByCountryID",
+                contentType: "application/json",
+                data: data,
+                async: true,
+                success: function (response) {
+                    obj = response.State;
+
+                    var StatesDD = $("#DDSate");
+                    StatesDD.html('');
+                    //StatesDD.append($('<option></option>').val(0).html('Select State'));
+                    $.each(response.State, function (id, option) {
+                        StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
+                    });
+                }
+            });
+
         }
-    }
-
-    function loadCountryStates(CountryID) {
-        var data = { CountryId: CountryID }
-        $.ajax({
-            type: "GET",
-            url: "/BillingShippingAddressManager/LoadStatesByCountryID",
-            contentType: "application/json",
-            data: data,
-            async: true,
-            success: function (response) {
-                obj = response.State;
-
-                var StatesDD = $("#DDSate");
-                StatesDD.html('');
-                //StatesDD.append($('<option></option>').val(0).html('Select State'));
-                $.each(response.State, function (id, option) {
-                    StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
-                });
-            }
-        });
-
-    }
-    function ResetTextboxes() {
-        UpdateStatus = false;
-        //  var PHtml = $("#UpdateModelPopUp").html();
-        //  ShippingBillingDetails("Add New Address", PHtml);
-        $("#modelTitle").text("Add New  Address");
-        $("#txtAddressName").val('');
-        $("#txtFAO").val('');
-        $('#txtAddress1').val('');
-        $("#txtReference").val('');
-        $("#txtAddress2").val('');
-        $("#txtTel1").val('');
-        $("#txtExt1").val('');
-        $("#txtAddress3").val('');
-        $("#txtTel2").val('');
-        $("#txtExt2").val('');
-        $("#txtCity").val('');
-        $("#txtFax").val('');
-        $("#txtLatitude").val('');
-        $("#txtLongitude").val('');
-        $("#txtPostalCode").val('');
-        $("#DDSate").val('');
-        $("#DDCountry").val('');
-        $("#TerritoryDD").val('');
-        LoadCountries();
-        LoadStates();   document.getElementById("layer").style.display = "block";
-        document.getElementById("innerLayer").style.display = "block";
-
-    }
-
-    function AddNewAddress() {
-
-        //    public long AddressId { get; set; }
-        //    public long? CompanyId { get; set; }
-        //    public string AddressName { get; set; }
-        //public string Address1 { get; set; }
-        //public string Address2 { get; set; }
-        //public string Address3 { get; set; }
-        //public string City { get; set; }
-        //public long? StateId { get; set; }
-        //public long? CountryId { get; set; }
-        //public string PostCode { get; set; }
-        //public string Fax { get; set; }
-        //public string Email { get; set; }
-        //public string URL { get; set; }
-        //public string Tel1 { get; set; }
-        //public string Tel2 { get; set; }
-        //public string Extension1 { get; set; }
-        //public string Extension2 { get; set; }
-        //public string Reference { get; set; }
-        //public string FAO { get; set; }
-        //public bool? IsDefaultAddress { get; set; }
-        //public bool? IsDefaultShippingAddress { get; set; }
-        //public bool? isArchived { get; set; }
-        //public long? TerritoryId { get; set; }
-        //public string GeoLatitude { get; set; }
-        //public string GeoLongitude { get; set; }
-        //public bool? isPrivate { get; set; }
-        //public long? ContactId { get; set; }
-        //public bool? isDefaultTerrorityBilling { get; set; }
-        //public bool? isDefaultTerrorityShipping { get; set; }
-        //public long? OrganisationId { get; set; }
-
-        //public bool? DisplayOnContactUs { get; set; }
-        if (UpdateStatus == true) {
+        function ResetTextboxes() {
+            UpdateStatus = false;
             //  var PHtml = $("#UpdateModelPopUp").html();
-            //  ShippingBillingDetails("", PHtml);
-            $("#modelTitle").text("");
-            document.getElementById("layer").style.display = "block";
+            //  ShippingBillingDetails("Add New Address", PHtml);
+            $("#modelTitle").text("Add New  Address");
+            $("#txtAddressName").val('');
+            $("#txtFAO").val('');
+            $('#txtAddress1').val('');
+            $("#txtReference").val('');
+            $("#txtAddress2").val('');
+            $("#txtTel1").val('');
+            $("#txtExt1").val('');
+            $("#txtAddress3").val('');
+            $("#txtTel2").val('');
+            $("#txtExt2").val('');
+            $("#txtCity").val('');
+            $("#txtFax").val('');
+            $("#txtLatitude").val('');
+            $("#txtLongitude").val('');
+            $("#txtPostalCode").val('');
+            $("#DDSate").val('');
+            $("#DDCountry").val('');
+            $("#TerritoryDD").val('');
+            LoadCountries();
+            LoadStates(); document.getElementById("layer").style.display = "block";
             document.getElementById("innerLayer").style.display = "block";
+
         }
-        var AddressName = $("#txtAddressName").val();
-        var FAO = $("#txtFAO").val();
-        var Address1 = $('#txtAddress1').val();
-        var Reference = $("#txtReference").val();
-        var Address2 = $("#txtAddress2").val();
-        var Tel1 = $("#txtTel1").val();
-        var Extension1 = $("#txtExt1").val();
-        var Address3 = $("#txtAddress3").val();
-        var Tel2 = $("#txtTel2").val();
-        var Extension2 = $("#txtExt2").val();
-        var City = $("#txtCity").val();
-        var Fax = $("#txtFax").val();
-        var GeoLatitude = $("#txtLatitude").val();
-        var GeoLongitude = $("#txtLongitude").val();
-        var PostCode = $("#txtPostalCode").val();
-        var StateId = $("#DDSate").val();
-        var CountryId = $("#DDCountry").val();
-        var TerritoryId = $("#TerritoryDD").val();
-        // var CountryName = $("#DDCountry option:selected").text();
-        // var StateName = $("#DDSate option:selected").text();
-        //if (CountryName == null) {
-        //    CountryName = '';
-        //}
 
-        //if (StateName == null) {
-        //    StateName = '';
-        //}
-        var IsSymoblicTel1 = Tel1.indexOf('+') != -1;
-        var IsSymoblicTel2 = Tel2.indexOf('+') != -1;
-        var IsSymbolicExt1 = Extension1.indexOf('+') != -1;
-        var IsSymbolicExt2 = Extension2.indexOf('+') != -1;
+        function AddNewAddress() {
 
-        var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId };
-        $.ajax({
-            type: "POST",
-            url: "/BillingShippingAddressManager/AddNewAddress",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            async: true,
-            success: function (response) {
-                HideLoader();
-                RebindGrid();
-            },
-            error: function (error) {
-                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroraddaddress", UserCookieManager.WBStoreId, "Error Occured While Adding Address,"))', error);
+            //    public long AddressId { get; set; }
+            //    public long? CompanyId { get; set; }
+            //    public string AddressName { get; set; }
+            //public string Address1 { get; set; }
+            //public string Address2 { get; set; }
+            //public string Address3 { get; set; }
+            //public string City { get; set; }
+            //public long? StateId { get; set; }
+            //public long? CountryId { get; set; }
+            //public string PostCode { get; set; }
+            //public string Fax { get; set; }
+            //public string Email { get; set; }
+            //public string URL { get; set; }
+            //public string Tel1 { get; set; }
+            //public string Tel2 { get; set; }
+            //public string Extension1 { get; set; }
+            //public string Extension2 { get; set; }
+            //public string Reference { get; set; }
+            //public string FAO { get; set; }
+            //public bool? IsDefaultAddress { get; set; }
+            //public bool? IsDefaultShippingAddress { get; set; }
+            //public bool? isArchived { get; set; }
+            //public long? TerritoryId { get; set; }
+            //public string GeoLatitude { get; set; }
+            //public string GeoLongitude { get; set; }
+            //public bool? isPrivate { get; set; }
+            //public long? ContactId { get; set; }
+            //public bool? isDefaultTerrorityBilling { get; set; }
+            //public bool? isDefaultTerrorityShipping { get; set; }
+            //public long? OrganisationId { get; set; }
+
+            //public bool? DisplayOnContactUs { get; set; }
+            if (UpdateStatus == true) {
+                //  var PHtml = $("#UpdateModelPopUp").html();
+                //  ShippingBillingDetails("", PHtml);
+                $("#modelTitle").text("");
+                document.getElementById("layer").style.display = "block";
+                document.getElementById("innerLayer").style.display = "block";
             }
-        });
+            var AddressName = $("#txtAddressName").val();
+            var FAO = $("#txtFAO").val();
+            var Address1 = $('#txtAddress1').val();
+            var Reference = $("#txtReference").val();
+            var Address2 = $("#txtAddress2").val();
+            var Tel1 = $("#txtTel1").val();
+            var Extension1 = $("#txtExt1").val();
+            var Address3 = $("#txtAddress3").val();
+            var Tel2 = $("#txtTel2").val();
+            var Extension2 = $("#txtExt2").val();
+            var City = $("#txtCity").val();
+            var Fax = $("#txtFax").val();
+            var GeoLatitude = $("#txtLatitude").val();
+            var GeoLongitude = $("#txtLongitude").val();
+            var PostCode = $("#txtPostalCode").val();
+            var StateId = $("#DDSate").val();
+            var CountryId = $("#DDCountry").val();
+            var TerritoryId = $("#TerritoryDD").val();
+            // var CountryName = $("#DDCountry option:selected").text();
+            // var StateName = $("#DDSate option:selected").text();
+            //if (CountryName == null) {
+            //    CountryName = '';
+            //}
+
+            //if (StateName == null) {
+            //    StateName = '';
+            //}
+            var IsSymoblicTel1 = Tel1.indexOf('+') != -1;
+            var IsSymoblicTel2 = Tel2.indexOf('+') != -1;
+            var IsSymbolicExt1 = Extension1.indexOf('+') != -1;
+            var IsSymbolicExt2 = Extension2.indexOf('+') != -1;
+
+            var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId };
+            $.ajax({
+                type: "POST",
+                url: "/BillingShippingAddressManager/AddNewAddress",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                async: true,
+                success: function (response) {
+                    HideLoader();
+                    RebindGrid();
+                },
+                error: function (error) {
+                    ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroraddaddress", UserCookieManager.WBStoreId, "Error Occured While Adding Address,"))', error);
+                }
+            });
         }
         function UpdateAddress() {
             //var PHtml = $("#UpdateModelPopUp").html();
@@ -889,7 +896,7 @@ grid.Column("Default Shipping",format:@<p>
             $("#popupBody").append($("#UpdateModelPopUp"));
         });
 
-</script>
+    </script>
 
-    
+
 

@@ -3906,6 +3906,16 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch (Exception ex)
             {
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString() + 
+                       "" + Environment.NewLine + model.CompanyId + " " + model.ItemId + "" + model.MarketingBriefHistoryId
+                       );
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
                 throw ex;
             }
         }

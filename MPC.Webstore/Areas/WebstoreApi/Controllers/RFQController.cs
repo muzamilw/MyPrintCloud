@@ -72,32 +72,32 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
             else
             {
-                CompanyContact SubsriberContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
-                if (SubsriberContact != null)
-                {
-                    JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
-                    GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+                long Customer = 0;
+                CompanyContact loginUser = null;
+                loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
-                    return Request.CreateResponse(HttpStatusCode.OK, false);
+                if (loginUser == null) 
+                {
+                    CompanyContact Contact = new CompanyContact();
+                    Contact.FirstName = FirstName;
+                    Contact.LastName = LastName;
+                    Contact.Email = Email;
+                    Contact.Mobile = Mobile;
+                    Contact.Password = "password";
+                    Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+
+
+                    Customer = _companyService.CreateCustomer(FirstName + " " + LastName, false, false, CompanyTypes.SalesCustomer, string.Empty, UserCookieManager.WEBOrganisationID, StoreBaseResopnse.Company.CompanyId, Contact);
+                    loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 }
 
-                CompanyContact Contact = new CompanyContact();
-                Contact.FirstName = FirstName;
-                Contact.LastName = LastName;
-                Contact.Email = Email;
-                Contact.Mobile = Mobile;
-                Contact.Password = "password";
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
-
-                long Customer = _companyService.CreateCustomer(FirstName + " " + LastName, false, false, CompanyTypes.SalesCustomer, string.Empty, UserCookieManager.WEBOrganisationID, StoreBaseResopnse.Company.CompanyId, Contact);
-
-                if (Customer > 0)
+                if (loginUser != null)
                 {
 
-                    CompanyContact loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                  
                     NewInqury.ContactId = loginUser.ContactId;
-                    NewInqury.CompanyId = Customer;
+                    NewInqury.CompanyId = loginUser.CompanyId;
                     
                     CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                     CampaignEmailParams cep = new CampaignEmailParams();

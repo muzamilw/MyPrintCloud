@@ -2754,6 +2754,81 @@ function pcL20_new() {
         }
     }
 }
+function pcL20_newAutoMate(src, he, wd, oI) {
+    $(".cropimage").attr('src', src + "?r=" + CzRnd);
+    $(function () {
+        $('.cropimage').each(function () {
+            var image = $(this);
+      //      $(".closePanelButtonCropTool").css("left", (D1AO.getWidth() - 35) + "px");
+            $(".CropControls").css("height", (he + 5) + "px");
+            $(".CropControls").css("width", (wd + 5) + "px");
+            $(".NewCropToolCotainer").css("height", $(document).height() + "px");
+            var width = $(".CropControls").width() / 2;
+            var height = $(".CropControls").height() / 2;
+            $(".CroptoolBar").css("transform", "translate3d(-3px, -47px, 0px)");
+            $(".CropControls").css("left", "200px");
+            var cb =  $(".CropControls").css("top",  "50px");
+            image.cropbox({ width: wd, height:he, showControls: 'auto', xml: null })
+              .on('cropbox', function (event, results, img) {
+                 
+                  crX = (results.cropX);
+                  crY = (results.cropY);
+                  crWd = (results.cropW);
+                  crHe = (results.cropH);
+                  crv1 = results.crv1;
+                  crv2 = results.crv2;
+                  crv3 = results.crv3;
+                  crv4 = results.crv4;
+                  crv5 = results.crv5;
+                  pcL20_new_MoveImg(src, results.crv1, results.crv6, results.crv7);
+                  var XML = new XMLWriter();
+                  XML.BeginNode("Cropped");
+
+                  XML.Node("sx", crX.toString());
+                  XML.Node("sy", crY.toString());
+                  XML.Node("swidth", crWd.toString());
+                  XML.Node("sheight", crHe.toString());
+
+                  XML.Node("isCropped", "1");
+                  XML.Node("crv1", crv1.toString());
+                  XML.Node("crv2", crv2.toString());
+                  XML.Node("crv3", crv3.toString());
+                  XML.Node("crv4", crv4.toString());
+                  XML.Node("crv5", crv5.toString());
+                  XML.EndNode();
+                  XML.Close();
+                  //  var D1AO = canvas.getActiveObject();
+                  var OBS = canvas.getObjects();
+                  $.each(OBS, function (i, ite) {
+                      if (ite.ObjectID == oI) {
+                          debugger;
+                          canvas.setActiveObject(ite);
+                          ite.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
+                          ite.height = (ite.getHeight());
+                          ite.width = (ite.getWidth());
+                          ite.maxHeight = (ite.getHeight());
+                          ite.maxWidth = (ite.getWidth());
+
+                          ite.scaleX = 1;
+                          ite.scaleY = 1;
+                          canvas.renderAll();
+                          return false;
+                      }
+                  });
+               //   cb.remove();
+                //  pcl20_newCropCls();
+              });
+           
+        });
+
+
+
+    });
+    pcL36('hide', '#divPositioningPanel');
+    $("#divBkCropTool").css("display", "block");
+    // pcL36('toggle', '#divBkCropTool');
+    pcL36('toggle', '#NewCropToolCotainer');
+}
 function pcL20_new_MoveImg(src, percent, AcHei, AcWid) {
 
     $(".imgOrignalCrop").attr("src", src);

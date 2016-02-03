@@ -442,6 +442,7 @@ namespace MPC.Repository.Repositories
                 AddAddress.GeoLatitude = Address.GeoLatitude;
                 AddAddress.GeoLongitude = Address.GeoLongitude;
                 AddAddress.TerritoryId = Address.TerritoryId;
+                AddAddress.ContactId = Address.ContactId;
                 if (Address.CountryId == 0)
                 {
                     AddAddress.CountryId = null;

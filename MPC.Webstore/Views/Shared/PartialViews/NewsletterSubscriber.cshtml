@@ -6,12 +6,13 @@
     <div class="PnlSubscribeNewsletter container row">
         <div class="rounded_corners subscribe_sec" style="border: 2px solid #f3f3f3;
             ">
-            <label id="lblOurNews" class="NewsLtrHeadingCS"></label>
+            <label id="lblOurNews" class="NewsLtrHeadingCS">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSubscribeNewsLetterHeading", UserCookieManager.WBStoreId, "SUBSCRIBE OUR NEWSLETTER"))</label>
             <div class="descriptionLetterCs ">
-                <label id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.WBStoreId, "Sign up to our newsletters, and you’ll get a wealth of business tips, inspirational ideas, exclusive special offers and discounts."))</label>
+                <label id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.WBStoreId, "Lorem ipsum dolor sit amet, consectetuer adipiscing elit!."))</label>
             </div>
             @using (Html.BeginForm())
                   {
+
                       <div class="NewsLtrTxtBxContCS ">
                           <input id="txtEmailbox" value="Enter email address..."
                                  class="txtSubscribe-Subscribe SubscribeTxtBoxCS" />

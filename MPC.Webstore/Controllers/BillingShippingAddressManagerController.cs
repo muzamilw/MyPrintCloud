@@ -38,6 +38,15 @@ namespace MPC.Webstore.Controllers
             Company Company = _companyService.GetCompanyByCompanyID(_myClaimHelper.loginContactCompanyID());
 
             ViewBag.loginContactCompanyID = _myClaimHelper.loginContactID();
+            if (_myClaimHelper.loginContactRoleID() == 1 || _myClaimHelper.loginContactRoleID() == 2)
+            {
+                ViewBag.isAdmin = 1;
+            }
+            else 
+            {
+                ViewBag.isAdmin = 0;
+            }
+            
             if (Company.isStoreModePrivate == true)
             {
 
@@ -110,7 +119,7 @@ namespace MPC.Webstore.Controllers
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
                 List<Address> RefinedAddresses = FilterAddresses();
-                AddressList = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(SearchString.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
+                AddressList = RefinedAddresses.Where(w => w.AddressName.Contains(SearchString.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
                 ViewBag.Address = AddressList;
                 ViewBag.TotalAddresses = AddressList.Count;
             }
@@ -199,6 +208,7 @@ namespace MPC.Webstore.Controllers
                 CompanyContact UserContact = _companyService.GetContactByID(_myClaimHelper.loginContactID());
                 Address.TerritoryId = UserContact.TerritoryId;
                 Address.CompanyId = _myClaimHelper.loginContactCompanyID();
+                Address.ContactId = _myClaimHelper.loginContactID();
 
                 _companyService.AddAddBillingShippingAdd(Address);
             }
