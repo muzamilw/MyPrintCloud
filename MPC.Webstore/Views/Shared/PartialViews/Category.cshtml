@@ -263,7 +263,7 @@
                                                 </div>
                                             </div>
                                             <div class="product_detail_image_Pricing">
-                                                <label id="lblPrice">@item.MinPrice</label>
+                                                <label id="lblPrice">@ViewBag.StoreCurrency@item.MinPrice</label>
                                             </div>
 
                                             @{
@@ -490,7 +490,7 @@
                                                     </div>
                                                     @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId, "From"))
                                                     <br />
-                                                    <label id="lblFromMinPrice" style="font-size:16px;">@item.MinPrice</label>
+                                                    <label id="lblFromMinPrice" style="font-size:16px;">@ViewBag.StoreCurrency@item.MinPrice</label>
                                                 </div>
                                             </div>
                                         </div>
