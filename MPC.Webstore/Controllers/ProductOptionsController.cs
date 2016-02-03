@@ -720,6 +720,11 @@ namespace MPC.Webstore.Controllers
 
                 }
             }
+            if(referenceItem.ItemPriceMatrices != null)
+            {
+                referenceItem.ItemPriceMatrices = referenceItem.ItemPriceMatrices.OrderBy(s => s.Quantity).ToList();
+            }
+            
             foreach (var matrixItem in referenceItem.ItemPriceMatrices.ToList())
             {
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)

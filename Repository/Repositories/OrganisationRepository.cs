@@ -1084,6 +1084,7 @@ namespace MPC.Repository.Repositories
                                  {
                                      foreach (var detail in sf.SmartFormDetails)
                                      {
+                                         detail.FieldVariable = null;
                                          if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                          {
                                              long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();

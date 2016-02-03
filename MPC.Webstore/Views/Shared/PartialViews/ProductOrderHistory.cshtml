@@ -626,13 +626,14 @@
                         if(IT.ProductType == 1){
                             if(IT.OtherItemTemplateAttatchments != null){
 
-                                if(IT.OtherItemTemplateAttatchments.length > 1){
+                                if(IT.OtherItemTemplateAttatchments.length > 0){
 
                                     $(IT.OtherItemTemplateAttatchments).each(function(i, otherAttachVal) {
 
                                         filePathOfAttachment = otherAttachVal.FilePath;
                                           
-                                           var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                        var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                        console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
                                             otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
                                         
 
@@ -644,10 +645,10 @@
                         }else{
                             if(IT.OtherItemAttatchments != null){
 
-                                if(IT.OtherItemAttatchments.length > 1){
+                                if(IT.OtherItemAttatchments.length > 0){
 
                                     $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
-
+                                        console.log("IT.Attatchment._fileName" + IT.Attatchment._fileName);
                                         if(otherAttachVal.FileName == IT.Attatchment._fileName){
                                         }else{
                                             var OtherAttachFileName = otherAttachVal.FileName;
@@ -665,7 +666,7 @@
                             }
                           
                             var AttachFileName = IT.Attatchment._fileName;
-
+                            console.log("AttachFileName" + AttachFileName);
                             if(AttachFileName != "" && AttachFileName != null){
                                 while (AttachFileName.indexOf(" ") > 0)
                                 {

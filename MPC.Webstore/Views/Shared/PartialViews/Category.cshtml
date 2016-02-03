@@ -263,7 +263,7 @@
                                                 </div>
                                             </div>
                                             <div class="product_detail_image_Pricing">
-                                                <label id="lblPrice">@item.MinPrice</label>
+                                                <label id="lblPrice">@ViewBag.StoreCurrency@item.MinPrice</label>
                                             </div>
 
                                             @{
@@ -490,7 +490,7 @@
                                                     </div>
                                                     @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId, "From"))
                                                     <br />
-                                                    <label id="lblFromMinPrice" style="font-size:16px;">@item.MinPrice</label>
+                                                    <label id="lblFromMinPrice" style="font-size:16px;">@ViewBag.StoreCurrency@item.MinPrice</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -851,8 +851,8 @@
                     var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
                     $.each(DT, function (i, IT) {
 
-                        $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=2"  alt="' + IT.PageName + '" />');
-                        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+                        $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.jpg?r=2"  alt="' + IT.PageName + '" />');
+                        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.jpg?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
                     });
                     $.each(DT, function (i, IT) {

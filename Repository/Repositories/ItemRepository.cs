@@ -3185,11 +3185,11 @@ namespace MPC.Repository.Repositories
                         //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
                         DateTime OrderCreationDate = Order.CreationDate ?? DateTime.Now;
                         string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                                          OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
+                                          OrderCreationDate.Day.ToString() + "-" + specialCharactersEncoder(Item.ProductCode) + "-" +
                                           Order.Order_Code + "-" + Item.ItemCode + "-" + "Side1";
                         //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
                         string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                                             OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
+                                             OrderCreationDate.Day.ToString() + "-" + specialCharactersEncoder(Item.ProductCode) + "-" +
                                              Order.Order_Code + "-" + Item.ItemCode + "-" + "Side1overlay";
                         //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
@@ -3239,12 +3239,12 @@ namespace MPC.Repository.Repositories
                             //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
                             DateTime OrderCreationDate = Order.CreationDate ?? DateTime.Now;
                             string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                                              OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
+                                              OrderCreationDate.Day.ToString() + "-" + specialCharactersEncoder(Item.ProductCode) + "-" +
                                               Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" +
                                               item.PageNo.ToString();
                             //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
                             string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                                                 OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
+                                                 OrderCreationDate.Day.ToString() + "-" + specialCharactersEncoder(Item.ProductCode) + "-" +
                                                  Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" +
                                                  item.PageNo.ToString() + "overlay";
                             //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
@@ -4934,7 +4934,16 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        
+        private string specialCharactersEncoder(string value)
+        {
+            value = value.Replace("/", "-");
+            value = value.Replace(" ", "-");
+            value = value.Replace(";", "-");
+            value = value.Replace("&#34;", "");
+            value = value.Replace("&", "");
+            value = value.Replace("+", "");
+            return value;
+        }
     
     
     }

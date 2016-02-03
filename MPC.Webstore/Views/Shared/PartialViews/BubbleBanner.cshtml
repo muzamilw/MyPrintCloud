@@ -3,49 +3,78 @@
 @{
     Layout = null;
 }
-
-
-<div class="preface">
-    <div class="banner-outer">
-        <div class="nested-container">
-            <div class="banner-left grid12-8">
-                <link href="//fonts.googleapis.com/css?family=Dancing+Script:300,400,600,700,800|Open+Sans:300,400,600,700,800|Oswald:300,400,600,700,800" rel="stylesheet" type="text/css">
-                <div id="rev_slider_1_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" style="float: left; padding: 0px; margin: 0px; max-height: 347px; overflow: visible; height: 346px;">
-                    <!-- START REVOLUTION SLIDER  fullwidth mode -->
-                    <div id="rev_slider_1_1" class="rev_slider fullwidthabanner revslider-initialised tp-simpleresponsive hovered" style="max-height: 347px; height: 346px;">
-                        <ul class="bxslider">
-                            @foreach (var banner in Model)
-                            {
-
-                                <li>
-                                    <a id="hlItemUrl" href="@banner.ButtonURL">
-                                        <img id="imgBanner" src="/@banner.ImageURL" />
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                        <div class="tp-bannertimer" style="width: 83.5199999999963%; transform: translate3d(0px, 0px, 0px); visibility: visible;"></div><div class="tp-loader spinner0" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
-                    </div>
-
-                    <style scoped=""></style>
-
-
-
-                    <div style="position: absolute; margin-top: -35px; left: 0px; top: 173px;" class="tp-leftarrow tparrows default round"><div class="tp-arr-allwrapper"><div class="tp-arr-iwrapper"><div class="tp-arr-imgholder" style="visibility: inherit; opacity: 1; background-image: url(http://lbprint.liquidbubblehosting.com/media/revslider/slide-3-txt.jpg);"></div><div class="tp-arr-imgholder2"></div><div class="tp-arr-titleholder"></div><div class="tp-arr-subtitleholder"></div></div></div></div><div style="position: absolute; margin-top: -35px; right: 0px; top: 173px;" class="tp-rightarrow tparrows default round"><div class="tp-arr-allwrapper"><div class="tp-arr-iwrapper"><div class="tp-arr-imgholder" style="visibility: inherit; opacity: 1; background-image: url(http://lbprint.liquidbubblehosting.com/media/revslider/slide-2-txt.jpg);"></div><div class="tp-arr-imgholder2"></div><div class="tp-arr-titleholder"></div><div class="tp-arr-subtitleholder"></div></div></div></div>
-                </div><!-- END REVOLUTION SLIDER -->
-            </div>
-            <div class="banner-right grid12-4">
-                <div class="banner-custom">
-                    <div class="custom-item1">
-                        <div class="item-inner">
-
-                            <img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/banner-right-custom-image-1.jpg" alt="Don't want to order online">
-
+@{
+    int index = 1;
+    int TotalCOunt = Model.Count();
+}
+<div class="container">
+    <div class="preface">
+        <div class="banner-outer">
+            <div class="nested-container">
+                <div class="banner-left grid12-8">
+                    @if (Model != null)
+                    {
+                        <div class="bannerContainer">
+                            <div id="top-banner" class="carousel slide hidden-xs " data-interval="6000" data-ride="carousel">
+                                @if (Model.Count() > 1)
+                                {
+                                    <ol class="carousel-indicators">
+                                        @for (int i = 0; i <= Model.Count(); i++)
+                                        {
+                                            if (i == 0)
+                                            {
+                                                <li data-target="#top-banner" data-slide-to="@i" class="active"></li>
+                                            }
+                                            else
+                                            {
+                                                <li data-target="#top-banner" data-slide-to="@i"></li>
+                                            }
+                                        }
+                                    </ol>
+                                }
+                                <div class="carousel-inner">
+                                    @foreach (var banner in Model)
+                                    {
+                                        if (index == 1)
+                                        {
+                                            <div class="item text-center active">
+                                                <a href="@banner.ButtonURL"> <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /></a><div class="carousel-caption" style=""></div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="item text-center">
+                                                <a href="@banner.ButtonURL"> <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /></a><div class="carousel-caption" style=""></div>
+                                            </div>
+                                        }
+                                        index++;
+                                    }
+                                </div>
+                                @if (TotalCOunt == 1)
+                                {
+                                }
+                                else
+                                {
+                                    <a class="left carousel-control" href="#top-banner" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#top-banner" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div class="custom-item2 last">
-                        <div class="item-inner">
-                            <img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/banner-right-custom-image-2.jpg" alt="Today's Offer">
+                    }
+                </div>
+                <div class="banner-right grid12-4">
+                    <div class="banner-custom">
+                        <div class="custom-item1">
+                            <div class="item-inner">
+                                @*<img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/banner-right-custom-image-1.jpg" alt="Don't want to order online">*@
+                                <img src="/Content/BubbleImages/banner-right-custom-image-1.jpg" alt="Don't want to order online" />
+                            </div>
+                        </div>
+                        <div class="custom-item2 last">
+                            <div class="item-inner">
+
+                                <img src="/Content/BubbleImages/banner-right-custom-image-2.jpg" alt="Today's Offer" />
+                                @*<img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/banner-right-custom-image-2.jpg" alt="Today's Offer">*@
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,122 +82,9 @@
         </div>
     </div>
 </div>
-@*<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/db57826306f2446d41e160fe025abfca.css" media="all" />
-<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/395bacd6701976d216c53ce125e28a4b.css" media="print" />*@
 
-<script src="/Scripts/BubbleBanner.js"></script>
-<script type="text/javascript">
-
-    /******************************************
-        -	PREPARE PLACEHOLDER FOR SLIDER	-
-    ******************************************/
-
-    (function (jQuery) {
-
-        var setREVStartSize = function () {
-            var tpopt = new Object();
-            tpopt.startwidth = 774;
-            tpopt.startheight = 347;
-            tpopt.container = jQuery('#rev_slider_1_1');
-            tpopt.fullScreen = "off";
-            tpopt.forceFullWidth = "off";
-
-            tpopt.container.closest(".rev_slider_wrapper").css({ height: tpopt.container.height() }); tpopt.width = parseInt(tpopt.container.width(), 0); tpopt.height = parseInt(tpopt.container.height(), 0); tpopt.bw = tpopt.width / tpopt.startwidth; tpopt.bh = tpopt.height / tpopt.startheight; if (tpopt.bh > tpopt.bw) tpopt.bh = tpopt.bw; if (tpopt.bh < tpopt.bw) tpopt.bw = tpopt.bh; if (tpopt.bw < tpopt.bh) tpopt.bh = tpopt.bw; if (tpopt.bh > 1) { tpopt.bw = 1; tpopt.bh = 1 } if (tpopt.bw > 1) { tpopt.bw = 1; tpopt.bh = 1 } tpopt.height = Math.round(tpopt.startheight * (tpopt.width / tpopt.startwidth)); if (tpopt.height > tpopt.startheight && tpopt.autoHeight != "on") tpopt.height = tpopt.startheight; if (tpopt.fullScreen == "on") { tpopt.height = tpopt.bw * tpopt.startheight; var cow = tpopt.container.parent().width(); var coh = jQuery(window).height(); if (tpopt.fullScreenOffsetContainer != undefined) { try { var offcontainers = tpopt.fullScreenOffsetContainer.split(","); jQuery.each(offcontainers, function (e, t) { coh = coh - jQuery(t).outerHeight(true); if (coh < tpopt.minFullScreenHeight) coh = tpopt.minFullScreenHeight }) } catch (e) { } } tpopt.container.parent().height(coh); tpopt.container.height(coh); tpopt.container.closest(".rev_slider_wrapper").height(coh); tpopt.container.closest(".forcefullwidth_wrapper_tp_banner").find(".tp-fullwidth-forcer").height(coh); tpopt.container.css({ height: "100%" }); tpopt.height = coh; } else { tpopt.container.height(tpopt.height); tpopt.container.closest(".rev_slider_wrapper").height(tpopt.height); tpopt.container.closest(".forcefullwidth_wrapper_tp_banner").find(".tp-fullwidth-forcer").height(tpopt.height); }
-        };
-
-        /* CALL PLACEHOLDER */
-        setREVStartSize();
-
-
-        var tpj = jQuery;
-        tpj.noConflict();
-        var revapi1;
-
-        tpj(document).ready(function () {
-
-            if (tpj('#rev_slider_1_1').revolution == undefined) {
-                revslider_showDoubleJqueryError('#rev_slider_1_1');
-            } else {
-                revapi1 = tpj('#rev_slider_1_1').show().revolution(
-                 {
-                     dottedOverlay: "none",
-                     delay: 5000,
-                     startwidth: 774,
-                     startheight: 347,
-                     hideThumbs: 200,
-
-                     thumbWidth: 100,
-                     thumbHeight: 50,
-                     thumbAmount: 3,
-
-
-                     simplifyAll: "off",
-
-                     navigationType: "none",
-                     navigationArrows: "solo",
-                     navigationStyle: "round",
-
-                     touchenabled: "on",
-                     onHoverStop: "on",
-                     nextSlideOnWindowFocus: "off",
-
-                     swipe_threshold: 75,
-                     swipe_min_touches: 1,
-                     drag_block_vertical: false,
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="/Scripts/SlidingBanner.js"></script>
 
 
 
-                     keyboardNavigation: "on",
-
-                     navigationHAlign: "center",
-                     navigationVAlign: "bottom",
-                     navigationHOffset: 0,
-                     navigationVOffset: 20,
-
-                     soloArrowLeftHalign: "left",
-                     soloArrowLeftValign: "center",
-                     soloArrowLeftHOffset: 0,
-                     soloArrowLeftVOffset: 0,
-
-                     soloArrowRightHalign: "right",
-                     soloArrowRightValign: "center",
-                     soloArrowRightHOffset: 0,
-                     soloArrowRightVOffset: 0,
-
-                     shadow: 0,
-                     fullWidth: "on",
-                     fullScreen: "off",
-
-                     spinner: "spinner0",
-
-                     stopLoop: "off",
-                     stopAfterLoops: -1,
-                     stopAtSlide: -1,
-
-                     shuffle: "off",
-
-                     autoHeight: "off",
-                     forceFullWidth: "off",
-
-
-
-                     hideThumbsOnMobile: "off",
-                     hideNavDelayOnMobile: 1500,
-                     hideBulletsOnMobile: "off",
-                     hideArrowsOnMobile: "off",
-                     hideThumbsUnderResolution: 0,
-
-                     hideSliderAtLimit: 0,
-                     hideCaptionAtLimit: 0,
-                     hideAllCaptionAtLilmit: 0,
-                     startWithSlide: 0
-                 });
-
-
-
-            }
-        });	/*ready*/
-
-    })($nwd_jQuery);
-
-</script>

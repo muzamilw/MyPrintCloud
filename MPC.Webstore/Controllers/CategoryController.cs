@@ -332,6 +332,7 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.isPinkTheme = 0;
             }
+            ViewBag.StoreCurrency = StoreBaseResopnse.Currency;
             return View("PartialViews/Category", Category);
         }
 

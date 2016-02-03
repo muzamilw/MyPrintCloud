@@ -75,26 +75,25 @@
 	max-height: 100%;
 }
 
-#fancybox-loading, .fancybox-close, .fancybox-prev span, .fancybox-next span {
+.fancybox-close, .fancybox-prev span, .fancybox-next span {
 	background-image: url('../Images/fancybox_sprite.png');
 }
 
 #fancybox-loading {
 	position: fixed;
-	top: 50%;
-	left: 50%;
+	
 	margin-top: -22px;
 	margin-left: -22px;
 	background-position: 0 -108px;
 	opacity: 0.8;
 	cursor: pointer;
-	z-index: 11111118030;    border-radius: 5px;
+	z-index: 11111118030;    border-radius: 5px;	background-image: url('../Images/fancybox_sprite.png');
 }
 
 #fancybox-loading div {
 	width: 30px;
 	height: 30px;
-	background: url("../Images/fancybox_loading.gif");
+background-image: url('../Images/fancybox_sprite.png');
         margin-top: 4px;
     margin-left: 5px;
     border-radius:5px;
@@ -266,13 +265,13 @@
 	   only screen and (min--moz-device-pixel-ratio: 1.5),
 	   only screen and (min-device-pixel-ratio: 1.5){
 
-	#fancybox-loading, .fancybox-close, .fancybox-prev span, .fancybox-next span {
+	 .fancybox-close, .fancybox-prev span, .fancybox-next span {
 		background-image: url('../Images/fancybox_sprite@2x.png');
 		background-size: 44px 152px; /*The size of the normal image, half the size of the hi-res image*/
 	}
 
-	#fancybox-loading div {
+	/*#fancybox-loading div {
 		background-image: url('../Images/fancybox_loading@2x.gif');
-		background-size: 24px 24px; /*The size of the normal image, half the size of the hi-res image*/
-	}
+		background-size: 24px 24px; 
+	}*/
 }
