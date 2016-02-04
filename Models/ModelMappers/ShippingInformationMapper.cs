@@ -32,6 +32,8 @@ namespace MPC.Models.ModelMappers
             target.Price = source.Price;
             target.DeliveryDate = source.DeliveryDate;
             target.DeliveryNoteRaised = source.DeliveryNoteRaised;
+            target.CarrierId = source.CarrierId;
+            target.ConsignmentNumber = source.ConsignmentNumber;
         }
 
         #endregion
