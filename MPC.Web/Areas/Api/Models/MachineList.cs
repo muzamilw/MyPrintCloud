@@ -23,6 +23,7 @@ namespace MPC.MIS.Areas.Api.Models
         public byte[] Image { get; set; }
 
         public bool? isSheetFed { get; set; }
+        public bool? IsDigital { get; set; }
         public string ImageSource
         {
             get
