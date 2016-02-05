@@ -3461,6 +3461,8 @@
           <Property Name="DeliveryNoteRaised" Type="bit" />
           <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
           <Property Name="EstimateId" Type="bigint" />
+          <Property Name="CarrierId" Type="bigint" />
+          <Property Name="ConsignmentNumber" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SmartForm">
           <Key>
@@ -14311,6 +14313,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Estimate" Relationship="DomainModels.FK_ShippingInformation_Estimate" FromRole="ShippingInformation" ToRole="Estimate" />
           <NavigationProperty Name="Address" Relationship="DomainModels.FK_ShippingInformation_Address" FromRole="ShippingInformation" ToRole="Address" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_ShippingInformation_Items" FromRole="ShippingInformation" ToRole="Item" />
+          <Property Name="CarrierId" Type="Int64" />
+          <Property Name="ConsignmentNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_ShippingInformation_Estimate">
           <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="0..1" />
@@ -19996,6 +20000,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="ShippingInformations">
             <EntityTypeMapping TypeName="DomainModels.ShippingInformation">
               <MappingFragment StoreEntitySet="ShippingInformation">
+                <ScalarProperty Name="ConsignmentNumber" ColumnName="ConsignmentNumber" />
+                <ScalarProperty Name="CarrierId" ColumnName="CarrierId" />
                 <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="DeliveryNoteRaised" ColumnName="DeliveryNoteRaised" />

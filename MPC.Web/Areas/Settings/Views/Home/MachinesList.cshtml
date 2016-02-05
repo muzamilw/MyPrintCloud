@@ -53,8 +53,8 @@
                                                                         <th class="col-lg-3"><span>Machine Name</span></th>
                                                                         <th class="col-lg-2"><span>Max Sheet Size</span></th>
                                                                         <th class="col-lg-2"><span>Min Sheet Size</span></th>
-                                                                        <th class="col-lg-2"></th>
-                                                                        <th class="col-lg-2"></th>
+                                                                        <th class="col-lg-2"><span>Type</span></th>
+                                                                        <th class="col-lg-2"><span>Feed Type</span></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -145,9 +145,9 @@
             <span style="margin-left:0px;" data-bind="text:Description" class="user-subhead machine-list-margin"></span>
         </td>
         <td><span data-bind="text: maximumsheetwidth"> </span><span> x </span> <span data-bind="text: maximumsheetheight"> </span>  </td>
-        <td><span data-bind="text: minimumsheetwidth"> </span><span> x </span> <span data-bind="text: minimumsheetheight"> </span>  </td>
-        <td></td>
-        <td></td>
+        <td><span data-bind="text: minimumsheetwidth"> </span><span> x </span> <span data-bind="text: minimumsheetheight"> </span>  </td>        
+        <td><span data-bind="text: isDigital() ? 'Digital' : 'Litho', visible:!$root.isGuillotineList()"></span> </td>
+        <td><span data-bind="text: isSheetFed() ? 'Sheet Fed' : 'Roll Fed', visible:!$root.isGuillotineList()"> </span></td>
        
     </tr>
 </script>
