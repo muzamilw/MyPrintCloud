@@ -4944,8 +4944,26 @@ namespace MPC.Repository.Repositories
             value = value.Replace("+", "");
             return value;
         }
-    
-    
+
+        public List<GetCategoryProduct> GetRetailFeaturedPublishedProducts()
+        {
+            try
+            {
+                List<GetCategoryProduct> recordds =
+              db.GetCategoryProducts.Where(
+                  g => g.IsPublished == true && g.EstimateId == null && g.IsFeatured == true && (g.IsArchived == null || g.IsArchived == false))
+                  .OrderBy(g => g.ProductName)
+                  .ToList();
+                recordds = recordds.OrderBy(s => s.SortOrder).ToList();
+                return recordds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
     }
 }
 

@@ -52,6 +52,14 @@ namespace MPC.Webstore.Controllers
                 ViewBag.LoginUserName = "";
                 ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(0, UserCookieManager.TemporaryCompanyId, 0).ToString());
             }
+            if (_webstoreclaimHelper.loginContactID() > 0)
+            {
+                ViewBag.IsLogin = 1;
+            }
+            else
+            {
+                ViewBag.IsLogin = 0;
+            }
             ViewBag.email = SystemUser.Email;
             ViewBag.Phone = StoreBaseResopnse.Company.PhoneNo;
             ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
