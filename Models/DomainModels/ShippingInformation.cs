@@ -17,5 +17,7 @@
         public virtual Estimate Estimate { get; set; }
         public virtual Item Item { get; set; }
         public virtual Address Address { get; set; }
+        public long? CarrierId { get; set; }
+        public string ConsignmentNumber { get; set; }
     }
 }

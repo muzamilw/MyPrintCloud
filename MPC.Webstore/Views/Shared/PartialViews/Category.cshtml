@@ -165,7 +165,7 @@
                                                                 convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
                                                             }
                                                             RedirectURL = "#";
-                                                            TakeTemplateHeightWidth = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + "," + item.TemplateId + "," + item.ItemId + ",'" +item.ProductName+"'," + Organisation.SystemLengthUnit + ");";
+                                                            TakeTemplateHeightWidth = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + "," + item.TemplateId + "," + item.ItemId + ",'" + item.ProductName + "'," + Organisation.SystemLengthUnit + ");";
 
                                                         }
                                                         else
@@ -262,9 +262,13 @@
 
                                                 </div>
                                             </div>
-                                            <div class="product_detail_image_Pricing">
-                                                <label id="lblPrice">@item.MinPrice</label>
-                                            </div>
+                                            @if (item.ProductType != (int)ProductType.MarketingBrief)
+                                            {
+                                                <div class="product_detail_image_Pricing">
+                                                    <label id="lblPrice">From only @ViewBag.StoreCurrency@item.MinPrice</label>
+                                                </div>
+                                            }
+                                          
 
                                             @{
                                     if (item.ProductType != (int)ProductType.MarketingBrief)
@@ -283,7 +287,7 @@
                                             matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
                                         }
 
-                                     
+
 
 
 
@@ -304,7 +308,7 @@
                                             </tr>
                                             @if (matrix != null)
                                             {
-                                                
+
                                                 foreach (var Objmatrix in matrix)
                                                 {
                                                     <tr>
@@ -324,7 +328,7 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    matCount = matCount + 1;
+                                                                matCount = matCount + 1;
                                                 }
                                             }
                                         </table>
@@ -490,7 +494,7 @@
                                                     </div>
                                                     @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId, "From"))
                                                     <br />
-                                                    <label id="lblFromMinPrice" style="font-size:16px;">@item.MinPrice</label>
+                                                    <label id="lblFromMinPrice" style="font-size:16px;">@ViewBag.StoreCurrency@item.MinPrice</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -583,7 +587,7 @@
             </div><br>
             <div class="clearBoth"></div>
 
-           
+
         </div>
         <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
 
@@ -664,7 +668,7 @@
             var SystemUnit='';
             document.getElementById("layer").style.display = "block";
             document.getElementById("innerLayer").style.display = "block";
-            
+
             var heading='Enter your custom dimensions for'+' '+ItemName;
             $("#modelTitle").text(heading);
             if(lengthunit==1)

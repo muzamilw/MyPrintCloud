@@ -28,7 +28,7 @@ namespace MPC.Models.Common
         public int orderedItemID { get; set; }
         public int Id { get; set; }// report notes id
         public int SupplierContactID { get; set; }
-        public int SupplierCompanyID { get; set; }
+        public long SupplierCompanyID { get; set; }
         public long StockItemId { get; set; }
         public int AssetId { get; set; }
     }

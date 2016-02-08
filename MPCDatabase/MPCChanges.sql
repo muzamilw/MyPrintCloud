@@ -9917,3 +9917,6 @@ where productid = @TemplateID
 select @NewTemplateID
 	
 END
+------------------Executed on All Servers before 2015 02 03-------------
+alter table ShippingInformation add CarrierId bigint
+alter table ShippingInformation add ConsignmentNumber varchar(100)

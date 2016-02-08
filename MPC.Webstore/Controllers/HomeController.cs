@@ -173,6 +173,11 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(pageName))
             {
                 MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName == pageName).FirstOrDefault();
+                if(Page == null)
+                {
+                     throw new Exception("Critcal Error, Page not found." + pageName, null);
+                     return null;
+                }
                 if (Page.isUserDefined == true)
                 {
                     ViewBag.pageName = Page.PageTitle.Replace(" ", "-");
