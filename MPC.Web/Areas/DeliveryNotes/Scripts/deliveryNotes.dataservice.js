@@ -17,39 +17,37 @@ define("deliveryNotes/deliveryNotes.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     }),
-                    // Define request to get order by id
+                        // Define request to get order by id
                     amplify.request.define('getBaseDataForCompany', 'ajax', {
                         url: ist.siteUrl + '/Api/OrderBaseForCompany',
                         dataType: 'json',
                         type: 'GET'
                     }),
-                    // Define request to get Items
+                        // Define request to get Items
                     amplify.request.define('getDetaildeliveryNote', 'ajax', {
                         url: ist.siteUrl + '/Api/DeliveryNotes',
                         dataType: 'json',
                         type: 'GET'
                     }),
-
-                    // Define request to get Items
+                        // Define request to get Items
                     amplify.request.define('downloadArtwork', 'ajax', {
                         url: ist.siteUrl + '/Production/Home/Test',
                         dataType: 'json',
                         type: 'Post'
                     }),
-                    // Define request to get order by id
+                        // Define request to get order by id
                     amplify.request.define('getBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/DeliveryNoteBase',
                         dataType: 'json',
                         type: 'GET'
                     }),
-
-                    // Define request to Save Delivery Notes
+                        // Define request to Save Delivery Notes
                     amplify.request.define('deleteDeliveryNote', 'ajax', {
                         url: ist.siteUrl + '/Api/DeliveryNotes',
                         dataType: 'json',
                         type: 'Delete'
                     }),
-                    // Define request to Save Delivery Notes
+                        // Define request to Save Delivery Notes
                     amplify.request.define('saveDeliveryNote', 'ajax', {
                         url: ist.siteUrl + '/Api/DeliveryNotes',
                         dataType: 'json',
@@ -57,6 +55,7 @@ define("deliveryNotes/deliveryNotes.dataservice", function () {
                         contentType: "application/json; charset=utf-8",
                         type: 'Post'
                     });
+                    
 
                     isInitialized = true;
                 }

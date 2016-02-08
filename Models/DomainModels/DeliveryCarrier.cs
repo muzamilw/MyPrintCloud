@@ -13,5 +13,6 @@
         public bool? isEnable { get; set; }
 
         public string CarrierPhone { get; set; }
+        public long OrganisationId { get; set; }
     }
 }

@@ -19,6 +19,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string AddressName { get; set; }
         public long? CarrierId { get; set; }
         public string ConsignmentNumber { get; set; }
-
+        
     }
 }

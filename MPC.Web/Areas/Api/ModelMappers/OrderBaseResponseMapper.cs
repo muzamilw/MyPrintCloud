@@ -34,6 +34,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LoggedInUser = source.LoggedInUser,
                 HeadNotes = source.HeadNotes,
                 FootNotes = source.FootNotes,
+                DeliveryCarriers = source.DeliveryCarriers != null ? source.DeliveryCarriers.Select(c => c.CreateFrom()) : new List<DeliveryCarrier>()
             };
         }
 
