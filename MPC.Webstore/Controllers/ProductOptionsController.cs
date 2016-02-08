@@ -116,7 +116,7 @@ namespace MPC.Webstore.Controllers
                         OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                         UserCookieManager.WEBOrderId = OrderID;
                         UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-                        clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID);
+                        clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID, ItemMode);
                     }
                     else
                     {
@@ -1189,7 +1189,7 @@ namespace MPC.Webstore.Controllers
         }
 
 
-        private Item CloneItemAndUpdateCookie(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, long ItemId, long OrderID)
+        private Item CloneItemAndUpdateCookie(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, long ItemId, long OrderID, string UploadMode)
         {
 
             Item clonedItem = null;
@@ -1204,8 +1204,17 @@ namespace MPC.Webstore.Controllers
 
                 if (clonedItem == null)
                 {
-                    clonedItem = _myItemService.CloneItem(ItemId, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId,0, true);
+                    if (UploadMode == "UploadDesign")
+                    {
+                        clonedItem = _myItemService.CloneItem(ItemId, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, 0, true, true);
 
+                    }
+                    else 
+                    {
+                        clonedItem = _myItemService.CloneItem(ItemId, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, 0, true);
+
+                    }
+                   
                 }
 
 

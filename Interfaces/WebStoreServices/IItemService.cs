@@ -241,5 +241,6 @@ namespace MPC.Interfaces.WebStoreServices
         void UpdateUploadFlagInItem(long ItemId, int? FlagValue);
         void SaveMarketingBriefHistory(MarketingBriefHistory model);
         List<TemplatePage> GetTemplatePagesByItemId(long clonedItemId);
+        List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
     }
 }

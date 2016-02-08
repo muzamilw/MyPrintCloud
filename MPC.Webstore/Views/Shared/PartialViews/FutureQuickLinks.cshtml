@@ -82,7 +82,7 @@
                         <div class="footer_portion themeFontColor">
                            
                                 <div class="footer_left_portion_division float_left_simple">
-                                    <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white;">Opening Timings</label>
+                                    <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOpeningTimes", UserCookieManager.WBStoreId, "Opening Times"))</label>
                                     @Html.Raw(ViewBag.Notes)
                                 </div>
                             

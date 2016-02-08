@@ -86,7 +86,9 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return itemService.SaveProduct(request.CreateFrom()).CreateFrom();
+            Item item = itemService.SaveProduct(request.CreateFrom()).CreateFrom();
+
+            return item;
         }
 
         /// <summary>
