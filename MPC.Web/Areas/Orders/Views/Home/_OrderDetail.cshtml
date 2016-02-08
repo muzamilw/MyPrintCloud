@@ -80,7 +80,7 @@
                         <li><a href="#tab-schedule" data-toggle="tab">Order Schedule</a></li>
                         <li><a href="#tab-creditApproval" data-toggle="tab">Credit Approval</a></li>
                         <li><a href="#tab-prePayments" data-toggle="tab">Pre Payments</a></li>
-                        <li><a href="#tab-delivery" data-toggle="tab">Delivery Schedule</a></li>
+                        <li data-bind="visible: $root.selectedOrder().statusId() === 7 || $root.selectedOrder().statusId() === 10"><a href="#tab-delivery" data-toggle="tab">Delivery Schedule</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-EstimateHeader" data-bind="with: selectedOrder">

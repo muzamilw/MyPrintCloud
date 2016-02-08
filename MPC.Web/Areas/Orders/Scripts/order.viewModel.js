@@ -42,6 +42,8 @@ define("order/order.viewModel",
                     pipelineProducts = ko.observableArray([]),
                     // Payment Methods
                     paymentMethods = ko.observableArray([]),
+                    // Delivery Carriers
+                    deliveryCarriers = ko.observableArray([]),
                     //Inks
                     inks = ko.observableArray([]),
                     // Ink Coverage Group
@@ -1285,6 +1287,11 @@ define("order/order.viewModel",
                                     ko.utils.arrayPushAll(paymentMethods(), data.PaymentMethods);
                                     paymentMethods.valueHasMutated();
                                 }
+                                deliveryCarriers.removeAll();
+                                if (data.DeliveryCarriers) {
+                                    ko.utils.arrayPushAll(deliveryCarriers(), data.DeliveryCarriers);
+                                    deliveryCarriers.valueHasMutated();
+                                }
 
                                 nominalCodes.removeAll();
                                 if (data.ChartOfAccounts) {
@@ -1696,12 +1703,23 @@ define("order/order.viewModel",
                         if (isEstimateScreen() && !selectedOrder().reportSignedBy()) {
                             selectedOrder().reportSignedBy(loggedInUser());
                         }
-
+                        setCarrierNames();
                         // Reset Order Dirty State
                         selectedOrder().reset();
 
                         if (callback && typeof callback === "function") {
                             callback();
+                        }
+                    },
+                    setCarrierNames = function() {
+                        if (selectedOrder().deliverySchedules().length > 0) {
+                            _.each(selectedOrder().deliverySchedules(), function (item) {
+                                var currCarrier = _.find(deliveryCarriers(), function (carrier) {
+                                    return carrier.CarrierId == item.carrierId();
+                                });
+                                item.carrierName(currCarrier != null ? currCarrier.CarrierName : "");
+                            });
+                            selectedOrder().deliverySchedules.valueHasMutated();
                         }
                     },
                     // Get Company Base Data
@@ -2346,6 +2364,8 @@ define("order/order.viewModel",
                                 var netPrice = (perUnitPrice * parseInt(selectedItem.qty1NetTotal())).toFixed(2);
                                 selectedDeliverySchedule().price(netPrice);
                             }
+                            
+                            
                         }
                     }),
                     //
@@ -2392,34 +2412,109 @@ define("order/order.viewModel",
                         if (selectedAddressItem) {
                             selectedDeliverySchedule().addressName(selectedAddressItem.name);
                         }
+                        var currCarrier = _.find(deliveryCarriers(), function (carrier) {
+                            return carrier.CarrierId == selectedDeliverySchedule().carrierId();
+                        });
+                        selectedDeliverySchedule().carrierName(currCarrier != null ? currCarrier.CarrierName : "");
                     },
                     //Click in raised
                     onRaised = function () {
                         var raisedList = [];
-                        // Check whether delivery schedule list is not empty
+                        // Check whether delivery schedule list is not empty and any item is selected
                         if (selectedOrder().deliverySchedules().length > 0) {
-                            var deliveryScheduleItem = _.find(raisedList, function (raisedItem) {
-                                return raisedItem.isSelected() === true;
+                            _.each(selectedOrder().deliverySchedules(), function (item) {
+                                if (item.isSelected()) {
+                                    raisedList.push(item);
+                                }
                             });
-                            // Check whether any item is selected
-                            if (deliveryScheduleItem !== undefined) {
-                                _.each(selectedOrder().deliverySchedules(), function (item) {
-                                    if (item.isSelected()) {
-                                        var deliverySchedule = _.find(raisedList, function (raisedItem) {
-                                            return (raisedItem.itemId() === item.itemId() && raisedItem.addressId() === item.addressId());
+                            // Check for multiple delivery notes
+                            if (raisedList.length > 0) {
+                                var uniqueNotes = [];
+                                _.each(raisedList, function (item) {
+                                    var uniqueNote = _.find(uniqueNotes, function (raisedItem) {
+                                        return (raisedItem.itemId() === item.itemId && raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId());
+                                    });
+                                    if (uniqueNote == undefined) {
+                                        item.shippingDetails.push({Description: item.itemName()});
+                                        uniqueNotes.push(item);
+                                    } else {
+                                        var duplicate = _.find(uniqueNotes, function (dup) {
+                                            return dup == uniqueNote;
                                         });
-                                        if (deliverySchedule === undefined) {
-                                            raisedList.push(item);
-                                        }
+                                        if(duplicate != undefined)
+                                            duplicate.shippingDetails.push({ Description: item.itemName() });
                                     }
+                                    
                                 });
-                            } else {
-                                toastr.error("Please select items to add shipping information.");
+                                //Raise Delivery Note for each record in unique list
+                                var deliveryNotesList = [];
+                                if (uniqueNotes.length > 0) {
+                                    _.each(uniqueNotes, function(note) {
+                                        var dbNotes = createNewDeliveryNote(selectedOrder(), note.carrierId(), note.addressId(), note.consignmentNumber(), note.shippingDetails());
+                                        if (dbNotes != undefined)
+                                            deliveryNotesList.push(dbNotes);
+                                    });
+                                }
+                                if (deliveryNotesList.length > 0) {
+                                    raiseDeliveryNote(deliveryNotesList);
+                                }
                             }
-                        } else {
-                            toastr.error("Please select items to add shipping information.");
+                            else {
+                                toastr.error("Please select items to raise delivery note.");
+                            }
                         }
-
+                        else {
+                            toastr.error("No items to raise delivery notes.");
+                        }
+                    },
+                    raiseDeliveryNote = function(notes) {
+                        dataservice.saveDeliveryNoteByOrder({
+                            DeliveryNotes: notes
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    //
+                                    _.each(selectedOrder().deliverySchedules(), function (item) {
+                                        item.deliveryNoteRaised(true);
+                                        item.isSelected(false);
+                                    });
+                                    selectedOrder().deliverySchedules.valueHasMutated();
+                                    var host = window.location.host;
+                                    //var uri = encodeURI("http://" + host + data);
+                                   // window.open(uri, "_blank");
+                                }
+                                isLoadingOrders(false);
+                                confirmation.hideWarningPopup();
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Error: Failed to Raise Delivery Note." + response);
+                            }
+                        });
+                    },
+                    createNewDeliveryNote = function(order, carrierId, addressId, consignNo, scheduls) {
+                        var deliveryNote = {
+                            DeliveryNoteId: 0,
+                            DeliveryDate: moment(order.finishDeliveryDate()).format(ist.utcFormat),
+                            ContactCompany: order.companyName(),
+                            OrderReff: order.orderCode(),
+                            IsStatus: 19,
+                            CreationDateTime: moment().format(ist.utcFormat),
+                            CompanyId: order.companyId(),
+                            Comments: order.headNotes(),
+                            ContactId: order.contactId(),
+                            AddressId: addressId,
+                            SupplierId: carrierId,
+                            OrderId: order.id(),
+                            CsNo: consignNo,
+                            RaisedBy: loggedInUser(),
+                            DeliveryNoteDetails: []
+                        };
+                        _.each(scheduls, function (dNoteDetail) {
+                            deliveryNote.DeliveryNoteDetails.push({ DeliveryDetailid: 0, Description: dNoteDetail.Description});
+                        });
+                        
+                        return deliveryNote;
                     },
                     downloadArtwork = function () {
                         if (!checkStoreLive())
@@ -3405,7 +3500,8 @@ define("order/order.viewModel",
                     wizardButtonLabel: wizardButtonLabel,
                     isPreVisible: isPreVisible,
                     isApplyToAll: isApplyToAll,
-                    isApplyButtonVisible: isApplyButtonVisible
+                    isApplyButtonVisible: isApplyButtonVisible,
+                    deliveryCarriers : deliveryCarriers
                     //#endregion
                 };
             })()
