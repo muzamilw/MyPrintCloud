@@ -3116,18 +3116,18 @@ namespace MPC.Implementation.MISServices
             FileHeader.Add("Price8");
             FileHeader.Add("StockLabel9");
             FileHeader.Add("Price9");
-            FileHeader.Add("Supplier1");
-            FileHeader.Add("Supplier2");
-            FileHeader.Add("Supplier3");
+            FileHeader.Add("SupplierPrice1");
+            FileHeader.Add("SupplierPrice2");
+            FileHeader.Add("SupplierPrice3");
 
-            FileHeader.Add("Supplier4");
-            FileHeader.Add("Supplier5");
-            FileHeader.Add("Supplier6");
-            FileHeader.Add("Supplier7");
+            FileHeader.Add("SupplierPrice4");
+            FileHeader.Add("SupplierPrice5");
+            FileHeader.Add("SupplierPrice6");
+            FileHeader.Add("SupplierPrice7");
 
 
-            FileHeader.Add("Supplier8");
-            FileHeader.Add("Supplier9");
+            FileHeader.Add("SupplierPrice8");
+            FileHeader.Add("SupplierPrice9");
             FileHeader.Add("JobDescriptionTitle1");
             FileHeader.Add("JobDescription1");
             FileHeader.Add("JobDescriptionTitle2");

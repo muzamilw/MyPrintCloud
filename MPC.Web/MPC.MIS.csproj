@@ -631,6 +631,7 @@
     <Compile Include="Areas\Api\Models\ImportCompanyContact.cs" />
     <Compile Include="Areas\Api\Models\ImportCompanyContactCsv.cs" />
     <Compile Include="Areas\Api\Models\ImportCRMCompanyContact.cs" />
+    <Compile Include="Areas\Api\Models\ImportProductCsv.cs" />
     <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
     <Compile Include="Areas\Api\Models\Inquiry.cs" />
     <Compile Include="Areas\Api\Models\InquiryAttachment.cs" />

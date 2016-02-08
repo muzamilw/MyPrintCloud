@@ -312,6 +312,23 @@ define("product/product.viewModel",
                             }
                         });
                     },
+                    // import companyContacts
+                  selectedCsvFileForProduct = function (file, data) {
+                      dataservice.importProducts({
+                          FileName: file.name,
+                          FileBytes: data,
+                          CompanyId: 0
+                      }, {
+                          success: function (successData) {
+                              toastr.success("Products imported successfully!");
+                              searchCompanyContact();
+                          },
+                          error: function (response) {
+                              toastr.error("Products failed to import! " + response);
+                          }
+                      });
+                  },
+
                     // Edit Product
                     editProduct = function (data) {
                         getItemById(data.id(), openProductEditor);
@@ -2193,7 +2210,8 @@ define("product/product.viewModel",
                     subCategories: subCategories,
                     onSelectSubCategory: onSelectSubCategory,
                     editSubCategory: editSubCategory,
-                    exportProduct: exportProduct
+                    exportProduct: exportProduct,
+                    selectedCsvFileForProduct: selectedCsvFileForProduct
                     // For Store
                     // Utility Methods
                 };
