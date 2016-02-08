@@ -19,8 +19,10 @@ namespace MPC.Webstore.Controllers
         private readonly ICompanyService _myCompanyService;
         private readonly ICampaignService _myCompainservice;
         private readonly IUserManagerService _usermanagerService;
-
-        public BubbleQuickLinksController(ICompanyService myCompanyService, ICampaignService _myCompainservice, IUserManagerService _usermanagerService)
+        private readonly IWebstoreClaimsHelperService _myClaimHelper;
+        public BubbleQuickLinksController(ICompanyService myCompanyService, ICampaignService _myCompainservice,
+            IUserManagerService _usermanagerService
+            , IWebstoreClaimsHelperService myClaimHelper)
         {
             if (myCompanyService == null)
             {
@@ -29,13 +31,21 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._myCompainservice = _myCompainservice;
             this._usermanagerService = _usermanagerService;
+            this._myClaimHelper = myClaimHelper;
         }
 
         public ActionResult Index()
         {
 
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-
+            if (_myClaimHelper.loginContactID() > 0)
+            {
+                ViewBag.IsLogin = 1;
+            }
+            else 
+            {
+                ViewBag.IsLogin = 0;
+            }
             SetDefaultAddress(StoreBaseResopnse);
             if (StoreBaseResopnse.SecondaryPages != null)
             {
@@ -48,6 +58,30 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.PrivacyPolicy = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
                 }
+            }
+            if (StoreBaseResopnse.Company.isDisplaySecondaryPages == true)
+            {
+                ViewBag.Display = "1";
+
+                List<PageCategory> oPageCategories = StoreBaseResopnse.PageCategories.ToList();
+                List<PageCategory> oPageUpdateCategories = new List<PageCategory>();
+                foreach (PageCategory opageC in oPageCategories)
+                {
+                    if (StoreBaseResopnse.SecondaryPages != null && StoreBaseResopnse.SecondaryPages.Where(p => p.CategoryId == opageC.CategoryId).ToList().Count() > 0)
+                    {
+                        oPageUpdateCategories.Add(opageC);
+                    }
+                }
+                if (oPageCategories != null && oPageCategories.Count() > 1)
+                {
+                    ViewData["PageCategory"] = oPageUpdateCategories.Take(1).ToList();
+                }
+                else
+                {
+                    ViewData["PageCategory"] = oPageUpdateCategories.ToList();
+                }
+
+                ViewData["CmsPage"] = StoreBaseResopnse.SecondaryPages;
             }
 
             return PartialView("PartialViews/BubbleQuickLinks", StoreBaseResopnse.Company);

@@ -62,7 +62,7 @@
                                     @if(Model.FacebookURL!=null&&Model.FacebookURL!=string.Empty)
                                     { 
                                     <td valign="top">
-                                        <a id="linkFollowUs1" href="@Model.FacebookURL">
+                                        <a id="linkFollowUs1" href="@Model.FacebookURL" target="_blank">
                                             <img id="imgFollowUs1" src="/Content/Images/facebookNew.png" class="imgFollowUs" height="20" />
                                         </a>
                                     </td>
@@ -70,7 +70,7 @@
                                     @if (Model.TwitterURL != null && Model.TwitterURL != string.Empty)
                                     { 
                                     <td valign="top">
-                                        <a id="linkFollowUs2" href="@Model.TwitterURL">
+                                        <a id="linkFollowUs2" href="@Model.TwitterURL" target="_blank">
                                             <img id="imgFollowUs2" class="imgFollowUs" height="20" src="/Content/Images/TwitterNew.png" />
                                         </a>
                                     </td>
@@ -78,16 +78,11 @@
                                     @if (Model.LinkedinURL != null && Model.LinkedinURL != string.Empty)
                                     { 
                                     <td valign="top">
-                                        <a id="linkFollowUs3" href="@Model.LinkedinURL">
+                                        <a id="linkFollowUs3" href="@Model.LinkedinURL" target="_blank">
                                             <img id="imgFollowUs3" class="imgFollowUs" height="20" src="/Content/Images/LinkedInNew.png" />
                                         </a>
                                     </td>
                                     }
-                                    @*<td valign="top">
-                                        <a id="linkFollowUs4">
-                                            <img id="imgFollowUs4" class="imgFollowUs" height="20" />
-                                        </a>
-                                    </td>*@
                                 </tr>
                             </table>
                         </div>

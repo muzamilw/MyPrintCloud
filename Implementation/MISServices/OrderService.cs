@@ -1111,7 +1111,7 @@ namespace MPC.Implementation.MISServices
         {
             Estimate target = CreateNewOrder();
             target.isEstimate = false;
-            target.StatusId = (short)OrderStatus.ConfirmedOrder;
+            target.StatusId = (short)OrderStatus.PendingOrder;
 
             Estimate est_Source = GetById(source.EstimateId);
             est_Source.StatusId = 39;

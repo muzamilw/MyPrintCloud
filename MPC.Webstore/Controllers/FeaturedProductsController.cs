@@ -24,11 +24,15 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult Index()
         {
-            List<Item> featuredProducts = _itemService.GetProductsWithDisplaySettings(ProductWidget.FeaturedProducts, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            List<GetCategoryProduct> featureProductList = _itemService.GetRetailFeaturedPublishedProducts();
+            if (featureProductList != null) 
+            {
+                featureProductList = featureProductList.Where(i => i.IsFeatured == true && i.IsPublished == true && i.IsEnabled == true && i.CompanyId == UserCookieManager.WBStoreId && i.OrganisationId == UserCookieManager.WEBOrganisationID).ToList();
+            }
             MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             ViewBag.CurrencySymbol = _companyService.GetCurrencySymbolById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId));
-            return PartialView("PartialViews/FeaturedProducts", featuredProducts);
+            return PartialView("PartialViews/FeaturedProducts", featureProductList);
         }
     }
 }

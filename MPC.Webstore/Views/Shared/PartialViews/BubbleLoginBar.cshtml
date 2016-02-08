@@ -1,4 +1,5 @@
-﻿
+﻿@model MPC.Models.DomainModels.Company
+@using MPC.Webstore.Common;
 <div class="Container">
     <div class="page">
         <div class="header-container header-regular" id="top">
@@ -29,8 +30,8 @@
 
                                     <!-- Mobile logo -->
                                     <div class="logo-wrapper--mobile">
-                                        <a class="logo logo--mobile" href="http://lbprint.liquidbubblehosting.com/" title="Liquid Bubble Print">
-                                            <img id="logoImageee" src="http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/logo.png" alt="Liquid Bubble Print">
+                                        <a class="logo logo--mobile" href="@ViewBag.DefaultUrl" title="Liquid Bubble Print">
+                                            <img id="logoImageee" src="/@Model.Image" alt="Liquid Bubble Print">
                                         </a>
                                     </div>
                                     <div class="clearer after-mobile-logo"></div>
@@ -43,7 +44,7 @@
                                     <div class="hp-block h-left regular-logo">
 
                                         <div class="logo-wrapper logo-wrapper--regular">
-                                            <h1 class="logo logo--regular"><strong>@ViewBag.CompanyName</strong><a href="http://lbprint.liquidbubblehosting.com/" title="Liquid Bubble Print"><img id="logoImageee" src="http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/logo.png" alt="Liquid Bubble Print"></a></h1>
+                                            <h1 class="logo logo--regular"><strong>@ViewBag.CompanyName</strong><a href="@ViewBag.DefaultUrl" title="Liquid Bubble Print"><img id="logoImageee" src="/@Model.Image" alt="Liquid Bubble Print"></a></h1>
                                         </div>
 
                                     </div>
@@ -56,14 +57,27 @@
                                         <div class="header-top-right">
                                             <div class="top-links top-account">
                                                 <ul>
-                                                    <li>
-                                                        <a href="/Login" title="Sign In">Sign In </a>
-                                                      
-                                                    </li>
-                                                    <li class="last">
-                                                        <a title="Register" href="/SignUp">Register</a>
-                                                    </li>
+                                                    @if (ViewBag.IsLogin == 0)
+                                                    {
+                                                        <li>
+                                                            <a href="/Login" title="Sign In">Sign In </a>
+
+                                                        </li>
+                                                        <li class="last">
+                                                            <a title="Register" href="/SignUp">Register</a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a href="@Url.Action("LogOut", "LoginBar")" title="Sign Out">Sign Out </a>
+
+                                                        </li>
+                                                    }
+
                                                 </ul>
+
+
 
                                             </div>
                                             <ul class="links custom">
@@ -122,8 +136,16 @@
                                             </div>
                                             <div id="header-account" class="top-links links-wrapper-separators-left skip-content skip-content--style btm-account">
                                                 <ul class="links">
-                                                    <li class="first"><a href="/Login" title="Sign in">Sign in</a></li>
-                                                    <li class=" last" id="link-sign-up"><a href="/SignUp" title="Register">Register</a></li>
+                                                    @if (ViewBag.IsLogin == 0)
+                                                    {
+                                                        <li class="first"><a href="/Login" title="Sign in">Sign in</a></li>
+                                                        <li class=" last" id="link-sign-up"><a href="/SignUp" title="Register">Register</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="first"><a href="@Url.Action("LogOut", "LoginBar")" title="Sign Out">Sign Out</a></li>
+                                                    }
+                                                   
                                                 </ul>
 
                                             </div>
@@ -150,10 +172,10 @@
                                                         </a> <!-- end: heading -->
 
 
-                                                        <div id="header-cart" class="mini-cart-content dropdown-content left-hand block block block-cart skip-content skip-content--style" >
+                                                        <div id="header-cart" class="mini-cart-content dropdown-content left-hand block block block-cart skip-content skip-content--style" style="display:none;">
                                                             <div class="block-content-inner">
 
-                                                                <div class="empty">You have no items in your shopping cart.</div>
+                                                                <div class="empty">You have [@ViewBag.CartCount] items in your shopping cart.</div>
 
                                                             </div> <!-- end: inner block -->
                                                         </div> <!-- end: dropdown-content -->
@@ -172,9 +194,18 @@
                                                 <div id="header-account" class="top-links links-wrapper-separators-left skip-content skip-content--style">
 
                                                     <ul class="links">
-                                                        <li class="first"><a href="/Login" title="Sign in">Sign in</a></li>
-                                                        <li class=" last" id="link-sign-up"><a href="/SignUp" title="Register">Register</a></li>
+                                                        @if (ViewBag.IsLogin == 0)
+                                                        {
+                                                            <li class="first"><a href="/Login" title="Sign in">Sign in</a></li>
+                                                            <li class=" last" id="link-sign-up"><a href="/SignUp" title="Register">Register</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="first"><a href="@Url.Action("LogOut", "LoginBar")" title="Sign Out">Sign Out</a></li>
+                                                        }
+                                                        
                                                     </ul>
+
                                                 </div> <!-- end: top-links -->
 
 
@@ -198,6 +229,3 @@
         </div> <!-- end: header-container2 -->
     </div>
 </div>
-@*<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/db57826306f2446d41e160fe025abfca.css" media="all" />
-<link rel="stylesheet" type="text/css" href="http://lbprint.liquidbubblehosting.com/media/css/395bacd6701976d216c53ce125e28a4b.css" media="print" />*@
-<script type="text/javascript" src="http://lbprint.liquidbubblehosting.com/media/js/e095411e426f85c3580928f3310fd876.js"></script>

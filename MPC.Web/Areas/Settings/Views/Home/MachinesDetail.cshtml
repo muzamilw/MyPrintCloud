@@ -85,7 +85,7 @@
                                 <div class="col-lg-12 form-horizontal">
 
                                     <div class="col-lg-9">
-                                        <div class="form-group" id="isDigitalPressRadio">
+                                        <div class="form-group" id="isDigitalPressRadio" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Selection of digital or non digital press. " data-original-title="" title="">
@@ -111,13 +111,13 @@
                                                     </div>
                                                 </div>
                                                 @*<div class="col-lg-12" data-bind="visible: MachineId() > 0">
-                                                    <label style="margin-top:10px;" data-bind="text:isDigitalPress() === 'true' ? 'Digital' : 'Litho'">
+                    <label style="margin-top:10px;" data-bind="text:isDigitalPress() === 'true' ? 'Digital' : 'Litho'">
 
-                                                    </label>
-                                                </div>*@
+                    </label>
+                </div>*@
                                             </div>
                                         </div>
-                                        <div class="form-group" id="isSheetFedRadio">
+                                        <div class="form-group" id="isSheetFedRadio" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The selected type will be used to calculate press cost in estimation processing with the relevant paper type. " data-original-title="" title="">

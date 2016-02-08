@@ -1343,7 +1343,7 @@ namespace MPC.Repository.Repositories
                     CEP.AddressId = companyID;
                     CEP.Id = reportNotesID;
                     CEP.EstimateId = orderID;
-
+                    CEP.SupplierCompanyID = supplieruser.CompanyId;
                     if (objCompany.IsCustomer == 3)
                     {
 
@@ -1355,7 +1355,6 @@ namespace MPC.Repository.Repositories
                         emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Retail, "", "", "", SalesManager.Email, "", "", AttachmentList);
                     }
 
-                    //  emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser,StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList, "", null, "", "", null, "", "", "", 0, "", 0);
                 }
             }
            

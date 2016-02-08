@@ -1,10 +1,17 @@
-﻿
+﻿span#lblParentCategoryDesc {
+display: none;
+}
+
+#divStockOptions {
+display: none;
+}
 
 @font-face {
     font-family: 'Poiret One';
     font-style: normal;
     font-weight: 400;
-    src: local('Poiret One'), local('PoiretOne-Regular'), url(http://themes.googleusercontent.com/static/fonts/poiretone/v1/HrI4ZJpJ3Fh0wa5ofYMK8RsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+    src: local('Poiret One'), local('PoiretOne-Regular'), url
+(http://themes.googleusercontent.com/static/fonts/poiretone/v1/HrI4ZJpJ3Fh0wa5ofYMK8RsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
 }
 
 
@@ -13,7 +20,8 @@
     font-style: normal;
     font-weight: normal;
     src: url("fonts/avenirnextltpro-regulard41d.eot");
-    src: url("fonts/avenirnextltpro-regular.eot?#iefix") format("embedded-opentype"),url("fonts/avenirnextltpro-regular.woff") format("woff"),url("fonts/avenirnextltpro-regular.ttf") format("truetype"),url("fonts/avenirnextltpro-regular.svg#avenirnextltpro-regular") format("svg");
+    src: url("fonts/avenirnextltpro-regular.eot?#iefix") format("embedded-opentype"),url("fonts/avenirnextltpro-regular.woff") format("woff"),url
+("fonts/avenirnextltpro-regular.ttf") format("truetype"),url("fonts/avenirnextltpro-regular.svg#avenirnextltpro-regular") format("svg");
 }
 
 @font-face {
@@ -21,7 +29,8 @@
     font-style: normal;
     font-weight: normal;
     src: url("fonts/avenirnextltpro-demi.eot");
-    src: url("fonts/avenirnextltpro-demi.eot?#iefix") format("embedded-opentype"),url("fonts/avenirnextltpro-demi.woff") format("woff"),url("fonts/avenirnextltpro-demi.ttf") format("truetype"),url("fonts/avenirnextltpro-demi.svg#avenirnextltpro-demi") format("svg");
+    src: url("fonts/avenirnextltpro-demi.eot?#iefix") format("embedded-opentype"),url("fonts/avenirnextltpro-demi.woff") format("woff"),url
+("fonts/avenirnextltpro-demi.ttf") format("truetype"),url("fonts/avenirnextltpro-demi.svg#avenirnextltpro-demi") format("svg");
 }
 
 .cf {
@@ -406,8 +415,8 @@ ul.nav li.selectedLava a {
     margin-top: 10px;
     margin-right: -5px;
     /* display: block;
-	float: right;
-	padding-top: 5px;
+    float: right;
+    padding-top: 5px;
 	min-width:400px;
 	padding-right: 0px;*/
 }
@@ -5014,7 +5023,8 @@ width: 520px*/
 }
 
 .FileUploaderPopup_corp {
-    /*border: 5px solid #3EA9D8; 	background-color: White; 	padding-left: 20px; 	padding-right: 20px; 	padding-bottom: 10px; 	padding-top: 10px;*/
+    /*border: 5px solid #3EA9D8; 	background-color: White; 	padding-left: 20px; 	padding-right: 20px; 	padding-bottom: 10px; 	
+padding-top: 10px;*/
     border: 5px;
     border-style: solid;
     border-color: transparent;
@@ -7387,7 +7397,8 @@ div.zs-caption {
     font: bold 17px/19px Verdana, Arial;
     color: White;
     z-index: 7;
-    text-align: center; /* When captionEffect was set to rotate through javascript, and setting "text-align:left" will create a fly-in effect, and setting "text-align:center" will get the rotate effect. */
+    text-align: center; /* When captionEffect was set to rotate through javascript, and setting "text-align:left" will create a fly-in effect, and 
+setting "text-align:center" will get the rotate effect. */
     overflow: hidden;
 }
 
@@ -7489,7 +7500,8 @@ div.mc-caption {
     font: bold 14px/20px Arial;
     color: #EEE;
     z-index: 4;
-    padding: 10px 0; /*Adding a padding-left or padding-right here will make the caption area wider than its background. Sometimes you may need to define its width again here to keep it the same width as its background area (div.mc-caption-bg).*/
+    padding: 10px 0; /*Adding a padding-left or padding-right here will make the caption area wider than its background. Sometimes you may need to 
+define its width again here to keep it the same width as its background area (div.mc-caption-bg).*/
     text-align: center;
 }
 
@@ -10001,6 +10013,7 @@ a.PinkRegBack:active {
     background: url('sprite.png') -3px -75px;
     background-repeat: no-repeat;
     height: 35px !important;
+display: none
 }
 
 
@@ -12542,7 +12555,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -12580,7 +12593,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -13421,7 +13434,6 @@ ul.LogBar li a {
         font-size: 23px;
         width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .RfgImgCs {
@@ -14511,7 +14523,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -14549,7 +14561,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -15134,7 +15146,6 @@ ul.LogBar li a {
         font-size: 23px;
         width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .extra_item {
@@ -16024,7 +16035,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -16062,7 +16073,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -16904,7 +16915,6 @@ ul.LogBar li a {
         font-size: 23px;
         width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .DesgnFormteImg {
@@ -17794,7 +17804,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -17830,7 +17840,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -17875,7 +17885,7 @@ ul.LogBar li a {
     }
 
     .upload-panel-margin {
-        margin-left: 10px;
+        margin-left: 0px;
     }
 
     .create-design-button {
@@ -18960,9 +18970,8 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 49% !important;
+        width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .RfgImgCs {
@@ -19828,7 +19837,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -19864,7 +19873,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -19909,7 +19918,7 @@ ul.LogBar li a {
     }
 
     .upload-panel-margin {
-        margin-left: 10px;
+        margin-left: 0px;
     }
 
     .create-design-button {
@@ -21003,9 +21012,8 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 49.2% !important;
+        width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .RfgImgCs {
@@ -21478,7 +21486,7 @@ ul.LogBar li a {
     .BD_CatProducts {
         float: left;
         text-align: left;
-        width: 219px !important;
+        width: 216px !important;
         margin-right: 13px !important;
         margin-bottom: 20px !important;
         background-color: transparent;
@@ -24013,13 +24021,9 @@ label {
     color: black !important;
 }
 
-#PnalTotalBox > table > tbody > tr > td > span {
-    color: black !important;
-}
 
-#PnalTotalBox > table > tbody > tr > td > label {
-    color: black !important;
-}
+
+
 
 / /*Goldwell*/
 /*typography*/
@@ -24163,7 +24167,7 @@ label {
 .LOgo_ImgeP {
     z-index: 1;
     border-style: none;
-     padding-left:18px;
+    padding-left:18px;
 }
 
 .top_header_ex {
@@ -24768,6 +24772,18 @@ ul.LogBar > li:nth-child(3) {
    
  margin-right: 113px !important;
 }
+#divStockOptions + div.UploadContainerCs{
+display:none;
+}
+
+div#Footer > div.spclColor > div.GreyBackS6 > div.container > div.left_right_padding > div.footer_portion + div.footer_portion > 
+div.footer_left_portion_division > ul.uSecPageList > li{
+display:none;
+}
+div#Footer > div.spclColor > div.GreyBackS6 > div.container > div.left_right_padding > div.footer_portion + div.footer_portion > 
+div.footer_left_portion_division > ul.uSecPageList  > li:nth-child(4){
+display:block
+}
 /***Home styles
     
     
@@ -24794,3 +24810,4 @@ ul.LogBar > li:nth-child(3) {
     
     
     **/
+

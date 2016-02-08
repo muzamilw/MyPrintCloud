@@ -1805,9 +1805,9 @@ define("common/itemDetail.viewModel",
                     },
                     setCurrentPresses = function(section) {
                         if (selectedSection() != undefined) {
-                            selectedSection().pressId(section.pressId() != null ? section.pressId() : presses()[0].id);
+                            selectedSection().pressId(section.pressId() != null ? section.pressId() : undefined);
                             if (selectedSection().isDoubleSidedUi()) {
-                                selectedSection().pressIdSide2(section.pressIdSide2() != null ? section.pressIdSide2() : presses()[0].id);
+                                selectedSection().pressIdSide2(section.pressIdSide2() != null ? section.pressIdSide2() : undefined);
                             }
                         }
                     },
@@ -2128,9 +2128,9 @@ define("common/itemDetail.viewModel",
 
                         }
                         if (selectedSection() != undefined) {
-                            selectedSection().pressId(currPress != null ? currPress : presses()[0].id);
+                            selectedSection().pressId(currPress != null ? currPress : undefined);
                             if (selectedSection().isDoubleSidedUi()) {
-                                selectedSection().pressIdSide2(currPress2 != null ? currPress2 : presses()[0].id);
+                                selectedSection().pressIdSide2(currPress2 != null ? currPress2 : undefined);
                             }
                         }
                        

@@ -92,7 +92,7 @@ namespace MPC.Repository.Repositories
                 if (item.ControlType == 1)
                 {
                     string queryString = string.Empty;
-                    if(Id == 519) // stock report hard code id because of organisation id check
+                    if (Id == 519 || Id == 1376) // stock report hard code id because of organisation id check
                     {
                         queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName + " " + OrganisationId;
                     }
@@ -682,6 +682,27 @@ namespace MPC.Repository.Repositories
 
             }
 
+        }
+        public bool isCorporateCustomer(int StoreId)
+        {
+            try
+            {
+                int IsCustomer = db.Companies.Where(c => c.CompanyId == StoreId).Select(c => c.IsCustomer).FirstOrDefault();
+                if (IsCustomer == 3)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
         }
         // GetReportsByOrganisationID
     }

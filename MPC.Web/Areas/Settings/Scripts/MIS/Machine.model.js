@@ -16,6 +16,7 @@
             LookupMethodId = ko.observable(),
             isSheetFed = ko.observable(),
             isSpotColor = ko.observable(),
+            isDigital = ko.observable(),
             errors = ko.validation.group({
                 name: MachineName,
                 type: MachineCatId,
@@ -42,6 +43,7 @@
             ImageSource: ImageSource,
             LookupMethodId: LookupMethodId,
             isSheetFed: isSheetFed,
+            isDigital: isDigital,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -478,6 +480,7 @@
         omachineList.LookupMethodId(source.LookupMethodId);
         omachineList.isSheetFed(source.isSheetFed);
         omachineList.isSpotColor(source.IsSpotColor);
+        omachineList.isDigital(source.IsDigital);
         return omachineList;
 
     };

@@ -1530,7 +1530,7 @@ define("order/order.viewModel",
 
                             },
                             error: function (response) {
-                                toastr.error("Failed to Save Order. Error: " + response);
+                                toastr.error("Failed to Save Order: " + response);
                             }
                         });
                     },
@@ -3203,7 +3203,7 @@ define("order/order.viewModel",
                                 editOrder({ id: function () { return estimateIdFromOrderScreen; } });
                             }
 
-                            getEstimates();
+                            getEstimates(1);
                             // Get Base Data For Estimate
                             getBaseDataForEstimate();
                         };
