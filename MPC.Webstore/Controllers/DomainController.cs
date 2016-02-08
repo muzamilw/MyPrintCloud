@@ -57,9 +57,17 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             string url = HttpContext.Request.Url.ToString();
-            if (!string.IsNullOrEmpty(url))
+            //if (!string.IsNullOrEmpty(url))
+            //{
+            //    url = url.Substring(7);
+            //}
+            if (!string.IsNullOrEmpty(url) && url.Contains("http://"))
             {
-                url = url.Substring(7);
+                url = url.Replace("http://", "");//.Substring(7);
+            }
+            else if (!string.IsNullOrEmpty(url) && url.Contains("https://"))
+            {
+                url = url.Replace("https://", ""); 
             }
             long storeId = _myCompanyService.GetStoreIdFromDomain(url);
             if (storeId == 0)

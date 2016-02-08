@@ -541,6 +541,10 @@ namespace MPC.Repository.Repositories
                                                     {
                                                         tagValue = ITemtypefourHtml;
                                                     }
+                                                    else if (propertyInfo.Name.Contains("SupplierCompanyID"))
+                                                    {
+                                                        tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, "CompanyId", propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                    }
                                                     else
                                                         tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
 
