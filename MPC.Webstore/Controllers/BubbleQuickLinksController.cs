@@ -50,7 +50,7 @@ namespace MPC.Webstore.Controllers
                 }
             }
 
-            return PartialView("PartialViews/BubbleQuickLinks");
+            return PartialView("PartialViews/BubbleQuickLinks", StoreBaseResopnse.Company);
         }
 
         private void SetDefaultAddress(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
@@ -165,7 +165,7 @@ namespace MPC.Webstore.Controllers
                 }
             }
 
-            return PartialView("PartialViews/BubbleQuickLinks");
+            return PartialView("PartialViews/BubbleQuickLinks", StoreBaseResopnse.Company);
         }
     }
 }
