@@ -64,5 +64,6 @@ namespace MPC.Models.ResponseModels
         /// Foot Notes
         /// </summary>
         public string FootNotes { get; set; }
+        public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
     }
 }
