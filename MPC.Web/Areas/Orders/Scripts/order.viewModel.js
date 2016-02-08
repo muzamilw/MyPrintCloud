@@ -59,6 +59,7 @@ define("order/order.viewModel",
                     isPreVisible = ko.observable(),
                     isApplyToAll = ko.observable(),
                     isApplyButtonVisible = ko.observable(),
+                    
                     //
                     selectedCompanyTaxRate = ko.observable(),
                     selectedCompanyJobManagerUser = ko.observable(),
@@ -218,6 +219,7 @@ define("order/order.viewModel",
                     isNewinquiryDetailItem = ko.observable(false),
                     isCopyiedEstimate = ko.observable(false),
                     saveFrom = ko.observable(),
+                    callFrom = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Select Estimate Phrase Container
@@ -348,6 +350,9 @@ define("order/order.viewModel",
                                 var product = _.find(selectedOrder().nonDeliveryItems(), function (obj) {
                                     return obj.id() == itemIdFromDashboard();
                                 });
+                                if (callFrom() == "delivery") {
+                                    $('#orderDetailTabs a[href="#tab-delivery"]').tab('show');
+                                }
                                 if (product) {
                                     editItem(product);
                                 }
@@ -1704,6 +1709,7 @@ define("order/order.viewModel",
                             selectedOrder().reportSignedBy(loggedInUser());
                         }
                         setCarrierNames();
+                        
                         // Reset Order Dirty State
                         selectedOrder().reset();
 
@@ -2290,6 +2296,7 @@ define("order/order.viewModel",
                             if (selectedOrder().items().length > 0) {
                                 var item = selectedOrder().items()[0];
                                 deliverySchedule.itemId(item.id());
+                                deliverySchedule.itemName(item.productName());
                                 setQuantityOfNewDeliverySchedule(deliverySchedule);
                             }
                             // deliverySchedule.deliveryNoteRaised(true);
@@ -2456,6 +2463,7 @@ define("order/order.viewModel",
                                     });
                                 }
                                 if (deliveryNotesList.length > 0) {
+                                    
                                     raiseDeliveryNote(deliveryNotesList);
                                 }
                             }
@@ -2479,9 +2487,7 @@ define("order/order.viewModel",
                                         item.isSelected(false);
                                     });
                                     selectedOrder().deliverySchedules.valueHasMutated();
-                                    var host = window.location.host;
-                                    //var uri = encodeURI("http://" + host + data);
-                                   // window.open(uri, "_blank");
+                                    saveOrder(null, afterDeliveryNoteRaised(data.DeliveryNoteId));
                                 }
                                 isLoadingOrders(false);
                                 confirmation.hideWarningPopup();
@@ -2491,6 +2497,14 @@ define("order/order.viewModel",
                                 toastr.error("Error: Failed to Raise Delivery Note." + response);
                             }
                         });
+                    },
+                    afterDeliveryNoteRaised = function (deliveryNoteId) {
+                        selectedOrder().reset();
+                        var host = window.location.host;
+                        var uri = encodeURI("http://" + host + "/mis/DeliveryNotes/Home/DeliveryNote?id=" + deliveryNoteId);
+                        window.open(uri, "_blank");
+                        
+                        
                     },
                     createNewDeliveryNote = function(order, carrierId, addressId, consignNo, scheduls) {
                         var deliveryNote = {
@@ -3270,6 +3284,9 @@ define("order/order.viewModel",
                             getBaseData();
                             var orderIdFromDashboard = $('#OrderId').val();
                             var itemIdFromOrderScreen = $('#ItemId').val();
+                            var callingScreen = $('#CallScreen').val();
+                            if (callingScreen != undefined)
+                                callFrom(callingScreen);
                             itemIdFromDashboard(itemIdFromOrderScreen);
                             if (orderIdFromDashboard != 0) {
                                 editOrder({ id: function () { return orderIdFromDashboard; } });

@@ -86,6 +86,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierId = source.SupplierId,
                 SupplierTelNo = source.SupplierTelNo,
                 UserNotes = source.UserNotes,
+                OrderId = source.OrderId,
                 DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null,
             };
         }
