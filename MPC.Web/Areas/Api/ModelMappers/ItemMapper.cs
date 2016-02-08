@@ -276,8 +276,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 if (File.Exists(thumbnailPath))
                 {
 
-                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
-                    item.ThumbnailPath = thumbnailPath;
+                    //item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = "/mis/" + source.ThumbnailPath;
                 }
             }
 
