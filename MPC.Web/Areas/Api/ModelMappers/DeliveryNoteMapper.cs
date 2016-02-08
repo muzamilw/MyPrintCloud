@@ -54,7 +54,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : string.Empty,
                 OrderReff = source.OrderReff,
                 CreationDateTime = source.CreationDateTime,
-                OrganisationId = source.OrganisationId
+                OrganisationId = source.OrganisationId,
+                OrderId = source.OrderId
             };
         }
 
@@ -114,6 +115,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierTelNo = source.SupplierTelNo,
                 UserNotes = source.UserNotes,
                 OrganisationId = source.OrganisationId,
+                OrderId = source.OrderId,
                 DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null,
             };
         }

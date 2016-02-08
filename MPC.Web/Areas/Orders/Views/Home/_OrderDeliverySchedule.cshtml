@@ -52,29 +52,29 @@
         <tr>
             <td style="width: 175px">
                 <div>
-                    <select class="form-control" data-bind="options: $root.selectedOrder().items , optionsText: 'productName', optionsValue: 'id' ,value:itemId,validationtooltip:itemId"></select>
+                    <select class="form-control" data-bind="enable: !deliveryNoteRaised(), options: $root.selectedOrder().items , optionsText: 'productName', optionsValue: 'id' ,value:itemId,validationtooltip:itemId"></select>
                     
                 </div>
             </td>
             <td style="width: 175px">
                 <div>
-                    <select class="form-control" data-bind="options: $root.companyAddresses , optionsText: 'name', optionsValue: 'id',value:addressId,validationtooltip:addressId"></select>
+                    <select class="form-control" data-bind="enable: !deliveryNoteRaised(), options: $root.companyAddresses , optionsText: 'name', optionsValue: 'id',value:addressId,validationtooltip:addressId"></select>
                     
                 </div>
             </td>
-            <td><select class="form-control" data-bind="options: $root.deliveryCarriers , optionsText: 'CarrierName', optionsValue: 'CarrierId' ,value:carrierId,validationtooltip:carrierId"></select></td>
+            <td><select class="form-control" data-bind="enable: !deliveryNoteRaised(), options: $root.deliveryCarriers , optionsText: 'CarrierName', optionsValue: 'CarrierId' ,value:carrierId,validationtooltip:carrierId"></select></td>
             <td style="width: 175px;">
                 <div>
-                    <input type="text" class="form-control" data-bind="value: quantity, validationTooltip: quantity" />
+                    <input type="text" class="form-control" data-bind="enable: !deliveryNoteRaised(), value: quantity, validationTooltip: quantity" />
                 </div>
             </td>
             <td style="width: 114px;">
                 <div>
-                    <input type="text" class="form-control" data-bind="datepicker: deliveryDate" />
+                    <input type="text" class="form-control" data-bind="enable: !deliveryNoteRaised(), datepicker: deliveryDate" />
                 </div>
             </td>
             
-            <td><input type="text" class="form-control" data-bind="value: consignmentNumber" /></td>
+            <td><input type="text" class="form-control" data-bind="enable: !deliveryNoteRaised(), value: consignmentNumber" /></td>
             @*<td style="width: 114px;padding-top: 7px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="numberInput: price"></span> </td>*@
             @*<td>
                 <div class="checkbox-nice">
@@ -83,9 +83,12 @@
                 </div>
             </td>*@
             <td style="width: 114px;">
-                <div class="checkbox-nice">
+                <div class="checkbox-nice" data-bind="visible:!deliveryNoteRaised()">
                     <input type="checkbox" data-bind="checked: isSelected,attr: { id: 'selected' + $index() }">
                     <label data-bind="attr: { for: 'selected' + $index() }"></label>
+                </div>
+                <div data-bind="visible:deliveryNoteRaised, text: 'Raised'">
+                    
                 </div>
                 
             </td>
@@ -115,11 +118,13 @@
                 </div>
             </td>*@
             <td>
-                <div class="checkbox-nice">
+                <div class="checkbox-nice" data-bind="visible:!deliveryNoteRaised()">
                     <input type="checkbox" data-bind="checked: isSelected,attr: { id: 'selected1' + $index() }">
                     <label data-bind="attr: { for: 'selected1' + $index() }"></label>
                 </div>
-                
+                <div data-bind="visible:deliveryNoteRaised, text: 'Raised'">
+
+                </div>
             </td>
             <td style="width: 75px">
                 <a href="#" class="table-link danger" data-bind="click: $root.onDeleteDeliveryScheduleItem" title="Delete">

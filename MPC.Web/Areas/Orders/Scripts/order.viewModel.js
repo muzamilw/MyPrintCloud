@@ -2432,7 +2432,7 @@ define("order/order.viewModel",
                                 var uniqueNotes = [];
                                 _.each(raisedList, function (item) {
                                     var uniqueNote = _.find(uniqueNotes, function (raisedItem) {
-                                        return (raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId());
+                                        return (raisedItem.itemId() === item.itemId && raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId());
                                     });
                                     if (uniqueNote == undefined) {
                                         item.shippingDetails.push({Description: item.itemName()});
@@ -2498,13 +2498,14 @@ define("order/order.viewModel",
                             DeliveryDate: moment(order.finishDeliveryDate()).format(ist.utcFormat),
                             ContactCompany: order.companyName(),
                             OrderReff: order.orderCode(),
-                            IsStatus : 19,
+                            IsStatus: 19,
                             CreationDateTime: moment().format(ist.utcFormat),
                             CompanyId: order.companyId(),
                             Comments: order.headNotes(),
                             ContactId: order.contactId(),
                             AddressId: addressId,
                             SupplierId: carrierId,
+                            OrderId: order.id(),
                             CsNo: consignNo,
                             RaisedBy: loggedInUser(),
                             DeliveryNoteDetails: []

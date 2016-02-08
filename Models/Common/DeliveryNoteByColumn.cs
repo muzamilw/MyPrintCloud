@@ -11,6 +11,8 @@ namespace MPC.Models.Common
         /// <summary>
         /// Code
         /// </summary>
-        Code = 2
+        Code = 2,
+        DeliveryDate = 3,
+        CreationDate = 4
     }
 }
