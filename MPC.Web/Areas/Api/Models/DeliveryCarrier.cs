@@ -15,5 +15,6 @@ namespace MPC.MIS.Areas.Api.Models
 
         public string CarrierPhone { get; set; }
         public bool? isEnable { get; set; }
+        public long OrganisationId { get; set; }
     }
 }

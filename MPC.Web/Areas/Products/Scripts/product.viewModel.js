@@ -1164,6 +1164,7 @@ define("product/product.viewModel",
                     mapProducts = function (data) {
                         var itemsList = [];
                         _.each(data, function (item) {
+                          
                             itemsList.push(model.Item.Create(item));
                         });
 
@@ -1498,6 +1499,7 @@ define("product/product.viewModel",
                             item.miniPrice(data.MinPrice || 0);
                             item.templateId(data.TemplateId || undefined);
                             item.templateType(data.TemplateType || undefined);
+                            item.thumbnailPath(data.ThumbnailPath);
                             //item.thumbnail(data.ThumbnailImageSource || undefined);
                             item.thumbnail(data.ThumbnailPath || undefined);
                             item.printCropMarks(data.PrintCropMarks || false);

@@ -706,6 +706,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 itemName = ko.observable(specifiedItemName || ''),
                 // Address Name
                 addressName = ko.observable(specifiedAddressName || ''),
+                carrierName = ko.observable(),
+                shippingDetails = ko.observableArray([]),
                 //
                 isSelected = ko.observable(false),
                 // Estimate ID
@@ -770,7 +772,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 addressName: addressName,
                 isSelected: isSelected,
                 carrierId: carrierId,
-                consignmentNumber : consignmentNumber,
+                consignmentNumber: consignmentNumber,
+                carrierName: carrierName,
+                shippingDetails : shippingDetails,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,

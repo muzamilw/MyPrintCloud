@@ -49,9 +49,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     //phone
                     CarriarPhone = ko.observable(),
                      //Sort On
-                    sortOn = ko.observable(1),
+                    sortOn = ko.observable(4),
                     //Sort In Ascending
-                    sortIsAsc = ko.observable(true),
+                    sortIsAsc = ko.observable(false),
                      // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
 

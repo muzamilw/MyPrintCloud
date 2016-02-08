@@ -76,6 +76,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICampaignRepository campaignRepository;
         private readonly IInvoiceRepository invoiceRepository;
         private readonly IInquiryAttachmentRepository inquiryAttachmentRepository;
+        private readonly IDeliveryCarrierRepository deliveryCarrierRepository;
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
@@ -476,7 +477,7 @@ namespace MPC.Implementation.MISServices
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
             ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper
-            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
+            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository, IInquiryAttachmentRepository inquiryAttachmentRepository, IDeliveryCarrierRepository deliveryCarrierRepository)
         {
             if (estimateRepository == null)
             {
@@ -558,6 +559,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionCostCentreDetailRepository");
             }
+            if (deliveryCarrierRepository == null)
+            {
+                throw new ArgumentNullException("deliveryCarrierRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.invoiceRepository = invoiceRepository;
             this.companyRepository = companyRepository;
@@ -600,6 +605,7 @@ namespace MPC.Implementation.MISServices
             this.purchaseRepository = purchaseRepository;
             this.campaignRepository = campaignRepository;
             this.inquiryAttachmentRepository = inquiryAttachmentRepository;
+            this.deliveryCarrierRepository = deliveryCarrierRepository;
         }
 
         #endregion
@@ -832,6 +838,7 @@ namespace MPC.Implementation.MISServices
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
                        PipeLineProducts = pipeLineProductRepository.GetAll(),
                        LoggedInUser = organisationRepository.LoggedInUserId,
+                       DeliveryCarriers = deliveryCarrierRepository.GetAll()
                    };
         }
 

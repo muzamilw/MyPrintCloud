@@ -347,6 +347,7 @@
     <Compile Include="Areas\Api\Controllers\AgileCRMContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeliveryNotesByOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\ExportItemController.cs" />
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
