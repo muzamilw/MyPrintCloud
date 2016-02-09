@@ -735,11 +735,11 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public bool SetOrderCreationDateAndCode(long orderId)
+        public bool SetOrderCreationDateAndCode(long orderId, long OrganisationId)
         {
 
             Estimate tblOrd = db.Estimates.Where(estm => estm.EstimateId == orderId).FirstOrDefault();
-            Prefix prefix = _PrefixService.GetDefaultPrefix();
+            Prefix prefix = _PrefixService.GetDefaultPrefix(OrganisationId);
 
             if (prefix != null)
             {
@@ -2189,7 +2189,7 @@ namespace MPC.Repository.Repositories
                         shopCartOrder.DeliveryCost = 0;
                         shopCartOrder.DeliveryCostCenterId = 0;
                         shopCartOrder.StartDeliveryDate = null;
-                        Prefix prefix = _prefixrepository.GetDefaultPrefix();
+                        Prefix prefix = _prefixrepository.GetDefaultPrefix(OrganisationId);
                         if (prefix != null)
                         {
                             shopCartOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();

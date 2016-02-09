@@ -39,7 +39,7 @@ namespace MPC.Interfaces.Repository
         DiscountVoucher GetVoucherRecord(int VId);
 
         Estimate GetOrderByID(long orderId);
-        bool SetOrderCreationDateAndCode(long orderId);
+        bool SetOrderCreationDateAndCode(long orderId, long OrganisationId);
         //bool IsVoucherValid(string voucherCode);
         bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode);
         void updateStockAndSendNotification(long ItemId, long StockID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org);

@@ -812,6 +812,14 @@ namespace MPC.Webstore.Controllers
 
             try
             {
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("C :" + C + "<br/>" + Environment.NewLine + "F :" + F +
+                       "" + Environment.NewLine + "L :" + L + " E: " + E + " CC: " + CC + " OrganisationId" + UserCookieManager.WEBOrganisationID + " HttpContext.Request.Url.DnsSafeHost" + HttpContext.Request.Url.DnsSafeHost);
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
                 if (System.Text.RegularExpressions.Regex.IsMatch(E, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
                 {
                     if (!string.IsNullOrEmpty(C))
