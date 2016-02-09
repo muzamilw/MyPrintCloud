@@ -21,11 +21,11 @@
                             <tr>
                                 <th class="col-lg-2"><span>Item</span></th>
                                 <th class="col-lg-2"><span>Address</span></th>
-                                <th class="col-lg-2">Carrier</th>
                                 <th class="col-lg-1"><span>Quantity</span></th>
                                 <th class="col-lg-2"><span>Delivery Date</span></th>
+                                <th class="col-lg-2">Carrier</th>
                                 <th class="col-lg-1">Consignment#</th>
-                                <th class="col-lg-1">Select</th>
+                                <th class="col-lg-1"></th>
                                 <th class="col-lg-1"></th>
                             </tr>
                         </thead>
@@ -62,7 +62,7 @@
                     
                 </div>
             </td>
-            <td><select class="form-control" data-bind="enable: !deliveryNoteRaised(), options: $root.deliveryCarriers , optionsText: 'CarrierName', optionsValue: 'CarrierId' ,value:carrierId,validationtooltip:carrierId"></select></td>
+            
             <td style="width: 175px;">
                 <div>
                     <input type="text" class="form-control" data-bind="enable: !deliveryNoteRaised(), value: quantity, validationTooltip: quantity" />
@@ -73,7 +73,7 @@
                     <input type="text" class="form-control" data-bind="enable: !deliveryNoteRaised(), datepicker: deliveryDate" />
                 </div>
             </td>
-            
+            <td><select class="form-control" data-bind="enable: !deliveryNoteRaised(), options: $root.deliveryCarriers , optionsText: 'CarrierName', optionsValue: 'CarrierId' ,value:carrierId,validationtooltip:carrierId"></select></td>
             <td><input type="text" class="form-control" data-bind="enable: !deliveryNoteRaised(), value: consignmentNumber" /></td>
             @*<td style="width: 114px;padding-top: 7px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="numberInput: price"></span> </td>*@
             @*<td>
@@ -93,7 +93,7 @@
                 
             </td>
             <td style="width: 75px;">
-                <a href="#" class="table-link danger" data-bind="click: $root.onDeleteDeliveryScheduleItem" title="Delete">
+                <a href="#" class="table-link danger" data-bind="click: $root.onDeleteDeliveryScheduleItem, visible:!deliveryNoteRaised()" title="Delete">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -105,10 +105,10 @@
     <script id="itemDeliverScheduleTemplate" type="text/html">
         <tr data-bind="click:$root.selectDeliverySchedule">
             <td style="width: 175px;font-size: 0.875em" data-bind="text: itemName"></td>
-            <td style="width: 175px" data-bind="text: addressName"></td>
-            <td style="width: 175px" data-bind="text: carrierName"></td>
+            <td style="width: 175px" data-bind="text: addressName"></td>            
             <td style="width: 175px" data-bind="text: quantity"></td>
             <td data-bind="dateString: deliveryDate"></td>
+            <td style="width: 175px" data-bind="text: carrierName"></td>
             <td data-bind="text: consignmentNumber"></td>
             @*<td style="width: 114px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="numberInput: price"></span> </td>*@
             @*<td>
@@ -127,7 +127,7 @@
                 </div>
             </td>
             <td style="width: 75px">
-                <a href="#" class="table-link danger" data-bind="click: $root.onDeleteDeliveryScheduleItem" title="Delete">
+                <a href="#" class="table-link danger" data-bind="click: $root.onDeleteDeliveryScheduleItem, visible:!deliveryNoteRaised()" title="Delete">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>

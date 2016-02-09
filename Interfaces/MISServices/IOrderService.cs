@@ -45,7 +45,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get base data for Specified Company
         /// </summary>
-        OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId);
+        OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId, long orderId = 0);
         /// <summary>
         /// Get Order Statuses Count For Menu Items
         /// </summary>

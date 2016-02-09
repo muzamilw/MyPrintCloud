@@ -53,12 +53,14 @@ define("order/order.viewModel",
                     // Ink Plate Sides Methods
                     inkPlateSides = ko.observableArray([]),
                     multipleQtyItems = ko.observableArray([]),
+                    orderDeliveryNotes = ko.observableArray([]),
                     //Counter for New Section Id
                     counterForSection = -1000,
                     wizardButtonLabel = ko.observable(),
                     isPreVisible = ko.observable(),
                     isApplyToAll = ko.observable(),
                     isApplyButtonVisible = ko.observable(),
+                    
                     //
                     selectedCompanyTaxRate = ko.observable(),
                     selectedCompanyJobManagerUser = ko.observable(),
@@ -218,6 +220,7 @@ define("order/order.viewModel",
                     isNewinquiryDetailItem = ko.observable(false),
                     isCopyiedEstimate = ko.observable(false),
                     saveFrom = ko.observable(),
+                    callFrom = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Select Estimate Phrase Container
@@ -348,6 +351,9 @@ define("order/order.viewModel",
                                 var product = _.find(selectedOrder().nonDeliveryItems(), function (obj) {
                                     return obj.id() == itemIdFromDashboard();
                                 });
+                                if (callFrom() == "delivery") {
+                                    $('#orderDetailTabs a[href="#tab-delivery"]').tab('show');
+                                }
                                 if (product) {
                                     editItem(product);
                                 }
@@ -455,7 +461,7 @@ define("order/order.viewModel",
                             }
                             // Get Company Address and Contacts
                             getBaseForCompany(company.id, (selectedOrder().storeId() === null || selectedOrder().storeId() === undefined) ? company.id :
-                                selectedOrder().storeId());
+                                selectedOrder().storeId(), selectedOrder().id());
                         } else if (isDisplayInquiryDetailScreen()) {
                             companyContacts.removeAll();
                             selectedInquiry().companyId(company.id);
@@ -1694,7 +1700,7 @@ define("order/order.viewModel",
                                 storeId = data.CompanyId;
                                 selectedOrder().storeId(undefined);
                             }
-                            getBaseForCompany(data.CompanyId, storeId);
+                            getBaseForCompany(data.CompanyId, storeId, selectedOrder().id());
                         }
                         // If Signed by is not set in case of online order then set it
                         if (!isEstimateScreen() && !selectedOrder().orderReportSignedBy()) {
@@ -1704,6 +1710,7 @@ define("order/order.viewModel",
                             selectedOrder().reportSignedBy(loggedInUser());
                         }
                         setCarrierNames();
+                        
                         // Reset Order Dirty State
                         selectedOrder().reset();
 
@@ -1723,11 +1730,12 @@ define("order/order.viewModel",
                         }
                     },
                     // Get Company Base Data
-                    getBaseForCompany = function (id, storeId) {
+                    getBaseForCompany = function (id, storeId, orderId) {
                         isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
                             id: id,
-                            storeId: storeId
+                            storeId: storeId,
+                            orderId: orderId
                         }, {
                             success: function (data) {
                                 companyAddresses.removeAll();
@@ -1740,6 +1748,11 @@ define("order/order.viewModel",
                                     if (data.CompanyContacts) {
                                         mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
                                         setDefaultContactForCompany();
+                                    }
+                                    orderDeliveryNotes.removeAll();
+                                    if (data.DeliveryNotes) {
+                                        ko.utils.arrayPushAll(orderDeliveryNotes(), data.DeliveryNotes);
+                                        orderDeliveryNotes.valueHasMutated();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
                                     selectedCompanyJobManagerUser(data.JobManagerId);
@@ -2290,6 +2303,7 @@ define("order/order.viewModel",
                             if (selectedOrder().items().length > 0) {
                                 var item = selectedOrder().items()[0];
                                 deliverySchedule.itemId(item.id());
+                                deliverySchedule.itemName(item.productName());
                                 setQuantityOfNewDeliverySchedule(deliverySchedule);
                             }
                             // deliverySchedule.deliveryNoteRaised(true);
@@ -2456,11 +2470,12 @@ define("order/order.viewModel",
                                     });
                                 }
                                 if (deliveryNotesList.length > 0) {
+                                    
                                     raiseDeliveryNote(deliveryNotesList);
                                 }
                             }
                             else {
-                                toastr.error("Please select items to raise delivery note.");
+                                toastr.error("No items selected to raise delivery note.");
                             }
                         }
                         else {
@@ -2475,13 +2490,15 @@ define("order/order.viewModel",
                                 if (data != null) {
                                     //
                                     _.each(selectedOrder().deliverySchedules(), function (item) {
-                                        item.deliveryNoteRaised(true);
-                                        item.isSelected(false);
+                                        if (item.isSelected() == true) {
+                                            item.deliveryNoteRaised(true);
+                                            item.isSelected(false);
+                                        }
                                     });
+                                    ko.utils.arrayPushAll(orderDeliveryNotes(), data);
+                                    orderDeliveryNotes.valueHasMutated();
                                     selectedOrder().deliverySchedules.valueHasMutated();
-                                    var host = window.location.host;
-                                    //var uri = encodeURI("http://" + host + data);
-                                   // window.open(uri, "_blank");
+                                    saveOrder(null, afterDeliveryNoteRaised(data[0].DeliveryNoteId));
                                 }
                                 isLoadingOrders(false);
                                 confirmation.hideWarningPopup();
@@ -2491,6 +2508,14 @@ define("order/order.viewModel",
                                 toastr.error("Error: Failed to Raise Delivery Note." + response);
                             }
                         });
+                    },
+                    afterDeliveryNoteRaised = function (deliveryNoteId) {
+                        selectedOrder().reset();
+                        var host = window.location.host;
+                        var uri = encodeURI("http://" + host + "/mis/DeliveryNotes/Home/DeliveryNote?id=" + deliveryNoteId);
+                        window.open(uri, "_blank");
+                        
+                        
                     },
                     createNewDeliveryNote = function(order, carrierId, addressId, consignNo, scheduls) {
                         var deliveryNote = {
@@ -3247,6 +3272,11 @@ define("order/order.viewModel",
                             }
                         });
                     },
+                    openDeliveryNote = function (deliveryNote) {
+                        var host = window.location.host;
+                        var uri = encodeURI("http://" + host + "/mis/DeliveryNotes/Home/DeliveryNote?id=" + deliveryNote.DeliveryNoteId);
+                        window.open(uri, "_blank");
+                    },
                     //#endregion
                     //#region INITIALIZE
 
@@ -3270,6 +3300,9 @@ define("order/order.viewModel",
                             getBaseData();
                             var orderIdFromDashboard = $('#OrderId').val();
                             var itemIdFromOrderScreen = $('#ItemId').val();
+                            var callingScreen = $('#CallScreen').val();
+                            if (callingScreen != undefined)
+                                callFrom(callingScreen);
                             itemIdFromDashboard(itemIdFromOrderScreen);
                             if (orderIdFromDashboard != 0) {
                                 editOrder({ id: function () { return orderIdFromDashboard; } });
@@ -3501,7 +3534,9 @@ define("order/order.viewModel",
                     isPreVisible: isPreVisible,
                     isApplyToAll: isApplyToAll,
                     isApplyButtonVisible: isApplyButtonVisible,
-                    deliveryCarriers : deliveryCarriers
+                    deliveryCarriers: deliveryCarriers,
+                    orderDeliveryNotes: orderDeliveryNotes,
+                    openDeliveryNote: openDeliveryNote
                     //#endregion
                 };
             })()
