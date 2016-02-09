@@ -67,5 +67,10 @@ namespace MPC.Repository.Repositories
 
             return new GetDeliveryNoteResponse { DeliveryNotes = deliveryNotes, TotalCount = DbSet.Count(query) };
         }
+
+        public List<DeliveryNote> GetDeliveryNotesByOrderId(long orderId)
+        {
+            return DbSet.Where(d => d.OrderId == orderId).ToList();
+        } 
     }
 }

@@ -31,5 +31,6 @@ namespace MPC.MIS.Areas.Api.Models
         public bool IsStoreLive { get; set; }
         public bool IsMisOrdersCountReached { get; set; }
         public bool IsWebOrdersCountReached { get; set; }
+        public IEnumerable<DeliveryNote> DeliveryNotes { get; set; }
     }
 }

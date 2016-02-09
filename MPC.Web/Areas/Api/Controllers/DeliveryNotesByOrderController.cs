@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using GrapeCity.Viewer.Common;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -42,20 +43,21 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [ApiException]
-        public DeliveryNote Post(DeliveryNoteBaseResponse deliveryNoteList)
+        public List<DeliveryNote> Post(DeliveryNoteBaseResponse deliveryNoteList)
         {
             if (deliveryNoteList == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            DeliveryNote updatedNote = null;
+            List <DeliveryNote> updatedNote = new List<DeliveryNote>();
             if (deliveryNoteList.DeliveryNotes.Any())
             {
 
-                foreach (var deliveryNote in deliveryNoteList.DeliveryNotes)
-                {
-                    updatedNote = _deliveryNotesService.SaveDeliveryNote(deliveryNote.CreateFrom()).CreateFromListView();
-                }
+                deliveryNoteList.DeliveryNotes.ForEach(note => updatedNote.Add(_deliveryNotesService.SaveDeliveryNote(note.CreateFrom()).CreateFromListView()));
+                //foreach (var deliveryNote in deliveryNoteList.DeliveryNotes)
+                //{
+                //    updatedNote.Add(_deliveryNotesService.SaveDeliveryNote(deliveryNote.CreateFrom()).CreateFromListView());
+                //}
                 
             }
             return updatedNote;
