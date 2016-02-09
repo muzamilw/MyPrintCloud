@@ -74,6 +74,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreId = source.Company != null ? source.Company.StoreId : null,
                 IsCustomer = source.Company != null ? source.Company.IsCustomer : (short)0,
                 FlagId = source.FlagId,
+                FlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : string.Empty,
                 ContactCompany = source.ContactCompany,
                 OrderReff = source.OrderReff,
                 CreationDateTime = source.CreationDateTime,

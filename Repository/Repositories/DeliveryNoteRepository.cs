@@ -70,7 +70,7 @@ namespace MPC.Repository.Repositories
 
         public List<DeliveryNote> GetDeliveryNotesByOrderId(long orderId)
         {
-            return DbSet.Where(d => d.OrderId == orderId).ToList();
+            return DbSet.Include("SectionFlag").Where(d => d.OrderId == orderId).ToList();
         } 
     }
 }

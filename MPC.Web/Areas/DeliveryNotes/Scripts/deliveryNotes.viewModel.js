@@ -172,6 +172,10 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                     selectedDeliveryNote().reset();
                                     getBaseForCompany(data.CompanyId, storeId);
                                 }
+                                if (deliveryNoteIdFromOrder() != undefined && deliveryNoteIdFromOrder() > 0) {
+                                    selectedDeliveryNoteForListView(data);
+                                }
+                                
                             }
 
                         },
@@ -498,16 +502,19 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                     dNote.companyName(selectedDeliveryNote().companyName());
                                     deliverNoteListView.splice(0, 0, dNote);
                                 } else {
-                                    selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
-                                    selectedDeliveryNoteForListView().flagId(data.FlagId);
-                                    selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
-                                    selectedDeliveryNoteForListView().companyName(data.CompanyName);
-                                    selectedDeliveryNoteForListView().flagColor(data.FlagColor);
-                                    selectedDeliveryNoteForListView().orderReff(data.OrderReff);
-                                    selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
-                                    if (currentTab() !== data.IsStatus) {
-                                        deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                                    if (selectedDeliveryNoteForListView() != undefined) {
+                                        selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
+                                        selectedDeliveryNoteForListView().flagId(data.FlagId);
+                                        selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
+                                        selectedDeliveryNoteForListView().companyName(data.CompanyName);
+                                        selectedDeliveryNoteForListView().flagColor(data.FlagColor);
+                                        selectedDeliveryNoteForListView().orderReff(data.OrderReff);
+                                        selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
+                                        if (currentTab() !== data.IsStatus) {
+                                            deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                                        }
                                     }
+                                    
                                 }
                                 isEditorVisible(false);
                                 toastr.success("Saved Successfully.");
