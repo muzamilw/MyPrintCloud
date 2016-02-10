@@ -99,6 +99,7 @@ namespace MPC.Webstore.Controllers
 
         private void LoadPageData(ShopCartAddressSelectViewModel AddressSelectModel, long OrderID) 
         {
+            ViewBag.LoginUserContactId = _myClaimHelper.loginContactID();
             List<CostCentre> deliveryCostCentersList = null;
             List<Address> customerAddresses = new List<Address>();
             CompanyTerritory Territory = new CompanyTerritory();
@@ -188,6 +189,7 @@ namespace MPC.Webstore.Controllers
                 {
                     if (baseresponseComp.isStoreModePrivate == true)
                     {
+                        ViewBag.isStoreModePrivate = 1;
                         // if role is admin
                         if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
                             customerAddresses = _myCompanyService.GetAddressByCompanyID(UserCookieManager.WBStoreId);
@@ -240,6 +242,7 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
+                        ViewBag.isStoreModePrivate = 0;
                         customerAddresses = _myCompanyService.GetAddressByCompanyID(UserCookieManager.WBStoreId);
                     }
                 }
@@ -698,6 +701,14 @@ namespace MPC.Webstore.Controllers
                     addressObj.IsDefaultShippingAddress = address.IsDefaultShippingAddress;
                     addressObj.IsDefaultAddress = address.IsDefaultAddress;
                     addressObj.StateId = address.StateId;
+                    addressObj.CompanyId = address.CompanyId;
+                    addressObj.ContactId = address.ContactId;
+                    addressObj.ScopeVariables = null;
+                    addressObj.CompanyContacts = null;
+                    addressObj.Company = null;
+                    addressObj.CompanyTerritory = null;
+                    addressObj.ShippingCompanyContacts = null;
+                    addressObj.ShippingInformations = null;
                     if (address.State != null)
                         addressObj.Tel2 = address.State.StateName; // because of circullar reference error in json 
                     else
@@ -707,7 +718,7 @@ namespace MPC.Webstore.Controllers
                     else
                         addressObj.FAO = "";
                     addressObj.CountryId = address.CountryId;
-
+                   
                     newaddress.Add(addressObj);
                 }
                 model.ShippingAddresses = newaddress;

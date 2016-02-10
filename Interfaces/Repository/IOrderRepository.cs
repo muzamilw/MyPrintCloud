@@ -16,7 +16,7 @@ namespace MPC.Interfaces.Repository
         void UpdateOrderForDel(Estimate Order);
         double? GetOrderTotalById(long OrderId);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
-        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
+        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId);
         List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
 
 

@@ -201,7 +201,10 @@ namespace MPC.Webstore
                         {
                             if (StoreBaseResopnse.Company.IsCustomer == 3) // corporate customer
                             {
-                                Response.Redirect("/Login");
+                                if (!Convert.ToString(HttpContext.Current.Request.Url).Contains("OrderReceipt/"))
+                                {
+                                    Response.Redirect("/Login");
+                                }
                             }
                         }
                     }

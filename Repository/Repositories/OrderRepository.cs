@@ -2648,11 +2648,7 @@ namespace MPC.Repository.Repositories
                         && tblStatuses.StatusType == 2 //The status type should be 2 only for orders
                         && tblOrd.StatusId != (int)OrderStatus.ShoppingCart // Not Shopping Cart
                         && tblOrd.StatusId != (int)OrderStatus.ArchivedOrder // Not Archived
-                        //  && tblOrd.StatusID == (orderStatusID > 0 ? (short?)orderStatusID : tblOrd.StatusID)
-                        //  && tblOrd.CustomerPO.Contains(((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber)) //|| tblcompany.Name.Contains(orderRefNumber) || tblContacts.FirstName.Contains(orderRefNumber) || tblContacts.LastName.Contains(orderRefNumber) || tblOrd.Order_Code.Contains(orderRefNumber))
-                        // && (actualFromDate.HasValue ? tblOrd.Order_Date >= actualFromDate : true)
-                        //    && (actualToDate.HasValue ? tblOrd.Order_Date <= actualToDate : true)
-
+                        
                         select new Order()
                         {
                             OrderID = tblOrd.EstimateId,
@@ -2762,7 +2758,7 @@ namespace MPC.Repository.Repositories
                 return 0;
             }
         }
-        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
+        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId)
         {
             List<Order> ordersList = null;
             int orderStatusID = (int)OrderStatus.PendingCorporateApprovel;
@@ -2776,6 +2772,7 @@ namespace MPC.Repository.Repositories
                         && tblStatuses.StatusType == 2 //The status type should be 2 only for orders                            
                         && tblOrd.StatusId == orderStatusID // only pending approvel
                         && tblContactCompany.IsCustomer == (int)CustomerTypes.Corporate
+                        && tblContactCompany.CompanyId == companyId
                         select new Order()
                         {
                             OrderID = tblOrd.EstimateId,

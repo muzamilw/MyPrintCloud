@@ -1423,9 +1423,9 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
+        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId)
         {
-            return _orderrepository.GetPendingApprovelOrdersList(contactUserID, isApprover);
+            return _orderrepository.GetPendingApprovelOrdersList(contactUserID, isApprover, companyId);
         }
         public CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode)
         {
@@ -1436,36 +1436,46 @@ namespace MPC.Implementation.WebStoreServices
             if(company.IsCustomer == (int)StoreMode.Corp)
             {
                 ContactRecord = _CompanyContactRepository.GetCorporateContactForAutoLogin(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
+                if(company.isAllowRegistrationFromWeb == true)
+                {
+                    if (ContactRecord == null) // contact already exists...
+                    {
+                        ContactRecord = new CompanyContact();
+                        ContactRecord.FirstName = ContactFirstName;
+                        ContactRecord.LastName = ContactLastName;
+                        ContactRecord.Email = ContactEmail;
+                        ContactRecord.OrganisationId = company.OrganisationId;
+                        ContactRecord.Notes = "Temporary Password = guest";
+                        ContactRecord.Password = "guest";
 
+                        ContactRecord = _CompanyContactRepository.CreateCorporateContact(company.CompanyId, ContactRecord, "", Convert.ToInt64(company.OrganisationId), true);
+
+
+                    }
+                }
+                
             }
             else if (company.IsCustomer == (int)StoreMode.Retail)
             {
                 ContactRecord = _CompanyContactRepository.GetContactByEmail(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
+                if (ContactRecord == null) // contact already exists...
+                {
+                    ContactRecord = new CompanyContact();
+                    ContactRecord.FirstName = ContactFirstName;
+                    ContactRecord.LastName = ContactLastName;
+                    ContactRecord.Email = ContactEmail;
+                    ContactRecord.OrganisationId = company.OrganisationId;
+                    ContactRecord.Notes = "Temporary Password = guest";
+                    ContactRecord.Password = "guest";
 
+                    long CompanyID = _CompanyRepository.CreateCustomer(ContactFirstName, true, true, CompanyTypes.SalesCustomer, "", Convert.ToInt64(company.OrganisationId), company.CompanyId, ContactRecord);
+                    ContactRecord = _CompanyContactRepository.GetContactsByCompanyId(CompanyID).FirstOrDefault();
+                    
+
+                }
             }
             
-            if (ContactRecord == null && company.isAllowRegistrationFromWeb == true) // contact already exists...
-            {
-                ContactRecord = new CompanyContact();
-                ContactRecord.FirstName = ContactFirstName;
-                ContactRecord.LastName = ContactLastName;
-                ContactRecord.Email = ContactEmail;
-                ContactRecord.OrganisationId = company.OrganisationId;
-                ContactRecord.Notes = "Temporary Password = guest";
-                ContactRecord.Password = "guest";
-                if (company.IsCustomer == (int)StoreMode.Corp)
-                {
-                    ContactRecord = _CompanyContactRepository.CreateCorporateContact(company.CompanyId, ContactRecord, "", Convert.ToInt64(company.OrganisationId), true);
-                 
-                }
-                else if (company.IsCustomer == (int)StoreMode.Retail)
-                {
-                   
-                   long ContactId = _CompanyRepository.CreateCustomer(ContactFirstName, true, true, CompanyTypes.SalesCustomer, "", Convert.ToInt64(company.OrganisationId), company.CompanyId, ContactRecord);
-                   ContactRecord =  _CompanyContactRepository.GetContactByID(ContactId);
-                }
-                
-            }
+            
             return ContactRecord;
         }
         public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "")

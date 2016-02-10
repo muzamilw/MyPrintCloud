@@ -1223,7 +1223,7 @@ namespace MPC.Repository.Repositories
                             obj.AddressId = ContactCompnyID;
                             obj.CompanyId = ContactCompnyID;
                             obj.OrganisationId = serverSettings.OrganisationId;
-                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore, "", "", "", SalesManagerEmail, "", corpRec.Email);
+                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore, "", "", "", SalesManagerEmail, "");
                         }
                     }
                 

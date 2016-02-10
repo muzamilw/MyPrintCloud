@@ -95,6 +95,8 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
+                List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
+
                 SetUserClaim(UserCookieManager.WEBOrganisationID);
 
                 // dirty trick to set cookies after auto login
@@ -107,7 +109,7 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.WEBEmail = UserCookieManager.WEBEmail;
                     UserCookieManager.PerformAutoLogin = false;
                 }
-                List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
+
 
                 //iqra to fix the route of error page, consult khurram if required to get it propper.
                 if (UserCookieManager.WBStoreId > 0)
@@ -127,13 +129,18 @@ namespace MPC.Webstore.Controllers
 
 
                 ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Site.css";
+                if ((model == null) || (model != null && model.Count == 0))
+                {
+                    TempData["ErrorMessage"] = "Error! no widgets found.";
+                    return RedirectToAction("Error");
+                }
                 return View(model);
+
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "" + ex + "";
                 return RedirectToAction("Error", "Home");
-
             }
         }
 
@@ -144,6 +151,9 @@ namespace MPC.Webstore.Controllers
             if (StoreBaseResopnse != null)
             {
                 string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+
                 if (!_webstoreAuthorizationChecker.isUserLoggedIn())
                 {
                     if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
@@ -173,10 +183,10 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(pageName))
             {
                 MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName == pageName).FirstOrDefault();
-                if(Page == null)
+                if (Page == null)
                 {
-                     throw new Exception("Critcal Error, Page not found." + pageName, null);
-                     return null;
+                    throw new Exception("Critcal Error, Page not found." + pageName, null);
+                    return null;
                 }
                 if (Page.isUserDefined == true)
                 {
@@ -812,14 +822,7 @@ namespace MPC.Webstore.Controllers
 
             try
             {
-                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
 
-                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
-                {
-                    writer.WriteLine("C :" + C + "<br/>" + Environment.NewLine + "F :" + F +
-                       "" + Environment.NewLine + "L :" + L + " E: " + E + " CC: " + CC + " OrganisationId" + UserCookieManager.WEBOrganisationID + " HttpContext.Request.Url.DnsSafeHost" + HttpContext.Request.Url.DnsSafeHost);
-                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
-                }
                 if (System.Text.RegularExpressions.Regex.IsMatch(E, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
                 {
                     if (!string.IsNullOrEmpty(C))
@@ -843,13 +846,18 @@ namespace MPC.Webstore.Controllers
                         if (oCompany != null)
                         {
                             CompanyContact oContact = _myCompanyService.GetOrCreateContact(oCompany, E, F, L, C);
-                            if (oContact == null && oCompany.isAllowRegistrationFromWeb == false)
+                            if (oContact == null && (oCompany.isAllowRegistrationFromWeb == false || oCompany.isAllowRegistrationFromWeb == null))
                             {
                                 TempData["ErrorMessage"] = "You are not allowed to register.";
                                 return RedirectToAction("Error", "Home");
                             }
                             else
                             {
+                                if (oCompany.IsCustomer == (int)StoreMode.Corp && oContact.isWebAccess == false)
+                                {
+                                    TempData["ErrorMessage"] = "You are successfully registered, but your account does not have the web access enabled. Please contact your Order Manager.";
+                                    return RedirectToAction("Error", "Home");
+                                }
                                 string CacheKeyName = "CompanyBaseResponse";
                                 ObjectCache cache = MemoryCache.Default;
                                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
@@ -862,7 +870,7 @@ namespace MPC.Webstore.Controllers
                                     StoreBaseResopnse = _myCompanyService.GetStoreFromCache(oCompany.CompanyId);
                                 }
 
-                                if (StoreBaseResopnse.Company != null)
+                                if (StoreBaseResopnse != null && StoreBaseResopnse.Company != null)
                                 {
                                     // set company cookie
                                     UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
@@ -907,11 +915,11 @@ namespace MPC.Webstore.Controllers
                                             ControllerContext.HttpContext.Response.Redirect("/");
                                         }
                                     }
-                                    else 
+                                    else
                                     {
                                         ControllerContext.HttpContext.Response.Redirect("/");
                                     }
-                                    
+
                                     return null;
                                     //SetUserClaim(UserCookieManager.WEBOrganisationID);
                                     //List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
@@ -965,7 +973,7 @@ namespace MPC.Webstore.Controllers
 
                 if (oContact != null)
                 {
-                   // Result = true;
+                    // Result = true;
                     MPC.Models.DomainModels.Company ContactCompany = _myCompanyService.GetCompanyByCompanyID(oContact.CompanyId);
                     long StoreId = 0;
                     if (ContactCompany.IsCustomer == (int)StoreMode.Corp)
@@ -987,7 +995,7 @@ namespace MPC.Webstore.Controllers
                         string CacheKeyName = "CompanyBaseResponse";
                         ObjectCache cache = MemoryCache.Default;
                         MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreFromCache(StoreId);
-                       
+
                         if (StoreBaseResopnse.Company != null)
                         {
                             // set company cookie
@@ -1020,7 +1028,7 @@ namespace MPC.Webstore.Controllers
                             UserCookieManager.PerformAutoLogin = true;
                             ControllerContext.HttpContext.Response.Redirect("/");
                             return null;
-                            
+
                         }
                         else
                         {
@@ -1029,7 +1037,7 @@ namespace MPC.Webstore.Controllers
                         }
 
                     }
-                    else 
+                    else
                     {
                         Message = "No record found";
                         // no record found
@@ -1042,7 +1050,7 @@ namespace MPC.Webstore.Controllers
                 }
 
             }
-            else 
+            else
             {
                 // return message email is invalid
                 Message = "Invalid is invalid";
@@ -1050,7 +1058,7 @@ namespace MPC.Webstore.Controllers
             return Json(Message, JsonRequestBehavior.DenyGet);
 
         }
-       
+
     }
 
 }

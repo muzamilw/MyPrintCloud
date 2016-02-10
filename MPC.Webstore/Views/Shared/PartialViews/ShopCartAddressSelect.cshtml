@@ -194,8 +194,8 @@
                     <div id="divDeliveryAddress">
                         <div id="ddshippingAdd" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                             <label id="ltrlchoosedeliveryadd" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior"> @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlchoosedeladdr",UserCookieManager.WBStoreId,"Choose Delivery Address"))</label>
-
-                            @Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@Model.DDShippingAddresses, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddnewAddr", UserCookieManager.WBStoreId, "-- Add New Shipping Address --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlDelivery", @onchange = "OnChangeShippingAddress();" })
+                     
+                            @Html.DropDownListFor(model => model.SelectedDeliveryAddress,  (IEnumerable<SelectListItem>)@Model.DDShippingAddresses, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddnewAddr", UserCookieManager.WBStoreId, "-- Add New Shipping Address --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlDelivery", @onchange = "OnChangeShippingAddress();"})
                         </div>
                         <div class="clearBoth">
                         </div>
@@ -272,39 +272,7 @@
                     <div id="description" class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12" style="display:none;">
                         <label id="Label8">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address"))</label>
                     </div>
-                    @if (Model.IsUserRole != null)
-                    {
-                        if (Model.IsUserRole)
-                        {
-                            if (Model.isStoreModePrivate)
-                            {
-                                if (BillingAddress.isPrivate != true)
-                                {
-                                    IsDisable = "disabled";
-                                }
-                                else
-                                {
-                                    IsDisable = "";
-                                }
-
-                            }
-                            else
-                            {
-                                IsDisable = "";
-                            }
-
-                        }
-                        else
-                        {
-                            IsDisable = "";
-                        }
-
-
-                    }
-                    else
-                    {
-                        IsDisable = "";
-                    }
+                   
                     <div id="ddBillingAdd" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                         <label id="lblBillingAddress" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlchoosebillingadd", UserCookieManager.WBStoreId, "Choose Billing Address"))</label>
                         @Html.DropDownListFor(model => model.SelectedBillingAddress, (IEnumerable<SelectListItem>)Model.DDBillingAddresses, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddnewaddrss", UserCookieManager.WBStoreId, "-- Add New Billing Address --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlBilling", onchange = "OnChangeBillingAddress();" })
@@ -314,7 +282,7 @@
 
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                         <label id="ltrlBillingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbillingname", UserCookieManager.WBStoreId, "Billing Name"))</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.AddressName, new { id = "txtBillingName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, disabled = IsDisable, @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlbillinhq", UserCookieManager.WBStoreId, "Billing address name e.g. London Office HQ")) })
+                        @Html.TextBoxFor(model => model.BillingAddress.AddressName, new { id = "txtBillingName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlbillinhq", UserCookieManager.WBStoreId, "Billing address name e.g. London Office HQ")) })
                         @*<label ID="Label9"  class="tooltipCheckoutAvenior">e.g. Office Address</label>*@
                     </div>
                     <div class="clearBoth">
@@ -322,7 +290,7 @@
 
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                         <label id="ltrladdressline1" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline1", UserCookieManager.WBStoreId, "Address line 1"))</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.Address1, new { id = "txtAddressLine1", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, disabled = IsDisable, onblur = "ChangeAddresLinne1();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline1", UserCookieManager.WBStoreId, "Address line 1")) })
+                        @Html.TextBoxFor(model => model.BillingAddress.Address1, new { id = "txtAddressLine1", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, onblur = "ChangeAddresLinne1();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline1", UserCookieManager.WBStoreId, "Address line 1")) })
 
                     </div>
                     <div class="clearBoth">
@@ -330,20 +298,20 @@
 
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                         <label id="ltrladdressline2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline2", UserCookieManager.WBStoreId, "Address line 2 "))</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.Address2, new { id = "txtAddressLine2", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, disabled = IsDisable, onblur = "ChangeAddresLinne2();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline2", UserCookieManager.WBStoreId, "Address line 2 ")) })
+                        @Html.TextBoxFor(model => model.BillingAddress.Address2, new { id = "txtAddressLine2", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, onblur = "ChangeAddresLinne2();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline2", UserCookieManager.WBStoreId, "Address line 2 ")) })
                     </div>
                     <div class="clearBoth">
                     </div>
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                         <label id="ltrlcity" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City"))</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.City, new { id = "txtCity", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, disabled = IsDisable, onblur = "ChangeCityShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City")) })
+                        @Html.TextBoxFor(model => model.BillingAddress.City, new { id = "txtCity", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, onblur = "ChangeCityShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City")) })
 
                     </div>
                     <div class="clearBoth">
                     </div>
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                         <label id="ltrlzipcodeP" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlzipcodeP", UserCookieManager.WBStoreId, "Zip Code / Post Code "))</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.PostCode, new { id = "txtZipPostCode", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 30, disabled = IsDisable, onblur = "ChangePostCodeShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlzipcodeP", UserCookieManager.WBStoreId, "Zip Code / Post Code ")) })
+                        @Html.TextBoxFor(model => model.BillingAddress.PostCode, new { id = "txtZipPostCode", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 30, onblur = "ChangePostCodeShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlzipcodeP", UserCookieManager.WBStoreId, "Zip Code / Post Code ")) })
 
                     </div>
                     <div class="clearBoth">
@@ -367,7 +335,7 @@
                     </div>
                     <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                         <label id="ltrlcontactnum" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontactnum", UserCookieManager.WBStoreId, "Contact Number"))</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.Tel1, new { id = "txtContactNumber", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 60, disabled = IsDisable, onblur = "ChangeCityShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontactnum", UserCookieManager.WBStoreId, "Contact Number")) })
+                        @Html.TextBoxFor(model => model.BillingAddress.Tel1, new { id = "txtContactNumber", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 60, onblur = "ChangeCityShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontactnum", UserCookieManager.WBStoreId, "Contact Number")) })
                     </div>
 
                 </div>
@@ -891,7 +859,7 @@
             if($("#txtAddressLine2").val() != null && $("#txtAddressLine2").val() != ''){
                 $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
             }
-            
+
             $("#lblCityBilSip").html($("#txtCity").val());
             $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
             $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
@@ -932,7 +900,7 @@
         if(val != null && val != ''){
             $('#lbladdLine2BilSip').html(val);
         }
-       
+
     }
 
 
@@ -1237,6 +1205,8 @@
                 var cAdrres = jsonData[i];
                 if(cAdrres.AddressId == addressId)
                 {
+
+
                     $('#txtShipAddressName').val(cAdrres.AddressName);
                     $('#txtShipAddLine1').val(cAdrres.Address1);
                     $('#txtShipAddressLine2').val(cAdrres.Address2);
@@ -1249,7 +1219,8 @@
                     {
                         $('#txthdnDeliveryDefaultAddress').val("true");
                     }
-                    else{
+                    else
+                    {
                         $('#txthdnDeliveryDefaultAddress').val("false");
                     }
 
@@ -1264,44 +1235,91 @@
                     $('#lblShipTostate').text(cAdrres.Tel2);
                     $('#lblShipToCountry').text(cAdrres.FAO);
                     $('#lblShipToZipCode').text(cAdrres.PostCode);
-                    break;
+                    debugger;
+                    if(@UserCookieManager.WEBStoreMode == 3)
+                    {
+                        if(@ViewBag.isStoreModePrivate == 1)
+                        {
+                            if(cAdrres.ContactId != "@ViewBag.LoginUserContactId")
+                            {
+                                $("#txtShipAddressName").attr("disabled", "");
+                                $("#txtShipAddLine1").attr("disabled", "");
+                                $("#txtShipAddressLine2").attr("disabled", "");
+                                $("#txtShipAddCity").attr("disabled", "");
+                                $("#txtShipPostCode").attr("disabled", "");
+                                $("#ddShippingState").attr("disabled", "");
+                                $("#ddShippingCountry").attr("disabled", "");
+                                $("#txtShipContact").attr("disabled", "");
+
+                                $("#txtShipAddressName").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtShipAddLine1").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtShipAddressLine2").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtShipAddCity").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtShipPostCode").css("background-color", "rgb(223, 223, 223)");
+                                $("#ddShippingState").css("background-color", "rgb(223, 223, 223)");
+                                $("#ddShippingCountry").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtShipContact").css("background-color", "rgb(223, 223, 223)");
+                            }else{
+                                $("#txtShipAddressName").removeAttr("disabled");
+                                $("#txtShipAddLine1").removeAttr("disabled");
+                                $("#txtShipAddressLine2").removeAttr("disabled");
+                                $("#txtShipAddCity").removeAttr("disabled");
+                                $("#txtShipPostCode").removeAttr("disabled");
+                                $("#ddShippingState").removeAttr("disabled");
+                                $("#ddShippingCountry").removeAttr("disabled");
+                                $("#txtShipContact").removeAttr("disabled");
+
+                                $("#txtShipAddressName").css("background-color", "white");
+                                $("#txtShipAddLine1").css("background-color", "white");
+                                $("#txtShipAddressLine2").css("background-color", "white");
+                                $("#txtShipAddCity").css("background-color", "white");
+                                $("#txtShipPostCode").css("background-color", "white");
+                                $("#ddShippingState").css("background-color", "white");
+                                $("#ddShippingCountry").css("background-color", "white");
+                                $("#txtShipContact").css("background-color", "white");
+                            }
+                        }
+                        }
+
+
+                        break;
+                    }
+                    else
+                    {
+                        $('#ddShippingCountry option:first').attr('selected', 'selected');
+                        $('#ddShippingState option:first').attr('selected', 'selected');
+
+
+                        $('#ddShippingCountry').click();
+                        $('#txtShipAddressName').val("");
+                        $('#txtShipAddLine1').val("");
+                        $('#txtShipAddressLine2').val("");
+                        $('#txtShipAddCity').val("");
+                        $('#txtShipPostCode').val("");
+                        $('#txtShipContact').val("");
+                        $('#txthdnDeliveryAddressID').val("0");
+                        $('#txthdnDeliveryDefaultAddress').val("false");
+                        $('#txthdnDeliveryDefaultShippingAddress').val("false");
+
+                        $("#txtShipAddressName").prop("disabled", "");
+                        $("#txtShipAddLine1").prop("disabled", "");
+                        $("#txtShipAddressLine2").prop("disabled", "");
+                        $("#txtShipAddCity").prop("disabled", "");
+                        $("#txtShipPostCode").prop("disabled", "");
+                        $("#ddShippingState").prop("disabled", "");
+                        $("#ddShippingCountry").prop("disabled", "");
+                        $("#txtShipContact").prop("disabled", "");
+                    }
+
                 }
-                else
-                {
-                    $('#ddShippingCountry option:first').attr('selected', 'selected');
-                    $('#ddShippingState option:first').attr('selected', 'selected');
-
-
-                    $('#ddShippingCountry').click();
-                    $('#txtShipAddressName').val("");
-                    $('#txtShipAddLine1').val("");
-                    $('#txtShipAddressLine2').val("");
-                    $('#txtShipAddCity').val("");
-                    $('#txtShipPostCode').val("");
-                    $('#txtShipContact').val("");
-                    $('#txthdnDeliveryAddressID').val("0");
-                    $('#txthdnDeliveryDefaultAddress').val("false");
-                    $('#txthdnDeliveryDefaultShippingAddress').val("false");
-
-                    $("#txtShipAddressName").prop("disabled", "");
-                    $("#txtShipAddLine1").prop("disabled", "");
-                    $("#txtShipAddressLine2").prop("disabled", "");
-                    $("#txtShipAddCity").prop("disabled", "");
-                    $("#txtShipPostCode").prop("disabled", "");
-                    $("#ddShippingState").prop("disabled", "");
-                    $("#ddShippingCountry").prop("disabled", "");
-                    $("#txtShipContact").prop("disabled", "");
-                }
-
             }
+            HideAddressInBillingDropDown();
         }
-        HideAddressInBillingDropDown();
-    }
-    function OnChangeBillingAddress()
-    {
+        function OnChangeBillingAddress()
+        {
 
-        var addressId = $('#ddlBilling').val();
-        var jsonData = (@Html.Raw(Json.Encode(Model.BillingAddresses))) ;
+            var addressId = $('#ddlBilling').val();
+            var jsonData = (@Html.Raw(Json.Encode(Model.BillingAddresses))) ;
         // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
 
         if(jsonData != null)
@@ -1338,11 +1356,57 @@
                     if(cAdrres.Address2 != null && cAdrres.Address2 != ''){
                         $('#lbladdLine2BilSip').text(cAdrres.Address2);
                     }
-                    
+
                     $('#lblCityBilSip').text(cAdrres.City);
                     $('#lblStateBilSip').text(cAdrres.Tel2);
                     $('#lblCountryBilSip').text(cAdrres.FAO);
                     $('#lblPostCdeBilSip').text(cAdrres.PostCode);
+                    if(@UserCookieManager.WEBStoreMode == 3)
+                    {
+                        if(@ViewBag.isStoreModePrivate == 1)
+                        {
+                            if(cAdrres.ContactId != "@ViewBag.LoginUserContactId")
+                            {
+                                $("#txtBillingName").attr("disabled", "");
+                                $("#txtAddressLine1").attr("disabled", "");
+                                $("#txtAddressLine2").attr("disabled", "");
+                                $("#txtCity").attr("disabled", "");
+                                $("#ddBillingState").attr("disabled", "");
+                                $("#txtZipPostCode").attr("disabled", "");
+                                $("#BillingCountryDropDown").attr("disabled", "");
+                                $("#txtContactNumber").attr("disabled", "");
+
+                                $("#txtBillingName").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtAddressLine1").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtAddressLine2").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtCity").css("background-color", "rgb(223, 223, 223)");
+                                $("#ddBillingState").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtZipPostCode").css("background-color", "rgb(223, 223, 223)");
+                                $("#BillingCountryDropDown").css("background-color", "rgb(223, 223, 223)");
+                                $("#txtContactNumber").css("background-color", "rgb(223, 223, 223)");
+                            }
+                            else{
+                                $("#txtBillingName").removeAttr("disabled");
+                                $("#txtAddressLine1").removeAttr("disabled");
+                                $("#txtAddressLine2").removeAttr("disabled");
+                                $("#txtCity").removeAttr("disabled");
+                                $("#ddBillingState").removeAttr("disabled");
+                                $("#txtZipPostCode").removeAttr("disabled");
+                                $("#BillingCountryDropDown").removeAttr("disabled");
+                                $("#txtContactNumber").removeAttr("disabled");
+
+                                $("#txtBillingName").css("background-color", "white");
+                                $("#txtAddressLine1").css("background-color", "white");
+                                $("#txtAddressLine2").css("background-color", "white");
+                                $("#txtCity").css("background-color", "white");
+                                $("#ddBillingState").css("background-color", "white");
+                                $("#txtZipPostCode").css("background-color", "white");
+                                $("#BillingCountryDropDown").css("background-color", "white");
+                                $("#txtContactNumber").css("background-color", "white");
+                            }
+                        }
+
+                    }
                     break;
                 }
                 else // add new billing address
@@ -1522,7 +1586,7 @@
                     $("#freedeliverytextContainer").css("display", "block");
                     $("#freedeliverytextContainer").next().css("display", "block");
                     $("#deliveryValueContainer").css("display", "none");
-                     
+
                 }
                 HideLoader();
             },

@@ -74,7 +74,7 @@ namespace MPC.Interfaces.WebStoreServices
         int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
-        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
+        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId);
         CompanyContact GetContactByEmailID(string Email);
         Country GetCountryByCountryID(long CountryID);
         void ResetDefaultShippingAddress(Address address);
