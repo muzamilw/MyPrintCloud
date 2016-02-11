@@ -81,12 +81,12 @@ namespace MPC.Webstore.Controllers
                     LoadPageData(AddressSelectModel, OrderID ?? 0);
                     return View("PartialViews/ShopCartAddressSelect", AddressSelectModel);
                 }
-                else 
+                else
                 {
                     ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart");
                     return null;
                 }
-             
+
             }
             catch (Exception ex)
             {
@@ -97,13 +97,13 @@ namespace MPC.Webstore.Controllers
 
 
 
-        private void LoadPageData(ShopCartAddressSelectViewModel AddressSelectModel, long OrderID) 
+        private void LoadPageData(ShopCartAddressSelectViewModel AddressSelectModel, long OrderID)
         {
             ViewBag.LoginUserContactId = _myClaimHelper.loginContactID();
             List<CostCentre> deliveryCostCentersList = null;
             List<Address> customerAddresses = new List<Address>();
             CompanyTerritory Territory = new CompanyTerritory();
-            
+
             ShoppingCart shopCart = null;
             CompanyContact superAdmin = null;
             if (!_myClaimHelper.isUserLoggedIn())
@@ -124,7 +124,7 @@ namespace MPC.Webstore.Controllers
 
             Organisation baseresponseOrg = StoreBaseResopnse.Organisation;
             Company baseresponseComp = StoreBaseResopnse.Company;
-           
+
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
                 AddressSelectModel.Currency = StoreBaseResopnse.Currency;
             else
@@ -437,7 +437,7 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.isPoRequired = 1;
                 }
-                else 
+                else
                 {
                     ViewBag.isPoRequired = 0;
                 }
@@ -450,11 +450,11 @@ namespace MPC.Webstore.Controllers
             AddressSelectModel.Warning = "warning"; // Utils.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId) + " " + baseresponseOrg.Organisation.Country + "."; // (string)GetGlobalResourceObject("MyResource", "lnkWarnMesg") + " " + companySite.Country + ".";
 
             ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, baseresponseComp.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
-            
+
 
         }
 
-        private CalculatedCartValues CartModel(ShoppingCart shopcart) 
+        private CalculatedCartValues CartModel(ShoppingCart shopcart)
         {
             double _priceTotal = 0;
             double VatTotal = 0;
@@ -467,8 +467,8 @@ namespace MPC.Webstore.Controllers
                 VatTotal += itm.Qty1Tax1Value ?? 0;
             }
 
-            oValues.SubTotal =  Convert.ToString(_priceTotal);
-            oValues.DiscountAmount =  Convert.ToString(_DiscountAmountTotal);
+            oValues.SubTotal = Convert.ToString(_priceTotal);
+            oValues.DiscountAmount = Convert.ToString(_DiscountAmountTotal);
             if (shopcart.DeliveryCost > 0)
             {
                 oValues.DeliveryCost = shopcart.DeliveryCost.ToString();
@@ -485,17 +485,17 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                oValues.Tax =  Convert.ToString(VatTotal);
+                oValues.Tax = Convert.ToString(VatTotal);
             }
 
             if (shopcart.DeliveryCost > 0)
             {
-                oValues.GrandTotal =  Convert.ToString(_priceTotal + (shopcart.DeliveryTaxValue + VatTotal) + shopcart.DeliveryCost);
-                
+                oValues.GrandTotal = Convert.ToString(_priceTotal + (shopcart.DeliveryTaxValue + VatTotal) + shopcart.DeliveryCost);
+
             }
             else
             {
-                oValues.GrandTotal =  Convert.ToString(_priceTotal + VatTotal);
+                oValues.GrandTotal = Convert.ToString(_priceTotal + VatTotal);
             }
             return oValues;
         }
@@ -718,7 +718,7 @@ namespace MPC.Webstore.Controllers
                     else
                         addressObj.FAO = "";
                     addressObj.CountryId = address.CountryId;
-                   
+
                     newaddress.Add(addressObj);
                 }
                 model.ShippingAddresses = newaddress;
@@ -746,7 +746,15 @@ namespace MPC.Webstore.Controllers
                 MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                 OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
-
+                ViewBag.LoginUserContactId = _myClaimHelper.loginContactID();
+                if (StoreBaseResopnse.Company.isStoreModePrivate == true)
+                {
+                    ViewBag.isStoreModePrivate = 1;
+                }
+                else
+                {
+                    ViewBag.isStoreModePrivate = 0;
+                }
                 //int id = model.SelectedDeliveryAddress;
                 string addLine1 = model.ShippingAddress.Address1;
                 string city = model.ShippingAddress.City;
@@ -754,6 +762,7 @@ namespace MPC.Webstore.Controllers
                 CompanyContact contact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
 
                 bool Result = ConfirmOrder(1, addLine1, city, PostCode, StoreBaseResopnse.Company, model, StoreBaseResopnse.Organisation);
+                
 
                 if (Result)
                 {
@@ -936,7 +945,7 @@ namespace MPC.Webstore.Controllers
 
                         try
                         {
-                            if(true)//if (UpdateDeliveryCostCenterInOrder(model, baseresponseOrg, baseresponseComp))
+                            if (true)//if (UpdateDeliveryCostCenterInOrder(model, baseresponseOrg, baseresponseComp))
                             {
                                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                                 {
@@ -1092,7 +1101,11 @@ namespace MPC.Webstore.Controllers
 
             deliveryAdd.PostCode = model.ShippingAddress.PostCode;
             deliveryAdd.Tel1 = model.ShippingAddress.Tel1;
-            deliveryAdd.StateId = model.SelectedDeliveryState;
+            if (model.SelectedDeliveryState > 0) 
+            {
+                deliveryAdd.StateId = model.SelectedDeliveryState;
+            }
+           
             deliveryAdd.CountryId = model.SelectedDeliveryCountry;
             long TerritoryID = _myCompanyService.GetContactTerritoryID(_myClaimHelper.loginContactID());
             //  deliveryAdd.Country = Request.Form["txtShipAddLine1"]; ddShippingCountry.SelectedItem.Text.ToString();
@@ -1175,9 +1188,11 @@ namespace MPC.Webstore.Controllers
 
                 billingAdd.CountryId = model.SelectedBillingCountry;
                 //billingAdd.Country = BillingCountryDropDown.SelectedItem.Text.ToString();
-
-                billingAdd.StateId = model.SelectedBillingState;
-
+                if (model.SelectedBillingState > 0)
+                {
+                    billingAdd.StateId = model.SelectedBillingState;
+                }
+               
 
                 //billingAdd.State = ddBillingState.SelectedItem.Text.ToString();
 
@@ -1230,100 +1245,100 @@ namespace MPC.Webstore.Controllers
 
         //private bool UpdateDeliveryCostCenterInOrder(ShopCartAddressSelectViewModel model, Organisation BaseResponseOrganisation, Company baseResponseCompany)
         //{
-            //double Baseamount = 0;
-            //double SurchargeAmount = 0;
-            //double Taxamount = 0;
-            //double CostOfDelivery = 0;
-            //bool serviceResult = true;
+        //double Baseamount = 0;
+        //double SurchargeAmount = 0;
+        //double Taxamount = 0;
+        //double CostOfDelivery = 0;
+        //bool serviceResult = true;
 
 
 
-            //string ShipPostCode = model.ShippingAddress.PostCode;
-            //CostCentre SelecteddeliveryCostCenter = null;
+        //string ShipPostCode = model.ShippingAddress.PostCode;
+        //CostCentre SelecteddeliveryCostCenter = null;
 
-            //if (model.SelectedCostCentre != 0)
-            //{
-            //    SelecteddeliveryCostCenter = _ICostCenterService.GetCostCentreByID(model.SelectedCostCentre);
+        //if (model.SelectedCostCentre != 0)
+        //{
+        //    SelecteddeliveryCostCenter = _ICostCenterService.GetCostCentreByID(model.SelectedCostCentre);
 
-            //    if (SelecteddeliveryCostCenter.CostCentreId > 0)
-            //    {
-            //        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-            //        {
-            //            if (model.SelectedDeliveryCountry == 0 || model.SelectedDeliveryState == 0)
-            //            {
-            //                model.LtrMessageToDisplay = true;
+        //    if (SelecteddeliveryCostCenter.CostCentreId > 0)
+        //    {
+        //        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+        //        {
+        //            if (model.SelectedDeliveryCountry == 0 || model.SelectedDeliveryState == 0)
+        //            {
+        //                model.LtrMessageToDisplay = true;
 
-            //                model.LtrMessage = "Please select country or state to countinue.";
+        //                model.LtrMessage = "Please select country or state to countinue.";
 
-            //                serviceResult = false;
-            //            }
+        //                serviceResult = false;
+        //            }
 
-            //            else
-            //            {
-
-
-            //                if (!string.IsNullOrEmpty(ShipPostCode) && Convert.ToInt32(SelecteddeliveryCostCenter.DeliveryType) == Convert.ToInt32(DeliveryCarriers.Fedex))
-            //                {
-
-            //                    serviceResult = GetFedexResponse(out Baseamount, out SurchargeAmount, out Taxamount, out CostOfDelivery, BaseResponseOrganisation, baseResponseCompany, model);
-
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            if (!string.IsNullOrEmpty(ShipPostCode) && Convert.ToInt32(SelecteddeliveryCostCenter.DeliveryType) == Convert.ToInt32(DeliveryCarriers.Fedex))
-            //            {
+        //            else
+        //            {
 
 
-            //                if (model.SelectedDeliveryCountry == 0 || model.SelectedDeliveryState == 0)
-            //                {
-            //                    model.LtrMessageToDisplay = true;
-            //                    model.LtrMessage = "Please select country or state to countinue.";
+        //                if (!string.IsNullOrEmpty(ShipPostCode) && Convert.ToInt32(SelecteddeliveryCostCenter.DeliveryType) == Convert.ToInt32(DeliveryCarriers.Fedex))
+        //                {
+
+        //                    serviceResult = GetFedexResponse(out Baseamount, out SurchargeAmount, out Taxamount, out CostOfDelivery, BaseResponseOrganisation, baseResponseCompany, model);
+
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (!string.IsNullOrEmpty(ShipPostCode) && Convert.ToInt32(SelecteddeliveryCostCenter.DeliveryType) == Convert.ToInt32(DeliveryCarriers.Fedex))
+        //            {
 
 
-            //                    serviceResult = false;
-            //                }
-            //                else
-            //                {
-            //                    if (!string.IsNullOrEmpty(ShipPostCode) && Convert.ToInt32(SelecteddeliveryCostCenter.DeliveryType) == Convert.ToInt32(DeliveryCarriers.Fedex))
-            //                    {
-            //                        serviceResult = GetFedexResponse(out Baseamount, out SurchargeAmount, out Taxamount, out CostOfDelivery, BaseResponseOrganisation, baseResponseCompany, model);
-            //                    }
-            //                }
-
-            //            }
-            //        }
-
-            //        if (serviceResult)
-            //        {
-            //            if (CostOfDelivery == 0)
-            //            {
-            //                CostOfDelivery = Convert.ToDouble(SelecteddeliveryCostCenter.DeliveryCharges);
-            //            }
-
-            //            List<Item> DeliveryItemList = _IItemService.GetListOfDeliveryItemByOrderID(UserCookieManager.WEBOrderId);
+        //                if (model.SelectedDeliveryCountry == 0 || model.SelectedDeliveryState == 0)
+        //                {
+        //                    model.LtrMessageToDisplay = true;
+        //                    model.LtrMessage = "Please select country or state to countinue.";
 
 
-            //            if (DeliveryItemList.Count > 1)
-            //            {
-            //                if (_IItemService.RemoveListOfDeliveryItemCostCenter(Convert.ToInt32(UserCookieManager.WEBOrderId)))
-            //                {
-            //                    AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, baseResponseCompany);
-            //                }
-            //            }
-            //            else
-            //            {
-            //                AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, baseResponseCompany);
-            //            }
-            //        }
+        //                    serviceResult = false;
+        //                }
+        //                else
+        //                {
+        //                    if (!string.IsNullOrEmpty(ShipPostCode) && Convert.ToInt32(SelecteddeliveryCostCenter.DeliveryType) == Convert.ToInt32(DeliveryCarriers.Fedex))
+        //                    {
+        //                        serviceResult = GetFedexResponse(out Baseamount, out SurchargeAmount, out Taxamount, out CostOfDelivery, BaseResponseOrganisation, baseResponseCompany, model);
+        //                    }
+        //                }
 
-            //    }
-            //}
-            //return serviceResult;
+        //            }
+        //        }
+
+        //        if (serviceResult)
+        //        {
+        //            if (CostOfDelivery == 0)
+        //            {
+        //                CostOfDelivery = Convert.ToDouble(SelecteddeliveryCostCenter.DeliveryCharges);
+        //            }
+
+        //            List<Item> DeliveryItemList = _IItemService.GetListOfDeliveryItemByOrderID(UserCookieManager.WEBOrderId);
+
+
+        //            if (DeliveryItemList.Count > 1)
+        //            {
+        //                if (_IItemService.RemoveListOfDeliveryItemCostCenter(Convert.ToInt32(UserCookieManager.WEBOrderId)))
+        //                {
+        //                    AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, baseResponseCompany);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, baseResponseCompany);
+        //            }
+        //        }
+
+        //    }
+        //}
+        //return serviceResult;
         //}
 
-     
+
         private bool GetFedexResponse(out double Baseamount, out double SurchargeAmount, out double Taxamount, out double NetFedexCharge, Organisation baseResponseOrganisation, Company baseResponseCompany, ShopCartAddressSelectViewModel model)
         {
             Baseamount = 0;
@@ -1464,7 +1479,7 @@ namespace MPC.Webstore.Controllers
             string RecipientProvinceCode = _myCompanyService.GetStateCodeById(model.SelectedDeliveryState).ToString().Trim();
             string RecipientPostcode = Request.Form["txtShipPostCode"];
             string CountryCode = _myCompanyService.GetCountryCodeById(model.SelectedDeliveryCountry).ToString().Trim();
-           
+
 
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
             {
@@ -1737,7 +1752,7 @@ namespace MPC.Webstore.Controllers
         #endregion
 
 
-   
+
         [HttpPost]
         public ActionResult BuildSecondDropDownLists(int id)
         {
@@ -1760,7 +1775,7 @@ namespace MPC.Webstore.Controllers
                     objState.StateCode = (state.StateCode == null || state.StateCode == "") ? "N/A" : state.StateCode;
                     newState.Add(objState);
                 }
-                
+
                 Model.DDBillingStates = new SelectList(newState, "StateId", "StateName");
             }
             Model.SelectedBillingCountry = BillingAddress.CountryId ?? 0;
@@ -1782,7 +1797,7 @@ namespace MPC.Webstore.Controllers
                     objState.StateCode = (state.StateCode == null || state.StateCode == "") ? "N/A" : state.StateCode;
                     newState.Add(objState);
                 }
-                
+
                 Model.DDShippingStates = new SelectList(newState, "StateId", "StateName");
             }
             Model.SelectedDeliveryCountry = ShippingAddress.CountryId ?? 0;
