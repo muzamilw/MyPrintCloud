@@ -325,11 +325,11 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Prefix GetDefaultPrefix()
+        public Prefix GetDefaultPrefix(long OrganisationId)
         {
             try
             {
-                return db.Prefixes.FirstOrDefault(c => c.SystemSiteId == 1);
+                return db.Prefixes.FirstOrDefault(c => c.SystemSiteId == 1 && c.OrganisationId == OrganisationId);
             }
             catch (Exception ex)
             {

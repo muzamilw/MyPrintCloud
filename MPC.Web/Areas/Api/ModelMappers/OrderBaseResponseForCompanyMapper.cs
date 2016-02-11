@@ -26,7 +26,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobManagerId = source.JobManagerId,
                 IsStoreLive = source.IsStoreLive,
                 IsMisOrdersCountReached = source.IsMisOrdersCountReached,
-                IsWebOrdersCountReached = source.IsWebOrdersCountReached
+                IsWebOrdersCountReached = source.IsWebOrdersCountReached,
+                DeliveryNotes = source.DeliveryNotes != null ? source.DeliveryNotes.Select(d => d.CreateFromListView()) : new List<DeliveryNote>()
             };
         }
         

@@ -32,6 +32,7 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
         }
 
         #endregion
+
         // GET: OrderReceipt/OrderReceipt
 
         [AllowAnonymous]

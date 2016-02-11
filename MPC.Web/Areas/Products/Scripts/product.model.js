@@ -35,7 +35,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedProductDisplayOptions, specifiedIsRealStateProduct, specifiedIsUploadImage, specifiedIsDigitalDownload, specifiedPrintCropMarks,
         specifiedDrawWatermarkText, specifiedOrganisationId, specifiedCompanyId, specifiedIsAddCropMarks, specifiedDrawBleedArea, specifiedAllowPdfDownload,
         specifiedIsMultiPagePdf, specifiedAllowImageDownload, specifiedItemLength, specifiedItemWidth, specifiedItemHeight, specifiedItemWeight,
-        specifiedTemplateId, specifiedSmartFormId, callbacks, constructorParams) {
+        specifiedTemplateId, specifiedSmartFormId,specifiedThumbnailPath, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var
             // Unique key
@@ -500,6 +500,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemImages = ko.observableArray([]),
             // Product Market Brief Questions
             productMarketBriefQuestions = ko.observableArray([]),
+            // thumbnail path
+            thumbnailPath = ko.observable(specifiedThumbnailPath || undefined),
             // Available Product Category items
             availableProductCategoryItems = ko.computed(function () {
                 if (productCategoryItems().length === 0) {
@@ -2168,6 +2170,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             selectStockItemForStockOptionForNewProduct: selectStockItemForStockOptionForNewProduct,
             selectStockItemForSectionForNewProduct: selectStockItemForSectionForNewProduct,
             shouldValidateCategory: shouldValidateCategory,
+            thumbnailPath: thumbnailPath,
             reset: reset,
             convertToServerData: convertToServerData
         };
@@ -4445,7 +4448,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, source.ProductDisplayOptions, source.IsRealStateProduct, source.IsUploadImage,
             source.IsDigitalDownload, source.PrintCropMarks, source.DrawWaterMarkTxt, source.OrganisationId, source.CompanyId, source.IsAddCropMarks,
             source.DrawBleedArea, source.AllowPdfDownload, source.IsMultipagePdf, source.AllowImageDownload, source.ItemLength, source.ItemWidth, source.ItemHeight,
-            source.ItemWeight, source.TemplateId, source.SmartFormId, callbacks, constructorParams);
+            source.ItemWeight, source.TemplateId, source.SmartFormId,source.ThumbnailPath, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

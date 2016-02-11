@@ -2500,7 +2500,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         <div class="col-lg-3" style="padding-left:4px;">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
-                                                                <input type="text" class="form-control" style="text-align:right;" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
+                                                                <input type="text" class="form-control" style="text-align:right;" name="Tax Rate should be a valid number" id="txtTax" data-bind="autoNumeric:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate, settings:{mDec:0,vMin:0,vMax:100}" placeholder="">
                                                             </div>
                                                         </div>
                                                     </div>

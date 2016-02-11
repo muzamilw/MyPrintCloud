@@ -1337,6 +1337,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
+                List<CostCentre> costCentre = db.CostCentres.Where(c => c.OrganisationId == OrganisationId).ToList();
                 // Item Mapper
                 ExportOrganisation ObjExportOrg = new ExportOrganisation();
 
@@ -1426,8 +1427,32 @@ namespace MPC.Repository.Repositories
                 List<Item> items = db.Items.Include("ItemSections.SectionCostcentres.SectionCostCentreResources").Include("ItemStockOptions.ItemAddonCostCentres").Include("ProductCategoryItems").Include("ItemVdpPrices").Include("ItemPriceMatrices").Include("ItemProductDetails").Include("ItemStateTaxes").Include("ItemImages").Include("ItemRelatedItems").Include("ItemVideos").Include("Template.TemplatePages").Include("Template.TemplateObjects").Include("Template.TemplateBackgroundImages.ImagePermissions").Where(i => i.IsArchived != true && i.CompanyId == CompanyId && i.EstimateId == null).ToList();
                 List<Item> oOutputItems = new List<Item>();
 
+
+
                 if (items != null && items.Count > 0)
                 {
+
+                    //foreach (var itm in items)
+                    //{
+                    //    if (itm.ItemStockOptions != null && itm.ItemStockOptions.Count > 0)
+                    //    {
+                    //        foreach (var ISO in itm.ItemStockOptions)
+                    //        {
+
+                    //            if (ISO.ItemAddonCostCentres != null && ISO.ItemAddonCostCentres.Count > 0)
+                    //            {
+                    //                foreach (var iacc in ISO.ItemAddonCostCentres)
+                    //                {
+                    //                    iacc.CostCentreName = costCentre.Where(c => c.CostCentreId == iacc.CostCentreId).Select(c => c.Name).FirstOrDefault();
+
+                    //                }
+                    //            }
+
+                    //        }
+                    //    }
+                    //}
+
+
                     foreach (var item in items)
                     {
                         var omappedItem = Mapper.Map<Item, Item>(item);
@@ -2000,10 +2025,19 @@ namespace MPC.Repository.Repositories
                 if (db.SaveChanges() > 0)
                 {
                     customerID = ContactCompany.CompanyId; // customer id
-                    if (contact != null)
+                    if (ContactPerson != null)
                     {
-                        contact.ContactId = ContactPerson.ContactId;
-                        contact.CompanyId = customerID;
+                        if (contact == null)
+                        {
+                            contact = new CompanyContact();
+                            contact = ContactPerson;
+                        }
+                        else 
+                        {
+                            contact.ContactId = ContactPerson.ContactId;
+                            contact.CompanyId = customerID;
+                        }
+                       
                     }
                 }
 
@@ -2529,7 +2563,7 @@ namespace MPC.Repository.Repositories
 
                                 }
                             }
-
+                           
                             if (comp.SmartForms != null && comp.SmartForms.Count > 0)
                             {
 
@@ -2539,6 +2573,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var detail in sf.SmartFormDetails)
                                         {
+                                            detail.FieldVariable = null;
                                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                             {
                                                 long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
@@ -3061,6 +3096,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var detail in sf.SmartFormDetails)
                                         {
+                                            detail.FieldVariable = null;
                                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                             {
                                                 long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
@@ -3559,6 +3595,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var detail in sf.SmartFormDetails)
                                         {
+                                            detail.FieldVariable = null;
                                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                             {
                                                 long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
@@ -4108,6 +4145,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var detail in sf.SmartFormDetails)
                                         {
+                                            detail.FieldVariable = null;
                                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                             {
                                                 long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
@@ -7630,6 +7668,7 @@ namespace MPC.Repository.Repositories
                                 {
                                     foreach(var detail in sf.SmartFormDetails)
                                     {
+                                        detail.FieldVariable = null;
                                         if(comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                         {
                                             long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
@@ -7939,7 +7978,7 @@ namespace MPC.Repository.Repositories
                                                 if (CostCentres != null && CostCentres.Count > 0)
                                                 {
 
-                                                    long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CostCentreId == itmAdd.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                                    long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Name == itmAdd.CostCentreName).Select(c => c.CostCentreId).FirstOrDefault();
                                                     if (id > 0)
                                                     {
 
@@ -7947,7 +7986,7 @@ namespace MPC.Repository.Repositories
                                                     }
                                                     else
                                                     {
-                                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID && (c.IsDisabled == false || c.IsDisabled == null)).Select(c => c.CostCentreId).FirstOrDefault();
+                                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID && (c.IsDisabled == false || c.IsDisabled == null) && c.SystemTypeId == null && c.Type != 1).Select(c => c.CostCentreId).FirstOrDefault();
                                                         itmAdd.CostCentreId = id;
                                                     }
 

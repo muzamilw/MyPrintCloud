@@ -9917,3 +9917,9 @@ where productid = @TemplateID
 select @NewTemplateID
 	
 END
+------------------Executed on All Servers before 2015 02 03-------------
+alter table ShippingInformation add CarrierId bigint
+alter table ShippingInformation add ConsignmentNumber varchar(100)
+alter table deliverycarrier add OrganisationId bigint
+update deliverycarrier set organisationid = 0 where carrierId in(1,2,3)
+----update all available carriers in table other than 1,2,3 to any of that server organisation after checking to their delivery notes

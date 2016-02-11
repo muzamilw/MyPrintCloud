@@ -76,6 +76,8 @@ namespace MPC.Implementation.MISServices
         private readonly ICampaignRepository campaignRepository;
         private readonly IInvoiceRepository invoiceRepository;
         private readonly IInquiryAttachmentRepository inquiryAttachmentRepository;
+        private readonly IDeliveryCarrierRepository deliveryCarrierRepository;
+        private readonly IDeliveryNoteRepository deliveryNoteRepository;
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
@@ -476,7 +478,8 @@ namespace MPC.Implementation.MISServices
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
             ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper
-            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
+            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository, IInquiryAttachmentRepository inquiryAttachmentRepository, IDeliveryCarrierRepository deliveryCarrierRepository,
+            IDeliveryNoteRepository deliveryNoteRepository)
         {
             if (estimateRepository == null)
             {
@@ -558,6 +561,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionCostCentreDetailRepository");
             }
+            if (deliveryCarrierRepository == null)
+            {
+                throw new ArgumentNullException("deliveryCarrierRepository");
+            }
+            if (deliveryNoteRepository == null)
+            {
+                throw new ArgumentNullException("deliveryNoteRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.invoiceRepository = invoiceRepository;
             this.companyRepository = companyRepository;
@@ -600,6 +611,8 @@ namespace MPC.Implementation.MISServices
             this.purchaseRepository = purchaseRepository;
             this.campaignRepository = campaignRepository;
             this.inquiryAttachmentRepository = inquiryAttachmentRepository;
+            this.deliveryCarrierRepository = deliveryCarrierRepository;
+            this.deliveryNoteRepository = deliveryNoteRepository;
         }
 
         #endregion
@@ -832,6 +845,7 @@ namespace MPC.Implementation.MISServices
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
                        PipeLineProducts = pipeLineProductRepository.GetAll(),
                        LoggedInUser = organisationRepository.LoggedInUserId,
+                       DeliveryCarriers = deliveryCarrierRepository.GetAll()
                    };
         }
 
@@ -895,7 +909,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Base Data For Company
         /// </summary>
-        public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId)
+        public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId,  long orderId = 0)
         {
             bool isStoreLive = companyRepository.IsStoreLive(storeId);
             var org = organisationRepository.GetOrganizatiobByID();
@@ -903,7 +917,7 @@ namespace MPC.Implementation.MISServices
             {
                 isStoreLive = true;
             }
-
+            var deliveryNotesByOrder = orderId > 0 ? deliveryNoteRepository.GetDeliveryNotesByOrderId(orderId) : null;
             //bool isMisReached = GetMonthlyOrdersReached(org, true);
             //bool isWebReached = GetMonthlyOrdersReached(org, false);
 
@@ -913,7 +927,8 @@ namespace MPC.Implementation.MISServices
                     CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId),
                     TaxRate = companyRepository.GetTaxRateByStoreId(storeId),
                     JobManagerId = companyRepository.GetStoreJobManagerId(storeId),
-                    IsStoreLive = isStoreLive
+                    IsStoreLive = isStoreLive,
+                    DeliveryNotes = deliveryNotesByOrder
                 };
         }
 
@@ -1111,7 +1126,7 @@ namespace MPC.Implementation.MISServices
         {
             Estimate target = CreateNewOrder();
             target.isEstimate = false;
-            target.StatusId = (short)OrderStatus.ConfirmedOrder;
+            target.StatusId = (short)OrderStatus.PendingOrder;
 
             Estimate est_Source = GetById(source.EstimateId);
             est_Source.StatusId = 39;

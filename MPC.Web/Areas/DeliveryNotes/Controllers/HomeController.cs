@@ -15,11 +15,12 @@ namespace MPC.MIS.Areas.DeliveryNotes.Controllers
         // GET: DeliveryNotes/Home
         public ActionResult Index()
         {
+            
             return View();
         }
-        public ActionResult DeliveryNote()
+        public ActionResult DeliveryNote(int? id)
         {
-
+            ViewBag.DeliveryNoteId = id ?? 0;
             return View();
         
         }

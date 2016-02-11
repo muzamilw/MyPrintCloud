@@ -201,7 +201,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotes", UserCookieManager.WBStoreId, "")), @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextAreaFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotes", UserCookieManager.WBStoreId, "")), @class = "newTxtBox", maxlength = 500, @rows="6" })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
@@ -252,7 +252,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId, "Item Notes")), @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextAreaFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId, "Item Notes")), @class = "newTxtBox", maxlength = 500, @rows = "6" })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
@@ -299,7 +299,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId,"Item Notes")), @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextAreaFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId, "Item Notes")), @class = "newTxtBox", maxlength = 500, @rows ="6" })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
                             <div id="DesiredDeldate3" class="error_star" style="display: none;">

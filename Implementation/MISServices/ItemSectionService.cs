@@ -1190,7 +1190,10 @@ namespace MPC.Implementation.MISServices
                         oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
                     oItemSectionCostCenter.IsScheduleable = 1;
                 }
-                string sSide = isPressSide2 ? "Side 2" : "Side 1";
+                string sSide = string.Empty;
+                if (oItemSection.isWorknTurn != true && oItemSection.IsDoubleSided == true)
+                    sSide = isPressSide2 ? "Side 2" : "Side 1";
+
                 if (isBestPress)
                     oItemSectionCostCenter.Name = oPressDTO.MachineName;
                 else
@@ -2857,7 +2860,7 @@ namespace MPC.Implementation.MISServices
 
             oItemSectionCostCenterDetail.SupplierId = Convert.ToInt32(oPlateDTO.SupplierId);
 
-            oItemSectionCostCenter.Name = string.Format("Plate Side {0} ({1}) ", isSide1 ? 1 : 2, oPlateDTO.ItemName);// "Plate ( " + oPlateDTO.ItemName + " )" + isSide1 ? "Side 1" : "Side 2";
+            oItemSectionCostCenter.Name = string.Format("Plate {0} ({1}) ", oItemSection.isWorknTurn != true && oItemSection.IsDoubleSided == true ? (isSide1 ? " Side 1" : "Side 2") : "", oPlateDTO.ItemName);// "Plate ( " + oPlateDTO.ItemName + " )" + isSide1 ? "Side 1" : "Side 2";
 
 
             if (IsReRun == false || IsSectionCostCentreFoundInReRun == false)
@@ -3058,9 +3061,9 @@ namespace MPC.Implementation.MISServices
             }
 
             oItemSectionCostCenterDetail.CostPrice = oItemSection.IsWashup == true ? oPressDTO.WashupPrice : 0;
-
-            
-            string side = isSide1 ? "Side 1" : "Side 2";
+            string side = string.Empty;
+            if(oItemSection.isWorknTurn != true && oItemSection.IsDoubleSided == true)
+                side = isSide1 ? "Side 1" : "Side 2";
             oItemSectionCostCenter.Name = "Washups " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
@@ -3455,8 +3458,10 @@ namespace MPC.Implementation.MISServices
             }
 
             oItemSectionCostCenterDetail.CostPrice = oItemSection.IsMakeReadyUsed == true? oPressDTO.MakeReadyPrice : 0;
-            
-            string side = isSide1 ? "Side 1" : "Side 2";
+
+            string side = string.Empty;
+            if (oItemSection.isWorknTurn != true && oItemSection.IsDoubleSided == true)
+                side = isSide1 ? "Side 1" : "Side 2";
             oItemSectionCostCenter.Name = "Plate Makereadies " + side;
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
@@ -4052,15 +4057,21 @@ namespace MPC.Implementation.MISServices
             List<SectionInkCoverage> oSectionUniqueInks;
             double InkPercentage = 0;
             int iSide = isSide2 ? 2 : 1;
-
-            oSectionUniqueInks = oSectionAllInks.Where(i => i.Side == iSide).GroupBy(a => a.InkId).Select(b => b.First()).ToList();
+            if (oItemSection.isWorknTurn == true && oItemSection.IsDoubleSided == true)
+                oSectionUniqueInks = oSectionAllInks.Where(i => i.Side == 1).GroupBy(a => a.InkId).Select(b => b.First()).ToList();
+            else
+            {
+                oSectionUniqueInks = oSectionAllInks.Where(i => i.Side == iSide).GroupBy(a => a.InkId).Select(b => b.First()).ToList();
+            }
+            UniqueInks = oSectionUniqueInks.Count();
+            
 
             CostCentre oInksCostcentreDTO = itemsectionRepository.GetCostCenterBySystemType((int)SystemCostCenterTypes.Ink);
             Machine Press = itemsectionRepository.GetPressById(Convert.ToInt32(oItemSection.PressId));
-            dblMinCharge = Press != null ? Convert.ToDouble(Press.InkChargeForUniqueColors) : 0;
+            dblMinCharge = Press != null ? Convert.ToDouble(Press.InkChargeForUniqueColors) * UniqueInks : 0;
             // dblMinCharge = oItemSection.Press.InkChargeForUniqueColors;
 
-            UniqueInks = oSectionUniqueInks.Count(); ; // is to confirm from Muzammil what will be the unique Inks
+             
             bool isImperial = organisationRepository.GetOrganizatiobByID().IsImperical ?? false;
 
             StockItem oPaper = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.StockItemID1));
@@ -4305,6 +4316,10 @@ namespace MPC.Implementation.MISServices
                 {
                    oItemSectionCostCentre.Qty1WorkInstructions = InksDescription + Environment.NewLine + "Sheet Quantity : " + NoofSheetsQty1;
                 }
+                if (dblTotalPrice[0] < dblMinCharge)
+                {
+                    oItemSectionCostCentre.Qty1WorkInstructions += Environment.NewLine + "Minimum charges applied";
+                }
             }
             if (oItemSection.Qty2 > 0)
             {
@@ -4319,7 +4334,10 @@ namespace MPC.Implementation.MISServices
                 {
                     oItemSectionCostCentre.Qty2WorkInstructions = InksDescription + Environment.NewLine + "Sheet Quantity : " + NoofSheetsQty2;
                 }
-
+                if (dblTotalPrice[1] < dblMinCharge)
+                {
+                    oItemSectionCostCentre.Qty1WorkInstructions += Environment.NewLine + "Minimum charges applied";
+                }
             }
 
             if (oItemSection.Qty3 > 0)
@@ -4333,6 +4351,10 @@ namespace MPC.Implementation.MISServices
                 if (oJobCardOptionsDTO.IsDefaultInkColorUsed == true)
                 {
                     oItemSectionCostCentre.Qty3WorkInstructions = InksDescription + Environment.NewLine + "Sheet Quantity : " + NoofSheetsQty3;
+                }
+                if (dblTotalPrice[2] < dblMinCharge)
+                {
+                    oItemSectionCostCentre.Qty1WorkInstructions += Environment.NewLine + "Minimum charges applied";
                 }
             }
 
@@ -4351,13 +4373,14 @@ namespace MPC.Implementation.MISServices
             if (IsReRun == false)
             {
                 string sSides = isSide2 ? "Side 2" : "Side 1";
-                oItemSectionCostCentre.Name = "Inks " + sSides;
+                oItemSectionCostCentre.Name = "Ink " + sSides;
                 if (oItemSection.SectionCostcentres == null)
                 {
                     oItemSection.SectionCostcentres = new List<SectionCostcentre>();
                 }
                 oItemSection.SectionCostcentres.Add(oItemSectionCostCentre);
             }
+            
             return oItemSection;//.tbl_section_costcentres.ToList();
         }
 
@@ -6669,11 +6692,9 @@ namespace MPC.Implementation.MISServices
             updatedSection.RunningSpoilage = Convert.ToInt32(RunningSpoilage);
 
             //************ Ink Calculation**********************
-            updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, false, updatedSection.SectionInkCoverages.ToList());
-            if (updatedSection.isWorknTurn == true && updatedSection.IsDoubleSided == true)
-            {
-                updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true, updatedSection.SectionInkCoverages.ToList());
-            }
+            updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, false, updatedSection.SectionInkCoverages.Where(a => a.Side == 1).ToList());
+            if(updatedSection.isWorknTurn == true && updatedSection.IsDoubleSided == true)
+                updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true, updatedSection.SectionInkCoverages.Where(a => a.Side == 1).ToList());
             
 
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre

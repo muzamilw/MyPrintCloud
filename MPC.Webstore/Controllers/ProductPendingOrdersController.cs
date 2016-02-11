@@ -72,14 +72,13 @@ namespace MPC.Webstore.Controllers
             {
                 List<Order> ordersList = null;
                 List<Order> ManagerordersList = new List<Order>();
-                ordersList = _CompanyService.GetPendingApprovelOrdersList(ContactID, ApproveOrders);
+                ordersList = _CompanyService.GetPendingApprovelOrdersList(ContactID, ApproveOrders, UserCookieManager.WBStoreId);
                 if (ordersList == null || ordersList.Count == 0)
                 {
                     ViewBag.OrderList = ordersList;
                     ViewBag.TotalOrders = ordersList.Count;
 
-                    TempData["Status"] = Utils.GetKeyValueFromResourceFile("ltrlNoRecFound", UserCookieManager.WBStoreId, "No Records Found")
-;
+                    TempData["Status"] = Utils.GetKeyValueFromResourceFile("ltrlNoRecFound", UserCookieManager.WBStoreId, "No Records Found");
                      TempData["HeaderStatus"] = false;
                 }
                 else

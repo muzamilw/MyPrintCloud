@@ -100,6 +100,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                         string ArtworkHtml = "";
                         if(parameter6 == "ProductOptionsAndDetails")
                         {
+
                              foreach(var attach in ListOfAttachments)
                             {
                                

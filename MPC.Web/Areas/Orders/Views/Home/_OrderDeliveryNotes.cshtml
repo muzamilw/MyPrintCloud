@@ -1,0 +1,52 @@
+﻿<div>
+    <div class="col-sm-12 form-horizontal">
+        <div style="margin-bottom:15px;">
+            <div class="tabsdescriptions" style="margin-left:-1px;">
+                <p class="group-header-description">List of delivery notes raised for current order. Click to open details of a delivery note. </p>
+            </div>
+        </div>
+        <div class="col-sm-12" style="padding-left:0;padding-right:0;">
+            <div class="clearfix">
+                
+                <div class="table-responsive">
+
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-lg-3"><span>Customer</span></th>
+                                <th class="col-lg-2"><span>Delivery Code</span></th>
+                                <th class="col-lg-2">Delivery Date</th>
+                                <th class="col-lg-1">Flag</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--ko if:$root.orderDeliveryNotes().length===0-->
+                            <tr>
+                                <td colspan="8">
+                                    <span>No Items found!</span>
+                                </td>
+                            </tr>
+                            <!-- /ko -->
+                            <!-- ko template: { name: 'deliverNotesTemplate' , foreach: $root.orderDeliveryNotes } -->
+                            <!-- /ko -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    
+    <script id="deliverNotesTemplate" type="text/html">
+        <tr data-bind="click:$root.openDeliveryNote" style="cursor: pointer">
+            <td data-bind="text: ContactCompany"></td>
+            <td data-bind="text: Code"></td>
+            <td data-bind="dateString: DeliveryDate"></td>
+            <td><span class="label label-success" data-bind="style: { background: FlagColor }"><i class="fa fa-flag"></i></span></td>
+            
+        </tr>
+    </script>
+
+</div>
+
+

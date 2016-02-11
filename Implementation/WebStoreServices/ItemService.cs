@@ -2704,7 +2704,7 @@ namespace MPC.Implementation.WebStoreServices
                         shopCartOrder.DeliveryCost = 0;
                         shopCartOrder.DeliveryCostCenterId = 0;
                         shopCartOrder.StartDeliveryDate = null;
-                        Prefix prefix = _prefixRepository.GetDefaultPrefix();
+                        Prefix prefix = _prefixRepository.GetDefaultPrefix(OrganisationId);
                         if (prefix != null)
                         {
                             shopCartOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
@@ -3887,6 +3887,7 @@ namespace MPC.Implementation.WebStoreServices
                 if (clonedItem != null)
                 {
                     clonedItem.UploadTypeByUser = 1;
+                    clonedItem.TemplateId = null;
                 }
 
                 _ItemRepository.SaveChanges();
@@ -3918,6 +3919,19 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 throw ex;
             }
+        }
+        public List<GetCategoryProduct> GetRetailFeaturedPublishedProducts()
+        {
+            try
+            {
+                return _ItemRepository.GetRetailFeaturedPublishedProducts();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
         }
         #endregion
     }

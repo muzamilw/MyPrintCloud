@@ -22,7 +22,7 @@
         TermAndCondition = TermAndCondition + " <a id='lnkTermsCondtions' class='small_gray_hyperlink S6FooterMLCs hyperTermCond'  href=/pages/" + Utils.specialCharactersEncoder(ViewBag.TermAndCondition.PageTitle) + "/" + ViewBag.TermAndCondition.PageId + " onclick='ShowLoader();'>" + Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId, "Terms And Conditions")) + "</a>";
 
     }
-    }
+}
 
 
 
@@ -69,50 +69,55 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer-box my-account grid12-4">
-                                    <div class="collapsible mobile-collapsible">
-                                        <span class="opener"></span>
-                                        <h6 class="block-title heading">my account</h6>
-                                        <div class="block-content" >
+                                @if (ViewBag.IsLogin == 1)
+                                {
+                                    <div class="footer-box my-account grid12-4">
+                                        <div class="collapsible mobile-collapsible">
+                                            <span class="opener"></span>
+                                            <h6 class="block-title heading">my account</h6>
+                                            <div class="block-content">
 
-                                            <ul>
-                                                <li><a title="My Account" href="/Dashboard">My Account</a></li>
-                                                <li><a title="My Order" href="/ProductOrderHistory">My Order</a></li>
-                                                <li><a title="My Cart" href="/ShopCart">My Cart</a></li>
-                                                <li><a title="Checkout" href="/ShopCartAddressSelect">Checkout</a></li>
-                                                <li class="last">
-                                                    <a href="/Login" title="Sign In">Sign In</a>
-                                                </li>
-                                            </ul>
+                                                <ul>
+                                                    <li><a title="My Account" href="/Dashboard">My Account</a></li>
+                                                    <li><a title="My Order" href="/ProductOrderHistory">My Order</a></li>
+                                                    <li><a title="My Cart" href="/ShopCart">My Cart</a></li>
+                                                    <li><a title="Checkout" href="/ShopCartAddressSelect">Checkout</a></li>
+                                                    <li class="last">
+                                                        <a href="/Login" title="Sign In">Sign In</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="footer-box products grid12-4">
-                                    <div class="collapsible mobile-collapsible">
-                                        <span class="opener"></span>
-                                        <h6 class="block-title heading">Products</h6>
-                                        <div class="block-content" >
-                                            <ul>
-                                                <li><a href="#" title="Folder Printing">Folder Printing</a></li>
-                                                <li><a href="#" title="Roller Banners">Roller Banners</a></li>
-                                                <li><a href="#" title="Outdoor Banner Printing">Outdoor Banner Printing</a></li>
-                                                <li><a href="#" title="Brochure Printing">Brochure Printing</a></li>
-                                                <li class="last"><a href="#" title="View All" class="read-more">View All <i class="fa fa-angle-right"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>					<div class="footer-box useful-links grid12-4">
+                                }
+                                				<div class="footer-box useful-links grid12-4">
                                     <div class="collapsible mobile-collapsible">
                                         <span class="opener"></span>
                                         <h6 class="block-title heading">useful links</h6>
-                                        <div class="block-content" >
-                                            <ul>
-                                                <li><a href="#" title="FAQs">FAQs</a></li>
-                                                <li><a href="#" title="Templates">Templates</a></li>
-                                                <li><a href="#" title="Design Services">Design Services</a></li>
-                                                <li class="last"><a href="#" title="Delivery and Returns">Delivery and Returns</a></li>
-                                            </ul>
+                                        <div class="block-content">
+                                            @foreach (var item in ViewData["PageCategory"] as List<MPC.Models.DomainModels.PageCategory>)
+                                            {
+
+                                                if (ViewData["CmsPage"] != null)
+                                                {
+                                                    <ul>
+                                                        @foreach (var page in ViewData["CmsPage"] as List<MPC.Models.Common.CmsPageModel>)
+                                                        {
+                                                            if (page.CategoryId == item.CategoryId)
+                                                            {
+
+
+                                                                <li><a href="/pages/@Utils.specialCharactersEncoder(page.PageTitle)/@page.PageId">@page.PageTitle</a></li>
+
+
+                                                            }
+                                                        }
+                                                    </ul>
+                                                }
+
+                                            }
+
                                         </div>
                                     </div>
                                 </div>					<div class="footer-box connect-with-us grid12-4">
@@ -138,8 +143,8 @@
                                     <h2>Get in touch</h2>
                                 </div>
                                 <div class="form-box">
-                                    
-@using (Html.BeginForm())
+
+                                    @using (Html.BeginForm())
 {
                                         <div class="fieldset">
                                             <h3 class="legend">We would like to hear from you</h3>
@@ -173,13 +178,13 @@
                                             <button type="submit" title="Send" class="button"><span><span>Send</span></span></button>
                                         </div>
 }
-                                    
+
                                 </div>
                             </div>
                             <script type="text/javascript">
-//<![CDATA[
-    var gettouchcontactForm = new VarienForm('gettouchcontactForm', false);
-//]]>
+                                //<![CDATA[
+                                var gettouchcontactForm = new VarienForm('gettouchcontactForm', false);
+                                //]]>
                             </script>
                         </div>
                         <div class="clear">	</div>
@@ -202,14 +207,15 @@
                                 <ul>
                                     <li class="first">@Html.Raw(TermAndCondition)</li>
 
-                                    <li><a title="Site Map " href="http://lbprint.liquidbubblehosting.com/sitemap">Site Map</a></li>
+                                    <li><a title="Site Map " href="#">Site Map</a></li>
                                     <li class="last">@Html.Raw(PrivacyPolicy)</li>
                                 </ul>
                             </div>
                             <p class="footer-copyright">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.WBStoreId, "Copyrights 2015. All Rights Reserved.")) </p>
                         </div>
 
-                        <div class="item item-right block_footer_payment"><p><img title="Payment methods" src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/infortis/ultimo/custom/payment.png" alt="Payment methods"></p></div>
+
+                        <div class="item item-right block_footer_payment"><p><img title="Payment methods" src="/Content/BubbleImages/payment.png" alt="Payment methods"></p></div>
 
 
 

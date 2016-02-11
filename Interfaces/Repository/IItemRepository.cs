@@ -203,6 +203,7 @@ namespace MPC.Interfaces.Repository
         void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId);
 
         List<usp_ExportStoreProductsAndPrices_Result> getExportedItems(long Companyid);
+        List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
     }
 
 }

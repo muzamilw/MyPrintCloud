@@ -237,7 +237,7 @@ namespace MPC.Repository.Repositories
         public List<ProductCategory> GetChildCategories(long categoryId)
         {
             List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && 
-                category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true && 
+                category.ParentCategoryId.Value == categoryId && category.isArchived == false && 
                 category.OrganisationId == OrganisationId).ToList().OrderBy(x => x.DisplayOrder).ToList();
             return childCategoresList;
 

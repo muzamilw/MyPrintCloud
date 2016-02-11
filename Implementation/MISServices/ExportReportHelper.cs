@@ -120,7 +120,7 @@ namespace MPC.Implementation.MISServices
             string InternalPath = string.Empty;
             try
             {
-              
+                Report currentReport = new Report();
                 if (WebStoreOrganisationId > 0)
                 {
                     OrganisationID = WebStoreOrganisationId;
@@ -133,7 +133,24 @@ namespace MPC.Implementation.MISServices
                         OrganisationID = org.OrganisationId;
                     }
                 }
-                Report currentReport = ReportRepository.GetReportByReportID(iReportID);
+                if (iReportID == 165 || iReportID == 100 || iReportID == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105)
+                {
+
+                    currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID);
+
+                    if (currentReport == null)
+                    {
+                        currentReport = ReportRepository.GetReportByReportID(iReportID);
+                    }
+                }
+                else
+                {
+                    currentReport = ReportRepository.GetReportByReportID(iReportID);
+                }
+
+
+               
+
                 if (currentReport.ReportId > 0)
                 {
                     byte[] rptBytes = null;

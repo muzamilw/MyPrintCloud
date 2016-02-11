@@ -3,6 +3,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
@@ -82,9 +83,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public Estimate Post(Estimate request)
         {
+            
             if (request == null || !ModelState.IsValid)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+                //throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+                throw new MPCException("Invalid Data ", 0);
             }
            
             return orderService.SaveOrder(request.CreateFrom()).CreateFrom();

@@ -679,7 +679,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         },
         // Shipping Information
         ShippingInformation = function (specifiedShippingId, specifiedItemId, specifiedAddressId, specifiedQuantity, specifiedPrice, specifiedDeliveryNoteRaised,
-            specifiedDeliveryDate, specifiedEstimateId, specifiedAddressName, specifiedItemName) {
+            specifiedDeliveryDate, specifiedEstimateId, specifiedAddressName, specifiedItemName, specifiedCarrierId, specifiedConsignmentNo) {
             var // Unique key
                 shippingId = ko.observable(specifiedShippingId),
                 // Item ID
@@ -706,10 +706,14 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 itemName = ko.observable(specifiedItemName || ''),
                 // Address Name
                 addressName = ko.observable(specifiedAddressName || ''),
+                carrierName = ko.observable(),
+                shippingDetails = ko.observableArray([]),
                 //
                 isSelected = ko.observable(false),
                 // Estimate ID
                 estimateId = ko.observable(specifiedEstimateId || 0),
+                carrierId = ko.observable(specifiedCarrierId),
+                consignmentNumber = ko.observable(specifiedConsignmentNo),
                 // Errors
                 errors = ko.validation.group({
                     quantity: quantity,
@@ -726,7 +730,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     quantity: quantity,
                     price: price,
                     deliveryNoteRaised: deliveryNoteRaised,
-                    deliveryDate: deliveryDate
+                    deliveryDate: deliveryDate,
+                    carrierId: carrierId,
+                    consignmentNumber: consignmentNumber
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -746,7 +752,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         DeliveryDate: deliveryDate() ? moment(deliveryDate()).format(ist.utcFormat) : null,
                         Price: price(),
                         DeliveryNoteRaised: deliveryNoteRaised(),
-                        EstimateId: estimateId()
+                        EstimateId: estimateId(),
+                        CarrierId: carrierId(),
+                        ConsignmentNumber: consignmentNumber()
                     };
                 };
 
@@ -763,6 +771,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 estimateId: estimateId,
                 addressName: addressName,
                 isSelected: isSelected,
+                carrierId: carrierId,
+                consignmentNumber: consignmentNumber,
+                carrierName: carrierName,
+                shippingDetails : shippingDetails,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -1456,7 +1468,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     ShippingInformation.Create = function (source) {
         return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised,
-            source.DeliveryDate, source.EstimateId, source.AddressName, source.ItemName);
+            source.DeliveryDate, source.EstimateId, source.AddressName, source.ItemName, source.CarrierId, source.ConsignmentNumber);
     };
 
     return {
