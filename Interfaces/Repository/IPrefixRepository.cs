@@ -34,7 +34,7 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         string GetNextItemCodePrefix(bool shouldIncrementNextItem = true);
 
-        Prefix GetDefaultPrefix();
+        Prefix GetDefaultPrefix(long OrganisationId);
 
         /// <summary>
         /// Markup use in Prefix 

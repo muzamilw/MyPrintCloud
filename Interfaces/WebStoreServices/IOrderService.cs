@@ -24,9 +24,9 @@ namespace MPC.Interfaces.WebStoreServices
         DiscountVoucher GetVoucherRecord(int VId);
         Estimate GetOrderByID(long orderId);
         bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode);
-        
 
-        bool SetOrderCreationDateAndCode(long orderId);
+
+        bool SetOrderCreationDateAndCode(long orderId, long OrganisationId);
         //bool IsVoucherValid(string voucherCode);
 
         //Estimate CheckDiscountApplied(int orderId);
@@ -67,7 +67,8 @@ namespace MPC.Interfaces.WebStoreServices
 
 
         bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
-                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde);
+                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde
+            ,long OrganisationId);
 
         double UpdateORderGrandTotal(long OrderID);
 

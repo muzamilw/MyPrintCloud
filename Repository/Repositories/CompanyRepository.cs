@@ -2025,10 +2025,19 @@ namespace MPC.Repository.Repositories
                 if (db.SaveChanges() > 0)
                 {
                     customerID = ContactCompany.CompanyId; // customer id
-                    if (contact != null)
+                    if (ContactPerson != null)
                     {
-                        contact.ContactId = ContactPerson.ContactId;
-                        contact.CompanyId = customerID;
+                        if (contact == null)
+                        {
+                            contact = new CompanyContact();
+                            contact = ContactPerson;
+                        }
+                        else 
+                        {
+                            contact.ContactId = ContactPerson.ContactId;
+                            contact.CompanyId = customerID;
+                        }
+                       
                     }
                 }
 

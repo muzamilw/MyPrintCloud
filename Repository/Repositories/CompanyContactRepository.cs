@@ -1710,7 +1710,7 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId)
         {
-            return db.CompanyContacts.Where(c => c.CompanyId == companyId && c.OrganisationId == organistionId && c.Email == emailAddress && c.isWebAccess == true && (c.isArchived == false || c.isArchived == null)).SingleOrDefault();
+            return db.CompanyContacts.Where(c => c.CompanyId == companyId && c.OrganisationId == organistionId && c.Email == emailAddress && (c.isArchived == false || c.isArchived == null)).SingleOrDefault();
         }
 
 

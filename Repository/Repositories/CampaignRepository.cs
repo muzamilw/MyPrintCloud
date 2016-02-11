@@ -1208,7 +1208,7 @@ namespace MPC.Repository.Repositories
                                        (c.ContactRoleId == Manager && c.TerritoryId == loggedinTerritoryId)) 
                                        && (cc.IsCustomer == (int)CustomerTypes.Corporate) 
                                        && c.CompanyId == ContactCompnyID
-                                       select c).ToList();
+                                       select c).Distinct().ToList();
                     if (listOfApprovers.Count() > 0)
                     {
                         Campaign CorporateOrderForApprovalCampaign = GetCampaignRecordByEmailEvent((int)Events.CorporateOrderForApproval, serverSettings.OrganisationId, StoreId);
@@ -1223,7 +1223,7 @@ namespace MPC.Repository.Repositories
                             obj.AddressId = ContactCompnyID;
                             obj.CompanyId = ContactCompnyID;
                             obj.OrganisationId = serverSettings.OrganisationId;
-                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore, "", "", "", SalesManagerEmail, "", corpRec.Email);
+                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore, "", "", "", SalesManagerEmail, "");
                         }
                     }
                 
