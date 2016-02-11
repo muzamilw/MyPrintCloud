@@ -327,6 +327,11 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public Invoice GetInvoiceByCode(string sInvoiceCode, long organisationId)
+        {
+            return DbSet.FirstOrDefault(i => i.InvoiceCode == sInvoiceCode && i.OrganisationId == organisationId);
+        }
+
         #endregion
     }
 }

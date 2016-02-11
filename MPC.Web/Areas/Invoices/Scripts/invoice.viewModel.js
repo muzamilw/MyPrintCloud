@@ -496,8 +496,8 @@ define("invoice/invoice.viewModel",
                 // Edit Item
                 editItem = function (item) {
                     // For Invoice Detail Item
-                    if (item.detailType !== undefined) {
-                        //selectedInvoiceDetail(item);
+                    if (item.detailType() !== undefined) {
+                        selectedInvoiceDetail(item);
                         editorViewModel.selectItem(item);
                         view.showInvoiceDetailDialog();
                     } else {
@@ -1223,14 +1223,14 @@ define("invoice/invoice.viewModel",
                             invoiceDetail.id(counterForInvoiceDetail);
                             selectedInvoice().items.splice(0, 0, invoiceDetail);
                         }
-                        else if (invoiceDetail.id() < 0) {
+                        else if (invoiceDetail.id() < 0 || invoiceDetail.id() > 0) {
                             var count = 0;
                             var newObjtodelete = selectedInvoice().items.find(function (temp) {
                                 return temp.id() == invoiceDetail.id();
                             });
                             selectedInvoice().items.remove(newObjtodelete);
                             selectedInvoice().items.splice(0, 0, selectedInvoiceDetail());
-                        }
+                        } 
                         view.hideInvoiceDetailDialog();
                     },
                     dobeforeSaveInvoiceDetail = function () {

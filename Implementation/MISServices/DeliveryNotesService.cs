@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -48,11 +49,13 @@ namespace MPC.Implementation.MISServices
         private DeliveryNote CreateNewDeliveryNote()
         {
             string deliveryNoteCode = prefixRepository.GetNextDeliveryNoteCodePrefix();
+            var deliveryFlags = _sectionFlagRepository.GetSectionFlagBySectionId((int) SectionEnum.Delivery);
             DeliveryNote itemTarget = deliveryNoteRepository.Create();
             deliveryNoteRepository.Add(itemTarget);
             itemTarget.CreationDateTime = DateTime.Now;
             itemTarget.Code = deliveryNoteCode;
             itemTarget.OrganisationId = deliveryNoteRepository.OrganisationId;
+            itemTarget.SectionFlag = deliveryFlags != null ? deliveryFlags.FirstOrDefault() : null;
             return itemTarget;
         }
 

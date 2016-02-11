@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using MPC.Common;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -31,6 +34,10 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
         private readonly IInvoiceDetailRepository invoiceDetailRepository;
         private readonly IOrganisationRepository organisationRepository;
+        private readonly ICompanyContactRepository companyContactRepository;
+        private readonly ICountryRepository countryRepostiry;
+        private readonly IStateRepository stateRepository;
+
 
         /// <summary>
         /// Creates New Item and assigns new generated code
@@ -258,7 +265,8 @@ namespace MPC.Implementation.MISServices
         public InvoicesService(IInvoiceRepository invoiceRepository, ICostCentreRepository costCentreRepository, IItemRepository itemRepository,
             IPrefixRepository prefixRepository, IItemAttachmentRepository itemAttachmentRepository, IItemSectionRepository itemsectionRepository,
             ISectionCostCentreRepository sectionCostCentreRepository, ISectionInkCoverageRepository sectionInkCoverageRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IInvoiceDetailRepository invoiceDetailRepository, IOrganisationRepository organisationRepository)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IInvoiceDetailRepository invoiceDetailRepository, IOrganisationRepository organisationRepository,
+            ICompanyContactRepository companyContactRepository, ICountryRepository countryRepository, IStateRepository stateRepository)
         {
             this.invoiceRepository = invoiceRepository;
             CostCentreRepository = costCentreRepository;
@@ -272,6 +280,9 @@ namespace MPC.Implementation.MISServices
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
             this.invoiceDetailRepository = invoiceDetailRepository;
             this.organisationRepository = organisationRepository;
+            countryRepostiry = countryRepository;
+            this.companyContactRepository = companyContactRepository;
+            this.stateRepository = stateRepository;
         }
 
         #endregion
@@ -468,6 +479,172 @@ namespace MPC.Implementation.MISServices
         public void ArchiveInvoice(int InvoiceId)
         {
             invoiceRepository.ArchiveInvoice(InvoiceId);
+        }
+        public void UpdateInvoiceFromZapier(ZapierInvoiceDetail zapInvoice, long organisationId)
+        {
+            
+            try
+            {
+                Invoice invoice = invoiceRepository.GetInvoiceByCode(zapInvoice.InvoiceCode,organisationId);
+                if (invoice != null)
+                {
+                    invoice.GrandTotal = zapInvoice.InvoiceTotal;
+                    invoice.TaxValue = zapInvoice.InvoiceTaxTotal;
+                    invoice.InvoiceStatus = zapInvoice.InvoiceStatus == "SUBMITTED"? (short)InvoiceStatuses.Posted : (short)InvoiceStatuses.Awaiting;
+                    invoice.InvoiceTotal = zapInvoice.InvoiceSubTotal;
+                    invoiceRepository.Update(invoice);
+                    invoiceRepository.SaveChanges();
+                }
+                else
+                {
+                    CompanyContact companyContact =
+                        companyContactRepository.GetCompanyContactByNameAndEmail(zapInvoice.ContactFirstName,
+                            zapInvoice.ContactEmail, organisationId);
+                    
+                    Invoice itemTarget = invoiceRepository.Create();
+                    if (!string.IsNullOrEmpty(zapInvoice.InvoiceCode))
+                    {
+                        itemTarget.InvoiceCode = zapInvoice.InvoiceCode;
+                    }
+                    else
+                    {
+                        Prefix nextPrefix = prefixRepository.GetPrefixByOrganisationId(organisationId);
+                        string invoiceCode = nextPrefix != null
+                            ? nextPrefix.InvoicePrefix + nextPrefix.InvoiceNext
+                            : string.Empty;
+                        itemTarget.InvoiceCode = invoiceCode;
+                    }
+                    itemTarget.OrganisationId = organisationId;
+                    itemTarget.InvoiceName = "Invoice For " +zapInvoice.ContactFirstName;
+                    itemTarget.InvoiceType = 1;
+                    itemTarget.FlagID = Convert.ToInt32(invoiceRepository.GetInvoieFlag());
+                    itemTarget.InvoiceStatus = zapInvoice.InvoiceStatus == "SUBMITTED" ? (short)InvoiceStatuses.Posted : (short)InvoiceStatuses.Awaiting;
+                    
+                    itemTarget.InvoiceTotal = zapInvoice.InvoiceSubTotal;
+                    itemTarget.GrandTotal = zapInvoice.InvoiceTotal;
+                    itemTarget.TaxValue = zapInvoice.InvoiceTaxTotal;
+                    if (zapInvoice.InvoiceItems != null && zapInvoice.InvoiceItems.Count > 0)
+                    {
+                        itemTarget.InvoiceDetails = new Collection<InvoiceDetail>();
+                        foreach (var invoiceItem in zapInvoice.InvoiceItems)
+                        {
+                            InvoiceDetail invoiceDetail = new InvoiceDetail
+                            {
+                                InvoiceTitle = invoiceItem.ProductName,
+                                ItemCharge = invoiceItem.NetTotal,
+                                TaxValue = invoiceItem.TaxValue,
+                                ItemGrossTotal = invoiceItem.GrossTotal,
+                                Quantity = invoiceItem.Quantity,
+                                Description = invoiceItem.ProductCode + " " + invoiceItem.ProductDescription
+                            };
+                            
+                            itemTarget.InvoiceDetails.Add(invoiceDetail);
+                        }
+                    }
+
+
+                    if (companyContact != null)
+                    {
+                        itemTarget.Company = companyContact.Company;
+                        itemTarget.CompanyContact = companyContact;
+                        itemTarget.AddressId = Convert.ToInt32(companyContact.AddressId);
+                    }
+                    else
+                    {
+                        Company newCompany = new Company
+                        {
+                            Name = zapInvoice.CustomerName,
+                            URL = zapInvoice.CustomerUrl,
+                            TaxRate = zapInvoice.TaxRate,
+                            AccountBalance = 0,
+                            AccountNumber = zapInvoice.CustomerAccountNumber,
+                            CreationDate = DateTime.Now,
+                            CreditLimit = 0,
+                            OrganisationId = organisationId,
+                            TypeId = 57,
+                            DefaultNominalCode = 0,
+                            Status = 0,
+                            IsDisabled = 0,
+                            AccountOpenDate = DateTime.Now,
+                            VATRegNumber = zapInvoice.VatNumber
+                            
+
+                        };
+                        if (zapInvoice.IsCustomer)
+                        {
+                            newCompany.StoreId = companyContactRepository.GetRetailStoreId(organisationId);
+                            newCompany.IsCustomer = 1;
+                        }
+                        else if (zapInvoice.IsSupplier)
+                            newCompany.IsCustomer = 2;
+                        else
+                        {
+                            newCompany.StoreId = companyContactRepository.GetRetailStoreId(organisationId);
+                            newCompany.IsCustomer = 0;
+                        }
+                        CompanyTerritory newTerritory = new CompanyTerritory
+                        {
+                            TerritoryCode = "DFT",
+                            TerritoryName = "Default Territory",
+                            Company = newCompany,
+                            isDefault = true
+                        };
+                        Address newAddress = new Address
+                        {
+                            AddressName = zapInvoice.AddressName,
+                            Address1 = zapInvoice.Address1,
+                            Address2 = zapInvoice.Address2,
+                            PostCode = zapInvoice.AddressPostalCode,
+                            City = zapInvoice.AddressCity,
+                            Country = countryRepostiry.GetCountryByName(zapInvoice.AddressCountry),
+                            State = stateRepository.GetStateByName(zapInvoice.AddressState),
+                            Company = newCompany,
+                            CompanyTerritory = newTerritory,
+                            isDefaultTerrorityBilling = true,
+                            isDefaultTerrorityShipping = true,
+                            IsDefaultAddress = true,
+                            isArchived = false,
+                            OrganisationId = organisationId,
+                            IsDefaultShippingAddress = true
+                        };
+                        companyContact = new CompanyContact
+                        {
+                            FirstName = zapInvoice.ContactFirstName,
+                            LastName = zapInvoice.ContactLastName,
+                            Email = zapInvoice.ContactEmail,
+                            HomeTel1 = zapInvoice.ContactPhone,
+                            Mobile = zapInvoice.ContactMobile,
+                            IsDefaultContact = 1,
+                            isArchived = false,
+                            Password = HashingManager.ComputeHashSHA1("password"),
+                            isWebAccess = true,
+                            canPlaceDirectOrder = false,
+                            canUserPlaceOrderWithoutApproval = false,
+                            isPlaceOrder = true,
+                            SkypeId = zapInvoice.ContactSkypUserName,
+                            OrganisationId = organisationId,
+                            Company = newCompany,
+                            Address = newAddress,
+                            CompanyTerritory = newTerritory,
+                        };
+                        itemTarget.Company = companyContact.Company;
+                        itemTarget.CompanyContact = companyContact;
+                        itemTarget.AddressId = Convert.ToInt32(companyContact.AddressId);
+                        
+                    }
+
+                    invoiceRepository.Add(itemTarget);
+                    invoiceRepository.SaveChanges();
+                    //companyContactRepository.Add(companyContact);
+                    //companyContactRepository.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw new MPCException("Unable to Process Invoice data from Zapier", invoiceRepository.OrganisationId);
+            }
+
+
         }
         #endregion
 

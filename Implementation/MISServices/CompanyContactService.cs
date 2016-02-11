@@ -34,6 +34,7 @@ namespace MPC.Implementation.MISServices
         private readonly IStateRepository stateRepository;
         private readonly IScopeVariableRepository scopeVariableRepository;
         private readonly IOrganisationRepository organisationRepository;
+        private readonly ICountryRepository countryRepostiry;
         private CompanyContact Create(CompanyContact companyContact)
         {
             UpdateDefaultBehaviourOfContactCompany(companyContact);
@@ -126,7 +127,8 @@ namespace MPC.Implementation.MISServices
 
         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository,
-            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository, IOrganisationRepository organisationRepository)
+            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository, IOrganisationRepository organisationRepository,
+            ICountryRepository countryRepository)
         {
             this.companyContactRepository = companyContactRepository;
             this.companyTerritoryRepository = companyTerritoryRepository;
@@ -136,6 +138,7 @@ namespace MPC.Implementation.MISServices
             this.stateRepository = stateRepository;
             this.scopeVariableRepository = scopeVariableRepository;
             this.organisationRepository = organisationRepository;
+            this.countryRepostiry = countryRepository;
         }
 
         #endregion
@@ -1344,6 +1347,135 @@ namespace MPC.Implementation.MISServices
             }
             
            
+        }
+
+        public void UpdateCompanyContactFromZapier(ZapierInvoiceDetail zapContact, long organisationId)
+        {
+         //If Existing contact by firstname and email then load that contact update information and save
+            // else create company, create address, create contact
+            //default password is "password"
+            try
+            {
+                CompanyContact companyContact =
+                                companyContactRepository.GetCompanyContactByNameAndEmail(zapContact.ContactFirstName,
+                                    zapContact.ContactEmail, organisationId);
+                if (companyContact != null)
+                {
+                    companyContact.HomeTel1 = zapContact.ContactPhone;
+                    companyContact.Mobile = zapContact.ContactMobile;
+                    companyContact.SkypeId = zapContact.ContactSkypUserName;
+                    if (companyContact.Company.IsCustomer == 3 || companyContact.Company.IsCustomer == 4)
+                    {
+                        //Do Nothing As these are Stores
+                    }
+                    else
+                    {
+                        companyContact.Company.VATRegNumber = zapContact.VatNumber;
+                        companyContact.Company.AccountNumber = zapContact.CustomerAccountNumber;
+                        companyContact.Company.TaxRate = zapContact.TaxRate;
+                        companyContact.Company.URL = zapContact.CustomerUrl;
+                        companyContact.Company.Name = zapContact.CustomerName;
+                    }
+                    companyContact.Address.Address1 = zapContact.Address1;
+                    companyContact.Address.Address2 = zapContact.Address2;
+                    companyContact.Address.AddressName = zapContact.AddressName;
+                    companyContact.Address.City = zapContact.AddressCity;
+                    if (!string.IsNullOrEmpty(zapContact.AddressCountry))
+                        companyContact.Address.Country = countryRepostiry.GetCountryByName(zapContact.AddressCountry);
+                    if (!string.IsNullOrEmpty(zapContact.AddressState))
+                        companyContact.Address.State = stateRepository.GetStateByName(zapContact.AddressState);
+                    companyContactRepository.Update(companyContact);
+                    companyContactRepository.SaveChanges();
+
+                }
+                else
+                {
+                    Company newCompany = new Company
+                    {
+                        Name = zapContact.CustomerName,
+                        URL = zapContact.CustomerUrl,
+                        TaxRate = zapContact.TaxRate,
+                        AccountBalance = 0,
+                        AccountNumber = zapContact.CustomerAccountNumber,
+                        CreationDate = DateTime.Now,
+                        CreditLimit = 0,
+                        OrganisationId = organisationId,
+                        TypeId = 57,
+                        DefaultNominalCode = 0,
+                        Status = 0,
+                        IsDisabled = 0,
+                        AccountOpenDate = DateTime.Now,
+                        VATRegNumber = zapContact.VatNumber
+
+                    };
+                    if (zapContact.IsCustomer)
+                    {
+                        newCompany.StoreId = companyContactRepository.GetRetailStoreId(organisationId);
+                        newCompany.IsCustomer = 1;
+                    }
+                    else if (zapContact.IsSupplier)
+                        newCompany.IsCustomer = 2;
+                    else
+                    {
+                        newCompany.StoreId = companyContactRepository.GetRetailStoreId(organisationId);
+                        newCompany.IsCustomer = 0;
+                    }
+                        
+                    CompanyTerritory newTerritory = new CompanyTerritory
+                    {
+                        TerritoryCode = "DFT",
+                        TerritoryName = "Default Territory",
+                        Company = newCompany,
+                        isDefault = true
+                    };
+                    Address newAddress = new Address
+                    {
+                        AddressName = zapContact.AddressName,
+                        Address1 = zapContact.Address1,
+                        Address2 = zapContact.Address2,
+                        PostCode = zapContact.AddressPostalCode,
+                        City = zapContact.AddressCity,
+                        Country = countryRepostiry.GetCountryByName(zapContact.AddressCountry),
+                        State = stateRepository.GetStateByName(zapContact.AddressState),
+                        Company = newCompany,
+                        CompanyTerritory = newTerritory,
+                        isDefaultTerrorityBilling = true,
+                        isDefaultTerrorityShipping = true,
+                        IsDefaultAddress = true,
+                        isArchived = false,
+                        OrganisationId = organisationId,
+                        IsDefaultShippingAddress = true
+                    };
+                    companyContact = new CompanyContact
+                    {
+                        FirstName = zapContact.ContactFirstName,
+                        LastName = zapContact.ContactLastName,
+                        Email = zapContact.ContactEmail,
+                        HomeTel1 = zapContact.ContactPhone,
+                        Mobile = zapContact.ContactMobile,
+                        IsDefaultContact = 1,
+                        isArchived = false,
+                        Password = HashingManager.ComputeHashSHA1("password"),
+                        isWebAccess = true,
+                        canPlaceDirectOrder = false,
+                        canUserPlaceOrderWithoutApproval = false,
+                        isPlaceOrder = true,
+                        SkypeId = zapContact.ContactSkypUserName,
+                        OrganisationId = organisationId,
+                        Company = newCompany,
+                        Address = newAddress,
+                        CompanyTerritory = newTerritory,
+                    };
+                    companyContactRepository.Add(companyContact);
+                    companyContactRepository.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw new MPCException("Unable to Process Contact data from Zapier", companyContactRepository.OrganisationId);
+            }
+           
+            
         }
 
     }

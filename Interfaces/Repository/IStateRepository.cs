@@ -14,5 +14,6 @@ namespace MPC.Interfaces.Repository
         State GetStateFromStateID(long StateID);
 
         string GetStateCodeById(long stateId);
+        State GetStateByName(string sStateName);
     }
 }

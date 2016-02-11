@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -20,9 +21,13 @@ namespace MPC.MIS.Controllers
     {
 
         private readonly IMyOrganizationService _organizationService;
-        public DashboardController(IMyOrganizationService organizationService)
+        private readonly ICompanyContactService _companyContactService;
+        private readonly IInvoiceService _invoiceService;
+        public DashboardController(IMyOrganizationService organizationService, ICompanyContactService companyContactService, IInvoiceService invoiceService)
         {
             this._organizationService = organizationService;
+            this._companyContactService = companyContactService;
+            this._invoiceService = invoiceService;
         }
         
         [Dependency]
@@ -105,8 +110,8 @@ namespace MPC.MIS.Controllers
            long organisationId = 1;
            
            string param = HttpContext.Request.Url.Query;
-           string responsestr = _organizationService.GetActiveOrganisationId(param);
-           // responsestr = Temporarily set for local testing
+           string responsestr = "1"; //_organizationService.GetActiveOrganisationId(param);
+           //responsestr Temporarily set for local testing
            if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
            {
                throw new MPCException("Service Not Authenticated!", organisationId);
@@ -115,16 +120,16 @@ namespace MPC.MIS.Controllers
            {
                organisationId = Convert.ToInt64(responsestr);
            }
-           StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream());
-           string scont = reader.ReadToEndAsync().Result;
-           //ZapierPostResponse zapierResponse = JsonConvert.DeserializeObject<ZapierPostResponse>(scont);
-
-           //var formatter = new JsonMediaTypeFormatter();
-           //var json = formatter.SerializerSettings;
-           //json.Formatting = Newtonsoft.Json.Formatting.Indented;
-           //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-
-           //return HttpContext.Request.CreateResponse(HttpStatusCode.OK, _companyContactService.GetContactForZapierPooling(0), formatter);
+           string scont = string.Empty;
+           using (StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream()))
+           {
+               scont = reader.ReadToEndAsync().Result;
+           }
+           if (!string.IsNullOrEmpty(scont))
+           {
+               ZapierInvoiceDetail zapierResponse = JsonConvert.DeserializeObject<ZapierInvoiceDetail>(scont);
+               _invoiceService.UpdateInvoiceFromZapier(zapierResponse, organisationId);
+           }
 
            return scont;
 
@@ -138,7 +143,7 @@ namespace MPC.MIS.Controllers
            long organisationId = 1;
 
            string param = HttpContext.Request.Url.Query;
-           string responsestr = _organizationService.GetActiveOrganisationId(param);
+           string responsestr = "1"; //_organizationService.GetActiveOrganisationId(param);
            // responsestr = Temporarily set for local testing
            if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
            {
@@ -148,16 +153,16 @@ namespace MPC.MIS.Controllers
            {
                organisationId = Convert.ToInt64(responsestr);
            }
-           StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream());
-           string scont = reader.ReadToEndAsync().Result;
-           //ZapierPostResponse zapierResponse = JsonConvert.DeserializeObject<ZapierPostResponse>(scont);
-
-           //var formatter = new JsonMediaTypeFormatter();
-           //var json = formatter.SerializerSettings;
-           //json.Formatting = Newtonsoft.Json.Formatting.Indented;
-           //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-
-           //return HttpContext.Request.CreateResponse(HttpStatusCode.OK, _companyContactService.GetContactForZapierPooling(0), formatter);
+           string scont = string.Empty;
+           using (StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream()))
+           {
+               scont = reader.ReadToEndAsync().Result;
+           }
+           if (!string.IsNullOrEmpty(scont))
+           {
+               ZapierInvoiceDetail zapierResponse = JsonConvert.DeserializeObject<ZapierInvoiceDetail>(scont);
+               _companyContactService.UpdateCompanyContactFromZapier(zapierResponse, organisationId);
+           }
 
            return scont;
 

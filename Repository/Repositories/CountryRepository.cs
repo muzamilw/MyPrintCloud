@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using Microsoft.Practices.Unity;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
@@ -107,6 +108,21 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
+        }
+
+        public Country GetCountryByName(string sCountryName)
+        {
+            
+            try
+            {
+                return DbSet.FirstOrDefault(c => c.CountryName == sCountryName);
+
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException("Country list is empty.", this.OrganisationId);
+            }
+            
         }
         #endregion
     }

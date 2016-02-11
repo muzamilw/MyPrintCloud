@@ -158,5 +158,7 @@ namespace MPC.Interfaces.Repository
         List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId);
         List<ZapierInvoiceDetail> GetContactForZapierPooling(long organisationId);
         CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email);
+        CompanyContact GetCompanyContactByNameAndEmail(string sFirstName, string sEmail, long organisationId);
+        long GetRetailStoreId(long organisationId);
     }
 }

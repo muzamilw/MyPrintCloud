@@ -54,6 +54,7 @@ namespace MPC.Interfaces.MISServices
         string AddAgileCrmContact(string email, string fullname, string Company, string phone, string region, string domain);
 
         void PostDataToMailChimp(CompanyContact Contact, long organisationId = 0);
+        void UpdateCompanyContactFromZapier(ZapierInvoiceDetail zapContact, long organisationId);
 
     }
 }
