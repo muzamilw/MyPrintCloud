@@ -133,13 +133,14 @@ grid.Column("Default Shipping",format:@<p>
     {
         <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
     }
-                                      else if (ViewBag.loginContactCompanyID == item.ContactId)
-                                      {
-                                        <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
-                                      }</text>,style:"WebGridPadding")
+    @*//else if (ViewBag.loginContactCompanyID == item.ContactId)
+    //{*@
+    <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
+    @*}*@
+    </text>,style:"WebGridPadding")
     }
 
-                                     )
+                                              )
 
                         @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
                         {

@@ -375,7 +375,12 @@
 }
 
 
-
+@font-face {
+    font-family: "ralewayregular";
+    font-style: normal;
+    src: url("fonts/Raleway-Regular.eot");
+    src: url("fonts/Raleway-Regular.eot?#iefix") format("embedded-opentype"),url("fonts/Raleway-Regular.woff") format("woff"),url("fonts/Raleway-Regular.ttf") format("truetype"),url("fonts/Raleway-Regular.svg#ralewayregular") format("svg");
+}
 
 /* Reset %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
@@ -405,12 +410,12 @@ select:focus{outline:none;}
 /* Headings */
 h1,h2,h3,
 h4,h5,h6      { margin:0 0 10px; font-weight:normal; }
-h1            { font-size:24px; line-height:1.25em;     /*32px, 40px*/      margin-bottom:20px; }
-h2            { font-size:20px;     line-height:1.25em;     /*24px, 30px*/ }
-h3            { font-size:18px; line-height:1.2em;      /*20px, 24px*/ }
-h4            { font-size:16px; line-height:1.25em;     /*16px, 20px*/ }
-h5            { font-size:12px; line-height:1.1428em;   /*14px, 16px*/ }
-h6            { font-size:11px;     line-height:1.1666em;   /*12px, 14px*/ }
+h1            { line-height:1.25em;     /*32px, 40px*/      margin-bottom:20px; }
+h2            { line-height:1.25em;     /*24px, 30px*/ }
+h3            {  line-height:1.2em;      /*20px, 24px*/ }
+h4            {  line-height:1.25em;     /*16px, 20px*/ }
+h5            {  line-height:1.1428em;   /*14px, 16px*/ }
+h6            { line-height:1.1666em;   /*12px, 14px*/ }
 
 /* Forms */
 form          { display:inline; }
@@ -1555,12 +1560,13 @@ ul.disc ul li { background:url(http://lbprint.liquidbubblehosting.com/skin/front
 /* If it's a dropdown */
 .mini-cart.dropdown .mini-cart-content 
 {
-    width:300px;
+    width:350px;
     padding:15px;
     text-align:left; /* Because cart can be aligned center */
 	transition: all 0.4s ease-in-out 0s;
 	-ms-transition: all 0.4s ease-in-out 0s;
 	-webkit-transition: all 0.4s ease-in-out 0s;
+        margin-top: -8px;
 }
 
 /* Elements of the cart */
@@ -6323,7 +6329,7 @@ Responsive Css (Tejas Rana)
 
 .header-mobile .skip-links--4 .skip-link 
 { 
-	width: 25% !important; 
+	width: 33% !important; 
 	border-right:1px solid #fff;
 	float:left;
 	display:inline-block;
@@ -6930,8 +6936,8 @@ All Prinr Products CSS
 
 /**** Category Banner *****/
 .banner-custom{overflow:hidden;}
-.custom-item1{float:left;width:49.5%;margin:0;}
-.custom-item2{float:right;width:49.5%;margin:0;}
+/*.custom-item1{float:left;width:49.5%;margin:0;}
+.custom-item2{float:right;width:49.5%;margin:0;}*/
 
 .title{font-size:18px;}
 
@@ -10756,7 +10762,7 @@ li > a:hover > span > .cat-label {
 
 /* labels: 1st level
 -------------------------------------------------------------- */
-#nav li.level0 > a > span { position:relative;  font-family: 'OpenSansSemibold' !important;}
+#nav li.level0 > a > span { position:relative;  font-family: 'ralewaysemibold' !important;}
 #nav li.level0.nav-item--homeicon a > span{font-family:FontAwesome !important;}
 
 li.level0 > a > span > .cat-label 
@@ -14603,7 +14609,7 @@ input.input-text, select, textarea,
 	.header-mobile .user-menu 
 	{
 		float: none !important;
-		width: 25% !important;
+		width: 33% !important;
 		vertical-align:middle;
 		margin: 0; /* Important: remove margins to collapse the block completely */
 	}
