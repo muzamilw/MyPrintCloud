@@ -6007,6 +6007,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                db.Database.CommandTimeout = 1080;
                 db.usp_DeleteContactCompanyByID(Convert.ToInt32(StoreID));
             }
             catch (Exception ex)
@@ -7007,7 +7008,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public bool SaveUserActionLog(string Comment,long CompanyId)
+        public bool SaveUserActionLog(string Comment,long CompanyId,string TableName)
         {
             try
             {
@@ -7018,7 +7019,7 @@ namespace MPC.Repository.Repositories
                 objActionLog.DomainId = HttpContext.Current.Request.UserHostName;
                 objActionLog.OrganisationId = OrganisationId;
                 objActionLog.RecordId = CompanyId;
-                objActionLog.TableName = "Company";
+                objActionLog.TableName = TableName;
                 objActionLog.UserId = LoggedInUserId;
 
                 db.UserActionLogs.Add(objActionLog);

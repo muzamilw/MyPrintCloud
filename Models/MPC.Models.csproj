@@ -247,6 +247,7 @@
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\StagingImportCompanyContactAddress.cs" />
+    <Compile Include="DomainModels\StagingProductPriceImport.cs" />
     <Compile Include="DomainModels\TemplateVariableExtension.cs" />
     <Compile Include="DomainModels\UserActionsLog.cs" />
     <Compile Include="DomainModels\usp_ChartEstimateToOrderConversionCount_Result.cs" />
@@ -448,6 +449,7 @@
     </Compile>
     <Compile Include="RequestModels\ArchiveInvoiceRequestModel.cs" />
     <Compile Include="RequestModels\CompanyVariableIconRequestModel.cs" />
+    <Compile Include="RequestModels\DeleteOrderRequest.cs" />
     <Compile Include="RequestModels\DiscountVoucherRequestModel.cs" />
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />

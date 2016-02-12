@@ -317,11 +317,11 @@ define("product/product.viewModel",
                       dataservice.importProducts({
                           FileName: file.name,
                           FileBytes: data,
-                          CompanyId: 0
+                          CompanyId: selectedCompany()
                       }, {
                           success: function (successData) {
                               toastr.success("Products imported successfully!");
-                              searchCompanyContact();
+                             // searchCompanyContact();
                           },
                           error: function (response) {
                               toastr.error("Products failed to import! " + response);

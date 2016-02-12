@@ -145,6 +145,8 @@ namespace MPC.Interfaces.Repository
         List<long> GetOrdersForBillingCycle(DateTime billingDate, bool isDirectOrder);
         bool IsExtradOrderForBillingCycle(DateTime billingDate, bool isDirectOrder, int licensedCount, long orderId, long organisationId);
 
+        void DeleteOrderById(long OrderId);
+
     }
 }
 

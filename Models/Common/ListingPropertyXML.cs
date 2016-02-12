@@ -22,6 +22,8 @@ namespace MPC.Models.Common
         public ListingXML ListingRental { get; set; }
         [XmlElement("land")]
         public ListingXML ListingLand { get; set; }
+        [XmlElement("commercial")]
+        public ListingXML ListingCommercial { get; set; }
        
     }
 

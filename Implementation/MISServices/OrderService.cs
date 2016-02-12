@@ -26,6 +26,7 @@ using System.Data;
 using System.Web.Http;
 using System.Net;
 using MPC.Repository.Repositories;
+using System.Globalization;
 
 namespace MPC.Implementation.MISServices
 {
@@ -3332,6 +3333,65 @@ namespace MPC.Implementation.MISServices
             string hmac64 = Convert.ToBase64String(hashValue);
             myhmacsha256.Clear();
             return hmac64;
+        }
+
+        public void DeleteOrderPermanently(long orderId, string Comment)
+        {
+
+            if (companyRepository.SaveUserActionLog(Comment, orderId, "Order"))
+            {
+
+                Estimate order = orderRepository.GetOrderByID(orderId);
+                //Company company = companyRepository.Find(companyId);
+
+                if (order == null)
+                {
+                    throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Order with id {0} not found", orderId), companyRepository.OrganisationId);
+                }
+
+                orderRepository.DeleteOrderById(orderId);
+
+
+                // delete ordered items
+                if (order.Items != null && order.Items.Count > 0)
+                {
+                    foreach (var item in order.Items)
+                    {
+                        string SourceItemFiles = HttpContext.Current.Server.MapPath("/MPC_Content/products/" + orderRepository.OrganisationId + "/" + item.ItemId);
+
+                        if (Directory.Exists(SourceItemFiles))
+                        {
+                            Directory.Delete(SourceItemFiles, true);
+                        }
+
+
+                        if (item.TemplateId != null && item.TemplateId > 0)
+                        {
+                            if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                            {
+                                if (item.Template != null)
+                                {
+                                    templateService.DeleteTemplateFiles(item.ItemId, orderRepository.OrganisationId);
+
+
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+                      
+                   
+
+
+
+            }
+            else
+            {
+                throw new MPCException("Failed to delete User action not save.", companyRepository.OrganisationId);
+            }
+
         }
         #endregion
         

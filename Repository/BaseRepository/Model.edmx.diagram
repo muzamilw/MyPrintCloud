@@ -353,6 +353,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stockcategories" />
         <AssociationConnector Association="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems" />
         <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" />
+        <EntityTypeShape EntityType="DomainModels.StagingProductPriceImport" Width="1.5" PointX="45.375" PointY="30.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

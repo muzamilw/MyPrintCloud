@@ -186,6 +186,14 @@ define("order/order.dataservice", function () {
                         contentType: "application/json; charset=utf-8",
                         type: 'Post'
                     });
+                    // Define request to Delete order Permanently
+                    amplify.request.define('deleteOrderPermanent', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteOrder',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -416,6 +424,16 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+             deleteOrderPermanent = function (param, callbacks) {
+                 initialize();
+                 return amplify.request({
+                     resourceId: 'deleteOrderPermanent',
+                     success: callbacks.success,
+                     error: callbacks.error,
+                     data: param
+                 });
+             },
+
             saveDeliveryNoteByOrder = function(param, callbacks) {
                 initialize();
                 return amplify.request({
@@ -451,8 +469,8 @@ define("order/order.dataservice", function () {
             getBaseDataForEstimate: getBaseDataForEstimate,
             downloadOrderArtwork: downloadOrderArtwork,
             copyOrder: copyOrder,
-            saveDeliveryNoteByOrder: saveDeliveryNoteByOrder
-
+            saveDeliveryNoteByOrder: saveDeliveryNoteByOrder,
+            deleteOrderPermanent: deleteOrderPermanent
 
         };
     })();

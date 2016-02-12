@@ -7124,6 +7124,18 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
         }
 
+        public void DeleteOrderById(long OrderId)
+        {
+            try
+            {
+                db.Database.CommandTimeout = 1080;
+                db.usp_DeleteOrderByID(OrderId);
+            }
+            catch(Exception ex)
+            {
+                 throw ex;
+            }
+        }
        
     }
 }

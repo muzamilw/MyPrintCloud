@@ -347,6 +347,7 @@
     <Compile Include="Areas\Api\Controllers\AgileCRMContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNotesByOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\ExportItemController.cs" />
@@ -492,6 +493,7 @@
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ImportCompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ImportCRMCompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ImportProductMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryItemMapper.cs" />
@@ -633,6 +635,7 @@
     <Compile Include="Areas\Api\Models\ImportCompanyContactCsv.cs" />
     <Compile Include="Areas\Api\Models\ImportCRMCompanyContact.cs" />
     <Compile Include="Areas\Api\Models\ImportProductCsv.cs" />
+    <Compile Include="Areas\Api\Models\ImportProducts.cs" />
     <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
     <Compile Include="Areas\Api\Models\Inquiry.cs" />
     <Compile Include="Areas\Api\Models\InquiryAttachment.cs" />
@@ -3523,6 +3526,7 @@
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\DeleteCostCentre\" />
     <Folder Include="Areas\Api\Views\DeleteCrmCompany\" />
+    <Folder Include="Areas\Api\Views\DeleteOrder\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
     <Folder Include="Areas\Api\Views\DeliveryNoteBase\" />
     <Folder Include="Areas\Api\Views\EstimateApi\" />

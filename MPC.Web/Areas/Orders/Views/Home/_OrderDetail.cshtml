@@ -4,6 +4,7 @@
             <div class="col-sm-12 PaddingZero">
                 <div class="col-sm-5">
                     <div style="float:left;margin-bottom: 3px; margin-left:14px;margin-top:-10px;" data-bind="visible: ($root.selectedOrder().id() > 0)">
+                        <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedOrder().id() > 0">Delete</button>
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalReportsOrder">Print</button>
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalEmailOrderReport">Email</button>
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.copyOrder">Copy Order</button>

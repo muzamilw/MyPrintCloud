@@ -3230,6 +3230,66 @@ define("order/order.viewModel",
                             itemToBeUpdated.qty3(0);
                         }
                     },
+                    onDeletePermanent = function () {
+
+                        //if (selectedStore().isStoreSetLive()) {
+                        //    confirmation.headingText("Alert");
+                        //    confirmation.yesBtnText("OK");
+                        //    confirmation.noBtnText("Cancel");
+                        //    confirmation.IsCancelVisible(false);
+                        //    confirmation.messageText("Important !! Store is live if u want to delete it please make it offline.");
+
+                        //    confirmation.show();
+                        //}
+                        //else {
+
+                            confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                            confirmation.afterProceed(function () {
+
+                                confirmation.hide();
+                                var sMessage = "Please enter reason to delete an order.";
+                                confirmation.messageText("Important !! " + sMessage);
+                                confirmation.afterActionProceed(function () {
+                                    //confirmation.hideActionPopup();
+                                    var coment = confirmation.comment() + " " + "RandomNumber : " + confirmation.UserRandomNum();
+                                    deleteOrderPermanently(selectedOrder().id(), coment);
+                                });
+
+                                confirmation.showActionPopup();
+
+
+
+                            });
+                            confirmation.show();
+                       // }
+
+                    },
+
+                     deleteOrderPermanently = function (id, comment) {
+                         dataservice.deleteOrderPermanent({ OrderId: id, Comment: comment }, {
+                             success: function () {
+                                 confirmation.comment("");
+                                 confirmation.UserRandomNum("");
+
+                                 toastr.success("Order deleted successfully!");
+                                 var listViewOrder = getListViewOrderById(id);
+                                 if (listViewOrder) {
+                                        orders.remove(listViewOrder);
+                                }
+                                
+                                 if (isEstimateScreen() && currentScreen() == 8) {
+                                     isDisplayInquiryDetailScreen(false);
+                                 } else {
+                                     isOrderDetailsVisible(false);
+                                 }
+                                 errorList.removeAll();
+                                 
+                             },
+                             error: function (response) {
+                                 toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                             }
+                         });
+                     };
 
                     updateEstimateAndEstimateOnProgress = function (estimateId, orderId) {
                         dataservice.progressEstimateToOrder({
@@ -3501,7 +3561,8 @@ define("order/order.viewModel",
                     isPreVisible: isPreVisible,
                     isApplyToAll: isApplyToAll,
                     isApplyButtonVisible: isApplyButtonVisible,
-                    deliveryCarriers : deliveryCarriers
+                    deliveryCarriers : deliveryCarriers,
+                    onDeletePermanent: onDeletePermanent
                     //#endregion
                 };
             })()

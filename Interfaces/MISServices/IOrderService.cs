@@ -89,5 +89,7 @@ namespace MPC.Interfaces.MISServices
 
         string DownloadInquiryAttachment(long id, out string fileName, out string fileTpe);
 
+        void DeleteOrderPermanently(long orderId, string Comment);
+
     }
 }
