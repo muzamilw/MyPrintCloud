@@ -2394,7 +2394,7 @@ function togglePage(pId) {
                 $("#btnFreeImgsCorp").css("display", "block !important");
                 $("#clearBackground").css("margin-top", "20px"); $("#uploadBackgroundMn").css("margin-top", "20px");
             } else {
-                $("#btnImagePlaceHolderUser").css("display", "block !important");
+              //  $("#btnImagePlaceHolderUser").css("display", "block !important");
             }
 
         }
@@ -5029,7 +5029,7 @@ function togglePage(pId) {
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
-            var dif = cuttingInMM * ((parseFloat(res[2])/parseFloat(res[0])) - 1);
+            var dif = cuttingInMM * ((parseFloat(res[0])/parseFloat(res[2])) - 1);
             w += dif;
             h += dif;
             h = h.toFixed(3);
