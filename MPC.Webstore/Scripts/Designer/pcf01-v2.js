@@ -2394,7 +2394,7 @@ function togglePage(pId) {
                 $("#btnFreeImgsCorp").css("display", "block !important");
                 $("#clearBackground").css("margin-top", "20px"); $("#uploadBackgroundMn").css("margin-top", "20px");
             } else {
-                $("#btnImagePlaceHolderUser").css("display", "block !important");
+              //  $("#btnImagePlaceHolderUser").css("display", "block !important");
             }
 
         }
