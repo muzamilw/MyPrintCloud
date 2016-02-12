@@ -57,6 +57,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
 
                     //Category Filter
                     carrierFilter = ko.observable(),
+                    deliveryNoteIdFromOrder = ko.observable(),
                       // is open report
                      isOpenReport = ko.observable(false),
                       // is open report Email
@@ -123,6 +124,13 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                 deliverNoteListView.valueHasMutated();
 
                                 pager().totalCount(data.TotalCount);
+                                if (deliveryNoteIdFromOrder() != undefined && deliveryNoteIdFromOrder() > 0) {
+                                    getDetaildeliveryNote(deliveryNoteIdFromOrder());
+                                    deliveryNoteEditorHeader('Modify Delivery Notes');
+                                    isEditorVisible(true);
+                                    errorList.removeAll();
+                                    deliveryNoteIdFromOrder(undefined);
+                                }
                             }
 
                         },
@@ -164,6 +172,10 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                     selectedDeliveryNote().reset();
                                     getBaseForCompany(data.CompanyId, storeId);
                                 }
+                                if (deliveryNoteIdFromOrder() != undefined && deliveryNoteIdFromOrder() > 0) {
+                                    selectedDeliveryNoteForListView(data);
+                                }
+                                
                             }
 
                         },
@@ -490,16 +502,19 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                     dNote.companyName(selectedDeliveryNote().companyName());
                                     deliverNoteListView.splice(0, 0, dNote);
                                 } else {
-                                    selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
-                                    selectedDeliveryNoteForListView().flagId(data.FlagId);
-                                    selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
-                                    selectedDeliveryNoteForListView().companyName(data.CompanyName);
-                                    selectedDeliveryNoteForListView().flagColor(data.FlagColor);
-                                    selectedDeliveryNoteForListView().orderReff(data.OrderReff);
-                                    selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
-                                    if (currentTab() !== data.IsStatus) {
-                                        deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                                    if (selectedDeliveryNoteForListView() != undefined) {
+                                        selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
+                                        selectedDeliveryNoteForListView().flagId(data.FlagId);
+                                        selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
+                                        selectedDeliveryNoteForListView().companyName(data.CompanyName);
+                                        selectedDeliveryNoteForListView().flagColor(data.FlagColor);
+                                        selectedDeliveryNoteForListView().orderReff(data.OrderReff);
+                                        selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
+                                        if (currentTab() !== data.IsStatus) {
+                                            deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                                        }
                                     }
+                                    
                                 }
                                 isEditorVisible(false);
                                 toastr.success("Saved Successfully.");
@@ -528,6 +543,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                 gotoElement = function (validation) {
                     view.gotoElement(validation.element);
                 },
+               
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -535,6 +551,10 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
                     getBaseData();
                     getdeliveryNotes();
+                    var idfromOrders = $('#DeliveryNoteId').val();
+                    if (idfromOrders != undefined && idfromOrders > 0) {
+                        deliveryNoteIdFromOrder(idfromOrders);
+                    }
                     carrierFilter.subscribe(function (carrier) {
                         _.each(deliveryCarriers(), function (Dcarrier) {
                             if (Dcarrier.CarrierId == carrier) {

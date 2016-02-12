@@ -151,7 +151,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                return db.Addesses.Where(a => a.ContactId == contactID && a.isPrivate == true).ToList();
+                return db.Addesses.Where(a => a.ContactId == contactID).ToList();
 
             }
             catch (Exception ex)

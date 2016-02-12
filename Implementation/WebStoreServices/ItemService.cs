@@ -2704,7 +2704,7 @@ namespace MPC.Implementation.WebStoreServices
                         shopCartOrder.DeliveryCost = 0;
                         shopCartOrder.DeliveryCostCenterId = 0;
                         shopCartOrder.StartDeliveryDate = null;
-                        Prefix prefix = _prefixRepository.GetDefaultPrefix();
+                        Prefix prefix = _prefixRepository.GetDefaultPrefix(OrganisationId);
                         if (prefix != null)
                         {
                             shopCartOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();

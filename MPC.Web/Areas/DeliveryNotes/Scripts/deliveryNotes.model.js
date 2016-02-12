@@ -169,6 +169,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         SupplierTelNo: supplierTelNo(),
                         UserNotes: userNotes(),
                         SystemSiteId: systemSiteId(),
+                        OrderId: orderId(),
                         CsNo: csNo(),
                         RaisedBy: raisedBy(),
                         DeliveryNoteDetails: []

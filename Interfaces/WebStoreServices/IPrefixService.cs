@@ -8,6 +8,6 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IPrefixService
     {
-        Prefix GetDefaultPrefix();
+        Prefix GetDefaultPrefix(long OrganisationId);
     }
 }

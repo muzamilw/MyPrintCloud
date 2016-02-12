@@ -252,7 +252,7 @@ namespace MPC.Webstore.Controllers
                                 Company Store = _myCompanyService.GetCompanyByCompanyID(StoreId);
                                 Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
                                 CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
-                                _OrderService.SetOrderCreationDateAndCode(orderID);
+                                _OrderService.SetOrderCreationDateAndCode(orderID, UserCookieManager.WEBOrganisationID);
                                 SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
 
                                 if (Store.IsCustomer == (int)CustomerTypes.Corporate)
@@ -606,7 +606,7 @@ namespace MPC.Webstore.Controllers
                             Company Store = _myCompanyService.GetCompanyByCompanyID(StoreId);
                             Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
                             CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
-                            _OrderService.SetOrderCreationDateAndCode(orderID);
+                            _OrderService.SetOrderCreationDateAndCode(orderID, UserCookieManager.WEBOrganisationID);
                             SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
 
                             if (Store.IsCustomer == (int)CustomerTypes.Corporate)

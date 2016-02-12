@@ -44,14 +44,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public OrderBaseResponseForCompany Get([FromUri]int id,long storeId)
+        public OrderBaseResponseForCompany Get([FromUri]int id,long storeId, long orderId = 0)
         {
             if (id <= 0)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-            return orderService.GetBaseDataForCompany(id, storeId).CreateFrom();
+            return orderService.GetBaseDataForCompany(id, storeId, orderId).CreateFrom();
         }
 
         #endregion

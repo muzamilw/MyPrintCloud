@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -14,6 +15,6 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         GetDeliveryNoteResponse GetDeliveryNotes(DeliveryNotesRequest request);
 
-
+        List<DeliveryNote> GetDeliveryNotesByOrderId(long orderId);
     }
 }

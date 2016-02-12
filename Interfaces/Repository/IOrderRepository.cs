@@ -16,7 +16,7 @@ namespace MPC.Interfaces.Repository
         void UpdateOrderForDel(Estimate Order);
         double? GetOrderTotalById(long OrderId);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
-        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
+        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId);
         List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
 
 
@@ -39,7 +39,7 @@ namespace MPC.Interfaces.Repository
         DiscountVoucher GetVoucherRecord(int VId);
 
         Estimate GetOrderByID(long orderId);
-        bool SetOrderCreationDateAndCode(long orderId);
+        bool SetOrderCreationDateAndCode(long orderId, long OrganisationId);
         //bool IsVoucherValid(string voucherCode);
         bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode);
         void updateStockAndSendNotification(long ItemId, long StockID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org);
