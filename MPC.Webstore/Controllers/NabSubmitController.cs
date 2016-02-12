@@ -311,7 +311,7 @@ namespace MPC.Webstore.Controllers
 
                                         Company CustomerCompany = _CompanyService.GetCustomer(Convert.ToInt32(modelOrder.CompanyId));
                                         CompanyContact CustomrContact = _CompanyService.GetContactById(Convert.ToInt32(modelOrder.ContactId));
-                                        _OrderService.SetOrderCreationDateAndCode(model.OrderId);
+                                        _OrderService.SetOrderCreationDateAndCode(model.OrderId, UserCookieManager.WEBOrganisationID);
 
                                         if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
                                         {

@@ -24,9 +24,9 @@ namespace MPC.Implementation.WebStoreServices
             this._prefixRepository = prefixRepository;
         }
         #endregion
-        public Prefix GetDefaultPrefix()
+        public Prefix GetDefaultPrefix(long OrganisationId)
         {
-            return _prefixRepository.GetDefaultPrefix();
+            return _prefixRepository.GetDefaultPrefix(OrganisationId);
         }
     }
 }

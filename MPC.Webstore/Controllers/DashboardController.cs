@@ -368,7 +368,7 @@ namespace MPC.Webstore.Controllers
                     }
                 }
                  List<Order> ManagerordersList = new List<Order>();
-                 List<Order> ordersList = _myCompanyService.GetPendingApprovelOrdersList(_webstoreclaimHelper.loginContactID(), ApproveOrders);
+                 List<Order> ordersList = _myCompanyService.GetPendingApprovelOrdersList(_webstoreclaimHelper.loginContactID(), ApproveOrders, UserCookieManager.WBStoreId);
                  if (ordersList == null || ordersList.Count == 0)
                  {
                      // do nothing
