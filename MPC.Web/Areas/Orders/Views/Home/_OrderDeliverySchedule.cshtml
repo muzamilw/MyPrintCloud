@@ -52,7 +52,7 @@
         <tr>
             <td style="width: 175px">
                 <div>
-                    <select class="form-control" data-bind="enable: !deliveryNoteRaised(), options: $root.selectedOrder().items , optionsText: 'productName', optionsValue: 'id' ,value:itemId,validationtooltip:itemId"></select>
+                    <select class="form-control" data-bind="enable: !deliveryNoteRaised(), options: $root.selectedOrder().nonDeliveryItems , optionsText: 'productName', optionsValue: 'id' ,value:itemId,validationtooltip:itemId"></select>
                     
                 </div>
             </td>

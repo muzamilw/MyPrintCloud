@@ -104,7 +104,7 @@ define("invoice/invoice.viewModel",
                     // Default Company Contact
                     defaultCompanyContact = ko.observable(),
                     // Sort On
-                    sortOn = ko.observable(2),
+                    sortOn = ko.observable(4),
                     // Sort Order -  true means asc, false means desc
                     sortIsAsc = ko.observable(false),
                     // Pagination
@@ -496,7 +496,7 @@ define("invoice/invoice.viewModel",
                 // Edit Item
                 editItem = function (item) {
                     // For Invoice Detail Item
-                    if (item.detailType() !== undefined) {
+                    if (item.detailType !== undefined) {
                         selectedInvoiceDetail(item);
                         editorViewModel.selectItem(item);
                         view.showInvoiceDetailDialog();

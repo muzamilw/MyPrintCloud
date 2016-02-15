@@ -6016,7 +6016,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                db.Database.CommandTimeout = 540; // 540 Seconds = 9 Minutes
                 db.usp_DeleteContactCompanyByID(Convert.ToInt32(StoreID));
+
             }
             catch (Exception ex)
             {

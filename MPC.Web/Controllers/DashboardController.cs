@@ -110,7 +110,7 @@ namespace MPC.MIS.Controllers
            long organisationId = 1;
            
            string param = HttpContext.Request.Url.Query;
-           string responsestr = "1"; //_organizationService.GetActiveOrganisationId(param);
+           string responsestr = _organizationService.GetActiveOrganisationId(param);
            //responsestr Temporarily set for local testing
            if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
            {
@@ -143,7 +143,7 @@ namespace MPC.MIS.Controllers
            long organisationId = 1;
 
            string param = HttpContext.Request.Url.Query;
-           string responsestr = "1"; //_organizationService.GetActiveOrganisationId(param);
+           string responsestr = _organizationService.GetActiveOrganisationId(param);
            // responsestr = Temporarily set for local testing
            if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
            {

@@ -43,6 +43,14 @@ namespace MPC.Repository.Repositories
                     {
                         {InvoiceByColumn.InvoiceName, d => d.InvoiceName}
                     };
+        private readonly Dictionary<InvoiceByColumn, Func<Invoice, object>> invoiceOrderByCreationDate = new Dictionary<InvoiceByColumn, Func<Invoice, object>>
+                    {
+                        {InvoiceByColumn.CreationDate, d => d.CreationDate}
+                    };
+        private readonly Dictionary<InvoiceByColumn, Func<Invoice, object>> invoiceOrderByDate = new Dictionary<InvoiceByColumn, Func<Invoice, object>>
+                    {
+                        {InvoiceByColumn.InvoiceDate, d => d.InvoiceDate}
+                    };
         #endregion
 
         #region Constructor
@@ -108,12 +116,12 @@ namespace MPC.Repository.Repositories
             int rowCount = DbSet.Count(query);
             IEnumerable<Invoice> invoices = request.IsAsc
                 ? DbSet.Where(query)
-                    .OrderBy(invoiceOrderByName[request.ItemOrderBy])
+                    .OrderBy(invoiceOrderByDate[request.ItemOrderBy])
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList()
                 : DbSet.Where(query)
-                    .OrderByDescending(invoiceOrderByName[request.ItemOrderBy])
+                    .OrderByDescending(invoiceOrderByDate[request.ItemOrderBy])
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();

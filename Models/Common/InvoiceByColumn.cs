@@ -10,6 +10,8 @@ namespace MPC.Models.Common
         /// Company Name
         /// </summary>
         CompanyName = 1,
-        InvoiceName = 2
+        InvoiceName = 2,
+        CreationDate = 3,
+        InvoiceDate = 4,
     }
 }

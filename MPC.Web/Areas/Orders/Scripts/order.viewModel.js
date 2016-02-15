@@ -67,6 +67,7 @@ define("order/order.viewModel",
                     // selected Company
                     selectedCompany = ko.observable(),
                     isStoreLive = ko.observable(),
+                    isInvoicedAndPosted = ko.observable(),
                     //inquiries
                     inquiries = ko.observableArray([]),
                     // Errors List
@@ -2289,7 +2290,7 @@ define("order/order.viewModel",
                     selectedDeliverySchedule = ko.observable(),
                     // Add Deliver Schedule
                     addDeliverySchedule = function () {
-                        if (selectedOrder().items().length === 0) {
+                        if (selectedOrder().nonDeliveryItems().length === 0) {
                             toastr.error("Please Add items first.");
                         } else {
                             if (selectedDeliverySchedule() !== undefined && !selectedDeliverySchedule().isValid()) {
@@ -2300,8 +2301,8 @@ define("order/order.viewModel",
                                 setDeliveryScheduleFields();
                             }
                             var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
-                            if (selectedOrder().items().length > 0) {
-                                var item = selectedOrder().items()[0];
+                            if (selectedOrder().nonDeliveryItems().length > 0) {
+                                var item = selectedOrder().nonDeliveryItems()[0];
                                 deliverySchedule.itemId(item.id());
                                 deliverySchedule.itemName(item.productName());
                                 setQuantityOfNewDeliverySchedule(deliverySchedule);
@@ -2314,7 +2315,7 @@ define("order/order.viewModel",
                     // Set  Quantity Of new Added Delivery Schedule
                     setQuantityOfNewDeliverySchedule = function (deliverySchedule) {
                         if (deliverySchedule !== undefined && deliverySchedule !== null && deliverySchedule.itemId() !== undefined) {
-                            var quantity = _.find(selectedOrder().items(), function (item) {
+                            var quantity = _.find(selectedOrder().nonDeliveryItems(), function (item) {
                                 return item.id() === deliverySchedule.itemId();
                             });
 
@@ -2341,7 +2342,7 @@ define("order/order.viewModel",
                             selectedDeliverySchedule().errors.showAllMessages();
                             return;
                         } else if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().itemId() && selectedDeliverySchedule().quantity() !== undefined && selectedDeliverySchedule().quantity() !== "") {
-                            var selectedItem = _.find(selectedOrder().items(), function (item) {
+                            var selectedItem = _.find(selectedOrder().nonDeliveryItems(), function (item) {
                                 return item.id() === selectedDeliverySchedule().itemId();
                             });
                             if (checkForQuantity(selectedItem)) {
@@ -2413,7 +2414,7 @@ define("order/order.viewModel",
                         if (!selectedDeliverySchedule()) {
                             return;
                         }
-                        var selectedItem = _.find(selectedOrder().items(), function (item) {
+                        var selectedItem = _.find(selectedOrder().nonDeliveryItems(), function (item) {
                             return item.id() === selectedDeliverySchedule().itemId();
                         });
                         if (selectedItem) {
@@ -2446,7 +2447,7 @@ define("order/order.viewModel",
                                 var uniqueNotes = [];
                                 _.each(raisedList, function (item) {
                                     var uniqueNote = _.find(uniqueNotes, function (raisedItem) {
-                                        return (raisedItem.itemId() === item.itemId && raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId());
+                                        return (raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId());
                                     });
                                     if (uniqueNote == undefined) {
                                         item.shippingDetails.push({Description: item.itemName()});
@@ -3536,7 +3537,8 @@ define("order/order.viewModel",
                     isApplyButtonVisible: isApplyButtonVisible,
                     deliveryCarriers: deliveryCarriers,
                     orderDeliveryNotes: orderDeliveryNotes,
-                    openDeliveryNote: openDeliveryNote
+                    openDeliveryNote: openDeliveryNote,
+                    isInvoicedAndPosted: isInvoicedAndPosted
                     //#endregion
                 };
             })()

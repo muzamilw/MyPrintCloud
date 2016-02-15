@@ -78,6 +78,7 @@
             isplateused = ko.observable(),
             ismakereadyused = ko.observable(),
             iswashupused = ko.observable(),
+            isPressUseInks = ko.observable(),
             maximumsheetweight = ko.observable(0),
             maximumsheetheight = ko.observable(0),
             maximumsheetwidth = ko.observable(0),
@@ -259,7 +260,8 @@
                 MachineLookupMethods: MachineLookupMethods,
                 MachineInkCoverages: MachineInkCoverages,
                 lookupMethod: lookupMethod,
-                isDigitalPress: isDigitalPress
+                isDigitalPress: isDigitalPress,
+                isPressUseInks: isPressUseInks
             }),
             hasChanges = ko.computed(function () {
 
@@ -363,7 +365,8 @@
             LengthUnit: LengthUnit,
             lookupMethod: lookupMethod,
             isClickChargezoneUi: isClickChargezoneUi,
-            isDigitalPress: isDigitalPress
+            isDigitalPress: isDigitalPress,
+            isPressUseInks: isPressUseInks
           
         };
         return self;
@@ -725,6 +728,7 @@
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
         omachine.isClickChargezone(source.machine.isSheetFed ? 'true' : 'false');
         omachine.isDigitalPress(source.machine.IsDigitalPress || source.machine.IsDigitalPress == null ? 'true' : 'false');
+        omachine.isPressUseInks(source.machine.IsPressUseInks ? true : false);
         //omachine.lookupList.removeAll();
         //ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         //omachine.lookupList.valueHasMutated();
@@ -859,6 +863,7 @@
         omachine.Passes = machine.Passes();
         omachine.IsSpotColor = machine.IsSpotColor();
         omachine.IsDigitalPress = machine.isDigitalPress();
+        omachine.IsPressUseInks = machine.isPressUseInks();
         //omachine.LookupMethod = machine.lookupMethod();
         oMeterPerHour = MeterPerHourClickCharge;
         oGuillotineZone = GuillotineClickCharge;
