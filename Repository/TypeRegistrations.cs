@@ -153,6 +153,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IAssetsRepository,AssetsRepository>();
             unityContainer.RegisterType<IFolderRepository,FolderRepository>();
             unityContainer.RegisterType<IAssetItemsRepository, AssetItemsRepository>();
+            unityContainer.RegisterType<IStagingImportProductsRepository, StagingImportProductsRepository>();
         }
     }
 }

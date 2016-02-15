@@ -212,6 +212,8 @@ namespace MPC.Repository.BaseRepository
         public DbSet<UserActionsLog> UserActionLogs { get; set; }
 
         public DbSet<ListingBulletPoint> ListingBulletPoints { get; set; }
+
+        public DbSet<StagingProductPriceImport> StagingProductPriceImports { get; set; }
         /// <summary>
         /// Get Minimum Product Value
         /// </summary>
@@ -1268,6 +1270,26 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ExportStoreProductsAndPrices_Result>("usp_ExportStoreProductsAndPrices", organisationIdParameter, StoreIDParameter);
            
+        }
+        public int usp_DeleteStagingImportProduct()
+        // ReSharper restore InconsistentNaming
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteStagingImportProduct");
+        }
+
+
+        public int usp_ImportProductPriceMatrix(long? organisationId, long? storeId)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var storeIdParameter = storeId.HasValue ?
+                new ObjectParameter("StoreId", storeId) :
+                new ObjectParameter("StoreId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_ImportProductPriceMatrix", organisationIdParameter, storeIdParameter);
         }
         #endregion
     }

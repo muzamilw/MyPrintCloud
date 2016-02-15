@@ -15,7 +15,8 @@
                 {
                     if (item.IsChangePassword ?? false)
                     {
-                        <div class="col-lg-6 col-md-6 col-sm-12" onclick="ChangePassPopupShow();">
+                        var dashboardId = "dashb_" + Utils.specialCharactersEncoder(item.Name);
+                        <div id="@dashboardId" class="col-lg-6 col-md-6 col-sm-12" onclick="ChangePassPopupShow();">
                             <a onclick="ChangePassPopupShow();">
                                 <div id="dashIcons" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
                                     @Html.Raw(item.ImageURL)
@@ -34,7 +35,8 @@
                     }
                     else
                     {
-                        <div class="col-lg-6 col-md-6 col-sm-12">
+                        var dashbrdId = "dashb_" + Utils.specialCharactersEncoder(item.Name);
+                        <div id="@dashbrdId" class="col-lg-6 col-md-6 col-sm-12">
                             <a href="@item.PageNavigateURl" onclick="ShowLoader();">
                                 <div id="dashIcons" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
                                     @Html.Raw(item.ImageURL)

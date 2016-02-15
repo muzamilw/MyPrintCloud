@@ -134,6 +134,11 @@ namespace MPC.Implementation.MISServices
                                 Result.Listing = Result.ListingRental;
                                 Result.Listing.PropertyType = "Rental";
                             }
+                            else if (myString.Contains("</commercial>"))
+                            {
+                                Result.Listing = Result.ListingCommercial;
+                                Result.Listing.PropertyType = "Commercial";
+                            }
                             else
                             {
                                 Result.Listing.PropertyType = "Resedential";

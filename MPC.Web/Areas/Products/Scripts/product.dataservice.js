@@ -134,6 +134,13 @@ define("product/product.dataservice", function () {
                         type: 'GET'
                     });
                     
+                    // Define request to Import product Csv
+                    amplify.request.define('importProducts', 'ajax', {
+                        url: ist.siteUrl + '/Api/ExportItem',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
 
                     isInitialized = true;
                 }
@@ -290,6 +297,19 @@ define("product/product.dataservice", function () {
                     data: params
                 });
             },
+
+             // import Company Contacts
+        importProducts = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'importProducts',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+
+
             // get Ptv
             getPtv = function (params, callbacks) {
                 initialize();
@@ -300,6 +320,8 @@ define("product/product.dataservice", function () {
                     data: params
                 });
             };
+       
+
 
         return {
             getItem: getItem,
@@ -317,7 +339,8 @@ define("product/product.dataservice", function () {
             deleteItem: deleteItem,
             getPtvCalculation: getPtvCalculation,
             getPtv: getPtv,
-            exportItems: exportItems
+            exportItems: exportItems,
+            importProducts: importProducts
         };
     })();
 

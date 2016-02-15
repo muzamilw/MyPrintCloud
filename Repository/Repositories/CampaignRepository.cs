@@ -1351,7 +1351,7 @@ namespace MPC.Repository.Repositories
                     if (objCompany.IsCustomer == 3)
                     {
 
-                        emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList);
+                        emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Corp, "", "", "", SalesManager.Email,"", "", AttachmentList);
 
                     }
                     else

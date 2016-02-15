@@ -3144,7 +3144,7 @@ namespace MPC.Implementation.MISServices
         public void DeleteCompanyPermanently(long companyId,string Comment)
         {
 
-           if(companyRepository.SaveUserActionLog(Comment, companyId))
+           if(companyRepository.SaveUserActionLog(Comment, companyId,"Company"))
            {
 
                Company company = companyRepository.Find(companyId);
@@ -3758,21 +3758,7 @@ namespace MPC.Implementation.MISServices
             return true;
         }
 
-        public bool SaveCRMImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact)
-        {
-            //Calling Stored Procedure to delete all records in staging company contact table
-            stagingImportCompanyContactRepository.RunProcedureToDeleteAllStagingCompanyContact();
-
-            foreach (var companyContact in stagingImportCompanyContact)
-            {
-                companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
-                stagingImportCompanyContactRepository.Add(companyContact);
-            }
-            stagingImportCompanyContactRepository.SaveChanges();
-            stagingImportCompanyContactRepository.RunCRMProcedure();
-
-            return true;
-        }
+       
 
         /// <summary>
         /// Add/Update Discount Voucher
@@ -10114,6 +10100,22 @@ namespace MPC.Implementation.MISServices
         }
 
         #endregion
+
+        public bool SaveCRMImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact)
+        {
+            //Calling Stored Procedure to delete all records in staging company contact table
+            stagingImportCompanyContactRepository.RunProcedureToDeleteAllStagingCompanyContact();
+
+            foreach (var companyContact in stagingImportCompanyContact)
+            {
+                companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
+                stagingImportCompanyContactRepository.Add(companyContact);
+            }
+            stagingImportCompanyContactRepository.SaveChanges();
+            stagingImportCompanyContactRepository.RunCRMProcedure();
+
+            return true;
+        }
     }
 }
 

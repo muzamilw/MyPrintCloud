@@ -64,6 +64,7 @@ namespace MPC.Implementation.MISServices
         private readonly IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository;
         private readonly IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository;
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
+        private readonly IStagingImportProductsRepository stagingImportProductRepository;
 
         /// <summary>
         /// Create ProductMarketBriefQuestion
@@ -1916,8 +1917,8 @@ namespace MPC.Implementation.MISServices
             IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
             IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository,
             ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository, 
-            IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository, IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository, 
-            ISectionInkCoverageRepository sectionInkCoverageRepository)
+            IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository, IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository,
+            ISectionInkCoverageRepository sectionInkCoverageRepository, IStagingImportProductsRepository stagingImportProductRepository)
         {
             if (itemRepository == null)
             {
@@ -2090,6 +2091,7 @@ namespace MPC.Implementation.MISServices
             this.paperSizeRepository = paperSizeRepository;
             this.itemSectionRepository = itemSectionRepository;
             this.itemImageRepository = itemImageRepository;
+            this.stagingImportProductRepository = stagingImportProductRepository;
         }
 
         #endregion
@@ -2674,10 +2676,15 @@ namespace MPC.Implementation.MISServices
             PSV.Append(psv);
 
 
+            //foreach (string column in FileHeader)
+            //{
+            //    //Add the Header row for CSV file.
+            //    csv += column + ',';
+            //}
             foreach (string column in FileHeader)
             {
                 //Add the Header row for CSV file.
-                csv += column + ',';
+                csv += column + '|';
             }
 
             //Add new line.
@@ -2883,24 +2890,24 @@ namespace MPC.Implementation.MISServices
                     if (item.Price9 != null)
                         Price9 = Convert.ToString(item.Price9);
 
-                    if (item.Supplier1 != null)
-                        Supplier1 = Convert.ToString(item.Supplier1);
-                    if (item.Supplier2 != null)
-                        Supplier2 = Convert.ToString(item.Supplier2);
-                    if (item.Supplier3 != null)
-                        Supplier3 = Convert.ToString(item.Supplier3);
-                    if (item.Supplier4 != null)
-                        Supplier4 = Convert.ToString(item.Supplier4);
-                    if (item.Supplier5 != null)
-                        Supplier5 = Convert.ToString(item.Supplier5);
-                    if (item.Supplier6 != null)
-                        Supplier6 = Convert.ToString(item.Supplier6);
-                    if (item.Supplier7 != null)
-                        Supplier7 = Convert.ToString(item.Supplier7);
-                    if (item.Supplier8 != null)
-                        Supplier8 = Convert.ToString(item.Supplier8);
-                    if (item.Supplier9 != null)
-                        Supplier9 = Convert.ToString(item.Supplier9);
+                    if (item.SupplierPrice1 != null)
+                        Supplier1 = Convert.ToString(item.SupplierPrice1);
+                    if (item.SupplierPrice2 != null)
+                        Supplier2 = Convert.ToString(item.SupplierPrice2);
+                    if (item.SupplierPrice3 != null)
+                        Supplier3 = Convert.ToString(item.SupplierPrice3);
+                    if (item.SupplierPrice4 != null)
+                        Supplier4 = Convert.ToString(item.SupplierPrice4);
+                    if (item.SupplierPrice5 != null)
+                        Supplier5 = Convert.ToString(item.SupplierPrice5);
+                    if (item.SupplierPrice6 != null)
+                        Supplier6 = Convert.ToString(item.SupplierPrice6);
+                    if (item.SupplierPrice7 != null)
+                        Supplier7 = Convert.ToString(item.SupplierPrice7);
+                    if (item.SupplierPrice8 != null)
+                        Supplier8 = Convert.ToString(item.SupplierPrice8);
+                    if (item.SupplierPrice9 != null)
+                        Supplier9 = Convert.ToString(item.SupplierPrice9);
 
                     if (!string.IsNullOrEmpty(item.JobDescriptionTitle1))
                         JobDescriptionTitle1 = item.JobDescriptionTitle1;
@@ -2972,28 +2979,51 @@ namespace MPC.Implementation.MISServices
 
                     // for comma seperated 
 
-                    cdata = ProductCode + "," + Product_Name + "," + Category + "," + FinishedSize + "," + PrintedPages + "," + isQtyRanged + "," + QtyRangeFrom + "," + QtyRangeTo + "," +
-                                       StockLabel1 + "," + Price1 + "," + StockLabel2 + "," + Price2
-                                       + "," + StockLabel3 + "," + Price3 + "," +
-                                       StockLabel4 + "," + Price4
-                                       + "," + StockLabel5 + ","
-                                       + Price5 + ","
+                    //cdata = ProductCode + "," + Product_Name + "," + Category + "," + FinishedSize + "," + PrintedPages + "," + isQtyRanged + "," + QtyRangeFrom + "," + QtyRangeTo + "," +
+                    //                   StockLabel1 + "," + Price1 + "," + StockLabel2 + "," + Price2
+                    //                   + "," + StockLabel3 + "," + Price3 + "," +
+                    //                   StockLabel4 + "," + Price4
+                    //                   + "," + StockLabel5 + ","
+                    //                   + Price5 + ","
+                    //                   + StockLabel6
+                    //                   + "," + Price6
+                    //                   + "," + StockLabel7 + "," +
+                    //                   Price7
+                    //                   + "," + StockLabel8
+                    //                   + "," + Price8
+                    //                   + "," + StockLabel9 + ","
+                    //                   + Price9 + ","
+                    //                   + Supplier1
+                    //                   + "," + Supplier2 + ","
+                    //                   + Supplier3 + "," + Supplier4 + "," + Supplier5
+                    //                   + "," + Supplier6 + "," + Supplier7 + "," + Supplier8 + ","
+                    //                   + Supplier9 + "," + JobDescriptionTitle1
+                    //                   + "," + JobDescription1 + "," + JobDescriptionTitle2 + "," +
+                    //                   JobDescription2
+                    //                   + "," + JobDescriptionTitle3 + "," + JobDescription3 + "," + JobDescriptionTitle4 + "," + JobDescription4 + "," + JobDescriptionTitle5 + "," + JobDescription5 + "," + JobDescriptionTitle6 + "," + JobDescription6 + ',' + JobDescriptionTitle7 + "," + JobDescription7 + "\r\n";
+
+                    cdata = ProductCode + "|" + Product_Name + "|" + Category + "|" + FinishedSize + "|" + PrintedPages + "|" + isQtyRanged + "|" + quantity + "|" + QtyRangeFrom + "|" + QtyRangeTo + "|" +
+                                       StockLabel1 + "|" + Price1 + "|" + StockLabel2 + "|" + Price2
+                                       + "|" + StockLabel3 + "|" + Price3 + "|" +
+                                       StockLabel4 + "|" + Price4
+                                       + "|" + StockLabel5 + "|"
+                                       + Price5 + "|"
                                        + StockLabel6
-                                       + "," + Price6
-                                       + "," + StockLabel7 + "," +
+                                       + "|" + Price6
+                                       + "|" + StockLabel7 + "|" +
                                        Price7
-                                       + "," + StockLabel8
-                                       + "," + Price8
-                                       + "," + StockLabel9 + ","
-                                       + Price9 + ","
+                                       + "|" + StockLabel8
+                                       + "|" + Price8
+                                       + "|" + StockLabel9 + "|"
+                                       + Price9 + "|"
                                        + Supplier1
-                                       + "," + Supplier2 + ","
-                                       + Supplier3 + "," + Supplier4 + "," + Supplier5
-                                       + "," + Supplier6 + "," + Supplier7 + "," + Supplier8 + ","
-                                       + Supplier9 + "," + JobDescriptionTitle1
-                                       + "," + JobDescription1 + "," + JobDescriptionTitle2 + "," +
+                                       + "|" + Supplier2 + "|"
+                                       + Supplier3 + "|" + Supplier4 + "|" + Supplier5
+                                       + "|" + Supplier6 + "|" + Supplier7 + "|" + Supplier8 + "|"
+                                       + Supplier9 + "|" + JobDescriptionTitle1
+                                       + "|" + JobDescription1 + "|" + JobDescriptionTitle2 + "|" +
                                        JobDescription2
-                                       + "," + JobDescriptionTitle3 + "," + JobDescription3 + "," + JobDescriptionTitle4 + "," + JobDescription4 + "," + JobDescriptionTitle5 + "," + JobDescription5 + "," + JobDescriptionTitle6 + "," + JobDescription6 + ',' + JobDescriptionTitle7 + "," + JobDescription7 + "\r\n";
+                                       + "|" + JobDescriptionTitle3 + "|" + JobDescription3 + "|" + JobDescriptionTitle4 + "|" + JobDescription4 + "|" + JobDescriptionTitle5 + "|" + JobDescription5 + "|" + JobDescriptionTitle6 + "|" + JobDescription6 + '|' + JobDescriptionTitle7 + "|" + JobDescription7 + "\r\n";
 
 
                     CSV.Append(cdata);
@@ -3116,18 +3146,18 @@ namespace MPC.Implementation.MISServices
             FileHeader.Add("Price8");
             FileHeader.Add("StockLabel9");
             FileHeader.Add("Price9");
-            FileHeader.Add("Supplier1");
-            FileHeader.Add("Supplier2");
-            FileHeader.Add("Supplier3");
+            FileHeader.Add("SupplierPrice1");
+            FileHeader.Add("SupplierPrice2");
+            FileHeader.Add("SupplierPrice3");
 
-            FileHeader.Add("Supplier4");
-            FileHeader.Add("Supplier5");
-            FileHeader.Add("Supplier6");
-            FileHeader.Add("Supplier7");
+            FileHeader.Add("SupplierPrice4");
+            FileHeader.Add("SupplierPrice5");
+            FileHeader.Add("SupplierPrice6");
+            FileHeader.Add("SupplierPrice7");
 
 
-            FileHeader.Add("Supplier8");
-            FileHeader.Add("Supplier9");
+            FileHeader.Add("SupplierPrice8");
+            FileHeader.Add("SupplierPrice9");
             FileHeader.Add("JobDescriptionTitle1");
             FileHeader.Add("JobDescription1");
             FileHeader.Add("JobDescriptionTitle2");
@@ -3152,7 +3182,28 @@ namespace MPC.Implementation.MISServices
 
         }
 
-
+       
         #endregion
+
+
+        public bool SaveImportedProducts(IEnumerable<StagingProductPriceImport> stagingImportProducts,long CompanyId)
+        {
+            //Calling Stored Procedure to delete all records in staging company contact table
+            stagingImportProductRepository.RunProcedureToDeleteAllStagingProducts();
+
+            foreach (var product in stagingImportProducts)
+            {
+                product.OrganisationId = stagingImportProductRepository.OrganisationId;
+                stagingImportProductRepository.Add(product);
+            }
+            stagingImportProductRepository.SaveChanges();
+            stagingImportProductRepository.RunProcedure(itemRepository.OrganisationId, CompanyId);
+            //stagingImportCompanyContactRepository.RunProcedure(stagingImportCompanyContactRepository.OrganisationId,
+            //    stagingImportCompanyContact.FirstOrDefault().CompanyId);
+
+            return true;
+        }
+
+
     }
 }

@@ -527,6 +527,9 @@
     <Content Include="Content\BannerMart.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\BubbleFiles\Bubble.js" />
+    <Content Include="Content\BubbleFiles\bubblecss.css" />
+    <Content Include="Content\BubbleFiles\bubbles2.css" />
     <Content Include="Content\BubbleFiles\Site.css" />
     <Content Include="Content\BubbleImages\banner-right-custom-image-1.jpg" />
     <Content Include="Content\BubbleImages\banner-right-custom-image-2.jpg" />

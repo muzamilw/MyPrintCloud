@@ -35,28 +35,28 @@ namespace MPC.Models.DomainModels
         public Nullable<double> Price8 { get; set; }
         public string StockLabel9 { get; set; }
         public Nullable<double> Price9 { get; set; }
-        public int Supplier1 { get; set; }
-        public int Supplier2 { get; set; }
-        public int Supplier3 { get; set; }
-        public int Supplier4 { get; set; }
-        public int Supplier5 { get; set; }
-        public int Supplier6 { get; set; }
-        public int Supplier7 { get; set; }
-        public int Supplier8 { get; set; }
-        public int Supplier9 { get; set; }
-        public string JobDescription1 { get; set; }
+        public int SupplierPrice1 { get; set; }
+        public int SupplierPrice2 { get; set; }
+        public int SupplierPrice3 { get; set; }
+        public int SupplierPrice4 { get; set; }
+        public int SupplierPrice5 { get; set; }
+        public int SupplierPrice6 { get; set; }
+        public int SupplierPrice7 { get; set; }
+        public int SupplierPrice8 { get; set; }
+        public int SupplierPrice9 { get; set; }
         public string JobDescriptionTitle1 { get; set; }
-        public string JobDescription2 { get; set; }
+        public string JobDescription1 { get; set; }
         public string JobDescriptionTitle2 { get; set; }
-        public string JobDescription3 { get; set; }
+        public string JobDescription2 { get; set; }
         public string JobDescriptionTitle3 { get; set; }
-        public string JobDescription4 { get; set; }
+        public string JobDescription3 { get; set; }
         public string JobDescriptionTitle4 { get; set; }
-        public string JobDescription5 { get; set; }
+        public string JobDescription4 { get; set; }
         public string JobDescriptionTitle5 { get; set; }
-        public string JobDescription6 { get; set; }
+        public string JobDescription5 { get; set; }
         public string JobDescriptionTitle6 { get; set; }
-        public string JobDescription7 { get; set; }
+        public string JobDescription6 { get; set; }
         public string JobDescriptionTitle7 { get; set; }
+        public string JobDescription7 { get; set; }
     }
 }

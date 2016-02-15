@@ -127,12 +127,14 @@ namespace MPC.Interfaces.Repository
 
         bool IsDuplicateWebAccessCode(string webCode, long? companyId);
 
-        bool SaveUserActionLog(string Comment, long CompanyId);
+        bool SaveUserActionLog(string Comment, long CompanyId, string TableName);
 
         ExportStore ExportStore(long CompanyId,long OrganisationId);
 
         bool InsertStoreZip(ExportStore ObjExportStore, long OrganisationId, string SubDomain);
 
         long GetOrganisationIdByCompanyId(long companyid);
+
+        
     }
 }
