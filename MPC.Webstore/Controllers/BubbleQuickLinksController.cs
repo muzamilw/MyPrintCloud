@@ -172,6 +172,51 @@ namespace MPC.Webstore.Controllers
                     }
                  
                 }
+                if (_myClaimHelper.loginContactID() > 0)
+                {
+                    ViewBag.IsLogin = 1;
+                }
+                else
+                {
+                    ViewBag.IsLogin = 0;
+                }
+                SetDefaultAddress(StoreBaseResopnse);
+                if (StoreBaseResopnse.SecondaryPages != null)
+                {
+                    if (StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Terms & Conditions") && p.isUserDefined == true && p.isEnabled == true).Count() > 0)
+                    {
+                        ViewBag.TermAndCondition = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Terms & Conditions") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
+                    }
+
+                    if (StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).Count() > 0)
+                    {
+                        ViewBag.PrivacyPolicy = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
+                    }
+                }
+                if (StoreBaseResopnse.Company.isDisplaySecondaryPages == true)
+                {
+                    ViewBag.Display = "1";
+
+                    List<PageCategory> oPageCategories = StoreBaseResopnse.PageCategories.ToList();
+                    List<PageCategory> oPageUpdateCategories = new List<PageCategory>();
+                    foreach (PageCategory opageC in oPageCategories)
+                    {
+                        if (StoreBaseResopnse.SecondaryPages != null && StoreBaseResopnse.SecondaryPages.Where(p => p.CategoryId == opageC.CategoryId).ToList().Count() > 0)
+                        {
+                            oPageUpdateCategories.Add(opageC);
+                        }
+                    }
+                    if (oPageCategories != null && oPageCategories.Count() > 1)
+                    {
+                        ViewData["PageCategory"] = oPageUpdateCategories.Take(1).ToList();
+                    }
+                    else
+                    {
+                        ViewData["PageCategory"] = oPageUpdateCategories.ToList();
+                    }
+
+                    ViewData["CmsPage"] = StoreBaseResopnse.SecondaryPages;
+                }
                 else
                 {
                     throw new Exception("Critcal Error, Store Sales Manager record not available.", null);
