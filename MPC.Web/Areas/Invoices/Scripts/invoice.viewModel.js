@@ -104,7 +104,7 @@ define("invoice/invoice.viewModel",
                     // Default Company Contact
                     defaultCompanyContact = ko.observable(),
                     // Sort On
-                    sortOn = ko.observable(2),
+                    sortOn = ko.observable(4),
                     // Sort Order -  true means asc, false means desc
                     sortIsAsc = ko.observable(false),
                     // Pagination
@@ -497,7 +497,7 @@ define("invoice/invoice.viewModel",
                 editItem = function (item) {
                     // For Invoice Detail Item
                     if (item.detailType !== undefined) {
-                        //selectedInvoiceDetail(item);
+                        selectedInvoiceDetail(item);
                         editorViewModel.selectItem(item);
                         view.showInvoiceDetailDialog();
                     } else {
@@ -1223,14 +1223,14 @@ define("invoice/invoice.viewModel",
                             invoiceDetail.id(counterForInvoiceDetail);
                             selectedInvoice().items.splice(0, 0, invoiceDetail);
                         }
-                        else if (invoiceDetail.id() < 0) {
+                        else if (invoiceDetail.id() < 0 || invoiceDetail.id() > 0) {
                             var count = 0;
                             var newObjtodelete = selectedInvoice().items.find(function (temp) {
                                 return temp.id() == invoiceDetail.id();
                             });
                             selectedInvoice().items.remove(newObjtodelete);
                             selectedInvoice().items.splice(0, 0, selectedInvoiceDetail());
-                        }
+                        } 
                         view.hideInvoiceDetailDialog();
                     },
                     dobeforeSaveInvoiceDetail = function () {

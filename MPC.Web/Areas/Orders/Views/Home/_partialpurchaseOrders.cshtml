@@ -282,11 +282,12 @@
                                                         <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 1-->*@
                                                         <th class="col-sm-2"><span>Code</span></th>
                                                         <th class="col-sm-3"><span>Detail</span></th>
-                                                        <th class="col-sm-3"><span>Type</span></th>
-                                                        <th class="col-sm-2" style="text-align:right;"><span>Packed In</span></th>
-                                                        <th class="col-sm-2" style="text-align:right;"><span>Unit Price</span></th>
-                                                        <th class="col-sm-1" style="text-align:right;"><span>Required</span></th>
-                                                        <th class="col-sm-2" style="text-align:right;"><span>Total Price</span></th>
+                                                        <th class="col-sm-1"><span>Type</span></th>
+                                                        <th class="col-sm-1" style="text-align:right; padding-right: 0;"><span>Packed In</span></th>
+                                                        <th class="col-sm-1" style="text-align:right; padding-right: 0;"><span>Unit Price</span></th>
+                                                        <th class="col-sm-1" style="text-align:right; padding-right: 0;"><span>Required</span></th>
+                                                        <th class="col-sm-2" style="text-align:right;"><span>Total</span></th>
+                                                        <th class="col-sm-1"></th>
                                                        @* <!-- /ko -->*@
                                         </tr>
                                     </thead>
@@ -448,22 +449,22 @@
 </script>
 
 <script id="productItemTemplate" type="text/html">
-    <tr style="cursor: pointer">
-        <td data-bind="text: itemCode,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
+    <tr style="cursor: pointer" data-bind="click:$root.editPurchaseDetail">
+        <td data-bind="text: itemCode"></td>
+        <td data-bind="text: serviceDetail"></td>
         <!--ko if: productType() === 2-->
-        <td data-bind="click:$root.editPurchaseDetail">Service</td>
+        <td>Service</td>
         <!-- /ko -->
         <!--ko if: productType() === 1-->
-        <td data-bind="click:$root.editPurchaseDetail">Product</td>
+        <td>Product</td>
         <!-- /ko -->
-        <td style="text-align:right;" data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
+        <td style="text-align:right;" data-bind="text: packqty"></td>
         <td style="text-align:right;">
-            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price,click:$root.editPurchaseDetail"></span>
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price"></span>
         </td>
         <td style="text-align:right;" data-bind="text: quantity,click:$root.editPurchaseDetail"></td>
         <td style="text-align:right;">
-            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></span>
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: totalPrice"></span>
         </td>
         <td style="width: 5%">
             <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->

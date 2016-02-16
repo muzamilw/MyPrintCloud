@@ -95,6 +95,11 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public State GetStateByName(string sStateName)
+        {
+            return DbSet.FirstOrDefault(s => s.StateName == sStateName);
+        }
         #endregion
     }
 }

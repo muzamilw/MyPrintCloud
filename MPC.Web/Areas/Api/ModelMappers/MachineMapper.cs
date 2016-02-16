@@ -127,6 +127,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Passes = source.Passes,
                 IsSpotColor = source.IsSpotColor,
                 IsDigitalPress = source.IsDigitalPress,
+                IsPressUseInks = source.IsPressUseInks,
                 MachineInkCoverages = source.MachineInkCoverages == null ? null : source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList(),
                 LookupMethod = source.LookupMethod == null ? null : source.LookupMethod.CreateFrom(),
             };
@@ -207,6 +208,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Passes = source.Passes,
                 IsSpotColor = source.IsSpotColor,
                 IsDigitalPress = source.IsDigitalPress,
+                IsPressUseInks = source.IsPressUseInks,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
             };
         }

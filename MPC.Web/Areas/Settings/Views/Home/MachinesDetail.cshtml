@@ -111,10 +111,10 @@
                                                     </div>
                                                 </div>
                                                 @*<div class="col-lg-12" data-bind="visible: MachineId() > 0">
-                    <label style="margin-top:10px;" data-bind="text:isDigitalPress() === 'true' ? 'Digital' : 'Litho'">
+                                                        <label style="margin-top:10px;" data-bind="text:isDigitalPress() === 'true' ? 'Digital' : 'Litho'">
 
-                    </label>
-                </div>*@
+                                                        </label>
+                                                    </div>*@
                                             </div>
                                         </div>
                                         <div class="form-group" id="isSheetFedRadio" data-bind="visible:!$root.isGuillotineList()">
@@ -252,24 +252,24 @@
                                             </div>
                                         </div>
                                         @*<div class="form-group" data-bind="visible:!$root.isGuillotineList()">
-                                            <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="When estimating a double sided printed section, the estimator may have the option to plan the sheet using Work ’n’ Turn or Work ‘n’ Tumble methods. These two methods can save the operator with plates and setup costs making the print run more efficient and cheaper to produce.  Most lithographic printers want to benefit from the considerable saving in plates and setup times. This can be achieved by applying an Uplift charge PER UNIT to offset the savings made in make readies." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="input-group">
-                                                    <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="padding:0">
-                                                        <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
+                                                <div class="col-lg-4 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="When estimating a double sided printed section, the estimator may have the option to plan the sheet using Work ’n’ Turn or Work ‘n’ Tumble methods. These two methods can save the operator with plates and setup costs making the print run more efficient and cheaper to produce.  Most lithographic printers want to benefit from the considerable saving in plates and setup times. This can be achieved by applying an Uplift charge PER UNIT to offset the savings made in make readies." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
                                                     </div>
+                                                    <label class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
                                                 </div>
+                                                <div class="col-lg-6">
+                                                    <div class="input-group">
+                                                        <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
+                                                        <div class="col-xs-4" style="padding:0">
+                                                            <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
+                                                        </div>
+                                                    </div>
 
-                                            </div>
-                                        </div>*@
+                                                </div>
+                                            </div>*@
                                         <div class="form-group" data-bind="visible: !$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -802,6 +802,26 @@
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Ink Coverage</h3>
                                     <div class="col-lg-12">
+                                        <div class="form-group" data-bind="visible: !$root.isGuillotineList() && isDigitalPress() == 'true'">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    
+                                                </div>
+                                                <label style="padding: 0;" for="switchInkUse">Press Use Inks</label>
+                                            </div>
+
+                                            <div class="col-md-6" style="padding-top:5px;">
+                                                <div class="onoffswitch" style="margin-right:0px;">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchInkUse" data-bind="checked: isPressUseInks">
+                                                    <label class="onoffswitch-label" for="switchInkUse">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
 
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -813,7 +833,7 @@
                                                     </a>
 
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Minimum Charges for Ink/Toner per color unit</label>
+                                                <label class="control-label text-right tooltip-float">Minimum Charges for Ink/Toner per color unit</label>
 
                                             </div>
 
@@ -1097,29 +1117,29 @@
                                             </div>
                                         </div>
                                         @*<div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage multiplies the cost of ink and clicks, uplifting the ink calculations by this amount.  Black and White impressions may multiply by 1, while CMYK multiply by 3.5 up to 6 (heavy)" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage multiplies the cost of ink and clicks, uplifting the ink calculations by this amount.  Black and White impressions may multiply by 1, while CMYK multiply by 3.5 up to 6 (heavy)" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Print Coverage</label>
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Print Coverage</label>
-                                            </div>
-                                            <div class="col-lg-6" style="padding-left:0;">
-                                                <div class="col-lg-3" style="padding-right:0;">
-                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageHigh" min="0" max="10">
-                                                    <span class=" help-block text-right">Heavy</span>
+                                                <div class="col-lg-6" style="padding-left:0;">
+                                                    <div class="col-lg-3" style="padding-right:0;">
+                                                        <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageHigh" min="0" max="10">
+                                                        <span class=" help-block text-right">Heavy</span>
+                                                    </div>
+                                                    <div class="col-lg-3" style="padding-right:0;">
+                                                        <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageMedium" min="0" max="10">
+                                                        <span class=" help-block text-right">Medium</span>
+                                                    </div>
+                                                    <div class="col-lg-3" style="padding-right:0;">
+                                                        <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageLow" min="0" max="10">
+                                                        <span class=" help-block text-right">Light</span>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-3" style="padding-right:0;">
-                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageMedium" min="0" max="10">
-                                                    <span class=" help-block text-right">Medium</span>
-                                                </div>
-                                                <div class="col-lg-3" style="padding-right:0;">
-                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageLow" min="0" max="10">
-                                                    <span class=" help-block text-right">Light</span>
-                                                </div>
-                                            </div>
-                                        </div>*@
+                                            </div>*@
 
                                     </div>
                                     <div class="col-md-12" style="padding-left:0px;padding-right:0px;">
@@ -1170,8 +1190,8 @@
             <select class="form-control" data-bind="options:StockItemforInkList, optionsText: 'ItemName', optionsValue: 'StockItemId', value:SideInkOrder"></select>
         </td>
         @*<td>
-            <select class="form-control" data-bind="options:InkCoveragItems, optionsText: 'GroupName', optionsValue: 'CoverageGroupId', value:SideInkOrderCoverage"></select>
-        </td>*@
+                <select class="form-control" data-bind="options:InkCoveragItems, optionsText: 'GroupName', optionsValue: 'CoverageGroupId', value:SideInkOrderCoverage"></select>
+            </td>*@
 
     </tr>
 </script>

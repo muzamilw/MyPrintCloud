@@ -24,5 +24,6 @@ namespace MPC.Interfaces.MISServices
         void PostDataToZapier(long invoiceId);
         List<ZapierInvoiceDetail> GetInvoiceDetailForZapierPooling(long organisationId);
         void ArchiveInvoice(int InvoiceId);
+        void UpdateInvoiceFromZapier(ZapierInvoiceDetail zapInvoice, long organisationId);
     }
 }

@@ -2399,6 +2399,22 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public CompanyContact GetCompanyContactByNameAndEmail(string sFirstName, string sEmail, long organisationId)
+        {
+            return
+                DbSet.FirstOrDefault(
+                    c => c.FirstName == sFirstName && c.Email == sEmail && c.OrganisationId == organisationId);
+        }
+
+        public long GetRetailStoreId(long organisationId)
+        {
+            var store = db.Companies.FirstOrDefault(c => c.OrganisationId == organisationId && c.IsCustomer == 4);
+            if (store != null)
+                return store.CompanyId;
+            else 
+                return 0;
+        }
+
     }
 }
   

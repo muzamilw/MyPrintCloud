@@ -6692,10 +6692,14 @@ namespace MPC.Implementation.MISServices
             updatedSection.RunningSpoilage = Convert.ToInt32(RunningSpoilage);
 
             //************ Ink Calculation**********************
-            updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, false, updatedSection.SectionInkCoverages.Where(a => a.Side == 1).ToList());
-            if(updatedSection.isWorknTurn == true && updatedSection.IsDoubleSided == true)
-                updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true, updatedSection.SectionInkCoverages.Where(a => a.Side == 1).ToList());
+            if (pressSide1.IsPressUseInks != false)
+            {
+                updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, false, updatedSection.SectionInkCoverages.Where(a => a.Side == 1).ToList());
+                if (updatedSection.isWorknTurn == true && updatedSection.IsDoubleSided == true)
+                    updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true, updatedSection.SectionInkCoverages.Where(a => a.Side == 1).ToList());
             
+            }
+           
 
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre
             {
@@ -6761,7 +6765,8 @@ namespace MPC.Implementation.MISServices
                     pressSide2.MachineInkCoverages.GroupBy(a => a.SideInkOrder).Select(b => b.First()).Count();
                 updatedSection.NoofUniqueInks = uniqueInks;
                 //Ink Side 2
-                updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressId), false, false, true, updatedSection.SectionInkCoverages.ToList());
+                if(pressSide2.IsPressUseInks != false)
+                    updatedSection = CalculateInkCost(updatedSection, Convert.ToInt32(updatedSection.PressIdSide2), false, false, true, updatedSection.SectionInkCoverages.ToList());
 
                 if (pressSide2.IsDigitalPress == false)
                 {

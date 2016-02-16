@@ -468,6 +468,8 @@ define("machine/machine.viewModel",
                                         machine.maximumsheetheight(selectedMachine().maximumsheetheight());
                                         machine.minimumsheetwidth(selectedMachine().minimumsheetwidth());
                                         machine.minimumsheetheight(selectedMachine().minimumsheetheight());
+                                        machine.isDigital(selectedMachine().isDigitalPress());
+                                        machine.isSheetFed(selectedMachine().isSheetFed());
                                         //if (machine.LookupMethodId() != selectedMachine().LookupMethodId()) {
                                         //    _.each(selectedMachine().lookupList(), function (lookupItm) {
                                         //        if (lookupItm && lookupItm.MethodId == selectedMachine().LookupMethodId()) {

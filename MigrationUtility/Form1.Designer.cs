@@ -91,7 +91,7 @@
             this.txtCorpStoreId.Name = "txtCorpStoreId";
             this.txtCorpStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtCorpStoreId.TabIndex = 3;
-            this.txtCorpStoreId.Text = "0";
+            this.txtCorpStoreId.Text = "9781";
             // 
             // btnStoreWidgetExport
             // 
@@ -194,7 +194,7 @@
             this.txtPinkCardsStoredImagesBasePath.Name = "txtPinkCardsStoredImagesBasePath";
             this.txtPinkCardsStoredImagesBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtPinkCardsStoredImagesBasePath.TabIndex = 13;
-            this.txtPinkCardsStoredImagesBasePath.Text = "D:\\wwwRoot\\ewlee\\mis\\StoredImages";
+            this.txtPinkCardsStoredImagesBasePath.Text = "D:\\wwwRoot\\SunnyLand\\mis\\StoredImages";
             // 
             // label2
             // 
@@ -235,7 +235,7 @@
             this.txtOrganisationId.Name = "txtOrganisationId";
             this.txtOrganisationId.Size = new System.Drawing.Size(100, 20);
             this.txtOrganisationId.TabIndex = 17;
-            this.txtOrganisationId.Text = "763";
+            this.txtOrganisationId.Text = "447";
             // 
             // label3
             // 
@@ -262,7 +262,7 @@
             this.txtDesignerBasePath.Name = "txtDesignerBasePath";
             this.txtDesignerBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtDesignerBasePath.TabIndex = 20;
-            this.txtDesignerBasePath.Text = "D:\\wwwRoot\\ewlee\\DesignEngine\\designer\\products";
+            this.txtDesignerBasePath.Text = "D:\\wwwRoot\\SunnyLand\\DesignEngine\\designer\\products";
             // 
             // label4
             // 
