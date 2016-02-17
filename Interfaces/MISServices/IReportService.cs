@@ -32,6 +32,8 @@ namespace MPC.Interfaces.MISServices
 
         string DownloadExternalReport(ReportEmailRequestModel request);
 
+        string DownloadExternalReportWebStore(long iReportId, int ComboValue);
+
         //SectionReport GetReportByParams(long ReportId, long ComboValue, string DateFrom, string DateTo, string ParamValue);
     }
 }

@@ -138,7 +138,7 @@ namespace MPC.Implementation.MISServices
                     else
                     {
                         List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(iReportID);
-
+                        string ReportName = ReportRepository.GetReportName(iReportID);
                         string CriteriaField = string.Empty;
                       
                         if (reportParams != null && reportParams.Count > 0)
@@ -147,7 +147,7 @@ namespace MPC.Implementation.MISServices
                             {
                                 if (param.ControlType == 1)// means drop down
                                 {
-                                    if(iReportID == 1376) // for retail store orders
+                                    if (ReportName == "Order Report By Store") // for retail store orders
                                     {
                                         if(ComboValue > 0)
                                         {
@@ -556,7 +556,78 @@ namespace MPC.Implementation.MISServices
          
             return Path;
         }
+        public string DownloadExternalReportWebStore(long iReportId, int ComboValue)
+        {
+            string Path = string.Empty;
 
+            List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(iReportId);
+            string ReportName = ReportRepository.GetReportName(iReportId);
+
+            string CriteriaField = string.Empty;
+
+            if (reportParams != null && reportParams.Count > 0)
+            {
+                foreach (var param in reportParams)
+                {
+                    if (param.ControlType == 1)// means drop down
+                    {
+
+                        if (ReportName == "Order Report By Store") // for retail store orders
+                        {
+                            if (ComboValue > 0)
+                            {
+                                bool isCorporate = ReportRepository.isCorporateCustomer(ComboValue);
+                                if (isCorporate)
+                                {
+                                    CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                }
+                                else
+                                {
+                                    CriteriaField = CriteriaField + " and " + "Company.StoreId = " + ComboValue + " ";
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                        }
+
+                        
+                    }
+                    //else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges
+                    //{
+
+
+                    //    if (!string.IsNullOrEmpty(request.DateFrom) && !string.IsNullOrEmpty(request.DateTo))
+                    //    {
+                    //        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + request.DateFrom + "' and '" + request.DateTo + "'";
+                    //    }
+
+
+                    //}
+                    //else if (param.ControlType == 3)// means textbox value
+                    //{
+                    //    if (!string.IsNullOrEmpty(request.ParamValue) && request.ParamValue != "undefined")
+                    //    {
+                    //        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " like '%" + request.ParamValue + "%'";
+                    //    }
+
+
+
+                    //}
+                }
+            }
+
+
+
+            
+             Path = ExportReportHelper.ExportPDF((int)iReportId, 0, ReportType.Internal, 0, CriteriaField, 0, false);
+            
+           
+
+            return Path;
+        }
         //public SectionReport GetReportByParams(long ReportId,long ComboValue, string DateFrom, string DateTo, string ParamValue)
         //{
         //    //, long iRecordID, ReportType type, long OrderID
