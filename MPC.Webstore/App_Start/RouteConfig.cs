@@ -78,15 +78,11 @@ namespace MPC.Webstore
                  name = ""
              });
 
-            routes.MapRoute(
-               "bubblequicklinksss"
-             , "BubbleQuickLinks"
-             , new
-             {
-                 controller = "Home",
-                 action = "Index",
-                 name = ""
-             });
+            
+
+
+
+
 
             routes.MapRoute(
                "BubbleLogin"
@@ -638,6 +634,30 @@ namespace MPC.Webstore
          "ShopCartAddressSelect/AddDeliveryToOrder/{DeliveryMethodId}",
          new { controller = "ShopCartAddressSelect", action = "AddDeliveryToOrder", DeliveryMethodId = UrlParameter.Optional }
        );
+
+        routes.MapRoute(
+           "BubbleQuickLinks"
+         , "BubbleQuickLinks"
+         , new
+         {
+             controller = "Home",
+             action = "Index",
+             name = ""
+         });
+
+
+        routes.MapRoute(
+          "BubbleQuickLinksyyyy"
+        , "BubbleQuickLinks/{name}/{email}/{comment}"
+        , new
+        {
+            controller = "Home",
+            action = "Index",
+            name = UrlParameter.Optional,
+            email = UrlParameter.Optional,
+            comment = UrlParameter.Optional
+        });
+
         routes.MapRoute(
                "ManageTheAssets"
              , "ManageAssets"

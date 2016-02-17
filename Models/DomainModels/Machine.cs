@@ -80,6 +80,7 @@ namespace MPC.Models.DomainModels
         public int? Passes { get; set; }
         public bool? IsSpotColor { get; set; }
         public bool? IsDigitalPress { get; set; }
+        public bool? IsPressUseInks { get; set; }
 
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }

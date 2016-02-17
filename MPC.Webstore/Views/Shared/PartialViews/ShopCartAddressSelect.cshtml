@@ -704,6 +704,7 @@
 <script type="text/javascript" language="javascript">
     var CurrencySymobol='';
     $(document).ready(function () {
+       
         window.onkeydown = keydown;
         initialize();
         CurrencySymobol = '@Model.Currency';
@@ -819,63 +820,7 @@
         $("#txtZipPostCode").prop("disabled", "");
         $("#txtContactNumber").prop("disabled", "");
     }
-    function BillingSameAsDeliveryScriptCheckBox() {
-
-
-        if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
-
-            $('#BillTOShippTO').css('display', 'none');
-            $('#BillTOShippTOContainer').css('display', 'none');
-
-            SetNewControlValues();
-
-            $('#isSameBillingAddress').val("True");
-            $('#divBilling').css('display', 'none');
-        }
-        else {
-
-            $('#isSameBillingAddress').val("False");
-            if ($("#hfIsDefaultBilling").val() != "1") {
-                EnableTextBoxes();
-            }
-            var ShipTO = 'Ship to:';
-            $('#BillTOShippTO').css('display', 'block');
-            $('#BillTOShippTOContainer').css('display', 'block');
-
-
-
-
-            $('#divBilling').css('display', 'block');
-
-
-            HideAddressInBillingDropDown();
-            $('#ddlBilling option:first').attr('selected', 'selected');
-            $('#BillingCountryDropDown option:first').attr('selected', 'selected');
-            $('#SelectedBillingState option:first').attr('selected', 'selected');
-
-            $('#txtBillingName').val("");
-            $('#txtAddressLine1').val("");
-            $('#txtAddressLine2').val("");
-            $('#txtCity').val("");
-            $('#txtZipPostCode').val("");
-            $('#txtContactNumber').val("");
-            //set labels
-            $("#ltrlShipTo").html(ShipTO + "");
-            $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
-            if($("#txtAddressLine2").val() != null && $("#txtAddressLine2").val() != ''){
-                $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
-            }
-
-            $("#lblCityBilSip").html($("#txtCity").val());
-            $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
-            $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
-            $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
-            OnChangeBillingAddress();
-        }
-
-
-    }
-
+   
 
 
     function getthecheckbox() {

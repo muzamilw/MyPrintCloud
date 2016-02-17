@@ -489,6 +489,7 @@
                         JobSelectedQty: jobSelectedQty(),
                         InvoiceDescription: invoiceDescription(),
                         RefItemId: refItemId(),
+                        StatusId: statusId(),
                         IsFinishedGoodPrivate: isFinishedGood(),
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);

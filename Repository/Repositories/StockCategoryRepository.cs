@@ -96,7 +96,7 @@ namespace MPC.Repository.Repositories
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) || !isStringSpecified) &&
                         ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified) &&
-                        (s.OrganisationId == OrganisationId || s.OrganisationId == 0) && s.CategoryId != 3 && s.CategoryId != 4;
+                        (s.OrganisationId == OrganisationId || s.OrganisationId == 0) && s.CategoryId != 3;
 
                 rowCount = DbSet.Count(query);
                 stockCategories = request.IsAsc

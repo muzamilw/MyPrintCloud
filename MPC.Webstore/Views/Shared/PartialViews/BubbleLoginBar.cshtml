@@ -92,7 +92,7 @@
                                                     </div>
                                                     <ul class="links custom">
                                                         <li class="first">
-                                                            <a href="http://www.liquidbubble.com/" title="Liquid Bubble" target="_blank">Main Site</a>
+                                                            <a href="/" title="Liquid Bubble" target="_blank">Main Site</a>
                                                         </li>
                                                         <li class="phn-num">
                                                             <span>
@@ -172,7 +172,7 @@
                                                             <div id="mini-cart" class="mini-cart dropdown is-empty">
 
                                                                 <a href="/ShopCart" class=" cursor-pointer mini-cart-heading dropdown-heading cover skip-link skip-cart">
-                                                                    <span style="cursor:pointer;">
+                                                                    <span style="cursor:pointer;" onclick="MoveToShopCart();">
 
                                                                         <span class="icon ic ic-cart-bg" style="cursor:pointer;"></span>
                                                                         <span style="cursor:pointer;" class="count">Cart [@ViewBag.CartCount] Items</span>
@@ -230,6 +230,7 @@
                                 </div> <!-- end: inner-container -->
                             </div> <!-- end: header-primary -->
                         </div> <!-- end: header-primary-container -->
+                        
                         <div id="header-nav" class="nav-container sticky-container skip-content">
                             <div class="nav container clearer  has-outline show-bg">
                                 <div class="inner-container">
@@ -327,9 +328,7 @@
                                     </ul>
                                 </div> <!-- end: inner-container -->
                             </div> <!-- end: nav -->
-                        </div>
-
-                        
+                        </div>                        
 
                     </div> <!-- end: header-container3 -->
                 </div> <!-- end: header-container2 -->
@@ -364,9 +363,20 @@
 <link href="/Content/BubbleFiles/bubbles2.css" rel="stylesheet" media="print" />
 
 <script src="/Content/BubbleFiles/Bubble.js"></script>
+<script type="text/javascript">
+    function MoveToShopCart()
+    {
+        window.location.href = "/ShopCart";
+    }
 
+
+</script>
 <script type="text/javascript">
     //<![CDATA[
+
+
+
+
 
 
     var SmartHeader = {
@@ -427,8 +437,9 @@
         var skipLinks = $('.skip-link');
 
         skipLinks.on('click', function (e) {
+          
             e.preventDefault();
-
+            
             var self = $(this);
             var target = self.attr('href');
 
@@ -706,6 +717,991 @@
 
     }); //end: jQuery(window).load(){...}
 
+
+
+
+
+    var MegaMenu = {
+
+        mobileMenuThreshold: 1023, bar: jQuery('#nav')
+        , panels: null
+        , mobnavTriggerWrapper: null
+        , itemSelector: 'li'
+        , panelSelector: '.nav-panel'
+        , openerSelector: '.opener'
+        , isTouchDevice: ('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0)
+        , ddDelayIn: 100
+        , ddDelayOut: 200
+        , ddAnimationDurationIn: 100
+        , ddAnimationDurationOut: 300
+
+        , init: function () {
+            MegaMenu.panels = MegaMenu.bar.find(MegaMenu.panelSelector);
+            MegaMenu.mobnavTriggerWrapper = jQuery('.mobnav-trigger-wrapper');
+        }
+
+        , initDualMode: function () {
+            MegaMenu.init();
+            MegaMenu.bar.accordion(MegaMenu.panelSelector, MegaMenu.openerSelector, MegaMenu.itemSelector);
+            if (jQuery(window).width() >= MegaMenu.mobileMenuThreshold) {
+                MegaMenu.cleanUpAfterMobileMenu(); //Required for IE8
+            }
+
+            enquire
+                .register('screen and (max-width: ' + (MegaMenu.mobileMenuThreshold - 1) + 'px)', {
+                    match: MegaMenu.activateMobileMenu,
+                    unmatch: MegaMenu.cleanUpAfterMobileMenu
+                })
+                .register('screen and (min-width: ' + MegaMenu.mobileMenuThreshold + 'px)', {
+                    deferSetup: true,
+                    setup: MegaMenu.cleanUpAfterMobileMenu,
+                    match: MegaMenu.activateRegularMenu,
+                    unmatch: MegaMenu.prepareMobileMenu
+                });
+        }
+
+        , initMobileMode: function () {
+            MegaMenu.init();
+            MegaMenu.bar.accordion(MegaMenu.panelSelector, MegaMenu.openerSelector, MegaMenu.itemSelector);
+            MegaMenu.activateMobileMenu();
+        }
+
+        , activateMobileMenu: function () {
+            MegaMenu.mobnavTriggerWrapper.show();
+            MegaMenu.bar.addClass('nav-mobile acco').removeClass('nav-regular');
+        }
+
+        , activateRegularMenu: function () //Default state
+        {
+            MegaMenu.bar.addClass('nav-regular').removeClass('nav-mobile acco');
+            MegaMenu.mobnavTriggerWrapper.hide();
+        }
+
+        , cleanUpAfterMobileMenu: function () {
+            MegaMenu.panels.css('display', '');
+        }
+
+        , prepareMobileMenu: function () {
+            MegaMenu.panels.hide();
+
+            MegaMenu.bar.find('.item-active').each(function () {
+                jQuery(this).children('.nav-panel').show();
+            });
+        }
+
+    }; //end: MegaMenu
+
+
+
+
+    MegaMenu.initDualMode();
+
+    //Toggle mobile menu
+    jQuery('a.mobnav-trigger').on('click', function (e) {
+        e.preventDefault();
+        if (jQuery(this).hasClass('active')) {
+            MegaMenu.bar.removeClass('show');
+            jQuery(this).removeClass('active');
+        }
+        else {
+            MegaMenu.bar.addClass('show');
+            jQuery(this).addClass('active');
+        }
+    });
+
+
+
+
+
+    jQuery(function ($) {
+
+        var menubar = MegaMenu.bar;
+
+        menubar.on('click', '.no-click', function (e) {
+            e.preventDefault();
+        });
+
+        menubar.on('mouseenter', 'li.parent.level0', function () {
+
+            if (false === menubar.hasClass('nav-mobile')) {
+                var item = $(this);
+                var dd = item.children('.nav-panel');
+
+                var itemPos = item.position();
+                var ddPos = { left: itemPos.left, top: itemPos.top + item.height() };
+                if (dd.hasClass('full-width')) { ddPos.left = 0; }
+
+                dd.removeClass('tmp-full-width');
+
+                var ddConOffset = menubar.offset().left;
+                var outermostCon = $(window);
+
+                var outermostContainerWidth = outermostCon.width();
+                var ddOffset = ddConOffset + ddPos.left;
+                var ddWidth = dd.outerWidth();
+
+                if ((ddOffset + ddWidth) > outermostContainerWidth) {
+                    var diff = (ddOffset + ddWidth) - outermostContainerWidth;
+                    var ddPosLeft_NEW = ddPos.left - diff;
+
+                    var ddOffset_NEW = ddOffset - diff;
+
+                    if (ddOffset_NEW < 0) {
+                        dd.addClass('tmp-full-width');
+                        ddPos.left = 0;
+                    }
+                    else {
+                        ddPos.left = ddPosLeft_NEW;
+                    }
+                }
+
+                dd
+                    .css({
+                        'left': ddPos.left + 'px',
+                        'top': ddPos.top + 'px'
+                    })
+                    .stop(true, true).delay(MegaMenu.ddDelayIn).fadeIn(MegaMenu.ddAnimationDurationIn, "easeOutCubic");
+            }
+
+        }).on('mouseleave', 'li.parent.level0', function () {
+
+            if (false === menubar.hasClass('nav-mobile')) {
+                $(this).children(".nav-panel")
+                .stop(true, true).delay(MegaMenu.ddDelayOut).fadeOut(MegaMenu.ddAnimationDurationOut, "easeInCubic");
+            }
+
+        }); //end: menu top-level dropdowns
+
+    }); //end: on document ready
+
+    jQuery(window).on("load", function () {
+
+        var menubar = MegaMenu.bar;
+
+        if (MegaMenu.isTouchDevice) {
+            menubar.on('click', 'a', function (e) {
+
+                link = jQuery(this);
+                if (!menubar.hasClass('nav-mobile') && link.parent().hasClass('nav-item--parent')) {
+                    if (!link.hasClass('ready')) {
+                        e.preventDefault();
+                        menubar.find('.ready').removeClass('ready');
+                        link.parents('li').children('a').addClass('ready');
+                    }
+                }
+
+            }); //end: on click
+        } //end: if isTouchDevice
+        jQuery(window).load(function(){
+		
+							setGridItemsEqualHeight(jQuery);
+		
+	}); //end: jQuery(window).load(){...}
+
+    }); //end: on load
+
+
+
+    //<![CDATA[
+
+
+
+    var MegaMenu = {
+
+        mobileMenuThreshold: 1023, bar: jQuery('#nav')
+        , panels: null
+        , mobnavTriggerWrapper: null
+        , itemSelector: 'li'
+        , panelSelector: '.nav-panel'
+        , openerSelector: '.opener'
+        , isTouchDevice: ('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0)
+        , ddDelayIn: 100
+        , ddDelayOut: 200
+        , ddAnimationDurationIn: 100
+        , ddAnimationDurationOut: 300
+
+        , init: function () {
+          //  MegaMenu.panels = MegaMenu.bar.find(MegaMenu.panelSelector);
+          //  MegaMenu.mobnavTriggerWrapper = jQuery('.mobnav-trigger-wrapper');
+        }
+
+        , initDualMode: function () {
+            MegaMenu.init();
+            MegaMenu.bar.accordion(MegaMenu.panelSelector, MegaMenu.openerSelector, MegaMenu.itemSelector);
+            if (jQuery(window).width() >= MegaMenu.mobileMenuThreshold) {
+                MegaMenu.cleanUpAfterMobileMenu(); //Required for IE8
+            }
+
+            enquire
+                .register('screen and (max-width: ' + (MegaMenu.mobileMenuThreshold - 1) + 'px)', {
+                    match: MegaMenu.activateMobileMenu,
+                    unmatch: MegaMenu.cleanUpAfterMobileMenu
+                })
+                .register('screen and (min-width: ' + MegaMenu.mobileMenuThreshold + 'px)', {
+                    deferSetup: true,
+                    setup: MegaMenu.cleanUpAfterMobileMenu,
+                    match: MegaMenu.activateRegularMenu,
+                    unmatch: MegaMenu.prepareMobileMenu
+                });
+        }
+
+        , initMobileMode: function () {
+            MegaMenu.init();
+            MegaMenu.bar.accordion(MegaMenu.panelSelector, MegaMenu.openerSelector, MegaMenu.itemSelector);
+            MegaMenu.activateMobileMenu();
+        }
+
+        , activateMobileMenu: function () {
+            MegaMenu.mobnavTriggerWrapper.show();
+            MegaMenu.bar.addClass('nav-mobile acco').removeClass('nav-regular');
+        }
+
+        , activateRegularMenu: function () //Default state
+        {
+            MegaMenu.bar.addClass('nav-regular').removeClass('nav-mobile acco');
+            MegaMenu.mobnavTriggerWrapper.hide();
+        }
+
+        , cleanUpAfterMobileMenu: function () {
+            MegaMenu.panels.css('display', '');
+        }
+
+        , prepareMobileMenu: function () {
+            MegaMenu.panels.hide();
+
+            MegaMenu.bar.find('.item-active').each(function () {
+                jQuery(this).children('.nav-panel').show();
+            });
+        }
+
+    }; //end: MegaMenu
+
+
+
+
+    MegaMenu.initDualMode();
+
+    //Toggle mobile menu
+    jQuery('a.mobnav-trigger').on('click', function (e) {
+        e.preventDefault();
+        if (jQuery(this).hasClass('active')) {
+            MegaMenu.bar.removeClass('show');
+            jQuery(this).removeClass('active');
+        }
+        else {
+            MegaMenu.bar.addClass('show');
+            jQuery(this).addClass('active');
+        }
+    });
+
+
+
+
+
+    jQuery(function ($) {
+
+        var menubar = MegaMenu.bar;
+
+        menubar.on('click', '.no-click', function (e) {
+            e.preventDefault();
+        });
+
+        menubar.on('mouseenter', 'li.parent.level0', function () {
+
+            if (false === menubar.hasClass('nav-mobile')) {
+                var item = $(this);
+                var dd = item.children('.nav-panel');
+
+                var itemPos = item.position();
+                var ddPos = { left: itemPos.left, top: itemPos.top + item.height() };
+                if (dd.hasClass('full-width')) { ddPos.left = 0; }
+
+                dd.removeClass('tmp-full-width');
+
+                var ddConOffset = menubar.offset().left;
+                var outermostCon = $(window);
+
+                var outermostContainerWidth = outermostCon.width();
+                var ddOffset = ddConOffset + ddPos.left;
+                var ddWidth = dd.outerWidth();
+
+                if ((ddOffset + ddWidth) > outermostContainerWidth) {
+                    var diff = (ddOffset + ddWidth) - outermostContainerWidth;
+                    var ddPosLeft_NEW = ddPos.left - diff;
+
+                    var ddOffset_NEW = ddOffset - diff;
+
+                    if (ddOffset_NEW < 0) {
+                        dd.addClass('tmp-full-width');
+                        ddPos.left = 0;
+                    }
+                    else {
+                        ddPos.left = ddPosLeft_NEW;
+                    }
+                }
+
+                dd
+                    .css({
+                        'left': ddPos.left + 'px',
+                        'top': ddPos.top + 'px'
+                    })
+                    .stop(true, true).delay(MegaMenu.ddDelayIn).fadeIn(MegaMenu.ddAnimationDurationIn, "easeOutCubic");
+            }
+
+        }).on('mouseleave', 'li.parent.level0', function () {
+
+            if (false === menubar.hasClass('nav-mobile')) {
+                $(this).children(".nav-panel")
+                .stop(true, true).delay(MegaMenu.ddDelayOut).fadeOut(MegaMenu.ddAnimationDurationOut, "easeInCubic");
+            }
+
+        }); //end: menu top-level dropdowns
+
+    }); //end: on document ready
+
+    jQuery(window).on("load", function () {
+
+        var menubar = MegaMenu.bar;
+
+        if (MegaMenu.isTouchDevice) {
+            menubar.on('click', 'a', function (e) {
+
+                link = jQuery(this);
+                if (!menubar.hasClass('nav-mobile') && link.parent().hasClass('nav-item--parent')) {
+                    if (!link.hasClass('ready')) {
+                        e.preventDefault();
+                        menubar.find('.ready').removeClass('ready');
+                        link.parents('li').children('a').addClass('ready');
+                    }
+                }
+
+            }); //end: on click
+        } //end: if isTouchDevice
+
+    }); //end: on load
+
+
+
+
+    //]]>
+
+
+    //]]>
+</script>
+<script type="text/javascript">
+    //<![CDATA[
+
+    var gridItemsEqualHeightApplied = false;
+    function setGridItemsEqualHeight($) {
+        var $list = $('.category-products-grid');
+        var $listItems = $list.children();
+
+        var centered = $list.hasClass('centered');
+        var gridItemMaxHeight = 0;
+        $listItems.each(function () {
+
+            $(this).css("height", "auto"); var $object = $(this).find('.actions');
+
+            if (centered) {
+                var objectWidth = $object.width();
+                var availableWidth = $(this).width();
+                var space = availableWidth - objectWidth;
+                var leftOffset = space / 2;
+                $object.css("padding-left", leftOffset + "px");
+            }
+
+            var bottomOffset = parseInt($(this).css("padding-top"));
+            if (centered) bottomOffset += 10;
+            $object.css("bottom", bottomOffset + "px");
+
+            if ($object.is(":visible")) {
+                var objectHeight = $object.height();
+                $(this).css("padding-bottom", (objectHeight + bottomOffset) + "px");
+            }
+
+
+            gridItemMaxHeight = Math.max(gridItemMaxHeight, $(this).height());
+        });
+
+        //Apply max height
+        $listItems.css("height", gridItemMaxHeight + "px");
+        gridItemsEqualHeightApplied = true;
+
+    }
+
+
+
+    jQuery(function ($) {
+
+        $('.collapsible').each(function (index) {
+            $(this).prepend('<span class="opener"></span>');
+            if ($(this).hasClass('active')) {
+                $(this).children('.block-content').css('display', 'block');
+            }
+            else {
+                $(this).children('.block-content').css('display', 'none');
+            }
+        });
+        $('.collapsible .opener').click(function () {
+
+            var parent = $(this).parent();
+            if (parent.hasClass('active')) {
+                $(this).siblings('.block-content').stop(true).slideUp(300, "easeOutCubic");
+                parent.removeClass('active');
+            }
+            else {
+                $(this).siblings('.block-content').stop(true).slideDown(300, "easeOutCubic");
+                parent.addClass('active');
+            }
+
+        });
+
+
+        var ddOpenTimeout;
+        var dMenuPosTimeout;
+        var DD_DELAY_IN = 200;
+        var DD_DELAY_OUT = 0;
+        var DD_ANIMATION_IN = 0;
+        var DD_ANIMATION_OUT = 0;
+
+        $('.clickable-dropdown > .dropdown-heading').click(function () {
+            $(this).parent().addClass('open');
+            $(this).parent().trigger('mouseenter');
+        });
+
+        //$('.dropdown-heading').on('click', function(e) {
+        $(document).on('click', '.dropdown-heading', function (e) {
+            e.preventDefault();
+        });
+
+        $(document).on('mouseenter', '.dropdown', function () {
+
+            var ddToggle = $(this).children('.dropdown-heading');
+            var ddMenu = $(this).children('.dropdown-content');
+            var ddWrapper = ddMenu.parent();
+            ddMenu.css("left", "");
+            ddMenu.css("right", "");
+
+            if ($(this).hasClass('clickable-dropdown')) {
+                if ($(this).hasClass('open')) {
+                    $(this).children('.dropdown-content').stop(true, true).delay(DD_DELAY_IN).fadeIn(DD_ANIMATION_IN, "easeOutCubic");
+                }
+            }
+            else {
+                clearTimeout(ddOpenTimeout);
+                ddOpenTimeout = setTimeout(function () {
+
+                    ddWrapper.addClass('open');
+
+                }, DD_DELAY_IN);
+
+                //$(this).addClass('open');
+                $(this).children('.dropdown-content').stop(true, true).delay(DD_DELAY_IN).fadeIn(DD_ANIMATION_IN, "easeOutCubic");
+            }
+
+            clearTimeout(dMenuPosTimeout);
+            dMenuPosTimeout = setTimeout(function () {
+
+                if (ddMenu.offset().left < 0) {
+                    var space = ddWrapper.offset().left; ddMenu.css("left", (-1) * space);
+                    ddMenu.css("right", "auto");
+                }
+
+            }, DD_DELAY_IN);
+
+        }).on('mouseleave', '.dropdown', function () {
+
+            var ddMenu = $(this).children('.dropdown-content');
+            clearTimeout(ddOpenTimeout); ddMenu.stop(true, true).delay(DD_DELAY_OUT).fadeOut(DD_ANIMATION_OUT, "easeInCubic");
+            if (ddMenu.is(":hidden")) {
+                ddMenu.hide();
+            }
+            $(this).removeClass('open');
+        });
+
+
+
+
+
+
+        var windowScroll_t;
+        $(window).scroll(function () {
+
+            clearTimeout(windowScroll_t);
+            windowScroll_t = setTimeout(function () {
+
+                if ($(this).scrollTop() > 100) {
+                    $('#scroll-to-top').fadeIn();
+                }
+                else {
+                    $('#scroll-to-top').fadeOut();
+                }
+
+            }, 500);
+
+        });
+
+        $('#scroll-to-top').click(function () {
+            $("html, body").animate({ scrollTop: 0 }, 600, "easeOutCubic");
+            return false;
+        });
+
+
+
+
+        $('.category-products-grid').on('mouseenter', '.item', function () {
+            $(this).find(".display-onhover").fadeIn(400, "easeOutCubic");
+        }).on('mouseleave', '.item', function () {
+            $(this).find(".display-onhover").stop(true).hide();
+        });
+
+
+
+
+        $('.products-grid, .products-list').on('mouseenter', '.product-image-wrapper', function () {
+            $(this).find(".alt-img").fadeIn(400, "easeOutCubic");
+        }).on('mouseleave', '.product-image-wrapper', function () {
+            $(this).find(".alt-img").stop(true).fadeOut(400, "easeOutCubic");
+        });
+
+
+
+        $('.fade-on-hover').on('mouseenter', function () {
+            $(this).animate({ opacity: 0.75 }, 300, 'easeInOutCubic');
+        }).on('mouseleave', function () {
+            $(this).stop(true).animate({ opacity: 1 }, 300, 'easeInOutCubic');
+        });
+
+
+
+        var dResize = {
+
+            winWidth: 0
+    , winHeight: 0
+    , windowResizeTimeout: null
+
+    , init: function () {
+        dResize.winWidth = $(window).width();
+        dResize.winHeight = $(window).height();
+        dResize.windowResizeTimeout;
+
+        $(window).on('resize', function (e) {
+            clearTimeout(dResize.windowResizeTimeout);
+            dResize.windowResizeTimeout = setTimeout(function () {
+                dResize.onEventResize(e);
+            }, 50);
+        });
+    }
+
+    , onEventResize: function (e) {
+        //Prevent from executing the code in IE when the window wasn't actually resized
+        var winNewWidth = $(window).width();
+        var winNewHeight = $(window).height();
+
+        //Code in this condition will be executed only if window was actually resized
+        if (dResize.winWidth != winNewWidth || dResize.winHeight != winNewHeight) {
+            //Trigger deferred resize event
+            $(document).trigger("themeResize", e);
+
+            //Additional code executed on deferred resize
+            dResize.onEventDeferredResize();
+        }
+
+        //Update window size variables
+        dResize.winWidth = winNewWidth;
+        dResize.winHeight = winNewHeight;
+    }
+
+    , onEventDeferredResize: function () //Additional code, execute after window was actually resized
+    {
+        //Products grid: equal height of items
+        setGridItemsEqualHeight($);
+
+    }
+
+        }; //end: dResize
+
+        dResize.init();
+
+
+
+    }); //end: on document ready
+
+
+
+    jQuery(window).load(function () {
+
+        setGridItemsEqualHeight(jQuery);
+
+    }); //end: jQuery(window).load(){...}
+
+
+
+
+
+    var MegaMenu = {
+
+        mobileMenuThreshold: 1023, bar: jQuery('#nav')
+        , panels: null
+        , mobnavTriggerWrapper: null
+        , itemSelector: 'li'
+        , panelSelector: '.nav-panel'
+        , openerSelector: '.opener'
+        , isTouchDevice: ('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0)
+        , ddDelayIn: 100
+        , ddDelayOut: 200
+        , ddAnimationDurationIn: 100
+        , ddAnimationDurationOut: 300
+
+        , init: function () {
+          //  MegaMenu.panels = MegaMenu.bar.find(MegaMenu.panelSelector);
+          //  MegaMenu.mobnavTriggerWrapper = jQuery('.mobnav-trigger-wrapper');
+        }
+
+        , initDualMode: function () {
+            MegaMenu.init();
+            MegaMenu.bar.accordion(MegaMenu.panelSelector, MegaMenu.openerSelector, MegaMenu.itemSelector);
+            if (jQuery(window).width() >= MegaMenu.mobileMenuThreshold) {
+                MegaMenu.cleanUpAfterMobileMenu(); //Required for IE8
+            }
+
+            enquire
+                .register('screen and (max-width: ' + (MegaMenu.mobileMenuThreshold - 1) + 'px)', {
+                    match: MegaMenu.activateMobileMenu,
+                    unmatch: MegaMenu.cleanUpAfterMobileMenu
+                })
+                .register('screen and (min-width: ' + MegaMenu.mobileMenuThreshold + 'px)', {
+                    deferSetup: true,
+                    setup: MegaMenu.cleanUpAfterMobileMenu,
+                    match: MegaMenu.activateRegularMenu,
+                    unmatch: MegaMenu.prepareMobileMenu
+                });
+        }
+
+        , initMobileMode: function () {
+            MegaMenu.init();
+            MegaMenu.bar.accordion(MegaMenu.panelSelector, MegaMenu.openerSelector, MegaMenu.itemSelector);
+            MegaMenu.activateMobileMenu();
+        }
+
+        , activateMobileMenu: function () {
+            MegaMenu.mobnavTriggerWrapper.show();
+            MegaMenu.bar.addClass('nav-mobile acco').removeClass('nav-regular');
+        }
+
+        , activateRegularMenu: function () //Default state
+        {
+            MegaMenu.bar.addClass('nav-regular').removeClass('nav-mobile acco');
+            MegaMenu.mobnavTriggerWrapper.hide();
+        }
+
+        , cleanUpAfterMobileMenu: function () {
+            MegaMenu.panels.css('display', '');
+        }
+
+        , prepareMobileMenu: function () {
+            MegaMenu.panels.hide();
+
+            MegaMenu.bar.find('.item-active').each(function () {
+                jQuery(this).children('.nav-panel').show();
+            });
+        }
+
+    }; //end: MegaMenu
+
+
+
+
+    MegaMenu.initDualMode();
+
+    //Toggle mobile menu
+    jQuery('a.mobnav-trigger').on('click', function (e) {
+        e.preventDefault();
+        if (jQuery(this).hasClass('active')) {
+            MegaMenu.bar.removeClass('show');
+            jQuery(this).removeClass('active');
+        }
+        else {
+            MegaMenu.bar.addClass('show');
+            jQuery(this).addClass('active');
+        }
+    });
+
+
+
+
+
+    jQuery(function ($) {
+
+        var menubar = MegaMenu.bar;
+
+        menubar.on('click', '.no-click', function (e) {
+            e.preventDefault();
+        });
+
+        menubar.on('mouseenter', 'li.parent.level0', function () {
+
+            if (false === menubar.hasClass('nav-mobile')) {
+                var item = $(this);
+                var dd = item.children('.nav-panel');
+
+                var itemPos = item.position();
+                var ddPos = { left: itemPos.left, top: itemPos.top + item.height() };
+                if (dd.hasClass('full-width')) { ddPos.left = 0; }
+
+                dd.removeClass('tmp-full-width');
+
+                var ddConOffset = menubar.offset().left;
+                var outermostCon = $(window);
+
+                var outermostContainerWidth = outermostCon.width();
+                var ddOffset = ddConOffset + ddPos.left;
+                var ddWidth = dd.outerWidth();
+
+                if ((ddOffset + ddWidth) > outermostContainerWidth) {
+                    var diff = (ddOffset + ddWidth) - outermostContainerWidth;
+                    var ddPosLeft_NEW = ddPos.left - diff;
+
+                    var ddOffset_NEW = ddOffset - diff;
+
+                    if (ddOffset_NEW < 0) {
+                        dd.addClass('tmp-full-width');
+                        ddPos.left = 0;
+                    }
+                    else {
+                        ddPos.left = ddPosLeft_NEW;
+                    }
+                }
+
+                dd
+                    .css({
+                        'left': ddPos.left + 'px',
+                        'top': ddPos.top + 'px'
+                    })
+                    .stop(true, true).delay(MegaMenu.ddDelayIn).fadeIn(MegaMenu.ddAnimationDurationIn, "easeOutCubic");
+            }
+
+        }).on('mouseleave', 'li.parent.level0', function () {
+
+            if (false === menubar.hasClass('nav-mobile')) {
+                $(this).children(".nav-panel")
+                .stop(true, true).delay(MegaMenu.ddDelayOut).fadeOut(MegaMenu.ddAnimationDurationOut, "easeInCubic");
+            }
+
+        }); //end: menu top-level dropdowns
+
+    }); //end: on document ready
+
+    jQuery(window).on("load", function () {
+
+        var menubar = MegaMenu.bar;
+
+        if (MegaMenu.isTouchDevice) {
+            menubar.on('click', 'a', function (e) {
+
+                link = jQuery(this);
+                if (!menubar.hasClass('nav-mobile') && link.parent().hasClass('nav-item--parent')) {
+                    if (!link.hasClass('ready')) {
+                        e.preventDefault();
+                        menubar.find('.ready').removeClass('ready');
+                        link.parents('li').children('a').addClass('ready');
+                    }
+                }
+
+            }); //end: on click
+        } //end: if isTouchDevice
+        jQuery(window).load(function () {
+
+            setGridItemsEqualHeight(jQuery);
+
+        }); //end: jQuery(window).load(){...}
+
+    }); //end: on load
+
+
+
+    //<![CDATA[
+
+
+
+    var MegaMenu = {
+
+        mobileMenuThreshold: 1023, bar: jQuery('#nav')
+        , panels: null
+        , mobnavTriggerWrapper: null
+        , itemSelector: 'li'
+        , panelSelector: '.nav-panel'
+        , openerSelector: '.opener'
+        , isTouchDevice: ('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0)
+        , ddDelayIn: 100
+        , ddDelayOut: 200
+        , ddAnimationDurationIn: 100
+        , ddAnimationDurationOut: 300
+
+        , init: function () {
+           // MegaMenu.panels = MegaMenu.bar.find(MegaMenu.panelSelector);
+           // MegaMenu.mobnavTriggerWrapper = jQuery('.mobnav-trigger-wrapper');
+        }
+
+        , initDualMode: function () {
+            MegaMenu.init();
+            MegaMenu.bar.accordion(MegaMenu.panelSelector, MegaMenu.openerSelector, MegaMenu.itemSelector);
+            if (jQuery(window).width() >= MegaMenu.mobileMenuThreshold) {
+                MegaMenu.cleanUpAfterMobileMenu(); //Required for IE8
+            }
+
+            enquire
+                .register('screen and (max-width: ' + (MegaMenu.mobileMenuThreshold - 1) + 'px)', {
+                    match: MegaMenu.activateMobileMenu,
+                    unmatch: MegaMenu.cleanUpAfterMobileMenu
+                })
+                .register('screen and (min-width: ' + MegaMenu.mobileMenuThreshold + 'px)', {
+                    deferSetup: true,
+                    setup: MegaMenu.cleanUpAfterMobileMenu,
+                    match: MegaMenu.activateRegularMenu,
+                    unmatch: MegaMenu.prepareMobileMenu
+                });
+        }
+
+        , initMobileMode: function () {
+            MegaMenu.init();
+            MegaMenu.bar.accordion(MegaMenu.panelSelector, MegaMenu.openerSelector, MegaMenu.itemSelector);
+            MegaMenu.activateMobileMenu();
+        }
+
+        , activateMobileMenu: function () {
+            MegaMenu.mobnavTriggerWrapper.show();
+            MegaMenu.bar.addClass('nav-mobile acco').removeClass('nav-regular');
+        }
+
+        , activateRegularMenu: function () //Default state
+        {
+            MegaMenu.bar.addClass('nav-regular').removeClass('nav-mobile acco');
+            MegaMenu.mobnavTriggerWrapper.hide();
+        }
+
+        , cleanUpAfterMobileMenu: function () {
+            MegaMenu.panels.css('display', '');
+        }
+
+        , prepareMobileMenu: function () {
+            MegaMenu.panels.hide();
+
+            MegaMenu.bar.find('.item-active').each(function () {
+                jQuery(this).children('.nav-panel').show();
+            });
+        }
+
+    }; //end: MegaMenu
+
+
+
+
+    MegaMenu.initDualMode();
+
+    //Toggle mobile menu
+    jQuery('a.mobnav-trigger').on('click', function (e) {
+        e.preventDefault();
+        if (jQuery(this).hasClass('active')) {
+            MegaMenu.bar.removeClass('show');
+            jQuery(this).removeClass('active');
+        }
+        else {
+            MegaMenu.bar.addClass('show');
+            jQuery(this).addClass('active');
+        }
+    });
+
+
+
+
+
+    jQuery(function ($) {
+
+        var menubar = MegaMenu.bar;
+
+        menubar.on('click', '.no-click', function (e) {
+            e.preventDefault();
+        });
+
+        menubar.on('mouseenter', 'li.parent.level0', function () {
+
+            if (false === menubar.hasClass('nav-mobile')) {
+                var item = $(this);
+                var dd = item.children('.nav-panel');
+
+                var itemPos = item.position();
+                var ddPos = { left: itemPos.left, top: itemPos.top + item.height() };
+                if (dd.hasClass('full-width')) { ddPos.left = 0; }
+
+                dd.removeClass('tmp-full-width');
+
+                var ddConOffset = menubar.offset().left;
+                var outermostCon = $(window);
+
+                var outermostContainerWidth = outermostCon.width();
+                var ddOffset = ddConOffset + ddPos.left;
+                var ddWidth = dd.outerWidth();
+
+                if ((ddOffset + ddWidth) > outermostContainerWidth) {
+                    var diff = (ddOffset + ddWidth) - outermostContainerWidth;
+                    var ddPosLeft_NEW = ddPos.left - diff;
+
+                    var ddOffset_NEW = ddOffset - diff;
+
+                    if (ddOffset_NEW < 0) {
+                        dd.addClass('tmp-full-width');
+                        ddPos.left = 0;
+                    }
+                    else {
+                        ddPos.left = ddPosLeft_NEW;
+                    }
+                }
+
+                dd
+                    .css({
+                        'left': ddPos.left + 'px',
+                        'top': ddPos.top + 'px'
+                    })
+                    .stop(true, true).delay(MegaMenu.ddDelayIn).fadeIn(MegaMenu.ddAnimationDurationIn, "easeOutCubic");
+            }
+
+        }).on('mouseleave', 'li.parent.level0', function () {
+
+            if (false === menubar.hasClass('nav-mobile')) {
+                $(this).children(".nav-panel")
+                .stop(true, true).delay(MegaMenu.ddDelayOut).fadeOut(MegaMenu.ddAnimationDurationOut, "easeInCubic");
+            }
+
+        }); //end: menu top-level dropdowns
+
+    }); //end: on document ready
+
+    jQuery(window).on("load", function () {
+
+        var menubar = MegaMenu.bar;
+
+        if (MegaMenu.isTouchDevice) {
+            menubar.on('click', 'a', function (e) {
+
+                link = jQuery(this);
+                if (!menubar.hasClass('nav-mobile') && link.parent().hasClass('nav-item--parent')) {
+                    if (!link.hasClass('ready')) {
+                        e.preventDefault();
+                        menubar.find('.ready').removeClass('ready');
+                        link.parents('li').children('a').addClass('ready');
+                    }
+                }
+
+            }); //end: on click
+        } //end: if isTouchDevice
+
+    }); //end: on load
+
+
+
+
+    //]]>
 
 
     //]]>

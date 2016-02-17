@@ -628,6 +628,7 @@ namespace MPC.Repository.Repositories
                 omachine.Passes = machine.Passes;
                 omachine.IsSpotColor = machine.IsSpotColor;
                 omachine.IsDigitalPress = machine.IsDigitalPress;
+                omachine.IsPressUseInks = machine.IsPressUseInks;
                // omachine.LookupMethod.MachineClickChargeZones.ToList().ForEach(a => a = ClickCharge);
 
                 if (type == 0)
