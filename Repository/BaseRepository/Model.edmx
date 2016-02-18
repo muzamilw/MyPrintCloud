@@ -3867,6 +3867,7 @@
           <Property Name="contactId" Type="bigint" />
           <Property Name="realEstateId" Type="bigint" />
           <Property Name="IsAllowCustomSize" Type="bit" />
+          <Property Name="HideSharedImages" Type="bit" />
         </EntityType>
         <EntityType Name="TemplateBackgroundImage">
           <Key>
@@ -11776,6 +11777,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="contactId" Type="Int64" />
           <Property Name="realEstateId" Type="Int64" />
           <Property Name="IsAllowCustomSize" Type="Boolean" />
+          <Property Name="HideSharedImages" Type="Boolean" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -18350,6 +18352,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Templates">
             <EntityTypeMapping TypeName="DomainModels.Template">
               <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="HideSharedImages" ColumnName="HideSharedImages" />
                 <ScalarProperty Name="IsAllowCustomSize" ColumnName="IsAllowCustomSize" />
                 <ScalarProperty Name="realEstateId" ColumnName="realEstateId" />
                 <ScalarProperty Name="contactId" ColumnName="contactId" />

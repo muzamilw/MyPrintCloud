@@ -32,6 +32,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         public long? OrganisationId { get; set; }
         public int? OrderId { get; set; }
+        
         public List<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
     }
 }
