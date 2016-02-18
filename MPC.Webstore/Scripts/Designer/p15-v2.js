@@ -213,7 +213,8 @@ function fu04() {
     $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
        //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
       function (DT) {
-          fu04_1(DT);   
+          fu04_1(DT);
+        
       });
     if (IsCalledFrom == 2) { // load all async calls here 
         k28();
@@ -529,7 +530,8 @@ function SvcLoad2ndTemplate() {
          $.each(TP, function (i, IT) {
              $("#thumbPageSP" + IT.PageNo).css("visibility", "visible");
              $("#thumbPageSP" + IT.PageNo + " .thumb-content p").html(IT.PageName);
-         }); 
+         });
+
      });
 
 
