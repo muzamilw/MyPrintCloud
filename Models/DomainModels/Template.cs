@@ -54,6 +54,8 @@ namespace MPC.Models.DomainModels
         public long? contactId { get; set; }
         public long? realEstateId { get; set; }
         public bool? IsAllowCustomSize { get; set; }
+        public bool? HideSharedImages { get; set; }
+        
         public virtual ICollection<TemplatePage> TemplatePages { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<TemplateBackgroundImage> TemplateBackgroundImages { get; set; }

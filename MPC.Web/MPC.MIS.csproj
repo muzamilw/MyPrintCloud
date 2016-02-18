@@ -356,6 +356,7 @@
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportParamController.cs" />
     <Compile Include="Areas\Api\Controllers\SpotColorController.cs" />
+    <Compile Include="Areas\Api\Controllers\WidgetController.cs" />
     <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
@@ -920,6 +921,7 @@
     <Compile Include="Areas\Api\Models\vw_RealEstateProperties.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
+    <Compile Include="Areas\Api\Models\WidgetSearchResponse.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\DeliveryNotes\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\DeliveryNoteAreaRegistration.cs" />

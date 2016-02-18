@@ -38,6 +38,7 @@ namespace MPC.Models.ResponseModels
         public long? OrganisationId { get; set; }
 
         public string  Currency { get; set; }
+        public long? DefaultCountryId { get; set; }
 
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }

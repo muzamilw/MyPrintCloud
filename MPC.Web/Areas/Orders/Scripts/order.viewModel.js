@@ -812,7 +812,10 @@ define("order/order.viewModel",
                         // $("#dialog-confirm").attr('data-backdrop', 'static');
                         // $("#dialog-confirm").removeData("modal").modal({ backdrop: 'static' });
                         // $("#dismiss")[0].style.display = 'none';
-                        confirmation.messageText("Are you sure you want to revert status of this order? All posted delivery notes will be cancelled.");
+                        if(status == 7)
+                            confirmation.messageText("Are you sure you want to revert status of this order? Any linked posted or un-posted invoice will be cancelled.");
+                        else if (status == 5)
+                            confirmation.messageText("Are you sure you want to revert status of this order?\nAll jobs will be removed from production board.");
                         confirmation.afterProceed(function () {
                             if (status === 7) {
                                 changeStatusOfItemsForReadyForShipping();

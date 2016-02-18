@@ -404,7 +404,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 confirmation.messageText("Do you want to Post the Purchase Order?");
                                 confirmation.afterProceed(function () {
                                     selectedPurchaseOrder().status(32);
-
+                                    savePurchaseOrder();
                                 });
                                 confirmation.afterCancel(function () {
                                     savePurchaseOrder();

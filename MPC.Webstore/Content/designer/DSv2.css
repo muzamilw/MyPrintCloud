@@ -5624,7 +5624,7 @@ h2 + .gallery {
     height: 48px !important;
     width: 31.3% !important;
     float: left !important;
-    display: inline-block !important;
+    display: inline-block ;
     margin-right: 2% !important;
     font-size: 12px !important;
 }
@@ -7530,4 +7530,7 @@ to {
     padding-top: 7px;
     position: absolute;
     left: 255px;bottom: 113px;
+}
+.width46Percent {
+    width:46% !important;
 }

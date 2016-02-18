@@ -17,6 +17,7 @@ define("crm/crm.viewModel",
                     // Determines Company type
                     companyType = ko.observable(2),
                     currencySymbol = ko.observable(),
+                    defaultCountryId = ko.observable(),
                     ordersItemsCount = ko.observable(),
                     orderPager = ko.observable(),
                     purchaseOrderPager = ko.observable(),
@@ -792,6 +793,7 @@ define("crm/crm.viewModel",
                 onCreateNewAddress = function () {
                     var address = new model.Address();
                     selectedAddress(address);
+                    selectedAddress().country(defaultCountryId());
                     isSavingNewAddress(true);
                     //Update If Store is creating new and it is Retail then 
                     //Make the first address isBilling and shipping as Default and sets its territory
@@ -927,6 +929,8 @@ define("crm/crm.viewModel",
                     }
                 },
                 onEditAddress = function (address) {
+                    if (address.country() == undefined)
+                        address.country(defaultCountryId());
                     addressEditorViewModel.selectItem(address);
                     isSavingNewAddress(false);
                     selectedAddress().reset();
@@ -2066,6 +2070,7 @@ define("crm/crm.viewModel",
                                 allCompanyAddressesList.push(address);
                             });
                             selectedStore().storeId(storeId());
+                            defaultCountryId(data.DefaultCountryId);
                         }
                         selectedStore().reset();
                         isLoadingStores(false);

@@ -555,7 +555,7 @@ define("inventory/inventory.viewModel",
                         selectedInventory().IsImperical(false);
                     }
 
-
+                    lengthLabel(selectedInventory().IsImperical() == true ? "Inch" : "Meter");
                     //Add default cost and price rows
                     var cost = model.StockCostAndPrice.Create();
                     selectCostItem(cost);

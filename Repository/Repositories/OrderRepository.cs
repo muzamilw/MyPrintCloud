@@ -117,7 +117,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                Prefix prefix = db.Prefixes.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
+               // Prefix prefix = db.Prefixes.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
 
                 Estimate orderObject = new Estimate();
 
@@ -145,11 +145,11 @@ namespace MPC.Repository.Repositories
 
                 orderObject.Order_CreationDateTime = DateTime.Now;
 
-                if (prefix != null)
-                {
-                    orderObject.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
-                    prefix.OrderNext = prefix.OrderNext + 1;
-                }
+                //if (prefix != null)
+                //{
+                //    orderObject.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
+                //    prefix.OrderNext = prefix.OrderNext + 1;
+                //}
 
                 db.Estimates.Add(orderObject);
 
@@ -1985,6 +1985,8 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId)
         {
+            Prefix prefix = db.Prefixes.Where(c => c.OrganisationId == Org.OrganisationId).FirstOrDefault();
+
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             tblOrder.StatusId = (short)orderStatus;
@@ -1994,6 +1996,11 @@ namespace MPC.Repository.Repositories
             tblOrder.PaperByDate = DateTime.Now.AddDays(2);
             tblOrder.TargetPrintDate = DateTime.Now.AddDays(2);
             tblOrder.TargetBindDate = DateTime.Now.AddDays(2);
+            if (prefix != null)
+            {
+                tblOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
+                prefix.OrderNext = prefix.OrderNext + 1;
+            }
             if (ManagerIds != null && ManagerIds.Count > 0)
             {
                 tblOrder.SalesPersonId = ManagerIds[0];

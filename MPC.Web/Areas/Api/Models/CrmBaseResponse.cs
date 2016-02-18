@@ -29,5 +29,6 @@ namespace MPC.MIS.Areas.Api.Models
             }
         }
         public string DefaultCompanyCss { get; set; }
+        public long? DefaultCountryId { get; set; }
     }
 }
