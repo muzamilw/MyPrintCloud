@@ -12,7 +12,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string FieldName { get; set; }
         public int? SectionId { get; set; }
         public int? SortOrder { get; set; }
-
+        public long? OrganisationId { get; set; }
         public IEnumerable<Phrase> Phrases { get; set; }
     }
 }

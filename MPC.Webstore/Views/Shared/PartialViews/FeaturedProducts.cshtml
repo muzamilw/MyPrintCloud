@@ -58,7 +58,7 @@
                                     From only  @Utils.FormatDecimalValueToTwoDecimal(Product.MinPrice.ToString(), ViewBag.CurrencySymbol)
                                 </div>
                                 <div style="margin:auto;">
-                                    <a id="ShopNowFuture" href="@NavigateUrl" style="display:none;text-align:center;">Order Now</a>
+                                    <a id="ShopNowFuture" href="@NavigateUrl" style="display:none;text-align:center;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNow", UserCookieManager.WBStoreId, "Order Now")) </a>
                                 </div>
                             </div>
                         </div>

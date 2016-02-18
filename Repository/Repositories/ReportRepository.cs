@@ -75,6 +75,9 @@ namespace MPC.Repository.Repositories
             SqlConnection oConn = new SqlConnection();
 
             List<Reportparam> Reportparams = db.Reportparams.Where(g => g.ReportId == Id).ToList();
+
+            string ReportName = db.Reports.Where(c => c.ReportId == Id).Select(c => c.Name).FirstOrDefault();
+
             List<ReportparamResponse> ReportparamsList = new List<ReportparamResponse>();
 
             oConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ReportConnectiontring"].ConnectionString);
@@ -92,7 +95,7 @@ namespace MPC.Repository.Repositories
                 if (item.ControlType == 1)
                 {
                     string queryString = string.Empty;
-                    if (Id == 519 || Id == 1376) // stock report hard code id because of organisation id check
+                    if (Id == 519 || ReportName == "Order Report By Store") // stock report hard code id because of organisation id check
                     {
                         queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName + " " + OrganisationId;
                     }
@@ -696,6 +699,20 @@ namespace MPC.Repository.Repositories
                 {
                     return false;
                 }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public string GetReportName(long ReportId)
+        {
+            try
+            {
+                return db.Reports.Where(c => c.ReportId == ReportId).Select(c => c.Name).FirstOrDefault();
 
             }
             catch (Exception ex)

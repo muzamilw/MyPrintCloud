@@ -133,7 +133,7 @@ define("common/phraseLibrary.viewModel",
                        //new selected section expand
                        section.isExpanded(true);
                        selectedSection(section);
-                       selectedPhraseField(undefined);
+                     //  selectedPhraseField(undefined);
                        phrases.removeAll();
 
                        if (section.phrasesFields().length > 0) {
