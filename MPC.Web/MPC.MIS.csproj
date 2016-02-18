@@ -350,6 +350,7 @@
     <Compile Include="Areas\Api\Controllers\DeleteOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNotesByOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadExternalReportController.cs" />
     <Compile Include="Areas\Api\Controllers\ExportItemController.cs" />
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportParamController.cs" />
@@ -3530,6 +3531,7 @@
     <Folder Include="Areas\Api\Views\DeleteOrder\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
     <Folder Include="Areas\Api\Views\DeliveryNoteBase\" />
+    <Folder Include="Areas\Api\Views\DownloadExternalReport\" />
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\EstimateBase\" />
     <Folder Include="Areas\Api\Views\ExportItem\" />

@@ -49,5 +49,7 @@ namespace MPC.Interfaces.Repository
 
         bool isCorporateCustomer(int StoreId);
 
+        string GetReportName(long ReportId);
+
     }
 }

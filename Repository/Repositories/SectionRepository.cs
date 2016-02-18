@@ -49,8 +49,22 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<Section> GetSectionsForPhraseLibrary()
         {
-            // Estimate=1, Invoices=13, Purchases=7,Delivery=10, Job Production=4
-            return DbSet.Where(s => s.SectionId == 1 || s.SectionId == 13 || s.SectionId == 7 || s.SectionId == 10 || s.SectionId == 4).OrderBy(s => s.SectionName).ToList();
+            // Estimate=1, Invoices=13, Purchases=7,Delivery=10, Job Production=4]
+            IEnumerable<Section> sections = null;
+            sections = DbSet.Where(s => s.SectionId == 1 || s.SectionId == 13 || s.SectionId == 7 || s.SectionId == 10 || s.SectionId == 4).OrderBy(s => s.SectionName).ToList();
+            if(sections != null && sections.Count() > 0)
+            {
+                foreach(var sec in sections)
+                {
+
+
+                    sec.PhraseFields = sec.PhraseFields.Where(c => c.OrganisationId == OrganisationId).ToList();
+                  
+                }
+
+               //sections = sections.ToList().ForEach(c => c.PhraseFields.Where(p => p.OrganisationId == OrganisationId);
+            }
+            return sections;
         }
 
 
