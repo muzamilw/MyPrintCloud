@@ -103,7 +103,7 @@ define("stores/stores.viewModel",
                     bannerButtonCaption = ko.observable(),
                     editorHtmlData = ko.observable(),
                     editedWidgetId = ko.observable(),
-
+                    defaultCountryId = ko.observable(),
                     CompanyVariableIconBinary = ko.observable(),
                      CompanyVariableIconName = ko.observable(),
                       CompanyVariableId = ko.observable(),
@@ -2382,6 +2382,7 @@ define("stores/stores.viewModel",
                     onCreateNewAddress = function () {
                         var address = new model.Address();
                         selectedAddress(address);
+                        selectedAddress().country(defaultCountryId());
                         isSavingNewAddress(true);
                         //Update If Store is creating new and it is Retail then 
                         //Make the first address isBilling and shipping as Default and sets its territory
@@ -2551,6 +2552,8 @@ define("stores/stores.viewModel",
                     },
                     onEditAddress = function (address) {
                         //selectedAddress(address);
+                        if (address.country() == undefined)
+                            address.country(defaultCountryId());
                         addressEditorViewModel.selectItem(address);
 
                         isSavingNewAddress(false);
@@ -3810,9 +3813,10 @@ define("stores/stores.viewModel",
                             var notFound = true;
                             var count = 0;
                             _.each(selectedStore().paymentGateway(), function (item) {
-                                if (selectedPaymentGateway().isActive() && item.paymentGatewayId() != selectedPaymentGateway().paymentGatewayId()) {
-                                    item.isActive(false);
-                                }
+                                //if (selectedPaymentGateway().isActive() && item.paymentGatewayId() != selectedPaymentGateway().paymentGatewayId()) {
+                                //    item.isActive(false);
+                                //}
+                                //Code Commented to allow activation of multiple payment gateways. 20160218
                                 if (notFound && item.paymentGatewayId() == selectedPaymentGateway().paymentGatewayId()) {
                                     selectedStore().paymentGateway.remove(item);
                                     selectedStore().paymentGateway.splice(count, 0, selectedPaymentGateway());
@@ -5152,7 +5156,7 @@ define("stores/stores.viewModel",
                                         ko.utils.arrayPushAll(priceFlags(), data.PriceFlags);
                                         priceFlags.valueHasMutated();
                                     }
-
+                                    defaultCountryId(data.DefaultCountryId);
 
                                     ////Countries 
                                     //countries.removeAll();
@@ -5189,6 +5193,7 @@ define("stores/stores.viewModel",
                                 success: function (data) {
                                     if (data != null) {
                                         currencySymbol(data.CurrencySymbol);
+                                        defaultCountryId(data.DefaultCountryId);
                                         systemUsers.removeAll();
                                         addressCompanyTerritoriesFilter.removeAll();
                                         contactCompanyTerritoriesFilter.removeAll();

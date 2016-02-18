@@ -509,6 +509,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                         selectedDeliveryNoteForListView().companyName(data.CompanyName);
                                         selectedDeliveryNoteForListView().flagColor(data.FlagColor);
                                         selectedDeliveryNoteForListView().orderReff(data.OrderReff);
+                                        selectedDeliveryNoteForListView().itemsCount(data.DeliveryNoteDetails != null ? data.DeliveryNoteDetails.length : 0);
                                         selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
                                         if (currentTab() !== data.IsStatus) {
                                             deliverNoteListView.remove(selectedDeliveryNoteForListView());

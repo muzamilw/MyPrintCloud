@@ -55,7 +55,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrderReff = source.OrderReff,
                 CreationDateTime = source.CreationDateTime,
                 OrganisationId = source.OrganisationId,
-                OrderId = source.OrderId
+                OrderId = source.OrderId,
+                DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null
             };
         }
 
