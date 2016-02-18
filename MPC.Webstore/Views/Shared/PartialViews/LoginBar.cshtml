@@ -48,20 +48,22 @@
                             </li>
 
                             <li class="liMarginRight">
-                                <a onclick="ShowLoader();" href="/Dashboard" class="usercolorSize"><i class="fa fa-user"></i> Profile</a>
+                                <a onclick="ShowLoader();" href="/Dashboard" class="usercolorSize"><i class="fa fa-user"></i>@Html.Raw(Html.GetKeyValueFromResourceFile("MenuProfilelbl", UserCookieManager.WBStoreId, "Profile"))
+</a>
 
                             </li>
                             <li class="liMarginRight">
-                                <a onclick="ShowLoader();" href="/SavedDesigns" class="usercolorSize"><i class="fa fa-floppy-o"></i> Saved</a>
+                                <a onclick="ShowLoader();" href="/SavedDesigns" class="usercolorSize"><i class="fa fa-floppy-o"></i>@Html.Raw(Html.GetKeyValueFromResourceFile("MenuSavedlbl", UserCookieManager.WBStoreId, "Saved"))</a>
 
                             </li>
                             <li class="liMarginRight cartli">
-                                <a onclick="ShowLoader();" href="/ShopCart" class="usercolorSize"><i class="fa fa-shopping-cart"></i> Cart</a>
+                                <a onclick="ShowLoader();" href="/ShopCart" class="usercolorSize"><i class="fa fa-shopping-cart"></i>@Html.Raw(Html.GetKeyValueFromResourceFile("ShoppingCartlbl", UserCookieManager.WBStoreId, "Cart"))</a>
 
                             </li>
                             <li>
 
-                                @Html.ActionLink("Sign out", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "usercolorSize" })
+                                @Html.ActionLink(Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign out")).ToString()
+, "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "usercolorSize" })
                             </li>
                             <li class="ZeroRightMargin classicLoginCart">
                                 <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links usercolorSize hyperlinkCart ">
