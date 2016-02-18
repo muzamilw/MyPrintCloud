@@ -53,14 +53,25 @@ $('#imageUploader').change(function () {
             success: function (messages) {
                 for (i = 0; i < messages.length; i++) {
                     var panelType = 1;
+                    isImageUploaded = true;
                     if (isBkPnlUploads) {
                         panelType = 3;
+                        isImageUploaded = false;
                     }
                     var contactIDlocal = ContactID;
                     if (IsCalledFrom == 2)
                         contactIDlocal = CustomerID;
                     $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + contactIDlocal + "/" + organisationId + "/" + panelType + "/" + CustomerID,
                         function (res) {
+                            if (panelType == 1)
+                            {
+                                if (isImageUploaded && IsCalledFrom == 2) {
+                                    $("#newImageInfoContainer").css("display", "block");
+                                    $("#chkBoxCopyInSharedImages").prop('checked', true);
+                                } else {
+                                    $("#newImageInfoContainer").css("display", "none");
+                                }
+                            }
                             LiImgs.push(res); 
                             var result = res.BackgroundImageAbsolutePath;
                             if (result != "uploadedPDFBK") {
