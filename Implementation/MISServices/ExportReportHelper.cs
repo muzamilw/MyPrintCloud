@@ -1,4 +1,5 @@
-﻿using GrapeCity.ActiveReports;
+﻿using FaceSharp.Api.Extensions;
+using GrapeCity.ActiveReports;
 using GrapeCity.ActiveReports.Export.Pdf.Section;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -215,6 +216,7 @@ namespace MPC.Implementation.MISServices
                         GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport pdf = new GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport();
                         pdf.ImageQuality = ImageQuality.Highest;
                         pdf.ImageResolution = 770 * 140;
+                        
                         string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {
@@ -224,6 +226,7 @@ namespace MPC.Implementation.MISServices
                         sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
                         InternalPath = "/" + ImagePathConstants.ReportPath + OrganisationID + "/" + sFileName;
                         pdf.Export(currReport.Document, sFilePath);
+                        
                         ms.Close();
                         currReport.Document.Dispose();
                         pdf.Dispose();

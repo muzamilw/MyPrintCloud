@@ -9926,3 +9926,4 @@ update deliverycarrier set organisationid = 0 where carrierId in(1,2,3)
 ---------------------Executed on All Servers---------------------
 alter table machine add IsPressUseInks bit
 update machine set IsPressUseInks = 1
+alter table template add HideSharedImages bit null

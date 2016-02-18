@@ -87,10 +87,10 @@
                                 <label class="control-label tooltip-float">&nbsp;</label>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: supplierId, click: !$root.selectedPurchaseOrder().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Supplier" class="form-control font24px" id="txtCompany" />
+                                <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: supplierId, click: $root.selectedPurchaseOrder().status()===31 ? $root.openCompanyDialog : undefined" readonly placeholder="Select Supplier" class="form-control font24px" id="txtCompany" />
                             </div>
                             <div class="col-sm-1" style="padding-top:10px;padding-left:0px;">
-                                <button data-bind="click: $root.openCompanyDialog, enable: (id() <= 0) || (id()===undefined)" class="btn btn-primary">
+                                <button data-bind="click: $root.openCompanyDialog, enable: $root.selectedPurchaseOrder().status()===31" class="btn btn-primary">
                                     <i class="fa fa-user"></i>
                                 </button>
                             </div>

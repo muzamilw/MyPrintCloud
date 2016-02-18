@@ -3260,6 +3260,8 @@ namespace MPC.Implementation.MISServices
             request.CompanyId = storeId;
             smartFormRequest.CompanyId = storeId;
             discountVoucherRequestModelRequest.CompanyId = storeId;
+            Organisation org = organisationRepository.GetOrganizatiobByID();
+            
 
             return new CompanyBaseResponse
             {
@@ -3279,7 +3281,8 @@ namespace MPC.Implementation.MISServices
                 SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                 FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
                 CmsPages = cmsPageRepository.GetCmsPagesForOrders(storeId),
-                PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CustomerPriceMatrix)
+                PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CustomerPriceMatrix),
+                DefaultCountryId = org != null ? org.CountryId : null
             };
         }
 
@@ -3311,6 +3314,7 @@ namespace MPC.Implementation.MISServices
                 OrganisationId = fieldVariableRepository.OrganisationId,
                 Currency = (organisation != null && organisation.Currency != null) ? organisation.Currency.CurrencySymbol :
                 string.Empty,
+                DefaultCountryId = organisation != null ? organisation.CountryId : null
             };
 
         }
@@ -3331,6 +3335,7 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public CrmBaseResponse GetBaseDataForCrm()
         {
+            Organisation org = organisationRepository.GetOrganizatiobByID();
             return new CrmBaseResponse
             {
                 SystemUsers = systemUserRepository.GetAll(),
@@ -3339,7 +3344,8 @@ namespace MPC.Implementation.MISServices
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
-                Companies = companyRepository.GetAllRetailStores()//Get Retail Stores in crm base data
+                Companies = companyRepository.GetAllRetailStores(),//Get Retail Stores in crm base data
+                DefaultCountryId = org != null ? org.CountryId : null
             };
         }
         public void SaveFile(string filePath, long companyId)
