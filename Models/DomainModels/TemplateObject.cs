@@ -71,6 +71,11 @@
         public bool? hasClippingPath { get; set; }
         public bool? isBulletPoint { get; set; }
         public int? TextPaddingTop { get; set; }
+
+        public bool? hasInlineFontFamily { get; set; }
+
+        public bool? AutofitImage { get; set; }
+        
         public virtual Template Template { get; set; }
     }
 }

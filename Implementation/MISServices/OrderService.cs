@@ -26,6 +26,7 @@ using System.Data;
 using System.Web.Http;
 using System.Net;
 using MPC.Repository.Repositories;
+using System.Globalization;
 
 namespace MPC.Implementation.MISServices
 {
@@ -75,6 +76,9 @@ namespace MPC.Implementation.MISServices
         private readonly IPurchaseRepository purchaseRepository;
         private readonly ICampaignRepository campaignRepository;
         private readonly IInvoiceRepository invoiceRepository;
+        private readonly IInquiryAttachmentRepository inquiryAttachmentRepository;
+        private readonly IDeliveryCarrierRepository deliveryCarrierRepository;
+        private readonly IDeliveryNoteRepository deliveryNoteRepository;
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
@@ -88,10 +92,12 @@ namespace MPC.Implementation.MISServices
             if (isEstimate)
             {
                 itemTarget.Estimate_Code = orderCode;
+                itemTarget.Order_Date = null;
             }
             else
             {
                 itemTarget.Order_Code = orderCode;
+               
             }
             itemTarget.OrganisationId = orderRepository.OrganisationId;
             return itemTarget;
@@ -367,7 +373,21 @@ namespace MPC.Implementation.MISServices
 
         private void DeletePurchaseOrders(Estimate order)
         {
+            var listPurchases = purchaseRepository.GetPurchasesList(order.EstimateId);
+            long SupplierConatctId = 0;
             purchaseRepository.DeletePO(order.EstimateId);
+
+           
+              if (listPurchases != null)
+              {
+                  foreach (var purchase in listPurchases)
+                  {
+                      SupplierConatctId = purchase.Value;
+                  }
+              }
+
+              Company objCompany = companyRepository.GetCompanyByCompanyID(order.CompanyId);
+            campaignRepository.POEmailToSupplier(order.EstimateId, order.CompanyId, order.ContactId ?? 0, 250, SupplierConatctId, string.Empty, objCompany,true);
 
         }
         // ReSharper disable once InconsistentNaming
@@ -392,27 +412,32 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var purchase in listPurchases)
                 {
-                    string fileName = exportReportHelper.ExportPDF(100, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
+                    string fileName = string.Empty;
+                    long reportId = ReportRepository.CheckCustomReportForPOEmail();
+                    if(reportId > 0)
+                        fileName = exportReportHelper.ExportPDF((int)reportId, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
+                    else
+                        fileName = exportReportHelper.ExportPDF(100, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
 
                     int itemIDs = orderRepository.GetFirstItemIDByOrderId(orderId);
                     Organisation compOrganisation = organisationRepository.GetOrganizatiobByID();
                     Company objCompany = companyRepository.GetCompanyByCompanyID(companyId);
                     SystemUser saleManager = systemUserRepository.GetUserrById(objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid());
 
-                    string salesManagerFile = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Key + "_PurchaseOrder.pdf";
+                    string salesManagerFile = "/" + ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Key + "PurchaseReport.pdf";
                     campaignRepository.POEmailToSalesManager(orderId, companyId, contactId, 250, purchase.Value, salesManagerFile, objCompany);
 
-                    if (objCompany.IsCustomer == (int)CustomerTypes.Corporate)
-                    {
-                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Corp, companyId, saleManager, itemIDs, "", "", 0);
-                    }
-                    else
-                    {
-                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Retail, companyId, saleManager, itemIDs, "", "", 0);
-                    }
+                    //if (objCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                    //{
+                    //    campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Corp, companyId, saleManager, itemIDs, "", "", 0);
+                    //}
+                    //else
+                    //{
+                    //    campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Retail, companyId, saleManager, itemIDs, "", "", 0);
+                    //}
 
                     string sourceFile = fileName;
-                    string destinationFileSupplier = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
+                    string destinationFileSupplier = "/" + ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
 
                     string oDirectory = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value);
 
@@ -428,7 +453,7 @@ namespace MPC.Implementation.MISServices
                         File.Copy(sourceFile, destinationPhysicalFileSupplier);
                     }
 
-                    campaignRepository.POEmailToSupplier(orderId, companyId, contactId, 250, purchase.Value, destinationFileSupplier, objCompany);
+                    campaignRepository.POEmailToSupplier(orderId, companyId, contactId, 250, purchase.Value, destinationFileSupplier, objCompany,false);
 
                     // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);
 
@@ -454,7 +479,8 @@ namespace MPC.Implementation.MISServices
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
             ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper
-            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository)
+            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository, IInquiryAttachmentRepository inquiryAttachmentRepository, IDeliveryCarrierRepository deliveryCarrierRepository,
+            IDeliveryNoteRepository deliveryNoteRepository)
         {
             if (estimateRepository == null)
             {
@@ -536,6 +562,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionCostCentreDetailRepository");
             }
+            if (deliveryCarrierRepository == null)
+            {
+                throw new ArgumentNullException("deliveryCarrierRepository");
+            }
+            if (deliveryNoteRepository == null)
+            {
+                throw new ArgumentNullException("deliveryNoteRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.invoiceRepository = invoiceRepository;
             this.companyRepository = companyRepository;
@@ -577,6 +611,9 @@ namespace MPC.Implementation.MISServices
             this.exportReportHelper = exportReportHelper;
             this.purchaseRepository = purchaseRepository;
             this.campaignRepository = campaignRepository;
+            this.inquiryAttachmentRepository = inquiryAttachmentRepository;
+            this.deliveryCarrierRepository = deliveryCarrierRepository;
+            this.deliveryNoteRepository = deliveryNoteRepository;
         }
 
         #endregion
@@ -632,8 +669,9 @@ namespace MPC.Implementation.MISServices
         public Estimate SaveOrder(Estimate estimate)
         {
             // Get Order if exists else create new
-            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
 
+            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
+            var OldstatusId = order.StatusId;
             if (estimate.EstimateId == 0 && estimate.isEstimate == true)
             {
                 var flags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate);
@@ -645,28 +683,36 @@ namespace MPC.Implementation.MISServices
             }
             
             var orderStatusId = estimate.StatusId;
+            try
+            {
+                estimate.UpdateTo(order, new OrderMapperActions
+                {
+                    CreatePrePayment = CreateNewPrePayment,
+                    DeletePrePayment = DeletePrePayment,
+                    CreateItem = CreateItem,
+                    DeleteItem = DeleteItem,
+                    CreateItemSection = CreateItemSection,
+                    DeleteItemSection = DeleteItemSection,
+                    CreateSectionCostCentre = CreateSectionCostCentre,
+                    DeleteSectionCostCenter = DeleteSectionCostCentre,
+                    CreateItemAttachment = CreateItemAttachment,
+                    DeleteItemAttachment = DeleteItemAttachment,
+                    CreateSectionInkCoverage = CreateSectionInkCoverage,
+                    DeleteSectionInkCoverage = DeleteSectionInkCoverage,
+                    CreateShippingInformation = CreateNewShippingInformation,
+                    DeleteShippingInformation = DeleteShippingInformation,
+                    GetNextJobCode = GetJobCodeForItem,
+                    CreateSectionCostCenterDetail = CreateSectionCostCentreDetail,
+                    DeleteSectionCostCenterDetail = DeleteSectionCostCentreDetail,
+                });
+            }
+            catch (Exception exp)
+            {
+                throw new MPCException("Failed to save order. Error: " + exp.Message, estimateRepository.OrganisationId);
+            }
 
             // Update Order
-            estimate.UpdateTo(order, new OrderMapperActions
-                                     {
-                                         CreatePrePayment = CreateNewPrePayment,
-                                         DeletePrePayment = DeletePrePayment,
-                                         CreateItem = CreateItem,
-                                         DeleteItem = DeleteItem,
-                                         CreateItemSection = CreateItemSection,
-                                         DeleteItemSection = DeleteItemSection,
-                                         CreateSectionCostCentre = CreateSectionCostCentre,
-                                         DeleteSectionCostCenter = DeleteSectionCostCentre,
-                                         CreateItemAttachment = CreateItemAttachment,
-                                         DeleteItemAttachment = DeleteItemAttachment,
-                                         CreateSectionInkCoverage = CreateSectionInkCoverage,
-                                         DeleteSectionInkCoverage = DeleteSectionInkCoverage,
-                                         CreateShippingInformation = CreateNewShippingInformation,
-                                         DeleteShippingInformation = DeleteShippingInformation,
-                                         GetNextJobCode = GetJobCodeForItem,
-                                         CreateSectionCostCenterDetail = CreateSectionCostCentreDetail,
-                                         DeleteSectionCostCenterDetail = DeleteSectionCostCentreDetail,
-                                     });
+            
             // Save Changes
             estimateRepository.SaveChanges();
 
@@ -681,8 +727,8 @@ namespace MPC.Implementation.MISServices
                 PostOrderToXero(order.EstimateId);
             //Update Purchase Orders
             //Req. Whenever Its Status is inProduction Update Purchase Orders
-            
-            if (estimate.StatusId == (int)OrderStatus.InProduction)
+
+            if ((OldstatusId == (int)OrderStatus.ConfirmedOrder || OldstatusId == (int)OrderStatus.PendingOrder) && (estimate.StatusId == (int)OrderStatus.InProduction || estimate.StatusId == (int)OrderStatus.Completed_NotShipped || estimate.StatusId == (int)OrderStatus.CompletedAndShipped_Invoiced || estimate.StatusId == (int)OrderStatus.Invoice))
             {
                 try
                 {
@@ -693,6 +739,7 @@ namespace MPC.Implementation.MISServices
                     throw new MPCException("Saved Sucessfully but failed to create Purchase Order. Error: " + exp.Message, estimateRepository.OrganisationId);
                 }
             }
+            
 
             //Delete Purchase Orders
             //Req. Whenever Its Status is Cancelled Call Delete Stored Procedure or delete sp if reversing from in production to below statuses
@@ -763,7 +810,7 @@ namespace MPC.Implementation.MISServices
             {
                 itemTarget.FlagID = 0;
             }
-           
+            itemTarget.ReportSignedBy = order.ReportSignedBy;
             order.AddInvoice(itemTarget);
         }
 
@@ -799,6 +846,7 @@ namespace MPC.Implementation.MISServices
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
                        PipeLineProducts = pipeLineProductRepository.GetAll(),
                        LoggedInUser = organisationRepository.LoggedInUserId,
+                       DeliveryCarriers = deliveryCarrierRepository.GetAll()
                    };
         }
 
@@ -846,7 +894,7 @@ namespace MPC.Implementation.MISServices
                 Markups = markups,
                 PaperSizes = paperSizeRepository.GetAll(),
                 InkPlateSides = inkPlateSideRepository.GetAll(),
-                Inks = stockItemRepository.GetStockItemOfCategoryInk(),
+                Inks = stockItemRepository.GetStockItemOfCategoryInk().Where(i => i.IsImperical == organisation.IsImperical),
                 InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
                 CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty,
                 SystemUsers = systemUserRepository.GetAll(),
@@ -862,7 +910,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Base Data For Company
         /// </summary>
-        public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId)
+        public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId,  long orderId = 0)
         {
             bool isStoreLive = companyRepository.IsStoreLive(storeId);
             var org = organisationRepository.GetOrganizatiobByID();
@@ -870,7 +918,7 @@ namespace MPC.Implementation.MISServices
             {
                 isStoreLive = true;
             }
-
+            var deliveryNotesByOrder = orderId > 0 ? deliveryNoteRepository.GetDeliveryNotesByOrderId(orderId) : null;
             //bool isMisReached = GetMonthlyOrdersReached(org, true);
             //bool isWebReached = GetMonthlyOrdersReached(org, false);
 
@@ -880,7 +928,8 @@ namespace MPC.Implementation.MISServices
                     CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId),
                     TaxRate = companyRepository.GetTaxRateByStoreId(storeId),
                     JobManagerId = companyRepository.GetStoreJobManagerId(storeId),
-                    IsStoreLive = isStoreLive
+                    IsStoreLive = isStoreLive,
+                    DeliveryNotes = deliveryNotesByOrder
                 };
         }
 
@@ -1085,6 +1134,7 @@ namespace MPC.Implementation.MISServices
 
             target = UpdateEstimeteOnCloning(est_Source, target, source);
             target.RefEstimateId = source.EstimateId;
+            target.OrderReportSignedBy = source.ReportSignedBy;
 
             estimateRepository.SaveChanges();
 
@@ -1098,7 +1148,7 @@ namespace MPC.Implementation.MISServices
         {
             // Clone Estimate
             source.Clone(target);
-            target.Order_Date = clientSource.Order_Date;
+            target.Order_Date = DateTime.Now;
             target.OrderManagerId = clientSource.OrderManagerId;
             target.IsOfficialOrder = clientSource.IsOfficialOrder;
             target.CustomerPO = clientSource.CustomerPO;
@@ -1136,29 +1186,46 @@ namespace MPC.Implementation.MISServices
                 if (targetItemSource != null)
                 {
                     targetItem.JobSelectedQty = targetItemSource.JobSelectedQty;
+                    item.JobSelectedQty = targetItemSource.JobSelectedQty;
                 }
-                if (item.JobSelectedQty != null && targetItem.ItemType != 2)
+                if (targetItem.JobSelectedQty != null && targetItem.ItemType != 2)
                 {
-                    if (item.JobSelectedQty == 1)
+                    if (targetItem.JobSelectedQty == 1)
                     {
                         targetItem.Qty1 = item.Qty1;
                         targetItem.Qty2 = 0;
                         targetItem.Qty3 = 0;
+                        targetItem.Qty1BaseCharge1 = item.Qty1BaseCharge1;
+                        targetItem.Qty1MarkUp1Value = item.Qty1MarkUp1Value;
+                        targetItem.Qty1MarkUpPercentageValue = item.Qty1MarkUpPercentageValue;
+                        targetItem.Qty1GrossTotal = item.Qty1GrossTotal;
+                        targetItem.Qty1NetTotal = item.Qty1NetTotal;
+                        
                     }
                     else if (item.JobSelectedQty == 2)
                     {
                         targetItem.Qty1 = item.Qty2;
                         targetItem.Qty2 = 0;
                         targetItem.Qty3 = 0;
+                        targetItem.Qty1BaseCharge1 = item.Qty2BaseCharge2;
+                        targetItem.Qty1MarkUp1Value = item.Qty2MarkUp2Value;
+                        targetItem.Qty1MarkUpPercentageValue = item.Qty2MarkUpPercentageValue;
+                        targetItem.Qty1GrossTotal = item.Qty2GrossTotal;
+                        targetItem.Qty1NetTotal = item.Qty2NetTotal;
                     }
                     else if (item.JobSelectedQty == 3)
                     {
                         targetItem.Qty1 = item.Qty3;
                         targetItem.Qty2 = 0;
                         targetItem.Qty3 = 0;
+                        targetItem.Qty1BaseCharge1 = item.Qty3BaseCharge3;
+                        targetItem.Qty1MarkUp1Value = item.Qty3MarkUp3Value;
+                        targetItem.Qty1MarkUpPercentageValue = item.Qty3MarkUpPercentageValue;
+                        targetItem.Qty1GrossTotal = item.Qty3GrossTotal;
+                        targetItem.Qty1NetTotal = item.Qty3NetTotal;
                     }
                 }
-
+                target.Estimate_Total = source.Items.ToList().Sum(a => a.Qty1NetTotal);
                 // Clone Item Sections
                 CloneItemSections(item, targetItem);
             }
@@ -1189,9 +1256,32 @@ namespace MPC.Implementation.MISServices
                 itemSection.CloneForOrder(targetItemSection);
                 if (source.JobSelectedQty != null && target.ItemType != 2)
                 {
-                    targetItemSection.Qty1 = source.Qty1;
-                    targetItemSection.Qty2 = 0;
-                    targetItemSection.Qty3 = 0;
+                    if (source.JobSelectedQty == 1)
+                    {
+                        targetItemSection.Qty1 = source.Qty1;
+                        targetItemSection.Qty2 = 0;
+                        targetItemSection.Qty3 = 0;
+                        targetItemSection.Qty1MarkUpID = itemSection.Qty1MarkUpID;
+                        targetItemSection.BaseCharge1 = itemSection.BaseCharge1;
+                        
+                    }
+                    else if (source.JobSelectedQty == 2)
+                    {
+                        targetItemSection.Qty1 = source.Qty2;
+                        targetItemSection.Qty2 = 0;
+                        targetItemSection.Qty3 = 0;
+                        targetItemSection.Qty1MarkUpID = itemSection.Qty2MarkUpID;
+                        targetItemSection.BaseCharge1 = itemSection.BaseCharge2;
+                    }
+                    else if (source.JobSelectedQty == 3)
+                    {
+                        targetItemSection.Qty1 = source.Qty3;
+                        targetItemSection.Qty2 = 0;
+                        targetItemSection.Qty3 = 0;
+                        targetItemSection.Qty1MarkUpID = itemSection.Qty3MarkUpID;
+                        targetItemSection.BaseCharge1 = itemSection.Basecharge3;
+                    }
+                    
                 }
                 CloneSectionCostCenter(itemSection, targetItemSection);
             }
@@ -1216,9 +1306,39 @@ namespace MPC.Implementation.MISServices
                 targetSectionCostcentre.ItemSectionId = target.ItemSectionId;
                 target.SectionCostcentres.Add(targetSectionCostcentre);
                 sectionCostcentre.Clone(targetSectionCostcentre);
-                targetSectionCostcentre.Qty1 = source.Qty1;
-                targetSectionCostcentre.Qty2 = 0;
-                targetSectionCostcentre.Qty3 = 0;
+                if (source.Item.JobSelectedQty != null && target.Item.ItemType != 2)
+                {
+                    if (source.Item.JobSelectedQty == 1)
+                    {
+                        targetSectionCostcentre.Qty1 = source.Qty1;
+                        targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty1Charge;
+                        targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty1MarkUpID;
+                        targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty1NetTotal;
+
+                    }
+                    else if (source.Item.JobSelectedQty == 2)
+                    {
+                        targetSectionCostcentre.Qty1 = source.Qty2;
+                        targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty2Charge;
+                        targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty2MarkUpID;
+                        targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty2NetTotal;
+                    }
+                    else if (source.Item.JobSelectedQty == 3)
+                    {
+                        targetSectionCostcentre.Qty1 = source.Qty3;
+                        targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty3Charge;
+                        targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty3MarkUpID;
+                        targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty3NetTotal;
+                    }
+
+                }
+                else
+                {
+                    targetSectionCostcentre.Qty1 = source.Qty1;
+                    targetSectionCostcentre.Qty2 = 0;
+                    targetSectionCostcentre.Qty3 = 0;
+                }
+               
                 CloneSectionCostCenterDetail(sectionCostcentre, targetSectionCostcentre);
             }
         }
@@ -1341,6 +1461,8 @@ namespace MPC.Implementation.MISServices
 
                 }
 
+                if (oOrder.StatusId == 4 || oOrder.StatusId == 5)
+                    IncludeJobCardReport = false;
                 if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
                 {
                     IncludeOrderReport = true;
@@ -2002,6 +2124,20 @@ namespace MPC.Implementation.MISServices
             //string mapPath1 = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
             string mapPath = server.MapPath("~/" + attachment.FolderPath + "/");
             string attachmentMapPath = mapPath + attachment.FileName + attachment.FileType;
+            return attachmentMapPath;
+        }
+
+        public string DownloadInquiryAttachment(long id, out string fileName, out string fileTpe)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            InquiryAttachment attachment = inquiryAttachmentRepository.Find(id);
+            fileName = attachment.OrignalFileName;
+            fileTpe = attachment.Extension;
+
+            //string mapPath1 = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
+            string mapPath = server.MapPath("~/" + attachment.AttachmentPath + "/");
+            string attachmentMapPath = mapPath + attachment.OrignalFileName;
             return attachmentMapPath;
         }
 
@@ -3205,6 +3341,65 @@ namespace MPC.Implementation.MISServices
             string hmac64 = Convert.ToBase64String(hashValue);
             myhmacsha256.Clear();
             return hmac64;
+        }
+
+        public void DeleteOrderPermanently(long orderId, string Comment)
+        {
+
+            if (companyRepository.SaveUserActionLog(Comment, orderId, "Order"))
+            {
+
+                Estimate order = orderRepository.GetOrderByID(orderId);
+                //Company company = companyRepository.Find(companyId);
+
+                if (order == null)
+                {
+                    throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Order with id {0} not found", orderId), companyRepository.OrganisationId);
+                }
+
+                orderRepository.DeleteOrderById(orderId);
+
+
+                // delete ordered items
+                if (order.Items != null && order.Items.Count > 0)
+                {
+                    foreach (var item in order.Items)
+                    {
+                        string SourceItemFiles = HttpContext.Current.Server.MapPath("/MPC_Content/products/" + orderRepository.OrganisationId + "/" + item.ItemId);
+
+                        if (Directory.Exists(SourceItemFiles))
+                        {
+                            Directory.Delete(SourceItemFiles, true);
+                        }
+
+
+                        if (item.TemplateId != null && item.TemplateId > 0)
+                        {
+                            if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                            {
+                                if (item.Template != null)
+                                {
+                                    templateService.DeleteTemplateFiles(item.ItemId, orderRepository.OrganisationId);
+
+
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+                      
+                   
+
+
+
+            }
+            else
+            {
+                throw new MPCException("Failed to delete User action not save.", companyRepository.OrganisationId);
+            }
+
         }
         #endregion
         

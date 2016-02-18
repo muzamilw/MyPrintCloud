@@ -94,6 +94,14 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<ProductCategory> GetProductCategoriesIncludingArchived(long? companyId);
 
         IEnumerable<Item> GetProductsByCompanyId(long? companyId);
+        ItemSection GetItemFirstSectionByItemId(long itemId);
+        ItemSection UpdateItemFirstSectionByItemId(long itemId, int quantity);
+
+        string ExportItems(long CompanyId);
+
+        string ExportCompanyIrems(long CompanyId);
+
+        bool SaveImportedProducts(IEnumerable<StagingProductPriceImport> stagingImportProducts,long CompanyId);
 
     }
 }

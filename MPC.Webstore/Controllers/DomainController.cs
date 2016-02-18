@@ -1,36 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.Common;
-using MPC.Webstore.ModelMappers;
-using MPC.Webstore.ResponseModels;
-using MPC.Webstore.Models;
-using DotNetOpenAuth.OAuth2;
 using Microsoft.Owin.Security;
-using Microsoft.AspNet.Identity;
-using System.IO;
-using System.Text;
-using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
-using MPC.Models.Common;
-using MPC.Interfaces.Common;
-using System.Reflection;
-using MPC.Models.DomainModels;
-using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
-using System.Web.Security;
-using WebSupergoo.ABCpdf8;
-using System.Web;
-using System.Web.Http;
 using System.Globalization;
-using System.Net.Http;
-using System.Net.Http.Formatting;
 using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
@@ -78,9 +57,17 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             string url = HttpContext.Request.Url.ToString();
-            if (!string.IsNullOrEmpty(url))
+            //if (!string.IsNullOrEmpty(url))
+            //{
+            //    url = url.Substring(7);
+            //}
+            if (!string.IsNullOrEmpty(url) && url.Contains("http://"))
             {
-                url = url.Substring(7);
+                url = url.Replace("http://", "");//.Substring(7);
+            }
+            else if (!string.IsNullOrEmpty(url) && url.Contains("https://"))
+            {
+                url = url.Replace("https://", ""); 
             }
             long storeId = _myCompanyService.GetStoreIdFromDomain(url);
             if (storeId == 0)
@@ -90,6 +77,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+                UserCookieManager.WEBOrderId = 0;
                 if (UserCookieManager.WBStoreId == 0)
                 {
                     UserCookieManager.WBStoreId = storeId;
@@ -162,7 +150,7 @@ namespace MPC.Webstore.Controllers
 
             policy = new CacheItemPolicy();
             policy.Priority = CacheItemPriority.NotRemovable;
-           
+
             policy.RemovedCallback = null;
 
             Dictionary<long, MyCompanyDomainBaseReponse> stores = new Dictionary<long, MyCompanyDomainBaseReponse>();

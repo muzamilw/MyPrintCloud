@@ -167,7 +167,7 @@ define("product/product.viewModel",
                             closeRelatedItemDialog();
                         },
                         onChooseStockItem: function (stockCategoryId) {
-                            openStockItemDialog(stockCategoryId);
+                            openStockItemDialog(stockCategoryId != undefined? stockCategoryId : 1);
                         },
                         onSelectStockItem: function () {
                         },
@@ -292,6 +292,43 @@ define("product/product.viewModel",
                         setDefaultsToNewProduct();
                         openProductEditor();
                     },
+                     // export Product
+                    exportProduct = function () {
+                        dataservice.exportItems({
+                            CompanyId: selectedCompany()
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
+                                }
+                               
+                               
+                            },
+                            error: function (response) {
+                                
+                                toastr.error("Error: Failed to Export." + response);
+                            }
+                        });
+                    },
+                    // import companyContacts
+                  selectedCsvFileForProduct = function (file, data) {
+                      dataservice.importProducts({
+                          FileName: file.name,
+                          FileBytes: data,
+                          CompanyId: selectedCompany()
+                      }, {
+                          success: function (successData) {
+                              toastr.success("Products imported successfully!");
+                             // searchCompanyContact();
+                          },
+                          error: function (response) {
+                              toastr.error("Products failed to import! " + response);
+                          }
+                      });
+                  },
+
                     // Edit Product
                     editProduct = function (data) {
                         getItemById(data.id(), openProductEditor);
@@ -462,7 +499,7 @@ define("product/product.viewModel",
                     openStockItemDialog = function (stockCategoryId) {
                         stockDialog.show(function (stockItem) {
                             selectedProduct().onSelectStockItem(stockItem);
-                        }, stockCategoryId, false);
+                        }, stockCategoryId, true);
                     },
                     // Search Press Items
                     searchPressItems = function () {
@@ -1144,6 +1181,7 @@ define("product/product.viewModel",
                     mapProducts = function (data) {
                         var itemsList = [];
                         _.each(data, function (item) {
+                          
                             itemsList.push(model.Item.Create(item));
                         });
 
@@ -1478,7 +1516,9 @@ define("product/product.viewModel",
                             item.miniPrice(data.MinPrice || 0);
                             item.templateId(data.TemplateId || undefined);
                             item.templateType(data.TemplateType || undefined);
-                            item.thumbnail(data.ThumbnailImageSource || undefined);
+                            item.thumbnailPath(data.ThumbnailPath);
+                            //item.thumbnail(data.ThumbnailImageSource || undefined);
+                            item.thumbnail(data.ThumbnailPath || undefined);
                             item.printCropMarks(data.PrintCropMarks || false);
                             item.drawWatermarkText(data.DrawWaterMarkTxt || false);
                             // Update Template
@@ -1825,7 +1865,25 @@ define("product/product.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
+
+                                    var file1Path = data.File1;
+                                    var file2Path = data.File2;
+                                    var file3Path = data.File3;
+                                    var file4Path = data.File4;
+                                    var file5Path = data.File5;
+                                    var thumbnailPath = data.ThumbnailPath;
+                                    var gridimage = data.GridImage;
+
                                     selectedProduct(model.Item.Create(data, itemActions, itemStateTaxConstructorParams));
+
+                                    selectedProduct().file1(file1Path);
+                                    selectedProduct().file2(file2Path);
+                                    selectedProduct().file3(file3Path);
+                                    selectedProduct().file4(file4Path);
+                                    selectedProduct().file5(file5Path);
+                                  
+                                    selectedProduct().thumbnail(thumbnailPath);
+                                    selectedProduct().gridImage(gridimage);
 
                                     if (callback && typeof callback === "function") {
                                         callback();
@@ -2151,7 +2209,9 @@ define("product/product.viewModel",
                     selectedSection: selectedSection,
                     subCategories: subCategories,
                     onSelectSubCategory: onSelectSubCategory,
-                    editSubCategory: editSubCategory
+                    editSubCategory: editSubCategory,
+                    exportProduct: exportProduct,
+                    selectedCsvFileForProduct: selectedCsvFileForProduct
                     // For Store
                     // Utility Methods
                 };

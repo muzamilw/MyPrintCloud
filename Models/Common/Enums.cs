@@ -128,7 +128,8 @@ namespace MPC.Models.Common
         BackOrder_Notifiaction_To_Manager = 31,
         ShippedOrder_Notifiaction_To_Customer = 32,
         PO_Notification_To_SalesManager = 33,
-        PO_Notification_To_Supplier = 34
+        PO_Notification_To_Supplier = 34,
+        PO_CancellationEmail_To_Supplier = 36
     }
     public enum ScheduledStatus
     {
@@ -171,7 +172,8 @@ namespace MPC.Models.Common
     {
         PrintProduct = 1,
         MarketingBrief = 2,
-        NonPrintProduct = 3
+        NonPrintProduct = 3,
+        AssetProduct = 4
 
     }
 
@@ -192,12 +194,19 @@ namespace MPC.Models.Common
         authorizeNET = 2,
         ANZ = 3,
         StGeorge = 5,
-        NAB = 6
+        NAB = 6,
+        PayWay = 8
     }
     public enum ItemStatuses
     {
         ShoppingCart = 3,
-        NotProgressedToJob = 17
+        NotProgressedToJob = 17,
+        NeedAssigning = 11,
+        InStudio = 12,
+        InPrintPress = 13,
+        InPostPress = 14,
+        ReadyForShipping = 15,
+        ShippedInvoiced = 16
     }
     public enum PaymentRequestStatus
     {
@@ -222,7 +231,7 @@ namespace MPC.Models.Common
         Completed_NotShipped = 7,
 
 
-        CompletedAndShipped_Invoiced = 8,
+        CompletedAndShipped_Invoiced = 36,
 
 
         CancelledOrder = 9,
@@ -328,7 +337,9 @@ namespace MPC.Models.Common
         PressSizeRatio = 36,
         SectionPaperWeightExSelfQty_ProRata = 37,
         WashupQty = 38,
-        MakeReadyQty = 39
+        MakeReadyQty = 39,
+        SectionHeight = 40,
+        SectionWidth = 41
     }
     public enum PrintViewOrientation : int
     {
@@ -568,5 +579,13 @@ namespace MPC.Models.Common
         PopularProducts = 2,
         SpecialProducts = 3,
         AllProducts = 4
+    }
+
+    public enum SystemStockCategory
+    {
+        Paper = 1,
+        Ink = 2,
+        Film = 3,
+        Plates = 4
     }
 }

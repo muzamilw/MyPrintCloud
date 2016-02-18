@@ -9,7 +9,7 @@
     string EstimateDispatchTime = string.Empty;
     double _priceTotal = 0;
     double _vatTotal = 0;
-  
+
     decimal noOfCostCentreProdDays = 0;
     decimal _numOfProductionDays = 0;
     decimal numberOfDaysAddedTodelivery = 0;
@@ -31,7 +31,7 @@
                 2. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrledit", UserCookieManager.WBStoreId, "Edit"))
             </li>
 
-            <li >
+            <li>
                 3. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmorder", UserCookieManager.WBStoreId, "Confirm order & payment"))
             </li>
             <li class="bonhamSelectedOption">
@@ -48,390 +48,465 @@
         <div class="contact_us_heading col-md-12 col-lg-12 col-xs-12 ">
             <label>@Html.Raw(Html.GetKeyValueFromResourceFile("conyourord", UserCookieManager.WBStoreId, "Confirm Your Order"))</label>
         </div>
-        <div class="col-md-12 col-lg-12 col-xs-12 ">
-            <div class="white-container-lightgrey-border textAlignLeft rounded_corners OrderConfirmationPanel">
-                @if (AddressList[2] != null)
-                {
-                    <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt" style="display:none;">
-                        <span style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("picaddr", UserCookieManager.WBStoreId, "PickUpAddress")) :</span><br />
-                        <label id="PickupAddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].AddressName</label><br />
-                        <label id="pickUpAddressLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address1</label><br />
-                        <label id="pickUpAddress2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address2</label><br />
-                        <label id="pickUpAddressCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].City</label>
-                        @if (AddressList[2].State != null)
+        @if (Model != null)
+        {
+            <div class="col-md-12 col-lg-12 col-xs-12 ">
+                <div class="white-container-lightgrey-border textAlignLeft rounded_corners OrderConfirmationPanel">
+                    @if (AddressList != null)
+                    {
+                        if (AddressList[2] != null)
                         {
-                            <label id="pickUpAddressState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].State.StateName</label>
-                        }
-                        else
-                        {
-                            <label id="pickUpAddressState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
-                        }
-                        @if (AddressList[2].Country != null)
-                        {
-                            <label id="pickUPAddressCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Country.CountryName</label><br />
-                        }
-                        else
-                        {
-                            <label id="pickUPAddressCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
-                        }
-                        <label id="pickUpAddressZip" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].PostCode</label><br />
-                        <span>
-                            <label style="color: black;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))</label>
-                        </span>
-                        <label id="pickUpAddressContact" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[2].Tel1</label>
-                    </div>
-                }
-                @if (AddressList[1] != null)
-                {
-                    <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt">
-                        <span id="Span1" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address")):</span><br />
-                        <label id="AddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].AddressName</label><br />
-                        <label id="AddressLine" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address1</label><br />
-                        @if (!string.IsNullOrEmpty(AddressList[1].Address2))
-                        {
-                            <div><label id="Addressline2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address2</label></div>
-                        }
-                        <label id="lblBCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].City</label>
-                        @if (AddressList[1].State != null)
-                        {
-                            <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].State.StateName</label>
-                        }
-                        else
-                        {
-                            <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
-                        }
-                        @if (AddressList[1].Country != null)
-                        {
-                            <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Country.CountryName</label><br />
-                        }
-                        else
-                        {
-                            <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
-                        }
-                        <label id="lblBZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].PostCode</label><br />
-                        @if (!string.IsNullOrEmpty(AddressList[1].Tel1))
-                        {
-                            <span>
-                                <label id="lrtlBTel" style="color: black;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))</label>
-                            </span>
-                            <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[1].Tel1</label>
-                        }
-
-                    </div>
-                }
-                @if (AddressList[0] != null)
-                {
-                    <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt">
-                        <span id="Span2" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address")):</span><br />
-                        <label id="ShippingAddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].AddressName</label><br />
-                        <label id="shippingAddressline1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address1</label><br />
-                        @if (!string.IsNullOrEmpty(AddressList[0].Address2))
-                        {
-                            <div>
-                                <label id="shippingAddressline2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address2</label>
+                            <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt" style="display:none;">
+                                <span style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("picaddr", UserCookieManager.WBStoreId, "PickUpAddress")) :</span><br />
+                                <label id="PickupAddressName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].AddressName</label><br />
+                                <label id="pickUpAddressLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address1</label><br />
+                                <label id="pickUpAddress2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address2</label><br />
+                                <label id="pickUpAddressCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].City</label>
+                                @if (AddressList[2].State != null)
+                                {
+                                    <label id="pickUpAddressState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].State.StateName</label>
+                                }
+                                else
+                                {
+                                    <label id="pickUpAddressState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
+                                }
+                                @if (AddressList[2].Country != null)
+                                {
+                                    <label id="pickUPAddressCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Country.CountryName</label><br />
+                                }
+                                else
+                                {
+                                    <label id="pickUPAddressCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
+                                }
+                                <label id="pickUpAddressZip" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].PostCode</label><br />
+                                <span>
+                                    <label style="color: black;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))</label>
+                                </span>
+                                <label id="pickUpAddressContact" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[2].Tel1</label>
                             </div>
                         }
-                        <label id="shippingCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].City</label>
-                        @if (AddressList[0].State != null)
+                        if (AddressList[1] != null)
                         {
-                            <label id="shippingState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].State.StateName</label>
+                            <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt">
+                                <span id="Span1" style="display:block;" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address")):</span>
+                                <span id="AddressName" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].AddressName</span>
+                                <span id="AddressLine" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].Address1</span>
+                                @if (!string.IsNullOrEmpty(AddressList[1].Address2))
+                                {
+                                    <span id="Addressline2" class="address-labels" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].Address2</span>
+                                }
+                                <span id="lblBCity" class="address-labels" style="color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].City</span>
+                                @if (AddressList[1].State != null)
+                                {
+                                    <span id="lblBState" class="address-labels" style="color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].State.StateName</span>
+                                }
+                                else
+                                {
+                                    <span id="lblBState" class="address-labels" style="color: black;  font-style: normal; font-size: 12px;">@string.Empty</span>
+                                }
+                                @if (AddressList[1].Country != null)
+                                {
+                                    <span id="lblBCountry" class="address-labels" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[1].Country.CountryName</span>
+                                }
+                                else
+                                {
+                                    <span id="lblBCountry" class="address-labels" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@string.Empty</span>
+                                }
+                                <span id="lblBZipCode" class="address-labels" style="display:block;color: black;  font-style: normal; font-size: 12px;">@AddressList[1].PostCode</span>
+                                @if (!string.IsNullOrEmpty(AddressList[1].Tel1))
+                                {
+                                    <span id="lrtlBTel" style="color: black;">
+                                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
+                                    </span>
+                                    <span id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[1].Tel1</span>
+                                }
+
+                            </div>
                         }
-                        else
+                        if (AddressList[0] != null)
                         {
-                            <label id="shippingState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
+                            <div class="col-md-4 col-lg-4 col-xs-6 receiptbillingShippingcnt">
+                                <span id="Span2" style="display:block;" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address")):</span>
+                                <span id="ShippingAddressName" style="display:block;color: black;  font-style: normal;font-size: 12px;">@AddressList[0].AddressName</span>
+                                <span id="shippingAddressline1" style="display:block;color: black;  font-style: normal; font-size: 12px;">@AddressList[0].Address1</span>
+                                @if (!string.IsNullOrEmpty(AddressList[0].Address2))
+                                {
+
+                                    <span id="shippingAddressline2" style="display:block;color: black;  font-style: normal;font-size: 12px;">@AddressList[0].Address2</span>
+
+                                }
+                                <span id="shippingCity" style="color: black;  font-style: normal; font-size: 12px;">@AddressList[0].City</span>
+                                @if (AddressList[0].State != null)
+                                {
+                                    <span id="shippingState" style="color: black;  font-style: normal;font-size: 12px;">@AddressList[0].State.StateName</span>
+                                }
+                                else
+                                {
+                                    <span id="shippingState" style="color: black;  font-style: normal;  font-size: 12px;">@string.Empty</span>
+                                }
+                                @if (AddressList[0].Country != null)
+                                {
+                                    <span id="shippingCountry" style="display:block;color: black;  font-style: normal;font-size: 12px;">@AddressList[0].Country.CountryName</span>
+                                }
+                                else
+                                {
+                                    <span id="shippingCountry" style="display:block;color: black;  font-style: normal; font-size: 12px;">@string.Empty</span>
+                                }
+                                <span id="shippingZipCode" style="display:block;color: black;  font-style: normal;  font-size: 12px;">@AddressList[0].PostCode</span>
+                                @if (!string.IsNullOrEmpty(AddressList[0].Tel1))
+                                {
+                                    <span id="Literal2" style="color: black;">
+                                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
+                                    </span>
+                                    <span id="shippingTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[0].Tel1</span>
+                                }
+                            </div>
+
                         }
-                        @if (AddressList[0].Country != null)
-                        {
-                            <label id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Country.CountryName</label><br />
-                        }
-                        else
-                        {
-                            <label id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
-                        }
-                        <label id="shippingZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].PostCode</label><br />
-                        @if (!string.IsNullOrEmpty(AddressList[0].Tel1))
-                        {
-                            <span>
-                                <label id="Literal2" style="color: black;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))</label>
-                            </span>
-                            <label id="shippingTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[0].Tel1</label>
-                        }
+                    }
+
+                    <div class="clearboth">
                     </div>
-
-                }
-                <div class="clearboth">
-                </div>
-                <div class="check_out_third_div">
-                    <div class="confirm_order_detail_div">
-                        <div style="min-height: 290px">
-                            <div id="pnlConfirmOrder">
-                                @*<div class="mainHeadingAveniorCheckout" style="clear: both;">
-                                        <label id="ltrlconfirmurorderdetails">Confirm your order details...</label>
-                                    </div>
-                                    <br />*@
-                                <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
-                                    <tbody>
-                                        <tr class="gridViewHeaderStyle">
-                                            <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
-                                            <th align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("productssss", UserCookieManager.WBStoreId, "Products"))</th>
-                                            <th align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))</th>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                <th align="right" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))</th>
-                                            }
-                                        </tr>
-                                        @if (Model.CartItemsList != null)
-                                        {
-                                            foreach (var prod in Model.CartItemsList as List<MPC.Models.Common.ProductItem>)
-                                            {
-                                                <tr class="gridViewRowStyle" valign="top">
-                                                    <td class="PadTop5 shopCartFirstCol hidden-xs">
-                                                        <div class="cart_grid_image_container gallery">
-                                                            @{
-                                                string pdfLinkBtn = string.Empty;
-                                                string imgToShowURL = string.Empty;
-                                                if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
+                    <div class="check_out_third_div">
+                        <div class="confirm_order_detail_div">
+                            <div style="min-height: 290px">
+                                <div id="pnlConfirmOrder">
+                                    @*<div class="mainHeadingAveniorCheckout" style="clear: both;">
+                                            <label id="ltrlconfirmurorderdetails">Confirm your order details...</label>
+                                        </div>
+                                        <br />*@
+                                    <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
+                                        <tbody>
+                                            <tr class="gridViewHeaderStyle">
+                                                <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
+                                                <th align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("productssss", UserCookieManager.WBStoreId, "Products"))</th>
+                                                <th align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))</th>
+                                                @if (ViewBag.IsShowPrices == true)
                                                 {
-                                                    string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
-                                                    if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
+                                                    <th align="right" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))</th>
+                                                }
+                                            </tr>
+                                            @if (Model.CartItemsList != null)
+                                            {
+                                                foreach (var prod in Model.CartItemsList as List<MPC.Models.Common.ProductItem>)
+                                                {
+                                                    <tr class="gridViewRowStyle" valign="top">
+                                                        <td class="PadTop5 shopCartFirstCol hidden-xs">
+                                                            <div class="cart_grid_image_container gallery">
+                                                                @{
+                                                    string pdfLinkBtn = string.Empty;
+                                                    string imgToShowURL = string.Empty;
+                                                    if (prod.ProductType == (int)ProductType.AssetProduct)
                                                     {
-                                                        string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
-                                                        pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
-                                                        imgToShowURL = completeImgPath;
+                                                        pdfLinkBtn = "/" + prod.ThumbnailPath;
+                                                        imgToShowURL = "/" + prod.ThumbnailPath;
                                                     }
-                                                    else
+                                                    else if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
                                                     {
-                                                        string FolderPathOfAttachment = prod.Attatchment.FolderPath;
-                                                        if (FolderPathOfAttachment.Contains("Production") == true)
+                                                        string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
+                                                        if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
                                                         {
-                                                            FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
-                                                        }
-                                                        // from file table
-                                                        //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
-
-                                                        pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                        if (FolderPathOfAttachment[0] == '/')
-                                                        {
-                                                            imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                            string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                            pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                            imgToShowURL = completeImgPath;
                                                         }
                                                         else
                                                         {
-                                                            imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
-                                                        }
-
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    if (prod.ProductType == (int)ProductType.NonPrintProduct)
-                                                    {
-                                                        string completeImgPath = "/" + prod.ThumbnailPath;
-                                                        pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
-                                                        imgToShowURL = completeImgPath;
-                                                    }
-                                                }
-                                                            }
-                                                            <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL"></a>
-                                                        </div>
-                                                    </td>
-                                                    <td style="width:29%;">
-                                                        <span id="lblItemProductName" class="heading_16">@prod.ProductName</span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
-                                                        <br>
-                                                        <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
-                                                        <br>
-                                                        <br>
-                                                        <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
-                                                        <br>
-                                                        <br>
-                                                        @{
-                                                string itemAddsOn = string.Empty;
-                                                ProductProductionTime = prod.EstimateProductionTime ?? 0;
-                                                if (ViewData["selectedItemsAddonsList"] != null)
-                                                {
-                                                    List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
-                                                    foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == prod.ItemID))
-                                                    {
-                                                        itemAddsOn = itemAddsOn + cost.AddOnName + ",";
-                                                        noOfCostCentreProdDays += cost.EstimateProductionTime;
-                                                    }
-                                                }
-
-                                                ProductProductionTime += noOfCostCentreProdDays;
-                                                if (_numOfProductionDays < ProductProductionTime)
-                                                {
-                                                    _numOfProductionDays = ProductProductionTime;
-                                                }
-                                                numberOfDaysAddedTodelivery = _numOfProductionDays;
-
-                                                DateTime date = Utils.AddBusinessdays(_numOfProductionDays, DateTime.Now);
-
-                                                EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
-                                                        }
-                                                        <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
-                                                        <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
-                                                      
-                                                    </td>
-                                                    <td class="PadTop5" align="left" style="width:5%;">
-                                                        <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
-                                                    </td>
-                                                    @if (ViewBag.IsShowPrices)
-                                                    {
-
-                                                        string itemPrice = string.Empty;
-                                                        _vatTotal += prod.Qty1Tax1Value ?? 0;
-
-                                                        //2.Set item Price Now
-                                                        double ItemActulVal = 0;
-
-                                                        _priceTotal += prod.Qty1BaseCharge1 ?? 0;
-                                                        _DiscountAmountTotal += prod.DiscountedAmount ?? 0;
-
-                                                        if (prod.DiscountedAmount != null)
-                                                        {
-                                                            ItemActulVal = prod.Qty1BaseCharge1 + prod.DiscountedAmount ?? 0;
-                                                        }
-                                                        itemPrice = Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency);
-
-                                                        <td class="PadTop5 priceth" align="right" style="width:20%; padding-right:0px;">
-                                                            @if (prod.DiscountedVoucherId != null)
+                                                            string FolderPathOfAttachment = prod.Attatchment.FolderPath;
+                                                            if (FolderPathOfAttachment.Contains("Production") == true)
                                                             {
-                                                                <span id="spnItemActualPrice" class="fntQtyPrice strikeThrough" style="font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), ViewBag.Currency)</span>
-                                                                <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
+                                                                FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
+                                                            }
+                                                            // from file table
+                                                            //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
+
+                                                            pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
+                                                            if (FolderPathOfAttachment[0] == '/')
+                                                            {
+                                                                imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                             }
                                                             else
                                                             {
-                                                                <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
+                                                                imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                             }
 
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (prod.ProductType == (int)ProductType.NonPrintProduct)
+                                                        {
+                                                            string completeImgPath = "/" + prod.ThumbnailPath;
+                                                            pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                            imgToShowURL = completeImgPath;
+                                                        }
+                                                    }
+                                                                }
+                                                                <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL"></a>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width:29%;">
+                                                            <span id="lblItemProductName" class="heading_16">
+                                                                @if (!string.IsNullOrEmpty(prod.ProductFriendlyName))
+                                                                {
+                                                                    @prod.ProductFriendlyName
+                                                                }
+                                                                else
+                                                                {
+                                                                    @prod.ProductName
+                                                                }
+                                                            </span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
+                                                            <br>
+                                                            @if (!string.IsNullOrEmpty(prod.ProductCategoryName))
+                                                            {
+                                                                <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
+                                                                <br>
+                                                            }
+                                                            <br>
+                                                            <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
+                                                            <br>
+                                                            <br>
+                                                            @{
+                                                            string itemAddsOn = string.Empty;
+                                                            ProductProductionTime = prod.EstimateProductionTime ?? 0;
+                                                            if (ViewData["selectedItemsAddonsList"] != null)
+                                                            {
+                                                                List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
+                                                                foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == prod.ItemID))
+                                                                {
+                                                                    itemAddsOn = itemAddsOn + cost.AddOnName + ",";
+                                                                    noOfCostCentreProdDays += cost.EstimateProductionTime;
+                                                                }
+                                                            }
+
+                                                            ProductProductionTime += noOfCostCentreProdDays;
+                                                            if (_numOfProductionDays < ProductProductionTime)
+                                                            {
+                                                                _numOfProductionDays = ProductProductionTime;
+                                                            }
+                                                            numberOfDaysAddedTodelivery = _numOfProductionDays;
+
+                                                            DateTime date = Utils.AddBusinessdays(_numOfProductionDays, DateTime.Now);
+
+                                                            EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
+                                                            }
+                                                            <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
+                                                            <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
 
                                                         </td>
-                                                    }
+                                                        <td class="PadTop5" align="left" style="width:5%;">
+                                                            <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
+                                                        </td>
+                                                        @if (ViewBag.IsShowPrices)
+                                                        {
 
-                                                </tr>
+                                                            string itemPrice = string.Empty;
+                                                            _vatTotal += prod.Qty1Tax1Value ?? 0;
 
-                                                    subtotal = Utils.FormatDecimalValueToTwoDecimal(_priceTotal.ToString(), ViewBag.Currency);
-                                                    double TotalTax = _vatTotal + Model.DeliveryTaxValue;
-                                                    VatTotal = Utils.FormatDecimalValueToTwoDecimal(TotalTax.ToString(), ViewBag.Currency);
-                                                    GrossTotal = _priceTotal + TotalTax + Model.DeliveryCost;
+                                                            //2.Set item Price Now
+                                                            double ItemActulVal = 0;
+
+                                                            _priceTotal += prod.Qty1BaseCharge1 ?? 0;
+                                                            _DiscountAmountTotal += prod.DiscountedAmount ?? 0;
+
+                                                            if (prod.DiscountedAmount != null)
+                                                            {
+                                                                ItemActulVal = prod.Qty1BaseCharge1 + prod.DiscountedAmount ?? 0;
+                                                            }
+                                                            itemPrice = Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency);
+
+                                                            <td class="PadTop5 priceth" align="right" style="width:20%; padding-right:0px;">
+                                                                @if (prod.DiscountedVoucherId != null)
+                                                                {
+                                                                    <span id="spnItemActualPrice" class="fntQtyPrice strikeThrough" style="font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), ViewBag.Currency)</span>
+                                                                    <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
+                                                                }
+
+
+                                                            </td>
+                                                        }
+
+                                                    </tr>
+
+                                                        subtotal = Utils.FormatDecimalValueToTwoDecimal(_priceTotal.ToString(), ViewBag.Currency);
+                                                        double TotalTax = _vatTotal + Model.DeliveryTaxValue;
+                                                        VatTotal = Utils.FormatDecimalValueToTwoDecimal(TotalTax.ToString(), ViewBag.Currency);
+                                                        GrossTotal = _priceTotal + TotalTax + Model.DeliveryCost;
+
+                                                }
 
                                             }
 
-                                        }
-                                       
-                                        
-                                    </tbody>
-                                </table>
-                                <br />
-                                @if (ViewBag.IsShowPrices)
-                                {
-                                    <div id="PnalTotalBox">
-                                        <table id="OderConfirmationTab" border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
-                                            <tr>
-                                                <td class="OCnfmtd1">
-                                                    &nbsp;
-                                                </td>
-                                                <td width="25%">
-                                                    &nbsp;
-                                                </td>
-                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td1" style="text-align:right;">
-                                                    <span id="spnsubtotal" class="CartFonts colorBlack">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total")):</span>
-                                                </td>
-                                                <td align="right" class="OCnfmtd4">
-                                                    <label id="lblSubTotal" class="Fsize15 colorBlack">@subtotal</label>
-                                                </td>
-                                            </tr>
-                                            @if (_DiscountAmountTotal > 0)
-                                            {
+
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                    @if (ViewBag.IsShowPrices)
+                                    {
+                                        <div id="PnalTotalBox">
+                                            <table id="OderConfirmationTab" border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
                                                 <tr>
-                                                    <td class="OCnfmtd1" align="left">
+                                                    <td class="OCnfmtd1">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td width="25%">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td1" style="text-align:right;">
+                                                        <span id="spnsubtotal" class="CartFonts ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total")):</span>
+                                                    </td>
+                                                    <td align="right" class="OCnfmtd4">
+                                                        <label id="lblSubTotal" class="Fsize13 colorBlack">@subtotal</label>
+                                                    </td>
+                                                </tr>
+                                                @if (_DiscountAmountTotal > 0)
+                                                {
+                                                    <tr>
+                                                        <td class="OCnfmtd1" align="left">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td width="25%">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
+                                                            <span id="spndiscount" class="CartFonts clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</span>
+                                                        </td>
+                                                        <td align="right" class="OCnfmtd4">
+                                                            <label id="lbldiscount" class="Fsize13 clrRed">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</label>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                <tr>
+                                                    <td align="left" class="OCnfmtd1">
                                                         &nbsp;
                                                     </td>
                                                     <td width="25%">
                                                         &nbsp;
                                                     </td>
                                                     <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
-                                                        <span id="spndiscount" class="CartFonts clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</span>
+                                                        <span id="spndelivery" class="CartFonts ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId, "Delivery")):</span>
                                                     </td>
-                                                    <td align="right"  class="OCnfmtd4">
-                                                        <label id="lbldiscount" class="Fsize15 clrRed">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</label>
+                                                    <td align="right" class="OCnfmtd4">
+                                                        @if (Model.DeliveryDiscountVoucherID == null)
+                                                        {
+                                                            <label id="lblDeliveryCostCenter" class="Fsize13 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label class="Fsize13 colorBlack  delivery-OCnfntext" id="lblCalculatedDelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
+
+
+                                                        }
+
                                                     </td>
                                                 </tr>
-                                            }
-                                            <tr>
-                                                <td align="left" class="OCnfmtd1">
-                                                    &nbsp;
-                                                </td>
-                                                <td width="25%">
-                                                    &nbsp;
-                                                </td>
-                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
-                                                    <span id="spndelivery" class="CartFonts colorBlack">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId, "Delivery")):</span>
-                                                </td>
-                                                <td align="right" class="OCnfmtd4">
-                                                    @if (Model.DeliveryDiscountVoucherID == null)
-                                                    {
-                                                        <label id="lblDeliveryCostCenter" class="Fsize15 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
-                                                    }
-                                                    else
-                                                    {
-                                                        <label class="Fsize15 colorBlack  delivery-OCnfntext" id="lblCalculatedDelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
-
-                                                        <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
-                                                    }
-
-                                                </td>
-                                            </tr>
-                                            <tr id="Tr2">
-                                                <td align="left" class="OCnfmtd1"></td>
-                                                <td width="25%"></td>
-                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" style="text-align:right;">
-                                                    <span id="lblTaxLabel" class="CartFonts colorBlack">@ViewBag.TaxLabel:</span>
-                                                </td>
-                                                <td align="right" class="OCnfmtd4">
-                                                    <label id="lblVatTotal" class="Fsize15 colorBlack">@VatTotal</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="OCnfmtd1">
-                                                    &nbsp;
-                                                </td>
-                                                <td width="25%">
-                                                    &nbsp;
-                                                </td>
-                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td3" style="text-align:right;">
-                                                    <span class="CartFonts colorBlack" id="spngrandtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.WBStoreId, "Total"))
-:</span>
-                                                </td>
-                                                <td align="right" class="OCnfmtd4">
-                                                    <label class="CartFonts colorBlack Fsize15" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                }
+                                                <tr id="Tr2">
+                                                    <td align="left" class="OCnfmtd1"></td>
+                                                    <td width="25%"></td>
+                                                    <td width="30%" align="left" class="fontWeightNormal Fsize13" style="text-align:right;">
+                                                        <span id="lblTaxLabel" class="CartFonts ">@ViewBag.TaxLabel:</span>
+                                                    </td>
+                                                    <td align="right" class="OCnfmtd4">
+                                                        <label id="lblVatTotal" class="Fsize13 colorBlack">@VatTotal</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="OCnfmtd1">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td width="25%">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td3" style="text-align:right;">
+                                                        <span class="CartFonts " id="spngrandtotal">
+                                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.WBStoreId, "Total"))
+                                                            :
+                                                        </span>
+                                                    </td>
+                                                    <td align="right" class="OCnfmtd4">
+                                                        <label class="CartFonts colorBlack Fsize13" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                        </div>
-                        @using (Html.BeginForm())
-                        {
-                            <input type="hidden" id="buttonType" name="buttonType" />
-                            <input type="submit" id="submitFormUsingPopUp" name="submitFormUsingPopUp" style="display:none;" />
-                            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                            @using (Html.BeginForm())
                             {
-                                if (ViewBag.LoginUser.IsPayByPersonalCreditCard == true)
+                                <input type="hidden" id="buttonType" name="buttonType" />
+                                <input type="submit" id="submitFormUsingPopUp" name="submitFormUsingPopUp" style="display:none;" />
+                                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                                 {
-                                    if (ViewBag.LoginUser.canPlaceDirectOrder == true)
+                                    if (ViewBag.LoginUser.IsPayByPersonalCreditCard == true)
                                     {
-                                        <div class="pad10" id="myyyyy" style="padding-right: 0px !important;">
-                                            <div class="float_right marginLeft directDepositcs">
-                                                <input id="btnPayByDirectDeposit" type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("payviadeeposit", UserCookieManager.WBStoreId, "Pay Via Direct Deposit"))' class="start_creating_btn_SApp rounded_corners5" onclick="return setButtonType('2'); " />
+                                        if (ViewBag.LoginUser.canPlaceDirectOrder == true)
+                                        {
+                                            <div class="pad10" id="myyyyy" style="padding-right: 0px !important;">
+                                                <div class="float_right marginLeft directDepositcs">
+                                                    <input id="btnPayByDirectDeposit" type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("payviadeeposit", UserCookieManager.WBStoreId, "Pay Via Direct Deposit"))' class="start_creating_btn_SApp rounded_corners5" onclick="return setButtonType('2'); " />
+                                                </div>
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                        }
+                                        <div class="pad10" id="kkkkk" style="padding-right: 0px !important;">
+                                            <div class="float_right marginLeft">
+                                                <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payviaccarddd", UserCookieManager.WBStoreId, "Pay by Credit Card"))" onclick="return setButtonType('1'); ShowLoader();" />
+                                            </div>
+                                            <div class="float_right">
+                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
+                                                       onclick="BackToShopping('@UserCookieManager.WEBOrderId'); ShowLoader();" />
+                                                @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                            </div>
+                                            <div class="clearBoth">
+                                                &nbsp;
                                             </div>
                                         </div>
-                                        <div class="clearBoth">
+
+                                    }
+                                    else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
+                                    {
+                                        <div class="pad10" id="oo" style="padding-right: 0px !important;">
+                                            <div class="float_right marginLeft">
+                                                <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1');" />
+                                            </div>
+                                            <div class="float_right">
+                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
+                                                       onclick="BackToShopping('@UserCookieManager.WEBOrderId');" />
+                                                @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                            </div>
+                                            <div class="clearBoth">
+                                                &nbsp;
+                                            </div>
                                         </div>
-                                    } 
-                                    <div class="pad10" id="kkkkk" style="padding-right: 0px !important;">
+                                    }
+                                    else
+                                    {
+                                        <div class="pad10" id="mine" style="padding-right: 0px !important;">
+                                            <div class="float_right marginLeft">
+                                                <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitforappr", UserCookieManager.WBStoreId, "Submit for Approval"))" onclick="return setButtonType('1');" />
+                                            </div>
+                                            <div class="float_right">
+                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
+                                                       onclick="BackToShopping('@UserCookieManager.WEBOrderId');" />
+                                                @*  <a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                            </div>
+                                            <div class="clearBoth">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="pad10" style="padding-right: 0px !important;">
                                         <div class="float_right marginLeft">
-                                            <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payviaccarddd", UserCookieManager.WBStoreId, "Pay by Credit Card"))" onclick="return setButtonType('1'); ShowLoader();" />
+                                            <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1');" />
                                         </div>
                                         <div class="float_right">
                                             <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -442,83 +517,34 @@
                                             &nbsp;
                                         </div>
                                     </div>
-
-                                }
-                                else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
-                                {
-                                    <div class="pad10" id="oo" style="padding-right: 0px !important;">
-                                        <div class="float_right marginLeft">
-                                            <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1');" />
-                                        </div>
-                                        <div class="float_right">
-                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
-                                                   onclick="BackToShopping('@UserCookieManager.WEBOrderId');" />
-                                            @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
-                                        </div>
-                                        <div class="clearBoth">
-                                            &nbsp;
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="pad10" id="mine" style="padding-right: 0px !important;">
-                                        <div class="float_right marginLeft">
-                                            <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitforappr", UserCookieManager.WBStoreId, "Submit for Approval"))" onclick="return setButtonType('1');" />
-                                        </div>
-                                        <div class="float_right">
-                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
-                                                   onclick="BackToShopping('@UserCookieManager.WEBOrderId');" />
-                                            @*  <a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
-                                        </div>
-                                        <div class="clearBoth">
-                                            &nbsp;
-                                        </div>
-                                    </div>
                                 }
                             }
-                            else
-                            {
-                                <div class="pad10" style="padding-right: 0px !important;">
-                                    <div class="float_right marginLeft">
-                                        <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1');" />
-                                    </div>
-                                    <div class="float_right">
-                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
-                                               onclick="BackToShopping('@UserCookieManager.WEBOrderId'); ShowLoader();" />
-                                        @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
-                                    </div>
-                                    <div class="clearBoth">
-                                        &nbsp;
-                                    </div>
-                                </div>
-                            }
-                        }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        }
+      
     </div>
 </div>
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
-            <script>
-               
-                function setButtonType(Type) {
-                    ShowReceiptLoader();
-                    $("#buttonType").val(Type);
-                    return true;
-                }
-                function BackToShopping(OrderId) {
-                    window.location.href = "/ShopCart?OrderId=" + OrderId;
-                }
-                
-                function ContinueOrder() {
-                    HideMessagePopUp();
-                    ShowReceiptLoader();
-                    $("#submitFormUsingPopUp").click();
-                    return true;
-                }
-             
-            </script>
+<script>
 
+    function setButtonType(Type) {
+        ShowReceiptLoader();
+        $("#buttonType").val(Type);
+        return true;
+    }
+    function BackToShopping(OrderId) {
+        window.location.href = "/ShopCart?OrderId=" + OrderId;
+    }
+
+    function ContinueOrder() {
+        HideMessagePopUp();
+        ShowReceiptLoader();
+        $("#submitFormUsingPopUp").click();
+        return true;
+    }
+
+</script>

@@ -139,7 +139,7 @@
     var ClickChargeZone = function (source) {
         var self
         if (source != undefined) {
-            Id = ko.observable(source.Id),
+            Id = ko.observable(source != undefined ? source.Id : undefined),
             MethodId = ko.observable(source.MethodId),
             From1 = ko.observable(source.From1),
             To1 = ko.observable(source.To1),
@@ -223,86 +223,85 @@
             Id = ko.observable(),
             MethodId = ko.observable(),
             From1 = ko.observable(0),
-            To1 = ko.observable(),
-            Sheets1 = ko.observable(),
-            SheetCost1 = ko.observable(),
-            SheetPrice1 = ko.observable(),
-            From2 = ko.observable(),
-            To2 = ko.observable(),
-            Sheets2 = ko.observable(),
-            SheetCost2 = ko.observable(),
-            SheetPrice2 = ko.observable(),
-            From3 = ko.observable(),
-            To3 = ko.observable(),
-            Sheets3 = ko.observable(),
-            SheetCost3 = ko.observable(),
-            SheetPrice3 = ko.observable(),
-            From4 = ko.observable(),
-            To4 = ko.observable(),
-            Sheets4 = ko.observable(),
-            SheetCost4 = ko.observable(),
-            SheetPrice4 = ko.observable(),
-            From5 = ko.observable(),
-            To5 = ko.observable(),
-            Sheets5 = ko.observable(),
-            SheetCost5 = ko.observable(),
-            SheetPrice5 = ko.observable(),
-            From6 = ko.observable(),
-            To6 = ko.observable(),
-            Sheets6 = ko.observable(),
-            SheetCost6 = ko.observable(),
-            SheetPrice6 = ko.observable(),
-            From7 = ko.observable(),
-            To7 = ko.observable(),
-            Sheets7 = ko.observable(),
-            SheetCost7 = ko.observable(),
-            SheetPrice7 = ko.observable(),
-            From8 = ko.observable(),
-            To8 = ko.observable(),
-            Sheets8 = ko.observable(),
-            SheetCost8 = ko.observable(),
-            SheetPrice8 = ko.observable(),
-            From9 = ko.observable(),
-            To9 = ko.observable(),
-            Sheets9 = ko.observable(),
-            SheetCost9 = ko.observable(),
-            SheetPrice9 = ko.observable(),
-            From10 = ko.observable(),
-            To10 = ko.observable(),
-            Sheets10 = ko.observable(),
-            SheetCost10 = ko.observable(),
-            SheetPrice10 = ko.observable(),
-            From11 = ko.observable(),
-            To11 = ko.observable(),
-            Sheets11 = ko.observable(),
-            SheetCost11 = ko.observable(),
-            SheetPrice11 = ko.observable(),
-            From12 = ko.observable(),
-            To12 = ko.observable(),
-            Sheets12 = ko.observable(),
-            SheetCost12 = ko.observable(),
-            SheetPrice12 = ko.observable(),
-            From13 = ko.observable(),
-            To13 = ko.observable(),
-            Sheets13 = ko.observable(),
-            SheetCost13 = ko.observable(),
-            SheetPrice13 = ko.observable(),
-            From14 = ko.observable(),
-            To14 = ko.observable(),
-            Sheets14 = ko.observable(),
-            SheetCost14 = ko.observable(),
-            SheetPrice14 = ko.observable(),
-            From15 = ko.observable(),
-            To15 = ko.observable(),
-            Sheets15 = ko.observable(),
-            SheetCost15 = ko.observable(),
-            SheetPrice15 = ko.observable(),
+            To1 = ko.observable(5000),
+            Sheets1 = ko.observable(1000),
+            SheetCost1 = ko.observable(22),
+            SheetPrice1 = ko.observable(22),
+            From2 = ko.observable(5001),
+            To2 = ko.observable(10000),
+            Sheets2 = ko.observable(1000),
+            SheetCost2 = ko.observable(21),
+            SheetPrice2 = ko.observable(21),
+            From3 = ko.observable(10001),
+            To3 = ko.observable(20000),
+            Sheets3 = ko.observable(1000),
+            SheetCost3 = ko.observable(20),
+            SheetPrice3 = ko.observable(20),
+            From4 = ko.observable(20001),
+            To4 = ko.observable(30000),
+            Sheets4 = ko.observable(1000),
+            SheetCost4 = ko.observable(19),
+            SheetPrice4 = ko.observable(19),
+            From5 = ko.observable(30001),
+            To5 = ko.observable(40000),
+            Sheets5 = ko.observable(1000),
+            SheetCost5 = ko.observable(18),
+            SheetPrice5 = ko.observable(18),
+            From6 = ko.observable(40001),
+            To6 = ko.observable(50000),
+            Sheets6 = ko.observable(1000),
+            SheetCost6 = ko.observable(17),
+            SheetPrice6 = ko.observable(17),
+            From7 = ko.observable(50001),
+            To7 = ko.observable(60000),
+            Sheets7 = ko.observable(1000),
+            SheetCost7 = ko.observable(16),
+            SheetPrice7 = ko.observable(16),
+            From8 = ko.observable(60001),
+            To8 = ko.observable(70000),
+            Sheets8 = ko.observable(1000),
+            SheetCost8 = ko.observable(15),
+            SheetPrice8 = ko.observable(15),
+            From9 = ko.observable(70001),
+            To9 = ko.observable(80000),
+            Sheets9 = ko.observable(1000),
+            SheetCost9 = ko.observable(14),
+            SheetPrice9 = ko.observable(14),
+            From10 = ko.observable(80001),
+            To10 = ko.observable(90000),
+            Sheets10 = ko.observable(1000),
+            SheetCost10 = ko.observable(13),
+            SheetPrice10 = ko.observable(13),
+            From11 = ko.observable(90001),
+            To11 = ko.observable(100000),
+            Sheets11 = ko.observable(1000),
+            SheetCost11 = ko.observable(12),
+            SheetPrice11 = ko.observable(12),
+            From12 = ko.observable(100001),
+            To12 = ko.observable(110000),
+            Sheets12 = ko.observable(1000),
+            SheetCost12 = ko.observable(11),
+            SheetPrice12 = ko.observable(11),
+            From13 = ko.observable(110001),
+            To13 = ko.observable(120000),
+            Sheets13 = ko.observable(1000),
+            SheetCost13 = ko.observable(10),
+            SheetPrice13 = ko.observable(10),
+            From14 = ko.observable(120001),
+            To14 = ko.observable(130000),
+            Sheets14 = ko.observable(1000),
+            SheetCost14 = ko.observable(9),
+            SheetPrice14 = ko.observable(9),
+            From15 = ko.observable(130001),
+            To15 = ko.observable(140000),
+            Sheets15 = ko.observable(1000),
+            SheetCost15 = ko.observable(8),
+            SheetPrice15 = ko.observable(8),
             isaccumulativecharge = ko.observable(),
             IsRoundUp = ko.observable(),
             TimePerHour = ko.observable()
         }
-
-
+        
         errors = ko.validation.group({
         }),
         // Is Valid
@@ -787,109 +786,79 @@
         return self;
 
     }
-    var SpeedWeightLookup = function (source) {
+    var SpeedWeightLookup = function(source) {
         var self
-        if (source != undefined) {
-            Id = ko.observable(source.Id),
-                MethodId = ko.observable(source.MethodId),
-                SheetsQty1 = ko.observable(source.SheetsQty1),
-                SheetsQty2 = ko.observable(source.SheetsQty2),
-                SheetsQty3 = ko.observable(source.SheetsQty3),
-                SheetsQty4 = ko.observable(source.SheetsQty4),
-                SheetsQty5 = ko.observable(source.SheetsQty5),
-                SheetWeight1 = ko.observable(source.SheetWeight1),
-                speedqty11 = ko.observable(source.speedqty11),
-                speedqty12 = ko.observable(source.speedqty12),
-                speedqty13 = ko.observable(source.speedqty13),
-                speedqty14 = ko.observable(source.speedqty14),
-                speedqty15 = ko.observable(source.speedqty15),
-                SheetWeight2 = ko.observable(source.SheetWeight2),
-                speedqty21 = ko.observable(source.speedqty21),
-                speedqty22 = ko.observable(source.speedqty22),
-                speedqty23 = ko.observable(source.speedqty23),
-                speedqty24 = ko.observable(source.speedqty24),
-                speedqty25 = ko.observable(source.speedqty25),
-                SheetWeight3 = ko.observable(source.SheetWeight3),
-                speedqty31 = ko.observable(source.speedqty31),
-                speedqty32 = ko.observable(source.speedqty32),
-                speedqty33 = ko.observable(source.speedqty33),
-                speedqty34 = ko.observable(source.speedqty34),
-                speedqty35 = ko.observable(source.speedqty35),
-                hourlyCost = ko.observable(source.hourlyCost),
-                hourlyPrice = ko.observable(source.hourlyPrice)
-        } else {
-            Id = ko.observable(),
-                MethodId = ko.observable(),
-                SheetsQty1 = ko.observable(),
-                SheetsQty2 = ko.observable(),
-                SheetsQty3 = ko.observable(),
-                SheetsQty4 = ko.observable(),
-                SheetsQty5 = ko.observable(),
-                SheetWeight1 = ko.observable(),
-                speedqty11 = ko.observable(),
-                speedqty12 = ko.observable(),
-                speedqty13 = ko.observable(),
-                speedqty14 = ko.observable(),
-                speedqty15 = ko.observable(),
-                SheetWeight2 = ko.observable(),
-                speedqty21 = ko.observable(),
-                speedqty22 = ko.observable(),
-                speedqty23 = ko.observable(),
-                speedqty24 = ko.observable(),
-                speedqty25 = ko.observable(),
-                SheetWeight3 = ko.observable(),
-                speedqty31 = ko.observable(),
-                speedqty32 = ko.observable(),
-                speedqty33 = ko.observable(),
-                speedqty34 = ko.observable(),
-                speedqty35 = ko.observable(),
-                hourlyCost = ko.observable(),
-                hourlyPrice = ko.observable()
-        }
+        Id = ko.observable(source != undefined ? source.Id : undefined),
+            MethodId = ko.observable(source != undefined ? source.MethodId : undefined),
+            SheetsQty1 = ko.observable(source != undefined ? source.SheetsQty1 : undefined),
+            SheetsQty2 = ko.observable(source != undefined ? source.SheetsQty2 : undefined),
+            SheetsQty3 = ko.observable(source != undefined ? source.SheetsQty3 : undefined),
+            SheetsQty4 = ko.observable(source != undefined ? source.SheetsQty4 : undefined),
+            SheetsQty5 = ko.observable(source != undefined ? source.SheetsQty5 : undefined),
+            SheetWeight1 = ko.observable(source != undefined ? source.SheetWeight1 : undefined),
+            speedqty11 = ko.observable(source != undefined ? source.speedqty11 : undefined),
+            speedqty12 = ko.observable(source != undefined ? source.speedqty12 : undefined),
+            speedqty13 = ko.observable(source != undefined ? source.speedqty13 : undefined),
+            speedqty14 = ko.observable(source != undefined ? source.speedqty14 : undefined),
+            speedqty15 = ko.observable(source != undefined ? source.speedqty15 : undefined),
+            SheetWeight2 = ko.observable(source != undefined ? source.SheetWeight2 : undefined),
+            speedqty21 = ko.observable(source != undefined ? source.speedqty21 : undefined),
+            speedqty22 = ko.observable(source != undefined ? source.speedqty22 : undefined),
+            speedqty23 = ko.observable(source != undefined ? source.speedqty23 : undefined),
+            speedqty24 = ko.observable(source != undefined ? source.speedqty24 : undefined),
+            speedqty25 = ko.observable(source != undefined ? source.speedqty25 : undefined),
+            SheetWeight3 = ko.observable(source != undefined ? source.SheetWeight3 : undefined),
+            speedqty31 = ko.observable(source != undefined ? source.speedqty31 : undefined),
+            speedqty32 = ko.observable(source != undefined ? source.speedqty32 : undefined),
+            speedqty33 = ko.observable(source != undefined ? source.speedqty33 : undefined),
+            speedqty34 = ko.observable(source != undefined ? source.speedqty34 : undefined),
+            speedqty35 = ko.observable(source != undefined ? source.speedqty35 : undefined),
+            hourlyCost = ko.observable(source != undefined ? source.hourlyCost : undefined),
+            hourlyPrice = ko.observable(source != undefined ? source.hourlyPrice : undefined),
         errors = ko.validation.group({
+            
         }),
-        // Is Valid
-      isValid = ko.computed(function () {
-          return errors().length === 0;
-      }),
-      dirtyFlag = new ko.dirtyFlag({
-          Id: Id,
-          MethodId: MethodId,
-          SheetsQty1: SheetsQty1,
-          SheetsQty2: SheetsQty2,
-          SheetsQty3: SheetsQty3,
-          SheetsQty4: SheetsQty4,
-          SheetsQty5: SheetsQty5,
-          SheetWeight1: SheetWeight1,
-          speedqty11: speedqty11,
-          speedqty12: speedqty12,
-          speedqty13: speedqty13,
-          speedqty14: speedqty14,
-          speedqty15: speedqty15,
-          SheetWeight2: SheetWeight2,
-          speedqty21: speedqty21,
-          speedqty22: speedqty22,
-          speedqty23: speedqty23,
-          speedqty24: speedqty24,
-          speedqty25: speedqty25,
-          SheetWeight3: SheetWeight3,
-          speedqty31: speedqty31,
-          speedqty32: speedqty32,
-          speedqty33: speedqty33,
-          speedqty34: speedqty34,
-          speedqty35: speedqty35,
-          hourlyCost: hourlyCost,
-          hourlyPrice: hourlyPrice
-
-      }),
-        // Has Changes
-      hasChanges = ko.computed(function () {
-          return dirtyFlag.isDirty();
-      }),
-        // Reset
-      reset = function () {
-          dirtyFlag.reset();
-      };
+            // Is Valid
+        isValid = ko.computed(function() {
+            return errors().length === 0;
+        }),
+        dirtyFlag = new ko.dirtyFlag({
+            Id: Id,
+            MethodId: MethodId,
+            SheetsQty1: SheetsQty1,
+            SheetsQty2: SheetsQty2,
+            SheetsQty3: SheetsQty3,
+            SheetsQty4: SheetsQty4,
+            SheetsQty5: SheetsQty5,
+            SheetWeight1: SheetWeight1,
+            speedqty11: speedqty11,
+            speedqty12: speedqty12,
+            speedqty13: speedqty13,
+            speedqty14: speedqty14,
+            speedqty15: speedqty15,
+            SheetWeight2: SheetWeight2,
+            speedqty21: speedqty21,
+            speedqty22: speedqty22,
+            speedqty23: speedqty23,
+            speedqty24: speedqty24,
+            speedqty25: speedqty25,
+            SheetWeight3: SheetWeight3,
+            speedqty31: speedqty31,
+            speedqty32: speedqty32,
+            speedqty33: speedqty33,
+            speedqty34: speedqty34,
+            speedqty35: speedqty35,
+            hourlyCost: hourlyCost,
+            hourlyPrice: hourlyPrice
+        }),
+            // Has Changes
+        hasChanges = ko.computed(function() {
+            return dirtyFlag.isDirty();
+        }),
+            // Reset
+        reset = function() {
+            dirtyFlag.reset();
+        };
 
         self = {
             Id: Id,
@@ -924,11 +893,20 @@
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
-
         };
         return self;
 
-    }
+    };
+        SpeedWeightLookup.create = function() {
+            var speedweight = new SpeedWeightLookup({
+                ID: 0, MethodId: 0, SheetsQty1: 0, SheetsQty2: 0, SheetsQty3: 0, SheetsQty4: 0,
+                SheetsQty5: 0, SheetWeight1: 0, speedqty11: 0, speedqty12: 0, speedqty13: 0, speedqty14: 0, speedqty15: 0,
+                SheetWeight2: 0, speedqty21: 0, speedqty22: 0, speedqty23: 0, speedqty24: 0, speedqty25: 0,
+                SheetWeight3: 0, speedqty31: 0, speedqty32: 0, speedqty33: 0, speedqty34: 0, speedqty35: 0,hourlyCost:0, hourlyPrice:0
+            });
+            return speedweight;
+        }
+    
     var GuillotineClickPTV = function (source) {
         var self
         if (source != undefined) {
@@ -1272,37 +1250,37 @@
             ClickChargeZoneLookup.IsRoundUp = ClickChargeZone.IsRoundUp();
             ClickChargeZoneLookup.TimePerHour = ClickChargeZone.TimePerHour();
         }
-        var SpeedWeightLookup = {};
+        //var SpeedWeightLookup = {};
 
-        if (SpeedWeight != undefined) {
-            SpeedWeightLookup.Id = SpeedWeight.Id();
-            SpeedWeightLookup.MethodId = SpeedWeight.MethodId();
-            SpeedWeightLookup.SheetsQty1 = SpeedWeight.SheetsQty1();
-            SpeedWeightLookup.SheetsQty2 = SpeedWeight.SheetsQty2();
-            SpeedWeightLookup.SheetsQty3 = SpeedWeight.SheetsQty3();
-            SpeedWeightLookup.SheetsQty4 = SpeedWeight.SheetsQty4();
-            SpeedWeightLookup.SheetsQty5 = SpeedWeight.SheetsQty5();
-            SpeedWeightLookup.SheetWeight1 = SpeedWeight.SheetWeight1();
-            SpeedWeightLookup.speedqty11 = SpeedWeight.speedqty11();
-            SpeedWeightLookup.speedqty12 = SpeedWeight.speedqty12();
-            SpeedWeightLookup.speedqty13 = SpeedWeight.speedqty13();
-            SpeedWeightLookup.speedqty14 = SpeedWeight.speedqty14();
-            SpeedWeightLookup.speedqty15 = SpeedWeight.speedqty15();
-            SpeedWeightLookup.SheetWeight2 = SpeedWeight.SheetWeight2();
-            SpeedWeightLookup.speedqty21 = SpeedWeight.speedqty21();
-            SpeedWeightLookup.speedqty22 = SpeedWeight.speedqty22();
-            SpeedWeightLookup.speedqty23 = SpeedWeight.speedqty23();
-            SpeedWeightLookup.speedqty24 = SpeedWeight.speedqty24();
-            SpeedWeightLookup.speedqty25 = SpeedWeight.speedqty25();
-            SpeedWeightLookup.SheetWeight3 = SpeedWeight.SheetWeight3();
-            SpeedWeightLookup.speedqty31 = SpeedWeight.speedqty31();
-            SpeedWeightLookup.speedqty32 = SpeedWeight.speedqty32();
-            SpeedWeightLookup.speedqty33 = SpeedWeight.speedqty33();
-            SpeedWeightLookup.speedqty34 = SpeedWeight.speedqty34();
-            SpeedWeightLookup.speedqty35 = SpeedWeight.speedqty35();
-            SpeedWeightLookup.hourlyCost = SpeedWeight.hourlyCost();
-            SpeedWeightLookup.hourlyPrice = SpeedWeight.hourlyPrice();
-        }
+        //if (SpeedWeight != undefined) {
+        //    SpeedWeightLookup.Id = SpeedWeight.Id();
+        //    SpeedWeightLookup.MethodId = SpeedWeight.MethodId();
+        //    SpeedWeightLookup.SheetsQty1 = SpeedWeight.SheetsQty1();
+        //    SpeedWeightLookup.SheetsQty2 = SpeedWeight.SheetsQty2();
+        //    SpeedWeightLookup.SheetsQty3 = SpeedWeight.SheetsQty3();
+        //    SpeedWeightLookup.SheetsQty4 = SpeedWeight.SheetsQty4();
+        //    SpeedWeightLookup.SheetsQty5 = SpeedWeight.SheetsQty5();
+        //    SpeedWeightLookup.SheetWeight1 = SpeedWeight.SheetWeight1();
+        //    SpeedWeightLookup.speedqty11 = SpeedWeight.speedqty11();
+        //    SpeedWeightLookup.speedqty12 = SpeedWeight.speedqty12();
+        //    SpeedWeightLookup.speedqty13 = SpeedWeight.speedqty13();
+        //    SpeedWeightLookup.speedqty14 = SpeedWeight.speedqty14();
+        //    SpeedWeightLookup.speedqty15 = SpeedWeight.speedqty15();
+        //    SpeedWeightLookup.SheetWeight2 = SpeedWeight.SheetWeight2();
+        //    SpeedWeightLookup.speedqty21 = SpeedWeight.speedqty21();
+        //    SpeedWeightLookup.speedqty22 = SpeedWeight.speedqty22();
+        //    SpeedWeightLookup.speedqty23 = SpeedWeight.speedqty23();
+        //    SpeedWeightLookup.speedqty24 = SpeedWeight.speedqty24();
+        //    SpeedWeightLookup.speedqty25 = SpeedWeight.speedqty25();
+        //    SpeedWeightLookup.SheetWeight3 = SpeedWeight.SheetWeight3();
+        //    SpeedWeightLookup.speedqty31 = SpeedWeight.speedqty31();
+        //    SpeedWeightLookup.speedqty32 = SpeedWeight.speedqty32();
+        //    SpeedWeightLookup.speedqty33 = SpeedWeight.speedqty33();
+        //    SpeedWeightLookup.speedqty34 = SpeedWeight.speedqty34();
+        //    SpeedWeightLookup.speedqty35 = SpeedWeight.speedqty35();
+        //    SpeedWeightLookup.hourlyCost = SpeedWeight.hourlyCost();
+        //    SpeedWeightLookup.hourlyPrice = SpeedWeight.hourlyPrice();
+        //}
         var PerHourLookup = {};
         if (PerHour != undefined) {
             PerHourLookup.Id = PerHour.Id();

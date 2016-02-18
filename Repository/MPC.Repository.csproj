@@ -198,6 +198,8 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AssetItemsRepository.cs" />
+    <Compile Include="Repositories\AssetsRepository.cs" />
     <Compile Include="Repositories\CampaignImageRepository.cs" />
     <Compile Include="Repositories\CMSOfferRepository.cs" />
     <Compile Include="Repositories\CompanyVoucherRedeemRepository.cs" />
@@ -224,6 +226,7 @@
     <Compile Include="Repositories\DeliveryNoteDetailRepository.cs" />
     <Compile Include="Repositories\DeliveryNoteRepository.cs" />
     <Compile Include="Repositories\EstimateInquiryRepository.cs" />
+    <Compile Include="Repositories\FolderRepository.cs" />
     <Compile Include="Repositories\GoodRecieveNoteRepository.cs" />
     <Compile Include="Repositories\GoodsReceivedNoteDetailRepository.cs" />
     <Compile Include="Repositories\InkCoverageGroupRepository.cs" />
@@ -232,6 +235,7 @@
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
     <Compile Include="Repositories\ItemsVoucherRepository.cs" />
+    <Compile Include="Repositories\ListingBulletPointsRepository.cs" />
     <Compile Include="Repositories\MarketingBriefHistoryRepository.cs" />
     <Compile Include="Repositories\ProductCategoryVoucherRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefAnswerRepository.cs" />
@@ -297,6 +301,7 @@
     <Compile Include="Repositories\SmartFormDetailRepository.cs" />
     <Compile Include="Repositories\SmartFormRepository.cs" />
     <Compile Include="Repositories\StagingImportCompanyContactAddressRepository.cs" />
+    <Compile Include="Repositories\StagingImportProductsRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\CostCenterTypeRepository.cs" />
     <Compile Include="Repositories\StatusRepository.cs" />

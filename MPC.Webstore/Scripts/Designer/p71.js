@@ -99,6 +99,8 @@ clrData[i] = new ColorData(10, 15, 75, 10, "D2BB57"); i++;
 clrData[i] = new ColorData(10, 10, 50, 10, "D1C486"); i++;
 clrData[i] = new ColorData(10, 10, 35, 5, "D9CFA6"); i++;
 clrData[i] = new ColorData(5, 5, 20, 5, "E4DDC5"); i++;
+
+
 clrData[i] = new ColorData(5, 3, 10, 5, "E3E2D7"); i++;
 clrData[i] = new ColorData(10, 30, 100, 30, "A98415"); i++;
 clrData[i] = new ColorData(10, 25, 80, 30, "AA8C3B"); i++;
@@ -300,6 +302,7 @@ clrData[i] = new ColorData(0, 10, 20, 0, "FFE5CA"); i++;
 clrData[i] = new ColorData(0, 5, 10, 0, "FFF1E1"); i++;
 clrData[i] = new ColorData(0, 50, 100, 10, "E0861A"); i++;
 clrData[i] = new ColorData(0, 53, 10, 72, "673848"); i++;
+clrData[i] = new ColorData(70, 68, 64, 74, "221E1F"); i++;
 clrData[i] = new ColorData(0, 53, 100, 71, "683800"); i++;
 clrData[i] = new ColorData(0, 40, 80, 10, "E29843"); i++;
 clrData[i] = new ColorData(0, 35, 70, 10, "E3A159"); i++;
@@ -615,6 +618,7 @@ clrData[i] = new ColorData(20, 35, 40, 0, "CDA793"); i++;
 clrData[i] = new ColorData(15, 20, 25, 0, "D8C6B8"); i++;
 clrData[i] = new ColorData(10, 10, 10, 0, "E2DDDA"); i++;
 clrData[i] = new ColorData(5, 5, 5, 0, "EFEBEA"); i++;
+clrData[i] = new ColorData(7, 4, 4, 0, "EAECED"); i++;
 clrData[i] = new ColorData(20, 90, 100, 15, "B03923"); i++;
 clrData[i] = new ColorData(20, 75, 80, 15, "B0553C"); i++;
 clrData[i] = new ColorData(20, 65, 70, 15, "B1644C"); i++;
@@ -1726,6 +1730,7 @@ clrData[i] = new ColorData(35, 25, 0, 10, "95A1C7"); i++;
 clrData[i] = new ColorData(100, 90, 0, 40, "112369"); i++;
 clrData[i] = new ColorData(80, 75, 0, 35, "363A78"); i++;
 clrData[i] = new ColorData(70, 65, 0, 35, "45477E"); i++;
+
 clrData[i] = new ColorData(60, 55, 0, 30, "56598C"); i++;
 clrData[i] = new ColorData(55, 50, 0, 30, "5E6090"); i++;
 clrData[i] = new ColorData(50, 45, 0, 25, "6A6D9C"); i++;

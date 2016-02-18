@@ -43,7 +43,7 @@
                     </div>
                     <div class="clearfix" style="margin-bottom:20px;margin-right:8px;">
                         
-                        <div class="pull-right top-page-ui" style="margin-top:-30px;">
+                        <div class="pull-right top-page-ui">
 
                             <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedCostCenter().costCentreId() > 0">Delete</button>
 
@@ -215,8 +215,18 @@
                                                         <label for="txtPriority" class="control-label text-right tooltip-float">Job Card Print Sort Order</label>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <input type="text" class="form-control" id="txtPriority" placeholder="" style="width:50%;float: left;margin-right: 5px;" data-bind="autoNumeric:priority, settings:{mDec:0,vMin:0,vMax:9}">
+                                                        <input type="text" class="form-control text-right" id="txtPriority" placeholder="" style="width:50%;float: left;margin-right: 5px;" data-bind="autoNumeric:priority, settings:{mDec:0,vMin:0,vMax:9}">
                                                         <span class="help-block" style="  margin-top: 8px;">(0-High, 9-Low)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <label for="txtProductionTime" class="control-label text-right tooltip-float">Est. Production Time</label>
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <input type="text" class="form-control text-right" id="txtProductionTime" placeholder="" style="width:50%;float: left;margin-right: 5px;" data-bind="autoNumeric:estimateProductionTime, settings:{mDec:0}">
+                                                        <span class="help-block" style="  margin-top: 8px;">day(s)</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -525,7 +535,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{ aDec: '.', mDec:5, wEmpty: 'zero'}, validationTooltip: minimumCost">
+                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="numberValue:minimumCost, settings:{mDec:3}, validationTooltip: minimumCost">
                                                         @*<span class="help-block text-right">minimum cost</span>*@
                                                     </div>
                                                 </div>
@@ -540,7 +550,7 @@
                                                     </div>
                                                     <div class="col-lg-3  input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{mDec:2, wEmpty: 'zero'} , validationTooltip: setupCost">
+                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="numberValue:setupCost, settings:{mDec:3} , validationTooltip: setupCost">
                                                         @*<span class="help-block text-right"> setup time</span>*@
                                                     </div>
                                                 </div>
@@ -569,7 +579,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtPricePerUnitQty" placeholder="Enter Price" data-bind="autoNumeric:pricePerUnitQuantity, settings:{mDec:2, wEmpty: 'zero'} , validationTooltip: pricePerUnitQuantity">
+                                                        <input type="text" class="form-control" id="txtPricePerUnitQty" placeholder="Enter Price" data-bind="numberValue:pricePerUnitQuantity,numberFormat: ist.lengthFormat , validationTooltip: pricePerUnitQuantity">
                                                         @*<span class="help-block text-right">Price per unit quantity</span>*@
                                                     </div>
                                                 </div>
@@ -673,7 +683,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{aDec: '.',mDec: 5, wEmpty: 'zero'}, validationTooltip: setupCost">
+                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{aDec: '.',mDec: 3, wEmpty: 'zero'}, validationTooltip: setupCost">
                                                         @*<span class="help-block text-right"> setup time</span>*@
                                                     </div>
                                                 </div>
@@ -702,7 +712,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtPricePerUnitHr" placeholder="Enter Price" data-bind="autoNumeric:perHourPrice, settings:{aDec: '.',mDec: 5, wEmpty: 'zero'}, validationTooltip: perHourPrice">
+                                                        <input type="text" class="form-control" id="txtPricePerUnitHr" placeholder="Enter Price" data-bind="autoNumeric:perHourPrice, settings:{aDec: '.',mDec: 3, wEmpty: 'zero'}, validationTooltip: perHourPrice">
                                                         @*<span class="help-block text-right">Per Hour Price</span>*@
                                                     </div>
                                                 </div>

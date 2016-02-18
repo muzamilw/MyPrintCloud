@@ -29,6 +29,7 @@ define("common/addCostCenter.viewModel",
                     isCostCenterDialogForShipping = ko.observable(false),
                     //Is Opened from Section Detail
                     isOpenedFromSectionDetail = ko.observable(false),
+                    currentSection = ko.observable(),
                     // Item Id - To be passed to Execution Api
                     itemId = ko.observable(),
                     // Pagination For Press Dialog
@@ -68,7 +69,7 @@ define("common/addCostCenter.viewModel",
                     },
                     // Show
                     show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency, companyTaxRateParam, costCenterType,
-                    isOpenedFromSection, productId) {
+                    isOpenedFromSection, productId, section) {
                         currencySmb(currency);
                         isAddProductForSectionCostCenter(false);
                         isAddProductFromInventory(false);
@@ -82,6 +83,7 @@ define("common/addCostCenter.viewModel",
                         selectedCompanyId(companyId);
                         costCenterTypeFilter(costCenterType || undefined);
                         isOpenedFromSectionDetail(isOpenedFromSection || false);
+                        currentSection(section);
                         itemId(productId || "");
                         if (isCostCenterDialogForShipping()) {
                             getCostCenters();
@@ -105,6 +107,25 @@ define("common/addCostCenter.viewModel",
                     inputQueueObject = null,
                     workInstructions = null,
                     addOnCostCenters = ko.observable(null),
+                    onCostCenterQtyChange = function(callback, currentCostCenter) {
+                        afterCostCenterExecution = callback;
+                        selectedCostCentre(currentCostCenter);
+                        executeCostCenter(afterCostCenterExecution);
+                    },
+                    updateCostCenter = function() {
+                        var jsonObjectsOfGlobalQueue = null;
+                        var inputAndQuestionQueues;
+                        var costCentreQueueItems;
+                        if (!costCentreQueueItems) {
+                            inputAndQuestionQueues = {
+                                QuestionQueues: globalQuestionQueueItemsList,
+                                InputQueues: globalInputQueueItemsList
+                            };
+                            jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
+                            costCentreQueueItems = jsonObjectsOfGlobalQueue;
+
+                        }
+                    },
                     // Execute Cost Center
                     executeCostCenter = function (afterExecutionCallback) {
                         afterCostCenterExecution = afterExecutionCallback;
@@ -112,17 +133,26 @@ define("common/addCostCenter.viewModel",
                             toastr.info("Please select quantity!");
                             return;
                         }
+                        if (selectedCostCentre().sectionId() == undefined)
+                            selectedCostCentre().sectionId(0);
+                        var callMode = selectedCostCentre().callMode();
+                        if (callMode == undefined)
+                            callMode = "New";
+                        
                         dataservice.executeCostCenterForCostCenter({
                             CostCentreId: selectedCostCentre().id(),
                             QuantityOrdered: selectedCostCentre().quantity1(),
                             ClonedItemId: itemId(),
-                            CallMode: 'New'
+                            CallMode: callMode,
+                            Qty2: selectedCostCentre().quantity2(),
+                            Qty3: selectedCostCentre().quantity3(),
+                            SectionId: selectedCostCentre().sectionId()
                         }, {
                             success: function (data) {
                                 questionQueueObject = data[2];
                                 inputQueueObject = data[7];
                                 workInstructions = data[3][0].WorkInstructions;
-                                var costCenterExecutedCallback = isOpenedFromSectionDetail() ? addCostCenter : null;
+                                var costCenterExecutedCallback = isOpenedFromSectionDetail() ? addCostCenter : afterCostCenterExecution;
                                 var selectedElement = $(selectedCostCentre().isSelected.domElement).find("td")[0];
                                 if (selectedCostCentre().calculationMethodType() === 4) { // cost centres of calculation methode type 4 are formula based
                                     if (questionQueueObject != null) { // process the question queue and prompt for values
@@ -131,7 +161,7 @@ define("common/addCostCenter.viewModel",
                                             
                                             ShowCostCentrePopup(questionQueueObject, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
                                                 0, inputQueueObject.Items, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                                selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                                selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
                                         //}
                                         if (inputQueueObject.Items && inputQueueObject.Items.length === 3) { // do not process the queue for prompting values
                                             isQueueExist = true;
@@ -142,12 +172,12 @@ define("common/addCostCenter.viewModel",
                                         isQueueExist = true;
                                         SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, selectedCostCentre().id(), selectedCostCentre().calculationMethodType(),
                                             "", selectedElement, "", 0, currencySmb(), false, companyTaxRate, selectedCostCentre().quantity1(),
-                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, false, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId(), "", currentSection());
                                     } else { // process the input queue and prompt for values
                                         isQueueExist = true;
                                         ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
                                             0, questionQueueObject, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
                                     }
                                 } else if (selectedCostCentre().calculationMethodType() === 2) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
 
@@ -156,13 +186,13 @@ define("common/addCostCenter.viewModel",
                                         SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, selectedCostCentre().id(), selectedCostCentre().calculationMethodType(),
                                             "", selectedCostCentre().isSelected.domElement, "", 0, currencySmb(),
                                             false, companyTaxRate, selectedCostCentre().quantity1(),
-                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                            addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, false, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId(), "", currentSection());
                                     } else { // process the input queue and prompt for values
                                         isQueueExist = true;
                                         ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0,
                                             selectedElement, "New", currencySmb(),
                                             0, questionQueueObject, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
+                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
                                     }
                                 }
                                 //if (isQueueExist === false) {// queue is not populating
@@ -231,6 +261,9 @@ define("common/addCostCenter.viewModel",
                     hide = function () {
                         view.hideDialog();
                     },
+                    createBlankCostCenter = function() {
+                        return model.CostCentre.Create({});
+                    },
                     // Get Cost Centers
                     getCostCentersForProduct = function () {
                         dataservice.getCostCentersForProduct({
@@ -278,7 +311,9 @@ define("common/addCostCenter.viewModel",
                     hide: hide,
                     currencySmb: currencySmb,
                     addCostCenter: addCostCenter,
-                    executeCostCenter: executeCostCenter
+                    executeCostCenter: executeCostCenter,
+                    createBlankCostCenter: createBlankCostCenter,
+                    onCostCenterQtyChange: onCostCenterQtyChange
                 };
             })()
         };

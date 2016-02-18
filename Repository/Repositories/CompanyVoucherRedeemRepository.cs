@@ -39,7 +39,7 @@ namespace MPC.Repository.Repositories
             try
             {
                CompanyVoucherRedeem vReedem = db.CompanyVoucherRedeems.Where(v => v.CompanyId == companyId && v.ContactId == contactId && v.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
-               if (vReedem != null)
+               if (vReedem == null)
                {
                    return false;
                }
@@ -66,6 +66,20 @@ namespace MPC.Repository.Repositories
                 vReedem.RedeemDate = DateTime.Now;
                 db.CompanyVoucherRedeems.Add(vReedem);
                 db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public CompanyVoucherRedeem GetReedeemVoucherRecord(long contactId, long companyId, long DiscountVoucherId)
+        {
+            try
+            {
+                return db.CompanyVoucherRedeems.Where(v => v.CompanyId == companyId && v.ContactId == contactId && v.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
+               
             }
             catch (Exception ex)
             {

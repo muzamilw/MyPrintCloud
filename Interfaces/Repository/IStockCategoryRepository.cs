@@ -16,5 +16,15 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         IEnumerable<StockCategory> GetStockCategoriesForInventory();
 
+        List<StockCategory> getStockCatByOrgid();
+
+        List<StockCategory> getDefaulStockCat();
+
+        void UpdateStockItemForCatDeleteion(long StockId, long CategoryId, long SubCategoryId);
+
+        List<StockSubCategory> getStockSubCategoryByCategoryId(long CatId);
+
+        StockCategory getStockCategoryByCategoryId(long CatId);
+
     }
 }

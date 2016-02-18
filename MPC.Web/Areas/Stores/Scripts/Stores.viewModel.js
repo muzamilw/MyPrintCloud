@@ -101,7 +101,9 @@ define("stores/stores.viewModel",
                     //Check Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
                     bannerButtonCaption = ko.observable(),
-
+                    editorHtmlData = ko.observable(),
+                    editedWidgetId = ko.observable(),
+                    defaultCountryId = ko.observable(),
                     CompanyVariableIconBinary = ko.observable(),
                      CompanyVariableIconName = ko.observable(),
                       CompanyVariableId = ko.observable(),
@@ -155,6 +157,7 @@ define("stores/stores.viewModel",
                     //Widgets List
                     widgets = ko.observableArray([]),
                     systemVariablesForSmartForms = ko.observableArray([]),
+                    widgetCss = ko.observable(),
                     //Page Skin Widgets
                     pageSkinWidgets = ko.observableArray([]),
                     //All widgets list for pages (on page change added to it all widget list )
@@ -487,7 +490,9 @@ define("stores/stores.viewModel",
                                 success: function(data) {
                                     stores.removeAll();
                                     if (data != null) {
-                                        _.each(data.Companies, function(item) {
+                                        _.each(data.Companies, function (item) {
+                                            console.log("storeItem");
+                                            console.log(item);
                                             var module = model.StoreListView.Create(item);
                                             stores.push(module);
                                         });
@@ -1255,16 +1260,73 @@ define("stores/stores.viewModel",
                         confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function() {
                             //selectedStore().companyCMYKColors.remove(companyCMYKColor);
-                            var companyCMYKColorToDelete = getCompanyCMYKColorsByIdFromListView(companyCMYKColor.colorId());
-                            if (companyCMYKColorToDelete) {
-                                selectedStore().companyCMYKColors.remove(companyCMYKColorToDelete);
-                            }
-                            view.hideCompanyCMYKColorDialog();
+                            dataservice.archiveSpotColor({
+                               SpotColorId: companyCMYKColor.colorId(),
+                            }, {
+                                success: function (data) {
+                                    if (data != null) {
+
+                                        var savedCMYKColor = model.CompanyCMYKColor.Create(data);
+
+
+                                       
+                                        if (selectedCompanyCMYKColor().isActive()) {
+                                            _.each(selectedStore().companyCMYKColors(), function (user) {
+                                                if (user.isActive()) {
+                                                    if (selectedCompanyCMYKColor().colorId() != user.colorId()) {
+                                                        user.isActive(true);
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                        if (selectedCompanyCMYKColor().colorId() <= 0 || selectedCompanyCMYKColor().colorId() == undefined) {
+                                            selectedStore().companyCMYKColors.splice(0, 0, savedCMYKColor);
+                                        } else {
+                                            selectedCompanyCMYKColor(savedCMYKColor);
+                                            var count = 0;
+                                            _.each(selectedStore().companyCMYKColors(), function (user) {
+                                                if (user.colorId() == savedCMYKColor.colorId()) {
+                                                    //var totalCount = contactCompanyPager().totalCount();
+                                                    selectedStore().companyCMYKColors.remove(user);
+                                                    selectedStore().companyCMYKColors.splice(count, 0, savedCMYKColor);
+                                                   // contactCompanyPager().totalCount(totalCount);
+                                                }
+                                                count = count + 1;
+                                            });
+                                        }
+
+                                       
+                                       
+                                       selectedStore().reset();
+                                        
+                                        view.hideCompanyCMYKColorDialog();
+                                        toastr.success(" Archive Successfully !");
+                                      
+
+                                        //var companyCMYKColorToDelete = getCompanyCMYKColorsByIdFromListView(companyCMYKColor.colorId());
+                                        //if (companyCMYKColorToDelete) {
+                                        //    selectedStore().companyCMYKColors.remove(companyCMYKColorToDelete);
+                                        //}
+                                        //view.hideCompanyCMYKColorDialog();
+
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Delete . Error: " + response, "", ist.toastrOptions);
+                                }
+                            });
+
+                         
+
                         });
                         confirmation.show();
 
                         return;
                     },
+                   
+
+
                     //On Edit
                     onEditCompanyCMYKColor = function(companyCMYKColor) {
                         //selectedCompanyCMYKColor(companyCMYKColor);
@@ -1288,7 +1350,7 @@ define("stores/stores.viewModel",
                         // check to remove dupplicate color name
                         var count = 0;
                         _.each(selectedStore().companyCMYKColors(), function (color) {
-                            if (color.colorName() == selectedCompanyCMYKColor().colorName()) {
+                            if (color.spotColor() == selectedCompanyCMYKColor().spotColor() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
                                 
                                 toastr.error("Color Name already exist.");
                                 flag = false;
@@ -1811,6 +1873,7 @@ define("stores/stores.viewModel",
                                 updateCampaignListViewItem(email);
                             }
                             email.reset();
+                            selectedStore().isEmailChange(true);
                             view.hideEmailCamapaignDialog();
                         }
                     },
@@ -2319,6 +2382,7 @@ define("stores/stores.viewModel",
                     onCreateNewAddress = function () {
                         var address = new model.Address();
                         selectedAddress(address);
+                        selectedAddress().country(defaultCountryId());
                         isSavingNewAddress(true);
                         //Update If Store is creating new and it is Retail then 
                         //Make the first address isBilling and shipping as Default and sets its territory
@@ -2488,6 +2552,8 @@ define("stores/stores.viewModel",
                     },
                     onEditAddress = function (address) {
                         //selectedAddress(address);
+                        if (address.country() == undefined)
+                            address.country(defaultCountryId());
                         addressEditorViewModel.selectItem(address);
 
                         isSavingNewAddress(false);
@@ -5089,7 +5155,7 @@ define("stores/stores.viewModel",
                                         ko.utils.arrayPushAll(priceFlags(), data.PriceFlags);
                                         priceFlags.valueHasMutated();
                                     }
-
+                                    defaultCountryId(data.DefaultCountryId);
 
                                     ////Countries 
                                     //countries.removeAll();
@@ -5126,6 +5192,7 @@ define("stores/stores.viewModel",
                                 success: function (data) {
                                     if (data != null) {
                                         currencySymbol(data.CurrencySymbol);
+                                        defaultCountryId(data.DefaultCountryId);
                                         systemUsers.removeAll();
                                         addressCompanyTerritoriesFilter.removeAll();
                                         contactCompanyTerritoriesFilter.removeAll();
@@ -5412,7 +5479,7 @@ define("stores/stores.viewModel",
                                         if (widget.widgetId() === 14) {
                                             _.each(item.CmsSkinPageWidgetParams, function (params) {
                                                 widget.cmsSkinPageWidgetParam(model.CmsSkinPageWidgetParam.Create(params));
-                                                widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                                                //widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
                                             });
                                         }
                                         pageSkinWidgets.push(widget);
@@ -5532,16 +5599,17 @@ define("stores/stores.viewModel",
                         ckEditorOpenFrom("StoreLayout");
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
                         //widget.cmsSkinPageWidgetParam().editorId("editor" + newAddedWidgetIdCounter());
-                        
-                        selectedWidget(widget.cmsSkinPageWidgetParam());
+                        editorHtmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                        editedWidgetId(widget.pageWidgetId());
+                        //selectedWidget(widget.cmsSkinPageWidgetParam());
                         view.showCkEditorDialogDialog();
                     },
                     //Save Widget Params That are set in CkEditor
                     onSaveWidgetParamFromCkEditor = function (widgetParams) {
                         var param = CKEDITOR.instances.content.getData();
                         _.each(pageSkinWidgets(), function (item) {
-                            if (widgetParams.pageWidgetId() === item.pageWidgetId()) {
-                                item.htmlData(param);
+                            if (editedWidgetId() === item.pageWidgetId()) {
+                                //item.htmlData(param);
                                 item.cmsSkinPageWidgetParam().paramValue(param);
                             }
                         });
@@ -7377,11 +7445,40 @@ define("stores/stores.viewModel",
                 },
                 // On Delete Store Permanently
                 onDeletePermanent = function () {
-                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
-                    confirmation.afterProceed(function () {
-                        deleteCompanyPermanently(selectedStore().companyId());
-                    });
-                    confirmation.show();
+
+                    if (selectedStore().isStoreSetLive())
+                    {
+                        confirmation.headingText("Alert");
+                        confirmation.yesBtnText("OK");
+                        confirmation.noBtnText("Cancel");
+                        confirmation.IsCancelVisible(false);
+                        confirmation.messageText("Important !! Store is live if u want to delete it please make it offline.");
+
+                        confirmation.show();
+                    }
+                    else
+                    {
+
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+
+                            confirmation.hide();
+                            var sMessage = "Please enter reason to delete a store.";
+                            confirmation.messageText("Important !! " + sMessage);
+                            confirmation.afterActionProceed(function () {
+                                //confirmation.hideActionPopup();
+                                var coment = confirmation.comment() + " " + "RandomNumber : " + confirmation.UserRandomNum();
+                                    deleteCompanyPermanently(selectedStore().companyId(),coment);
+                                });
+
+                                confirmation.showActionPopup();
+                               
+                            
+                           
+                        });
+                        confirmation.show();
+                    }
+                    
                 },
                 // On Copy Store
                 onCopyStore = function () {
@@ -7399,10 +7496,27 @@ define("stores/stores.viewModel",
                     });
                 },
 
+
+                //// Delete Company Permanently
+                //saveUserActions = function (id) {
+                //    dataservice.saveUserActionLog({ CompanyId: id, Commen }, {
+                //        success: function () {
+                //            deleteCompanyPermanently(selectedStore().companyId());
+                //        },
+                //        error: function (response) {
+                //            toastr.error("Failed to save user action log. Error: " + response, "", ist.toastrOptions);
+                //        }
+                //    });
+                //};
+
+
                 // Delete Company Permanently
-                deleteCompanyPermanently = function (id) {
-                    dataservice.deleteCompanyPermanent({ CompanyId: id }, {
+                deleteCompanyPermanently = function (id,comment) {
+                    dataservice.deleteCompanyPermanent({ CompanyId: id, Comment: comment }, {
                         success: function () {
+                            confirmation.comment("");
+                            confirmation.UserRandomNum("");
+
                             toastr.success("Store deleted successfully!");
                             isEditorVisible(false);
                             if (selectedStore()) {
@@ -7443,20 +7557,21 @@ define("stores/stores.viewModel",
                             }
                         });
                     };
-                //#region _________R E T U R N_____________________
+            
 
-                //Open VariableIcon Dialog
-                //showcreateVariableDialog = function ()
-                //{
-                //   openDialog();
-                //},
-                //openDialog = function ()
-                //{
+                // Show Widget Css Dialog Method
+                openStoreLayoutWidgetsCssDialog = function () {
+                    
+                    view.showStoreLayoutWidgetCss();
+                },
 
-
-
-                  
-                //}
+                // Get Widget Css Details
+                getStoreLayoutWidgetsCss = function (item) {
+                    var widgetcssvariable = item.widgetCss();
+                    widgetCss(widgetcssvariable);
+                    openStoreLayoutWidgetsCssDialog();
+                },
+                
 
                 // GET company VariableIcon
                 getCompanyVariableIcons = function () {
@@ -7754,6 +7869,7 @@ define("stores/stores.viewModel",
                     selectedCsvFileForCompanyContact: selectedCsvFileForCompanyContact,
                     onCloseCompanyBanner: onCloseCompanyBanner,
                     widgets: widgets,
+                    widgetCss: widgetCss,
                     paymentMethods: paymentMethods,
                     checkPaymentMethodSelection: checkPaymentMethodSelection,
                     isAccessCodeSectionVisible: isAccessCodeSectionVisible,
@@ -7941,6 +8057,7 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
+                    getStoreLayoutWidgetsCss: getStoreLayoutWidgetsCss,
                     getCompanyVariableIcons: getCompanyVariableIcons,
                     onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore,
@@ -7952,7 +8069,9 @@ define("stores/stores.viewModel",
                     companyVariableIcons: companyVariableIcons,
                     onDeleteCompanyVariableIcon: onDeleteCompanyVariableIcon,
                     CompanyVariableRowCount: CompanyVariableRowCount,
-                    onUnArchiveCompanyContact: onUnArchiveCompanyContact
+                    onUnArchiveCompanyContact: onUnArchiveCompanyContact,
+                    editorHtmlData: editorHtmlData,
+                    editedWidgetId: editedWidgetId
                     //Show RealEstateCompaign VariableIcons Dialog
                     //showcreateVariableDialog: showcreateVariableDialog
                 };

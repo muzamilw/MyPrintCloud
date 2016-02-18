@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -48,10 +49,13 @@ namespace MPC.Implementation.MISServices
         private DeliveryNote CreateNewDeliveryNote()
         {
             string deliveryNoteCode = prefixRepository.GetNextDeliveryNoteCodePrefix();
+            var deliveryFlags = _sectionFlagRepository.GetSectionFlagBySectionId((int) SectionEnum.Delivery);
             DeliveryNote itemTarget = deliveryNoteRepository.Create();
             deliveryNoteRepository.Add(itemTarget);
             itemTarget.CreationDateTime = DateTime.Now;
             itemTarget.Code = deliveryNoteCode;
+            itemTarget.OrganisationId = deliveryNoteRepository.OrganisationId;
+            itemTarget.SectionFlag = deliveryFlags != null ? deliveryFlags.FirstOrDefault() : null;
             return itemTarget;
         }
 
@@ -96,6 +100,7 @@ namespace MPC.Implementation.MISServices
                 SectionFlags = _sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Delivery),
                 SystemUsers = _systemUserRepository.GetAll(),
                 DeliveryCarriers = deliveryCarrierRepository.GetAll(),
+                LoggedInUser = _systemUserRepository.LoggedInUserId
             };
         }
 
@@ -105,6 +110,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public DeliveryNote SaveDeliveryNote(DeliveryNote deliveryNote)
         {
+
+            deliveryNote.OrganisationId = deliveryNoteRepository.OrganisationId;
             // Get Order if exists else create new
             DeliveryNote deliveryNoteTarget = GetById(deliveryNote.DeliveryNoteId) ?? CreateNewDeliveryNote();
             // Update Order

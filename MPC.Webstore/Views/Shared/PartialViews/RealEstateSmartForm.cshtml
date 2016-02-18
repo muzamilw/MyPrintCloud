@@ -1,43 +1,2595 @@
-﻿@{
+﻿
+@model MPC.Models.DomainModels.Listing
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@using MPC.Models.DomainModels;
+@{
     Layout = null;
 }
-@using MPC.Webstore.Common;
-<div class="container content_area">
-    <fieldset id="smartParentPanel" style="margin-top: 20px;">
-        @using (Html.BeginForm("SmartFormSubmit", "RealEstateSmartForm", FormMethod.Post))
-        {
-            foreach (var control in ViewData["ControlsList"] as List<MPC.Webstore.Controllers.RealEstateSmartFormController.SectionControls>)
+@{
+    var Listing = ViewBag.Listings as MPC.Models.DomainModels.Listing;
+    //var ListingAgents = ViewBag.ListingAgents as List<MPC.Models.DomainModels.CompanyContact>;
+   // var CurrentItem = ViewBag.CurrentItem as MPC.Models.DomainModels.GetCategoryProduct;
+   var txtInspectionDate=String.Format("{0:MM/dd/yyyy}", Model.AvailableDate);
+   var txtAuctionDate = String.Format("{0:MM/dd/yyyy}", Model.AuctionDate);
+   
+   
+   List<ListingBulletPoint> ListingBulletPoints = ViewBag.ListingBulletPoints as List<MPC.Models.DomainModels.ListingBulletPoint>;
+    int index = 1;
+ //   var grid = new WebGrid(ListingAgents, ajaxUpdateContainerId: "ajaxgrid", rowsPerPage: 33);
+    
+   List<ListingImage> ListingImages = ViewBag.ListingImages as List<MPC.Models.DomainModels.ListingImage>;
+   var Imagesgrid=new WebGrid();
+  // if (ListingImages == null)
+  // {
+    //    Imagesgrid = new WebGrid(new List<object>(), ajaxUpdateContainerId: "ajaxgridForListingImages", rowsPerPage: 33);
+  // }
+   //else
+   //{ 
+     Imagesgrid = new WebGrid(ListingImages, ajaxUpdateContainerId: "ajaxgridForListingImages", rowsPerPage:33);
+  // }
+
+ //  var BulletPointsgrid = new WebGrid();
+
+ //  if (ListingBulletPoints == null)
+ //  {
+  //      BulletPointsgrid = new WebGrid(new List<object>(), ajaxUpdateContainerId: "BulletPointsGrid", rowsPerPage: 33);
+  // }
+ //  else
+ //  {
+  //      BulletPointsgrid = new WebGrid(ListingBulletPoints, ajaxUpdateContainerId: "BulletPointsGrid", rowsPerPage: 33);
+  // }
+     var ListingIDStatus = ViewBag.ListingID;
+}
+
+
+       
+    <div class="content_area container" >
+        @using (Html.BeginForm())
+        { 
+        <div  ID="pnlSmartForm">
+            <div id="ValidationSummery" class="rounded_corners col-md-12 col-lg-12 col-xs-12" style="display:none; color: white; border: 1px solid red; padding: 20px;">
+            </div>
+            <div class="smartFormParentDiv">
+                <div class="smartFormFirstChild">
+                    <h4 class="propertySection">PROPERTY DETAILS</h4>
+                    <div class="controlParentDiv">
+                        <h5 class="detailSection">Property address</h5>
+                        
+                        <div class="controlDiv">
+                            <label>Unit Number</label>
+                            @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
+                            @Html.TextBoxFor(model => model.UnitNumber, new { id = "txtUnitNumber", @class = "generalTextBox {{UnitNum}}", maxlength = 255, PlaceHolder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlUnitNumber", UserCookieManager.WBStoreId, "Unit number")) })
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Street No.</label>
+                            @Html.TextBoxFor(model => model.StreetNumber, new { id = "txtStreetNumber", @class = "generalTextBox {{StreetNum}}", maxlength = 255, placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlStreetNumber", UserCookieManager.WBStoreId, "Street number"))})
+                            @*<input type="text" id="txtStreetNumber" class="generalTextBox {{StreetNum}}" placeholder="Street number" value="@Model.StreetNumber">*@
+                        </div>
+                    </div>
+                    <div>
+                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                            <label>Property Name</label>
+                            @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
+                            @Html.TextBoxFor(model => model.PropertyName, new { id = "PropertyName", @class = "generalTextBox fullWidth {{UnitNum}}", maxlength = 255, PlaceHolder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPropertyName", UserCookieManager.WBStoreId, "Property Name")) })
+                        </div>
+                    </div>
+                    <div>
+                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                            <label>Street Name</label>
+                            @*<input type="text" id="txtStreetName" class="generalTextBox full-width-boxes {{Street}}" style="" placeholder="Street name" value="@Model.Street">*@
+                            @Html.TextBoxFor(model => model.Street, new { id = "txtStreetName", @class = "generalTextBox fullWidth {{Street}}", maxlength = 255, placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlStreetName", UserCookieManager.WBStoreId, "Street name")) })
+                        </div>
+                    </div>
+                    <div>
+                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                            <label>Suburb</label>
+                            @Html.TextBoxFor(model => model.Suburb, new { id = "txtSuburb", @class = "generalTextBox fullWidth {{Suburb}}", maxlength = 255, placeholder = "Suburb / Town" })
+                            @*<input type="text" id="txtSuburb" class="generalTextBox full-width-boxes {{Suburb}}" style="" placeholder="Suburb / Town" value="@Model.Suburb">*@
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>State</label>
+                            @Html.TextBoxFor(model => model.State, new { id = "txtShipAddLine1", @class = "generalTextBox {{State}}", maxlength = 255, placeholder = "State" })
+                            @*<input type="text" id="txtState" class="generalTextBox {{State}}" placeholder="State" value="@Model.State">*@
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Postcode</label>
+                            @Html.TextBoxFor(model => model.PostCode, new { id = "txtPostcode", @class = "generalTextBox {{PostCode}}", maxlength = 255, placeholder = "Postcode" })
+                            @*<input type="text" id="txtPostcode" class="generalTextBox {{PostCode}}" placeholder="Postcode" value="@Model.PostCode">*@
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv" style="float: inherit;">
+                            <label>Listing ID</label>
+                            @Html.TextBoxFor(model => model.ClientListingId, new { id = "ClientListingId", @class = "generalTextBox {{ListingID}}", maxlength = 255, placeholder = "ClientListingId" })
+                            @*<input  type="text" id="txtListingId" class="generalTextBox {{ListingID}}" placeholder="Listing Id" value="@Model.ClientListingId" >*@
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <h5 class="detailSection">Rates</h5>
+                        <div class="controlDiv">
+                            <label>Council</label>
+                            @Html.TextBoxFor(model => model.CounsilRates, new { id = "txtCouncil", @class = "generalTextBox {{CouncilRates}}", maxlength = 255, placeholder = "Council" })
+                            @*<input type="text" id="txtCouncil" class="generalTextBox {{CouncilRates}}" placeholder="Council" value="@Model.CounsilRates">*@
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Starta</label>
+                            @Html.TextBoxFor(model => model.StrataSinking, new { id = "txtStarta", @class = "generalTextBox {{StrataSinking}}", maxlength = 255, placeholder = "Starta" })
+                            @*<input type="text" id="txtStarta" class="generalTextBox {{StrataSinking}}" placeholder="Starta" value="@Model.StrataSinking">*@
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Water</label>
+                            @Html.TextBoxFor(model => model.WaterRates, new { id = "txtWater", @class = "generalTextBox {{WaterRates}}", maxlength = 255, placeholder = "Water" })
+                            @*<input type="text" id="txtWater" class="generalTextBox {{WaterRates}}" placeholder="Water" value="@Model.WaterRates">*@
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Land</label>
+                            @Html.TextBoxFor(model => model.LandTax, new { id = "txtLand", @class = "generalTextBox {{LandTax}}", maxlength = 255, placeholder = "Land" })
+                            @*<input type="text" id="txtLand" class="generalTextBox {{LandTax}}" placeholder="Land" value="@Model.LandTax">*@
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Starta Admin</label>
+                            @Html.TextBoxFor(model => model.StrataAdmin, new { id = "txtStartaAdmin", @class = "generalTextBox {{StrataAdmin}}", maxlength = 255, placeholder = "StartaAdmin" })
+                            @*<input type="text" id="txtStartaAdmin" class="generalTextBox {{StrataAdmin}}" placeholder="Starta Admin" value="@Model.StrataAdmin">*@
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Other</label>
+                            @Html.TextBoxFor(model => model.OtherOutgoings, new { id = "txtOther", @class = "generalTextBox {{OtherOutgoings}}", maxlength = 255, placeholder = "Other" })
+                            @*<input type="text" id="txtOther" class="generalTextBox {{OtherOutgoings}}" placeholder="Other" value="@Model.OtherOutgoings">*@
+                        </div>
+                    </div>
+                </div>
+                <div class="smartFormFirstChild">
+                    <h4 class="propertySection">PROPERTY FEATURES</h4>
+                    <div class="controlParentDiv">
+                        <h5 class="detailSection">Features</h5>
+                        <div class="controlDiv">
+                            <label>Property Type</label>
+                            @*<input type="text" id="txtPropertyType" class="generalTextBox {{PropertyType}}" placeholder="Property Type" value="@Model.PropertyType">*@
+                            @Html.TextBoxFor(model => model.PropertyType, new { id = "txtPropertyType", @class = "generalTextBox {{PropertyType}}", maxlength = 255, placeholder = "Property Type" })
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Category</label>
+                            @*<input type="text" id="txtCategory" class="generalTextBox {{PropertyCategory}}" placeholder="Category" value="@Model.PropertyCategory">*@
+                            @Html.TextBoxFor(model => model.PropertyCategory, new { id = "txtCategory", @class = "generalTextBox {{PropertyCategory}}", maxlength = 255, placeholder = "Category" })
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Construction</label>
+                            @*<input type="text" id="txtConstruction"class="generalTextBox {{Construction}}" placeholder="Construction" value="@Model.Construction">*@
+                            @Html.TextBoxFor(model => model.Construction, new { id = "txtConstruction", @class = "generalTextBox {{Construction}}", maxlength = 255, placeholder = "Construction" })
+                        </div>
+                        <div >
+                            <div class="fntSize11px">
+                                <label>Style</label>
+                                @*<input type="text" id="txtStyle" class="generalTextBox {{Style}}" placeholder="Style" value="@Model.Features">*@
+                                @Html.TextBoxFor(model => model.Features, new { id = "txtStyle", @class = "generalTextBox {{Style}}", maxlength = 255, placeholder = "Style" })
+                            </div>
+                    </div>
+                        </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Land Size</label>
+                            @*<input type="text" id="txtLandSize" class="generalTextBox {{LandAreaUnit}}" placeholder="Land Size" value="@Model.LandArea">*@
+                            @Html.TextBoxFor(model => model.LandArea, new { id = "txtLandSize", @class = "generalTextBox {{LandAreaUnit}}", maxlength = 255, placeholder = "Land Size" })
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Building Size</label>
+                            @*<input type="text" id="txtBuildingSize" class="generalTextBox {{BuildingAreaSqm}}" placeholder="Building Size" value="@Model.BuildingAreaSqm">*@
+                            @Html.TextBoxFor(model => model.BuildingAreaSqm, new { id = "txtBuildingSize", @class = "generalTextBox {{BuildingAreaSqm}}", maxlength = 255, placeholder = "Building Size" })
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Condition</label>
+                            @*<input type="text" id="txtCondition" class="generalTextBox {{PropertyCondition}}" placeholder="Condition" value="@Model.PropertyCondition">*@
+                            @Html.TextBoxFor(model => model.PropertyCondition, new { id = "txtCondition", @class = "generalTextBox {{PropertyCondition}}", maxlength = 255, placeholder = "Condition" })
+                        </div>
+                        <div class="fntSize11px">
+                            <label>View / Aspect</label>
+                            @*<input type="text" id="txtViewAspect" class="generalTextBox {{Aspect}}" placeholder="View / Aspect" value="@Model.Aspect">*@
+                            @Html.TextBoxFor(model => model.Aspect, new { id = "txtViewAspect", @class = "generalTextBox {{Aspect}}", maxlength = 255, placeholder = "View / Aspect" })
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Bedrooms</label>
+                            @*<input type="text" id="txtBedrooms" class="generalTextBox {{BedRooms}}" placeholder="Bedrooms" value="@Model.BedRooms">*@
+                            @Html.TextBoxFor(model => model.BedRooms, new { id = "txtBedrooms", @class = "generalTextBox {{BedRooms}}", maxlength = 255, placeholder = "Bedrooms" })
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Bathrooms</label>
+                            @*<input type="text" id="txtBathrooms" class="generalTextBox {{BathRooms}}" placeholder="Bathrooms" value="@Model.BathRooms">*@
+                            @Html.TextBoxFor(model => model.BathRooms, new { id = "txtBathrooms", @class = "generalTextBox {{BathRooms}}", maxlength = 255, placeholder = "Bathrooms" })
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Lounge Rooms</label>
+                            @*<input type="text" id="txtLoungeRooms" class="generalTextBox {{LoungeRooms}}" placeholder="Lounge Rooms" value="@Model.LoungeRooms">*@
+                           @Html.TextBoxFor(model => model.LoungeRooms, new { id = "txtLoungeRooms", @class = "generalTextBox {{LoungeRooms}}", maxlength = 255, placeholder = "Lounge Rooms" })
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Toilets</label>
+                            @Html.TextBoxFor(model => model.Toilets, new { id = "txtToilets", @class = "generalTextBox {{Toilets}}", maxlength = 255, placeholder = "Toilets" })
+                            @*<input type="text" id="txtToilets" class="generalTextBox {{Toilets}}" placeholder="Toilets" value="@Model.Toilets">*@
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Studies</label>
+                            @Html.TextBoxFor(model => model.Studies, new { id = "txtStudies", @class = "generalTextBox {{Studies}}", maxlength = 255, placeholder = "Studies" })
+                            @*<input type="text" id="txtStudies" class="generalTextBox {{Studies}}" placeholder="Studies" value="@Model.Studies">*@
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Pools</label>
+                            @*<input type="text" id="txtPools" class="generalTextBox {{Pools}}" placeholder="Pools" value="@Model.Pools">*@
+                            @Html.TextBoxFor(model => model.Pools, new { id = "txtPools", @class = "generalTextBox {{Pools}}", maxlength = 25, placeholder = "Pools" })
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <div class="controlDiv">
+                            <label>Garages</label>
+                            @Html.TextBoxFor(model => model.Garages, new { id = "txtGarages", @class = "generalTextBox {{Garages}}", maxlength = 255, placeholder = "Garages" })
+                            @*<input type="text" id="txtGarages" class="generalTextBox {{Garages}}" placeholder="Garages" value="@Model.Garages">*@
+                        </div>
+                        <div class="fntSize11px">
+                            <label>Car Spaces</label>
+                            @Html.TextBoxFor(model => model.CarSpaces, new { id = "txtCarSpaces", @class = "generalTextBox {{CarSpaces}}", maxlength = 255, placeholder = "Car Spaces" })
+                            @*<input type="text" id="txtCarSpaces" class="generalTextBox {{CarSpaces}}" placeholder="Car Spaces" value="@Model.CarSpaces">*@
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth"></div>
+            </div>
+            <hr />
+            <div class="smartFormParentDiv">
+                <div class="smartFormSecondChild">
+                    <div class="controlParentDiv">
+                        <h5 class="detailSection">Listing Details</h5>
+                        <div class="controlSecondDiv">
+                            <label>Listing Type</label>
+                            @*<input type="text" id="txtListingType" class="generalTextBox {{ListingType}}" placeholder="Listing Type" value="@Model.ListingType">*@
+                            @Html.TextBoxFor(model => model.ListingType, new { id = "txtListingType", @class = "generalTextBox {{ListingType}}", maxlength = 255, placeholder = "Listing Type" })
+                        </div>
+                        <div class="controlSecondDiv">
+                            <label>Price</label>
+                            @*<input type="text" id="txtPrice" class="generalTextBox {{DisplayPrice}}" style="margin-right: 10px;" placeholder="Price" value="@Model.DisplayPrice">*@
+                            @Html.TextBoxFor(model => model.DisplayPrice, new { id = "txtPrice", @class = "generalTextBox {{DisplayPrice}}", maxlength = 255, placeholder = "Price" })
+                        </div>
+                        <div class="controlSecondDiv">
+                            <label>Price Guide</label>
+                            @*<input type="text" id="txtPriceGuid" class="generalTextBox {{SearchPrice}}" placeholder="Price Guid" value="@Model.SearchPrice">*@
+                            @Html.TextBoxFor(model => model.SearchPrice, new { id = "txtPriceGuid", @class = "generalTextBox {{SearchPrice}}", maxlength = 255, placeholder = "Price Guide" })
+                        </div>
+                        <div class="controlSecondDiv">
+                            <label style="margin-left: 0px;">Website</label>
+                            @*<input type="text" id="txtWebsite" class="generalTextBox width-234 {{WebLink}}" style="" placeholder="Website" value="@Model.WebLink">*@
+                            @Html.TextBoxFor(model => model.WebLink, new { id = "txtWebsite", @class = "generalTextBox width-234 {{WebLink}}", maxlength = 255, placeholder = "Website" })
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <h5 class="detailSection">Inspection Dates</h5>
+                        <div class="controlSecondDiv">
+                            <label>Inspection Date</label>
+                            
+                                @Html.TextBoxFor(model => model.AvailableDate, new { id = "txtInspectionDate", @class = "generalTextBox {{AvailableDate}}", maxlength = 255, placeholder = "Inspection Date", @readonly = "readonly" })
+                                @*<input type="text" id="txtInspectionDate" class="generalTextBox {{AvailableDate}}" placeholder="Inspection Date" value="@Model.AvailableDate">*@
+                           
+                           
+                            @*<ajaxToolkit:CalendarExtender TargetControlID="txtInspectionDate" Format="MM/dd/yyyy" ID="txtInspectionDatePickerExtender"
+                                                          BehaviorID="txtInspectionDatePickerExtender" runat="server" />*@
+
+
+                            @*@Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })*@
+                           
+                        </div>
+                        <div class="controlSecondDiv">
+                            <label>Start Time</label>
+                            @*<input type="text" id="txtInspectionStartTime" class="generalTextBox {{InspectionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Model.InspectionTimeFrom1">*@
+                            @Html.TextBoxFor(model => model.InspectionTimeFrom1, new { id = "txtInspectionStartTime", @class = "generalTextBox {{InspectionStartTime}}", maxlength = 255, placeholder = "Start Time",  type = "time" })
+                        </div>
+                        <div class="controlSecondDiv" style="">
+                            <label>End Time</label>
+                            @Html.TextBoxFor(model => model.InspectionTimeFrom2, new { id = "txtInspectionEndTime", @class = "generalTextBox {{InspectionEndTime}}", maxlength = 255, placeholder = "End Time", type = "time" })
+                            @*<input type="text" id="txtInspectionEndTime" class="generalTextBox {{InspectionEndTime}}" placeholder="End Time" value="@Model.InspectionTimeFrom2">*@
+                        </div>
+                        <div class="controlSecondDiv" style="text-align: right;">
+                            <label>&nbsp;</label>
+                           
+                            <input type="button" id="btnInspectionDateTime" class="inspectionBtn" value="+ Inspection dates / times" style="display:none;" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <h5 class="detailSection">Auction Details</h5>
+                        <div class="controlSecondDiv">
+                           
+                            <label>Auction Date</label>
+                            @*<asp:TextBox runat="server" ID="txtAuctionDate" CssClass="generalTextBox {{AuctionDate}}" PlaceHolder="Auction Date"></asp:TextBox>*@
+                            @*<ajaxToolkit:CalendarExtender TargetControlID="txtAuctionDate" Format="MM/dd/yyyy" ID="txtAuctionDatePickerExtender"
+                                                          BehaviorID="txtAuctionDatePickerExtender" runat="server" />*@
+                            @*<input type="text" class="generalTextBox {{AuctionDate}}" id="txtAuctionDate" placeholder="Auction Date" value="@Model.AuctionDate" />*@
+                            @Html.TextBoxFor(model => model.AuctionDate, new { id = "txtAuctionDate", @class = "generalTextBox {{AuctionDate}}", maxlength = 255, placeholder = "Auction Date", @readonly = "readonly" })
+                        </div>
+                        <div class="controlSecondDiv">
+                            <label>Start Time</label>
+                            @Html.TextBoxFor(model => model.AuctionTime, new { id = "AuctionStratTime", @class = "generalTextBox {{AuctionStartTime}}", maxlength = 255, placeholder = "Start Time", type = "time" })
+                            @*<input type="text" id="txtAuctionStartTime" class="generalTextBox {{AuctionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Model.AuctionTime">*@
+                        </div>
+                        <div class="controlSecondDiv">
+                            <label>End Time</label>
+                            @Html.TextBoxFor(model => model.AuctionEndTime, new { id = "txtAuctionEndTime", @class = "generalTextBox {{AuctionEndTime}}", maxlength = 255, placeholder = "End Time", type = "time" })
+                            @*<input type="text" id="txtAuctionEndTime" class="generalTextBox {{AuctionEndTime}}" placeholder="End Time" value="@Model.AuctionEndTime">*@
+                        </div>
+                        <div class="controlSecondDiv" style="">
+                            <label style="margin-left: 0px;">Location</label>
+                            @Html.TextBoxFor(model => model.AutionVenue, new { id = "txtLocation", @class = "generalTextBox width-234 {{AuctionVenue}}", maxlength = 255, placeholder = "Location" })
+                            @*<input type="text" id="txtLocation" class="generalTextBox width-234 {{AuctionVenue}}" style="" placeholder="Location" value="@Model.AutionVenue">*@
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="controlParentDiv">
+                        <h5 class="detailSection float_left_simple clearleft"></h5>
+                        
+                        @*<input type="button" id="addAgent" class="float_right AgentBtn" value="+ Agent"  onclick="AddAgent();"/>*@
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div id="ListingAgentBoxes">
+                            <input id="NewImageClick" class="ListingImgBtn" type="button" value="+ Listing Image" onclick="AgainCall();">
+                            
+                                <input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;">
+                            
+                            @*@foreach (var Agent in ListingAgents)
             {
-                if (control.SectionName != "LISTING IMAGES")
-                {
-                    <fieldset style="margin-top: 20px;">
-                        <legend>@control.SectionName</legend>
-                        @foreach (var item in control.Controls as List<MPC.Models.Common.TemplateVariable>)
-                        {
-                            if (item != null)
-                            {
-                                <label class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">@item.Name</label>
-                                <div class="TTL_Checkout ckecoutWidthAvenior col-md-8 col-lg-8 col-xs-12">
-                                    <input type="text" name="@item.Name.Replace(" ", "").Trim()" class="AveniorTxtBoxCheckout" value="@item.Value" />
-                                </div>
-                            }
+
+                <div class="controlSecondDiv">
+                    <label>Agent  @index Name</label>
+                    <input type="text" id="txtAgent1Name" class="rptAgentsName generalTextBox {{AgentName}} <%# Container.DataItemIndex  %>  " placeholder="Agent Name" value="@Agent.FirstName">
+                </div>
+                <div class="controlSecondDiv">
+                    <label>Agent  @index Tel</label>
+                    <input type="text" id="txtAgent1Telephone" class="generalTextBox {{AgentPhone1}}" value="@Agent.HomeTel1" style="margin-right: 10px;" placeholder="Telephone">
+                </div>
+                <div class="controlSecondDiv" style="">
+                    <label>Agent  @index Mob</label>
+                    <input type="text" id="txtAgent1Mobile" class="generalTextBox {{AgentMobile}}" value="@Agent.Mobile" placeholder="Mobile">
+                </div>
+                <div class="controlSecondDiv" style="">
+                    <label style="margin-left: 0px;">Agent  @index Email</label>
+                    <input type="text" id="txtAgent1Email" class="generalTextBox width-234 {{AgentEmail}}" value="@Agent.Email" placeholder="Email">
+                </div>
+                <div class="clearBoth height5px">
+                    &nbsp;
+                </div>
+                index++;
+            }*@
+                            @{
+                                IEnumerable<WebGridColumn> cols =
+                                    new List<WebGridColumn> {
+
+                new WebGridColumn{
+                    Header="FirstName",
+                    Format = @<text>
+                            <span class="display"><label id="lblFirstName">@item.FirstName</label></span>
+                            
+                            @*<input id="lblFirstName" value="@item.FirstName" />*@
+                        <input type="text" id="inID" value="@item.FirstName" class="edit" />
+                    </text>,Style="WebGridPaddingSmartForm"
+                },
+                new WebGridColumn{
+                    Header="Tel",
+                    Format = @<text>
+                            <span class="display"><label id="lblHomeTel">@item.HomeTel1</label></span>
+                            
+                            @*<input id="lblHomeTel" value="@item.HomeTel1" />*@
+                            <input type="text" id="inName" value="@item.HomeTel1 " class="edit" />
+                    </text>
+                },
+                new WebGridColumn{
+                    Header="Mobile ",
+                    Format = @<text>
+                            <span class="display"><label id="lblMobileNo">@item.Mobile</label></span>
+                          
+                            @*<input id="lblMobileNo" value="@item.Mobile" />*@
+                            <input type="text" id="inMobile" value="@item.Mobile " class="edit" />
+                    </text>
+                },
+                new WebGridColumn{
+                    Header="Email  ",
+                    Format = @<text>
+                            <span class="display"><label id="lblEmail">@item.Email</label></span>
+                           
+                            @*<input id="lblEmail" value="@item.Email" />*@
+                            <input type="text" id="inEmail" value="@item.Email " class="edit" />
+                    </text>
+                },
+                new WebGridColumn{
+                    Format = @<text>
+                            <i class="fa fa-pencil edit-address display edit-btn" title="Edit" style="display: none;"></i>
+                                @*<a class="display edit-btn">Edit</a>*@
+                                @*<a class="edit save-btn">Save</a>*@
+                            <i style="font-size:15px;display: none;" class="fa fa-floppy-o edit save-btn" title="Save"></i>
+                                @*<a class="edit cancel-btn">Close</a>*@
+                            <i class="fa fa-eye edit cancel-btn" style="font-size:17px;display: none;" title="Close" ></i>
+                                @*<a class="display delete-btn" onclick="DeleteAgent(@item.ContactId)">Delete</a>*@
+                            <i style="font-size:18px; display: none;" title="Delete" class="fa fa-times display delete-btn" onclick="DeleteAgent(@item.ContactId)"></i>
+                        </text>
+                }
+            };
                         }
 
-                    </fieldset>
+
+</div>
+                        @*<div id="MainAjentsHtml" style="display:none;">
+                            @grid.Table(columns: cols, tableStyle: "WebGridTableStyle", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")
+                        </div>*@
+                        <div id="newAgentsContainer">
+
+                        </div>
+
+
+
+
+
+                        <div id="ListingImagesPanel">
+                            @{
+                                IEnumerable<WebGridColumn> colss =
+                                    new List<WebGridColumn> {
+
+                new WebGridColumn{
+                    ColumnName="ImageURL",
+                    Header="Listing Images",
+                    Format = @<text>
+                            <img src="@item.ImageURL " style="height:120px;width:170px;"/>
+                            @*<input type="text" id="inID" value="@item.FirstName" class="edit" readonly="true" />*@
+                        </text>,Style="WebGridPaddingSmartForm"
+                },
+             
+               
+               
+                new WebGridColumn{
+                    
+                    Format = @<text>
+                           
+                            @*<a class="edit save-btn">Save</a>
+                            <a class="edit cancel-btn">Close</a>*@
+                            @*<a class="display" id="ImageDel" onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL');">Delete</a>*@
+                            
+                                @*<span style="visibility:hidden;" class='display' ></span>
+                            <input style="visibility:hidden;" type='file' id='ListingImageUploader' class='editImg' />*@
+                           
+                            @*<i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>*@
+                        </text>
+                },
+                new WebGridColumn{
+
+                    Format = @<text>
+
+                        @*<a class="edit save-btn">Save</a>
+                            <a class="edit cancel-btn">Close</a>*@
+                        @*<a class="display" id="ImageDel" onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL');">Delete</a>*@
+                        <i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteImage(@item.ListingImageId,'@item.ImageURL',this);"></i>
+                    </text>
+                }
+            };
+}
+                            
+
+                        </div>
+                        @*<div id="listImage">
+                            @Imagesgrid.GetHtml(columns: colss, tableStyle: "WebGridTableStyle", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")
+
+                            </div>*@
+
+                        @*<br />
+                        <br />*@
+
+                        <div id="ListingBulletPopints" >
+                            @{
+            IEnumerable<WebGridColumn> colsBullentPoints =
+                new List<WebGridColumn> {
+
+                new WebGridColumn{
+                    Header="Listing Bullet Points",
+                    Format = @<text>
+                            <span class="display"><label id="lblHomeTel">@item.BulletPoint</label></span>
+                            <input type="text" class="edit" id="inID" value="@item.BulletPoint " />
+                        </text>,Style="WebGridPaddingSmartForm"
+                },
+
+
+
+                new WebGridColumn{
+                    Format = @<text>
+
+                            <a class="edit save-btn">Save</a>
+                            <a class="edit cancel-btn">Close</a>
+                            @*<a class="display" id="ImageDel" onclick="DeleteBulletPoint(@item.BulletPointId ,@Listing.ListingId);">Delete</a>*@
+                            <i style="font-size:18px;" id="ImageDel" title="Delete" class="fa fa-times display " onclick="DeleteBulletPoint(@item.BulletPointId ,@Listing.ListingId);"></i>
+                        </text>
+                }
+            };
+                            }
+
+
+
+
+                        </div>
+                        <div  id="GRids" style="width:100%;">
+                            
+                            <div id="listImage" style="width:50%;float:left;">
+                                @Imagesgrid.Table(columns: colss, tableStyle: "WebGridTableStyle selTable", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")
+                                @*<div class="controlDiv controlParentDiv" style="width: 100%;">
+
+                                    <div class="float_left_simple" style="width:74px;"><label>Image</label><input type="button" id="MainContent_Image" class="AgentBtn" value="+ Image" onclick="AddImages();" style="font-size: 9px !important;"></div>
+                                    <div class="float_right">
+
+
+                                        <div class="clearBoth height5px">&nbsp;</div>
+                                        <div id="newImagesContainer">
+
+                                            <img id='NewImage' src="/Content/Images/realplaceholder.gif" class='hheditImg' style='height:120px;width: 170px' /><input type='file'  onchange='ShowPreview(this)' id='ListingImageUploader' /><a>Delete</a><div class="clearBoth height5px">&nbsp;</div>
+
+                                        </div>
+                                    </div>
+                                    <div class="clearBoth">
+
+                                    </div>
+                                </div>*@
+                            </div>
+                            <div id="BulletPointsGrid" style="width:50%;float:left;">
+                                
+                                <div class="controlDiv controlParentDiv" style="width: 100%;">
+
+                                    <div class="float_left_simple" id="BulletPanel" style="width:74px;">@*<input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;">*@</div>
+                                    <div class="float_right">
+
+
+                                        <div class="clearBoth height5px">&nbsp;</div>
+                                       
+                                        <div id="newBulletsContainer">
+                                        @*<input id="txtBulletPoint" class="generalTextBox full-width-boxes" placeholder="Bullet Point "><div class="clearBoth height5px">&nbsp;</div>*@
+                                                                                                                                                                            @foreach (var bp in ListingBulletPoints)
+                                                                                                                                                                            {
+
+                                                                                                                                                                                <input id="txtBulletPoint" value="@bp.BulletPoint" class="generalTextBox fullBullets OldBoxes " placeholder="Bullet Point "><div class="clearBoth height5px">&nbsp;</div>
+                                                            }
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="clearBoth">
+
+                                    </div>
+                                </div>
+
+                                @*@BulletPointsgrid.Table(columns: colsBullentPoints, tableStyle: "WebGridTableStyle", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")*@
+                            </div>
+                            <div class="clearBoth">
+
+                            </div>
+                        </div>
+                       
+                        </div>
+                </div>
+
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
+           
+            <div class="smartFormFirstChild">
+                <h4 class="propertySection">PROPERTY MARKETING</h4>
+                <div class="controlParentDiv">
+                    <h5 class="detailSection">BROCHURES</h5>
+                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+                        <label>Main Headline</label>
+                        @Html.TextBoxFor(model => model.BrochureMainHeadLine, new { id = "txtbrochuresMainHeading", @class = "generalTextBox full-width-boxes {{BrochureMainHeadLine}}", maxlength = 255, placeholder = "Main Headline" })
+                        @*<input type="text" id="txtbrochuresMainHeading"class="generalTextBox full-width-boxes {{BrochureMainHeadLine}}" placeholder="Main Headline" value="@Model.BrochureMainHeadLine">*@
+                    </div>
+                    <div class="controlDiv controlParentDiv marginForTextAreas marginForTextAreas" style="width: 100%;">
+                        <label>Summary</label>
+
+                        @Html.TextAreaFor(model => model.BrochureSummary, 20, 10, new { @class = "generalTextBoxFoTextArea {{BrochureSummary}}", placeholder = "Property Summary" })
+                        @*<textarea rows="4" cols="50"  id="txtbrochuresSummery" class="MultilineTextBox full-width-boxes {{BrochureSummary}}" style="height:auto !important;" placeholder="Property summary">@Model.BrochureSummary</textarea>
+            </div>*@
+                    </div>
+                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                        <label>Description</label>
+                        @*<textarea rows="4" cols="50" id="txtbrochuresDesc" class="MultilineTextBox full-width-boxes {{BrochureDescription}}" style="" placeholder="Property Description" >@Model.BrochureDescription</textarea>
+            </div>*@
+                        @Html.TextAreaFor(model => model.BrochureDescription, 20, 10, new { @class = "generalTextBoxFoTextArea {{BrochureDescription}}", placeholder = "Property Description" })
+                    </div>
+                    <div class="Clearboth"></div>
+                </div>
+
+
+            </div>
+            <div class="smartFormFirstChild">
+                <h4 class="propertySection">&nbsp;</h4>
+                <div class="controlParentDiv">
+                    <h5 class="detailSection">SIGNBOARD</h5>
+                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+                        <label>Main Headline</label>
+                        @Html.TextBoxFor(model => model.SignBoardMainHeadLine, new { id = "txtSignboardMainHead", @class = "generalTextBox full-width-boxes {{SignBoardMainHeadLine}}", maxlength = 255, PlaceHolder = "Main Headline" })
+                        @*<input type="text"  ID="txtSignboardMainHead" Class="generalTextBox full-width-boxes {{SignBoardMainHeadLine}}" PlaceHolder="Main Headline" value="@Model.SignBoardMainHeadLine"/>*@
+                    </div>
+                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+
+                        <label>Summary</label>
+                        @*<textarea rows="4" cols="50" id="txtSignboardSummery" class="MultilineTextBox full-width-boxes {{SignBoardSummary}}" placeholder="Property summary"  >@Model.SignBoardSummary</textarea>
+                </div>*@
+
+                        @Html.TextAreaFor(model => model.SignBoardSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Summary" })
+                        <input type="hidden" id="DeleteImagesList" name="DeleteImagesList" />
+                    </div>
+                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+
+                        <label>Description</label>
+                        @*<textarea rows="4" cols="50" id="txtSignboardDesc" class="MultilineTextBox full-width-boxes {{SignBoardDescription}}" placeholder="Property Description" >@Model.SignBoardDescription</textarea>
+            </div>*@
+                        @Html.TextAreaFor(model => model.SignBoardDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
+                    </div>
+                    <div class="clearBoth"></div>
+                </div>
+
+            </div>
+            <div class="smartFormParentDiv">
+                <div class="smartFormFirstChild">
+
+                    <div class="controlParentDiv">
+                        <h5 class="detailSection">PRESS ADVERTS</h5>
+                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                            <label>Main Headline</label>
+                            @Html.TextBoxFor(model => model.AdvertsMainHeadLine, new { id = "txtPressMainHead", @class = "generalTextBox full-width-boxes {{AdvertsMainHeadLine}}", maxlength = 255, placeholder = "Main Headline" })
+                            @*<input type="text" id="txtPressMainHead" class="generalTextBox full-width-boxes {{AdvertsMainHeadLine}}" placeholder="Main Headline" value="@Model.AdvertsDescription">*@
+                        </div>
+
+                    </div>
+                    <div>
+                        <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                            <label>Summary</label>
+                            @Html.TextAreaFor(model => model.AdvertsSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Summary" })
+                            @*<textarea rows="4" cols="50" id="txtPressSummery" class="MultilineTextBox full-width-boxes {{AdvertsSummary}}" placeholder="Property summary" >@Model.AdvertsSummary</textarea>*@
+                        </div>
+                    </div>
+                    <div>
+                        <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                            <label>Description</label>
+                            @*<textarea rows="4" cols="50" id="txtPressDescription" class="MultilineTextBox full-width-boxes {{AdvertsDescription}}" style="" placeholder="Property Description" >@Model.AdvertsDescription</textarea>*@
+                            @Html.TextAreaFor(model => model.AdvertsDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
+                        </div>
+                    </div>
+                    <div class="clearBoth"></div>
+                </div>
+                <div class="smartFormFirstChild">
+                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                        <label class="InstallationInstContainer">Installation Instructions</label>
+                        <input type="hidden" id="ListingId" name="ListingId" value="@Model.ListingId" />
+                        <input type="hidden" name="BulletList" id="BulletList" />
+                        <input type="hidden" name="BulletListUpdated" id="BulletListUpdated" />
+                        @Html.TextAreaFor(model => model.SignBoardInstallInstruction, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Installation Instructions" })
+                    </div>
+                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+
+
+                        <div class="float_right">
+                            @*<asp:Repeater ID="rptBulletPoints" runat="server" OnItemDataBound="rptBulletPoints_ItemDataBound">
+                            <itemtemplate>
+                                <asp:TextBox runat="server" ID="txtBuletPoints" CssClass="generalTextBox full-width-boxes" PlaceHolder="Bullet Point " Text='<%#bind("BulletPoint") %>' Style="margin-bottom:10px;"></asp:TextBox>
+                                <asp:Label ID="lblPointId" runat="server" Text='<%#bind("BulletPointId") %>' Style="display:none;"></asp:Label>
+                                <br />
+                            </itemtemplate>
+                        </asp:Repeater>*@
+
+                            <div class="clearBoth height5px">&nbsp;</div>
+                            <div id="newBulletsContainer">
+
+                            </div>
+                        </div>
+                        <div class="clearBoth">
+
+                        </div>
+                    </div>
+                    <div class="clearBoth"></div>
+                </div>
+            </div>
+            <div id="SmartForm_btnPanel" class="smartFormSecondChild">
+
+                @*<asp:Button ID="btnContinue" runat="server" Text="Continue" OnClick="btnContinue_Click" OnClientClick="return computeData();"
+            Style="margin-bottom: 20px; float: right;" CssClass="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />*@
+                
+                @if (ViewBag.isNewListing == 1)
+                {
+                    <input id="btnContinue" type="button" value="Cancel" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="CancelListing();" />
                 }
                 else
                 {
-                    if (ViewData["ListingImages"] != null)
-                    {
-                        <fieldset style="margin-top: 20px;">
-                            <legend>@control.SectionName</legend>
-                            @Html.Partial("PartialViews/RealEstateImageSlider", ViewData["ListingImages"])
-                        </fieldset>
-                    }
+                    <a href="/">
+                        <input id="btnContinue" type="button" value="Cancel" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" />
+                    </a>
                 }
-            }
-            <input type="submit" id="btnSaveAndDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsavendesg", UserCookieManager.WBStoreId, "Save and Design"))" title="Save and Design" style="margin-bottom: 20px; float: right;" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnEditDesign" />
+   
+                <input id="btnSaveAndDesignnn" onclick="ShowLoader();" value="Save changes" type="submit" style=" visibility:hidden;" class="cursor_pointer " />
+                <input id="btnSaveAndDesign" value="Save changes" type="button" style="margin-bottom: 20px; float: right;" class="cursor_pointer btnSaveAndOrder btnMakeThisDesign btnEditDesign" onclick="SaveData();" />
+                <div class="Clearboth"></div>
+            </div>
+            <div class="clearBoth"></div>
+            </div>
+    <div class="clearBoth"></div>
         }
-    </fieldset>
+        <div class="clearBoth"></div>
+        </div>
+    <div id="PopupCorpQuickText" class="FileUploaderPopup_Mesgbox  rounded_corners">
+        <Label ID="lblHeader"  Class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading" >Select & Edit User Profile</Label>
+        <div id="CancelControl" onclick="hidePopup()" class="MesgBoxBtnsDisplay rounded_corners5">
+            Close
+        </div>
+        <div class="clearBoth">
+            &nbsp;
+        </div>
+        <div class="SolidBorderCS">
+            &nbsp;
+        </div>
+        <div class="corpUFcontainer">
+            <div class="c1UFContainer">
+
+                <div class="variableItemContainer" id="dropDownContainer" >
+                    <div class="radioBtnCorp">
+                        <input type="radio" id="btnMyProfile" name="profile" value="My profile" checked="checked" />
+                        <span>My profile</span>
+                        <br />
+                    </div>
+                    <div class="radioBtnCorp">
+                        <input type="radio" id="btnOtherProfile" name="profile" value="Other profile" /><span>Other profile</span>
+                        @*<asp:DropDownList ID="dropBoxSelectUser" runat="server" OnChange="onUserProfileChange();" CssClass="dropBoxSelectUserCorp"></asp:DropDownList>
+                        <%--<select id="dropBoxSelectUser"  class="InputQtxtTS">
+                            <option>option1</option>
+                        </select>--%>*@
+                        @*@Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@Model.DDShippingAddresses, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddnewAddr", UserCookieManager.WBStoreId, "-- Add New Shipping Address --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlDelivery", @onchange = "onUserProfileChange();" })*@
+                        <br />
+                    </div>
+                    <br />
+                    <a class="lblShowProfile" style="display: none;">Show Profile <i class="arrow-down"></i></a>
+                </div>
+                <div class="profileContainer"  id="profileContainer" style="display: block;">
+                    <div class="variableItemContainer">
+                        <span>First Name</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtFName"  id="txtFName" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Middle Name</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtMname"  id="txtMname" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Last Name</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtLname"  id="txtLname" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Title</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtTitle"  id="txtTitle" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Home Tel 1</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtHomeTel1"  id="txtHomeTel1" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Home Tel 2</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtHomeTel2"  id="txtHomeTel2" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Home Extension 1</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtHomeExt1"  id="txtHomeExt1" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Home Extension 2</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtHomeExt2" id="txtHomeExt2" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Mobile</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtMobile"  id="txtMobile" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Pager</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtPager"  id="txtPager" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Email</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtEmail"  id="txtEmail" disabled="disabled" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>FAX</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtFax"  id="txtFax" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Job Title</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtJtitle"  id="txtJtitle" />
+                    </div>
+
+                    <div class="variableItemContainer">
+                        <span>Linkedin URL</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtLinkedInURL"  id="txtLinkedInURL" />
+                    </div>
+
+                    <div class="variableItemContainer">
+                        <span>Skype ID</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtSkypeID"  id="txtSkypeID" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Facebook URL</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtFbID"  id="txtFbID" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Twitter URL</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtTwitterURL"  id="txtTwitterURL" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>URL</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtURL"  id="txtURL" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>PO Box Address </span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtPOBox"  id="txtPOBox" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Corporate Unit </span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtCunit"  id="txtCunit" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Office Trading Name </span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtOfcTrading"  id="txtOfcTrading" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Contractor Name </span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtContractorName"  id="txtContractorName" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>BPay CRN </span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtBpay"  id="txtBpay" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>ABN </span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtABN"  id="txtABN" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>ACN </span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtACN"  id="txtACN" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Additional Field 1 </span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtAf1"  id="txtAf1" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Additional Field 2</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtAf2"  id="txtAf2" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Additional Field 3</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtAf3"  id="txtAf3" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Additional Field 4</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtAf4"  id="txtAf4" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Additional Field 5</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtAf5"  id="txtAf5" />
+                    </div>
+                </div>
+            </div>
+            <div class="c2UFContainer">
+                <div class="variablesContainer c2UFVarContainer">
+
+                    <div class="clearBoth"></div>
+
+
+                    <Label ID="label1" runat="server" Text="Template Quick Text Info." CssClass=" ufContainerHeading  MesgBoxClass lblPopupCorpHeading"></Label>
+                    <div class="clearBoth"></div>
+                    <div class="variableItemContainer">
+                        <span>Full Name</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtQname"  id="txtQname" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Title</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtQTitle"  id="txtQTitle" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Company Name</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtQCompany"  id="txtQCompany" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Address line 1</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtAddress"  id="txtAddress" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Telephone / Other</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtQtel"  id="txtQtel" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Fax / Other</span>
+                        <br />
+                        <input  type="text" maxlength="500" class="InputQtxtTS txtQFax"  id="txtQFax" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Email address</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtQEmail"  id="txtQEmail" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Website address</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtQWebsite"  id="txtQWebsite" />
+                    </div>
+                    <div class="variableItemContainer">
+                        <span>Company Message</span>
+                        <br />
+                        <input type="text" maxlength="500" class="InputQtxtTS txtQMessage"  id="txtQMessage" />
+                    </div>
+
+                </div>
+                <asp:Button ID="Button1" runat="server" Text="Save" CssClass="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign saveDesinCorpCat" OnClick="Button1_Click" />
+
+            </div>
+
+            <div class="c3UFContainer c3UFContainerHeight">
+                <div class="variablesContainer">
+                    <img class=" imgDetailCorp" id="imgProductCPanel" style="margin-top: 30px;" />
+                </div>
+
+                <asp:Button ID="btnEditThisDesign" runat="server" Text="Design Now" CssClass="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnEditDesign" OnClick="btnEditThisDesign_Click" />
+                <asp:Button ID="btnOrderNow" runat="server" Text="Generate Proof" CssClass="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" OnClick="btnOrderNow_Click" OnClientClick=" GeneratePreview(); return false;" />
+            </div>
+            <div class="clearBoth"></div>
+        </div>
+    </div>
+    <input type="hidden"  id="hfSPType" value="default" />
+    <input type="hidden"  id="hfCurItem" />
+    <input type="hidden"  id="hfProductCatID" />
+    <input type="hidden"  id="hfContactID" />
+    <input type="hidden"  id="hfPrintCropMarks" />
+    <input type="hidden"  id="hfCompanyID" />
+    <input type="hidden"  id="hfSvcRespone" />
+    <input type="hidden"  id="hfTemplateProduct" />
+    <input type="hidden"  id="hfCorpType" />
+    <input type="hidden"  id="hfNewlyAddedAgents" value="0" />
+    <input type="hidden"  id="hfAgentList" />
+    <input type="hidden"  id="hfNewlyAddedBPoints" value="0" />
+    <input type="hidden" id="HfNewlyAddedListingImages" value="0" />
+    <input type="hidden"  id="hfBPointsList" />
+    <input type="hidden"  id="hfAgentsCount" />
+    <input type="hidden"  id="hfisChangesSaved" />
     
-</div>
+<link href="Styles/RealEstate_StyleSheet.css" rel="stylesheet" />
+<script src="/Content/jquery-1.8.2.min.js"></script>
+<script src="/Scripts/bootstrap.js"></script>
+<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+<script src="/Scripts/respond.js"></script>
+<script src="/Scripts/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/PopUp.js"></script>
+    <script type="text/javascript">
+        var ImgIndex=0;
+        var  spectionDate='@txtInspectionDate';
+        var Auctindate='@txtAuctionDate';
+        var NewImageClick=1;
+
+       
+        //$("#txtInspectionDate").datepicker({format: 'dd/mm/yyyy'
+        
+        //});
+        
+        //$("#txtAuctionDate").datepicker({format: 'dd/mm/yyyy'
+        //});
+
+        $("#txtInspectionDate").datepicker(
+        
+        );
+        
+        $("#txtAuctionDate").datepicker(
+        );
+      
+
+
+    var DeleteImagesList= [];
+    var tfootAddAnother = '';
+    var Gujj='';
+    var bb='';
+    var  charFlag=false;
+    var ListingImages = '@ListingImages.Count'
+        var ListingBulletPoints='@ListingBulletPoints.Count'
+        var Lid='@ListingIDStatus'
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+              //  $(this).parent().closest('td').find("#NewImage").attr('src', e.target.result);
+             //   var tr = $(this).parents('tr:first>.WebGridPaddingSmartForm');
+
+
+                //  tr.find('#NewImage').attr('src', e.target.result); 
+                var id=(input.id).replace ( /[^\d.]/g, '' )
+
+                
+               // $(this).parent().prev().find("NewImage").attr('src', e.target.result);
+                //$(this).closest("td").next().find("img").attr('src', e.target.result);
+            //    var a=  tr.find('#NewImage').val();
+              //  alert(a);
+             //   tr.find('#NewImage').attr('src', e.target.result);
+                // input.closest("td>img").attr('src', e.target.result);
+                
+                   var ImgId='#NewImage'+id;
+                  $(ImgId).attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+          //  CloseUploader(input);
+        }
+    }
+    
+    function DeleteImage(ImageID,ImageUrl,ref)
+    {
+       
+        var DeleteImgList = [];
+        
+
+            //var ListingImage =
+            //{
+            //    "ListingImageId  ": ImageID,
+            //    "ImageURL":ImageUrl
+            //};
+         
+        
+        Gujj+='&'+ImageID+ImageUrl;
+        DeleteImgList.push(Gujj);
+            // alert(this.value); // "this" is the current element in the loop
+        $("#DeleteImagesList").val(DeleteImgList);
+
+
+           
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/webstoreapi/RealEstateSM/DeleteListingImage?ListingImageId=" + ImageID + "&ImageUrl=" + ImageUrl + "",
+            
+
+        //    async: true,
+        //    processData: false,
+        //    success: function (response) {
+        //        //$('#ListingImageUploader').val('');
+        //        //$('#NewImage').val('');
+               CloseRow(ref);
+        //    }
+        //});
+        
+    }
+    function validateURL(textval) {
+        var urlregex = new RegExp(
+              "^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.){1}([0-9A-Za-z]+\.)");
+        return urlregex.test(textval);
+    }
+
+
+    function AddLisitngImage()
+    {
+        var ListingId = '@Model.ListingId';
+        var data = new FormData();
+       // var files=().get(0).files;
+        //if ($("#ListingImageUploader").val() != null) {
+        //    var files = $("#ListingImageUploader").get(0).files;
+
+        //    if (files.length > 0) {
+        //        for (i = 0; i < files.length; i++) {
+        //            data.append("ListingImage" + i, files[i]);
+        //        }
+        //    }
+        //}
+        
+        var i=0;
+        // $('#listImage>table>tr>td').children('input').each(function () {
+        if (ListingImages == 0) {
+            $('.selTable>tr>td').children('input').each(function () {
+           
+                var files = $(this).get(0).files;
+               
+                if (files.length > 0) {
+               
+                    //  for (i = 0; i < files.length; i++) {
+                    
+                    data.append("ListingImage"+i, files[0]);
+                    // }
+
+                    i++;
+                }
+
+
+                //var files = $("#fuImageUpload").get(0).files;
+
+                //// Add the uploaded image content to the form data collection
+                //if (files.length > 0) {
+                //    data.append("UploadedImage", files[0]);
+                //}
+            });
+        }
+        else
+        {
+            
+            $('.selTable>tbody>tr>td').children('input').each(function () {
+           
+                var files = $(this).get(0).files;
+               
+                if (files.length > 0) {
+               
+                    //  for (i = 0; i < files.length; i++) {
+                    
+                    data.append("ListingImage"+i, files[0]);
+                    // }
+
+                    i++;
+                }
+
+
+                //var files = $("#fuImageUpload").get(0).files;
+
+                //// Add the uploaded image content to the form data collection
+                //if (files.length > 0) {
+                //    data.append("UploadedImage", files[0]);
+                //}
+            });
+        }
+        // alert(this.value); // "this" is the current element in the loop
+        ShowLoader();
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddImagesForListings?ListingId=" + ListingId + "",
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+               
+                $('#ListingImageUploader').val('');
+                $('#NewImage').val('');
+                $("#btnSaveAndDesignnn").trigger('click');
+            }
+        });
+    }
+
+        function CloseRow(btndel)
+        {
+            
+            if (typeof(btndel) == "object") {
+                $(btndel).closest("tr").remove();
+            } else {
+                return false;
+            }
+        }
+      
+        function CloseUploader(btndel)
+        {
+            
+            if (typeof(btndel) == "object") {
+                $(btndel).hide();
+
+            } else {
+                return false;
+            }
+        }
+        
+
+        $(function () {
+
+          
+            //if($("#txtWebsite").val()=='')
+            //{
+            //    $("#txtWebsite").val('http://');
+            
+            //}
+            //if(Lid=='0')
+            //{
+              
+            //    $('#txtInspectionStartTime').attr("enabled", true);
+            //    $('#txtInspectionEndTime').attr("enabled", true);
+
+            //    $('#AuctionStratTime').attr("enabled", true);
+            //    $('#txtAuctionEndTime').attr("enabled", true);
+            //}
+            //else
+            //{
+            //    $('#txtInspectionStartTime').attr("disabled", true);
+            //    $('#txtInspectionEndTime').attr("disabled", true);
+
+            //    $('#AuctionStratTime').attr("disabled", true);
+            //    $('#txtAuctionEndTime').attr("disabled", true);
+            //}
+        
+        var tfootAdd = "<tr class='tfootrow gridViewRowStyleForWebGrid'>" +
+
+                            "<td class='WebGridPaddingSmartForm'>" +
+                                "<span class='display'/>"+
+                                "<input type='text' id='inID'  class='edit'  /> " +
+                                "</td>" +
+                            "<td>" +
+                                "<span class='display'/>"+
+                                "<input type='text' id='inName' value='' class = 'edit'/>" +
+                            "</td>" +
+                            "<td>" +
+                                "<span class='display'/>"+
+                                "<input type='text' id='inEmail' value='' class = 'edit'/>" +
+                            "</td>" +
+                            "<td>" +
+                                  "<span class='display'/>"+
+                                "<input type='text' id='inEmail' value='' class = 'edit'/>" +
+                            "</td>" +
+                            "<td> " +
+                                //"<i class='fa fa-plus display ins-btn' style='font-size:16px;'></i>" +
+                                "<i style='font-size:15px;' class='fa fa-floppy-o edit inssave-btn' title='Save'></i>" +
+                                "<i class='fa fa-eye edit cancel-btn' style='font-size:17px;' title='Close'></i>" +
+                            "</td>" +
+                        "</tr>"
+
+        //<a  class='display ins-btn' >Insert</a>
+        // <a  class='edit cancel-btn'>Close</a>
+       // <a  class='edit inssave-btn'>Save</a>
+        //$("table tfoot tr:first").before(tfootAdd);
+        //$("table tfoot tr:last").after(tfootAdd);
+        $("#MainAjentsHtml table>tbody tr:last").after(tfootAdd);
+        var tfootAddAnother = "<tr class='tfootrowFor gridViewRowStyleForWebGrid'>" +
+
+                          "<td class='WebGridPaddingSmartForm'>" +
+                              "<span class='display'/>" +
+                              "<img id='NewImage' style='height:120px;width: 170px' class = 'editImg' /> " +
+                              "</td>" +
+                          "<td>" +
+                              "<span class='display'/>" +
+                              "<input type='file' id='ListingImageUploader' class = 'editImg' />" +
+                          "</td>"
+        "<td>"+
+           "<a  class='display ' >Insert</a>" +
+           "<a  class='editImg inssave-btn'>Save</a>" +
+           "<a  class='editImg cancel-btn'>Close</a>" +
+       "</td>" +
+   "</tr>"
+
+
+         //tfootAddAnother = "<tr class='tfootrowFor gridViewRowStyleForWebGrid'>" +
+
+         //                  "<td class='WebGridPaddingSmartForm'>" +
+         //                      "<span class='display'/>" +
+         //                      "<img id='NewImage' src='/Content/Images/realplaceholder.gif'  class = 'editImg'  style='height:120px;width: 170px'/> " +
+         //                      "</td>" +
+         //                  "<td>" +
+         //                      "<span class='display'/>" +
+         //                      "<input type='file' class = 'editImg' onchange='ShowPreview(this)' id='ListingImageUploader' />" +
+         //                  "</td>" +
+
+         //                  "<td> " +
+         //                      "<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
+         //                      //" <i style='font-size:18px;' id='ImageDel' title='Delete' class='fa fa-times display'></i>" +
+
+         //                  "</td>" +
+         //              "</tr>"
+
+      //  //$("#listImage>table>tfoot tr:first").before(tfootAddAnother);
+      // //  var rows = $("#ajaxgridForListingImages").find('> tbody > tr');
+      //  // alert(rows);
+      //  //$("#listImage>table>tbody tr:last").after(tfootAddAnother);
+      ////   if (ListingImages == 0) {
+           //$("#listImage>table>tbody").after(tfootAddAnother);
+
+
+             function AgainCall()
+        {
+                 
+                 tfootAddAnother = "<tr class='tfootrowFor gridViewRowStyleForWebGrid'>" +
+
+                             "<td class='WebGridPaddingSmartForm'>" +
+                                 "<span class='display'/>" +
+                                '<img id=NewImage'+NewImageClick+' src="/Content/Images/realplaceholder.gif" class="hheditImg" style="height:120px;width: 170px" />' +
+                                 "</td>" +
+                             "<td>" +
+                                 "<span class='display'/>" +
+                                 '<input type="file" class = "editImg" onchange="ShowPreview(this)" id=ListingImageUploader'+NewImageClick+'/>' +
+                             "</td>" +
+
+                             "<td> " +
+                                 //"<i class='fa fa-plus  ' id='IsertBtn' style='font-size:16px;'></i>" +
+                                 "<i style='font-size:18px;' id='ImageDel' title='Delete' class='fa fa-times CloseBtnForImageDisplay' onclick='CloseRow(this)'></i>" +
+                               
+                             "</td>" +
+                         "</tr>"
+                 
+                 //$("#listImage>table>tfoot tr:first").before(tfootAddAnother);
+                 //  var rows = $("#ajaxgridForListingImages").find('> tbody > tr');
+                 // alert(rows);
+                 //$("#listImage>table>tbody tr:last").after(tfootAddAnother);
+               //  var rowCount = $('#listImage tr').length;
+                // alert(rowCount);
+                 if (ListingImages == 0) {
+                     $("#listImage>table>tbody").after(tfootAddAnother);
+                   //  alert();
+                 }
+                 else
+                 {
+                     $("#listImage>table>tbody tr:last").after(tfootAddAnother);
+                 }
+                 ImgIndex++;
+             }
+       //  }
+      //   else {
+       //      $("#listImage>table>tbody tr:last").after(tfootAddAnother);
+       //  }
+
+
+
+        var tfootAddBulletPoints = "<tr class='tfootrowForBulletPoint gridViewRowStyleForWebGrid'>" +
+
+                                              "<td class='WebGridPaddingSmartForm'>" +
+                                                  "<span class='display'/>" +
+                                                  "<input type='text' id='inIDBullet' class='lbEdit ' placeholder='Bullet Point' /> " +
+                                                  "</td>" +
+
+
+                                              "<td> " +
+                                                  "<i id='IsertBtnForBullet' class='fa fa-plus  display' style='font-size:16px;'></i>" +
+                                                  "<i style='font-size:15px;' id='SaveBtnBulletPoint' class='fa fa-floppy-o lbEdit' title='Save'></i>" +
+                                                  "<i id='CloseBtnLb' class='fa fa-eye edit lbEdit' style='font-size:17px;' title='Close'></i>" +
+                                              "</td>" +
+                                          "</tr>"
+
+        //$("#BulletPointsGrid>table>tfoot tr:first").before(tfootAddBulletPoints);
+        if(@ListingBulletPoints.Count==0)
+        {
+            $("#BulletPointsGrid>table>tbody").after(tfootAddBulletPoints);
+        }
+        else
+        {
+            $("#BulletPointsGrid>table>tbody tr:last").after(tfootAddBulletPoints);
+        }
+        $('.edit').hide();  // default is display
+
+        $('.editImg').hide();
+
+        $('.lbEdit').hide();
+        $('.ins-btn, .edit-btn, .cancel-btn').on("click", function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit, .display').toggle();
+        });
+        $("#CloseBtn").on("click", function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.editImg, .display').toggle();
+        });
+        $('#IsertBtnForBullet').on("click", function () {
+
+            var tr = $(this).parents('tr:first');
+            tr.find('.lbEdit, .display').toggle();
+        });
+       
+        
+        $('#IsertBtn').on("click", function () {
+
+            //var tr = $(this).parents('tr:first');
+            //tr.find('.editImg, .display').toggle();
+            //tr.find('#IsertBtn, .display').toggle();
+            //tr.find('#SaveBtn, .display').toggle();
+            //tr.find('#CloseBtn, .display').toggle();
+            var tr = $(this).parents('tr:first');
+            var FirstName = tr.find("#inID").val();
+            var Mobile = tr.find("#inMobile").val();
+            var Email = tr.find("#inEmail").val();
+            var HomeTel1 = tr.find("#inName").val();
+
+            AgainCall();
+            // var CompanyContact =
+            //{
+            //    "FirstName": FirstName,
+            //    "Mobile": Mobile,
+            //    "Email": Email,
+            //    "HomeTel1": HomeTel1,
+            //    "CompanyId": CompanyId
+            //};
+
+        });
+        $('#NewImageClick').on("click", function () {
+            NewImageClick++;
+            //var tr = $(this).parents('tr:first');
+            //tr.find('.editImg, .display').toggle();
+            //tr.find('#IsertBtn, .display').toggle();
+            //tr.find('#SaveBtn, .display').toggle();
+            //tr.find('#CloseBtn, .display').toggle();
+         
+
+            AgainCall();
+            // var CompanyContact =
+            //{
+            //    "FirstName": FirstName,
+            //    "Mobile": Mobile,
+            //    "Email": Email,
+            //    "HomeTel1": HomeTel1,
+            //    "CompanyId": CompanyId
+            //};
+
+        });
+
+        $('#CloseBtnLb').on("click", function () {
+
+            var tr = $(this).parents('tr:first');
+            tr.find('.lbEdit, .display').toggle();
+        });
+        //$('.CloseBtnForImageDisplay').on("click", function () {
+        //    var tr = $(this).parents('tr:first');
+        //    //tr.display='none';
+        //    alert(tr);
+        //});
+       
+        $('#SaveBtn').on("click", function () {
+            
+            if ($("#ListingImageUploader").val() == '') {
+                alert('please Upload Image');
+            }
+            else {
+                AddLisitngImage();
+            }
+        });
+
+        $('#IsertBtn').on("click", function () {
+
+
+
+
+
+        });
+
+
+        $('.inssave-btn').on("click", function () {
+
+
+            var tr = $(this).parents('tr:first');
+            var FirstName = tr.find("#inID").val();
+            var Mobile = tr.find("#inMobile").val();
+            var Email = tr.find("#inEmail").val();
+            var HomeTel1 = tr.find("#inName").val();
+            var CompanyId = '@UserCookieManager.WBStoreId';
+
+            var isSuccess = -1;
+
+            //tr.find("#lblName").text(name);
+            //tr.find("#lblEmail").text(email);
+
+
+            var CompanyContact =
+            {
+                "FirstName": FirstName,
+                "Mobile": Mobile,
+                "Email": Email,
+                "HomeTel1": HomeTel1,
+                "CompanyId": CompanyId
+            };
+
+            $.ajax({
+
+                url: '/webstoreapi/RealEstateSM/AddSingleAjent',    // HomeController and InsertData method
+
+                data: JSON.stringify(CompanyContact),
+
+                type: 'POST',
+
+                contentType: 'application/json; charset=utf-8',
+
+                success: function (result) {
+                    isSuccess = result;
+                    location.reload();
+                },
+                error: function (result) {
+                    isSuccess = result;
+                }
+
+            }).done(function () {
+                if (isSuccess == "1") {           // Successfully saved
+                    tr.find('.edit, .display').toggle();
+                    alert("Successfully Saved");
+                    location.reload();      // refresh the page
+                }
+                else {                      // Data Error
+                    alert("Error. Please, check the data");
+                }
+            });
+        });
+
+        $('.save-btn').on("click", function () {
+
+            var tr = $(this).parents('tr:first');
+            var FirstName = tr.find("#inID").val();
+            var Mobile = tr.find("#inMobile").val();
+            var Email = tr.find("#inEmail").val();
+            var HomeTel1 = tr.find("#inName").val();
+            var isSuccess = -1;
+
+            //tr.find("#lblName").text(name);
+            //tr.find("#lblEmail").text(email);
+
+
+            var CompanyContact =
+            {
+                "FirstName": FirstName,
+                "Mobile": Mobile,
+                "Email": Email,
+                "HomeTel1": HomeTel1
+            };
+
+            $.ajax({
+
+                url: '/webstoreapi/RealEstateSM/UpdateAgent',
+
+                data: JSON.stringify(CompanyContact),
+
+                type: 'POST',
+
+                contentType: 'application/json; charset=utf-8',
+
+                success: function (result) {
+                    isSuccess = result;
+                    location.reload();
+                    alert("Successfully Updated");
+                },
+                error: function (result) {
+                    isSuccess = result;
+                }
+
+            }).done(function () {
+                if (isSuccess == "1") {           // Successfully saved
+                    tr.find('.edit, .display').toggle();
+
+                }
+                else {                      // Data Error
+
+                }
+            });
+
+        });
+
+
+        $('.delete-btn').on("click", function () {
+
+            var tr = $(this).parents('tr:first');
+            var name = tr.find("#inName").val();
+            var id = tr.find("#inID").val();
+            var email = tr.find("#inEmail").val();
+            var isSuccess = -1;
+
+            var Student =
+            {
+                "ID": id,
+                "Name": name,
+                "email": email
+            };
+
+            $.ajax({
+
+                url: '/Home/DeleteData/',
+
+                data: JSON.stringify(Student),
+
+                type: 'POST',
+
+                contentType: 'application/json; charset=utf-8',
+
+                success: function (result) {
+                    isSuccess = result;
+
+                },
+                error: function (result) {
+                    isSuccess = result;
+                }
+
+            }).done(function () {
+                if (isSuccess == "1") {           // Successfully Deleted
+                    alert("Successfully Deleted");
+                    location.reload();      // refresh the page
+                }
+                else {                      // Data Error
+                    alert("Error. Please, check the data");
+                }
+
+            });
+
+
+        });
+    });
+
+
+
+
+    $(document).ready(function () {
+        
+        $('#txtInspectionDate').val(spectionDate);
+        //alert(Auctindate);
+        $('#txtAuctionDate').val(Auctindate);
+        $('#SaveBtnBulletPoint').on("click", function () {
+            if (BulletPValidation() == true) {
+                var tr = $(this).parents('tr:first');
+
+                var BulletPoint = tr.find("#inID").val();
+
+                var ListingId = '@Model.ListingId';
+
+
+                var isSuccess = -1;
+
+                //tr.find("#lblName").text(name);
+                //tr.find("#lblEmail").text(email);
+
+
+                var ListingBulletPoint =
+                {
+                    "BulletPoint": BulletPoint,
+                    "ListingId": ListingId
+
+                };
+
+                $.ajax({
+
+                    url: '/webstoreapi/RealEstateSM/AddSingleBulletPoint',    // HomeController and InsertData method
+
+                    data: JSON.stringify(ListingBulletPoint),
+
+                    type: 'POST',
+
+                    contentType: 'application/json; charset=utf-8',
+
+                    success: function (result) {
+                        isSuccess = result;
+                        location.reload();
+                        alert('BulletPoint has been inserted Sucessfully');
+                    },
+
+
+                });
+            }
+        });
+
+    });
+
+
+    function GetAllChildElemets() {
+
+        $('#ListingAgentBoxes  div').each(function (i) {
+
+            if (i == 0) {
+                //var id = $(this).find('input').attr("id");
+                var id = $(this).find('input').attr("val");
+                
+            }
+        });
+    }
+
+    
+    var mode = 2;
+    var CuritemID = 0;
+    var CurTemplateID = 0;
+    function verifySpellings() {
+        if ($("#chkCheckSpelling").is(':checked')) {
+            return true;
+        } else {
+            alert("Please Confirm spellings and details!");
+            return false;
+        }
+    }
+    //function GeneratePreview() {
+
+    //    var curContactID = $('#<%= hfContactID.ClientID %>').val();
+    //    if ($("#btnOtherProfile").is(':checked')) {
+    //        curContactID = $('#<%= dropBoxSelectUser.ClientID %>').val();
+    //    }
+    //    var CurrentContact = {
+    //        ContactID: curContactID,
+    //        quickFullName: $(".txtQname").val(),
+    //        quickTitle: $(".txtQTitle").val(),
+    //        quickCompanyName: $(".txtQCompany").val(),
+    //        quickAddress1: $(".txtAddress").val(),
+    //        quickPhone: $(".txtQtel").val(),
+    //        quickFax: $(".txtQFax").val(),
+    //        quickEmail: $(".txtQEmail").val(),
+    //        quickWebsite: $(".txtQWebsite").val(),
+    //        quickCompMessage: $(".txtQMessage").val(),
+    //        //contact
+    //        FirstName: $(".txtFName").val(),
+    //        MiddleName: $(".txtMname").val(),
+    //        LastName: $(".txtLname").val(),
+    //        Title: $(".txtTitle").val(),
+    //        HomeTel1: $(".txtHomeTel1").val(),
+    //        HomeTel2: $(".txtHomeTel2").val(),
+    //        HomeExtension1: $(".txtHomeExt1").val(),
+    //        HomeExtension2: $(".txtHomeExt2").val(),
+    //        Mobile: $(".txtMobile").val(),
+    //        Pager: $(".txtPager").val(),
+    //        Email: $(".txtEmail").val(),
+    //        FAX: $(".txtFax").val(),
+    //        JobTitle: $(".txtJtitle").val(),
+    //        LinkedinURL: $(".txtLinkedInURL").val(),
+    //        SkypeID: $(".txtSkypeID").val(),
+    //        FacebookURL: $(".txtFbID").val(),
+    //        TwitterURL: $(".txtTwitterURL").val(),
+    //        URL: $(".txtURL").val(),
+    //        POBoxAddress: $(".txtPOBox").val(),
+    //        CorporateUnit: $(".txtCunit").val(),
+    //        OfficeTradingName: $(".txtOfcTrading").val(),
+    //        ContractorName: $(".txtContractorName").val(),
+    //        BPayCRN: $(".txtBpay").val(),
+    //        ABN: $(".txtABN").val(),
+    //        AdditionalField1: $(".txtAf1").val(),
+    //        AdditionalField2: $(".txtAf2").val(),
+    //        AdditionalField3: $(".txtAf3").val(),
+    //        AdditionalField4: $(".txtAf4").val(),
+    //        AdditionalField5: $(".txtAf5").val(),
+    //        ACN: $(".txtACN").val()
+    //    }
+
+    //    StartLoader();
+    //    var obSt = {
+    //        ContactID: $('#<%= hfContactID.ClientID %>').val(),
+    //        CustomerID: $('#<%= hfCompanyID.ClientID %>').val(),
+    //        OldItemID: CuritemID,
+    //        templateID: CurTemplateID,
+    //        printCropMarks: $('#<%= hfPrintCropMarks.ClientID %>').val(),
+    //        objContact: CurrentContact
+    //    }
+    //    var jsonObjects = JSON.stringify(obSt, null, 2);
+    //    var to;
+
+    //    to = "/services/Webstore.svc/processOrder/";
+    //    var options = {
+    //        type: "POST",
+    //        url: to,
+    //        data: jsonObjects,
+    //        contentType: "text/plain;",
+    //        dataType: "json",
+    //        async: true,
+    //        complete: function (httpresp, returnstatus) {
+    //            StopLoader();
+    //            OnPreviewSuccess(httpresp.responseText);
+    //        }
+    //    };
+    //    var returnText = $.ajax(options).responseText;
+    //    return false;
+    //}
+    //function OnPreviewSuccess(responce) {
+    //    if (responce != "") {
+    //        $('#UpdateProgressUserProfile').css("display", "none");
+    //        if (responce != "error") {
+    //            $('#<%= hfSvcRespone.ClientID %>').val(responce);
+    //            var arr = responce.split('_');
+    //            $(".iframeProofContainer").attr("src", "../TemplatePreviewer.aspx?templateID=" + arr[1]); $('#divShd').css("display", "block");
+    //            $("#PopupProofScreen").css("left", ($(window).width() - $("#PopupProofScreen").width()) / 2 + "px");
+    //            $("#PopupProofScreen").css("top", ($(window).height() - $("#PopupProofScreen").height()) / 2 + "px");
+    //            $("#PopupProofScreen").css("display", "block");
+    //            $('#divShd').css("display", "block");
+    //        } else {
+    //            alert("error while processing order");
+    //        }
+    //    }
+    //}
+    //function StartLoader() {
+    //    $('#divShd').css("z-index", "15000 !important"); $('#UpdateProgressUserProfile').css("z-index", "15000");
+    //    $('#divShd').css("display", "block");
+
+    //    $('#loaderimageDiv').css("display", "block");
+    //    $("#lodingBar").html("Loading please wait....");
+    //    var shadow = document.getElementById("divShd");
+    //    var bws = getBrowserHeight();
+    //    shadow.style.width = bws.width + "px";
+    //    shadow.style.height = bws.height + "px";
+    //    var left = parseInt((bws.width - 350) / 2);
+    //    var top = parseInt((bws.height - 200) / 2);
+    //    $('#UpdateProgressUserProfile').css("display", "block");
+    //}
+    //function StopLoader() {
+    //    if (mode != 1) {
+    //        $('#divShd').css("display", "none");
+    //    }
+    //    $('#UpdateProgressUserProfile').css("display", "none");
+    //    $('#divShd').css("z-index", "500 !important");
+    //}
+    //function FunctionPopUp(itemId, imgUrl, pCatID, designMode, templateID) {
+    //    CuritemID = itemId;
+    //    CurTemplateID = templateID;
+    //    $('#<%= hfCurItem.ClientID %>').val(itemId);
+    //    $('#<%= hfProductCatID.ClientID %>').val(pCatID);
+    //    var shadow = document.getElementById("divShd");
+    //    var bws = getBrowserHeight();
+    //    shadow.style.width = bws.width + "px";
+    //    shadow.style.height = bws.height + "px";
+    //    var left = parseInt(($(window).width() - 809) / 2);
+    //    var top = parseInt(($(window).height() - 610) / 2);
+    //    $('#divShd').css("z-index", "500");
+    //    $('#divShd').css("display", "block");
+    //    //shadow = null;
+    //    $("#PopupCorpQuickText").css("left", ($(window).width() - $("#PopupCorpQuickText").width()) / 2 + "px");
+    //    $("#PopupCorpQuickText").css("top", ($(window).height() - $("#PopupCorpQuickText").height()) / 2 + "px");
+    //    $("#PopupCorpQuickText").css("display", "block");
+    //    $("#imgProductCPanel").attr("src", imgUrl);
+
+    //    if (designMode == 1) {
+    //        $('.btnEditDesign').css("display", "inline-block");
+    //        $('.btnOrderNow').css("display", "none");
+    //    } else {
+    //        $('.btnOrderNow').css("display", "inline-block");
+    //        $('.btnEditDesign').css("display", "none");
+    //    }
+    //    // alert(itemId);
+    //}
+    //$("#btnMyProfile").click(function () {
+    //    var thisCheck = $(this);
+    //    if (thisCheck.is(':checked')) {
+    //        $('#<%= hfSPType.ClientID %>').val("default");
+    //        $(".dropBoxSelectUserCorp").css("display", "none");
+    //        var contactID = $('#<%= hfContactID.ClientID %>').val();
+    //        StartLoader();
+    //        $.getJSON("/services/Webstore.svc/getContact?customerID=" + contactID,
+    //                  function (xdata) {
+    //                      OnSuccess(xdata);
+    //                  });
+    //    }
+    //    else {
+    //        $(".dropBoxSelectUserCorp").css("display", "inline-block");
+    //        $('#<%= hfSPType.ClientID %>').val("other");
+    //    }
+    //});
+    //$("#btnOtherProfile").click(function () {
+    //    var thisCheck = $(this);
+    //    if (thisCheck.is(':checked')) {
+    //        $(".dropBoxSelectUserCorp").css("display", "inline-block");
+
+    //        $('#<%= hfSPType.ClientID %>').val("other");
+    //    }
+    //    else {
+    //        $('#<%= hfSPType.ClientID %>').val("default");
+
+    //        $(".dropBoxSelectUserCorp").css("display", "none");
+    //    }
+    //});
+    //$(".lblShowProfile").click(function () {
+    //    if ($(".lblShowProfile").html() == 'Show Profile <i class="arrow-down"></i>') {
+    //        $(".profileContainer").css("display", "block");
+    //        $(".lblShowProfile").html('Hide Profile <i class="arrow-up"></i>');
+    //    } else {
+    //        $(".profileContainer").css("display", "none");
+    //        $(".lblShowProfile").html('Show Profile <i class="arrow-down"></i>');
+    //    }
+    //});
+    //$(document).ready(function () {
+    //    var mode = $('#<%= hfContactID.ClientID %>').val();
+    //    var contactID = $('#<%= hfContactID.ClientID %>').val();
+    //    if ($('#<%= hfTemplateProduct.ClientID %>').val() == "true") {
+    //        StartLoader();
+    //        $.getJSON("/services/Webstore.svc/getContact?customerID=" + contactID,
+    //                  function (xdata) {
+    //                      OnSuccess(xdata);
+    //                  });
+    //    }
+    //});
+    //function hidePopup() {
+    //    $("#PopupCorpQuickText").css("display", "none");
+    //    $('#divShd').css("display", "none");
+    //}
+    //function hidePopup2() {
+    //    $("#PopupProofScreen").css("display", "none");
+    //}
+    //function onUserProfileChange() {
+    //    var contactID = $('#<%= dropBoxSelectUser.ClientID %>').val();
+    //    StartLoader();
+    //    $.getJSON("/services/Webstore.svc/getContact?customerID=" + contactID,
+    //              function (xdata) {
+    //                  OnSuccess(xdata);
+    //              });
+    //}
+    //function OnSuccess(responce) {
+    //    if (responce != "") {
+    //        var objCorp = responce;
+    //        StopLoader();
+    //        mode = 1;
+    //        $(".txtQname").val(objCorp.quickFullName);
+    //        $(".txtQTitle").val(objCorp.quickTitle);
+    //        $(".txtQCompany").val(objCorp.quickCompanyName);
+    //        $(".txtAddress").val(objCorp.quickAddress1);
+    //        $(".txtQtel").val(objCorp.quickPhone);
+    //        $(".txtQFax").val(objCorp.quickFax);
+    //        $(".txtQEmail").val(objCorp.quickEmail);
+    //        $(".txtQWebsite").val(objCorp.quickWebsite);
+    //        $(".txtQMessage").val(objCorp.quickCompMessage);
+    //        //contact
+    //        $(".txtFName").val(objCorp.FirstName);
+    //        $(".txtMname").val(objCorp.MiddleName);
+    //        $(".txtLname").val(objCorp.LastName);
+    //        $(".txtTitle").val(objCorp.Title);
+    //        $(".txtHomeTel1").val(objCorp.HomeTel1);
+    //        $(".txtHomeTel2").val(objCorp.HomeTel2);
+    //        $(".txtHomeExt1").val(objCorp.HomeExtension1);
+    //        $(".txtHomeExt2").val(objCorp.HomeExtension2);
+    //        $(".txtMobile").val(objCorp.Mobile);
+    //        $(".txtPager").val(objCorp.Pager);
+    //        $(".txtEmail").val(objCorp.Email);
+    //        $(".txtFax").val(objCorp.FAX);
+    //        $(".txtJtitle").val(objCorp.JobTitle);
+    //        $(".txtLinkedInURL").val(objCorp.LinkedinURL);
+    //        $(".txtSkypeID").val(objCorp.SkypeID);
+    //        $(".txtFbID").val(objCorp.FacebookURL);
+    //        $(".txtTwitterURL").val(objCorp.TwitterURL);
+    //        $(".txtURL").val(objCorp.URL);
+
+
+    //        $(".txtPOBox").val(objCorp.POBoxAddress);
+    //        $(".txtCunit").val(objCorp.CorporateUnit);
+    //        $(".txtOfcTrading").val(objCorp.OfficeTradingName);
+    //        $(".txtContractorName").val(objCorp.ContractorName);
+    //        $(".txtBpay").val(objCorp.BPayCRN);
+    //        $(".txtABN").val(objCorp.ABN);
+    //        $(".txtAf1").val(objCorp.AdditionalField1);
+    //        $(".txtAf2").val(objCorp.AdditionalField2);
+    //        $(".txtAf3").val(objCorp.AdditionalField3);
+    //        $(".txtAf4").val(objCorp.AdditionalField4);
+    //        $(".txtAf5").val(objCorp.AdditionalField5);
+    //        $(".txtACN").val(objCorp.ACN);
+    //    }
+    //}
+
+    //function closeMS() {
+    //    $('#divShd').css("display", "none");
+    //    $(".closeBtn").css("display", "none");
+    //    $('#jqwin').hide();
+    //    $('#ifrm').attr('src', 'about:blank');
+    //}
+
+    //function AddAgent() {
+
+    //    var agentCount = parseInt($("hfAgentsCount").val()) + 1;
+    //    $("#hfAgentsCount").val(agentCount);
+    //    var agentrowNo = 0;
+    //    if ($("#hfNewlyAddedAgents").val() != undefined) {
+    //        agentrowNo = parseInt($("#hfNewlyAddedAgents").val()) + 1;
+    //        $("#hfNewlyAddedAgents").val(agentrowNo);
+    //    } else {
+    //        $("#hfNewlyAddedAgents").val(agentrowNo);
+    //    }
+    //    var uniqueClassId = 'AgentContainer' + agentCount;
+    //    var url = '<div class="float_right agentDiv' + agentCount + '"><a class="removeAgentcontrol" onclick=removeAgent("' + agentCount + '");>Remove</a></div><div class="clearBoth agentDiv' + agentCount + '"></div><div id=' + uniqueClassId + ' class="newlyAddAgentsContainer"><div class=controlSecondDiv ><label>Agent ' + agentCount + ' Name</label><input  Id=txtAgentName' + agentrowNo + ' class="generalTextBox"  style="margin-right: 10px;" placeholder="AgentName" /></div>';
+    //    url = url + '<div class=controlSecondDiv><label>Agent ' + agentCount + ' Tel</label><input  Id=txtAgentTel' + agentrowNo + ' class="generalTextBox"  style="margin-right: 10px;" placeholder="Telephone" /></div>';
+    //    url = url + '<div class=controlSecondDiv><label>Agent ' + agentCount + ' Mob</label><input  Id=txtAgentMobile' + agentrowNo + ' class="generalTextBox"  style="margin-right: 10px;" placeholder="Mobile" /></div>';
+    //    url = url + '<div class=controlSecondDiv><label>Agent ' + agentCount + ' Email</label><input  Id=txtAgentEmail' + agentrowNo + ' class="generalTextBox"  style="margin-right: 10px;" placeholder="Email" /></div>';
+    //    url = url + '<div class="clearBoth height5px">&nbsp;</div></div>';
+    //    $("#newAgentsContainer").append(url);
+    //}
+
+    function DeleteAgent(ContactID)
+    {
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/RealEstateSM/DeleteAjent?ContactID=" + ContactID + "",
+            //contentType: false,
+
+            async: true,
+            //processData: false,
+            success: function (response) {
+                //$('#ListingImageUploader').val('');
+                //$('#NewImage').val('');
+                //   alert('Image has been Deleted Successfully!');
+                location.reload();
+            }
+        });
+
+    }
+
+    function DeleteBulletPoint(BulletPointId,ListingId)
+    {
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/RealEstateSM/DeleteBulletPoint?BulletPointId=" + BulletPointId + "&ListingId=" + ListingId + "",
+            contentType: false,
+
+            async: true,
+            processData: false,
+            success: function (response) {
+             
+            }
+        });
+    }
+    function removeAgent(agentCount) {
+        var IdToRemove = 'AgentContainer' + agentCount;
+        var classToRemove = 'agentDiv' + agentCount;
+        $("#" + IdToRemove).remove();
+        $("." + classToRemove).remove();
+        //var newHtml = "";
+        //$('.newlyAddAgentsContainer').each(function (i, val) {
+
+        //    var containerId = $(val).attr('id');
+
+        //    if (containerId == IdToRemove) {
+
+        //    } else {
+        //        newHtml = newHtml + $(val).prev().prev() + $(val).prev() + '<div id=' + $(val).attr('id') + ' class=' + $(val).attr('class') + '>' + $(val).html() + '</div>';
+
+        //    }
+        //});
+        //$("#newAgentsContainer").html("");
+        //$("#newAgentsContainer").append(newHtml);
+    }
+
+    var jsonData = [];
+    var jsonPointsData = [];
+    
+    function SaveData()
+    {
+        var Bullets = [];
+        var BulletsTobeUpdated=[];
+        bb='';
+        var up='';
+        $('.NewlyyAddedInputs').each(function(i, obj) {
+            bb+='/'+this.value;
+            //Bullets.push(ListingBulletPoint);
+            // Bullets.push(bb);
+        });
+        $('.OldBoxes').each(function(i, obj) {
+            up+='/'+this.value;
+            //Bullets.push(ListingBulletPoint);
+            // Bullets.push(bb);
+        });
+            
+        
+        $('#BulletList').val(bb);
+       
+        $('#BulletListUpdated').val(up);
+
+        if (computeData() == true)
+        {
+           AddLisitngImage();
+           
+        }
+    }
+    function CancelListing()
+    {
+        
+        var ListingId='@Model.ListingId';
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/RealEstateSM/DeleteListing?ListingId=" + ListingId+ "",
+
+            async: true,
+
+            success: function (response) {
+                //$('#ListingImageUploader').val('');
+                //$('#NewImage').val('');
+
+                window.location.href = "/RealEstateListingGrid";
+            }
+        });
+
+    }
+    function computeData() {
+
+
+        var isValidInput = true;
+
+        $("#MainContent_ValidationSummery").html("");
+
+        var validationSummeryhtm = "";
+        if($("#txtUnitNumber").val()!='')
+        {
+            if ($.isNumeric($("#txtUnitNumber").val())) {
+
+                $("#txtUnitNumber").css("background", "lightgray");
+
+            } else {
+                isValidInput = false;
+                $("#txtUnitNumber").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Unit Number.</p>";
+            }
+        }
+
+
+        if($("#txtLandSize").val()!='')
+        {
+            if ($.isNumeric($("#txtLandSize").val())) {
+                //$("#txtLandSize").css("background", "lightgray");
+            } else {
+
+                isValidInput = false;
+                $("#txtLandSize").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Land Size.</p>";
+            }
+        }
+
+        if($("#txtBuildingSize").val()!='')
+        {
+            if ($.isNumeric($("#txtBuildingSize").val())) {
+                //$("#txtBuildingSize").css("background", "lightgray");
+            } else {
+
+
+                isValidInput = false;
+                $("#txtBuildingSize").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Building Size.</p>";
+            }
+        }
+
+        if($("#txtStreetNumber").val()!='')
+        {
+            if ($.isNumeric($("#txtStreetNumber").val())) {
+                //$("#txtStreetNumber").css("background", "lightgray");
+            } else {
+
+
+                isValidInput = false;
+                $("#txtStreetNumber").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Street No.</p>";
+            }
+        }
+
+        if($("#txtBedrooms").val()!='')
+        {
+            if ($.isNumeric($("#txtBedrooms").val())) {
+                //$("#txtBedrooms").css("background", "lightgray");
+            } else {
+
+                isValidInput = false;
+                $("#txtBedrooms").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Bedrooms.</p>";
+            }
+        }
+
+        if($("#txtBathrooms").val()!='')
+        {
+            if ($.isNumeric($("#txtBathrooms").val())) {
+                //$("#txtBathrooms").css("background", "lightgray");
+            } else {
+
+
+                isValidInput = false;
+                $("#txtBathrooms").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Bathrooms.</p>";
+            }
+        }
+
+        if($("#txtLoungeRooms").val()!='')
+        {
+            if ($.isNumeric($("#txtLoungeRooms").val())) {
+                //$("#txtLoungeRooms").css("background", "lightgray");
+            } else {
+
+                isValidInput = false;
+                $("#txtLoungeRooms").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Lounge Rooms.</p>";
+            }
+        }
+        if($("#txtToilets").val()!='')
+        {
+            if ($.isNumeric($("#txtToilets").val())) {
+                //$("#txtToilets").css("background", "lightgray");
+            } else {
+
+
+                isValidInput = false;
+                $("#txtToilets").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Toilets.</p>";
+            }
+        }
+        if($("#txtStudies").val()!='')
+        {
+            if ($.isNumeric($("#txtStudies").val())) {
+                //$("#txtStudies").css("background", "lightgray");
+            } else {
+
+
+                isValidInput = false;
+                $("#txtStudies").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Studies.</p>";
+            }
+        }
+        if($("#txtPools").val()!='')
+        {
+            if ($.isNumeric($("#txtPools").val())) {
+                //$("#txtPools").css("background", "lightgray");
+            } else {
+
+                isValidInput = false;
+                $("#txtPools").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Pools.</p>";
+            }
+        }
+
+        if($("#txtGarages").val()!='')
+        {
+            if ($.isNumeric($("#txtGarages").val())) {
+                //$("#txtGarages").css("background", "lightgray");
+            } else {
+
+                isValidInput = false;
+                $("#txtGarages").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Garages.</p>";
+            }
+        }
+
+        if($("#txtCarSpaces").val()!='')
+        {
+            if ($.isNumeric($("#txtCarSpaces").val())) {
+                //$("#txtCarSpaces").css("background", "lightgray");
+            } else {
+
+
+                isValidInput = false;
+                $("#txtCarSpaces").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Car Spaces.</p>";
+            }
+        }
+        if($("#txtCouncil").val()!='')
+        {
+            if ($.isNumeric($("#txtCouncil").val())) {
+                //$("#txtCouncil").css("background", "lightgray");
+            } else {
+                isValidInput = false;
+                $("#txtCouncil").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Council.</p>";
+            }
+        }
+        if($("#txtStarta").val()!='')
+        {
+            if ($.isNumeric($("#txtStarta").val())) {
+                //$("#txtStarta").css("background", "lightgray");
+
+            } else {
+
+                isValidInput = false;
+                $("#txtStarta").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Starta.</p>";
+            }
+        }
+        if($("#txtWater").val()!='')
+        {
+            if ($.isNumeric($("#txtWater").val())) {
+                //$("#txtWater").css("background", "lightgray");
+            } else {
+
+
+                isValidInput = false;
+                $("#txtWater").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Water.</p>";
+            }
+        }
+        if($("#txtLand").val()!='')
+        {
+            if ($.isNumeric($("#txtLand").val())) {
+
+                //$("#txtLand").css("background", "lightgray");
+
+            } else {
+
+                isValidInput = false;
+                $("#txtLand").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Land.</p>";
+            }
+        }
+        if($("#txtStartaAdmin").val()!='')
+        {
+            if ($.isNumeric($("#txtStartaAdmin").val())) {
+                //$("#txtStartaAdmin").css("background", "lightgray");
+            } else {
+                isValidInput = false;
+                $("#txtStartaAdmin").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Starta Admin.</p>";
+
+            }
+        }
+        if($("#txtOther").val()!='')
+        {
+            if ($.isNumeric($("#txtOther").val())) {
+                //$("#txtOther>").css("background", "lightgray");
+            } else {
+
+
+                isValidInput = false;
+
+                $("#txtOther").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Other.</p>";
+            }
+        }
+        if($("#txtPrice").val()!='')
+        {
+            if ($.isNumeric($("#txtPrice").val())) {
+                //$("#txtPrice").css("background", "lightgray");
+
+            } else {
+
+
+                isValidInput = false;
+                $("#txtPrice").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Price.</p>";
+            }
+        }
+
+        if($("#txtPriceGuid").val()!='')
+        {
+            if ($.isNumeric($("#txtPriceGuid").val())) {
+                //$("#txtPriceGuid").css("background", "lightgray");
+            } else {
+                isValidInput = false;
+                $("#txtPriceGuid").css("background", "rgb(187, 140, 140)");
+                validationSummeryhtm = validationSummeryhtm + "<p>Please enter numeric value in Price Guide.</p>";
+
+            }
+        }
+        
+        if($("#PropertyName").val()=='')
+        {
+            isValidInput = false;
+            $("#PropertyName").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the property name .</p>";
+        }
+        else
+        {
+        
+        
+        }
+
+        if($("#txtWebsite").val()=='')
+        {
+        
+            //isValidInput = false;
+            //$("#txtWebsite").css("background", "rgb(187, 140, 140)");
+            //validationSummeryhtm = validationSummeryhtm + "<p>Please enter the website url.</p>";
+        }
+        else
+        {
+            //if(!validateURL($("#txtWebsite").val()))
+            //{
+            //    isValidInput = false;
+            //    $("#txtWebsite").css("background", "rgb(187, 140, 140)");
+            //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the correct website url .</p>";
+            
+            //}
+        }
+
+        //if($("#txtPostcode").val()=='')
+        //{
+        
+        //    isValidInput = false;
+        //    $("#txtPostcode").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the Post Code .</p>";
+        //}
+        //if($("#txtInspectionStartTime").val()=='')
+        //{
+        
+        //    isValidInput = false;
+        //    $("#txtInspectionStartTime").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection start time .</p>";
+        //}
+        //if($("#txtInspectionEndTime").val()=='')
+        //{
+        
+        //    isValidInput = false;
+        //    $("#txtInspectionEndTime").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection end time .</p>";
+        //}
+        //if($("#AuctionStratTime").val()=='')
+        //{
+        
+        //    isValidInput = false;
+        //    $("#AuctionStratTime").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection start time .</p>";
+        //}
+        //if($("#txtAuctionEndTime").val()=='')
+        //{
+        
+        //    isValidInput = false;
+        //    $("#txtAuctionEndTime").css("background", "rgb(187, 140, 140)");
+        //    validationSummeryhtm = validationSummeryhtm + "<p>Please enter the inspection end time .</p>";
+        //}
+        if (isValidInput == false) {
+            $("#MainContent_ValidationSummery").html(validationSummeryhtm);
+            $("#MainContent_ValidationSummery").css("display", "block");
+            //ShowPopUp('Message', "Please enter valid data in highlighted fields to proceed.");
+            ShowPopUp('Message', validationSummeryhtm);
+            return false;
+
+        } else {
+            $("#MainContent_ValidationSummery").css("display", "none");
+
+        }
+
+
+        //var isrptNamesValid = true;
+        //$('.rptAgentsName').each(function (i, val) {
+
+        //    var idOfrptAgentsName = $(val).attr('id');
+        //    if ($("#" + idOfrptAgentsName).val() == '') {
+        //        isrptNamesValid = false;
+
+        //        $("#" + idOfrptAgentsName).css("background", "rgb(187, 140, 140)");
+        //    } else {
+
+        //        $("#" + idOfrptAgentsName).css("background", "lightgray");
+        //    }
+
+        //});
+
+        //if (isrptNamesValid == false) {
+        //    ShowPopup('Message', "Agent Name can't be blank.");
+        //    return false;
+        //}
+
+        return isValidInput;
+    }
+
+    function BulletPValidation()
+    {
+        var isValidInput = true;
+        var validationSummeryhtm = "";
+        if ($("#inIDBullet").val() == '')
+        {
+            $("#inIDBullet").css("background", "rgb(187, 140, 140)");
+            validationSummeryhtm = validationSummeryhtm + "<p>Please enter the  Bullet Point.</p>";
+            isValidInput = false;
+            ShowPopUp('Message', validationSummeryhtm);
+        }
+        return isValidInput;
+    }
+    //var agentrowNo = parseInt($("#<%=hfNewlyAddedAgents.ClientID%>").val());
+    //var pointrowNo = parseInt($("#<%=hfNewlyAddedBPoints.ClientID%>").val());
+    //    var jsonObj = "";
+    //    jsonData = [];
+    //    var isValidAgents = true;
+    //    if (agentrowNo > 0) {
+    //        var idOftxtBoxEmail = "";
+    //        var idOftxtBoxAgentName = "";
+    //        $('.newlyAddAgentsContainer').each(function (i, val) {
+    //            if ($(val).children().next().next().next().children().next().val() == "" || ValidateEmail($(val).children().next().next().next().children().next().val()) == false) {
+    //                isValidAgents = false;
+    //                idOftxtBoxEmail = $(val).children().next().next().next().children().next().attr('id');
+    //                $("#" + idOftxtBoxEmail).css("background", "rgb(187, 140, 140)");
+    //            } else {
+    //                idOftxtBoxEmail = $(val).children().next().next().next().children().next().attr('id');
+    //                $("#" + idOftxtBoxEmail).css("background", "lightgray");
+    //            }
+
+    //            if ($(val).children().children().next().val() == '') {
+    //                isValidAgents = false;
+    //                idOftxtBoxAgentName = $(val).children().children().next().attr('id');
+    //                $("#" + idOftxtBoxAgentName).css("background", "rgb(187, 140, 140)");
+    //            } else {
+    //                idOftxtBoxAgentName = $(val).children().children().next().attr('id');
+    //                $("#" + idOftxtBoxAgentName).css("background", "lightgray");
+    //            }
+
+    //            var obj = {
+    //                agentName: $(val).children().children().next().val(),
+    //                agentTel: $(val).children().next().children().next().val(),
+    //                agentMobile: $(val).children().next().next().children().next().val(),
+    //                agentEmail: $(val).children().next().next().next().children().next().val()
+    //            }
+    //            jsonData.push(obj);
+    //        });
+
+    //        var objData = {
+    //            objList: jsonData
+    //        }
+    //        if (isValidAgents == false) {
+
+    //            ShowPopup('Message', "Please enter valid data in highlighted fields to proceed.");
+    //            return false;
+    //        } else {
+
+    //            $("#<%=hfAgentList.ClientID%>").val(JSON.stringify(objData, null, 2));
+
+    //        }
+    //    }
+    //    if (pointrowNo > 0) {
+
+    //        for (var i = 1; i <= pointrowNo; i++) {
+
+    //            var objPoint = {
+    //                BulletPoint: $("#txtBulletPoint" + i).val(),
+    //                BulletPointId: 1
+    //            }
+    //            jsonPointsData.push(objPoint);
+
+    //        }
+    //        var objPointData = {
+    //            objPointList: jsonPointsData
+    //        }
+    //        $("#<%=hfBPointsList.ClientID%>").val(JSON.stringify(objPointData, null, 2));
+
+    //    }
+    //    return true;
+    //}
+    function AddPoints() {
+
+        var pointrowNo = 0;
+        //if ($("#hfNewlyAddedBPoints").val() != undefined || $("#hfNewlyAddedBPoints").val() != "") {
+        //    pointrowNo = parseInt($("#hfNewlyAddedBPoints").val()) + 1;
+        //    $("#hfNewlyAddedBPoints").val(pointrowNo);
+        //} else {
+        //    $("#hfNewlyAddedBPoints").val(pointrowNo);
+        //}
+        charFlag=true;
+        var url = '<input  Id=txtBulletPoint' + pointrowNo + ' class="generalTextBox fullBullets NewlyyAddedInputs" placeholder="Bullet Point " />';
+
+        url = url + '<div class="clearBoth height5px">&nbsp;</div>';
+        //$("#newBulletsContainer").append(url);
+        $("#newBulletsContainer").append(url);
+    }
+
+    function AddImages()
+    {
+        
+        var pointrowNo = 0;
+        if ($("#HfNewlyAddedListingImages").val() != undefined || $("#HfNewlyAddedListingImages").val() != "") {
+            pointrowNo = parseInt($("#HfNewlyAddedListingImages").val()) + 1;
+            $("#HfNewlyAddedListingImages").val(pointrowNo);
+        } else {
+            $("#HfNewlyAddedListingImages").val(pointrowNo);
+        }
+
+        var url = '<img id=NewImage'+pointrowNo+' src="/Content/Images/realplaceholder.gif" class="hheditImg" style="height:120px;width: 170px" /><input type="file" class="editImg" onchange="ShowPreview(this)" id="ListingImageUploader" />';
+
+        url = url + '<div class="clearBoth height5px">&nbsp;</div>';
+        $("#newImagesContainer").append(url);
+    }
+
+
+
+
+    //    var url = '<input  Id=txtBulletPoint' + pointrowNo + ' class="generalTextBox full-width-boxes" placeholder="Bullet Point " />';
+
+    //    url = url + '<div class="clearBoth height5px">&nbsp;</div>';
+    //    $("#newBulletsContainer").append(url);
+    //    return false;
+    //}
+
+</script>
+
+
+

@@ -32,18 +32,27 @@
                 </div>
                 <div class="col-lg-6 outerDiv-Padding form-horizontal">
                     
-                    <div class="form-group col-lg-12" data-bind="visible: costCentreType() == '139' || costCentreType() == '1'">
+                    <div class="form-group col-lg-12" data-bind="visible: systemCostCenterType() != 7 && systemCostCenterType() != 5 && systemCostCenterType() != 9 && systemCostCenterType() != 8">
                         <div class="tabs-wrapper profile-tabs main-box clearfix">
                             <ul class="nav nav-tabs">
-                                <li id="stockDetails" class="active">
+                                <li id="stockDetails" class="active" data-bind="visible: systemCostCenterType() < 5">
                                     <a href="#tab-stockDetails" data-toggle="tab">Stock Details</a>
                                 </li>
+                                <li id="pressDetails" class="active" data-bind="visible: systemCostCenterType() == '6'">
+                                    <a href="#tab-pressDetails" data-toggle="tab">Press Details</a>
+                                </li>
+                                
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane fade in active" id="tab-stockDetails">
+                                <div class="tab-pane fade in active" id="tab-stockDetails" data-bind="visible: systemCostCenterType() < 5">
                                     <!-- ko template: { name: 'stockDetailTabItemsList' } -->
                                     <!-- /ko -->
                                 </div>
+                                <div class="tab-pane fade in active" id="tab-pressDetails" data-bind="visible: systemCostCenterType() == '6'">
+                                    <!-- ko template: { name: 'pressDetailTabtemplate' } -->
+                                    <!-- /ko -->
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -79,6 +88,9 @@
                                 <!--/ko-->
                                 <!--ko if:  $root.selectedQty() == 2-->
                                 <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty2Ui, enable: costCentreType() != 1 ? true: false " />
+                                <!--/ko-->
+                                <!--ko if:  $root.selectedQty() == 3-->
+                                <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty3Ui, enable: costCentreType() != 1 ? true: false " />
                                 <!--/ko-->
 
                             </div>
@@ -161,29 +173,44 @@
                     </div>
                 </div>
             </div>
-
+            <div class="clearfix">
+                &nbsp;
+            </div>
             <div class="modal-footer">
-                <hr />
+                
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSectionCostCenter, enable: costCentreType() != 1">Remove</button>
-
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseSectionCostCenter" style="margin-left: 0px;">Close</button>
             </div>
         </div>
     </div>
     <script id="stockDetailTabItemsList" type="text/html">
-        <div class="">
+        <div class="" style="padding-bottom:10px;max-height:165px;overflow-y:scroll;padding-left:3px;">
             <div class="table-responsive">
                 <table id="OrderListtbl" class="table user-list">
                     <thead>
                         <tr>
                             <th class="col-lg-5"><span>Item</span></th>
-                            <th class="col-lg-4"><span>Unit Price</span></th>
+                            <th class="col-lg-4" data-bind="visible: $root.selectedCostCenterCategory() != 1"><span>Unit Price</span></th>
+                            <th class="col-lg-4" data-bind="visible: $root.selectedCostCenterCategory() == 1"><span data-bind="text: $root.lengthUnit() == 'mm'? 'Price/sq meter' : 'Price/sq inch'"></span></th>
+                            <th class="col-lg-4" data-bind="visible: $root.selectedCostCenterCategory() == 1"><span>Total Charge</span></th>
                             @*<th class="col-lg-3"><span>Quantity</span></th>*@
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: $root.selectedSectionCostCenter().sectionCostCentreDetails">
                         <tr>
                             <td data-bind="text: stockName"></td>
-                            <td data-bind="text: $root.currencySymbol() + costPrice()"></td>
+                            <td data-bind="text: $root.currencySymbol()+ ' ' + costPrice()"></td>
+                            <td data-bind="visible: $root.selectedCostCenterCategory() == 1">                                
+                                <!--ko if:  $root.selectedQty() == 1-->
+                                <span data-bind="text: qty1()" />
+                                    <!--/ko-->
+                                    <!--ko if:  $root.selectedQty() == 2-->
+                                <span data-bind="text: qty2()" />
+                                    <!--/ko-->
+                                    <!--ko if:  $root.selectedQty() == 3-->
+                                <span data-bind="text: qty3()" />
+                                    <!--/ko-->
+                            </td>
                             @*<!--ko if:  $root.selectedQty() == 1-->
                             <td data-bind="text: qty1"></td>
                             <!--/ko-->
@@ -196,4 +223,11 @@
             </div>
         </div>
     </script>
+    <script id="pressDetailTabtemplate" type="text/html">
+        <div class="col-lg-12">
+            <textarea class="form-control" rows="7" data-bind="text: $root.selectedPressInstructions, enable:false"></textarea>           
+            
+        </div>
+    </script>
+    
 </div>

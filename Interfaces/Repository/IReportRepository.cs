@@ -41,5 +41,15 @@ namespace MPC.Interfaces.Repository
 
         List<usp_DeliveryReport_Result> GetDeliveryNoteReport(long deliveryId);
 
+        List<Reportparam> getReportParamsByReportId(long ReportId);
+
+        Report CheckCustomReportOfOrg(long reportId);
+
+        long CheckCustomReportForPOEmail();
+
+        bool isCorporateCustomer(int StoreId);
+
+        string GetReportName(long ReportId);
+
     }
 }

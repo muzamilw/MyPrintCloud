@@ -151,7 +151,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                return db.Addesses.Where(a => a.ContactId == contactID && a.isPrivate == true).ToList();
+                return db.Addesses.Where(a => a.ContactId == contactID).ToList();
 
             }
             catch (Exception ex)
@@ -442,6 +442,7 @@ namespace MPC.Repository.Repositories
                 AddAddress.GeoLatitude = Address.GeoLatitude;
                 AddAddress.GeoLongitude = Address.GeoLongitude;
                 AddAddress.TerritoryId = Address.TerritoryId;
+                AddAddress.ContactId = Address.ContactId;
                 if (Address.CountryId == 0)
                 {
                     AddAddress.CountryId = null;

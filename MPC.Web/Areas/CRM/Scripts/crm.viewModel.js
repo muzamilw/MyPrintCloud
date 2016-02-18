@@ -17,6 +17,7 @@ define("crm/crm.viewModel",
                     // Determines Company type
                     companyType = ko.observable(2),
                     currencySymbol = ko.observable(),
+                    defaultCountryId = ko.observable(),
                     ordersItemsCount = ko.observable(),
                     orderPager = ko.observable(),
                     purchaseOrderPager = ko.observable(),
@@ -60,6 +61,7 @@ define("crm/crm.viewModel",
                     isUserAndAddressesTabOpened = ko.observable(false),
                     //selected Company
                     selectedCompany = ko.observable(),
+
                 //#endregion
 
                 //#region ___________ SUPPLIER SCREEN ____________
@@ -75,6 +77,8 @@ define("crm/crm.viewModel",
                  //Sort In Ascending
                 supplierSortIsAsc = ko.observable(true),
                 selectedSupplier = ko.observable(),
+
+                currencySymbol = ko.observable(),
                 //#endregion
 
                 //#region ____________OBSERVABLE ARRAYS____________
@@ -789,6 +793,7 @@ define("crm/crm.viewModel",
                 onCreateNewAddress = function () {
                     var address = new model.Address();
                     selectedAddress(address);
+                    selectedAddress().country(defaultCountryId());
                     isSavingNewAddress(true);
                     //Update If Store is creating new and it is Retail then 
                     //Make the first address isBilling and shipping as Default and sets its territory
@@ -924,6 +929,8 @@ define("crm/crm.viewModel",
                     }
                 },
                 onEditAddress = function (address) {
+                    if (address.country() == undefined)
+                        address.country(defaultCountryId());
                     addressEditorViewModel.selectItem(address);
                     isSavingNewAddress(false);
                     selectedAddress().reset();
@@ -1132,7 +1139,7 @@ define("crm/crm.viewModel",
                 searchCompanyContactFilter = ko.observable(),
                 //Search Company Contact        
                 searchCompanyContact = function () {
-                    contactCompanyPager().reset();
+                    //contactCompanyPager().reset();
                     if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                         dataservice.searchCompanyContact({
                             SearchFilter: searchCompanyContactFilter(),
@@ -1671,6 +1678,7 @@ define("crm/crm.viewModel",
                                 var store = model.Store.Create(data.Company);
                                 storeId(data.Company.StoreId);
                                 selectedStore(store);
+                                currencySymbol(data.CurrencySymbol);
                                 selectedStore().storeId(storeId());
                                 selectedStore().type(data.Company.IsCustomer);
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
@@ -2062,6 +2070,7 @@ define("crm/crm.viewModel",
                                 allCompanyAddressesList.push(address);
                             });
                             selectedStore().storeId(storeId());
+                            defaultCountryId(data.DefaultCountryId);
                         }
                         selectedStore().reset();
                         isLoadingStores(false);
@@ -2598,7 +2607,8 @@ define("crm/crm.viewModel",
                     companyDdSelector: companyDdSelector,
                     onChangeCompany: onChangeCompany,
                     searchSuppliersByFilters: searchSuppliersByFilters,
-                    storeId: storeId
+                    storeId: storeId,
+                    currencySymbol: currencySymbol
                 };
                 //#endregion
             })()

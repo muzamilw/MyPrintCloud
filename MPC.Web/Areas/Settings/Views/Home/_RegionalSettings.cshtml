@@ -79,33 +79,41 @@
 
 
             @*<div class="form-group">
-                <div class="col-lg-5 text-right">
-
-                 
-                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Unit of Length</label>
-
+                <div class="col-lg-4 text-right">
+                    <label for="switchBleedSize" class="control-label text-right tooltip-float">
+                        Show Bleed Area
+                    </label>
                 </div>
-
                 <div class="col-lg-6">
-                    <select id="lengthUnit" class="form-control" data-bind="options: $root.unitLengths, optionsText: 'UnitName', optionsValue: 'Id' ,value:lengthUnitId,validationtooltip:lengthUnitId"></select>
-                    <span class="help-block text-right"></span>
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchBleedSize" data-bind="checked:showBleedArea">
+                        <label class="onoffswitch-label" for="switchBleedSize">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>
+                    </div>
+
                 </div>
 
             </div>*@
-            @*<div class="form-group">
-                <div class="col-lg-5 text-right">
-
-                  
-                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Unit of Weight</label>
-
+            <div class="form-group">
+                <div class="col-lg-4 text-right">
+                    <label for="txtBleedArea" class="control-label text-right tooltip-float">
+                        Template Bleed Size for designer
+                    </label>
+                </div>
+                <div class="col-lg-2">
+                    
+                    <input type="text" class="form-control text-right" id="txtBleedAreaMetric" placeholder="Enter Bleed Size" data-bind="autoNumeric: bleedAreaSize , settings:{mDec:2}, visible: $root.selectedMyOrganization().isImperical() == 'false'">
+                    
+                    <input type="text" class="form-control text-right" id="txtBleedAreaImperial" placeholder="Enter Bleed Size" data-bind="autoNumeric: bleedAreaSize , settings:{mDec:5}, visible: $root.selectedMyOrganization().isImperical() == 'true'">
+                </div>
+                <div class="col-lg-2">
+                    <label class="control-label" id="lblBleedArea" data-bind="text:$root.selectedMyOrganization().isImperical() == 'true' ? 'Inch' : 'mm'"></label>
                 </div>
 
-                <div class="col-lg-6">
-                    <select id="currency" class="form-control" data-bind="options: $root.unitWeights, optionsText: 'UnitName', optionsValue: 'Id' ,value:weightUnitId,validationtooltip:weightUnitId"></select>
-                    <span class="help-block text-right"></span>
-                </div>
-
-            </div>*@
+            </div>
+           
         </div>
     </div>
 </div>

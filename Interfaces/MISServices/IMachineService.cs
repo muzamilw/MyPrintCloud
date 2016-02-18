@@ -10,8 +10,8 @@ namespace MPC.Interfaces.MISServices
     {
         MachineListResponseModel GetAll(MachineRequestModel request);
         Machine Add(Machine machine);
-        bool UpdateMachine(Machine machine, MachineClickChargeZone ClickCharge, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int type);
-        long AddMachine(Machine machine, MachineClickChargeZone ClickCharge, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int Type);
+        bool UpdateMachine(Machine machine, MachineClickChargeZone ClickCharge, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int type, MachineSpeedWeightLookup speedWeightLookup);
+        long AddMachine(Machine machine, MachineClickChargeZone ClickCharge, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int Type, MachineSpeedWeightLookup speedWeightLookup);
         
         bool archiveMachine(long machineId);
         MachineResponseModel GetMachineById(long id);

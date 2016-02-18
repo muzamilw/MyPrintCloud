@@ -14,6 +14,7 @@ using MPC.Common;
 using WebSupergoo.ABCpdf8;
 using System.IO;
 using System.Configuration;
+using MPC.Webstore.Common;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -25,6 +26,8 @@ namespace MPC.Implementation.WebStoreServices
         /// Private members
         /// </summary>
         /// 
+        private readonly IListingRepository _listingRepository;
+        private readonly IAssetItemsRepository _AssetItemsRepository;
         public readonly ICompanyRepository _CompanyRepository;
         public readonly ICompanyContactRepository _CompanyContactRepository;
         private readonly ISystemUserRepository _SystemUserRepository;
@@ -51,6 +54,12 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyVoucherRedeemRepository _companyVoucherReedemRepository;
         private readonly IRegistrationQuestionRepository _questionRepository;
         private readonly ICompanyContactRoleRepository _companycontactRoleRepo;
+        private readonly IScopeVariableRepository _IScopeVariableRepository;
+        private readonly ICompanyDomainRepository _companyDomainRepository;
+        private readonly IListingBulletPointsRepository _listingBulletPontRepository;
+        private readonly IAssetsRepository _AssestsRepository;
+        private readonly IFolderRepository _FolderRepository;
+        private readonly ITemplateRepository _templaterepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -68,8 +77,11 @@ namespace MPC.Implementation.WebStoreServices
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
-            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository, ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository)
+            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
+            ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
+            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository, IAssetItemsRepository _AssetItemsRepository, ITemplateRepository _templaterepository)
         {
+            this._listingRepository = _listingRepository;
             this._CompanyRepository = companyRepository;
             this._questionRepository = _questionRepository;
             this._widgetRepository = widgetRepository;
@@ -95,6 +107,13 @@ namespace MPC.Implementation.WebStoreServices
             this._companyVoucherReedemRepository = companyVoucherReedemRepository;
             this._companycontactRoleRepo = _companycontactRoleRepo;
             this._SystemUserRepository = _SystemUserRepository;
+            this._IScopeVariableRepository = IScopeVariableRepository;
+            this._companyDomainRepository = companyDomainRepository;
+            this._listingBulletPontRepository = _listingBulletPontRepository;
+            this._AssestsRepository = _AssestsRepository;
+            this._FolderRepository = _FolderRepository;
+            this._AssetItemsRepository = _AssetItemsRepository;
+            this._templaterepository = _templaterepository;
         }
 
         #endregion
@@ -301,11 +320,11 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        public CompanyContact GetContactByFirstName(string FName)
+        public CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode, string providerKey)
         {
             try
             {
-                return _CompanyContactRepository.GetContactByFirstName(FName);
+                return _CompanyContactRepository.GetContactByFirstName(FName, StoreId, OrganisationId, WebStoreMode, providerKey);
             }
             catch (Exception ex)
             {
@@ -1404,9 +1423,9 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
+        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId)
         {
-            return _orderrepository.GetPendingApprovelOrdersList(contactUserID, isApprover);
+            return _orderrepository.GetPendingApprovelOrdersList(contactUserID, isApprover, companyId);
         }
         public CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode)
         {
@@ -1414,20 +1433,49 @@ namespace MPC.Implementation.WebStoreServices
 
             CompanyContact ContactRecord = null;
 
-            ContactRecord = _CompanyContactRepository.GetCorporateContactForAutoLogin(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
-
-            if (ContactRecord == null && company.isAllowRegistrationFromWeb == true) // contact already exists...
+            if(company.IsCustomer == (int)StoreMode.Corp)
             {
-                ContactRecord = new CompanyContact();
-                ContactRecord.FirstName = ContactFirstName;
-                ContactRecord.LastName = ContactLastName;
-                ContactRecord.Email = ContactEmail;
-                ContactRecord.OrganisationId = company.OrganisationId;
-                ContactRecord.Notes = "Temporary Password = guest";
-                ContactRecord.Password = "guest";
-                ContactRecord = _CompanyContactRepository.CreateCorporateContact(company.CompanyId, ContactRecord, "", Convert.ToInt64(company.OrganisationId), true);
-                 
+                ContactRecord = _CompanyContactRepository.GetCorporateContactForAutoLogin(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
+                if(company.isAllowRegistrationFromWeb == true)
+                {
+                    if (ContactRecord == null) // contact already exists...
+                    {
+                        ContactRecord = new CompanyContact();
+                        ContactRecord.FirstName = ContactFirstName;
+                        ContactRecord.LastName = ContactLastName;
+                        ContactRecord.Email = ContactEmail;
+                        ContactRecord.OrganisationId = company.OrganisationId;
+                        ContactRecord.Notes = "Temporary Password = guest";
+                        ContactRecord.Password = "guest";
+
+                        ContactRecord = _CompanyContactRepository.CreateCorporateContact(company.CompanyId, ContactRecord, "", Convert.ToInt64(company.OrganisationId), true);
+
+
+                    }
+                }
+                
             }
+            else if (company.IsCustomer == (int)StoreMode.Retail)
+            {
+                ContactRecord = _CompanyContactRepository.GetContactByEmail(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
+                if (ContactRecord == null) // contact already exists...
+                {
+                    ContactRecord = new CompanyContact();
+                    ContactRecord.FirstName = ContactFirstName;
+                    ContactRecord.LastName = ContactLastName;
+                    ContactRecord.Email = ContactEmail;
+                    ContactRecord.OrganisationId = company.OrganisationId;
+                    ContactRecord.Notes = "Temporary Password = guest";
+                    ContactRecord.Password = "guest";
+
+                    long CompanyID = _CompanyRepository.CreateCustomer(ContactFirstName, true, true, CompanyTypes.SalesCustomer, "", Convert.ToInt64(company.OrganisationId), company.CompanyId, ContactRecord);
+                    ContactRecord = _CompanyContactRepository.GetContactsByCompanyId(CompanyID).FirstOrDefault();
+                    
+
+                }
+            }
+            
+            
             return ContactRecord;
         }
         public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "")
@@ -1651,6 +1699,7 @@ namespace MPC.Implementation.WebStoreServices
         public void AddDataSystemUser(CompanyContact Contact)
         {
             _CompanyContactRepository.AddDataSystemUser(Contact);
+            AddScopeVariables(Contact.ContactId, Contact.CompanyId);
         }
         public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
         {
@@ -1735,5 +1784,263 @@ namespace MPC.Implementation.WebStoreServices
             }
             _itemRepository.SaveChanges();
         }
+
+        public void AddScopeVariables(long ContactId, long StoreId) 
+        {
+            _IScopeVariableRepository.AddScopeVariables(ContactId, StoreId);
+        }
+        public long GetOrganisationIdByRequestUrl(string Url)
+        {
+            CompanyDomain domain = _companyDomainRepository.GetDomainByUrl(Url);
+            if(domain != null)
+            {
+                return _CompanyRepository.GetOrganisationIdByCompanyId(domain.CompanyId);
+            }
+            return 0;
+        }
+        public CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetContactBySocialNameAndEmail(FName, StoreId, OrganisationId, WebStoreMode, Email);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        /// <summary>
+        /// if url is e.g crystalmediagroup.myprintcloud.com and in domain table there is no record with crystalmediagroup.myprintcloud.com then it will compare the 
+        /// string and get the first record from domain table e.g. crystalmediagroup.myprintcloud.com/store/retail and crystalmediagroup.myprintcloud.com/store/corporate then it will return the first domain storeid
+        /// </summary>
+        /// <param name="Url"></param>
+        /// <returns></returns>
+        public long GetFirstStoreByRequestUrl(string Url)
+        {
+            CompanyDomain domain = _companyDomainRepository.GetDomainByUrl(Url);
+            if (domain != null)
+            {
+                return domain.CompanyId;
+            }
+            return 0;
+        }
+
+        public List<CompanyContact> GetUsersByCompanyId(long CompanyId)
+        {
+            return _CompanyContactRepository.GetUsersByCompanyId(CompanyId);
+              
+        }
+        public List<CompanyContact> GetCorporateUserOnly( long companyId, long OrganisationId)
+        {
+            return _CompanyContactRepository.GetCorporateUserOnly(companyId, OrganisationId);
+        }
+        public MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId)
+        {
+            return _listingRepository.GetListingByListingID(propertyId);
+        }
+        public long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing)
+        {
+            return _listingRepository.UpdateListing(propertyListing, tblListing);
+        }
+        public void UpdateAgent(List<CompanyContact> model)
+        {
+             _CompanyContactRepository.UpdateAgent(model);
+        }
+        public void AddAgent(ListAgentMode model, long ContactCompanyId)
+        {
+            _CompanyContactRepository.AddAgent(model, ContactCompanyId);
+        }
+        public void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints, long ListingId)
+        {
+            _listingBulletPontRepository.UpdateBulletPoints(BulletPoints, ListingId);
+        }
+        public void AddBulletPoint(List<ListingBulletPoint> model, long listingId)
+        {
+            _listingBulletPontRepository.AddBulletPoint(model, listingId);
+        }
+        public void UpdateSignleAgent(CompanyContact Agent)
+        {
+            _CompanyContactRepository.UpdateSignleAgent(Agent);
+        }
+        public void AddSingleAgent( CompanyContact NewAgent)
+        {
+            _CompanyContactRepository.AddSingleAgent( NewAgent);
+        }
+        public List<ListingImage> GetAllListingImages(long ListingID)
+        {
+            return _listingRepository.GetAllListingImages(ListingID);
+        }
+        public void ListingImage(ListingImage NewImage)
+        {
+            _listingRepository.ListingImage(NewImage);
+        }
+        public void DeleteListingImage(long listingImageID)
+        {
+            _listingRepository.DeleteListingImage(listingImageID);
+        }
+        public void DeleteAjent(long ContactID)
+        {
+            _CompanyContactRepository.DeleteAjent(ContactID);
+        }
+        public void AddSingleBulletPoint(ListingBulletPoint BullentPoint)
+        {
+            _listingBulletPontRepository.AddSingleBulletPoint(BullentPoint);
+        }
+        public void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint)
+        {
+            _listingBulletPontRepository.UpdateSingleBulletPoint(BullentPoint);
+        }
+        public List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID)
+        {
+           return _listingBulletPontRepository.GetAllListingBulletPoints(ListingID);
+        }
+        public void DeleteBulletPoint(long BulletPointId, long ListingId)
+        {
+            _listingBulletPontRepository.DeleteBulletPoint(BulletPointId, ListingId);
+        }
+        public long AddNewListing(MPC.Models.DomainModels.Listing propertyListing)
+        {
+          return  _listingRepository.AddNewListing(propertyListing);
+        }
+        public bool DeleteLisitngData(long ListingId)
+        {
+            return _listingRepository.DeleteLisitngData(ListingId);
+        }
+        public void AddlistingImages(long ListingId, List<ListingImage> Images)
+        {
+            _listingRepository.AddlistingImages(ListingId, Images);
+        }
+        public CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password)
+        {
+            return _CompanyContactRepository.GetContactOnUserNamePass(OrganisationId, Email, password);
+        }
+
+        public CompanyDomain GetDomainByCompanyId(long CompanyId)
+        {
+            return _companyDomainRepository.GetDomainByCompanyId(CompanyId);
+        }
+        public List<Asset> GetAssetsByCompanyID(long CompanyID)
+        {
+            return _AssestsRepository.GetAssetsByCompanyID(CompanyID);
+        
+        }
+        public List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID)
+        {
+            return _FolderRepository.GetFoldersByCompanyId(CompanyID, OrganisationID);
+        }
+        public void DeleteAsset(long AssetID)
+        {
+            _AssestsRepository.DeleteAsset(AssetID);
+        }
+        public void UpdateAsset(Asset UpdatedAsset)
+        {
+            _AssestsRepository.UpdateAsset(UpdatedAsset);
+        }
+        public List<Folder> GetChildFolders(long ParentFolderId)
+        {
+            return _FolderRepository.GetChildFolders(ParentFolderId);
+        }
+        public long AddFolder(Folder NewFolder)
+        {
+            return _FolderRepository.AddFolder(NewFolder);
+        }
+       public bool UpdateImage(Folder folder)
+        {
+            return _FolderRepository.UpdateImage(folder);
+        }
+       public Folder GetFolderByFolderId(long FolderID)
+       {
+           return _FolderRepository.GetFolderByFolderId(FolderID);
+       }
+       public List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId)
+       {
+           return _FolderRepository.GetTreeVeiwList(CompanyId, OrganisationId);
+       }
+       public List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId)
+       {
+           return _AssestsRepository.GetAssetsByCompanyIDAndFolderID(CompanyID, FolderId);
+       }
+       public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
+       {
+           return _FolderRepository.GetAllFolders(CompanyID, OrganisationID);
+       }
+       public long AddAsset(Asset Asset)
+       {
+           return _AssestsRepository.AddAsset(Asset);
+       }
+       public void UpdateAssetImage(Asset Asset)
+       {
+            _AssestsRepository.UpdateAssetImage(Asset);
+       }
+       public bool AddAssetItems(List<AssetItem> AssetItemsList)
+       {
+           return _AssetItemsRepository.AddAssetItems(AssetItemsList);
+          
+       }
+       public Asset GetAsset(long AssetId)
+       {
+           return _AssestsRepository.GetAsset(AssetId);
+       }
+       public void UpdateFolder(Folder Ufolder)
+       {
+           _FolderRepository.UpdateFolder(Ufolder);
+       }
+       public void DeleteFolder(long folderID)
+       {
+           _FolderRepository.DeleteFolder(folderID);
+       }
+       public bool UpdateTemplatePdfDimensions(Template Template)
+       {
+           return _templaterepository.UpdateTemplatePdfDimensions(Template);
+       }
+       public List<AssetItem> GetAssetItemsByAssetID(long AssetID)
+       {
+           return _AssetItemsRepository.GetAssetItemsByAssetID(AssetID);
+       }
+       public void RemoveAssetItem(long AssetID)
+       {
+           _AssetItemsRepository.RemoveAssetItem(AssetID);
+       }
+       public void RemoveAssetItems(List<AssetItem> RemoveAssetItemsIDs)
+       {
+           _AssetItemsRepository.RemoveAssetItems(RemoveAssetItemsIDs);
+       }
+       public string AssetItemFilePath(long AssetItemId)
+       {
+           return _AssetItemsRepository.AssetItemFilePath(AssetItemId);
+       }
+       public double GetTemplateCuttingMargin(long ProductId)
+       {
+           return _templaterepository.GetTemplateCuttingMargin(ProductId);
+       }
+       public ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName)
+       {
+           return _productCategoryRepository.GetlCategorieByName(OrganisationId, CompanyId, CategoryName);
+       }
+       public bool IsValidNumber(string cardNum)
+       {
+           try
+           {
+               return CreditCardManager.IsValidNumber(cardNum);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+
+       }
+       public int GetCardTypeIdFromNumber(string cardNum)
+       {
+           try
+           {
+               return CreditCardManager.GetCardTypeIdFromNumber(cardNum);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+
+       }
     }
 }

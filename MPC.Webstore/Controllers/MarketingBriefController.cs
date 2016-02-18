@@ -72,7 +72,7 @@ namespace MPC.Webstore.Controllers
                     Product.ProductCategoryName = _IItemService.GetCategoryNameById(CategoryId, 0);
                     ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
                 }
-                Product.ProductName = ProductName + " - Marketing Brief";
+                Product.ProductName = ProductName + Utils.GetKeyValueFromResourceFile("lblMarketingBrief", UserCookieManager.WBStoreId, " - Marketing Brief"); //" - Marketing Brief";
                 Product.ProductCategoryID = CategoryId;
                 List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
 
@@ -119,9 +119,21 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ProductItem Model, string hfInqueryMesg)
         {
-            MyCompanyDomainBaseReponse StoreBaseResopnse = _ICompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+            try 
+            {
+                if(Model == null){
+                    throw new Exception("Critcal Error, Model null.", null);
+                    return null;
 
-           
+                }
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _ICompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+                if (StoreBaseResopnse == null)
+                {
+                    throw new Exception("Critcal Error, StoreBaseResopnse null.", null);
+                    return null;
+
+                }
                 List<string> Attachments = null;
 
 
@@ -133,9 +145,9 @@ namespace MPC.Webstore.Controllers
                 {
                     List<string> filesNamesPaths = filesData.Split('|').ToList();
                     Attachments = new List<string>();
-                    foreach(string fi in filesNamesPaths)
+                    foreach (string fi in filesNamesPaths)
                     {
-                         Attachments.Add("/mpc_content/EmailAttachments/" + fi);
+                        Attachments.Add("/mpc_content/EmailAttachments/" + fi);
                     }
                 }
                 string MEsg = string.Empty;
@@ -145,7 +157,7 @@ namespace MPC.Webstore.Controllers
 
                 string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
-                Organisation org = _ICompanyService.GetOrganisatonById(StoreBaseResopnse.Organisation.OrganisationId);
+                Organisation org = _ICompanyService.GetOrganisatonById(UserCookieManager.WEBOrganisationID);
                 if (Item != null)
                 {
                     MEsg += Utils.GetKeyValueFromResourceFile("ltrlproductsss", UserCookieManager.WBStoreId, "Product :") + Item.ProductName + "<br />";
@@ -177,7 +189,7 @@ namespace MPC.Webstore.Controllers
                     MEsg += Utils.GetKeyValueFromResourceFile("plzseeAtt", UserCookieManager.WBStoreId, "Please also see the attachments.") + "<br />";
                 }
 
-
+              
                 string SecondEmail = _IUserManagerService.GetMarketingRoleIDByName();
                 Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
@@ -194,17 +206,17 @@ namespace MPC.Webstore.Controllers
                     EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
                     int OID = (int)org.OrganisationId;
 
-                    if (StoreBaseResopnse.Company.MarketingBriefRecipient != null) 
+                    if (StoreBaseResopnse.Company.MarketingBriefRecipient != null)
                     {
                         _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", StoreBaseResopnse.Company.MarketingBriefRecipient, StoreBaseResopnse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
                     }
-                    else 
+                    else
                     {
                         SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
                         if (SalesMagerRec != null)
                         {
                             EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
-                           
+
                         }
 
                         _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", SalesMagerRec.Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
@@ -231,13 +243,22 @@ namespace MPC.Webstore.Controllers
                             Email = SalesMagerRec.Email;
                         }
 
-                        _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail,(int)org.OrganisationId, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                        _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, (int)org.OrganisationId, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
 
 
                     }
-                   
+
                 }
 
+                MarketingBriefHistory briefHistoryObj = new MarketingBriefHistory();
+                briefHistoryObj.CompanyId = UserCookieManager.WBStoreId;
+                briefHistoryObj.OrganisationId = UserCookieManager.WEBOrganisationID;
+                briefHistoryObj.HtmlMsg = MEsg;
+                briefHistoryObj.CreationDate = DateTime.Now;
+                briefHistoryObj.ContactId = _myClaimHelper.loginContactID();
+                briefHistoryObj.ItemId = Model.ItemID;
+
+                _IItemService.SaveMarketingBriefHistory(briefHistoryObj);
 
                 ViewBag.SuccessMessage = Item.BriefSuccessMessage;// "Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. <br /> <br /> If your brief is not approved, marketing will be in contact with you.";
 
@@ -245,8 +266,23 @@ namespace MPC.Webstore.Controllers
                 ViewBag.IsSubmitSuccessfully = true;
 
 
-            
-            return View("PartialViews/MarketingBrief",Item);
+
+                return View("PartialViews/MarketingBrief", Item);
+            }
+            catch(Exception ex)
+            {
+              
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+                throw ex;
+            }
+           
         }
     }
 }

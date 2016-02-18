@@ -9,12 +9,20 @@ using MPC.Models.Common;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System.Security.Cryptography;
+using MPC.Webstore.Common;
 
 namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
-        
+        CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password);
+        void DeleteAjent(long ContactID);
+        void AddSingleAgent(CompanyContact NewAgent);
+        void UpdateSignleAgent(CompanyContact Agent);
+        void AddAgent(ListAgentMode model, long ContactCompanyId);
+        void UpdateAgent(List<CompanyContact> model);
+        List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId);
+        List<CompanyContact> GetUsersByCompanyId(long CompanyId);
         void AddDataSystemUser(CompanyContact Contact);
         void UpdateDataSystemUser(CompanyContact Contact);
         
@@ -24,7 +32,7 @@ namespace MPC.Interfaces.Repository
         CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "");
         //CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         CompanyContact GetContactUser(string email, string password);
-        CompanyContact GetContactByFirstName(string Fname);
+        CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode, string providerKey);
         CompanyContact GetContactByEmail(string Email, long OID, long StoreId);
         CompanyContact GetContactById(int contactId);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
@@ -149,5 +157,8 @@ namespace MPC.Interfaces.Repository
         CompanyContactResponse GetRetailContacts();
         List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId);
         List<ZapierInvoiceDetail> GetContactForZapierPooling(long organisationId);
+        CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email);
+        CompanyContact GetCompanyContactByNameAndEmail(string sFirstName, string sEmail, long organisationId);
+        long GetRetailStoreId(long organisationId);
     }
 }

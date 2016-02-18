@@ -1,0 +1,42 @@
+﻿ @model MPC.Models.DomainModels.Company
+@{
+    Layout = null;
+}
+  <!--login bar  etc -->
+
+<div class="log-header"></div>
+
+<!--Printcloud Header-->
+<header class="clearfix">
+
+    <div class="container clearfix">
+        <nav class="nav-collapse clearfix">
+            <ul class="clearfix">
+                <!--links to my site-->
+                <li><a href="http://eazyprint.co.uk">Home</a></li>
+                <li><a href="http://eazyprint.co.uk/products.html">Products</a></li>
+                <li><a href="http://eazyprint.co.uk/about.html">About</a></li>
+                <li><a href="http://eazyprint.co.uk/contact.html">Contact</a></li>
+
+                <li><a href="http://eazyprint.tumblr.com/">Blog</a></li>
+                <li><a href="http://shop.eazyprint.co.uk/ShopCart">Cart</a></li>
+            </ul>
+        </nav>
+        <!--Our main logo-->
+        <div class="logo">
+            <a href="http://eazyprint.co.uk"><img alt="eazyprint.co.uk" src="http://www.eazyprint.co.uk/img/logo.png"></a>
+        </div>
+
+    </div>
+
+</header>
+<script src="/Scripts/eazyresponsive-nav.js"></script>
+<script>
+      var navigation = responsiveNav(".nav-collapse",{
+		  insert: "after",
+		  closeOnNavClick: true,
+		  openPos: "static",
+	  });
+</script>
+
+

@@ -60,12 +60,25 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              isZapierActive = ko.observable(),
             //Markup ID
             markupId = ko.observable().extend({ required: true }),
+            // defaultPO
+            defaultPOTax = ko.observable(),
+             // BleedAreaSize
+            bleedAreaSize = ko.observable(),
+             // Show Bleed Area
+            showBleedArea = ko.observable(),
+
             //markups In My Organization
             markupsInMyOrganization = ko.observableArray([]),
            //Chart Of Accounts In My Organization
             chartOfAccountsInMyOrganization = ko.observableArray([]),
             //Flag for change 
             flagForChanges = ko.observable(),
+
+             mailchimpAPIKey = ko.observable(),
+             mailchimpAPIId = ko.observable(),
+             ismailChimpActive = ko.observable(),
+             mailchimpListName = ko.observable(),
+
             //Language Editor List
             languageEditors = ko.observableArray([]),
              // Errors
@@ -104,7 +117,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  languageEditors: languageEditors,
                  isImperical: isImperical,
                  agileApiUrl: agileApiUrl,
+                 defaultPOTax: defaultPOTax,
+                 bleedAreaSize: bleedAreaSize,
+                 showBleedArea: showBleedArea,
                  agileApiKey: agileApiKey,
+                 mailchimpAPIKey: mailchimpAPIKey,
+                 mailchimpAPIId: mailchimpAPIId ,
+                 ismailChimpActive: ismailChimpActive,
+                 mailchimpListName: mailchimpListName,
                  isAgileApiActive: isAgileApiActive,
                  unleashedApiId: unleashedApiId,
                  unleashedApiKey: unleashedApiKey,
@@ -149,7 +169,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              languageEditors: languageEditors,
              isImperical: isImperical,
              agileApiUrl: agileApiUrl,
+             defaultPOTax: defaultPOTax,
+             bleedAreaSize: bleedAreaSize,
+             showBleedArea: showBleedArea,
              agileApiKey: agileApiKey,
+             mailchimpAPIKey: mailchimpAPIKey,
+             mailchimpAPIId: mailchimpAPIId,
+             ismailChimpActive: ismailChimpActive,
+             mailchimpListName: mailchimpListName,
              isAgileApiActive: isAgileApiActive,
              unleashedApiId: unleashedApiId,
              unleashedApiKey: unleashedApiKey,
@@ -351,11 +378,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.isImperical(source.IsImperical);
         companySites.agileApiKey(source.AgileApiKey);
         companySites.agileApiUrl(source.AgileApiUrl);
+        companySites.defaultPOTax(source.DefaultPOTax);
+        companySites.bleedAreaSize(source.BleedAreaSize);
+        companySites.showBleedArea(source.ShowBleedArea);
         companySites.isAgileApiActive(source.isAgileActive);
         companySites.unleashedApiId(source.XeroApiId);
         companySites.unleashedApiKey(source.XeroApiKey);
         companySites.isUnleashedApiActive(source.isXeroIntegrationRequired);
         companySites.isZapierActive(source.IsZapierEnable);
+        companySites.mailchimpAPIKey(source.MailChimpApikey);
+        companySites.mailchimpAPIId(source.MailChimpApiId);
+        companySites.ismailChimpActive(source.isMailChimpActive);
+        companySites.mailchimpListName(source.MailChimpListName);
         return companySites;
     };
     //Convert Server To Client
@@ -405,6 +439,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.XeroApiKey = source.unleashedApiKey() === undefined ? null : source.unleashedApiKey();
         result.isXeroIntegrationRequired = source.isUnleashedApiActive() === undefined ? null : source.isUnleashedApiActive();
         result.IsZapierEnable = source.isZapierActive() === undefined ? null : source.isZapierActive();
+        result.DefaultPOTax = source.defaultPOTax() === undefined ? null : source.defaultPOTax();
+        result.BleedAreaSize = source.bleedAreaSize() === undefined ? null : source.bleedAreaSize();
+        result.ShowBleedArea = source.showBleedArea() === undefined ? null : source.showBleedArea();
+        result.MailChimpApikey = source.mailchimpAPIKey() === undefined ? null : source.mailchimpAPIKey();
+        result.MailChimpApiId = source.mailchimpAPIId() === undefined ? null : source.mailchimpAPIId();
+        result.isMailChimpActive = source.ismailChimpActive() === undefined ? null : source.ismailChimpActive();
+        result.MailChimpListName = source.mailchimpListName() === undefined ? null : source.mailchimpListName();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

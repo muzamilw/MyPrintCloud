@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using MPC.Models.Common;
 
 namespace MPC.Implementation.MISServices
@@ -40,7 +41,24 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public static double PixelToPoint(double val)
         {
-            return val / 96 * 72;
+            return val/96*72;
+
+
+
+        }
+
+        
+
+        public static double InchtoPoint(double val)
+        {
+            return val*25.4*2.834645669;
+
+        }
+
+        public static double PointToInch(double val)
+        {
+            return val / (25.4 * 2.834645669);
+
         }
 
         #endregion

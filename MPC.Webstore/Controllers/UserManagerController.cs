@@ -24,8 +24,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
 
-           //List <CompanyTerritory> cmpterritory = _mycompanyservice.GetAllCompanyTerritories(UserCookieManager.WEBOrganisationID).ToList();
-           // List<RegistrationQuestion> questions = _mycompanyservice.GetAllQuestions().ToList();
+          
             long loginID = _myClaimHelper.loginContactID();
             List<CompanyContact> contacts = null;
             if (_myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
@@ -35,10 +34,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 contacts = _mycompanyservice.GetContactsByTerritory(UserCookieManager.WBStoreId, 0);
-                //foreach (var conta in contacts)
-                //{
-                //    var a = conta.isPlaceOrder.HasValue;
-                //}
+               
             }
             
             ViewBag.Contacts = contacts;
@@ -101,9 +97,7 @@ namespace MPC.Webstore.Controllers
                 {
                     contacts = _mycompanyservice.GetSearched_Contacts(UserCookieManager.WBStoreId, textt,0);
                 }
-                //recCount = contacts.Count;
-                //lblmatchingrecord.Text = recCount.ToString() + " matches found";
-                //pagedData.DataSource = contacts;
+              
                 ViewBag.Contacts = contacts;
                 ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found");
                 if (contacts.Count == 0 || contacts == null)
@@ -181,20 +175,7 @@ namespace MPC.Webstore.Controllers
             {
                 sb.AppendFormat("{0}:", cont.FirstName);
             }
-            //recCount = contacts.Count;
-            //lblmatchingrecord.Text = recCount.ToString() + " matches found";
-            //pagedData.DataSource = contacts;
-            //ViewBag.Contacts = contacts;
-            //ViewBag.TotalRecords = contacts.Count.ToString() + " matches found";
-            //if (contacts.Count == 0 || contacts == null)
-            //{
-            //    TempData["HeaderStatus"] = false;
-            //}
-            //else
-            //{
-            //    TempData["HeaderStatus"] = true;
-            //}
-
+         
             return Json(sb.ToString(), JsonRequestBehavior.DenyGet);
         }
          [HttpGet]

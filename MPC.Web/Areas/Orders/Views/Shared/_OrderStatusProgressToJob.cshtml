@@ -5,13 +5,51 @@
             <div class="modal-header">
                 <h4 class="modal-title">Progress to Job</h4>
             </div>
+            <div class=" form-horizontal clearfix">
+                <div class="col-lg-12 clearfix">
+                    <h3 class="group-header">Order Schedule</h3>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set target files date for the current order." data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label for="targetFileDate" class="control-label text-right tooltip-float">Target Files Date</label>
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" id="targetFileDate" data-bind="datepicker:$root.selectedOrder().dataByDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set target print date for the current order." data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label for="targetPrintDate" class="control-label text-right tooltip-float">Target Print Date</label>
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" id="targetPrintDate" data-bind="datepicker:$root.selectedOrder().targetPrintDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" form-horizontal clearfix">
+                <div class="col-lg-12 clearfix">
+                    <h3 class="group-header">Job Details</h3>
+                </div>
+            </div>
+            
             <div class="modal-body form-horizontal clearfix" data-bind="with:$root.selectedItemForProgressToJobWizard">
+                
                 <div class=" form-horizontal clearfix">
                     <div class="col-lg-12 clearfix">
                         <div class="form-group">
-                            <div class="col-lg-3 text-right">
+                            <div class="col-lg-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Name" data-original-title="" title="">
+                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Name" data-original-title="" title="">
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                     </a>
                                 </div>
@@ -22,7 +60,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-3 text-right">
+                            <div class="col-lg-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Job Manager" data-original-title="" title="">
@@ -34,11 +72,11 @@
                             </div>
                             <div class="col-lg-5">
                                 @*<select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job manager', optionsValue: jobManagerUser "></select>*@ @*,value:jobManagerUser*@
-                                <select class="form-control" id="systemUsers" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id',value:jobManagerUser"></select>
+                                <select class="form-control" id="systemUsers" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id',value:jobManagerId"></select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-3 text-right">
+                            <div class="col-lg-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Job starting date" data-original-title="" title="">
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -51,7 +89,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-3 text-right">
+                            <div class="col-lg-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Job completion date" data-original-title="" title="">
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -63,14 +101,35 @@
                                 <input type="text" class="form-control" id="end" data-bind="datepicker:jobEstimatedCompletionDateTime">
                             </div>
                         </div>
+                        <div class="form-group" data-bind="visible:$root.isApplyButtonVisible">
+                            <div class="col-lg-4 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will apply the job settings above to all available jobs in this order. " data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label for="end" class="control-label text-right tooltip-float">Apply these settings to all jobs</label>
+                            </div>
+
+                            <div class="col-lg-5" style="padding-left:6px;">
+                                <div class="onoffswitch" style="margin-right:0px;">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchApplyChanges" data-bind="checked: $root.isApplyToAll">
+                                    <label class="onoffswitch-label" for="switchApplyChanges">
+                                        <div class="onoffswitch-inner"></div>
+                                        <div class="onoffswitch-switch"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnJobToProgressWizard">Ok</button>
-                @*<button type="button" class="btn btn-default" data-bind="click:$root.clickOnJobToProgressWizard">Cancel</button>*@
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnJobToPrevious, visible: $root.isPreVisible">Previous</button>
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnJobToProgressWizard, text: $root.wizardButtonLabel">Next</button>
+                    @*<button type="button" class="btn btn-default" data-bind="click:$root.clickOnJobToProgressWizard">Cancel</button>*@
+                </div>
             </div>
-        </div>
     </div>
 </div>
 

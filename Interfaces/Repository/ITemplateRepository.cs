@@ -9,6 +9,8 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ITemplateRepository : IBaseRepository<Template, int>
     {
+        double GetTemplateCuttingMargin(long ProductId);
+        bool UpdateTemplatePdfDimensions(Template Template);
         int DeleteTemplate(long templateId);
 
         Template GetTemplate(long productID, bool loadPages);
@@ -28,13 +30,13 @@ namespace MPC.Interfaces.Repository
         bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listNewPages, List<TemplatePage> listOldPages, List<TemplateObject> listObjects);
         long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long OrganisationID, out List<TemplateBackgroundImage> objImages);
         long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, long organisationID, out List<TemplateFont> fontsToDownload, int mode, long localTemplateID);
-        void SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects);
-        Template CreateTemplate(long productID, long categoryIdv2, double height, double width, long itemId);
+        double SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects);
+        Template CreateTemplate(long productID, long categoryIdv2, double height, double width, long itemId, long organisationId);
 
-        double getOrganisationBleedArea(long organisationID);
+        double getOrganisationBleedArea(long organisationID, bool convertToSystemUnit);
 
        
-        double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit);
+        double ConvertLength(double Input, MPC.Models.Common.LengthUnit OutputUnit);
 
         bool updatecontactId(long templateId, long contactId);
     }

@@ -87,7 +87,7 @@ namespace MPC.Implementation.MISServices
             return new InventoryBaseResponse
             {
                 StockCategories = stocks,
-                StockSubCategories = stocks.SelectMany(s => s.StockSubCategories).ToList(),
+                StockSubCategories = stocks.SelectMany(s => s.StockSubCategories.Where(u => u.OrganisationId == stockSubCategoryRepository.OrganisationId)).ToList(),
                 PaperSizes = paperSizeRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagForInventory(),
                 WeightUnits = weightUnitRepository.GetAll(),
@@ -255,7 +255,7 @@ namespace MPC.Implementation.MISServices
         private StockItem SaveStockItem(StockItem stockItem)
         {
             stockItem.StockCreated = DateTime.Now;
-            stockItem.ItemCode = prefixRepository.GetNextItemCodePrefix();
+            stockItem.ItemCode = prefixRepository.GetNextStockItemCodePrefix();
             stockItem.LastModifiedDateTime = DateTime.Now;
 
             bool isImperical = organisationRepository.GetImpericalFlagbyOrganisationId();
@@ -275,7 +275,9 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.ItemName = stockItem.ItemName;
             stockItemDbVersion.ItemCode = stockItem.ItemCode;
             stockItemDbVersion.SupplierId = stockItem.SupplierId;
+            stockItemDbVersion.CategoryId = stockItem.CategoryId;
             stockItemDbVersion.SubCategoryId = stockItem.SubCategoryId;
+           
             stockItemDbVersion.BarCode = stockItem.BarCode;
             stockItemDbVersion.ItemDescription = stockItem.ItemDescription;
             stockItemDbVersion.FlagID = stockItem.FlagID;
@@ -306,6 +308,8 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.isAllowBackOrder = stockItem.isAllowBackOrder;
             stockItemDbVersion.ThresholdLevel = stockItem.ThresholdLevel;
             stockItemDbVersion.inStock = stockItem.inStock;
+            stockItemDbVersion.PlateRunLength = stockItem.PlateRunLength;
+            stockItemDbVersion.ChargePerSquareUnit = stockItem.ChargePerSquareUnit;
 
             UpdateItemStockUpdateHistories(stockItem, stockItemDbVersion);
             UpdateStockCostAndPrice(stockItem, stockItemDbVersion);

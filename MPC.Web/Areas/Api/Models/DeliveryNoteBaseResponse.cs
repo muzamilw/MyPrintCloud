@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -22,5 +23,12 @@ namespace MPC.MIS.Areas.Api.Models
         /// Delivery Carriers
         /// </summary>
         public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
+        public Guid LoggedInUser { get; set; }
+
+        /// <summary>
+        /// Used just for Raising multiple delivery notes from order schedules
+        /// </summary>
+        public IEnumerable<DeliveryNote> DeliveryNotes { get; set; }
+
     }
 }

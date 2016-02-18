@@ -47,8 +47,14 @@ namespace MPC.Interfaces.MISServices
         List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId);
 
         CompanyContact UnArchiveCompanyContact(long ContactId);
-        void PostDataToZapier(long contactId);
+        void PostDataToZapier(long contactId, long organisationId = 0);
         List<ZapierInvoiceDetail> GetContactForZapierPooling(long organisationId);
+
+
+        string AddAgileCrmContact(string email, string fullname, string Company, string phone, string region, string domain);
+
+        void PostDataToMailChimp(CompanyContact Contact, long organisationId = 0);
+        void UpdateCompanyContactFromZapier(ZapierInvoiceDetail zapContact, long organisationId);
 
     }
 }

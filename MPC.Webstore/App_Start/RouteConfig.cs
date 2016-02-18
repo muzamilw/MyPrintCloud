@@ -44,30 +44,169 @@ namespace MPC.Webstore
               , new { controller = "Home", action = "Index", name = "" 
             });
 
+
+            routes.MapRoute(
+               "FeaturedProductss"
+             , "FeaturedProducts"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
+
+
+            routes.MapRoute(
+             "BubbleHeaderss"
+           , "BubbleHeader"
+           , new
+           {
+               controller = "Home",
+               action = "Index",
+               name = ""
+           });
+
+
+
+            routes.MapRoute(
+               "Percent"
+             , "BubbleSavePercent"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
+
+            
+
+
+
+
+
+            routes.MapRoute(
+               "BubbleLogin"
+             , "BubbleLoginBar"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
+
+
+
+
+            routes.MapRoute(
+             "BubbleBanners"
+           , "BubbleBanner"
+           , new
+           {
+               controller = "Home",
+               action = "Index",
+               name = ""
+           });
+
+            routes.MapRoute(
+             "BubbleAboutUS"
+           , "BubbleAboutUS"
+           , new
+           {
+               controller = "Home",
+               action = "Index",
+               name = ""
+           });
+
+
+
              routes.MapRoute(
                 "UserManager"
               , "UserManager"
               , new { controller = "Home", action = "Index", name = "" 
             });
 
-            routes.MapRoute(
+            
+              routes.MapRoute(
                 "BillingShippingAddressManager"
               , "BillingShippingAddressManager"
               , new { controller = "Home", action = "Index", name = "" 
             });
+
 
             routes.MapRoute(
                 "BillingShipping",
                 "BillingShippingAddressManager/FillAddresses",
                 new { controller = "BillingShippingAddressManager", action = "FillAddresses", id = UrlParameter.Optional }
            );
+            routes.MapRoute(
+                "LoadFolders",
+                "ManageAssets/GetFolders",
+                new { controller = "ManageAssets", action = "GetFolders", id = UrlParameter.Optional }
+           );
 
+            routes.MapRoute(
+              "LoadFoldersIntellisense",
+              "ManageAssets/GetFolderIntellisenseData",
+              new { controller = "ManageAssets", action = "GetFolderIntellisenseData", id = UrlParameter.Optional }
+         );
+
+
+            routes.MapRoute(
+                "LoadFoldersChild",
+                "ManageAssets/GetChildFolders",
+                new { controller = "ManageAssets", action = "GetChildFolders", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+                "TempDimenions",
+                "Category/UpdateTemplateDimensions",
+                new { controller = "Category", action = "UpdateTemplateDimensions", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+               "LoadStoreWithContactInfo",
+               "Login/LoadStoreByContactInfo",
+               new { controller = "Login", action = "LoadStoreByContactInfo", id = UrlParameter.Optional }
+           );
             routes.MapRoute(
                 "Logoutrealestate",
                 "RealestateSideBarWithSlider/LogOut",
                 new { controller = "RealestateSideBarWithSlider", action = "LogOut", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                "LoadStoresWebstore",
+                "Login/LoadStore",
+                new { controller = "Login", action = "LoadStore", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+              "SmartForm",
+              "RealEstateSmartForm/{PropertyId}",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional, PropertyId = UrlParameter.Optional }
+          );
 
+            routes.MapRoute(
+              "AsssetsHistory",
+              "ManageAssets/{folderId}/{Searchfolder}/{SelectedTreeID}",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional, folderId = UrlParameter.Optional, Searchfolder = UrlParameter.Optional, SelectedTreeID = UrlParameter.Optional }
+          );
+
+
+            routes.MapRoute(
+          "AssetsLoad",
+          "CloneItemForManageAsset/{AssetId}",
+          new { controller = "ManageAssets", action = "CloneItemForManageAsset", AssetId = UrlParameter.Optional}
+      );
+
+            routes.MapRoute(
+      "FoldersLoad",
+      "LoadFoldersOnSearch/{Searchfolder}",
+      new { controller = "ManageAssets", action = "LoadFoldersOnSearch",Searchfolder = UrlParameter.Optional }
+  );
+
+
+            routes.MapRoute(
+              "ListingGrid",
+              "RealEstateListingGrid",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+          );
             routes.MapRoute(
                "loadaddWithTerritory",
                "UserManager/GetAddressesByTerritorID",
@@ -310,8 +449,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                 "ShopCart",
-                "ShopCart",
-                new { controller = "Home", action = "Index"}
+                "ShopCart/{OrderId}",
+                new { controller = "Home", action = "Index", OrderId = UrlParameter.Optional }
             );
 
             routes.MapRoute(
@@ -368,6 +507,12 @@ namespace MPC.Webstore
             );
 
             routes.MapRoute(
+                "SetPdfDimesions",
+                "UpdateTemplateDimensions/{PDFTemplateWidth}/{PDFTemplateHeight}/{ItemId}/{Check}",
+                new { controller = "Category", action = "UpdateTemplateDimensions", PDFTemplateWidth = UrlParameter.Optional, PDFTemplateHeight = UrlParameter.Optional, ItemId = UrlParameter.Optional, Check = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 "CloneProductDetail",
                 "CloneItem/{id}",
                 new { controller = "ProductDetail", action = "CloneItem", id = UrlParameter.Optional }
@@ -421,7 +566,11 @@ namespace MPC.Webstore
                 "NabSubmit/{OrderID}",
                 new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
             );
-
+            routes.MapRoute(
+             "PayWay",
+             "PayWay/{OrderID}",
+             new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+         );
             //routes.MapRoute(
             //    "ReceiptPlain",
             //    "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
@@ -433,7 +582,7 @@ namespace MPC.Webstore
                 "autologin/{C}/{F}/{L}/{E}/{CC}",
                 new { controller = "Home", action = "AutoLoginOrRegister", C = UrlParameter.Optional, F = UrlParameter.Optional, L = UrlParameter.Optional, E = UrlParameter.Optional, CC = UrlParameter.Optional }
             );
-
+           
             routes.MapRoute(
                 "RemoveArtwork",
                 "DeleteArtworkAttachment/{AttachmentID}",
@@ -457,7 +606,7 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                "oAuth",
-               "oAuth/{LoginWithId}/{isRegistrationProcess}/{StoreId}/{ReturnUrl}",
+               "oAuth/{Provider}/{isRegistrationProcess}/{StoreId}/{ReturnUrl}",
                new { controller = "Home", action = "oAuth", LoginWithId = UrlParameter.Optional, isRegistrationProcess = UrlParameter.Optional, StoreId = UrlParameter.Optional, ReturnUrl = UrlParameter.Optional }
            );
 
@@ -485,7 +634,39 @@ namespace MPC.Webstore
          "ShopCartAddressSelect/AddDeliveryToOrder/{DeliveryMethodId}",
          new { controller = "ShopCartAddressSelect", action = "AddDeliveryToOrder", DeliveryMethodId = UrlParameter.Optional }
        );
-   
+
+        routes.MapRoute(
+           "BubbleQuickLinks"
+         , "BubbleQuickLinks"
+         , new
+         {
+             controller = "Home",
+             action = "Index",
+             name = ""
+         });
+
+
+        routes.MapRoute(
+          "BubbleQuickLinksyyyy"
+        , "BubbleQuickLinks/{name}/{email}/{comment}"
+        , new
+        {
+            controller = "Home",
+            action = "Index",
+            name = UrlParameter.Optional,
+            email = UrlParameter.Optional,
+            comment = UrlParameter.Optional
+        });
+
+        routes.MapRoute(
+               "ManageTheAssets"
+             , "ManageAssets"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

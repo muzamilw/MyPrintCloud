@@ -67,7 +67,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : new List<CountryDropDown>(),
                 States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : new List<StateDropDown>(),
                 SectionFlags = result.SectionFlags != null ? result.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
-                StoresListDropDown = result.Companies != null? result.Companies.Select(x=>x.CreateFromForDropDown()): new List<StoresListDropDown>()
+                StoresListDropDown = result.Companies != null? result.Companies.Select(x=>x.CreateFromForDropDown()): new List<StoresListDropDown>(),
+                DefaultCountryId = result.DefaultCountryId
             };
         }
     }

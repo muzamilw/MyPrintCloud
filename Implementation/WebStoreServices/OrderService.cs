@@ -175,9 +175,9 @@ namespace MPC.Implementation.WebStoreServices
         //    });
         //}
 
-        public bool SetOrderCreationDateAndCode(long orderId)
+        public bool SetOrderCreationDateAndCode(long orderId, long OrganisationId)
         {
-            return _OrderRepository.SetOrderCreationDateAndCode(orderId);
+            return _OrderRepository.SetOrderCreationDateAndCode(orderId, OrganisationId);
         }
         //public bool IsVoucherValid(string voucherCode)
         //{
@@ -253,11 +253,11 @@ namespace MPC.Implementation.WebStoreServices
                throw ex;
            }
        }
-        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime,StoreMode isCorpFlow)
+       public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow, CompanyContact Contact)
        {
             try
             {
-                return _OrderRepository.UpdateOrderWithDetails(orderID, loggedInContactID, orderTotal, deliveryEstimatedCompletionTime, isCorpFlow);
+                return _OrderRepository.UpdateOrderWithDetails(orderID, loggedInContactID, orderTotal, deliveryEstimatedCompletionTime, isCorpFlow, Contact);
             }
             catch (Exception ex)
             {
@@ -371,7 +371,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
         public bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
-                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde)
+                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long OrganisationId)
         {
             try
             {
@@ -379,7 +379,7 @@ namespace MPC.Implementation.WebStoreServices
                 if (Objorder != null)
                 {
                     _AddressRepository.UpdateAddress(billingAdd, deliveryAdd, Objorder.CompanyId);
-                    Prefix prefix = _prefixRepository.GetDefaultPrefix();
+                    Prefix prefix = _prefixRepository.GetDefaultPrefix(OrganisationId);
                     return _OrderRepository.UpdateOrderWithDetailsToConfirmOrder(orderID, loggedInContactID, orderStatus, billingAdd, deliveryAdd, grandOrderTotal, yourReferenceNumber, specialInsTel, specialInsNotes, isCorpFlow, CurrntStoreMde, Objorder, prefix);
                 }
                 else
@@ -608,6 +608,10 @@ namespace MPC.Implementation.WebStoreServices
        public void UpdateOrderForDel(Estimate Order)
        {
            _OrderRepository.UpdateOrderForDel(Order);
+       }
+       public List<Item> GetOrderItems(long OrderId)
+       {
+           return _OrderRepository.GetOrderItems(OrderId);
        }
     }
 }

@@ -10,6 +10,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IListingService
     {
+        MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId);
         long GetOrganisationIdByEmail(string SystemUserEmail);
         List<MPC.Models.DomainModels.ListingImage> GetAllListingImages();
         List<MPC.Models.DomainModels.Listing> GetRealEstateProperties();

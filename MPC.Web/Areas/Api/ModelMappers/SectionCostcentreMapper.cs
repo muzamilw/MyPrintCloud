@@ -44,9 +44,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1WorkInstructions = source.Qty1WorkInstructions,
                 Qty2WorkInstructions = source.Qty2WorkInstructions,
                 Qty3WorkInstructions = source.Qty3WorkInstructions,
+                Qty4WorkInstructions = source.Qty4WorkInstructions,
+                Qty5WorkInstructions = source.Qty5WorkInstructions,
+                IsScheduleable = source.IsScheduleable,
                 Qty1EstimatedStockCost = source.Qty1EstimatedStockCost,
                 Qty2EstimatedStockCost = source.Qty2EstimatedStockCost,
                 Qty3EstimatedStockCost = source.Qty3EstimatedStockCost,
+                SystemCostCentreType = source.SystemCostCentreType,
+                Qty5MarkUpID = source.Qty5MarkUpID,
                 SectionCostCentreDetails = source.SectionCostCentreDetails != null ? source.SectionCostCentreDetails.Select(s => s.CreateFrom()) :
                 new List<SectionCostCentreDetail>(),
                 SectionCostCentreResources = source.SectionCostCentreResources != null ? source.SectionCostCentreResources.Select(s => s.CreateFrom()) :
@@ -83,9 +88,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1WorkInstructions = source.Qty1WorkInstructions,
                 Qty2WorkInstructions = source.Qty2WorkInstructions,
                 Qty3WorkInstructions = source.Qty3WorkInstructions,
+                Qty4WorkInstructions = source.Qty4WorkInstructions,
+                Qty5WorkInstructions = source.Qty5WorkInstructions,
+                IsScheduleable = source.IsScheduleable,
                 Qty1EstimatedStockCost = source.Qty1EstimatedStockCost,
                 Qty2EstimatedStockCost = source.Qty2EstimatedStockCost,
                 Qty3EstimatedStockCost = source.Qty3EstimatedStockCost,
+                SystemCostCentreType = source.SystemCostCentreType,
+                CostCentreType = source.CostCentreType,
+                Qty5MarkUpID = source.Qty5MarkUpID,
                 SectionCostCentreDetails = source.SectionCostCentreDetails != null ? source.SectionCostCentreDetails.Select(s => s.CreateFrom()).ToList() :
                 new List<DomainModels.SectionCostCentreDetail>(),
             };

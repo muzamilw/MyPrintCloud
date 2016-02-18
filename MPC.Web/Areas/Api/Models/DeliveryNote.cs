@@ -29,6 +29,10 @@ namespace MPC.MIS.Areas.Api.Models
         public short IsCustomer { get; set; }
         public string CompanyName { get; set; }
         public string FlagColor { get; set; }
+
+        public long? OrganisationId { get; set; }
+        public int? OrderId { get; set; }
+        
         public List<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
     }
 }

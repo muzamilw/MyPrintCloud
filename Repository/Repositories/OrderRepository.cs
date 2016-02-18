@@ -117,7 +117,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                Prefix prefix = db.Prefixes.Where(c => c.SystemSiteId == 1).FirstOrDefault();
+               // Prefix prefix = db.Prefixes.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
 
                 Estimate orderObject = new Estimate();
 
@@ -145,11 +145,11 @@ namespace MPC.Repository.Repositories
 
                 orderObject.Order_CreationDateTime = DateTime.Now;
 
-                if (prefix != null)
-                {
-                    orderObject.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
-                    prefix.OrderNext = prefix.OrderNext + 1;
-                }
+                //if (prefix != null)
+                //{
+                //    orderObject.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
+                //    prefix.OrderNext = prefix.OrderNext + 1;
+                //}
 
                 db.Estimates.Add(orderObject);
 
@@ -310,7 +310,7 @@ namespace MPC.Repository.Repositories
 
         private ShoppingCart ExtractShoppingCart(Estimate tblEstimate)
         {
-
+            int DeliveryTime = 0;
             ShoppingCart shopCart = new ShoppingCart();
             List<AddOnCostsCenter> childrenRecordsAllProductItemAddons = null;
             List<Item> ItemsOfOrder = GetOrderItems(Convert.ToInt32(tblEstimate.EstimateId));
@@ -318,7 +318,7 @@ namespace MPC.Repository.Repositories
             {
 
                 //1. Get All Items and Its Attament in a Singe Instant
-                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, out childrenRecordsAllProductItemAddons);
+                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, Convert.ToInt64(tblEstimate.OrganisationId), out childrenRecordsAllProductItemAddons);
 
                 //2. Get All Addons Used in that Items
                 shopCart.ItemsSelectedAddonsList = childrenRecordsAllProductItemAddons;
@@ -341,7 +341,21 @@ namespace MPC.Repository.Repositories
                     shopCart.DeliveryCost = DeliveryItemOfOrder.Qty1NetTotal ?? 0;
                     shopCart.DeliveryDiscountVoucherID = DeliveryItemOfOrder.DiscountVoucherID;
                 }
-
+                foreach (ProductItem itm in shopCart.CartItemsList)
+                {
+                    if (itm.EstimateProductionTime != null && itm.EstimateProductionTime > 0)
+                    {
+                        DeliveryTime += Convert.ToInt32(itm.EstimateProductionTime);
+                    }
+                }
+                foreach (AddOnCostsCenter cc in shopCart.ItemsSelectedAddonsList)
+                {
+                    if (cc.EstimateProductionTime != null && cc.EstimateProductionTime > 0)
+                    {
+                        DeliveryTime += Convert.ToInt32(cc.EstimateProductionTime);
+                    }
+                }
+                shopCart.TotalProductionTime = DeliveryTime;
             }
             catch (Exception ex)
             {
@@ -359,7 +373,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 //1. Get All Items and Its Attament in a Singe Instant
-                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, out childrenRecordsAllProductItemAddons);
+                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, Convert.ToInt64(tblEstimate.OrganisationId), out childrenRecordsAllProductItemAddons);
 
                 //3. Extract company address if any
                 shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
@@ -388,7 +402,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        private List<ProductItem> ExtractItemsAndAttatchments(List<Item> orderItemsList, out  List<AddOnCostsCenter> childrenRecordsAllProductItemAddons)
+        private List<ProductItem> ExtractItemsAndAttatchments(List<Item> orderItemsList, long OrganisationId, out  List<AddOnCostsCenter> childrenRecordsAllProductItemAddons)
         {
             List<ProductItem> productItemsList = new List<ProductItem>();
             List<AddOnCostsCenter> allItemsAddOnsList = new List<AddOnCostsCenter>();
@@ -429,6 +443,15 @@ namespace MPC.Repository.Repositories
                             {
                                 prodItem.OtherItemAttatchments = null;
                             }
+
+                            if (item.ProductType == (int)ProductType.PrintProduct)
+                            {
+                                prodItem.OtherItemTemplateAttatchments = GetTemplatePagesWithURL(Convert.ToInt64(item.TemplateId), OrganisationId);
+                            }
+                            else 
+                            {
+                                prodItem.OtherItemTemplateAttatchments = null;
+                            }
                             productItemsList.Add(prodItem);
                             allItemsAddOnsList.AddRange(this.ExtractAdditionalAddons(item)); //Collects the addons for each item
 
@@ -439,6 +462,33 @@ namespace MPC.Repository.Repositories
             childrenRecordsAllProductItemAddons = allItemsAddOnsList;
             return productItemsList;
         }
+
+        private List<ItemTemplatePage> GetTemplatePagesWithURL(long TemplateId, long OrganisationId) 
+        {
+            if (TemplateId > 0)
+            {
+                var query = from tmp in db.TemplatePages
+                            where tmp.ProductId == TemplateId
+                            select new ItemTemplatePage()
+                            {
+                                FilePath = "/mpc_content/Designer/Organisation" + OrganisationId + "/Templates/" + TemplateId + "/",
+                                PageId = tmp.ProductPageId
+                            };
+                List<ItemTemplatePage> temPages = query.ToList<ItemTemplatePage>();
+                int count = 1;
+                foreach (ItemTemplatePage itm in temPages)
+                {
+                    itm.FilePath = itm.FilePath + "p" + count + ".jpg";
+                    count++;
+                }
+                return temPages;
+            }
+            else 
+            {
+                return null;
+            }
+        }
+
         public ProductItem CreateProductItem(Item tblItem, string PaperName)
         {
             short StatusID = 0;
@@ -459,6 +509,7 @@ namespace MPC.Repository.Repositories
                 EstimateID = tblItem.EstimateId,
                 InvoiceID = invoiceID,
                 ProductName = tblItem.ProductName,
+                ProductFriendlyName = tblItem.Title,
                 ProductCategoryName = CategoryName, //Product category Name
                 ProductCategoryID = (int)productCategoryID,
                 ImagePath = tblItem.ImagePath,
@@ -530,6 +581,7 @@ namespace MPC.Repository.Repositories
                     artWorkAttatchment.FileTitle = tblItemAttchment.FileTitle;
                     artWorkAttatchment.FileExtention = tblItemAttchment.FileType;
                     artWorkAttatchment.FolderPath = tblItemAttchment.FolderPath;
+                    artWorkAttatchment.ImageFileType = "Thumb" + tblItemAttchment.ImageFileType;
                     artWorkAttatchment.UploadFileType = (UploadFileTypes)Enum.Parse(typeof(UploadFileTypes), tblItemAttchment.Type); //Model.UploadFileTypes.Artwork.ToString();
                 }
 
@@ -553,6 +605,7 @@ namespace MPC.Repository.Repositories
                         artWorkAttatchment.FileTitle = tblItemAttchment.FileTitle;
                         artWorkAttatchment.FileExtention = tblItemAttchment.FileType;
                         artWorkAttatchment.FolderPath = tblItemAttchment.FolderPath;
+                        //artWorkAttatchment.ImageFileType = "Thumb" + tblItemAttchment.ImageFileType;
                         artWorkAttatchment.UploadFileType = (UploadFileTypes)Enum.Parse(typeof(UploadFileTypes), tblItemAttchment.Type); //Model.UploadFileTypes.Artwork.ToString();
                     }
                 }
@@ -682,15 +735,15 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public bool SetOrderCreationDateAndCode(long orderId)
+        public bool SetOrderCreationDateAndCode(long orderId, long OrganisationId)
         {
 
             Estimate tblOrd = db.Estimates.Where(estm => estm.EstimateId == orderId).FirstOrDefault();
-            Prefix prefix = _PrefixService.GetDefaultPrefix();
+            Prefix prefix = _PrefixService.GetDefaultPrefix(OrganisationId);
 
             if (prefix != null)
             {
-                tblOrd.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                tblOrd.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                 prefix.OrderNext = prefix.OrderNext + 1;
             }
             tblOrd.CreationDate = DateTime.Now;
@@ -935,7 +988,7 @@ namespace MPC.Repository.Repositories
         /// <param name="isCorpFlow"></param>
         /// <returns></returns>
         /// UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal,deliveryCompletionTime, deliveryCost, UserCookieManager.StoreMode)
-        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow)
+        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow,CompanyContact Contact)
         {
             bool result = false;
             Estimate tblOrder = null;
@@ -956,8 +1009,19 @@ namespace MPC.Repository.Repositories
 
                         tblOrder.DeliveryCompletionTime = deliveryEstimatedCompletionTime;
                         tblOrder.CreationDate = DateTime.Now;
-                        UpdateNewOrderData(tblOrder, deliveryEstimatedCompletionTime, loggedInContactID); // sets end and start delivery data                    
 
+                        // if null then not update address detail
+                        if (Contact != null)
+                        {
+                            tblOrder.AddressId =Convert.ToInt32(Contact.AddressId);
+                            tblOrder.BillingAddressId =Convert.ToInt32(Contact.ShippingAddressId);
+                        }
+
+                         UpdateNewOrderData(tblOrder, deliveryEstimatedCompletionTime, loggedInContactID); // sets end and start delivery data                    
+                       
+                           
+                        
+                        
                         if (db.SaveChanges() > 0)
                         {
                             result = true;
@@ -1309,55 +1373,77 @@ namespace MPC.Repository.Repositories
                 if (tblOrder != null)
                 {
                     tblOrder.StatusId = (short)orderStatus;
-                    List<Guid> StockManagerIds = new List<Guid>();
-                    if (mode == StoreMode.Retail)
-                    {
-                        long? StoreId = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).Select(s => s.StoreId).FirstOrDefault();
-                        if (StoreId != null && StoreId > 0)
-                        {
-                            Company Store = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
-                            if (Store != null)
-                            {
-                                if (Store.StockNotificationManagerId1 != null)
-                                {
-                                    StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
-                                }
-                                if (Store.StockNotificationManagerId2 != null)
-                                {
-                                    StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
-                                }
-                                org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Company Store = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
-                        if (Store != null)
-                        {
-                            if (Store.StockNotificationManagerId1 != null)
-                            {
-                                StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
-                            }
-                            if (Store.StockNotificationManagerId2 != null)
-                            {
-                                StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
-                            }
-                            org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
-                        }
-                    }
-
+                    tblOrder.Order_Date = DateTime.Now;
+                    tblOrder.ArtworkByDate = DateTime.Now.AddDays(2);
+                    tblOrder.DataByDate = DateTime.Now.AddDays(2);
+                    tblOrder.PaperByDate = DateTime.Now.AddDays(2);
+                    tblOrder.TargetPrintDate = DateTime.Now.AddDays(2);
+                    tblOrder.TargetBindDate = DateTime.Now.AddDays(2);
+                 
+                    //List<Guid> StockManagerIds = new List<Guid>();
+                    //if (mode == StoreMode.Retail)
+                    //{
+                    //    long? StoreId = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).Select(s => s.StoreId).FirstOrDefault();
+                    //    if (StoreId != null && StoreId > 0)
+                    //    {
+                    //        Company Store = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
+                    //        if (Store != null)
+                    //        {
+                    //            if (Store.StockNotificationManagerId1 != null)
+                    //            {
+                    //                StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
+                    //            }
+                    //            if (Store.StockNotificationManagerId2 != null)
+                    //            {
+                    //                StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
+                    //            }
+                    //            org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
+                    //            tblOrder.OrderManagerId = Store.AccountManagerId;
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    Company Store = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
+                    //    if (Store != null)
+                    //    {
+                    //        if (Store.StockNotificationManagerId1 != null)
+                    //        {
+                    //            StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
+                    //        }
+                    //        if (Store.StockNotificationManagerId2 != null)
+                    //        {
+                    //            StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
+                    //        }
+                    //        org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
+                    //        tblOrder.OrderManagerId = Store.AccountManagerId;
+                    //    }
+                    //}
+                    //if (StockManagerIds != null && StockManagerIds.Count > 0)
+                    //{
+                    //    tblOrder.SalesPersonId = StockManagerIds[0];
+                    //    tblOrder.OfficialOrderSetBy = StockManagerIds[0];
+                    //    tblOrder.CreditLimitSetBy = StockManagerIds[0];
+                    //}
                     // Approve the credit after user has pay online
                     tblOrder.IsCreditApproved = 1;
 
-                    UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, StockManagerIds);
+                   // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, null);
                     db.SaveChanges();
                     result = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString() +
+                         "" + Environment.NewLine + "mode :" + mode + " orderStatus" + orderStatus + "tblOrder" + tblOrder.EstimateId);
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
             }
 
             return result;
@@ -1899,6 +1985,8 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId)
         {
+            Prefix prefix = db.Prefixes.Where(c => c.OrganisationId == Org.OrganisationId).FirstOrDefault();
+
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             tblOrder.StatusId = (short)orderStatus;
@@ -1908,6 +1996,11 @@ namespace MPC.Repository.Repositories
             tblOrder.PaperByDate = DateTime.Now.AddDays(2);
             tblOrder.TargetPrintDate = DateTime.Now.AddDays(2);
             tblOrder.TargetBindDate = DateTime.Now.AddDays(2);
+            if (prefix != null)
+            {
+                tblOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
+                prefix.OrderNext = prefix.OrderNext + 1;
+            }
             if (ManagerIds != null && ManagerIds.Count > 0)
             {
                 tblOrder.SalesPersonId = ManagerIds[0];
@@ -2103,10 +2196,10 @@ namespace MPC.Repository.Repositories
                         shopCartOrder.DeliveryCost = 0;
                         shopCartOrder.DeliveryCostCenterId = 0;
                         shopCartOrder.StartDeliveryDate = null;
-                        Prefix prefix = _prefixrepository.GetDefaultPrefix();
+                        Prefix prefix = _prefixrepository.GetDefaultPrefix(OrganisationId);
                         if (prefix != null)
                         {
-                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-" + prefix.OrderNext.ToString();
                             prefix.OrderNext = prefix.OrderNext + 1;
                         }
                         shopCartOrder.Order_CompletionDate = null;
@@ -2562,11 +2655,7 @@ namespace MPC.Repository.Repositories
                         && tblStatuses.StatusType == 2 //The status type should be 2 only for orders
                         && tblOrd.StatusId != (int)OrderStatus.ShoppingCart // Not Shopping Cart
                         && tblOrd.StatusId != (int)OrderStatus.ArchivedOrder // Not Archived
-                        //  && tblOrd.StatusID == (orderStatusID > 0 ? (short?)orderStatusID : tblOrd.StatusID)
-                        //  && tblOrd.CustomerPO.Contains(((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber)) //|| tblcompany.Name.Contains(orderRefNumber) || tblContacts.FirstName.Contains(orderRefNumber) || tblContacts.LastName.Contains(orderRefNumber) || tblOrd.Order_Code.Contains(orderRefNumber))
-                        // && (actualFromDate.HasValue ? tblOrd.Order_Date >= actualFromDate : true)
-                        //    && (actualToDate.HasValue ? tblOrd.Order_Date <= actualToDate : true)
-
+                        
                         select new Order()
                         {
                             OrderID = tblOrd.EstimateId,
@@ -2676,7 +2765,7 @@ namespace MPC.Repository.Repositories
                 return 0;
             }
         }
-        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
+        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId)
         {
             List<Order> ordersList = null;
             int orderStatusID = (int)OrderStatus.PendingCorporateApprovel;
@@ -2690,6 +2779,7 @@ namespace MPC.Repository.Repositories
                         && tblStatuses.StatusType == 2 //The status type should be 2 only for orders                            
                         && tblOrd.StatusId == orderStatusID // only pending approvel
                         && tblContactCompany.IsCustomer == (int)CustomerTypes.Corporate
+                        && tblContactCompany.CompanyId == companyId
                         select new Order()
                         {
                             OrderID = tblOrd.EstimateId,
@@ -4461,7 +4551,7 @@ namespace MPC.Repository.Repositories
         {
             return
                 DbSet.Where(
-                    est => est.OrganisationId == OrganisationId && est.StatusId == (int)OrderStatus.InProduction)
+                    est => est.OrganisationId == OrganisationId && (est.StatusId == (int)OrderStatus.InProduction || est.StatusId == (int)OrderStatus.Completed_NotShipped))
                     .ToList();
         }
 
@@ -7037,6 +7127,20 @@ namespace MPC.Repository.Repositories
             db.Entry(Order).State = EntityState.Modified;
             db.SaveChanges();
         }
+
+        public void DeleteOrderById(long OrderId)
+        {
+            try
+            {
+                db.Database.CommandTimeout = 1080;
+                db.usp_DeleteOrderByID(OrderId);
+            }
+            catch(Exception ex)
+            {
+                 throw ex;
+            }
+        }
+       
     }
 }
 

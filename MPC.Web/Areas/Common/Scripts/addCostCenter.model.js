@@ -14,6 +14,10 @@
             description = ko.observable(specifiedDes),
             deliveryCharges = ko.observable(specifiedDeliveryCharges),
             setupCost = ko.observable(specifiedSetupcost).extend({ numberInput: ist.numberFormat }),
+            setupCost2 = ko.observable(specifiedSetupcost).extend({ numberInput: ist.numberFormat }),
+            setupCost3 = ko.observable(specifiedSetupcost).extend({ numberInput: ist.numberFormat }),
+            sectionId = ko.observable(),
+            callMode = ko.observable(),
             setupCostWithTax = ko.computed(function () {
                 if (specifiedCompanyTax != undefined && specifiedCompanyTax != null) {
                     return setupCost() + (setupCost() * (specifiedCompanyTax / 100));
@@ -37,6 +41,10 @@
             costCentreTimeSourceType = ko.observable(specifiedCostCentreTimeSourceType || undefined),
             // Calculation Method Type
             calculationMethodType = ko.observable(specifiedCalculationMethodType || undefined),
+            stockQueue = ko.observable(),
+            inputQueue = ko.observable(),
+            questionQueue = ko.observable(),
+            costCenterQueue = ko.observable(),
             errors = ko.validation.group({
 
             }),
@@ -83,6 +91,8 @@
             quantity3: quantity3,
             description: description,
             setupCost: setupCost,
+            setupCost2: setupCost2,
+            setupCost3: setupCost3,
             pricePerUnitQuantity: pricePerUnitQuantity,
             setupCostWithTax: setupCostWithTax,
             deliveryChargesWithTax: deliveryChargesWithTax,
@@ -92,6 +102,12 @@
             costCentreQuantitySourceType: costCentreQuantitySourceType,
             costCentreTimeSourceType: costCentreTimeSourceType,
             calculationMethodType: calculationMethodType,
+            sectionId: sectionId,
+            callMode: callMode,
+            stockQueue: stockQueue,
+            costCenterQueue: costCenterQueue,
+            inputQueue: inputQueue,
+            questionQueue : questionQueue,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

@@ -9,245 +9,288 @@
 @{
     string CategoryDescription = "";
     string SkipDesignerPopUp = "";
+    List<AddOnCostsCenter> productCC = ViewData["ProductCostCenterList"] as List<AddOnCostsCenter>;
+
+    var Organisation = ViewBag.Organisation as MPC.Models.DomainModels.Organisation;
+    var convertedheight = 0.0;
+    var convertedwidth = 0.0;
+    var TakeTemplateHeightWidth = "";
+    int matCount = 0;
 }
 
 @if (Model != null)
 {
-    
-if (!string.IsNullOrEmpty(Model.ImagePath))
-{
-    <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
-}
-<link href="~/Content/Designer/CategoryPageStyles.css" rel="stylesheet" />
-<link href="~/Content/Designer/p103.css" rel="stylesheet" />
-<script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
-<div class="container content_area" id="all-category-pg">
 
-    <div class="left_right_padding">
-        @{Html.RenderAction("Index", "BreadCrumb");}
-        <div class="signin_heading_div Categorytitle col-md-12 col-lg-12 col-xs-12">
-            <h1>
-                <label id="lblTitle" class="sign_in_catheading">@Model.CategoryName</label>
-            </h1>
+    if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
+    }
+    <link href="~/Content/Designer/CategoryPageStyles.css" rel="stylesheet" />
+    <link href="~/Content/Designer/p103.css" rel="stylesheet" />
+    <script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
+    <div class="container content_area" id="all-category-pg">
 
-        </div>
-        <div id="productCategoryContainer" class="col-md-12 col-lg-12 col-xs-12">
-            @if (ViewData["ProductCategory"] != null)
-            {
+        <div class="left_right_padding">
+            @{Html.RenderAction("Index", "BreadCrumb");}
+            <div class="signin_heading_div Categorytitle col-md-12 col-lg-12 col-xs-12">
+                <h1>
+                    <label id="lblTitle" class="sign_in_catheading">@Model.CategoryName</label>
+                </h1>
 
-                <label id="lbl_ProductCategory" class="product_detail_sub_heading custom_color floatleft clearBoth MarginBottom30px">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategoryHeader", UserCookieManager.WBStoreId))</label>
-            }
-        </div>
-        <div class="cntParentCategDesc col-md-12 col-lg-12 col-xs-12">
-            <label id="lblParentCategoryDesc">@Html.Raw(Model.Description1)</label>
-        </div>
-        <div id="CategoryDisplay responsivePad15">
-
-            <div class="rounded_corners clearBoth col-md-12 col-lg-12 col-xs-12">
+            </div>
+            <div id="productCategoryContainer" class="col-md-12 col-lg-12 col-xs-12">
                 @if (ViewData["ProductCategory"] != null)
                 {
 
-                    <div id="pnlCatList" class="padd_bottom_30 ">
-                        @foreach (var cat in ViewData["ProductCategory"] as List<MPC.Models.DomainModels.ProductCategory>)
-                        {
-                            <div id="Maincontainer" class="CAT_Body rounded_corners">
-                                <div class="LCLB">
-                                    @{
-
-
-                                        <a id="hlCategory" href="/Category/@Utils.specialCharactersEncoder(cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
-                                            <div class="PDTC_CAT FI_CAT">
-                                                @{
-
-                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
-                                                }
-
-                                            </div>
-                                        </a>
-                                    }
-                                </div>
-                                <div class="product_detail_image_heading_CAT">
-                                    <label id="lblProductName">@cat.CategoryName</label>
-                                </div>
-                                @{
-                            CategoryDescription = cat.Description1;
-                            if (!string.IsNullOrEmpty(CategoryDescription))
-                            {
-                                if (CategoryDescription.Length > 150)
-                                {
-                                    CategoryDescription = CategoryDescription.Substring(0, 150);
-                                    CategoryDescription = CategoryDescription + "...";
-                                }
-                                else
-                                {
-                                    CategoryDescription = CategoryDescription;
-                                }
-                            }
-                                }
-                                <div class="topcat_desc_CAT">
-                                    <label id="lblDescription1">@Html.Raw(CategoryDescription)</label>
-                                </div>
-                            </div>
-                        }
-
-                        <div class="clearBoth">
-
-                        </div>
-                    </div>
+                    <label id="lbl_ProductCategory" class="product_detail_sub_heading custom_color floatleft clearBoth MarginBottom30px">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategoryHeader", UserCookieManager.WBStoreId))</label>
                 }
+            </div>
+            <div class="cntParentCategDesc col-md-12 col-lg-12 col-xs-12">
+                <span id="lblParentCategoryDesc" class="categoryMainDescription">@Html.Raw(Model.Description1)</span>
+                <span class="categorySecondaryDescription">@Html.Raw(Model.SecondaryDescription)</span>
+            </div>
+            <div id="CategoryDisplay" class="responsivePad15">
 
-                @*code for product*@
-                @if (ViewData["Products"] != null)
-                {
-                    <div id="pnlAllProductTopLevel" class="padd_bottom_30 floatleft clear">
-                        @*<div class="col-md-12 col-lg-12 col-xs-12">*@
-                        <label id="lbl_ProductHeading" class="product_detail_sub_heading custom_color floatleft clear marginBtm10">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductHeader", UserCookieManager.WBStoreId))</label>
-                        <div id="cntProductList">
-                            @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetCategoryProduct>)
+                <div class="rounded_corners clearBoth col-md-12 col-lg-12 col-xs-12">
+                    @if (ViewData["ProductCategory"] != null)
+                    {
+
+                        <div id="pnlCatList" class="padd_bottom_30 ">
+                            @foreach (var cat in ViewData["ProductCategory"] as List<MPC.Models.DomainModels.ProductCategory>)
                             {
-                                bool isUploadImage = true;
-                                string RedirectURL = string.Empty;
-                                <div class="BD_CatProducts rounded_corners">
-                                    <div class="pad5">
-                                        <div class="LCLB">
-                                            @{
-                                                var OriginalProductName = item.ProductName;
-                                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
-                                            }
-                                           
-                                            @* condition for marketing brief*@
-                                            @if (item.ProductType == (int)ProductType.MarketingBrief)
-                                            {
+                                <div id="Maincontainer" class="CAT_Body rounded_corners">
+                                    <div class="LCLB">
+                                        @{
 
-                                                RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId + "/" + Model.ProductCategoryId;
 
-                                            }
-                                            else if (item.ProductType == (int)ProductType.PrintProduct)
-                                            {
-                                                if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
-                                                {
-                                                    //
-                                                    RedirectURL = "#";
-                                                    SkipDesignerPopUp = " StartDesignerLoader(); SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ",'" + item.ProductName + "');";
+                                            <a id="hlCategory" href="/Category/@Utils.specialCharactersEncoder(cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
+                                                <div class="PDTC_CAT FI_CAT">
+                                                    @{
+
+                                                        <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                                    }
+
+                                                </div>
+                                            </a>
+                                        }
+                                    </div>
+                                    <div class="product_detail_image_heading_CAT">
+                                        <span id="lblProductName">@cat.CategoryName</span>
+                                    </div>
+                                    @{
+                                CategoryDescription = cat.Description1;
+                                if (!string.IsNullOrEmpty(CategoryDescription))
+                                {
+                                    if (CategoryDescription.Length > 150)
+                                    {
+                                        CategoryDescription = CategoryDescription.Substring(0, 150);
+                                        CategoryDescription = CategoryDescription + "...";
+                                    }
+                                    else
+                                    {
+                                        CategoryDescription = CategoryDescription;
+                                    }
+                                }
+
+
+                                    }
+                                    <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(cat.CategoryName)/@cat.ProductCategoryId" style="display:none;text-align:center;">
+                                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblCategorybtnViewHeading", UserCookieManager.WBStoreId, "View")) <strong>@cat.CategoryName</strong>
+                                    </a>
+                                    <div class="topcat_desc_CAT">
+                                        <span id="lblDescription1">@Html.Raw(CategoryDescription)</span>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                            <div class="clearBoth">
+
+                            </div>
+                        </div>
+                    }
+
+                    @*code for product*@
+                    @if (ViewData["Products"] != null)
+                    {
+                        <div id="pnlAllProductTopLevel" class="padd_bottom_30 floatleft clear">
+                            @*<div class="col-md-12 col-lg-12 col-xs-12">*@
+                            <label id="lbl_ProductHeading" class="product_detail_sub_heading custom_color floatleft clear marginBtm10">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductHeader", UserCookieManager.WBStoreId))</label>
+                            <div id="cntProductList">
+                                @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetCategoryProduct>)
+                                {
+                                    bool isUploadImage = true;
+                                    string RedirectURL = string.Empty;
+                                    <div class="BD_CatProducts rounded_corners">
+                                        <div class="pad5">
+                                            <div class="LCLB">
+                                                @{
+                                    var OriginalProductName = item.ProductName;
+                                    item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
                                                 }
-                                                else
+
+                                                @* condition for marketing brief*@
+                                                @if (item.ProductType == (int)ProductType.MarketingBrief)
                                                 {
-                                                    //if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-                                                    //{
-                                                    //    isUploadImage = true;
-                                                    //    RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                                    //}
-                                                    //else
-                                                    //{
-                                                    isUploadImage = false;
 
-                                                    RedirectURL = "/Category/CloneItem/" + item.ItemId;
-                                                    
-                                                    //}
+                                                    RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId + "/" + Model.ProductCategoryId;
+
                                                 }
+                                                else if (item.ProductType == (int)ProductType.PrintProduct)
+                                                {
+                                                    if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
+                                                    {
+                                                        //
+                                                        RedirectURL = "#";
+                                                        SkipDesignerPopUp = " StartDesignerLoader(); SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ",'" + item.ProductName + "');";
+                                                    }
+                                                    else
+                                                    {
 
 
-                                            }
-                                            else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                            {
-                                                RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                            }
+                                                        if (item.IsAllowCustomSize ?? false)
+                                                        {
 
-
-
-                                            @if (isUploadImage == false)
-                                            {
-                                                <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
-                                                    <div class="PDTC_CatProd FI_CatProd">
-                                                        @{
-                                                            <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+                                                            if (Organisation.SystemLengthUnit == 1)
+                                                            {
+                                                                //mm
+                                                                convertedheight = Utils.PointToMM(item.PDFTemplateHeight ?? 0.0);
+                                                                convertedwidth = Utils.PointToMM(item.PDFTemplateWidth ?? 0.0);
+                                                            }
+                                                            if (Organisation.SystemLengthUnit == 3)
+                                                            {
+                                                                //Inch
+                                                                convertedheight = Utils.PointToInch(item.PDFTemplateHeight ?? 0.0);
+                                                                convertedwidth = Utils.PointToInch(item.PDFTemplateWidth ?? 0.0);
+                                                            }
+                                                            RedirectURL = "#";
+                                                            TakeTemplateHeightWidth = "ShowTemplatePopup(" + convertedheight + "," + convertedwidth + "," + item.TemplateId + "," + item.ItemId + ",'" + item.ProductName + "'," + Organisation.SystemLengthUnit + ");";
 
                                                         }
-                                                    </div>
-                                                </a>
-                                            }
-                                            else
-                                            {
-
-                                                if (item.ProductType == (int)ProductType.MarketingBrief) // check if item is marekting breif..??
-                                                {
-                                                    if (ViewBag.IsUserLogin == 1) // check if user login or not ??
-                                                    {
-                                                        <a id="hlProductDetail" href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
-
-                                                            <div class="PDTC_CatProd FI_CatProd">
-                                                                @{
-
-                                                                    <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-                                                                }
-                                                            </div>
-                                                        </a>
+                                                        else
+                                                        {
+                                                            isUploadImage = false;
+                                                            RedirectURL = "/Category/CloneItem/" + item.ItemId;
+                                                        }
                                                     }
-                                                    else // if not login then open set onclick event of anchor tab for login
-                                                    {
-                                                        string ProductName = "'" + item.ProductName + "'";
-                                                        string itemID = "'" + item.ItemId + "'";
-
-                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
-
-                                                            <div class="PDTC_CatProd FI_CatProd">
-                                                                @{
-
-                                                                    <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
 
-                                                                }
-                                                            </div>
-                                                        </a>
-                                                    }
                                                 }
-                                                else
+                                                else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                                 {
-                                                    <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader(); @SkipDesignerPopUp">
+                                                    RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                                }
 
+
+
+                                                @if (isUploadImage == false)
+                                                {
+                                                    <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
                                                         <div class="PDTC_CatProd FI_CatProd">
                                                             @{
-
                                                                 <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
                                                             }
                                                         </div>
                                                     </a>
                                                 }
-                                            }
-                                        </div>
-                                        <div class="product_detail_image_heading_IRI">
-                                            <p style="  width: 100%;  float: left;  word-wrap: break-word;">
-                                                @OriginalProductName
-                                            </p>
-                                            <div class="clearBoth">
+                                                else
+                                                {
 
+                                                    if (item.ProductType == (int)ProductType.MarketingBrief) // check if item is marekting breif..??
+                                                    {
+                                                        if (ViewBag.IsUserLogin == 1) // check if user login or not ??
+                                                        {
+                                                            <a id="hlProductDetail" href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
+
+                                                                <div class="PDTC_CatProd FI_CatProd">
+                                                                    @{
+
+                                                                        <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+                                                                    }
+                                                                </div>
+                                                            </a>
+                                                        }
+                                                        else // if not login then open set onclick event of anchor tab for login
+                                                        {
+                                                            string ProductName = "'" + item.ProductName + "'";
+                                                            string itemID = "'" + item.ItemId + "'";
+
+                                                            <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("MarktBreifWarnMesg", UserCookieManager.WBStoreId, "To submit a marketing brief please login or register."))','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
+
+                                                                <div class="PDTC_CatProd FI_CatProd">
+                                                                    @{
+
+                                                                        <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+
+
+                                                                    }
+                                                                </div>
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="@SkipDesignerPopUp @TakeTemplateHeightWidth">
+
+                                                            <div class="PDTC_CatProd FI_CatProd">
+                                                                @{
+
+                                                                    <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+
+                                                                }
+                                                            </div>
+                                                        </a>
+                                                    }
+                                                }
                                             </div>
-                                        </div>
-                                        <div class="product_detail_image_Pricing">
-                                            <label id="lblPrice">@item.MinPrice</label>
-                                        </div>
-
-                                        @{
-                                if (item.ProductType != (int)ProductType.MarketingBrief)
-                                {
-                                    string stockLabel = string.Empty;
-                                    string quantity = string.Empty;
-
-
-                                    List<MPC.Webstore.ViewModels.ItemStockOptionList> sqn = ViewData["StockOptions"] as List<MPC.Webstore.ViewModels.ItemStockOptionList>;
-                                    stockLabel = sqn.Where(s => s.ItemID == item.ItemId).Select(c => c.StockLabel).FirstOrDefault();
+                                            <div class="product_detail_image_heading_IRI">
+                                                <p style="  width: 100%;  float: left;  word-wrap: break-word;">
+                                                    @if (!string.IsNullOrEmpty(item.ItemFriendlyName))
+                                                    {
+                                                        @item.ItemFriendlyName
+                                                    }
+                                                    else
+                                                    {
+                                                        @OriginalProductName
+                                                    }
 
 
-                                    List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel> matrix = ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>;
-                                    if (matrix != null)
+                                                </p>
+                                                <div class="clearBoth">
+
+                                                </div>
+                                            </div>
+                                            @if (item.ProductType != (int)ProductType.MarketingBrief)
+                                            {
+                                                <div class="product_detail_image_Pricing">
+                                                    <label id="lblPrice">From only @ViewBag.StoreCurrency@item.MinPrice</label>
+                                                </div>
+                                            }
+                                          
+
+                                            @{
+                                    if (item.ProductType != (int)ProductType.MarketingBrief)
                                     {
-                                        matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
-                                    }
+                                        string stockLabel = string.Empty;
+                                        string quantity = string.Empty;
+                                        string pricelbl = "lblPrice";
+                                        string pricecnt = "matrixItemColumn";
+                                        List<MPC.Webstore.ViewModels.ItemStockOptionList> sqn = ViewData["StockOptions"] as List<MPC.Webstore.ViewModels.ItemStockOptionList>;
+                                        stockLabel = sqn.Where(s => s.ItemID == item.ItemId).Select(c => c.StockLabel).FirstOrDefault();
 
 
-                                    
-                                    
+                                        List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel> matrix = ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>;
+                                        if (matrix != null)
+                                        {
+                                            matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
+                                        }
+
+
+
+
+
                                         <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
@@ -260,11 +303,12 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                     {
                                                         <label id="lblStockOpt1">@stockLabel</label>
                                                     }
-                                                    
+
                                                 </td>
                                             </tr>
                                             @if (matrix != null)
                                             {
+
                                                 foreach (var Objmatrix in matrix)
                                                 {
                                                     <tr>
@@ -274,377 +318,646 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                         </td>
                                                         <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
                                                             style="text-align: right;">
-                                                            <div id="matrixItemColumn1">
+                                                            <div id="@pricecnt@matCount">
                                                                 @if (ViewBag.IsShowPrices == true)
                                                                 {
-                                                                    <label id="lblPrice1">@Objmatrix.Price</label>
+
+                                                                    <label id="@pricelbl@matCount">@Objmatrix.Price</label>
 
                                                                 }
-                                                                
-
                                                             </div>
                                                         </td>
                                                     </tr>
-
+                                                                matCount = matCount + 1;
                                                 }
-
-
-
-
                                             }
                                         </table>
-                                    
-
-
-                                }
-}
-
-                                        <div id="productOptionBtns">
-                                            @if (item.ProductType == (int)ProductType.PrintProduct)
-                                            {
 
 
 
-                                                <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
-
-
-
-                                            }
-                                            else
-                                            {
-
-                                                <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
-
-
-                                            }
-                                            @if (item.ProductType == (int)ProductType.MarketingBrief)
-                                            {
-
-                                                if (ViewBag.IsUserLogin == 1) // check if user login or not ??
-                                                {
-
-                                                    <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
-                                                    </a>
-
-                                                }
-
-                                            }
-                                            else if (item.ProductType == (int)ProductType.PrintProduct)
-                                            {
-                                                if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
-                                                {
-                                                    <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,'@item.ProductName');">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a href='@Url.Action("CloneItem", "Category", new { id = item.ItemId })' onclick="ShowLoader();">
-                                                        <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
-                                                    </a>
-                                                }
-
-                                                if (item.isUploadImage == true)
-                                                {
-                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
-                                                    </a>
-                                                }
-
-
-
-                                            }
-                                            else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                            {
-                                                if (item.isUploadImage == true)
-                                                {
-                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart", UserCookieManager.WBStoreId, "Add to Cart"))" class="create-design-button rounded_corners" />
-                                                    </a>
-                                                }
-
+                                    }
                                             }
 
-                                        </div>
 
-                                    </div>
-                                    <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6">
-                                        <div class="BC_CatProd">
-                                            <div class="all_padding3">
-                                                <div class="paddingTop2px">
+                                            <div class="productCC" style="display:none;">
+                                                @{
+                                    List<AddOnCostsCenter> itemCostcentre = null;
+                                    if (productCC != null && productCC.Count > 0)
+                                    {
+                                        itemCostcentre = productCC.Where(m => m.ItemID == item.ItemId).ToList();
+                                    }
+                                                }
+                                                @if (itemCostcentre != null && itemCostcentre.Count > 0)
+                                                {
+                                                    <div class="float_left_simple productCClbl">
+                                                        <span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblproductCCOption", UserCookieManager.WBStoreId, "Options"))</span>
+                                                    </div>
+                                                }
+
+                                                <div class="float_right productMorelbl">
+                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/DesignOrUpload" onclick="ShowLoader();"><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblproductMoreOption", UserCookieManager.WBStoreId, "More..."))</span></a>
+                                                </div>
+                                                <div class="clearBoth">
                                                     &nbsp;
                                                 </div>
-                                                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId, "From"))
-                                                <br />
-                                                <label id="lblFromMinPrice" style="font-size:16px;">@item.MinPrice</label>
+                                                @if (itemCostcentre != null && itemCostcentre.Count > 0)
+                                                {
+
+                                                    <ul class="ulCCproducts">
+                                                        @foreach (AddOnCostsCenter cc in itemCostcentre as List<AddOnCostsCenter>)
+                                                        {
+                                                            <li>
+                                                                <div class="costcenternamecnt">@cc.AddOnName</div>
+                                                                <div class="costcenterDesccnt">@Html.Raw(cc.WebStoreDesc)</div>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </div>
+
+                                            <div id="productOptionBtns">
+                                                @if (item.ProductType == (int)ProductType.PrintProduct)
+                                                {
+
+
+
+                                                    <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
+
+
+
+                                                }
+                                                else
+                                                {
+
+
+                                                    <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
+
+
+                                                }
+                                                @if (item.ProductType == (int)ProductType.MarketingBrief)
+                                                {
+
+                                                    if (ViewBag.IsUserLogin == 1) // check if user login or not ??
+                                                    {
+
+                                                        <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
+                                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a onclick="ShowPopUpMarketingBrief('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("MarktBreifWarnMesg", UserCookieManager.WBStoreId, "To submit a marketing brief please login or register."))','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
+                                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
+                                                        </a>
+
+                                                    }
+
+                                                }
+                                                else if (item.ProductType == (int)ProductType.PrintProduct)
+                                                {
+                                                    if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
+                                                    {
+
+
+
+                                                        <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,'@item.ProductName');">
+                                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
+                                                        </a>
+
+                                                    }
+                                                    else
+                                                    {
+
+                                                        if (item.IsAllowCustomSize ?? false)
+                                                        {
+
+                                                            <a onclick="ShowTemplatePopup(@convertedheight,@convertedwidth,@item.TemplateId,@item.ItemId,'@item.ProductName',@Organisation.SystemLengthUnit)">
+                                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
+                                                            </a>
+
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href='@Url.Action("CloneItem", "Category", new { id = item.ItemId })' onclick="ShowLoader();">
+                                                                <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
+                                                            </a>
+                                                        }
+
+                                                    }
+
+                                                    if (item.isUploadImage == true)
+                                                    {
+                                                        if (ViewBag.isPinkTheme == 1)
+                                                        {
+                                                            <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/DesignOrUpload" onclick="ShowLoader();">
+                                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
+                                                            </a>
+                                                        }
+
+                                                    }
+
+
+
+                                                }
+                                                else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                                {
+                                                    if (item.isUploadImage == true)
+                                                    {
+                                                        <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart", UserCookieManager.WBStoreId, "Add to Cart"))" class="create-design-button rounded_corners" />
+                                                        </a>
+                                                    }
+
+                                                }
+
+                                            </div>
+
+                                        </div>
+                                        <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6">
+                                            <div class="BC_CatProd">
+                                                <div class="all_padding3">
+                                                    <div class="paddingTop2px">
+                                                        &nbsp;
+                                                    </div>
+                                                    @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId, "From"))
+                                                    <br />
+                                                    <label id="lblFromMinPrice" style="font-size:16px;">@ViewBag.StoreCurrency@item.MinPrice</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" id="hfIds" />
+
+
+                                }
+
+                            </div>
+
+                            <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
+                                <label id="lbl_Proof" class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.WBStoreId, "Proof"))</label>
+                                <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.WBStoreId, "Close"))
                                 </div>
-                                <input type="hidden" id="hfIds" />
-
-
-                            }
-
-                        </div>
-
-                        <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
-                            <label id="lbl_Proof" class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.WBStoreId, "Proof"))</label>
-                            <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.WBStoreId, "Close"))
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="SolidBorderCS">
-                                &nbsp;
-                            </div>
-                            <div>
-                                <iframe class="iframeProofContainer"></iframe>
-                            </div>
-                            <div id="previewProofing">
-                                <div class="divTxtProofing">
-                                    <div class="ConfirmPopupProof">
-                                        <label id="lbl_spelling_Details">
-                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.WBStoreId, "Check Spelling and Details"))
-                                        </label>
-                                        <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
-                                               type="checkbox" />
-                                        <label for="chkCheckSpelling" style="display: inline;">
-                                        </label>
-                                    </div>
-
+                                <div class="clearBoth">
+                                    &nbsp;
                                 </div>
                                 <div class="SolidBorderCS">
-
+                                    &nbsp;
                                 </div>
-                                <button id="Button2" value="Next" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" @*OnClick="Button2_Click"*@ onclick="  return verifySpellings();" />
+                                <div>
+                                    <iframe class="iframeProofContainer"></iframe>
+                                </div>
+                                <div id="previewProofing">
+                                    <div class="divTxtProofing">
+                                        <div class="ConfirmPopupProof">
+                                            <label id="lbl_spelling_Details">
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.WBStoreId, "Check Spelling and Details"))
+                                            </label>
+                                            <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
+                                                   type="checkbox" />
+                                            <label for="chkCheckSpelling" style="display: inline;">
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="SolidBorderCS">
+
+                                    </div>
+                                    <button id="Button2" value="Next" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" @*OnClick="Button2_Click"*@ onclick="  return verifySpellings();" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
 
-                    @*</div>*@
-                }
-            </div>
-
-        </div>
-    </div>
-    <div class="clear marginBtm10">
-    </div>
-    <br />
-    <br />
-    <input type="hidden" id="hfContactID" />
-    <input type="hidden" id="hfCompanyID" />
-    <input type="hidden" id="hfCorpType" />
-    <input type="hidden" id="hfTemplateProduct" />
-    <input type="hidden" id="hfCurItem" />
-    <input type="hidden" id="hfProductCatID" />
-    <input type="hidden" id="hfSPType" value="default" />
-    <input type="hidden" id="hfPrintCropMarks" />
-    <input type="hidden" id="hfSvcRespone" />
-</div>
-<section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
-    <div class="mask on"></div>
-    <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
-        <h2 id="loaderTitleMsg">@Html.Raw(Html.GetKeyValueFromResourceFile("genartwork", UserCookieManager.WBStoreId, "Generating artwork for your approval to order..."))</h2>
-        <div class="content">
-            <div class="exporting">
-                <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
-                <p id="paraLoaderMsg" style="display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("layoutdes", UserCookieManager.WBStoreId, "You can add different layouts to your design, you can also add images, text content,  background Color and image to your design.")) </p>
-            </div>
-        </div>
-    </div>
-</section>
-<div id="PreviewerContainerDesigner" class="ui-corner-all propertyPanel">
-    <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()" style="  line-height: 15px;display:none;">
-        Close
-    </div>
-    <div class="previewerTitle">
-        <span class="lightGray">@Html.Raw(Html.GetKeyValueFromResourceFile("approvelfor", UserCookieManager.WBStoreId, "Approval for")) </span> <span class="productTitle"></span>
-    </div>
-    <div class="sliderLine">
-    </div>
-    <div id="PreviewerDesigner" class="ui-corner-all">
-        <div id="sliderFrame">
-        </div>
-        <div class="sliderLine sliderLineBtm">
-        </div>
-        <div id="previewProofingDesigner">
-            <div class="divTxtProofingDesigner">
-                <div class="ConfirmPopupProofDesigner">
-                    <label class="lblChkSpellings"  id="lblConfirmSpellings" style="vertical-align:super">
-                        @Html.Raw(Html.GetKeyValueFromResourceFile("confirmspell", UserCookieManager.WBStoreId, "Confirm spelling and details"))
-                    </label>
-                    <input id="chkCheckSpelling" name="chkCheckSpelling" class="regular-checkbox-new"
-                           type="checkbox" />
-                    <label for="chkCheckSpelling" style="display: inline; height:35px" id="lblCheckSpelling">
-                    </label>
+                        @*</div>*@
+                    }
                 </div>
 
             </div>
-            <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("poption", UserCookieManager.WBStoreId, "Progress to options"))
-            </button>
+
+        </div>
+        <div class="clear marginBtm10">
+        </div>
+        <br />
+        <br />
+        <input type="hidden" id="hfContactID" />
+        <input type="hidden" id="hfCompanyID" />
+        <input type="hidden" id="hfCorpType" />
+        <input type="hidden" id="hfTemplateProduct" />
+        <input type="hidden" id="hfCurItem" />
+        <input type="hidden" id="hfProductCatID" />
+        <input type="hidden" id="hfSPType" value="default" />
+        <input type="hidden" id="hfPrintCropMarks" />
+        <input type="hidden" id="hfSvcRespone" />
+    </div>
+    <div id="TemplateSizeCa" style="width:100%;">
+        <div class="modal-body left_align">
+            <div id="CCErrorMesgContainer"></div>
+
+            <div class="cost-centre-left-container">
+                <label>Width</label>
+            </div>
+            <div class="cost-centre-right-container">
+                <input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplatewidth">
+                <span style="margin-left:4px;" id="Systemunit"></span>
+            </div>
+            <br><div class="clearBoth">
+            </div>
+            <div class="cost-centre-left-container">
+                <label>Height</label>
+            </div>
+            <div class="cost-centre-right-container">
+                <input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id="PdfTemplateheight">
+                <span style="margin-left:4px;" id="Systemunitt"></span>
+            </div><br>
+            <div class="clearBoth"></div>
+
+
+        </div>
+        <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
+
+            <button style="margin-right:15px!important;" id="btnCostCentreCalculator" type="button" class="goto-designer-button float_right" onclick="UpdateTemplatePdfParameters();">@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))</button>
+
+            <img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader" style="height: 20px; margin-right: 10px;margin-top:8px; display:none;">
         </div>
     </div>
-</div>
-<script src="/Scripts/jquery-1.10.1.min.js"></script>
-<script src="~/Scripts/PopUp.js"></script>
-<script>
-    var tID = 0;
-    var itemId = 0;
-    function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
-        //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
-        $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId,
-                      function (DT) {
-                          parts = DT.split("_");
-                          //templateid = part[1]
-                          // itemID = part[0];
-                          //orderid = part[2];
-                          //temporaryCustomerId = part[3];
-                          itemId= parts[0];
-                          var storeMode =  @UserCookieManager.WEBStoreMode;
-                          if(storeMode == 4)
-                          {
-                              createCookie("TemporaryCompanyId",parts[3]);
-                          }
-                          createCookie("WEBOrderId",parts[2]);
-                          k0(parts[1],productName);
-                          $(".productTitle").html(productName);
+
+    <section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
+        <div class="mask on"></div>
+        <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
+            <h2 id="loaderTitleMsg">@Html.Raw(Html.GetKeyValueFromResourceFile("genartwork", UserCookieManager.WBStoreId, "Generating artwork for your approval to order..."))</h2>
+            <div class="content">
+                <div class="exporting">
+                    <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
+                    <p id="paraLoaderMsg" style="display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("layoutdes", UserCookieManager.WBStoreId, "You can add different layouts to your design, you can also add images, text content,  background Color and image to your design.")) </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="PreviewerContainerDesigner" class="ui-corner-all propertyPanel">
+        <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()" style="  line-height: 15px;display:none;">
+            Close
+        </div>
+        <div class="previewerTitle">
+            <span class="lightGray">@Html.Raw(Html.GetKeyValueFromResourceFile("approvelfor", UserCookieManager.WBStoreId, "Approval for")) </span> <span class="productTitle"></span>
+        </div>
+        <div class="sliderLine">
+        </div>
+        <div id="PreviewerDesigner" class="ui-corner-all">
+            <div id="sliderFrame">
+            </div>
+            <div class="sliderLine sliderLineBtm">
+            </div>
+            <div id="previewProofingDesigner">
+                <div class="divTxtProofingDesigner">
+                    <div class="ConfirmPopupProofDesigner">
+                        <label class="lblChkSpellings" id="lblConfirmSpellings" style="vertical-align:super">
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("confirmspell", UserCookieManager.WBStoreId, "Confirm spelling and details"))
+                        </label>
+                        <input id="chkCheckSpelling" name="chkCheckSpelling" class="regular-checkbox-new"
+                               type="checkbox" />
+                        <label for="chkCheckSpelling" style="display: inline; height:35px" id="lblCheckSpelling">
+                        </label>
+                    </div>
+
+                </div>
+                <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("poption", UserCookieManager.WBStoreId, "Progress to options"))
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <script src="~/Scripts/PopUp.js"></script>
+    <script>
+        var TemplateID=0;
+        var ItemId=0;
+        var Ftempheight=0;
+        var FtempWidth=0;
+        $(document).ready(function(){
+            HideLoader();
+            buidPopup();
+            $("#popupBody").append($("#TemplateSizeCa"));
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
+            //  $('#btnCostCentreCalculator').attr("disabled",true);
 
 
-                      });
-    }
-    function createCookie(name, value, days) {
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            var expires = "; expires=" + date.toGMTString();
+        });
+
+        function ShowTemplatePopup(height,width,templateId,ItemmId,ItemName,lengthunit)
+        {
+            HideLoader();
+            TemplateID=templateId;
+            ItemId=ItemmId;
+            var SystemUnit='';
+            document.getElementById("layer").style.display = "block";
+            document.getElementById("innerLayer").style.display = "block";
+
+            var heading='Enter your custom dimensions for'+' '+ItemName;
+            $("#modelTitle").text(heading);
+            if(lengthunit==1)
+            {
+                $("#PdfTemplatewidth").val(width.toFixed(2));
+                FtempWidth=$("#PdfTemplatewidth").val();
+
+                $("#PdfTemplateheight").val(height.toFixed(2));
+                Ftempheight= $("#PdfTemplateheight").val();
+                SystemUnit='mm';
+            }
+            if(lengthunit==3)
+            {
+                $("#PdfTemplatewidth").val(width.toFixed(3));
+                FtempWidth=$("#PdfTemplatewidth").val();
+
+                $("#PdfTemplateheight").val(height.toFixed(3));
+                Ftempheight= $("#PdfTemplateheight").val();
+                SystemUnit='inch';
+            }
+
+            $("#Systemunit").text(SystemUnit);
+            $("#Systemunitt").text(SystemUnit);
         }
-        else var expires = "";
-        document.cookie = name + "=" + value + expires + "; path=/";
-    }
-    function k0(tsID,productName) {
-        tID= tsID;
-        organisationId = @ViewBag.organisationId;
-        if ($(window).width() > 1200 ) {
-            $('#PreviewerContainerDesigner').css("width", "1200px");
-            $('#PreviewerDesigner').css("width", "1176px");
-            $('#sliderFrame').css("width", "1140px");
-            $('#sliderDesigner').css("width", "942px");
-            $('.sliderLine').css("width", "1144px");
-            $('#previewProofingDesigner').css("width", "1160px");
-            $('.divTxtProofingDesigner').css("margin-left", "208px");
+
+        function UpdateTemplatePdfParameters()
+        {
+
+            var Tempwidth = $("#PdfTemplatewidth").val();
+            var TempHeight = $("#PdfTemplateheight").val();
+            var flagTrue=true;
+            var Flagfalse=false;
+
+            if(FtempWidth!=Tempwidth||Ftempheight!=TempHeight)
+            {
+
+                window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"&Check="+flagTrue+"";
+                ShowLoader();
+            }
+            else
+            {
+                window.location.href = "/Category/UpdateTemplateDimensions?PDFTemplateWidth="+Tempwidth+"&PDFTemplateHeight="+TempHeight+"&ItemId="+ItemId+"&Check="+Flagfalse+"";
+                ShowLoader();
+            }
+            //var Data = { productId: TemplateID,PDFTemplateWidth:Tempwidth,PDFTemplateHeight:TempHeight };
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Category/UpdateTemplatePdfDimensions",
+            //    contentType: "application/json",
+            //    async: true,
+            //    data:Data,
+            //    success: function (response) {
+
+            //    }
+            //});
         }
-        $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
-        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
-        $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
-        $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
-        $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
-        $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
-        $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
 
-        $.getJSON("/designerapi/templatepage/GetTemplatePages/" + tID,
-            function (DT) {
-                var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
-                $.each(DT, function (i, IT) {
+        function ClosePopUp()
+        {
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
+        }
+        function  HideMessagePopUpCustom()
+        {
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
+        }
+        var tID = 0;
+        var itemId = 0;
+        function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
+            //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
+            $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId + "/" + @UserCookieManager.WBStoreId,
+                              function (DT) {
+                                  parts = DT.split("_");
+                                  //templateid = part[1]
+                                  // itemID = part[0];
+                                  //orderid = part[2];
+                                  //temporaryCustomerId = part[3];
+                                  itemId= parts[0];
+                                  var storeMode =  @UserCookieManager.WEBStoreMode;
+                                  if(storeMode == 4)
+                                  {
+                                      createCookie("TemporaryCompanyId",parts[3]);
+                                  }
+                                  createCookie("WEBOrderId",parts[2]);
+                                  k0(parts[1],productName);
+                                  $(".productTitle").html(productName);
 
-                    $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=2"  alt="' + IT.PageName + '" />');
-                    $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
+                              });
+        }
+        function buidPopup() {
+            //popupBody
+            //modelTitle
+            var bws = getBrowserHeight();
+
+            var shadow = document.getElementById("innerLayer");
+
+            document.getElementById("layer").style.width = bws.width + "px";
+            document.getElementById("layer").style.height = bws.height + "px";
+            var left = 0;
+            var container = "";
+            if (bws.width < 700 && bws.width > 640) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:248px;"></div></div>';
+
+            }
+            else if (bws.width == 640) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+
+            }
+            else if (bws.width < 640 && bws.width > 600) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+
+            }
+            else if (bws.width < 600 && bws.width > 500) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+
+            } else if (bws.width < 500) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;"></div></div>';
+            }
+            else {
+
+                left = parseInt((bws.width - 730) / 2);
+                document.getElementById("innerLayer").style.width = "730px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:248px;" ></div></div>';
+            }
+
+
+
+            // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            document.getElementById("innerLayer").innerHTML = container;
+
+            document.getElementById("innerLayer").style.left = left + "px";
+            document.getElementById("innerLayer").style.top = "0px";
+
+            document.getElementById("innerLayer").style.position = "fixed";
+            document.getElementById("innerLayer").style.zIndex = "9999";
+
+
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
+        }
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+        function k0(tsID,productName) {
+            tID= tsID;
+            organisationId = @ViewBag.organisationId;
+            if ($(window).width() > 1200 ) {
+                $('#PreviewerContainerDesigner').css("width", "1200px");
+                $('#PreviewerDesigner').css("width", "1176px");
+                $('#sliderFrame').css("width", "1140px");
+                $('#sliderDesigner').css("width", "942px");
+                $('.sliderLine').css("width", "1144px");
+                $('#previewProofingDesigner').css("width", "1160px");
+                $('.divTxtProofingDesigner').css("margin-left", "208px");
+            }
+            $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
+            $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+            $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
+            $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+
+            $.getJSON("/designerapi/templatepage/GetTemplatePages/" + tID,
+                function (DT) {
+                    var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
+                    $.each(DT, function (i, IT) {
+
+                        $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.jpg?r=2"  alt="' + IT.PageName + '" />');
+                        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.jpg?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+
+                    });
+                    $.each(DT, function (i, IT) {
+                        $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2"  alt="' + IT.PageName + '" />');
+                        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+                    });
+                    $("#PreviewerContainerDesigner").css("display","block");
+                    StopDesignerLoader();
                 });
-                $.each(DT, function (i, IT) {
-                    $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2"  alt="' + IT.PageName + '" />');
-                    $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
-                });
-                $("#PreviewerContainerDesigner").css("display","block");
-                StopDesignerLoader();
+
+
+        }
+        function e6() {
+            HideLoader();StopDesignerLoader();
+            $("#PreviewerContainerDesigner").css("display","none");
+        }
+        $("#lblCheckSpelling").click(function (event) {
+            $("#lblCheckSpelling").toggleClass("ckeckboxChecked");
+        });
+        $("#btnNextProofing").click(function (event) {
+            if ($("#chkCheckSpelling").is(':checked')) {
+                var designerName = $('.productTitle').html();
+
+                while (designerName.indexOf('/') != -1)
+                    designerName = designerName.replace("/", "__");
+                while (designerName.indexOf('&') != -1)
+                    designerName = designerName.replace("&", "__");
+
+                while (designerName.indexOf(' ') != -1)
+                    designerName = designerName.replace(" ", "-");
+                while (designerName.indexOf(';') != -1)
+                    designerName = designerName.replace(";", "-");
+                while (designerName.indexOf('&#34;') != -1)
+                    designerName = designerName.replace("&#34;", "-");
+                while (designerName.indexOf('+') != -1)
+                    designerName = designerName.replace("+", "-");
+                StartDesignerLoader("Please wait while we add this item to your cart...");
+
+                $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + itemId + "/" +  @ViewBag.CompanyID + "/" + designerName + "/designer/" + @ViewBag.organisationId,
+                  function (DT) {
+                      window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+                  });
+            } else {
+                alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmspell", UserCookieManager.WBStoreId, "Please Confirm spellings and details!"))');
+                return false;
+            }
+        });
+        function StartDesignerLoader(msg) {
+            loaderLoading = true;
+            var3 = 1;
+            if (msg == null || msg == "") {
+                msg = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgenerateproof", UserCookieManager.WBStoreId, "Please wait while we generate proof of your design..."))';
+            }
+            $("#paraLoaderMsg").text(msg);
+            $("#MainLoader").css("display", "block");
+            $(".progressValue").css("width", "1%");
+            $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
+            var2 = setInterval((function () {
+                var3 += 1;
+                if (var3 <= 95) {
+                    $(".progressValue").css("width", var3 + "%");
+                }
+
+            }), 25);
+        }
+        function StopDesignerLoader() {
+            var3 = 99;
+            loaderLoading = false;
+            $(".progressValue").css("width", 100 + "%");
+            $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
+            function (e) {
+                if (!loaderLoading) {
+                    $("#MainLoader").css("display", "none");
+                    clearInterval(var2);
+                }
             });
 
 
-    }
-    function e6() {
-        HideLoader();StopDesignerLoader();
-        $("#PreviewerContainerDesigner").css("display","none");
-    }
-    $("#lblCheckSpelling").click(function (event) {
-        $("#lblCheckSpelling").toggleClass("ckeckboxChecked");
-    });
-    $("#btnNextProofing").click(function (event) {
-        if ($("#chkCheckSpelling").is(':checked')) {
-            var designerName = $('.productTitle').html();
-
-            while (designerName.indexOf('/') != -1)
-                designerName = designerName.replace("/", "__");
-            while (designerName.indexOf('&') != -1)
-                designerName = designerName.replace("&", "__");
-
-            while (designerName.indexOf(' ') != -1)
-                designerName = designerName.replace(" ", "-");
-            while (designerName.indexOf(';') != -1)
-                designerName = designerName.replace(";", "-");
-            while (designerName.indexOf('&#34;') != -1)
-                designerName = designerName.replace("&#34;", "-");
-            while (designerName.indexOf('+') != -1)
-                designerName = designerName.replace("+", "-");
-            StartDesignerLoader("Please wait while we add this item to your cart...");
-
-            $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + itemId + "/" +  @ViewBag.CompanyID + "/" + designerName + "/designer/" + @ViewBag.organisationId,
-              function (DT) {
-                  window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
-              });
-        } else {
-            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmspell", UserCookieManager.WBStoreId, "Please Confirm spellings and details!"))');
-            return false;
         }
-    });
-    function StartDesignerLoader(msg) {
-        loaderLoading = true;
-        var3 = 1;
-        if (msg == null || msg == "") {
-            msg = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgenerateproof", UserCookieManager.WBStoreId, "Please wait while we generate proof of your design..."))';
-        }
-        $("#paraLoaderMsg").text(msg);
-        $("#MainLoader").css("display", "block");
-        $(".progressValue").css("width", "1%");
-        $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
-        var2 = setInterval((function () {
-            var3 += 1;
-            if (var3 <= 95) {
-                $(".progressValue").css("width", var3 + "%");
-            }
+    </script>
+    @*<script>
+            $('[id="hlProductDetail"]').each(function () {
+                var hrefLink = "";
+            $(this).removeAttr('href');
+            $($(this).parent().next().next().next().next().next().children()).each(function () {
+                console.log("child id link" + $(this).attr('id'));
+                if($(this).attr('id') == "lnkPRoductdetail"){
 
-        }), 25);
-    }
-    function StopDesignerLoader() {
-        var3 = 99;
-        loaderLoading = false;
-        $(".progressValue").css("width", 100 + "%");
-        $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
-        function (e) {
-            if (!loaderLoading) {
-                $("#MainLoader").css("display", "none");
-                clearInterval(var2);
-            }
+                    hrefLink = $(this).attr('href');
+                }
+            });
+            $(this).attr('href', hrefLink);
         });
+        </script>
 
-
-    }
-</script>
-    }
+        <script>
+        $('[id="hlProductDetail"]').each(function () {
+            $(this).removeAttr('href');
+            var hrefLink = $(this).parent().next().next().next().next().children().next().next().attr('href');
+            console.log("href link" + hrefLink);
+            $(this).attr('href', hrefLink);
+        });
+        </script>*@
+}

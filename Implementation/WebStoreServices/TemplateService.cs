@@ -427,10 +427,14 @@ namespace MPC.Implementation.WebStoreServices
                                 {
                                     int inlineFontId = 0;
                                     var oFont = oFonts.Where(g => g.FontName == objStyle.fontName).FirstOrDefault();
-                                    if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
-                                        inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
-                                    // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
-                                    pid = "pid ='" + inlineFontId.ToString() + "' ";
+                                    if (oFont != null)
+                                    {
+                                        if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
+                                            inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
+                                        // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
+                                    }
+                                        pid = "pid ='" + inlineFontId.ToString() + "' ";
+                                    
                                 }
                                 string lineSpacingString = "";
                                 if (ooBject.LineSpacing != null)
@@ -631,7 +635,18 @@ namespace MPC.Implementation.WebStoreServices
                         bFileExists = System.IO.File.Exists((FilePath));
                     }else
                     {
-                        // dont show any thing becuase path will contain dummy placeholder image
+                        if (oObject.ContentString.ToLower().Contains("assets-v2"))
+                        {
+                            // dont show any thing becuase path will contain dummy placeholder image
+                        }
+                        else
+                        {
+                            // replaced image 
+                            if (oObject.ContentString != "")
+                                FilePath = oObject.ContentString;
+                            FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/" + FilePath;
+                            bFileExists = System.IO.File.Exists(FilePath);
+                        }
                     }
                    
 
@@ -742,7 +757,17 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     else
                     {
-                        // dont show any thing becuase path will contain dummy placeholder image
+                        if (oObject.ContentString.ToLower().Contains("assets-v2"))
+                        {
+                            // dont show any thing becuase path will contain dummy placeholder image
+                        } else
+                        {
+                            // replaced image 
+                            if (oObject.ContentString != "")
+                                FilePath = oObject.ContentString;
+                            FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/" + FilePath;
+                            bFileExists = System.IO.File.Exists(FilePath);
+                        }
                     }
                    
                 }
@@ -774,16 +799,8 @@ namespace MPC.Implementation.WebStoreServices
                     string xpath = "Cropped";
                     var nodes = xmlDoc.SelectNodes(xpath);
                     double sx, sy, swidth, sheight;
-                    foreach (XmlNode childrenNode in nodes)
-                    {
-                        sx = Convert.ToDouble(childrenNode.SelectSingleNode("sx").InnerText);
-                        sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
-                        swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
-                        sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
-                        oImg.Selection.Inset(sx, sy);
-                        oImg.Selection.Height = sheight;
-                        oImg.Selection.Width = swidth;
-                    }
+                    int isCroppped = 0;
+
                     if (oObject.Opacity != null && oObject.Opacity != 1)
                     {
                         img = new Bitmap(System.Drawing.Image.FromFile(FilePath, true));
@@ -801,9 +818,24 @@ namespace MPC.Implementation.WebStoreServices
                             sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
                             swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
                             sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
-                            oImg.Selection.Inset(sx, sy);
-                            oImg.Selection.Height = sheight;
-                            oImg.Selection.Width = swidth;
+                            if (childrenNode.SelectSingleNode("isCropped") != null)
+                                isCroppped = Convert.ToInt32(childrenNode.SelectSingleNode("isCropped").InnerText);
+
+                            if(isCroppped == 0 )
+                            {
+                                swidth = DesignerUtils.PixelToPoint(swidth);
+                                sheight = DesignerUtils.PixelToPoint(sheight);
+                                posY = oObject.PositionY + sheight;
+                                oPdf.Rect.Position(oObject.PositionX.Value, posY.Value);
+                                oPdf.Rect.Resize(swidth, sheight);
+                            }
+                            else
+                            {
+                                oImg.Selection.Inset(sx, sy);
+                                oImg.Selection.Height = sheight;
+                                oImg.Selection.Width = swidth;
+                            }
+                         
                         }
                         int id = oPdf.AddImageObject(oImg, true);
                     }
@@ -822,9 +854,24 @@ namespace MPC.Implementation.WebStoreServices
                                 sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
                                 swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
                                 sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
-                                oImg.Selection.Inset(sx, sy);
-                                oImg.Selection.Height = sheight;
-                                oImg.Selection.Width = swidth;
+                                if (childrenNode.SelectSingleNode("isCropped") != null)
+                                    isCroppped = Convert.ToInt32(childrenNode.SelectSingleNode("isCropped").InnerText);
+
+                                if (isCroppped == 0)
+                                {
+                                    swidth = DesignerUtils.PixelToPoint(swidth);
+                                    sheight = DesignerUtils.PixelToPoint(sheight);
+                                    posY = oObject.PositionY + sheight;
+                                    oPdf.Rect.Position(oObject.PositionX.Value, posY.Value);
+                                    oPdf.Rect.Resize(swidth, sheight);
+                                }
+                                else
+                                {
+                                    oImg.Selection.Inset(sx, sy);
+                                    oImg.Selection.Height = sheight;
+                                    oImg.Selection.Width = swidth;
+                                }
+                               
                             }
                             oPdf.AddImageObject(oImg, true);
                         }
@@ -1077,7 +1124,7 @@ namespace MPC.Implementation.WebStoreServices
                             styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
                         }
 
-                        string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
+                        string file = DesignerSvgParser.UpdateSvgBasedOnClr(FilePath, height, width, styles);//
                         string html = File.ReadAllText(file);
                         html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>";
                         oPdf.AddImageHtml(html);
@@ -1158,7 +1205,7 @@ namespace MPC.Implementation.WebStoreServices
                             if (isWaterMarkText)
                             {
                                 oPdf.Color.String = "16 12 13 0";
-                                oPdf.Color.Alpha = 220;
+                                oPdf.Color.Alpha = 120;
                                 oPdf.TextStyle.Size = 30;
                                 oPdf.Layer = 1;
                                 oPdf.HPos = 0.5;
@@ -1536,10 +1583,12 @@ namespace MPC.Implementation.WebStoreServices
 
 
                     bool isWaterMarkText = objProduct.isWatermarkText ?? true;
-                    if (System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"] != null) // sytem.web.confiurationmanager
-                    {
-                        TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
-                    }
+                    //if (System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"] != null) // sytem.web.confiurationmanager
+                    //{
+                    //    TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
+                    //}
+                    if (objProduct.CuttingMargin.HasValue)
+                        TrimBoxSize = DesignerUtils.PointToMM(DesignerUtils.PixelToPoint( objProduct.CuttingMargin.Value));
                     doc.SetInfo(doc.Page, "/TrimBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(TrimBoxSize)).ToString());
                     if (System.Configuration.ConfigurationManager.AppSettings["ArtBoxSize"] != null)
                     {
@@ -1550,11 +1599,15 @@ namespace MPC.Implementation.WebStoreServices
                     if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
                     {
                         BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
+                        if (TrimBoxSize != 5)
+                        {
+                            BleedBoxSize = 1;
+                        }
                         doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
                     }
                     if(bleedareaSize != 0 ){
                          
-                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
+                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - (bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - (bleedareaSize)).ToString());
                     }
                     int FontID = 0;
                     var pFont = FontsList.Where(g => g.FontName == "Arial Black").FirstOrDefault();
@@ -1868,10 +1921,12 @@ namespace MPC.Implementation.WebStoreServices
                     double BleedBoxSize = 0;
                     if (drawBleedArea)
                     {
-                        if (System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"] != null) // sytem.web.confiurationmanager
-                        {
-                            TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
-                        }
+                        //if (System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"] != null) // sytem.web.confiurationmanager
+                        //{
+                        //    TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
+                        //}
+                        if(objProduct.CuttingMargin.HasValue)
+                            TrimBoxSize = DesignerUtils.PointToMM(DesignerUtils.PixelToPoint(objProduct.CuttingMargin.Value));
                         doc.SetInfo(doc.Page, "/TrimBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(TrimBoxSize)).ToString());
                         if (System.Configuration.ConfigurationManager.AppSettings["ArtBoxSize"] != null)
                         {
@@ -1888,7 +1943,7 @@ namespace MPC.Implementation.WebStoreServices
                         if (bleedareaSize != 0)
                         {
 
-                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
+                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - (bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - (bleedareaSize)).ToString());
                         }
                     }
                     //crop marks or margins
@@ -1971,18 +2026,20 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         System.IO.Directory.CreateDirectory(savePath);
                     }
-                    string filePath = savePath + PreviewFileName + ".png";
+                    //string filePath = savePath + PreviewFileName + ".png";
+                    string filePath2 = savePath + PreviewFileName + ".jpg";
                     theDoc.Rendering.DotsPerInch = DPI;
-                    theDoc.Rendering.Save(filePath);
+                    //theDoc.Rendering.Save(filePath);
+                    theDoc.Rendering.Save(filePath2);
                     theDoc.Dispose();
                     //if (RoundCorners)
                     //{
                     //    generateRoundCorners(filePath, filePath,str);
                     //}
-                  
-                    
 
-                    return PreviewFileName + ".png";
+
+
+                    return PreviewFileName + ".jpg";
 
 
 
@@ -2018,9 +2075,11 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         System.IO.Directory.CreateDirectory(savePath);
                     }
-                    string filePath = savePath + PreviewFileName + ".png";
+                    //string filePath = savePath + PreviewFileName + ".png";
+                    string filePath2 = savePath + PreviewFileName + ".jpg";
                     theDoc.Rendering.DotsPerInch = DPI;
-                    theDoc.Rendering.Save(filePath);
+                    //theDoc.Rendering.Save(filePath); 
+                    theDoc.Rendering.Save(filePath2);
                     theDoc.Dispose();
                     //if (RoundCorners)
                     //{
@@ -2029,7 +2088,7 @@ namespace MPC.Implementation.WebStoreServices
 
 
 
-                    return PreviewFileName + ".png";
+                    return PreviewFileName + ".jpg";
 
 
 
@@ -2073,7 +2132,8 @@ namespace MPC.Implementation.WebStoreServices
                         }
 
                         theDoc.Rendering.DotsPerInch = DPI;
-                        string fileName = "p" + i + ".png";
+                        //string fileName = "p" + i + ".png";
+                        string fileName2 = "p" + i + ".jpg";
                         //if (RoundCorners)
                         //{
                         //    Stream str = new MemoryStream();
@@ -2086,7 +2146,8 @@ namespace MPC.Implementation.WebStoreServices
                         //{
                         //    theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
                         //}
-                        theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
+                        //theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
+                        theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName2));
                     }
 
                     theDoc.Dispose();
@@ -2579,7 +2640,17 @@ namespace MPC.Implementation.WebStoreServices
                 foreach (var obj in lstObjs)
                 {
                     string imgName = obj.ContentString.Replace("__clip_mpc.png", ".jpg");
-                    string imagefile = System.Web.Hosting.HostingEnvironment.MapPath("~/Mpc_Content") + "/" + imgName;
+                    string imagefile = imgName;
+                    if (imagefile.IndexOf("http://") != -1)
+                    {
+                        string[] data = imgName.Split(new string[] { "mpc_content" }, StringSplitOptions.None);
+                        imagefile =System.Web.Hosting.HostingEnvironment.MapPath("~/Mpc_Content") + "/" +  data[data.Length-1];
+
+                    }
+                    else
+                    {
+                        imagefile = System.Web.Hosting.HostingEnvironment.MapPath("~/Mpc_Content") + "/" + imgName;
+                    }
                     image = p.load_image("auto", imagefile, "");
 
                     if (image == -1)
@@ -2663,7 +2734,7 @@ namespace MPC.Implementation.WebStoreServices
             Template product = null;
             if (productID == 0)
             {
-                product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width,itemId);
+                product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width,itemId,organisationId);
                // _templatePageService.CreateBlankBackgroundPDFs(product.ProductId,Convert.ToDouble( product.PDFTemplateHeight),Convert.ToDouble( product.PDFTemplateWidth), 1, organisationId);
             }
             else
@@ -3094,7 +3165,7 @@ namespace MPC.Implementation.WebStoreServices
 
                      }
                 }
-                _templateRepository.SaveTemplate(productID, lstTemplatePages, lstTemplatesObjects);
+               bleedAreaSize =  _templateRepository.SaveTemplate(productID, lstTemplatePages, lstTemplatesObjects);
                bool result=  GenerateTemplatePdf(productID, organisationID, printCropMarks, printWaterMarks, isRoundCorners, true,bleedAreaSize,isMultipageProduct);
                return result.ToString();
             }
@@ -3244,7 +3315,8 @@ namespace MPC.Implementation.WebStoreServices
 
         public string GenerateProof(DesignerPostSettings objSettings, double bleedAreaSize)
         {
-            bleedAreaSize = _templateRepository.getOrganisationBleedArea(objSettings.organisationId);
+         //   bleedAreaSize = _templateRepository.getOrganisationBleedArea(objSettings.organisationId); // always use template bleed area size
+         //   bleedAreaSize = DesignerUtils.PixelToPoint(objSettings.);
             List<TemplateObject> lstTemplatesObjects = objSettings.objects;
             return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs,bleedAreaSize,objSettings.isMultiPageProduct);
         }
@@ -3322,16 +3394,16 @@ namespace MPC.Implementation.WebStoreServices
             }
             else if (organisation.SystemLengthUnit == 2)
             {
-                height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Cm);
-                height = Math.Round(height, 3);
+                height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Cm);
+             //   height = Math.Round(height, 3);
                 scaledHeight *= height;
                 resultDimentions =scaledHeight;
                 unit = "cm";
             }
             else if (organisation.SystemLengthUnit == 3)
             {
-                height = _templateRepository.ConvertLength(Convert.ToDouble(1),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Inch);
-                height = Math.Round(height, 3);
+                height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Inch);
+              //  height = Math.Round(height, 3);
                 scaledHeight *= height;
                 resultDimentions =  scaledHeight ;
                 unit = "inch";

@@ -40,11 +40,11 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               
+
 
                 return db.Reports.Where(o => o.OrganisationId == OrganisationID).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -71,17 +71,109 @@ namespace MPC.Repository.Repositories
         }
         public List<ReportparamResponse> getParamsById(long Id)
         {
+            string connectionString = string.Empty;
+            SqlConnection oConn = new SqlConnection();
+
             List<Reportparam> Reportparams = db.Reportparams.Where(g => g.ReportId == Id).ToList();
+
+            string ReportName = db.Reports.Where(c => c.ReportId == Id).Select(c => c.Name).FirstOrDefault();
+
             List<ReportparamResponse> ReportparamsList = new List<ReportparamResponse>();
+
+            oConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ReportConnectiontring"].ConnectionString);
+
+            oConn.Open();
+
+
             foreach (var item in Reportparams)
             {
                 ReportparamResponse reportpar = new ReportparamResponse();
                 reportpar.param = item;
-               if(item.ControlType == 1){
-                   string query = "select * from " + item.ComboTableName + item.CriteriaFieldName;
-                  // var result = db.Database.SqlQuery(query);
-               }
-                
+
+
+                // for drop down
+                if (item.ControlType == 1)
+                {
+                    string queryString = string.Empty;
+                    if (Id == 519 || ReportName == "Order Report By Store") // stock report hard code id because of organisation id check
+                    {
+                        queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName + " " + OrganisationId;
+                    }
+                    else
+                    {
+                        queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName;
+                    }
+                   
+
+                    SqlCommand command = new SqlCommand(queryString, oConn);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    DataTable dtrpt = new DataTable();
+
+                    dtrpt.Load(reader);
+
+                    DataColumnCollection columns = dtrpt.Columns;
+
+
+                    if (columns.Contains("CompanyId")) // company records
+                    {
+                        DataColumn colId = dtrpt.Columns["CompanyId"];
+                        DataColumn colName = dtrpt.Columns["Name"];
+
+                        reportpar.ComboList = new List<ReportparamComboCollection>();
+
+                        foreach (DataRow row in dtrpt.Rows) // Loop over the rows.
+                        {
+                            ReportparamComboCollection objCombo = new ReportparamComboCollection();
+
+                            objCombo.ComboId = row[colId].ToString();
+
+                            objCombo.ComboText = row[colName].ToString();
+
+                            reportpar.ComboList.Add(objCombo);
+                        }
+                    }
+                    if (columns.Contains("StatusId")) // company records
+                    {
+                        DataColumn colId = dtrpt.Columns["StatusId"];
+                        DataColumn colName = dtrpt.Columns["StatusName"];
+
+                        reportpar.ComboList = new List<ReportparamComboCollection>();
+
+                        foreach (DataRow row in dtrpt.Rows) // Loop over the rows.
+                        {
+                            ReportparamComboCollection objCombo = new ReportparamComboCollection();
+
+                            objCombo.ComboId = row[colId].ToString();
+
+                            objCombo.ComboText = row[colName].ToString();
+
+                            reportpar.ComboList.Add(objCombo);
+                        }
+                    }
+                    if (columns.Contains("CategoryId")) // company records
+                    {
+                        DataColumn colId = dtrpt.Columns["CategoryId"];
+                        DataColumn colName = dtrpt.Columns["Name"];
+
+                        reportpar.ComboList = new List<ReportparamComboCollection>();
+
+                        foreach (DataRow row in dtrpt.Rows) // Loop over the rows.
+                        {
+                            ReportparamComboCollection objCombo = new ReportparamComboCollection();
+
+                            objCombo.ComboId = row[colId].ToString();
+
+                            objCombo.ComboText = row[colName].ToString();
+
+                            reportpar.ComboList.Add(objCombo);
+                        }
+                    }
+
+                }
+
+                ReportparamsList.Add(reportpar);
+
             }
             return ReportparamsList;
         }
@@ -93,7 +185,7 @@ namespace MPC.Repository.Repositories
                 ReportCategory oReportCategory = db.ReportCategories.Where(g => g.CategoryId == CategoryId).SingleOrDefault();
                 List<Report> ReportList = db.Reports.Where(g => (g.OrganisationId == OrganisationId || g.OrganisationId == null) && g.IsExternal == IsExternal).ToList();
 
-              
+
 
                 return oReportCategory;
             }
@@ -106,7 +198,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               
+
 
                 return db.ReportNotes.Where(c => c.OrganisationId == OrganisationID).ToList();
             }
@@ -130,7 +222,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public List<usp_JobCardReport_Result> getJobCardReportResult(long OrganisationID,long OrderID,long ItemID)
+        public List<usp_JobCardReport_Result> getJobCardReportResult(long OrganisationID, long OrderID, long ItemID)
         {
             try
             {
@@ -148,7 +240,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 return db.usp_OrderReport(OrganisationID, OrderID).ToList();
-               // return null;
+                // return null;
             }
             catch (Exception ex)
             {
@@ -161,7 +253,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 return db.usp_EstimateReport(OrganisationID, EstimateID).ToList();
-                
+
 
             }
             catch (Exception ex)
@@ -175,7 +267,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 return db.usp_InvoiceReport(OrganisationID, InvoiceID).ToList();
-               
+
 
             }
             catch (Exception ex)
@@ -183,7 +275,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-       
+
 
         public DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam)
         {
@@ -199,24 +291,26 @@ namespace MPC.Repository.Repositories
             //{
             oConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ReportConnectiontring"].ConnectionString);
             //}
-             
-          
+
+
             oConn.Open();
             try
             {
-              
-                
-               // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+
+
+                // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
                 string ReportDataSource = string.Empty;
                 string ReportTemplate = string.Empty;
                 Report report = GetReportByReportID(ReportID);
-                if(report != null)
+                if (report != null)
                 {
-                    if(string.IsNullOrEmpty(CriteriaParam))
+                    if (string.IsNullOrEmpty(CriteriaParam))
                     {
 
+
+                        string queryString = "select " + report.ReportDataSource + OrganisationId;
+
                       
-                        string queryString = "select " + report.ReportDataSource  + OrganisationId;
 
                         SqlCommand command = new SqlCommand(queryString, oConn);
                         SqlDataReader reader = command.ExecuteReader();
@@ -226,25 +320,27 @@ namespace MPC.Repository.Repositories
                         dtrpt.Load(reader);
 
                         return dtrpt;
-                     //   System.Data.Entity.Infrastructure.DbRawSqlQuery<Company> result = db.Database.SqlQuery<Company>("select " + report.ReportDataSource);
+                        //   System.Data.Entity.Infrastructure.DbRawSqlQuery<Company> result = db.Database.SqlQuery<Company>("select " + report.ReportDataSource);
 
-                      //  var oresult = db.Database.ExecuteSqlCommand("select " + report.ReportDataSource);
+                        //  var oresult = db.Database.ExecuteSqlCommand("select " + report.ReportDataSource);
                         //foreach(v i in oresult)
                         //{
-                              
+
                         //}
                         //return oresult.;
-                       // return oResult;
-                       // return null;
+                        // return oResult;
+                        // return null;
                     }
                     else
                     {
-                        if (report.ReportDataSource.Contains("where") && CriteriaParam.Contains("where"))
-                        {
-                            CriteriaParam = CriteriaParam.Replace("where", " and ");
-                        }
+                        //if (report.ReportDataSource.Contains("where") && CriteriaParam.Contains("where"))
+                        //{
+                        //    CriteriaParam = CriteriaParam.Replace("where", " and ");
+                        //}
 
-                        string queryString = "select " + report.ReportDataSource + CriteriaParam + "and cOrganisationId = " + OrganisationId;
+                        string queryString = "select " + report.ReportDataSource + OrganisationId +  CriteriaParam + " " + report.SortOrder;
+
+                         
 
                         SqlCommand command = new SqlCommand(queryString, oConn);
                         SqlDataReader reader = command.ExecuteReader();
@@ -254,20 +350,20 @@ namespace MPC.Repository.Repositories
                         dtrpt.Load(reader);
 
                         return dtrpt;
-                      
+
 
                     }
 
-                    
+
                 }
                 else
                 {
                     return null;
                 }
-               // var oResult = null;
+                // var oResult = null;
                 //System.Data.Objects.ObjectResult<string> result = db.ExecuteStoreQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
-               
-                
+
+
             }
             catch (Exception ex)
             {
@@ -285,35 +381,63 @@ namespace MPC.Repository.Repositories
         public List<ReportNote> GetReportNoteByCompanyId(long CompanyId)
         {
             List<ReportNote> reportNotes = new List<ReportNote>();
-            reportNotes = db.ReportNotes.Where(c => c.CompanyId == CompanyId).ToList();
+            reportNotes = db.ReportNotes.Where(c => c.CompanyId == CompanyId && c.ReportCategoryId != (int)ReportCategoryEnum.PurchaseOrders).ToList();
+
 
             //long CompanyId = db.Companies.Where(c => )
 
-            if (reportNotes == null || reportNotes.Count == 0)
+            if (reportNotes == null || reportNotes.Count() == 0)
             {
                 reportNotes = CreateDummyReportNotesRecord(CompanyId);
+            }
+
+            ReportNote rptNote = db.ReportNotes.Where(c => c.ReportCategoryId == (int)ReportCategoryEnum.PurchaseOrders && c.OrganisationId == OrganisationId && c.CompanyId == null).FirstOrDefault();
+            if (rptNote == null)
+            {
+                string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/";
+
+                // for purchases
+                ReportNote objReportNotePurchase = new ReportNote();
+
+
+                objReportNotePurchase.isDefault = true;
+                objReportNotePurchase.OrganisationId = OrganisationId;
+                // objReportNotePurchase.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+                objReportNotePurchase.BannerAbsolutePath = PathFull;
+                objReportNotePurchase.ReportCategoryId = 5;
+                objReportNotePurchase.SystemSiteId = 1;
+                objReportNotePurchase.UserId = 1;
+                db.ReportNotes.Add(objReportNotePurchase);
+
+
+                db.SaveChanges();
+                reportNotes.Add(objReportNotePurchase);
+            }
+            else
+            {
+                reportNotes.Add(rptNote);
             }
 
             return reportNotes;
         }
         public void UpdateReportNotes(List<ReportNote> reportNotes)
         {
-        
+
             if (reportNotes != null && reportNotes.Count > 0)
             {
-               foreach(var rpt in reportNotes)
-               {
-                   ReportNote reportNote = db.ReportNotes.Where(c => c.Id == rpt.Id).FirstOrDefault();
-                   if(reportNote != null)
-                   {
-                       if (!string.IsNullOrEmpty(rpt.ReportBanner))
-                         reportNote.ReportBanner = rpt.ReportBanner;
-                   }
-               }
-               db.SaveChanges();
+                foreach (var rpt in reportNotes)
+                {
+                    ReportNote reportNote = db.ReportNotes.Where(c => c.Id == rpt.Id).FirstOrDefault();
+                    if (reportNote != null)
+                    {
+                        if (!string.IsNullOrEmpty(rpt.ReportBanner))
+                            reportNote.ReportBanner = rpt.ReportBanner;
+                    }
+                }
+                db.SaveChanges();
             }
 
-           
+
 
         }
 
@@ -334,7 +458,7 @@ namespace MPC.Repository.Repositories
             objReportNoteEstimate.ReportCategoryId = 3;
             objReportNoteEstimate.SystemSiteId = 1;
             objReportNoteEstimate.UserId = 1;
-            
+
             db.ReportNotes.Add(objReportNoteEstimate);
 
 
@@ -343,7 +467,7 @@ namespace MPC.Repository.Repositories
             objReportNoteOrder.CompanyId = CompanyId;
             objReportNoteOrder.isDefault = true;
             objReportNoteOrder.OrganisationId = OrganisationId;
-           // objReportNoteOrder.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            // objReportNoteOrder.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
             objReportNoteOrder.BannerAbsolutePath = PathFull;
             objReportNoteOrder.ReportCategoryId = 12;
             objReportNoteOrder.SystemSiteId = 1;
@@ -363,18 +487,6 @@ namespace MPC.Repository.Repositories
             db.ReportNotes.Add(objReportNoteInvoice);
 
 
-            // for purchases
-            ReportNote objReportNotePurchase = new ReportNote();
-
-            objReportNotePurchase.CompanyId = CompanyId;
-            objReportNotePurchase.isDefault = true;
-            objReportNotePurchase.OrganisationId = OrganisationId;
-           // objReportNotePurchase.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
-            objReportNotePurchase.BannerAbsolutePath = PathFull;
-            objReportNotePurchase.ReportCategoryId = 5;
-            objReportNotePurchase.SystemSiteId = 1;
-            objReportNotePurchase.UserId = 1;
-            db.ReportNotes.Add(objReportNotePurchase);
 
 
             // for delivery
@@ -397,10 +509,10 @@ namespace MPC.Repository.Repositories
             lstReportNotes.Add(objReportNoteEstimate);
             lstReportNotes.Add(objReportNoteOrder);
             lstReportNotes.Add(objReportNoteInvoice);
-            lstReportNotes.Add(objReportNotePurchase);
+            //lstReportNotes.Add(objReportNotePurchase);
             lstReportNotes.Add(objReportNoteDelivery);
 
-            return lstReportNotes;  
+            return lstReportNotes;
         }
 
 
@@ -411,7 +523,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               return db.usp_PurchaseOrderReport(OrganisationId, PurchaseId).ToList();
+                return db.usp_PurchaseOrderReport(OrganisationId, PurchaseId).ToList();
             }
             catch (Exception ex)
             {
@@ -443,7 +555,7 @@ namespace MPC.Repository.Repositories
                 string subject = string.Empty;
                 string signature = string.Empty;
 
-                
+
                 int reportCategory = db.Reports.Where(c => c.ReportId == request.Reportid).Select(c => c.CategoryId).FirstOrDefault();
 
 
@@ -455,41 +567,56 @@ namespace MPC.Repository.Repositories
                 if (reportCategory == (int)ReportCategoryEnum.Invoice)
                 {
                     Invoice inv = db.Invoices.Where(c => c.InvoiceId == request.RecordId).FirstOrDefault();
-                    
+
                     subject = inv.InvoiceName + " " + inv.Company.Name + " " + inv.InvoiceCode;
                 }
                 else if (reportCategory == (int)ReportCategoryEnum.Delivery)
                 {
                     DeliveryNote delivery = db.DeliveryNotes.Where(c => c.DeliveryNoteId == request.RecordId).FirstOrDefault();
 
-                    subject =  delivery.Company.Name + " " + delivery.Code;
+                    subject = delivery.Company.Name + " " + delivery.Code;
                 }
                 else if (reportCategory == (int)ReportCategoryEnum.PurchaseOrders)
                 {
                     Purchase purchase = db.Purchases.Where(c => c.PurchaseId == request.RecordId).FirstOrDefault();
 
-                    subject =  purchase.Company.Name + " " + purchase.Code;
+                    subject = purchase.Company.Name + " " + purchase.Code;
                 }
                 else
                 {
                     Estimate order = db.Estimates.Where(c => c.EstimateId == request.RecordId).FirstOrDefault();
-                   
+
                     subject = order.Estimate_Name + " " + order.Company.Name + " " + order.Order_Code;
                 }
 
                 To = Email;
 
-              
-            
+                if(systemUser != null)
+                    signature = systemUser.EmailSignature;
+
                 return new ReportEmailResponseModel
                 {
                     Attachment = subject + ".pdf",
                     AttachmentPath = Path,
                     Subject = subject,
-                    To = To
+                    To = To,
+                    Signature = signature
                 };
 
-             
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Reportparam> getReportParamsByReportId(long ReportId)
+        { 
+            try
+            {
+                return db.Reportparams.Where(c => c.ReportId == ReportId).ToList();
 
             }
             catch(Exception ex)
@@ -497,6 +624,103 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-       // GetReportsByOrganisationID
+
+        public Report CheckCustomReportOfOrg(long ReportId)
+        {
+            try
+            {
+                if (ReportId == 165) // JOB card
+                {
+                    return db.Reports.Where(c => c.ReportCode == "JCR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if (ReportId == 100) // purchase order 
+                {
+                    return db.Reports.Where(c => c.ReportCode == "POR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if(ReportId == 103) // order report
+                {
+                    return db.Reports.Where(c => c.ReportCode == "OR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if(ReportId == 30) // delivery note report
+                {
+                    return db.Reports.Where(c => c.ReportCode == "DNR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if (ReportId == 105) // invoice report
+                {
+                    return db.Reports.Where(c => c.ReportCode == "IR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                }
+                else if (ReportId == 48) // estimate report
+                {
+                    return db.Reports.Where(c => c.ReportCode == "ER" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                } 
+                else
+                {
+                    return null;
+                }
+
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public long CheckCustomReportForPOEmail()
+        {
+            try
+            {
+                Report report =  db.Reports.Where(c => c.ReportCode == "POR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+
+                if (report != null)
+                {
+                    return report.ReportId;
+                }
+                else
+                    return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+        public bool isCorporateCustomer(int StoreId)
+        {
+            try
+            {
+                int IsCustomer = db.Companies.Where(c => c.CompanyId == StoreId).Select(c => c.IsCustomer).FirstOrDefault();
+                if (IsCustomer == 3)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public string GetReportName(long ReportId)
+        {
+            try
+            {
+                return db.Reports.Where(c => c.ReportId == ReportId).Select(c => c.Name).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+        // GetReportsByOrganisationID
     }
 }

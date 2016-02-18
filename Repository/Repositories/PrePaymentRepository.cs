@@ -11,6 +11,7 @@ using MPC.Interfaces.Repository;
 using System.Data.Entity;
 using MPC.Interfaces.WebStoreServices;
 using Microsoft.Practices.Unity;
+using System.IO;
 
 namespace MPC.Repository.Repositories
 {
@@ -76,9 +77,17 @@ namespace MPC.Repository.Repositories
                     db.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString() +
+                       "" + Environment.NewLine + "payMethod :" + payMethod.ToString() + "orderID" + orderID.ToString() +  customerID.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
             }
             
         }
@@ -94,6 +103,40 @@ namespace MPC.Repository.Repositories
             }
 
        }
-            
+        public void CreatePrePaymentPayWay(PaymentMethods payMethod, long orderID, int? customerID, long payPalResponseID, string transactionID, double amountReceived)
+        {
+            PrePayment tblPrePayment = null;
+          
+            try
+            {
+                tblPrePayment = new PrePayment()
+                {
+                    Amount = amountReceived,
+                    CustomerId = customerID,
+                    OrderId = orderID,
+                    PaymentDate = DateTime.Now,
+                    PaymentMethodId = (int)payMethod,
+                    PayPalResponseId = null,
+                    ReferenceCode = transactionID,
+                    PaymentDescription = ""
+                };
+                 db.PrePayments.Add(tblPrePayment);
+                db.SaveChanges();
+                
+            }
+            catch (Exception ex)
+            {
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString() +
+                       "" + Environment.NewLine + "payMethod :" + payMethod.ToString() + "orderID" + orderID.ToString() + customerID.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+            }
+
+        } 
     }
 }

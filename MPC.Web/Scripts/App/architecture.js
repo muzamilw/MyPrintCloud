@@ -2,6 +2,7 @@
 // Global Variable
 var ist = {
     datePattern: "DD/MM/YY",
+    datePatternUs: "MM/DD/YY",
     shortDatePattern: "dd-M-yy",
     customShortDatePattern: "dd-mm-yy",
     customDatePattern: "DD-MMM-YYYY",
@@ -10,6 +11,7 @@ var ist = {
     minutePattern: "mm",
     dateTimePattern: "DD/MM/YY HH:mm",
     dateTimeWithSecondsPattern: "DD/MM/YY HH:mm:ss",
+    dateTimeWithSeconds: "YYYY-MM-DD HH:mm:ss",
     // UTC Date Format
     utcFormat: "YYYY-MM-DDTHH:mm:ss",
     // For Reporting 
@@ -26,10 +28,13 @@ var ist = {
         Inventory: 7,
         JobCards: 9
     },
+
+    
     //server exceptions enumeration 
     exceptionType: {
         MPCGeneralException: 'MPCGeneralException',
-        UnspecifiedException: 'UnspecifiedException'
+        UnspecifiedException: 'UnspecifiedException',
+        MPCSpecifiedException: 'MPC.ExceptionHandling.MPCException'
     },
     //verify if the string is a valid json
     verifyValidJSON: function (str) {
@@ -79,6 +84,18 @@ var ist = {
             { id: 10, name: "Delivery" }
     ],
 
+    // job production phrase enumeration
+    JobProductionPhraseFieldsEnum: [
+        { id: 1, name: "Origination" },
+            { id: 2, name: "Finishing" },
+            { id: 3, name: "Colours" },
+            { id: 4, name: "Material" },
+            { id: 5, name: "Size" },
+            { id: 6, name: "Work Instructions" },
+            { id: 7, name: "Delivery" }
+    ],
+
+
     //Phrase Fields enumeration
     phraseFieldsEnum: [
         { id: 416, sectionId: 1, name: "Header" },
@@ -126,7 +143,9 @@ amplify.request.decoders = {
                     errorObject.errorDetail = JSON.parse(xhr.responseText);;
                     if (errorObject.errorDetail.ExceptionType === ist.exceptionType.MPCGeneralException) {
                         error(errorObject.errorDetail.Message, ist.exceptionType.MPCGeneralException);
-                    } else {
+                    } else if (errorObject.errorDetail.ExceptionType === ist.exceptionType.MPCSpecifiedException) {
+                        error(errorObject.errorDetail.ExceptionMessage, ist.exceptionType.MPCSpecifiedException);
+                    }else {
                         error("Unspecified exception", ist.exceptionType.UnspecifiedException);
                     }
                 } else {
@@ -927,10 +946,10 @@ require(["ko", "knockout-validation"], function (ko) {
     //Validation Rules
     ko.validation.rules['variableTagRule'] = {
         validator: function (val) {
-            var regExp = new RegExp("^{{[a-zA-Z0-9_]*}}$");
+            var regExp = new RegExp("^{{\d*[a-zA-Z0-9_][a-zA-Z0-9_]*}}$");
             return regExp.test(val);
         },
-        message: 'Tag must start with {{ and end with }}, cannot contain spaces and special characters except "_" '
+        message: 'Tag must start with {{ and end with }}. There must be atleast one character inside but cannot contain spaces and special characters except "_" '
     };
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {
@@ -1033,7 +1052,7 @@ function HideMessagePopUp() {
 }
 
 // Validate Cost Centre Control
-function ValidateCostCentreControl(costCentreId, clonedItemId, currency, itemPrice, costCentreType, taxRate, orderedQty) {
+function ValidateCostCentreControl(costCentreId, clonedItemId, currency, itemPrice, costCentreType, taxRate, orderedQty, qty2, qty3, itemSectionId) {
 
     var arrayOfIds = idsToValidate.split(",");
 
@@ -1152,7 +1171,7 @@ function ValidateCostCentreControl(costCentreId, clonedItemId, currency, itemPri
 
         SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, costCentreId, costCentreType, clonedItemId,
             selectedCostCentreCheckBoxElement, desriptionOfCostCentre, itemPrice, currency, true, taxRate, orderedQty, selectedStockOptionItemAddOns,
-            globalSelectedCostCenter, null, true);
+            globalSelectedCostCenter, null, true, qty2, qty3, itemSectionId);
 
         idsToValidate = "";
     }
@@ -1160,7 +1179,7 @@ function ValidateCostCentreControl(costCentreId, clonedItemId, currency, itemPri
 
 // Show Cost Center Popup
 function ShowCostCentrePopup(questionQueueItems, costCentreId, clonedItemId, selectedCostCentreCheckBoxId, mode, currency, itemPrice,
-    inputQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns, costCenter, afterCostCenterExecution) {
+    inputQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns, costCenter, afterCostCenterExecution, qty2, qty3, itemSectionId) {
 
     GlobalQuestionQueueItemsList = questionQueueItems;
     GlobalInputQueueItemsList = inputQueueObject;
@@ -1287,7 +1306,7 @@ function ShowCostCentrePopup(questionQueueItems, costCentreId, clonedItemId, sel
         '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">' +
         '<button  id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" ' +
         'onclick="ValidateCostCentreControl(' + costCentreId + ',' + clonedItemId + ',&#34; ' + currency +
-        '&#34; ,' + itemPrice + ',' + costCentreType + ',' + taxRate + ',' + orderedQty + ');">Continue</button>' +
+        '&#34; ,' + itemPrice + ',' + costCentreType + ',' + taxRate + ',' + orderedQty + ',' + qty2 + ',' + qty3 + ',' + itemSectionId + ');">Continue</button>' +
         '<img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader" style="height: 20px;margin-right: 10px;margin-top:8px; display:none;"/></div></div></div>';
 
 
@@ -1319,13 +1338,13 @@ function ShowCostCentrePopup(questionQueueItems, costCentreId, clonedItemId, sel
         var desriptionOfCostCentre = "";
         SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, costCentreId, costCentreType, clonedItemId,
          selectedCostCentreCheckBoxElement, desriptionOfCostCentre, itemPrice, currency, true, taxRate, orderedQty, selectedStockOptionItemAddOns,
-         globalSelectedCostCenter, null, true);
+         globalSelectedCostCenter, null, true, qty2, qty3, itemSectionId);
     }
 }
 
 // Show Input Cost Center Popup
 function ShowInputCostCentrePopup(inputQueueItems, costCentreId, clonedItemId, selectedCostCentreCheckBoxId, mode, currency,
-    itemPrice, questionQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns, costCenter, afterCostCenterExecution) {
+    itemPrice, questionQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns, costCenter, afterCostCenterExecution, qty2, qty3, itemSectionId) {
 
     GlobalInputQueueItemsList = inputQueueItems;
     GlobalQuestionQueueItemsList = questionQueueObject;
@@ -1413,7 +1432,7 @@ function ShowInputCostCentrePopup(inputQueueItems, costCentreId, clonedItemId, s
         '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">' +
         '<button id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" ' +
         'onclick="ValidateCostCentreControl(' + costCentreId + ',' + clonedItemId + ',&#34; ' + currency +
-        '&#34; ,' + itemPrice + ',' + costCentreType + ',' + taxRate + ',' + orderedQty + ');">Continue</button>' +
+        '&#34; ,' + itemPrice + ',' + costCentreType + ',' + taxRate + ',' + orderedQty + ',' + qty2 + ',' + qty3 + ',' + itemSectionId + ');">Continue</button>' +
         '<img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader"  style="height: 20px; margin-right: 10px;margin-top:8px; display:none;" /></div></div></div>';
 
 
@@ -1537,7 +1556,7 @@ function SetCostCenterQueueObjectToSaveInDb(costCenterType, updatedGlobalQueueAr
 }
 
 // Update Question and Input Queue
-function UpdateQuestionAndInputQueue(updatedGlobalQueueArray) {
+function UpdateQuestionAndInputQueue(updatedGlobalQueueArray, costcenter) {
     if (updatedGlobalQueueArray && updatedGlobalQueueArray.QuestionQueues != null) {
         var questionQueueDbObject = [];
         for (var m = 0; m < updatedGlobalQueueArray.QuestionQueues.length; m++) {
@@ -1545,7 +1564,7 @@ function UpdateQuestionAndInputQueue(updatedGlobalQueueArray) {
             questionQueueDbObject.push(updatedGlobalQueueArray.QuestionQueues[m]);
 
         }
-
+        costcenter().questionQueue(JSON.stringify(questionQueueDbObject, null, 2));
         //if (QuestionQueueDBObject.length > 0) {
         //    $("#VMJsonAddOnsQuestionQueue").val(JSON.stringify(QuestionQueueDBObject, null, 2));
         //}
@@ -1557,31 +1576,36 @@ function UpdateQuestionAndInputQueue(updatedGlobalQueueArray) {
             inputQueueDbObject.push(updatedGlobalQueueArray.InputQueues[n]);
 
         }
-
+        costcenter().inputQueue(JSON.stringify(inputQueueDbObject, null, 2));
         //if (InputQueueDBObject.length > 0) {
         //    $("#VMJsonAddOnsInputQueue").val(JSON.stringify(InputQueueDBObject, null, 2));
         //}
     }
 }
-
+var response1;
+var response2;
+var response3;
 // Set Global Cost Centre Queue
 function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueueItemsList, costCentreId, costCentreType,
     clonedItemId, selectedCostCentreCheckBoxId, desriptionOfQuestion, itemPrice, currencyCode, isPromptAQuestion, taxRate, orderedQty, itemAddOns, costCenter,
-    afterCostCenterExecution, isCalledAfterQuestionPrompt) {
+    afterCostCenterExecution, isCalledAfterQuestionPrompt, qty2, qty3, itemSectionId, callMode, currentSection) {
 
     var jsonObjectsOfGlobalQueue = null;
     var inputAndQuestionQueues;
+    var paramRequest;
     if (!costCentreQueueItems) {
         inputAndQuestionQueues = {
             QuestionQueues: globalQuestionQueueItemsList,
             InputQueues: globalInputQueueItemsList
         };
-        jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
-        costCentreQueueItems = jsonObjectsOfGlobalQueue;
+        //jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
+        //costCentreQueueItems = jsonObjectsOfGlobalQueue;
+        costCentreQueueItems = inputAndQuestionQueues;
 
     } else {
         var isUpdated = false;
-        inputAndQuestionQueues = JSON.parse(costCentreQueueItems);
+        // inputAndQuestionQueues = JSON.parse(costCentreQueueItems);
+        inputAndQuestionQueues = costCentreQueueItems;
         if (inputAndQuestionQueues.InputQueues == null) {
             inputAndQuestionQueues.InputQueues = [];
             if (globalInputQueueItemsList) {
@@ -1634,23 +1658,48 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
             }
         }
 
-        if (inputAndQuestionQueues) {
-            costCentreQueueItems = JSON.stringify(inputAndQuestionQueues, null, 2);
-        }
+        //if (inputAndQuestionQueues) {
+        //    costCentreQueueItems = JSON.stringify(inputAndQuestionQueues, null, 2);
+        //}
     }
-
-    var updatedGlobalQueueArray = JSON.parse(costCentreQueueItems);
+    //Section added by Naveed to pass one object containing queue and current section
+    paramRequest = {
+        CurrentItemSection: currentSection,
+        Queues: costCentreQueueItems
+    };
+    if (paramRequest) {
+        paramRequest = JSON.stringify(paramRequest, null, 2);
+    }
+    //---------------
+    var updatedGlobalQueueArray = JSON.parse(JSON.stringify(costCentreQueueItems, null, 2));
     var costCentreQueueObjectToSaveInDb = [];
     if (!isCalledAfterQuestionPrompt) {
         globalAfterCostCenterExecution = afterCostCenterExecution;
     }
 
+    
+    
+    
+
+    if (itemSectionId == undefined)
+        itemSectionId = 0;
+    if (qty2 == undefined)
+        qty2 = 0;
+    if (qty3 == undefined)
+        qty3 = 0;
+    if (callMode == undefined || callMode == "")
+        callMode = "New";
+    else {
+        callMode = "UpdateAllCostCentreOnQuantityChange";
+    }
     var to;
-    to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + costCentreId + "&ClonedItemId=" + clonedItemId + "&OrderedQuantity=" + orderedQty + "&CallMode=New";
+    //to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + costCentreId + "&ClonedItemId=" + clonedItemId + "&OrderedQuantity=" + orderedQty + "&CallMode=New";
+    to = "/mis/Api/CostCenterExecution/ExecuteCostCentre?CostCentreId=" + costCentreId + "&ClonedItemId=" + clonedItemId + "&OrderedQuantity=" + orderedQty + "&CallMode=" + callMode + "&qty2=" + qty2 + "&qty3=" + qty3 + "&itemSectionId=" + itemSectionId;
     var options = {
         type: "POST",
         url: to,
-        data: costCentreQueueItems,
+        data: paramRequest,
+        //data: costCentreQueueItems,
         contentType: "application/json",
         async: true,
         success: function (response) {
@@ -1662,20 +1711,21 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                 for (var i = 0; i < updatedAddOns().length; i++) {
 
                     if (updatedAddOns()[i].costCentreId() == costCentreId) {
-                        updatedAddOns()[i].totalPrice(response);
+                        updatedAddOns()[i].totalPrice(response.TotalPrice);
 
                         // Sets Cost Center Queue Object to save in db
                         SetCostCenterQueueObjectToSaveInDb(costCentreType, updatedGlobalQueueArray, costCentreQueueObjectToSaveInDb, costCentreId);
 
                         if (costCentreQueueObjectToSaveInDb && costCentreQueueObjectToSaveInDb.length > 0) {
                             updatedAddOns()[i].CostCentreJasonData = JSON.stringify(costCentreQueueObjectToSaveInDb, null, 2);
+                            costCenter().costCenterQueue(JSON.stringify(costCentreQueueObjectToSaveInDb, null, 2));
                         }
 
                         break;
                     }
                 }
 
-                UpdateQuestionAndInputQueue(updatedGlobalQueueArray);
+                UpdateQuestionAndInputQueue(updatedGlobalQueueArray, costCenter);
 
                 var jsonToReSubmit = [];
 
@@ -1687,7 +1737,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                 }
 
                 //displayTotalPrice(itemPrice, totalVal);
-                taxAppliedValue = response;
+                taxAppliedValue = response.TotalPrice;
                 taxAppliedValue = taxAppliedValue + ((taxAppliedValue * taxRate) / 100);
                 if (isPromptAQuestion == true) { // TODO: Modify Scenario
                     //$(selectedCostCentreCheckBoxId).next().next().html('<label>' + currencyCode + (taxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + costCentreId + ',' + selectedCostCentreCheckBoxId + ',' + costCentreType + ', 1);" >Modify</a> ');
@@ -1698,12 +1748,14 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                 // $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
             }
             else if (costCenter() !== null) {
-                costCenter().setupCost(response);
+                costCenter().setupCost(response.TotalPrice);
+                costCenter().setupCost2(response.TotalPriceQty2);
+                costCenter().setupCost3(response.TotalPriceQty3);
 
                 // Sets Cost Center Queue Object to save in db
                 SetCostCenterQueueObjectToSaveInDb(costCentreType, updatedGlobalQueueArray, costCentreQueueObjectToSaveInDb, costCentreId);
 
-                UpdateQuestionAndInputQueue(updatedGlobalQueueArray);
+                UpdateQuestionAndInputQueue(updatedGlobalQueueArray, costCenter);
             }
             HideLoader();
             if (globalAfterCostCenterExecution && typeof globalAfterCostCenterExecution === "function") {
@@ -1714,6 +1766,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
     };
     var returnText = $.ajax(options).responseText;
 }
+
 
 
 // #endregion

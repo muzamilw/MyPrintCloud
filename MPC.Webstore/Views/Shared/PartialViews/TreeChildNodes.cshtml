@@ -1,0 +1,26 @@
+﻿
+@using MPC.Models.Common;
+@model IEnumerable <MPC.Models.Common.TreeViewNodeVM>
+@foreach(var treeNode in Model)
+{
+    <ul class="parentUl">
+        @if (treeNode != null)
+        {
+            var RedirectUrl="/ManageAssets/"+treeNode.FolderId;
+            <li>
+                <a href="@RedirectUrl" id="@treeNode.FolderId" onclick="RedirectToGUrl('@RedirectUrl',@treeNode.FolderId);" class="FolderElements">
+
+                    @treeNode.FolderName
+                </a>
+                @if (treeNode.ChildNode.Count > 0)
+                {
+                    @Html.Partial("PartialViews/TreeChildNodes", treeNode.ChildNode)
+                }
+                
+            </li>
+        }
+    </ul>
+}
+
+
+

@@ -55,9 +55,7 @@ namespace MPC.Webstore
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication("1421343758131537", "690d1f085e1cea24c61dbad3bdaa0b31");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

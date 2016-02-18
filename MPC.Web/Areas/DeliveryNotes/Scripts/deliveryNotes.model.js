@@ -6,7 +6,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // #region __________________  Delivery Note List View   ______________________
         deliverNoteListView = function (specifieddeliveryNoteId, specifiedcode, specifieddeliveryDate, specifiedflagId, specifiedcontactCompany,
-            specifiedOrderReff, specifiedCreationDateTime, specifiedCompanyName, specifiedFlagColor) {
+            specifiedOrderReff, specifiedCreationDateTime, specifiedCompanyName, specifiedFlagColor, specifiedCount) {
 
             var self,
                 deliveryNoteId = ko.observable(specifieddeliveryNoteId),
@@ -17,6 +17,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 companyName = ko.observable(specifiedCompanyName),
                 orderReff = ko.observable(specifiedOrderReff),
                 flagColor = ko.observable(specifiedFlagColor),
+                itemsCount = ko.observable(specifiedCount),
                 creationDateTime = ko.observable(specifiedCreationDateTime !== null ? moment(specifiedCreationDateTime).toDate() : undefined),
 
                 convertToServerData = function () {
@@ -34,6 +35,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 contactCompany: contactCompany,
                 companyName: companyName,
                 orderReff: orderReff,
+                itemsCount : itemsCount,
                 creationDateTime: creationDateTime,
                 convertToServerData: convertToServerData
             };
@@ -93,7 +95,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 supplierUrl = ko.observable(spcSupplierURL),
                 estimateId = ko.observable(spcEstimateId),
                 jobId = ko.observable(spcJobId),
-
                 invoiceId = ko.observable(spcInvoiceId),
                 orderId = ko.observable(spcOrderId),
                 userNotes = ko.observable(spcUserNotes),
@@ -169,6 +170,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         SupplierTelNo: supplierTelNo(),
                         UserNotes: userNotes(),
                         SystemSiteId: systemSiteId(),
+                        OrderId: orderId(),
                         CsNo: csNo(),
                         RaisedBy: raisedBy(),
                         DeliveryNoteDetails: []
@@ -282,7 +284,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Delivery Notes List View Factory
     deliverNoteListView.Create = function (source) {
         return new deliverNoteListView(source.DeliveryNoteId, source.Code, source.DeliveryDate, source.FlagId, source.ContactCompany, source.OrderReff,
-            source.CreationDateTime, source.CompanyName, source.FlagColor);
+            source.CreationDateTime, source.CompanyName, source.FlagColor, source.DeliveryNoteDetails != null? source.DeliveryNoteDetails.length : 0);
     };
 
     // Delivery Notes Factory

@@ -106,19 +106,6 @@ function fu04_1GetItem(DT)
     
     $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID + "/" + organisationId,
          function (result) {
-            
-             //if (result.ZoomFactor > 1)
-             //{
-             //    var zf = parseInt(result.ZoomFactor);
-             //    for(var i = 1; i<zf;i++)
-             //    {
-             //        D1CS = D1CS * D1SF;
-             //        dfZ1l = D1CS;
-             //    }
-             //}
-
-             
-             //update dimestions 
              var w = DT.PDFTemplateWidth;
              var h = DT.PDFTemplateHeight;
              h = h / 96 * 72;
@@ -129,18 +116,11 @@ function fu04_1GetItem(DT)
              h = h.toFixed(3);
              h = h - 10;
              w = w - 10;
-             //if (result.ScaleFactor != null && result.ScaleFactor != 0) {
-             //    w = w * result.ScaleFactor;
-             //    h = h * result.ScaleFactor;
-             //}
              var res = result.TemplateDimensionConvertionRatio.split("__");
              w = w * res[0];
              h = h * res[0];
-             //alert();
-             //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
              $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " " + res[1]);
              productDimensionUpdated = true;
-           //
              item = result;
              if (IsCalledFrom != 2) {
                  if (result.IsTemplateDesignMode == 3) {
@@ -215,82 +195,7 @@ function fu04_TempCbkGen(DT) {
     if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
         restrictControls();
     }
-    if(DT.realEstateId != null && DT.realEstateId > 0)
-    {
-        $.getJSON("/designerapi/TemplateBackgroundImage/getPropertyImages/" + DT.realEstateId,
-        function (xdata) {
-            propertyImages = xdata;
-            $(".realEstateImgBtn").css("display", "block");
-            $.each(propertyImages, function (j, IT) {
-                var url = IT.ImageUrl;
-
-                var title = "LstImg" + IT.ImageId;
-                var draggable = '';
-                var urlThumbnail = url;
-                var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
-                                 '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
-
-                $("#divRealEstateImagesContainer").append(ahtml);
-                $("#" + title).click(function (event) {
-                    var n = url;
-                    while (n.indexOf('/') != -1)
-                        n = n.replace("/", "___");
-                    while (n.indexOf(':') != -1)
-                        n = n.replace(":", "@@");
-                    while (n.indexOf('%20') != -1)
-                        n = n.replace("%20", " ");
-                    while (n.indexOf('./') != -1)
-                        n = n.replace("./", "");
-                    StartLoader("Placing image on canvas");
-                    var imgtype = 2;
-                    if (isBKpnl) {
-                        imgtype = 4;
-                    }
-                    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
-                   function (DT) {
-                       StopLoader();
-                       k27();
-                       parts = DT.split("MPC_Content/");
-                       var imgName = parts[parts.length - 1];
-                       while (imgName.indexOf('%20') != -1)
-                           imgName = imgName.replace("%20", " ");
-
-                       var path = imgName;
-                       j9(event, path, title);
-                   });
-                });
-            });
-            $.each(TO, function (i, objTO) {
-                $.each(propertyImages, function (j, IT) {
-                    if (objTO.ContentString.indexOf("{{ListingImage" + (j+1) + "}}") != -1)
-                    {
-                        var n = IT.ImageUrl;
-                        while (n.indexOf('/') != -1)
-                            n = n.replace("/", "___");
-                        while (n.indexOf(':') != -1)
-                            n = n.replace(":", "@@");
-                        while (n.indexOf('%20') != -1)
-                            n = n.replace("%20", " ");
-                        while (n.indexOf('./') != -1)
-                            n = n.replace("./", "");
-                       
-                        var imgtype = 2;
-                        $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
-                       function (DT) {
-                           parts = DT.split("MPC_Content/");
-                           var imgName = parts[parts.length - 1];
-                           while (imgName.indexOf('%20') != -1)
-                               imgName = imgName.replace("%20", " ");
-
-                           var path = imgName;
-                           objTO.ContentString = path;
-                           objTO.originalContentString = path;
-                       });
-                    }
-                });
-            });
-        });
-    }
+   
 }
 function fu04_1(DT) {
     if (IsCalledFrom == 2) {
@@ -310,6 +215,11 @@ function fu04() {
       function (DT) {
           fu04_1(DT);   
       });
+    if (IsCalledFrom == 2) { // load all async calls here 
+        k28();
+    }
+    fu14();
+    fu06(false);
 }
 function fu04_01() {
     $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
@@ -337,6 +247,7 @@ function fu04_01() {
                   } else if (IT.ObjectType == 12) {
                       if (item.userImage != "") {
                           IT.ContentString = item.userImage;
+                          IT.hasClippingPath = item.isProfileImageClippingPath;
                       }
                       if (item.contactImageHeight != 0 && item.contactImageWidth != 0)
                       {
@@ -357,19 +268,91 @@ function fu04_01() {
           if(smartFormData != null)
               pcl42_UpdateTO(true);
           fu07();
-          fu06();
+          h9();
           // if (firstLoad) {
-          fu05();
+        //  fu05();
           //   }
           $.each(TO, function (i, IT) {
               var obj = fabric.util.object.clone(IT);
               TORestore.push(obj);
           });
+          if (Template.realEstateId != null && Template.realEstateId > 0) {
+              $.getJSON("/designerapi/TemplateBackgroundImage/getPropertyImages/" + Template.realEstateId,
+              function (xdata) {
+                  propertyImages = xdata;
+                  $(".realEstateImgBtn").css("display", "block");
+                  $.each(propertyImages, function (j, IT) {
+                      var url = IT.ImageUrl;
+
+                      var title = "LstImg" + IT.ImageId;
+                      var draggable = '';
+                      var urlThumbnail = url;
+                      var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
+                                       '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
+
+                      $("#divRealEstateImagesContainer").append(ahtml);
+                      $("#" + title).click(function (event) {
+                          var n = url;
+                          while (n.indexOf('/') != -1)
+                              n = n.replace("/", "___");
+                          while (n.indexOf(':') != -1)
+                              n = n.replace(":", "@@");
+                          while (n.indexOf('%20') != -1)
+                              n = n.replace("%20", " ");
+                          while (n.indexOf('./') != -1)
+                              n = n.replace("./", "");
+                          StartLoader("Placing image on canvas");
+                          var imgtype = 2;
+                          if (isBKpnl) {
+                              imgtype = 4;
+                          }
+                          $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
+                         function (DT) {
+                             StopLoader();
+                             k27();
+                             parts = DT.split("MPC_Content/");
+                             var imgName = parts[parts.length - 1];
+                             while (imgName.indexOf('%20') != -1)
+                                 imgName = imgName.replace("%20", " ");
+
+                             var path = imgName;
+                             j9(event, path, title);
+                         });
+                      });
+                  });
+                  $.each(TO, function (i, objTO) {
+                      $.each(propertyImages, function (j, IT) {
+                          if (objTO.ContentString.indexOf("{{ListingImage" + (j + 1) + "}}") != -1) {
+                              var n = IT.ImageUrl;
+                              while (n.indexOf('/') != -1)
+                                  n = n.replace("/", "___");
+                              while (n.indexOf(':') != -1)
+                                  n = n.replace(":", "@@");
+                              while (n.indexOf('%20') != -1)
+                                  n = n.replace("%20", " ");
+                              while (n.indexOf('./') != -1)
+                                  n = n.replace("./", "");
+
+                              var imgtype = 2;
+                              $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
+                             function (DT) {
+                                 parts = DT.split("MPC_Content/");
+                                 var imgName = parts[parts.length - 1];
+                                 while (imgName.indexOf('%20') != -1)
+                                     imgName = imgName.replace("%20", " ");
+
+                                 var path = imgName;
+                                 objTO.ContentString = path;
+                                 objTO.originalContentString = path;
+                             });
+                          }
+                      });
+                  });
+              });
+          }
       });
     k0();
-    if (IsCalledFrom == 2) {
-        k28();
-    }
+
 }
 function fu05_Clload() {
     var Cid = 0;
@@ -556,8 +539,15 @@ function k28() {
 
     $.getJSON("/designerapi/TemplateBackgroundImage/GetTerritories/" + CustomerID,
         function (xdata) {
+            if (xdata.length > 1)
+                k29("dropDownTerritories", "ter_all" , "All", "territroyContainer");
             $.each(xdata, function (i, item) {
                 k29("dropDownTerritories", "ter_" + item.TerritoryId, item.TerritoryName, "territroyContainer");
+            });
+            $("#ter_all").click(function (event) {
+                $('#dropDownTerritories  div :input').each(function (i) {
+                    $(this).prop('checked', true);
+                });
             });
         });
 }
@@ -565,4 +555,13 @@ function k29(divID, itemID, itemName, Container) {
     var html = '<div class="checkboxRowsTxt"><input type="checkbox" id="' + itemID + '" class="' + itemID + '" style="  margin-right: 5px;"><label for="' + itemID + '">' + itemName + '</label></div>';
     $('#' + divID).append(html);
     $('#' + Container).css("display", "block");
+}
+function k30_userData(id) {
+    StartLoader("Loading user profile on smart form....");
+    $.getJSON("/designerapi/SmartForm/GetUserVariableSmartForm/" + id + "/" + item.SmartFormId + "/" + item.ParentTemplateId + "/" + tID,
+                          function (DT2) {
+                              pcl40_InsertUserData(DT2);
+                              selectedUserProfile = DT2;
+                              StopLoader();
+                          });
 }

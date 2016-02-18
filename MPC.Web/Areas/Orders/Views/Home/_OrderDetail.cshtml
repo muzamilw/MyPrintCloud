@@ -4,6 +4,7 @@
             <div class="col-sm-12 PaddingZero">
                 <div class="col-sm-5">
                     <div style="float:left;margin-bottom: 3px; margin-left:14px;margin-top:-10px;" data-bind="visible: ($root.selectedOrder().id() > 0)">
+                        <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedOrder().id() > 0">Delete</button>
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalReportsOrder">Print</button>
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalEmailOrderReport">Email</button>
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.copyOrder">Copy Order</button>
@@ -80,7 +81,8 @@
                         <li><a href="#tab-schedule" data-toggle="tab">Order Schedule</a></li>
                         <li><a href="#tab-creditApproval" data-toggle="tab">Credit Approval</a></li>
                         <li><a href="#tab-prePayments" data-toggle="tab">Pre Payments</a></li>
-                        <li><a href="#tab-delivery" data-toggle="tab">Delivery Schedule</a></li>
+                        <li data-bind="visible: $root.selectedOrder().statusId() === 7 || $root.selectedOrder().statusId() === 10"><a href="#tab-delivery" data-toggle="tab">Delivery Schedule</a></li>
+                        <li data-bind="visible: ($root.selectedOrder().statusId() === 7 || $root.selectedOrder().statusId() === 10) && $root.orderDeliveryNotes().length > 0"><a href="#tab-deliveryNotes" data-toggle="tab">Delivery Notes</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-EstimateHeader" data-bind="with: selectedOrder">
@@ -97,6 +99,9 @@
                         </div>
                         <div class="tab-pane fade" id="tab-delivery" data-bind="with: selectedOrder">
                             @Html.Partial("_OrderDeliverySchedule")
+                        </div>
+                        <div class="tab-pane fade" id="tab-deliveryNotes" data-bind="with: selectedOrder">
+                            @Html.Partial("_OrderDeliveryNotes")
                         </div>
                     </div>
                 </div>

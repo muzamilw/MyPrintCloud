@@ -4,6 +4,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
 using MPC.Models.Common;
+using MPC.Webstore.Common;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -12,6 +13,51 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        double GetTemplateCuttingMargin(long ProductId);
+        string AssetItemFilePath(long AssetItemId);
+        void RemoveAssetItem(long AssetID);
+        List<AssetItem> GetAssetItemsByAssetID(long AssetID);
+        bool UpdateTemplatePdfDimensions(Template Template);
+        void DeleteFolder(long folderID);
+        void UpdateFolder(Folder Ufolder);
+        Asset GetAsset(long AssetId);
+        bool AddAssetItems(List<AssetItem> AssetItemsList);
+        void UpdateAssetImage(Asset Asset);
+        long AddAsset(Asset Asset);
+        List<Folder> GetAllFolders(long CompanyID, long OrganisationID);
+        List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId);
+        List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId);
+        Folder GetFolderByFolderId(long FolderID);
+        bool UpdateImage(Folder folder);
+        long AddFolder(Folder NewFolder);
+        List<Folder> GetChildFolders(long ParentFolderId);
+        void UpdateAsset(Asset UpdatedAsset);
+        void DeleteAsset(long AssetID);
+        List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID);
+        CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password);
+        void AddlistingImages(long ListingId, List<ListingImage> Images);
+        bool DeleteLisitngData(long ListingId);
+        long AddNewListing(MPC.Models.DomainModels.Listing propertyListing);
+        void DeleteBulletPoint(long BulletPointId, long ListingId);
+        List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID);
+        void UpdateSingleBulletPoint(ListingBulletPoint BullentPoint);
+        void AddSingleBulletPoint(ListingBulletPoint BullentPoint);
+        void DeleteAjent(long ContactID);
+        void DeleteListingImage(long listingImageID);
+        void ListingImage(ListingImage NewImage);
+        void RemoveAssetItems(List<AssetItem> RemoveAssetItemsIDs);
+        List<ListingImage> GetAllListingImages(long ListingID);
+        void AddSingleAgent(CompanyContact NewAgent);
+        void UpdateSignleAgent(CompanyContact Agent);
+
+        void AddBulletPoint(List<ListingBulletPoint> model, long listingId);
+        void UpdateBulletPoints(List<ListingBulletPoint> BulletPoints, long ListingId);
+        void AddAgent(ListAgentMode model, long ContactCompanyId);
+        void UpdateAgent(List<CompanyContact> model);
+        long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);
+        MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId);
+        List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId);
+        List<CompanyContact> GetUsersByCompanyId(long CompanyId);
         void DeleteItems(List<Item> ItemList);
         long OrganisationThroughSystemUserEmail(string Email);
         void AddDataSystemUser(CompanyContact Contact);
@@ -28,7 +74,7 @@ namespace MPC.Interfaces.WebStoreServices
         int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
-        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
+        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId);
         CompanyContact GetContactByEmailID(string Email);
         Country GetCountryByCountryID(long CountryID);
         void ResetDefaultShippingAddress(Address address);
@@ -44,7 +90,7 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyContact GetUserByEmailAndPassword(string email, string password);
 
-        CompanyContact GetContactByFirstName(string FName);
+        CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode, string providerKey);
         CompanyContact GetContactById(int contactId);
         CompanyContact GetContactByEmail(string Email, long OID, long StoreId);
 
@@ -253,5 +299,14 @@ namespace MPC.Interfaces.WebStoreServices
         RegistrationQuestion GetSecretQuestionByID(int QuestionID);
         bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie);
         string GetCurrencySymbolById(long currencyId);
+        void AddScopeVariables(long ContactId, long StoreId);
+        long GetOrganisationIdByRequestUrl(string Url);
+        CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email);
+        CompanyDomain GetDomainByCompanyId(long CompanyId);
+        List<Asset> GetAssetsByCompanyID(long CompanyID);
+        ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName);
+        
+        bool IsValidNumber(string cardNum);
+        int GetCardTypeIdFromNumber(string cardNum);
     }
 }

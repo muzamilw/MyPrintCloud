@@ -47,6 +47,7 @@ define("inventory/inventory.viewModel",
                     subCategoryFilter = ko.observable(),
                     // bind Label
                     weightLabel = ko.observable(),
+                    lengthLabel = ko.observable(),
                     // Logged In User Id
                     loggedInUserId = ko.observable(),
                     // Logged In User Identity
@@ -68,6 +69,10 @@ define("inventory/inventory.viewModel",
                     lengthUnits = ko.observableArray([]),
                     // is imperical for new Stock
                     OrganisationImpirical = ko.observable(),
+
+                     // is category drop down editable
+                    isStockCatEditable = ko.observable(),
+
                     //Paper Basis Areas
                     paperBasisAreas = ko.observableArray([]),
                     itemStockUpdateHistoryActions = ko.observableArray([
@@ -194,6 +199,15 @@ define("inventory/inventory.viewModel",
                                     else {
                                         weightLabel("gsm");
                                     }
+                                    lengthLabel(selectedInventory().IsImperical() == true ? "Inch" : "Meter");
+
+                                    if (selectedInventory().categoryId() == 1 || selectedInventory().categoryId() == 2 || selectedInventory().categoryId() == 3 || selectedInventory().categoryId() == 4) {
+                                        isStockCatEditable(false);
+                                    }
+                                    else {
+                                        isStockCatEditable(true);
+                                    }
+
 
                                     
                                     selectedInventory().reset();
@@ -541,7 +555,7 @@ define("inventory/inventory.viewModel",
                         selectedInventory().IsImperical(false);
                     }
 
-
+                    lengthLabel(selectedInventory().IsImperical() == true ? "Inch" : "Meter");
                     //Add default cost and price rows
                     var cost = model.StockCostAndPrice.Create();
                     selectCostItem(cost);
@@ -822,7 +836,11 @@ define("inventory/inventory.viewModel",
                     selectedItemStockUpdateHistory: selectedItemStockUpdateHistory,
                     saveAddStockQuantity: saveAddStockQuantity,
                     formatSelection: formatSelection,
-                    formatResult: formatResult
+                    formatResult: formatResult,
+                    isStockCatEditable: isStockCatEditable,
+                    lengthLabel: lengthLabel
+
+
                 };
             })()
         };

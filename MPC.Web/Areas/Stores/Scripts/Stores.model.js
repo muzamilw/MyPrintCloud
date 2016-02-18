@@ -205,6 +205,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPayOnlyByCreditCard = ko.observable(undefined),
             isRegisterPlaceDirectOrder = ko.observable(undefined),
             isRegisterPlaceOrderWithoutApproval = ko.observable(undefined),
+            isAllowRequestaQuote = ko.observable(undefined),
+             isEnableDataAsset = ko.observable(undefined),
+
 
             // Display VoucherCode
             isDisplayDiscountVoucherCode = ko.observable(undefined),
@@ -290,7 +293,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         activeBannerSetId = ko.observable().extend({ required: true }),
         priceFlagId = ko.observable(specifiedPriceFlagId),
         isStoreSetLive = ko.observable(specifiedIsStoreLive),
-       
+       isEmailChange = ko.observable(),
         // Errors
         errors = ko.validation.group({
             companyId: companyId,
@@ -389,14 +392,16 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPayOnlyByCreditCard: isRegisterPayOnlyByCreditCard,
             isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
             isRegisterPlaceOrderWithoutApproval: isRegisterPlaceOrderWithoutApproval,
-
+            isAllowRequestaQuote: isAllowRequestaQuote,
+            isEnableDataAsset: isEnableDataAsset,
             canUserEditProfile: canUserEditProfile,
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
             canUserUpdateAddress: canUserUpdateAddress,
             isWidgetItemsChange: isWidgetItemsChange,
             marketingBriefRecipientEmail:marketingBriefRecipientEmail,
-            isNewThemeApplied: isNewThemeApplied
+            isNewThemeApplied: isNewThemeApplied,
+            isEmailChange: isEmailChange
            
             //#endregion
         }),
@@ -471,7 +476,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.IsRegisterPayOnlyByCreditCard = source.isRegisterPayOnlyByCreditCard();
             result.IsRegisterPlaceDirectOrder = source.isRegisterPlaceDirectOrder();
             result.IsRegisterPlaceOrderWithoutApproval = source.isRegisterPlaceOrderWithoutApproval();
-
+            result.IsAllowRequestaQuote = source.isAllowRequestaQuote();
+            result.IsEnableDataAsset = source.isEnableDataAsset();
             result.IsDisplayDiscountVoucherCode = source.isDisplayDiscountVoucherCode();
             result.CanUserEditProfile = source.canUserEditProfile();
             result.isWhiteLabel = source.isWhiteLabel();
@@ -636,7 +642,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             defaultSpriteImageFileName: defaultSpriteImageFileName,
             userDefinedSpriteImageSource: userDefinedSpriteImageSource,
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
-           // isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
+            // isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
             pickupAddressId: pickupAddressId,
             customCSS: customCSS,
             companyDomains: companyDomains,
@@ -663,8 +669,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isRegisterPlaceOrder: isRegisterPlaceOrder,
             isRegisterPayOnlyByCreditCard: isRegisterPayOnlyByCreditCard,
             isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
-            isRegisterPlaceOrderWithoutApproval:isRegisterPlaceOrderWithoutApproval,
-
+            isRegisterPlaceOrderWithoutApproval: isRegisterPlaceOrderWithoutApproval,
+            isAllowRequestaQuote: isAllowRequestaQuote,
+            isEnableDataAsset: isEnableDataAsset,
             isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
             canUserEditProfile: canUserEditProfile,
             isWhiteLabel: isWhiteLabel,
@@ -674,11 +681,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isStoreSetLive: isStoreSetLive,
             canUserUpdateAddress: canUserUpdateAddress,
             isWidgetItemsChange: isWidgetItemsChange,
-            marketingBriefRecipientEmail:marketingBriefRecipientEmail,
-            isNewThemeApplied: isNewThemeApplied
-           
-            //#endregion
-        };
+            marketingBriefRecipientEmail: marketingBriefRecipientEmail,
+            isNewThemeApplied: isNewThemeApplied,
+            isEmailChange: isEmailChange
+
+        //#endregion
+    };
         return self;
     };
     Store.CreateFromClientModel = function (source) {
@@ -842,7 +850,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.isRegisterPayOnlyByCreditCard(source.IsRegisterPayOnlyByCreditCard);
         store.isRegisterPlaceDirectOrder(source.IsRegisterPlaceDirectOrder);
         store.isRegisterPlaceOrderWithoutApproval(source.IsRegisterPlaceOrderWithoutApproval);
-
+        store.isAllowRequestaQuote(source.IsAllowRequestaQuote);
+        store.isEnableDataAsset(source.IsEnableDataAsset);
         
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
@@ -1180,10 +1189,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             colorK = ko.observable(specifiedColorK).extend({ required: true, number: true, min: 0, max: 200 }),
             isActive = ko.observable(specifiedIsActive),
             isSpotColor = ko.observable(specifiedIsSpotColor || true),
-            spotColor = ko.observable(specifiedSpotColor || undefined),
+            spotColor = ko.observable(specifiedSpotColor).extend({ required: true }),
             // Errors
             errors = ko.validation.group({
-                colorName: colorName,
+                spotColor: spotColor,
                 colorC: colorC,
                 colorM: colorM,
                 colorY: colorY,
@@ -1222,7 +1231,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     ColorM: colorM(),
                     ColorY: colorY(),
                     ColorK: colorK(),
-                    SpotColor:colorName() ,
+                    SpotColor: spotColor(),
                     IsSpotColor: isSpotColor(),
                     IsColorActive: isActive()
                 };
@@ -3439,23 +3448,29 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region __________________  Widget   ______________________
 
     // ReSharper disable once InconsistentNaming
-    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName) {
+    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName, specifiedWidgetCss, specifiedThumbnailUrl, specifiedDescription) {
 
         var self,
             widgetId = ko.observable(specifiedWidgetId),
             widgetName = ko.observable(specifiedWidgetName),
             widgetCode = ko.observable(specifiedWidgetCode),
-            widgetControlName = ko.observable(specifiedWidgetControlName);
-        //id = ko.computed(function () {
-        //    ist.stores.viewModel.selectedWidget(widgetId);
+            widgetControlName = ko.observable(specifiedWidgetControlName),
 
-        //}, this);
+            widgetCss = ko.observable(specifiedWidgetCss),
+            thumbnailUrl = ko.observable(specifiedThumbnailUrl),
+            description = ko.observable(specifiedDescription)
+      
 
         self = {
             widgetId: widgetId,
             widgetName: widgetName,
             widgetCode: widgetCode,
             widgetControlName: widgetControlName,
+
+            widgetCss: widgetCss,
+            thumbnailUrl: thumbnailUrl,
+            description: description
+
         };
         return self;
     };
@@ -3465,8 +3480,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.WidgetId,
              source.WidgetName,
              source.WidgetCode,
-             source.WidgetControlName
-               );
+             source.WidgetControlName,
+             
+             source.WidgetCss,
+             source.ThumbnailUrl,
+             source.Description
+
+            );
 
     };
     // #endregion __________________  Widget   ______________________
@@ -4486,7 +4506,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             scopeName = ko.observable(),
             typeName = ko.observable(),
             fakeId = ko.observable(),
-            variableTitle = ko.observable(specifiedVariableTitle),
+            variableTitle = ko.observable(specifiedVariableTitle).extend({
+                required: {
+                    onlyIf: function () {
+                        return !isSystem();
+                    }
+                }
+            }),
             variableExtension = ko.observable(VariableExtension()),
             variableOptions = ko.observableArray([]),
 
@@ -4494,7 +4520,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             errors = ko.validation.group({
                 variableName: variableName,
                 waterMark: waterMark,
-                variableTag: variableTag
+                variableTag: variableTag,
+                variableTitle: variableTitle
             }),
             // Is Valid 
             isValid = ko.computed(function () {

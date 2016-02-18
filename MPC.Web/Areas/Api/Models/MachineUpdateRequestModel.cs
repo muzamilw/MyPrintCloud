@@ -15,6 +15,7 @@ namespace MPC.MIS.Areas.Api.Models
         public MachineMeterPerHourLookup MeterPerHourLookup { get; set; }
         public MachineGuillotineCalc GuillotineCalc { get; set; }
         public IEnumerable<MachineGuilotinePtv> GuilotinePtv { get; set; }
+        public MachineSpeedWeightLookup SpeedWeightCal { get; set; }
         
       
     }

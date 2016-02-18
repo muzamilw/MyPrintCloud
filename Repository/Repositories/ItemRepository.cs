@@ -20,6 +20,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using WebSupergoo.ABCpdf8;
 using System.Globalization;
+using MPC.Interfaces.WebStoreServices;
+
 
 
 namespace MPC.Repository.Repositories
@@ -34,6 +36,8 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Item Orderby clause
         /// </summary>
+        /// 
+      
         private readonly Dictionary<ItemByColumn, Func<Item, object>> stockItemOrderByClause =
             new Dictionary<ItemByColumn, Func<Item, object>>
             {
@@ -51,7 +55,7 @@ namespace MPC.Repository.Repositories
         public ItemRepository(IUnityContainer container)
             : base(container)
         {
-
+            
         }
 
         /// <summary>
@@ -195,7 +199,14 @@ namespace MPC.Repository.Repositories
             }
 
         }
-
+         public long TotalProductTypeFourItems(long OrderId)
+         {
+             return db.Items.Where(i => i.EstimateId == OrderId && i.ProductType == 4).ToList().Count;
+         }
+         public long OtherTheTypeFourItems(long OrderId)
+         {
+             return db.Items.Where(i => i.EstimateId == OrderId && i.ProductType!=4).ToList().Count;
+         }
         public ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId)
         {
             try
@@ -709,6 +720,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+              
                 Item productItem = null;
                 db.Configuration.LazyLoadingEnabled = false;
                 productItem =
@@ -1976,21 +1988,23 @@ namespace MPC.Repository.Repositories
         }
 
         // Get Related Items List
-        public List<ProductItem> GetRelatedItemsList()
+        public List<ProductItem> GetRelatedItemsList(long ItemId)
         {
             try
             {
+                List<long?> itemIds = db.ItemRelatedItems.Where(i => i.ItemId == ItemId).Select(r => r.RelatedItemId).ToList();
                 var query = from productsList in db.GetCategoryProducts
-                            join tblRelItems in db.ItemRelatedItems on productsList.ItemId
-                                equals tblRelItems.ItemId
+                           // join tblRelItems in db.ItemRelatedItems on productsList.ItemId equals tblRelItems.RelatedItemId
                             where
+                            itemIds.Contains(productsList.ItemId) && 
                                 productsList.IsPublished == true && productsList.EstimateId == null &&
-                                productsList.IsEnabled == true
+                                productsList.IsEnabled == true// && tblRelItems.ItemId == ItemId 
+                                //productsList.ItemId == tblRelItems.RelatedItemId
 
                             select new ProductItem
                             {
                                 ItemID = productsList.ItemId,
-                                RelatedItemID = tblRelItems.RelatedItemId ?? 0,
+                               // RelatedItemID = tblRelItems.RelatedItemId ?? 0,
                                 EstimateID = productsList.EstimateId,
                                 ProductName = productsList.ProductName,
                                 ProductCategoryName = productsList.ProductCategoryName,
@@ -2007,7 +2021,9 @@ namespace MPC.Repository.Repositories
                                 IsPublished = productsList.IsPublished,
                                 ProductSpecification = productsList.ProductSpecification,
                                 CompleteSpecification = productsList.CompleteSpecification,
-                                ProductType = productsList.ProductType
+                                ProductType = productsList.ProductType,
+                                isUploadImage = productsList.isUploadImage ?? false,
+                                ItemFriendlyName = productsList.ItemFriendlyName
                             };
                 return query.ToList<ProductItem>();
             }
@@ -2396,7 +2412,7 @@ namespace MPC.Repository.Repositories
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
         public long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID,
-            long realContactID, long replacedOrderdID, long OrganisationId,
+            long realContactID, long replacedOrderdID, long OrganisationId, double StoreTaxRate, long StoreId, 
             out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved,
             out List<Template> clonedTemplateToRemoveList)
         {
@@ -2450,12 +2466,23 @@ namespace MPC.Repository.Repositories
                         throw new Exception("Critcal Error, We have lost our main Order flags.", null);
                     }
 
-                    // ActualOrder.AddressId = 159239;
+                   
                     ActualOrder.LockedBy = Convert.ToInt32(realContactID);
                     ActualOrder.CompanyId = realCustomerID;
                     TemporaryContact =
                         db.CompanyContacts.Where(i => i.CompanyId == TemporaryOrder.CompanyId).FirstOrDefault();
 
+                    // this will check if user has already an order with discount coupon
+                    long previousOrderDiscountVoucherId = ActualOrder.DiscountVoucherID ?? 0;
+                    if (previousOrderDiscountVoucherId > 0) 
+                    {
+                        ActualOrder.DiscountVoucherID = TemporaryOrder.DiscountVoucherID;
+                        ActualOrder.VoucherDiscountRate = TemporaryOrder.VoucherDiscountRate;
+                        RollBackSpecificDiscountedItemsByVoucherId(ActualOrder.EstimateId, StoreTaxRate, StoreId, OrganisationId, previousOrderDiscountVoucherId);
+
+                    }
+                 
+                   
                     if (TemporaryContact != null)
                     {
                         ActualContact = db.CompanyContacts.Where(i => i.ContactId == realContactID).FirstOrDefault();
@@ -3158,11 +3185,11 @@ namespace MPC.Repository.Repositories
                         //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
                         DateTime OrderCreationDate = Order.CreationDate ?? DateTime.Now;
                         string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                                          OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
+                                          OrderCreationDate.Day.ToString() + "-" + specialCharactersEncoder(Item.ProductCode) + "-" +
                                           Order.Order_Code + "-" + Item.ItemCode + "-" + "Side1";
                         //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
                         string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                                             OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
+                                             OrderCreationDate.Day.ToString() + "-" + specialCharactersEncoder(Item.ProductCode) + "-" +
                                              Order.Order_Code + "-" + Item.ItemCode + "-" + "Side1overlay";
                         //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
@@ -3198,6 +3225,7 @@ namespace MPC.Repository.Repositories
                         attatcment.FileExtention = ".pdf";
                         attatcment.FolderPath = folderPath;
                         attatcment.FileTitle = "Side1";
+                       // attatcment.ImageFileType = ".jpg";
                         uplodedArtWorkList.Add(attatcment);
                         GenerateThumbnailForPdf(ThumbnailPath, true);
                     }
@@ -3211,12 +3239,12 @@ namespace MPC.Repository.Repositories
                             //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
                             DateTime OrderCreationDate = Order.CreationDate ?? DateTime.Now;
                             string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                                              OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
+                                              OrderCreationDate.Day.ToString() + "-" + specialCharactersEncoder(Item.ProductCode) + "-" +
                                               Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" +
                                               item.PageNo.ToString();
                             //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
                             string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                                                 OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
+                                                 OrderCreationDate.Day.ToString() + "-" + specialCharactersEncoder(Item.ProductCode) + "-" +
                                                  Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" +
                                                  item.PageNo.ToString() + "overlay";
                             //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
@@ -3250,7 +3278,9 @@ namespace MPC.Repository.Repositories
                             attatcment.FileExtention = ".pdf";
                             attatcment.FolderPath = folderPath;
                             attatcment.FileTitle = "Side" + item.PageNo.ToString();
+                          //  attatcment.ImageFileType = ".jpg";
                             uplodedArtWorkList.Add(attatcment);
+
                             GenerateThumbnailForPdf(ThumbnailPath, true);
                         }
 
@@ -3801,7 +3831,7 @@ namespace MPC.Repository.Repositories
                      (item.ProductCode.Contains(request.SearchString)) || (item.Company.Name.Contains(request.SearchString)))
                     && item.OrganisationId == OrganisationId
                     && item.IsPublished == true
-                    && item.EstimateId == null
+                    && item.EstimateId == null && item.IsEnabled == true
               && ((!isNonPrintProductSpecified && item.ProductType == (int)ProductType.PrintProduct) ||
               (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
 
@@ -4295,6 +4325,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                List<Item> ReqItemsList;
                 db.Configuration.LazyLoadingEnabled = false;
                 //var query = from productsList in db.Items
                 //            join tblCmsOffer in db.CmsOffers on new { itemid = productsList.ItemId }
@@ -4339,30 +4370,30 @@ namespace MPC.Repository.Repositories
 
 
 
-                List<Item> itemsList = db.Items.Where(
+                ReqItemsList = db.Items.Where(
                    i =>
                        i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && (i.IsArchived == null || i.IsArchived == false) && i.CompanyId == CompanyId &&
                        i.OrganisationId == OrganisationId && i.IsFeatured == true).ToList();
 
-                if (itemsList != null || itemsList.Count() > 0)
+                if (ReqItemsList != null || ReqItemsList.Count() > 0)
                 {
-                    List<long> listOfActualtemIds = itemsList.Select(c => c.ItemId).ToList();
+                    List<long> listOfActualtemIds = ReqItemsList.Select(c => c.ItemId).ToList();
                     List<int?> ids = db.CmsOffers.Where(i => listOfActualtemIds.Contains((long)i.ItemId) && i.OfferType == offerType).Select(c => c.ItemId).ToList();
                     if (ids != null && ids.Count() > 0)
                     {
-                        itemsList = itemsList.Where(i => ids.Contains((int)i.ItemId)).OrderBy(i => i.SortOrder).ToList();
-                        return itemsList;
+                        ReqItemsList = ReqItemsList.Where(i => ids.Contains((int)i.ItemId)).OrderBy(i => i.SortOrder).ToList();
+                        
                     }
-                    else 
-                    {
-                        return null;
-                    }
-                }
-                else 
-                {
-                    return null;
-                }
-                
+                   // else 
+                   // {
+                     //   return null;
+                   // }
+                 }
+              //  else 
+              ///  {
+                 //   return null;
+               // }
+                return ReqItemsList;
             }
             catch (Exception ex)
             {
@@ -4645,7 +4676,294 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId)
+        {
+            try
+            {
+                double ItemBaseCharge = 0;
+
+              
+                List<Item> CartItems = null;
+
+                CartItems = (from r in db.Items
+                             where r.EstimateId == OrderId && r.IsOrderedItem == true && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
+                             select r).ToList();
+
+                List<Item> DelvItems = GetListOfDeliveryItemByOrderID(OrderId).Where(d => d.DiscountVoucherID == DiscountVoucherId).ToList();
+                foreach (Item i in DelvItems)
+                {
+                    CartItems.Add(i);
+                }
+                if (CartItems != null)
+                {
+                    var CouponAppliedItems = CartItems.Where(i => i.DiscountVoucherID == DiscountVoucherId).ToList();
+                    foreach (Item citem in CouponAppliedItems)
+                    {
+                        ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
+
+                        citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+
+                        citem.Qty1Tax1Value = CalculatePercentage(ItemBaseCharge, StoreTaxRate);
+
+                        citem.Qty1GrossTotal = ItemBaseCharge + citem.Qty1Tax1Value;
+
+                        citem.Qty1BaseCharge1 = ItemBaseCharge;
+
+                        citem.Qty1NetTotal = ItemBaseCharge;
+
+                        citem.Qty1CostCentreProfit = null;
+
+                        citem.Qty2CostCentreProfit = null;
+
+                        citem.DiscountVoucherID = null;
+
+                        db.SaveChanges();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
+        public  GetCategoryProduct GetPublishedProductByItemID(int itemID)
+        {
+
+            return db.GetCategoryProducts.Where(g => g.ItemId == itemID && g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).FirstOrDefault();
+
+            
+        }
+        public bool typeFourItemsStatus(long OrderID)
+        {
+            bool Result = false;
+            long Count = db.Items.Where(i => i.EstimateId == OrderID && i.ProductType== 4).ToList().Count;
+            long TotalCount = db.Items.Where(i => i.EstimateId == OrderID && i.IsOrderedItem == true).ToList().Count;
+            long counter = TotalCount - Count;
+            if (counter== 0)
+            {
+                Result = true;
+            }
+            return Result;
+        }
+        //public List<MPC.Models.Common.TemplateVariable> GetAllVariablesUsedInTemplate(List<MPC.Models.Common.TemplateVariable> lstPageControls, int itemID, int contactID, int propertyID)
+        //{
+        //    List<MPC.Models.Common.TemplateVariable> defaultValues = new List<MPC.Models.Common.TemplateVariable>();
+            
+            
+        //        var itemObj = db.Items.Where(g => g.ItemId == itemID).SingleOrDefault();
+        //        List<MPC.Models.DomainModels.TemplateVariable> lstAllTempVar = db.TemplateVariables.Where(g => g.TemplateId == itemObj.TemplateId).ToList();
+        //        List<FieldVariable> lstFieldVar = new List<FieldVariable>();
+                
+        //        var listing = _myCompanyService.GetListingByListingID(propertyID);
+        //        int listingAgentCount = 0;
+        //        int listingOFIDCount = 0;
+        //        int listingVendrosCount = 0;
+        //        int listingLinkCount = 0;
+        //        int listingFloorPlansCount = 0;
+        //        int listingConAgentCount = 0;
+        //        List<tbl_ListingAgent> listingAgents = oManager.GetListingAgentsByListingID(propertyID); //Listing Agents
+        //        List<tbl_ListingOFID> listingOFIDs = oManager.GetListingOFIDsByListingID(propertyID); //Listing OFIDs
+        //        List<tbl_ListingFloorPlan> listingFloorPlans = oManager.GetListingFloorPlansByListingID(propertyID); //Listing Floorplans
+        //        List<tbl_ListingLink> listingLinks = oManager.GetListingLinksByListingID(propertyID); //Listing Links
+        //        List<tbl_ListingConjunctionAgent> listingConjuctionAgents = oManager.GetListingConjunctionAgentsByListingID(propertyID); //Listing ConjunctionAgents
+        //        List<tbl_ListingVendor> listingVendors = oManager.GetListingVendorsByListingID(propertyID); //Listing Vendors
+        //        var contact = db.tbl_contacts.Where(g => g.ContactID == contactID).SingleOrDefault();
+        //        var company = db.tbl_contactcompanies.Where(g => g.ContactCompanyID == contact.ContactCompanyID).SingleOrDefault();
+        //        foreach (var tempVar in lstAllTempVar)
+        //        {
+        //            var fieldVar = db.tbl_FieldVariables.Where(g => g.VariableID == tempVar.VariableID).SingleOrDefault();
+        //            if (fieldVar != null)
+        //            {
+        //                lstFieldVar.Add(fieldVar);
+        //            }
+        //        }
+        //        foreach (var item in lstFieldVar)
+        //        {
+        //            if (item.VariableType != 1)
+        //            {
+
+
+        //                //add controls to current section
+        //                var keyValue = 0;
+        //                string fieldValue = string.Empty;
+
+        //                switch (item.RefTableName)
+        //                {
+        //                    case "tbl_Listing":
+        //                        fieldValue = Convert.ToString(listing.GetType().GetProperty(item.CriteriaFieldName).GetValue(listing, null));
+        //                        break;
+        //                    case "tbl_ListingImage":
+        //                        //already present
+        //                        break;
+        //                    case "tbl_ListingAgent":
+
+        //                        if (listingAgents.Count > listingAgentCount)
+        //                        {
+        //                            fieldValue = Convert.ToString(listingAgents[listingAgentCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingAgents[listingAgentCount], null));
+        //                        }
+        //                        break;
+        //                    case "tbl_ListingOFID":
+
+        //                        if (listingOFIDs.Count > listingOFIDCount)
+        //                        {
+        //                            fieldValue = Convert.ToString(listingOFIDs[listingOFIDCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingOFIDs[listingOFIDCount], null));
+        //                        }
+        //                        listingOFIDCount++;
+        //                        break;
+        //                    case "tbl_ListingVendor":
+
+        //                        if (listingVendors.Count > listingVendrosCount)
+        //                        {
+        //                            fieldValue = Convert.ToString(listingVendors[listingVendrosCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingVendors[listingVendrosCount], null));
+        //                        }
+        //                        listingVendrosCount++;
+        //                        break;
+        //                    case "tbl_ListingLink":
+
+        //                        if (listingLinks.Count > listingLinkCount)
+        //                        {
+        //                            fieldValue = Convert.ToString(listingLinks[listingLinkCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingLinks[listingLinkCount], null));
+        //                        }
+
+        //                        listingLinkCount++;
+        //                        break;
+        //                    case "tbl_ListingFloorPlan":
+
+        //                        if (listingFloorPlans.Count > listingFloorPlansCount)
+        //                        {
+        //                            fieldValue = Convert.ToString(listingFloorPlans[listingFloorPlansCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingFloorPlans[listingFloorPlansCount], null));
+        //                        }
+        //                        listingFloorPlansCount++;
+        //                        break;
+        //                    case "tbl_ListingConjunctionAgent":
+
+        //                        if (listingConjuctionAgents.Count > listingConAgentCount)
+        //                        {
+        //                            fieldValue = Convert.ToString(listingConjuctionAgents[listingConAgentCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingConjuctionAgents[listingConAgentCount], null));
+        //                        }
+        //                        listingConAgentCount++;
+        //                        break;
+        //                    case "tbl_contacts":
+        //                        keyValue = contactID;
+        //                        fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+        //                        break;
+        //                    case "tbl_contactcompanies":
+        //                        keyValue = company.ContactCompanyID;
+        //                        fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+        //                        break;
+        //                    case "tbl_addresses":
+        //                        keyValue = contact.AddressID;
+        //                        fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+        //                        break;
+        //                    default:
+        //                        break;
+        //                }
+        //                TemplateVariable tVar = new TemplateVariable(item.VariableTag, fieldValue);
+        //                defaultValues.Add(tVar);
+        //            }
+        //            else //General Variable
+        //            {
+        //                int keyValue = 0;
+        //                string fieldValue = string.Empty;
+
+        //                switch (item.RefTableName)
+        //                {
+        //                    case "tbl_contacts":
+        //                        keyValue = contactID;
+        //                        fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+        //                        break;
+        //                    case "tbl_contactcompanies":
+
+        //                        keyValue = company.ContactCompanyID;
+        //                        fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+        //                        break;
+        //                    case "tbl_addresses":
+        //                        keyValue = contact.AddressID;
+        //                        fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+        //                        break;
+        //                    case "tbl_section_flags":
+        //                        using (MPCEntities dbContext = new MPCEntities())
+        //                        {
+        //                            keyValue = company.FlagID;
+        //                            fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+        //                        }
+        //                        break;
+        //                    case "tbl_ContactDepartments":
+        //                        if (contact.DepartmentID.HasValue)
+        //                        {
+        //                            keyValue = contact.DepartmentID.Value;
+        //                            fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+        //                        }
+        //                        break;
+        //                    default:
+        //                        break;
+        //                }
+
+        //                TemplateVariable tVar = new TemplateVariable(item.VariableTag, fieldValue);
+        //                defaultValues.Add(tVar);
+        //            }
+        //        }
+            
+        //    foreach (var obj in defaultValues)
+        //    {
+        //        var lstObj = lstPageControls.Where(g => g.Name == obj.Name).SingleOrDefault();
+        //        if (lstObj == null)
+        //        {
+        //            lstPageControls.Add(obj);
+        //        }
+        //    }
+
+
+        //    return lstPageControls;
+        //}
+    
+        public List<usp_ExportStoreProductsAndPrices_Result> getExportedItems(long Companyid)
+        {
+            try
+            {
+                List<usp_ExportStoreProductsAndPrices_Result> items = db.usp_ExportStoreProductsAndPrices(Companyid, OrganisationId).ToList();
+
+                return items;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string specialCharactersEncoder(string value)
+        {
+            value = value.Replace("/", "-");
+            value = value.Replace(" ", "-");
+            value = value.Replace(";", "-");
+            value = value.Replace("&#34;", "");
+            value = value.Replace("&", "");
+            value = value.Replace("+", "");
+            return value;
+        }
+
+        public List<GetCategoryProduct> GetRetailFeaturedPublishedProducts()
+        {
+            try
+            {
+                List<GetCategoryProduct> recordds =
+              db.GetCategoryProducts.Where(
+                  g => g.IsPublished == true && g.EstimateId == null && g.IsFeatured == true && (g.IsArchived == null || g.IsArchived == false))
+                  .OrderBy(g => g.ProductName)
+                  .ToList();
+                recordds = recordds.OrderBy(s => s.SortOrder).ToList();
+                return recordds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
     }
 }
 

@@ -91,7 +91,7 @@ namespace MPC.Repository.Repositories
         public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId)
         {
                 var query = (from product in db.ProductCategories
-                             join CT in db.CategoryTerritories on product.ParentCategoryId equals CT.ProductCategoryId
+                             join CT in db.CategoryTerritories on product.ProductCategoryId equals CT.ProductCategoryId
                              join contact in db.CompanyContacts on CT.TerritoryId equals contact.TerritoryId
                              where contact.ContactId == ContactId && product.ParentCategoryId == ParentCatId && product.isEnabled == true
                              && product.isPublished == true && (product.isArchived == false || product.isArchived == null)
@@ -237,7 +237,7 @@ namespace MPC.Repository.Repositories
         public List<ProductCategory> GetChildCategories(long categoryId)
         {
             List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && 
-                category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true && 
+                category.ParentCategoryId.Value == categoryId && category.isArchived == false && 
                 category.OrganisationId == OrganisationId).ToList().OrderBy(x => x.DisplayOrder).ToList();
             return childCategoresList;
 
@@ -264,6 +264,20 @@ namespace MPC.Repository.Repositories
         public List<ProductCategory> GetAllCategories()
         {
             return db.ProductCategories.ToList();
+        }
+
+
+        public ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName)
+        {
+            List<ProductCategory> categories = db.ProductCategories.Where(c => c.OrganisationId == OrganisationId && c.CompanyId == CompanyId && c.CategoryName.Contains(CategoryName)).ToList();
+            if (categories != null && categories.Count > 0)
+            {
+                return categories.FirstOrDefault();
+            }
+            else 
+            {
+                return null;
+            }
         }
     }
 }

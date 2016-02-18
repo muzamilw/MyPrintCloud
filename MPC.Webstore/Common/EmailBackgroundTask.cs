@@ -1,14 +1,17 @@
 ﻿using FluentScheduler;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Webstore.Common;
 using System;
 
 public class EmailBackgroundTask : Registry
 {
     private readonly ICampaignService _campaignService;
+    private readonly MPC.Interfaces.MISServices.IListingService _listingService;
+    
 
  //   public ICampaignService campaignService;
 
-    public EmailBackgroundTask(System.Web.HttpContext context, ICampaignService campaignService)
+    public EmailBackgroundTask(System.Web.HttpContext context, ICampaignService campaignService, MPC.Interfaces.MISServices.IListingService _listingService, ICompanyService _myCompanyService)
     {
       
        
@@ -16,10 +19,11 @@ public class EmailBackgroundTask : Registry
 
 
         Schedule(() => _campaignService.SendEmailFromQueue(context))
-       .ToRunNow().AndEvery(1).Minutes();
+       .ToRunNow().AndEvery(5).Minutes();
 
         Schedule(() => _campaignService.MonitorScheduledEmails())
        .ToRunNow().AndEvery(5).Minutes();
+
 
         //Schedule(() => emailmgr.GetWeeklyEmailPage(context))
         //    .ToRunEvery(1).Weeks().On(DayOfWeek.Monday).At(21, 00);

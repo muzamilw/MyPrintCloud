@@ -5,10 +5,9 @@
         ist.lookupMethods = {
 
             viewModel: (function () {
-                var
-                    view,
+                var view,
                     errorList = ko.observableArray([]),
-                   // isEditorVisible = ko.observable(false),
+                    // isEditorVisible = ko.observable(false),
                     lookupClickCharge = ko.observable(),
                     lookupSpeedWeight = ko.observable(),
                     lookupPerHour = ko.observable(),
@@ -23,10 +22,10 @@
                     lookupMeterPerHourClickChargeList = ko.observableArray([]),
                     CurrencySymbol = ko.observable(),
                     WeightUnit = ko.observable(),
-            LengthUnit = ko.observable(),
+                    LengthUnit = ko.observable(),
                     selectedlookup = ko.observable(),
                     selectedClickCharge = ko.observable(),
-                    selectedSpeedWeight = ko.observable(),
+                    selectedSpeedWeight = ko.observable(model.SpeedWeightLookup()),
                     selectedPerHour = ko.observable(),
                     selectedClickChargeZones = ko.observable(model.ClickChargeZone()),
                     selectedGuillotineClickCharge = ko.observable(model.GuillotineCalc()),
@@ -38,6 +37,9 @@
                     isGuillotineClickChargeEditorVisible = ko.observable(),
                     isMeterPerHourClickChargeEditorVisible = ko.observable(),
                     IsSelected = ko.observable(),
+                    speedWeightCalculation = ko.observable();
+                
+                    isSpeedWeightVisible = ko.observable(false),
                     hasChanges = ko.computed(function () {
                         //if (selectedClickChargeZones() != undefined) {
                         //    if (ist.machine != null)
@@ -510,7 +512,10 @@
                 //    });
                 //},
 
-
+                GetSpeedWeightLookup = function (currentSpeedWeight, updatedSpeedWeight) {
+                    speedWeightCalculation = updatedSpeedWeight;
+                    speedWeightCalculation(model.SpeedWeightLookup(currentSpeedWeight));
+                },
 
                 GetLookupMethodById = function (mMethodId,MachineType) {
                     //selectedSpeedWeight(null);
@@ -598,6 +603,13 @@
                             sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
 
                         
+                    }
+                    else if (MachineType == 4) {//  Type for Speed Weight Calculation
+                        
+                        selectedSpeedWeight(model.SpeedWeightLookup(lookup[0]));
+                        sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
+
+
                     }
                 },
 
@@ -824,7 +836,9 @@
                     oMeterPerHour: oMeterPerHour,
                     WeightUnit : WeightUnit,
                     LengthUnit: LengthUnit,
-                   hasChanges: hasChanges
+                    isSpeedWeightVisible: isSpeedWeightVisible,
+                    hasChanges: hasChanges,
+                    GetSpeedWeightLookup: GetSpeedWeightLookup
                 }
             })()
         };

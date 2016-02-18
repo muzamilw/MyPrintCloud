@@ -10,46 +10,102 @@
     <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
         <div class="row left_right_padding cntTopLevelCategory">
 
-
-            @foreach (var categories in Model)
+            @if (Model != null && Model.Count() > 0)
             {
-                
-                <div id="MainContainer" class="Top_Cat_Body  rounded_corners">
-                    <div class="LCLB">
-                        @{
-                            var categoryLinkId = "aC" + categories.ProductCategoryId;
-                        }
-                        <a id="@categoryLinkId" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
-                            <div class="PDTC_TL FI_TL H4B_TL">
-                                <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="/@Html.GetAppBasePath()@categories.ThumbnailPath" />
-                            </div>
-                        </a>
+                if (Model.FirstOrDefault().CompanyId == 35878)
+                {
+                    foreach (var categories in Model.Take(3))
+                    {
 
-                        <div class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">
-                            @categories.CategoryName
+                        <div id="MainContainer" class="Top_Cat_Body  rounded_corners">
+                            <div class="LCLB">
+                                @{
+                        var categoryLinkId = "aC" + categories.ProductCategoryId;
+                                }
+                                <a id="@categoryLinkId" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
+                                    <div class="PDTC_TL FI_TL H4B_TL">
+                                        <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="/@Html.GetAppBasePath()@categories.ThumbnailPath" />
+                                    </div>
+                                </a>
+
+                                <div class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">
+                                    @categories.CategoryName
+                                </div>
+                                <div class="topcat_desc displayNone_TLS5">
+                                    @{
+                                            ProductDescription = categories.Description1;
+                                            if (!string.IsNullOrEmpty(ProductDescription))
+                                            {
+                                                if (ProductDescription.Length > 120)
+                                                {
+                                                    ProductDescription = ProductDescription.Substring(0, 120);
+                                                    ProductDescription = ProductDescription.Substring(0, ProductDescription.LastIndexOf(' '));
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    ProductDescription = ProductDescription;
+                                                }
+                                            }
+                                    }
+                                    @Html.Raw(ProductDescription)
+                                </div>
+                                <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblCategorybtnViewHeading", UserCookieManager.WBStoreId, "View")) <strong>@categories.CategoryName</strong>
+                                </a>
+                            </div>
                         </div>
-                        <div class="topcat_desc displayNone_TLS5">
-                            @{
-                                   ProductDescription = categories.Description1;
-                                   if (!string.IsNullOrEmpty(ProductDescription))
-                                   {
-                                       if (ProductDescription.Length > 250)
-                                       {
-                                           ProductDescription = ProductDescription.Substring(0, 250);
-                                           ProductDescription = ProductDescription + "<a class=morelink href=/Category/" + Utils.specialCharactersEncoder(categories.CategoryName) + "/" + @categories.ProductCategoryId + "> more...</a>";
-                                       }
-                                       else
-                                       {
-                                           ProductDescription = ProductDescription;
-                                       }
-                                   }
-                               }
-                            @Html.Raw(ProductDescription)
+                    }
+                }
+                else
+                {
+                    foreach (var categories in Model)
+                    {
+
+                        <div id="MainContainer" class="Top_Cat_Body  rounded_corners">
+                            <div class="LCLB">
+                                @{
+                        var categoryLinkId = "aC" + categories.ProductCategoryId;
+                                }
+                                <a id="@categoryLinkId" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
+                                    <div class="PDTC_TL FI_TL H4B_TL">
+                                        <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="/@Html.GetAppBasePath()@categories.ThumbnailPath" />
+                                    </div>
+                                </a>
+
+                                <div class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">
+                                    @categories.CategoryName
+                                </div>
+                                <div class="topcat_desc displayNone_TLS5">
+                                    @{
+                        ProductDescription = categories.Description1;
+                        if (!string.IsNullOrEmpty(ProductDescription))
+                        {
+                            if (ProductDescription.Length > 120)
+                            {
+                                ProductDescription = ProductDescription.Substring(0, 120);
+                                ProductDescription = ProductDescription.Substring(0, ProductDescription.LastIndexOf(' '));
+                                                    
+                            }
+                            else
+                            {
+                                ProductDescription = ProductDescription;
+                            }
+                        }
+                                    }
+                                    @Html.Raw(ProductDescription)
+                                </div>
+                                <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblCategorybtnViewHeading", UserCookieManager.WBStoreId, "View")) <strong>@categories.CategoryName</strong>
+                                </a>
+                            </div>
                         </div>
-                        <a id="ShopNowFuture" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">Shop Now</a>
-                    </div>
-                </div>
+                    }
+                }
             }
+            
+
+           
             <div class="clearBoth">
                 &nbsp;
             </div>

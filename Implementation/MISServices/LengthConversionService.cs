@@ -39,8 +39,9 @@ namespace MPC.Implementation.MISServices
 
             if (systemUnit.Id == (int)LengthUnit.Inch)
             {
-                outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Mm, systemUnit);
-                outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
+                //outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Mm, systemUnit);
+                //outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
+                outputvalue = LengthConversionHelper.InchtoPoint(input);
             }
             else if (systemUnit.Id == (int)LengthUnit.Cm)
             {
@@ -65,8 +66,9 @@ namespace MPC.Implementation.MISServices
           
             if (systemUnit.Id == (int)LengthUnit.Inch)
             {
-                outputvalue = LengthConversionHelper.PointToMm(input);
-                outputvalue = ConvertLength(outputvalue, LengthUnit.Mm, LengthUnit.Inch);
+                //outputvalue = LengthConversionHelper.PointToMm(input);
+                //outputvalue = ConvertLength(outputvalue, LengthUnit.Mm, LengthUnit.Inch);
+                outputvalue = LengthConversionHelper.PointToInch(input);
             }
             else if (systemUnit.Id == (int)LengthUnit.Cm)
             {

@@ -208,6 +208,12 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Template> Templates { get; set; }
 
         public DbSet<Status> Statuses { get; set; }
+
+        public DbSet<UserActionsLog> UserActionLogs { get; set; }
+
+        public DbSet<ListingBulletPoint> ListingBulletPoints { get; set; }
+
+        public DbSet<StagingProductPriceImport> StagingProductPriceImports { get; set; }
         /// <summary>
         /// Get Minimum Product Value
         /// </summary>
@@ -718,6 +724,13 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ProductCategoryVoucher> ProductCategoryVouchers { get; set; }
 
         public DbSet<MarketingBriefHistory> MarketingBriefHistory { get; set; }
+        public DbSet<ZapierWebHookTargetUrl> ZapierWebHookTargetUrls { get; set; }
+
+        public DbSet<Asset> Assets { get; set; }
+
+        public DbSet<Folder> Folders { get; set; }
+
+        public DbSet<AssetItem> AssetItems { get; set; }
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
@@ -1223,6 +1236,60 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("costcentreId", typeof(long));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCostCentre", costcentreIdParameter);
+        }
+
+        /// <summary>
+        /// Delete Staging Import table data
+        /// </summary>
+        // ReSharper disable InconsistentNaming
+        public ObjectResult<usp_GetLiveStores_Result> usp_GetLiveStores()
+        // ReSharper restore InconsistentNaming
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetLiveStores_Result>("usp_GetLiveStores");
+        }
+        public int usp_DeleteContactById(long? ContactID)
+        // ReSharper restore InconsistentNaming
+        {
+            var ContactIDParameter = ContactID.HasValue ?
+                new ObjectParameter("ContactID", ContactID) :
+                new ObjectParameter("ContactID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactByID", ContactIDParameter);
+        }
+
+        public ObjectResult<usp_ExportStoreProductsAndPrices_Result> usp_ExportStoreProductsAndPrices(long? StoreId, long? OrganisationId)
+        // ReSharper restore InconsistentNaming
+        {
+            var StoreIDParameter = StoreId.HasValue ?
+                new ObjectParameter("StoreId", StoreId) :
+                new ObjectParameter("StoreId", typeof(long));
+
+            var organisationIdParameter = OrganisationId.HasValue ?
+               new ObjectParameter("OrganisationId", OrganisationId) :
+               new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ExportStoreProductsAndPrices_Result>("usp_ExportStoreProductsAndPrices", organisationIdParameter, StoreIDParameter);
+           
+        }
+        public int usp_DeleteStagingImportProduct()
+        // ReSharper restore InconsistentNaming
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteStagingImportProduct");
+        }
+
+
+        public int usp_ImportProductPriceMatrix(long? organisationId, long? storeId)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var storeIdParameter = storeId.HasValue ?
+                new ObjectParameter("StoreId", storeId) :
+                new ObjectParameter("StoreId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_ImportProductPriceMatrix", organisationIdParameter, storeIdParameter);
         }
         #endregion
     }

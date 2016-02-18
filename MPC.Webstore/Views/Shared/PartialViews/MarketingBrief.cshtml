@@ -168,7 +168,7 @@
                                     </div>
                                     <div class="MB_AddInfoCOnt">
                                         <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
                                     </div>
 
                                 </div>
@@ -189,7 +189,7 @@
                                     </div>
                                     <div class="MB_AddInfoCOnt">
                                         <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -214,12 +214,12 @@
                                 <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.WBStoreId, "Upload your design"))</label><br />
                                 <br />
                                 <div class="MB_GLContainer">
-                                    <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.WBStoreId, "File formats: "))</label>
-                                    <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.WBStoreId, "png, gif, pdf and jpg file formats."))</label>
+                                    <span id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.WBStoreId, "File formats: "))</span>
+                                    <span id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.WBStoreId, "png, gif, pdf and jpg file formats."))</span>
                                 </div>
                                 <div class="MB_GLContainer">
-                                    <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.WBStoreId, "file size: "))</label>
-                                    <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.WBStoreId, "file greater than 10mb is not permitted for upload."))</label>
+                                    <span id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.WBStoreId, "file size: "))</span>
+                                    <span id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.WBStoreId, "file greater than 10mb is not permitted for upload."))</span>
                                 </div>
                             </div>
                             <div class="MB_fileUploadContainer">
@@ -318,9 +318,9 @@
                 if ($('.' + element + '').children().html() == null) {
 
                     if (AdditionalAnsList == "") {
-                        AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
+                        AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))" + " :  "  + $('.' + element + '').parent().next().next().children().next().val();
                     } else {
-                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
+                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))" + " :  "  + $('.' + element + '').parent().next().next().children().next().val();
 
                     }
                 } else {
@@ -346,9 +346,9 @@
                             }
                         });
                         if (AdditionalAnsList == "") {
-                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
+                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))" + " :  " + $('.' + element + '').parent().next().next().children().next().val();
                         } else {
-                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
+                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))" + " :  " + $('.' + element + '').parent().next().next().children().next().val();
                         }
 
                     } else { // case of radio
@@ -360,9 +360,9 @@
                                 if (ClassOFSelectedRadio == element) {
                                     selectedradioBtnsCount = selectedradioBtnsCount + 1;
                                     if (AdditionalAnsList == "") {
-                                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
+                                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " +  "@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))" + " :  " + $(this).parent().parent().parent().next().next().children().next().val();
                                     } else {
-                                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
+                                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " +  "@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))" + " :  " +  $(this).parent().parent().parent().next().next().children().next().val();
                                     }
                                     return;
                                 }
@@ -376,9 +376,9 @@
             $('.MB_QtnsCont').each(function (i, val) {
                 if ($(this).next().next().next().children().next().val() != '' && $(this).next().next().next().children().next().val() != undefined) {
                     if (AdditionalAnsList == "") {
-                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).text() + " \n "  + "Additional Information :  " + $(this).next().next().next().children().next().val();
+                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).text() + " \n " +  "@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))" + " :  " + $(this).next().next().next().children().next().val();
                     } else {
-                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).text() + " \n " + "Additional Information :  " + $(this).next().next().next().children().next().val();
+                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).text() + " \n "+ "@Html.Raw(Html.GetKeyValueFromResourceFile("briefAdditionalInformation", UserCookieManager.WBStoreId, "Additional Information"))" + " :  " + $(this).next().next().next().children().next().val();
                     }
                 }
             });
@@ -430,7 +430,7 @@
             while (url.indexOf('/') != -1)
                 url = url.replace("/", "__");
             formData = new FormData();
-            debugger;
+
             // formData.append("file" + i, files[i]);
             for (i = 0; i < postedFiles.length; i++) {
                 var isRemovedFile = false;
@@ -461,7 +461,7 @@
                             } else {
                                 values = values + "|" + val;
                             }
-                          
+
                         });
                         $("#listOfFileName").val(values);
                         console.log($("#listOfFileName").val());
@@ -476,7 +476,7 @@
                     }
                 };
                 var returnText = $.ajax(options).responseText;
-              
+
             } else {
                 return true;
             }
@@ -527,7 +527,7 @@
         ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("msgOrgServSetting", UserCookieManager.WBStoreId, "Critial Error, server settings are not set!"))');
     }
 
-    </script>
+</script>
 
 
 <script>
@@ -566,7 +566,7 @@
                     var fileext = files[i].name.split('.');
                     var lastIndex = fileext.length;
                     var extname = fileext[lastIndex - 1];
-                    if (files[i].size != null && files[i].size > 10000000) {
+                    if (files[i].size != null && files[i].size > 52428800) {
                         ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 10 MB are allowed only !");
                         isAddfile = 0;
                     }

@@ -72,32 +72,32 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
             else
             {
-                CompanyContact SubsriberContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
-                if (SubsriberContact != null)
-                {
-                    JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
-                    GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+                long Customer = 0;
+                CompanyContact loginUser = null;
+                loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
-                    return Request.CreateResponse(HttpStatusCode.OK, false);
+                if (loginUser == null) 
+                {
+                    CompanyContact Contact = new CompanyContact();
+                    Contact.FirstName = FirstName;
+                    Contact.LastName = LastName;
+                    Contact.Email = Email;
+                    Contact.Mobile = Mobile;
+                    Contact.Password = "password";
+                    Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+
+
+                    Customer = _companyService.CreateCustomer(FirstName + " " + LastName, false, false, CompanyTypes.SalesCustomer, string.Empty, UserCookieManager.WEBOrganisationID, StoreBaseResopnse.Company.CompanyId, Contact);
+                    loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 }
 
-                CompanyContact Contact = new CompanyContact();
-                Contact.FirstName = FirstName;
-                Contact.LastName = LastName;
-                Contact.Email = Email;
-                Contact.Mobile = Mobile;
-                Contact.Password = "password";
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
-
-                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty,  UserCookieManager.WEBOrganisationID, StoreBaseResopnse.Company.CompanyId, Contact);
-
-                if (Customer > 0)
+                if (loginUser != null)
                 {
 
-                    CompanyContact loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                  
                     NewInqury.ContactId = loginUser.ContactId;
-                    NewInqury.CompanyId = Customer;
+                    NewInqury.CompanyId = loginUser.CompanyId;
                     
                     CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                     CampaignEmailParams cep = new CampaignEmailParams();
@@ -109,9 +109,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     cep.AddressId = NewInqury.CompanyId??0;
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                     cep.StoreId = UserCookieManager.WBStoreId;
-
+                    cep.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
                     SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-
+                  
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId,NewInqury.CompanyId??0, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
@@ -134,22 +134,22 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             NewInqury.SourceId = (int)PipelineSource.WebtoPrintSite;
             NewInqury.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
             NewInqury.Status = 25; // unproccessed status of inquiry
-            int iMaxFileSize = 2097152;
-            long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
-            long InquiryId = result;
+            int iMaxFileSize = 50000000;
+            int InquiryId = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
+            
 
             if (Request != null)
             {
                 if (HttpContext.Current.Request.ContentLength < iMaxFileSize)
                 {
-                    FillAttachments(result);
+                    FillAttachments(InquiryId);
                 }
                 else
                 {
                     return Request.CreateResponse(HttpStatusCode.OK,"gs");
                 }
             }
-            if (result > 0)
+            if (InquiryId > 0)
             {
 
                 MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
@@ -158,33 +158,37 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 cep.ContactId = NewInqury.ContactId;
-
+                cep.InquiryId = InquiryId;
                 cep.OrganisationId = 1;
                 cep.AddressId =NewInqury.CompanyId??0;
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreId = UserCookieManager.WBStoreId;
                 cep.CompanyId = UserCookieManager.WBStoreId;
+                cep.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
                 Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
 
                 SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                if (EmailOFSM != null) 
                 {
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
 
-                    long MID = _companyContact.GetContactIdByRole(_webstoreAuthorizationChecker.loginContactCompanyID(), (int)Roles.Manager);
-                    cep.CorporateManagerID = MID;
-                    int ManagerID = (int)MID;
+                        long MID = _companyContact.GetContactIdByRole(_webstoreAuthorizationChecker.loginContactCompanyID(), (int)Roles.Manager);
+                        cep.CorporateManagerID = MID;
+                        int ManagerID = (int)MID;
 
-                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM, "", "", InquiryId);
+                    }
+                    else
+                    {
+
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM, "", "", InquiryId);
+
+                    }
+
+                    _campaignService.emailBodyGenerator(RegistrationCampaign, cep, UserContact, StoreMode.Retail, (int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
                 }
-                else
-                {
-
-                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-
-                }
-
-                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, UserContact, StoreMode.Retail,(int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
+                
             }
 
             
@@ -316,7 +320,5 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
             return listOfInquiries;
         }
-
-
     }
 }

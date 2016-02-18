@@ -29,7 +29,9 @@ namespace MPC.Repository.Repositories
             new Dictionary<DeliveryNoteByColumn, Func<DeliveryNote, object>>
             {
                 {DeliveryNoteByColumn.Name, c => c.CustomerOrderReff},
-                {DeliveryNoteByColumn.Code, c => c.DeliveryDate}
+                {DeliveryNoteByColumn.Code, c => c.Code},
+                {DeliveryNoteByColumn.DeliveryDate, c => c.DeliveryDate},
+                {DeliveryNoteByColumn.CreationDate, c => c.CreationDateTime},
             };
 
         protected override IDbSet<DeliveryNote> DbSet
@@ -50,7 +52,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<DeliveryNote, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) ||
-                      item.CustomerOrderReff.Contains(request.SearchString)) && item.IsStatus == request.Status);
+                      item.CustomerOrderReff.Contains(request.SearchString) || (item.Company.Name.Contains(request.SearchString)) || (item.Code.Contains(request.SearchString)) || (item.OrderReff.Contains(request.SearchString))) && item.IsStatus == request.Status && item.OrganisationId == OrganisationId);
             IEnumerable<DeliveryNote> deliveryNotes = request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(_deliveryNoteByClause[request.ItemOrderBy])
@@ -65,5 +67,10 @@ namespace MPC.Repository.Repositories
 
             return new GetDeliveryNoteResponse { DeliveryNotes = deliveryNotes, TotalCount = DbSet.Count(query) };
         }
+
+        public List<DeliveryNote> GetDeliveryNotesByOrderId(long orderId)
+        {
+            return DbSet.Include("SectionFlag").Where(d => d.OrderId == orderId).ToList();
+        } 
     }
 }

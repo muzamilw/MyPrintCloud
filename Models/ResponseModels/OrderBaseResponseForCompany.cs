@@ -33,5 +33,6 @@ namespace MPC.Models.ResponseModels
         public bool IsStoreLive { get; set; }
         public bool IsMisOrdersCountReached { get; set; }
         public bool IsWebOrdersCountReached { get; set; }
+        public IEnumerable<DeliveryNote> DeliveryNotes { get; set; }
     }
 }

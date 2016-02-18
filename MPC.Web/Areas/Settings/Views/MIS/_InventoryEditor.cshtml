@@ -74,7 +74,7 @@
                                             <label for="category" class="control-label text-right tooltip-float">Inventory Category</label>
                                         </div>
                                         <div class="col-lg-6" style="padding-left:13px;">
-                                            <select id="category" class="form-control" data-bind="disable:(itemId()!==0),options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId, validationOnElement:categoryId"></select>
+                                            <select id="category" class="form-control" data-bind="disable:(itemId()!==0 && $root.isStockCatEditable() == false),options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId, validationOnElement:categoryId"></select>
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -87,7 +87,7 @@
                                             <label for="subcategory" class="control-label text-right tooltip-float">Inventory Sub Category</label>
                                         </div>
                                         <div class="col-lg-6" style="padding-left:13px;">
-                                            <select id="subcategory" class="form-control" data-bind="disable:(itemId()!==0),options: $root.filteredSubCategoriesForDetail, optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryId, validationTooltip: subCategoryId, validationOnElement:subCategoryId"></select>
+                                            <select id="subcategory" class="form-control" data-bind="options: $root.filteredSubCategoriesForDetail, optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryId, validationTooltip: subCategoryId, validationOnElement:subCategoryId"></select>
                                         </div>
                                     </div>
 
@@ -158,15 +158,31 @@
                                                     </div>
                                                 </div>
                                                 <!-- /ko -->
-
                                                 <!-- ko if: itemId() > 0-->
-                                                    <!-- ko if: paperTypeId()==1-->
-                                                    <label id="inStock" class="control-label">Sheet</label>
-                                                    <!-- /ko -->
-                                                    <!-- ko if: paperTypeId()==2-->
-                                                    <label id="inStock" class="control-label">Roll Paper</label>
-                                                    <!-- /ko -->
+                                                <!-- ko if: paperTypeId()==1-->
+                                                <label id="inStock" class="control-label">Sheet</label>
                                                 <!-- /ko -->
+                                                <!-- ko if: paperTypeId()==2-->
+                                                <label id="inStock" class="control-label">Roll Paper</label>
+                                                <!-- /ko -->
+                                                <!-- /ko -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-12" data-bind="visible:categoryId() === 4">
+                                    <div class="col-lg-9">
+                                        <div class="form-group ">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                </div>
+                                                <label for="flag" class="control-label text-right tooltip-float">Plate Run Length</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input type="text" style="text-align:right;" class="form-control" id="weight" data-bind="value:plateRunLength" />
+
                                             </div>
                                         </div>
                                     </div>
@@ -314,7 +330,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group " data-bind="visible:categoryId() === 2">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Paper Basis Area" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -322,7 +338,7 @@
                                             </div>
                                             <label class="control-label text-right tooltip-float">Color</label>
                                         </div>
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-3">
                                             <input type="text" id="color" class="form-control" data-bind="value:itemColour" />
                                         </div>
                                     </div>
@@ -369,31 +385,31 @@
                                             </div>
                                         </div>*@
                                     @*<div class="form-group " data-bind="visible:itemId()!==0">
-                                        <div class="col-lg-5 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Allocated" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                            <div class="col-lg-5 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Allocated" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="weight" class="control-label text-right tooltip-float">Allocated Stock</label>
                                             </div>
-                                            <label for="weight" class="control-label text-right tooltip-float">Allocated Stock</label>
-                                        </div>
-                                        <div class="col-lg-7">
-                                            <label id="inStock" class="control-label" data-bind="text:allocated"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group " data-bind="visible:itemId()!==0">
-                                        <div class="col-lg-5 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="On Order" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                            <div class="col-lg-7">
+                                                <label id="inStock" class="control-label" data-bind="text:allocated"></label>
                                             </div>
-                                            <label for="weight" class="control-label text-right tooltip-float">On Order</label>
                                         </div>
-                                        <div class="col-lg-7">
-                                            <label id="inStock" class="control-label" data-bind="text:onOrder"></label>
-                                        </div>
-                                    </div>*@
+                                        <div class="form-group " data-bind="visible:itemId()!==0">
+                                            <div class="col-lg-5 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="On Order" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="weight" class="control-label text-right tooltip-float">On Order</label>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <label id="inStock" class="control-label" data-bind="text:onOrder"></label>
+                                            </div>
+                                        </div>*@
                                     <div class="form-group ">
                                         <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -455,7 +471,7 @@
                                             </div>
                                             <label for="weight" class="control-label text-right tooltip-float">Bin/Shelf Location</label>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-3">
                                             <input type="text" id="inStock" class="form-control" data-bind="value:stockLocation" />
                                         </div>
                                     </div>
@@ -490,12 +506,12 @@
                                             <label for="weight" class="control-label text-right tooltip-float">Threshold Quantity</label>
                                         </div>
                                         <div class="col-lg-3">
-                                            <input type="text" style="text-align:right;" id="inStock"  class="form-control" data-bind="value:thresholdLevel, validationTooltip: thresholdLevel, validationOnElement:thresholdLevel" />
+                                            <input type="text" style="text-align:right;" id="inStock" class="form-control" data-bind="value:thresholdLevel, validationTooltip: thresholdLevel, validationOnElement:thresholdLevel" />
                                         </div>
                                     </div>
                                     <div class="form-group ">
                                         <div class="col-lg-3 text-right">
-                                            
+
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="checkbox-nice">
@@ -570,14 +586,14 @@
                                     <div class="form-group " data-bind="visible:itemId()!==0">
                                         <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Enter Stock Code" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Stock code auto generated from prefixes of the system." data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                 </a>
                                             </div>
-                                            <label for="code" class="control-label text-right tooltip-float">Supplier Product Code</label>
+                                            <label for="code" class="control-label text-right tooltip-float">Internal Product Code</label>
                                         </div>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="code" data-bind="value:itemCode, validationTooltip: itemCode, validationOnElement:itemCode" />
+                                            <input type="text" class="form-control" id="code" data-bind="value:itemCode, enable: false, validationTooltip: itemCode, validationOnElement:itemCode" />
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -585,7 +601,7 @@
                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                             </div>
-                                            <label for="barCode" class="control-label text-right tooltip-float">Supplier Bar Code</label>
+                                            <label for="barCode" class="control-label text-right tooltip-float">Supplier Product Code</label>
                                         </div>
                                         <div class="col-lg-6">
                                             <input type="text" class="form-control" id="barCode" data-bind="value:barCode, validationTooltip: barCode, validationOnElement:barCode" />
@@ -606,14 +622,31 @@
                                     <div class="col-lg-3" style="padding-left:14px;" data-bind="visible:perQtyType()!==2 && perQtyType()!==3">
                                         <input type="text" style="text-align:right;" class="form-control" id="size" data-bind="value:perQtyQty, validationTooltip: perQtyQty, validationOnElement:perQtyQty" />
                                     </div>
-                                    <div class="col-lg-1" style="margin-left: -18px">
-                                        <label class="control-label text-left tooltip-float" data-bind="visible:categoryId()===1">Sheets</label>
-                                        <label class="control-label text-left tooltip-float" data-bind="visible:categoryId()===2,text:$root.weightUnit"></label>
-                                        <label class="control-label text-left tooltip-float" data-bind="visible:(categoryId()!==2 && categoryId()!==1)">Units</label>
+                                    <div class="col-lg-1" style="margin-left: 5px">
+                                        <label class="control-label" data-bind="visible:categoryId()===1">Sheets</label>
+                                        <label class="control-label" data-bind="visible:categoryId()===2,text:$root.weightUnit"></label>
+                                        <label class="control-label" data-bind="visible:(categoryId()!==2 && categoryId()!==1)">Units</label>
                                     </div>
 
                                 </div>
+                                <div class="form-group" data-bind="visible:categoryId()===2">
+                                    <div class="col-lg-3 text-right">
+                                        <div class="bs-example-tooltips tooltip-float-width">
+                                        </div>
+                                        <label class="control-label text-right tooltip-float" data-bind="text:'Charge Per Square ' + $root.lengthLabel()"></label>
+                                    </div>
+                                    <div class="col-lg-3" style="padding-left:14px;">
+                                        <div class="input-group">
+                                            <span data-bind="text:$root.currencySymbol" class="input-group-addon"></span>
+                                            <div class="col-xs-12" style="padding:0">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" id="perSquareCharge" data-bind="autoNumeric: inkChargePerSquare , settings:{mDec:6}" />
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
                             </div>
+
 
                             <!--New Portion-->
                             <div class="col-lg-12 form-horizontal" style="margin-top:20px;padding-left:3%;padding-right:0px;">
@@ -674,7 +707,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="width: 16%;text-align:right;"> <span>Price/ <span data-bind="text:headerComputedValue"></span></span></th>
-                                                            <th style="width: 22%;text-align:center;" > <span>From<span></span></span></th>
+                                                            <th style="width: 22%;text-align:center;"> <span>From<span></span></span></th>
                                                             <th style="width: 22%;text-align:center;"> <span>To<span></span></span></th>
                                                             <th style="width: 22%;text-align:right;padding-right:40px;"> <span>Pack Price<span></span></span></th>
                                                             <th style="width: 5%">&nbsp;</th>
@@ -751,7 +784,7 @@
             <span class="control-label" data-bind="text: costPrice"></span>
         </td>
         <td style="text-align:center;" data-bind="dateString: fromDate, datePattern: 'DD/MM/YYYY'"></td>
-        <td style="text-align:center;"  data-bind="dateString: toDate,datePattern: 'DD/MM/YYYY'"></td>
+        <td style="text-align:center;" data-bind="dateString: toDate,datePattern: 'DD/MM/YYYY'"></td>
         <td style="text-align:right;padding-right:40px;">
             <span class="control-label" data-bind="text:$root.currencySymbol"></span>
             <span data-bind="text: ' '"></span>

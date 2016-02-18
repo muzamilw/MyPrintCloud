@@ -1,0 +1,141 @@
+﻿@model MPC.Models.DomainModels.Company
+@using MPC.Models.DomainModels;
+@using MPC.Webstore.Common;
+@{
+    List<ProductCategory> ParentCategories = ViewData["ParentCats"] as List<ProductCategory>;
+    List<ProductCategory> subCategories = ViewData["SubCats"] as List<ProductCategory>;
+    int countOfParent = 0;
+    int countOfChild = 0;
+}
+<div class="Container">
+    <div id="header-nav" class="nav-container sticky-container skip-content">
+        <div class="nav container clearer  has-outline show-bg">
+            <div class="inner-container">
+
+
+                <div class="mobnav-trigger-wrapper" style="display: none;">
+                    <a class="mobnav-trigger" href="#">
+                        <span class="trigger-icon"><span class="line"></span><span class="line"></span><span class="line"></span></span>
+                        <span>Menu</span>
+                    </a>
+                </div>
+                <ul id="nav" class="nav-regular opt-fx-fade-inout opt-sb0">
+
+                    <li class="nav-item nav-item--home level0 level-top active nav-item--homeicon">
+                        <a class="level-top" href="/"><span class="fa fa-home"></span></a>
+                    </li>
+
+                    <li class="nav-item level0 nav-1 level-top first nav-item--parent mega parent">
+                        <a href="/AllProducts" class="level-top"><span>All Products</span><span class="caret">&nbsp;</span></a><span class="opener"></span><div class="nav-panel--dropdown nav-panel" style="width: 845px; left: 59.15625px; top: 48px; display: none;">
+                            <div class="nav-panel-inner">
+                                <div class="nav-block--center grid12-7">
+
+                                    <ul id="innerUl" class="level0 nav-submenu nav-submenu--mega dd-itemgrid dd-itemgrid-8col">
+                                        @foreach (var topCat in ViewData["ParentCats"] as List<MPC.Models.DomainModels.ProductCategory>)
+                                        {
+                                            var subCat = subCategories.Where(i => i.ParentCategoryId == topCat.ProductCategoryId).ToList();
+                                            var parentliClass = "";
+                                            var parentClassWithSubCats = " nav-item--only-subcategories parent";
+                                            if (countOfParent == 0)
+                                            {
+                                                parentliClass = "nav-item level1 nav-1-1 first";
+                                                
+                                            }
+                                            else
+                                            {
+                                                parentliClass = "nav-item level1 nav-1-" + countOfParent;
+                                            }
+                                           
+                                            if (subCat.Count > 0)
+                                            {
+                                                <li class="@parentliClass@parentClassWithSubCats">
+                                                    <a href="/Category/@Utils.specialCharactersEncoder(topCat.CategoryName)/@topCat.ProductCategoryId">
+                                                        <span>@topCat.CategoryName </span><span class="caret">&nbsp;</span>
+                                                    </a>
+                                                    <span class="opener"></span>
+                                                    <ul class="level1 nav-submenu nav-panel" style="">
+                                                        @foreach (ProductCategory subCats in subCat)
+                                                        {
+                                                            var childliClass = "";
+
+                                                            if (countOfChild == 0)
+                                                            {
+                                                                childliClass = "nav-item level2 nav-1-" + countOfParent + "-1 first classic";
+
+                                                            }
+                                                            else
+                                                            {
+                                                                childliClass = "nav-item level2 nav-1-" + countOfParent + "-" + countOfChild + " classic";
+                                                            }
+                                                            countOfChild++;
+                                                            <li class="nav-item level2 nav-1-9-1 first last classic">
+                                                                <a href="/Category/@Utils.specialCharactersEncoder(subCats.CategoryName)/@subCats.ProductCategoryId"><span>@subCats.CategoryName</span></a>
+
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="@parentliClass"><a href="/Category/@Utils.specialCharactersEncoder(topCat.CategoryName)/@topCat.ProductCategoryId"><span>@topCat.CategoryName</span></a></li>
+                                            }
+                                            countOfChild = 0;
+                                            countOfParent++;
+                                        }
+                                    </ul>
+
+
+
+                                </div>
+
+                                <div class="nav-block nav-block--right std grid12-5">
+
+                                    <div class="right-banner">
+                                        <a href="http://lbprint.liquidbubblehosting.com/all-products/brochure-printing.html" title="Brochure Printing"><img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/infortis/ultimo/menu/mega-menu-dropdpwn-right-banner.jpg" alt="mega-menu-dropdpwn-right-banner"></a>
+                                    </div>
+                                </div><div class="nav-block nav-block--bottom std grid-full">
+                                    <div class="bottom-banner">
+                                        <img src="http://lbprint.liquidbubblehosting.com/media/wysiwyg/infortis/ultimo/menu/mega-menu-dropdpwn-bottom-banner.jpg" alt="mega-menu-dropdpwn-bottom-banner">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    @if (Model.IsAllowRequestaQuote == true)
+                    {
+                        <li class="nav-item level0 nav-2 level-top classic"><a href="/RequestQuote" class="level-top"><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</span></a></li>
+                    }
+                    @if (ViewBag.AboutUs != null)
+                    {
+                        <li class="nav-item level0 nav-3 level-top classic"><a href="/pages/@Utils.specialCharactersEncoder(ViewBag.AboutUs.PageTitle)/@ViewBag.AboutUs.PageId" class="level-top"><span>About Us</span></a></li>
+                    }
+
+                    <li class="nav-item level0 nav-4 level-top classic"><a href="/ContactUs" class="level-top"><span>Contact Us</span></a></li>
+                </ul>
+
+            </div> <!-- end: inner-container -->
+        </div> <!-- end: nav -->
+    </div>
+    <div class="header-regular go-quickly">
+        <div class="container">
+            <div class="go-quickly-inner">
+
+                <a href="#quick" class="skip-link skip-nav">
+                    <span class="label">Go quickly to</span>
+                </a>
+
+                <label>Go quickly to</label>
+                <ul id="quick" class="skip-content">
+                    @foreach (var products in ParentCategories)
+                    {
+                        <li>
+                            <a href="/Category/@Utils.specialCharactersEncoder(products.CategoryName)/@products.ProductCategoryId" title="@products.CategoryName">@products.CategoryName</a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

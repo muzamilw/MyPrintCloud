@@ -24,7 +24,7 @@
                 <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 24px;margin-top:-10px;">
                     <button class="btn btn-success" id="progressToOrderButton" data-bind="click: $root.progressToOrderHandler, enable: statusId() != 39 && id() > 0">Progress To Order</button>
                     <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler, enable: id() > 0">Delete</button>
-                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
+                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges && statusId() != 39">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                 </div>
             </div>
@@ -254,7 +254,7 @@
                                                 <label class="control-label text-right">Estimate Date</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: orderDate">
+                                                <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: estimteDate">
                                             </div>
                                         </div>
 
@@ -296,8 +296,8 @@
                                                             <table class="table table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="col-sm-8"><span></span></th>
-                                                                        <th class="col-sm-2"><span>Qty</span></th>
+                                                                        <th class="col-sm-7"><span></span></th>
+                                                                        <th class="col-sm-2" style="text-align: right;"><span>Qty</span></th>
                                                                         <th class="col-sm-2 text-right"><span>Price inc. Tax</span></th>
                                                                         <th class="col-sm-1" style="width: 2%"></th>
                                                                     </tr>
@@ -316,21 +316,22 @@
                                                             </table>
                                                         </div>
                                                     </div>
-                                                    <div class="btn-group" style="float: left; margin-top:15px;">
-                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewProductFromRetailStore">Add Product from Store</button>
-                                                    </div>
-                                                    <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;margin-top:15px;">
-                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onAddFinishedGoods"> Add Finished Goods</button>
-                                                    </div>
-                                                    @*<div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                    <div class="btn-group" style="float: left; margin-top: 15px;">
                                                         <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewBlankPrintProduct">Add Blank Print Product</button>
                                                     </div>
-                                                    <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                    <div class="btn-group" style="float: left;  margin-left: 5px; margin-top:15px;">
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewProductFromRetailStore">Add Product from Store</button>
+                                                    </div>
+                                                    <div class="btn-group" style="float: left; margin-left: 5px; margin-top:15px;">
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onAddFinishedGoods"> Add Finished Goods</button>
+                                                    </div>
+                                                    <div class="btn-group" style="float: left; margin-top: 15px; margin-left: 5px;">
                                                         <button type="button" class="btn btn-primary" data-bind="click: $root.openStockItemDialogForAddingProduct">Add Inventory Item</button>
                                                     </div>
-                                                    <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                    <div class="btn-group" style="float: left; margin-top: 15px; margin-left: 5px;">
                                                         <button type="button" class="btn btn-primary" data-bind="click: $root.onCostCenterClick">Add a Cost Center</button>
-                                                    </div>*@
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -428,7 +429,7 @@
                                         <td style=" padding-top: 10px;">
                                             <a href="#" style="font-size: 24px" data-bind="text: productName, click: $root.editItem"><span></span></a>
                                         </td>
-                                        <td>
+                                        <td style="text-align: right;">
                                             <span style="font-size:20px;" data-bind="text: qty1"></span>
                                         </td>
                                         <td class="text-right">

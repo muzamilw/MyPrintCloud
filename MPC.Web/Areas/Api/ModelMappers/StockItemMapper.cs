@@ -74,9 +74,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.StockItemForListView CreateFrom(this DomainModels.StockItem source)
         {
             StockCostAndPrice obj = null;
+            StockCostAndPrice objCost = null;
+            //Sale Price Object
             if (source.StockCostAndPrices != null)
             {
                 obj = source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier == -1);
+            }
+            //Cost Price Object
+            if (source.StockCostAndPrices != null)
+            {
+                objCost = source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier == 0);
             }
 
             return new ApiModels.StockItemForListView
@@ -100,7 +107,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PackageQty = source.PackageQty,
                // PackCostPrice = obj != null ? obj.CostPrice : 0
                 PackCostPrice = obj != null ? (obj.CostPrice / source.PerQtyQty) * source.PackageQty : 0,
-                CostPrice = obj != null ? obj.CostPrice : 0
+                CostPrice = obj != null ? obj.CostPrice : 0,
+                ActualCost = objCost != null? objCost.CostPrice : 0,
+                ActualPackCost = objCost != null ? (objCost.CostPrice / source.PerQtyQty) * source.PackageQty : 0,
+                SupplierCode = source.BarCode
             };
 
         }
@@ -151,6 +161,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsImperical = source.IsImperical,
                 isAllowBackOrder = source.isAllowBackOrder,
                 ThresholdLevel = source.ThresholdLevel,
+                PlateRunLength = source.PlateRunLength,
+                ChargePerSquareUnit = source.ChargePerSquareUnit,
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null,
                 ItemStockUpdateHistories = source.ItemStockUpdateHistories != null ? source.ItemStockUpdateHistories.Select(cp => cp.CreateFrom()).ToList() : null
             };
@@ -202,6 +214,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsImperical = source.IsImperical,
                 isAllowBackOrder = source.isAllowBackOrder,
                 ThresholdLevel = source.ThresholdLevel,
+                PlateRunLength = source.PlateRunLength,
+                ChargePerSquareUnit = source.ChargePerSquareUnit,
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : new List<ApiModels.StockCostAndPrice>(),
                 ItemStockUpdateHistories = source.ItemStockUpdateHistories != null ? source.ItemStockUpdateHistories.Select(cp => cp.CreateFrom()).ToList() : new List<ApiModels.ItemStockUpdateHistory>()
             };

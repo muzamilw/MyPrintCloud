@@ -31,7 +31,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isSheetFed = source.isSheetFed,
                 Image = bytes,
                 LookupMethodId = source.LookupMethodId,
-                IsSpotColor = source.IsSpotColor
+                IsSpotColor = source.IsSpotColor,
+                IsDigital = source.IsDigitalPress
             };
         }
         

@@ -12,7 +12,7 @@
     string htmlVal = string.Empty;
     string lblTaxLabel = string.Empty;
     stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
-
+    string RedirectURL = string.Empty;
 }
 @{
     Layout = null;
@@ -79,19 +79,19 @@
                                 @if (ViewBag.TemplateID > 0)
                                 {
                                     <div id="divFaourites" class="">
-                                       
-                                                <input id="btnEditThisDesign" value="Design Now" type="button"
-                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" onclick="return OpenDesigner(0);" />
+
+                                        <input id="btnEditThisDesign" value="Design Now" type="button"
+                                               class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" onclick="return OpenDesigner(0);" />
                                         @if (Model.IsUploadImage == true)
                                         {
 
-                                        <a href="@ViewBag.btnUploadDesignPath">
-                                            <input id="btnUploadDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" type="button"
-                                                   class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
-                                        </a>
+                                            <a href="@ViewBag.btnUploadDesignPath">
+                                                <input id="btnUploadDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" type="button"
+                                                       class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
+                                            </a>
 
                                         }
-                                       
+
                                         <div class="clear">
                                         </div>
                                     </div>
@@ -124,8 +124,11 @@
                                 <div class="mrginBtm">
                                     <label id="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId, "Specification"))</label>
                                 </div>
-                                <label id="lblCategoryCode2" class="marginall5">@ViewBag.lblCategoryCode2</label>
-                                <br />
+                                <label id="lblCategoryCodeHeading" class="code-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHeadingProductCode", UserCookieManager.WBStoreId))</label>
+                                <label id="lblCategoryCode" class="marginall5 cat-code-cs">@ViewBag.lblCategoryCode</label>
+                                <div class="clearBoth">
+
+                                </div>
                                 <p class="marginall5">
                                     <label id="ltrlCatDesc2">@Html.Raw(ViewBag.ltrlCatDesc2)</label>
                                 </p>
@@ -157,11 +160,11 @@
                         {
                             if (Model.IsUploadImage == true)
                             {
-                                
-                                    <a href="@ViewBag.btnUploadDesignPath">
-                                        <input id="btnUploadDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" type="button"
-                                               class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
-                                    </a>
+
+                                <a href="@ViewBag.btnUploadDesignPath">
+                                    <input id="btnUploadDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" type="button"
+                                           class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
+                                </a>
 
                             }
                             else
@@ -183,7 +186,7 @@
                             }
                             else
                             {
-                                <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(Model.ProductName)','@Model.ItemId','@ViewBag.hfCategoryId');">
+                                <a onclick="ShowPopUpMarketingBrief('Message', '@Html.Raw(Html.GetKeyValueFromResourceFile("MarktBreifWarnMesg", UserCookieManager.WBStoreId, "To submit a marketing brief please login or register."))','@Utils.specialCharactersEncoder(Model.ProductName)','@Model.ItemId','@ViewBag.hfCategoryId');">
 
                                     <input id="btnBrief" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" type="button"
                                            class="MB_SendINqBtn rounded_corners5 padding0imp" />
@@ -333,8 +336,9 @@
                                 <div class="mrginBtm">
                                     <label id="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.WBStoreId))</label>
                                 </div>
-                                <label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
-                                <br />
+                                <label id="lblCategoryCodeHeading" class="code-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHeadingProductCode", UserCookieManager.WBStoreId))</label>
+                                <label id="lblCategoryCode" class="marginall5 cat-code-cs">@ViewBag.lblCategoryCode</label>
+                                <div class="clearBoth"></div>
                                 <p class="marginall5" style="width: 285px;">
                                     <label id="lblCatDes">@Html.Raw(ViewBag.lblCatDes)</label>
                                 </p>
@@ -387,16 +391,16 @@
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(Model.TipsAndHints))
-                        {
-                            <div id="handyInfoFinisedGood" class="white_background rounded_corners" style="padding: 10px;">
-                                <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId, "Additional Information"))</label>
-                                <div class="rounded_corners paddingLeft10px paddingBottom10px handyInfocnt">
-                                    <br />
-                                    <label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints</label>
+                        @*if (!string.IsNullOrEmpty(Model.TipsAndHints))
+                            {
+                                <div id="handyInfoFinisedGood" class="white_background rounded_corners" style="padding: 10px;">
+                                    <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId, "Additional Information"))</label>
+                                    <div class="rounded_corners  paddingBottom10px handyInfocnt">
+                                        <br />
+                                        <label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints</label>
+                                    </div>
                                 </div>
-                            </div>
-                        }
+                            }*@
                     }
                 </div>
                 <input type="hidden" id="txtIsQuantityRanged" value="@ViewBag.txtIsQuantityRanged" />
@@ -602,7 +606,7 @@
 
                                                     </table>
                                                 }
-                                             
+
                                                 <div class="product_detail_note">
 
                                                     <label id="lblTaxLabel" class="lblTxtProdDet">@ViewBag.VATLabel</label>
@@ -629,7 +633,7 @@
                                 <label id="lbl_Product_Description" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdDescHeadingText", UserCookieManager.WBStoreId, "Product Description"))</label>
                                 <div class="displayBlock rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 
-                                    <label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification</label>
+                                    <label id="lblProductSpecifications" class="show_as_it_is">@Html.Raw(Model.ProductSpecification)</label>
                                     <br />
                                 </div>
                             </div>
@@ -639,15 +643,15 @@
                     @if (!string.IsNullOrEmpty(Model.TipsAndHints))
                     {
 
-                        <div id="HintTipsCont" style="margin-bottom: 10px;"
+                        <div id="HintTipsCont" style="margin-bottom: 10px; padding:10px;"
                              class="cntProductDetailWidth float_left_simple rounded_corners cntwidthProductDetailDesc cntBackgorndPD">
 
                             <div class="whitebackground">
 
                                 <label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId, "Additional Information"))</label>
-                                <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
+                                <div class="rounded_corners  paddingBottom10px productHandyDesc">
 
-                                    <label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints</label>
+                                    <label id="lblHintsandTips" class="show_as_it_is">@Html.Raw(Model.TipsAndHints)</label>
                                 </div>
                             </div>
                         </div>
@@ -657,12 +661,13 @@
 
                     @if (!string.IsNullOrEmpty(Model.GridImage) || !string.IsNullOrEmpty(Model.File1) || !string.IsNullOrEmpty(Model.File2) || !string.IsNullOrEmpty(Model.File3) || !string.IsNullOrEmpty(Model.File4))
                     {
+                        <label id="lbl_KeyFeatures" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId, "Key Features"))</label>
                         <div id="LyoutGridCont"
                              class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
 
                             <div class="whitebackground">
 
-                                <label id="lbl_KeyFeatures" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId, "Key Features"))</label>
+
                                 <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
                                     @*<br />
                                         <label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
@@ -727,31 +732,27 @@
                             </div>
                         </div>
                     }
+                    <div class="clearBoth">&nbsp;</div>
                     @if (ViewData["ItemVideo"] != null)
                     {
-                        <div id="LyoutGridCont"
-                             class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
 
-                            <div class="whitebackground">
+                        <div class="productVideos">
 
-                                <label id="lbl_KeyFeatures" class="ProductDetailH2">Video(s)</label>
-                                @foreach (var videoLink in ViewData["ItemVideo"] as List<MPC.Models.DomainModels.ItemVideo>)
-                                {
-                                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 paddingLeft10px paddingBottom10px ">
+                            @foreach (var videoLink in ViewData["ItemVideo"] as List<MPC.Models.DomainModels.ItemVideo>)
+                            {
+                                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 paddingLeft10px paddingBottom10px ">
 
-                                        @*<iframe width="100%"
-                                                height="315"
-                                                src="@videoLink.VideoLink"
-                                                frameborder="0"
-                                                allowfullscreen></iframe>*@
-                                        @Html.Raw(videoLink.VideoLink)
-                                    </div>
-                                }
-
-                            </div>
+                                    @*<iframe width="100%"
+                                        height="315"
+                                        src="@videoLink.VideoLink"
+                                        frameborder="0"
+                                        allowfullscreen></iframe>*@
+                                    @Html.Raw(videoLink.VideoLink)
+                                </div>
+                            }
                         </div>
                     }
-
+                    <div class="clearBoth">&nbsp;</div>
                 </div>
                 <div class="clearBoth">
 
@@ -770,18 +771,79 @@
                     }
 
 
+                }
+                
+                @{
+                List<MPC.Models.Common.ProductItem> RIViewModel = null;
+                RIViewModel = ViewData["RIViewModel"] as List<MPC.Models.Common.ProductItem>;
+                }
+                @if (RIViewModel != null)
+                {
+                    <div class="feature_product_main_heading  col-md-12 col-lg-12 col-xs-12">
 
-                    // call related items to show lists of related items
-                    RelatedItemViewModel RIViewModel = new RelatedItemViewModel();
-                    RIViewModel = ViewData["RIViewModel"] as RelatedItemViewModel;
-                    if (RIViewModel != null)
+
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("mifgrLikeRelatedItemlbl", UserCookieManager.WBStoreId, "You may also be interested in the following product(s)"))
+
+                    </div>
+                    foreach (var item in RIViewModel as List<ProductItem>)
                     {
-                        @Html.Partial("PartialViews/RelatedItems", RIViewModel);
+                        <div class="BD_CatProducts_RelItems rounded_corners">
+                            <div class="pad5">
+                                <div class="LCLB">
+                                    @{
+                        var OriginalProductName = item.ProductName;
+                        item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
+                                    }
+
+                                    @* condition for marketing brief*@
+                                    @if (item.ProductType == (int)ProductType.MarketingBrief)
+                                    {
+
+                                        RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemID + "/" + item.ProductCategoryID;
+
+                                    }
+                                    else if (item.ProductType == (int)ProductType.PrintProduct)
+                                    {
+
+                                        RedirectURL = "/ProductOptions/" + item.ProductCategoryID + "/" + item.ItemID + "/DesignOrUpload";
+
+
+                                    }
+                                    <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
+                                        <div class="PDTC_CatProd FI_CatProd">
+                                            @{
+                                                <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+
+                                            }
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="product_detail_image_heading_IRI">
+                                    <p style="  width: 100%;  float: left;  word-wrap: break-word;">
+                                        @if (!string.IsNullOrEmpty(item.ItemFriendlyName))
+                                        {
+                                            @item.ItemFriendlyName
+                                        }
+                                        else
+                                        {
+                                            @OriginalProductName
+                                        }
+
+
+                                    </p>
+                                    <div class="clearBoth">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                     }
-                    else
-                    {
-                        <label id="lbl_RelatedItems" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRelatedItems", UserCookieManager.WBStoreId))</label>
-                    }
+
+
+
+
                 }
             </div>
         </div>
@@ -882,7 +944,7 @@
     }
 
     function OpenDesigner(CheckTemplateOptions) {
-    
+
 
         if (CheckTemplateOptions != -1) {
             var EditType = "@ViewBag.hfEditTempType";
@@ -943,4 +1005,5 @@
         return false;
     }
 </script>
+
 

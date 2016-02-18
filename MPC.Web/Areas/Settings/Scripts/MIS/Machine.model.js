@@ -16,6 +16,7 @@
             LookupMethodId = ko.observable(),
             isSheetFed = ko.observable(),
             isSpotColor = ko.observable(),
+            isDigital = ko.observable(),
             errors = ko.validation.group({
                 name: MachineName,
                 type: MachineCatId,
@@ -42,6 +43,7 @@
             ImageSource: ImageSource,
             LookupMethodId: LookupMethodId,
             isSheetFed: isSheetFed,
+            isDigital: isDigital,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -56,12 +58,12 @@
         };
         return self;
     };
-    var machine = function () {
+    var machine = function (callbacks) {
         var self,
             MachineId = ko.observable(),
-            MachineName = ko.observable(),
+            MachineName = ko.observable().extend({ required: true }),
             MachineCatId = ko.observable(),
-            ColourHeads = ko.observable(0),
+            ColourHeads = ko.observable(0).extend({ number: true, max: 8, min: 0, message: 'Max value can be 8'}),
             isPerfecting = ko.observable(),
             SetupCharge = ko.observable(0),
             WashupPrice = ko.observable(0),
@@ -76,11 +78,29 @@
             isplateused = ko.observable(),
             ismakereadyused = ko.observable(),
             iswashupused = ko.observable(),
+            isPressUseInks = ko.observable(),
             maximumsheetweight = ko.observable(0),
             maximumsheetheight = ko.observable(0),
             maximumsheetwidth = ko.observable(0),
             minimumsheetheight = ko.observable(50),
             minimumsheetwidth = ko.observable(50),
+            isClickChargezone = ko.observable('true'),
+            isClickChargezoneUi = ko.computed({
+                read: function () {
+
+                    return isClickChargezone();
+                },
+                write: function (value) {
+                    var zone = value;
+                    if (zone === isClickChargezone()) {
+                        return;
+                    }
+                    if (callbacks && typeof callbacks === "function") {
+                        callbacks();
+                    }
+                    isClickChargezone(zone);
+                }
+            }),
             gripdepth = ko.observable(10),
             gripsideorientaion = ko.observable(),
             Orientation = ko.observableArray([
@@ -134,13 +154,12 @@
             CoverageMedium = ko.observable().extend({number: true, max: 10, min: 0, message:'Max value can be 10'}),
             CoverageLow = ko.observable().extend({number: true, max: 10, min: 0, message:'Max value can be 10'}),
             isSheetFed = ko.observable(),
+            isDigitalPress = ko.observable(),
             Passes = ko.observable(),
             ReelMakereadyTime = ko.observable(),
             Maximumsheetweight = ko.observable(),
             Maximumsheetheight = ko.observable(),
             Maximumsheetwidth = ko.observable(),
-            Minimumsheetheight = ko.observable(),
-            Minimumsheetwidth = ko.observable(),
             LookupMethodId = ko.observable(),
             CurrencySymbol = ko.observable(),
             lookupMethod = ko.observable(),
@@ -148,7 +167,7 @@
             LengthUnit = ko.observable(),
             IsSpotColor = ko.observable(),
             onSelectStockItem = function (ostockItem) {
-                if (ostockItem.category == "Plates") {
+                if (ostockItem) {
                     deFaultPlatesName(ostockItem.name);
                     DefaultPlateId(ostockItem.id);
                 }
@@ -229,18 +248,20 @@
                 CoverageMedium: CoverageMedium,
                 CoverageLow: CoverageLow,
                 isSheetFed: isSheetFed,
+                isClickChargezone: isClickChargezone,
                 Passes: Passes,
                 IsSpotColor: IsSpotColor,
                 ReelMakereadyTime: ReelMakereadyTime,
                 Maximumsheetweight: Maximumsheetweight,
                 Maximumsheetheight: Maximumsheetheight,
                 Maximumsheetwidth: Maximumsheetwidth,
-                Minimumsheetheight: Minimumsheetheight,
-                Minimumsheetwidth: Minimumsheetwidth,
                 LookupMethodId: LookupMethodId,
                 MachineSpoilageItems: MachineSpoilageItems,
                 MachineLookupMethods: MachineLookupMethods,
-                MachineInkCoverages: MachineInkCoverages
+                MachineInkCoverages: MachineInkCoverages,
+                lookupMethod: lookupMethod,
+                isDigitalPress: isDigitalPress,
+                isPressUseInks: isPressUseInks
             }),
             hasChanges = ko.computed(function () {
 
@@ -317,8 +338,6 @@
             Maximumsheetweight : Maximumsheetweight,
             Maximumsheetheight : Maximumsheetheight,
             Maximumsheetwidth : Maximumsheetwidth,
-            Minimumsheetheight : Minimumsheetheight,
-            Minimumsheetwidth : Minimumsheetwidth,
             LookupMethodId: LookupMethodId,
             RunningSpoilage: RunningSpoilage,
             SetupSpoilage: SetupSpoilage,
@@ -326,6 +345,7 @@
             CoverageMedium: CoverageMedium,
             CoverageLow: CoverageLow,
             isSheetFed: isSheetFed,
+            isClickChargezone:isClickChargezone,
             Passes: Passes,
             lookupList: lookupList,
             dirtyFlag: dirtyFlag,
@@ -342,7 +362,11 @@
             onSelectStockItem: onSelectStockItem,
             CurrencySymbol: CurrencySymbol,
             WeightUnit: WeightUnit,
-            LengthUnit: LengthUnit
+            LengthUnit: LengthUnit,
+            lookupMethod: lookupMethod,
+            isClickChargezoneUi: isClickChargezoneUi,
+            isDigitalPress: isDigitalPress,
+            isPressUseInks: isPressUseInks
           
         };
         return self;
@@ -357,6 +381,15 @@
         var self = this;
         self.MethodId = ko.observable(data.MethodId);
         self.Name = ko.observable(data.Name);
+        self.Type = ko.observable(data.Type);
+        self.SpedWeightLookups = ko.observable([]);
+        if (data.Type == 3) {
+            _.each(data.MachineSpeedWeightLookups, function (item) {
+                self.SpedWeightLookups().push(SpeedWeightLookup(item));
+            });
+        }
+        
+        return self;
     };
 
     var MachineLookupMethods = function(data) {
@@ -450,6 +483,7 @@
         omachineList.LookupMethodId(source.LookupMethodId);
         omachineList.isSheetFed(source.isSheetFed);
         omachineList.isSpotColor(source.IsSpotColor);
+        omachineList.isDigital(source.IsDigital);
         return omachineList;
 
     };
@@ -586,8 +620,8 @@
         result.isSheetFed = source.isSheetFed;
         return result;
     };
-    var machineClientMapper = function (source) {
-        var omachine = new machine();
+    var machineClientMapper = function (source, callback) {
+        var omachine = new machine(callback);
         omachine.MachineId(source.machine.MachineId);
         omachine.MachineName(source.machine.MachineName);
         omachine.MachineCatId(source.machine.MachineCatId);
@@ -631,7 +665,8 @@
         omachine.maximumsheetweight(source.machine.maximumsheetweight);
         omachine.maximumsheetheight(source.machine.maximumsheetheight);
         omachine.maximumsheetwidth(source.machine.maximumsheetwidth);
-
+        omachine.minimumsheetheight(source.machine.minimumsheetheight);
+        omachine.minimumsheetwidth(source.machine.minimumsheetwidth);
         if (!(source.machine.gripdepth == 0 || source.machine.gripdepth == null || source.machine.gripdepth == undefined)) {
             omachine.gripdepth(source.machine.gripdepth);
         }
@@ -689,11 +724,11 @@
         //omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
         //omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
         //omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
-        //omachine.Minimumsheetheight(source.machine.Minimumsheetheight);
-        //omachine.Minimumsheetwidth(source.machine.Minimumsheetwidth);
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
-        
+        omachine.isClickChargezone(source.machine.isSheetFed ? 'true' : 'false');
+        omachine.isDigitalPress(source.machine.IsDigitalPress || source.machine.IsDigitalPress == null ? 'true' : 'false');
+        omachine.isPressUseInks(source.machine.IsPressUseInks ? true : false);
         //omachine.lookupList.removeAll();
         //ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         //omachine.lookupList.valueHasMutated();
@@ -710,40 +745,50 @@
 
 
         
-        //var StockItemforInkList = ko.observableArray([]);
-        //StockItemforInkList.removeAll();
-        //ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
-        //StockItemforInkList.valueHasMutated();
+        var StockItemforInkList = ko.observableArray([]);
+        StockItemforInkList.removeAll();
+        if (source.StockItemforInk != null) {
+            ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+            StockItemforInkList.valueHasMutated();
+        }
+        
 
-        //var InkCoveragItemsList = ko.observableArray([]);
-        //InkCoveragItemsList.removeAll();
-        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        //InkCoveragItemsList.valueHasMutated();
+        var InkCoveragItemsList = ko.observableArray([]);
+        InkCoveragItemsList.removeAll();
+        if (source.InkCoveragItems != null) {
+            ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+            InkCoveragItemsList.valueHasMutated();
+        }
+        
        
 
-
-        //_.each(source.machine.MachineInkCoverages, function (item) {
-        //    var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
-        //    omachine.MachineInkCoverages.push(module);
+        if (source.machine.MachineInkCoverages != null) {
+            _.each(source.machine.MachineInkCoverages, function(item) {
+                var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
+                omachine.MachineInkCoverages.push(module);
+            });
+        }
+        
 
 
 
 
         //})
 
-        _.each(source.machine.MachineLookupMethods, function (item) {
-            omachine.MachineLookupMethods.push(MachineLookupMethodsItemsMapper(item));
-        })
+        //_.each(source.machine.LookupMethod, function (item) {
+        //    omachine.MachineLookupMethods.push(MachineLookupMethodsItemsMapper(item));
+        //});
 
           return omachine;
     };
-    var machineServerMapper = function (machine, ClickChargeZone, MeterPerHourClickCharge, GuillotineClickCharge, Type) {
+    var machineServerMapper = function (machine, ClickChargeZone, MeterPerHourClickCharge, GuillotineClickCharge, Type, speedWeightCal) {
         var oType = 0;
         oType = Type;
         var oMeterPerHour = {};
         var oGuillotineZone = {};
         var oGuillotinePtvList = [];
         var omachine = {};
+        var oSpeedWeightLookup = {};
         omachine.MachineId = machine.MachineId();
         omachine.MachineName = machine.MachineName();
         omachine.MachineCatId = machine.MachineCatId();
@@ -808,8 +853,6 @@
         omachine.Maximumsheetweight = machine.Maximumsheetweight();
         omachine.Maximumsheetheight = machine.Maximumsheetheight();
         omachine.Maximumsheetwidth = machine.Maximumsheetwidth();
-        omachine.Minimumsheetheight = machine.Minimumsheetheight();
-        omachine.Minimumsheetwidth = machine.Minimumsheetwidth();
         omachine.LookupMethodId = machine.LookupMethodId();
         omachine.SetupSpoilage = machine.SetupSpoilage();
         omachine.RunningSpoilage = machine.RunningSpoilage();
@@ -819,9 +862,19 @@
         omachine.isSheetFed = machine.isSheetFed();
         omachine.Passes = machine.Passes();
         omachine.IsSpotColor = machine.IsSpotColor();
+        omachine.IsDigitalPress = machine.isDigitalPress();
+        omachine.IsPressUseInks = machine.isPressUseInks();
         //omachine.LookupMethod = machine.lookupMethod();
         oMeterPerHour = MeterPerHourClickCharge;
         oGuillotineZone = GuillotineClickCharge;
+        
+        omachine.MachineInkCoverages = [];
+        if (machine.MachineInkCoverages().length > 0) {
+            _.each(machine.MachineInkCoverages(), function (item) {
+                omachine.MachineInkCoverages.push(MachineInkCoveragesListServerMapper(item));
+            });
+        }
+        oSpeedWeightLookup = speedWeightCal;
         if (GuillotineClickCharge != null)
         {
             oGuillotinePtvList = GuillotineClickCharge.GuillotinePtvList;
@@ -918,12 +971,13 @@
             ClickChargeZone: ClickChargeZoneLookup,
             MeterPerHourLookup: oMeterPerHour,
             GuillotineCalc: oGuillotineZone,
-            GuilotinePtv: oGuillotinePtvList
+            GuilotinePtv: oGuillotinePtvList,
+            SpeedWeightCal: oSpeedWeightLookup
         };
 
     };
-    var newMachineClientMapper = function (source) {
-        var omachine = new machine();
+    var newMachineClientMapper = function (source, callback) {
+        var omachine = new machine(callback);
 
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
@@ -931,33 +985,43 @@
         omachine.SetupSpoilage(source.machine.SetupSpoilage);
         omachine.RunningSpoilage(source.machine.RunningSpoilage);
         omachine.Passes(source.machine.Passes);
+        omachine.MachineId(source.machine.MachineId);
         omachine.MachineName(source.machine.MachineName);
+        omachine.ColourHeads(8);
+        omachine.isDigitalPress('true');
         //omachine.markupList.removeAll();
         //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
         //omachine.markupList.valueHasMutated();
         omachine.CurrencySymbol(source.CurrencySymbol);
         omachine.WeightUnit(source.WeightUnit);
         omachine.LengthUnit(source.LengthUnit);
-        omachine.isSheetFed(true);
+        
+        
         //for (i = 0; i < 8; i++) {
         //    omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
         //  }
 
         var StockItemforInkList = ko.observableArray([]);
         StockItemforInkList.removeAll();
-        ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
-        StockItemforInkList.valueHasMutated();
+        if (source.StockItemforInk != null) {
+            ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+            StockItemforInkList.valueHasMutated();
+        }
+        
 
-        //var InkCoveragItemsList = ko.observableArray([]);
-        //InkCoveragItemsList.removeAll();
-        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        //InkCoveragItemsList.valueHasMutated();
+        var InkCoveragItemsList = ko.observableArray([]);
+        InkCoveragItemsList.removeAll();
+        if (source.InkCoveragItems != null) {
+            ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+            InkCoveragItemsList.valueHasMutated();
+        }
+        
 
 
 
-        //for (i = 0; i < 8; i++) {
-        //    omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
-        //}
+        for (i = 0; i < 8; i++) {
+            omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
+        }
 
         return omachine;
     };
@@ -1085,7 +1149,7 @@
         return MachineLookupItem;
 
     }
-    var MachineInkCoveragesListServerMapper = function (source) {
+    var MachineInkCoveragesListServerMapper = function(source) {
         var InkCoveragesItem = {};
         InkCoveragesItem.Id = source.Id;
         InkCoveragesItem.SideInkOrder = source.SideInkOrder();
@@ -1094,7 +1158,533 @@
 
         return InkCoveragesItem;
 
-    }
+    },
+        SpeedWeightLookup = function(source) {
+            var Id = ko.observable(source != undefined ? source.Id : undefined),
+                MethodId = ko.observable(source != undefined ? source.MethodId : undefined),
+                SheetsQty1 = ko.observable(source != undefined ? source.SheetsQty1 : undefined),
+                SheetsQty2 = ko.observable(source != undefined ? source.SheetsQty2 : undefined),
+                SheetsQty3 = ko.observable(source != undefined ? source.SheetsQty3 : undefined),
+                SheetsQty4 = ko.observable(source != undefined ? source.SheetsQty4 : undefined),
+                SheetsQty5 = ko.observable(source != undefined ? source.SheetsQty5 : undefined),
+                SheetWeight1 = ko.observable(source != undefined ? source.SheetWeight1 : undefined),
+                speedqty11 = ko.observable(source != undefined ? source.speedqty11 : undefined),
+                speedqty12 = ko.observable(source != undefined ? source.speedqty12 : undefined),
+                speedqty13 = ko.observable(source != undefined ? source.speedqty13 : undefined),
+                speedqty14 = ko.observable(source != undefined ? source.speedqty14 : undefined),
+                speedqty15 = ko.observable(source != undefined ? source.speedqty15 : undefined),
+                SheetWeight2 = ko.observable(source != undefined ? source.SheetWeight2 : undefined),
+                speedqty21 = ko.observable(source != undefined ? source.speedqty21 : undefined),
+                speedqty22 = ko.observable(source != undefined ? source.speedqty22 : undefined),
+                speedqty23 = ko.observable(source != undefined ? source.speedqty23 : undefined),
+                speedqty24 = ko.observable(source != undefined ? source.speedqty24 : undefined),
+                speedqty25 = ko.observable(source != undefined ? source.speedqty25 : undefined),
+                SheetWeight3 = ko.observable(source != undefined ? source.SheetWeight3 : undefined),
+                speedqty31 = ko.observable(source != undefined ? source.speedqty31 : undefined),
+                speedqty32 = ko.observable(source != undefined ? source.speedqty32 : undefined),
+                speedqty33 = ko.observable(source != undefined ? source.speedqty33 : undefined),
+                speedqty34 = ko.observable(source != undefined ? source.speedqty34 : undefined),
+                speedqty35 = ko.observable(source != undefined ? source.speedqty35 : undefined),
+                hourlyCost = ko.observable(source != undefined ? source.hourlyCost : undefined),
+                hourlyPrice = ko.observable(source != undefined ? source.hourlyPrice : undefined),
+                errors = ko.validation.group({                
+                    
+                }),
+                dirtyFlag = new ko.dirtyFlag({
+                    Id: Id,
+                    MethodId: MethodId,
+                    SheetsQty1: SheetsQty1,
+                    SheetsQty2: SheetsQty2,
+                    SheetsQty3: SheetsQty3,
+                    SheetsQty4: SheetsQty4,
+                    SheetsQty5: SheetsQty5,
+                    SheetWeight1: SheetWeight1,
+                    speedqty11: speedqty11,
+                    speedqty12: speedqty12,
+                    speedqty13: speedqty13,
+                    speedqty14: speedqty14,
+                    speedqty15: speedqty15,
+                    SheetWeight2: SheetWeight2,
+                    speedqty21: speedqty21,
+                    speedqty22: speedqty22,
+                    speedqty23: speedqty23,
+                    speedqty24: speedqty24,
+                    speedqty25: speedqty25,
+                    SheetWeight3: SheetWeight3,
+                    speedqty31: speedqty31,
+                    speedqty32: speedqty32,
+                    speedqty33: speedqty33,
+                    speedqty34: speedqty34,
+                    speedqty35: speedqty35,
+                    hourlyCost: hourlyCost,
+                    hourlyPrice: hourlyPrice
+                }),
+                // Is Valid
+                isValid = ko.computed(function() {
+                    return errors().length === 0;
+                }),        
+                // Has Changes
+                hasChanges = ko.computed(function() {
+                    return dirtyFlag.isDirty();
+                }),            
+                // Reset
+                reset = function() {
+                    dirtyFlag.reset();
+                };
+
+            return {
+                Id: Id,
+                MethodId: MethodId,
+                SheetsQty1: SheetsQty1,
+                SheetsQty2: SheetsQty2,
+                SheetsQty3: SheetsQty3,
+                SheetsQty4: SheetsQty4,
+                SheetsQty5: SheetsQty5,
+                SheetWeight1: SheetWeight1,
+                speedqty11: speedqty11,
+                speedqty12: speedqty12,
+                speedqty13: speedqty13,
+                speedqty14: speedqty14,
+                speedqty15: speedqty15,
+                SheetWeight2: SheetWeight2,
+                speedqty21: speedqty21,
+                speedqty22: speedqty22,
+                speedqty23: speedqty23,
+                speedqty24: speedqty24,
+                speedqty25: speedqty25,
+                SheetWeight3: SheetWeight3,
+                speedqty31: speedqty31,
+                speedqty32: speedqty32,
+                speedqty33: speedqty33,
+                speedqty34: speedqty34,
+                speedqty35: speedqty35,
+                hourlyCost: hourlyCost,
+                hourlyPrice: hourlyPrice,
+                errors: errors,
+                isValid: isValid,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                reset: reset
+            };
+
+
+        },
+       
+    
+        speedWeightconvertToServerData = function(source) {
+            return {
+                Id: source.Id(),
+                MethodId: source.MethodId(),
+                SheetsQty1: source.SheetsQty1(),
+                SheetsQty2: source.SheetsQty2(),
+                SheetsQty3: source.SheetsQty3(),
+                SheetsQty4: source.SheetsQty4(),
+                SheetsQty5: source.SheetsQty5(),
+
+                SheetWeight1: source.SheetWeight1(),
+                speedqty11: source.speedqty11(),
+                speedqty12: source.speedqty12(),
+                speedqty13: source.speedqty13(),
+                speedqty14: source.speedqty14(),
+                speedqty15: source.speedqty15(),
+
+                SheetWeight2: source.SheetWeight2(),
+                speedqty21: source.speedqty21(),
+                speedqty22: source.speedqty22(),
+                speedqty23: source.speedqty23(),
+                speedqty24: source.speedqty24(),
+                speedqty25: source.speedqty25(),
+
+                SheetWeight3: source.SheetWeight3(),
+                speedqty31: source.speedqty31(),
+                speedqty32: source.speedqty32(),
+                speedqty33: source.speedqty33(),
+                speedqty34: source.speedqty34(),
+                speedqty35: source.speedqty35(),
+                hourlyCost: source.hourlyCost(),
+                hourlyPrice: source.hourlyPrice(),
+            };
+        };
+    SpeedWeightLookup.create = function() {
+        var speedweight = new SpeedWeightLookup({
+            ID: 0,
+            MethodId: 0,
+            SheetsQty1: 2500,
+            SheetsQty2: 5000,
+            SheetsQty3: 10000,
+            SheetsQty4: 20000,
+            SheetsQty5: 50000,
+            SheetWeight1: 100,
+            speedqty11: 4000,
+            speedqty12: 7000,
+            speedqty13: 8000,
+            speedqty14: 9000,
+            speedqty15: 12000,
+            SheetWeight2: 170,
+            speedqty21: 3000,
+            speedqty22: 6000,
+            speedqty23: 7000,
+            speedqty24: 8000,
+            speedqty25: 9000,
+            SheetWeight3: 300,
+            speedqty31: 2000,
+            speedqty32: 5000,
+            speedqty33: 6000,
+            speedqty34: 7000,
+            speedqty35: 8000,
+            hourlyCost: 1,
+            hourlyPrice: 2
+        });
+        return speedweight;
+    },
+    ClickChargeZoneLookup = function(source) {
+        var Id = ko.observable(source != undefined ? source.Id : undefined),
+            MethodId = ko.observable(source != undefined ? source.MethodId : undefined),
+            From1 = ko.observable(source != undefined ? source.From1 : undefined),
+            To1 = ko.observable(source != undefined ? source.To1 : undefined),
+            Sheets1 = ko.observable(source != undefined ? source.Sheets1 : undefined),
+            SheetCost1 = ko.observable(source != undefined ? source.SheetCost1 : undefined),
+            SheetPrice1 = ko.observable(source != undefined ? source.SheetPrice1 : undefined),
+            From2 = ko.observable(source != undefined ? source.From2 : undefined),
+            To2 = ko.observable(source != undefined ? source.To2 : undefined).extend({ number: true }),
+            Sheets2 = ko.observable(source != undefined ? source.Sheets2 : undefined),
+            SheetCost2 = ko.observable(source != undefined ? source.SheetCost2 : undefined),
+            SheetPrice2 = ko.observable(source != undefined ? source.SheetPrice2 : undefined),
+            From3 = ko.observable(source != undefined ? source.From3 : undefined),
+            To3 = ko.observable(source != undefined ? source.To3 : undefined),
+            Sheets3 = ko.observable(source != undefined ? source.Sheets3 : undefined),
+            SheetCost3 = ko.observable(source != undefined ? source.SheetCost3 : undefined),
+            SheetPrice3 = ko.observable(source != undefined ? source.SheetPrice3 : undefined),
+            From4 = ko.observable(source != undefined ? source.From4 : undefined),
+            To4 = ko.observable(source != undefined ? source.To4 : undefined),
+            Sheets4 = ko.observable(source != undefined ? source.Sheets4 : undefined),
+            SheetCost4 = ko.observable(source != undefined ? source.SheetCost4 : undefined),
+            SheetPrice4 = ko.observable(source != undefined ? source.SheetPrice4 : undefined),
+            From5 = ko.observable(source != undefined ? source.From5 : undefined),
+            To5 = ko.observable(source != undefined ? source.To5 : undefined),
+            Sheets5 = ko.observable(source != undefined ? source.Sheets5 : undefined),
+            SheetCost5 = ko.observable(source != undefined ? source.SheetCost5 : undefined),
+            SheetPrice5 = ko.observable(source != undefined ? source.SheetPrice5 : undefined),
+            From6 = ko.observable(source != undefined ? source.From6 : undefined),
+            To6 = ko.observable(source != undefined ? source.To6 : undefined),
+            Sheets6 = ko.observable(source != undefined ? source.Sheets6 : undefined),
+            SheetCost6 = ko.observable(source != undefined ? source.SheetCost6 : undefined),
+            SheetPrice6 = ko.observable(source != undefined ? source.SheetPrice6 : undefined),
+            From7 = ko.observable(source != undefined ? source.From7 : undefined),
+            To7 = ko.observable(source != undefined ? source.To7 : undefined),
+            Sheets7 = ko.observable(source != undefined ? source.Sheets7 : undefined),
+            SheetCost7 = ko.observable(source != undefined ? source.SheetCost7 : undefined),
+            SheetPrice7 = ko.observable(source != undefined ? source.SheetPrice7 : undefined),
+            From8 = ko.observable(source != undefined ? source.From8 : undefined),
+            To8 = ko.observable(source != undefined ? source.To8 : undefined),
+            Sheets8 = ko.observable(source != undefined ? source.Sheets8 : undefined),
+            SheetCost8 = ko.observable(source != undefined ? source.SheetCost8 : undefined),
+            SheetPrice8 = ko.observable(source != undefined ? source.SheetPrice8 : undefined),
+            From9 = ko.observable(source != undefined ? source.From9 : undefined),
+            To9 = ko.observable(source != undefined ? source.To9 : undefined),
+            Sheets9 = ko.observable(source != undefined ? source.Sheets9 : undefined),
+            SheetCost9 = ko.observable(source != undefined ? source.SheetCost9 : undefined),
+            SheetPrice9 = ko.observable(source != undefined ? source.SheetPrice9 : undefined),
+            From10 = ko.observable(source != undefined ? source.From10 : undefined),
+            To10 = ko.observable(source != undefined ? source.To10 : undefined),
+            Sheets10 = ko.observable(source != undefined ? source.Sheets10 : undefined),
+            SheetCost10 = ko.observable(source != undefined ? source.SheetCost10 : undefined),
+            SheetPrice10 = ko.observable(source != undefined ? source.SheetPrice10 : undefined),
+            From11 = ko.observable(source != undefined ? source.From11 : undefined),
+            To11 = ko.observable(source != undefined ? source.To11 : undefined),
+            Sheets11 = ko.observable(source != undefined ? source.Sheets11 : undefined),
+            SheetCost11 = ko.observable(source != undefined ? source.SheetCost11 : undefined),
+            SheetPrice11 = ko.observable(source != undefined ? source.SheetPrice11 : undefined),
+            From12 = ko.observable(source != undefined ? source.From12 : undefined),
+            To12 = ko.observable(source != undefined ? source.To12 : undefined),
+            Sheets12 = ko.observable(source != undefined ? source.Sheets12 : undefined),
+            SheetCost12 = ko.observable(source != undefined ? source.SheetCost12 : undefined),
+            SheetPrice12 = ko.observable(source != undefined ? source.SheetPrice12 : undefined),
+            From13 = ko.observable(source != undefined ? source.From13 : undefined),
+            To13 = ko.observable(source != undefined ? source.To13 : undefined),
+            Sheets13 = ko.observable(source != undefined ? source.Sheets13 : undefined),
+            SheetCost13 = ko.observable(source != undefined ? source.SheetCost13 : undefined),
+            SheetPrice13 = ko.observable(source != undefined ? source.SheetPrice13 : undefined),
+            From14 = ko.observable(source != undefined ? source.From14 : undefined),
+            To14 = ko.observable(source != undefined ? source.To14 : undefined),
+            Sheets14 = ko.observable(source != undefined ? source.Sheets14 : undefined),
+            SheetCost14 = ko.observable(source != undefined ? source.SheetCost14 : undefined),
+            SheetPrice14 = ko.observable(source != undefined ? source.SheetPrice14 : undefined),
+            From15 = ko.observable(source != undefined ? source.From15 : undefined),
+            To15 = ko.observable(source != undefined ? source.To15 : undefined),
+            Sheets15 = ko.observable(source != undefined ? source.Sheets15 : undefined),
+            SheetCost15 = ko.observable(source != undefined ? source.SheetCost15 : undefined),
+            SheetPrice15 = ko.observable(source != undefined ? source.SheetPrice15 : undefined),
+            isaccumulativecharge = ko.observable(source != undefined ? source.isaccumulativecharge : undefined),
+            IsRoundUp = ko.observable(source != undefined ? source.IsRoundUp : undefined),
+            TimePerHour = ko.observable(source != undefined ? source.TimePerHour : undefined),
+            errors = ko.validation.group({                
+                
+            }),
+            dirtyFlag = new ko.dirtyFlag({
+                Id: Id,
+                MethodId: MethodId,
+                From1: From1,
+                To1: To1,
+                Sheets1: Sheets1,
+                SheetCost1: SheetCost1,
+                SheetPrice1: SheetPrice1,
+                From2: From2,
+                To2: To2,
+                Sheets2: Sheets2,
+                SheetCost2: SheetCost2,
+                SheetPrice2: SheetPrice2,
+                From3: From3,
+                To3: To3,
+                Sheets3: Sheets3,
+                SheetCost3: SheetCost3,
+                SheetPrice3: SheetPrice3,
+                From4: From4,
+                To4: To4,
+                Sheets4: Sheets4,
+                SheetCost4: SheetCost4,
+                SheetPrice4: SheetPrice4,
+                From5: From5,
+                To5: To5,
+                Sheets5: Sheets5,
+                SheetCost5: SheetCost5,
+                SheetPrice5: SheetPrice5,
+                From6: From6,
+                To6: To6,
+                Sheets6: Sheets6,
+                SheetCost6: SheetCost6,
+                SheetPrice6: SheetPrice6,
+                From7: From7,
+                To7: To7,
+                Sheets7: Sheets7,
+                SheetCost7: SheetCost7,
+                SheetPrice7: SheetPrice7,
+                From8: From8,
+                To8: To8,
+                Sheets8: Sheets8,
+                SheetCost8: SheetCost8,
+                SheetPrice8: SheetPrice8,
+                From9: From9,
+                To9: To9,
+                Sheets9: Sheets9,
+                SheetCost9: SheetCost9,
+                SheetPrice9: SheetPrice9,
+                From10: From10,
+                To10: To10,
+                Sheets10: Sheets10,
+                SheetCost10: SheetCost10,
+                SheetPrice10: SheetPrice10,
+                From11: From11,
+                To11: To11,
+                Sheets11: Sheets11,
+                SheetCost11: SheetCost11,
+                SheetPrice11: SheetPrice11,
+                From12: From12,
+                To12: To12,
+                Sheets12: Sheets12,
+                SheetCost12: SheetCost12,
+                SheetPrice12: SheetPrice12,
+                From13: From13,
+                To13: To13,
+                Sheets13: Sheets13,
+                SheetCost13: SheetCost13,
+                SheetPrice13: SheetPrice13,
+                From14: From14,
+                To14: To14,
+                Sheets14: Sheets14,
+                SheetCost14: SheetCost14,
+                SheetPrice14: SheetPrice14,
+                From15: From15,
+                To15: To15,
+                Sheets15: Sheets15,
+                SheetCost15: SheetCost15,
+                SheetPrice15: SheetPrice15,
+                isaccumulativecharge: isaccumulativecharge,
+                IsRoundUp: IsRoundUp,
+                TimePerHour: TimePerHour
+
+            }),
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        return {
+            Id: Id,
+            MethodId: MethodId,
+            From1: From1,
+            To1: To1,
+            Sheets1: Sheets1,
+            SheetCost1: SheetCost1,
+            SheetPrice1: SheetPrice1,
+            From2: From2,
+            To2: To2,
+            Sheets2: Sheets2,
+            SheetCost2: SheetCost2,
+            SheetPrice2: SheetPrice2,
+            From3: From3,
+            To3: To3,
+            Sheets3: Sheets3,
+            SheetCost3: SheetCost3,
+            SheetPrice3: SheetPrice3,
+            From4: From4,
+            To4: To4,
+            Sheets4: Sheets4,
+            SheetCost4: SheetCost4,
+            SheetPrice4: SheetPrice4,
+            From5: From5,
+            To5: To5,
+            Sheets5: Sheets5,
+            SheetCost5: SheetCost5,
+            SheetPrice5: SheetPrice5,
+            From6: From6,
+            To6: To6,
+            Sheets6: Sheets6,
+            SheetCost6: SheetCost6,
+            SheetPrice6: SheetPrice6,
+            From7: From7,
+            To7: To7,
+            Sheets7: Sheets7,
+            SheetCost7: SheetCost7,
+            SheetPrice7: SheetPrice7,
+            From8: From8,
+            To8: To8,
+            Sheets8: Sheets8,
+            SheetCost8: SheetCost8,
+            SheetPrice8: SheetPrice8,
+            From9: From9,
+            To9: To9,
+            Sheets9: Sheets9,
+            SheetCost9: SheetCost9,
+            SheetPrice9: SheetPrice9,
+            From10: From10,
+            To10: To10,
+            Sheets10: Sheets10,
+            SheetCost10: SheetCost10,
+            SheetPrice10: SheetPrice10,
+            From11: From11,
+            To11: To11,
+            Sheets11: Sheets11,
+            SheetCost11: SheetCost11,
+            SheetPrice11: SheetPrice11,
+            From12: From12,
+            To12: To12,
+            Sheets12: Sheets12,
+            SheetCost12: SheetCost12,
+            SheetPrice12: SheetPrice12,
+            From13: From13,
+            To13: To13,
+            Sheets13: Sheets13,
+            SheetCost13: SheetCost13,
+            SheetPrice13: SheetPrice13,
+            From14: From14,
+            To14: To14,
+            Sheets14: Sheets14,
+            SheetCost14: SheetCost14,
+            SheetPrice14: SheetPrice14,
+            From15: From15,
+            To15: To15,
+            Sheets15: Sheets15,
+            SheetCost15: SheetCost15,
+            SheetPrice15: SheetPrice15,
+            isaccumulativecharge: isaccumulativecharge,
+            IsRoundUp: IsRoundUp,
+            TimePerHour: TimePerHour,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+    };
+    NewClickChargeZoneLookup = function() {
+        return {
+            Id: 0,
+            MethodId: 0,
+            From1: 0,
+            To1: 5000,
+            Sheets1: 1000,
+            SheetCost1: 22,
+            SheetPrice1: 22,
+            From2: 5001,
+            To2: 10000,
+            Sheets2: 1000,
+            SheetCost2: 21,
+            SheetPrice2: 21,
+            From3: 10001,
+            To3: 20000,
+            Sheets3: 1000,
+            SheetCost3: 20,
+            SheetPrice3: 20,
+            From4: 20001,
+            To4: 30000,
+            Sheets4: 1000,
+            SheetCost4: 19,
+            SheetPrice4: 19,
+            From5: 30001,
+            To5: 40000,
+            Sheets5: 1000,
+            SheetCost5: 18,
+            SheetPrice5: 18,
+            From6: 40001,
+            To6: 50000,
+            Sheets6: 1000,
+            SheetCost6: 17,
+            SheetPrice6: 17,
+            From7: 50001,
+            To7: 60000,
+            Sheets7: 1000,
+            SheetCost7: 16,
+            SheetPrice7: 16,
+            From8: 60001,
+            To8: 70000,
+            Sheets8: 1000,
+            SheetCost8: 15,
+            SheetPrice8: 15,
+            From9: 70001,
+            To9: 80000,
+            Sheets9: 1000,
+            SheetCost9: 14,
+            SheetPrice9: 14,
+            From10: 80001,
+            To10: 90000,
+            Sheets10: 1000,
+            SheetCost10: 13,
+            SheetPrice10: 13,
+            From11: 90001,
+            To11: 100000,
+            Sheets11: 1000,
+            SheetCost11: 12,
+            SheetPrice11: 12,
+            From12: 100001,
+            To12: 110000,
+            Sheets12: 1000,
+            SheetCost12: 11,
+            SheetPrice12: 11,
+            From13: 110001,
+            To13: 120000,
+            Sheets13: 1000,
+            SheetCost13: 10,
+            SheetPrice13: 10,
+            From14: 120001,
+            To14: 130000,
+            Sheets14: 1000,
+            SheetCost14: 9,
+            SheetPrice14: 9,
+            From15: 130001,
+            To15: 140000,
+            Sheets15: 1000,
+            SheetCost15: 8,
+            SheetPrice15: 8,
+            isaccumulativecharge: 0,
+            IsRoundUp: 0,
+            TimePerHour: 0
+        };
+        
+    };
 
     return {
         machineList: machineList,
@@ -1115,6 +1705,9 @@
         newMachineInkCoveragesListClientMapper: newMachineInkCoveragesListClientMapper,
         machineListClientMapperSelectedItem: machineListClientMapperSelectedItem,
         MachineLookupClientMapper: MachineLookupClientMapper,
-        GuilotinePtvServerMapper: GuilotinePtvServerMapper
+        GuilotinePtvServerMapper: GuilotinePtvServerMapper,
+        speedWeightconvertToServerData: speedWeightconvertToServerData,
+        SpeedWeightLookup: SpeedWeightLookup,
+        NewClickChargeZoneLookup: NewClickChargeZoneLookup
     };
 });

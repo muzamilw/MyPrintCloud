@@ -126,8 +126,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isSheetFed = source.isSheetFed,
                 Passes = source.Passes,
                 IsSpotColor = source.IsSpotColor,
+                IsDigitalPress = source.IsDigitalPress,
+                IsPressUseInks = source.IsPressUseInks,
                 MachineInkCoverages = source.MachineInkCoverages == null ? null : source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList(),
-                LookupMethod = source.MachineInkCoverages == null ? null : source.LookupMethod.CreateFrom(),
+                LookupMethod = source.LookupMethod == null ? null : source.LookupMethod.CreateFrom(),
             };
         }
 
@@ -205,6 +207,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isSheetFed = source.isSheetFed,
                 Passes = source.Passes,
                 IsSpotColor = source.IsSpotColor,
+                IsDigitalPress = source.IsDigitalPress,
+                IsPressUseInks = source.IsPressUseInks,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
             };
         }
@@ -223,7 +227,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 maximumsheetwidth = source.maximumsheetwidth,
                 ColourHeads = source.ColourHeads,
                 IsSpotColor = source.IsSpotColor,
-                Passes = source.Passes
+                Passes = source.Passes,
+                isSheetFed = source.isSheetFed,
+                MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(ic => ic.CreateFrom()) : null
             };
         }
         #endregion

@@ -48,9 +48,15 @@ namespace MPC.Models.ModelMappers
             target.Qty1WorkInstructions = source.Qty1WorkInstructions;
             target.Qty2WorkInstructions = source.Qty2WorkInstructions;
             target.Qty3WorkInstructions = source.Qty3WorkInstructions;
+            target.Qty4WorkInstructions = source.Qty4WorkInstructions;
+            target.Qty5WorkInstructions = source.Qty5WorkInstructions;
+            target.IsScheduleable = source.IsScheduleable;
             target.IsDirectCost = source.IsDirectCost;
             target.IsPurchaseOrderRaised = source.IsPurchaseOrderRaised;
             target.CostCentreId = source.CostCentreId;
+            target.SystemCostCentreType = source.SystemCostCentreType;
+            target.CostCentreType = source.CostCentreType;
+            target.Qty5MarkUpID = source.Qty5MarkUpID;
         }
 
         #endregion

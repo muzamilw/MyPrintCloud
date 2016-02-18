@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 
@@ -25,5 +26,7 @@ namespace MPC.Interfaces.Repository
         bool GetImpericalFlagbyOrganisationId();
         void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int MisOrdersCount, int WebStoreOrdersCount, DateTime billingDate);
         void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType);
+        void UnSubscribeZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType);
+        List<string> GetZapsUrListByOrganisation(int webHookEvent, long organisationId);
     }
 }

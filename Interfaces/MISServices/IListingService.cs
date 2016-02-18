@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Interfaces.MISServices
 {
     public interface IListingService
     {
          RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
+
+         string SaveListingData(long OrganisationId);
     }
 }

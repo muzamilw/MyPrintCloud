@@ -102,7 +102,7 @@ namespace MPC.Interfaces.Repository
         void UpdateLiveStores(long organisationId, int storesCount);
         int GetLiveStoresCount(long organisationId);
         bool IsStoreLive(long storeId);
-        List<Company> GetLiveStoresList();
+        List<usp_GetLiveStores_Result> GetLiveStoresList();
 
         void CopyProductByStore(long NewStoreId, long OldStoreId);
 
@@ -126,7 +126,15 @@ namespace MPC.Interfaces.Repository
         void SaveSystemVariableExtension(long oldCompanyId, long NewCompanyid);
 
         bool IsDuplicateWebAccessCode(string webCode, long? companyId);
-        
 
+        bool SaveUserActionLog(string Comment, long CompanyId, string TableName);
+
+        ExportStore ExportStore(long CompanyId,long OrganisationId);
+
+        bool InsertStoreZip(ExportStore ObjExportStore, long OrganisationId, string SubDomain);
+
+        long GetOrganisationIdByCompanyId(long companyid);
+
+        
     }
 }

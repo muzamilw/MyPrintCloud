@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Windows.Forms.VisualStyles;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 
@@ -35,6 +36,7 @@ namespace MPC.Models.ModelMappers
             target.SectionFlagId = source.SectionFlagId;
             target.IsCreditApproved = source.IsCreditApproved;
             target.Order_Date = source.Order_Date;
+            target.EstimateDate = source.EstimateDate;
             target.FinishDeliveryDate = source.FinishDeliveryDate;
             target.CreationDate = (!source.CreationDate.HasValue || source.CreationDate.Value <= DateTime.MinValue) ? DateTime.Now : source.CreationDate;
             target.CreationTime = source.CreationTime <= DateTime.MinValue ? DateTime.Now : source.CreationTime;
@@ -305,9 +307,18 @@ namespace MPC.Models.ModelMappers
                 targetLine = target.Items.FirstOrDefault(item => item.ItemId == sourceItem.ItemId);
             }
 
+            
             // If Order is in Production then assign Job Codes to Items
             bool assignJobCodes = target.StatusId == (short)OrderStatus.InProduction;
+            if (target.StatusId == (short)OrderStatus.Completed_NotShipped || target.StatusId == (short)OrderStatus.Invoice)
+                sourceItem.StatusId = (short)ItemStatuses.ShippedInvoiced;
 
+            if (target.StatusId == (short)OrderStatus.InProduction && (sourceItem.StatusId == (short)ItemStatuses.ShippedInvoiced || sourceItem.StatusId == (short)ItemStatuses.ReadyForShipping || sourceItem.StatusId == (short)ItemStatuses.NotProgressedToJob))
+                sourceItem.StatusId = (short)ItemStatuses.NeedAssigning;
+            if ((target.StatusId == (short)OrderStatus.ConfirmedOrder || target.StatusId == (short)OrderStatus.PendingOrder) && sourceItem.StatusId != (short)ItemStatuses.NotProgressedToJob)
+                sourceItem.StatusId = (short)ItemStatuses.NotProgressedToJob;
+
+            
             sourceItem.UpdateToForOrder(targetLine, actions, assignJobCodes);
         }
 
@@ -797,6 +808,8 @@ namespace MPC.Models.ModelMappers
             target.ItemId = source.ItemId;
             target.SupplierId = source.SupplierId;
             target.SupplierId2 = source.SupplierId2;
+            target.IsFinishedGoodPrivate = source.IsFinishedGoodPrivate;
+            target.StatusId = source.StatusId;
             if (source.RefItemId != null)
             {
                 target.RefItemId = source.RefItemId;

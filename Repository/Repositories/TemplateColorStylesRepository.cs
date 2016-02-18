@@ -5,6 +5,7 @@ using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -81,6 +82,7 @@ namespace MPC.Repository.Repositories
                 obj.ColorK = K;
                 obj.IsSpotColor = true;
                 obj.SpotColor = Name;
+                obj.Name = Name;
                 obj.IsColorActive = true;
                 obj.CustomerId = CustomerID;
                 db.TemplateColorStyles.Add(obj);
@@ -115,6 +117,24 @@ namespace MPC.Repository.Repositories
 
             return result;
            
+        }
+
+        public TemplateColorStyle ArchiveSpotColor(long SpotColorId)
+        {
+            try
+            {
+                TemplateColorStyle objColor = db.TemplateColorStyles.Where(c => c.PelleteId == SpotColorId).FirstOrDefault();
+                if(objColor != null)
+                {
+                    objColor.IsColorActive = false;
+                }
+                db.SaveChanges();
+                return objColor;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

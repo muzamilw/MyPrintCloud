@@ -108,6 +108,7 @@
     <Compile Include="Common\CategoryRegion.cs" />
     <Compile Include="Common\CmsPageModel.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\Contact.cs" />
     <Compile Include="Common\ContactByColumn.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\CostCentreMatrix.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Common\DividerLine.cs" />
     <Compile Include="Common\ExecutionQueue.cs" />
     <Compile Include="Common\ExportOrganisation.cs" />
+    <Compile Include="Common\ExportStore.cs" />
     <Compile Include="Common\GlobalData.cs" />
     <Compile Include="Common\GoodsReceivedNoteByColumn.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
@@ -130,6 +132,8 @@
     <Compile Include="Common\InquiryByColumn.cs" />
     <Compile Include="Common\InvoiceByColumn.cs" />
     <Compile Include="Common\ItemCloneResult.cs" />
+    <Compile Include="Common\ListAgentMode.cs" />
+    <Compile Include="Common\ListingPropertyXML.cs" />
     <Compile Include="Common\LiveStoreDetails.cs" />
     <Compile Include="Common\Order.cs" />
     <Compile Include="Common\IsTrialClaimValue.cs" />
@@ -140,6 +144,7 @@
     <Compile Include="Common\PtvDTO.cs" />
     <Compile Include="Common\PurchaseByColumn.cs" />
     <Compile Include="Common\ReportparamComboCollection.cs" />
+    <Compile Include="Common\sp_GetImagesResponseModel.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
@@ -173,7 +178,9 @@
     <Compile Include="Common\SecurityRoles.cs" />
     <Compile Include="Common\ShoppingCart.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
+    <Compile Include="Common\TemplateFontResponseModel.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
+    <Compile Include="Common\TreeViewNodeVM.cs" />
     <Compile Include="Common\TrialCountClaimValue.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="Common\USTaxInfo.cs" />
@@ -186,14 +193,18 @@
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\Asset.cs" />
+    <Compile Include="DomainModels\AssetItem.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVoucherRedeem.cs" />
+    <Compile Include="DomainModels\Folder.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />
     <Compile Include="DomainModels\ItemsVoucher.cs" />
     <Compile Include="DomainModels\JobCardReportView.cs" />
     <Compile Include="DomainModels\JobPreference.cs" />
+    <Compile Include="DomainModels\ListingBulletPoint.cs" />
     <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
     <Compile Include="DomainModels\MachineGuillotineCalc.cs" />
@@ -236,7 +247,9 @@
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\StagingImportCompanyContactAddress.cs" />
+    <Compile Include="DomainModels\StagingProductPriceImport.cs" />
     <Compile Include="DomainModels\TemplateVariableExtension.cs" />
+    <Compile Include="DomainModels\UserActionsLog.cs" />
     <Compile Include="DomainModels\usp_ChartEstimateToOrderConversionCount_Result.cs" />
     <Compile Include="DomainModels\usp_ChartEstimateToOrderConversion_Result.cs" />
     <Compile Include="DomainModels\usp_ChartMonthlyEarningsbyStore_Result.cs" />
@@ -247,6 +260,8 @@
     <Compile Include="DomainModels\usp_DashboardROICounter_Result.cs" />
     <Compile Include="DomainModels\usp_DeliveryReport_Result.cs" />
     <Compile Include="DomainModels\usp_EstimateReport_Result.cs" />
+    <Compile Include="DomainModels\usp_ExportStoreProductsAndPrices_Result.cs" />
+    <Compile Include="DomainModels\usp_GetLiveStores_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />
     <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />
     <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
@@ -380,6 +395,7 @@
     <Compile Include="DomainModels\vw_RealEstateProperties.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
+    <Compile Include="DomainModels\ZapierWebHookTargetUrl.cs" />
     <Compile Include="LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -433,6 +449,7 @@
     </Compile>
     <Compile Include="RequestModels\ArchiveInvoiceRequestModel.cs" />
     <Compile Include="RequestModels\CompanyVariableIconRequestModel.cs" />
+    <Compile Include="RequestModels\DeleteOrderRequest.cs" />
     <Compile Include="RequestModels\DiscountVoucherRequestModel.cs" />
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
@@ -477,6 +494,7 @@
     <Compile Include="RequestModels\ReportNoteRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\SmartFormRequestModel.cs" />
+    <Compile Include="RequestModels\SpotColorArchiveRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />

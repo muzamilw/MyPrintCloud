@@ -31,6 +31,16 @@ namespace MPC.Repository.Repositories
             return DbSet.ToList();
         }
 
+        public CompanyDomain GetDomainByUrl(string Url)
+        {
+
+            return db.CompanyDomains.Where(d => d.Domain.Contains(Url)).FirstOrDefault();
+        }
+        public CompanyDomain GetDomainByCompanyId(long Companyid)
+        {
+
+            return db.CompanyDomains.Where(d => d.CompanyId == Companyid).FirstOrDefault();
+        }
         #endregion
 
 

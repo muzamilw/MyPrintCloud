@@ -428,7 +428,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public TemplateBackgroundImage InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
         {
-            var result = "false";
+            var result = "false"; bool isLowRes = false;
             System.Drawing.Image objImage = null;
             var bgImg = new TemplateBackgroundImage();
             // fileName = fileID;
@@ -436,6 +436,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 
                 bool isPdfBackground = false;
+                
                 // string product = idOfObject1; productId
                 string ext = System.IO.Path.GetExtension(imageName);
                 //fileID += ext;
@@ -559,8 +560,9 @@ namespace MPC.Implementation.WebStoreServices
                                 using (objImage = System.Drawing.Image.FromFile(uploadPath))
                                 {
                                     float res = objImage.HorizontalResolution;
-                                    if (res < 96)
+                                    if (res < 150)
                                     {
+                                        isLowRes = true;
                                         result = imageName;
                                     }
                                     ImageWidth = objImage.Width;
@@ -646,7 +648,7 @@ namespace MPC.Implementation.WebStoreServices
                             bgImg.UploadedFrom = Convert.ToInt32(uploadedFrom);
                             bgImg.ContactCompanyId = Convert.ToInt32(contactCompanyID);
                             bgImg.ContactId = Convert.ToInt32(contactId);
-
+                            bgImg.flgPhotobook = isLowRes;
 
                             listImages.Add(bgImg);
                             //  result = bgImg.ID.ToString();
@@ -661,8 +663,8 @@ namespace MPC.Implementation.WebStoreServices
                                 string destPath = results[0] + "_thumb" + ext;
                                 GenerateThumbNail(sourcePath, destPath, 98);
                             }
-
                             result = _templateImagesRepository.insertImageRecord(listImages).ToString();
+                          
                         }
                     }
                     
@@ -682,6 +684,7 @@ namespace MPC.Implementation.WebStoreServices
 
             }
             bgImg.BackgroundImageAbsolutePath = result;
+            bgImg.flgPhotobook = isLowRes;
             return bgImg;
         }
 
@@ -866,6 +869,60 @@ namespace MPC.Implementation.WebStoreServices
         public List<RealEstateImage> getPropertyImages(long propertyId)
         {
             return _templateImagesRepository.getPropertyImages(propertyId);
+        }
+        // path is relative to Mpc_content, can be called from webstore and mis for profile image
+        public bool generateClippingPath(string path)
+        {
+            bool containsClippingPath = false;
+            try
+            {
+
+                if (System.IO.Path.GetExtension(path).Contains("jpg"))
+                {
+                    string ClippingPath = path.Replace(System.IO.Path.GetExtension(path),"__clip_mpc.png")  ;
+                    string uploadedClippingPath = HttpContext.Current.Server.MapPath(ClippingPath);
+                    string uploadedPath = HttpContext.Current.Server.MapPath("~" + path);
+                    using (var reader = new JpegReader(uploadedPath))
+                    using (var bitmap = reader.Frames[0].GetBitmap())
+                    using (var maskBitmap = new agm.Bitmap(bitmap.Width, bitmap.Height, agm.PixelFormat.Format8bppGrayscale, new agm.GrayscaleColor(0)))
+                    using (var graphics = maskBitmap.GetAdvancedGraphics())
+                    {
+                        try
+                        {
+                            if (reader.ClippingPaths != null && reader.ClippingPaths.Count > 0)
+                            {
+                                containsClippingPath = true;
+                                var graphicsPath = reader.ClippingPaths[0].CreateGraphicsPath(reader.Width, reader.Height);
+
+                                graphics.FillPath(new agmAD.SolidBrush(new agm.GrayscaleColor(255)), Aurigma.GraphicsMill.AdvancedDrawing.Path.Create(graphicsPath));
+
+                                bitmap.Channels.SetAlpha(maskBitmap);
+
+                                bitmap.Save(uploadedClippingPath);
+
+                                string sp = uploadedClippingPath;
+                                //string ext = Path.GetExtension(uploadPath);
+                                string[] results = sp.Split(new string[] { ".png" }, StringSplitOptions.None);
+                                string destPath = results[0] + "_thumb" + ".png";
+                                GenerateThumbNail(sp, destPath, 98);
+                            }
+                            else
+                            {
+                                Console.WriteLine("no path found");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            //  throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // licence expired 
+            }
+            return containsClippingPath;
         }
         #endregion
     }

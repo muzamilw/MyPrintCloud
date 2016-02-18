@@ -11,11 +11,11 @@
                     <div class="main-box clearfix" id="tabsHeaderProgressToOrder" style="margin-bottom: 0">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab-EstimateDetail" data-toggle="tab">Estimate Details</a></li>
-                                <li><a href="#tab-ItemsDetails" data-toggle="tab">Items Details</a></li>
+                                <li class="active" data-bind="visible: false"><a href="#tab-EstimateDetail" data-toggle="tab">Estimate Details</a></li>
+                                <li class="active"><a href="#tab-ItemsDetails" data-toggle="tab">Items Details</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane fade in active" id="tab-EstimateDetail">
+                                <div class="tab-pane fade in active" id="tab-EstimateDetail" data-bind="visible: false">
                                     <div class="col-lg-12">
                                         <div class=" form-horizontal clearfix">
 
@@ -265,12 +265,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="tab-ItemsDetails" class="tab-pane fade in ">
+                                <div id="tab-ItemsDetails" class="tab-pane fade in active">
                                     <div class=" form-horizontal clearfix">
 
                                         <h3 class="group-header">Item Information</h3>
                                         <div class="col-lg-12 clearfix">
-                                            <!-- ko template: { name: 'itemTemplateProgress', foreach: items } -->
+                                            <!-- ko template: { name: 'itemTemplateProgress', foreach: $root.multipleQtyItems } -->
                                             <!-- /ko -->
                                         </div>
                                     </div>
@@ -291,70 +291,71 @@
         <!-- ko if:itemType()!== 2 -->
         
         <div class="form-group col-lg-12 ">
-            <div class="col-lg-4 text-right">
-                <label for="itemName" class="control-label" style="font-size:20px;">Name</label>
+            <div class="col-lg-2 text-right">
+                <label for="itemName" class="control-label" style="font-size:20px;">Name :</label>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-10">
                 <label id="itemName" class="control-label" data-bind="text: productName" style="font-size:20px;text-align: left"></label>
             </div>
         </div>
         <div class="form-group col-lg-12">
-            <div class="col-lg-4 text-right ">
-                <label for="invoiceDescription" class="control-label">Description</label>
+            <div class="col-lg-2 text-right ">
+                <label for="invoiceDescription" class="control-label">Description :</label>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-12">
                 <label id="invoiceDescription" class="control-label " data-bind="text: invoiceDescription" style="text-align: left"></label>
             </div>
         </div>
         <div class="col-lg-12">
-            <div class="col-lg-4"></div>
+            <div class="col-lg-2"></div>
             <div class="col-lg-8">
                 <div class="col-lg-12">
-                    <div class="radio col-lg-3">
+                    <div class="radio col-lg-3 text-right">
                         <input type="radio" name="optionsRadiosJobSelectedQty" id="optionsRadios1" value=1 data-bind="checked: jobSelectedQty, attr:{ name: 'optionsRadiosJobSelectedQty' + $index(), id: 'optionsRadios1' + $index() }">
                         <label data-bind="attr: { for: 'optionsRadios1' + $index() }">
                             Quantity 1
                         </label>
                     </div>
-                    <div class="radio col-lg-3">
+
+                    <div class="radio col-lg-3 text-right">
                         <input type="radio" name="optionsRadiosJobSelectedQty" id="optionsRadios2" value=2 data-bind="checked: jobSelectedQty, attr:{ name: 'optionsRadiosJobSelectedQty' + $index(), id: 'optionsRadios2' + $index() }">
                         <label data-bind="attr: { for: 'optionsRadios2' + $index() }">
                             Quantity 2
                         </label>
                         <span class="help-block text-right"></span>
                     </div>
-                    @*<div class="radio col-lg-3">
-                            <input type="radio" name="optionsRadiosJobSelectedQty" id="optionsRadios3" value=3 data-bind="checked: jobSelectedQty, attr:{ name: 'optionsRadiosJobSelectedQty' + $index(), id: 'optionsRadios3' + $index() }">
-                            <label data-bind="attr: { for: 'optionsRadios3' + $index() }">
-                                Quantity 3
-                            </label>
-                            <span class="help-block text-right"></span>
-                        </div>*@
+                    <div class="radio col-lg-3 text-right">
+                        <input type="radio" name="optionsRadiosJobSelectedQty" id="optionsRadios3" value=3 data-bind="checked: jobSelectedQty, attr:{ name: 'optionsRadiosJobSelectedQty' + $index(), id: 'optionsRadios3' + $index() }">
+                        <label data-bind="attr: { for: 'optionsRadios3' + $index() }">
+                            Quantity 3
+                        </label>
+                        <span class="help-block text-right"></span>
+                    </div>
                 </div>
                 <div class="col-lg-12">
-                    <div class="col-lg-3" style="text-align: center">
+                    <div class="col-lg-3" style="text-align: right;margin-right: 10px;">
                         <label class="control-label" data-bind="text: qty1"></label>
                     </div>
-                    <div class="col-lg-3" style="text-align: center">
+                    <div class="col-lg-3" style="text-align: right;margin-right: 10px;">
                         <label class="control-label" data-bind="text: qty2"></label>
                     </div>
-                    @*<div class="col-lg-3" style="text-align: center">
+                    <div class="col-lg-3" style="text-align: right;margin-right: 10px;">
                             <label class="control-label" data-bind="text: qty3"></label>
-                        </div>*@
+                        </div>
                 </div>
                 <div class="col-lg-12">
-                    <div class="col-lg-3" style="text-align: center">
+                    <div class="col-lg-3" style="text-align: right;margin-right: 10px;">
                         <span data-bind="text: $root.currencySymbol()"></span>
                         <label class="control-label" data-bind="text: qty1GrossTotal"></label>
                     </div>
-                    <div class="col-lg-3" style="text-align: center">
+                    <div class="col-lg-3" style="text-align: right;margin-right: 10px;">
                         <span data-bind="text: $root.currencySymbol()"></span>
                         <label class="control-label" data-bind="text: qty2GrossTotal"></label>
                     </div>
-                    @*<div class="col-lg-3" style="text-align: center">
+                    <div class="col-lg-3" style="text-align: right;margin-right: 10px;">
                             <span data-bind="text: $root.currencySymbol()"></span>
                             <label class="control-label" data-bind="text: qty3GrossTotal"></label>
-                        </div>*@
+                        </div>
                 </div>
             </div>
         </div>

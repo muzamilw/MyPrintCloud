@@ -24,13 +24,16 @@ namespace MPC.Webstore.Controllers
         private readonly IItemService _IItemService;
         private readonly IOrderService _orderService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
+        private readonly ITemplatePageService _templatePageService;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public CategoryController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IItemService itemService, IOrderService orderService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public CategoryController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IItemService itemService, IOrderService orderService, 
+            IWebstoreClaimsHelperService webstoreAuthorizationChecker
+            , ITemplatePageService templatePageService)
         {
             if (myCompanyService == null)
             {
@@ -42,6 +45,7 @@ namespace MPC.Webstore.Controllers
             this._IItemService = itemService;
             this._orderService = orderService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+            this._templatePageService = templatePageService;
         }
 
         #endregion
@@ -60,9 +64,9 @@ namespace MPC.Webstore.Controllers
             bool includeVAT = false;
             List<ItemStockOptionList> StockOptions = new List<ItemStockOptionList>();
          
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+           
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-
+            ViewBag.Organisation = StoreBaseResopnse.Organisation;
             includeVAT = StoreBaseResopnse.Company.isIncludeVAT ?? false;
             TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
             ViewBag.organisationId = StoreBaseResopnse.Organisation.OrganisationId;
@@ -105,9 +109,24 @@ namespace MPC.Webstore.Controllers
 
                 var productList = _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
                 productList = productList.Where(p => p.CompanyId == UserCookieManager.WBStoreId).ToList();
-               
-                if (productList != null && productList.Count > 0)
+                //Dictionary<long, string> productCostCentreList = null;
+                List<AddOnCostsCenter> listOfCostCentresAllItems = null;
+                bool hasOnePinkProduct = false;
+
+                if ((productList != null && productList.Count == 1) && StoreBaseResopnse.Company.CurrentThemeId == 10012) 
                 {
+                    hasOnePinkProduct = true;
+                }
+
+                if (hasOnePinkProduct)
+                {
+                    Response.Redirect("/ProductOptions/" + productList.FirstOrDefault().ProductCategoryId + "/" + productList.FirstOrDefault().ItemId + "/DesignOrUpload");
+                    return null;
+                }
+                else if (productList != null && productList.Count > 0)
+                {
+                    
+                    
                     if (_webstoreAuthorizationChecker.loginContactID() > 0)
                     {
                         ViewBag.IsUserLogin = 1;
@@ -116,7 +135,7 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.IsUserLogin = 0;
                     }
-
+                   
                     foreach (var product in productList)
                     {
                         // for print products
@@ -136,10 +155,6 @@ namespace MPC.Webstore.Controllers
 
                             StockOptions.Add(Sqn);
                             ViewData["StockOptions"] = StockOptions;
-
-
-
-
                             List<ItemPriceMatrix> matrixlist = _myCompanyService.GetPriceMatrixByItemID((int)product.ItemId);
                             if (_webstoreAuthorizationChecker.isUserLoggedIn())
                             {
@@ -278,71 +293,46 @@ namespace MPC.Webstore.Controllers
                             ViewData["PriceMatrix"] = null;
                            
                         }
+
+                        List<AddOnCostsCenter> listOfCostCentresPerItem = _IItemService.GetStockOptionCostCentres(product.ItemId, UserCookieManager.WBStoreId);
+                        if(listOfCostCentresPerItem != null  && listOfCostCentresPerItem.Count > 0)
+                        {
+                             if (listOfCostCentresAllItems == null) 
+                            {
+                                listOfCostCentresAllItems = new List<AddOnCostsCenter>();
+                            }
+
+                           listOfCostCentresAllItems.AddRange(listOfCostCentresPerItem);
+                        }
+                       
                     }
-
-
-
                 }
                 else 
                 {
                     productList = null;
+
+                    if (subCategoryList.Count() == 1 && subCategoryList.FirstOrDefault() != null) 
+                    {
+                        Response.Redirect("/Category/" + Utils.specialCharactersEncoder(subCategoryList.FirstOrDefault().CategoryName) + "/" + subCategoryList.FirstOrDefault().ProductCategoryId);
+                        return null;
+                    }
                 }
 
                 ViewData["Products"] = productList;
-
-            }
-            else
-            {
-
+                ViewData["ProductCostCenterList"] = listOfCostCentresAllItems;
             }
 
             ViewBag.ContactId = _webstoreAuthorizationChecker.loginContactID();
             ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
-            //if (StoreBaseResopnse.Company.ShowPrices == true)
-            //{
-            //    ViewBag.IsShowPrices = true;
-            //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-            //    {
-            //        if (_myClaimHelper.loginContactID() > 0)
-            //        {
-            //            if (UserCookieManager.ShowPriceOnWebstore == true)
-            //            {
-            //                ViewBag.IsShowPrices = true;
-            //            }
-            //            else
-            //            {
-            //                ViewBag.IsShowPrices = false;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            ViewBag.IsShowPrices = true;
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    ViewBag.IsShowPrices = false;
-            //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-            //    {
-            //        if (_myClaimHelper.loginContactID() > 0)
-            //        {
-            //            if (UserCookieManager.ShowPriceOnWebstore == true)
-            //            {
-            //                ViewBag.IsShowPrices = true;
-            //            }
-            //            else
-            //            {
-            //                ViewBag.IsShowPrices = false;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            ViewBag.IsShowPrices = false;
-            //        }
-            //    }
-            //}
+            if (StoreBaseResopnse.Company.CurrentThemeId == 10012)
+            {
+                ViewBag.isPinkTheme = 1;
+            }
+            else 
+            {
+                ViewBag.isPinkTheme = 0;
+            }
+            ViewBag.StoreCurrency = StoreBaseResopnse.Currency;
             return View("PartialViews/Category", Category);
         }
 
@@ -357,13 +347,13 @@ namespace MPC.Webstore.Controllers
             TempData.Remove("MetaDescription");
             //ViewBag.MetaKeywords = MetaTags[1];
             TempData["MetaDescription"] = MetaTags[2];
-           
+
             //ViewBag.MetaDescription = MetaTags[2];
         }
 
         public ActionResult CloneItem(long id)
         {
-            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(id, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(id, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID,UserCookieManager.WBStoreId);
             UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
             UserCookieManager.WEBOrderId = cloneObject.OrderId;
             Response.Redirect(cloneObject.RedirectUrl);
@@ -381,7 +371,64 @@ namespace MPC.Webstore.Controllers
             {
                 ViewData["ProductCategory"] = null;
             }
-            
+
+        }
+
+        public ActionResult UpdateTemplateDimensions(double PDFTemplateWidth, double PDFTemplateHeight, long ItemId, bool Check)
+        {
+            double UpdatedPDFTemplateWidth = 0.0;
+            double UpdatedPDFTemplateHeight = 0.0;
+
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+            if (Check)
+            {
+                if (StoreBaseResopnse.Organisation.SystemLengthUnit == 1)
+                {
+                    //mm
+                    UpdatedPDFTemplateHeight = Utils.MMToPoint(PDFTemplateHeight);
+                    UpdatedPDFTemplateWidth = Utils.MMToPoint(PDFTemplateWidth);
+                }
+                if (StoreBaseResopnse.Organisation.SystemLengthUnit == 3)
+                {
+                    //Inch
+                    UpdatedPDFTemplateHeight = Utils.InchtoPoint(PDFTemplateHeight);
+                    UpdatedPDFTemplateWidth = Utils.InchtoPoint(PDFTemplateWidth);
+                }
+                int lengthunit = Convert.ToInt32(StoreBaseResopnse.Organisation.SystemLengthUnit);
+
+                ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId, 0, PDFTemplateWidth, PDFTemplateHeight, lengthunit);
+                List<TemplatePage> templatespages = _IItemService.GetTemplatePagesByItemId(cloneObject.ItemId);
+                if (templatespages != null && templatespages.Count > 0)
+                {
+                    double cuttingMargin = _myCompanyService.GetTemplateCuttingMargin(ItemId);
+                    cuttingMargin = cuttingMargin * 2;
+                    if (cuttingMargin > 0)
+                    {
+                        UpdatedPDFTemplateHeight += cuttingMargin;
+                        UpdatedPDFTemplateWidth += cuttingMargin;
+                    }
+                    else {
+                        cuttingMargin = 28.3465;
+                        UpdatedPDFTemplateHeight += cuttingMargin;
+                        UpdatedPDFTemplateWidth += cuttingMargin;
+                    }
+
+                    _templatePageService.CreateBlankBackgroundPDFsByPages(templatespages.FirstOrDefault().ProductId ?? 0, UpdatedPDFTemplateHeight, UpdatedPDFTemplateWidth, 1, templatespages, UserCookieManager.WEBOrganisationID);
+                }
+
+                UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
+
+                UserCookieManager.WEBOrderId = cloneObject.OrderId;
+
+                Response.Redirect(cloneObject.RedirectUrl);
+                return null;
+            }
+            else 
+            {
+                CloneItem(ItemId);
+                return null;
+            }
         }
 
     }

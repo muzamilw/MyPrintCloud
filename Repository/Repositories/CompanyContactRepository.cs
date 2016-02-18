@@ -7,6 +7,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
+
 
 namespace MPC.Repository.Repositories
 {
@@ -195,16 +197,30 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public CompanyContact GetContactByFirstName(string FName)
+        public CompanyContact GetContactByFirstName(string FName, long StoreId, long OrganisationId, int WebStoreMode, string providerKey)
         {
             try
             {
-                var qry = from contacts in db.CompanyContacts
-                          join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
-                          where string.Compare(contacts.twitterScreenName, FName, true) == 0
-                          select contacts;
+                if (WebStoreMode == (int)StoreMode.Corp)
+                {
+                    var qry = from contacts in db.CompanyContacts
+                              join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
+                              where string.Compare(contacts.ProviderKey, providerKey, true) == 0 && contacts.OrganisationId == OrganisationId &&
+                              contactCompany.CompanyId == StoreId && contactCompany.IsCustomer == (int)CustomerTypes.Corporate
+                              select contacts;
 
-                return qry.ToList().FirstOrDefault();
+                    return qry.ToList().FirstOrDefault();
+                }
+                else
+                {
+                    var qry = from contacts in db.CompanyContacts
+                              join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
+                              where string.Compare(contacts.ProviderKey, providerKey, true) == 0 && contacts.OrganisationId == OrganisationId && contactCompany.StoreId == StoreId
+                              select contacts;
+
+                    return qry.ToList().FirstOrDefault();
+                }
+
             }
             catch (Exception ex)
             {
@@ -247,7 +263,7 @@ namespace MPC.Repository.Repositories
                 {
                     return contactPerson.Mobile;
                 }
-                else 
+                else
                 {
                     return "";
                 }
@@ -761,7 +777,9 @@ namespace MPC.Repository.Repositories
                     Contact.IsPricingshown = true;
                     Contact.AddressId = 0;
                     Contact.ShippingAddressId = 0;
-                    if(oCompanyRec != null)
+                    Contact.LoginProvider = regContact.LoginProvider;
+                    Contact.ProviderKey = regContact.ProviderKey;
+                    if (oCompanyRec != null)
                     {
                         Contact.isWebAccess = oCompanyRec.IsRegisterAccessWebStore;
                         Contact.isPlaceOrder = oCompanyRec.IsRegisterPlaceOrder;
@@ -769,16 +787,7 @@ namespace MPC.Repository.Repositories
                         Contact.canPlaceDirectOrder = oCompanyRec.IsRegisterPlaceDirectOrder;
                         Contact.canUserPlaceOrderWithoutApproval = oCompanyRec.IsRegisterPlaceOrderWithoutApproval;
                     }
-                    //if (isAutoRegister == true)
-                    //{
-                    //    Contact.isWebAccess = true;
-                    //}
-                    //else
-                    //{
-                    //    Contact.isWebAccess = false;
-                    //}
 
-                    
                     if (companyTerritory != null)
                     {
                         Contact.TerritoryId = companyTerritory.TerritoryId;
@@ -814,11 +823,11 @@ namespace MPC.Repository.Repositories
                                 Contact.ShippingAddressId = addresses.FirstOrDefault().AddressId;
                             }
                         }
-                        else 
+                        else
                         {
                             throw new Exception("Critcal Error, We have lost our main Territory addresses.", null);
                         }
-                       
+
                     }
                     else
                     {
@@ -828,6 +837,8 @@ namespace MPC.Repository.Repositories
                     }
 
                     db.CompanyContacts.Add(Contact);
+
+
 
                     if (db.SaveChanges() > 0)
                     {
@@ -881,7 +892,7 @@ namespace MPC.Repository.Repositories
                       (s.FirstName.Contains(request.SearchFilter)) ||
                        (s.LastName.Contains(request.SearchFilter)) ||
                      (s.quickFullName.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId  && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
@@ -920,7 +931,8 @@ namespace MPC.Repository.Repositories
                     ||
                     (contact.Email.Contains(request.SearchFilter)) ||
                     contact.Company.Name.Contains(request.SearchFilter)) &&
-                   // (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
+                    (contact.Company.IsCustomer != 2) &&
+                             // (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
                     (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId
 
 
@@ -1119,7 +1131,7 @@ namespace MPC.Repository.Repositories
                         CompanyId = contact.Company.CompanyId,
                         Name = contact.Company.Name,
                         StoreId = contact.Company.StoreId,
-                        StoreName = string.IsNullOrEmpty(contact.Company.StoreName) ?  contact.Company.Name: contact.Company.StoreName,
+                        StoreName = string.IsNullOrEmpty(contact.Company.StoreName) ? contact.Company.Name : contact.Company.StoreName,
                         IsCustomer = contact.Company.IsCustomer
                     }
                 }).ToList()
@@ -1479,6 +1491,7 @@ namespace MPC.Repository.Repositories
                     oContct.image = Instance.image;
                     oContct.IsEmailSubscription = Instance.IsEmailSubscription;
                     oContct.IsNewsLetterSubscription = Instance.IsNewsLetterSubscription;
+                    oContct.HasClippingPath = Instance.HasClippingPath;
                     db.CompanyContacts.Attach(oContct);
 
                     db.Entry(oContct).State = EntityState.Modified;
@@ -1532,7 +1545,7 @@ namespace MPC.Repository.Repositories
                     oContct.AdditionalField3 = Instance.AdditionalField3;
                     oContct.AdditionalField4 = Instance.AdditionalField4;
                     oContct.AdditionalField5 = Instance.AdditionalField5;
-
+                    oContct.HasClippingPath = Instance.HasClippingPath;
                     db.CompanyContacts.Attach(oContct);
 
                     db.Entry(oContct).State = EntityState.Modified;
@@ -1697,7 +1710,7 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId)
         {
-            return db.CompanyContacts.Where(c => c.CompanyId == companyId && c.OrganisationId == organistionId && c.Email == emailAddress && c.isWebAccess == true && (c.isArchived == false || c.isArchived == null)).SingleOrDefault();
+            return db.CompanyContacts.Where(c => c.CompanyId == companyId && c.OrganisationId == organistionId && c.Email == emailAddress && (c.isArchived == false || c.isArchived == null)).SingleOrDefault();
         }
 
 
@@ -1707,13 +1720,13 @@ namespace MPC.Repository.Repositories
 
             //db.Configuration.LazyLoadingEnabled = false;
             var contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
-            if(contact != null)
+            if (contact != null)
             {
                 contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
                 if (string.IsNullOrEmpty(contact.Company.StoreName))
                     contact.Company.StoreName = contact.Company.Name;
             }
-           
+
             return contact;
 
 
@@ -1748,23 +1761,23 @@ namespace MPC.Repository.Repositories
 
 
         }
-        public  List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID)
+        public List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID)
         {
             try
             {
-                    if (territoryID > 0)
-                    {
-                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
-                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt.Trim()) || c.FirstName.Equals(searchtxt.Trim()) || c.Email.Contains(searchtxt.Trim()))
-                                && c.TerritoryId == territoryID
-                                select c).ToList();
-                    }
-                    else
-                    {
-                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
-                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt.Trim()) ||c.FirstName.Equals(searchtxt.Trim())|| c.Email.Contains(searchtxt.Trim()))
-                                select c).ToList();
-                    }
+                if (territoryID > 0)
+                {
+                    return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                            where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt.Trim()) || c.FirstName.Equals(searchtxt.Trim()) || c.Email.Contains(searchtxt.Trim()))
+                            && c.TerritoryId == territoryID
+                            select c).ToList();
+                }
+                else
+                {
+                    return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                            where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt.Trim()) || c.FirstName.Equals(searchtxt.Trim()) || c.Email.Contains(searchtxt.Trim()))
+                            select c).ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -1776,21 +1789,21 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                
-                
-                    if (territoryID > 0)
-                    {
-                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
-                                where c.CompanyId == contactCompanyId && c.TerritoryId == territoryID
-                                select c).ToList();
-                    }
-                    else
-                    {
-                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
-                                where c.CompanyId == contactCompanyId
-                                select c).ToList();
-                    }
-                
+
+
+                if (territoryID > 0)
+                {
+                    return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                            where c.CompanyId == contactCompanyId && c.TerritoryId == territoryID
+                            select c).ToList();
+                }
+                else
+                {
+                    return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                            where c.CompanyId == contactCompanyId
+                            select c).ToList();
+                }
+
             }
             catch (Exception ex)
             {
@@ -1802,7 +1815,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                
+
                 CompanyContact con = db.CompanyContacts.Where(i => i.ContactId == Contact.ContactId).FirstOrDefault();
                 con.FileName = Contact.FirstName;
                 con.LastName = Contact.LastName;
@@ -1835,10 +1848,10 @@ namespace MPC.Repository.Repositories
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
                 con.OrganisationId = Contact.OrganisationId;
-                
+
                 if (Contact.Password == null)
                 {
-                    
+
                 }
                 else
                 {
@@ -1855,7 +1868,7 @@ namespace MPC.Repository.Repositories
         }
         public void AddDataSystemUser(CompanyContact Contact)
         {
-            
+
             try
             {
                 CompanyContact con = new CompanyContact();
@@ -1906,106 +1919,106 @@ namespace MPC.Repository.Repositories
                              where (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId
 
 
-                             select new 
+                             select new
                              {
-                                
+
                                  contact.FirstName,
-                             contact.LastName,
-                             contact.MiddleName,
-                             contact.ContactId,
-                             contact.AddressId,
-                             contact.CompanyId,
-                             contact.image,
-                             contact.Title,
-                             contact.HomeTel1,
-                             contact.HomeTel2,
-                             contact.HomeExtension1,
-                             contact.HomeExtension2,
-                             contact.Mobile,
-                             contact.Email,
-                             contact.FAX,
-                             contact.JobTitle,
-                             contact.DOB,
-                             contact.Notes,
-                             contact.IsDefaultContact,
-                             contact.HomeAddress1,
-                             contact.HomeAddress2,
-                             contact.HomeCity,
-                             contact.HomeState,
-                             contact.HomePostCode,
-                             contact.HomeCountry,
-                             contact.SecretQuestion,
-                             contact.SecretAnswer,
-                             contact.Password,
-                             contact.URL,
-                             contact.IsEmailSubscription,
-                             contact.IsNewsLetterSubscription,
-                             //contact.image,
-                             contact.quickFullName,
-                             contact.quickTitle,
-                             contact.quickCompanyName,
-                             contact.quickAddress1,
-                             contact.quickAddress2,
-                             contact.quickAddress3,
-                             contact.quickPhone,
-                             contact.quickFax,
-                             contact.quickEmail,
-                             contact.quickWebsite,
-                             contact.quickCompMessage,
-                             contact.QuestionId,
-                             contact.IsApprover,
-                             contact.isWebAccess,
-                             contact.isPlaceOrder,
-                             contact.CreditLimit,
-                             contact.isArchived,
-                             contact.ContactRoleId,
-                             contact.TerritoryId,
-                             contact.ClaimIdentifer,
-                             contact.AuthentifiedBy,
-                             contact.IsPayByPersonalCreditCard,
-                             contact.IsPricingshown,
-                             contact.SkypeId,
-                             contact.LinkedinURL,
-                             contact.FacebookURL,
-                             contact.TwitterURL,
-                             contact.authenticationToken,
-                             contact.twitterScreenName,
-                             contact.ShippingAddressId,
-                             contact.isUserLoginFirstTime,
-                             contact.quickMobileNumber,
-                             contact.quickTwitterId,
-                             contact.quickFacebookId,
-                             contact.quickLinkedInId,
-                             contact.quickOtherId,
-                             contact.POBoxAddress,
-                             contact.CorporateUnit,
-                             contact.OfficeTradingName,
-                             contact.ContractorName,
-                             contact.BPayCRN,
-                             contact.ABN,
-                             contact.ACN,
-                             contact.AdditionalField1,
-                             contact.AdditionalField2,
-                             contact.AdditionalField3,
-                             contact.AdditionalField4,
-                             contact.AdditionalField5,
-                             contact.canUserPlaceOrderWithoutApproval,
-                             contact.CanUserEditProfile,
-                             contact.canPlaceDirectOrder,
-                             contact.OrganisationId,
-                             RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
-                             contact.SecondaryEmail,
+                                 contact.LastName,
+                                 contact.MiddleName,
+                                 contact.ContactId,
+                                 contact.AddressId,
+                                 contact.CompanyId,
+                                 contact.image,
+                                 contact.Title,
+                                 contact.HomeTel1,
+                                 contact.HomeTel2,
+                                 contact.HomeExtension1,
+                                 contact.HomeExtension2,
+                                 contact.Mobile,
+                                 contact.Email,
+                                 contact.FAX,
+                                 contact.JobTitle,
+                                 contact.DOB,
+                                 contact.Notes,
+                                 contact.IsDefaultContact,
+                                 contact.HomeAddress1,
+                                 contact.HomeAddress2,
+                                 contact.HomeCity,
+                                 contact.HomeState,
+                                 contact.HomePostCode,
+                                 contact.HomeCountry,
+                                 contact.SecretQuestion,
+                                 contact.SecretAnswer,
+                                 contact.Password,
+                                 contact.URL,
+                                 contact.IsEmailSubscription,
+                                 contact.IsNewsLetterSubscription,
+                                 //contact.image,
+                                 contact.quickFullName,
+                                 contact.quickTitle,
+                                 contact.quickCompanyName,
+                                 contact.quickAddress1,
+                                 contact.quickAddress2,
+                                 contact.quickAddress3,
+                                 contact.quickPhone,
+                                 contact.quickFax,
+                                 contact.quickEmail,
+                                 contact.quickWebsite,
+                                 contact.quickCompMessage,
+                                 contact.QuestionId,
+                                 contact.IsApprover,
+                                 contact.isWebAccess,
+                                 contact.isPlaceOrder,
+                                 contact.CreditLimit,
+                                 contact.isArchived,
+                                 contact.ContactRoleId,
+                                 contact.TerritoryId,
+                                 contact.ClaimIdentifer,
+                                 contact.AuthentifiedBy,
+                                 contact.IsPayByPersonalCreditCard,
+                                 contact.IsPricingshown,
+                                 contact.SkypeId,
+                                 contact.LinkedinURL,
+                                 contact.FacebookURL,
+                                 contact.TwitterURL,
+                                 contact.authenticationToken,
+                                 contact.twitterScreenName,
+                                 contact.ShippingAddressId,
+                                 contact.isUserLoginFirstTime,
+                                 contact.quickMobileNumber,
+                                 contact.quickTwitterId,
+                                 contact.quickFacebookId,
+                                 contact.quickLinkedInId,
+                                 contact.quickOtherId,
+                                 contact.POBoxAddress,
+                                 contact.CorporateUnit,
+                                 contact.OfficeTradingName,
+                                 contact.ContractorName,
+                                 contact.BPayCRN,
+                                 contact.ABN,
+                                 contact.ACN,
+                                 contact.AdditionalField1,
+                                 contact.AdditionalField2,
+                                 contact.AdditionalField3,
+                                 contact.AdditionalField4,
+                                 contact.AdditionalField5,
+                                 contact.canUserPlaceOrderWithoutApproval,
+                                 contact.CanUserEditProfile,
+                                 contact.canPlaceDirectOrder,
+                                 contact.OrganisationId,
+                                 RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
+                                 contact.SecondaryEmail,
                                  contact.Address,
                                  contact.CompanyTerritory,
                                  Company = new
                                  {
-                                    contact.Company.IsCustomer,
-                                    Name = contact.Company.Name,
+                                     contact.Company.IsCustomer,
+                                     Name = contact.Company.Name,
                                      StoreName = cmp != null ? cmp.Name : string.Empty,
                                      WebAccessCode = cmp != null ? cmp.WebAccessCode : contact.Company != null ? contact.Company.WebAccessCode : string.Empty,
 
                                  }
-                              
+
                              });
 
                 var que = query.Distinct().OrderBy(x => x.FirstName).ToList();
@@ -2108,9 +2121,9 @@ namespace MPC.Repository.Repositories
                             //Name = contact.Company.Name,
                             //StoreId = contact.Company.StoreId,
                             StoreName = string.IsNullOrEmpty(contact.Company.StoreName) ? contact.Company.Name : contact.Company.StoreName,
-                          
+
                             WebAccessCode = contact.Company.WebAccessCode
-                           // IsCustomer = contact.Company.IsCustomer
+                            // IsCustomer = contact.Company.IsCustomer
                         }
                     }).ToList()
                 };
@@ -2149,7 +2162,7 @@ namespace MPC.Repository.Repositories
                         CustomerUrl = companycontact.Company.URL,
                         TaxRate = companycontact.Company.TaxRate ?? 0
                     });
-                   
+
                 }
 
                 return zapContact;
@@ -2195,9 +2208,217 @@ namespace MPC.Repository.Repositories
 
             }
         }
+        public CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email)
+        {
+            try
+            {
+                var qry = from contacts in db.CompanyContacts
+                          join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
+                          where string.Compare(contacts.twitterScreenName, FName, true) == 0 && contacts.Email == Email
+                          select contacts;
+
+                return qry.ToList().FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public List<CompanyContact> GetUsersByCompanyId(long CompanyId)
+        {
+
+            try
+            {
+
+
+                return db.CompanyContacts.Where(c => c.CompanyId == CompanyId && (c.isArchived == false || c.isArchived == null) && c.ContactRoleId == (int)Roles.User).ToList();
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId)
+        {
+
+            db.Configuration.LazyLoadingEnabled = false;
+            var qury = from Contacts in db.CompanyContacts
+                       join ContactCompany in db.Companies on Contacts.CompanyId equals ContactCompany.CompanyId
+                       where
+                              Contacts.CompanyId == companyId && (ContactCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                             && Contacts.OrganisationId == OrganisationId
+                       select Contacts;
+
+            return qury.ToList();
+
+        }
+
+        public void UpdateAgent(List<CompanyContact> model)
+        {
+
+            foreach (var item in model)
+            {
+                CompanyContact oContact = db.CompanyContacts.Where(c => c.Email == item.Email).FirstOrDefault();
+                if (oContact != null)
+                {
+                    oContact.Mobile = item.Mobile;
+                    oContact.HomeTel1 = item.HomeTel1;
+                    oContact.FirstName = item.FirstName;
+                    db.Entry(oContact).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+        }
+        public void UpdateSignleAgent(CompanyContact Agent)
+        {
+            CompanyContact oContact = db.CompanyContacts.Where(c => c.Email == Agent.Email).FirstOrDefault();
+            if (oContact != null)
+            {
+                oContact.Mobile = Agent.Mobile;
+                oContact.HomeTel1 = Agent.HomeTel1;
+                oContact.FirstName = Agent.FirstName;
+                db.Entry(oContact).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+        }
+        public void AddAgent(ListAgentMode model, long ContactCompanyId)
+        {
+            foreach (var item in model.objList)
+            {
+                CompanyContact oContact = db.CompanyContacts.Where(c => c.Email == item.agentEmail).FirstOrDefault();
+                if (oContact == null)
+                {
+                    oContact = new CompanyContact();
+                    oContact.Mobile = item.agentMobile;
+                    oContact.HomeTel1 = item.agentTel;
+                    oContact.FirstName = item.agentName;
+                    oContact.CompanyId = ContactCompanyId;
+                    oContact.ContactRoleId = (int)Roles.User;
+                    oContact.isWebAccess = true;
+                    oContact.isPlaceOrder = true;
+                    oContact.IsPricingshown = true;
+                    oContact.Email = item.agentEmail;
+                    oContact.isArchived = false;
+                    oContact.Password = "U2m6RbXhu/ouK1+f82k3UZQu334ychgV1fg=";
+                    CompanyTerritory oTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == ContactCompanyId).FirstOrDefault();
+
+                    if (oTerritory != null)
+                    {
+                        oContact.TerritoryId = oTerritory.TerritoryId;
+                        Address oAddress = db.Addesses.Where(t => t.TerritoryId == oTerritory.TerritoryId).FirstOrDefault();
+                        if (oAddress != null)
+                        {
+                            oContact.AddressId = oAddress.AddressId;
+                            oContact.ShippingAddressId = oAddress.AddressId;
+                        }
+                        else
+                        {
+                            Address oCompanyAddress = db.Addesses.Where(t => t.CompanyId == ContactCompanyId).FirstOrDefault();
+                            if (oCompanyAddress != null)
+                            {
+                                oContact.AddressId = oCompanyAddress.AddressId;
+                                oContact.ShippingAddressId = oCompanyAddress.AddressId;
+                            }
+                        }
+
+                    }
+                    db.CompanyContacts.Add(oContact);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public void AddSingleAgent(CompanyContact NewAgent)
+        {
+            CompanyContact oContact = db.CompanyContacts.Where(c => c.Email == NewAgent.Email).FirstOrDefault();
+            if (oContact == null)
+            {
+                oContact = new CompanyContact();
+                oContact.Mobile = NewAgent.Mobile;
+                oContact.HomeTel1 = NewAgent.HomeTel1;
+                oContact.FirstName = NewAgent.FirstName;
+                oContact.CompanyId = NewAgent.CompanyId;
+                oContact.ContactRoleId = (int)Roles.User;
+                oContact.isWebAccess = true;
+                oContact.isPlaceOrder = true;
+                oContact.IsPricingshown = true;
+                oContact.Email = NewAgent.Email;
+                oContact.isArchived = false;
+                oContact.Password = "U2m6RbXhu/ouK1+f82k3UZQu334ychgV1fg=";
+                CompanyTerritory oTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == NewAgent.CompanyId).FirstOrDefault();
+
+                if (oTerritory != null)
+                {
+                    oContact.TerritoryId = oTerritory.TerritoryId;
+                    Address oAddress = db.Addesses.Where(t => t.TerritoryId == oTerritory.TerritoryId).FirstOrDefault();
+                    if (oAddress != null)
+                    {
+                        oContact.AddressId = oAddress.AddressId;
+                        oContact.ShippingAddressId = oAddress.AddressId;
+                    }
+                    else
+                    {
+                        Address oCompanyAddress = db.Addesses.Where(t => t.CompanyId == NewAgent.CompanyId).FirstOrDefault();
+                        if (oCompanyAddress != null)
+                        {
+                            oContact.AddressId = oCompanyAddress.AddressId;
+                            oContact.ShippingAddressId = oCompanyAddress.AddressId;
+                        }
+                    }
+
+                }
+                db.CompanyContacts.Add(oContact);
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteAjent(long ContactID)
+        {
+            db.usp_DeleteContactById(ContactID);
+            db.SaveChanges();
+        }
+
+        public CompanyContact GetContactOnUserNamePass(long OrganisationId, string Email, string password)
+        {
+            List<CompanyContact> contact = db.CompanyContacts.Where(c => c.Email == Email && c.OrganisationId == OrganisationId && (c.isArchived.HasValue && c.isArchived.Value == false)).ToList();
+            if(contact != null)
+            {
+                return contact.Where(contct => HashingManager.VerifyHashSha1(password, contct.Password) == true).FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public CompanyContact GetCompanyContactByNameAndEmail(string sFirstName, string sEmail, long organisationId)
+        {
+            return
+                DbSet.FirstOrDefault(
+                    c => c.FirstName == sFirstName && c.Email == sEmail && c.OrganisationId == organisationId);
+        }
+
+        public long GetRetailStoreId(long organisationId)
+        {
+            var store = db.Companies.FirstOrDefault(c => c.OrganisationId == organisationId && c.IsCustomer == 4);
+            if (store != null)
+                return store.CompanyId;
+            else 
+                return 0;
+        }
 
     }
-
 }
+  
+
+
 
 

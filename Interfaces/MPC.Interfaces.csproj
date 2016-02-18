@@ -108,6 +108,8 @@
     <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="MISServices\ISystemUserService.cs" />
     <Compile Include="MISServices\SectionReport.cs" />
+    <Compile Include="Repository\IAssetItemsRepository.cs" />
+    <Compile Include="Repository\IAssetsRepository.cs" />
     <Compile Include="Repository\ICampaignImageRepository.cs" />
     <Compile Include="Repository\ICMSOfferRepository.cs" />
     <Compile Include="Repository\ICompanyVoucherRedeemRepository.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Repository\IDeliveryNoteDetailRepository.cs" />
     <Compile Include="Repository\IDeliveryNoteRepository.cs" />
     <Compile Include="Repository\IEstimateInquiryRepository.cs" />
+    <Compile Include="Repository\IFolderRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
     <Compile Include="Repository\IGoodsReceivedNoteDetailRepository.cs" />
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
@@ -126,6 +129,8 @@
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
     <Compile Include="Repository\IItemsVoucherRepository.cs" />
+    <Compile Include="Repository\IListingBulletPointsRepository.cs" />
+    <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IMarketingBriefHistoryRepository.cs" />
     <Compile Include="Repository\IProductCategoryVoucherRepository.cs" />
     <Compile Include="Repository\IProductMarketBriefAnswerRepository.cs" />
@@ -186,7 +191,6 @@
     <Compile Include="Repository\ICostCentreRepository.cs" />
     <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
-    <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IMachineRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
@@ -202,6 +206,7 @@
     <Compile Include="Repository\ISmartFormDetailRepository.cs" />
     <Compile Include="Repository\ISmartFormRepository.cs" />
     <Compile Include="Repository\IStagingImportCompanyContactAddressRepository.cs" />
+    <Compile Include="Repository\IStagingImportProductsRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\IStatusRepository.cs" />
@@ -251,6 +256,7 @@
     <Compile Include="Repository\ICostCentreVariableRepository.cs" />
     <Compile Include="WebStoreServices\IExecutionService.cs" />
     <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
+    <Compile Include="WebStoreServices\IListingBulletPointsService.cs" />
     <Compile Include="WebStoreServices\IListingService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />
     <Compile Include="Logger\IMPCLogWriter.cs" />

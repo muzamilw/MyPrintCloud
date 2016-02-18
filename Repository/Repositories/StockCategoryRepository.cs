@@ -54,39 +54,63 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(stockCategory => stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId == 0).ToList();
         }
-
+        public List<StockCategory> getDefaulStockCat()
+        {
+            db.Configuration.LazyLoadingEnabled = true;
+            db.Configuration.ProxyCreationEnabled = true;
+            return db.StockCategories.Where(c => c.OrganisationId == 0).ToList();
+        }
         /// <summary>
         /// Get Stock Categories For Inventory
         /// </summary>
         public IEnumerable<StockCategory> GetStockCategoriesForInventory()
         {
             return DbSet.Where(stockCategory => (stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId == 0)
-                && stockCategory.CategoryId != 3 && stockCategory.CategoryId != 4).ToList();
+                && stockCategory.CategoryId != 3).ToList();
         }
         public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {
-            int fromRow = (request.PageNo - 1) * request.PageSize;
-            int toRow = request.PageSize;
-            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
-            bool isCategoryIdSpecified = request.StockCategoryId != 0;
-            Expression<Func<StockCategory, bool>> query =
-                s =>
-                    (isStringSpecified && (s.Name.Contains(request.SearchString)) || !isStringSpecified) &&
-                    ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified) &&
-                    s.OrganisationId == OrganisationId;
+            int rowCount = 0;
+            IEnumerable<StockCategory> stockCategories = null;
+            if(request.StockCategoryId > 0) // edit case
+            {
 
-            int rowCount = DbSet.Count(query);
-            IEnumerable<StockCategory> stockCategories = request.IsAsc
-                ? DbSet.Where(query)
-                    .OrderBy(stockCategoryOrderByClause[request.StockCategoryOrderBy])
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList()
-                : DbSet.Where(query)
-                    .OrderByDescending(stockCategoryOrderByClause[request.StockCategoryOrderBy])
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList();
+                stockCategories = db.StockCategories.Where(c => c.CategoryId == request.StockCategoryId).ToList();
+
+                if (stockCategories != null && stockCategories.Count() > 0)
+                {
+                    foreach (var sc in stockCategories)
+                    {
+                        sc.StockSubCategories = sc.StockSubCategories.Where(c => c.OrganisationId == OrganisationId).ToList();
+                    }
+                }
+               
+            }
+            else // list case
+            {
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
+                bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+                bool isCategoryIdSpecified = request.StockCategoryId != 0;
+                Expression<Func<StockCategory, bool>> query =
+                    s =>
+                        (isStringSpecified && (s.Name.Contains(request.SearchString)) || !isStringSpecified) &&
+                        ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified) &&
+                        (s.OrganisationId == OrganisationId || s.OrganisationId == 0) && s.CategoryId != 3;
+
+                rowCount = DbSet.Count(query);
+                stockCategories = request.IsAsc
+                    ? DbSet.Where(query)
+                        .OrderBy(stockCategoryOrderByClause[request.StockCategoryOrderBy])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList()
+                    : DbSet.Where(query)
+                        .OrderByDescending(stockCategoryOrderByClause[request.StockCategoryOrderBy])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList();
+            }
 
             return new StockCategoryResponse
                    {
@@ -142,6 +166,51 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
+        }
+
+        public List<StockCategory> getStockCatByOrgid()
+        {
+            db.Configuration.LazyLoadingEnabled = true;
+            db.Configuration.ProxyCreationEnabled = true;
+            return db.StockCategories.Where(c => c.OrganisationId == OrganisationId).ToList();
+        }
+
+        public void UpdateStockItemForCatDeleteion(long StockId,long CategoryId,long SubCategoryId)
+        {
+            try
+            {
+                StockItem stockItems = db.StockItems.Where(c => c.StockItemId == StockId).FirstOrDefault();
+                if(stockItems != null)
+                {
+                    stockItems.CategoryId = CategoryId;
+                    stockItems.SubCategoryId = SubCategoryId;
+
+                    db.SaveChanges();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<StockSubCategory> getStockSubCategoryByCategoryId(long CatId)
+        {
+            return db.StockSubCategories.Where(c => c.CategoryId == CatId).ToList();
+        }
+
+        public StockCategory getStockCategoryByCategoryId(long CatId)
+        {
+            StockCategory category = db.StockCategories.Where(c => c.CategoryId == CatId).FirstOrDefault();
+
+            //if(category != null)
+            //{
+            //    if(category.StockSubCategories != null && category.StockSubCategories.Count > 0)
+            //    {
+            //        category.StockSubCategories = category.StockSubCategories.Where(c => c.OrganisationId == OrganisationId).ToList();
+            //    }
+            //}
+            return category;
         }
         #endregion
     }

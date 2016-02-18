@@ -29,5 +29,7 @@ namespace MPC.Models.Common
         public long? CompanyId { get; set; }
 
         public bool? isDisplay { get; set; }
+
+        public string PageBanner { get; set; }
     }
 }

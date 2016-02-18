@@ -34,7 +34,7 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         string GetNextItemCodePrefix(bool shouldIncrementNextItem = true);
 
-        Prefix GetDefaultPrefix();
+        Prefix GetDefaultPrefix(long OrganisationId);
 
         /// <summary>
         /// Markup use in Prefix 
@@ -65,5 +65,7 @@ namespace MPC.Interfaces.Repository
         /// Returns Next GRN Code Prefix and increments the NextItem Value by 1
         /// </summary>
         string GetNextGRNCodePrefix();
+
+        string GetNextStockItemCodePrefix(bool shouldIncrementNextItem = true);
     }
 }

@@ -13,5 +13,8 @@ namespace MPC.Models.Common
         public long OrderId { get; set; }
 
         public string RedirectUrl { get; set; }
+
+        public long ItemId { get; set; }
+
     }
 }

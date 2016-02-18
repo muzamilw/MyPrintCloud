@@ -8,6 +8,7 @@
             url = ko.observable().extend({ required: true }),
             apiKey = ko.observable().extend({ required: true }),
             apiPassword = ko.observable().extend({ required: true }),
+            carrierPhone = ko.observable().extend({ required: true }),
             isenable = ko.observable(),
             showErrors = ko.observable(false),
             readonly = ko.observable(false),
@@ -19,6 +20,7 @@
                 url: url,
                 apiKey: apiKey,
                 apiPassword: apiPassword,
+                carrierPhone: carrierPhone,
                 isenable: isenable,
                 showErrors: showErrors
                 
@@ -32,6 +34,7 @@
                 url: url,
                 apiKey: apiKey,
                 apiPassword: apiPassword,
+                carrierPhone: carrierPhone,
                 isenable: isenable
                 
             }),
@@ -51,6 +54,7 @@
                 url: url,
                 apiKey: apiKey,
                 apiPassword: apiPassword,
+                carrierPhone: carrierPhone,
                 isenable: isenable,
                 isValid: isValid,
                 showErrors: showErrors,
@@ -69,6 +73,7 @@
         odeliverycarrier.url(source.url);
         odeliverycarrier.apiKey(source.apiKey);
         odeliverycarrier.apiPassword(source.apiPassword);
+        odeliverycarrier.carrierPhone(source.carrierPhone);
         odeliverycarrier.isenable(source.isenable);
 
         return odeliverycarrier;
@@ -90,6 +95,7 @@
         odeliverycarrier.url(source.Url);
         odeliverycarrier.apiKey(source.ApiKey);
         odeliverycarrier.apiPassword(source.ApiPassword);
+        odeliverycarrier.carrierPhone(source.CarrierPhone);
         odeliverycarrier.isenable(source.isEnable);
         
         return odeliverycarrier;
@@ -104,6 +110,7 @@
         result.Url = source.url();
         result.ApiKey = source.apiKey();
         result.ApiPassword = source.apiPassword();
+        result.CarrierPhone = source.carrierPhone();
         result.isEnable = source.isenable();
         
         return result;

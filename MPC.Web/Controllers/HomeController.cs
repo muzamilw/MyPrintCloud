@@ -20,6 +20,7 @@ using System.Configuration;
 using GrapeCity.ActiveReports;
 using MPC.Web.Reports;
 using MPC.MIS.Models;
+using FluentScheduler;
 
 namespace MPC.MIS.Controllers
 {
@@ -36,11 +37,13 @@ namespace MPC.MIS.Controllers
             get { return HttpContext.GetOwinContext().Authentication; }
         }
         private IOrderService orderService{ get; set; }
+        private readonly MPC.Interfaces.MISServices.IListingService _listingService;
 
-        public HomeController(IOrderService orderService, IReportService reportService)
+        public HomeController(IOrderService orderService, IReportService reportService, IListingService listingService)
         {
             this.orderService = orderService;
             this.IReportService = reportService;
+            this._listingService = listingService;
         }
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -126,6 +129,15 @@ namespace MPC.MIS.Controllers
                 email = validationInfo.Email;
                 isTrial = validationInfo.IsTrial;
                 trialCount = validationInfo.TrialCount;
+
+                // for lisitng temporary commented while Xms holidays to review
+                if (organisationId == 1682)
+                {
+                    string sUrl = string.Format("{0}://{1}/mis/", System.Web.HttpContext.Current.Request.Url.Scheme,
+                        System.Web.HttpContext.Current.Request.Url.Authority);
+                    TaskManager.Initialize(new ListingBackgroundTask(sUrl));
+                }
+                     
             }
             else
             {
@@ -298,10 +310,10 @@ namespace MPC.MIS.Controllers
             return PartialView();
         }
 
-        public ActionResult Viewer(int? id, int? itemId)
+        public ActionResult Viewer(int? id, int? itemId,int? ComboValue,string Datefrom,string DateTo,string ParamTextValue)
         {
 
-            ReportDescriptor model = new ReportDescriptor() { Id = id ?? 0, ItemId = itemId ?? 0 };
+            ReportDescriptor model = new ReportDescriptor() { Id = id ?? 0, ItemId = itemId ?? 0,ComboValue = ComboValue ?? 0,Datefrom = Datefrom,DateTo = DateTo,ParamTextValue = ParamTextValue };
 
 
             return View(model);
@@ -312,13 +324,12 @@ namespace MPC.MIS.Controllers
         public ActionResult GetReport(ReportDescriptor req)
         {
 
-            SectionReport report = IReportService.GetReport(req.Id, req.ItemId);
+            SectionReport report = IReportService.GetReport(req.Id, req.ItemId,req.ComboValue,req.Datefrom,req.DateTo,req.ParamTextValue);
            
+            
             ViewBag.Report = report;
 
-
-
-                  return PartialView("WebViewer");
+            return PartialView("WebViewer");
 
         }
     }

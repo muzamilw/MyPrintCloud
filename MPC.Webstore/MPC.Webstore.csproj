@@ -51,7 +51,7 @@
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.ApplicationBlock">
-      <HintPath>C:\Users\IQRA\Desktop\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
+      <HintPath>..\MPC.Common\ExternalDlls\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.Core">
       <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
@@ -64,6 +64,9 @@
     </Reference>
     <Reference Include="DotNetOpenAuth.OAuth2.ClientAuthorization">
       <HintPath>..\packages\DotNetOpenAuth.OAuth2.ClientAuthorization.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.ClientAuthorization.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="FluentScheduler">
       <HintPath>..\packages\FluentScheduler.3.1.45\lib\net40\FluentScheduler.dll</HintPath>
@@ -115,6 +118,9 @@
     </Reference>
     <Reference Include="Owin.Context">
       <HintPath>..\packages\Owin.Context.0.1.0.3\lib\net45\Owin.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="PayWayAPI">
+      <HintPath>..\MPC.Common\ExternalDlls\PayWayAPI.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>True</Private>
@@ -369,20 +375,33 @@
     <Compile Include="Areas\WebstoreApi\Controllers\FileUploadController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\RealEstateSideBarController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\RealEstateSMController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RFQController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\UMController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\ValidateLoginController.cs" />
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\CostCentreTemplate.cs" />
+    <Compile Include="Common\OAuthHelper.cs" />
+    <Compile Include="Common\OAuthUtility.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AreYouLocalController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
     <Compile Include="Controllers\BlackAndWhiteHeaderMenuController.cs" />
     <Compile Include="Controllers\BreadCrumbController.cs" />
+    <Compile Include="Controllers\BubbleAboutUSController.cs" />
+    <Compile Include="Controllers\BubbleBannerController.cs" />
+    <Compile Include="Controllers\BubbleHeaderController.cs" />
+    <Compile Include="Controllers\BubbleLoginBarController.cs" />
+    <Compile Include="Controllers\BubbleQuickLinksController.cs" />
+    <Compile Include="Controllers\BubbleSavePercentController.cs" />
     <Compile Include="Controllers\CategoriesAndProductsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
@@ -391,11 +410,21 @@
     <Compile Include="Controllers\DescriptiveFooterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
+    <Compile Include="Controllers\EzyHeaderController.cs" />
+    <Compile Include="Controllers\EzyPrintSignUpController.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
+    <Compile Include="Controllers\FeaturedProductsController.cs" />
+    <Compile Include="Controllers\FooterWithUseFulLinksController.cs" />
+    <Compile Include="Controllers\FutureHeaderController.cs" />
+    <Compile Include="Controllers\FutureQuickLinksController.cs" />
     <Compile Include="Controllers\HeaderWithCategoriesAndProducts.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
+    <Compile Include="Controllers\HttpPost.cs" />
     <Compile Include="Controllers\LoginBarWithCountersController.cs" />
+    <Compile Include="Controllers\LoginBarWithPhoneInfoController.cs" />
+    <Compile Include="Controllers\LoginEazyPrintController.cs" />
+    <Compile Include="Controllers\ManageAssetsController.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
     <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
@@ -406,6 +435,7 @@
     <Compile Include="Controllers\OxfordHeaderController.cs" />
     <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PayWayController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
     <Compile Include="Controllers\PopularProductsController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
@@ -424,6 +454,7 @@
     <Compile Include="Controllers\ProductOrderHistoryController.cs" />
     <Compile Include="Controllers\ProductParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductPendingOrdersController.cs" />
+    <Compile Include="Controllers\RealEstateListingGridController.cs" />
     <Compile Include="Controllers\SpecialProductController.cs" />
     <Compile Include="Controllers\QuickCalculatorController.cs" />
     <Compile Include="Controllers\RaveReviewController.cs" />
@@ -449,8 +480,10 @@
     <Compile Include="Controllers\SlidingBannerController.cs" />
     <Compile Include="Controllers\SubscribeAndContactController.cs" />
     <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
+    <Compile Include="Controllers\SystemPageBannerController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
+    <Compile Include="Controllers\WhyShopUsController.cs" />
     <Compile Include="Controllers\ZoomSliderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -491,8 +524,21 @@
     <Compile Include="WebGridExtension\WebGridExt.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\BannerMart.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\BubbleFiles\Bubble.js" />
+    <Content Include="Content\BubbleFiles\bubblecss.css" />
+    <Content Include="Content\BubbleFiles\bubbles2.css" />
+    <Content Include="Content\BubbleFiles\Site.css" />
+    <Content Include="Content\BubbleImages\banner-right-custom-image-1.jpg" />
+    <Content Include="Content\BubbleImages\banner-right-custom-image-2.jpg" />
+    <Content Include="Content\BubbleImages\computer.png" />
+    <Content Include="Content\BubbleImages\footer-bg.jpg" />
+    <Content Include="Content\BubbleImages\parallex-bg.jpg" />
+    <Content Include="Content\BubbleImages\payment.png" />
+    <Content Include="Content\BubbleImages\sefo-bg.png" />
+    <Content Include="Content\BubbleImages\social-icon-footer.png" />
     <Content Include="Content\carousel.css" />
     <Content Include="Content\cbre.css" />
     <Content Include="Content\clublinks.css" />
@@ -533,15 +579,24 @@
     <Content Include="Content\Designer\assets-v2\placeholder7.png" />
     <Content Include="Content\Designer\assets-v2\placeholder8.png" />
     <Content Include="Content\Designer\assets-v2\placeholder9.png" />
+    <Content Include="Content\Designer\assets-v2\rotate.png" />
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
     <Content Include="Content\download.png" />
+    <Content Include="Content\EazyPrint.css" />
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\home.png" />
     <Content Include="Content\HomeBannerS4.js" />
+    <Content Include="Content\Images\0_Design-Icon.png" />
     <Content Include="Content\Images\20304_Checkmark.png" />
+    <Content Include="Content\Images\2_Business-Icon.png" />
+    <Content Include="Content\Images\8_Time-Icon.png" />
+    <Content Include="Content\Images\9_Location-Icon.png" />
+    <Content Include="Content\Images\ai.gif" />
+    <Content Include="Content\Images\AI.png" />
+    <Content Include="Content\Images\amex.gif" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
@@ -549,7 +604,10 @@
     <Content Include="Content\Images\Clock-Icon-Blue.png" />
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\delete.png" />
+    <Content Include="Content\Images\Deliver-Icon.png" />
+    <Content Include="Content\Images\diners.gif" />
     <Content Include="Content\Images\download-icon.png" />
+    <Content Include="Content\Images\download.png" />
     <Content Include="Content\Images\edit.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
@@ -684,15 +742,16 @@
     <Content Include="Content\Designer\assets-v2\white.jpg" />
     <Content Include="Content\Designer\p103.css" />
     <Content Include="Content\Designer\DSv2.css" />
+    <Content Include="Content\Images\favicon_1.ico" />
     <Content Include="Content\Images\footer_bg.jpg" />
     <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
     <Content Include="Content\Images\home.png" />
-    <Content Include="Content\Images\IcoIllustrator.png" />
-    <Content Include="Content\Images\Icoindesign.png" />
     <Content Include="Content\Images\icoJPG.png" />
-    <Content Include="Content\Images\IcoPhotoshop.png" />
     <Content Include="Content\Images\icoPNG.png" />
+    <Content Include="Content\Images\id.gif" />
+    <Content Include="Content\Images\imgPlc.png" />
+    <Content Include="Content\Images\IND.png" />
     <Content Include="Content\Images\linkedin.png" />
     <Content Include="Content\Images\LinkedInNew.png" />
     <Content Include="Content\Images\linkInShare.PNG" />
@@ -702,15 +761,24 @@
     <Content Include="Content\Images\logout.png" />
     <Content Include="Content\Images\map.png" />
     <Content Include="Content\Images\MASTERCARD.gif" />
+    <Content Include="Content\Images\mastercard2.gif" />
     <Content Include="Content\Images\my-jobs.png" />
+    <Content Include="Content\Images\new_delete_icon.PNG" />
     <Content Include="Content\Images\next-horizontal.png" />
+    <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\notFound.svg" />
     <Content Include="Content\Images\olsonReviewImg.PNG" />
     <Content Include="Content\Images\Page_pdf.png" />
+    <Content Include="Content\Images\PDF.png" />
+    <Content Include="Content\Images\photoshop.gif" />
+    <Content Include="Content\Images\powerpoint.png" />
     <Content Include="Content\Images\prev-horizontal.png" />
     <Content Include="Content\Images\ProfileImage.png" />
+    <Content Include="Content\Images\PS.png" />
+    <Content Include="Content\Images\publisher.png" />
     <Content Include="Content\Images\re-order.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
+    <Content Include="Content\Images\realplaceholder.gif" />
     <Content Include="Content\Images\repeat.png" />
     <Content Include="Content\Images\SeaBluefeature.png" />
     <Content Include="Content\Images\Settings.png" />
@@ -723,12 +791,17 @@
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\Images\Telephone-Icon-Blue.png" />
+    <Content Include="Content\Images\text.gif" />
     <Content Include="Content\Images\tiger.jpg" />
     <Content Include="Content\Images\topnav_bg.jpg" />
     <Content Include="Content\Images\TwitterNew.png" />
     <Content Include="Content\Images\Van-Icon-Blue.png" />
     <Content Include="Content\Images\view-order.png" />
+    <Content Include="Content\Images\visa.gif" />
     <Content Include="Content\Images\visa_49x31.jpg" />
+    <Content Include="Content\Images\winrar-icon.png" />
+    <Content Include="Content\jquery-1.8.2.min.js" />
+    <Content Include="Content\Images\word.png" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\Images\upload_your_picture.png" />
     <Content Include="Content\jquery.fancybox-1.3.4.css" />
@@ -737,10 +810,13 @@
     <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\jquery.lightbox-0.5.css" />
     <Content Include="Content\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Content\ManageAssets\normalize.css" />
+    <Content Include="Content\ManageAssets\style.css" />
     <Content Include="Content\metroboostrap.css" />
     <Content Include="Content\MetroStyles.css" />
     <Content Include="Content\mp-loading.gif" />
     <Content Include="Content\NewBootstrapClass.css" />
+    <Content Include="Content\owl.carousel.css" />
     <Content Include="Content\oxfordtestimonial.css" />
     <Content Include="Content\PosterBanner.css" />
     <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />
@@ -760,8 +836,15 @@
     <Content Include="Content\style.css" />
     <Content Include="Content\Sunny.css" />
     <Content Include="Content\TFEHotels.css" />
+    <Content Include="Content\TreeView\d.png" />
+    <Content Include="Content\TreeView\dots_rtl.gif" />
+    <Content Include="Content\TreeView\jquery-1.10.2.min.js" />
+    <Content Include="Content\TreeView\jstree.js" />
+    <Content Include="Content\TreeView\style.css" />
+    <Content Include="Content\TreeView\throbber.gif" />
     <Content Include="Content\Valleyedge.css" />
     <Content Include="Content\zoomslider.css" />
+    <Content Include="HtmlJsonPage\Login.html" />
     <Content Include="HtmlJsonPage\RealEstateJsonPage.html" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
     <Content Include="LightBox\Images\blank.gif" />
@@ -777,8 +860,11 @@
     <Content Include="LightBox\Js\jquery.fancybox-thumbs.js" />
     <Content Include="LightBox\Js\jquery.fancybox.js" />
     <Content Include="LightBox\Js\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\BubbleBanner.js" />
+    <Content Include="Scripts\cbpHorizontalSlideOutMenu.min.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
     <Content Include="Scripts\Designer\p64test-1.4.js" />
+    <Content Include="Scripts\eazyresponsive-nav.js" />
     <Content Include="Scripts\FeedEk.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />
@@ -872,6 +958,7 @@
     <Content Include="Scripts\Designer\XMLWriter.js" />
     <Content Include="Scripts\input.watermark.js" />
     <Content Include="Scripts\JavaScript1.js" />
+    <Content Include="Scripts\jcarousellite_1.0.1.js" />
     <Content Include="Scripts\jquery-1.10.1.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -882,10 +969,12 @@
     <Content Include="Scripts\jquery-1.4.4.min.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.carouFredSel-6.0.4-packed.js" />
     <Content Include="Scripts\jquery.carousel-1.1.min.js" />
     <Content Include="Scripts\jquery.fancybox-1.3.4.js" />
     <Content Include="Scripts\jquery.fancybox-1.3.4.pack.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.flexslider-min.js" />
     <Content Include="Scripts\jquery.jcarousel.lite.js" />
     <Content Include="Scripts\jquery.lightbox-0.5.js" />
     <Content Include="Scripts\jquery.lightbox-0.5.min.js" />
@@ -905,6 +994,7 @@
     <Content Include="Scripts\js-image-slider.js" />
     <Content Include="Scripts\modalEffects.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\owl.carousel.js" />
     <Content Include="Scripts\PopUp.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -924,6 +1014,9 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="slider.html" />
     <Content Include="test.html" />
+    <Content Include="testinghtml\EasyFastOrdering.html" />
+    <Content Include="testinghtml\EAsytoUK.html" />
+    <Content Include="testinghtml\footer.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1044,6 +1137,29 @@
     <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
     <Content Include="Views\Shared\PartialViews\DescriptiveFooter.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginBarWithCounters.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FutureHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FutureQuickLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateSideBar.cshtml" />
+    <Content Include="Views\Shared\PartialViews\LoginBarWithPhoneInfo.cshtml" />
+    <Content Include="Views\Shared\PartialViews\WhyShopUs.cshtml" />
+    <Content Include="Views\Shared\PartialViews\LoginEazyPrint.cshtml" />
+    <Content Include="Views\Shared\PartialViews\EzyPrintSignUp.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ProductOptionsAndDetails.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FooterWithUseFulLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SystemPageBanner.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateListingGrid.cshtml" />
+    <Content Include="Views\Shared\PartialViews\EzyHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ManageAssets.cshtml" />
+    <Content Include="Views\Shared\PartialViews\TreeChildNodes.cshtml" />
+    <Content Include="Views\Shared\PartialViews\FeaturedProducts.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PayWay.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleBanner.cshtml" />
+    <Content Include="Views\AreYouLocal.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleAboutUS.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleQuickLinks.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleSavePercent.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1052,13 +1168,36 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\OrderReceipt\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
+    <Folder Include="Areas\WebstoreApi\Views\RealEstateSideBar\" />
+    <Folder Include="Areas\WebstoreApi\Views\RealEstateSmartForm\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
+    <Folder Include="Views\AreYouLocal\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
+    <Folder Include="Views\BubbleAboutUS\" />
+    <Folder Include="Views\BubbleBanner\" />
+    <Folder Include="Views\BubbleHeader\" />
+    <Folder Include="Views\BubbleLoginBar\" />
+    <Folder Include="Views\BubbleQuickLinks\" />
+    <Folder Include="Views\BubbleSavePercent\" />
     <Folder Include="Views\DescriptiveFooter\" />
+    <Folder Include="Views\EzyHeader\" />
+    <Folder Include="Views\EzyPrintSignUp\" />
+    <Folder Include="Views\FeaturedProducts\" />
+    <Folder Include="Views\FooterWithUseFulLinks\" />
     <Folder Include="Views\FutureFormHeader\" />
+    <Folder Include="Views\FutureHeader\" />
+    <Folder Include="Views\FutureQuickLinks\" />
     <Folder Include="Views\LoginBarWithCounters\" />
+    <Folder Include="Views\LoginBarWithPhoneInfo\" />
+    <Folder Include="Views\LoginEazyPrint\" />
+    <Folder Include="Views\ManageAssets\" />
+    <Folder Include="Views\PayWay\" />
+    <Folder Include="Views\ProductOptionsAndDetails\" />
+    <Folder Include="Views\RealEstateListingGrid\" />
+    <Folder Include="Views\SystemPageBanner\" />
     <Folder Include="Views\UserManager\" />
+    <Folder Include="Views\WhyShopUs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

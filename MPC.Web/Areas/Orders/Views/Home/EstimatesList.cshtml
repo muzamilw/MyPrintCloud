@@ -29,7 +29,7 @@
                             <div class="pull-left">
                                 <p class="group-header-description" style="padding-left:7px;">Create Estimates for direct Inquiries and progress Estimates to Orders.</p>
                             </div>
-                            <div class="pull-right" style="margin-right:5px;margin-top:-10px;">
+                            <div class="pull-right" style="margin-right:8px;margin-top:-10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
                                     Add New Estimate
                                 </button>
@@ -155,7 +155,7 @@
                                     <!--/ko-->
                                 </td>
                                 <td>
-                                    <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span>
+                                    <span data-bind="dateString: estimteDate, datePattern: 'DD/MM/YYYY'"></span>
                                 </td>
                                 <td>
                                     <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>

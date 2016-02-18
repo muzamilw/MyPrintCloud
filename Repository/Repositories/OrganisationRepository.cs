@@ -774,6 +774,7 @@ namespace MPC.Repository.Repositories
                         db.SaveChanges();
 
                     }
+
                     end = DateTime.Now;
                     timelog += "reports insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
@@ -852,10 +853,11 @@ namespace MPC.Repository.Repositories
 
                      List<StockItem> stockItems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
                      List<LookupMethod> lookups = db.LookupMethods.Where(c => c.OrganisationId == OrganisationID).ToList();
-
+                     
                     // import machines
                     if (Sets.ExportOrganisationSet3.Machines != null && Sets.ExportOrganisationSet3.Machines.Count > 0)
                     {
+                       
                         foreach (var machine in Sets.ExportOrganisationSet3.Machines)
                         {
                             int oldMID = (int)machine.LookupMethodId;
@@ -903,9 +905,37 @@ namespace MPC.Repository.Repositories
                            
                             db.Machines.Add(Mac);
 
+                            
                         }
                         db.SaveChanges();
                     }
+
+                    // import GuilotinePtvs for machines
+                    List<Machine> newMachines = db.Machines.Where(c => c.OrganisationId == OrganisationID && c.MachineCatId == (int)MachineCategories.Guillotin).ToList();
+
+                    if (Sets.ExportOrganisationSet3.MachineGuilotinePTV != null && Sets.ExportOrganisationSet3.MachineGuilotinePTV.Count > 0)
+                    {
+                        foreach(var ptvs in Sets.ExportOrganisationSet3.MachineGuilotinePTV)
+                        {
+                            MachineGuilotinePtv objPTV = new MachineGuilotinePtv();
+
+                            objPTV = ptvs;
+                            if(newMachines  != null && newMachines.Count > 0)
+                            {
+                                objPTV.GuilotineId = newMachines.Where(c => c.SystemSiteId == ptvs.GuilotineId).Select(c => c.MachineId).FirstOrDefault();
+                            }
+
+
+                            db.MachineGuilotinePtvs.Add(objPTV);
+
+                        }
+                    
+                        db.SaveChanges();
+
+                    }
+
+
+
                     // import lookup methods
                  
                     end = DateTime.Now;
@@ -972,6 +1002,7 @@ namespace MPC.Repository.Repositories
                     long oCID = 0;
                     long oRetailCID = 0;
                     List<CostCentre> costC = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
+                    List<FieldVariable> systemVariables = db.FieldVariables.Where(c => c.IsSystem == true).ToList();
                     int FlagID = db.SectionFlags.Where(c => c.OrganisationId == OrganisationID & c.SectionId == 81 && c.isDefault == true).Select(c => c.SectionFlagId).FirstOrDefault();
                      if(isCorpStore == true) // import corporate store
                      {
@@ -1044,7 +1075,73 @@ namespace MPC.Repository.Repositories
                                  
                              }
                          }
+                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                         {
 
+                             foreach (var sf in comp.SmartForms)
+                             {
+                                 if (sf.SmartFormDetails != null && sf.SmartFormDetails.Count > 0)
+                                 {
+                                     foreach (var detail in sf.SmartFormDetails)
+                                     {
+                                         detail.FieldVariable = null;
+                                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                                         {
+                                             long FVId = comp.FieldVariables.Where(c => c.VariableId == detail.VariableId).Select(c => c.VariableId).FirstOrDefault();
+                                             if (FVId > 0)
+                                             {
+                                                 detail.VariableId = FVId;
+                                             }
+                                             else
+                                             {
+                                                 if (!string.IsNullOrEmpty(detail.VariableName))
+                                                 {
+                                                     long variableId = systemVariables.Where(c => c.VariableName == detail.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                     if (variableId > 0)
+                                                     {
+                                                         detail.VariableId = variableId;
+
+                                                     }
+                                                     else
+                                                     {
+                                                         detail.VariableId = null;
+                                                     }
+                                                 }
+                                                 else
+                                                 {
+                                                     detail.VariableId = null;
+                                                 }
+
+                                             }
+                                         }
+                                         else
+                                         {
+                                             if (detail.FieldVariable != null)
+                                             {
+                                                 long variableId = systemVariables.Where(c => c.VariableName == detail.FieldVariable.VariableName).Select(c => c.VariableId).FirstOrDefault();
+                                                 if (variableId > 0)
+                                                 {
+                                                     detail.VariableId = variableId;
+
+                                                 }
+                                                 else
+                                                 {
+                                                     detail.VariableId = null;
+                                                 }
+                                             }
+                                             else
+                                             {
+                                                 detail.VariableId = null;
+                                             }
+
+                                         }
+
+                                     }
+                                 }
+
+
+                             }
+                         }
                          db.Companies.Add(comp);
                          db.SaveChanges();
                          oCID = comp.CompanyId;
@@ -1168,7 +1265,8 @@ namespace MPC.Repository.Repositories
                          {
                              foreach (var item in items)
                              {
-                                
+                                 item.DepartmentId = (int)item.ItemId;
+
                                  item.OrganisationId = OrganisationID;
                                  item.CompanyId = oCID;
                                  item.FlagId = FlagID;
@@ -1397,6 +1495,52 @@ namespace MPC.Repository.Repositories
                          //    db.SaveChanges();
                          //}
 
+
+                         // insert discount vouchers
+
+                         if (objExpCorporate.DiscountVouchers != null && objExpCorporate.DiscountVouchers.Count > 0)
+                         {
+
+                             List<ProductCategory> productCategory = db.ProductCategories.Where(c => c.CompanyId == oCID).ToList();
+                             List<Item> DVitems = db.Items.Where(c => c.CompanyId == oCID).ToList();
+                             foreach (var Discont in objExpCorporate.DiscountVouchers)
+                             {
+                                 // DiscountVoucher objDV = new DiscountVoucher();
+                                 // objDV = Discont;
+                                 Discont.OrganisationId = OrganisationID;
+                                 Discont.CompanyId = (int)oCID;
+                                 Guid newGuid = Guid.NewGuid();
+                                 string guid = newGuid.ToString();
+                                 Discont.VoucherCode = guid;
+                                 //Discont.ItemsVouchers = null;
+                                 //Discont.ProductCategoryVouchers = null;
+
+                                 if (Discont.ProductCategoryVouchers != null && Discont.ProductCategoryVouchers.Count > 0)
+                                 {
+                                     foreach (var pcv in Discont.ProductCategoryVouchers)
+                                     {
+                                         pcv.ProductCategoryId = productCategory.Where(c => c.Sides == (int)pcv.ProductCategoryId).Select(c => c.ProductCategoryId).FirstOrDefault();
+
+
+                                     }
+                                 }
+                                 if (Discont.ItemsVouchers != null && Discont.ItemsVouchers.Count > 0)
+                                 {
+                                     foreach (var itemsVoucher in Discont.ItemsVouchers)
+                                     {
+                                         itemsVoucher.ItemId = DVitems.Where(c => c.DepartmentId == (int)itemsVoucher.ItemId).Select(c => c.ItemId).FirstOrDefault();
+
+
+                                     }
+                                 }
+
+                                 db.DiscountVouchers.Add(Discont);
+                             }
+                             db.SaveChanges();
+                         }
+
+
+
                          if (objExpCorporate.TemplateFonts != null && objExpCorporate.TemplateFonts.Count > 0)
                          {
                              foreach (var color in objExpCorporate.TemplateFonts)
@@ -1408,6 +1552,7 @@ namespace MPC.Repository.Repositories
                              }
                              db.SaveChanges();
                          }
+
                          end = DateTime.Now;
                          timelog += "template color style add" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                          st = DateTime.Now;
@@ -3291,15 +3436,43 @@ namespace MPC.Repository.Repositories
 
         public void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
         {
-            Organisation org = GetOrganizatiobByID(organisationId);
-            if (org != null)
+            ZapierWebHookTargetUrl targetUrl = new ZapierWebHookTargetUrl
             {
-                if (zapTargetType == 1)
-                    org.CreateContactZapTargetUrl = sTargetUrl;
-                else if (zapTargetType == 2)
-                    org.CreateInvoiceZapTargetUrl = sTargetUrl;
-            }
+                TargetUrl = sTargetUrl,
+                WebHookEvent = zapTargetType, OrganisationId = organisationId
+            };
+            db.ZapierWebHookTargetUrls.Add(targetUrl);
+            //Organisation org = GetOrganizatiobByID(organisationId);
+            //if (org != null)
+            //{
+            //    if (zapTargetType == 1)
+            //        org.CreateContactZapTargetUrl = sTargetUrl;
+            //    else if (zapTargetType == 2)
+            //        org.CreateInvoiceZapTargetUrl = sTargetUrl;
+            //}
             SaveChanges();
         }
+
+        public void UnSubscribeZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType)
+        {
+            var unSubscribeZap =
+                db.ZapierWebHookTargetUrls.FirstOrDefault(
+                    c =>
+                        c.OrganisationId == organisationId && c.TargetUrl == sTargetUrl);
+            if (unSubscribeZap != null)
+            {
+                db.ZapierWebHookTargetUrls.Remove(unSubscribeZap);
+                SaveChanges();
+            }
+        }
+
+        public List<string> GetZapsUrListByOrganisation(int webHookEvent, long organisationId)
+        {
+            
+            return
+                db.ZapierWebHookTargetUrls.Where(o => o.OrganisationId == organisationId && o.WebHookEvent == webHookEvent).Select(o => o.TargetUrl)
+                    .ToList();
+        }
+        
     }
 }

@@ -84,5 +84,7 @@ namespace MPC.Interfaces.Repository
         long GetCostCentreIdByName(string costCenterName);
 
         void DeleteCostCentre(long CostCentreId);
+
+        List<CostCentre> GetAllCentersByOrganisationId(long OID);
     }
 }

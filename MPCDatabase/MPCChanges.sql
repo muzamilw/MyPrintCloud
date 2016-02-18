@@ -8697,3 +8697,1233 @@ FROM dbo.Items AS i INNER JOIN ProductCategoryItem pci ON pci.ItemId = i.ItemId 
  AND i.IsRealStateProduct = 1 AND i.IsPublished = 1 AND i.IsEnabled = 1 AND (i.IsArchived = 0 or i.IsArchived is null)
 
 END
+
+
+-------------------------------
+
+
+
+/****** Object:  Table [dbo].[UserActionsLog]    Script Date: 10/14/2015 2:48:49 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[UserActionsLog](
+	[LogId] [bigint] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](100) NULL,
+	[ActionDate] [datetime] NULL,
+	[TableName] [varchar](100) NULL,
+	[RecordId] [bigint] NULL,
+	[UserId] [uniqueidentifier] NULL,
+	[DomainId] [varchar](500) NULL,
+	[Comments] [ntext] NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_UserActionsLog] PRIMARY KEY CLUSTERED 
+(
+	[LogId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+-----------------------------------
+
+
+
+alter table company add IsAllowRequestaQuote bit
+
+
+----------------------------------
+
+alter table Listing add AirConditioning varchar(50)
+alter table Listing add AlarmSystem varchar(50)
+alter table Listing add Intercom varchar(50)
+alter table Listing add OpenFirePlace varchar(50)
+alter table Listing add TennisCourt varchar(50)
+alter table Listing add RempoteGarage varchar(50)
+alter table Listing add DishWasher varchar(50)
+alter table Listing add BuiltinRaboes varchar(50)
+alter table Listing add Gym varchar(50)
+alter table Listing add WorkShop varchar(50)
+alter table Listing add RumpusRoom varchar(50)
+alter table Listing add FloorBoards varchar(50)
+alter table Listing add BroadBand varchar(50)
+alter table Listing add PayTV varchar(50)
+alter table Listing add DuctedHeating varchar(50)
+alter table Listing add DuctedCooling varchar(50)
+alter table Listing add SplitSystemHeating varchar(50)
+alter table Listing add ReverseCycleAircon varchar(50)
+alter table Listing add EvaporateCooling varchar(50)
+alter table Listing add VacuumSystem varchar(50)
+alter table Listing add PoolInGround varchar(50)
+alter table Listing add PoolAboveGround varchar(50)
+alter table Listing add Balcony varchar(50)
+alter table Listing add Deck varchar(50)
+alter table Listing add CourtYard varchar(50)
+alter table Listing add OutDoorEnt varchar(50)
+alter table Listing add Shed varchar(50)
+alter table Listing add FullyFenced varchar(50)
+alter table Listing add InsideSPA varchar(50)
+alter table Listing add OutSideSPA varchar(50)
+alter table Listing add HydronicHeating varchar(50)
+alter table Listing add SplitSystemAircon varchar(50)
+alter table Listing add UnderOffer varchar(50)
+alter table Listing add IsHomeLandPackage varchar(50)
+alter table Listing add VideoLink varchar(50)
+alter table Listing add PriceView varchar(250)
+
+
+------------------Executed on All servers 20151030 ---------------
+
+alter table organisation add DefaultPOTax float
+
+
+/****** Object:  Table [dbo].[ZapierWebHookTargetUrl]    Script Date: 10/30/2015 4:09:58 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ZapierWebHookTargetUrl](
+	[ZapierTargetUrlId] [bigint] IDENTITY(1,1) NOT NULL,
+	[TargetUrl] [nvarchar](200) NULL,
+	[WebHookEvent] [int] NULL,
+ CONSTRAINT [PK_ZapierWebHookTargetUrl] PRIMARY KEY CLUSTERED 
+(
+	[ZapierTargetUrlId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+alter table ZapierWebHookTargetUrl add OrganisationId bigint
+
+
+-----------------------------------------------
+
+alter table Purchase add OrganisationId bigint null
+
+------------------Executed on AUS servers 20151119 ---------------
+/****** Object:  StoredProcedure [dbo].[usp_GetRealEstateProducts]    Script Date: 11/19/2015 2:55:40 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[usp_GetRealEstateProducts]
+	@ContactCompanyID int
+AS
+BEGIN
+
+ SELECT i.ProductName, pci.CategoryId, i.ProductCode, i.ThumbnailPath, i.ItemId, i.TemplateType, i.ProductType, i.isTemplateDesignMode, i.TemplateId
+FROM dbo.Items AS i INNER JOIN ProductCategoryItem pci ON pci.ItemId = i.ItemId INNER JOIN
+ dbo.fnc_GetCorporateCategoriesByCompanyID(@ContactCompanyID) AS cp ON cp.ProductCategoryID = pci.CategoryId 
+ AND i.IsRealStateProduct = 1 AND i.IsPublished = 1 AND i.IsEnabled = 1 AND (i.IsArchived = 0 or i.IsArchived is null)
+
+END
+
+
+------------------Executed on All servers 20151120 ---------------
+alter table CompanyContact add LoginProvider NVARCHAR(MAX)
+alter table CompanyContact add ProviderKey NVARCHAR(MAX)
+
+
+alter table listing add AuctionTime varchar(200)
+alter table listing add InspectionDate1 varchar(200)
+alter table listing add InspectionTimeFrom1 varchar(200)
+alter table listing add InspectionTimeTo1 varchar(200)
+alter table listing add InspectionDate2 varchar(200)
+alter table listing add InspectionTimeFrom2 varchar(200)
+alter table listing add InspectionTimeTo2 varchar(200)
+
+
+
+
+----------------Executed on Europe,UK--------------------------
+alter table TemplateObject add hasInlineFontFamily bit
+
+---------Executed on Europe,UK servers 20151202-------
+
+ALTER TABLE listing
+ADD BrochureMainHeadLine varchar(Max)
+
+ALTER TABLE listing
+ADD BrochureSummary varchar(Max)
+
+
+ALTER TABLE listing
+ADD BrochureDescription varchar(Max)
+
+
+ALTER TABLE listing
+ADD SignBoardMainHeadLine varchar(Max)
+
+
+ALTER TABLE listing
+ADD SignBoardSummary varchar(Max)
+
+ALTER TABLE listing
+ADD SignBoardDescription varchar(Max)
+
+
+ALTER TABLE listing
+ADD SignBoardInstallInstruction varchar(Max)
+
+ALTER TABLE listing
+ADD AdvertsDescription varchar(Max)
+
+ALTER TABLE listing
+ADD AdvertsSummary varchar(Max)
+
+
+ALTER TABLE listing
+ADD AdvertsMainHeadLine varchar(Max)
+
+CREATE TABLE ListingBulletPoints
+(
+BulletPointId bigint,
+BulletPoint varchar(100),
+
+PRIMARY KEY (BulletPointId),
+
+
+ListingId bigint,
+FOREIGN KEY (ListingId) REFERENCES Listing(ListingId)
+
+);
+
+ALTER TABLE listing
+ADD AuctionEndTime varchar(Max)
+
+
+
+------------------Executed on Europe,UK servers 20151127---------------
+
+Alter table items add UploadTypeByUser int 
+
+alter table StockSubCategory add OrganisationId bigint
+------------------Executed on Europe,UK servers 20151127---------------
+Alter table ItemAttachment add ImageFileType nvarchar(50) 
+
+-----------------------
+
+
+alter table reportparam alter column CriteriaFieldName varchar(100)
+
+------------------Executed on AUS,UK servers 20151217---------------
+
+alter table MarketingBriefHistory add CreationDate Datetime null
+
+
+
+------------------20151221---------------
+
+
+CREATE TABLE [dbo].[Folder](
+	[FolderId] [bigint] IDENTITY(1,1) NOT NULL,
+	[FolderName] [varchar](50) NULL,
+	[Description] [varchar](max) NULL,
+	[ImagePath] [nvarchar](400) NULL,
+	[DisplayOrder] [int] NULL,
+	[ParentFolderId] [bigint] NULL,
+	[CompanyId] [bigint] NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_Folder] PRIMARY KEY CLUSTERED 
+(
+	[FolderId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[Folder]  WITH CHECK ADD  CONSTRAINT [FK_Folder_Folder] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[Company] ([CompanyId])
+GO
+
+ALTER TABLE [dbo].[Folder] CHECK CONSTRAINT [FK_Folder_Folder]
+GO
+
+
+
+CREATE TABLE [dbo].[Assets](
+	[AssetId] [bigint] IDENTITY(1,1) NOT NULL,
+	[AssetName] [nvarchar](500) NULL,
+	[Description] [varchar](max) NULL,
+	[ImagePath] [nvarchar](1000) NULL,
+	[Keywords] [ntext] NULL,
+	[CreationDateTime] [datetime] NULL,
+	[Price] [float] NULL,
+	[Quantity] [int] NULL,
+	[FileType] [varchar](50) NULL,
+	[FolderId] [bigint] NULL,
+	[CompanyId] [bigint] NULL,
+ CONSTRAINT [PK_Assets] PRIMARY KEY CLUSTERED 
+(
+	[AssetId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[Assets]  WITH CHECK ADD  CONSTRAINT [FK_Assets_Company] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[Company] ([CompanyId])
+GO
+
+ALTER TABLE [dbo].[Assets] CHECK CONSTRAINT [FK_Assets_Company]
+GO
+
+ALTER TABLE [dbo].[Assets]  WITH CHECK ADD  CONSTRAINT [FK_Assets_Folder] FOREIGN KEY([FolderId])
+REFERENCES [dbo].[Folder] ([FolderId])
+GO
+
+ALTER TABLE [dbo].[Assets] CHECK CONSTRAINT [FK_Assets_Folder]
+GO
+
+
+alter table deliverynote add OrganisationId bigint null
+
+
+alter table DeliveryCarrier add CarrierPhone varchar(50)
+
+
+----------------------------------------------------
+
+
+/****** Object:  StoredProcedure [dbo].[usp_DeliveryReport]    Script Date: 12/21/2015 10:51:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER procedure [dbo].[usp_DeliveryReport]
+ @OrganisationID bigint,
+ @DeliveryID bigint
+AS
+Begin
+
+select	  cc.Name As CompanyName,
+
+		  sup.CarrierName As SupplierName,cc.OrganisationId,dn.UserNotes,
+
+		  ISNULL(c.FirstName, '') + ' ' + ISNULL(c.LastName, '') As CotactFullName, 
+		  isnull(ad.Address1, '') + ' ' + isnull(ad.Address2, '') + ' ' + CHAR(13) + 
+						(isnull(ad.City, '') + ' ' + isnull(st.StateName, '') + ' ' + isnull(ad.PostCode, ''))
+						+ ' ' + CHAR(13) + ct.CountryName as Address1,
+		  ad.AddressName, ad.City,st.StateName as StateName, ad.PostCode,ct.CountryName as CountryName,
+		  dn.SupplierTelNo as Tel1,
+		 dd.Description, dd.ItemQty, dd.GrossItemTotal, 
+
+          dn.Code,dn.DeliveryDate,dn.OrderReff,dn.CustomerOrderReff,dn.CsNo,dn.DeliveryNoteID,
+		  
+
+          CASE 
+
+			  WHEN dn.IsStatus = 1 THEN 'Un Delivered'
+
+			  WHEN dn.IsStatus = 2 THEN 'Delivered' 
+
+		 END As DeliveryStatus,
+
+		 --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=6) as ReportBanner
+		  CASE 
+						  WHEN cc.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://australia.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerShipping.png')  from reportnote where ReportCategoryID=6 and organisationid = @organisationId and CompanyId = cc.CompanyId),'http://australia.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerShipping.png')
+						  WHEN (cc.IsCustomer = 4 or cc.IsCustomer = 1 or cc.IsCustomer = 0 or cc.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://australia.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerShipping.png')  from reportnote where ReportCategoryID=6 and organisationid = @organisationId and CompanyId = cc.StoreId),'http://australia.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerShipping.png')
+						  
+				       END As ReportBanner
+		
+
+from	deliverynote dn
+
+	    left join company cc on cc.companyID = dn.companyID
+
+		left join DeliveryCarrier sup on sup.CarrierId = dn.SupplierId
+
+		left join CompanyContact c on c.contactID = dn.ContactId
+
+		left join address ad on ad.AddressID = dn.AddressID
+
+		inner join state st on ad.StateId = st.StateId
+
+		inner join country ct on ad.CountryId = ct.CountryID
+
+		left join deliverynotedetail dd on dd.DeliveryNoteID = dn.DeliveryNoteID
+
+		where cc.OrganisationId = @OrganisationID and dn.DeliveryNoteId = @DeliveryID
+
+
+end
+
+
+---------------------------------------------------
+
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_InvoiceReport]    Script Date: 12/21/2015 4:57:52 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+
+ALTER procedure [dbo].[usp_InvoiceReport]
+ @Organisationid bigint,
+ @InvoiceId bigint
+AS
+Begin
+
+
+declare @InvoiceDetailCount as int
+select @InvoiceDetailCount = count(*) from invoicedetail where invoiceid = @InvoiceId
+
+
+declare @InvoiceItemsCount as int
+select @InvoiceItemsCount = count(*) from items where invoiceid = @InvoiceId
+
+declare @TotalTax as float
+declare @GrandTotal as float
+declare @SubTotal as float
+
+if(@InvoiceDetailCount > 0 and @InvoiceItemsCount > 0) -- record exists in both items or invoice detail table
+begin
+	   
+	   select @TotalTax =  sum(im.Qty1Tax1Value) FROM  dbo.invoice i inner join items im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+
+	   select @GrandTotal =  sum(im.Qty1BaseCharge1 +  im.Qty1Tax1Value) FROM  dbo.invoice i inner join items im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+
+	   select @SubTotal = sum(im.Qty1BaseCharge1) FROM  dbo.invoice i inner join items im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+
+		SELECT     dbo.Invoice.InvoiceID, dbo.Invoice.InvoiceCode, dbo.Invoice.OrderNo, @SubTotal as InvoiceTotal, dbo.Invoice.InvoiceDate, 
+                      dbo.Invoice.AccountNumber, dbo.Invoice.HeadNotes, dbo.Invoice.FootNotes, @TotalTax as TaxValue, dbo.Company.Name, dbo.Address.AddressName, 
+					  isnull(Address.Address1, '') + ' ' + isnull(Address.Address2, '') + ' ' + CHAR(13) + 
+						(isnull(Address.City, '') + ' ' + isnull(state.StateName, '') + ' ' + isnull(Address.PostCode, ''))
+						+ ' ' + CHAR(13) + country.CountryName as Address1, 
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City,'' as StateName,'' as CountryName, dbo.Address.Email, (select statename from state where stateid = dbo.Address.AddressId) + ' ' + isnull(dbo.Address.PostCode, '') As StatePostCode,
+                      dbo.Address.URL,Address.PostCode, isnull(dbo.invoicedetail.Quantity,0) as Quantity, isnull(dbo.invoicedetail.ItemTaxValue,0) as ItemTaxValue, dbo.items.InvoiceDescription, dbo.items.Qty1BaseCharge1, 
+                      dbo.Items.Qty1Tax1Value, (dbo.Items.Qty1BaseCharge1 +  dbo.Items.Qty1Tax1Value) as TotalPrice , @GrandTotal as GrandTotal, dbo.items.ProductName,
+                     
+					   CASE 
+						  WHEN dbo.Company.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://australia.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.CompanyId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  WHEN (dbo.Company.IsCustomer = 4 or dbo.Company.IsCustomer = 1 or dbo.Company.IsCustomer = 0 or dbo.Company.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://australia.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.StoreId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  
+				       END As ReportBanner,
+					 
+					 
+					  (select top 1 ReportBanner from ReportNote where ReportCategoryID=13) as BannerPath,
+                      --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=13) as ReportBanner,
+                       (select Top 1 FootNotes  from ReportNote where ReportCategoryID=13 and isdefault = 1) as ReportFootNotes,
+                      dbo.Company.TaxLabel As TaxLabel, (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					  isnull((select isnull(order_code,'') from Estimate where estimateid = Invoice.estimateid),'') as OrderCode,	
+					  isnull((select isnull(Estimate_Code,'') from Estimate where estimateid = Invoice.estimateid),'') as Estimate_Code,	
+				( select FinishDeliveryDate from Estimate where estimateid = invoice.estimateid) as FinishDeliveryDate,
+					 ISNULL((select AddressName from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddressName,
+                    ISNULL((select address1 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress1,
+					ISNULL((select address2 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress2,
+					ISNULL((select city from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BCity,
+					ISNULL((select statename from State where StateId in (select StateId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BState,
+					
+					
+					--ISNULL(State.StateName,'N/A') as BState,
+					ISNULL((select top 1 PostCode from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BPostCode,
+					ISNULL((select CountryName from Country where CountryId in (select CountryId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BCountry,
+					--ISNULL(Country.CountryName,'N/A') as BCountry,
+					case when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is not null then 'Estimate Code:'
+					     when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as EstimateCodeLabel,
+					case when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is not null then 'Order Code:'
+					     when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as OrderCodeLabel
+					
+FROM         dbo.invoice 
+right JOIN            dbo.invoicedetail ON dbo.invoicedetail.InvoiceID = dbo.invoice.InvoiceID 
+INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId INNER JOIN
+                      dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID left JOIN
+                      dbo.items ON dbo.invoice.InvoiceId = dbo.items.InvoiceId
+                      left join dbo.state on Address.StateId = dbo.State.StateId
+					  left join dbo.Country on Address.CountryId = dbo.Country.CountryID
+
+					  where Company.OrganisationId = @Organisationid and dbo.Invoice.InvoiceId = @InvoiceId
+
+
+end
+else if (@InvoiceDetailCount > 0 and @InvoiceItemsCount = 0) -- if invoice exist in only invoice detail
+begin
+
+ select @TotalTax =  sum(im.itemtaxvalue) FROM  dbo.invoice i inner join invoicedetail im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+
+	   select @GrandTotal =  sum(im.itemcharge +  im.itemtaxvalue) FROM  dbo.invoice i inner join invoicedetail im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+
+	   select @SubTotal = sum(im.itemcharge) FROM  dbo.invoice i inner join invoicedetail im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+
+		SELECT     dbo.Invoice.InvoiceID, dbo.Invoice.InvoiceCode, dbo.Invoice.OrderNo, @SubTotal as InvoiceTotal, dbo.Invoice.InvoiceDate, 
+                      dbo.Invoice.AccountNumber, dbo.Invoice.HeadNotes, dbo.Invoice.FootNotes, @TotalTax as TaxValue, dbo.Company.Name, dbo.Address.AddressName,
+					  isnull(Address.Address1, '') + ' ' + isnull(Address.Address2, '') + ' ' + CHAR(13) + 
+						(isnull(Address.City, '') + ' ' + isnull(state.StateName, '') + ' ' + isnull(Address.PostCode, ''))
+						+ ' ' + CHAR(13) + country.CountryName as Address1, 
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City,'' as StateName,'' as CountryName, dbo.Address.Email, (select statename from state where stateid = dbo.Address.AddressId) + ' ' + isnull(dbo.Address.PostCode, '') As StatePostCode,
+                      dbo.Address.URL,Address.PostCode, isnull(dbo.invoicedetail.Quantity,0) as Quantity, isnull(dbo.invoicedetail.ItemTaxValue,0) as ItemTaxValue, invoicedetail.Description as InvoiceDescription, invoicedetail.itemcharge as Qty1BaseCharge1, 
+                      dbo.invoicedetail.itemtaxvalue as Qty1Tax1Value, (dbo.invoicedetail.itemcharge +  dbo.invoicedetail.itemtaxvalue) as TotalPrice , @GrandTotal as GrandTotal, dbo.invoicedetail.invoicetitle as ProductName,
+                     
+					   CASE 
+						  WHEN dbo.Company.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.CompanyId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  WHEN (dbo.Company.IsCustomer = 4 or dbo.Company.IsCustomer = 1 or dbo.Company.IsCustomer = 0 or dbo.Company.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.StoreId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  
+				       END As ReportBanner,
+					 
+					 
+					  (select top 1 ReportBanner from ReportNote where ReportCategoryID=13) as BannerPath,
+                      --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=13) as ReportBanner,
+                       (select Top 1 FootNotes  from ReportNote where ReportCategoryID=13 and isdefault = 1) as ReportFootNotes,
+                      dbo.Company.TaxLabel As TaxLabel, (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					  isnull((select isnull(order_code,'') from Estimate where estimateid = Invoice.estimateid),'') as OrderCode,	
+					  isnull((select isnull(Estimate_Code,'') from Estimate where estimateid = Invoice.estimateid),'') as Estimate_Code,	
+				( select FinishDeliveryDate from Estimate where estimateid = invoice.estimateid) as FinishDeliveryDate,
+					 ISNULL((select AddressName from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddressName,
+                    ISNULL((select address1 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress1,
+					ISNULL((select address2 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress2,
+					ISNULL((select city from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BCity,
+					ISNULL((select statename from State where StateId in (select StateId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BState,
+					
+					
+					--ISNULL(State.StateName,'N/A') as BState,
+					ISNULL((select top 1 PostCode from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BPostCode,
+					ISNULL((select CountryName from Country where CountryId in (select CountryId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BCountry,
+					--ISNULL(Country.CountryName,'N/A') as BCountry,
+					case when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is not null then 'Estimate Code:'
+					     when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as EstimateCodeLabel,
+					case when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is not null then 'Order Code:'
+					     when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as OrderCodeLabel
+					
+FROM         dbo.invoice 
+				inner JOIN            dbo.invoicedetail ON dbo.invoicedetail.InvoiceID = dbo.invoice.InvoiceID 
+				INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId INNER JOIN
+                      dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID --INNER JOIN
+                     -- dbo.items ON dbo.invoice.InvoiceId = dbo.items.InvoiceId
+                      left join dbo.state on Address.StateId = dbo.State.StateId
+					  left join dbo.Country on Address.CountryId = dbo.Country.CountryID
+
+					  where Company.OrganisationId = @Organisationid and dbo.Invoice.InvoiceId = @InvoiceId
+
+end
+
+
+else if (@InvoiceItemsCount > 0 and  @InvoiceDetailCount = 0) -- if invoice only exist in items
+begin
+	
+	 select @TotalTax =  sum(im.Qty1Tax1Value) FROM  dbo.invoice i inner join items im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+
+	   select @GrandTotal =  sum(im.Qty1BaseCharge1 +  im.Qty1Tax1Value) FROM  dbo.invoice i inner join items im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+
+	   select @SubTotal = sum(im.Qty1BaseCharge1) FROM  dbo.invoice i inner join items im on im.InvoiceId = i.InvoiceId where i.InvoiceId = @InvoiceId
+	
+	SELECT     dbo.Invoice.InvoiceID, dbo.Invoice.InvoiceCode, dbo.Invoice.OrderNo, @SubTotal as InvoiceTotal, dbo.Invoice.InvoiceDate, 
+                      dbo.Invoice.AccountNumber, dbo.Invoice.HeadNotes, dbo.Invoice.FootNotes, @TotalTax as TaxValue, dbo.Company.Name, dbo.Address.AddressName,
+					  isnull(Address.Address1, '') + ' ' + isnull(Address.Address2, '') + ' ' + CHAR(13) + 
+						(isnull(Address.City, '') + ' ' + isnull(state.StateName, '') + ' ' + isnull(Address.PostCode, ''))
+						+ ' ' + CHAR(13) + country.CountryName as Address1, 
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City,'' as StateName,'' as CountryName, dbo.Address.Email, (select statename from state where stateid = dbo.Address.AddressId) + ' ' + isnull(dbo.Address.PostCode, '') As StatePostCode,
+                      dbo.Address.URL,Address.PostCode, isnull(CAST(dbo.items.qty1 AS float),0) as Quantity, isnull(CAST(dbo.items.tax1 AS float),0) as ItemTaxValue, dbo.items.InvoiceDescription, dbo.items.Qty1BaseCharge1, 
+                      dbo.Items.Qty1Tax1Value, (dbo.Items.Qty1BaseCharge1 +  dbo.Items.Qty1Tax1Value) as TotalPrice , @GrandTotal as GrandTotal, dbo.items.ProductName,
+                     
+					   CASE 
+						  WHEN dbo.Company.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.CompanyId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  WHEN (dbo.Company.IsCustomer = 4 or dbo.Company.IsCustomer = 1 or dbo.Company.IsCustomer = 0 or dbo.Company.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerInvoice.png')  from reportnote where ReportCategoryID=13 and organisationid = @organisationId and CompanyId = Company.StoreId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerInvoice.png')
+						  
+				       END As ReportBanner,
+					 
+					 
+					  (select top 1 ReportBanner from ReportNote where ReportCategoryID=13) as BannerPath,
+                      --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=13) as ReportBanner,
+                       (select Top 1 FootNotes  from ReportNote where ReportCategoryID=13 and isdefault = 1) as ReportFootNotes,
+                      dbo.Company.TaxLabel As TaxLabel, (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					  isnull((select isnull(order_code,'') from Estimate where estimateid = Invoice.estimateid),'') as OrderCode,	
+					  isnull((select isnull(Estimate_Code,'') from Estimate where estimateid = Invoice.estimateid),'') as Estimate_Code,	
+				( select FinishDeliveryDate from Estimate where estimateid = invoice.estimateid) as FinishDeliveryDate,
+					 ISNULL((select AddressName from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddressName,
+                    ISNULL((select address1 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress1,
+					ISNULL((select address2 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress2,
+					ISNULL((select city from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BCity,
+					ISNULL((select statename from State where StateId in (select StateId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BState,
+					
+					
+					--ISNULL(State.StateName,'N/A') as BState,
+					ISNULL((select top 1 PostCode from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BPostCode,
+					ISNULL((select CountryName from Country where CountryId in (select CountryId from Address where AddressId in(select BillingAddressID from estimate where estimateid = invoice.estimateid))),'N/A') as BCountry,
+					--ISNULL(Country.CountryName,'N/A') as BCountry,
+					case when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is not null then 'Estimate Code:'
+					     when (select top 1 Estimate_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as EstimateCodeLabel,
+					case when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is not null then 'Order Code:'
+					     when (select top 1 Order_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as OrderCodeLabel
+					
+FROM         dbo.invoice 
+INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId INNER JOIN
+                      dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID INNER JOIN
+                      dbo.items ON dbo.invoice.InvoiceId = dbo.items.InvoiceId
+                      left join dbo.state on Address.StateId = dbo.State.StateId
+					  left join dbo.Country on Address.CountryId = dbo.Country.CountryID
+
+					  where Company.OrganisationId = @Organisationid and dbo.Invoice.InvoiceId = @InvoiceId
+
+end
+end
+
+
+---------------- report script ------------------
+
+
+
+update report set reporttemplate = '<?xml version="1.0" encoding="utf-8"?>
+<ActiveReportsLayout Version="3.2" PrintWidth="11655.36" DocumentName="ARNet Document" ScriptLang="C#" MasterReport="0">
+  <StyleSheet>
+    <Style Name="Normal" Value="font-family: Arial; font-style: normal; text-decoration: none; font-weight: normal; font-size: 10pt; color: Black" />
+    <Style Name="Heading1" Value="font-size: 16pt; font-weight: bold" />
+    <Style Name="Heading2" Value="font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: italic" />
+    <Style Name="Heading3" Value="font-size: 13pt; font-weight: bold" />
+  </StyleSheet>
+  <Sections>
+    <Section Type="ReportHeader" Name="ReportHeader1" Height="0" BackColor="16777215" />
+    <Section Type="PageHeader" Name="PageHeader1" Height="5789.28" BackColor="16777215">
+      <Control Type="AR.Shape" Name="Shape3" Left="89.28005" Top="3329.28" Width="5084.64" Height="2250.72" BackColor="13882323" BackStyle="1" LineColor="16777215" RoundingRadius="9.999999" />
+      <Control Type="AR.Image" Name="imgReport" Left="43.2" Top="28.8" Width="11072.16" Height="2828.16" LineWeight="0" SizeMode="1">0D0D0004025A51000089504E470D0A1A0A0000000D49484452000002E2000000BD080200000079C68F63000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC200000EC20115284A80000050EF49444154785EEDBD099855D595FE7D010599641014D0E453D39D6ECDD08E71360E18353183E926DDE9D9A463FE76773A1207400641196A2EAA00057142C5089AE014276284AABA434181CC83CC500555D4786FCDC32DBEF7DCB76AB139F7DCA1AAC0BA506B3FBFE73CFBACBDF6DAFB5C12D75BFBEC738EABF55840511445511425015199A2288AA2284A82A2324551144551940445658AA2288AA228098ACA144551144551121495298AA2288AA224282A531445511445495054A6288AA2288A92A0A84C511445511425415199A2288AA2284A82A2324551144551940445658AA2288AD2012AAB8A8E961E0036BB42BEE4DF8763D5D41EB5D9CF1854A6288AA228B14122DCB8B1E0A38F3E7CCF2805053E64653AECDABD954654A497095B514CA3632FE45D44F67AF3D884F2E9A72B61D97F6067635385B875C2D97138316EDBB6418C26E210457C701A74939293B32A9280E8E2A0B834DB3F077E019BA744885EE016D319C1CDC85F262A531445519418141DDE6313285224354A9E63DA0B87AD28A6D1B157949489696032E2D96967C7E1E02F46137188A4184C91642BE15289746550481F0820B6DA0AC499B84984E8056E319D55A6288AA228094A65559168944F3F5D89BFFE91D20033A5B8499E63DA0B87AD28A6D1B197183104EAC0B6726066EECE39A3121E01C54CF38238842B06A810FE0E2CE6EF83D48E269BBFD095416544190E155A70E1B27E83B09883203EA898768E2EC3D95A49A4259F2F0195298AA2284A3490A598C090FE6D6B0372C707489E43458C266C45318D8EBD1C8DA620402A157BD79DC588828B15BB200EE18A417E1CE803DBCA0D88B494023A3DA8D8718112DFBC5EC768403AA2626B02D15BBB1195298AA2284A44F0A739B317D27094A40B62E639B6A29846C75E91426102B24C229AA0EBCE626409DF4D220E36C5B0FFC04EDA3190A9D8E2A173839A1765EB22FF5228E1D1800444C5D604A2B776232A53E2E5A1504165DBF675A864656598AD02EC68858FCD1E858F3E7E175D70B4D9BB1D5E0BCA9C393331BD9ADA129BC349212777E5D4A993310A8E8B173F7BB474BFCD4151946E443271CC65FF98798EAD28A6D1B15794509886ADA9EBCE62E48244781C71B0C914B98D12BE8E1293CE0D2AFF1C1B371688518091ADE1D18004EC446B37A232255E98B051E93932C5BAE0871E2A5897079972B266885F065AC40CC5CB5FBAF4E5152B96A112E9875514A55B883F7BC5F4642B8A6974EC15251404019BE4D646D79D4D238EE64D229B83A918C2837788CE0D2A0F13390AA3E8533247B43581E8ADDD88CA9478B132F6893265FF81ED942338CA1A8029536A6A4BE0433B81DD5C93401D1653A6D0C2EE88898A44A6D1661767998C39227CE8C6B06C6277A9B023EAF0A1B3605D70E892A154501101014F198511181F471AA58915B622383C2147100A4789605EBE355E6844E965D66D93448583D24E2309EF18EEA3284A3C48F672FCF3DD24669E632B8A6974EC15251472369BE29129713A8B51EE9BD8448038988A41962EB805B5A3746E50B9E3E378030E46B6A2D89A800444C5D604A2B776232A53E2453228D21E2AC8D954245C6978E491DF31EF8A4CC9C95D890ACAD4A9939123998C59989261442F9CF248A33910BB2014228B271403EDF4B75C43CE1C77F1E267454C5010A0C0820C8D0ABAC30E1FD461611C4A105E058A4C03D0820A7DD01175AE79A0A00BC3E202393D5AE0639B307F318E2B45E62997831F44ECE26C46B04D921DE5F7870F8CF8D965684CC31C9A0E8AA27408C9F448908EA9518899E7D88A621A1D7B4509754A650AEABC055350E09356D3217EC510934E0C2A82267CE945908DB4E17B6524202AB62610BDB51B5199122FC87328A830F3219B0256980599C569A446419DCE500CC8C1C89AC8E2DC87810A65047A31D18A3E60343833142CD4019435A84B5E47132AF4A1331C202370CA09C087CE38E5288C860A26C6095082A023BBA0153E04A728F0645F547839882915CB237481E655D8264C6714F8B00BDD082DEC82237AC188CBE72FC65E8C609B243B4A4CCC01BF2A7CF05348C51C1AD164504551E2477660445F508999E7D88A621A1D7B4509254DB257A6EBCE62842090BAB90BD574A04514036481B875884E0C8A0A2D8EF774089AE823BD0409888AAD09446FED4654A6C40BB31D2ACC7C488154063845524485B993465109EC8894890A8C9020A8B317FC51415F66593AD30DA738C201D190AD718A8A0437FD51419126F462104A108CC2D9625CAE8248E24777741105C0F8A8A030829CB250FD302CFA4AAF50A3D58572070E91266C6A0B4E9ED0024FEA334480913F8BC4779CA4849256FE7488000B2E0D7536716845513A87EC7840815289B4781033CFB115C5343AF68A124AD2B0DC6AE9BAB31891DA457F4472A0251EC5109D4E0C2AFF1051F4A2EC1A0EBF152501CD5184E8ADDD88CA947841B6434145922293284ECD561A25834A1355023231D50983A0C0C174064CF3F437737094E0D2C4C998A7D29D3202BDA093300D0A268C62C647058511E4148A817396051E29720A67896306A4836931274F4C0BB5057E0156F823A0384E523A4A2B2D66313B2A8AD269641F064A4ECE2AC7876F25CF2173A31E0E5B511C7BA112DD08441C9877A0BAEE2C460A028A1BF3C68ACD01C81337B641E3A713838A25CAA0517CA2779756FC5B63441B9DBBB175525099122F4C9CC8D9CCF7C8A09283292CF8273B8DFCB39EA9974DD00488200EE8250125DD722080262EBAF0DE072A4CB4EC6BFAA382224D08CB08B6D514739103A02FFD65DB074ECD68444E65448645AF701F59C9089F309B6831274F4C0BFD69C12F0C0B2A288E93948ED2CA81D891981D1545E90AA65241E28FF2C77ACCE2D8CBCC9D8E46244BD90E72729DC5885E381509227B5A6D0EA6C58CD3214ED1A0517CA2779756C72273F8F25199122F4C8A141CA820FF31A74252B0C2ECC83A1239DCE02CA9941D9147A53B53BEACAFC0C736163C79CA9892ECA993D0CABB2428E283B0ECC2F4CC5513B1CB406C458148621DDDE140232398A71C1113A6332E1916CC878A0445AE820AC6366173081A1101158EC28B457056108761E1430B8AE324D92A9783565C0E7E16FECE9809EC66474551BA88DC5060B165BBE879CE2C8EBDCC68629485999CF69DA128B6FB2C9D734625DC28C9981247EEAD843B38C6015C14318B6D02C2491CD4248A4FF4EED2EA5854A69C0620055258200B2235C282E4C7148823F2341CC488EC8834C94511CA17244ED491834537C01FCE30322C63122657D879BAFFC076F69251780A070C810A2C322EBB0004C47040040107E2D0A8A02F8C1C0BDD51470585CEE629750342A1CEEBC2298EEC8BC20B91650CDB84CD21702A4D74A67041417CCC1063C18850B0A00BC7729C64B84C81518646345B93A2285D07E94A562950CC3515C9738E770D005B51A48BD9CBCC9D515226A492ED0644E79C1D87C324691141C6EEE10E8E714057644AA7073589E213BDBBB4EA4D9F3307243FA44024429BBDEB889EB0D91310CC13C5665414E50CA6C6F83C2F248B3C9C123D0B02B6A29846C75E6294821191C5CD076184CE393B0E877C4C8B6D4F6BB883631C00DD060B907B64F1CB944E0F6A12C5277AF7E8ADDD88CA94CE738A640A358A2C3624382195A23245517A16F8DB5AD654C26F5244CA736C45318D8EBD628632E9BAB318451000AE8B40F1A02E1B47C4412C72F936E04987F8650A883E683C4FFA883C923D2E82E3B50BD15BBB1195299DE714C9948F42FB5B797327F15199A2283D1349A2D02BB4C4CC736C45318D8EBD628632E9BAB3184DC52017585955249A431CC4124985C474381583020A1D14332C71BC76217A6B37A23245511445E90CB2A0C2E79363E639B6A29846C75E31439974DD598CB6D4CE0BDCB66D43B862688CFA5A7A105352746250B92B14CF5B68C3EF79395EBB10BDB51B5199A2288AA27406DB1FEE31F31C5B514CA363AF98A14CBAEE2C469B62E09E56688270C500E4E5BC8E6F91912E1D9529D107A50525D29ED6B66627F1E478ED42F4D66E44658AA2288AD219CE789922AB17940E28A683EC0241AB180511191D9529D10795DF3C7CEB09883EA8E3B50BD15BBB1195298AA2284A67909B3E3C8D99E7D88A621A1D7BC50C65D2756731DA1403E03D145938311D64432B7E87F0B58DE88A01746E50E9E5B88B569493797582F4ED446B37A23245511445E93092D5240DC7CC736C45318D8EBD628632E9BAB318C31583EC6965B1398892B07DDC187445A6441954D65A506CBB4FCCC7AFC237A600C76B17A2B776232A53144551948820E185E7BCA2C37B2423CADD8798798EAD28A6D1B157CC50265D771663B86230733F8ACD41B408CAC6133FCA284D9D9029D1079525939C9C55E688188876C78516E078ED42F4D66E44658AA2288A1211662F64C46DDB36A00E784B82C5CC8831F31C5B514CA363AF98A14CBAEE2CC670C5004416A0843BC80E1214680B38231A2828F0D1D8099902A20C0AD52822E6D34F57F2DF45D675D0646A17131911155B13905684C29CC371DC29FC25A032455114458908F213B357784126363362F42C08D88A621A1D7BC50C65D27567313A2A06A467B6A2383A984A25BCE007B4F993AE0C8A5673B9450A8C51C484E3B50BD21AA938CEF34B20B1644A4BABDF6651144551BA91FD0776CAC280145860B77946CF8280AD28A6D1B157CC50265D771663A44C2C0B48911C600FFF9550A0511C1FC9015D1C1472C4A620376E2C70DC9222385EBB20AD914AA4799E6ABA4BA6D4B41EAB05CD2DB5D5B51585C5C55F1C3CF49782ADEFE66DA86B745EAD52144551BA11642962B32B26F22B45570C278BC6A68A33FE1FE54B9529C16075534B4DA0D6BF7EC7BEDF7FB07662E6DBF7FDDFE2ABFE39F56B3F9ED5EFE68923EE9D7EC1BDD39F5CF87E30ACA3A2288AA2283D902F41A654B71EAB8534D9B677FFEC973EF9D994D72EFEF1ECE1774F775DF6DFBD6E7EC275D578D77727BB6E9EE8FAEE24D79D535DD73D7EDB2FE797969787055114455114A5C7718A654A6BDDFEC3479E5EFCD1F71F5A38E48E297D6F9CE0BAFE31D7AD132D4572D754D7DD4F5ADC83E374D7BD335CDF7BD2F58319AE2BC7BFFBA9C31BFD1445511445E9699C1299D212F41F3BD6B866E3AE5FCF5CF6573F9AEDBAFC7F7B41A0DC32F1B8348122E1D1C6DD4FF6BEF6D17F99B8A4B1A9DA165351144551949EC6C9972981DA8AF5DBF6FF6FFA8A0BEF98E6BA62BC0B0265EC34D73DD32DEE9E6ED72536E073FB9431DF9BB1B7E8B02DACA2288AA2283D8D932C538ACB4A5E7D27FFF21FCF765DFBA8EBFAC75DF7CCB0A449F8C209258B750C2DAB583ED35DDF9FE1FA5E48C75CFFF8BCD73F6B09EAC3C98AA2288AD2A3399932E56865D993D9EF9F77C344D7B58FB8EE9A765C9DDC15D225A8581B50A65972E4F629AE3B26BBBEFB84B57916166BC3CA24D7950FBBAE79A4178C97FDE6A607B2FCD5FA64B2A2288AA2F4684EA24CA97DFD8335436F79C2D21F1025D6D2C893AE1F3CE5BA7DAAEBBEA75CD73EE6BA6D8AEB5BBF75DDF8F859DFF8CDA0DBA79C77EB1343C74EBBE09E19DFFCA7D46BFF35E37BBF9AFFD3DFBD78FB7FCDFFAFA77FFFE3475F7A34F3EDC3A5256143288AA2288AD283386932A539D870D53F245BFB64EF7BDA1228B74E72DD38D1F577BF3DEB9A47CFBDEEF1AF7E6FC6ADBF7EF6A78FBE34FD99F79E7D33E7BDD51B0AB6ECDEBEE750594559595569A0A6A2AE215053176809D634B7D4048335819AF266BDE9A3288AA2283D9BAECB94FA9ADAEA60AB7FC7FE42D7E5FF6BDDC4B9EEB17E374C1876E7B4ABFF29F5D7B397CF7FFDB3BC0DBBF6161E0ED4059A9AFD2D417491A778F4711E455114455122D24599527DA0A87866FAFB9029EB76EC39E7AADF7DF5DEA76EFEF582857FC829D8B2ABCC5F6E2D8DB43A6A11281B1C6B9A8301D0D452DD140CF81B02E5F5FE9AA69AFAA63A7F6375457D55438BD94551144551949E4597644A5D43E09F27BD7CF3CFD36BEB2B9A5B6A673DFBFE9EC2C2C3A547C2DF760FB102AA1A02950DB57B2A0205872B3FDA5DF6F2C6A2F9F907277DBAEB9195BB7EFAE6967F5BB1E3DEA59B6F7E69C3F52FACBFE1E50D77BDB2B1B1A5C1164751144551949E43E7654A537360DEEF57F5BE6AFCA53F9AB965CFDE9AFA8A96A0B970827A4D7D735D455DC077A0EC958D85FFFAF6F67F796FC7371716FCEDC2820B92DC8352DC7DA7AF3A2B29CF352B6760AAB76F725EAFD9B90392DCAE19AB47CCF5F54D720F48CAF51E2A33022A8AA2288AD2B3E8A44C09B606D66DDFF7D7F7CF72DD36A9CF751316BFBDBABDA9BA39585BDF5CBFA6A822CD77F05FDEDEFEF505F9C3D23C67CDB6E408B448DFD9790352F346A47B86657846CDF35D30D73772AE6F54966F44A6F7C279F9E7CFF58DCECA8711F4793A67D55E95298AA2288AD273E9A44C696CAEFAFB892FBBBEF11BEBD9E3DB26DFF53F8B4A2BACE787FDF5B549B9FBAF7A71DDA84CAF6B666E9F5939FD927207A6BA47CEF5428E5C9865E98F31593EC8115470342B26A3B37D67CFCA595450A85F4B56144551941E4B2765CADA2DBBFBDDFC84EB8E29D6DB63EF9C32FC8EA9AFFE696DEBB19ADAC6C02FDFD9EE9AF29711737D23327D5F999F7F4196A539A03C1CE548147A27E54D59B5A7C97A324851144551949E4867644A7330F0ABA7DF707DE7B1B6F7CCDE33DD75DDE317FF70F6D6BD45ADC7AABF385AFEBDA59B5C33734765E78F0C131F91809A818E199D65DDF709557CAED939FFF9CECEC6167D7B8AA2288AA2F4503AB79A527FC54F93AD0F0ADEDDFE29C17B67B8BEFDF0CFA62DAD6FB076D17A0F1CBDFAC5CF7BCDCC85E0301751782A46AB92E53B3FCB3726DB3734DD73FE5CEF8014CFD034CFC84CEF8064F7A034CFAD2F7F5EDF6C1B5A51144551949E42A756535AEAFFFA47B3DAEEF850A6DCFD24544B9FEB1F7FFAC58F5B82B5C1D6C0FBDB8A2F59B0E6ECE4BC1199DE51A1CD28DC278B0A14C979195E340D4EF7BA66AC1E98E6714D5B3520C53D2CC5736EAAF7ABF3F2CF4DF15C949DFFF52CDFBFFF715B7DB33E93AC288AA2283D94CEC894727FD94DFF99EDBA6D729B46116E9F72DE1D535FFF785DB0D57AABDBEAFD15E7CDCDEF0FFD91EE1994EA393B29AF6FB2DB352B173265489AE7A6259FFFD38A2D13FFB22BD573E0B5CD47DEFBE2E867FB4B371DADFCA2CCBFABACB2C85FBDBFAABAB426D0D25A631B5D51144551941E4267644A4D7DC5B77E9E6E7DDF58BE812CDC3861CCBD33FEF0E986D663D5750D550BD6150E49F79C93E23E2FC3F783659B7FF3D1176F6D2BFAF3DEB2C381BAF2DAAAFAE6404BB03A18AC091EAB6EB15E4ACBD7AE38BEB55651144551941E47C7640AC44430F4D294FF495EDEEB96490E32E59EE9AEEF3CFAB73F9E93B37E27FC9B83FE2D95757FDA595C54E5AF6940C79AD03BF21D8408940A8EED6FC7AF0D1EABC5B1295847BBA2288AA2283D908EC9949A46E8867A545E7A27AFEF4D135DF7CCB0CB1470EF0CD7150F7FFBE769EEF55BE1D9D2EA3F5197B05ED3D25ADBD4525D51575D525DB5B9B8CC7DA0F49D1D258BD7173EB3F6506AFEC1E9ABF73FFCF11769ABF737B4E84D1F45511445E9A17440A634076B3ED871B4A9D5DAD3BA7ADDD67EDF9D6C3DEC63D328E0EE275D774D73DD34E1927F4CCE5EFE5959D551760F5AEFCE6FDA5C5C9977A07261C1A1FFF7E1EEBB5FDF74DBAB9BCE4DF17CE3B9B5FD53DDE758EFA8CD71CDCC71CDCAED9794E77A3AE7C74B3755379E300745511445517A0E1D9029BBCBAAFE79D996FA666B79635FD1A11F3FFC82EB66A7FB3EE4CEA9AE3BA70CBAF58977576FA8A92F4797E66060F6AA7D5F9B97EF7AF2B3FE49B9AED9D6BBF307A67A06A6BAAD4DB5E99E61E99E5159D6AB56C664B7BD37E517EFEF0ADD245214455114A52712BF4CA97E36BFF0EA856B29539A9AFD2FBC95D7EBDA478F3F93ECC8779FB8F8FE593F99F0D2FAADBBD0ABA2B6E2E3BD15972F58DB7F76EE05A1E793DB9E550EBD46857502993220D53B236F9F310145511445517A16F1CA94DAA6DA9B17AFFFCEC282DA466B7349B035B06DEFC1CB7E32C775EB13D6B6599B3A11EE9D01A532E0CE69FFFAE4D2556BB63434543637073697553DBC729F6BE6EADEB372A048E46D6FE62B6B4764FA7ACDCE7B6B4771E8092045511445517A22F1CA9482A2F2F3D3BD5FCD5AB3ABAC8296EABAF2D4973FEDFD9DC7AC9D28916EFD80BBA75B5B58AE7DF48607E67DE4D9ECAFB53E7A5C5C55B9787DD195CFAF3F7B4EEEE074F7E86CEB75B4FC306148B2784765E7BB66E46C2BD137E52B8AA2284ACF254E99523333675FEFA757F74F71AFD856C4158E606BE0F0D1D2ABFF31CD75E3E3AE7BC2D4898DB1535DDF796CE45DD37E9BFA8743478A9B5BFC2DC180F760E97FBCB7E3BC0C5F9F3979E7CCC9ED9F92774E8ABB5FB2BB7F9AC7F5E45FA08ACAAA13E5319F6DDBD77BBCAB80CD0E2A2A0BD974F8C81ED3BEFE73EF8A156FFEFEF7AF7DF8E1BB7BF7590F3D99482F546C4DE8083B8E62416444A03FECA8D7D5974A6B14E026D300E86EEB187D9240E6E9D80A1C1D3A346138874710D864FB6D818C8B7A27FE754852D25360E5CA776D761B8B16658FFBD9FD63EFBAFDC15F3F10DD19AD13268E87274017042FAF3868F3893F9AA2288A12974C696CA9F9E1EB9B7B3D6D6D7A9D977F48EC4DCDFE252B3C036F9A187A717E983431B1B6B04C73DD3175E82D93EEFAE5BC0FF33606AAAD7DB5F54D352FAE2FBAF985F5DF7C66CDD8D7375EB6B8E0476F6C7AE0FD1DBF787BDB3CDFC1EAD017821201E4DA39A1129EED900261CFCCCC904C8CCA4B2F3D4F7F2988205D005232EDE1B919A201761CC5424F5BF9ECB38FA3E47E80E48D59B579B717698D679240E60935636B22BC7C145325D0622B50428E13960870B0350136858F2E1343BD43FF3A26BD420562C266172032AEB9E64ABA4981CEB0B981B50539501E6D1E46317DE28FA6288AA290B864CA9140E0AF16AC393FD33734CD73D3AB1B0E07AAA4A9AABAEA974FBEEEBAF631E787936D40CADCF684EBC60997DCFBF4C4AC772A2AADFB472DADD5A581AAD2FA9A40534D73B0BAAABEBAA1C57AF8B939915E938F24C7941F9E4A9F7D7681CDCEF40F7F2809A4493AA04037884F27640A52359C110415B1888F0DC9DC9806E68669808E4E12C83CE169DA05CE160571C4488B4C18E3D28241C3E58244C01C6C4D804D28B665279918EA1DFAD731A150882253A82A860F1F3661E278B87DED6B97B0CBF2E5AF986ED028F06113BAC013A0CB83BF7EC0748B339AA2288A22C42553BE28F7F749CA1D93ED8352199CE6F96477DBAB5042D41C3C527AC5CFD35CD73DD626444C5D12CEDDD32DAE78B8FF9D53EF7DF099573F58DBDC7CC29249D0A82714CCB5B66C8D3FDFAD5469FC1DCF3FDF4D0B92283581998625CBA222461249A620B2586494F0EE00199D691BE3DAB23B897392403C51C2D72A405B5BAC098B6C328D0446CC96130E1731A14E56B17534650A88F35FC70655422499023B1DA0426891E510280C7183918203FA238AE088339AA2288A62125BA6045B039F1D2873CDCC3D7FAE77F45CDF8034CFFDCBB734B4989B5B6B3FC8DD7CEE77275B4FFDD8444924BE3FC37A3EE89AC75CD74EF84DE6DB2B561554F8A3DDBF480424E799EB0D9F7DF6312C48F06261BAB5FDF98E2EA1AEC7FB7651A6209DD368AE610892B31D350A887392C09429E10A8357C1158BE813069441A61B60041879D5E6D0C40A141AC2A69F6C3225CE7F1D1BD40D91640A17486C2B221022EC258A44F447F48D267146531445514CE29229CF7D5ED837D9CDC786CF4DF78CCECECF2F6C7BDEA7CD2758FBECF21CD7B58FB86E0E3D9F1C734DA58D69D65342373CFED5FB673F9AB162FFE1A2BA86AA447E0299F9D8CCEEB4C8960EC99DE17FBEDB948178A2223E84093B66D60F7723A260C25505897F92803285BA27FC1E93D91A73C2140D28A69111D0C4D6F039877AB40D614A109B4C0131FF75C2A144709429D01C6C95C50FC126381CF5878DF8A3298AA2282671DDF4C9C83FE09A997361B62553C664E5BB66E5DCFFD6F6DAE63AD3A7A9A96E42E6BB836E79C25A53B937EA3BDF6CDC39CD3576EA809B265DF9F3F49497561E292B6D3E61A92681604E452EE7BD09FE052FA7A6034F4DB8A144FEB23F7532456EAF445A4A897F9280CEB2D02276427FFAC49C30DD504C232360CEE14148A847DB044C09122E531821CABF4E38940E8E32856B24D010363B18F7B3FBD174CD3557A22ECB21E1FAC324CE688A9250ECDEB3E99395EFE028F5F2B027D73A0DFE2F8380728AC832562730BB47FF3FA372DA115BA6340603733D07CF9A993B5ADE129BE93D7B56EE82B585C15653A9541FAD28FFCDEC37FBDF3829C63BDF6C70B7CA6D535CD73C32F4CEA9373C90F5DA3B9EC325D643CB46F08440162AF8073A1700CCDC19493A005B92EEBA4CE13D14CCC134022E3CD86E9198C43F49C068982457266CB38508A0114753F7E014C536619111A651C232088AD90A6894DD36A239C2FD63FEEB84131218CE32858FEDE068B3036A0E14D4274C1C8F4ACCCD25714653948402F9DEE5723DF8A0B5D43776ECEDC3860D355BBB080222B89C4264E0744ED20CB17408E90E5051A57226115BA6B4B45667F80E9D9DEC1699326A6EFEA034CFA5CFACD95E0C87139EC7292C3EF2EF8F2FE977FD63AEDB267740A980BB43AFAC45AF1B260CB86DCA3DFFBBE8F71FAD3D5C7A24D1BEE9C3BFFE71449D29D6BC7542E9E0981A6D8B1C92655131DD403C32054168644A366177CED091F82709180D93A45E31E7C0E50A38842B069EDA640AC735AF4BAE82A7ACDB7E1031DA26103E2888FEAF130EF581A34CE1E656C77B318B1665B323FE748BA23F4CE28C666B52946EE7D24B2F06A8885E39599C229902813261C2F893B8EAA3743B71DDF479F1F362D7B4CF46876EFA909119BEDE7372EFF9FDE6EAFA86D663C71FD581AA282C29F9B7E94BFB5E3FC175FB146BEB894D8E44E7EEE9D60DA33BA6B8BEFDDBC1DF9B7EDFF8C5AF7FE8DBBE6F7F63736582E815B9FDC1246DDE1F016CB2A56722699569D8766A426560A6737A9A61E9631B9D70D5C1710E24142CAE49020E8453F8A362CE8A161CA59734F1D41C823F178AA9ABA88A2426758C6D62A14ED60418415689C20705D1FF75C2A13E709429519A64A3092A7CC6C7D1CD84FE31A3D99A14A5DB41CA47FA5FB8280BC765CB97C0823AD4005535C401EB00159CA215A0021801BDD004234FA597C814480A9C02EA0C89C92E8C2CDDCD537A72201CC3BB039ECAE20A2C6CE5A9725A105BA6045BAB3FDD5B7A4E729E6814306AAE6F68BAB74F52DEE32BF7045B1A4FF40F5406AA1ECF78C7F5AD87ADD5119B108993BB9F84C4E973D3C4B36E79E2AEFF59B4F88FB9474A8F065B6BCD81BA0BFE99CEFC6D5BCCB032647C0AC0766AC2C8A620A0E787A117C56244A6734CC371A980CE8E7320511CC267C5C9E05474863873E9829EB6269ECA10F0A178C29CCD9D22BC2F23F7ADB85E625B07B202B58FC25F9E751CD9249E24CABF4E38D4075D9129AC986EF82F20EC02FF8318EE264810546C4D8AD2EDE07FC048FF575F7D05D754A85A501F366C28723F523E4E21054425407CA0957576C729BAC3C2C5187A4A81857A8505BD1813BD60A733BB738D04E3DA9A6097B0D21DA7F08133EA28BC5D450B27AF4AE53422864C095AD454D6D70C483A41A650A99C9B06A5929BEE3DD41AAC377B35B7F8F716164D9EF7DEA81F3EEDBAFE71D73D33EC2A242677B7DF30BA736AAFDB260FBEE6919B1FC8CA7EF5D3C32547CBAB4ABB776585C91505A9D7B63D93F6532453CC825C6E1B5AA0C3C9922994443CA5D490269EB26EF5316E15F1148A015741DDC0539BAE627011139812DDC40184BAB60D4A07DEAE92A98A2789F2AF130EF5C1C99529A8D3C8C226B36E43658A92E0982A0115A80D6A17584413884AA0E64093A9032068A85D5047132AB0302C638E1B77FFB2E54B50119D8138F401EC85081C854B297493511C650A1D3822E3E3C8111944392D88B99A52DDDC12F4D7D75EB6B06070BAC794291784948AF5159E14CFEB1B8B5BC2963A6AEBFC19AF7DFA957B9FEE75EB13AEBBA65A5B4F44857488B1A1E7966F9DD4F7FAC72EF8DE93735EFC64FBBEC29AFAF2BAC64ADB885F0EB2A382F9D284F65324536041642E39A0848F4ED8EA380712C5217C563CA5BCE0F2093B7271452619F2B2F762815C40C7F0850DD9F12ADA454617B90368616476A1FE1067F12451FE75C2A13E70540F519AA2CB94458BB2C786BEE9C3278D55A628A73B92F8450AC0880A74407813C581F4854AE0EA05173660110756A4A35424267C50310B2C1437F0416486E5ADA8F0EE32102D3C4AC1299A94D382E3FF7B8A40ED9ED2DAF23AFF6F3EDC6DEEA21546CEF50D48710F4BF7BCBAB5A4E5C4D7DB3707AD4775DEFCF3FAEBFF6B7E9FEF3EE1BA79A25D7FC4C9DDA1C5158020B74F1974FBE4E1773DF9B3C94B3EF06C0ED45634351F7F73FF9706136178A6E702437405C0AC2CA74CC02691648A8495BE8E37353807B993124EFC93043C651DC3A1CE89A13BEA1224E46597298E4308E62F20D0B2CD783F0A2D68E229551A6622CEE229D01E7D74427DE0A81E4C9161438405FEDAA3DB8489D6B2B30DEEAE658438A3D99A14251190C48FFF894A824765DCB8FBA54954824DA63CF8E003382DAF3868532752918E529198F0810A812E617C5A100AE3C2013285CB2D9041B087777794293832942CC328894F4C9952B7785D51736BE0CDAD45BD67E7F20D6F26D69A4A567E9F59B95F59B0E68FDB8B1BC39E22AE0C947A376EBFFF772F0C83E0B8BDB35B55882556AC3D2BAE5B27F5B963CA98EFCFF8C1FF3DB7E8AD9CC2C3C52DC12F75DB4AA44418AE3004E675149E4A9695042CC49429803EB66D1C24CA1C481407DB2481796A3E9843B92093A7DD761A5D28C858E1C5D458B44864FE6E9C3C9B6837A13DFAE884FAC0513D44798407FEEC887A143753A6C4194D51121049FCA843374016D0C23DAAA84010503AC02EE28050A62C5BBE446EFAB02FECB2BEC29812C11C8EDD61C1294409340A42D101A730A217BAC313755B779B4CE154297AB800A39C2EC49029CDC1EAA99FED0B34FA8FD6F82F5960DDF7B9206C41058CC9CEEF3D2BF79B8BD72D5CBBBF29B48862A3B0E4C8630BDEBDF0A749BDAE7DCC754F98FEE80463A7BAEE9CE2BAEED1B36F9974F3BF67A52DF974EFA1E2D22AF36343A790488990B7451C1F30E19E09D978C1748B220958089711F43487931C2F16810222D3E9ED6D24FE49026B0C63146E34397C640FBA9B43709789AC82843AC5100A72997013225DBBF92B710EA666B2417BF4D109F581A34C89F2D635F35D290FFEFA01D41DDFDB66CA9438A3294A0222891F7588030A8E09A18DABD00DBC0BC3FD1FF0B4C914FA8B0A6117F8405B88050202A7A248CCE164ED040543201A3C01EA941D888C0A3C63CA1458E0C9C92382AEA69C46C4902995F555BF786B6B7175755330F01FEFED74CDCA1DE52453CECFF25D94EDEB97EA1E31D73779D59E9A8613BE2648027565BE8D5F5CFF4056EFDB26BB6E7CDCF5BD8EBC55251CD9637BC714D777279D73C5F88B7E34F381A797BEBDFAF3C325C5F50DA776DB4AA444080B9BC2376F3291CBFA07F776A0983738083DCDAD15F43487139523776704DE9A716C22F14F524611076A204630D772282F6486569F5842813EB6FB563279B1F0D494291C5DAE42EC02EDD14727D007288E32451639F01F4A5B135F8202E581BABCF504FF01357D802953E28CA6288AA2D88825531A02DF98B7E640A5B5E9C473A8145A6458A6D7AE518EE31D91E11D98E19DB57ADFA692D286167BB496A07FD3177B925E5879FE3D335CD74FB06EDF7CBFB3FB6A05EA95BBACC595DEDF9D3CF2B62937FCDBDCA57FCA777FBEA3A6EE547D2128522214F161CBBEF2A7BFD98596F04D24B4877BDA86A3315CE5C4DC431AFF24C3650A6504D733CCF97454A6C81C30A8A35D7489ED14709E5454286217688F32BA40E9E02853203BD80A2162DAF14718EDEC05D9C1D3F057B7993225CE688AA2288A8D1832A5BCDEFFF5796BD2DCFB91EF9B5B6AFEF3BD1D7D66E5382FA8B43328CD3320D5F3A3B7B696051CD654A054EA1AFCEF7CB6FE8607B287DC3AC975CB44D79D538F2F8D74913BA7599B5710F6DA47BFF6C35913B3DFFD2C7F7B63D3C9DF631B2511327D9AF74D003CD9C55CC0E0CD179BA72C2798F99B16DB70E15A41E09A078A4D8808714E923205CEE2235206C55CADE9A84CE1588E77A66C7D796ACA14C09F8EC5B413DAA38C2E4497085CE7B0DD8E81337BC9BA08EFFBA0D8BE726CCA14106734455114C524864CA9A80B7C7BC19A9FBFB5ADA1C5D21C9EA2F2BF5EB0F69CF6AF253B02113334DD3334C37BC3CB1BDED876B8D969736B538BBFB0B824F9A54FFEEAFE39AE6B1E71DDF2842532A0304CCDD139AC20D3ACBDBAB74EEA7BF3C40B6F9EB46DF7097FAF9F14A224C26DED2F42855660BE17E5615B3811BB782219F3311C737306A09B6D382A039B278198601CF63265072B714E9232C53604E5914D617454A65067384E9EA1E48E5228925DA6C8FC514C3BA13DCAE80225422499229F158410A18C905B3CE6A33DBBF76CE2833C389AA16C3225CE688AA2288A490C9972ACB5F1EBCF165C989DBFAB9C1B63EB9E5953D8674EEE880C9FE35E5A326AAE6F44A6D73527F71BCFAF7F66EDA1C3D5958E375FAAAA2B36EEDCFBF3275E1D7DD78CB36E9DD8E137EB470162E59EE9AE1F3CE5FAF6C34F2FFA08AAC8367417899E086531C32C2FBDF4BCC8058129D956A000CC850A40BB6D389CD2D9340A48E4A254CC220EF14C9243D8C4043B9A1B53C4289E56ACA84221CA52100795959E5024BB4C018C8062B303DAA38C2E50258417D116B25262966BAEB9D2B6F8B1B6FDC964160814AE9DA098C225CE688AA2288A1043A6D435D7DCBC64439F19AB16AD2B0CB656436D94D754DFF4E2E7FD92DC902351D654C0A82C5FBF14CF5973F21EFE64D78EB2CAAA7A67AD5074F4C81B1FE5FF64C2CB7DEF986ABD5B65ECD48E7DB3300A773DE9BAE589CB7F32EB6845B96DD02E123311A2C95409B2686103463E5C230599DEA651009B6CC3856FE3B001079B0CC294CC7B4931270907D86D3205020816DBED249B67285EC4DF47EE1C39CE5C564A3855D6C33D39228ACD0E688F34BA499B52082BA6B640DD9420B21662034634F1133F5220416C2F6D8B339AA2288A4262C8948696EA716F6DED3533F79ED73717555B8FCF40ACE41E2ABB30C3774E4A5EF44D2A10312333BD43D2BDBDE6E4DEBAE4F3F7761CAD6BAA715C56690EFA37EDDA33FBA50FAFFC797A9FEB1FEB75D3E396C8E8FA8695BBAD20675FF3BB175678BBE5FDFA48AEC051A0D8A0A7A9214E16189DC1C3D50F616B3C93ECC9406D803825053CC31FFC31E950344551949E4C0C99D21C0CFCCF473B5D737207A6B8DFDA7A2418B476A8D4B554CF5F7368588A7B50AA6754983AB17141966FB8A569DC23533D0F7FF845595D5D638BF5A92073140125E9A54FAEF97986EBDA475DD73D66EDAEFD7ED7C40A94CAF58F8E1BFFA2BFA67BDEACAF288AA2284AA7892153C0F39F1FB43E3138C7FDF77FD8B6AFAA2DD9573604FEEFA35D43D23C43D2BD5136A99051599658199894775E86F7CAC5EBDFDC76A4F9C44F159AD437FAF7161E99FDDCC797FF24B9EF4D135CB74CB2BEE963131F1DE2B62746DC31F5539FF39D1145511445511296D83265E59E23FD93F346CEF50D4CF3CE70EF958590FD7EFF7DBFDF3C20396F788637E69A0A8052199AE13D6B56EE250B0A1EFD74CF9AC29240A3F3A3C2C1D640A0B662E7BE434FCE7FEF865FCE735DFD880B7A857B563A7127E8DEE9AE1B264E9CFB4E756D856D20455114251E3E097D0727FADD4C47D0A513BD1C29AF38886908388D2772F4093066CC97D2723854640E31BB44E1A44CA9E7105BA6ECAE28BB7CE1DA6119DE81A99E2B5E5C7FA0AC2DD93705035B4BABBEF55CC1D9497923A3BDF3ED38502A63B2F287A47B5DB372BFF3D2E78BD71D2AF25745D93552567974DDB62F9E98FFDED5FF31B7EF8D935CDF79D4BA0D04E5D1D13DB6DF9D7CC97DB3761D3C608BAF288AA244872FB377B59739EDDF1666DA8E021CF82A7D147E46277A97980191BC198D856FC18F92EFD1C4B7E3A344CAFA8C2917E508FAC287750ECAF2E083F6973A3A625ED7C99A528F22B64C29ABABFAFE1B5B06A6BA47CEF5F54F753FBD7A6F5373DB97901B838155FB4B2F5FB40EB2C3A648A23362AEF7DC74F75973F2FEE1AD6D2B761EAE6AF0075B1DDE0547EA1A2ABD1BB73FB36CF5CD0F2EE87DF324D7F58F599F4AFEFE8CD02B52E2E0EED0070BAF7BEC23F7665B64455114250A48A5D028C8ACD019801FD6811DFA63EC58874F699AC8677AD01171F8DD1F9B0F61F28E999891EF91C201333D7A216614714391049915E55B83F16802B48E1BD7F6390BD4E9CF8F0D45890CC2AFEB644DA947115BA68067D71C74CDCC1935D73730D5735EB66FD5BEF2D6636D4AA539589DB7BFFCDB8BD7F59E637DEE27FA23CA26E7657807A779CE4DF39E9FE91DFFE1EE2D2555F52D3551565682AD358525258BDFCABBE317D95FBB7F8EEBCAF1AE1B27582AE41EE895588B2B70B8FEF19F4D7A25507B929F4C56144539836156664E85D4C0299228B22C8C4CC000A768C5D19659F9F13FCA08D116F0411C04948E808206FE66A8E88B0DE8820ADDE00F782AAA0512016ED031D291F39741E18953C05999169BF481B6905EF4C7589C063BDA26CC99E068BBAE9338A51E456C99123C16F8A2ACEABC4CEFB0D01E94FE299E6F2E5E5F55DF204AA5F558DD9FBE38FACD456B0724BB4764F846C7DA512B8CC9CE1F918980797D9272BFB5785DB2FBC0814A7F4BE4659596D0B7970F1F2D7EF7D375FF36F9D5AFFD6476EF3BA6427FB86E9F620991287782EEB6BE5078D1BD4F6DDFD773FFA51545513A8A7CC7184862E6BAC8B061439180B9D682565464C98130DD22C75349F0CE11BA708D81EB0ABC6FC23A8C882C317194C46FC2DC8F208C8F59B10BEA28A8D34D5A798A500C0B23078567A88755A803645CCC87BDD8110EA212242CAE08151CF96BB02366C55F09116037AFCBEC2B913B37A59E465CAB298D2DB5F7BCBEA9CF9C5C088B9119BE5EB373FF7EC5F6606B53EBB1364951D7EC5FF145F185F37C03D23C23A066E2562A178436ACA0E29A957B6E9AE7DA17D73F5370604B495943E4F7C6065B034DCD558D4DFE37FFBCE6BF93DFBCF8FE397D6F7EC275C304D76D51DFB87FCFF4B36F9C387FF9AA6E79818AA228CAE9081327EB4CC0489FA8A3424140D180842A4D266C4596454A3643018A155A24F2B2E54B50C19101659941A06860CE96ACCFC832042A662B3B524CA0C99C3074154784331D60A7854100E660CA2F86C5047051807110931343103AB0BBF98B49DFAE4FA9A711974C091E0BBCBEF9C859B3DA6EEB404FF44F713F997BA0F55883F840A96C3E5C39F6F5CDBD66E59D17DF8E5A933159F9D02B67CDCE1D9CE6BEFBF79BDFDE76B8C85FD5143C3E07476AEB2B0F1C297EFE0FEE1F3EBC78CCBD335CDFFAADF5007348949CA05100E4CB8D8FFFF0E1E7CD392B8AA22851E06A0A3225EA66D245853245722A8E501EEC65C2266462912948B75C2100B448643A4BE1582674A07C611D7D25B258A48EE9B163B80F8EA84B850E521804E01730D512BB73B1041722DDD1840A82C0C84BC3D066ABF4EDFA947A1AD66F140F81C6FABF7B7E7DFF54EBA383102B83533D0353BD7FDC56D2DA5A273E4D2DD5AB0F96DCBE7493EBA955E775644D057053CB884CEFC8D0379647657A6F7D65E3077B4A4A6AACED2F328413D5C160F5DEC2C2959E4DFF97BAE2AFFF21F9DC5B27B9AE1A1F7A2668DA093B57C64E3BFFCE69070E1F0D8BA0288AA238C00CCA3C1D9E9251E11A00D2369407BB8467533A4B5696C503B148640E87232C80EB07F014014405C03A9DE12671B8FC40671C51C75874A6DE925EE640ACD081E3022A335E1DEB4406E5294781117554108446FE2012DC74EEE2947A20D66F140FC1D6EA6CEFC1A1196D7A02C77EC9EEAF2C58B36A5F5943F371B796D6C0FAC3658FADDCDB3F25AF7F8A3BFE7D2AC20559D62BF687A77BCF49710F4A73DFF7C696F7761EAD6DAC09B6CA56180782ADD61BF76B1BAAD66CFEE28D0F7D3F79E4F901774CED7DCDA3AE1B1EB75EB802BD029902C972D5EF5EF8A3BBA9D9F97D2D8AA2288A89AC0DC8ED0C1C61A791F285D994D91746A66AC02E6C950A8C9429CB962F919B3ECCDF48ED08C80AB232571D4C1D20AD3825388527650A2273561C1DC013760C674E1E835251C11315991E83C3999A80116094CB2132A858188776F863C268452FD8E5BAC4BFEB53EA81C42B5340494DE5D0740FA09E1899E91B9CE6F9DBE7D6E5ED395AD77CC25692DDE555BFFCD3F6CB16169C9BEAB196554E1422F100B13222D3D72FC93D34CD735186EFA7CBB6BCB5B5B838C297966D045BFDE555E5EBB7ED7B7AF1C777FC22CB75FD63BDAD9D2B932D6E7DE2AE879E0DD4EA8BF3154551E202B996C99505E91346A658E803A9435540D3B0C28EC8C43845EA6517245AD46141402666E6633A9BB9194DEC88804CD55C48E04052788AB094299824BAC09F01017A312CECA8733E088E09A0159EB053337186143A0CC508E8CE264106150B2F074674C729270C0B6722D745E7AE4FA907D201990289B07463499FE43C5112E7657ACF49F55CF1DCBAA55BECDFCCAB6BF22FDF563C665E7EDF14F790F40E6F552163B2F32F98EB1B98E276CD58FDD7CFAEFDA7B7B7BEBFA3A42860AD85C4A3571A1A03878A8B3FCDDFF6CBE9AF7FFDEF9307DC39D5F59D472FB861C2BA9DFA9E374551949303F22E52292AC8ACC8B86653D74170A46D9BD186DCF439E9E08A78E349E9463A26530E5756DDB974D3B9691EDEFA1935174AC53738D5FB578BD6BDBBEB68EBB15AD3BFACAE72D5FEE21FBEB9B54F927B58BAF782CCB61B461D05BD4667E70F4CF3F44DCE8370B9FDD50D6F6C2BDA5156D91C4BA9F0BDFE8D4D55A595C5070E1F79E3C382FF9CF2DA57AE7BFCA5B7BDC1D6884F12298AA2287162FEE9BF6CF912AE0A9C4410994B29513875324549043AF64FDB1CF4CFCDDF776EBA77487A9B52C111F4999377C5F3EBFFB2A7B4BAD16F7EFD18F55D1555BF7E7FC780144FBF54F745D9D6E33CA604891F8C322ACB372CC3E39A99332CCD73DFB22D2F6F28DC5C5C5E6FBD1237FA1E5BA1D65F5DBE7EDB9EF55B77B7A84C511445E9329011D428DDC884D0DB566C46E58CA1C30AF450A0E287CBB7F44FF19C9FE9A5520123E77A5D4979972F2C58B2A9B0A4D6BE41B5BA21F0DAA6C3B7BCB2B1F78CD5FD53DDA3B23BB9AC4246866E06F54F71BB9E5A7DC3CB9F3F5B50B8ED687959D8A091E03BE21445511445497C3A2C5382C702EB0FFBAF7A7143BF14B74807C88E1119DEFEC9EE9199DEC5EB8BAA1BEDBD6A9A020585E5FFF887AD1764FACE49B23EAADC89878008C6B29664327D08D23F390F7C75FE9A5FBDBFFDBD9D87F75696D79FB899575114455194D397CEC894C6E69A79DEC20BE6599FF891A778A854AC6D2B19DE87FEF4C5D1EA5ADBBD9896D64061A0EA9935857FF3CCDA41A9EE21E99E919DDDAD42A857701C9CEEE997E2B9E499B53F796BCBF26DC587AB03102B98A7BE7056511445514E6B3AB9ED686F59E503EF6E1F9CEE3D37FD04A5323ADB774EB27B70AAFBA76F6EDB51EAAF6DB2772CABABDA505C367EE5EEFE29EE41A99EA119D643405D112B0062058A070AA96FB27B60AAFBD65736CCF5EEF71D2A6F68B15E3DD71CEB55B68AA2288AA224269D942960D5EE92EFBDBE65509A675846DB765A323A3B7F489AD7F554CEBD4B37ADD85ED262BCA696045B0347AAAB5EDB5CF437CF160C48F30CEFD48B55C241104C6368BAB7D7CCD5C352DD972D2A78E0BD1DF3D7EE5F5354DA140C34B69C30074551144551129FCECB94E66060E986A22B5FDCD03FD5DA92625B11C1A96B56EE986CDFFC35870E5455B4867DF7B8B6C9EF3D54326FCDC14B17AC75CDCE1972A2D6E90AD049A3B37DE7422ACDCC199AE6FDFE1B9B27FC7997E74059692D1452B457D92A8AA2288A9250745EA6808ABAAA17D6165EF6DCBA01A99EF3E79EF00E37EB238559F92332BD6727BBAF5FB2E150A5BFBAC9FE304EB03550515FB97ADFD17FF8E3F621699E5EB372ADADB5D9F9669C4E33D2924AF923E67AFBA6B8A1572E99BFE607CBB6CECF3FB4AFB2EAA0BFBCA64977DA2A8AA2C480AF6927E1EF44D91DFAF65ECCF79A80F83D4F1D181D73D0D7B59D767449A680C2AACA34F78131F3D69C9594177EEFE682B9BEC169DEC1199E2B5E58F774EEBEA34E8F0D5B1B5D5B9BDED8527CD76B1B4764787BCDCE1D9AEEE1A7986DD13A0A22B4BFA6C53B30D53338CD3D30C53322DDFB0F6F6D5EBAF9F0BA23A581C6781F63561445E981B88C12FE6E9239616F8E8F44FC9EA70E8C8E3974FB5B5E948ED25599123C163854E94FF51DBA68FE9A73D3ACEF279B4201C0323CD33B30CD3322CBF7F0273B730F96D4359DF00A38D21CAC3E1C0864E51FBCF685F5FD92DD83D3BDC333AC1B495D172B0041C684F4CA20889550E49173BDFF5FB6777D51A96D1A8AA2288A80D42EEF990D5F4D5199A27C097455A68016EBDE4DDDAF3ED8312CF440B2A90F840BB2AC659573523CB7BDBA71F1FA43470281A6B0D7AC41BBF81BFC9F17974E5FBDF71B8BD79F9BEE1990EA86A4B0BA8705EC1C9806DFD73228CDD36B4EEE6B9B8AC20593A2288A22D814C6C24559B0F0D689D9040B4EF9BD3DD6216B70642B3D972D5F828A7C9B3052174087F28A833C95BB45E16E888F0AEC6CC2290202B1B3C23B3E942940E6601B42FA023A28DDCE499029004A656F55F97FBEBF634886F53D42531910BEE06484B5AF36A77F8AE7817776ACDE5F5ADD58EDF89EFBEAC6AAB77716CDC8D9F3F54505D6ABF133AC7B40B6805D64D45CEBF3CBFFFBC12EDBD08AA2288A0952B86891B1636F1F366CE8A5975E8C2365019BA800F821E50913C6F3949FF645C1293DC5029D81EE0C85D3071F7CC0D685BA810E38CAF781C3DD6C73C02927196AB73E3ECCCAB871F7DBFAE2347C08F46517C4E1884AB77372640A3950599E9ABB7F60BA6744E87E8D4D19001A87A77BCE9A937761962FD377F048757543B38352690AFA9B83818D47CA1FFE68D76521B1D237D90D018408276B656550AAE796573694D6E8F61445519488880E58B67C092A3822BBA3B230B4ACC226E478A6796814A4790A02111FA8D0135D1804A7F044056285379568479DC12117E8805336C113F125A0B8C91CD8845318518103659354C267153E04FBC2CEE19444E064CA1450D75093BEE6E0F00C6FFF1477A4D7E1C30EA93124CDED9A957BD5F3EBFFB0BDA4AADEDF14E1256C2DC1BA75872B7FF7D19E51A12EE7A67B86B57FF5B02B20C2B00CDF45D9F925D52A5314455122223A8015293895265AA48862407754A28809333EEDD2850E52E080A60E45B655E21942BA2889C3C9FFF7D85359FEE4AA5D7FB5686D9F99B9513EDC03A13030D53328D5F395B9DEBB966E5CB9BB047D1D5FC2D61CAC0E34541707EAC7AFFCE2B2850583D33C102BE7655A5F05EAB45E41C7D198409AF78B520CE1B09CA3288AA200D101ACE0484DB0DBB8E9C39B26B4137A72CD63DCB8FBC5539A604445E2CB1116542017E82001110A4DD25DDCD8913E6C12A961AB8883CC2A7C08E9A2240EA7E4DFA3BEC5BF7CCBE111737DFD52DC23436FD0B7A904626D58C9B25E72DF674EDEB79E5BF7D0073B3EDD7BB4AADEF98D262DAD8192DA4A6FE1D199797BC764E50F4C750F4845702FB7C27442AFA04BEF9939EFED3C8AC8B6B114455114223A00BA0415CA9165A12DA8D2C41B3738457D6D410E8EF4A40E805D3CD924161C2FBDF462B94F84538445057261E1A22C54788F06703291DC5091B1446AD82AEC6BCE2A7C08E9A2240EA7EADFA32958FDE9DECAAF3DB3B66FB2F53D64C8119B4A20D00AA342EF82EB979CD77B76EEDF3DBF2EC3BB7F476955634B4DA40F0756D4576D2F2D7B664DE10F966D764D5F05893322D3370A4A28D31E3C3A63B27DBD66E7CECB3FD8AC32455114250248E7CCF1A823AF7387E9B013B7D096571C64EE4799D0BE85963B4290F8D12A9E6CC229A2716B08028AB2A19DBDE8C01DAF08855310EE86E01C88D1D02452C356615F2A2AC607B621A48B92389CC27F8F606BEDAABD6577BEB6A9F7AC1C28099B4A08675456FEA054EB5DB4973D53F0F2C6C3C5D5D50D2D11DF6DDF12ACDD5F59F5876D25FFFCC7AD5F99E7734DFF6C60AAE782B91DD8630BE5342CCDF3FFFEB4D3DFA06FA4551445396998624251BAC8A9958DC16381BD95FE5FBDF7C5D949797D93F3E279AE7844866748BAA7FF5339D73CBF7EE1DAC2D2EA40434B441981F807AB2AFFB4ABF8779F7C71D973050353DC0352DCE8CE37F787BF15D70493392B29EFCE5736D537DBC32A8AA2289D46658A721239E5AB5BC1D6EADDE5953372F65EBA606DDF244BA944172BD65A4896F58695A1699E2169DE6B5FFCFC85F58776969745D941126C0DD435057695FB277FB6EBBE659B07257BFA27BB876578A157ACC595C83B6D876678AF5ABCEE5055852DA0A2288AD269D616E48C0DED1AB1D915A5137C4937E19A5B6A33BCFB2F9EBFA67F4ADE9034CFE8ECD8B766202F06A45882E3D267D6DCBB6CF3FC35070FFA2BEA9AFD91F6AC80DA26FFD19AEA3FEF29FBC57B3BC6CCCD1F9CEE1998E21E9EE6199EE11D95956F499613871896E91D91E9DB53516E8BA3288AA2284A22F0E5ED156A6CF1AF2BACBC6FF9E67EC979500F915E01676354966F60AAFBEC64F7F999BEFB976F5D54707077B9BFF558AD2DB84175533050D314585F54FEDCFA83572C5A3F7AAE6F48BABBDF9C3CEB6DB6A1B7B648704CA05F927B77596558104551144551BA9F2F4FA68096D6EA2DA5E5BF5BB96768BA6F50AAFBFC38B6AA00EBFD2859BEE1191ED7CCD52332DC3F5CB665C19AC2437E7FA44797858616FF91EAAABC03E5BFFD64F7CD2F7F3E38D57D5672EED9737247647AC7849E91864C199EE1DD7044658AA2288AA224225FAA4C01C16381F25AFF6B9B0EDDBD7453EF64EBADB2F1ECAB059014A3B3F2A1305CB3735D3373EE7875E35CEF81CDC565FEC6AA486FB025CD566BFDCEB28A0F761DFDCD875F5CB978DD801477EF59B983533D23B37C7D927273F7E97792154551142511F9B2650A8174F8F3DEE27F7F6FDB450BD6F4B296372C1532324C9A8443B761199E73424FF45CBEA860FCCADDB9078E160662AF8840CD54D4FBD71F297F6543D12FFEB4E36BCFACE99B9C77D694CFDEDB65BD0057511445519444A37B640A08B6062AEBFC8B3F2FBA64C1DA7EC9EEA1199E8BE2D8574BAC95956CDF7919BEFE29EEB393722F5FB4F6577FDAB96A5F45455DB5E3EBF66DD436F9CBEAAB0E96FB5FDD54F41F6F6F7F6F4789BE88565114455112906E9329004AC5DFE0DF5DEEBFEF8D2D4333BCE724E70D0FDD038AF4CA5A0742CE0352DD67CFC91B9EE9FBF1B2CDCFAF2BDC5652198F5801C1D66A7F637D5D937ED347511445511291EE9429ED5497D5D62EDF5272E3CBEB5D4FE70C48719F9F15F1E5FA8E58CA26F412945E4FAF1E9EEEBDF1A50D8FAEDCF5E1EE237B2A2A421B53A2A31A4551144551129444902916550DFECD25E50F7DB0EB6BF3D7F44B768FCCF476F41B3D6074763E7AF59D93EB7A7AF5158BD78D7B6BEBEB9B0EEF2AAB6C6889F200B3A2288AA228094AA2C814E26FA87E634BD17DCB360F4CF5F49E9307E511E76E159391D66BF2F387A67BCE4ACAED979277E5E2754FE51CF8CBBE92BD1515354D7EFDD0A0A2288AA29C2E24964C019011BBCB2B66E5EEBFEAC50D03523D8353ADDD2AA3B2F36D5A2426A3B32CBD3228D53D30C57D6EAA6748AAF7F657373EF7F9A17587CBEA9B6B1AE2DBBCA2288AA2284A3792703205045B03354DFECFF694FCEB3BDBFE6641C19074CF39C979D01C1744FE3A4F242071426F5BF10D4C730F4FF70E4D757F7DC19A717FD8F6CAE74545D5758D2DD52DADD670B609288AA2288A920824A24C112056F20E56DEF7FB4DFD93F206A679CEB33EC1E38DFEDDE348F02572E76578FBCDC9ED9B9C3728D5FD8DE7D6FDF7873B5F5C77509FF45114455194C424A1654A889A8AFAC0BB3B4A6E7F75D3C0A4BCC1E99E91ED5B6B3BB16D0550AF8CC9F60D48F5B8A6FD65EC4B9FD735D5840DAA288AA2284AF793F832C5A2B1A57A4759F9B30507AE7B6943DFA4BCB393F2AC0FFD8449903861C75173F311E7DFFEB83DD8AACF01298AA2284A22727AC814100CDD035A5374F4E9DC3DD7BF647D47B0D79C5C4B737456AF5C98ED73CDCE9BF6D9BED663BA9AA2288AA22889C869235384A696C0AED2AAA9ABF67C635141DFA4BC0129EEF3323C9D585C1999E9EB9F94F797BD47F54DF98AA2288A92989C7E320584DEB25FB5ABBCEAB13FEFFDE6C282A1E99EB39372711C155A5CB1C91147E03628CD73F1BC35817ADD3FAB288AA22809CA692953DAA9AE6FA9DE52E29FB16AEF55CFAD1B90EA86F2189EE16D132227EA121BA3B3F35DB372FF79C5D6E6A0CA144551144549504E6B9962D1140C34B4F8D71F399AEEDB77FBD24DFD533DAED939E7657A4765B73DD4E308444CFF3979EFEE2CE9F04B53962F694D9A61B128ABB5E2A0BD55E928FC3D6DC698E0C7472FF4B5D915455194338BD35EA608354D556B8F9466171CF8E9B2ADE7A57BCF4972F749CA3D3FD37A1DAD6D6505A78353DD572C5E1768ECE052CACA778EB95CC71936B4B520C7EE738AD8B3C96E3903D8B389BF64477FC663975E6CF5EA84BE511445514E2BCE1C9902B819B6BAB1EEFD5D47FFE90FDBBEBE68CDC014F73929EE21E9D64BE12856701C91E9734D5B3563F5BE0E7F1E39698695562FBDD8AA5C7D8555BFFA0ABBCFC9E6D8B8FBCFD8944C9902B5D7A175A98A83562FFC262BDFB137298AA228671667944C111A5B02A5B5818F77178FFF68D795CFAD83341990E61E92E61999E9BD685EFEA014F7B717AD2BADA9EDE8A3C8C7268CB712E4D8DBADD3E54BDA92A5E9238973CFA688491476C9CAA8DB96496C1D1D53327D22A5F6E8ADB09BA1082C9D5B1642475B34C4098F0F1C8DC0F1F24D234E6D736B5FD3B2AE054DB6D648970F371AA3FF3E8AA2284A227166CA14D2140C041AABB616573CB97ACF8DAFAC1F9DE53B37D3DB6756CEF074EFFCFC43C1D60EBF2E0502C5CA8E5CD8A04CE1CA0A8C38BDFA0A6B7105C222E4D6D61A4A87D2F1D8B0A1967DD8502BD74A9D5939BCE3A2ACB653C2E00F3ED0761A7ECB09FEA1BB21C45C8069B348405904C2B4A5CB830FF05ADA74187A856668D5C3D5124271FE325041CEF1F987A67AC22F63788ADA6BF3C7B81C422E6DC278CB629B1BC7059C2462B6FBC3D31E813F4E48D058FE217B8C5F4F511445493CCE6499429A827E1C8B02159FED2BFDD5BB3B2E99BFE6FF56EE2CAEA9347DE284198E4991F762ACB4C75CCB9C8D53A664B4B212CAB856853ECCD027D6ADE48D0C1ADE115996C14362C84ADB3CC5B17DF4E3736334645F667149DE40B6D4605006472B0407ED9C4968FE6D3A8632A55DD31CAFB7CB174B91849AAC8E98276416E61F8A20BF80D5C5FC6542585781A97267092E8783D2C889C18251DA1586752A736B5F62392E35D085C143136B1BCEFC71F853D0078346FEF514455194C4E4CC972942B0B5A6BAB16667594555436734CAF1DC6C4813E4CEB6BFF8510F3D7E62D599CEA52E1B45E1806CEA5877EC080733A122AFA30EC9823AB338FDE534349FE3C3B5E7754B31D022D204755C4EBB9E800F42D1C16AE5D0ED2B19563D348DE3BAC79C6D883691C479865AADA3F1CBB4C5A7D882115721F3C4AC1890F36740A7B9994D6D93E43FC4B8FB1D7F1CEB5F0A158ECB211C7F3D4551142551E94132A5ABB427FB369053B9AC123A6D4BA846726DCB8BC885CCA0B0C328B9B9E2A099A79D3B2220171EB8DE40C9C2944CFF90FD7893DC2B411DD30B3559ADD410BCD12392A55D755957212A41F2378370948AD01D1F2678224138610CC1050FCC074DAC4B7C536A206C483A5846E36769BBCCF668CE7363139CA509F5F6DFC1F1C7E1A0144F517E3D455122B17BCFA64F56BE4350B7B546A1BCE220FC718CA763B81BC7855D2C4A8F45654ABCB4257B646BA4375957605E47CE439DE91CF5D0FFD98E4B074376583912752A06C9D3913A8A3DB490C05C7E1C645CCE014D74E3660B7338B65222302BB3151308575DED6B2D960FBA84AEB4ED1447D1108C19CAF4961DBDDAF596608D65FE3232075E32158FCCC4946E8CEF38373649D890735B1D619D7E1CD6D937CAAFA7284A24E624CD70B517D46DAD511837EEFE61C386426AC4D331DC8DE3C22E16A5C7A232255E4E48F602732D35812D31B7AF10B063DB5207FD9923254F47E8E89892ADB501CCC1DCFE296B0FEC1EB654D0D66AAC6A30885511D54589C011B9E00187F615084B28D8FEAC8184A252C1B5C83C110AA3F04F22F39731C66D73336772E2E55B38CECDD684BA74149D64FE38B69F25DC41519458502EE0685BED88C9B2E54BD84B658AD2458CDCA044A52DE7C93A0A8DDCFD400962A65BD643D9FDB8EC68CFCD56A6445D6E4344E8D896926987BFDC58099D1E4FDEE1DD4D3759AB08E5E6E34118DCD41FA8B48F6EF9981330FEF321B42D2F61FE2208E4BF29B86AF3971167446E1FF1F84CC2BB3BCE8D711896EA878B2E7033A3893F5BB970E5E8C08AA2289131E502640A4ED716E4E0B870515679C541542047E8495D023B4F51C1A94D7FA08BD8C58253206E1C65C284F11C17FE0015766177114C30E2D4B14939635099121F92EC4FFCFFC0094B17EDF768AC942C76DB8D1B264BD6295F0C9F133A22A0DCFB40AE452E678606D03AE0C1F60755642D017D433A00F5E3295F6E2D199E56ABF4C23410ED526B4F2B7CDA8C0C2E32C5BC6ACC0403712D044DA1FF48F15AACA161E71D25F3428C506DC2C59C8974174B84B9599E46D836E913922CE13F4E5B6BFBCD9D88BF9EA2289141E2875C78F0C10750810E407DD8B0A138A25C7AE9C5AC40B8401CE0F4EAABAFC0299CD171ECD8DB518780C0117D190D11E0C38EA88B1B0BDCA05A243E0ABAC381FE68451DAD38C5112332380242D3709E706058E54C42654A7C30D987FE703FCE8912C4428405085F6291DC8CA46BEB1BDE11C007C915B91F791A7FFDF3943EBC214237C9C1981EE220079B53A23EE0A2822959782AFA00C9DE90296DB2807D6D191D438494D009738076098D6B81B16420DB3424B26D26943EB0E0127847C6696EA0AD17B51147E4CF15F6E3D87552E45F4F51944830FDB3501640132C5BBEC4AC880A815EA1A440DD51A610F6820344092AE3C6DD2F71A422AB298C2342040EECC5B51354B87C0237E8153499032967062A534E36F8FF4C683DC06E8F49A73B12F4D5FF8B2A8A7252A114805C405D34477885AB29C3860DE55A089C1D650A44069743608443781CC05E52611C9989149C62508E88B0D437884CD5A29C49A84C511445519C11B9807AB8AA90CA830F3E804A79C54151158E320532E2EAD0CA2E8C9D9329740694236B0B72781709756A20DE7252CE2454A6288AA228CE501C706F8A8889F00A650A8402574AD031924C015CF980032C5C5C1937EE7EBA4176B009E283DD45A64097A0023B8C88000B9C5197279F0143712CE58C41658AA2288AE20CA403C4010BEB384210D82ADC952282031D1D65CAC24559901454219429B450E5D08DBB52684177912974C610384517A8169CA20E0B2AF44758CC84CECA1983CA144551144551121495298AA2288AA224282A531445511445495054A6288AA2288A92A0A84C511445511425415199A2288AA2284A82A2324551144551940445658AA2288AA228098ACA144551144551121495298AA2288A33DBB6AFDB7F603B2A35B525A8E3681A4D8E96EE178770C2FD3B0A2220BECDA8F40454A6288AA228CE4C9D3AF9A1871E42252777252A140AA8AC58B14C7CC8471FBF2B0E36A030D004079E469232D1C9CACAE04C949E86CA14455114C51911075421384288989A43882253A04B206BB8A03267CE4CC4345BE344654A8F45658AA2288AE20CC507140655C2D2A52F53A6508EE4E4AE84C3D1D2FDE259B02E0F15B9C5230E38A20B9764A64E9D8C53B4D20E239D09239846748485136017C4670408205480ACD0C8888EC195D31195298AA2288A331416100AD016100A00B91F16C802D41F79E477B0E3484D003BEA3C5240A00E3706C1E98A15CBD80A23E5CE9C393371945B48888380344212C14237293CE5AD280C2113401738CB88A8B0097546564E5F54A6288AA228CE501650674037E0480550B02E0F751CA115E8408960562011A01EE0C020B023202A940E68A2B68046819EE07064FF81ED14226C4505166A179129189A4D88CFC940E2D846C41CCCB0CA698ACA144551142522C8F748FF3832F743ACE0945A440A4E69818F8812AA07480AAA1C9B4C41C52C1C8BAB29904180460E2D15092E16296892111187B2869ECA698DCA144551142522C8FA48F9D004C8FD213D60DDA3A128C191BA044DB48856A03E409D375FC4820A650AEC08CBEE806371C1A62674470915586C1578E2C8508B173F4B0B412F183922E2E0940E981BECCAE98BCA144551142522D407DC3EC2450EA8044A16EA0C28033451A640197019637FE8352780AB23ECC508202777A5DC42828F6CB9A51101A96C242CEC0C0267F642131769D0C4816061057D316704615F09AE9CA6A84C5114455122C264CF7D1EB2A4813A2C14131010B29A22E2030EAC43B5B08946D61147563B50A8810077A50036C1C295150C216B273832144047CA178C825319117160071259397D5199A2288AA2284A82A2324551144551940445658AA2288AA228098ACA144551144551121495298AA2288AA224282A531445511445495054A6288AA2288A92A0A84C511445511425415199A2288AA2284A42722CF0FF033F49F6B3EADFFB7D0000000049454E44AE426082</Control>
+      <Control Type="AR.Field" Name="txtHiddenPicture" DataField="ReportBanner" Visible="0" Left="5400" Top="3240" Width="388.7996" Height="288" Text="text" />
+      <Control Type="AR.Field" Name="txtCarrierName" DataField="SupplierName" Left="8573.761" Top="4472.64" Width="2675.521" Height="288" Text="CarrierName" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label45" Left="6593.761" Top="4472.64" Width="1687.5" Height="270" Caption="Carrier" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; text-align: right; ddo-char-set: 0" />
+      <Control Type="AR.Field" Name="txtCarrierCSNo" DataField="CsNo" Left="8573.761" Top="5102.648" Width="2675.521" Height="288" Text="CarrierCSNo" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label46" Left="6593.761" Top="4787.647" Width="1687.5" Height="270" Caption="Carrier Tel" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; text-align: right; ddo-char-set: 0" />
+      <Control Type="AR.Field" Name="txtCarrierTel" DataField="Tel1" Left="8573.761" Top="4787.647" Width="2675.521" Height="288" Text="CarrierTel" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label38" Left="6593.76" Top="3728.16" Width="1687.5" Height="288" Caption="Delivery Date" Style="color: Black; font-family: Arial; font-size: 9.75pt; font-weight: bold; text-align: right; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label21" Left="6593.76" Top="4088.16" Width="1687.5" Height="288" Caption="Ref. No." Style="color: Black; font-family: Arial; font-size: 9.75pt; font-weight: bold; text-align: right; ddo-char-set: 0" />
+      <Control Type="AR.Field" Name="TextBox5" DataField="Code" Left="8573.76" Top="3368.161" Width="2675.521" Height="288" Text="Code" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Field" Name="date_Purchase1" DataField="OrderReff" Left="8573.76" Top="4088.16" Width="2675.521" Height="288" Text="N/A" OutputFormat="" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Field" Name="TextBox6" DataField="DeliveryDate" Left="8573.76" Top="3728.16" Width="2675.521" Height="288" Text="Date" OutputFormat="dd-MMM-yyyy" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label39" Left="6593.76" Top="3368.161" Width="1687.5" Height="288" Caption="Delivery No." Style="color: Black; font-family: Arial; font-size: 9.75pt; font-weight: bold; text-align: right; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label47" Left="6593.761" Top="5102.648" Width="1687.5" Height="270" Caption="CS No" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; text-align: right; ddo-char-set: 0" />
+      <Control Type="AR.Field" Name="txtName1" DataField="CompanyName" Left="180" Top="3729.6" Width="4914.721" Height="267.84" Text="Company Name" Style="font-size: 11pt; font-weight: bold; text-align: left" />
+      <Control Type="AR.Field" Name="TextBox29" DataField="Address1" Left="180" Top="4042.08" Width="4914.721" Height="250.56" Text="address 1" Style="font-size: 11pt; font-weight: bold; text-align: left" LineSpacing="2" />
+      <Control Type="AR.Label" Name="Label5" Left="89.28001" Top="2911.68" Width="2250.72" Height="359.9999" Caption="Delivery Address" Style="background-color: Black; color: White; font-family: Arial; font-size: 10pt; font-weight: bold; text-align: center; vertical-align: middle" />
+      <Control Type="AR.Field" Name="TextBox7" DataField="CotactFullName" Left="180" Top="3391.2" Width="4914.721" Height="267.84" Text="Contact Name" Style="font-size: 11pt; font-weight: bold; text-align: left" />
+    </Section>
+    <Section Type="GroupHeader" Name="GroupHeader1" Height="428.64" BackColor="16777215">
+      <Control Type="AR.Shape" Name="Shape9" Left="89.28005" Top="0" Width="11250.72" Height="400.3199" BackColor="0" BackStyle="1" RoundingRadius="9.999999" />
+      <Control Type="AR.Field" Name="TextBox18" Left="3780" Top="72" Width="2731.68" Height="288" Text="Descriptions" Style="color: White; font-weight: bold; text-align: center" />
+    </Section>
+    <Section Type="Detail" Name="detail" Height="329.6801" BackColor="16777215">
+      <Control Type="AR.Field" Name="TextBox3" DataField="Description" Left="86.4" Top="0" Width="11242.08" Height="247.5" Style="font-family: Arial; font-size: 9.75pt; font-weight: bold; ddo-char-set: 0" />
+    </Section>
+    <Section Type="GroupFooter" Name="GroupFooter1" Height="847.4399" BackColor="16777215">
+      <Control Type="AR.Line" Name="Line2" X1="115.2" Y1="31.68" X2="11232" Y2="31.68" />
+      <Control Type="AR.Field" Name="TextBox8" DataField="UserNotes" Left="97.92001" Top="358.56" Width="11148.48" Height="393.1199" Text="txtReportFootNotes" Style="color: Black; font-size: 8pt; text-align: left" />
+    </Section>
+    <Section Type="PageFooter" Name="PageFooter1" Height="504.48" BackColor="16777215">
+      <Control Type="AR.ReportInfo" Name="reportInfo1" Left="8670.24" Top="103.68" Width="1843.2" Height="288" FormatString="Page {PageNumber} of {PageCount}" Style="text-align: right" />
+      <Control Type="AR.Label" Name="Label20" Left="180" Top="103.68" Width="900.0001" Height="208.8" Caption="Printed:" Style="font-size: 10pt; font-style: normal; font-weight: normal; vertical-align: middle" />
+      <Control Type="AR.ReportInfo" Name="reportInfo2" Left="914.4001" Top="103.68" Width="2383.2" Height="208.8" FormatString="{RunDateTime:dd-MMM-yyyy}" Style="font-size: 8pt; text-align: left" />
+    </Section>
+    <Section Type="ReportFooter" Name="ReportFooter1" Height="45" BackColor="16777215" />
+  </Sections>
+  <ReportComponentTray />
+  <Script><![CDATA[public void detail_Format()
+{
+	System.Drawing.Image image = null;
+	System.Net.WebRequest req = System.Net.WebRequest.Create(txtHiddenPicture.Text);
+	using( System.Net.WebResponse response = req.GetResponse() )
+	using( System.IO.Stream stream = response.GetResponseStream() )
+	{
+		image = System.Drawing.Image.FromStream(stream);
+	}
+
+	imgReport.Image = image;
+}
+
+
+]]></Script>
+  <PageSettings LeftMargin="432" RightMargin="432" TopMargin="432" BottomMargin="432" />
+  <Parameters />
+</ActiveReportsLayout>
+' where reportid = 30
+
+/****************20151223******************/
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[AssetItem](
+ [AssetItemId] [bigint] IDENTITY(1,1) NOT NULL,
+ [AssetId] [bigint] NULL,
+ [FileUrl] [varchar](200) NULL,
+ CONSTRAINT [PK_AssetItem] PRIMARY KEY CLUSTERED 
+(
+ [AssetItemId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[AssetItem]  WITH CHECK ADD  CONSTRAINT [FK_AssetItem_Assets] FOREIGN KEY([AssetId])
+REFERENCES [dbo].[Assets] ([AssetId])
+GO
+
+ALTER TABLE [dbo].[AssetItem] CHECK CONSTRAINT [FK_AssetItem_Assets]
+GO
+
+
+----------------------------------------------executed on staging, australia 20151229
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Brochure Main HeadLine', N'Listing', N'BrochureMainHeadLine', 2, N'{{BrochureMainHeadLine}}', 9, N'ListingId', 2, NULL, 5, N'BrochureMainHeadLine', NULL, NULL, NULL, 1, NULL)
+
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Brochure Summary', N'Listing', N'BrochureSummary', 2, N'{{BrochureSummary}}', 9, N'ListingId', 2, NULL, 5, N'BrochureSummary', NULL, NULL, NULL, 1, NULL)
+
+  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Brochure Description', N'Listing', N'BrochureDescription', 2, N'{{BrochureDescription}}', 9, N'ListingId', 2, NULL, 5, N'BrochureDescription', NULL, NULL, NULL, 1, NULL)
+
+
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'SignBoard Main HeadLine', N'Listing', N'SignBoardMainHeadLine', 2, N'{{SignBoardMainHeadLine}}', 9, N'ListingId', 2, NULL, 5, N'SignBoardMainHeadLine', NULL, NULL, NULL, 1, NULL)
+
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'SignBoard Summary', N'Listing', N'SignBoardSummary', 2, N'{{SignBoardSummary}}', 9, N'ListingId', 2, NULL, 5, N'SignBoardSummary', NULL, NULL, NULL, 1, NULL)
+
+  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'SignBoard Description', N'Listing', N'SignBoardDescription', 2, N'{{SignBoardDescription}}', 9, N'ListingId', 2, NULL, 5, N'SignBoardDescription', NULL, NULL, NULL, 1, NULL)
+
+
+  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Adverts Main HeadLine', N'Listing', N'AdvertsMainHeadLine', 2, N'{{AdvertsMainHeadLine}}', 9, N'ListingId', 2, NULL, 5, N'AdvertsMainHeadLine', NULL, NULL, NULL, 1, NULL)
+
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Adverts Summary', N'Listing', N'AdvertsSummary', 2, N'{{AdvertsSummary}}', 9, N'ListingId', 2, NULL, 5, N'AdvertsSummary', NULL, NULL, NULL, 1, NULL)
+
+  INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Adverts Description', N'Listing', N'AdvertsDescription', 2, N'{{AdvertsDescription}}', 9, N'ListingId', 2, NULL, 5, N'AdvertsDescription', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Style', N'Listing', N'Features', 2, N'{{Style}}', 9, N'ListingId', 2, NULL, 5, N'Features', NULL, NULL, NULL, 1, NULL)
+
+ INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'Auction End Time', N'Listing', N'AuctionEndTime', 2, N'{{AuctionEndTime}}', 9, N'ListingId', 2, NULL, 5, N'AuctionEndTime', NULL, NULL, NULL, 1, NULL)
+
+ 
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+ VALUES (N'SignBoard Installation Instructions', N'Listing', N'SignBoardInstallInstruction', 2, N'{{SignBoardInstallInstruction}}', 9, N'ListingId', 2, NULL, 5, N'SignBoardInstallInstruction', NULL, NULL, NULL, 1, NULL)
+
+ update fieldvariable
+set CriteriaFieldName = 'ClientListingId'
+ where reftablename like '%listing' and variabletag like '%{{WebID}}%'
+ -------------------------------------------------------------------
+
+insert into costcentrevariable(Name, RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, PropertyType, VariableDescription, VariableValue, SystemSiteId)
+select 'Section Height', RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, 40, VariableDescription, VariableValue, SystemSiteId
+from costcentrevariable where varid = 711
+insert into costcentrevariable(Name, RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, PropertyType, VariableDescription, VariableValue, SystemSiteId)
+select 'Section Width', RefTableName, RefFieldName, CriteriaFieldName, Criteria, CategoryId, IsCriteriaUsed, Type, 41, VariableDescription, VariableValue, SystemSiteId
+from costcentrevariable where varid = 711
+
+alter table company add IsEnableDataAsset bit
+alter table template add IsAllowCustomSize bit
+
+
+
+-------------------------------------- executed on staging, australia 20151229
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 1', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet1}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 2', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet2}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 3', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet3}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 4', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet4}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 5', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet5}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 6', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet6}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 7', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet7}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 8', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet8}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 9', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet9}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 10', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet10}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 11', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet11}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 12', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet12}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 13', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet13}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 14', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet14}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+INSERT [dbo].[FieldVariable] ([VariableName], [RefTableName], [CriteriaFieldName], [VariableSectionId], [VariableTag], [SortOrder], [KeyField], [VariableType], [CompanyId], [Scope], [WaterMark], [DefaultValue], [InputMask], [OrganisationId], [IsSystem], [VariableTitle])
+VALUES (N'Bullet point 15', N'ListingBulletPoints', N'BulletPoint', 2, N'{{Bullet15}}', 9, N'BulletPointId', 2, NULL, 5, N'BulletPoint', NULL, NULL, NULL, 1, NULL)
+
+--------------------------------------2015-12-31  executed on australia 
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER view [dbo].[GetCategoryProducts] as
+SELECT        p.CompanyId,p.ItemId, p.ItemCode, p.isQtyRanged, p.EstimateId, p.ProductName, p.Title as ItemFriendlyName, p.ProductCode,tempp.PDFTemplateHeight,tempp.PDFTemplateWidth,tempp.IsAllowCustomSize,
+ (select 
+STUFF((select ', ' + pc.CategoryName
+from dbo.ProductCategoryItem pci 
+join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
+where pci.ItemId = p.ItemId
+FOR XML PATH(''), TYPE
+            ).value('.', 'NVARCHAR(MAX)') 
+
+        ,1,2,'')) as ProductCategoryName,
+   
+                         ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
+                         p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
+       p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage,CAST ( p.isTemplateDesignMode as int) as isTemplateDesignMode, p.DefaultItemTax, p.isUploadImage,p.isMarketingBrief,pcat.ProductCategoryId,p.TemplateId,p.DesignerCategoryId
+FROM            dbo.Items p
+inner join dbo.ProductCategoryItem pc2 on p.ItemId = pc2.ItemId
+inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
+left outer join dbo.Template tempp on tempp.ProductId = p.TemplateId
+
+GO
+
+-----------------------------------------
+
+alter table report add SortOrder varchar(250) 
+
+
+alter table report add ReportCode varchar(250) 
+
+--------------------------------------2015-01-05  executed on all servers
+
+ alter table machine add IsDigitalPress bit
+
+   alter table Organisation add MailChimpApiId nvarchar(255)
+
+ alter table Organisation add MailChimpApikey nvarchar(255)
+
+ alter table Organisation add isMailChimpActive bit
+
+ alter table Organisation add MailChimpListName nvarchar(500)
+
+  alter table StockItem add PlateRunLength int
+
+ -----------------------------------2015-01-12 executed on europe
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.CompanyContact ADD
+	HasClippingPath bit NULL
+GO
+ALTER TABLE dbo.CompanyContact SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+ -----------------------------------2015-01-13 
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.ItemAddonCostCentre ADD
+	IsSelectedOnLoad bit NULL
+GO
+ALTER TABLE dbo.ItemAddonCostCentre SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+ -----------------------------------2015-01-12  executed on usa server
+alter table SectionInkCoverage add CoverageRate float
+alter table StockItem add ChargePerSquareUnit float
+
+
+
+
+--------------------------------------2016-01-26 
+
+USE [MPCLive]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 1/26/2016 12:03:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_cloneTemplate] 
+	-- Add the parameters for the stored procedure here
+	@TemplateID bigint,
+	@submittedBy bigint,
+    @submittedByName nvarchar(100)
+AS
+BEGIN
+
+
+      
+	declare @NewTemplateID bigint
+	declare @NewCode nvarchar(10)
+	--DECLARE  @WaterMarkTxt as [dbo].[tbl_company_sites]
+	
+	set @NewCode = ''
+	
+	--INSERT INTO @WaterMarkTxt (CompanySiteName)
+	--Select Top 1 CompanySiteName from tbl_company_sites
+
+	
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	INSERT INTO [dbo].[Template]
+           ([Code]
+           ,[ProductName]
+           ,[Description]
+           ,[ProductCategoryId]
+           ,[Thumbnail]
+           ,[Image]
+           ,[IsDisabled]
+
+           ,[PDFTemplateWidth]
+           ,[PDFTemplateHeight]
+
+           ,[CuttingMargin]
+           ,[MultiPageCount]
+           ,[Orientation]
+           ,[MatchingSetTheme]
+           ,[BaseColorId]
+           ,[SubmittedBy]
+           ,[SubmittedByName]
+           ,[SubmitDate]
+           ,[Status]
+           ,[ApprovedBy]
+           ,[ApprovedByName]
+           ,[UserRating]
+           ,[UsedCount]
+           ,[MPCRating]
+           ,[RejectionReason]
+           ,[ApprovalDate]
+           ,[IsCorporateEditable]
+           ,[MatchingSetId]
+           ,[TempString],[TemplateType],[isSpotTemplate],[isWatermarkText],[isCreatedManual],[contactId]
+          )
+     
+
+
+
+   
+	SELECT 
+      @NewCode
+      ,[ProductName] + ' Copy'
+      ,[Description]
+      ,[ProductCategoryID]
+      
+      ,[Thumbnail]
+      ,[Image]
+      ,[IsDisabled]
+
+      ,[PDFTemplateWidth]
+      ,[PDFTemplateHeight]
+
+
+      ,[CuttingMargin]
+      ,[MultiPageCount]
+      ,[Orientation]
+      ,[MatchingSetTheme]
+      ,[BaseColorId]
+      ,@submittedBy
+      ,@submittedByName
+      ,NULL
+      ,1
+      ,NULL
+      ,NULL
+      ,0
+      ,0
+      ,0
+      ,''
+      ,NULL,IsCorporateEditable,MatchingSetId,'',[TemplateType],isSpotTemplate,isWatermarkText,isCreatedManual,contactId
+      
+  FROM [dbo].[Template] where productid = @TemplateID
+	
+	
+	set @NewTemplateID = SCOPE_IDENTITY() 
+	
+	-- updating water mark text 
+	UPDATE [dbo].[Template]
+	SET TempString= (Select Top 1 OrganisationName from organisation)
+	WHERE productid = @NewTemplateID
+	
+	--copying the pages
+	INSERT INTO [dbo].[TemplatePage]
+           ([ProductId]
+           ,[PageNo]
+           ,[PageType]
+           ,[Orientation]
+           ,[BackGroundType]
+           ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+           ,[PageName],[hasOverlayObjects],[Width],[Height])
+
+SELECT 
+      @NewTemplateID
+      ,[PageNo]
+      ,[PageType]
+      ,[Orientation]
+      ,[BackGroundType]
+      ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+      
+      ,[PageName],[hasOverlayObjects],[Width],[Height]
+  FROM [dbo].[TemplatePage]
+where productid = @TemplateID
+
+
+	--copying the objects
+	INSERT INTO [dbo].[TemplateObject]
+           ([ObjectType]
+           ,[Name]
+           ,[IsEditable]
+           ,[IsHidden]
+           ,[IsMandatory]
+           
+           ,[PositionX]
+           ,[PositionY]
+           ,[MaxHeight]
+           ,[MaxWidth]
+           ,[MaxCharacters]
+           ,[RotationAngle]
+           ,[IsFontCustom]
+           ,[IsFontNamePrivate]
+           ,[FontName]
+           ,[FontSize]
+           ,[IsBold]
+           ,[IsItalic]
+           ,[Allignment]
+           ,[VAllignment]
+           ,[Indent]
+           ,[IsUnderlinedText]
+           ,[ColorType]
+ 
+           ,[ColorName]
+           ,[ColorC]
+           ,[ColorM]
+           ,[ColorY]
+           ,[ColorK]
+           ,[Tint]
+           ,[IsSpotColor]
+           ,[SpotColorName]
+           ,[ContentString]
+           ,[ContentCaseType]
+           ,[ProductID]
+           ,[DisplayOrderPdf]
+           ,[DisplayOrderTxtControl]
+           ,[RColor]
+           ,[GColor]
+           ,[BColor]
+           ,[LineSpacing]
+           ,[ProductPageId]
+           ,[ParentId]
+           ,CircleRadiusX
+           ,Opacity
+           ,[ExField1],
+           [IsTextEditable],
+           [IsPositionLocked],
+           [CircleRadiusY]
+          ,[ExField2],
+           ColorHex
+           ,[IsQuickText]
+           ,[QuickTextOrder],
+		   [watermarkText],
+		   [textStyles],[charspacing],[AutoShrinkText],
+		   [IsOverlayObject],[ClippedInfo],[originalContentString],[originalTextStyles],[autoCollapseText]
+           ,[isBulletPoint],[AutofitImage])
+	SELECT 
+      O.[ObjectType]
+      ,O.[Name]
+      ,O.[IsEditable]
+      ,O.[IsHidden]
+      ,O.[IsMandatory]
+      
+      ,O.[PositionX]
+      ,O.[PositionY]
+      ,O.[MaxHeight]
+      ,O.[MaxWidth]
+      ,O.[MaxCharacters]
+      ,O.[RotationAngle]
+      ,O.[IsFontCustom]
+      ,O.[IsFontNamePrivate]
+      ,O.[FontName]
+      ,O.[FontSize]
+      ,O.[IsBold]
+      ,O.[IsItalic]
+      ,O.[Allignment]
+      ,O.[VAllignment]
+      ,O.[Indent]
+      ,O.[IsUnderlinedText]
+      ,O.[ColorType]
+      ,O.[ColorName]
+      ,O.[ColorC]
+      ,O.[ColorM]
+      ,O.[ColorY]
+      ,O.[ColorK]
+      ,O.[Tint]
+      ,O.[IsSpotColor]
+      ,O.[SpotColorName]
+      ,O.[ContentString]
+      ,O.[ContentCaseType]
+      ,@NewTemplateID
+      ,O.[DisplayOrderPdf]
+      ,O.[DisplayOrderTxtControl]
+      ,O.[RColor]
+      ,O.[GColor]
+      ,O.[BColor]
+      ,O.[LineSpacing]
+      ,NP.[ProductPageId]
+      ,O.[ParentId]
+      ,O.CircleRadiusX
+      ,O.Opacity
+      ,O.[ExField1],
+       O.[IsTextEditable],
+       O.[IsPositionLocked],
+       O.[CircleRadiusY]
+      ,O.[ExField2],
+       O.ColorHex
+       ,[IsQuickText]
+        ,[QuickTextOrder],[watermarkText],O.[textStyles],
+		O.[charspacing],O.[AutoShrinkText],O.[IsOverlayObject]
+		,O.[ClippedInfo]
+		,O.[originalContentString],O.[originalTextStyles],O.[autoCollapseText],[isBulletPoint],O.[AutofitImage]
+  FROM [dbo].[TemplateObject] O
+  inner join [dbo].[TemplatePage]  P on o.ProductPageId = p.ProductPageId and o.ProductId = @TemplateID
+  inner join [dbo].[TemplatePage] NP on P.PageName = NP.PageName and P.PageNo = NP.PageNo and NP.ProductId = @NewTemplateID
+  
+	--theme tags
+	--insert into dbo.TemplateThemeTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateThemeTags where ProductID = @TemplateID
+	
+	---- industry tags
+	--insert into dbo.TemplateIndustryTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateIndustryTags where ProductID = @TemplateID
+
+	INSERT INTO [dbo].[TemplateBackgroundImage]
+			   ([ProductId]
+			   ,[ImageName]
+			   ,[Name]
+			   ,[flgPhotobook]
+			   ,[flgCover]
+			   ,[BackgroundImageAbsolutePath]
+			   ,[BackgroundImageRelativePath],
+			   ImageType,
+			   ImageWidth,
+			   ImageHeight
+			   
+			   )
+	SELECT 
+		  @NewTemplateID
+		  ,[ImageName]
+		  ,[Name]
+		  ,[flgPhotobook]
+		  ,[flgCover]
+		  ,[BackgroundImageAbsolutePath]
+		  ,[BackgroundImageRelativePath]
+		  ,ImageType,
+			   ImageWidth,
+			   ImageHeight
+	  FROM [dbo].[TemplateBackgroundImage] where ProductId = @TemplateID
+
+select @NewTemplateID
+	
+END
+------------------Executed on All Servers before 2015 02 03-------------
+alter table ShippingInformation add CarrierId bigint
+alter table ShippingInformation add ConsignmentNumber varchar(100)
+alter table deliverycarrier add OrganisationId bigint
+update deliverycarrier set organisationid = 0 where carrierId in(1,2,3)
+----update all available carriers in table other than 1,2,3 to any of that server organisation after checking to their delivery notes
+---------------------Executed on All Servers---------------------
+alter table machine add IsPressUseInks bit
+update machine set IsPressUseInks = 1
+alter table template add HideSharedImages bit null

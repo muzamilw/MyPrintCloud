@@ -22,11 +22,11 @@
 
             <ul class="nav navbar-nav navbar-right" style="width:100%;">
                 <li>
-                    <a href="/AllProducts" class="" target="_self"><i class="fa fa-list"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</span></a>
+                    <a href="/AllProducts" class="" target="_self"><i class="fa fa-list"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId, "All Products"))</span></a>
                 </li>
-                <li><a id="lnkRequestQuoteHeader" href="/RequestQuote" class="" target="_self"><i class="fa fa-pencil"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</span></a></li>
-                <li><a href="/ContactUs" class="" target="_self"><i class="fa fa-envelope-o"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</span></a></li>
-                <li><a id="psop7" href="/Login" title="" class="top_login_popup"><i class="fa fa-user"></i><span>Login / SignUp </span></a></li>
+                <li><a id="lnkRequestQuoteHeader" href="/RequestQuote" class="" target="_self"><i class="fa fa-pencil"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</span></a></li>
+                <li><a href="/ContactUs" class="" target="_self"><i class="fa fa-envelope-o"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</span></a></li>
+                <li><a id="psop7" href="/Login" title="" class="top_login_popup"><i class="fa fa-user"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("LtrlLoginSignUp", UserCookieManager.WBStoreId, "Login / SignUp")) </span></a></li>
             </ul>
         </div>
 

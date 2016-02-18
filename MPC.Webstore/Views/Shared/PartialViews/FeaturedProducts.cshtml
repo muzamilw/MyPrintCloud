@@ -1,0 +1,80 @@
+﻿
+@using MPC.Models.Common
+@using MPC.Webstore.WebGridExtension;
+@using MPC.Webstore.Common;
+@model List<MPC.Models.DomainModels.GetCategoryProduct>
+@{
+    var PopularProductList = Model as List<MPC.Models.DomainModels.GetCategoryProduct>;
+    var NavigateUrl = "";
+    var ProductDescription = "";
+}
+@{
+    Layout = null;
+}
+@if (PopularProductList != null)
+{
+
+    <div class="parentCatsContainer" id="all-popularPro-pg">
+        <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
+            <div class=" row PopularProductsSub">
+                <div class="feature_product_main_heading">
+                    <label id="ltrlFeaturedProducts">Featured Products</label>
+                </div>
+                @foreach (var Product in PopularProductList)
+                {
+
+                    <div id="MainContainer" class="Top_Cat_Body rounded_corners">
+                        <div class="LCLB">
+                            @{
+                    if (Product.ProductType == (int)ProductType.MarketingBrief)
+                    {
+
+                        NavigateUrl = "/MarketingBrief/" + Utils.specialCharactersEncoder(Product.ProductName) + "/" + Product.ItemId;
+
+                    }
+                    else if (Product.ProductType == (int)ProductType.PrintProduct)
+                    {
+                        
+                            NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
+                        
+
+                    }
+                    else if (Product.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                    {
+                        NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
+                    }
+                            }
+                            <a href="@NavigateUrl" onclick="ShowLoader();">
+                                <div class="PDTC_TL FI_TL H4B_TL">
+                                    <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="/@Html.GetAppBasePath()@Product.ThumbnailPath" />
+                                </div>
+                            </a>
+                            <div id="Description_panel">
+                                <div class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">
+                                    @Product.ProductName
+                                </div>
+                                <div class="topcat_desc displayNone_TLS5">
+
+                                    From only  @Utils.FormatDecimalValueToTwoDecimal(Product.MinPrice.ToString(), ViewBag.CurrencySymbol)
+                                </div>
+                                <div style="margin:auto;">
+                                    <a id="ShopNowFuture" href="@NavigateUrl" style="display:none;text-align:center;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNow", UserCookieManager.WBStoreId, "Order Now")) </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+        </div>
+        <div class="clearBoth">
+            &nbsp;
+        </div>
+    </div>
+    <script src="/Scripts/jquery-1.10.1.min.js"></script>
+}

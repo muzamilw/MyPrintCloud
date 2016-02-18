@@ -15,6 +15,7 @@ using System.IO;
 using WebSupergoo.ABCpdf8;
 using System.Configuration;
 using MPC.Models.ResponseModels;
+using System.Web.UI;
 namespace MPC.Webstore.Controllers
 {
     public class OrderConfirmationController : Controller
@@ -48,8 +49,17 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(string OrderId)
         {
             ShoppingCart shopCart = LoadOrderDetail(OrderId);
-            return View("PartialViews/OrderConfirmation", shopCart);
+            if (shopCart == null)
+            {
+                ControllerContext.HttpContext.Response.RedirectToRoute("ShopCart");
+                return null;
+            }
+            else 
+            {
+                return View("PartialViews/OrderConfirmation", shopCart);
 
+            }
+            
         }
 
         /// <summary>
@@ -103,10 +113,98 @@ namespace MPC.Webstore.Controllers
 
         private ShoppingCart PlaceOrder(int modOverride, long OrderId)
         {
+            string ItemTypeFourHtml = string.Empty;
+            string URl = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority;
+            List<Item> GetAllItems = _ItemService.GetItemsByOrderID(OrderId);
+            GetAllItems = GetAllItems.Where(i => i.IsOrderedItem == true && i.ProductType == 4).ToList();
+            CampaignEmailParams cep = new CampaignEmailParams();
+            if (GetAllItems != null)
+            {
+                cep.AssetId = 1;
+              
+                StringWriter stringWriter = new StringWriter();
+
+
+                using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
+                {
+                    string clearboth = "clearBoth";
+                    string FloatLeft = "float_left";
+                    string FloatRight = "float_right";
+                    string fullWidth = "Width100Percent";
+                    string halfwidth = "width50p";
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth); //Main Div
+                    writer.RenderBeginTag(HtmlTextWriterTag.Div);//Main Div
+
+
+
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetsDiv
+                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                    foreach (var item in GetAllItems)
+                    {
+
+                        Asset ParentAsset = _myCompanyService.GetAsset(Convert.ToInt64(item.RefItemId));
+
+                        if(ParentAsset != null)
+                        {
+
+                            List<AssetItem> AssetItems = _myCompanyService.GetAssetItemsByAssetID(ParentAsset.AssetId);
+
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetNameDiv
+                            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                            writer.Write(ParentAsset.AssetName);
+                            writer.RenderEndTag();
+                            foreach (var AssetItem in AssetItems)
+                            {
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, fullWidth);//AssetDetailsDiv
+                                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetNameDiv
+
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, halfwidth);//AssetDownloadDiv
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
+                                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                                writer.AddAttribute(HtmlTextWriterAttribute.Class, FloatLeft);
+                                writer.AddAttribute(HtmlTextWriterAttribute.Href, URl + "/" + AssetItem.FileUrl);
+                                writer.RenderBeginTag(HtmlTextWriterTag.A);
+
+                                string[] Tokens = (AssetItem.FileUrl).Split('/');
+
+
+                                string[] TokenComma = Tokens[5].Split('.');
+
+
+                                writer.Write("Download " + TokenComma[1].ToUpper() + "");
+
+                                writer.RenderEndTag();
+
+                                writer.RenderEndTag();
+                            }
+                            writer.RenderBeginTag(HtmlTextWriterTag.Br);
+                            writer.RenderEndTag();//
+
+                            writer.AddAttribute(HtmlTextWriterAttribute.Class, clearboth);
+                            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                            //Clearoth
+                            writer.RenderEndTag();
+
+                            writer.RenderEndTag();
+                        }
+
+
+                    }
+                    writer.RenderEndTag();//AssetsDiv
+
+                    writer.RenderEndTag();//Main Div
+                }
+
+                ItemTypeFourHtml = stringWriter.ToString();
+                ItemTypeFourHtml = "Please click on the links below to download your uploaded Asset(s) Item(s): <br />" + ItemTypeFourHtml;
+            }
+            
             ShoppingCart shopCart = null;
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+         
             MyCompanyDomainBaseReponse baseResponse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
@@ -116,7 +214,7 @@ namespace MPC.Webstore.Controllers
 
             CompanyContact user = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID()); //LoginUser;
 
-            CampaignEmailParams cep = new CampaignEmailParams();
+           
             //    PageManager pageMgr = new PageManager();
             string HTMLOfShopReceipt = null;
             cep.ContactId = _myClaimHelper.loginContactID();
@@ -149,14 +247,28 @@ namespace MPC.Webstore.Controllers
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
                             Estimate updatedOrder = _OrderService.GetOrderByID(OrderId);
                             UserCookieManager.WEBOrderId = 0;
+
+
+
+
                             string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
-                            SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
 
-                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                            // string contains table 
+
+                            SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
+                            if (ItemTypeFourHtml != null && ItemTypeFourHtml != string.Empty)
+                            {
+                                _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList, "", null, "", "", "", "", "", 0, "", 0, ItemTypeFourHtml);
+                            }
+                            else
+                            {
+                                _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                            }
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-                     
+
+                                 
 
                             // For demo mode as enter the pre payment with the known parameters
                             PrePayment tblPrePayment = new PrePayment()
@@ -234,6 +346,12 @@ namespace MPC.Webstore.Controllers
                                         break;
 
                                     }
+                                case 8:
+                                    {
+                                        Response.Redirect("/PayWay/" + OrderId);
+                                        break;
+
+                                    }
                                 default:
                                     break;
                             }
@@ -259,7 +377,14 @@ namespace MPC.Webstore.Controllers
                             string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
-                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                            if (ItemTypeFourHtml != null && ItemTypeFourHtml != string.Empty)
+                            {
+                                _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList,"",null,"","","","","",0,"",0,ItemTypeFourHtml);
+                            }
+                            else
+                            {
+                                _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                            }
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, (int)ManagerID, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                           
                         }
@@ -350,6 +475,12 @@ namespace MPC.Webstore.Controllers
                                         break;
 
                                     }
+                                case 8:
+                                    {
+                                        Response.Redirect("/PayWay/" + OrderId);
+                                        break;
+
+                                    }
                                 default:
                                     break;
                             }
@@ -369,10 +500,6 @@ namespace MPC.Webstore.Controllers
 
         private ShoppingCart LoadOrderDetail(string OrderId)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             long OrderID = Convert.ToInt64(OrderId);
@@ -405,13 +532,12 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    Response.Redirect("/");
+                  
                     return null;
                 }
             }
             else
             {
-                Response.Redirect("/");
                 return null;
             }
         }

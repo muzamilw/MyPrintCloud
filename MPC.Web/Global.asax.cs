@@ -18,7 +18,9 @@ using MPC.WebBase.UnityConfiguration;
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
 using System.Web;
 using MPC.WebBase.WebApi;
-
+using MPC.Interfaces.MISServices;
+using FluentScheduler;
+using MPC.Models.Common;
 
 namespace MPC.MIS
 {
@@ -28,6 +30,10 @@ namespace MPC.MIS
     {
         #region Private
         private static IUnityContainer container;
+        private MPC.Interfaces.WebStoreServices.ICompanyService companyService;
+        private ICampaignService campaignService;
+        private MPC.Interfaces.MISServices.IListingService listingService;
+       
         /// <summary>
         /// Configure Logger
         /// </summary>
@@ -93,10 +99,14 @@ namespace MPC.MIS
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // Set MVC resolver
+            // Set MVC resolver comment
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             // Set Web Api resolver
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+
+            //companyService = container.Resolve<MPC.Interfaces.WebStoreServices.ICompanyService>();
+            //listingService = container.Resolve<MPC.Interfaces.MISServices.IListingService>();
+            //TaskManager.Initialize(new ListingBackgroundTask(HttpContext.Current, listingService, companyService));
         }
 
     }

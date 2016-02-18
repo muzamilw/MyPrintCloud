@@ -58,7 +58,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.JobPrefix + "-001-" + prefix.JobNext;
+                string nextPrefix = prefix.JobPrefix + prefix.JobNext;
 
                 // Update Item Next
                 prefix.JobNext += 1;
@@ -93,7 +93,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.OrderPrefix + "-001-" + prefix.OrderNext;
+                string nextPrefix = prefix.OrderPrefix + prefix.OrderNext;
 
                 // Update Order Next
                 prefix.OrderNext += 1;
@@ -119,7 +119,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.PoPrefix + "-001-" + prefix.PoNext;
+                string nextPrefix = prefix.PoPrefix + prefix.PoNext;
 
                 // Update PO Next
                 prefix.PoNext += 1;
@@ -145,7 +145,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.GrnPrefix + "-001-" + prefix.GrnNext;
+                string nextPrefix = prefix.GrnPrefix + prefix.GrnNext;
 
                 // Update GRN Next
                 prefix.GrnNext += 1;
@@ -170,7 +170,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.DeliveryNPrefix + "-001-" + prefix.DeliveryNNext;
+                string nextPrefix = prefix.DeliveryNPrefix + prefix.DeliveryNNext;
 
                 // Update Delivery Next
                 prefix.DeliveryNNext += 1;
@@ -195,7 +195,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.InvoicePrefix + "-001-" + prefix.InvoiceNext;
+                string nextPrefix = prefix.InvoicePrefix + prefix.InvoiceNext;
 
                 // Update Invoice Next
                 prefix.InvoiceNext += 1;
@@ -221,7 +221,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.EstimatePrefix + "-001-" + prefix.EstimateNext;
+                string nextPrefix = prefix.EstimatePrefix + prefix.EstimateNext;
 
                 // Update Estimate Next
                 prefix.EstimateNext += 1;
@@ -246,7 +246,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.EnquiryPrefix + "-001-" + prefix.EnquiryNext;
+                string nextPrefix = prefix.EnquiryPrefix + prefix.EnquiryNext;
 
                 // Update Enquiry Next
                 prefix.EnquiryNext += 1;
@@ -272,7 +272,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.ItemPrefix + "-001-" + prefix.ItemNext;
+                string nextPrefix = prefix.ItemPrefix + prefix.ItemNext;
 
                 // Update Item Next
                 prefix.ItemNext += 1;
@@ -293,12 +293,43 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-
-        public Prefix GetDefaultPrefix()
+        public string GetNextStockItemCodePrefix(bool shouldIncrementNextItem = true)
         {
             try
             {
-                return db.Prefixes.FirstOrDefault(c => c.SystemSiteId == 1);
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.StockItemPrefix + prefix.StockItemNext;
+
+                // Update Item Next
+                prefix.StockItemNext += 1;
+
+                // For Order Screen
+                if (!shouldIncrementNextItem)
+                {
+                    return nextPrefix;
+                }
+
+                // Save Changes
+                SaveChanges();
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Prefix GetDefaultPrefix(long OrganisationId)
+        {
+            try
+            {
+                return db.Prefixes.FirstOrDefault(c => c.SystemSiteId == 1 && c.OrganisationId == OrganisationId);
             }
             catch (Exception ex)
             {

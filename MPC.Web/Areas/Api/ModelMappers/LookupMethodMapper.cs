@@ -25,6 +25,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MachineMeterPerHourLookups = source.MachineMeterPerHourLookups == null ? null : source.MachineMeterPerHourLookups.Select(m => m.CreateFrom()).ToList(),
 
                 MachineGuillotineCalcs = source.MachineGuillotineCalcs == null ? null : source.MachineGuillotineCalcs.Select(m => m.CreateFrom()).ToList(),
+                MachineSpeedWeightLookups = source.MachineSpeedWeightLookups == null ? null : source.MachineSpeedWeightLookups.Select(m => m.CreateFrom()).ToList()
                 
             };
 
@@ -45,7 +46,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MachineMeterPerHourLookups = source.MachineMeterPerHourLookups == null ? null : source.MachineMeterPerHourLookups.Select(m => m.CreateFrom()).ToList(),
 
                 MachineGuillotineCalcs = source.MachineGuillotineCalcs == null ? null : source.MachineGuillotineCalcs.Select(m => m.CreateFrom()).ToList(),
-
+                MachineSpeedWeightLookups = source.MachineSpeedWeightLookups == null ? null : source.MachineSpeedWeightLookups.Select(m => m.CreateFrom()).ToList()
             };
 
         }

@@ -60,7 +60,24 @@
             </div>
 
         </div>
+        <div class="col-lg-12">
+            <div class="col-lg-4" style="padding-top:10px;">
 
+
+                <label for="txtCompanyName" class="control-label text-right tooltip-float">
+                    Default Purchase Order Tax
+                </label>
+
+            </div>
+
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="input-group-addon" tabindex="-1" href="#">%</span>
+                    <input type="text" class="form-control" style="text-align:right;" name="Tax Rate should be a valid number" id="txtTax" placeholder="Enter Default PO Tax here" data-bind="autoNumeric: $root.selectedMyOrganization().defaultPOTax, settings:{mDec:2}">
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 </div>

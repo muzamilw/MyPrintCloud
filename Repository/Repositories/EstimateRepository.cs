@@ -27,9 +27,11 @@ namespace MPC.Repository.Repositories
             new Dictionary<OrderByColumn, Func<Estimate, object>>
                     {
                          { OrderByColumn.CompanyName, c => c.Company != null ? c.Company.Name : string.Empty },
-                         { OrderByColumn.CreationDate, c => c.Order_Date },
+                         { OrderByColumn.OrderDate, c => c.Order_Date },
                          { OrderByColumn.SectionFlag, c => c.SectionFlagId },
-                         { OrderByColumn.OrderCode, c => c.Order_Code }
+                         { OrderByColumn.OrderCode, c => c.Order_Code },
+                         { OrderByColumn.CreationDate, c => c.CreationDate },
+                         { OrderByColumn.EstimateDate, c => c.EstimateDate }
                     };
         #endregion
 
@@ -98,10 +100,10 @@ namespace MPC.Repository.Repositories
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
                     ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
                     item.OrganisationId == OrganisationId &&
-                    (item.StatusId != (int)OrderStatus.ShoppingCart && item.StatusId != (int)OrderStatus.PendingCorporateApprovel));
+                    (item.StatusId != (int)OrderStatus.ShoppingCart && item.StatusId != (int)OrderStatus.PendingCorporateApprovel && item.StatusId != (int)OrderStatus.RejectOrder));
 
             IEnumerable<Estimate> items = DbSet.Where(query)
-                   .OrderByDescending(orderByClause[OrderByColumn.CreationDate])
+                   .OrderByDescending(orderByClause[OrderByColumn.OrderDate])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
@@ -154,7 +156,7 @@ namespace MPC.Repository.Repositories
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<Estimate> items = DbSet.Where(query)
-                   .OrderByDescending(orderByClause[OrderByColumn.CreationDate])
+                   .OrderByDescending(orderByClause[OrderByColumn.EstimateDate])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
@@ -299,8 +301,6 @@ namespace MPC.Repository.Repositories
                 var now = DateTime.Now;
                 return db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31), OrganisationId);
 
-
-
             }
             catch (Exception ex)
             {
@@ -316,6 +316,8 @@ namespace MPC.Repository.Repositories
             string misLogoUrl = db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.MISLogo).FirstOrDefault();
             if (string.IsNullOrEmpty(misLogoUrl))
                 misLogoUrl = "Content/themes/Centaurus/img/logo.png";
+
+            
             var response = new DashBoardChartsResponse
             {
 

@@ -72,14 +72,13 @@ namespace MPC.Webstore.Controllers
             {
                 List<Order> ordersList = null;
                 List<Order> ManagerordersList = new List<Order>();
-                ordersList = _CompanyService.GetPendingApprovelOrdersList(ContactID, ApproveOrders);
+                ordersList = _CompanyService.GetPendingApprovelOrdersList(ContactID, ApproveOrders, UserCookieManager.WBStoreId);
                 if (ordersList == null || ordersList.Count == 0)
                 {
                     ViewBag.OrderList = ordersList;
                     ViewBag.TotalOrders = ordersList.Count;
 
-                    TempData["Status"] = Utils.GetKeyValueFromResourceFile("ltrlNoRecFound", UserCookieManager.WBStoreId, "No Records Found")
-;
+                    TempData["Status"] = Utils.GetKeyValueFromResourceFile("ltrlNoRecFound", UserCookieManager.WBStoreId, "No Records Found");
                      TempData["HeaderStatus"] = false;
                 }
                 else
@@ -144,7 +143,7 @@ namespace MPC.Webstore.Controllers
                 CPE.ApprovarID = (int)_myClaimHelper.loginContactID();
                 CPE.SystemUserId = EmailOFSM.SystemUserId;
 
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent(Event, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent(Event, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 _campaignService.emailBodyGenerator(RegistrationCampaign, CPE, userRec, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
             }
@@ -172,7 +171,7 @@ namespace MPC.Webstore.Controllers
             if (UserCookieManager.WEBStoreMode ==(int) StoreMode.Corp)
             {
                 int ManagerID = (int) _CompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
-                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderID, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
             }
              approveOrRejectEmailToUser(ContactID, OrderID, (int)Events.Order_Approval_By_Manager);
              ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);

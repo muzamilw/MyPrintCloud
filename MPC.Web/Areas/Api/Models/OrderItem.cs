@@ -50,6 +50,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Qty2
         /// </summary>
         public int? Qty2 { get; set; }
+        public int? Qty3 { get; set; }
 
         /// <summary>
         /// Qty1 Cost Center Profit
@@ -125,6 +126,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? DefaultItemTax { get; set; }
         public bool? IsQtyRanged { get; set; }
         public string Status { get; set; }
+        public short? IsFinishedGoodPrivate { get; set; }
         /// <summary>
         /// Qty2 Marup Id 2
         /// </summary>

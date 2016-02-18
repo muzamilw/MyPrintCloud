@@ -193,7 +193,12 @@ namespace MPC.Implementation.MISServices
                 CreateInquiryAttachment = CreateInquiryAttachment,
                 DeleteInquiryAttachment = DeleteInquiryAttachment,
             });
+           
+            // Save Changes
+            estimateInquiryRepository.SaveChanges();
+
             SaveInquiryAttachments(inquiry);
+
             // Save Changes
             estimateInquiryRepository.SaveChanges();
             return inquiry;

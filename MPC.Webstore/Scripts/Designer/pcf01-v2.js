@@ -279,6 +279,7 @@ function c0(cCanvas, TOC) {
     TOL.IsPositionLocked = TOC.IsPositionLocked;
     TOL.autoCollapseText = TOC.autoCollapseText;
     TOL.IsOverlayObject = TOC.IsOverlayObject;
+    TOL.AutofitImage = TOC.AutofitImage;
     TOL.IsHidden = TOC.IsHidden;
     TOL.IsEditable = TOC.IsEditable;
     TOL.IsTextEditable = TOC.IsTextEditable;
@@ -287,6 +288,7 @@ function c0(cCanvas, TOC) {
     TOL.VAllignment = TOC.VAllignment;
     TOL.textPaddingTop = TOC.textPaddingTop;
     TOL.hasInlineFontStyle = TOC.hasInlineFontStyle;
+    TOL.hasInlineFontFamily = TOC.hasInlineFontFamily;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
     TOL.VAllignment = TOC.VAllignment;
@@ -394,6 +396,8 @@ function c2_01(OPT) {
                 IT.MaxWidth = OPT.maxWidth;
                 IT.MaxHeight = OPT.maxHeight;
                 IT.LineSpacing = OPT.lineHeight;
+                IT.Width = OPT.width;
+                IT.Height = OPT.height;
 
             }
             if (OPT.type == "path-group") {
@@ -443,14 +447,19 @@ function c2_01(OPT) {
             IT.IsPositionLocked = OPT.IsPositionLocked;
             IT.autoCollapseText = OPT.autoCollapseText;
             IT.IsOverlayObject = OPT.IsOverlayObject;
+            IT.AutofitImage = OPT.AutofitImage;
             IT.IsTextEditable = OPT.IsTextEditable;
             IT.AutoShrinkText = OPT.AutoShrinkText;
             IT.isBulletPoint = OPT.isBulletPoint
             IT.VAllignment = OPT.VAllignment;
             IT.textPaddingTop = OPT.textPaddingTop;
             IT.hasInlineFontStyle = OPT.hasInlineFontStyle;
+            IT.hasInlineFontFamily = OPT.hasInlineFontFamily;
+            IT.textCase = OPT.textCase;
             IT.IsHidden = OPT.IsHidden;
             IT.IsEditable = OPT.IsEditable;
+            var objs = canvas.getObjects();
+            IT.DisplayOrderPdf = objs.indexOf(OPT);
             return;
         }
     });
@@ -463,7 +472,15 @@ function c2_del(obj) {
         }
     });
 }
+
+function SortByOrder(a, b) {
+    var aName = a.DisplayOrderPdf;
+    var bName = b.DisplayOrderPdf;
+    return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+}
+
 function c7(PageID) {
+    TO = TO.sort(SortByOrder);
     $.each(TO, function (i, IT) {
         if (IT.ProductPageId == PageID) {
             hasObjects = true;
@@ -471,6 +488,7 @@ function c7(PageID) {
                 c0(canvas, IT);
             }
             else if (IT.ObjectType == 3) {
+               
                 $("#loadingMsg").html("Loading Design Images");
                 
                 if (IT.ContentString.indexOf('Imageplaceholder_sim.png') != -1)
@@ -491,10 +509,18 @@ function c7(PageID) {
                 d1SvgOl(canvas, IT);
             }
             else if (IT.ObjectType == 8) {
-                k31(canvas, IT);
+                if (IT.ContentString.indexOf(item.companyImage) != -1) {
+                    k31(canvas, IT);
+                } else {
+                    d1(canvas, IT);
+                }
             }
             else if (IT.ObjectType == 12) {
-                k31(canvas, IT);
+                if (IT.ContentString.indexOf(item.userImage) != -1) {
+                    k31(canvas, IT);
+                } else {
+                    d1(canvas, IT);
+                }
             } else if (IT.ObjectType == 13) {
                 k31(canvas, IT);
             }
@@ -520,12 +546,15 @@ function c8(cCanvas, CO) {
     COL.IsPositionLocked = CO.IsPositionLocked;
     COL.autoCollapseText = CO.autoCollapseText;
     COL.IsOverlayObject = CO.IsOverlayObject;
+    COL.AutofitImage = CO.AutofitImage;
     COL.IsTextEditable = CO.IsTextEditable;
     COL.AutoShrinkText = CO.AutoShrinkText;
     COL.isBulletPoint = CO.isBulletPoint;
     COL.VAllignment = CO.VAllignment;
     COL.textPaddingTop = CO.textPaddingTop;
     COL.hasInlineFontStyle = CO.hasInlineFontStyle;
+    COL.hasInlineFontFamily = CO.hasInlineFontFamily;
+    COL.textCase = CO.textCase;
     COL.IsHidden = CO.IsHidden;
     COL.IsEditable = CO.IsEditable;
     COL.selectable = objectsSelectable;
@@ -568,12 +597,15 @@ function c9(cCanvas, RO) {
     ROL.IsPositionLocked = RO.IsPositionLocked;
     ROL.autoCollapseText = RO.autoCollapseText;
     ROL.IsOverlayObject = RO.IsOverlayObject;
+    ROL.AutofitImage = RO.AutofitImage;
     ROL.IsTextEditable = RO.IsTextEditable;
     ROL.AutoShrinkText = RO.AutoShrinkText;
     ROL.isBulletPoint = RO.isBulletPoint;
     ROL.VAllignment = RO.VAllignment;
     ROL.textPaddingTop = RO.textPaddingTop;
     ROL.hasInlineFontStyle = RO.hasInlineFontStyle;
+    ROL.hasInlineFontFamily = RO.hasInlineFontFamily;
+    ROL.textCase = RO.textCase;
     ROL.IsHidden = RO.IsHidden;
     ROL.IsEditable = RO.IsEditable;
     ROL.setOpacity(RO.Opacity);
@@ -617,6 +649,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
         loadedObject.autoCollapseText = IO.autoCollapseText;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
+        loadedObject.AutofitImage = IO.AutofitImage;
         loadedObject.C = IO.ColorC;
         loadedObject.M = IO.ColorM;
         loadedObject.Y = IO.ColorY;
@@ -629,6 +662,8 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.VAllignment = IO.VAllignment;
         loadedObject.textPaddingTop = IO.textPaddingTop;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
+        loadedObject.hasInlineFontFamily = IO.hasInlineFontFamily;
+        loadedObject.textCase = IO.textCase;
         loadedObject.setOpacity(IO.Opacity);
         loadedObject.selectable = objectsSelectable;
         if (IO.IsPositionLocked == true) {
@@ -651,7 +686,7 @@ function d1SvgOl(cCanvas, IO) {
                 }
                 else if (loadedObject.paths) {
                     for (var i = 0; i < loadedObject.paths.length; i++) {
-                        if (i == j) {
+                        if (loadedObject.paths[i].getFill() == IT.OriginalColor){
                             loadedObject.paths[i].setFill(clr);
                         }
                     }
@@ -725,6 +760,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
         loadedObject.autoCollapseText = IO.autoCollapseText;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
+        loadedObject.AutofitImage = IO.AutofitImage;
         loadedObject.IsHidden = IO.IsHidden;
         loadedObject.C = IO.ColorC;
         loadedObject.M = IO.ColorM;
@@ -738,6 +774,8 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.VAllignment = IO.VAllignment;
         loadedObject.textPaddingTop = IO.textPaddingTop;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
+        loadedObject.hasInlineFontFamily = IO.hasInlineFontFamily;
+        loadedObject.textCase = IO.textCase;
         if (IO.IsPositionLocked == true) {
             loadedObject.lockMovementX = true;
             loadedObject.lockMovementY = true;
@@ -875,6 +913,8 @@ function d1(cCanvas, IO, isCenter) {
         });
         IOL.maxWidth = IO.MaxWidth;
         IOL.maxHeight = IO.MaxHeight;
+        IOL.width = IO.MaxWidth;
+        IOL.height = IO.MaxHeight;
         IOL.ObjectID = IO.ObjectID;
         IOL.scaleX = (IOL.maxWidth / IOL.width) * dfZ1l;
         IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
@@ -882,6 +922,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.IsPositionLocked = IO.IsPositionLocked;
         IOL.autoCollapseText = IO.autoCollapseText;
         IOL.IsOverlayObject = IO.IsOverlayObject;
+        IOL.AutofitImage = IO.AutofitImage;
         IOL.IsHidden = IO.IsHidden;
         IOL.IsEditable = IO.IsEditable;
         IOL.IsTextEditable = IO.IsTextEditable;
@@ -890,6 +931,8 @@ function d1(cCanvas, IO, isCenter) {
         IOL.VAllignment = IO.VAllignment;
         IOL.textPaddingTop = IO.textPaddingTop;
         IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
+        IOL.hasInlineFontFamily = IO.hasInlineFontFamily;
+        IOL.textCase = IO.textCase;
         IOL.ImageClippedInfo = IO.ClippedInfo;
         IOL.selectable = objectsSelectable;
         IOL.setOpacity(IO.Opacity);
@@ -921,37 +964,105 @@ function d1(cCanvas, IO, isCenter) {
 }
 
 function d2() {
+
     if (LIFT && TIC === TotalImgLoaded) {
         LIFT = false;
         isloadingNew = false;
-        StopLoader();
+       // StopLoader();
         m0();
-        $.each(TP, function (i, ite) {
-            if (ite.ProductPageID == SP) {
-                var height = Template.PDFTemplateHeight * dfZ1l;
-                var width = Template.PDFTemplateWidth * dfZ1l;
-                if (ite.Height != null && ite.Height != 0) {
-                    height = (ite.Height * dfZ1l);
-                } 
-                if (ite.Width != null && ite.Width != 0) {
-                    width = (ite.Width * dfZ1l);
-                } 
-                d6(width, height, ISG1);
-                //}
-                //else {
-                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                //}
+        // reset display order
+        difFound = false;
+        $.each(TO, function (i, IT) {
+            if (IT.ProductPageId == SP) {
+                var OBS = canvas.getObjects();
+                $.each(OBS, function (i, cObj) {
+                    if (cObj.ObjectID == IT.ObjectID) {
+                        var dif = IT.DisplayOrderPdf - i;
+                        if (dif != 0) {
+                            difFound = true;
+                        }
+                        return false;
+                    }
+                });
             }
         });
+        if (difFound) {
+            d5_sub(SP, false);
+            $.each(TP, function (i, ite) {
+                if (ite.ProductPageID == SP) {
+                    bleedPrinted = false;
+                    var height = Template.PDFTemplateHeight * dfZ1l;
+                    var width = Template.PDFTemplateWidth * dfZ1l;
+                    if (ite.Height != null && ite.Height != 0) {
+                        height = (ite.Height * dfZ1l);
+                    }
+                    if (ite.Width != null && ite.Width != 0) {
+                        width = (ite.Width * dfZ1l);
+                    }
+                    d6(width, height, ISG1);
+                }
+            });
+        } else {
+            StopLoader();
+            $.each(TP, function (i, ite) {
+                if (ite.ProductPageID == SP) {
+                    var height = Template.PDFTemplateHeight * dfZ1l;
+                    var width = Template.PDFTemplateWidth * dfZ1l;
+                    if (ite.Height != null && ite.Height != 0) {
+                        height = (ite.Height * dfZ1l);
+                    }
+                    if (ite.Width != null && ite.Width != 0) {
+                        width = (ite.Width * dfZ1l);
+                    }
+                    d6(width, height, ISG1);
+                }
+            });
+        }
+       
     } else {
         if (TIC == TotalImgLoaded) {
             isloadingNew = false;
-            StopLoader();
             m0();
+            // reset display order
+            difFound = false;
+            $.each(TO, function (i, IT) {
+                if (IT.ProductPageId == SP) {
+                    var OBS = canvas.getObjects();
+                    $.each(OBS, function (i, cObj) {
+                        if (cObj.ObjectID == IT.ObjectID) {
+                            var dif = IT.DisplayOrderPdf - i;
+                                if (dif != 0) {
+                                    difFound = true;
+                                }
+                            return false;
+                        }
+                    });
+                }
+            });
+            if (difFound && !reArrangeAttempted) {
+                reArrangeAttempted = true;
+                StartLoader("Rearranging layers");
+                d5_sub(SP, false);
+                $.each(TP, function (i, ite) {
+                    if (ite.ProductPageID == SP) {
+                        bleedPrinted = false;
+                        var height = Template.PDFTemplateHeight * dfZ1l;
+                        var width = Template.PDFTemplateWidth * dfZ1l;
+                        if (ite.Height != null && ite.Height != 0) {
+                            height = (ite.Height * dfZ1l);
+                        }
+                        if (ite.Width != null && ite.Width != 0) {
+                            width = (ite.Width * dfZ1l);
+                        }
+                        d6(width, height, ISG1);
+                    }
+                });
+            } else {
+                StopLoader();
+            }
         } 
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-              //  if (ite.Orientation == 1) {
                 var height = Template.PDFTemplateHeight * dfZ1l;
                 var width = Template.PDFTemplateWidth * dfZ1l;
                 if (ite.Height != null && ite.Height != 0) {
@@ -961,10 +1072,6 @@ function d2() {
                     width = (ite.Width * dfZ1l);
                 }
                 d6(width, height, ISG1);
-                //}
-                //else {
-                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                //}
             }
         });
     }
@@ -986,6 +1093,7 @@ function d5Start(pageID, isloading)
     canvas.renderAll();
 }
 function d5(pageID, isloading) {
+    reArrangeAttempted = false;
     d5Start(pageID, isloading);
     c2_v2();
     c2_v2();
@@ -1018,7 +1126,7 @@ function d5_sub(pageID, isloading) {
             D1CS = 1, dfZ1l = 1;
 
             //autozoom settings 
-            var contentAreaheight = $(window).height() - 136, contentAreaWidth = $(window).width() - 380,  DzoomFactor = dfZ1l;
+            var contentAreaheight = $(window).height() - 136 -70, contentAreaWidth = $(window).width() - 380,  DzoomFactor = dfZ1l;
            
             if (canvasHeight >= contentAreaheight || canvasWidth >= contentAreaWidth)
             {
@@ -1136,6 +1244,25 @@ function d5_sub(pageID, isloading) {
             }
             canvas.calcOffset();
             
+            // animate slider 
+            if (oldPageId != SP && oldPageId != 0)
+            {
+                var oldPageNo = 0;
+                var newPageNo = 0;
+                $.each(TP, function (i, IT) {
+                    if (IT.ProductPageID == oldPageId) {
+                        oldPageNo = i;
+                    }
+                    if (IT.ProductPageID == SP) {
+                        newPageNo = i;
+                    }
+                });
+                var dif = (newPageNo - oldPageNo) * -$(".menuItemContainer").width(); // menuItemContainer  width;
+                dif = "+="+ dif + "px";
+                $("#documentMenu").animate({ left: dif }, 500);
+            }
+            oldPageId = SP;
+            drawSafetyLine();
         }
     });
 }
@@ -1151,17 +1278,18 @@ function d6(width, height, showguides) {
         var topline = i4([cutmargin + 0.39, 0, cutmargin + width - 0.39 - cutmargin * 2, 0], -981, '#EBECED', cutmargin * 2);
         var rightline = i4([width - 1, 0, width - 1, cutmargin + height - cutmargin], -982, '#EBECED', cutmargin * 2);
         var bottomline = i4([cutmargin + 0.39, height, cutmargin + width - 0.39 - cutmargin * 2, height], -983, '#EBECED', cutmargin * 2);
-
-        var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 10, 'Bleed Area', -975, 0, 'gray');
+       
+        var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 8, 'Bleed Area', -975, 0, 'gray');
         var leftCutMarginTxt = i5(height / 2, width - (12 * dfZ1l), 17, 100, 10, 'Bleed Area', -974, 90, 'gray');
         var rightCutMarginTxt = i5(height / 2, (13 * dfZ1l), 17, 100, 10, 'Bleed Area', -973, -90, 'gray');
         var bottomCutMarginTxt = i5(height - 6, width / 2, 17, 100, 10, 'Bleed Area', -972, 0, 'gray');
         var zafeZoneMargin = cutmargin; // + 8.49;
-        var sleftline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2], -984, 'gray');
-        var stopline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin], -985, 'gray');
-        var srightline = d7([zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -986, 'gray');
-        var sbottomline = d7([zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -987, 'gray');
-        canvas.add(leftline, topline, rightline, bottomline, sleftline, stopline, srightline, sbottomline, topCutMarginTxt, bottomCutMarginTxt, leftCutMarginTxt, rightCutMarginTxt);
+        var sleftline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2], -984, 'black');
+        var stopline = d7([zafeZoneMargin, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin], -985, 'black');
+        var srightline = d7([zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -986, 'black');
+        var sbottomline = d7([zafeZoneMargin, zafeZoneMargin + height - zafeZoneMargin * 2, zafeZoneMargin + width - zafeZoneMargin * 2, zafeZoneMargin + height - zafeZoneMargin * 2], -987, 'black');
+        //canvas.add(sleftline, stopline, srightline, sbottomline);
+         canvas.add(leftline, topline, rightline, bottomline, sleftline, stopline, srightline, sbottomline, topCutMarginTxt, bottomCutMarginTxt, leftCutMarginTxt, rightCutMarginTxt);
     }
 
     var iCounter = 1;
@@ -1180,7 +1308,7 @@ function d6(width, height, showguides) {
 function d7(coords, ObjectID, color) {
     var line = new fabric.Line(coords,
         {
-            fill: color, strokeWidth: 1, selectable: false
+            fill: color, strokeWidth: 1, selectable: false, strokeDashArray: [5, 5],opacity:0.2
         });
 
     line.ObjectID = ObjectID;
@@ -1244,9 +1372,16 @@ function e0(caller) {
         canvas.backgroundImage.originX = 'left';
         canvas.backgroundImage.originY = 'top';
     }
+    D1CS = 1; dfZ1l = 1;
     D1CS = 1;
-    D1CS = 1;
-    D1CZL = 0;
+    D1CZL = 0; 
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
+    $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
+    $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
+    var val = $("#canvasDocument").width() - $(".page").width();
+    val = val / 2;
+    if (val < 0) val = 20;
+    $(".page").css("left", val + "px");
     $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
 }
 function e6() {
@@ -1640,45 +1775,60 @@ function fu02UI() {
         });
         $("#inputObjectWidthTxt").spinner({
             change: k7,
-            stop: k7
+            step: 0.01,
+            stop: k7, numberFormat: "n"
         });
         $("#inputObjectHeightTxt").spinner({
             change: k6,
-            stop: k6
+            stop: k6, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputPositionXTxt").spinner({
             change: k5,
-            stop: k5
+            stop: k5, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputPositionYTxt").spinner({
             change: k5_y,
-            stop: k5_y
+            stop: k5_y, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputObjectWidth").spinner({
             change: k7,
-            stop: k7
+            stop: k7, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputObjectAlpha").spinner({
             change: k7_trans,
-            stop: k7_trans
+            stop: k7_trans, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputObjectHeight").spinner({
             change: k6,
-            stop: k6
+            stop: k6, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputPositionX").spinner({
             change: k5,
-            stop: k5
+            stop: k5, step: 0.01,
+            numberFormat: "n"
         });
         $("#inputPositionY").spinner({
             change: k5_y,
-            stop: k5_y
+            stop: k5_y, step: 0.01,
+            numberFormat: "n"
+        });
+        $(".inputObjectRotation").spinner({
+            change: k6_rotate,
+            stop: k6_rotate,
+            step: 1,
+            numberFormat: "n"
         });
     }
 
-    if (IsCalledFrom != 3)
+    if (IsCalledFrom == 2)
     {
-        //$("#Homebtn").css("display", "none");
+        $("#Homebtn2").css("display", "none");
     }
     if (IsCalledFrom == 3 || IsCalledFrom == 4) {
         $(".previewBtnContainer").css("display", "none");
@@ -1778,7 +1928,7 @@ function fu02() {
     canvas.observe('object:modified', g3);
     canvas.observe('text:changed', g4);
 
-
+    canvas.observe('object:rotating', g5_rotate);
 
 
     canvas.observe('object:selected', g5);
@@ -1816,7 +1966,7 @@ function fu04_callBack(DT) {
     }
     Template.TemplatePages = [];
     fu04_01();
-    fu14();
+   
     b3_1();
     if (!productDimensionUpdated)
     {
@@ -2034,7 +2184,8 @@ function fu06_SvcCallback(DT, fname,mode) {
         a0(IT.FontName, IT.FontFile, IT.FontPath);
         h8(IT.FontName, IT.FontFile, IT.FontPath);
     });
-    h9();
+    if(mode != false )
+        h9();
     var selName = "#" + fname;
     $(selName).fontSelector({
 
@@ -2058,8 +2209,8 @@ function fu06_SvcCallback(DT, fname,mode) {
     }).bind('slimscrolling', function (e, pos) {
         canvas.calcOffset();
     });
-    $("#canvasDocument").css("width", $(window).width() - 380);
-    $(".templatepreviewContainer").css("width", $(window).width() - 390);
+    $("#canvasDocument").css("width", $(window).width() - 360);
+    $(".templatepreviewContainer").css("width", $(window).width() - 361);
     $(".templatepreviewContainer").css("height", $(window).height() - 70);
     $(".tempPreviewImg").css("height", $(window).height() - 180);
     if (mode == true) {
@@ -2102,7 +2253,7 @@ function fu07(is2ndLoad) {
                     html = '<div class="MultiBackPage MultiBackPage-type-zoom"> <a class="MultiBackPage-hover" '+
                         'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPage-info"> <div class="headline"> ' +
                         ite.PageName + '<div class="line"></div> <div class="date"> <button class=" MultiBack-Btn mbButton' + ite.ProductPageID + '" onClick="togglePage(' + ite.ProductPageID + ')">' + textVale + '</button></div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPage-img">' +
-                        '<img src="' + baseUrl + 'p' + ite.PageNo + '.png" alt="" class="MultiBackPage-ActlImg" id="MbImg' + ite.ProductPageID + '" /></div> </div>';
+                        '<img src="' + baseUrl + 'p' + ite.PageNo + '.jpg" alt="" class="MultiBackPage-ActlImg" id="MbImg' + ite.ProductPageID + '" /></div> </div>';
                 //}
                 $('.multiBackCarouselLayer').append(html);
                     
@@ -2145,7 +2296,7 @@ function fu07(is2ndLoad) {
         }
     });
 
-    $("#documentMenu").css("left", $("#documentTitleAndMenu").width() / 2 - $("#documentMenu").width() / 2 + "px");
+    $("#documentMenu").css("left",(( $(".canvasPageMenu").width() / 2) -50) + "px");
 }
 function togglePage(pId) {
     $.each(TP, function (i, IT) {
@@ -2243,7 +2394,7 @@ function togglePage(pId) {
                 $("#btnFreeImgsCorp").css("display", "block !important");
                 $("#clearBackground").css("margin-top", "20px"); $("#uploadBackgroundMn").css("margin-top", "20px");
             } else {
-                $("#btnImagePlaceHolderUser").css("display", "block !important");
+              //  $("#btnImagePlaceHolderUser").css("display", "block !important");
             }
 
         }
@@ -2574,75 +2725,82 @@ function togglePage(pId) {
             }
         });
     }
-    function j8_FindBestPercentage() {
-
-    }
     function j8(src) {
+   
         var fileNameIndex = src.lastIndexOf("/") + 1;
         var filename = src.substr(fileNameIndex);
         var D1AO = canvas.getActiveObject();
+        var found = false;
         if (D1AO.type === 'image') {
             $.each(TO, function (i, IT) {
                 if (IT.ObjectID == D1AO.ObjectID) {
                     if (src.indexOf('.svg') == -1) {
                         D1AO.ImageClippedInfo = null;
                         $.each(LiImgs, function (i, IT) {
-                            if (IT.ImageName.indexOf(filename) != -1) {
+                            if (IT.ImageName.indexOf(filename) != -1 && !found) {
                                 IW = IT.ImageWidth;
                                 IH = IT.ImageHeight;
-                                var originalWidth = IW;
-                                var originalHeight = IH;
-                                var wd = D1AO.getWidth() / dfZ1l;
-                                var he = D1AO.getHeight() / dfZ1l;
+                                //var originalWidth = IW;
+                                //var originalHeight = IH;
+                                var wd = D1AO.getWidth();
+                                var he = D1AO.getHeight();
                                 var bestPer = 1;
-                                if (IW >= wd && IH >= he )
-                                {
-                                    while (originalWidth > wd  && originalHeight > he ) {
-                                        bestPer -= 0.10;
-                                        originalHeight =IH * bestPer;
-                                        originalWidth =IW *  bestPer;
-                                    }
-                                 //   bestPer += 0.10;
-                                }else 
-                                {
-                                    while (originalWidth <= wd  || originalHeight <= he ) {
-                                        bestPer += 0.10;
-                                        originalHeight = IH * bestPer;
-                                        originalWidth = IW * bestPer;
-                                    }
-                                 //   bestPer -= 0.10;
+                              
+                                var wrh = IW / IH;
+                                var newWidth = D1AO.getWidth();
+                                var newHeight = newWidth / wrh;
+                                if (newHeight > D1AO.getHeight()) {
+                                    newHeight = D1AO.getHeight();
+                                    newWidth = newHeight * wrh;
                                 }
-                                var wdth = parseInt(wd / bestPer);
-                                var hght = parseInt(he / bestPer);
                                 var XML = new XMLWriter();
-                                XML.BeginNode("Cropped");
-                                XML.Node("sx", "0");
-                                XML.Node("sy", "0");
-                                XML.Node("swidth", wdth.toString());
-                                XML.Node("sheight", hght.toString());
-                                XML.Node("crv1", bestPer.toString()); 
-                                XML.Node("crv2", (IW * bestPer).toString());
-                                XML.Node("crv3", (IH * bestPer).toString());
-                                XML.Node("crv4", "0");
-                                XML.Node("crv5", "0");
-                                XML.EndNode();
+                                if (D1AO.AutofitImage == false) {
+                                    debugger;
+                                    XML.BeginNode("Cropped");
+                                    XML.Node("sx", (0).toString());
+                                    XML.Node("sy", (0).toString());
+                                    XML.Node("swidth", D1AO.getWidth().toString());
+                                    XML.Node("sheight", D1AO.getHeight().toString());
+                                    XML.Node("crv1", "1");
+                                    XML.Node("crv2", (D1AO.getWidth()).toString());
+                                    XML.Node("crv3", (D1AO.getHeight()).toString());
+                                    XML.Node("crv4", (IW).toString());
+                                    XML.Node("crv5", (IH).toString());
+                                    XML.Node("isCropped", "1");
+                                    XML.EndNode();
+                                } else {
+                                    XML.BeginNode("Cropped");
+                                    XML.Node("sx", "0");
+                                    XML.Node("sy", "0");
+                                    XML.Node("swidth", (newWidth / dfZ1l).toString());
+                                    XML.Node("sheight", (newHeight / dfZ1l).toString());
+                                    XML.Node("crv1", bestPer.toString());
+                                    XML.Node("crv2", ((newWidth / dfZ1l) * bestPer).toString());
+                                    XML.Node("crv3", ((newWidth / dfZ1l) * bestPer).toString());
+                                    XML.Node("crv4", "0");
+                                    XML.Node("crv5", "0");
+                                    XML.Node("isCropped", "0");
+                                    XML.EndNode();
+                                }
                                 XML.Close();
                                 D1AO.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
                                 D1AO.height = (D1AO.getHeight());
                                 D1AO.width = (D1AO.getWidth());
                                 D1AO.maxHeight = (D1AO.getHeight());
                                 D1AO.maxWidth = (D1AO.getWidth());
+                              
                                 D1AO.scaleX = 1;
                                 D1AO.scaleY = 1;
                                 canvas.renderAll();
+                                found = true;
                             }
                         });
                     } else
                     {
-                        alert("You are trying to place an SVg in an image placeholder, SVG will be converted into image during this process.");
+                        alert("You are trying to place an SVG in an image placeholder, SVG will be converted into image during this process.");
                     }
                     IT.ContentString = src;
-                
+                    
                     d5(SP);
                     return;
                 }
@@ -2706,9 +2864,12 @@ function togglePage(pId) {
                         var path = imgName;
                         j8(path);
                     }
+
+                   // $(".collapseDesignerMenu").click();
                 }
             }
         } else {
+            c2_v2(); c2_v2();
             var src = "";
             var srcElement = "";
             if (url1 != undefined) {
@@ -2751,7 +2912,8 @@ function togglePage(pId) {
         }
     }
     function j9_21(DT) {
-        StopLoader();
+        if (!difFound)
+            StopLoader();
         k27();
         parts = DT.split("Designer/Products/");
         //$("#ImgCarouselDiv").tabs("option", "active", 1); open template  images section
@@ -2819,23 +2981,23 @@ function togglePage(pId) {
         var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
         $.each(TP, function (i, IT) {
         
-            $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-            $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+            $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+            $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
         });
         if (IsCalledFrom == 3) {
             for (var i = TP[TP.length - 1].PageNo +1; i <= 12; i++) {
-                ////$("#sliderDesigner").append('<img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
-                ////$("#thumbs").append(' <div id="thumbPageSP' + i + '"style="visibility:hidden;"  class="thumb additionalPages"><div class="frame"><img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
+                ////$("#sliderDesigner").append('<img src="' + stPath + '/p' + i + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
+                ////$("#thumbs").append(' <div id="thumbPageSP' + i + '"style="visibility:hidden;"  class="thumb additionalPages"><div class="frame"><img src="' + stPath + '/p' + i + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
 
-                $("#sliderDesigner").append('<img  style="visibility:hidden;" src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
-                $("#thumbs").append(' <div id="thumbPageSP' + i + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
+                $("#sliderDesigner").append('<img  style="visibility:hidden;" src="' + stPath + '/p' + i + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + '' + '" />');
+                $("#thumbs").append(' <div id="thumbPageSP' + i + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + i + '.jpg?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
 
             }
         }
         $.each(TP, function (i, IT) {
-            $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-            $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+            $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.jpg?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+            $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.jpg?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
         });
         if (IsCalledFrom == 1 || IsCalledFrom == 2) {
             $('#previewProofingDesigner').css("display", "none");
@@ -2897,8 +3059,8 @@ function togglePage(pId) {
         } else if (D1AO) {
             var l = D1AO.left - D1AO.getWidth() / 2;
             var t = D1AO.top - D1AO.getHeight() / 2;
-            l = Math.round(l);
-            t = Math.round(t);
+         //   l = Math.round(l);
+        //    t = Math.round(t);
             var w;
             var h;
             $("#inputPositionX").val((l / (conversionRatio)) /dfZ1l );
@@ -2908,19 +3070,20 @@ function togglePage(pId) {
                 h = (D1AO.maxHeight);
                 $("#inputObjectWidthTxt").val(((w / (1)) ) / conversionRatio);
                 $("#inputObjectHeightTxt").val((h / (1)) / conversionRatio);
-                $("#inputPositionXTxt").val((l / (dfZ1l)) / conversionRatio);
-                $("#inputPositionYTxt").val((t / (dfZ1l)) / conversionRatio);
+                $("#inputPositionXTxt").val((l / (conversionRatio)) /dfZ1l );
+                $("#inputPositionYTxt").val((t / (conversionRatio)) / dfZ1l);
             } else {
                 // animatedcollapse.show('divPositioningPanel');
                 w =(D1AO.getWidth());
                 h =(D1AO.getHeight());
                 o = D1AO.getOpacity() * 100;
-                $("#inputObjectWidth").val((w / (dfZ1l)) / conversionRatio);
-                $("#inputObjectHeight").val((h / (dfZ1l)) / conversionRatio);
+                $("#inputObjectWidth").val((w / (conversionRatio)) / dfZ1l);
+                $("#inputObjectHeight").val((h / (conversionRatio)) / dfZ1l);
                 $("#inputObjectAlpha").val(o);
                 $(".transparencySlider").slider("option", "value", o);
 
             }
+            $(".inputObjectRotation").val(D1AO.getAngle());
             $("#inputPositionXTxt").spinner("option", "disabled", false);
             $("#inputPositionYTxt").spinner("option", "disabled", false);
             $("#inputObjectWidthTxt").spinner("option", "disabled", false);
@@ -2933,6 +3096,7 @@ function togglePage(pId) {
 
     }
     function k5() {
+        
         if (!$.isNumeric($("#inputPositionX").val())) {
             $("#inputPositionX").val(0);
         }
@@ -2970,6 +3134,16 @@ function togglePage(pId) {
       //  dT *= 1;
         D1AO.top += dT;
         canvas.renderAll(); D1AO.setCoords();
+    }
+    function k6_rotate() {
+        if (!$.isNumeric($(this).val())) {
+            $(this).val(0);
+        }
+        var D1AO = canvas.getActiveObject();
+        if (!D1AO) return;
+        D1AO.setAngle($(this).val());
+        // c2(D1AO);
+        canvas.renderAll();
     }
     function k6() {
         if (!$.isNumeric($("#inputObjectHeightTxt").val())) {
@@ -3161,9 +3335,9 @@ function togglePage(pId) {
             var s = $('#sliderDesigner').css('background-image');
             if (s != undefined) {
                 var p = s.split("?");
-                if (s.indexOf("asset") == -1) {
+               // if (s.indexOf("asset") == -1) { / commented for tfe hotels as their domain contains asset  http://brandassethub.tfehotels.com/
                     var temp = p[0].split("http://");
-                    var t2 = temp[1].split(".png");
+                    var t2 = temp[1].split(".jpg");
                     var i = 'http://' + t2[0] + '.pdf'; //+= '?r=' + ra ;
                 
                     if (isMultiPageProduct) {
@@ -3185,7 +3359,7 @@ function togglePage(pId) {
                             $(".PreviewerDownloadPDF").attr("href", i);
                         }
                     }
-                }
+                //}
             }
         }
     }
@@ -3197,10 +3371,10 @@ function togglePage(pId) {
             var s = $('#sliderDesigner').css('background-image');
             if (s != undefined) {
                 var p = s.split("?"); 
-                if (s.indexOf("asset") == -1) {
+              //  if (s.indexOf("asset") == -1) {
                     var temp = p[0].split("http://");
                     $(".PreviewerDownloadImg").attr("href", "http://" + temp[1]);
-                }
+              //  }
             }
         }
     }
@@ -3260,6 +3434,7 @@ function togglePage(pId) {
             $("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
         }
     }
+
     function k12CallBack(fontSize) {
         $("#layer").css("background-color", "transparent");
         document.getElementById("layer").style.display = "none";
@@ -3279,12 +3454,46 @@ function togglePage(pId) {
                     }
                 }
                 D1A0.hasInlineFontStyle = false;
+
                 setActiveStyle("font-Size", fontSize)
              //
                 canvas.renderAll();
                 D1A0._performClipping(canvas.contextTop, D1A0.text, D1A0);
             }
         
+        }
+    }
+    function k12CallBackFM(fontFamily) {
+        $("#layer").css("background-color", "transparent");
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+
+        var D1A0 = canvas.getActiveObject();
+        if (D1A0 && (D1A0.type === 'text' || D1A0.type === 'i-text')) {
+            if (D1A0.customStyles != null) {
+                for (var line in D1A0.customStyles) {
+                    for (var prop in D1A0.customStyles[line]) {
+                        if (prop == "font-family") {
+                            delete D1A0.customStyles[line][prop];
+                        }
+                    }
+                }
+                D1A0.hasInlineFontFamily = false;
+
+                var selectedObject = canvas.getActiveObject();
+
+                if (selectedObject && selectedObject.isEditing == false) {
+                    if (selectedObject && (selectedObject.type === 'text' || selectedObject.type === 'i-text')) {
+                        selectedObject.fontFamily = fontFamily;
+                        $("#txtAreaUpdateTxt").css("font-family", fontFamily);
+                        //c2(selectedObject);
+                        canvas.renderAll();
+                    }
+                } else {
+                    setActiveStyle("font-family", fontFamily);
+                }
+            }
+
         }
     }
     function k13(e) {
@@ -3311,9 +3520,10 @@ function togglePage(pId) {
     function k15() {
         if ($("#txtLineHeight").val() < -1.50) {
             $("#txtLineHeight").val(1);
-        } else if ($("#txtLineHeight").val() > 2.0) {
-            $("#txtLineHeight").val(2.0);
         }
+        //else if ($("#txtLineHeight").val() > 2.0) {
+        //    $("#txtLineHeight").val(2.0);
+        //}  // commented on request of leanne and chris
         var D1AO = canvas.getActiveObject();
         if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
             D1AO.lineHeight = $("#txtLineHeight").val();
@@ -3663,7 +3873,8 @@ function togglePage(pId) {
                                 urlThumbnail = url;
                             } 
                             if (ImIsEditable) {
-
+                                if (IT.ImageTitle == null)
+                                    IT.ImageTitle = "";
                                 var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
                                   '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">'// + '<span class="info btnRemoveImg"><span class=" moreInfo ">✖</span></span>'
                                   + bkContainer + '<span class="info">' + '<span class="moreInfo" title="Show more info" onclick=k26(' + title + "," + index + "," + loaderType + ')>i</span>' +
@@ -4089,9 +4300,11 @@ function togglePage(pId) {
         } else {
             url = "/MPC_Content/" + IO.ContentString;
         }
+      
         if (IO.ContentString.indexOf("Imageplaceholder_sim") != -1 || IO.ContentString.indexOf("http") != -1)
             url = IO.ContentString;
         fabric.Image.fromURL(url, function (IOL) {
+         
             IOL.set({
                 left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
                 top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
@@ -4101,42 +4314,25 @@ function togglePage(pId) {
             IOL.maxWidth = IO.MaxWidth;
             IOL.maxHeight = IO.MaxHeight;
             IOL.ObjectID = IO.ObjectID;
+            IOL.width = IO.MaxWidth;
+            IOL.height = IO.MaxHeight;
             IOL.scaleX = (IOL.maxWidth / IOL.width) * dfZ1l;
             IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
             IOL.setAngle(IO.RotationAngle);
             IOL.setOpacity(IO.Opacity);
             IOL.selectable = objectsSelectable;
-            //if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-            //    IOL.lockMovementX = false;
-            //    IOL.lockMovementY = false;
-            //    IOL.lockScalingX = false;
-            //    IOL.lockScalingY = false;
-            //    IOL.lockRotation = false;
-            //    IOL.IsPositionLocked = false;
-            //    IOL.IsHidden = false;
-            //    IOL.IsEditable = false;
-            //    IOL.IsTextEditable = true;
-            //} else {
-            //    IOL.lockMovementX = true;
-            //    IOL.lockMovementY = true;
-            //    IOL.lockScalingX = true;
-            //    IOL.lockScalingY = true;
-            //    IOL.lockRotation = true;
-            //    IOL.IsPositionLocked = true;
-            //    IOL.IsHidden = true;
-            //    IOL.IsEditable = true;
-            //    IOL.IsTextEditable = false;
-            //    IOL.selectable = true;
-            //}
             IOL.IsPositionLocked = IO.IsPositionLocked;
             IOL.autoCollapseText = IO.autoCollapseText;
             IOL.IsOverlayObject = IO.IsOverlayObject;
+            IOL.AutofitImage = IO.AutofitImage;
             IOL.IsTextEditable = IO.IsTextEditable;
             IOL.AutoShrinkText = IO.AutoShrinkText;
             IOL.isBulletPoint = IO.isBulletPoint;
             IOL.VAllignment = IO.VAllignment;
             IOL.textPaddingTop = IO.textPaddingTop;
             IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
+            IOL.hasInlineFontFamily = IO.hasInlineFontFamily;
+            IOL.textCase = IO.textCase;
             IOL.IsHidden = IO.IsHidden;
             IOL.IsEditable = IO.IsEditable;
             IOL.selectable = objectsSelectable;
@@ -4158,61 +4354,87 @@ function togglePage(pId) {
             cCanvas.insertAt(IOL, IO.DisplayOrderPdf);
             TotalImgLoaded += 1;
             d2();
-            IW = IOL.getWidth();// IT.ImageWidth;
-            IH = IOL.getHeight();// IT.ImageHeight;
-
-
-            if (IO.ObjectType == 8) {
-                IW = item.companyImageWidth;
-                IH = item.companyImageHeight;
-            } else if (IO.ObjectType == 12) {
-                IW = item.contactImageWidth;
-                IH = item.contactImageHeight;
-            }
-            var originalWidth = IW;
-            var originalHeight = IH;
-            var wd = IOL.getWidth();
-            var he = IOL.getHeight();
-            var bestPer = 1;
-            if (IO.ContentString.indexOf("Imageplaceholder_sim") == -1 && IsCalledFrom == 4 && IO.ContentString.indexOf("http") != -1) {
+            if (IO.ContentString.indexOf("Imageplaceholder_sim") == -1 && IO.ContentString.indexOf("http") != -1) {
                 if (IO.ObjectType == 8 || IO.ObjectType == 12) {
-                    if (IW >= IOL.getWidth() && IH >= IOL.getHeight()) {
-                        while (originalWidth > IOL.getWidth() && originalHeight > IOL.getHeight()) {
-                            bestPer -= 0.10;
-                            originalHeight = IH * bestPer;
-                            originalWidth = IW * bestPer;
+                    var IW = 0, IH = 0;
+                    if (IO.ObjectType == 8) {
+                        if (url.indexOf(item.companyImage) != -1) {
+                            IW = item.companyImageWidth;
+                            IH = item.companyImageHeight;
+                        } else {
+                            var found = false;
+                            $.each(LiImgs, function (i, IT) {
+                                if (IT.ImageName.indexOf(filename) != -1 && !found) {
+                                    IW = IT.ImageWidth;
+                                    IH = IT.ImageHeight;
+                                    found = true;
+                                }
+                            });
                         }
-                        bestPer += 0.10;
-                    } else {
-                        while (originalWidth <= IOL.getWidth() || originalHeight <= IOL.getHeight()) {
-                            bestPer += 0.10;
-                            originalHeight = IH * bestPer;
-                            originalWidth = IW * bestPer;
+                    } else if (IO.ObjectType == 12) {
+                        if (url.indexOf(item.userImage) != -1) {
+                            IW = item.contactImageWidth;
+                            IH = item.contactImageHeight;
+                        } else {
+                            var found = false;
+                            $.each(LiImgs, function (i, IT) {
+                                if (IT.ImageName.indexOf(filename) != -1 && !found) {
+                                    IW = IT.ImageWidth;
+                                    IH = IT.ImageHeight;
+                                    found = true;
+                                }
+                            });
                         }
-                        bestPer -= 0.10;
                     }
-                    var wdth = parseInt(IOL.getWidth() / bestPer);
-                    var hght = parseInt(IOL.getHeight() / bestPer);
-                    var XML = new XMLWriter();
-                    XML.BeginNode("Cropped");
-                    XML.Node("sx", "0");
-                    XML.Node("sy", "0");
-                    XML.Node("swidth", wdth.toString());
-                    XML.Node("sheight", hght.toString());
-                    XML.Node("crv1", bestPer.toString());
-                    XML.Node("crv2", (IW * bestPer).toString());
-                    XML.Node("crv3", (IH * bestPer).toString());
-                    XML.Node("crv4", "0");
-                    XML.Node("crv5", "0");
-                    XML.EndNode();
+                    var wd = IOL.getWidth();
+                    var he = IOL.getHeight();
+                    var bestPer = 1;
+
+                    var wrh = IW / IH;
+                    var newWidth = IOL.getWidth();
+                    var newHeight = newWidth / wrh;
+                    if (newHeight > IOL.getHeight()) {
+                        newHeight = IOL.getHeight();
+                        newWidth = newHeight * wrh;
+                    }
+                    var XML = new XMLWriter(); 
+                    if (IOL.AutofitImage == false) {
+                       
+                        XML.BeginNode("Cropped");
+                        XML.Node("sx", (-IOL.getWidth() / 2).toString());
+                        XML.Node("sy", (-IOL.getHeight() / 2).toString());
+                        XML.Node("swidth", IOL.getWidth().toString());
+                        XML.Node("sheight", IOL.getHeight().toString());
+                        XML.Node("crv1", "1");
+                        XML.Node("crv2", (IOL.getWidth()).toString());
+                        XML.Node("crv3", (IOL.getHeight()).toString());
+                        XML.Node("crv4", (-IOL.getWidth() / 2).toString());
+                        XML.Node("crv5", (-IOL.getHeight() / 2).toString());
+                        XML.Node("isCropped", "1");
+                        XML.EndNode();
+                    } else {
+                        XML.BeginNode("Cropped");
+                        XML.Node("sx", "0");
+                        XML.Node("sy", "0");
+                        XML.Node("swidth", (newWidth / dfZ1l).toString());//   XML.Node("swidth", wdth.toString());
+                        XML.Node("sheight", (newHeight / dfZ1l).toString());//    XML.Node("sheight", hght.toString());
+                        XML.Node("crv1", bestPer.toString());
+                        XML.Node("crv2", ((newWidth / dfZ1l) * bestPer).toString());
+                        XML.Node("crv3", ((newWidth / dfZ1l) * bestPer).toString());
+                        XML.Node("crv4", "0");
+                        XML.Node("crv5", "0");
+                        XML.Node("isCropped", "0");
+                        XML.EndNode();
+                    }
+                 
                     XML.Close();
                     IOL.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
-                    IOL.height = (IOL.getHeight());
-                    IOL.width = (IOL.getWidth());
+                    //IOL.height = (IOL.getHeight());
+                    //IOL.width = (IOL.getWidth());
                     IOL.maxHeight = (IOL.getHeight());
                     IOL.maxWidth = (IOL.getWidth());
-                    IOL.scaleX = 1;
-                    IOL.scaleY = 1;
+                    //IOL.scaleX = 1;
+                    //IOL.scaleY = 1;
                     canvas.renderAll();
                 }
             }
@@ -4790,34 +5012,38 @@ function togglePage(pId) {
         if (Tpage.Width != null && Tpage.Width != 0) {
             w= Tpage.Width ;
         }
-    
         h = h / 96 * 72;
         w = w / 96 * 72;
         h = h / 2.834645669;
         w = w / 2.834645669;
-        w = w.toFixed(3);
-        h = h.toFixed(3); 
-        h = h - 10;
-        w = w - 10; 
+        cuttingInMM = Template.CuttingMargin / 96 * 72
+        cuttingInMM = cuttingInMM / 2.834645669;
+        if (Template.CuttingMargin == 0 || Template.CuttingMargin == null)
+            cuttingInMM = 5;
+
+        cuttingInMM *= 2;
+        h = (h - cuttingInMM);
+        w = (w - cuttingInMM);
         if (item != null ) {
             var res = item.TemplateDimensionConvertionRatio.split("__");
             w = w * res[0];
             h = h * res[0];
             conversionUnit = res[1];
-            conversionRatio = parseFloat(res[2]) * 2.834645669  ;
+            var dif = cuttingInMM * ((parseFloat(res[0])/parseFloat(res[2])) - 1);
+            w += dif;
+            h += dif;
+            h = h.toFixed(3);
+            w = w.toFixed(3);
+            conversionRatio = parseFloat(res[2]) * 2.834645669 * 96 / 72;
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " "+ res[1]);
         } else {
             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
         }
         var OBS = canvas.getObjects(); 
         $.each(OBS, function (i, IT) {
-      
             if (IT.ObjectID == -975) {
                 IT.text = $(".dimentionsBC").html();
                 canvas.renderAll();
             }
         });
-   
-        //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
-   
     }

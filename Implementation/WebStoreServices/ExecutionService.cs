@@ -798,7 +798,12 @@ namespace MPC.Implementation.WebStoreServices
                                 break;
                             case (int)VariableProperty.MakeReadyQty:
                                 functionReturnValue = Convert.ToDouble(oItemSection.MakeReadyQty);
-
+                                break;
+                            case (int)VariableProperty.SectionHeight:
+                                functionReturnValue = Convert.ToDouble(oItemSection.SectionSizeHeight);
+                                break;
+                            case (int)VariableProperty.SectionWidth:
+                                functionReturnValue = Convert.ToDouble(oItemSection.SectionSizeWidth);
                                 break;
                             default:
                                 functionReturnValue = 0;

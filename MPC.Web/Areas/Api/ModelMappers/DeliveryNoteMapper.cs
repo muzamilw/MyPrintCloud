@@ -32,6 +32,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryCarriers = source.DeliveryCarriers != null ? source.DeliveryCarriers.Select(flag => flag.CreateFromDropDown()) : new List<DeliveryCarrier>(),
                 SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) :
                  new List<SystemUserDropDown>(),
+                 LoggedInUser = source.LoggedInUser
             };
         }
 
@@ -52,7 +53,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactCompany = source.ContactCompany,
                 FlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : string.Empty,
                 OrderReff = source.OrderReff,
-                CreationDateTime = source.CreationDateTime
+                CreationDateTime = source.CreationDateTime,
+                OrganisationId = source.OrganisationId,
+                OrderId = source.OrderId,
+                DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null
             };
         }
 
@@ -71,6 +75,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreId = source.Company != null ? source.Company.StoreId : null,
                 IsCustomer = source.Company != null ? source.Company.IsCustomer : (short)0,
                 FlagId = source.FlagId,
+                FlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : string.Empty,
                 ContactCompany = source.ContactCompany,
                 OrderReff = source.OrderReff,
                 CreationDateTime = source.CreationDateTime,
@@ -83,6 +88,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierId = source.SupplierId,
                 SupplierTelNo = source.SupplierTelNo,
                 UserNotes = source.UserNotes,
+                OrderId = source.OrderId,
                 DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null,
             };
         }
@@ -111,6 +117,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierId = source.SupplierId,
                 SupplierTelNo = source.SupplierTelNo,
                 UserNotes = source.UserNotes,
+                OrganisationId = source.OrganisationId,
+                OrderId = source.OrderId,
                 DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null,
             };
         }

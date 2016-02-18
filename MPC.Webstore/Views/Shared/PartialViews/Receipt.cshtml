@@ -68,22 +68,22 @@
                     </div>
                     <div id="trWhiteLabel" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
                         <img id="Companyimg" class="IframeCompanyLogoCs_AddSelectCS" src="/@ViewBag.OrganisationLogo" /><br />
-                        <label id="ltrlCompanyName" style="font-size: 18px; font-weight: bold;">@ViewBag.OrganisationName</label><br />
-                        <label id="lblAddLine1" style="color: black;  font-weight: normal; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address1</label>
-                        <label id="lblAddLine2" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address2</label><br />
-                        <label id="lblTown" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.City</label>
-                        <label id="lblState" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.State</label>
-                        <label id="lblZipCode" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.ZipCode</label><br />
-                        <label id="lblCountry" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Country</label><br />
+                        <span id="ltrlCompanyName" style="font-size: 18px; font-weight: bold;">@ViewBag.OrganisationName</span><br />
+                        <span id="lblAddLine1" style="color: black;  font-weight: normal; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address1</span>
+                        <span id="lblAddLine2" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address2</span><br />
+                        <span id="lblTown" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.City</span>
+                        <span id="lblState" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.State</span>
+                        <span id="lblZipCode" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.ZipCode</span><br />
+                        <span id="lblCountry" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Country</span><br />
 
                         <label id="lblTel" style="color: black;font-weight: normal; font-size: 14px; line-height: 16px; float: left; margin-top: 6px;">Tel: @ViewBag.oStoreDefaultAddress.Tel</label>
                     </div>
                     <div class=" col-md-8 col-lg-8 col-xs-12 receiptWhitelblRightcnt">
                         &nbsp;
                     </div>
-                    <div id="trVatNumb" style="height: 30px;" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
-                        <label id="lbl_VATRegisterationNumber" style="font-weight: normal;">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", UserCookieManager.WBStoreId, "ABN:"))</label>
-                        <label id="lblVatNum" class="receiptVatNum" style="font-weight: normal;">@ViewBag.OrgVATRegNumber</label>
+                    <div id="trVatNumb"  class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
+                        <span id="lbl_VATRegisterationNumber" style="font-weight: normal;">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", UserCookieManager.WBStoreId, "ABN:"))</span>
+                        <span id="lblVatNum" class="receiptVatNum" style="font-weight: normal;">@ViewBag.OrgVATRegNumber</span>
                     </div>
                     <div class="clearBoth" style="border-top: 2px solid #f3f3f3;">
                     </div>
@@ -130,21 +130,20 @@
                     {
                         <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
                             <span id="lbl_ReceiptbillTo" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.WBStoreId, "Bill To:"))</span><br />
-                            <label id="lblCustName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                             <label id="lblBAddressLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
                             @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
                             {
                                 <div><label id="lblAddressLine2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label></div>
                             }
 
-                            <label id="lblBcity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</label>
+                            <span id="lblBcity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</span>
                             @if (Model.BillingAdress.State != null)
                             {
-                                <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</label>
+                                <span id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</span>
                             }
                             @if (Model.BillingAdress.Country != null)
                             {
-                                <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</label>
+                                <span id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</span>
                             }
                             <br />
                             <label id="lblBZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.PostCode</label><br />
@@ -163,21 +162,20 @@
                    {
                     <div class="col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt" style="line-height: 30px;">
                         <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.WBStoreId, "Shipped To:"))</span><br />
-                        <label id="lblSCusName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                         <label id="lblSAddLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
                         @if (!string.IsNullOrEmpty(Model.ShippingAddress.Address2))
                         {
                             <div><label id="lblSAddreLine2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address2</label></div>
                         }
 
-                        <label id="lblSCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.City</label>
+                        <span id="lblSCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.City</span>
                         @if (Model.ShippingAddress.State != null)
                         {
-                            <label id="lblSState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State.StateName</label>
+                            <span id="lblSState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State.StateName</span>
                         }
                         @if (Model.ShippingAddress.Country != null)
                         {
-                            <label id="lblSCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country.CountryName</label>
+                            <span id="lblSCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country.CountryName</span>
                         }
                         <br />
 
@@ -242,7 +240,11 @@
                                 //DeliveryTaxValue += DeliveryTaxValue + item.
                                 <tr class="gridViewWithoutHeaderRowStyle" align="top">
                                     <td align="left" style="width:34%;" valign="top">
-                                        @if (item.Attatchment != null)
+                                        @if (item.ProductType == (int)ProductType.AssetProduct)
+                                        {
+                                            ImageSource = "/" + item.ThumbnailPath;
+                                        }
+                                        else if (item.Attatchment != null)
                                         {
                                             if (!string.IsNullOrWhiteSpace(item.Attatchment.FileName))
                                             {
@@ -305,12 +307,24 @@
                                             </span>
                                             <br>
                                             <br>
-                                            <span style="font-size:12px;font-weight:bold;">@item.ProductName  </span><br>
-                                            <div class="">
+                                            <span style="font-size:12px;font-weight:bold;">
+                                            @if (!string.IsNullOrEmpty(item.ProductFriendlyName))
+                                            {
+                                                @item.ProductFriendlyName
+                                            }
+                                            else
+                                            {
+                                                @item.ProductName
+                                            } 
+                                            </span><br>
+                                            <div class="papertypecls">
+                                                @if (item.PaperType != null && item.PaperType!=string.Empty)
+                                                { 
                                                 <span style="font-size:12px;">Stock: @item.PaperType</span>
+                                                }
                                             </div>
                                          
-                                            <div class=" spacer5pxbottom">
+                                            <div class=" spacer5pxbottom hidden-lg hidden-xs">
                                                 <span style="font-size:12px;">@Html.Raw(item.ProductWebDescription)</span>
                                             </div>
                                             <br>
@@ -351,7 +365,7 @@
                                 <td class="srFirstTd hidden-xs"></td>
                                 <td class="srScdTd"></td>
                                 <td class="srThirdTd" align="right">
-                                    <span id="lbl_SubTotal" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total")):</span>
+                                    <span id="lbl_SubTotal" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</span>
                                 </td>
                                 <td class="srForthtd" >
 
@@ -380,6 +394,7 @@
                                 <td class="hidden-xs"></td>
                                 <td align="left"><label id="lblEstimatedDeliveryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label></td>
                                 <td align="right">
+                                   
                                     <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId, "Delivery")):</span>
                                 </td>
                                 <td >

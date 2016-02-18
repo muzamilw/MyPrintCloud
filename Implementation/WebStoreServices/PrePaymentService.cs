@@ -21,6 +21,10 @@ namespace MPC.Implementation.WebStoreServices
             _PrePaymentRepository.CreatePrePayment(payMethod, orderID, customerID, payPalResponseID, transactionID, amountReceived, Mode, responsecodeNab);
 
         }
+        public void CreatePrePaymentPayWay(PaymentMethods payMethod, long orderID, int? customerID, long payPalResponseID, string transactionID, double amountReceived)
+        {
+            _PrePaymentRepository.CreatePrePaymentPayWay(payMethod, orderID, customerID, payPalResponseID, transactionID, amountReceived);
 
+        }
     }
 }

@@ -24,6 +24,8 @@ namespace MPC.Models.Common
         private double _SetupCost;
 
         private double _VA;
+        public double TotalPriceQty2 { get; set; }
+        public double TotalPriceQty3 { get; set; }
         /// <summary>
         /// default constructor
         /// </summary>

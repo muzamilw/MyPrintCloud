@@ -283,6 +283,7 @@
                     });
                     
 
+
                     // Define request to Get Discount Vouchers
                     amplify.request.define('getRealEstateCampaign', 'ajax', {
                         url: ist.siteUrl + '/Api/RealEstateCompaign',
@@ -434,7 +435,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-
+                    // Define request to delete Store
+                    amplify.request.define('archiveSpotColor', 'ajax', {
+                        url: ist.siteUrl + '/Api/SpotColor',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Delete'
+                    });
                     isInitialized = true;
                 }
             },
@@ -746,6 +753,17 @@
                     data: params
                 });
             },
+
+              // delete Stores
+            archiveSpotColor = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'archiveSpotColor',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
              // delete Banner
             deleteCompanyBanner = function (params, callbacks) {
                 initialize();
@@ -778,7 +796,9 @@
                 });
             },
 
-               // get realEstate
+           
+
+            // get realEstate
             getRealEstateCampaigns = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -789,7 +809,7 @@
                 });
             },
 
-             // get companyVariable Icons
+            // get companyVariable Icons
             getCompanyVariableIcons = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -1147,7 +1167,8 @@
             getStoreCss: getStoreCss,
             updateStoreCss: updateStoreCss,
             getRealEstateCampaigns: getRealEstateCampaigns,
-            getCompanyVariableIcons: getCompanyVariableIcons
+            getCompanyVariableIcons: getCompanyVariableIcons,
+            archiveSpotColor: archiveSpotColor
         };
     })();
 

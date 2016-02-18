@@ -404,7 +404,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 confirmation.messageText("Do you want to Post the Purchase Order?");
                                 confirmation.afterProceed(function () {
                                     selectedPurchaseOrder().status(32);
-
+                                    savePurchaseOrder();
                                 });
                                 confirmation.afterCancel(function () {
                                     savePurchaseOrder();
@@ -614,11 +614,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     openStockItemDialogForAddingStock = function () {
                         stockVM.show(function (stockItem) {
                             onSaveStockItem(stockItem);
-                        }, stockCategory.paper, false, currencySymbol(), 0);
+                        }, stockCategory.paper, true, currencySymbol(), 0);
                     },
                     //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
-                        selectedPurchaseOrderDetail().itemCode(stockItem.code);
+                        selectedPurchaseOrderDetail().itemCode(stockItem.supplierCode);
                         selectedPurchaseOrderDetail().serviceDetail(stockItem.name);
                         selectedPurchaseOrderDetail().packqty(stockItem.packageQty);
                         selectedPurchaseOrderDetail().refItemId(stockItem.id);
@@ -643,7 +643,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 view.initializeLabelPopovers();
                             }
                         } else {
-                            toastr.error("Please select customer");
+                            toastr.error("Please select supplier");
                         }
                     },
                     // add To List
@@ -687,6 +687,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     editPurchaseDetail = function (item) {
                         // Edit only in case Opend PO
                         if (selectedPurchaseOrder().status() === 31) {
+                            if (item.productType() === 1)
+                                selectedPurchaseOrder().isproduct(1);
+                            else
+                                selectedPurchaseOrder().isproduct(2);
+
                             selectedPurchaseOrderDetail(item);
                             view.showPurchaseDetailDialog();
                             view.initializeLabelPopovers();

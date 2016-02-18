@@ -9,6 +9,7 @@
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
+    string JPGimagePath = "Thumb.jpg";
   var extraPricingId = "";
 }
 @{
@@ -46,8 +47,16 @@
                     @ViewBag.CategoryName
                 </a>
                 <label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
-                <a id="aLinkItem" href="#" class="crumb_Active left_align">
-                    @ViewBag.ItemModel.ProductName
+                <a id="cProductName" href="#" class="crumb_Active left_align">
+                    @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
+                    {
+                        @ViewBag.ItemModel.ProductFriendlyName
+                    }
+                    else
+                    {
+                        @ViewBag.ItemModel.ProductName
+                    }
+                  
                 </a>
 
 
@@ -72,14 +81,14 @@
                                     {
                                         <div class=float_left_simple style="height:55px;">
                                             <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                            <label for=radio1 class=grayRadiantbtn onclick="SelectStockOption('@stockClassName', 0);"> @stock.StockLabel </label>
                                         </div>
                                     }
                                     else
                                     {
                                         <div class=float_left_simple style="height:55px;">
                                             <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                            <label for=radio1 class=grayRadiantbtn onclick="SelectStockOption('@stockClassName', 0);"> @stock.StockLabel </label>
                                         </div>
                                     }
                                 }
@@ -91,19 +100,21 @@
 
                                         <div class=float_left_simple style="height:55px;">
                                             <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                            <label for=radio1 class=grayRadiantbtn onclick="SelectStockOption('@stockClassName', 0);"> @stock.StockLabel </label>
                                         </div>
                                     }
                                     else
                                     {
                                         <div class=float_left_simple style="height:55px;">
                                             <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                            <label for=radio1 class=grayRadiantbtn onclick="SelectStockOption('@stockClassName', 0);"> @stock.StockLabel </label>
                                         </div>
                                     }
                                 }
                                 StockCount++;
                             }
+                            <div class="clearBoth">
+                            </div>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -119,7 +130,7 @@
                             <div class="width365pxM250p">
                                 @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                                 {
-                                        <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
+                                        <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-isautoexec="@costcenter.IsAutoExec" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
                                             <div class="float_left_simple spacerbottom CcImageContainer">
                                                 <img class="RfgImgCs" src=/@costcenter.AddOnImage />
                                             </div>
@@ -212,12 +223,19 @@
                                       
                                             <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                                 <div class="DeleteIconPP">
-                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
+                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId, 0);"></button>
                                                 </div>
                                                 <a id="hlSide1">
                                                     <div class="PDTC_LP FI_PCS">
-
-                                                        <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                        @if (string.IsNullOrEmpty(artworkFile.ImageFileType))
+                                                        {
+                                                            <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@JPGimagePath@randonNumber" />
+                                                        }
+                                                        
                                                     </div>
                                                 </a>
                                                 <div class="confirm_design LGBC height40_LP ">
@@ -246,7 +264,7 @@
                                             <div class="LGBC BD_PCS rounded_corners">
                                                 <a id="hlSide1">
                                                     <div class="PDTC_LP FI_PCS">
-                                                        <img class="full_img_ThumbnailPath_LP" src="/@templateItem.FolderPath/@templateItem.FileName@imagePath" />
+                                                        <img class="full_img_ThumbnailPath_LP" src="/@templateItem.FolderPath/@templateItem.FileName" />
 
                                                     </div>
                                                 </a>
@@ -337,7 +355,18 @@
                     </div>
                     <br />
                     <div class=" left_align productStockDesc">
-                        <label class="Fsize15 colorBlack left_align colorDGry">@ViewBag.ItemModel.ProductName</label>
+                        <label class="Fsize15 colorBlack left_align colorDGry">
+                            @if (!string.IsNullOrEmpty(ViewBag.ItemModel.ProductFriendlyName))
+                            {
+                                @ViewBag.ItemModel.ProductFriendlyName
+                            }
+                            else
+                            {
+                                @ViewBag.ItemModel.ProductName
+                            }
+
+
+                        </label>
                         <br />
                         <label id="lblStock" class="LightGrayLabels"></label><br />
                         <label id="lblExtra" class="LightGrayLabels"></label>
@@ -394,6 +423,8 @@
                             @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
                             @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
                             @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
+                            @Html.HiddenFor(m => m.ProductName, new { id = "VMProductName" })
+                     <input type="hidden" id="ViewToFire" name="ViewToFire" value="@ViewBag.ViewToFire" />
                             <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
                         }
 
@@ -849,6 +880,7 @@
     var TotalItemPrice = 0;
     var data = "";
     var fileExtension = "";
+    var fileLimitExceed = 0;
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
     var isImageUploadedOnLandingPage = 0;
@@ -860,7 +892,7 @@
     var countOfCostCentresTicked = 0;
     var countOfCostCentreOnwhichActionIsPerformed = 0;
     var controlsArrayOnQtyChange = [];
-
+    var isPrintProductFlag = "0";
     function ConfirmCart() {
         var MaxstockQty = true;
         if (isPriceSelected == 0) {
@@ -954,6 +986,14 @@
         MatrixToggle();
         if (isRanged) {
             if ($("#rangedQuantityOrdered").val() == "") {
+                var RangedQtyJsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
+                var RangedQtyJsonDataFirstObject = $(RangedQtyJsonData)[0];
+                var firstQtyinRangeTable = RangedQtyJsonDataFirstObject.QtyRangeFrom;
+                if(parseInt(firstQtyinRangeTable) > 0){
+                    $("#rangedQuantityOrdered").val(firstQtyinRangeTable);
+                    CalculatePriceBaseOnRangedQuantity();
+                }
+
             } else {
                 CalculatePriceBaseOnRangedQuantity();
             }
@@ -962,12 +1002,15 @@
             CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
         }
 
-        SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
+        SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'), 1);
 
         SetAddOnsPriceOnPageLoad();
 
         SetCostCentreQueueLabelsOnModify();
 
+        $("#VMProductName").val($("#cProductName").val());
+
+        ExecuteAutoCostCenters();
     });
 
     $("#priceToggle").click(function() {
@@ -1109,7 +1152,7 @@
         CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
     });
 
-    function SelectStockOption(classname) {
+    function SelectStockOption(classname, isCalledOnPageLoad) {
 
         $('input:radio[class=' + classname + ']').prop('checked', true);
 
@@ -1163,7 +1206,7 @@
             CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
         }
 
-        LoadCostCentersByStockId(ItemstockOptionID);
+        LoadCostCentersByStockId(ItemstockOptionID, isCalledOnPageLoad);
     }
 
 
@@ -1318,7 +1361,7 @@
     }
 
     function calculateAddOns(isReCalCostCentreOnQuantityChange) {
-
+      
         var checkedPriceTotal = 0;
 
         var selectedCheckBox = null;
@@ -1389,36 +1432,9 @@
 
                     // check the costcenter if its type is fixed then we will take its setup cost
                     //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-
+                 
                     var actualPrice = selectedCheckBox.ActualPrice;
-
-                    @*if (selectedCheckBox.Type == 2) {
-                            var ActualPriceIncludeVat = 0;
-                            if (isRanged) {
-                                var quantityOrdered = $("#rangedQuantityOrdered").val();
-                                actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
-                                if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
-                                    actualPrice = selectedCheckBox.MinimumCost;
-                                }
-                                ActualPriceIncludeVat = actualPrice + ((actualPrice * @ViewBag.TaxRate) / 100);
-                                ActualPriceIncludeVat = (ActualPriceIncludeVat).toFixed(2).toString();
-                            } else {
-                                var quantityOrdered = $(".dropdownQtyListClass").find(":selected").val();
-
-                                actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
-                                if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
-                                    actualPrice = selectedCheckBox.MinimumCost;
-
-                                }
-                                ActualPriceIncludeVat = actualPrice + ((actualPrice * @ViewBag.TaxRate) / 100);
-                                ActualPriceIncludeVat = (ActualPriceIncludeVat).toFixed(2).toString();
-                            }
-                            $("#VMAddOnrice").val(actualPrice);
-
-                            checkedPriceTotal = checkedPriceTotal + parseFloat(ActualPriceIncludeVat);
-
-                        } else if (selectedCheckBox.Type == 4) {*@ // gets the value from the label
-
+                
                     if ($(val).next().next().children(':first').text() == "") {
 
                     } else {
@@ -1436,15 +1452,6 @@
                     if (!$(val).hasClass('userDefined')) {
                         $(val).addClass('userDefined');
                     }
-
-
-                    //} else {
-                    //    checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
-
-                    //}
-
-                    //     selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
-
                 }
             } else {
                 // in case of user defined cost centre remove the calculated price and modify button when this costcentre will be un checked
@@ -1474,13 +1481,12 @@
 
     $('input[name=addOnChecks]').on('change', function(e) {
 
-        //displayTotalPrice(TotalItemPrice, calculateAddOns(false));
         calculateAddOns(false);
     });
 
 
     function SetAddOnsPriceOnPageLoad() {
-
+      
         var selectedCheckBox = null;
         var unSelectedCheckBox = null;
         var itemsList = '';
@@ -1493,57 +1499,87 @@
         }
 
         var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
-        console.log(addOnJasonData);
-        @*var selectedStockItemId = parseInt(@ViewBag.SelectedStockItemId);
-        console.log("parseInt()" + selectedStockItemId);*@
-        //$(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
 
-            if (addOnJasonData != null) {
-      
-                for (var i = 0; i < $(addOnJasonData).length; i++) {
-                    selectedCheckBox = $(addOnJasonData)[i];
-                    
-                    if (selectedCheckBox.isChecked == 1) {
-                        console.log($(addOnJasonData)[i].Id + "=" + $(addOnJasonData)[i].isChecked);
-                        var ActualPriceIncludeVatOnModifyingProductCase = selectedCheckBox.ActualPrice + ((selectedCheckBox.ActualPrice * @ViewBag.TaxRate) / 100);
-                        ActualPriceIncludeVatOnModifyingProductCase =   "@ViewBag.Currency" + (ActualPriceIncludeVatOnModifyingProductCase).toFixed(2).toString();
-                        if(selectedCheckBox.Type == 3){ // quantity cc
-                            if(selectedCheckBox.QuantitySourceType == 1){
-                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase  + '</label>');
-                            }else{
-                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
-                            }
-                        }else if(selectedCheckBox.Type == 2){
-                            if(selectedCheckBox.TimeSourceType == 1){
-                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
-                            }else{
-                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
-                            }
+        if (addOnJasonData != null) {
 
+            for (var i = 0; i < $(addOnJasonData).length; i++) {
+                selectedCheckBox = $(addOnJasonData)[i];
+               
+                if (selectedCheckBox.isChecked == 1) {
+                   
+                    var ActualPriceIncludeVatOnModifyingProductCase = selectedCheckBox.ActualPrice + ((selectedCheckBox.ActualPrice * @ViewBag.TaxRate) / 100);
+                    ActualPriceIncludeVatOnModifyingProductCase =   "@ViewBag.Currency" + (ActualPriceIncludeVatOnModifyingProductCase).toFixed(2).toString();
+                    if(selectedCheckBox.Type == 3){ // quantity cc
+                        if(selectedCheckBox.QuantitySourceType == 1){
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase  + '</label>');
                         }else{
                             $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
                         }
-                        $("#" + $(addOnJasonData)[i].Id).click();
+                    }else if(selectedCheckBox.Type == 2){
+                        if(selectedCheckBox.TimeSourceType == 1){
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
+                        }else{
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                        }
+
+                    }else{ // if formula string has prompting question thenn add modify link
+                        var HasLength = 0;
+                        console.log($("#costCentreQueueItems").val());
+                        if($("#costCentreQueueItems").val() != null && $("#costCentreQueueItems").val() != ""){
+
+                           
+                            var UpdatedGlobalQueueArrayOnLoadForFormulaObjects = JSON.parse($("#costCentreQueueItems").val());
+                            if(UpdatedGlobalQueueArrayOnLoadForFormulaObjects != null && UpdatedGlobalQueueArrayOnLoadForFormulaObjects != "")
+                            {
+                                if (UpdatedGlobalQueueArrayOnLoadForFormulaObjects.QuestionQueues != null) {
+                         
+                                    if(UpdatedGlobalQueueArrayOnLoadForFormulaObjects.QuestionQueues.length > 0){
+                                        for (var f = 0; f < UpdatedGlobalQueueArrayOnLoadForFormulaObjects.QuestionQueues.length; f++) {
+                                            if (UpdatedGlobalQueueArrayOnLoadForFormulaObjects.QuestionQueues[f].CostCentreID == selectedCheckBox.CostCenterId) {
+                                                HasLength = 1;
+                                            }
+                                        }
+                               
+                                    }
+
+                                }
+
+                                if (UpdatedGlobalQueueArrayOnLoadForFormulaObjects.InputQueues != null) {
+                               
+                                    if(UpdatedGlobalQueueArrayOnLoadForFormulaObjects.InputQueues.length > 0){
+                                        for (var f = 0; f < UpdatedGlobalQueueArrayOnLoadForFormulaObjects.InputQueues.length; f++) {
+                                            if (UpdatedGlobalQueueArrayOnLoadForFormulaObjects.InputQueues[f].CostCentreID == selectedCheckBox.CostCenterId) {
+                                                HasLength = 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+                       
+                        
+
+                        if(HasLength == 1){
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                        }else{
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
+                        }
+                        
                     }
-                    $("#" + $(addOnJasonData)[i].Id).attr('onclick', 'PromptQuestion(' + selectedCheckBox.CostCenterId + ', ' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type + ', \"New\",'+ selectedCheckBox.QuantitySourceType +',' + selectedCheckBox.TimeSourceType + ');');
-
-                    $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
-
-         
-              
+                    $("#" + $(addOnJasonData)[i].Id).click();
                 }
+                $("#" + $(addOnJasonData)[i].Id).attr('onclick', 'PromptQuestion(' + selectedCheckBox.CostCenterId + ', ' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type + ', \"New\",'+ selectedCheckBox.QuantitySourceType +',' + selectedCheckBox.TimeSourceType + ');');
+
+                $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
+
+
+
             }
-           // itemsList = itemsList + ", " + $(this).parent().next().text();
+        }
 
-            // check the costcenter if its type is fixed then we will take its setup cost
-            //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-            //var actualPrice = selectedCheckBox.ActualPrice;
-            console.log(selectedCheckBox.isChecked);
-            
-
-            
-        //});
-
+      
         selectedCheckBox = null;
         unSelectedCheckBox = null;
     }
@@ -1563,6 +1599,9 @@
             if (files.length > 0) {
 
                 for (i = 0; i < files.length; i++) {
+                    //if(files[i].size != null && files[i].size > 10000){
+                    //    fileLimitExceed = 1;
+                    //}
                     data.append("file" + i, files[i]);
                 }
             }
@@ -1571,7 +1610,7 @@
     }
     function openDailog() {
 
-        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx" ].indexOf(fileExtension) > -1 )
+        if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx", "png" ].indexOf(fileExtension) > -1)
         {
             HideMessagePopUpGeneric();
             ShowLoader();
@@ -1608,7 +1647,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/designerapi/AttachmentUploader/PostAsync/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,
+                    url: "/designerapi/AttachmentUploader/PostAsync/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId + "/ProductOptions",
                     contentType: false,
                     processData: false,
                     data: data,
@@ -1643,8 +1682,10 @@
         }
         else
         {
+
             HideMessagePopUpGeneric();
-            ShowPopUp(Message,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of pdf,jpg,eps,tiff,csv,xls,xlsx."))');
+            ShowPopUp('Message','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of png,pdf,jpg,eps,tiff,csv,xls,xlsx."))');
+
         }
 
     }
@@ -1658,9 +1699,13 @@
     }
 
     function PromptQuestion(CostCentreId, ControlId, CostCentreType, Mode, QuantitySourceType, TimeSourceType) {
-
+        console.log("pq");
+        console.log(CostCentreId  + " " + ControlId+ " " + CostCentreType+ " " + Mode + " " + QuantitySourceType + " " + TimeSourceType);
         var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
         if ($("#" + ControlId).is(':checked')) {
+            console.log("checked");
+       
+            console.log("Mode " + Mode);
             var addModifyLinkToCCValue = 0;
 
             if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
@@ -1678,6 +1723,7 @@
                 }
             }
             if (Mode == 2) {// This condition will excute when quantity changed and user already selected some cost centres
+             
                 var CostCentreCount = 0; // if count == ticked costcenter counts means all costcentres executed when quantity changed
                 ShowLoader();
                 countOfCostCentresTicked = 0;
@@ -1701,7 +1747,7 @@
                     success: function(response) {
 
                         if (response != "") {
-                            // console.log($("#costCentreQueueItems").val());
+                           
                             $("#ModifiedQueueItem").val($("#costCentreQueueItems").val());
                             var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
                             var UpdatedGlobalQueueArray = JSON.parse($("#costCentreQueueItems").val());
@@ -1743,6 +1789,7 @@
 
 
                             if (UpdatedGlobalQueueArray.QuestionQueues != null) {
+                              
                                 var QuestionQueueDBObject = [];
                                 if(UpdatedGlobalQueueArray.QuestionQueues.length > 0){
                                     addModifyLinkToCCValue = 1;
@@ -1750,7 +1797,12 @@
                                 if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
 
                                     if(UpdatedGlobalQueueArray.QuestionQueues.length > 0){
-                                        addModifyLinkToCCValue = 1;
+                                        for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {
+                                            if (UpdatedGlobalQueueArray.QuestionQueues[j].CostCentreID == CostCentreId) {
+                                                addModifyLinkToCCValue = 1;
+                                            }
+                                        }
+                                       
                                     }
 
                                 }
@@ -1766,6 +1818,7 @@
                             }
 
                             if (UpdatedGlobalQueueArray.InputQueues != null) {
+                               
                                 var InputQueueDBObject = [];
 
                                 if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
@@ -1773,8 +1826,13 @@
 
                                     if(UpdatedGlobalQueueArray.InputQueues.length == 3){ // do not process the queue for prompting values
 
-                                    }else{
-                                        addModifyLinkToCCValue = 1;
+                                    }else if(UpdatedGlobalQueueArray.InputQueues.length > 0){
+                                        for (var j = 0; j < UpdatedGlobalQueueArray.InputQueues.length; j++) {
+                                            if (UpdatedGlobalQueueArray.InputQueues[j].CostCentreID == CostCentreId) {
+                                                addModifyLinkToCCValue = 1;
+                                            }
+                                        }
+                                       
                                     }
 
                                 }
@@ -1788,8 +1846,7 @@
                                     $("#VMJsonAddOnsInputQueue").val(JSON.stringify(InputQueueDBObject, null, 2));
                                 }
                             }
-                            //console.log("UpdatedGlobalQueueArray.InputQueues" + UpdatedGlobalQueueArray.InputQueues + $("#VMJsonAddOnsInputQueue").val());
-
+                          
                             var JsonToReSubmit = [];
 
                             var totalVal = 0;
@@ -1828,7 +1885,7 @@
                         countOfCostCentreOnwhichActionIsPerformed = parseInt(countOfCostCentreOnwhichActionIsPerformed) + 1;
 
                         if(countOfCostCentresTicked == countOfCostCentreOnwhichActionIsPerformed){
-                            //console.log();
+                          
                             countOfCostCentreOnwhichActionIsPerformed = 0;
                             $.each(controlsArrayOnQtyChange, function (i, ite) {
 
@@ -1849,7 +1906,7 @@
 
             } else if (Mode == 1) {// This condition executes when we modify the selected cost centre
                 ShowLoader();
-
+                console.log(" This condition executes when we modify the selected cost centre");
                 var to;
                 to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=Modify";
                 var options = {
@@ -1923,7 +1980,7 @@
 
             } else {//This condition executes when first time a cost centre is selected from landing page
                 ShowLoader();
-
+                console.log("This condition executes when first time a cost centre is selected from landing page");
                 if ($("#costCentreQueueItems").val() == 'null' || $("#costCentreQueueItems").val() == null) { // This condition will execute when cost centre queue is empty means we are adding cost centre at very first time
                     var isQueueExist = false;
                     var QuestionQueueObject = null;
@@ -1980,6 +2037,7 @@
                         });
 
                 } else { // This conditon will execute when atleast when cost centre is executed/selected and requesting to add another cost centre
+                   
                     var to;
                     to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=addAnother";
                     var options = {
@@ -2088,7 +2146,7 @@
                 }
             }
         }else{ // remove the added array of cost centre as cost centre is un checked and apply the price to total
-
+           
             var JsonAllQueueItemArray = JSON.parse($("#costCentreQueueItems").val());
 
             if(JsonAllQueueItemArray.QuestionQueues.length > 0){
@@ -2108,8 +2166,8 @@
         }
     }
 
-    function LoadCostCentersByStockId(StockId) {
-
+    function LoadCostCentersByStockId(StockId, isCalledOnPageLoad) {
+ 
         var noRefiningOpt = 1;
         mandatoryRefiningOptIds = "";
         $(".CostCenterItems").each(function(i, val) {
@@ -2125,6 +2183,17 @@
                 }
 
                 noRefiningOpt = 0;
+               
+                if ("@ViewBag.Mode" != "Modify" && isCalledOnPageLoad == 0) {
+                    if($(val).attr('data-isautoexec') == 1){
+                        
+                        if ($(val).children().next().children().is(':checked')) {
+                        }else{
+                            $(val).children().next().children().click();
+                        }
+                    }
+                }
+
             } else {
 
                 $(val).css("display", "none");
@@ -2134,7 +2203,6 @@
 
                 }
             }
-
         });
 
         if(noRefiningOpt == 1){
@@ -2258,4 +2326,56 @@
         };
         var returnText = $.ajax(options).responseText;
     }
+
+    function ExecuteAutoCostCenters() {
+        var ItemstockOptionID = $('input:radio[class=' + $('input:radio[name=StockPaper]:checked').attr('class') + ']').attr("data-Id");
+
+        $(".CostCenterItems").each(function(i, val) {
+            if (ItemstockOptionID == $(val).attr('data-StockId')) {
+                @*if ("@ViewBag.Mode" != "Modify") {*@
+                    if($(val).attr('data-isautoexec') == 1){
+                        if ($(val).children().next().children().is(':checked')) {
+                        }else{
+                            $(val).children().next().children().click();
+                        }
+                        //$(val).children().next().children().click();
+                    }
+               // }
+            }
+        });
+    }
+
+
 </script>
+
+
+@*<script>
+
+    window.onload = function () {
+        if(window.location.href.toLowerCase().indexOf("modify") == -1){
+            ExecuteCustomCostCentersOnPageLoad();
+        }
+
+    }
+
+    function ExecuteCustomCostCentersOnPageLoad() {
+        var ItemstockOptionID = $('input:radio[class=' + $('input:radio[name=StockPaper]:checked').attr('class') + ']').attr("data-Id");
+
+        $(".extra_item").each(function(i, val) {
+
+            if($(this).parent().attr('data-stockid') == ItemstockOptionID){
+
+                if($(this).children().next().text().toLowerCase().indexOf("custom") > -1
+                    || $(this).children().next().text().toLowerCase().indexOf("concealed") > -1
+                    || $(this).children().next().text().toLowerCase().indexOf("pin mount") > -1
+                    || $(this).children().next().text().toLowerCase().indexOf("flush mount") > -1
+                    || $(this).children().next().text().toLowerCase().indexOf("acrylic stand") > -1){
+                    $(this).children().click();
+                }
+            }
+        });
+    }
+
+</script>*@
+
+

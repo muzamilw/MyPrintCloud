@@ -60,6 +60,9 @@
     <Reference Include="FileHelpers.ExcelStorage">
       <HintPath>..\packages\FileHelpers.2.0.0.0\lib\FileHelpers.ExcelStorage.dll</HintPath>
     </Reference>
+    <Reference Include="FluentScheduler">
+      <HintPath>..\packages\FluentScheduler.3.1.46\lib\net40\FluentScheduler.dll</HintPath>
+    </Reference>
     <Reference Include="GrapeCity.ActiveReports.Document.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
@@ -341,7 +344,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\AgileCRMContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
+    <Compile Include="Areas\Api\Controllers\CopyStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteOrderController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeliveryNotesByOrderController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadArtworkWebStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadExternalReportController.cs" />
+    <Compile Include="Areas\Api\Controllers\ExportItemController.cs" />
+    <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportParamController.cs" />
+    <Compile Include="Areas\Api\Controllers\SpotColorController.cs" />
     <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
@@ -481,6 +494,7 @@
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ImportCompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ImportCRMCompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ImportProductMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryItemMapper.cs" />
@@ -511,7 +525,9 @@
     <Compile Include="Areas\Api\ModelMappers\PurchaseDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportEmailResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportParamComboMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportParamResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
@@ -588,6 +604,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactResponseForCalendar.cs" />
     <Compile Include="Areas\Api\Models\CompanyVariableIconeDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\ContactResponseForOrder.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterExecutionParamRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
@@ -618,6 +635,8 @@
     <Compile Include="Areas\Api\Models\ImportCompanyContact.cs" />
     <Compile Include="Areas\Api\Models\ImportCompanyContactCsv.cs" />
     <Compile Include="Areas\Api\Models\ImportCRMCompanyContact.cs" />
+    <Compile Include="Areas\Api\Models\ImportProductCsv.cs" />
+    <Compile Include="Areas\Api\Models\ImportProducts.cs" />
     <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
     <Compile Include="Areas\Api\Models\Inquiry.cs" />
     <Compile Include="Areas\Api\Models\InquiryAttachment.cs" />
@@ -672,6 +691,7 @@
     <Compile Include="Areas\Api\Models\ReportNote.cs" />
     <Compile Include="Areas\Api\Models\Reportparam.cs" />
     <Compile Include="Areas\Api\Models\ReportparamComboCollection.cs" />
+    <Compile Include="Areas\Api\Models\ReportParamRequestModel.cs" />
     <Compile Include="Areas\Api\Models\ReportparamResponse.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
@@ -871,6 +891,7 @@
     <Compile Include="Areas\Api\Models\SmartFormResponse.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockCategorySubCategoryResponse.cs" />
     <Compile Include="Areas\Api\Models\StockItemDropDownForProduct.cs" />
     <Compile Include="Areas\Api\Models\StockItemForDropDown.cs" />
     <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
@@ -963,6 +984,7 @@
     <Compile Include="Areas\Api\Models\TaxRate.cs" />
     <Compile Include="Areas\Api\Models\WeightUnitDropDown.cs" />
     <Compile Include="ModelMappers\CmsSkinPageWidgetMapper.cs" />
+    <Compile Include="Models\ListingBackgroundTask.cs" />
     <Compile Include="Models\ReportDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\Api\Models\CompanyResponse.cs" />
@@ -2290,6 +2312,9 @@
     <Content Include="Areas\Stores\Views\Stores\_EditStoreCss.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_RealEstateCompaignDailog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_Zapier.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreLayoutWidgetCss.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_MailChimpDetail.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderDeliveryNotes.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -2308,6 +2333,10 @@
       <DependentUpon>Orders.css</DependentUpon>
     </Content>
     <Content Include="Content\less\PurchaseOrder.less" />
+    <Content Include="Content\less\ItemJobStatus.css.map">
+      <DependentUpon>ItemJobStatus.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Attachments\ExportItems.rpx" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -3484,6 +3513,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
+    <Folder Include="Areas\Api\Views\AgileCRMContact\" />
     <Folder Include="Areas\Api\Views\Category\" />
     <Folder Include="Areas\Api\Views\CompanyContactBaseForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
@@ -3491,16 +3521,20 @@
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\CompanyVariableIcon\" />
     <Folder Include="Areas\Api\Views\CopyEstimate\" />
+    <Folder Include="Areas\Api\Views\CopyStore\" />
     <Folder Include="Areas\Api\Views\CostCentreMatrix\" />
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\DeleteCostCentre\" />
     <Folder Include="Areas\Api\Views\DeleteCrmCompany\" />
+    <Folder Include="Areas\Api\Views\DeleteOrder\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
     <Folder Include="Areas\Api\Views\DeliveryNoteBase\" />
+    <Folder Include="Areas\Api\Views\DownloadExternalReport\" />
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\EstimateBase\" />
+    <Folder Include="Areas\Api\Views\ExportItem\" />
     <Folder Include="Areas\Api\Views\GetDashboardData\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportController\" />
@@ -3510,6 +3544,7 @@
     <Folder Include="Areas\Api\Views\Inquiry\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\ItemDetailBase\" />
+    <Folder Include="Areas\Api\Views\ListingProperty\" />
     <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\OrderRetailStoreDetail\" />
@@ -3522,8 +3557,10 @@
     <Folder Include="Areas\Api\Views\PTVCalculation\" />
     <Folder Include="Areas\Api\Views\RealEstateCompaign\" />
     <Folder Include="Areas\Api\Views\ReportManager\" />
+    <Folder Include="Areas\Api\Views\ReportParam\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />
+    <Folder Include="Areas\Api\Views\SpotColor\" />
     <Folder Include="Areas\Api\Views\StockCategory\" />
     <Folder Include="Areas\Api\Views\SystemUser\" />
     <Folder Include="Areas\Common\Controllers\" />

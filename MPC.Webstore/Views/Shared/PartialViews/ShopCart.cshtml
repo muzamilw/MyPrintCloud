@@ -130,7 +130,12 @@
                                                     @{
                                          string pdfLinkBtn = string.Empty;
                                          string imgToShowURL = string.Empty;
-                                         if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
+                                         if (prod.ProductType == (int)ProductType.AssetProduct)
+                                         {
+                                             pdfLinkBtn = "/" + prod.ThumbnailPath;
+                                             imgToShowURL = "/" + prod.ThumbnailPath;
+                                         }
+                                         else if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
                                          {
                                              string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
                                              if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
@@ -146,17 +151,28 @@
                                                  {
                                                      FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
                                                  }
-                                                 // from file table
-                                                 //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
-
-                                                 pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                 if (FolderPathOfAttachment[0] == '/')
+                                                 pdfLinkBtn = "";
+                                                 if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
                                                  {
-                                                     imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                     if (FolderPathOfAttachment[0] == '/')
+                                                     {
+                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType;// completeImgPath;
+                                                     }
+                                                     else
+                                                     {
+                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType;// completeImgPath;
+                                                     }
                                                  }
                                                  else
                                                  {
-                                                     imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                     if (FolderPathOfAttachment[0] == '/')
+                                                     {
+                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                     }
+                                                     else
+                                                     {
+                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                     }
                                                  }
                                              }
                                          }
@@ -167,7 +183,15 @@
                                                  string completeImgPath = "";
                                                  if (!string.IsNullOrEmpty(prod.Attatchment.FolderPath) && !string.IsNullOrEmpty(prod.Attatchment.FileName))
                                                  {
-                                                     completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString;
+                                                     if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
+                                                     {
+                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType;
+                                                     }
+                                                     else
+                                                     {
+                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString;
+                                                     }
+
                                                  }
                                                  else
                                                  {
@@ -176,26 +200,44 @@
                                                  pdfLinkBtn = completeImgPath;
                                                  imgToShowURL = completeImgPath;
                                              }
+                                             else
+                                             {
+                                                 pdfLinkBtn = "/" + prod.ThumbnailPath;
+                                                 imgToShowURL = "/" + prod.ThumbnailPath;
+                                             }
                                          }
                                                     }
                                                     <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL" /></a>
                                                 </div>
                                                 <div class="BtnTemplateModifyContainer visible-xs hidden-sm">
-                                                    @if (prod.ProductType == (int)ProductType.PrintProduct)
+                                                    @if (prod.ProductType != (int)ProductType.AssetProduct)
                                                     {
-                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        
+                                                      <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                          
                                                     }
                                                 </div>
                                             </td>
+
+
                                             <td style="width:29%;" valign="top" class="PadTop5">
-                                                <span id="lblItemProductName" class="heading_16">@prod.ProductName</span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
+                                                <span id="lblItemProductName" class="heading_16">
+                                                @if (!string.IsNullOrEmpty(prod.ProductFriendlyName))
+                                                {
+                                                        @prod.ProductFriendlyName
+                                                }
+                                                else
+                                                {
+                                                        @prod.ProductName
+                                                }
+                                                </span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
                                                 <br>
-                                                <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
-                                                <br>
+                                                @if (!string.IsNullOrEmpty(prod.ProductCategoryName))
+                                                {
+                                                    <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
+                                                    <br>
+                                                }
+                                                
                                                 <br>
                                                 <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
                                                 <br>
@@ -209,16 +251,16 @@
                                                         foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == prod.ItemID))
                                                         {
                                                             itemAddsOn = itemAddsOn + cost.AddOnName + ",";
-                                                            noOfCostCentreProdDays += cost.EstimateProductionTime;
+                                                            //noOfCostCentreProdDays += cost.EstimateProductionTime;
                                                         }
                                                     }
 
-                                                    ProductProductionTime += noOfCostCentreProdDays;
-                                                    if (_numOfProductionDays < ProductProductionTime)
-                                                    {
-                                                        _numOfProductionDays = ProductProductionTime;
-                                                    }
-                                                    numberOfDaysAddedTodelivery = _numOfProductionDays;
+                                                    //ProductProductionTime += noOfCostCentreProdDays;
+                                                    //if (_numOfProductionDays < ProductProductionTime)
+                                                    //{
+                                                    //    _numOfProductionDays = ProductProductionTime;
+                                                    //}
+                                                    _numOfProductionDays = Model.TotalProductionTime;
 
                                                     DateTime date = Utils.AddBusinessdays(_numOfProductionDays, DateTime.Now);
 
@@ -230,17 +272,9 @@
                                                 <br>
                                                 <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
                                                 <br />
-                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
-
-                                                <br />
-                                                <br />
-                                                @if (prod.ProductType == (int)ProductType.PrintProduct)
+                                                @if (prod.ProductType != (int)ProductType.AssetProduct)
                                                 {
-                                                    <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
-                                                }
-                                                else
-                                                {
-                                                    <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
+                                                    <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
                                                 }
                                             </td>
                                             <td class="PadTop5" align="left" style="width:5%;" valign="top">
@@ -300,8 +334,9 @@
                             <div class="cnttotalPayables">
                                 @if (ViewBag.IsShowPrices)
                                 {
+                                    
                                     <div class="cntsubHeadings">
-                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</label>
+                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
                                             <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label>
@@ -330,7 +365,7 @@
                                                 <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblDeliveryToBeCal">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId,"Free Shipping"))</label>
                                             }
 
-                                            <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                            
                                         }
                                         else
                                         {
@@ -342,7 +377,7 @@
                                             {
                                                 <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblCalculatedDelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
 
-                                             <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                            
                                             }
                                         }
                                         
@@ -366,30 +401,41 @@
                                     <div class="estimated_dilvery_sec  LightGrayLabels" style="display:none;">
                                         &nbsp;
                                     </div>
-                                    <div class="dropdown_sec" style="display:block;">
+                                    @if (ViewBag.DisableCouponCode == 0)
+                                    {
+                                        <div class="dropdown_sec">
 
-                                        <div id="panelCouponCode">
-                                            @if (ViewBag.VoucherApplied == null)
-                                            {
+                                            <div id="panelCouponCode">
+                                                @if (ViewBag.VoucherApplied == null)
+                                                {
 
-                                                <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcoponcode",UserCookieManager.WBStoreId, "Coupon Code"))" />
-                                                <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnAutoPostBackDiscountVoucherCode",UserCookieManager.WBStoreId, ""))</button>
-                                                <div id="lblRedeemErrorMesg" class="errorMessage"></div>
-                                                <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode(event);" style="display:none;">Remove voucher code</button>
-                                            }
-                                            else
-                                            {
-                                                <button id="btnRemoveVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveVoucherCode(event);">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlremovevouchercode", UserCookieManager.WBStoreId, "Remove voucher code"))</button>
-                                            }
+                                                    <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcoponcode",UserCookieManager.WBStoreId, "Coupon Code"))" />
+                                                    <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnAutoPostBackDiscountVoucherCode", UserCookieManager.WBStoreId, ""))</button>
+                                                    <div id="lblRedeemErrorMesg" class="errorMessage"></div>
+                                                    <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode(event);" style="display:none;">Remove voucher code</button>
+                                                }
+                                                else
+                                                {
+                                                    <button id="btnRemoveVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveVoucherCode(event);">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlremovevouchercode", UserCookieManager.WBStoreId, "Remove voucher code"))</button>
+                                                }
+                                            </div>
+
                                         </div>
-                                       
-                                    </div>
+                                    }
+                                
                                 </div>
                             </div>
                             <div class="clearBoth">
                             </div>
-
-                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="return ifNoAnEnterKay(event);" /><br />
+                            @*@if (ViewBag.CanPlaceOrder == 1)
+                            {*@
+                                <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="return ifNoAnEnterKay(event);" /><br />
+                            @*}
+                            else
+                            {
+                                <input type="button" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="CantPlaceOrder();" /><br />
+                            }*@
+                           
                             <button id="btn_ContinueShopping" type="button" onclick="return ContinueShopping(event);" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                             <div class="clearBoth">
                                 &nbsp;
@@ -666,6 +712,11 @@
             ShowLoader();
             return true;
         }
+    }
+
+    function CantPlaceOrder()
+    {
+        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("cartCorporateOrderCantPlace", UserCookieManager.WBStoreId, "You did not have the right to place order. Please contact your Order Manager."))');
     }
     function RemoveDeliveryVoucherCode(e)
     {

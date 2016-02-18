@@ -34,12 +34,13 @@ namespace MPC.Repository.Repositories
 
         public override IEnumerable<DeliveryCarrier> GetAll()
         {
-            return DbSet.ToList();
+            return DbSet.Where(c => c.OrganisationId == 0 || c.OrganisationId == this.OrganisationId).ToList();
         }
 
         public bool AddDeliveryCarrier(DeliveryCarrier deliveryc)
         {
 
+            deliveryc.OrganisationId = this.OrganisationId;
             db.DeliveryCarriers.Add(deliveryc);
             db.SaveChanges();
 

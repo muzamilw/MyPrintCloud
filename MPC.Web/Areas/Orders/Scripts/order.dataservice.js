@@ -30,7 +30,7 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                   
+
                     // Define request to get Inquiries
                     amplify.request.define('getInquiries', 'ajax', {
                         url: ist.siteUrl + '/Api/Inquiry',
@@ -99,6 +99,8 @@ define("order/order.dataservice", function () {
                     amplify.request.define('saveOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/Order',
                         dataType: 'json',
+                        dataMap: JSON.stringify,
+                        contentType: "application/json; charset=utf-8",
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
@@ -131,6 +133,8 @@ define("order/order.dataservice", function () {
                     amplify.request.define('progressOrderToEstimate', 'ajax', {
                         url: ist.siteUrl + '/Api/ProgressEstimate',
                         dataType: 'json',
+                        dataMap: JSON.stringify,
+                        contentType: "application/json; charset=utf-8",
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
@@ -153,14 +157,14 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+
                     // Define request to Download Artwork of the order
                     amplify.request.define('downloadOrderArtwork', 'ajax', {
                         url: ist.siteUrl + '/Api/DownloadArtwork',
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+
                     // Define request to get base data for inquiry
                     amplify.request.define('getBaseDataForInquiry', 'ajax', {
                         url: ist.siteUrl + '/Api/InquiryBase',
@@ -174,6 +178,22 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Save Delivery Notes
+                    amplify.request.define('saveDeliveryNoteByOrder', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeliveryNotesByOrder',
+                        dataType: 'json',
+                        dataMap: JSON.stringify,
+                        contentType: "application/json; charset=utf-8",
+                        type: 'Post'
+                    });
+                    // Define request to Delete order Permanently
+                    amplify.request.define('deleteOrderPermanent', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteOrder',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -187,7 +207,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Get base data For Estimate
-            getBaseDataForEstimate = function (callbacks) {
+            getBaseDataForEstimate = function(callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseDataForEstimate',
@@ -216,7 +236,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // copy Estimate
-            copyEstimate = function (params, callbacks) {
+            copyEstimate = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'copyEstimate',
@@ -226,7 +246,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // copy Order
-            copyOrder= function (params, callbacks) {
+            copyOrder = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'copyOrder',
@@ -236,7 +256,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Get Get Inquiry Items
-            getInquiryItems = function (params, callbacks) {
+            getInquiryItems = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getInquiryItems',
@@ -246,7 +266,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Get Inquiry by id 
-            getInquiry = function (params, callbacks) {
+            getInquiry = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getInquiry',
@@ -256,7 +276,7 @@ define("order/order.dataservice", function () {
                 });
             },
             //progress Inquiry To Estimate
-            progressInquiryToEstimate = function (params, callbacks) {
+            progressInquiryToEstimate = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'progressInquiryToEstimate',
@@ -266,7 +286,7 @@ define("order/order.dataservice", function () {
                 });
             },
             //progress Estimate to order
-            progressEstimateToOrder = function (params, callbacks) {
+            progressEstimateToOrder = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'progressEstimateToOrder',
@@ -286,7 +306,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Get Inquiries
-            getInquiries = function (params, callbacks) {
+            getInquiries = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getInquiries',
@@ -336,7 +356,7 @@ define("order/order.dataservice", function () {
                 });
             },
             //Save Inquiry
-            saveInquiry = function (param, callbacks) {
+            saveInquiry = function(param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'saveInquiry',
@@ -356,7 +376,7 @@ define("order/order.dataservice", function () {
                 });
             },
             //Progress Order To Estimate
-            progressOrderToEstimate = function (param, callbacks) {
+            progressOrderToEstimate = function(param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'progressOrderToEstimate',
@@ -383,10 +403,9 @@ define("order/order.dataservice", function () {
                     error: callbacks.error,
                     data: params
                 });
-            },
-            
-             // get Base Data For Inquiry
-            getBaseDataForInquiry = function (params, callbacks) {
+            },            
+            // get Base Data For Inquiry
+            getBaseDataForInquiry = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseDataForInquiry',
@@ -403,6 +422,25 @@ define("order/order.dataservice", function () {
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
+                });
+            },
+             deleteOrderPermanent = function (param, callbacks) {
+                 initialize();
+                 return amplify.request({
+                     resourceId: 'deleteOrderPermanent',
+                     success: callbacks.success,
+                     error: callbacks.error,
+                     data: param
+                 });
+             },
+
+            saveDeliveryNoteByOrder = function(param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveDeliveryNoteByOrder',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
                 });
             };
        
@@ -430,8 +468,9 @@ define("order/order.dataservice", function () {
             getBaseDataForInquiry: getBaseDataForInquiry,
             getBaseDataForEstimate: getBaseDataForEstimate,
             downloadOrderArtwork: downloadOrderArtwork,
-            copyOrder:copyOrder
-
+            copyOrder: copyOrder,
+            saveDeliveryNoteByOrder: saveDeliveryNoteByOrder,
+            deleteOrderPermanent: deleteOrderPermanent
 
         };
     })();

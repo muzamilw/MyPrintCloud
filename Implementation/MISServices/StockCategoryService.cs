@@ -35,6 +35,10 @@ namespace MPC.Implementation.MISServices
         {
             //stockCategory.CompanyId = 324234;todo
             stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
+            if(stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.Count > 0)
+            {
+                stockCategory.StockSubCategories.ToList().ForEach(x => x.OrganisationId = stockCategoryRepository.OrganisationId);
+            }
             stockCategoryRepository.Add(stockCategory);
             stockCategoryRepository.SaveChanges();
             return stockCategory;
@@ -42,18 +46,30 @@ namespace MPC.Implementation.MISServices
 
         public StockCategory Update(StockCategory stockCategory)
         {
-            stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
-            var stockDbVersion = stockCategoryRepository.Find(stockCategory.CategoryId);
+            //stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
+            var stockDbVersion = stockCategoryRepository.getStockCategoryByCategoryId(stockCategory.CategoryId);
+            if (stockCategory.CategoryId > 4) // organisation set to to only categories that are user defined upto 4 these are global categories
+            {
+                stockCategory.OrganisationId = stockDbVersion.OrganisationId;
+            }
+           
+            
+
             #region Sub Stock Categories Items
             //Add  SubStockCategories 
             if (stockCategory.StockSubCategories != null)
             {
                 foreach (var item in stockCategory.StockSubCategories)
                 {
-                    if (stockDbVersion.StockSubCategories.All(x => x.SubCategoryId != item.SubCategoryId) || item.SubCategoryId == 0)
+                    if (stockDbVersion.StockSubCategories.All(x => x.SubCategoryId != item.SubCategoryId) || item.SubCategoryId == 0 )
                     {
                         item.CategoryId = stockCategory.CategoryId;
+                        item.OrganisationId = stockCategoryRepository.OrganisationId;
                         stockDbVersion.StockSubCategories.Add(item);
+                    }
+                    else
+                    {
+                        item.OrganisationId = stockCategoryRepository.OrganisationId;
                     }
                 }
             }
@@ -63,10 +79,14 @@ namespace MPC.Implementation.MISServices
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (StockSubCategory dbversionStockSubCategories in stockDbVersion.StockSubCategories)
             {
-                if (stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.All(x => x.SubCategoryId != dbversionStockSubCategories.SubCategoryId))
+                if(dbversionStockSubCategories.OrganisationId == stockCategoryRepository.OrganisationId)
                 {
-                    missingStockSubCategories.Add(dbversionStockSubCategories);
+                    if (stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.All(x => x.SubCategoryId != dbversionStockSubCategories.SubCategoryId && x.OrganisationId == stockCategoryRepository.OrganisationId))
+                    {
+                        missingStockSubCategories.Add(dbversionStockSubCategories);
+                    }
                 }
+               
             }
 
             //remove missing items
@@ -102,10 +122,67 @@ namespace MPC.Implementation.MISServices
 
         public bool Delete(int stockCategoryId)
         {
-            var stockCategoryToBeDeleted = GetStockCategoryById(stockCategoryId);
-            if (stockCategoryToBeDeleted.StockItems.Count > 0)
+            long CategoyId = 0;
+            long SubCategoryId = 0;
+
+            List<StockCategory> GetTopStockCat = stockCategoryRepository.getStockCatByOrgid();
+
+            StockCategory Category = GetTopStockCat.Where(c => c.StockSubCategories.Count > 0).FirstOrDefault();
+            if(Category != null)
             {
-                throw new Exception (" It is Being used In Stock Items! ");
+                CategoyId = Category.CategoryId;
+                if(Category.StockSubCategories != null && Category.StockSubCategories.Count > 0)
+                {
+                    SubCategoryId = Category.StockSubCategories.Select(c => c.SubCategoryId).FirstOrDefault();
+                }
+               
+            }
+            else
+            {
+
+                StockCategory stockCat = stockCategoryRepository.getDefaulStockCat().Where(c => c.StockSubCategories.Count > 0).FirstOrDefault();
+                if(stockCat != null)
+                {
+                    CategoyId = stockCat.CategoryId;
+                    if(stockCat.StockSubCategories != null && stockCat.StockSubCategories.Count > 0)
+                    {
+                        SubCategoryId = stockCat.StockSubCategories.Select(c => c.SubCategoryId).FirstOrDefault();
+                    }
+                }
+                
+            }
+
+            var stockCategoryToBeDeleted = GetStockCategoryById(stockCategoryId);
+            List<StockItem> stocks = stockCategoryToBeDeleted.StockItems.ToList();
+            if(stocks != null && stocks.Count > 0)
+            {
+                foreach(var stock in stocks)
+                {
+                    if (stock.isDisabled != true)
+                    {
+                        throw new Exception(" It is Being used In Stock Items! ");
+                    }
+                    else
+                    {
+                        stock.CategoryId = CategoyId;
+                        stock.SubCategoryId = SubCategoryId;
+                        stockCategoryRepository.UpdateStockItemForCatDeleteion(stock.StockItemId, CategoyId, SubCategoryId);
+                    }
+                }
+            }
+            //if (stockCategoryToBeDeleted.StockItems.Where(c => c.isDisabled != true).ToList().Count > 0)
+            //{
+            //    throw new Exception (" It is Being used In Stock Items! ");
+            //}
+            List<StockSubCategory> subCat = stockCategoryRepository.getStockSubCategoryByCategoryId(stockCategoryId);
+
+            if(subCat != null && subCat.Count > 0)
+            {
+                foreach(var sc in subCat)
+                {
+                    stockSubCategoryRepository.Delete(sc);
+                }
+                
             }
             stockCategoryRepository.Delete(GetStockCategoryById(stockCategoryId));
             stockCategoryRepository.SaveChanges();
@@ -114,6 +191,7 @@ namespace MPC.Implementation.MISServices
 
         public StockCategory GetStockCategoryById(int id)
         {
+
             return stockCategoryRepository.Find(id);
         }
 

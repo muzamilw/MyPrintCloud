@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.ViewModels;
+using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Controllers
 {
     public class DashboardController : Controller
@@ -46,6 +47,8 @@ namespace MPC.Webstore.Controllers
         // GET: Dashboard
         public ActionResult Index()
         {
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             long contactId = _webstoreclaimHelper.loginContactID();
             List<DashboardViewModel> BCDashBordItems = new List<DashboardViewModel>();
             if (_webstoreclaimHelper.isUserLoggedIn())
@@ -171,7 +174,7 @@ namespace MPC.Webstore.Controllers
                         BCDetail = new DashboardViewModel(3);
                         // Order In production
                         BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrlproductordhis", UserCookieManager.WBStoreId, "Products Order History") + UpdateOrdersInProductionCount(); // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
-                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("btnProductDetails", UserCookieManager.WBStoreId, "Description");//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
+                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("ltrlvieworderdetailsatt", UserCookieManager.WBStoreId, "View order details and attachments");//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
                         BCDetail.PageNavigateURl = "/ProductOrderHistory";
                         BCDetail.IsChangePassword = false;
@@ -184,6 +187,7 @@ namespace MPC.Webstore.Controllers
                         //BCDetail.PageNavigateURl = "/UserManager";
                         //BCDetail.IsChangePassword = false;
                         //BCDashBordItems.Add(BCDetail);
+                       
                     }
 
                 }
@@ -271,9 +275,21 @@ namespace MPC.Webstore.Controllers
 
                     }
 
-                    //   ViewData["rptStorePreferences"] = StorePrefDashBordItems.OrderBy(g => g.SortOrder).ToList();
+                   
 
                 }
+                if (StoreBaseResopnse.Company.IsEnableDataAsset == true) 
+                {
+                    BCDetail = new DashboardViewModel(11);
+                    // Order In production
+                    BCDetail.Name = "Digital Asset Management"; // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
+                    BCDetail.Description = Utils.GetKeyValueFromResourceFile("lblAssetDetails", UserCookieManager.WBStoreId, "Manage DAM");//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
+                    BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
+                    BCDetail.PageNavigateURl = "/ManageAssets";
+                    BCDetail.IsChangePassword = false;
+                    BCDashBordItems.Add(BCDetail);
+                }
+              
                 ViewData["rptBrokerCorpDasHBItems"] = BCDashBordItems.OrderBy(g => g.SortOrder).ToList();
 
                 ViewBag.ErrorMes = 1;
@@ -352,7 +368,7 @@ namespace MPC.Webstore.Controllers
                     }
                 }
                  List<Order> ManagerordersList = new List<Order>();
-                 List<Order> ordersList = _myCompanyService.GetPendingApprovelOrdersList(_webstoreclaimHelper.loginContactID(), ApproveOrders);
+                 List<Order> ordersList = _myCompanyService.GetPendingApprovelOrdersList(_webstoreclaimHelper.loginContactID(), ApproveOrders, UserCookieManager.WBStoreId);
                  if (ordersList == null || ordersList.Count == 0)
                  {
                      // do nothing

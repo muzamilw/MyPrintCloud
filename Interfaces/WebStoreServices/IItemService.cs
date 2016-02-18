@@ -12,12 +12,22 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IItemService
     {
+        bool typeFourItemsStatus(long OrderID);
+         double MMToPoint(double val);
+         double PointToMM(double val);
+         double InchtoPoint(double val);
+          double PointToInch(double val);
+        long TotalProductTypeFourItems(long OrderId);
+        long OtherTheTypeFourItems(long OrderId);
+
+        Item CloneItem(long Organisation, long OrderID, Asset GetAsset, string ImagePAth);
+        GetCategoryProduct GetPublishedProductByItemID(int itemID);
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
         Item GetItemById(long ItemId);
         Item GetItemByIdDesigner(long ItemId);
 
 
-        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false, long PropertyId = 0);
+        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, long StoreId, long PropertyId = 0, bool isUploadDesignMode = false, bool isSetTemplateIdToNull = false, double PdfTemplatewidth = 0.0, double PdfTemplateheight = 0.0,int SystemLengthUnit=0);
         List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId, long OrganisationId);
 
         string specialCharactersEncoder(string value);
@@ -36,7 +46,7 @@ namespace MPC.Interfaces.WebStoreServices
         ProductCategoriesView GetMappedCategory(string CatName, int CID);
 
         // get related items
-        List<ProductItem> GetRelatedItemsList();
+        List<ProductItem> GetRelatedItemsList(long ItemId);
 
         /// <summary>
         /// get an item according to usercookiemanager.orderid or itemid 
@@ -102,7 +112,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="orderAllItemsAttatchmentsListToBeRemoved"></param>
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
-        long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
+        long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId, double StoreTaxRate, long StoreId);
 
         List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
 
@@ -125,7 +135,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         Item GetItemByOrderItemID(long ItemID, long OrderID);
 
-        long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems);
+        int AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems);
         void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments);
         /// <summary>
         /// get item section
@@ -181,7 +191,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         long getParentTemplateID(long itemId);
 
-        string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID);
+        string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID, long StoreId);
         /// <summary>
         /// get category name
         /// </summary>
@@ -205,10 +215,10 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="TemporaryRetailCompanyIdFromCookie"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId, long PropertyId = 0);
+        ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId, long StoreId, long PropertyId = 0, double PdfTemplatewidth = 0.0, double PdfTemplateheight = 0.0, int SystemLengthUnit = 0);
          /// <summary>
         /// delete single attachment record
-        /// </summary>
+        /// </summary>,
         /// <param name="ItemAttachmentId"></param>
         void DeleteItemAttachment(long ItemAttachmentId);
         long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId);
@@ -219,11 +229,18 @@ namespace MPC.Interfaces.WebStoreServices
         void SaveOrUpdateDiscountVoucher(DiscountVoucher storeDiscountVoucher);
         string ValidateDiscountVoucher(DiscountVoucher storeDiscountVoucher);//, ref string voucherErrorMesg
         DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountCouponCode, long StoreId, long OrganisationId);
-        void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem);
+        void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, bool isDeliveryItem, long ContactId, long CompanyId);
         long ApplyStoreDefaultDiscountRateOnCartItems(long OrderId, long StoreId, long OrganisationId, double StoreTaxRate,ref long FreeShippingVoucherId);
         DiscountVoucher GetDiscountVoucherById(long DiscountVoucherId);
         void ApplyDiscountOnDeliveryItemAlreadyAddedToCart(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate);
         long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId, long OrderId);
         void UpdateOrderIdInItem(long itemId, long OrderId);
+        DiscountVoucher GetFreeShippingDiscountVoucherByStoreId(long StoreId, long OrganisationId);
+        DiscountVoucher GetOrderDiscountPercentageVoucherByStoreId(long StoreId, long OrganisationId);
+        void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId);
+        void UpdateUploadFlagInItem(long ItemId, int? FlagValue);
+        void SaveMarketingBriefHistory(MarketingBriefHistory model);
+        List<TemplatePage> GetTemplatePagesByItemId(long clonedItemId);
+        List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
     }
 }

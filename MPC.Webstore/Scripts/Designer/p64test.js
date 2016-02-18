@@ -11456,13 +11456,21 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
   * @type boolean
   */
     hasInlineFontStyle: false,
-
+    hasInlineFontFamily: false,
       /**
   * IsOverlayObject  // added by saqib
   * @property
   * @type boolean
   */
     IsOverlayObject: false,
+
+      /**
+* AutofitImage  // added by saqib
+* @property
+* @type boolean
+*/
+    AutofitImage: true,
+
       /** ImageClippedInfo  // added by saqib
   * @property
   * @type boolean
@@ -17545,7 +17553,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
         elementToDraw = this.applyFilters(null, this.resizeFilters, this._filteredEl || this._originalElement, true);
       }
       else {
-        elementToDraw = this._element;
+          elementToDraw = this._element;
       }
       if (this.type == "image" && (this.ImageClippedInfo != null && this.ImageClippedInfo != undefined && this.ImageClippedInfo != ''))
       {
@@ -17561,37 +17569,54 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
               xmlDoc.async = false;
               xmlDoc.loadXML(xml);
           }
-
+          
           var sx = parseFloat(xmlDoc.getElementsByTagName("sx")[0].childNodes[0].nodeValue);
           var sy = parseFloat(xmlDoc.getElementsByTagName("sy")[0].childNodes[0].nodeValue);
           var swidth = parseFloat(xmlDoc.getElementsByTagName("swidth")[0].childNodes[0].nodeValue);
           var sheight = parseFloat(xmlDoc.getElementsByTagName("sheight")[0].childNodes[0].nodeValue);
           var dWidth = parseFloat(imageMargins.width);
           var dHeight = parseFloat(imageMargins.height);
+          var isCropped = 0;
+          if (xmlDoc.getElementsByTagName("isCropped")[0] != undefined)
+              isCropped = parseFloat(xmlDoc.getElementsByTagName("isCropped")[0].childNodes[0].nodeValue);
           var dx = x + imageMargins.marginX;
           var dy = y + imageMargins.marginY;
-          //if ($.browser.mozilla)  //firefox fix
-          //{
-          //    if (swidth > dWidth) swidth = dWidth;
-          //    if (sheight > dHeight) sheight = dHeight;
-          //}
-          elementToDraw && ctx.drawImage(elementToDraw,sx, sy, swidth, sheight,
-                                  dx,
-                                  dy,
-                                  dWidth,
-                                  dHeight
-                                  );
+
+          if (isCropped == 0) {
+                  elementToDraw && ctx.drawImage(elementToDraw, dx, dy, swidth, sheight);
+              //elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight);
+          } else {
+              if (this.AutofitImage == false) {
+                  console.log(this.getSrc());
+                  elementToDraw && ctx.drawImage(elementToDraw,
+                              sx,
+                              sy,
+                            swidth,
+                             sheight,
+                                dx,
+                                dy,
+                               dWidth,
+                             dHeight
+                             );
+              } else {
+                  elementToDraw && ctx.drawImage(elementToDraw, sx, sy, swidth, sheight,
+                                          dx,
+                                          dy,
+                                          dWidth,
+                                          dHeight
+                                          );
+              }
+          }
           // this._element, sx, sy, swidth, sheight, -this.width / 2, -this.height / 2, this.width, this.height);
           //this._element, -this.width / 2, -this.height / 2, this.width,          this.height
       } else
       {
-          elementToDraw && ctx.drawImage(elementToDraw,
-                                   x + imageMargins.marginX,
-                                   y + imageMargins.marginY,
-                                   imageMargins.width,
-                                   imageMargins.height
-                                  );
-
+              elementToDraw && ctx.drawImage(elementToDraw,
+                                  x + imageMargins.marginX,
+                                  y + imageMargins.marginY,
+                                  imageMargins.width,
+                                  imageMargins.height
+                                 );
       }
     
       this._renderStroke(ctx);
@@ -17752,8 +17777,13 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
    * @param {Object} [imgOptions] Options object
    */
   fabric.Image.fromURL = function(url, callback, imgOptions) {
-    fabric.util.loadImage(url, function(img) {
-      callback && callback(new fabric.Image(img, imgOptions));
+      fabric.util.loadImage(url, function (img) {
+          if (img != null) {
+              callback && callback(new fabric.Image(img, imgOptions));
+          } else {  // added by saqib to handle the not found image 
+              fabric.Image.fromURL("/Content/Designer/assets-v2/failure1.png", callback, imgOptions);
+          }
+      
     }, null, imgOptions && imgOptions.crossOrigin);
   };
 
@@ -19677,7 +19707,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 	'maxWidth', 'customStyles', 'textPaddingTop', 'VAllignment',
 		'maxHeight',
 		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint','bullets'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'hasInlineFontFamily', 'IsOverlayObject', 'AutofitImage', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint', 'bullets'
   );
 
     /**
@@ -20508,7 +20538,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             }
             if (this.isBulletPoint)
             {
-                this.drawBulletsCustom(ctx, this.bullets);
+             //   this.drawBulletsCustom(ctx, this.bullets);
                 
             }
             this._setBoundaries(ctx, textLines);
@@ -20725,13 +20755,20 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             var lineHeights = 0 ;  // adding by saqib for vertical allignment
             if (this.VAllignment != 1)
                 lineHeights += this.textPaddingTop;
+            var bullets = this.bullets.split(/\r\n|\r|\n/);
             for (var i = 0, len = textLines.length; i < len; i++) {
                 var heightOfLine = this.fontSize * this.lineHeight;
                 if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
                     var heightOfLine = this._getHeightOfLine(ctx, i, textLines);
                 }
                 lineHeights += heightOfLine;
-
+                ctx.save();
+                if (this.isBulletPoint == true) {
+                    ctx.strokeStyle = this.fill;
+                    ctx.fillStyle = this.fill;
+                    this._renderCharsFast('fillText', ctx, bullets[i], this._getLeftOffset() - (ctx.measureText(bullets[i]).width), this._getTopOffset() + lineHeights); 
+                }
+                ctx.restore();
                 this._renderTextLine(
               'fillText',
               ctx,

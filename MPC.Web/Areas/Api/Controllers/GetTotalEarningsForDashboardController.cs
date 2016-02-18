@@ -10,6 +10,7 @@ using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.WebBase.Mvc;
 using MPC.Models.ResponseModels;
+using FluentScheduler;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -21,6 +22,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     {
         #region Private
         private readonly IDashboardService dashboardService;
+        private readonly IListingService _listingService;
         #endregion
 
         #region Constructor
@@ -28,9 +30,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public GetTotalEarningsForDashboardController(IDashboardService dashboardService)
+        public GetTotalEarningsForDashboardController(IDashboardService dashboardService, IListingService listingService)
         {
             this.dashboardService = dashboardService;
+            this._listingService = listingService;
         }
 
         #endregion
@@ -48,7 +51,10 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return dashboardService.GetChartsForDashboard();
+            //TaskManager.Initialize(new ListingBackgroundTask(_listingService));
+            DashBoardChartsResponse resp = dashboardService.GetChartsForDashboard();
+            
+            return resp;
         }
 
         #endregion

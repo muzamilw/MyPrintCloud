@@ -39,7 +39,7 @@
                     <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
                             <ul class="textControls">
-                                <li style=" margin-top:0px; margin-bottom:20px;"><a class=" QuickTextTitle ThemeColor templatesHeading" style="">Select a design</a></li>
+                                <li style=" margin-top:0px; margin-bottom:20px;"><a class=" QuickTextTitle ThemeColor templatesHeading" style=" margin-left: -12px;">Select a design</a></li>
                             </ul>
                             <div class="gallery infoPanelGallery templateGallery templateListUL">
                             </div>
@@ -180,7 +180,7 @@
                                         </p>
                                         <p class="Step2FontUpload">
                                             <span class="titletxt">Step 2 :</span> Enter in exact FONT Family name as it appears
-                                            in the TTF Font Definaton field.<br>
+                                            in the TTF Font Definition field.<br>
                                             <br>
                                         </p>
                                         <p class="Step3FontUpload">
@@ -429,7 +429,7 @@
                                                         <li class="colorOption" style="background-color: #020302"><a href="#" onclick="f2(0,0,0,100,'#020302','Black');">#020302</a></li>
                                                         <li class="colorOption" style="background-color: #ffffff"><a href="#" onclick='f2(0,0,0,0,"#ffffff");'>#ffffff</a></li>
                                                         <li class="colorOption" style="background-color: #EF4123"><a href="#" onclick='f2(0,88,100,0,"#EF4123","Orange 021");'>#EF4123</a></li>
-                                                        <li class="colorOption" style="background-color: #FFF200"><a href="#" onclick="f2(0,100,100,0,'#FFF200','Yellow');">#FFF200</a></li>
+                                                        <li class="colorOption" style="background-color: #FFF200"><a href="#" onclick='f2(0,0,100,0,"#FFF200","null");'>#FFF200</a></li>
                                                         <li class="colorOption" style="background-color: #04B14B"><a href="#" onclick="f2(75,0,100,0,'#04B14B','Green');">#04B14B</a></li>
                                                         <li class="colorOption" style="background-color: #034EA2"><a href="#" onclick='f2(100,82,0,2,"#034EA2","Reflex Blue");'>#034EA2</a></li>
                                                         <br />
@@ -643,7 +643,7 @@
 
                     <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
-                            <div id="objPropertyPanel" class="ImageContainer">
+                            <div id="objPropertyPanel" class="ImageContainer objPropertyPanel">
                                 <div class="propertyPanelControlDiv imgthumbPreviewSlider" style="text-align:center;padding: 0px 0px 0px 0px;width: 299px;">
                                     <img id="imgThumbPreview" height="80px" style="max-width:300px;" />
 
@@ -662,9 +662,25 @@
                                         </button>
                                     </div>
                                     <div class="DivBlockWithNoHeight vertLine"></div>
+                                    <div class="propertyPanelControlDiv frontBackBtns">
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder1" title="Bring selected item to top layer"><p>To front</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder2" title="Bring selected item one layer forward"><p style="">Step Up</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder3" title="Send selected item one layer back"><p style="">Step Down</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder4" title="Send selected item to bottom layer"><p>To back</p></button>
+                                        <button class="propertyPanleBtn removeBtn BtnDeleteTxtObj" title="Delete selected item"><p>Remove</p></button>
+                                    </div>
+                                    <div class="propertyPanelControlDiv frontBackBtns">
+                                        <div class="divTxtAlignmentControls">
 
+                                            <label class="textLabel">Align to Canvas</label>
+                                            <button id="btnImgCanvasAlignLeft" class="btnCj1" title=""></button>
+                                            <button id="BtnImgCanvasAlignCenter" class="btnCj2" title=""></button>
+                                            <button id="BtnImgCanvasAlignMiddle" class="btnCj5" title=""></button>
+                                            <button id="BtnImgCanvasAlignRight" class="btnCj3" title=""></button>
+                                        </div>
+                                    </div>
                                     <div class="textPropertyPanel2" style="padding-top: 20px;">
-                                        <div class="propertyPanelControlDiv">
+                                        <div class="propertyPanelControlDiv  opacityPanel">
                                             <button id="AddColorShape" class="BtnChngeClr" title="Color picker">
                                                 Color
                                             </button>
@@ -676,378 +692,179 @@
 
                                             <button id="BtnImgRotateLeft" class="BtnRotateLeft" title="Rotate Left" style="display:none;"></button>
                                         </div>
-                                        <div class="propertyPanelControlDiv svgColorPanel" style="margin-top: 30px;display:none;">
-
-                                            <div class="">
-
-                                                <label class="textLabel">Svg Colors</label>
-                                                <div class="svgColorContainer"></div>
-                                            </div>
-
-                                        </div>
+                                     
 
                                         <div class="DivBlockWithNoHeight vertLine"></div>
                                     </div>
+                                   
+                                    @*<div class="propertyPanelControlDiv" style="margin-top: 30px">
 
-                                    <div class="propertyPanelControlDiv" style="margin-top: 30px">
-
-                                        <div class="divTxtAlignmentControls">
-
-                                            <label class="textLabel">Align to Canvas</label>
-                                            <button id="btnImgCanvasAlignLeft" class="btnCj1" title=""></button>
-                                            <button id="BtnImgCanvasAlignCenter" class="btnCj2" title=""></button>
-                                            <button id="BtnImgCanvasAlignMiddle" class="btnCj5" title=""></button>
-                                            <button id="BtnImgCanvasAlignRight" class="btnCj3" title=""></button>
-                                        </div>
+                                      
                                         <div class="DivBlockWithNoHeight vertLine"></div>
-                                    </div>
+                                    </div>*@
 
 
 
-                                    <div class="propertyPanelControlDiv positioningControls">
-                                        <div class="PostionPanelLabel">
-                                            <span class="lblcheckbox adminControl">Position</span>
-                                        </div>
-                                        <div class="PostionPanelLabel">
-                                            <span class="lblcheckbox" id="lblArrangeOrderiImg">Box Size</span>
-                                        </div>
-                                        <div class="PostionPanelLabel">
-                                            <div class="lblcheckbox">Lock Position </div>
-                                        </div>
-                                    </div>
-                                    <div class="propertyPanelControlDiv positioningControls">
-                                        <div class="margin10" style="padding-bottom: 10px">
-                                            <div class="lbltextButtonControl">
+                                
+                                    <div class="propertyPanelControlDiv positioningControls positionPanel">
+             
+                                        <div class="margin10" style=" margin-top: 0px;">
+                           
+                                            <div class="lbltextButtonControl" style="float: right;">
 
-                                                <span class="paddingright5" style="padding-right: 8px;">X</span>
-                                                <input name="inputPositionX" id="inputPositionX" class="width28 zindex100" />
-
-                                            </div>
-                                            <div class="lbltextButtonControl">
-                                                <span class="paddingright5" style="padding-right: 8px;">Y </span>
-                                                <input name="inputPositionY" id="inputPositionY" class="width28 zindex100" />
-
-                                            </div>
-                                        </div>
-                                        <div class="margin10">
-                                            <div class="lbltextButtonControl" style="float: left;">
-
-                                                <span class="paddingright5">W</span>
-                                                <input name="inputObjectWidth" id="inputObjectWidth" class="width28 zindex100" />
-                                            </div>
-                                            <div class="lbltextButtonControl" style="float: left;">
-
-                                                <span class="paddingright5" style="padding-left: 4px;">H</span>
-                                                <input name="inputObjectHeight" id="inputObjectHeight" class="width28 zindex100" />
+                                                <img src="/Content/Designer/assets-v2/rotate.png" class="iconsPropPanel imgLineHeight">
+                                                <input name="inputObjectRotation" id="inputObjectRotation" class="width28 zindex100 inputObjectRotation" />
 
 
                                             </div>
                                         </div>
-                                        <div class="PostionPanelLabel">
-                                            <div class="lbltextButtonControl">
-                                                <div class="onoffswitch" style="top: -20px; margin-left: -5px">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockPositionImg" checked="">
-                                                    <label class="onoffswitch-label adminControl" for="LockPositionImg" id="lblLockPositionImg">
-                                                        <div class="onoffswitch-inner"></div>
-                                                        <div class="onoffswitch-switch"></div>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
+                      
                                     </div>
-                                    <div class="DivBlockWithNoHeight vertLine positioningControls"></div>
-
-                                    <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl"><p class="paraLblChkBox"> Make Object appear on Overlay Layer</p>  </div>
-                                        <div class="onoffswitch">
-                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayImg" checked="">
-                                            <label class="onoffswitch-label" for="chkboxOverlayImg">
-                                                <div class="onoffswitch-inner"></div>
-                                                <div class="onoffswitch-switch"></div>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="propertyPanelControlDiv adminControl">
-                                        <div class="lblchckboxControl"><p class="paraLblChkBox">Do not Print this Object On PDF </p></div>
-                                        <div class="onoffswitch">
-                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintImage" checked="">
-                                            <label class="onoffswitch-label" for="BtnPrintImage" id="lblBtnPrintImage">
-                                                <div class="onoffswitch-inner"></div>
-                                                <div class="onoffswitch-switch"></div>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="DivBlockWithNoHeight vertLine adminControl"></div>
-
-                                    <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl"><p class="paraLblChkBox">Lock Formatting for End User </p></div>
-                                        <div class="onoffswitch">
-                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockImgProperties" checked="">
-                                            <label class="onoffswitch-label" for="LockImgProperties" id="lblLockImgProperties">
-                                                <div class="onoffswitch-inner"></div>
-                                                <div class="onoffswitch-switch"></div>
-                                            </label>
-                                        </div>
-                                    </div>
+                         
 
                                 </div>
-                                <div class="textPropertyPanel2">
-                                    <div class="propertyPanelControlDiv">
-                                    </div>
-
-                                </div>
+                  
                             </div>
-                            <div id="textPropertyPanel" class="ImageContainer">
+                            <div id="textPropertyPanel" class="ImageContainer textPropertyPanel">
                                 <div class="textPropertyPanel1">
                                     <div class="propertyPanelControlDiv" style="padding-top: 10px;">
-
-
-                                        <label class="largeText  lblEditTxtTxt" for="">
-                                        </label>
+                                        <p class="  ThemeColor propPanelHeading">Edit text field</p>
+                                  
+                                        <label class="largeText  lblEditTxtTxt " for=""></label>
+                                        @*<textarea disabled="disabled" class="qTextInput lblEditTxtTxt propertyPanelTxtArea"></textarea>*@
+                                        @*<label class="largeText  lblEditTxtTxt" for="">
+                    </label>*@
                                     </div>
                                     <div class="propertyPanelControlDiv">
                                         <select id="BtnSelectFonts" title="Select Font" class="styledBorder">
                                             <option value="(select)">(select)</option>
                                         </select>
-
-
-                                    </div>
-                                    <div class="propertyPanelControlDiv" style="padding-top: 14px;">
-                                        <img id="BtnBoldTxt" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/bold.png" title="Bold" />
-                                        <img id="BtnItalicTxt" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/italic.png" title="Italic" />
-                                        <img id="BtnUnderlineTxt" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/underline.png" title="Underline" style="display:none;" />
-                                        <img id="BtnBulletedLstTxt" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/list.png" title="Bulleted List" style="" />
                                         <span class="selectFontSize">
                                             <input id="BtnFontSize" style="" class="inputCharSpacing zindex100" />
                                         </span>
-                                        <span>
-                                            <button id="BtnIntrnationalkybrd" title="international keyboard selection">
-                                                <div class="XLText">UK </div>
-                                                <div class="smallText">Keyboard </div>
-                                            </button>
-                                        </span>
-
 
                                     </div>
                                     <div class="propertyPanelControlDiv">
-                                        <img id="BtnJustifyTxt1" title="Justify text left" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align1.png" />
-
-                                        <img id="BtnJustifyTxt2" title="Justify text center" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align2.png" />
-
-                                        <img id="BtnJustifyTxt3" title="Justify text right" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align3.png" />
-
                                         <img src="~/Content/Designer/assets-v2/imgCharSpace.png" class="iconsPropPanel imgLineHeight" />
                                         <input name="inputcharSpacing" id="inputcharSpacing" class="textButtonControl inputCharSpacing zindex100" />
+                                        <img src="~/Content/Designer/assets-v2/lineHeight.png" class="iconsPropPanel imgLineHeight" style="padding-left: 2px;    margin-left: 26px;" />
+                                        <input name="txtLineHeight" id="txtLineHeight" class="textButtonControl inputCharSpacing zindex100" />
+                                        <a class="uploadFntTxtPanel btnAUploadFont"> Upload <br /> Font Set</a>
+
                                     </div>
                                     <div class="propertyPanelControlDiv">
-                                        <img id="BtnValignTxt1" title="Align top" class="fontawesomeIcons" style="" src="~/Content/Designer/assets-v2/valign3.png" />
-
-                                        <img id="BtnValignTxt2" title="Align center" class="fontawesomeIcons" style="" src="~/Content/Designer/assets-v2/valign2.png" />
-
-                                        <img id="BtnValignTxt3" title="Align Bottom" class="fontawesomeIcons" style="" src="~/Content/Designer/assets-v2/valign1.png" />
-
-                                        <img src="~/Content/Designer/assets-v2/lineHeight.png" class="iconsPropPanel imgLineHeight" style="padding-left: 2px;" />
-                                        <input name="txtLineHeight" id="txtLineHeight" class="textButtonControl inputCharSpacing zindex100" />
-
-                                        <button id="BtnChngeClr" class="BtnColorPicker BtnChngeClr" title="Color picker">
+                                        <button id="BtnChngeClr" class="BtnColorPicker BtnChngeClr propertyPanleBtn" title="Color picker" style=" margin-left: 2px;">
                                             Color
                                         </button>
+                                        <button class="propertyPanleBtn" id="BtnBoldTxt"><img class="fontawesomeIcons" src="~/Content/Designer/assets-v2/bold.png" title="Bold" /></button>
+                                        <button class="propertyPanleBtn" id="BtnItalicTxt"><img class="fontawesomeIcons" src="~/Content/Designer/assets-v2/italic.png" title="Italic" /></button>
+                                        <button class="propertyPanleBtn" id="BtnJustifyTxt1"><img title="Justify text left" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align1.png" /></button>
+                                        <button class="propertyPanleBtn" id="BtnJustifyTxt2"><img title="Justify text center" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align2.png" /></button>
+                                        <button class="propertyPanleBtn" id="BtnJustifyTxt3"><img title="Justify text right" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align3.png" /></button>
                                     </div>
-
-                                    <div class="propertyPanelControlDiv" style="margin-top: 18px; display:none;">
-
-
-                                        <button id="BtnVarification" title="Upload Font" class="buttonDesigner">
-                                            Show CRM Variables
-                                        </button>
-                                        <button id="BtnRotateTxtRight" class="BtnRotateRight" title="Rotate Right"></button>
-                                        <button id="BtnRotateTxtLft" class="BtnRotateLeft" title="Rotate Left"></button>
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <div class="DivBlockWithNoHeight vertLine"></div>
-                                <div class="propertyPanelControlDiv">
-
-                                    <div class="PostionPanelLabel">
-                                        <span class="lblcheckbox">Position</span>
-                                    </div>
-                                    <div class="PostionPanelLabel">
-                                        <span class="lblcheckbox" id="lblArrangeOrderTxt">Box Size</span>
-                                    </div>
-                                    <div class="PostionPanelLabel">
-                                        <div class="lblcheckbox adminControl">Lock Position </div>
-                                    </div>
-                                </div>
-                                <div class="propertyPanelControlDiv positioningControls">
-                                    <div class="margin10" style="padding-bottom: 10px">
-                                        <div class="lbltextButtonControl">
-
-                                            <span class="paddingright5">X</span>
-                                            <input name="inputPositionXTxt" id="inputPositionXTxt" class="textButtonControl zindex100" />
-                                        </div>
-                                        <div class="lbltextButtonControl">
-                                            <span class="paddingright5">W </span>
-                                            <input name="inputObjectWidthTxt" id="inputObjectWidthTxt" class="textButtonControl zindex100" />
-                                        </div>
-                                    </div>
-                                    <div class="margin10">
-                                        <div class="lbltextButtonControl" style="float: left;">
-
-                                            <span class="paddingright5">Y</span>
-                                            <input name="inputPositionYTxt" id="inputPositionYTxt" class="textButtonControl zindex100" />
-                                        </div>
-                                        <div class="lbltextButtonControl" style="float: left;">
-
-                                            <span class="paddingright5" style="padding-left: 4px;">H</span>
-                                            <input name="inputObjectHeightTxt" id="inputObjectHeightTxt" class="textButtonControl zindex100" />
-
-
-                                        </div>
-                                    </div>
-                                    <div class="PostionPanelLabel">
-                                        <div class="lbltextButtonControl">
-                                            <div class="onoffswitch" style="top: -20px; margin-left: 1px;">
-                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockTxtPosition" checked="">
-                                                <label class="onoffswitch-label adminControl" for="BtnLockTxtPosition">
-                                                    <div class="onoffswitch-inner"></div>
-                                                    <div class="onoffswitch-switch"></div>
-                                                </label>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-
-                                <div class="DivBlockWithNoHeight vertLine positioningControls"></div>
-                                <div class="textPropertyPanel2" style="padding-top: 13px;">
-
-
                                     <div class="propertyPanelControlDiv">
+                                        <button class="propertyPanleBtn" id="BtnValignTxt1"><img title="Align top" class="fontawesomeIcons" style="" src="~/Content/Designer/assets-v2/valign3.png" /></button>
+                                        <button class="propertyPanleBtn" id="BtnValignTxt2"><img title="Align center" class="fontawesomeIcons" style="" src="~/Content/Designer/assets-v2/valign2.png" /></button>
+                                        <button class="propertyPanleBtn" id="BtnValignTxt3"><img title="Align Bottom" class="fontawesomeIcons" style="" src="~/Content/Designer/assets-v2/valign1.png" /></button>
+                                        <button class="propertyPanleBtn" id="BtnBulletedLstTxt"><img class="fontawesomeIcons" src="~/Content/Designer/assets-v2/list.png" title="Bulleted List" style="" /></button>
+                                        <img src="/Content/Designer/assets-v2/rotate.png" class="iconsPropPanel imgLineHeight">
+                                        <input name="inputObjectRotationTxt" id="inputObjectRotationTxt" class="width28 zindex100 inputObjectRotation" />
+                                    </div>
 
+                                    <div class="propertyPanelControlDiv frontBackBtns">
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder1" title="Bring selected item to top layer"><p>To front</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder2" title="Bring selected item one layer forward"><p style="">Step Up</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder3" title="Send selected item one layer back"><p style="">Step Down</p></button>
+                                        <button class="propertyPanleBtn BtnTxtarrangeOrder4" title="Send selected item to bottom layer"><p>To back</p></button>
+                                        <button class="propertyPanleBtn removeBtn BtnDeleteTxtObj" title="Delete selected item"><p>Remove</p></button>
+                                    </div>
+                                    <div class="propertyPanelControlDiv frontBackBtns" style="padding-top: 20px;">
                                         <div class="divTxtAlignmentControls">
-                                            <label class="textLabel" style="display:none;">Align to Canvas</label>
+                                            <label class="textLabel" style="margin-right: 9px;">Align to Canvas</label>
                                             <button id="BtnTxtCanvasAlignLeft" class="btnCj1" title=""></button>
                                             <button id="BtnTxtCanvasAlignCenter" class="btnCj2" title=""></button>
                                             <button id="BtnTxtCanvasAlignMiddle" class="btnCj5" title=""></button>
                                             <button id="BtnTxtCanvasAlignRight" class="btnCj3" title=""></button>
                                         </div>
+                                    </div>
+                                    <div class="propertyPanelControlDiv adminControl" style=" padding-top: 4px;">
+                                        <div class="maskingControls" style="    margin-top: -15px;">
+                                            <div class="CaseModeSlider adminControl maskingControls"></div>
+                                            <div class="adminControl maskingControls">
+                                                <div class="lblCaseModeSlider">Normal </div>
+                                                <div class="lblCaseModeSlider">Upper Case </div>
+                                                <div class="lblCaseModeSlider">Lower Case </div>
+                                                <div class="lblCaseModeSlider">Sentence Format </div>
 
-                                    </div>
-
-                                    <div class="DivBlockWithNoHeight vertLine"></div>
-                                </div>
-                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl"> <p class="paraLblChkBox">Make Object appear on Overlay Layer </p> </div>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
-                                        <label class="onoffswitch-label" for="chkboxOverlayTxt">
-                                            <div class="onoffswitch-inner"></div>
-                                            <div class="onoffswitch-switch"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="propertyPanelControlDiv adminControl">
-                                    <div class="lblchckboxControl"><p class="paraLblChkBox">Do not Print this Object On PDF </p></div>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintObj" checked="">
-                                        <label class="onoffswitch-label" for="BtnPrintObj">
-                                            <div class="onoffswitch-inner"></div>
-                                            <div class="onoffswitch-switch"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="DivBlockWithNoHeight vertLine adminControl"></div>
-                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl"><p class="paraLblChkBox">Lock Formatting for End User </p></div>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnAllowOnlyTxtChange" checked="">
-                                        <label class="onoffswitch-label" for="BtnAllowOnlyTxtChange">
-                                            <div class="onoffswitch-inner"></div>
-                                            <div class="onoffswitch-switch"></div>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl"><p class="paraLblChkBox">End User can not EDIT Text </p></div>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockEditing" checked="">
-                                        <label class="onoffswitch-label" for="BtnLockEditing">
-                                            <div class="onoffswitch-inner"></div>
-                                            <div class="onoffswitch-switch"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="propertyPanelControlDiv adminControl">
-                                    <div class="lblchckboxControl"><p class="paraLblChkBox">Auto Shrink Text to fit in Text Box</p> </div>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoShrink" checked="">
-                                        <label class="onoffswitch-label" for="chkboxAutoShrink">
-                                            <div class="onoffswitch-inner"></div>
-                                            <div class="onoffswitch-switch"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="propertyPanelControlDiv adminControl">
-                                    <div class="lblchckboxControl"><p class="paraLblChkBox">Auto Collapse variables in Text Box</p> </div>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoCollapse" checked="">
-                                        <label class="onoffswitch-label" for="chkboxAutoCollapse">
-                                            <div class="onoffswitch-inner"></div>
-                                            <div class="onoffswitch-switch"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="DivBlockWithNoHeight vertLine adminControl"></div>
-                                <div class="maskingControls">
-                                    <div class="CaseModeSlider adminControl maskingControls"></div>
-                                    <div class="adminControl maskingControls">
-                                        <div class="lblCaseModeSlider">Normal </div>
-                                        <div class="lblCaseModeSlider">Upper Case </div>
-                                        <div class="lblCaseModeSlider">Lower Case </div>
-                                        <div class="lblCaseModeSlider">Sentence Format </div>
-
-                                    </div>
-                                </div>
-                                @*<div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl" >Text Input Mask </div>
-                                        <div class="onoffswitch" style="right: -121px">
-                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMask" >
-                                            <label class="onoffswitch-label" for="chkboxTxtInputMask">
-                                                <div class="onoffswitch-inner"></div>
-                                                <div class="onoffswitch-switch"></div>
-                                            </label>
-                                        </div>
-                                    </div>*@
-
-                                @*<div class="maskingControls">
-                                        <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                            <div class="lblchckboxControl adminControl"  style="margin-right: -9px;">Value is mandatory for this field </div>
-                                            <div class="onoffswitch" style="right: -83px">
-                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMandatory">
-                                                <label class="onoffswitch-label" for="chkboxTxtInputMandatory">
-                                                    <div class="onoffswitch-inner"></div>
-                                                    <div class="onoffswitch-switch"></div>
-                                                </label>
                                             </div>
                                         </div>
+                                    </div>
+                                 
+
+                                </div>
 
 
-                                        <div class="propertyPanelControlDiv adminControl txtManadatoryControl">
-                                            <div class="lblchckboxControl" ># Number &#64; Letters -Or Type Mandatory Characters </div>
-                                            <div>
-                                                <input type="text" id="txtInputMskCntrl" />
-                                            </div>
-                                        </div>
-                                    </div>*@
+
+                                @*<div class="propertyPanelControlDiv" style="margin-top: 18px; display:none;">
+
+
+                        <button id="BtnVarification" title="Upload Font" class="buttonDesigner">
+                            Show CRM Variables
+                        </button>
+                        <button id="BtnRotateTxtRight" class="BtnRotateRight" title="Rotate Right"></button>
+                        <button id="BtnRotateTxtLft" class="BtnRotateLeft" title="Rotate Left"></button>
+
+                    </div>
+                                                <div class="DivBlockWithNoHeight vertLine positioningControls"></div>
+                <div class="textPropertyPanel2" style="padding-top: 13px;">
+
+
+                         <div class="propertyPanelControlDiv">
+
+                            
+
+                         </div>
+
+                         <div class="DivBlockWithNoHeight vertLine"></div>
+                     </div>
+
+            <div class="DivBlockWithNoHeight vertLine adminControl"></div>
+
+
+
+            <div class="DivBlockWithNoHeight vertLine adminControl"></div>
+
+            <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
+                    <div class="lblchckboxControl" >Text Input Mask </div>
+                    <div class="onoffswitch" style="right: -121px">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMask" >
+                        <label class="onoffswitch-label" for="chkboxTxtInputMask">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>
+                    </div>
+                </div>
+
+            <div class="maskingControls">
+                    <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
+                        <div class="lblchckboxControl adminControl"  style="margin-right: -9px;">Value is mandatory for this field </div>
+                        <div class="onoffswitch" style="right: -83px">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMandatory">
+                            <label class="onoffswitch-label" for="chkboxTxtInputMandatory">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="propertyPanelControlDiv adminControl txtManadatoryControl">
+                        <div class="lblchckboxControl" ># Number &#64; Letters -Or Type Mandatory Characters </div>
+                        <div>
+                            <input type="text" id="txtInputMskCntrl" />
+                        </div>
+                    </div>
+                </div>*@
 
 
 
@@ -1073,7 +890,7 @@
 
             </section>
         </section>
-        <div id="FrontBackOptionPanal" style="display: none">
+       @*<div id="FrontBackOptionPanal" style="display: none">
             <section id="FrontBackOptionPanalSection" class="TextObjectPropertyPanal">
 
                 <div class="TextObjectPropertyPanel">
@@ -1100,20 +917,58 @@
                 </div>
 
             </section>
-            @*<span></span>*@
+           
 
-        </div>
+        </div>*@
 
     </section>
-    <section id="canvasDocument" class="scrollPane2 multiPage" style="left: 380px;">
+    <section id="canvasDocument" class="scrollPane2 multiPage" style="left: 360px;">
+        <div class="CanvasTopHeader">
+            <menu id="canvasTopMenu" class="documentMenu">
+                <li id="Li2" class="zoomBtns" style="margin-left:22px;">
+                    <button class="buttonDesigner" id="zoomOut" title="Zoom out">-</button>
+                </li>
+                <li class="listText zoomTxt">ZOOM <br /> 100%</li>
+                <li id="Li1" class="zoomBtns" style="margin-left: 9px;">
+                    <button class="buttonDesigner" id="zoomIn" title="Zoom In">+</button>
+                </li>
+                <li id="Li1" class="zoomBtns" style="margin-left: 9px;">
+                    <button class="buttonDesigner" id="BtnOrignalZoom" title="Zoom In">100%</button>
+                </li>
+                <li id="documentMenuUndo" class="mainMenuItem">
+                    <button class="buttonDesigner" id="BtnUndo" title="Undo">Undo</button>
+                </li>
+                <li id="documentMenuRedo" class="mainMenuItem">
+                    <button class="buttonDesigner" id="BtnRedo" title="Redo">Redo</button>
+                </li>
+                <li id="documentMenuCopy" class="mainMenuItem">
+                    <button class="buttonDesigner" id="btnMenuCopy" title="Copy Selected Objects">Copy</button>
+                </li>
+                <li id="documentMenuPaste" class="mainMenuItem">
+                    <button class="buttonDesigner" id="btnMenuPaste" title="Paste">Paste</button>
+                </li>
 
-        <section id="canvasSection" class="page selected on" style="width: 326.9368785071841px; height: 462.4056858483221px; top: 136px; left: 20px;">
+
+                <li id="documentMenuReload" class="mainMenuItem">
+                    <button class="buttonDesigner" id="BtnReload" title="Reload">Reload</button>
+                </li>
+            </menu>
+        </div>
+        <div class="canvasPageMenu">
+            <menu id="documentMenu" class="documentMenu dark" style="top: 144px !important;">
+                <span class="marker" style="left: 0px; width: 72px;"></span>
+            </menu>
+        </div>
+        <section id="canvasSection" class="page " style="width: 326.9368785071841px; height: 462.4056858483221px; top: 206px; left: 20px;">
+            <div class="safetyLine" style="display:none;">
+                Safe Area <div class="safetyLineOut"> -->@*-○*@</div>
+            </div>
             <canvas id="canvas">
                 Your browser does not support the canvas.Please upgrade to latest browser supporting HTML5.
             </canvas>
-            <div class="dimentionsContainer">
-                <span class="dimentionsBC"></span>
-            </div>
+            @*<div class="dimentionsContainer">
+                    <span class="dimentionsBC"></span>
+                </div>*@
         </section>
     </section>
 
@@ -1125,28 +980,7 @@
                 <li id="Li2" class="btnUploadYourDesign">
                     <button class="buttonDesigner" id="btnGoToLandingPage" title="Upload your own Design" style="visibility:hidden;">Upload your <br /> own Design</button>
                 </li>
-                <li id="documentMenuCopy" class="mainMenuItem">
-                    <button class="buttonDesigner" id="btnMenuCopy" title="Copy Selected Objects">Copy</button>
-                </li>
-                <li id="documentMenuPaste" class="mainMenuItem">
-                    <button class="buttonDesigner" id="btnMenuPaste" title="Paste">Paste</button>
-                </li>
-                <li id="Li2" class="zoomBtns" style="margin-left:22px;">
-                    <button class="buttonDesigner" id="zoomOut" title="Zoom out">-</button>
-                </li>
-                <li class="listText zoomTxt">ZOOM <br /> 100%</li>
-                <li id="Li1" class="zoomBtns" style="margin-left: 9px;">
-                    <button class="buttonDesigner" id="zoomIn" title="Zoom In">+</button>
-                </li>
-                <li id="documentMenuUndo" class="mainMenuItem">
-                    <button class="buttonDesigner" id="BtnUndo" title="Undo">Undo</button>
-                </li>
-                <li id="documentMenuRedo" class="mainMenuItem">
-                    <button class="buttonDesigner" id="BtnRedo" title="Redo">Redo</button>
-                </li>
-                <li id="documentMenuReload" class="mainMenuItem">
-                    <button class="buttonDesigner" id="BtnReload" title="Reload">Reload</button>
-                </li>
+
                 <li id="documentMenuGuides" class="mainMenuItem" style="display:none;">
                     <button class="buttonDesigner" id="BtnGuides" title="Show / Hide Trim Line"></button>
                 </li>
@@ -1154,16 +988,14 @@
                     <button class="buttonDesigner" id="Homebtn2" title="Go to your store">Go to store</button>
                 </li>
             </menu>
-            <menu id="documentMenu" class="documentMenu dark" style="top: 70px!important;">
-                <span class="marker" style="left: 0px; width: 72px;"></span>
-            </menu>
+
 
         </div>
         <section id="documentTitleName" class="">
             <h1 id="documentTitle" spellcheck="false" title="Click to rename your design">
                 <input type="text" value="Untitled design" style="width: 300px;" id="txtTemplateTitle" />
             </h1>
-
+            <h2 id="documentBleedArea" class="dimentionsBC">  </h2>
 
         </section>
 
@@ -1364,7 +1196,7 @@
 
             </menu>
             <span class="cropToolCaption">Pan and scale image to crop inside image frame.</span>
-            <img class="cropimage" alt="" src="" cropwidth="200" cropheight="200" />
+            <img class="cropimage" alt="" src="" cropwidth="200" cropheight="200" title="Drag to pan, use mouse wheel or +,- buttons to zoom in/zoom out " />
 
             <div class="overlayHoverboxContainer"></div>
             <div class="overlayHoverbox">
@@ -1373,6 +1205,293 @@
         </div>
 
     </div>
+    <div class="propertyPanelControlDiv divBtmSticky textPropertyPanel txtPropertyPanelMin" style="display:none;    width: 1178px;">
+        <div class="BtmPanelBox" style="position: absolute; bottom: 0px;left:0px; height: 110px;">
+            <div class="btmPanelRow adminControl">
+                <div class="PostionPanelLabel" style="float:left;">
+                    <div class="lblcheckbox adminControl lblLockPos">Lock Position </div>
+                </div>
+                <div class="PostionPanelLabel" style="float:right;">
+                    <div class="lbltextButtonControl">
+                        <div class="onoffswitch" style="">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockTxtPosition" checked="">
+                            <label class="onoffswitch-label adminControl" for="BtnLockTxtPosition">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="btmPanelRow">
+                <div class="PostionPanelLabel" style="float:left; width: 60px;">
+                    <span class="lblcheckbox">Position</span>
+                </div>
+                <div class="PostionPanelLabel" style="float:right;">
+                    <div class="lbltextButtonControl">
+                        <span class="paddingright5">X</span>
+                        <input name="inputPositionXTxt" id="inputPositionXTxt" class="textButtonControl zindex100" />
+                    </div>
+                    <div class="lbltextButtonControl">
+                        <span class="paddingright5">Y</span>
+                        <input name="inputPositionYTxt" id="inputPositionYTxt" class="textButtonControl zindex100" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="btmPanelRow">
+                <div class="PostionPanelLabel" style="float:left; width: 60px;">
+                    <span class="lblcheckbox" id="lblArrangeOrderTxt">Box Size</span>
+                </div>
+                <div class="PostionPanelLabel" style="float:right;">
+                    <div class="lbltextButtonControl">
+                        <span class="paddingright5">W </span>
+                        <input name="inputObjectWidthTxt" id="inputObjectWidthTxt" class="textButtonControl zindex100" />
+                    </div>
+                    <div class="lbltextButtonControl" style="float: left;">
+                        <span class="paddingright5" style="padding-left: 4px;">H</span>
+                        <input name="inputObjectHeightTxt" id="inputObjectHeightTxt" class="textButtonControl zindex100" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="BtmPanelBox adminControl" style=" margin-left: 248px;">
+
+            <div class="btmPanelRow">
+             
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+
+                    <div class="lblchckboxControl">Do not Print this Object On PDF </div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintObj" checked="">
+                            <label class="onoffswitch-label" for="BtnPrintObj">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+                    <div class="lblchckboxControl">Lock Formatting for End User</div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnAllowOnlyTxtChange" checked="">
+                            <label class="onoffswitch-label" for="BtnAllowOnlyTxtChange">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="BtmPanelBox adminControl">
+            <div class="btmPanelRow">
+               
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+                    <div class="lblchckboxControl"> Auto Shrink Text to fit in Text Box  </div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoShrink" checked="">
+                            <label class="onoffswitch-label" for="chkboxAutoShrink">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+                    <div class="lblchckboxControl"> Auto Collapse variables in Text Box  </div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoCollapse" checked="">
+                            <label class="onoffswitch-label" for="chkboxAutoCollapse">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="BtmPanelBox adminControl">
+            <div class="btmPanelRow">
+                <div class="propertyPanelControlDiv " style="  padding-right: 12px; margin-top: -12px;">
+                    <div class="lblchckboxControl"> Make Object appear on Overlay Layer  </div>
+                    <div class="PostionPanelLabel" style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
+                            <label class="onoffswitch-label" for="chkboxOverlayTxt">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+                    <div class="lblchckboxControl"> End User can not EDIT Text </div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockEditing" checked="">
+                            <label class="onoffswitch-label" for="BtnLockEditing">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="propertyPanelControlDiv divBtmSticky objPropertyPanel" style="display:none;">
+        <div class="BtmPanelBox adminControl svgColorPanel" >
+            <div class="btmPanelRow ">
+                <div class="PostionPanelLabel" style="float:left;">
+                    <div class="lblcheckbox  ">Svg Colors</div>
+                </div>
+                <div class="PostionPanelLabel svgColorContainer" style="float:right;"></div>
+                <div class="clear"></div>
+            </div>
+
+
+
+        </div>
+        <div class="BtmPanelBox">
+            <div class="btmPanelRow adminControl">
+                <div class="PostionPanelLabel" style="float:left;">
+                    <div class="lblcheckbox adminControl lblLockPos">Lock Position </div>
+                </div>
+                <div class="PostionPanelLabel" style="float:right;">
+                    <div class="lbltextButtonControl">
+                        <div class="onoffswitch" style="">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockPositionImg" checked="">
+                            <label class="onoffswitch-label adminControl" for="LockPositionImg" id="lblLockPositionImg">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="btmPanelRow">
+                <div class="PostionPanelLabel" style="float:left; width: 60px;">
+                    <span class="lblcheckbox">Position</span>
+                </div>
+                <div class="PostionPanelLabel" style="float:right;">
+                    <div class="lbltextButtonControl">
+                        <span class="paddingright5" style="padding-right: 8px;">X</span>
+                        <input name="inputPositionX" id="inputPositionX" class="width28 zindex100" />
+                    </div>
+                    <div class="lbltextButtonControl">
+                        <span class="paddingright5" style="padding-right: 8px;">Y </span>
+                        <input name="inputPositionY" id="inputPositionY" class="width28 zindex100" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="btmPanelRow">
+                <div class="PostionPanelLabel" style="float:left; width: 60px;">
+                    <span class="lblcheckbox" id="lblArrangeOrderTxt">Box Size</span>
+                </div>
+                <div class="PostionPanelLabel" style="float:right;">
+                    <div class="lbltextButtonControl">
+                        <span class="paddingright5">W</span>
+                        <input name="inputObjectWidth" id="inputObjectWidth" class="width28 zindex100" />
+                    </div>
+                    <div class="lbltextButtonControl" style="">
+                        <span class="paddingright5" style="padding-left: 4px;">H</span>
+                        <input name="inputObjectHeight" id="inputObjectHeight" class="width28 zindex100 " />
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="BtmPanelBox adminControl">
+
+            <div class="btmPanelRow">
+                <div class="propertyPanelControlDiv " style="  padding-right: 12px; margin-top: -12px;">
+                    <div class="lblchckboxControl">Make Object appear on Overlay Layer </div>
+                    <div class="PostionPanelLabel" style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayImg" checked="">
+                            <label class="onoffswitch-label" for="chkboxOverlayImg">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+
+                    <div class="lblchckboxControl">Do not Print this Object On PDF </div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintImage" checked="">
+                            <label class="onoffswitch-label" for="BtnPrintImage" id="lblBtnPrintImage">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+                    <div class="lblchckboxControl">Lock Formatting for End User</div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockImgProperties" checked="">
+                            <label class="onoffswitch-label" for="LockImgProperties" id="lblLockImgProperties">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+         
+
+            </div>
+           
+        </div>
+        <div class="BtmPanelBox adminControl imgAutofitBox">
+            <div class="btmPanelRow">
+                <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+                    <div class="divchkboxAutoFitImage">Autofit image in the box</div>
+                    <div style="float:right;">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoFitImage" checked="">
+                            <label class="onoffswitch-label" for="chkboxAutoFitImage" id="lblchkboxAutoFitImage">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
 </section>
 <section class="multiBackCarouselContainer"><section class=" multiBackCarouselLayer"></section></section>
 <section class="proofsContainer">
@@ -1381,8 +1500,8 @@
         @*<iframe id="LargePreviewerIframe" class="LargePreviewerIframe" src="Previewer.aspx"></iframe>*@
     </div>
     <div id="PreviewerContainerDesigner" class="ui-corner-all propertyPanel">
-        <a class="PreviewerDownloadImg" onclick="k9_im()" target="_blank">Download Image </a>
-        <a class="PreviewerDownloadPDF" onclick="k9()" target="_blank">Download PDF </a>
+        <a class="PreviewerDownloadImg previewfontStyles" onclick="k9_im()" target="_blank">Download Image </a>
+        <a class="PreviewerDownloadPDF previewfontStyles" onclick="k9()" target="_blank">Download PDF </a>
         <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()" title="Back to designer">
             Close
         </div>

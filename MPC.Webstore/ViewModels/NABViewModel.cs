@@ -14,7 +14,7 @@ namespace MPC.Webstore.ViewModels
         [Required(ErrorMessage = "Card Number  Can't be blank")]
         [Display(Name = "Card Number")]
         public string CardNumber { get; set; }
-         [MaxLength(3, ErrorMessage = "CVV Number cannot be longer than 3 characters.")]
+         [MaxLength(4, ErrorMessage = "CVV Number cannot be longer than 3 characters.")]
          [Display(Name = "CVV Number")]
         public string CVVNumber { get; set; }
         [Display(Name = "Name on the Card")]
@@ -31,6 +31,8 @@ namespace MPC.Webstore.ViewModels
         public IEnumerable<SelectListItem> ListCardType { get; set; }
         public IEnumerable<SelectListItem> ListDate { get; set; }
         public IEnumerable<SelectListItem> ListYear { get; set; }
+        public double OrderTotal { get; set; }
+        public string Currency { get; set; }
         
     }
     public class DropdownType

@@ -7,12 +7,20 @@ using System.Threading.Tasks;
 using MPC.Common;
 using MPC.Models.ResponseModels;
 using MPC.Models.RequestModels;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.Repository
 {
     public interface IListingRepository : IBaseRepository<MPC.Models.DomainModels.Listing, long>
     {
-
+        void AddlistingImages(long ListingId, List<ListingImage> Images);
+        bool DeleteLisitngData(long ListingId);
+        long AddNewListing(MPC.Models.DomainModels.Listing propertyListing);
+        void DeleteListingImage(long listingImageID);
+        void ListingImage(ListingImage NewImage);
+        List<ListingImage> GetAllListingImages(long ListingID);
+        long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);
+        MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId);
         RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
         List<MPC.Models.DomainModels.ListingImage> GetAllListingImages();
         List<MPC.Models.DomainModels.ListingImage> GetListingImagesByListingID(int propertyId);
@@ -38,8 +46,13 @@ namespace MPC.Interfaces.Repository
         bool AddListingData(ListingProperty objProperty);
         List<MPC.Models.DomainModels.Listing> GetPropertiesByContactCompanyID(long CompanyID);
 
+        long GetContactCompanyIDByStoreCode(string sStoreCode, long OrganisationID);
+
+        bool UpdateListingXMLData(ListingPropertyXML objProperty, MPC.Models.DomainModels.Listing listing, long OrgId);
 
 
+        bool AddListingDataXML(ListingPropertyXML objProperty, long Organisationid);
+       
         
 
         

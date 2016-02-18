@@ -21,7 +21,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Entity
     // ReSharper disable InconsistentNaming
-    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode, specifiedThumbnail, specifiedMinPrice,
+    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName,specifiedTitle, specifiedProductCode, specifiedThumbnail, specifiedMinPrice,
         specifiedIsArchived, specifiedIsPublished, specifiedProductCategoryName, specifiedIsEnabled, specifiedIsFeatured, specifiedIsFinishedGoods,
         specifiedSortOrder, specifiedIsStockControl, specifiedIsVdpProduct, specifiedXeroAccessCode, specifiedWebDescription, specifiedProductSpecification,
         specifiedTipsAndHints, specifiedMetaTitle, specifiedMetaDescription, specifiedMetaKeywords, specifiedJobDescriptionTitle1, specifiedJobDescription1,
@@ -35,7 +35,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedProductDisplayOptions, specifiedIsRealStateProduct, specifiedIsUploadImage, specifiedIsDigitalDownload, specifiedPrintCropMarks,
         specifiedDrawWatermarkText, specifiedOrganisationId, specifiedCompanyId, specifiedIsAddCropMarks, specifiedDrawBleedArea, specifiedAllowPdfDownload,
         specifiedIsMultiPagePdf, specifiedAllowImageDownload, specifiedItemLength, specifiedItemWidth, specifiedItemHeight, specifiedItemWeight,
-        specifiedTemplateId, specifiedSmartFormId, callbacks, constructorParams) {
+        specifiedTemplateId, specifiedSmartFormId,specifiedThumbnailPath, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var
             // Unique key
@@ -46,6 +46,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             code = ko.observable(specifiedCode || undefined),
             // Product Name
             productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
+            title = ko.observable(specifiedTitle),
             // Product Name For Grid
             productNameForGrid = ko.computed(function () {
                 if (!productName()) {
@@ -53,6 +54,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
                 return productName().length > 30 ? productName().substring(0, 29) : productName();
             }),
+            
             // Product Code
             productCode = ko.observable(specifiedProductCode || undefined).extend({ required: true }),
             // thumbnail
@@ -498,6 +500,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemImages = ko.observableArray([]),
             // Product Market Brief Questions
             productMarketBriefQuestions = ko.observableArray([]),
+            // thumbnail path
+            thumbnailPath = ko.observable(specifiedThumbnailPath || undefined),
             // Available Product Category items
             availableProductCategoryItems = ko.computed(function () {
                 if (productCategoryItems().length === 0) {
@@ -1246,6 +1250,35 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // On Select File
             onSelectImage = function (file, data, fileType) {
+                var url = "/mis/Content/Images/AnyFile.png";
+
+                var ext = file.name.split('.').pop();
+                // for pdf
+                if (ext == "pdf") {
+                    url = "/mis/Content/Images/PDFFile.png";
+
+                }// for psd
+                else if (ext == "psd") {
+                    url = "/mis/Content/Images/PSDFile.png";
+                  
+                }// for ai
+                else if (ext == "ai") {
+                    url = "/mis/Content/Images/IllustratorFile.png";
+                   
+                } // for indd
+                else if (ext == "indd") {
+                    url = "/mis/Content/Images/InDesignFile.png";
+                    
+                }// for jpg
+                else if (ext == "jpg" || ext == "jpeg") {
+                     url = "/mis/Content/Images/JPGFile.png";
+                   
+                }//for png
+                else if (ext == "png") {
+                    url = "/mis/Content/Images/PNGFile.png";
+                    
+                }
+
                 switch (fileType) {
                     case itemFileTypes.thumbnail:
                         thumbnail(data);
@@ -1266,34 +1299,41 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         var availableSlot = getAvailableSlotForTemplateLayoutFile();
                         switch (availableSlot) {
                             case 1:
-                                file1(data);
+                               // file1(data);
                                 file1FileSource(data);
                                 file1FileName(file.name);
                                 file1Deleted(false);
+                                file1(url);
+                              
+                               
                                 break;
                             case 2:
-                                file2(data);
+                                //file2(data);
                                 file2FileSource(data);
                                 file2FileName(file.name);
                                 file2Deleted(false);
+                                file2(url);
                                 break;
                             case 3:
-                                file3(data);
+                              //  file3(data);
                                 file3FileSource(data);
                                 file3FileName(file.name);
                                 file3Deleted(false);
+                                file3(url);
                                 break;
                             case 4:
-                                file4(data);
+                               // file4(data);
                                 file4FileSource(data);
                                 file4FileName(file.name);
                                 file4Deleted(false);
+                                file4(url);
                                 break;
                             case 5:
-                                file5(data);
+                                //file5(data);
                                 file5FileSource(data);
                                 file5FileName(file.name);
                                 file5Deleted(false);
+                                file5(url);
                                 break;
                         }
                         break;
@@ -1624,6 +1664,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 name: name,
                 code: code,
                 productName: productName,
+                title:title,
                 productCode: productCode,
                 isArchived: isArchived,
                 isPublished: isPublished,
@@ -1801,6 +1842,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ItemCode: code(),
                     ProductCode: productCode(),
                     ProductName: productName(),
+                    Title:title(),
                     IsArchived: isArchived(),
                     IsEnabled: isEnabled(),
                     IsPublished: isPublished(),
@@ -1933,6 +1975,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name: name,
             code: code,
             productName: productName,
+            title:title,
             productNameForGrid: productNameForGrid,
             productCode: productCode,
             thumbnail: thumbnail,
@@ -2127,6 +2170,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             selectStockItemForStockOptionForNewProduct: selectStockItemForStockOptionForNewProduct,
             selectStockItemForSectionForNewProduct: selectStockItemForSectionForNewProduct,
             shouldValidateCategory: shouldValidateCategory,
+            thumbnailPath: thumbnailPath,
             reset: reset,
             convertToServerData: convertToServerData
         };
@@ -2297,7 +2341,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Entity
     // ReSharper disable InconsistentNaming
-    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource) {
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource, specifiedIsAllowCustomSize) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2347,6 +2391,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }
             }),
+
+            isAllowCustomSize = ko.observable(specifiedIsAllowCustomSize),
             // File Name
             fileName = ko.observable(),
             // Template Pages
@@ -2462,7 +2508,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 pdfTemplateHeight: pdfTemplateHeight,
                 isCreatedManual: isCreatedManual,
                 isSpotTemplate: isSpotTemplate,
-                templatePages: templatePages
+                templatePages: templatePages,
+                isAllowCustomSize: isAllowCustomSize
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2488,6 +2535,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsSpotTemplate: isSpotTemplate(),
                     FileName: fileName(),
                     FileSource: fileSource(),
+                    isAllowCustomSize: isAllowCustomSize(),
                     TemplatePages: templatePages.map(function (templatePage, index) {
                         var templatePageItem = templatePage.convertToServerData();
                         templatePageItem.PageNo = index + 1;
@@ -2508,6 +2556,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canAddTemplatePages: canAddTemplatePages,
             fileSource: fileSource,
             fileName: fileName,
+            isAllowCustomSize: isAllowCustomSize,
             onSelectFile: onSelectFile,
             templatePages: templatePages,
             addTemplatePage: addTemplatePage,
@@ -2646,6 +2695,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 activeItemAddonCostCentre(ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }, callbacks));
                 //To Enable Dirty Flag
                 activeItemAddonCostCentre().isMandatory(false);
+
+                //activeItemAddonCostCentre().isMandatory(false);
             },
             onEditItemAddonCostCentre = function (itemAddonCostCentre) {
                 var itemStockHasChanges = itemAddonCostCentre.hasChanges();
@@ -2773,7 +2824,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Addon Cost Centre Entity
     ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
-        specifiedCostCentreType, callbacks) {
+        specifiedCostCentreType,specifiedSequence,specifiedIsSelectedonLoad, callbacks) {
         // ReSharper restore InconsistentNaming
         var
             // self reference
@@ -2788,6 +2839,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreName = ko.observable(specifiedCostCentreName || undefined),
             // Cost Centre Type
             costCentreType = ko.observable(specifiedCostCentreType || undefined),
+            // Sequence
+            sequence = ko.observable(specifiedSequence || undefined),
             // Cost Centre Id - On Change
             costCentreId = ko.computed({
                 read: function () {
@@ -2806,6 +2859,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // Item Stock Option Id
             itemStockOptionId = ko.observable(specifiedItemStockOptionId || 0),
+            isSelectedonLoad = ko.observable(specifiedIsSelectedonLoad || undefined),
             // Errors
             errors = ko.validation.group({
             }),
@@ -2817,7 +2871,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 isMandatory: isMandatory,
-                costCentreId: costCentreId
+                sequence: sequence,
+                costCentreId: costCentreId,
+                isSelectedonLoad: isSelectedonLoad
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2832,8 +2888,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return {
                     ProductAddOnId: id(),
                     IsMandatory: isMandatory(),
+                    Sequence : sequence(),
                     CostCentreId: costCentreId(),
-                    ItemStockOptionId: itemStockOptionId()
+                    ItemStockOptionId: itemStockOptionId(),
+                    IsSelectedOnLoad: isSelectedonLoad()
                 };
             };
 
@@ -2844,6 +2902,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreName: costCentreName,
             costCentreType: costCentreType,
             isMandatory: isMandatory,
+            sequence: sequence,
+            isSelectedonLoad: isSelectedonLoad,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -4241,7 +4301,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Template Factory
     Template.Create = function (source) {
         var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate,
-        source.FileOriginalSource);
+        source.FileOriginalSource, source.IsAllowCustomSize);
 
         // Map Template Pages if any
         if (source.TemplatePages != null) {
@@ -4270,7 +4330,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Addon Cost Centre Factory
     ItemAddonCostCentre.Create = function (source, callbacks) {
         return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-            source.CostCentreTypeName, callbacks);
+            source.CostCentreTypeName,source.Sequence,source.IsSelectedOnLoad, callbacks);
     };
 
     // Item Stock Option Factory
@@ -4375,7 +4435,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Factory
     Item.Create = function (source, callbacks, constructorParams) {
-        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
+        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName,source.Title, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
             source.IsArchived, source.IsPublished, source.ProductCategoryName, source.IsEnabled, source.IsFeatured, source.ProductType, source.SortOrder,
             source.IsStockControl, source.IsVdpProduct, source.XeroAccessCode, source.WebDescription, source.ProductSpecification, source.TipsAndHints,
             source.MetaTitle, source.MetaDescription, source.MetaKeywords, source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
@@ -4388,7 +4448,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, source.ProductDisplayOptions, source.IsRealStateProduct, source.IsUploadImage,
             source.IsDigitalDownload, source.PrintCropMarks, source.DrawWaterMarkTxt, source.OrganisationId, source.CompanyId, source.IsAddCropMarks,
             source.DrawBleedArea, source.AllowPdfDownload, source.IsMultipagePdf, source.AllowImageDownload, source.ItemLength, source.ItemWidth, source.ItemHeight,
-            source.ItemWeight, source.TemplateId, source.SmartFormId, callbacks, constructorParams);
+            source.ItemWeight, source.TemplateId, source.SmartFormId,source.ThumbnailPath, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Common;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -472,7 +474,7 @@ namespace MPC.Repository.Repositories
         public long GetContactCompanyID(string sStoreCode,string CompanyName,long OrganisationID)
         {
             long iCompanyId = 0;
-            var comp = db.Companies.Where(c => c.WebAccessCode == sStoreCode && c.Name.Equals(CompanyName) && c.OrganisationId == OrganisationID).FirstOrDefault();
+            var comp = db.Companies.Where(c => c.WebAccessCode == sStoreCode && c.OrganisationId == OrganisationID).FirstOrDefault();
             if (comp != null)
                 iCompanyId = comp.CompanyId;
             return iCompanyId;
@@ -481,13 +483,15 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                MPC.Models.DomainModels.Listing listing;
-                listing = (from l in db.Listings
-                               where l.ClientListingId == clientListingID
-                               select l).FirstOrDefault();
+                //MPC.Models.DomainModels.Listing listing;
+                //listing = (from l in db.Listings
+                //               where l.ClientListingId == clientListingID
+                //               select l).FirstOrDefault();
 
-
-                return listing;
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.Listings.Where(c => c.ClientListingId == clientListingID).FirstOrDefault();
+                //return listing;
             }
             catch (Exception ex)
             {
@@ -525,6 +529,48 @@ namespace MPC.Repository.Repositories
                 UpdateListingConjunctionalAgents(updatedListingID, objProperty.ListingConjunctionalAgents);
                 UpdateListingVendors(updatedListingID, objProperty.ListingVendors);
 
+                dataAdded = true;
+                return dataAdded;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public bool UpdateListingXMLData(ListingPropertyXML objProperty, MPC.Models.DomainModels.Listing listing,long OrgId)
+        {
+
+            try
+            {
+                bool dataAdded = false;
+                if (cultureKey == null) //not defined in web.config
+                {
+                    culture = new System.Globalization.CultureInfo("en-AU", true); // AU is default
+                }
+                else
+                {
+                    culture = new System.Globalization.CultureInfo(cultureKey, true);
+                }
+
+                long territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.CompanyId);
+
+                long officeId = ProcessOfficeXML(objProperty.Listing.Office, objProperty.Listing.CompanyId, territoryId,OrgId);
+
+               // ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId,OrgId);
+
+                long updatedListingID = UpdateListingXML(objProperty.Listing, listing);
+                ProcessStaffMemberXML(officeId, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId, OrgId, updatedListingID);
+               
+                if(objProperty.Listing.ListingImages != null)
+                    UpdateListingImagesXML(updatedListingID, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
+                if(objProperty.Listing.ListingFloorplans != null)
+                {
+                    UpdateListingFloorPlansXML(updatedListingID, objProperty.Listing.ListingFloorplans.floorplans);
+                }
+                
+                
                 dataAdded = true;
                 return dataAdded;
             }
@@ -582,10 +628,10 @@ namespace MPC.Repository.Repositories
                     tbl_listing.WebLink = listing.WebLink;
                     tbl_listing.AddressDisplay = listing.AddressDisplay;
                     tbl_listing.StreetAddress = listing.StreetAddress;
-                    tbl_listing.LevelNumber = (String.IsNullOrEmpty(listing.LevelNum)) ? 0 : Convert.ToInt32(listing.LevelNum);
-                    tbl_listing.LotNumber = (String.IsNullOrEmpty(listing.LotNum)) ? 0 : Convert.ToInt32(listing.LotNum);
-                    tbl_listing.UnitNumber = (String.IsNullOrEmpty(listing.UnitNum)) ? 0 : Convert.ToInt32(listing.UnitNum);
-                    tbl_listing.StreetNumber = (String.IsNullOrEmpty(listing.StreetNum)) ? 0 : Convert.ToInt32(listing.StreetNum);
+                    tbl_listing.LevelNumber = (String.IsNullOrEmpty(listing.LevelNum)) ? "0" : listing.LevelNum;
+                    tbl_listing.LotNumber = (String.IsNullOrEmpty(listing.LotNum)) ? "0" : listing.LotNum;
+                    tbl_listing.UnitNumber = (String.IsNullOrEmpty(listing.UnitNum)) ? "0" : listing.UnitNum;
+                    tbl_listing.StreetNumber = (String.IsNullOrEmpty(listing.StreetNum)) ? "0" : listing.StreetNum;
                     tbl_listing.Street = listing.Street;
                     tbl_listing.Suburb = listing.Suburb;
                     tbl_listing.State = listing.State;
@@ -622,7 +668,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.DisplayPrice;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.DisplayPrice = Convert.ToDouble(result);
+                            tbl_listing.DisplayPrice = result;
                     }
 
                     if (listing.SearchPrice != null)
@@ -630,15 +676,15 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.SearchPrice;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.SearchPrice = Convert.ToDouble(result);
+                            tbl_listing.SearchPrice = result;
                     }
 
                     tbl_listing.RendPeriod = (String.IsNullOrEmpty(listing.RentPeriod)) ? 0 : Convert.ToInt32(listing.RentPeriod);
 
                     if (!String.IsNullOrEmpty(listing.AvailableDate))
-                        //tbl_listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
-                        tbl_listing.AvailableDate = DateTime.Parse(listing.AvailableDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
+                        tbl_listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
+                        
+                        
                     if (!String.IsNullOrEmpty(listing.SoldDate))
                         //tbl_listing.SoldDate = Convert.ToDateTime(listing.SoldDate, new System.Globalization.CultureInfo("en-AU"));
                         tbl_listing.SoldDate = DateTime.Parse(listing.SoldDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
@@ -648,7 +694,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.SoldPrice;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.SoldPrice = Convert.ToDouble(result);
+                            tbl_listing.SoldPrice = result;
                     }
 
                     string confid = listing.SoldPriceConfidential;
@@ -663,15 +709,15 @@ namespace MPC.Repository.Repositories
 
                     tbl_listing.MainHeadLine = listing.MainHeadline;
                     tbl_listing.MainDescription = listing.MainDescription;
-                    tbl_listing.BedRooms = (String.IsNullOrEmpty(listing.BedRooms)) ? 0 : Convert.ToInt32(listing.BedRooms);
-                    tbl_listing.BathRooms = (String.IsNullOrEmpty(listing.BathRooms)) ? 0 : Convert.ToInt32(listing.BathRooms);
-                    tbl_listing.LoungeRooms = (String.IsNullOrEmpty(listing.LoungeRooms)) ? 0 : Convert.ToInt32(listing.LoungeRooms);
-                    tbl_listing.Toilets = (String.IsNullOrEmpty(listing.Toilets)) ? 0 : Convert.ToInt32(listing.Toilets);
-                    tbl_listing.Studies = (String.IsNullOrEmpty(listing.Studies)) ? 0 : Convert.ToInt32(listing.Studies);
-                    tbl_listing.Pools = (String.IsNullOrEmpty(listing.Pools)) ? 0 : Convert.ToInt32(listing.Pools);
-                    tbl_listing.Garages = (String.IsNullOrEmpty(listing.Garages)) ? 0 : Convert.ToInt32(listing.Garages);
-                    tbl_listing.Carports = (String.IsNullOrEmpty(listing.Carports)) ? 0 : Convert.ToInt32(listing.Carports);
-                    tbl_listing.CarSpaces = (String.IsNullOrEmpty(listing.CarSpaces)) ? 0 : Convert.ToInt32(listing.CarSpaces);
+                    tbl_listing.BedRooms = (String.IsNullOrEmpty(listing.BedRooms)) ? "0" : listing.BedRooms;
+                    tbl_listing.BathRooms = (String.IsNullOrEmpty(listing.BathRooms)) ? "0" : listing.BathRooms;
+                    tbl_listing.LoungeRooms = (String.IsNullOrEmpty(listing.LoungeRooms)) ? "0" : listing.LoungeRooms;
+                    tbl_listing.Toilets = (String.IsNullOrEmpty(listing.Toilets)) ? "0" : listing.Toilets;
+                    tbl_listing.Studies = (String.IsNullOrEmpty(listing.Studies)) ? "0" : listing.Studies;
+                    tbl_listing.Pools = (String.IsNullOrEmpty(listing.Pools)) ? "0" : listing.Pools;
+                    tbl_listing.Garages = (String.IsNullOrEmpty(listing.Garages)) ? "0" : listing.Garages;
+                    tbl_listing.Carports = (String.IsNullOrEmpty(listing.Carports)) ? "0" : listing.Carports;
+                    tbl_listing.CarSpaces = (String.IsNullOrEmpty(listing.CarSpaces)) ? "0" : listing.CarSpaces;
                     tbl_listing.TotalParking = (String.IsNullOrEmpty(listing.TotalParking)) ? 0 : Convert.ToInt32(listing.TotalParking);
 
                     if (listing.LandArea != null)
@@ -679,13 +725,13 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.LandArea;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.LandArea = Convert.ToDouble(result);
+                            tbl_listing.LandArea = result;
                     }
 
                     tbl_listing.LandAreaUnit = listing.LandAreaUnit;
-                    tbl_listing.BuildingAreaSqm = (String.IsNullOrEmpty(listing.BuildingAreaSqm)) ? 0 : Convert.ToInt32(listing.BuildingAreaSqm);
-                    tbl_listing.ExternalAreaSqm = (String.IsNullOrEmpty(listing.ExternalAreaSqm)) ? 0 : Convert.ToInt32(listing.ExternalAreaSqm);
-                    tbl_listing.FrontageM = (String.IsNullOrEmpty(listing.FrontageM)) ? 0 : Convert.ToInt32(listing.FrontageM);
+                    tbl_listing.BuildingAreaSqm = (String.IsNullOrEmpty(listing.BuildingAreaSqm)) ? "0" : listing.BuildingAreaSqm;
+                    tbl_listing.ExternalAreaSqm = (String.IsNullOrEmpty(listing.ExternalAreaSqm)) ? "0" : listing.ExternalAreaSqm;
+                    tbl_listing.FrontageM = (String.IsNullOrEmpty(listing.FrontageM)) ? "0" : listing.FrontageM;
                     tbl_listing.Aspect = listing.Aspect;
                     tbl_listing.YearBuilt = listing.YearBuilt;
                     tbl_listing.YearRenovated = listing.YearRenovated;
@@ -697,7 +743,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.EnergyRating;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.EnergyRating = Convert.ToDouble(result);
+                            tbl_listing.EnergyRating = result;
                     }
 
                     tbl_listing.Features = listing.Features;
@@ -707,7 +753,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.LandTax;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.LandTax = Convert.ToDouble(result);
+                            tbl_listing.LandTax = result;
                     }
 
                     if (listing.CounsilRates != null)
@@ -715,7 +761,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.CounsilRates;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.CounsilRates = Convert.ToDouble(result);
+                            tbl_listing.CounsilRates = result;
                     }
 
                     if (listing.StrataAdmin != null)
@@ -723,7 +769,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.StrataAdmin;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.StrataAdmin = Convert.ToDouble(result);
+                            tbl_listing.StrataAdmin = result;
                     }
 
                     if (listing.StrataSinking != null)
@@ -731,7 +777,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.StrataSinking;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.StrataSinking = Convert.ToDouble(result);
+                            tbl_listing.StrataSinking = result;
                     }
 
                     if (listing.OtherOutgoings != null)
@@ -739,7 +785,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.OtherOutgoings;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.OtherOutgoings = Convert.ToDouble(result);
+                            tbl_listing.OtherOutgoings = result;
                     }
 
                     if (listing.TotalOutgoings != null)
@@ -747,7 +793,7 @@ namespace MPC.Repository.Repositories
                         strForParse = listing.TotalOutgoings;
                         string result = Regex.Replace(strForParse, @"[^\d]", "");
                         if (!result.Equals(string.Empty))
-                            tbl_listing.TotalOutgoings = Convert.ToDouble(result);
+                            tbl_listing.TotalOutgoings = result;
                     }
 
                     tbl_listing.LegalDescription = listing.LegalDescription;
@@ -786,15 +832,16 @@ namespace MPC.Repository.Repositories
 
                     if (listing != null)
                     {
+                        listing.PropertyName = propertyListing.PropertyName;
                         listing.ClientListingId = propertyListing.ListingID;
                         listing.WebID = propertyListing.WebID;
                         listing.WebLink = propertyListing.WebLink;
                         listing.AddressDisplay = propertyListing.AddressDisplay;
                         listing.StreetAddress = propertyListing.StreetAddress;
-                        listing.LevelNumber = (String.IsNullOrEmpty(propertyListing.LevelNum)) ? 0 : Convert.ToInt32(propertyListing.LevelNum);
-                        listing.LotNumber = (String.IsNullOrEmpty(propertyListing.LotNum)) ? 0 : Convert.ToInt32(propertyListing.LotNum);
-                        listing.UnitNumber = (String.IsNullOrEmpty(propertyListing.UnitNum)) ? 0 : Convert.ToInt32(propertyListing.UnitNum);
-                        listing.StreetNumber = (String.IsNullOrEmpty(propertyListing.StreetNum)) ? 0 : Convert.ToInt32(propertyListing.StreetNum);
+                        listing.LevelNumber = (String.IsNullOrEmpty(propertyListing.LevelNum)) ? "0" : propertyListing.LevelNum;
+                        listing.LotNumber = (String.IsNullOrEmpty(propertyListing.LotNum)) ? "0" : propertyListing.LotNum;
+                        listing.UnitNumber = (String.IsNullOrEmpty(propertyListing.UnitNum)) ? "0" : propertyListing.UnitNum;
+                        listing.StreetNumber = (String.IsNullOrEmpty(propertyListing.StreetNum)) ? "0" : propertyListing.StreetNum;
                         listing.Street = propertyListing.Street;
                         listing.Suburb = propertyListing.Suburb;
                         listing.State = propertyListing.State;
@@ -819,7 +866,8 @@ namespace MPC.Repository.Repositories
                         if (!String.IsNullOrEmpty(propertyListing.AuctionDate))
                             //listing.AuctionDate = Convert.ToDateTime(listing.AuctionDate, new System.Globalization.CultureInfo("en-AU"));
                             listing.AuctionDate = DateTime.Parse(propertyListing.AuctionDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
+                            //      .ToString("dd/MM/yyyy")
+                          //  listing.AuctionDate = propertyListing.AuctionDate.ToString("dd/MM/yyyy");
                         listing.AutionVenue = propertyListing.AuctionVenue;
 
                         if (!String.IsNullOrEmpty(propertyListing.EOIClosingDate))
@@ -831,7 +879,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.DisplayPrice;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.DisplayPrice = Convert.ToDouble(result);
+                                listing.DisplayPrice =result;
                         }
 
                         if (propertyListing.SearchPrice != null)
@@ -839,14 +887,14 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.SearchPrice;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.SearchPrice = Convert.ToDouble(result);
+                                listing.SearchPrice = result;
                         }
 
                         listing.RendPeriod = (String.IsNullOrEmpty(propertyListing.RentPeriod)) ? 0 : Convert.ToInt32(propertyListing.RentPeriod);
 
                         if (!String.IsNullOrEmpty(propertyListing.AvailableDate))
                             //listing.AvailableDate = Convert.ToDateTime(listing.AvailableDate, new System.Globalization.CultureInfo("en-AU"));
-                            listing.AvailableDate = DateTime.Parse(propertyListing.AvailableDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                            listing.AvailableDate = DateTime.Parse(propertyListing.AvailableDate);
 
                         if (!String.IsNullOrEmpty(propertyListing.SoldDate))
                             //listing.SoldDate = Convert.ToDateTime(listing.SoldDate, new System.Globalization.CultureInfo("en-AU"));
@@ -857,7 +905,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.SoldPrice;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.SoldPrice = Convert.ToDouble(result);
+                                listing.SoldPrice = result;
                         }
 
                         string confid = propertyListing.SoldPriceConfidential;
@@ -872,15 +920,15 @@ namespace MPC.Repository.Repositories
 
                         listing.MainHeadLine = propertyListing.MainHeadline;
                         listing.MainDescription = propertyListing.MainDescription;
-                        listing.BedRooms = (String.IsNullOrEmpty(propertyListing.BedRooms)) ? 0 : Convert.ToInt32(propertyListing.BedRooms);
-                        listing.BathRooms = (String.IsNullOrEmpty(propertyListing.BathRooms)) ? 0 : Convert.ToInt32(propertyListing.BathRooms);
-                        listing.LoungeRooms = (String.IsNullOrEmpty(propertyListing.LoungeRooms)) ? 0 : Convert.ToInt32(propertyListing.LoungeRooms);
-                        listing.Toilets = (String.IsNullOrEmpty(propertyListing.Toilets)) ? 0 : Convert.ToInt32(propertyListing.Toilets);
-                        listing.Studies = (String.IsNullOrEmpty(propertyListing.Studies)) ? 0 : Convert.ToInt32(propertyListing.Studies);
-                        listing.Pools = (String.IsNullOrEmpty(propertyListing.Pools)) ? 0 : Convert.ToInt32(propertyListing.Pools);
-                        listing.Garages = (String.IsNullOrEmpty(propertyListing.Garages)) ? 0 : Convert.ToInt32(propertyListing.Garages);
-                        listing.Carports = (String.IsNullOrEmpty(propertyListing.Carports)) ? 0 : Convert.ToInt32(propertyListing.Carports);
-                        listing.CarSpaces = (String.IsNullOrEmpty(propertyListing.CarSpaces)) ? 0 : Convert.ToInt32(propertyListing.CarSpaces);
+                        listing.BedRooms = (String.IsNullOrEmpty(propertyListing.BedRooms)) ? "0" : propertyListing.BedRooms;
+                        listing.BathRooms = (String.IsNullOrEmpty(propertyListing.BathRooms)) ? "0" : propertyListing.BathRooms;
+                        listing.LoungeRooms = (String.IsNullOrEmpty(propertyListing.LoungeRooms)) ? "0" : propertyListing.LoungeRooms;
+                        listing.Toilets = (String.IsNullOrEmpty(propertyListing.Toilets)) ? "0" : propertyListing.Toilets;
+                        listing.Studies = (String.IsNullOrEmpty(propertyListing.Studies)) ? "0" : propertyListing.Studies;
+                        listing.Pools = (String.IsNullOrEmpty(propertyListing.Pools)) ? "0" : propertyListing.Pools;
+                        listing.Garages = (String.IsNullOrEmpty(propertyListing.Garages)) ? "0" : propertyListing.Garages;
+                        listing.Carports = (String.IsNullOrEmpty(propertyListing.Carports)) ? "0" : propertyListing.Carports;
+                        listing.CarSpaces = (String.IsNullOrEmpty(propertyListing.CarSpaces)) ? "0" : propertyListing.CarSpaces;
                         listing.TotalParking = (String.IsNullOrEmpty(propertyListing.TotalParking)) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
 
                         if (propertyListing.LandArea != null)
@@ -888,27 +936,27 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.LandArea;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.LandArea = Convert.ToDouble(result);
+                                listing.LandArea = result;
                         }
 
                         listing.LandAreaUnit = propertyListing.LandAreaUnit;
-                        listing.BuildingAreaSqm = (String.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? 0 : Convert.ToInt32(propertyListing.BuildingAreaSqm);
-                        listing.ExternalAreaSqm = (String.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? 0 : Convert.ToInt32(propertyListing.ExternalAreaSqm);
-                        listing.FrontageM = (String.IsNullOrEmpty(propertyListing.FrontageM)) ? 0 : Convert.ToInt32(propertyListing.FrontageM);
+                        listing.BuildingAreaSqm = (String.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? "0" : propertyListing.BuildingAreaSqm;
+                        listing.ExternalAreaSqm = (String.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? "0" : propertyListing.ExternalAreaSqm;
+                        listing.FrontageM = (String.IsNullOrEmpty(propertyListing.FrontageM)) ? "0" : propertyListing.FrontageM;
                         listing.Aspect = propertyListing.Aspect;
                         listing.YearBuilt = propertyListing.YearBuilt;
                         listing.YearRenovated = propertyListing.YearRenovated;
                         listing.Construction = propertyListing.Construction;
                         listing.PropertyCondition = propertyListing.PropertyCondition;
-
+                        
                         if (propertyListing.EnergyRating != null)
                         {
                             strForParse = propertyListing.EnergyRating;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.EnergyRating = Convert.ToDouble(result);
+                                listing.EnergyRating = result;
                         }
-
+                          
                         listing.Features = propertyListing.Features;
 
                         if (propertyListing.LandTax != null)
@@ -916,7 +964,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.LandTax;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.LandTax = Convert.ToDouble(result);
+                                listing.LandTax = result;
                         }
 
                         if (propertyListing.CounsilRates != null)
@@ -924,7 +972,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.CounsilRates;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.CounsilRates = Convert.ToDouble(result);
+                                listing.CounsilRates = result;
                         }
 
                         if (propertyListing.StrataAdmin != null)
@@ -932,7 +980,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.StrataAdmin;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.StrataAdmin = Convert.ToDouble(result);
+                                listing.StrataAdmin = result;
                         }
 
                         if (propertyListing.StrataSinking != null)
@@ -940,7 +988,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.StrataSinking;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.StrataSinking = Convert.ToDouble(result);
+                                listing.StrataSinking = result;
                         }
 
                         if (propertyListing.OtherOutgoings != null)
@@ -948,7 +996,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.OtherOutgoings;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.OtherOutgoings = Convert.ToDouble(result);
+                                listing.OtherOutgoings = result;
                         }
 
                         if (propertyListing.TotalOutgoings != null)
@@ -956,7 +1004,7 @@ namespace MPC.Repository.Repositories
                             strForParse = propertyListing.TotalOutgoings;
                             string result = Regex.Replace(strForParse, @"[^\d]", "");
                             if (!result.Equals(string.Empty))
-                                listing.TotalOutgoings = Convert.ToDouble(result);
+                                listing.TotalOutgoings = result;
                         }
 
                         listing.LegalDescription = propertyListing.LegalDescription;
@@ -969,10 +1017,12 @@ namespace MPC.Repository.Repositories
                         db.Listings.Attach(listing);
 
                         db.Entry(listing).State = EntityState.Modified;
-                        if (db.SaveChanges() > 0)
-                        {
+                        db.SaveChanges();
+                     //   if (db.SaveChanges() > 0)
+                      //  {
                             updatedListing = listing.ListingId;
-                        }
+                       // }
+                        //awais
                     }
                 
 
@@ -1125,6 +1175,7 @@ namespace MPC.Repository.Repositories
                 throw;
             }
         }
+
         private CompanyContact GetContactIDForListinAgent(string memberID)
         {
             try
@@ -1310,6 +1361,77 @@ namespace MPC.Repository.Repositories
                 throw;
             }
         }
+
+        private void UpdateListingFloorPlansXML(long updatedListing, List<FloorPlan> listingFloorPlans)
+        {
+            try
+            {
+                foreach (FloorPlan item in listingFloorPlans)
+                {
+                    if (item != null)
+                    {
+                        var listingFloorPlan = db.ListingFloorPlans.Where(i => i.ClientFloorplanID == item.FloorplanID).FirstOrDefault();
+
+                        if (listingFloorPlan != null) //update
+                        {
+                            listingFloorPlan.ListingId = updatedListing;
+                            listingFloorPlan.ClientFloorplanID = item.FloorplanID;
+                            listingFloorPlan.ImageURL = item.ImageURL;
+                            //listingFloorPlan.PDFURL = item.PDFURL;
+
+                            if (!String.IsNullOrEmpty(item.LastMod))
+                                //floorPlan.LastMode = Convert.ToDateTime(item.LastMod, new System.Globalization.CultureInfo("en-AU"));
+                                listingFloorPlan.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                            db.SaveChanges();
+                        }
+                        else //add 
+                        {
+                            List<FloorPlan> lstFloorPlanToAdd = new List<FloorPlan>();
+                            lstFloorPlanToAdd.Add(item);
+
+                            AddListingFloorPlansXML(updatedListing, lstFloorPlanToAdd);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void AddListingFloorPlansXML(long newlyAddedListing, List<FloorPlan> lstFloorPlans)
+        {
+            try
+            {
+                foreach (FloorPlan item in lstFloorPlans)
+                {
+                    if (item != null)
+                    {
+                        ListingFloorPlan floorPlan = new ListingFloorPlan();
+                        floorPlan.ListingId = newlyAddedListing;
+                        floorPlan.ClientFloorplanID = item.FloorplanID;
+                        floorPlan.ImageURL = item.ImageURL;
+                        //floorPlan.PDFURL = item.PDFURL;
+
+                        if (!String.IsNullOrEmpty(item.LastMod))
+                            //floorPlan.LastMode = Convert.ToDateTime(item.LastMod, new System.Globalization.CultureInfo("en-AU"));
+                            floorPlan.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                        db.ListingFloorPlans.Add(floorPlan);
+                    }
+                }
+                db.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private void UpdateListingOFIs(long updatedListingID, List<ListingOFIs> listingOFIs)
         {
             try
@@ -1462,25 +1584,28 @@ namespace MPC.Repository.Repositories
             //}
 
             System.Drawing.Image image = null;
-            System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(SourceURL);
-            webRequest.AllowWriteStreamBuffering = true;
-            webRequest.Timeout = 30000;
-           
-            System.Net.WebResponse webResponse = webRequest.GetResponse();
-            string filename = webResponse.ResponseUri.LocalPath;
-           
-            System.IO.Stream stream = webResponse.GetResponseStream();
-       
-          //  string fileName = webResponse.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+            
+                System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(SourceURL);
+                webRequest.AllowWriteStreamBuffering = true;
+                webRequest.Timeout = 30000;
 
-            image = System.Drawing.Image.FromStream(stream);
-          
+                System.Net.WebResponse webResponse = webRequest.GetResponse();
+                string filename = webResponse.ResponseUri.LocalPath;
 
-            string rootPath = DestinationBasePath;
-            string[] tokens = filename.Split(new[] { "/" }, StringSplitOptions.None);
-            string file = System.IO.Path.Combine(rootPath, tokens[1]);
-            image.Save(file);
-            return tokens[1];
+                System.IO.Stream stream = webResponse.GetResponseStream();
+
+                //  string fileName = webResponse.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+
+                image = System.Drawing.Image.FromStream(stream);
+
+
+                string rootPath = DestinationBasePath;
+                string[] tokens = filename.Split(new[] { "/" }, StringSplitOptions.None);
+                string file = System.IO.Path.Combine(rootPath, tokens[1]);
+                image.Save(file);
+                return tokens[1];
+         
+         
         }
         private void UpdateListingImages(long updatedListing, List<ListingImages> listingImages, string ContactCompanyID)
         {
@@ -1534,6 +1659,63 @@ namespace MPC.Repository.Repositories
                 throw;
             }
         }
+
+        private void UpdateListingImagesXML(long updatedListing, List<PropertyImage> listingImages, string ContactCompanyID)
+        {
+            try
+            {
+                foreach (PropertyImage item in listingImages)
+                {
+
+                    if (item != null)
+                    {
+                        var listingImage = db.ListingImages.Where(i => i.ClientImageId == item.ImageID).FirstOrDefault();
+
+                        if (listingImage != null) //update
+                        {
+                            if(!string.IsNullOrEmpty(item.ImageURL))
+                            {
+                                //string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + ContactCompanyID.ToString() +"/"+ updatedListing + "/" + item.ImageID);
+                                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + ContactCompanyID.ToString() + "/" + updatedListing);
+                                //first download image locally
+                                if (!System.IO.Directory.Exists((drURL)))
+                                    System.IO.Directory.CreateDirectory(drURL);
+                                string imgName = DownloadImageLocallyXML(item.ImageURL, drURL);
+
+                                listingImage.ListingId = updatedListing;
+                                listingImage.ClientImageId = item.ImageID;
+                                //listingImage.ImageURL = "/MPC_Content/Stores/" + ContactCompanyID + "/" + updatedListing + "/" + item.ImageID;
+                                listingImage.ImageURL = "/MPC_Content/Stores/" + ContactCompanyID + "/" + updatedListing + "/" + imgName;
+                                //listingImage.ImageOrder = item.ImageOrder;
+
+                                if (!String.IsNullOrEmpty(item.LastMod))
+                                    //tbl_listingImage.LastMode = Convert.ToDateTime(item.LastMode, new System.Globalization.CultureInfo("en-AU"));
+                                    listingImage.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                                db.ListingImages.Attach(listingImage);
+
+                                db.Entry(listingImage).State = EntityState.Modified;
+
+                                db.SaveChanges();
+                            }
+                           
+                        }
+                        else //add 
+                        {
+                            List<PropertyImage> lstImageToAdd = new List<PropertyImage>();
+                            lstImageToAdd.Add(item);
+
+                            AddListingImagesXML(updatedListing, lstImageToAdd, ContactCompanyID);
+                        }
+                    }
+
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         private void AddListingImages(long newlyAddedListing, List<ListingImages> listingImages, string contactCompanyId)
         {
             try
@@ -1566,6 +1748,49 @@ namespace MPC.Repository.Repositories
                        
                     }
                     db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void AddListingImagesXML(long newlyAddedListing, List<PropertyImage> listingImages, string contactCompanyId)
+        {
+            try
+            {
+                foreach (PropertyImage item in listingImages)
+                {
+
+                    if (item != null)
+                    {
+                        if(!string.IsNullOrEmpty(item.ImageURL))
+                        {
+                            //  string destinationPath = HostingEnvironment.MapPath("~/StoredImages/RealEstateImages/" + contactCompanyId + "\\" + newlyAddedListing + "\\" + item.ImageID);
+                            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + contactCompanyId.ToString() + "/" + newlyAddedListing);
+
+                            //first download image locally
+                            if (!System.IO.Directory.Exists((drURL)))
+                                System.IO.Directory.CreateDirectory(drURL);
+                            string ImageName = DownloadImageLocallyXML(item.ImageURL, drURL);
+
+                            ListingImage tbl_listingImage = new ListingImage();
+                            tbl_listingImage.ListingId = newlyAddedListing;
+                            tbl_listingImage.ClientImageId = item.ImageID;
+                            tbl_listingImage.ImageURL = "/MPC_Content/Stores/" + contactCompanyId + "/" + newlyAddedListing + "/" + ImageName;
+
+
+                            if (!String.IsNullOrEmpty(item.LastMod))
+                                //tbl_listingImage.LastMode = Convert.ToDateTime(item.LastMode, new System.Globalization.CultureInfo("en-AU"));
+                                tbl_listingImage.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                            db.ListingImages.Add(tbl_listingImage);
+                        }
+                        
+                    }
+
+                }
+                db.SaveChanges();
             }
             catch (Exception)
             {
@@ -1731,6 +1956,38 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        private long ProcessOfficeXML(ListingOfficeXML listingOffice, string contactCompanyId, long territoryId,long Organisationid)
+        {
+            try
+            {
+                long processedOfficeId = 0;
+                Address address;
+
+               
+
+                string CState = listingOffice.State;
+                string PostCode = listingOffice.PostCode;
+                //Reference
+                address = db.Addesses.Where(item => item.State.StateName == CState && item.PostCode == PostCode).FirstOrDefault();
+
+                if (address != null) // update
+                {
+                    processedOfficeId = UpdateOfficeXML(address, listingOffice, contactCompanyId, territoryId);
+                }
+                else //add
+                {
+                    processedOfficeId = AddOfficeXML(listingOffice, contactCompanyId, territoryId, Organisationid);
+                }
+
+
+                return processedOfficeId;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private long AddOffice(ListingOffice listingOffice, string contactCompanyId, long territoryId)
         {
             try
@@ -1822,6 +2079,92 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        private long UpdateOfficeXML(Address address, ListingOfficeXML listingOffice, string contactCompanyId, long territoryId)
+        {
+            try
+            {
+                long updatedAddress = 0;
+
+                address.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
+                address.AddressName = listingOffice.StreetNumber + " " + listingOffice.Street;
+                address.Address1 = listingOffice.SubNumber + ", " + listingOffice.StreetNumber + " " + listingOffice.Street;
+             
+                address.City = listingOffice.Suburb;
+                if (address.State != null)
+                    address.State.StateName = listingOffice.State;
+                
+                address.PostCode = listingOffice.PostCode;
+                address.TerritoryId = territoryId;
+               
+                db.Addesses.Attach(address);
+
+                db.Entry(address).State = EntityState.Modified;
+
+                if (db.SaveChanges() > 0)
+                {
+                    updatedAddress = address.AddressId;
+                }
+
+                return updatedAddress;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        private long AddOfficeXML(ListingOfficeXML listingOffice, string contactCompanyId, long territoryId,long Organisationid)
+        {
+            try
+            {
+                //State last = (from l in db.States
+                //                 orderby l.StateId descending
+                //                 select l).First();
+
+                long newlyAddedAddress = 0;
+
+                //long NewStateID =last.StateId+1;
+
+                Address address = new Address();
+                State NState = new State();
+                address.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
+                address.AddressName = listingOffice.StreetNumber + " " + listingOffice.Street;
+                address.Address1 = listingOffice.SubNumber + ", " + listingOffice.StreetNumber + " " + listingOffice.Street;
+
+                address.City = listingOffice.Suburb;
+                address.OrganisationId = Organisationid;
+                address.PostCode = listingOffice.PostCode;
+                address.TerritoryId = territoryId;
+                NState.StateName = listingOffice.State;
+
+                address.State = NState;
+
+                db.States.Add(NState);
+
+                db.SaveChanges();
+
+                address.StateId = NState.StateId;
+
+                address.isArchived = false;
+
+                db.Addesses.Add(address);
+
+                if (db.SaveChanges() > 0)
+                {
+                    newlyAddedAddress = address.AddressId;
+                }
+
+
+                return newlyAddedAddress;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
         #region Staff Member
         private bool IsValidEmail(string email)
         {
@@ -1852,6 +2195,7 @@ namespace MPC.Repository.Repositories
                         {
                             continue;
                         }
+
 
                         //check with email
                         contact = db.CompanyContacts.Where(i => i.Email == item.Email && i.CompanyId == contCompId).FirstOrDefault();
@@ -1930,6 +2274,101 @@ namespace MPC.Repository.Repositories
                 db.CompanyContacts.Add(tbl_contact);
 
                 db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        private void UpdateStaffMemberXML(long newlyAddedAddress, CompanyContact contact, ListingAgentsXML lstStaffMember, string contactCompanyId, long territoryId,long ListingId)
+        {
+            try
+            {
+                //problemarea
+                contact.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
+                contact.AddressId = newlyAddedAddress;
+                contact.FirstName = lstStaffMember.Name;
+                contact.Email = lstStaffMember.Email;
+                contact.HomeTel1 = lstStaffMember.Mobile;
+                contact.TerritoryId = territoryId;
+                db.CompanyContacts.Attach(contact);
+
+                db.Entry(contact).State = EntityState.Modified;
+                db.SaveChanges();
+
+                UpdateListingAgentsXML(ListingId, lstStaffMember, contact.ContactId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void ProcessStaffMemberXML(long newlyAddedAddress, List<ListingAgentsXML> lstStaffMember, string contactCompanyId, long territoryId,long OrgId,long listingID)
+        {
+            try
+            {
+                CompanyContact contact;
+                long contCompId = Convert.ToInt64(contactCompanyId);
+
+                foreach (ListingAgentsXML item in lstStaffMember)
+                {
+                    bool validEmail = IsValidEmail(item.Email);
+                    //bool newEmail = IsNewEmail(item.Email);
+
+                    if (!validEmail) //|| !newEmail)
+                    {
+                        continue;
+                    }
+
+                    //check with email
+                    contact = db.CompanyContacts.Where(i => i.Email == item.Email && i.CompanyId == contCompId).FirstOrDefault();
+
+                    if (contact != null) // update
+                    {
+                        UpdateStaffMemberXML(contact.AddressId, contact, item, contactCompanyId, territoryId, listingID);
+                    }
+                    else //add
+                    {
+                        AddStaffMemberXML(newlyAddedAddress, item, contactCompanyId, territoryId, OrgId, listingID);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        private void AddStaffMemberXML(long newlyAddedAddress, ListingAgentsXML lstStaffMembers, string contactCompanyId, long territoryId,long orgId,long ListingId)
+        {
+            try
+            {
+                CompanyContact tbl_contact = new CompanyContact();
+                tbl_contact.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
+                tbl_contact.AddressId = newlyAddedAddress;
+                tbl_contact.FirstName = lstStaffMembers.Name;
+                tbl_contact.Email = lstStaffMembers.Email;
+                tbl_contact.HomeTel1 = lstStaffMembers.Mobile;
+                tbl_contact.TerritoryId = territoryId;
+                tbl_contact.OrganisationId = orgId;
+
+              
+
+                tbl_contact.isArchived = false;
+                tbl_contact.Password = "1234";
+                tbl_contact.QuestionId = 1;
+                tbl_contact.SecretAnswer = "abc";
+
+                db.CompanyContacts.Add(tbl_contact);
+
+                db.SaveChanges();
+
+                AddListingAgentsXML(ListingId, lstStaffMembers, tbl_contact.ContactId);
             }
             catch (Exception)
             {
@@ -2015,5 +2454,1176 @@ namespace MPC.Repository.Repositories
         {
             return db.ListingImages.ToList();
         }
+
+        public long GetContactCompanyIDByStoreCode(string sStoreCode, long OrganisationID)
+        {
+            long iCompanyId = 0;
+            var comp = db.Companies.Where(c => c.WebAccessCode == sStoreCode && c.OrganisationId == OrganisationID).FirstOrDefault();
+            if (comp != null)
+                iCompanyId = comp.CompanyId;
+            return iCompanyId;
+        }
+
+        private long UpdateListingXML(ListingXML propertyListing, MPC.Models.DomainModels.Listing tblListing)
+        {
+            long updatedListing = 0;
+            try
+            {
+                string strForParse = string.Empty;
+
+
+                var listing = db.Listings.Where(item => item.ClientListingId == tblListing.ClientListingId).FirstOrDefault();
+
+                if (listing != null)
+                {
+                    listing.ClientListingId = propertyListing.ClientListingId;
+                    listing.WebID = propertyListing.AgentId;
+                    listing.DisplayPrice = propertyListing.Price != null ? propertyListing.Price: "0";
+                    listing.PriceView = propertyListing.PriceView;
+                    listing.WebLink = propertyListing.ExternalLink != null ? propertyListing.ExternalLink.href : "";
+                    listing.PropertyCategory = propertyListing.PropertyCategory != null ? propertyListing.PropertyCategory.Name : string.Empty;
+                    listing.MainHeadLine = propertyListing.MainHeadline;
+                    listing.MainDescription = propertyListing.MainDescription;
+                    listing.InspectionTypye = propertyListing.InspectionTimes;
+                    listing.ListingAuthority = propertyListing.ListingAuthority != null ? propertyListing.ListingAuthority.value : "";
+                    listing.BedRooms = (String.IsNullOrEmpty(propertyListing.features.BedRooms)) ? "0" : propertyListing.features.BedRooms;
+                    listing.BathRooms = (String.IsNullOrEmpty(propertyListing.features.BathRooms)) ? "0" : propertyListing.features.BathRooms;
+                    listing.Garages = (String.IsNullOrEmpty(propertyListing.features.Garages)) ? "0" : propertyListing.features.Garages;
+                    listing.Carports = (String.IsNullOrEmpty(propertyListing.features.Carports)) ? "0" : propertyListing.features.Carports;
+                    listing.AirConditioning = propertyListing.features.AirConditioning;
+                    listing.AlarmSystem = propertyListing.features.AlarmSystem;
+                    listing.Intercom = propertyListing.features.Intercom;
+                    listing.OpenFirePlace = propertyListing.features.OpenFirePlace;
+                    listing.TennisCourt = propertyListing.features.TennisCourt;
+                    listing.Toilets = (String.IsNullOrEmpty(propertyListing.features.Toilets)) ? "0" : propertyListing.features.Toilets;
+                    listing.RempoteGarage = propertyListing.features.RempoteGarage;
+                    listing.TotalParking = (String.IsNullOrEmpty(propertyListing.features.SecureParking)) ? 0 : Convert.ToInt32(propertyListing.features.SecureParking);
+                    listing.Studies = (String.IsNullOrEmpty(propertyListing.features.Study)) ? "0" : propertyListing.features.Study;
+                    listing.DishWasher = propertyListing.features.DishWasher;
+                    listing.BuiltinRaboes = propertyListing.features.BuiltinRaboes;
+                    listing.Gym = propertyListing.features.Gym;
+                    listing.WorkShop = propertyListing.features.WorkShop;
+                    listing.RumpusRoom = propertyListing.features.RumpusRoom;
+                    listing.FloorBoards = propertyListing.features.FloorBoards;
+                    listing.BroadBand = propertyListing.features.BroadBand;
+                    listing.PayTV = propertyListing.features.PayTV;
+                    listing.DuctedHeating = propertyListing.features.DuctedHeating;
+                    listing.DuctedCooling = propertyListing.features.DuctedCooling;
+                    listing.SplitSystemHeating = propertyListing.features.SplitSystemHeating;
+                    listing.HydronicHeating = propertyListing.features.HydronicHeating;
+                    listing.SplitSystemAircon = propertyListing.features.SplitSystemAircon;
+                    listing.ReverseCycleAircon = propertyListing.features.ReverseCycleAircon;
+                    listing.EvaporateCooling = propertyListing.features.EvaporateCooling;
+                    listing.VacuumSystem = propertyListing.features.VacuumSystem;
+                    listing.PoolInGround = propertyListing.features.PoolInGround;
+                    listing.PoolAboveGround = propertyListing.features.PoolAboveGround;
+                    listing.Balcony = propertyListing.features.Balcony;
+                    listing.Deck = propertyListing.features.Deck;
+                    listing.CourtYard = propertyListing.features.CourtYard;
+                    listing.OutDoorEnt = propertyListing.features.OutDoorEnt;
+                    listing.Shed = propertyListing.features.Shed;
+                    listing.FullyFenced = propertyListing.features.FullyFenced;
+                    listing.InsideSPA = propertyListing.features.InsideSPA;
+                    listing.OutSideSPA = propertyListing.features.OutSideSPA;
+                    listing.PropertyType = propertyListing.PropertyType;
+                    listing.PropertyName = propertyListing.Office.Street;
+                    listing.CompanyId = (String.IsNullOrEmpty(propertyListing.CompanyId)) ? 0 : Convert.ToInt64(propertyListing.CompanyId);
+                    db.Listings.Attach(listing);
+
+                    db.Entry(listing).State = EntityState.Modified;
+                    if (db.SaveChanges() > 0)
+                    {
+                        updatedListing = listing.ListingId;
+                    }
+                }
+
+
+                return updatedListing;
+            }
+            catch (Exception)
+            {
+                updatedListing = 0;
+                return updatedListing;
+            }
+        }
+
+
+
+        public bool AddListingDataXML(ListingPropertyXML objProperty,long Organisationid)
+        {
+            bool dataAdded = false;
+            try
+            {
+
+
+                long territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.CompanyId);
+
+                long newlyAddedAddress = ProcessOfficeXML(objProperty.Listing.Office, objProperty.Listing.CompanyId, territoryId, Organisationid);
+               // ProcessStaffMemberXML(newlyAddedAddress, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId,Organisationid);
+
+                long newlyAddedListing = AddListingXML(objProperty.Listing); //listing added
+                ProcessStaffMemberXML(newlyAddedAddress, objProperty.Listing.ListingAgents, objProperty.Listing.CompanyId, territoryId, Organisationid, newlyAddedListing);
+                AddListingImagesXML(newlyAddedListing, objProperty.Listing.ListingImages.image, objProperty.Listing.CompanyId);
+                AddListingFloorPlansXML(newlyAddedListing, objProperty.Listing.ListingFloorplans.floorplans);
+             
+                dataAdded = true;
+                return dataAdded;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        private long AddListingXML(ListingXML propertyListing)
+        {
+            long newlyAddedListing = 0;
+            try
+            {
+                string strForParse = string.Empty;
+                if (cultureKey == null) //not defined in web.config
+                {
+                    culture = new System.Globalization.CultureInfo("en-AU", true); // AU is default
+                }
+                else
+                {
+                    culture = new System.Globalization.CultureInfo(cultureKey, true);
+                }
+
+                MPC.Models.DomainModels.Listing listing = new MPC.Models.DomainModels.Listing();
+                listing.ClientListingId = propertyListing.ClientListingId;
+                listing.WebID = propertyListing.AgentId;
+                listing.DisplayPrice = propertyListing.Price != null ? propertyListing.Price : "0";
+                listing.PriceView = propertyListing.PriceView;
+                listing.WebLink = propertyListing.ExternalLink != null ? propertyListing.ExternalLink.href : "";
+                listing.PropertyCategory = propertyListing.PropertyCategory != null ? propertyListing.PropertyCategory.Name : string.Empty;
+                listing.MainHeadLine = propertyListing.MainHeadline;
+                listing.MainDescription = propertyListing.MainDescription;
+                listing.InspectionTypye = propertyListing.InspectionTimes;
+                listing.ListingAuthority = propertyListing.ListingAuthority != null ? propertyListing.ListingAuthority.value : "";
+                listing.BedRooms = (String.IsNullOrEmpty(propertyListing.features.BedRooms)) ? "0" : propertyListing.features.BedRooms;
+                listing.BathRooms = (String.IsNullOrEmpty(propertyListing.features.BathRooms)) ? "0" : propertyListing.features.BathRooms;
+                listing.Garages = (String.IsNullOrEmpty(propertyListing.features.Garages)) ? "0" : propertyListing.features.Garages;
+                listing.Carports = (String.IsNullOrEmpty(propertyListing.features.Carports)) ? "0" : propertyListing.features.Carports;
+                listing.AirConditioning = propertyListing.features.AirConditioning;
+                listing.AlarmSystem = propertyListing.features.AlarmSystem;
+                listing.Intercom = propertyListing.features.Intercom;
+                listing.OpenFirePlace = propertyListing.features.OpenFirePlace;
+                listing.TennisCourt = propertyListing.features.TennisCourt;
+                listing.Toilets = (String.IsNullOrEmpty(propertyListing.features.Toilets)) ? "0" : propertyListing.features.Toilets;
+                listing.RempoteGarage = propertyListing.features.RempoteGarage;
+                listing.TotalParking = (String.IsNullOrEmpty(propertyListing.features.SecureParking)) ? 0 : Convert.ToInt32(propertyListing.features.SecureParking);
+                listing.Studies = (String.IsNullOrEmpty(propertyListing.features.Study)) ? "0" : propertyListing.features.Study;
+                listing.DishWasher = propertyListing.features.DishWasher;
+                listing.BuiltinRaboes = propertyListing.features.BuiltinRaboes;
+                listing.Gym = propertyListing.features.Gym;
+                listing.WorkShop = propertyListing.features.WorkShop;
+                listing.RumpusRoom = propertyListing.features.RumpusRoom;
+                listing.FloorBoards = propertyListing.features.FloorBoards;
+                listing.BroadBand = propertyListing.features.BroadBand;
+                listing.PayTV = propertyListing.features.PayTV;
+                listing.DuctedHeating = propertyListing.features.DuctedHeating;
+                listing.DuctedCooling = propertyListing.features.DuctedCooling;
+                listing.SplitSystemHeating = propertyListing.features.SplitSystemHeating;
+                listing.HydronicHeating = propertyListing.features.HydronicHeating;
+                listing.SplitSystemAircon = propertyListing.features.SplitSystemAircon;
+                listing.ReverseCycleAircon = propertyListing.features.ReverseCycleAircon;
+                listing.EvaporateCooling = propertyListing.features.EvaporateCooling;
+                listing.VacuumSystem = propertyListing.features.VacuumSystem;
+                listing.PoolInGround = propertyListing.features.PoolInGround;
+                listing.PoolAboveGround = propertyListing.features.PoolAboveGround;
+                listing.Balcony = propertyListing.features.Balcony;
+                listing.Deck = propertyListing.features.Deck;
+                listing.CourtYard = propertyListing.features.CourtYard;
+                listing.OutDoorEnt = propertyListing.features.OutDoorEnt;
+                listing.Shed = propertyListing.features.Shed;
+                listing.FullyFenced = propertyListing.features.FullyFenced;
+                listing.InsideSPA = propertyListing.features.InsideSPA;
+                listing.OutSideSPA = propertyListing.features.OutSideSPA;
+                listing.PropertyType = propertyListing.PropertyType;
+                listing.PropertyName = propertyListing.Office.Street;
+                listing.CompanyId = (String.IsNullOrEmpty(propertyListing.CompanyId)) ? 0 : Convert.ToInt64(propertyListing.CompanyId);
+
+                db.Listings.Add(listing);
+                db.SaveChanges();
+                //   if (db.SaveChanges() > 0)
+                // {
+                newlyAddedListing = listing.ListingId;
+                // }
+
+
+                return newlyAddedListing;
+            }
+            catch (Exception)
+            {
+                newlyAddedListing = 0;
+                return newlyAddedListing;
+            }
+        }
+
+        private void UpdateListingAgentsXML(long updatedListingID, ListingAgentsXML list,long ContactId)
+        {
+            try
+            {
+                List<ListingAgent> listingAgents = db.ListingAgents.Where(i => i.ListingId == updatedListingID).ToList();
+
+                foreach (ListingAgent item in listingAgents)
+                {
+                    if (item != null)
+                    {
+                        db.ListingAgents.Remove(item);
+                    }
+                }
+
+                db.SaveChanges();
+
+                //old Agents deleted now add new ones
+                AddListingAgentsXML(updatedListingID, list,ContactId);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void AddListingAgentsXML(long newlyAddedListing, ListingAgentsXML lstAgents,long ContactId)
+        {
+            try
+            {
+
+                if (lstAgents != null)
+                {
+                        CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
+
+                        if (contact != null)
+                        {
+                            ListingAgent agent = new ListingAgent();
+                            agent.ListingId = newlyAddedListing;
+                            agent.MemberId = contact.ContactId; //memberid is contactid from tbl_contacts
+                            // agent.AgentOrder = item.AgentOrder;
+                            agent.Mobile = contact.Mobile;
+                            agent.Name = contact.FirstName;
+                            agent.Phone = contact.HomeTel1;
+                            agent.Phone2 = contact.HomeTel2;
+
+                            if (contact.ContactRoleId != null && contact.ContactRoleId == 1)
+                            {
+                                agent.Admin = true;
+                            }
+                            else
+                            {
+                                agent.Admin = false;
+                            }
+
+                            agent.UserRef = contact.quickWebsite;
+                            db.ListingAgents.Add(agent);
+                        }
+
+                       
+                    }
+                
+
+                db.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private string DownloadImageLocallyXML(string SourceURL, string DestinationBasePath)
+        {
+
+          
+
+            System.Drawing.Image image = null;
+
+            System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(SourceURL);
+            webRequest.AllowWriteStreamBuffering = true;
+            webRequest.Timeout = 30000;
+
+            System.Net.WebResponse webResponse = webRequest.GetResponse();
+            string filename = webResponse.ResponseUri.LocalPath;
+
+            System.IO.Stream stream = webResponse.GetResponseStream();
+
+            //  string fileName = webResponse.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+
+            image = System.Drawing.Image.FromStream(stream);
+
+
+            string rootPath = DestinationBasePath;
+            string[] tokens = filename.Split(new[] { "/" }, StringSplitOptions.None);
+            string token = tokens[tokens.Length - 1];
+            string file = System.IO.Path.Combine(rootPath, token);
+            image.Save(file);
+            return token;
+
+
+        }
+
+        public MPC.Models.DomainModels.Listing GetListingByListingID(int propertyId)
+        {
+           
+                return (from Listing in db.Listings
+                        where Listing.ListingId == propertyId
+                        select Listing).FirstOrDefault();
+            
+        }
+
+        public long UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing)
+        {
+            long updatedListing = 0;
+            try
+            {
+                string strForParse = string.Empty;
+                var listing = db.Listings.Where(item => item.ListingId == tblListing.ListingId).FirstOrDefault();
+
+                if (listing != null)
+                {
+                    //  listing.ClientListingID = propertyListing.ListingID;
+                    listing.WebID = propertyListing.WebID;
+                    listing.WebLink = propertyListing.WebLink;
+                    listing.AddressDisplay = propertyListing.AddressDisplay;
+                    listing.StreetAddress = propertyListing.StreetAddress;
+                    listing.ClientListingId = propertyListing.ClientListingId;
+                    if (propertyListing.LevelNumber == null || propertyListing.LevelNumber.Equals(string.Empty))
+                    {
+                        listing.LevelNumber = "0";
+                    }
+                    else
+                    {
+                        listing.LevelNumber = propertyListing.LevelNumber;
+                    }
+                    if (propertyListing.LotNumber == null || propertyListing.LotNumber.Equals(string.Empty))
+                    {
+                        listing.LotNumber = "0";
+                    }
+                    else
+                    {
+                        listing.LotNumber = propertyListing.LotNumber;
+                    }
+
+
+
+                    if (propertyListing.UnitNumber == null || propertyListing.UnitNumber.Equals(string.Empty))
+                    {
+                        listing.UnitNumber = "0";
+                    }
+
+                    else
+                    {
+                        listing.UnitNumber = propertyListing.UnitNumber;
+                    }
+
+
+
+                    if (propertyListing.StreetNumber == null || propertyListing.StreetNumber.Equals(string.Empty))
+                    {
+                        propertyListing.StreetNumber = "0";
+                    }
+                    else
+                    {
+
+                        listing.StreetNumber = propertyListing.StreetNumber;
+                    }
+                    listing.Street = propertyListing.Street;
+                    listing.Suburb = propertyListing.Suburb;
+                    listing.State = propertyListing.State;
+                    listing.PostCode = propertyListing.PostCode;
+                    listing.PropertyName = propertyListing.PropertyName;
+                    listing.PropertyType = propertyListing.PropertyType;
+                    listing.PropertyCategory = propertyListing.PropertyCategory;
+
+                    //if (!String.IsNullOrEmpty(propertyListing.ListingDate))
+                    //    listing.ListingDate = DateTime.Parse(propertyListing.ListingDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                    //if (!String.IsNullOrEmpty(propertyListing.ListingExpiryDate))
+                    //    listing.ListingExpiryDate = DateTime.Parse(propertyListing.ListingExpiryDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                    listing.ListingStatus = propertyListing.ListingStatus;
+                    listing.ListingMethod = propertyListing.ListingMethod;
+                    listing.ListingAuthority = propertyListing.ListingAuthority;
+                    listing.InspectionTypye = propertyListing.InspectionTypye;
+                    listing.ListingType = propertyListing.ListingType;
+                    if (propertyListing.WaterRates != null && !propertyListing.WaterRates.Equals(string.Empty))
+                    {
+                        listing.WaterRates = propertyListing.WaterRates;
+                    }
+                    else
+                    {
+                        listing.WaterRates = "0";
+                    }
+
+                    if (propertyListing.StrataAdmin != null && !propertyListing.StrataAdmin.Equals(string.Empty))
+                    {
+                        listing.StrataAdmin = propertyListing.StrataAdmin;
+                    }
+                    else
+                    {
+                        listing.StrataAdmin = "0";
+                    }
+
+                    if (propertyListing.StrataSinking != null && !propertyListing.StrataSinking.Equals(string.Empty))
+                    {
+                        listing.StrataSinking = propertyListing.StrataSinking;
+                    }
+                    else
+                    {
+                        listing.StrataSinking = "0";
+                    }
+
+                    listing.AutionVenue = propertyListing.AutionVenue;
+                     
+                   // listing.AuctionDate =Convert.ToDateTime( propertyListing.AuctionDate).;
+                   // DateTime myDate = new DateTime(myDate.Year, myDate.Month, myDate.Day);
+                  //  listing.AuctionDate =propertyListing.AuctionDate;  //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+                    listing.AuctionDate = propertyListing.AuctionDate;
+                   
+
+                    if (propertyListing.DisplayPrice != null)
+                    {
+                        strForParse = propertyListing.DisplayPrice.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                            listing.DisplayPrice = result;
+                    }
+                    else
+                    {
+                        listing.DisplayPrice = null;
+                    }
+                    if (!string.IsNullOrEmpty(propertyListing.SearchPrice))
+                    {
+                        strForParse = propertyListing.SearchPrice.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                            listing.SearchPrice = result;
+                    }
+                    else
+                    {
+                        listing.SearchPrice = propertyListing.SearchPrice;
+                    }
+
+                    if (propertyListing.RendPeriod == null || propertyListing.RendPeriod.Equals(string.Empty))
+                    {
+                        listing.RendPeriod = 0;
+                        
+                    }
+                    else
+                    {
+                        listing.RendPeriod = propertyListing.RendPeriod;
+                    }
+                 //   DateTime dtIN = DateTime.ParseExact(propertyListing.AvailableDate.ToString(), "{0:MM/dd/yyyy}", CultureInfo.InvariantCulture);
+                    //listing.AvailableDate = DateTime.ParseExact(propertyListing.AvailableDate.ToString(), "yyyyMMdd ", null); //DateTime.ParseExact(propertyListing.AvailableDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    listing.AvailableDate = propertyListing.AvailableDate;
+                    //propertyListing.AvailableDate.ToString("yyyy-MM-dd")
+                    //listing.AvailableDate = DateTime.Parse();
+                   
+                    listing.InspectionTimeFrom2 = propertyListing.InspectionTimeFrom2;
+
+
+                    listing.InspectionTimeFrom1 = propertyListing.InspectionTimeFrom1;
+
+
+                    listing.AuctionTime = propertyListing.AuctionTime;
+
+
+                    listing.AuctionEndTime = propertyListing.AuctionEndTime;
+
+                    //if (!String.IsNullOrEmpty(propertyListing.SoldDate))
+                    //    listing.SoldDate = DateTime.Parse(propertyListing.SoldDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+                    if (propertyListing.SoldPrice != null && !propertyListing.SoldPrice.Equals(string.Empty))
+                    {
+                        strForParse = propertyListing.SoldPrice.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                            listing.SoldPrice = result;
+                    }
+                    else
+                    {
+                        listing.SoldPrice = null;
+                    }
+
+                    if (propertyListing.IsSoldPriceConfidential != null)
+                    {
+                        //string confid = propertyListing.IsSoldPriceConfidential;
+                        //if (confid.Equals("Yes"))
+                        //{
+                        //    listing.IsSoldPriceConfidential = true;
+                        //}
+                        //else if (confid.Equals("No"))
+                        //{
+                        //    listing.IsSoldPriceConfidential = false;
+                        //}
+                        listing.IsSoldPriceConfidential = propertyListing.IsSoldPriceConfidential;
+                    }
+                    else
+                    {
+                        listing.IsSoldPriceConfidential = null;
+                    }
+
+                    listing.MainHeadLine = propertyListing.MainHeadLine;
+
+                    listing.MainDescription = propertyListing.MainDescription;
+                    listing.BedRooms = (string.IsNullOrEmpty(propertyListing.BedRooms)) ? "0" : propertyListing.BedRooms;
+                    listing.BathRooms = (string.IsNullOrEmpty(propertyListing.BathRooms)) ? "0" : propertyListing.BathRooms;
+                    listing.LoungeRooms = (string.IsNullOrEmpty(propertyListing.LoungeRooms)) ? "0" : propertyListing.LoungeRooms;
+                    listing.Toilets = (string.IsNullOrEmpty(propertyListing.Toilets)) ? "0" : propertyListing.Toilets;
+                    listing.Studies = (string.IsNullOrEmpty(propertyListing.Studies)) ? "0" : propertyListing.Studies;
+                    listing.Pools = (string.IsNullOrEmpty(propertyListing.Pools)) ? "0" : propertyListing.Pools;
+                    listing.Garages = (string.IsNullOrEmpty(propertyListing.Garages)) ? "0" : propertyListing.Garages;
+                    listing.Carports = (string.IsNullOrEmpty(propertyListing.Carports)) ? "0" : propertyListing.Carports;
+                    listing.CarSpaces = (string.IsNullOrEmpty(propertyListing.CarSpaces)) ? "0" : propertyListing.CarSpaces;
+                    listing.TotalParking = (string.IsNullOrEmpty(propertyListing.TotalParking.ToString())) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
+
+                    if (propertyListing.LandArea != null)
+                    {
+                        strForParse = propertyListing.LandArea.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.LandArea = result;
+                        }
+                        else
+                        {
+                            listing.LandArea = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.LandArea = null;
+                    }
+                    listing.LandAreaUnit = propertyListing.LandAreaUnit;
+                    listing.BuildingAreaSqm = (string.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? "0" : propertyListing.BuildingAreaSqm;
+                    listing.ExternalAreaSqm = (string.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? "0" : propertyListing.ExternalAreaSqm;
+                    listing.FrontageM = (string.IsNullOrEmpty(propertyListing.FrontageM)) ? "0" : propertyListing.FrontageM;
+                    listing.Aspect = propertyListing.Aspect;
+                    listing.YearBuilt = propertyListing.YearBuilt;
+                    listing.YearRenovated = propertyListing.YearRenovated;
+                    listing.Construction = propertyListing.Construction;
+                    listing.PropertyCondition = propertyListing.PropertyCondition;
+
+                    if (propertyListing.EnergyRating != null)
+                    {
+                        strForParse = propertyListing.EnergyRating.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.EnergyRating = result;
+                        }
+                        else
+                        {
+                            listing.EnergyRating = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.EnergyRating = null;
+                    }
+
+
+                    listing.Features = propertyListing.Features;
+
+                    if (propertyListing.LandTax != null)
+                    {
+                        strForParse = propertyListing.LandTax.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.LandTax = result;
+                        }
+                        else
+                        {
+                            listing.LandTax = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.LandTax = null;
+                    }
+                    if (propertyListing.CounsilRates != null)
+                    {
+                        strForParse = propertyListing.CounsilRates.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.CounsilRates = result;
+                        }
+                        else
+                        {
+                            listing.CounsilRates = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.CounsilRates = null;
+                    }
+
+                    if (propertyListing.StrataAdmin != null)
+                    {
+                        strForParse = propertyListing.StrataAdmin.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.StrataAdmin = result;
+                        }
+                        else
+                        {
+                            listing.StrataAdmin = null;
+                        }
+                    }
+                    else
+                    {
+                        listing.StrataAdmin = null;
+                    }
+
+                    if (propertyListing.StrataSinking != null)
+                    {
+                        strForParse = propertyListing.StrataSinking.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.StrataSinking =result;
+                        }
+                        else
+                        {
+                            listing.StrataSinking = null;
+                        }
+
+                    }
+                    else
+                    {
+                        listing.StrataSinking = null;
+                    }
+
+                    if (propertyListing.OtherOutgoings != null)
+                    {
+                        strForParse = propertyListing.OtherOutgoings.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.OtherOutgoings = result;
+                        }
+                        else
+                        {
+                            listing.OtherOutgoings = null;
+                        }
+                    }
+                    else
+                    {
+                        listing.OtherOutgoings = null;
+                    }
+
+                    if (propertyListing.TotalOutgoings != null)
+                    {
+                        strForParse = propertyListing.TotalOutgoings.ToString();
+                        string result = Regex.Replace(strForParse, @"[^\d]", "");
+                        if (!result.Equals(string.Empty))
+                        {
+                            listing.TotalOutgoings = result;
+                        }
+                        else
+                        {
+                            listing.TotalOutgoings = null;
+                        }
+                    }
+                    else
+                    {
+                        listing.TotalOutgoings = null;
+                    }
+
+                    listing.LegalDescription = propertyListing.LegalDescription;
+                    listing.LegalLot = propertyListing.LegalLot;
+                    listing.LegalDP = propertyListing.LegalDP;
+                    listing.LegalVol = propertyListing.LegalVol;
+                    listing.LegalFolio = propertyListing.LegalFolio;
+                    listing.Zoning = propertyListing.Zoning;
+                    //    listing.ContactCompanyID = (String.IsNullOrEmpty(propertyListing.ContactCompanyID)) ? 0 : Convert.ToInt32(propertyListing.ContactCompanyID);
+                    listing.BrochureDescription = propertyListing.BrochureDescription;
+                    listing.BrochureMainHeadLine = propertyListing.BrochureMainHeadLine;
+                    listing.BrochureSummary = propertyListing.BrochureSummary;
+                    listing.SignBoardDescription = propertyListing.SignBoardDescription;
+                    listing.SignBoardInstallInstruction = propertyListing.SignBoardInstallInstruction;
+                    listing.SignBoardMainHeadLine = propertyListing.SignBoardMainHeadLine;
+                    listing.SignBoardSummary = propertyListing.SignBoardSummary;
+                    listing.AdvertsDescription = propertyListing.AdvertsDescription;
+                    listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
+                    listing.AdvertsSummary = propertyListing.AdvertsSummary;
+                    listing.CompanyId = propertyListing.CompanyId;
+                    db.Listings.Attach(listing);
+
+                    db.Entry(listing).State = EntityState.Modified;
+                  //  if (db.SaveChanges() > 0)
+                  //  {
+                    db.SaveChanges();
+                        updatedListing = listing.ListingId;
+
+                  //  }
+                }
+                return updatedListing;
+            }
+            catch (Exception ex)
+            {
+                updatedListing = 0;
+                throw ex;
+            }
+            
+        }
+
+        public long AddNewListing(MPC.Models.DomainModels.Listing propertyListing)
+        {
+            long ListingId = 0;
+            MPC.Models.DomainModels.Listing listing = new Models.DomainModels.Listing();
+            string strForParse = string.Empty;
+            listing.WebID = propertyListing.WebID;
+            listing.WebLink = propertyListing.WebLink;
+            listing.AddressDisplay = propertyListing.AddressDisplay;
+            listing.StreetAddress = propertyListing.StreetAddress;
+            listing.PropertyName = propertyListing.PropertyName;
+            listing.ClientListingId = propertyListing.ClientListingId;
+            if (propertyListing.LevelNumber == null || propertyListing.LevelNumber.Equals(string.Empty))
+            {
+                listing.LevelNumber = "0";
+            }
+            else
+            {
+                listing.LevelNumber = propertyListing.LevelNumber;
+            }
+            if (propertyListing.LotNumber == null || propertyListing.LotNumber.Equals(string.Empty))
+            {
+                listing.LotNumber = "0";
+            }
+            else
+            {
+                listing.LotNumber = propertyListing.LotNumber;
+            }
+
+
+
+            if (propertyListing.UnitNumber == null || propertyListing.UnitNumber.Equals(string.Empty))
+            {
+                listing.UnitNumber = "0";
+            }
+
+            else
+            {
+                listing.UnitNumber = propertyListing.UnitNumber;
+            }
+
+
+
+            if (propertyListing.StreetNumber == null || propertyListing.StreetNumber.Equals(string.Empty))
+            {
+                propertyListing.StreetNumber = "0";
+            }
+            else
+            {
+
+                listing.StreetNumber = propertyListing.StreetNumber;
+            }
+            listing.Street = propertyListing.Street;
+            listing.Suburb = propertyListing.Suburb;
+            listing.State = propertyListing.State;
+            listing.PostCode = propertyListing.PostCode;
+            listing.PropertyName = propertyListing.PropertyName;
+            listing.PropertyType = propertyListing.PropertyType;
+            listing.PropertyCategory = propertyListing.PropertyCategory;
+
+            //if (!String.IsNullOrEmpty(propertyListing.ListingDate))
+            //    listing.ListingDate = DateTime.Parse(propertyListing.ListingDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+            //if (!String.IsNullOrEmpty(propertyListing.ListingExpiryDate))
+            //    listing.ListingExpiryDate = DateTime.Parse(propertyListing.ListingExpiryDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+            listing.ListingStatus = propertyListing.ListingStatus;
+            listing.ListingMethod = propertyListing.ListingMethod;
+            listing.ListingAuthority = propertyListing.ListingAuthority;
+            listing.InspectionTypye = propertyListing.InspectionTypye;
+            listing.ListingType = propertyListing.ListingType;
+            if (propertyListing.WaterRates != null && !propertyListing.WaterRates.Equals(string.Empty))
+            {
+                listing.WaterRates = propertyListing.WaterRates;
+            }
+            else
+            {
+                listing.WaterRates = "0";
+            }
+
+            if (propertyListing.StrataAdmin != null && !propertyListing.StrataAdmin.Equals(string.Empty))
+            {
+                listing.StrataAdmin = propertyListing.StrataAdmin;
+            }
+            else
+            {
+                listing.StrataAdmin = "0";
+            }
+
+            if (propertyListing.StrataSinking != null && !propertyListing.StrataSinking.Equals(string.Empty))
+            {
+                listing.StrataSinking = propertyListing.StrataSinking;
+            }
+            else
+            {
+                listing.StrataSinking = "0";
+            }
+
+            listing.AutionVenue = propertyListing.AutionVenue;
+            listing.AuctionDate = propertyListing.AuctionDate; //DateTime.ParseExact(propertyListing.AuctionDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            //listing.AutionVenue = propertyListing.AuctionVenue;
+
+            //if (!String.IsNullOrEmpty(propertyListing.EOIClosingDate))
+            //    listing.EOIClosingDate = DateTime.Parse(propertyListing.EOIClosingDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+            if (propertyListing.DisplayPrice != null)
+            {
+                strForParse = propertyListing.DisplayPrice.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                    listing.DisplayPrice = result;
+            }
+            else
+            {
+                listing.DisplayPrice = null;
+            }
+            if (!string.IsNullOrEmpty(propertyListing.SearchPrice))
+            {
+                strForParse = propertyListing.SearchPrice.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                    listing.SearchPrice = result;
+            }
+            else
+            {
+                listing.SearchPrice = propertyListing.SearchPrice;
+            }
+
+            if (propertyListing.RendPeriod == null || propertyListing.RendPeriod.Equals(string.Empty))
+            {
+                listing.RendPeriod = 0;
+
+            }
+            else
+            {
+                listing.RendPeriod = propertyListing.RendPeriod;
+            }
+
+            listing.AvailableDate = propertyListing.AvailableDate; //DateTime.ParseExact(propertyListing.AvailableDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            listing.InspectionTimeFrom2 = propertyListing.InspectionTimeFrom2;
+
+
+            listing.InspectionTimeFrom1 = propertyListing.InspectionTimeFrom1;
+
+
+            listing.AuctionTime = propertyListing.AuctionTime;
+
+
+            listing.AuctionEndTime = propertyListing.AuctionEndTime;
+
+            //if (!String.IsNullOrEmpty(propertyListing.SoldDate))
+            //    listing.SoldDate = DateTime.Parse(propertyListing.SoldDate, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+
+            if (propertyListing.SoldPrice != null && !propertyListing.SoldPrice.Equals(string.Empty))
+            {
+                strForParse = propertyListing.SoldPrice.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                    listing.SoldPrice = result;
+            }
+            else
+            {
+                listing.SoldPrice = null;
+            }
+
+            if (propertyListing.IsSoldPriceConfidential != null)
+            {
+                //string confid = propertyListing.IsSoldPriceConfidential;
+                //if (confid.Equals("Yes"))
+                //{
+                //    listing.IsSoldPriceConfidential = true;
+                //}
+                //else if (confid.Equals("No"))
+                //{
+                //    listing.IsSoldPriceConfidential = false;
+                //}
+                listing.IsSoldPriceConfidential = propertyListing.IsSoldPriceConfidential;
+            }
+            else
+            {
+                listing.IsSoldPriceConfidential = null;
+            }
+
+            listing.MainHeadLine = propertyListing.MainHeadLine;
+
+            listing.MainDescription = propertyListing.MainDescription;
+            listing.BedRooms = (string.IsNullOrEmpty(propertyListing.BedRooms)) ? "0" : propertyListing.BedRooms;
+            listing.BathRooms = (string.IsNullOrEmpty(propertyListing.BathRooms)) ? "0" : propertyListing.BathRooms;
+            listing.LoungeRooms = (string.IsNullOrEmpty(propertyListing.LoungeRooms)) ? "0" : propertyListing.LoungeRooms;
+            listing.Toilets = (string.IsNullOrEmpty(propertyListing.Toilets)) ? "0" : propertyListing.Toilets;
+            listing.Studies = (string.IsNullOrEmpty(propertyListing.Studies)) ? "0" : propertyListing.Studies;
+            listing.Pools = (string.IsNullOrEmpty(propertyListing.Pools)) ? "0" : propertyListing.Pools;
+            listing.Garages = (string.IsNullOrEmpty(propertyListing.Garages)) ? "0" : propertyListing.Garages;
+            listing.Carports = (string.IsNullOrEmpty(propertyListing.Carports)) ? "0" : propertyListing.Carports;
+            listing.CarSpaces = (string.IsNullOrEmpty(propertyListing.CarSpaces)) ? "0" : propertyListing.CarSpaces;
+            listing.TotalParking = (string.IsNullOrEmpty(propertyListing.TotalParking.ToString())) ? 0 : Convert.ToInt32(propertyListing.TotalParking);
+
+            if (propertyListing.LandArea != null)
+            {
+                strForParse = propertyListing.LandArea.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                {
+                    listing.LandArea = result;
+                }
+                else
+                {
+                    listing.LandArea = null;
+                }
+
+            }
+            else
+            {
+                listing.LandArea = null;
+            }
+            listing.LandAreaUnit = propertyListing.LandAreaUnit;
+            listing.BuildingAreaSqm = (string.IsNullOrEmpty(propertyListing.BuildingAreaSqm)) ? "0" :propertyListing.BuildingAreaSqm;
+            listing.ExternalAreaSqm = (string.IsNullOrEmpty(propertyListing.ExternalAreaSqm)) ? "0" :propertyListing.ExternalAreaSqm;
+            listing.FrontageM = (string.IsNullOrEmpty(propertyListing.FrontageM)) ? "0" : propertyListing.FrontageM;
+            listing.Aspect = propertyListing.Aspect;
+            listing.YearBuilt = propertyListing.YearBuilt;
+            listing.YearRenovated = propertyListing.YearRenovated;
+            listing.Construction = propertyListing.Construction;
+            listing.PropertyCondition = propertyListing.PropertyCondition;
+
+            if (propertyListing.EnergyRating != null)
+            {
+                strForParse = propertyListing.EnergyRating.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                {
+                    listing.EnergyRating = result;
+                }
+                else
+                {
+                    listing.EnergyRating = null;
+                }
+
+            }
+            else
+            {
+                listing.EnergyRating = null;
+            }
+
+
+            listing.Features = propertyListing.Features;
+
+            if (propertyListing.LandTax != null)
+            {
+                strForParse = propertyListing.LandTax.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                {
+                    listing.LandTax = result;
+                }
+                else
+                {
+                    listing.LandTax = null;
+                }
+
+            }
+            else
+            {
+                listing.LandTax = null;
+            }
+            if (propertyListing.CounsilRates != null)
+            {
+                strForParse = propertyListing.CounsilRates.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                {
+                    listing.CounsilRates = result;
+                }
+                else
+                {
+                    listing.CounsilRates = null;
+                }
+
+            }
+            else
+            {
+                listing.CounsilRates = null;
+            }
+
+            if (propertyListing.StrataAdmin != null)
+            {
+                strForParse = propertyListing.StrataAdmin.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                {
+                    listing.StrataAdmin = result;
+                }
+                else
+                {
+                    listing.StrataAdmin = null;
+                }
+            }
+            else
+            {
+                listing.StrataAdmin = null;
+            }
+
+            if (propertyListing.StrataSinking != null)
+            {
+                strForParse = propertyListing.StrataSinking.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                {
+                    listing.StrataSinking = result;
+                }
+                else
+                {
+                    listing.StrataSinking = null;
+                }
+
+            }
+            else
+            {
+                listing.StrataSinking = null;
+            }
+
+            if (propertyListing.OtherOutgoings != null)
+            {
+                strForParse = propertyListing.OtherOutgoings.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                {
+                    listing.OtherOutgoings = result;
+                }
+                else
+                {
+                    listing.OtherOutgoings = null;
+                }
+            }
+            else
+            {
+                listing.OtherOutgoings = null;
+            }
+
+            if (propertyListing.TotalOutgoings != null)
+            {
+                strForParse = propertyListing.TotalOutgoings.ToString();
+                string result = Regex.Replace(strForParse, @"[^\d]", "");
+                if (!result.Equals(string.Empty))
+                {
+                    listing.TotalOutgoings = result;
+                }
+                else
+                {
+                    listing.TotalOutgoings = null;
+                }
+            }
+            else
+            {
+                listing.TotalOutgoings = null;
+            }
+
+            listing.LegalDescription = propertyListing.LegalDescription;
+            listing.LegalLot = propertyListing.LegalLot;
+            listing.LegalDP = propertyListing.LegalDP;
+            listing.LegalVol = propertyListing.LegalVol;
+            listing.LegalFolio = propertyListing.LegalFolio;
+            listing.Zoning = propertyListing.Zoning;
+            //    listing.ContactCompanyID = (string.IsNullOrEmpty(propertyListing.ContactCompanyID)) ? 0 : Convert.ToInt32(propertyListing.ContactCompanyID);
+            listing.BrochureDescription = propertyListing.BrochureDescription;
+            listing.BrochureMainHeadLine = propertyListing.BrochureMainHeadLine;
+            listing.BrochureSummary = propertyListing.BrochureSummary;
+            listing.SignBoardDescription = propertyListing.SignBoardDescription;
+            listing.SignBoardInstallInstruction = propertyListing.SignBoardInstallInstruction;
+            listing.SignBoardMainHeadLine = propertyListing.SignBoardMainHeadLine;
+            listing.SignBoardSummary = propertyListing.SignBoardSummary;
+            listing.AdvertsDescription = propertyListing.AdvertsDescription;
+            listing.AdvertsMainHeadLine = propertyListing.AdvertsMainHeadLine;
+            listing.AdvertsSummary = propertyListing.AdvertsSummary;
+            db.Listings.Add(listing);
+            db.SaveChanges();
+            //if (db.SaveChanges() > 0)
+           // {
+
+                ListingId = listing.ListingId;
+
+           // }
+            return ListingId;
+        }
+
+        public List<ListingImage> GetAllListingImages(long ListingID)
+        {
+            return db.ListingImages.Where(i => i.ListingId == ListingID).ToList();
+        }
+
+        public void ListingImage(ListingImage NewImage)
+        {
+            db.ListingImages.Add(NewImage);
+            db.SaveChanges();
+        }
+
+        public void DeleteListingImage(long listingImageID)
+        {
+            ListingImage image = db.ListingImages.Where(i => i.ListingImageId == listingImageID).FirstOrDefault();
+            db.ListingImages.Remove(image);
+            db.SaveChanges();
+            
+        }
+
+        public bool DeleteLisitngData(long ListingId)
+        {
+            bool result=false;
+            MPC.Models.DomainModels.Listing Listing = db.Listings.Where(i => i.ListingId == ListingId).FirstOrDefault();
+            List<ListingImage> ListingImages = db.ListingImages.Where(i => i.ListingId == ListingId).ToList();
+            foreach (ListingImage Image in ListingImages)
+            {
+                db.ListingImages.Remove(Image);
+            }
+            List<ListingBulletPoint> BulletePoint = db.ListingBulletPoints.Where(i => i.ListingId == ListingId).ToList();
+
+            foreach (ListingBulletPoint point in BulletePoint)
+            {
+                db.ListingBulletPoints.Remove(point);
+            }
+            //List<ListingAgent> Agents = db.ListingAgents.Where(i => i.ListingId == ListingId).ToList();
+
+            //foreach (ListingAgent agent in Agents)
+            //{
+            //    db.ListingAgents.Remove(agent);
+            //}
+            db.Listings.Remove(Listing);
+            if (db.SaveChanges() > 0)
+            {
+                result = true;
+            }
+            return result;
+        }
+        public void AddlistingImages(long ListingId,List<ListingImage> Images)
+        {
+            foreach (var item in Images)
+            {
+                ListingImage Image = new ListingImage();
+                Image.ImageURL = item.ImageType;
+                Image.ListingId = ListingId;
+                db.ListingImages.Add(Image);
+                db.SaveChanges();
+            }
+        
+        }
+
     }
 }

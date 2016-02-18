@@ -126,7 +126,8 @@ namespace MPC.Repository.Repositories
                                 Meta_RobotsContent = page.Meta_RobotsContent,
                                 Meta_Title = page.Meta_Title,
                                 PageTitle = page.PageTitle,
-                                isDisplay = page.isDisplay
+                                isDisplay = page.isDisplay,
+                                PageBanner = page.PageBanner
 
                             };
                 return query.ToList<CmsPageModel>();

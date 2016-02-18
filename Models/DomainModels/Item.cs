@@ -396,8 +396,8 @@ namespace MPC.Models.DomainModels
         public int? ProductDisplayOptions { get; set; }
 
         public long? DiscountVoucherID { get; set; }
-        
 
+        public int? UploadTypeByUser { get; set; }
         [NotMapped]
         public double MinPrice { get; set; }
 
@@ -487,6 +487,7 @@ namespace MPC.Models.DomainModels
         public bool? File4Deleted { get; set; }
         [NotMapped]
         public bool? File5Deleted { get; set; }
+
 
         /// <summary>
         /// Thumbnail Image Bytes - byte[] representation of Base64 string Thumbnail Image
@@ -811,7 +812,7 @@ namespace MPC.Models.DomainModels
                 throw new ArgumentException(LanguageResources.ItemClone_InvalidItem, "target");
             }
 
-            target.ProductName = ProductName + " Copy";
+            target.ProductName = ProductName;
             target.ProductCode = ProductCode;
             target.ProductSpecification = ProductSpecification;
             target.IsEnabled = IsEnabled;
@@ -851,7 +852,7 @@ namespace MPC.Models.DomainModels
             target.IsUploadImage = IsUploadImage;
             target.IsDigitalDownload = IsDigitalDownload;
             target.IsRealStateProduct = IsRealStateProduct;
-           
+            target.RefItemId = RefItemId;
             target.ItemType = ItemType;
             target.drawWaterMarkTxt = drawWaterMarkTxt;
             target.isAddCropMarks = isAddCropMarks;

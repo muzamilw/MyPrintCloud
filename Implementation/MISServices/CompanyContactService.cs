@@ -16,6 +16,11 @@ using MPC.Models.ResponseModels;
 using System.Text;
 using Ionic.Zip;
 using Newtonsoft.Json;
+using System.Net;
+using MailChimp;
+using MailChimp.Types;
+//using MailChimp.Types;
+//using MailChimp;
 
 namespace MPC.Implementation.MISServices
 {
@@ -29,6 +34,7 @@ namespace MPC.Implementation.MISServices
         private readonly IStateRepository stateRepository;
         private readonly IScopeVariableRepository scopeVariableRepository;
         private readonly IOrganisationRepository organisationRepository;
+        private readonly ICountryRepository countryRepostiry;
         private CompanyContact Create(CompanyContact companyContact)
         {
             UpdateDefaultBehaviourOfContactCompany(companyContact);
@@ -121,7 +127,8 @@ namespace MPC.Implementation.MISServices
 
         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository,
-            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository, IOrganisationRepository organisationRepository)
+            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository, IOrganisationRepository organisationRepository,
+            ICountryRepository countryRepository)
         {
             this.companyContactRepository = companyContactRepository;
             this.companyTerritoryRepository = companyTerritoryRepository;
@@ -131,6 +138,7 @@ namespace MPC.Implementation.MISServices
             this.stateRepository = stateRepository;
             this.scopeVariableRepository = scopeVariableRepository;
             this.organisationRepository = organisationRepository;
+            this.countryRepostiry = countryRepository;
         }
 
         #endregion
@@ -193,6 +201,9 @@ namespace MPC.Implementation.MISServices
                     contact = Create(companyContact);
                     //contactToReturn = companyContactRepository.GetContactByContactId(contact.ContactId);
                     //companyContactRepository.LoadProperty(contactToReturn, () => contactToReturn.Company);
+                    // post data to mail chimp
+                    if (contact != null)
+                        PostDataToMailChimp(contact);
                     return contact;
                 }
                 contact = Update(companyContact);
@@ -892,9 +903,9 @@ namespace MPC.Implementation.MISServices
                                     if (contact.ContactRoleId == 1)
                                         Role = "A";
                                     else if (contact.ContactRoleId == 2)
-                                        Role = "B";
+                                        Role = "M";
                                     else
-                                        Role = "C";
+                                        Role = "U";
 
                                     if (contact.IsNewsLetterSubscription ?? false)
                                         IsNewsLetterSubscription = "True";
@@ -1144,34 +1155,41 @@ namespace MPC.Implementation.MISServices
             return companyContactRepository.GetStoreContactForZapier(contactId);
         }
 
-        public void PostDataToZapier(long contactId)
+        public void PostDataToZapier(long contactId, long organisationId = 0)
         {
-            var org = organisationRepository.GetOrganizatiobByID();
-            if (org != null)
-            {
-                string sPostUrl = string.Empty;
-                sPostUrl = org.IsZapierEnable == true ? org.CreateContactZapTargetUrl : string.Empty;
+            Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
 
-                if (!string.IsNullOrEmpty(sPostUrl))
+            if (org != null && org.IsZapierEnable == true)
+            {
+                List<string> contactUrls = organisationRepository.GetZapsUrListByOrganisation(1, org.OrganisationId);
+                if (contactUrls != null && contactUrls.Count > 0)
                 {
-                    var resp = GetStoreContactForZapier(contactId);
-                    string sData = JsonConvert.SerializeObject(resp, Formatting.None);
-                    var request = System.Net.WebRequest.Create(sPostUrl);
-                    request.ContentType = "application/json";
-                    request.Method = "POST";
-                    byte[] byteArray = Encoding.UTF8.GetBytes(sData);
-                    request.ContentLength = byteArray.Length;
-                    using (Stream dataStream = request.GetRequestStream())
+                    foreach (var sPostUrl in contactUrls)
                     {
-                        dataStream.Write(byteArray, 0, byteArray.Length);
-                        var response = request.GetResponse();
-                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        if (!string.IsNullOrEmpty(sPostUrl))
                         {
-                           string responseFromServer = reader.ReadToEnd();
+                            var resp = GetStoreContactForZapier(contactId);
+                            string sData = JsonConvert.SerializeObject(resp, Formatting.None);
+                            var request = System.Net.WebRequest.Create(sPostUrl);
+                            request.ContentType = "application/json";
+                            request.Method = "POST";
+                            byte[] byteArray = Encoding.UTF8.GetBytes(sData);
+                            request.ContentLength = byteArray.Length;
+                            using (Stream dataStream = request.GetRequestStream())
+                            {
+                                dataStream.Write(byteArray, 0, byteArray.Length);
+                                var response = request.GetResponse();
+                                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                                {
+                                    string responseFromServer = reader.ReadToEnd();
+                                }
+                            }
                         }
                     }
-                }
+
+                } 
             }
+            
             
 
         }
@@ -1180,5 +1198,285 @@ namespace MPC.Implementation.MISServices
         {
             return companyContactRepository.GetContactForZapierPooling(organisationId);
         }
+
+        public string AddAgileCrmContact(string email, string fullname, string Company, string phone, string region, string domain)
+        {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            string result = string.Empty;
+            if(organisation != null)
+            {
+                if(organisation.isAgileActive ?? false)
+                {
+
+                    string firstname = "";
+                    string lastname = "";
+
+                    string[] namearray = fullname.Split(' ');
+                    if (namearray.Length > 0)
+                    {
+                        firstname = namearray[0];
+                    }
+                    else
+                    {
+                        firstname = fullname;
+                    }
+
+                    if (fullname.IndexOf(' ') > 0)
+                    {
+                        lastname = fullname.Substring(fullname.IndexOf(' '), fullname.Length - fullname.IndexOf(' '));
+                    }
+                    else
+                    {
+                        lastname = "";
+                    }
+
+                    JsonSerializerSettings oSetting = new JsonSerializerSettings();
+                    oSetting.NullValueHandling = NullValueHandling.Ignore;
+                    oSetting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+
+                    
+                    Contact oContact = new Contact();
+                    //oContact.contact_company_id = CompanyResult.contact_company_id;
+                    oContact.Type = "PERSON";
+
+                    oContact.Lead_score = "1";
+                    oContact.Tags.Add("MPC Web Registration");
+                    oContact.Tags.Add(region);
+
+                    string contactDetail = JsonConvert.SerializeObject(oContact, Formatting.Indented, oSetting);
+
+                    result = CreateContact(contactDetail,organisation);
+
+                    AddNote(email, "Region : " + region + " , Domain : " + domain + ".saleflow.com",organisation);
+
+                   
+                }
+
+            }
+            return result;
+        }
+
+        /*
+       * It creates a contact with description 'contactJson'.
+       */
+        static public string CreateContact(string contactJson,Organisation org)
+        {
+            string nextUrl = "contacts/";
+            string queryString = "contact=" + System.Uri.EscapeDataString(contactJson);
+
+            string result = HttpGet(nextUrl, queryString, org.AgileApiUrl, org.AgileApiKey);
+            return result;
+        }
+
+        /*
+       * Add 'note', in stringified json format, to the contact associated with 'email'
+       */
+        static public string AddNote(string email, string note,Organisation org)
+        {
+            string nextUrl = "contacts/add-note/";
+            string queryString = "email=" + email + "&data=" + System.Uri.EscapeDataString(note);
+
+            string result = HttpGet(nextUrl, queryString, org.AgileApiUrl,org.AgileApiKey);
+            return result;
+        }
+
+
+
+        private static string HttpGet(string nextUrl, string queryString, string domainUrl, string apiKey)
+        {
+            try
+            {
+                
+                string url = domainUrl + nextUrl + "?" + "id=" + apiKey;
+
+                if (!string.IsNullOrEmpty(queryString))
+                    url += "&" + queryString;
+
+                // url = System.Web.HttpUtility.UrlEncode(url);   // Library not provided everywhere, at least at mono.
+                //url = System.Uri.EscapeUriString(url);          // Should not be used for encoding whole url.
+                //url = System.Uri.EscapeDataString(url);
+                //url = System.Net.WebUtility.UrlEncode(url);
+
+                //Console.WriteLine(url);
+
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                request.Method = "GET";
+                string result = null;
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    Stream dataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    result = reader.ReadToEnd();
+
+                    reader.Close();
+                    dataStream.Close();
+                    response.Close();
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                return "Exception caught!!!\n" + e.ToString();
+            }
+        }
+
+
+        public void PostDataToMailChimp(CompanyContact Contact, long organisationId = 0)
+        {
+            Organisation org = organisationId > 0 ? organisationRepository.GetOrganizatiobByID(organisationId) : organisationRepository.GetOrganizatiobByID();
+            //CompanyContact contact = companyContactRepository.GetContactByID(ContactId);
+            if (org != null && org.isMailChimpActive == true)
+            {
+                string apiKey = org.MailChimpApikey;   // Replace it before
+                string listId = org.MailChimpApiId;                      // Replace it before
+                // testing
+                var mcApi = new MCApi(apiKey, true);
+                var merges = new List.Merges();
+                merges.Add("FNAME", Contact.FirstName);
+                merges.Add("LNAME", Contact.LastName);
+
+                var subscriptionOptions = new List.SubscribeOptions();
+                subscriptionOptions.UpdateExisting = true;
+                subscriptionOptions.DoubleOptIn = false;
+                subscriptionOptions.SendWelcome = true;
+                mcApi.ListSubscribe(listId, Contact.Email, merges, subscriptionOptions);
+              
+            }
+            
+           
+        }
+
+        public void UpdateCompanyContactFromZapier(ZapierInvoiceDetail zapContact, long organisationId)
+        {
+         //If Existing contact by firstname and email then load that contact update information and save
+            // else create company, create address, create contact
+            //default password is "password"
+            try
+            {
+                CompanyContact companyContact =
+                                companyContactRepository.GetCompanyContactByNameAndEmail(zapContact.ContactFirstName,
+                                    zapContact.ContactEmail, organisationId);
+                if (companyContact != null)
+                {
+                    companyContact.HomeTel1 = zapContact.ContactPhone;
+                    companyContact.Mobile = zapContact.ContactMobile;
+                    companyContact.SkypeId = zapContact.ContactSkypUserName;
+                    if (companyContact.Company.IsCustomer == 3 || companyContact.Company.IsCustomer == 4)
+                    {
+                        //Do Nothing As these are Stores
+                    }
+                    else
+                    {
+                        companyContact.Company.VATRegNumber = zapContact.VatNumber;
+                        companyContact.Company.AccountNumber = zapContact.CustomerAccountNumber;
+                        companyContact.Company.TaxRate = zapContact.TaxRate;
+                        companyContact.Company.URL = zapContact.CustomerUrl;
+                        companyContact.Company.Name = zapContact.CustomerName;
+                    }
+                    companyContact.Address.Address1 = zapContact.Address1;
+                    companyContact.Address.Address2 = zapContact.Address2;
+                    companyContact.Address.AddressName = zapContact.AddressName;
+                    companyContact.Address.City = zapContact.AddressCity;
+                    if (!string.IsNullOrEmpty(zapContact.AddressCountry))
+                        companyContact.Address.Country = countryRepostiry.GetCountryByName(zapContact.AddressCountry);
+                    if (!string.IsNullOrEmpty(zapContact.AddressState))
+                        companyContact.Address.State = stateRepository.GetStateByName(zapContact.AddressState);
+                    companyContactRepository.Update(companyContact);
+                    companyContactRepository.SaveChanges();
+
+                }
+                else
+                {
+                    Company newCompany = new Company
+                    {
+                        Name = zapContact.CustomerName,
+                        URL = zapContact.CustomerUrl,
+                        TaxRate = zapContact.TaxRate,
+                        AccountBalance = 0,
+                        AccountNumber = zapContact.CustomerAccountNumber,
+                        CreationDate = DateTime.Now,
+                        CreditLimit = 0,
+                        OrganisationId = organisationId,
+                        TypeId = 57,
+                        DefaultNominalCode = 0,
+                        Status = 0,
+                        IsDisabled = 0,
+                        AccountOpenDate = DateTime.Now,
+                        VATRegNumber = zapContact.VatNumber
+
+                    };
+                    if (zapContact.IsCustomer)
+                    {
+                        newCompany.StoreId = companyContactRepository.GetRetailStoreId(organisationId);
+                        newCompany.IsCustomer = 1;
+                    }
+                    else if (zapContact.IsSupplier)
+                        newCompany.IsCustomer = 2;
+                    else
+                    {
+                        newCompany.StoreId = companyContactRepository.GetRetailStoreId(organisationId);
+                        newCompany.IsCustomer = 0;
+                    }
+                        
+                    CompanyTerritory newTerritory = new CompanyTerritory
+                    {
+                        TerritoryCode = "DFT",
+                        TerritoryName = "Default Territory",
+                        Company = newCompany,
+                        isDefault = true
+                    };
+                    Address newAddress = new Address
+                    {
+                        AddressName = zapContact.AddressName,
+                        Address1 = zapContact.Address1,
+                        Address2 = zapContact.Address2,
+                        PostCode = zapContact.AddressPostalCode,
+                        City = zapContact.AddressCity,
+                        Country = countryRepostiry.GetCountryByName(zapContact.AddressCountry),
+                        State = stateRepository.GetStateByName(zapContact.AddressState),
+                        Company = newCompany,
+                        CompanyTerritory = newTerritory,
+                        isDefaultTerrorityBilling = true,
+                        isDefaultTerrorityShipping = true,
+                        IsDefaultAddress = true,
+                        isArchived = false,
+                        OrganisationId = organisationId,
+                        IsDefaultShippingAddress = true
+                    };
+                    companyContact = new CompanyContact
+                    {
+                        FirstName = zapContact.ContactFirstName,
+                        LastName = zapContact.ContactLastName,
+                        Email = zapContact.ContactEmail,
+                        HomeTel1 = zapContact.ContactPhone,
+                        Mobile = zapContact.ContactMobile,
+                        IsDefaultContact = 1,
+                        isArchived = false,
+                        Password = HashingManager.ComputeHashSHA1("password"),
+                        isWebAccess = true,
+                        canPlaceDirectOrder = false,
+                        canUserPlaceOrderWithoutApproval = false,
+                        isPlaceOrder = true,
+                        SkypeId = zapContact.ContactSkypUserName,
+                        OrganisationId = organisationId,
+                        Company = newCompany,
+                        Address = newAddress,
+                        CompanyTerritory = newTerritory,
+                    };
+                    companyContactRepository.Add(companyContact);
+                    companyContactRepository.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw new MPCException("Unable to Process Contact data from Zapier", companyContactRepository.OrganisationId);
+            }
+           
+            
+        }
+
     }
 }

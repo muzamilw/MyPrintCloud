@@ -40,6 +40,7 @@ namespace MPC.Webstore
         private static IUnityContainer container;
         private ICompanyService companyService;
         private ICampaignService campaignService;
+        private MPC.Interfaces.MISServices.IListingService listingService;
         private IUserManagerService userManagerService;
         /// <summary>
         /// Configure Logger
@@ -95,8 +96,10 @@ namespace MPC.Webstore
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             // Set Web Api resolver
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+            companyService = container.Resolve<ICompanyService>();
             campaignService = container.Resolve<ICampaignService>();
-            TaskManager.Initialize(new EmailBackgroundTask(HttpContext.Current, campaignService));
+            listingService = container.Resolve<MPC.Interfaces.MISServices.IListingService>();
+            TaskManager.Initialize(new EmailBackgroundTask(HttpContext.Current, campaignService, listingService, companyService));
             //AreaRegistration.RegisterAllAreas();
             //GlobalConfiguration.Configure(WebApiConfig.Register);
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -133,16 +136,23 @@ namespace MPC.Webstore
         //    System.Web.HttpContext.Current.SetSessionStateBehavior(
         //        SessionStateBehavior.Required);
         //}
-      
-        protected void Session_Start()
+        //protected void Application_BeginRequest(Object source, EventArgs e)
+        //{
+            
+        //    companyService = container.Resolve<ICompanyService>();
+        //    campaignService = container.Resolve<ICampaignService>();
+        //    listingService = container.Resolve<MPC.Interfaces.MISServices.IListingService>();
+        //    TaskManager.Initialize(new EmailBackgroundTask(HttpContext.Current, campaignService, listingService, companyService));
+        //}
+        protected void Session_Start(object sender, EventArgs e)
         {
+
+            string sessionId = Session.SessionID;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             Uri sdsd = Request.Url;
             if (UserCookieManager.WBStoreId == 0 || (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) == null)
             {
-                Uri urlReferrer = Request.UrlReferrer;
-                
                 companyService = container.Resolve<ICompanyService>();
 
                 string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
@@ -191,7 +201,10 @@ namespace MPC.Webstore
                         {
                             if (StoreBaseResopnse.Company.IsCustomer == 3) // corporate customer
                             {
-                                Response.Redirect("/Login");
+                                if (!Convert.ToString(HttpContext.Current.Request.Url).Contains("OrderReceipt/"))
+                                {
+                                    Response.Redirect("/Login");
+                                }
                             }
                         }
                     }

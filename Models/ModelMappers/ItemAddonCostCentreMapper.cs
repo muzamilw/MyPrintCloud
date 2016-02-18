@@ -27,6 +27,8 @@ namespace MPC.Models.ModelMappers
             target.ItemStockOptionId = source.ItemStockOptionId;
             target.IsMandatory = source.IsMandatory;
             target.CostCentreId = source.CostCentreId;
+            target.Sequence = source.Sequence;
+            target.IsSelectedOnLoad = source.IsSelectedOnLoad;
         }
 
         #endregion

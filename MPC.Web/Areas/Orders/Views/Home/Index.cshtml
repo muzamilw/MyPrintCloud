@@ -9,6 +9,7 @@
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12">
+                    <input type="hidden" name="CallScreen" id="CallScreen" value="@ViewBag.CallScreen" />
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
                     <input type="hidden" name="ItemId" id="ItemId" value="@ViewBag.ItemId" />
@@ -43,7 +44,7 @@
 
 @section Scripts{
 
-    <script>
+1    <script>
         require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view",
             "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
 
@@ -53,15 +54,15 @@
         });
 
         $(document).ready(function() {
-            page = Request.QueryString("to").toString();
+            page = Request.QueryString("status").toString();
             if (page != null) {
-                if (page == 'prd') {
+                if (page == 'production') {
                     $("#pending-orders").removeClass("active");
                     $("#tab-PendingOrders").removeClass("active");
                     $("#in-production").addClass("active");
                     $("#tab-InProduction").addClass("active");
                 }
-                else if (page == 'com') {
+                else if (page == 'completed') {
                     $("#pending-orders").removeClass("active");
                     $("#tab-PendingOrders").removeClass("active");
                     $("#ready-shipping").addClass("active");

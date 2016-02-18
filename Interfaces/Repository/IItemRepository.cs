@@ -17,6 +17,11 @@ namespace MPC.Interfaces.Repository
         /// Get Items With Details
         /// </summary>
         /// 
+        bool typeFourItemsStatus(long OrderID);
+        long TotalProductTypeFourItems(long OrderId);
+        long OtherTheTypeFourItems(long OrderId);
+       
+        GetCategoryProduct GetPublishedProductByItemID(int itemID);
         List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
         int GetSavedDesignCountByContactId(long ContactID);
         List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
@@ -61,7 +66,7 @@ namespace MPC.Interfaces.Repository
 
        // bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "");
 
-        List<ProductItem> GetRelatedItemsList();
+        List<ProductItem> GetRelatedItemsList(long ItemId);
 
         Item GetItemByOrderAndItemID(long ItemID, long OrderID);
 
@@ -77,7 +82,7 @@ namespace MPC.Interfaces.Repository
 
         double GetMinimumProductValue(long itemId);
 
-        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID,long OrganisationId ,out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
+        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID,long OrganisationId, double StoreTaxRate, long StoreId,out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
 
         /// <summary>
         /// Get Items For Widgets 
@@ -195,6 +200,10 @@ namespace MPC.Interfaces.Repository
         string GetProductNameByItemId(long ItemId);
 
         IEnumerable<Item> GetProductsByCompanyID(long CompanyId);
+        void RollBackSpecificDiscountedItemsByVoucherId(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId, long DiscountVoucherId);
+
+        List<usp_ExportStoreProductsAndPrices_Result> getExportedItems(long Companyid);
+        List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
     }
 
 }

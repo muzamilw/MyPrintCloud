@@ -89,172 +89,258 @@ namespace MPC.Webstore.Controllers
 
         #endregion
         // GET: ProductOptions
-        public ActionResult Index(string CategoryId, string ItemId, string ItemMode, string TemplateId)
+        public ActionResult Index(string CategoryId, string ItemId, string ItemMode, string TemplateId, string ViewToFire)
         {
-            Item clonedItem = null;
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-            long OrderID = 0;
-            long referenceItemId = 0;
-            long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-
-            if (ItemMode == "UploadDesign")
+            if (!string.IsNullOrEmpty(CategoryId) && !string.IsNullOrEmpty(ItemId) && !string.IsNullOrEmpty(ItemMode))
             {
-
-                if (UserCookieManager.WEBOrderId == 0 || _orderService.IsRealCustomerOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID()) == false)
+                if (ItemMode.Contains("www."))
                 {
-                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
-                    UserCookieManager.WEBOrderId = OrderID;
-                    UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-                    clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID);
+                    TempData["ErrorMessage"] = "Your url is invalid.";
+                    TempData["InvalidUrl"] = Request.Url.AbsoluteUri;
+                     Response.Redirect("/Error");
+                     return null;
                 }
-                else
+                Item clonedItem = null;
+              
+                long OrderID = 0;
+                long referenceItemId = 0;
+                long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+               
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+                if (ItemMode == "UploadDesign" || ItemMode == "DesignOrUpload")
                 {
-                    OrderID = UserCookieManager.WEBOrderId;
 
-                    MPC.Models.DomainModels.Estimate oCookieOrder = _orderService.GetOrderByOrderID(OrderID);
-
-                    if (oCookieOrder != null && oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                    if (UserCookieManager.WEBOrderId == 0 || _orderService.IsRealCustomerOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID()) == false)
                     {
                         OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                         UserCookieManager.WEBOrderId = OrderID;
                         UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-                        clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID);
+                        clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID, ItemMode);
                     }
                     else
                     {
-                        // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
-                        clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.WEBOrderId, Convert.ToInt64(ItemId));
+                        OrderID = UserCookieManager.WEBOrderId;
 
-                        if (clonedItem == null)
+                        MPC.Models.DomainModels.Estimate oCookieOrder = _orderService.GetOrderByOrderID(OrderID);
+
+                        if (oCookieOrder != null && oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
                         {
-                            clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, true);
+                            OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                            UserCookieManager.WEBOrderId = OrderID;
+                            UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                            // clone asset
+                        }
+                        else
+                        {
+                            // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
+                            clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.WEBOrderId, Convert.ToInt64(ItemId));
+
+                            if (clonedItem == null)
+                            {
+                                if (ViewToFire == "ProductOptionsAndDetails" && ItemMode == "DesignOrUpload")
+                                {
+                                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId,0, true);
+                                }
+                                else 
+                                {
+                                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, 0, true, true);
+                                }
+                                
+                            }
+                        }
+
+                    }
+                    ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
+                    referenceItemId = Convert.ToInt64(ItemId);
+                    ViewData["Templates"] = null;
+                }
+                else if (ItemMode == "Modify")// modify item case
+                {
+                    OrderID = UserCookieManager.WEBOrderId;
+                    clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
+                    if (clonedItem.UploadTypeByUser == 1)
+                    {
+                        ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
+                        ViewData["Templates"] = null;
+                    }
+                    else 
+                    {
+                        if (!string.IsNullOrEmpty(TemplateId))
+                        {
+                            ViewBag.ShowUploadArkworkPanel = true;
+                            BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
+                        }
+                        else
+                        {
+
+
+                            ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
+                            ViewData["Templates"] = null;
+
                         }
                     }
+                   
+                    ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2; // This is a ItemStockOption id
+                    ViewBag.SelectedQuantity = clonedItem.Qty1;
 
-                }
-                ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
-                referenceItemId = Convert.ToInt64(ItemId);
-                ViewData["Templates"] = null;
-            }
-            else if (ItemMode == "Modify")// modify item case
-            {
-                OrderID = UserCookieManager.WEBOrderId;
-                clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                if (!string.IsNullOrEmpty(TemplateId))
-                {
-                    ViewBag.ShowUploadArkworkPanel = true;
-                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
-                }
-                else
-                {
+                    referenceItemId = clonedItem.RefItemId ?? 0;
 
-
-                    ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
-                    ViewData["Templates"] = null;
-
-                }
-
-
-                ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2; // This is a ItemStockOption id
-                ViewBag.SelectedQuantity = clonedItem.Qty1;
-
-                referenceItemId = clonedItem.RefItemId ?? 0;
-
-                if (UserCookieManager.WEBOrderId == 0)
-                {
-                    UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
-                }
-
-                QuestionQueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().QuestionQueue;
-                InputQueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().InputQueue;
-                if (QuestionQueueItem == null && InputQueueItem == null)
-                {
-                    ViewBag.CostCentreQueueItems = null;
-                }
-                else
-                {
-                    QuestionAndInputQueues QIQueuesObj = new QuestionAndInputQueues();
-                    if (QuestionQueueItem != null)
+                    if (UserCookieManager.WEBOrderId == 0)
                     {
-
-                        List<QuestionQueueItem> QQueueList = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QuestionQueueItem);
-                        QIQueuesObj.QuestionQueues = QQueueList.ToList();
-                    }
-                    else
-                    {
-                        QIQueuesObj.QuestionQueues = new List<QuestionQueueItem>();
-                    }
-
-                    if (InputQueueItem != null)
-                    {
-
-                        List<InputQueueItem> IQueueList = JsonConvert.DeserializeObject<List<InputQueueItem>>(InputQueueItem);
-                        QIQueuesObj.InputQueues = IQueueList.ToList();
-                    }
-                    else
-                    {
-                        QIQueuesObj.InputQueues = new List<InputQueueItem>();
-                    }
-                    ViewBag.CostCentreQueueItems = QIQueuesObj;
-                }
-            }
-            else if (!string.IsNullOrEmpty(TemplateId))// template case
-            {
-                ViewBag.ShowUploadArkworkPanel = true;
-                OrderID = UserCookieManager.WEBOrderId;
-                clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                if(clonedItem != null)
-                {
-                    if(OrderID == 0)
-                    {
-                        OrderID = clonedItem.EstimateId ?? 0;
                         UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
                     }
-                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
-                    referenceItemId = clonedItem.RefItemId ?? 0;
-                    if (clonedItem.ItemSections != null)
+
+                    QuestionQueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().QuestionQueue;
+                    InputQueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().InputQueue;
+                    if (QuestionQueueItem == null && InputQueueItem == null)
                     {
-                        if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
+                        ViewBag.CostCentreQueueItems = null;
+                    }
+                    else
+                    {
+                        QuestionAndInputQueues QIQueuesObj = new QuestionAndInputQueues();
+                        if (QuestionQueueItem != null)
                         {
-                            ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2;
-                            ViewBag.SelectedQuantity = clonedItem.Qty1;
+
+                            List<QuestionQueueItem> QQueueList = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QuestionQueueItem);
+                            QIQueuesObj.QuestionQueues = QQueueList.ToList();
+                        }
+                        else
+                        {
+                            QIQueuesObj.QuestionQueues = new List<QuestionQueueItem>();
+                        }
+
+                        if (InputQueueItem != null)
+                        {
+
+                            List<InputQueueItem> IQueueList = JsonConvert.DeserializeObject<List<InputQueueItem>>(InputQueueItem);
+                            QIQueuesObj.InputQueues = IQueueList.ToList();
+                        }
+                        else
+                        {
+                            QIQueuesObj.InputQueues = new List<InputQueueItem>();
+                        }
+                        ViewBag.CostCentreQueueItems = QIQueuesObj;
+                    }
+                }
+                else if (!string.IsNullOrEmpty(TemplateId))// template case
+                {
+                    ViewBag.ShowUploadArkworkPanel = true;
+                    OrderID = UserCookieManager.WEBOrderId;
+                    clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
+                    if (clonedItem != null)
+                    {
+                        if (OrderID == 0)
+                        {
+                            OrderID = clonedItem.EstimateId ?? 0;
+                            UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
+                        }
+                        BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName, clonedItem.IsTemplateDesignMode ?? 0);
+                        referenceItemId = clonedItem.RefItemId ?? 0;
+                        if (clonedItem.ItemSections != null)
+                        {
+                            if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
+                            {
+                                ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2;
+                                ViewBag.SelectedQuantity = clonedItem.Qty1;
+
+                            }
 
                         }
+                    }
+
+                }
+
+                ViewBag.ClonedItemId = clonedItem.ItemId;
+
+                ViewBag.ClonedItem = clonedItem;
+
+                ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
+
+                ViewBag.IsPrintProduct = 0;
+                if (ItemMode == "DesignOrUpload" && ViewToFire == "ProductOptionsAndDetails")
+                {
+                    if (clonedItem.ProductType == (int)ProductType.PrintProduct && string.IsNullOrEmpty(TemplateId))
+                    {
+                        ViewBag.IsPrintProduct = 1;
+                        int isCalledFrom = 0;
+                        long TemplateIdForDesigner = clonedItem.TemplateId ?? 0;
+                        long DesignerCatId = clonedItem.DesignerCategoryId ?? 0;
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                            isCalledFrom = 4;
+                        else
+                            isCalledFrom = 3;
+
+                        if (_myClaimHelper.loginContactID() > 0)
+                        {
+                            if (clonedItem != null && clonedItem.TemplateType == 3)
+                            {
+                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+                            }
+                            else
+                            {
+                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+
+                            }
+                        }
+                        else 
+                        {
+                            long temporaryContactID = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
+                            if (clonedItem != null && clonedItem.TemplateType == 3)
+                            {
+                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+                            }
+                            else
+                            {
+                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+
+                            }
+                        }
+
+                        
+                       
 
                     }
                 }
+                
+                if (!string.IsNullOrEmpty(TemplateId))
+                {
+                    DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, true, clonedItem.ProductName,clonedItem.Title);
+                }
+                else
+                {
+                    DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, false, clonedItem.ProductName, clonedItem.Title);
+                }
 
+
+                StoreBaseResopnse = null;
+                TempData["ItemMode"] = ItemMode;
+                ViewBag.ViewToFire = ViewToFire;
+                if (ViewToFire == "ProductOptionsAndDetails")
+                {
+                    LoadRelatedItems(referenceItemId);
+                    LoadVideoS(referenceItemId);
+                    return View("PartialViews/ProductOptionsAndDetails");
+                }
+                else 
+                {
+                    return View("PartialViews/ProductOptions");
+                }
+               
             }
-
-            ViewBag.ClonedItemId = clonedItem.ItemId;
-
-            ViewBag.ClonedItem = clonedItem;
-
-            ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
-
-            if (!string.IsNullOrEmpty(TemplateId))
+            else 
             {
-                DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, true);
+                ControllerContext.HttpContext.Response.RedirectToRoute("Default");
+                return null;
             }
-            else
-            {
-                DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, false);
-            }
-
-
-            StoreBaseResopnse = null;
-            TempData["ItemMode"] = ItemMode;
-            return View("PartialViews/ProductOptions");
+           
         }
 
         [HttpPost]
         public ActionResult Index(ItemCartViewModel cartObject, string ReferenceItemId)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
+            
             var ITemMode = TempData["ItemMode"];
             string CostCentreJsonQueue = "";
             string QuestionJsonQueue = cartObject.JsonAllQuestionQueue;
@@ -318,15 +404,22 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse, false);
+                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse, false, cartObject.ProductName, cartObject.ProductName);
 
-                return View("PartialViews/ProductOptions");
+                if (Request.Form["ViewToFire"] == "ProductOptionsAndDetails")
+                {
+                    return View("PartialViews/ProductOptionsAndDetails");
+                }
+                else
+                {
+                    return View("PartialViews/ProductOptions");
+                }
             }
 
 
         }
 
-        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, bool isTemplateProduct)
+        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, bool isTemplateProduct, string ClonedProductName, string ClonedProductFriendlyName)
         {
 
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
@@ -408,10 +501,12 @@ namespace MPC.Webstore.Controllers
                 {
                     if (referenceItem.IsUploadImage == true)
                     {
+                        ViewBag.isUploadImageAlso = true;
                         ViewBag.ShowUploadArkworkPanel = true;
                     }
                     else
                     {
+                        ViewBag.isUploadImageAlso = false;
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
                 }
@@ -420,14 +515,16 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Mode = "";
 
-                if (mode == "UploadDesign")
+                if (mode == "UploadDesign" || mode == "DesignOrUpload")
                 {
                     if (referenceItem.IsUploadImage == true)
                     {
+                        ViewBag.isUploadImageAlso  = true;
                         ViewBag.ShowUploadArkworkPanel = true;
                     }
                     else
                     {
+                        ViewBag.isUploadImageAlso = false;
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
                 }
@@ -623,6 +720,11 @@ namespace MPC.Webstore.Controllers
 
                 }
             }
+            if(referenceItem.ItemPriceMatrices != null)
+            {
+                referenceItem.ItemPriceMatrices = referenceItem.ItemPriceMatrices.OrderBy(s => s.Quantity).ToList();
+            }
+            
             foreach (var matrixItem in referenceItem.ItemPriceMatrices.ToList())
             {
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
@@ -711,9 +813,13 @@ namespace MPC.Webstore.Controllers
             ItemModel.IsQtyRanged = referenceItem.IsQtyRanged ?? false;
 
             ItemModel.ItemPriceMatrices = referenceItem.ItemPriceMatrices.ToList();
-            ItemModel.ProductName = referenceItem.ProductName;
+            ItemModel.ProductName = ClonedProductName;
+            ItemModel.ProductFriendlyName = ClonedProductFriendlyName;
             ItemModel.WebDescription = referenceItem.WebDescription;
             ItemModel.ItemId = referenceItem.ItemId;
+            ItemModel.ProductDisplayOptions = referenceItem.ProductDisplayOptions;
+            ItemModel.ProductSpecification = referenceItem.ProductSpecification;
+            ItemModel.TipsAndHints = referenceItem.TipsAndHints;
             if (ViewData["Templates"] == null)
             {
                 ItemModel.isUploadImage = referenceItem.IsUploadImage == true ? 1 : 0;
@@ -722,14 +828,21 @@ namespace MPC.Webstore.Controllers
             {
                 ItemModel.isUploadImage = 0;
             }
-
+            if (referenceItem.ProductDisplayOptions == (int)ProductDisplayOption.ThumbWithMultipleBanners)
+            {
+                List<ItemImage> bannersList = _myItemService.getItemImagesByItemID(referenceItem.ItemId);
+                ItemModel.ProductBannerThumbnailList = bannersList;
+            }
+            else if (referenceItem.ProductDisplayOptions == (int)ProductDisplayOption.ThumbAndBanner)
+            {
+                ItemModel.ProductBannerThumbnail = referenceItem.ImagePath;
+            }
             if (!string.IsNullOrEmpty(ItemModel.File1))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File1);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File1Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File1Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -741,15 +854,31 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File1Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File1Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File1Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File1Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File1Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File1Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File1Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File1Url = "/Content/Images/word.png";
+                }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File1Url = "/Content/Images/winrar-icon.png";
                 }
                 else
                 {
@@ -760,10 +889,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File2))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File2);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File2Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File2Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -775,15 +903,31 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File2Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File2Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File2Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File2Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File2Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File2Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File2Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File2Url = "/Content/Images/word.png";
+                }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File2Url = "/Content/Images/winrar-icon.png";
                 }
                 else
                 {
@@ -794,10 +938,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File3))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File3);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File3Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File3Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -809,15 +952,31 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File3Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File3Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File3Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File3Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File3Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File3Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File3Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File3Url = "/Content/Images/word.png";
+                }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File3Url = "/Content/Images/winrar-icon.png";
                 }
                 else
                 {
@@ -827,10 +986,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File4))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File4);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File4Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File4Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -842,15 +1000,31 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File4Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File4Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File4Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File4Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File4Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File4Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File4Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File4Url = "/Content/Images/word.png";
+                }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File4Url = "/Content/Images/winrar-icon.png";
                 }
                 else
                 {
@@ -860,10 +1034,9 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(ItemModel.File5))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File5);
-                if (FileExtension == ".ai")
+                if (FileExtension == ".ai" || FileExtension == ".ait" || FileExtension == ".eps")
                 {
-
-                    ItemModel.File5Url = "/Content/Images/IcoIllustrator.png";
+                    ItemModel.File5Url = "/Content/Images/ai.gif";
                 }
                 else if (FileExtension == ".jpg")
                 {
@@ -875,15 +1048,31 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (FileExtension == ".psd")
                 {
-                    ItemModel.File5Url = "/Content/Images/IcoPhotoshop.png";
+                    ItemModel.File5Url = "/Content/Images/photoshop.gif";
                 }
-                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                else if (FileExtension == ".indd" || FileExtension == ".ind" || FileExtension == ".idml" || FileExtension == ".inxx" || FileExtension == ".indt")
                 {
-                    ItemModel.File5Url = "/Content/Images/Icoindesign.png";
+                    ItemModel.File5Url = "/Content/Images/id.gif";
                 }
                 else if (FileExtension == ".pdf")
                 {
                     ItemModel.File5Url = "/Content/Images/Page_pdf.png";
+                }
+                else if (FileExtension == ".potx")
+                {
+                    ItemModel.File5Url = "/Content/Images/powerpoint.png";
+                }
+                else if (FileExtension == ".pub")
+                {
+                    ItemModel.File5Url = "/Content/Images/publisher.png";
+                }
+                else if (FileExtension == ".dotx")
+                {
+                    ItemModel.File5Url = "/Content/Images/word.png";
+                }
+                else if (FileExtension == ".rar" || FileExtension == ".zip")
+                {
+                    ItemModel.File5Url = "/Content/Images/winrar-icon.png";
                 }
                 else
                 {
@@ -931,7 +1120,15 @@ namespace MPC.Webstore.Controllers
                 objTemplate.TemplateId = Template.ProductId;
                 objTemplate.TemplateName = objTemplate.TemplateName == null ? Utils.specialCharactersEncoder(ProductName) : Utils.specialCharactersEncoder(Template.ProductName);
                 objTemplate.ItemId = ItemId;
-                objTemplate.FileName = attach.FileName;
+                if (!string.IsNullOrEmpty(attach.ImageFileType))
+                {
+                    objTemplate.FileName = attach.FileName + "Thumb" + attach.ImageFileType;
+                }
+                else 
+                {
+                    objTemplate.FileName = attach.FileName + "Thumb.png";
+                }
+               
                 objTemplate.FolderPath = attach.FolderPath;
                 objTemplate.OrganisationID = UserCookieManager.WEBOrganisationID;
                 objTemplate.CategoryId = DesignerCategoryId;
@@ -992,7 +1189,7 @@ namespace MPC.Webstore.Controllers
         }
 
 
-        private Item CloneItemAndUpdateCookie(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, long ItemId, long OrderID)
+        private Item CloneItemAndUpdateCookie(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, long ItemId, long OrderID, string UploadMode)
         {
 
             Item clonedItem = null;
@@ -1007,14 +1204,58 @@ namespace MPC.Webstore.Controllers
 
                 if (clonedItem == null)
                 {
-                    clonedItem = _myItemService.CloneItem(ItemId, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, true);
+                    if (UploadMode == "UploadDesign")
+                    {
+                        clonedItem = _myItemService.CloneItem(ItemId, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, 0, true, true);
 
+                    }
+                    else 
+                    {
+                        clonedItem = _myItemService.CloneItem(ItemId, 0, OrderID, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, 0, true);
+
+                    }
+                   
                 }
 
 
             }
             return clonedItem;
         }
+
+        #region RelatedItems
+        private void LoadRelatedItems(long ItemId)
+        {
+
+            List<ProductItem> allRelatedItemsList = new List<ProductItem>();
+
+            allRelatedItemsList = _myItemService.GetRelatedItemsList(ItemId);
+
+          
+            if (allRelatedItemsList.Count > 0)
+            {
+
+                ViewData["RIViewModel"] = allRelatedItemsList;
+
+            }
+
+
+        }
+
+        #endregion
+
+        private void LoadVideoS(long ItemId) 
+        {
+            List<ItemVideo> itemVideos = _myItemService.GetProductVideos(ItemId);
+            if (itemVideos.Count > 0)
+            {
+                ViewData["ItemVideo"] = itemVideos.ToList();
+            }
+            else
+            {
+                ViewData["ItemVideo"] = null;
+            }
+        }
+    
     }
 
 

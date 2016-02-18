@@ -148,6 +148,12 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICMSOfferRepository, CMSOfferRepository>();
             unityContainer.RegisterType<IReportNoteRepository, ReportNoteRepository>();
             unityContainer.RegisterType<IVariableExtensionRespository, VariableExtensionRespository>();
+            unityContainer.RegisterType<IListingBulletPointsRepository, ListingBulletPointsRepository>();
+            unityContainer.RegisterType<IMarketingBriefHistoryRepository, MarketingBriefHistoryRepository>();
+            unityContainer.RegisterType<IAssetsRepository,AssetsRepository>();
+            unityContainer.RegisterType<IFolderRepository,FolderRepository>();
+            unityContainer.RegisterType<IAssetItemsRepository, AssetItemsRepository>();
+            unityContainer.RegisterType<IStagingImportProductsRepository, StagingImportProductsRepository>();
         }
     }
 }

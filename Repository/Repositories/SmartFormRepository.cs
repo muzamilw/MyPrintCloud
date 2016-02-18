@@ -381,6 +381,10 @@ namespace MPC.Repository.Repositories
                                     isRealEstateVariable = true;
                                     fieldValue = GetRealEstateAgent(obj.FieldVariable, ListingId);
                                     break;
+                                case "ListingBulletPoint": //from users table based on company id and agent count
+                                    isRealEstateVariable = true;
+                                    fieldValue = GetRealEstateBullets(obj.FieldVariable, ListingId);
+                                    break;
                                 case "ListingOFIs":
                                     isRealEstateVariable = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
@@ -669,6 +673,10 @@ namespace MPC.Repository.Repositories
                                 isRealEstateVariable = true;
                                 fieldValue = GetRealEstateAgent(obj, ListingId);
                                 break;
+                            case "ListingBulletPoint": //from users table based on company id and agent count
+                                isRealEstateVariable = true;
+                                fieldValue = GetRealEstateBullets(obj, ListingId);
+                                break;
                             case "ListingOFIs":
                                 isRealEstateVariable = true;
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
@@ -899,7 +907,7 @@ namespace MPC.Repository.Repositories
         {
 
             string oResult = null;
-            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(5000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
             oResult = result.FirstOrDefault();
             return oResult;
         }
@@ -956,6 +964,42 @@ namespace MPC.Repository.Repositories
                 UserScopeVariables.Add(contact.ContactId, variables);
             }
             return UserScopeVariables;
+        }
+        public List<ScopeVariable> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, long contactId, long templateId, long currentTemplateId)
+        {
+            bool hasContactVariables = false;
+            db.Configuration.LazyLoadingEnabled = false;
+            Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
+            List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contactId, currentTemplateId);
+            List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
+            //  variablesList = variables;
+            foreach (var variable in variables)
+            {
+                if (variable == null)
+                    variablesToRemove.Add(variable);
+                else
+                    if (variable.FieldVariable != null)
+                        if (variable.FieldVariable.Company != null)
+                            variable.FieldVariable.Company = null;
+            }
+            foreach (var variable in variablesToRemove)
+            {
+                variables.Remove(variable);
+            }
+            List<ScopeVariable> allTemplateVariables = GetTemplateScopeVariables(templateId, contactId);
+            foreach (var item in allTemplateVariables)
+            {
+                var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).FirstOrDefault();
+                if (sVariable == null)
+                {
+                    if (item.FieldVariable != null)
+                        if (item.FieldVariable.Company != null)
+                            item.FieldVariable.Company = null;
+                    variables.Add(item);
+
+                }
+            }
+            return variables;
         }
       
         public bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj)
@@ -1156,9 +1200,10 @@ namespace MPC.Repository.Repositories
         }
         public string[] GetContactImageAndCompanyLogo(long contactID)
         {
-            string[] array = new string[6];
+            string[] array = new string[7];
             string CompanyLogo = "";
             string ContactLogo = "";
+            bool hasClippingPath = false;
             int contactLogoHeight = 0, contactLogoWidth = 0, companyLogoHeight = 0, companyLogoWidth = 0;
             CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
             if(contact != null)
@@ -1168,6 +1213,10 @@ namespace MPC.Repository.Repositories
                 Company company = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
                 if(contact.image != null && contact.image != ""){
                     ContactLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + contact.image;
+                    if (contact.HasClippingPath.HasValue)
+                        hasClippingPath = contact.HasClippingPath.Value;
+                    if (hasClippingPath == true)
+                        ContactLogo = ContactLogo.Replace(System.IO.Path.GetExtension(ContactLogo), "__clip_mpc.png");
                     try
                     {
                         using (objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath( "~/" + contact.image)))
@@ -1226,6 +1275,7 @@ namespace MPC.Repository.Repositories
             array[3] = companyLogoWidth.ToString();
             array[4] = contactLogoHeight.ToString();
             array[5] = contactLogoWidth.ToString();
+            array[6] = hasClippingPath.ToString();
             return array;
         }
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
@@ -1276,6 +1326,10 @@ namespace MPC.Repository.Repositories
                                         case "ListingAgent": //from users table based on company id and agent count
                                             isRealEstateVariable = true;
                                             fieldValue = GetRealEstateAgent(FieldVariable, ListingId);
+                                            break;
+                                        case "ListingBulletPoint": //from users table based on company id and agent count
+                                            isRealEstateVariable = true;
+                                            fieldValue = GetRealEstateBullets(FieldVariable, ListingId);
                                             break;
                                         case "ListingOFIs":
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
@@ -1663,6 +1717,8 @@ namespace MPC.Repository.Repositories
                 {
                     if (logos[1] != "")
                     {
+                        if (logos[6] == "true")
+                            obj.hasClippingPath = true;
                         obj.ContentString = logos[1];
                     }
                 }
@@ -1909,6 +1965,26 @@ namespace MPC.Repository.Repositories
                     }
                 }
 
+            }
+            return fieldValue;
+        }
+        public string GetRealEstateBullets(FieldVariable obj, long propertyId)
+        {
+            int count = 1;
+            string fieldValue = "";
+            count = Convert.ToInt32(obj.VariableTag.Replace("{{Bullet", "").Replace("}}", ""));
+           // var property = db.Listings.Where(g => g.ListingId == propertyId).SingleOrDefault();
+            List<ListingBulletPoint> list = db.ListingBulletPoints.Where(c => c.ListingId == propertyId).ToList();
+            if (list != null && list.Count > 0)
+            {
+                ListingBulletPoint bullet = new ListingBulletPoint();
+                if (list.Count < count)
+                    bullet = list[0];
+                else
+                    bullet = list[count - 1];
+
+                fieldValue = bullet.BulletPoint;
+                 
             }
             return fieldValue;
         }

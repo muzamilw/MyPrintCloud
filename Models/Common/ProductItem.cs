@@ -101,7 +101,11 @@ namespace MPC.Models.Common
             set;
         }
 
-
+        public string ProductFriendlyName
+        {
+            get;
+            set;
+        }
 
         public string ProductCategoryName
         {
@@ -456,6 +460,29 @@ namespace MPC.Models.Common
             get;
             set;
         }
+
         #endregion
+        public Nullable<bool> isUploadImage
+        {
+            get;
+            set;
+        }
+        public string ItemFriendlyName
+        {
+            get;
+            set;
+        }
+        public List<ItemTemplatePage> OtherItemTemplateAttatchments
+        {
+            get;
+            set;
+        }
+    }
+
+    public sealed class ItemTemplatePage
+    {
+        public long PageId { get; set; }
+        public string FilePath { get; set; }
+     
     }
 }

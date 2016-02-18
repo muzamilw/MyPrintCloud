@@ -1,4 +1,26 @@
-﻿
+﻿span#lblParentCategoryDesc {
+display: none;
+}
+
+.mp-onpageLoader {
+border-radius: 0px !important;
+background: url("../../../Media/1651/33474/30446_ajax-loader-circle-gray-big.gif") !important; 
+background-size: 80px 80px !important;
+background-repeat: no-repeat !important;
+padding: 0px !important;
+margin: 20px auto;
+width: 80px !important;
+height: 80px !important;
+color: transparent;
+box-shadow: none !important;
+border: 0px !important;
+}
+
+
+
+/* #divStockOptions {
+display: none; 
+} */
 
 @font-face {
     font-family: 'Poiret One';
@@ -406,8 +428,8 @@ ul.nav li.selectedLava a {
     margin-top: 10px;
     margin-right: -5px;
     /* display: block;
-	float: right;
-	padding-top: 5px;
+    float: right;
+    padding-top: 5px;
 	min-width:400px;
 	padding-right: 0px;*/
 }
@@ -9975,6 +9997,7 @@ a.PinkRegBack:active {
     box-shadow: 0 1px 2px rgba(0,0,0,.2);
     cursor: pointer;
     border: 1px solid transparent;
+        visibility: hidden;
 }
 
 .btn_inquiry_files_TS {
@@ -10001,6 +10024,7 @@ a.PinkRegBack:active {
     background: url('sprite.png') -3px -75px;
     background-repeat: no-repeat;
     height: 35px !important;
+display: none
 }
 
 
@@ -12542,7 +12566,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -12580,7 +12604,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -13421,7 +13445,6 @@ ul.LogBar li a {
         font-size: 23px;
         width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .RfgImgCs {
@@ -14511,7 +14534,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -14549,7 +14572,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -15134,7 +15157,6 @@ ul.LogBar li a {
         font-size: 23px;
         width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .extra_item {
@@ -16024,7 +16046,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -16062,7 +16084,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -16904,7 +16926,6 @@ ul.LogBar li a {
         font-size: 23px;
         width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .DesgnFormteImg {
@@ -17794,7 +17815,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -17830,7 +17851,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+       
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -17875,7 +17896,7 @@ ul.LogBar li a {
     }
 
     .upload-panel-margin {
-        margin-left: 10px;
+        margin-left: 0px;
     }
 
     .create-design-button {
@@ -18960,9 +18981,8 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 49% !important;
+        width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .RfgImgCs {
@@ -19828,7 +19848,7 @@ ul.LogBar li a {
 
     .delivery-toBeCaltext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: left;
         width: 105px;
@@ -19864,7 +19884,7 @@ ul.LogBar li a {
 
     .delivery-checkouttext {
         color: red !important;
-        position: absolute;
+        
         line-height: 1;
         text-align: right;
         width: 88px;
@@ -19909,7 +19929,7 @@ ul.LogBar li a {
     }
 
     .upload-panel-margin {
-        margin-left: 10px;
+        margin-left: 0px;
     }
 
     .create-design-button {
@@ -21003,9 +21023,8 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 49.2% !important;
+        width: 100% !important;
         text-align: left;
-        margin-top: 10px;
     }
 
     .RfgImgCs {
@@ -21478,7 +21497,7 @@ ul.LogBar li a {
     .BD_CatProducts {
         float: left;
         text-align: left;
-        width: 219px !important;
+        width: 216px !important;
         margin-right: 13px !important;
         margin-bottom: 20px !important;
         background-color: transparent;
@@ -23953,7 +23972,7 @@ a:hover {
 
 label {
     display: block;
-}
+} 
 
 .lightgray {
     background-color: #eeeeee;
@@ -24013,13 +24032,9 @@ label {
     color: black !important;
 }
 
-#PnalTotalBox > table > tbody > tr > td > span {
-    color: black !important;
-}
 
-#PnalTotalBox > table > tbody > tr > td > label {
-    color: black !important;
-}
+
+
 
 / /*Goldwell*/
 /*typography*/
@@ -24163,7 +24178,7 @@ label {
 .LOgo_ImgeP {
     z-index: 1;
     border-style: none;
-     padding-left:18px;
+    padding-left:18px;
 }
 
 .top_header_ex {
@@ -24768,6 +24783,21 @@ ul.LogBar > li:nth-child(3) {
    
  margin-right: 113px !important;
 }
+#divStockOptions + div.UploadContainerCs{
+display:none;
+}
+
+div#Footer > div.spclColor > div.GreyBackS6 > div.container > div.left_right_padding > div.footer_portion + div.footer_portion > div.footer_left_portion_division > ul.uSecPageList > li{
+display:none;
+}
+div#Footer > div.spclColor > div.GreyBackS6 > div.container > div.left_right_padding > div.footer_portion + div.footer_portion > div.footer_left_portion_division > ul.uSecPageList  > li:nth-child(4){
+display:block
+}
+
+#dashb_Address-Manager{
+display:none;
+}
+
 /***Home styles
     
     
@@ -24794,3 +24824,4 @@ ul.LogBar > li:nth-child(3) {
     
     
     **/
+

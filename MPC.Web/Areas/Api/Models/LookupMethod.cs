@@ -19,5 +19,6 @@ namespace MPC.MIS.Areas.Api.Models
         public virtual ICollection<MachineClickChargeZone> MachineClickChargeZones { get; set; }
         public virtual ICollection<MachineGuillotineCalc> MachineGuillotineCalcs { get; set; }
         public virtual ICollection<MachineMeterPerHourLookup> MachineMeterPerHourLookups { get; set; }
+        public virtual ICollection<MachineSpeedWeightLookup> MachineSpeedWeightLookups { get; set; }
     }
 }

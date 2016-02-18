@@ -1,0 +1,209 @@
+﻿@model MPC.Webstore.ViewModels.NABViewModel
+@using MPC.Webstore.Common;
+@{
+    Layout = null;
+    ViewBag.Title = "NAB";
+}
+
+
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+
+    <div class="container content_area">
+        <div class="row left_right_padding">
+
+            <div id="messgetodisply" class="paywayError">
+                <div>@ViewBag.ErrorMessage</div>
+                @Html.ValidationSummary("")
+            </div>
+            <div class="white-container-lightgrey-border rounded_corners">
+                <div class="pad20">
+                    @Html.HiddenFor(model => model.OrderTotal)
+                    @Html.HiddenFor(model => model.Currency)
+                    <div class="headingsAvenior">Please enter your Credit Card details:</div>
+
+                    <div class="payWayBoxCnt">
+                        <div class="payWayLabels float_left_simple">
+                            &nbsp;
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            <img src="/Content/images/visa.gif" border="0" alt="VISA">
+                            <img src="/Content/images/mastercard2.gif" border="0" alt="MASTERCARD">
+                            @*<img src="/Content/images/diners.gif" border="0" alt="Diners">*@
+                            <img src="/Content/images/amex.gif" border="0" alt="Amex">
+                        </div>
+
+                        <div class="clearBoth">
+                            <br />
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            <label class="payWayLabels float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAmountTotal", UserCookieManager.WBStoreId, "Payment Amount"))</label>
+                        </div>
+                        @{
+                            var orderPrice = Utils.FormatDecimalValueToTwoDecimal((Model.OrderTotal).ToString(), Model.Currency);
+
+                        }
+                        <div class="TTL CCtxtPanel">
+                            <label class="payWayLabels float_left_simple" style="text-align:left !important;">@orderPrice</label>
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            <label class="payWayLabels float_left_simple" for="CardNumber">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCardNumber", UserCookieManager.WBStoreId, "Card Number"))</label>
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.TextBoxFor(model => model.CardNumber, new { id = "txtCardNumber", @TabIndex = "1", @class = "payWaytxtBox" })
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            <label class="payWayLabels float_left_simple" for="ddCCType">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCardType", UserCookieManager.WBStoreId, "Card Type"))</label>
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.DropDownListFor(model => model.SelectedCardType, Model.ListCardType, new { id = "ddCCType", @class = "payWaytxtBox" })
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            <label class="payWayLabels float_left_simple" for="tctCCvNumber">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCardVerificationNumber", UserCookieManager.WBStoreId, "Card Verification Number"))</label>
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.TextBoxFor(model => model.CVVNumber, new { id = "tctCCvNumber", @TabIndex = "2", @class = "payWaytxtBox" })
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            @Html.LabelFor(model => model.SelectedDate, new { @class = "payWayLabels float_left_simple" })
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.DropDownListFor(model => model.SelectedDate, Model.ListDate, new { @class = "payWayExpiryBox payWayExpiryBoxLeft" })
+                            @Html.DropDownListFor(model => model.SelectedYear, Model.ListYear, new { @class = "payWayExpiryBox" })
+
+
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            @Html.LabelFor(model => model.NameOnCard, new { @class = "payWayLabels float_left_simple" })
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.TextBoxFor(model => model.NameOnCard, new { id = "txtNameOnCard", @TabIndex = "4", @class = "payWaytxtBox" })
+
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            @Html.LabelFor(model => model.EmailAddress, new { @class = "payWayLabels float_left_simple" })
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.TextBoxFor(model => model.EmailAddress, new { @TabIndex = "4", @class = "payWaytxtBox" })
+
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            &nbsp;
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            <input type="submit" class="start_creating_btn_SApp rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnPay", UserCookieManager.WBStoreId, "Pay"))" onclick="return ValidateData();" />
+                            <input id="cmdReset" class="btn_brown rounded_corners5" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" onclick="BackToShopping('@Model.OrderId');  ShowLoader();" />
+                        </div>
+
+                        <div class="clearBoth">
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+}
+
+
+
+<script type="text/javascript">
+    function BackToShopping(OrderId) {
+        window.location.href = "/ShopCart?OrderId=" + OrderId;
+    }
+    function ResetData() {
+
+        $('#txtCardNumber').val();
+        $('#tctCCvNumber').val();
+        $('#txtNameOnCard').val();
+        return false;
+    }
+
+
+    function ValidateData() {
+        var isValid = true;
+        var isDataFilles = 0;
+
+        if ($("select[id=ddCCType] option:selected").index() == 0) {
+            isDataFilles = 1;
+            $("#ddCCType").css("border", "2px solid red");
+        } else {
+            $("#ddCCType").css("border", "1px solid #ccc5b9");
+        }
+
+        if ($("#txtCardNumber").val() == '') {
+            isDataFilles = 1;
+            $('.LEmail').css("display", "block");
+            $("#txtCardNumber").css("border", "2px solid red");
+        } else {
+            $('.LEmail').css("display", "none");
+            $("#txtCardNumber").css("border", "1px solid #ccc5b9");
+        }
+
+        if ($("#tctCCvNumber").val() == '') {
+            isDataFilles = 1;
+            $('.LPass').css("display", "block");
+            $("#tctCCvNumber").css("border", "2px solid red");
+        } else {
+            $('.LPass').css("display", "none");
+            $("#tctCCvNumber").css("border", "1px solid #ccc5b9");
+        }
+
+        if ($("#txtNameOnCard").val() == '') {
+            isDataFilles = 1;
+            $('.LPass').css("display", "block");
+            $("#txtNameOnCard").css("border", "2px solid red");
+        } else {
+            $('.LPass').css("display", "none");
+            $("#txtNameOnCard").css("border", "1px solid #ccc5b9");
+        }
+
+        if (isDataFilles == 1) {
+            return false;
+        } else {
+            if ($('#txtEmailAddress').val() == '') {
+                return true;
+            }
+            else {
+                var IsEmailValid = ValidateEmail($('#txtEmailAddress').val());
+                if (IsEmailValid == true) {
+                    return true;
+                } else {
+                    $("#txtEmailAddress").css("border", "2px solid red");
+                    return false;
+                }
+            }
+
+
+        }
+    }
+</script>
+

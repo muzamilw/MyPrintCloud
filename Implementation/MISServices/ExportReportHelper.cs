@@ -1,4 +1,5 @@
-﻿using GrapeCity.ActiveReports;
+﻿using FaceSharp.Api.Extensions;
+using GrapeCity.ActiveReports;
 using GrapeCity.ActiveReports.Export.Pdf.Section;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -120,7 +121,7 @@ namespace MPC.Implementation.MISServices
             string InternalPath = string.Empty;
             try
             {
-              
+                Report currentReport = new Report();
                 if (WebStoreOrganisationId > 0)
                 {
                     OrganisationID = WebStoreOrganisationId;
@@ -133,7 +134,24 @@ namespace MPC.Implementation.MISServices
                         OrganisationID = org.OrganisationId;
                     }
                 }
-                Report currentReport = ReportRepository.GetReportByReportID(iReportID);
+                if (iReportID == 165 || iReportID == 100 || iReportID == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105)
+                {
+
+                    currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID);
+
+                    if (currentReport == null)
+                    {
+                        currentReport = ReportRepository.GetReportByReportID(iReportID);
+                    }
+                }
+                else
+                {
+                    currentReport = ReportRepository.GetReportByReportID(iReportID);
+                }
+
+
+               
+
                 if (currentReport.ReportId > 0)
                 {
                     byte[] rptBytes = null;
@@ -198,6 +216,7 @@ namespace MPC.Implementation.MISServices
                         GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport pdf = new GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport();
                         pdf.ImageQuality = ImageQuality.Highest;
                         pdf.ImageResolution = 770 * 140;
+                        
                         string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {
@@ -207,6 +226,7 @@ namespace MPC.Implementation.MISServices
                         sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
                         InternalPath = "/" + ImagePathConstants.ReportPath + OrganisationID + "/" + sFileName;
                         pdf.Export(currReport.Document, sFilePath);
+                        
                         ms.Close();
                         currReport.Document.Dispose();
                         pdf.Dispose();
@@ -1622,6 +1642,8 @@ namespace MPC.Implementation.MISServices
                     {
                         currReport.Run();
                         GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
+                        xls.MinColumnWidth = 1;
+                        
                         string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {
@@ -1631,6 +1653,7 @@ namespace MPC.Implementation.MISServices
                         sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
                            InternalPath = "/" + ImagePathConstants.ReportPath + OrganisationID + "/" + sFileName;
                         xls.Export(currReport.Document, sFilePath);
+                       
                         ms.Close();
                         currReport.Document.Dispose();
                         xls.Dispose();

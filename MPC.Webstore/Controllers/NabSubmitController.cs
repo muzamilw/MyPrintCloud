@@ -1,20 +1,16 @@
 ﻿using MPC.Webstore.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MPC.Models.DomainModels;
 using MPC.Models.Common;
 using System.Text.RegularExpressions;
 using MPC.Webstore.Common;
 using MPC.Interfaces.WebStoreServices;
-using System.Runtime.Caching;
 using System.Net;
 using System.IO;
 using System.Text;
 using System.Xml;
-using System.Web.Routing;
 using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Controllers
 {
@@ -149,8 +145,8 @@ namespace MPC.Webstore.Controllers
             //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-            int typeid = GetCardTypeIdFromNumber(model.CardNumber);
-            bool result = IsValidNumber(model.CardNumber);
+            int typeid = _CompanyService.GetCardTypeIdFromNumber(model.CardNumber);
+            bool result = _CompanyService.IsValidNumber(model.CardNumber);
 
             if (model.SelectedCardType != typeid && result == false)
             {
@@ -171,7 +167,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 PaymentGateway oGateWay = null;
-                if (StoreBaseResopnse.Company.isAcceptPaymentOnline == true)
+                if (StoreBaseResopnse.Company.isPaymentRequired == true)
                 {
                     oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
                 }
@@ -307,7 +303,7 @@ namespace MPC.Webstore.Controllers
                                         // order code and order creation date
                                         CampaignEmailParams cep = new CampaignEmailParams();
                                         string HTMLOfShopReceipt = null;
-                                        cep.OrganisationId = 1;
+                                        cep.OrganisationId = UserCookieManager.WEBOrganisationID;
                                         cep.ContactId = modelOrder.ContactId ?? 0; //SessionParameters.ContactID;
                                         cep.CompanyId = modelOrder.CompanyId;
 
@@ -315,7 +311,7 @@ namespace MPC.Webstore.Controllers
 
                                         Company CustomerCompany = _CompanyService.GetCustomer(Convert.ToInt32(modelOrder.CompanyId));
                                         CompanyContact CustomrContact = _CompanyService.GetContactById(Convert.ToInt32(modelOrder.ContactId));
-                                        _OrderService.SetOrderCreationDateAndCode(model.OrderId);
+                                        _OrderService.SetOrderCreationDateAndCode(model.OrderId, UserCookieManager.WEBOrganisationID);
 
                                         if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
                                         {
@@ -582,7 +578,7 @@ Utils.GetKeyValueFromResourceFile("lrlselectvalidcardtype", UserCookieManager.WB
 </Payment>
 </NABTransactMessage>";
         }
-        private string OrderXmlData(int orderID, string ccNumber, string ccDate, string ccYear, string OrderAmount,
+        private string OrderXmlData(long orderID, string ccNumber, string ccDate, string ccYear, string OrderAmount,
             string PONumber, string marchantID, string Password)
         {
             //string CacheKeyName = "CompanyBaseResponse";
@@ -656,158 +652,8 @@ Utils.GetKeyValueFromResourceFile("lrlselectvalidcardtype", UserCookieManager.WB
             return xml;
         }
 
-        public bool IsValidNumber(string cardNum)
-        {
-            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
-
-            Regex cardTest = new Regex(cardRegex);
-
-            //Determine the card type based on the number
-            CreditCardTypeType? cardType = GetCardTypeFromNumber(cardNum);
-
-            //Call the base version of IsValidNumber and pass the 
-            //number and card type
-            if (IsValidNumber(cardNum, cardType))
-                return true;
-            else
-                return false;
-        }
-        public int GetCardTypeIdFromNumber(string cardNum)
-        {
-            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
-
-            //Create new instance of Regex comparer with our
-            //credit card regex pattern
-            Regex cardTest = new Regex(cardRegex);
-
-            //Compare the supplied card number with the regex
-            //pattern and get reference regex named groups
-            GroupCollection gc = cardTest.Match(cardNum).Groups;
-
-            //Compare each card type to the named groups to 
-            //determine which card type the number matches
-
-            if (gc[CreditCardTypeType.MasterCard.ToString()].Success)
-            {
-                return Convert.ToInt32(CreditCardTypeType.MasterCard);
-            }
-            else if (gc[CreditCardTypeType.Visa.ToString()].Success)
-            {
-                return Convert.ToInt32(CreditCardTypeType.Visa);
-            }
-            else if (gc[CreditCardTypeType.DinersClub.ToString()].Success)
-            {
-                return Convert.ToInt32(CreditCardTypeType.DinersClub);
-            }
-            else if (gc[CreditCardTypeType.Amex.ToString()].Success)
-            {
-                return Convert.ToInt32(CreditCardTypeType.Amex);
-            }
-            else
-            {
-                //Card type is not supported by our system, return null
-                //(You can modify this code to support more (or less)
-                // card types as it pertains to your application)
-                return 0;
-            }
-        }
-        public static CreditCardTypeType? GetCardTypeFromNumber(string cardNum)
-        {
-            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
-
-            //Create new instance of Regex comparer with our
-            //credit card regex pattern
-            Regex cardTest = new Regex(cardRegex);
-
-            //Compare the supplied card number with the regex
-            //pattern and get reference regex named groups
-            GroupCollection gc = cardTest.Match(cardNum).Groups;
-
-            //Compare each card type to the named groups to 
-            //determine which card type the number matches
-            if (gc[CreditCardTypeType.MasterCard.ToString()].Success)
-            {
-                return CreditCardTypeType.MasterCard;
-            }
-            else if (gc[CreditCardTypeType.Visa.ToString()].Success)
-            {
-                return CreditCardTypeType.Visa;
-            }
-            else if (gc[CreditCardTypeType.DinersClub.ToString()].Success)
-            {
-                return CreditCardTypeType.DinersClub;
-            }
-            else if (gc[CreditCardTypeType.Amex.ToString()].Success)
-            {
-                return CreditCardTypeType.Amex;
-            }
-            else
-            {
-                //Card type is not supported by our system, return null
-                //(You can modify this code to support more (or less)
-                // card types as it pertains to your application)
-                return null;
-            }
-        }
-        public static bool IsValidNumber(string cardNum, CreditCardTypeType? cardType)
-        {
-            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
-
-            //Create new instance of Regex comparer with our 
-            //credit card regex pattern
-            Regex cardTest = new Regex(cardRegex);
-
-            //Make sure the supplied number matches the supplied
-            //card type
-            if (cardTest.Match(cardNum).Groups[cardType.ToString()].Success)
-            {
-                //If the card type matches the number, then run it
-                //through Luhn's test to make sure the number appears correct
-                if (PassesLuhnTest(cardNum))
-                    return true;
-                else
-                    //The card fails Luhn's test
-                    return false;
-            }
-            else
-                //The card number does not match the card type
-                return false;
-        }
-        public static bool PassesLuhnTest(string cardNumber)
-        {
-            //Clean the card number- remove dashes and spaces
-            cardNumber = cardNumber.Replace("-", "").Replace(" ", "");
-
-            //Convert card number into digits array
-            int[] digits = new int[cardNumber.Length];
-            for (int len = 0; len < cardNumber.Length; len++)
-            {
-                digits[len] = Int32.Parse(cardNumber.Substring(len, 1));
-            }
-
-            //Luhn Algorithm
-            //Adapted from code availabe on Wikipedia at
-            //http://en.wikipedia.org/wiki/Luhn_algorithm
-            int sum = 0;
-            bool alt = false;
-            for (int i = digits.Length - 1; i >= 0; i--)
-            {
-                int curDigit = digits[i];
-                if (alt)
-                {
-                    curDigit *= 2;
-                    if (curDigit > 9)
-                    {
-                        curDigit -= 9;
-                    }
-                }
-                sum += curDigit;
-                alt = !alt;
-            }
-
-            //If Mod 10 equals 0, the number is good and this will return true
-            return sum % 10 == 0;
-        }
+       
+       
 
 
         public enum ErrorSummary
@@ -818,7 +664,8 @@ Utils.GetKeyValueFromResourceFile("lrlselectvalidcardtype", UserCookieManager.WB
             InvalidPaymentGateway,
             InvalidOrder,
             statusResponseMessage,
-            Error
+            Error,
+            NoError
         }
     }
 }

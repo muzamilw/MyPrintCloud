@@ -17,7 +17,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Deletes a company permanently
         /// </summary>
-        void DeleteCompanyPermanently(long companyId);
+        void DeleteCompanyPermanently(long companyId,string Comment);
 
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);
@@ -172,16 +172,16 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
 
-        List<LiveStoreDetails> GetLiveStoresJason();
+        List<usp_GetLiveStores_Result> GetLiveStoresJason();
         string GetCompanyCss(long companyId);
         void UpdateCompanyCss(string sCustomCss, long oCompanyId);
 
         RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request);
-        
 
+        TemplateColorStyle ArchiveSpotColor(long SpotColorId);
         #region exportOrganisation
 
-        bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
+        string ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
 
         bool ImportOrganisation(long OrganisationId, string SubDomain, bool isCorpStore);
 
@@ -191,6 +191,10 @@ namespace MPC.Interfaces.MISServices
         Company CloneStore(long companyId);
 
         void DeleteCompanyVariableIcon(long iconId);
+
+        bool ExportStoreZip(long CompanyId, long OrganisationId);
+
+        bool ImportStoreZip(long OrganisationId, string SubDomain);
         #endregion
 
 

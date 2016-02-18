@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -178,6 +179,37 @@ namespace MPC.Models.DomainModels
         public int? ImpressionCoverageSide2 { get; set; }
         public int? PassesSide1 { get; set; }
         public int? PassesSide2 { get; set; }
+        [NotMapped]
+        public string SectionSizeName { get; set; }
+
+        //[NotMapped]
+        //public double SectionPaperSizeHeight { get; set; }
+        //[NotMapped]
+        //public double SectionPaperSizeWidth { get; set; }
+
+        //[NotMapped]
+        //public int SectionPaperSizeMeasure { get; set; }
+        //[NotMapped]
+        //public bool SectionPaperSizeImperical { get; set; }
+
+         [NotMapped]
+        public string ItemSizeName { get; set; }
+
+         //[NotMapped]
+         //public double ItemPaperSizeHeight { get; set; }
+         //[NotMapped]
+         //public double ItemPaperSizeWidth { get; set; }
+
+         //[NotMapped]
+         //public int ItemPaperSizeMeasure { get; set; }
+         //[NotMapped]
+         //public bool ItemPaperSizeImperical { get; set; }
+         [NotMapped]
+        public string PressName { get; set; }
+         [NotMapped]
+         public string PressNameSide2 { get; set; }
+         [NotMapped]
+         public string StockName { get; set; }
         public virtual Item Item { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
         public virtual StockItem StockItem { get; set; }

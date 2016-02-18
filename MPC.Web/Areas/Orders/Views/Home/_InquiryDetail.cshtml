@@ -334,15 +334,33 @@
 
 <script id="inquiryAttachmentsTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
-        <div class="photo-box image-link" style="padding-top: 0; background-color: gainsboro">
+        <div   style="padding-top: 0; background-color: gainsboro">
             <!-- ko if:attachmentId()===undefined -->
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()===undefined,attr: { src: attachmentPath }" />
+            <img class="photo-box image-link" style="padding-top: 0;width: 143px !important;height:127px !important" data-bind="visible:attachmentId()===undefined,attr: { src: attachmentFileURL }" />
             <!--/ko-->
             <!-- ko if:attachmentId()!==undefined -->
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()!==undefined,attr: { src:'/mis/' + attachmentPath() }" />
+            <img class="photo-box image-link" style="padding-top: 0;width: 143px !important;height:127px !important" data-bind="visible:attachmentId()!==undefined,attr: { src: attachmentFileURL() }" />
             <!--/ko-->
+          
         </div>
-        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
+
+        <!-- ko if: $root.selectedInquiry().inquiryId() > 0 -->
+        <div style="float: right;margin-right: 20px;">
+            @using (Ajax.BeginForm("AttachmentDownload", "Home", new AjaxOptions { HttpMethod = "POST" }, new { target = "_blank" }))
+            {
+                <input type="hidden" id="item" name="item" data-bind="value:attachmentId" />
+                <button type="submit" class="table-link" title="Donwload" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">
+                    <span class="fa-stack">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa fa-download fa-stack-1x"></i>
+                    </span>
+                </button>
+            }
+        </div>
+
+        <!--/ko-->
+         
+        <span class="thumb-meta-time"></span>
     </li>
 </script>
 

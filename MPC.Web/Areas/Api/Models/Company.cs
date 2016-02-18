@@ -123,6 +123,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string DefaultContact { get; set; }
 
         public byte[] MapImageS2CBytes { get; set; }
+
+        public bool? IsEnableDataAsset { get; set; }
         /// <summary>
         /// Default Sprite Image Source
         /// </summary>
@@ -155,6 +157,8 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsRegisterPayOnlyByCreditCard { get; set; }
         public bool? IsRegisterPlaceDirectOrder { get; set; }
         public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
+        public bool? IsAllowRequestaQuote { get; set; }
+
         #endregion
 
         #region Public List Properties

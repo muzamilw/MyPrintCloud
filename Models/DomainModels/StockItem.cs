@@ -358,6 +358,12 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool? IsImperical { get; set; }
 
+        /// <summary>
+        /// PlateRunLength
+        /// </summary>
+        public int? PlateRunLength { get; set; }
+        public double? ChargePerSquareUnit { get; set; }
+
         #endregion
 
         #region Reference Properties

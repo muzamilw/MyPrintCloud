@@ -1,13 +1,8 @@
 ﻿using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
-using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MPC.Webstore.Controllers
@@ -88,6 +83,8 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Exception = exception.Message;
                 ViewBag.StackTrace = exception.StackTrace;
                 ViewBag.InnerException = exception.InnerException;
+                //MPCLogger olog = new MPCLogger();
+                //olog.Write();
             }
            
             return View();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace MPC.Models.DomainModels
 {
     /// <summary>
@@ -15,8 +16,8 @@ namespace MPC.Models.DomainModels
         public long? OrganisationId { get; set; }
         public virtual Company Company { get; set; }
         public virtual CostCentre CostCentre { get; set; }
-
-
+        [NotMapped]
+        public string CostCentreName { get; set; }
         #region public
 
 

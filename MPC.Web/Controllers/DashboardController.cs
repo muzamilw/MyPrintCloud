@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using MPC.ExceptionHandling;
@@ -17,9 +21,13 @@ namespace MPC.MIS.Controllers
     {
 
         private readonly IMyOrganizationService _organizationService;
-        public DashboardController(IMyOrganizationService organizationService)
+        private readonly ICompanyContactService _companyContactService;
+        private readonly IInvoiceService _invoiceService;
+        public DashboardController(IMyOrganizationService organizationService, ICompanyContactService companyContactService, IInvoiceService invoiceService)
         {
             this._organizationService = organizationService;
+            this._companyContactService = companyContactService;
+            this._invoiceService = invoiceService;
         }
         
         [Dependency]
@@ -64,20 +72,101 @@ namespace MPC.MIS.Controllers
            _organizationService.UpdateOrganisationZapTargetUrl(organisationId, zapierResponse.subscription_url, eventId);
            
        }
-       [System.Web.Http.AcceptVerbs("DELETE")]
-       [HttpDelete]
+       [System.Web.Http.AcceptVerbs("POST")]
+       [HttpPost]
        [AllowAnonymous]
        public void UnsubscribeUrlFromZapier()
        {
            long organisationId = 1;
+           int eventId = 1;
+           string param = HttpContext.Request.Url.Query;
+           string responsestr = _organizationService.GetActiveOrganisationId(param);
+           // responsestr = Temporarily set for local testing
+           if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
+           {
+               throw new MPCException("Service Not Authenticated!", organisationId);
+           }
+           else
+           {
+               organisationId = Convert.ToInt64(responsestr);
+           }
            StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream());
            string scont = reader.ReadToEndAsync().Result;
+           ZapierPostResponse zapierResponse = JsonConvert.DeserializeObject<ZapierPostResponse>(scont);
+           if (zapierResponse.Event == "contact_created")
+               eventId = 1;
+           else if (zapierResponse.Event == "invoice_created")
+               eventId = 2;
+           _organizationService.UnSubscriebZapTargetUrl(organisationId, zapierResponse.subscription_url, eventId);
 
 
 
        }
+       [System.Web.Http.AcceptVerbs("POST")]
+       [HttpPost]
+       [AllowAnonymous]
+       public string CreateInvoiceZapAction()
+       {
+           long organisationId = 1;
+           
+           string param = HttpContext.Request.Url.Query;
+           string responsestr = _organizationService.GetActiveOrganisationId(param);
+           //responsestr Temporarily set for local testing
+           if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
+           {
+               throw new MPCException("Service Not Authenticated!", organisationId);
+           }
+           else
+           {
+               organisationId = Convert.ToInt64(responsestr);
+           }
+           string scont = string.Empty;
+           using (StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream()))
+           {
+               scont = reader.ReadToEndAsync().Result;
+           }
+           if (!string.IsNullOrEmpty(scont))
+           {
+               ZapierInvoiceDetail zapierResponse = JsonConvert.DeserializeObject<ZapierInvoiceDetail>(scont);
+               _invoiceService.UpdateInvoiceFromZapier(zapierResponse, organisationId);
+           }
 
-        
+           return scont;
+
+       }
+
+       [System.Web.Http.AcceptVerbs("POST")]
+       [HttpPost]
+       [AllowAnonymous]
+       public string CreateContactZapAction()
+       {
+           long organisationId = 1;
+
+           string param = HttpContext.Request.Url.Query;
+           string responsestr = _organizationService.GetActiveOrganisationId(param);
+           // responsestr = Temporarily set for local testing
+           if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
+           {
+               throw new MPCException("Service Not Authenticated!", organisationId);
+           }
+           else
+           {
+               organisationId = Convert.ToInt64(responsestr);
+           }
+           string scont = string.Empty;
+           using (StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream()))
+           {
+               scont = reader.ReadToEndAsync().Result;
+           }
+           if (!string.IsNullOrEmpty(scont))
+           {
+               ZapierInvoiceDetail zapierResponse = JsonConvert.DeserializeObject<ZapierInvoiceDetail>(scont);
+               _companyContactService.UpdateCompanyContactFromZapier(zapierResponse, organisationId);
+           }
+
+           return scont;
+
+       }
 
     }
 }

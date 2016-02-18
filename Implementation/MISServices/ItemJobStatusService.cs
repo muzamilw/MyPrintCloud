@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ModelMappers;
 using MPC.Models.ResponseModels;
 
 
@@ -54,20 +56,22 @@ namespace MPC.Implementation.MISServices
             {
                 if (estimate.Items != null)
                 {
-                    foreach (var item in estimate.Items)
+                    foreach (var item in estimate.Items.Where(i => i.ItemType != 2))
                     {
                         ItemForItemJobStatus itemForItemJobStatus = new ItemForItemJobStatus()
                         {
                             EstimateId = item.EstimateId,
                             ItemId = item.ItemId,
-                            ItemCode = item.ItemCode,
+                            ItemCode = item.JobCode,
                             OrderCode = estimate.Order_Code,
-                            CompanyName = item.Company != null ? item.Company.Name : string.Empty,
+                            //CompanyName = item.Company != null ? item.Company.Name : string.Empty,
+                            CompanyName = estimate.Company != null ? estimate.Company.Name : string.Empty,
                             ProductName = item.ProductName,
                             Qty1 = item.Qty1,
                             StatusId = item.JobStatusId,
                             JobEstimatedCompletionDateTime = item.JobEstimatedCompletionDateTime,
-                            Qty1NetTotal = item.Qty1NetTotal
+                            Qty1NetTotal = item.Qty1NetTotal,
+                            OrderdItemsCount = estimate.Items.Count(i => i.ItemType != 2)
                         };
                         itemForItemJobStatuses.Add(itemForItemJobStatus);
                     }
@@ -136,11 +140,27 @@ namespace MPC.Implementation.MISServices
         public void UpdateItem(ItemForItemJobStatus item)
         {
             Item itemDbVersion = itemRepository.Find(item.ItemId);
-            if (itemDbVersion != null)
+            Estimate dbEstimate = orderRepository.GetOrderByOrderID(Convert.ToInt64(itemDbVersion.EstimateId));
+            int invoicedItems =
+                dbEstimate.Items.Count(i => i.ItemType != 2 && i.JobStatusId == (int)ItemStatuses.ShippedInvoiced && i.ItemId != item.ItemId);
+
+            if ((dbEstimate.Items.Count(i => i.ItemType != 2) - 1) == invoicedItems && item.StatusId == (int) ItemStatuses.ShippedInvoiced)
             {
                 itemDbVersion.JobStatusId = item.StatusId;
+                itemDbVersion.StatusId = Convert.ToInt16(item.StatusId);
+                dbEstimate.StatusId = (int) OrderStatus.Completed_NotShipped;
                 itemRepository.SaveChanges();
             }
+            else
+            {
+                if (item.StatusId != (int)ItemStatuses.ShippedInvoiced && dbEstimate.StatusId == (int)OrderStatus.Completed_NotShipped)
+                    dbEstimate.StatusId = (int)OrderStatus.InProduction;
+                itemDbVersion.JobStatusId = item.StatusId;
+                itemDbVersion.StatusId = Convert.ToInt16(item.StatusId);
+                itemRepository.SaveChanges();
+            }
+
+            
         }
         #endregion
     }

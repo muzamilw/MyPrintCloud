@@ -100,9 +100,7 @@
                                             <div class="col-lg-3 text-right profileLabelPadding">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus"  data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                                  
 
                                                 </div>
                                                 <label for="txtProductName" class="control-label text-right tooltip-float">Product Name</label>
@@ -113,6 +111,22 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
+                                        
+                                      
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right profileLabelPadding">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                            </div>
+                                                <label for="txtProductName" class="control-label text-right tooltip-float">Friendly Name</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" style="height:60px;" class="form-control height60 font24px" id="txtProductName" name="Friendly Name" placeholder="Enter Friendly Name" maxlength="500" data-bind="value: title">
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                       </div>
+                                     
+
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -156,7 +170,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated production days will be used to calculate the approximate delivery date and displayed on store shopping cart page.  If there are multiple products in cart then production days of all products will be added including  weekend’s will be added to get a approximate delivery date." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated production days will be used to calculate the approximate delivery date and displayed on store shopping cart page.  If there are multiple products in cart then production days of all products will be added including  weekend’s to get a approximate delivery date." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -2051,6 +2065,7 @@
                                                 ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
                                             </div>
                                         </div>
+
                                         @* Will work on this later *@
                                         @*<div class="form-group">
                                                 <div class="col-lg-3 text-right">
@@ -2199,7 +2214,29 @@
                                                 <input type="text" style="text-align:right;" class="form-control" data-bind="value: $parent.scalar" placeholder="Enter Scale Factor">
                                             </div>
                                         </div>
+                                        
 
+
+                                        <div class="form-group" data-bind="visible: $parent.templateTypeUi() === '1' || $parent.canStartDesignerEmpty">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Allow user to enable custom template size." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float" style="margin-left:-35px;">Allow user to resize template</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch" style="margin-right:0px;">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCTS" data-bind="checked: isAllowCustomSize">
+                                                    <label class="onoffswitch-label" for="switchCTS">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      
                                         <div class="form-group">
                                             <h3 class="group-header">  End User Mode</h3>
                                             <div class="col-lg-3 text-right">
@@ -2427,7 +2464,11 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <img style="height: 180px; width: 270px; object-fit: contain" data-bind="attr: { src: thumbnail }" />
+                                               @* <img style="height: 180px; width: 270px; object-fit: contain" data-bind="visible:thumbnail()==undefined ,attr: { src: '@Url.Content("~/")' + thumbnail() }" />*@
+                                                <img style="height: 180px; width: 270px; object-fit: contain" data-bind="visible:thumbnail()!==undefined,attr: { src: thumbnail }" />
+
+
+                                               @* <img style="height: 180px; width: 270px; object-fit: contain" data-bind="attr: { src: thumbnail }" />*@
 
                                                 <div style="width:270px;text-align:center;">
                                                     <div>
@@ -2560,7 +2601,7 @@
 
                                             <div class="col-lg-8" style="background: gainsboro; border: 4px solid rgba(0, 0, 0, 0.30); ">
                                                 <div class="col-lg-4">
-                                                    <img style="height: 170px; width: 170px; object-fit: contain" data-bind="attr: { src: file1 }" />
+                                                    <img style="height: 170px; width: 170px; object-fit: contain" data-bind="attr: { src:  file1 }" />
                                                     <br />
                                                     <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(1, 1), visible: file1() || file1FileSource()">
                                                         <span class="fa-stack">

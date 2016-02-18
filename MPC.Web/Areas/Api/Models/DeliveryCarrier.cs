@@ -12,6 +12,9 @@ namespace MPC.MIS.Areas.Api.Models
         public string Url { get; set; }
         public string ApiKey { get; set; }
         public string ApiPassword { get; set; }
+
+        public string CarrierPhone { get; set; }
         public bool? isEnable { get; set; }
+        public long? OrganisationId { get; set; }
     }
 }

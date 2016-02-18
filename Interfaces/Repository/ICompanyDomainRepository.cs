@@ -9,7 +9,8 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyDomainRepository : IBaseRepository<CompanyDomain, long>
     {
-
+        CompanyDomain GetDomainByUrl(string Url);
+        CompanyDomain GetDomainByCompanyId(long Companyid);
     }
  
 

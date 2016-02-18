@@ -88,6 +88,7 @@ define("invoice/invoice.viewModel",
                       counterForSection = -1000,
                       //Is Estimate Screen
                     isEstimateScreen = ko.observable(false),
+                    saveFrom = ko.observable(),
                     // Active Order
                     selectedInvoice = ko.observable(),
                     selectedInvoiceForListView = ko.observable(),
@@ -103,7 +104,7 @@ define("invoice/invoice.viewModel",
                     // Default Company Contact
                     defaultCompanyContact = ko.observable(),
                     // Sort On
-                    sortOn = ko.observable(2),
+                    sortOn = ko.observable(4),
                     // Sort Order -  true means asc, false means desc
                     sortIsAsc = ko.observable(false),
                     // Pagination
@@ -286,6 +287,27 @@ define("invoice/invoice.viewModel",
                     selectedInvoice(model.Invoice.Create({}));
                     isDetailsVisible(false);
                     errorList.removeAll();
+                },
+                    //Post Invoice
+                onPostInvoice = function () {
+                    
+                    if (!doBeforeSave()) {
+                        return;
+                    } else if (selectedInvoice().items().length <= 0) {
+                        toastr.error("Invoice without items cannot be posted.");
+                        return;
+                    }
+                    removeItemSectionWithAddFlagTrue();
+                    confirmation.messageText("Are you sure you want to post the invoice.");
+                    confirmation.afterProceed(function () {
+                        selectedInvoice().invoiceStatus(20); //Posted Invoice                              
+                        selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
+                        saveInvoice(closeInvoiceEditor);
+                    });
+                    confirmation.afterCancel(function () {
+                        //Do Nothing on Cancel
+                    });
+                    confirmation.show();
                 },
                 // On Archive
                 onArchiveInvoice = function () {
@@ -475,7 +497,7 @@ define("invoice/invoice.viewModel",
                 editItem = function (item) {
                     // For Invoice Detail Item
                     if (item.detailType !== undefined) {
-                        //selectedInvoiceDetail(item);
+                        selectedInvoiceDetail(item);
                         editorViewModel.selectItem(item);
                         view.showInvoiceDetailDialog();
                     } else {
@@ -502,7 +524,7 @@ define("invoice/invoice.viewModel",
                 // Open Item Detail
                 openItemDetail = function () {
                     isItemDetailVisible(true);
-                    itemDetailVm.showItemDetail(selectedProduct(), selectedInvoice(), closeItemDetail, isEstimateScreen());
+                    itemDetailVm.showItemDetail(selectedProduct(), selectedInvoice(), closeItemDetail, isEstimateScreen(), null, saveFrom);
                     view.initializeLabelPopovers();
                 },
                 // Edit Section
@@ -1201,14 +1223,14 @@ define("invoice/invoice.viewModel",
                             invoiceDetail.id(counterForInvoiceDetail);
                             selectedInvoice().items.splice(0, 0, invoiceDetail);
                         }
-                        else if (invoiceDetail.id() < 0) {
+                        else if (invoiceDetail.id() < 0 || invoiceDetail.id() > 0) {
                             var count = 0;
                             var newObjtodelete = selectedInvoice().items.find(function (temp) {
                                 return temp.id() == invoiceDetail.id();
                             });
                             selectedInvoice().items.remove(newObjtodelete);
                             selectedInvoice().items.splice(0, 0, selectedInvoiceDetail());
-                        }
+                        } 
                         view.hideInvoiceDetailDialog();
                     },
                     dobeforeSaveInvoiceDetail = function () {
@@ -1386,7 +1408,8 @@ define("invoice/invoice.viewModel",
                     onAddFinishedGoods: onAddFinishedGoods,
                     onDeleteShippingItem: onDeleteShippingItem,
                     getInvoices: getInvoices,
-                    onArchiveInvoice: onArchiveInvoice
+                    onArchiveInvoice: onArchiveInvoice,
+                    onPostInvoice: onPostInvoice
                     //#endregion
                 };
             })()

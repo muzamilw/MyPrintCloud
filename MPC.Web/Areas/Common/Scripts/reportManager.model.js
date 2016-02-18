@@ -7,7 +7,7 @@
             Description = ko.observable(source.Description),
             reports = ko.observableArray([])
             if (source.Reports != undefined && source.Reports != null) {
-                _.each(source.Reports, function(item){
+                _.each(source.Reports, function (item) {
                     reports.push(Report(item));
                 });
             }
@@ -42,7 +42,7 @@
        };
 
         self = {
-            CategoryId:CategoryId,
+            CategoryId: CategoryId,
             CategoryName: CategoryName,
             Description: Description,
             errors: errors,
@@ -72,12 +72,12 @@
             emailAttachmentPath = ko.observable(),
 
             emailSignature = ko.observable(),
-            
-            
+
+
             // Errors
             errors = ko.validation.group({
                 emailTo: emailTo,
-                
+
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -87,7 +87,7 @@
             // True if the booking has been changed
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-              
+
 
             }),
             // Has Changes
@@ -153,9 +153,9 @@
        };
 
         self = {
-            ControlType :ControlType,
-            ParmName :ParmName,
-            Caption1 :Caption1,
+            ControlType: ControlType,
+            ParmName: ParmName,
+            Caption1: Caption1,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -166,16 +166,20 @@
         return self;
 
     }
-    var Report = function (source) {
+
+
+    var ComboMapper = function (source) {
         var self
         if (source != undefined) {
-            ReportId = ko.observable(source.ReportId),
-            Name = ko.observable(source.Name)
-           
+            ComboId = ko.observable(source.ComboId),
+            ComboText = ko.observable(source.ComboText)
+
+
+
         } else {
-            ReportId = ko.observable(),
-            Name = ko.observable()
-            
+            ComboId = ko.observable(),
+            ComboText = ko.observable()
+
         }
 
 
@@ -186,7 +190,54 @@
            return errors().length === 0;
        }),
        dirtyFlag = new ko.dirtyFlag({
-          
+
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            ComboId: ComboId,
+            ComboText: ComboText,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            reports: reports
+        };
+        return self;
+
+    }
+
+
+    var Report = function (source) {
+        var self
+        if (source != undefined) {
+            ReportId = ko.observable(source.ReportId),
+            Name = ko.observable(source.Name)
+
+        } else {
+            ReportId = ko.observable(),
+            Name = ko.observable()
+
+        }
+
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+
 
        }),
         // Has Changes
@@ -211,10 +262,70 @@
         return self;
 
     }
+
+
+    var ReportParam = function (source) {
+        var self
+        if (source != undefined) {
+            ParmId = ko.observable(source.ParmId),
+            ParmName = ko.observable(source.ParmName),
+            Caption1 = ko.observable(source.Caption1),
+            ReportId = ko.observable(source.ReportId),
+            ControlType = ko.observable(source.ControlType),
+            Caption2 = ko.observable(source.Caption2)
+        } else {
+
+            ParmId = ko.observable(),
+           ParmName = ko.observable(),
+           Caption1 = ko.observable(),
+           ReportId = ko.observable(),
+           ControlType = ko.observable(),
+           Caption2 = ko.observable()
+        }
+
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            ParmId: ParmId(),
+            ParmName: ParmName(),
+            Caption1: Caption1(),
+            ReportId: ReportId(),
+            ControlType: ControlType(),
+            Caption2: Caption2(),
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+        };
+        return self;
+
+    }
+
+
     return {
         ReportCategory: ReportCategory,
         reportParamsMapper: reportParamsMapper,
-        EmailFields: EmailFields
+        ComboMapper: ComboMapper,
+        EmailFields: EmailFields,
+        ReportParam: ReportParam
     }
-    
+
 });

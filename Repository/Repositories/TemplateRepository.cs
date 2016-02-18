@@ -173,7 +173,8 @@ namespace MPC.Repository.Repositories
             {
                 objTemplate.PDFTemplateWidth = pdfWidth;
                 objTemplate.PDFTemplateHeight = pdfHeight;
-                objTemplate.CuttingMargin = 14.173228345;
+                if(!objTemplate.CuttingMargin.HasValue)
+                    objTemplate.CuttingMargin = 14.173228345;
 
                 List<TemplatePage> listpages = db.TemplatePages.Where(g => g.ProductId == productID).ToList();
                 if (listpages.Count > count)
@@ -214,7 +215,8 @@ namespace MPC.Repository.Repositories
             {
                 objTemplate.PDFTemplateWidth = pdfWidth;
                 objTemplate.PDFTemplateHeight = pdfHeight;
-                objTemplate.CuttingMargin = 14.173228345;
+                if(!objTemplate.CuttingMargin.HasValue)
+                    objTemplate.CuttingMargin = 14.173228345;
                 foreach(TemplatePage obj in listPages)
                 {
                     TemplatePage objPage = new TemplatePage();
@@ -248,7 +250,8 @@ namespace MPC.Repository.Repositories
                     {
                         objTemplate.PDFTemplateWidth = pdfWidth;
                         objTemplate.PDFTemplateHeight = pdfHeight;
-                        objTemplate.CuttingMargin = 14.173228345;
+                        if (!objTemplate.CuttingMargin.HasValue)
+                            objTemplate.CuttingMargin = 14.173228345;
                         foreach (TemplatePage obj in listNewPages)
                         {
                             TemplatePage objPage = new TemplatePage();
@@ -570,8 +573,9 @@ namespace MPC.Repository.Repositories
             return newProductID;
         }
         //called while saving template from designer // added by saqib ali 
-        public void SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects)
+        public double SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects)
         {
+            double cuttingMargin = 14.173228345;
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
@@ -579,7 +583,8 @@ namespace MPC.Repository.Repositories
                     var objProduct = new Template();
 
                     objProduct = db.Templates.Where(g => g.ProductId == productID).Single();
-
+                    if (objProduct.CuttingMargin.HasValue)
+                        cuttingMargin = (objProduct.CuttingMargin.Value);
                     foreach (TemplateObject c in db.TemplateObjects.Where(g => g.ProductId == productID))
                     {
                         db.TemplateObjects.Remove(c);
@@ -625,9 +630,10 @@ namespace MPC.Repository.Repositories
                     dbContextTransaction.Dispose();
                 }
             }
+            return cuttingMargin;
         }
         //called from designer for retail store // added by saqib ali 
-        public Template CreateTemplate(long productID,long categoryIdv2,double height,double width,long itemId)
+        public Template CreateTemplate(long productID,long categoryIdv2,double height,double width,long itemId,long organisationId)
         {
             Template result = null;
             if (productID == 0)
@@ -637,7 +643,7 @@ namespace MPC.Repository.Repositories
                 oTemplate.ProductName = "Untitled design";
                 oTemplate.ProductId = 0;
                // oTemplate.ProductCategoryId = categoryIdv2;
-                oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(5));
+                oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(getOrganisationBleedArea(organisationId ,true)));
                 oTemplate.PDFTemplateHeight =(DesignerUtils.MMToPoint(height));
                 oTemplate.PDFTemplateWidth = (DesignerUtils.MMToPoint(width));
                 oTemplate.isSpotTemplate = false;
@@ -944,11 +950,11 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-
-        public double getOrganisationBleedArea(long organisationID)
+        // returns mm bleed of the organisation default is 5
+        public double getOrganisationBleedArea(long organisationID,bool convertToSystemUnit)
         {
            
-            double bleedArea = 0;
+            double bleedArea = 5;
             try
             {
                 if(organisationID !=0)
@@ -956,6 +962,18 @@ namespace MPC.Repository.Repositories
                     var organisation = db.Organisations.Where(g => g.OrganisationId == organisationID).SingleOrDefault();
                     if(organisation.BleedAreaSize.HasValue)
                         bleedArea = organisation.BleedAreaSize.Value;
+
+                    if (convertToSystemUnit)
+                    {
+                        if (organisation.SystemLengthUnit == 2)
+                        {
+                            bleedArea = ConvertLength(bleedArea, MPC.Models.Common.LengthUnit.Cm);
+                        }
+                        else if (organisation.SystemLengthUnit == 3)
+                        {
+                            bleedArea = ConvertLength(Convert.ToDouble(bleedArea), MPC.Models.Common.LengthUnit.Inch);
+                        }
+                    }
                 }
             }
             catch(Exception ex)
@@ -964,11 +982,12 @@ namespace MPC.Repository.Repositories
             }
             return bleedArea;
         }
-        public double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit)
+        // input unit will always be mm 
+        public double ConvertLength(double Input, MPC.Models.Common.LengthUnit OutputUnit)
         {
             double ConversionUnit = 0;
             double convertedValue = 0;
-            MPC.Models.DomainModels.LengthUnit oRows = db.LengthUnits.Where(o => o.Id == (int)InputUnit).FirstOrDefault();
+            MPC.Models.DomainModels.LengthUnit oRows = db.LengthUnits.Where(o => o.Id == (int)MPC.Models.Common.LengthUnit.Mm).FirstOrDefault();
             if (oRows != null)
             {
                 switch (OutputUnit)
@@ -978,8 +997,8 @@ namespace MPC.Repository.Repositories
                         convertedValue =  (Input * ConversionUnit);
                         break;
                     case MPC.Models.Common.LengthUnit.Inch:
-                        ConversionUnit = (double)oRows.Inch;
-                        convertedValue =  (Input * ConversionUnit * 8) / 8.0d;
+                        //ConversionUnit =Math.Round( (double)oRows.Inch,3);
+                        convertedValue =  DesignerUtils.PointToInch( DesignerUtils.MMToPoint(Input));// (Input * ConversionUnit * 8) / 8.0d;
                         break;
                     case MPC.Models.Common.LengthUnit.Mm:
                         ConversionUnit = (double)oRows.MM;
@@ -1013,6 +1032,30 @@ namespace MPC.Repository.Repositories
                 return false;
             }
         }
+
+        public bool UpdateTemplatePdfDimensions(Template Template)
+        {
+            bool result = false;
+            Template model=db.Templates.Where(i=>i.ProductId==Template.ProductId).FirstOrDefault();
+             model.PDFTemplateHeight = Template.PDFTemplateHeight;
+             model.PDFTemplateWidth = Template.PDFTemplateWidth;
+             db.Templates.Attach(model);
+             db.Entry(model).State = EntityState.Modified;
+             if (db.SaveChanges() > 0)
+             {
+                 result = true;
+             }
+             return result;
+        }
+
+        public double GetTemplateCuttingMargin(long ProductId)
+        {
+            Item item = db.Items.Where(i => i.ItemId == ProductId).FirstOrDefault();
+            return db.Templates.Where(i => i.ProductId == item.TemplateId).FirstOrDefault().CuttingMargin ?? 0;
+        
+        }
+
+
 
     #endregion
      

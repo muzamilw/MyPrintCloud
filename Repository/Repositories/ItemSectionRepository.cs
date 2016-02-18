@@ -64,7 +64,7 @@ namespace MPC.Repository.Repositories
         }
         public CostCentre GetCostCenterBySystemType(int systemType)
         {
-            return db.CostCentres.Where(c => c.SystemTypeId == systemType && c.SystemSiteId == 1 && c.OrganisationId == this.OrganisationId).FirstOrDefault();
+            return db.CostCentres.FirstOrDefault(c => c.SystemTypeId == systemType && c.SystemSiteId == 1 && c.OrganisationId == this.OrganisationId);
         }
         public StockItem GetStockById(long StockItemId)
         {
@@ -82,6 +82,10 @@ namespace MPC.Repository.Repositories
         public MachineSpeedWeightLookup GetMachineSpeedWeightLookup(long Id)
         {
             return db.MachineSpeedWeightLookups.Where(l => l.MethodId == Id).FirstOrDefault();
+        }
+        public MachineMeterPerHourLookup GetMachinemeterPerHourLookup(long id)
+        {
+            return db.MachineMeterPerHourLookups.FirstOrDefault(l => l.MethodId == id);
         }
         public MachinePerHourLookup GetMachinePerHourLookup(long Id)
         {
@@ -200,6 +204,11 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+        }
+
+        public ItemSection GetItemSectionById(long itemSectionId)
+        {
+            return DbSet.FirstOrDefault(o => o.ItemSectionId == itemSectionId);
         }
         #endregion
     }

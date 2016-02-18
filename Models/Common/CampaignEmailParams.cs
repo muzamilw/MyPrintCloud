@@ -24,11 +24,12 @@ namespace MPC.Models.Common
         public int SubscriberID { get; set; }
         public int MarketingID { get; set; }
         public long OrganisationId { get; set; }
-        public int InquiryId { get; set; }
+        public long InquiryId { get; set; }
         public int orderedItemID { get; set; }
         public int Id { get; set; }// report notes id
         public int SupplierContactID { get; set; }
-        public int SupplierCompanyID { get; set; }
-            public long StockItemId { get; set; }
+        public long SupplierCompanyID { get; set; }
+        public long StockItemId { get; set; }
+        public int AssetId { get; set; }
     }
 }

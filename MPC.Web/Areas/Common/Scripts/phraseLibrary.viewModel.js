@@ -17,7 +17,7 @@ define("common/phraseLibrary.viewModel",
                     isOpenFromPhraseLibrary = ko.observable(true),
                     // Open default section according to 
                     defaultOpenSectionId = ko.observable(),
-                    defaultOpenPhraseFieldId = ko.observable(),
+                    defaultOpenPhraseFieldName = ko.observable(),
                     //selected Phrase
                     selectedPhrase = ko.observable(false),
                     //Sections
@@ -36,10 +36,10 @@ define("common/phraseLibrary.viewModel",
                                 sections.removeAll();
                                 _.each(data, function (item) {
                                     var section = new model.Section.Create(item);
-                                    //_.each(item.PhrasesFields, function (phraseFieldItem) {
-                                    //    var phraseField = new model.PhraseField.Create(phraseFieldItem);
-                                    //    section.phrasesFields.push(phraseField);
-                                    //});
+                                    _.each(item.PhrasesFields, function (phraseFieldItem) {
+                                        var phraseField = new model.PhraseField.Create(phraseFieldItem);
+                                        section.phrasesFields.push(phraseField);
+                                    });
                                     sections.push(section);
                                 });
                                 selectDefaultSectionForProduct();
@@ -95,6 +95,9 @@ define("common/phraseLibrary.viewModel",
                                        var phraseField1 = new model.PhraseField.Create(phraseFieldItem);
                                        section.phrasesFields.push(phraseField1);
                                    });
+
+                                  
+
                                    // true, Refresh The Phrase Fields as well as Phrases
                                    if (afterSaveRefreshListFlag) {
                                        var sectionFilter = _.filter(sections(), function (sectionItem) {
@@ -130,11 +133,29 @@ define("common/phraseLibrary.viewModel",
                        //new selected section expand
                        section.isExpanded(true);
                        selectedSection(section);
-                       selectedPhraseField(undefined);
+                     //  selectedPhraseField(undefined);
                        phrases.removeAll();
 
                        if (section.phrasesFields().length > 0) {
-                           selectedPhraseField(section.phrasesFields()[0]);
+
+
+                           if (defaultOpenPhraseFieldName() !== undefined)
+                           {
+                               var defaultPhraseFieldOpenSection = section.phrasesFields().find(function (phraseField) {
+                                   return phraseField.fieldName() === defaultOpenPhraseFieldName();
+                               });
+
+
+                               selectPhraseField(defaultPhraseFieldOpenSection);
+                               defaultOpenPhraseFieldName(undefined);
+                           }
+                           else
+                           {
+                               selectedPhraseField(section.phrasesFields()[0]);
+                           }
+                           
+
+                           //selectedPhraseField(section.phrasesFields()[0]);
                            getPhrasesByPhraseFieldId(selectedPhraseField().fieldId(), true);
                        }
                    },
@@ -348,7 +369,14 @@ define("common/phraseLibrary.viewModel",
                              selectedSection(defaultOpenSection);
                              selectSection(defaultOpenSection);
                              if (selectedSection() && selectedSection().phrasesFields().length > 0) {
-                                 selectPhraseField(selectedSection().phrasesFields()[0]);
+
+                                 var defaultPhraseFieldOpenSection = selectedSection().phrasesFields().find(function (phraseField) {
+                                     return phraseField.fieldName() === defaultOpenPhraseFieldName();
+                                 });
+
+
+                                 selectPhraseField(defaultPhraseFieldOpenSection);
+                                // selectPhraseField(selectedSection().phrasesFields()[0]);
                              }
                          }
                      }
@@ -400,7 +428,7 @@ define("common/phraseLibrary.viewModel",
                     jobTitles: jobTitles,
                     show: show,
                     defaultOpenSectionId: defaultOpenSectionId,
-                    defaultOpenPhraseFieldId: defaultOpenPhraseFieldId
+                    defaultOpenPhraseFieldName: defaultOpenPhraseFieldName
                 };
             })()
         };

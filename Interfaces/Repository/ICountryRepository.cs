@@ -14,5 +14,6 @@ namespace MPC.Interfaces.Repository
         Country GetCountryByID(long CountryID);
 
         string GetCountryCodeById(long countryId);
+        Country GetCountryByName(string sCountryName);
     }
 }

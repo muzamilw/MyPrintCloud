@@ -13,10 +13,13 @@ namespace MPC.Models.Common
         public double TaxRate { get; set; }
         public string CurrencyCode { get; set; }
         public string VatNumber { get; set; }
+        public string CustomerAccountNumber { get; set; }
         public string ContactFirstName { get; set; }
         public string ContactLastName  { get; set; }
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }
+        public string ContactMobile { get; set; }
+        public string ContactSkypUserName { get; set; }
         public string AddressName { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -24,9 +27,15 @@ namespace MPC.Models.Common
         public string AddressState { get; set; }
         public string AddressPostalCode { get; set; }
         public string AddressCountry { get; set; }
+        public bool IsCustomer { get; set; }
+        public bool IsSupplier { get; set; }
         
         public DateTime InvoiceDueDate { get; set; }
         public DateTime InvoiceDate { get; set; }
+        public string InvoiceStatus { get; set; }
+        public double InvoiceTaxTotal { get; set; }
+        public double InvoiceSubTotal { get; set; }
+        public double InvoiceTotal { get; set; }
         public long InvoiceId { get; set; }
         public long ContactId { get; set; }
         public string InvoiceCode { get; set; }

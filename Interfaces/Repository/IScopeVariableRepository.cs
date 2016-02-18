@@ -13,5 +13,6 @@ namespace MPC.Interfaces.Repository
         /// Get Company Contact Variable  By Contact ID
         /// </summary>
         IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId,int scope);
+        void AddScopeVariables(long ContactId, long CompanyId);
     }
 }

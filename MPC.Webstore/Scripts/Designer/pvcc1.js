@@ -152,6 +152,7 @@ var varList = [];// var varExtensions = [];
 var isRealestateproduct = false;
 var item =  null;
 var smartFormData = null;
+var selectedUserProfile = null;
 var userVariableData = null;
 var smartFormClicked = true;
 var lstVariableExtensions = null;
@@ -160,6 +161,7 @@ var objectsSelectable = true;
 var selectedPathIndex = 0;
 var conversionRatio = 1; // from points to system unit 
 var conversionUnit = "Points";
+var lastSel = "";
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];
@@ -180,6 +182,10 @@ function buildParams() {
 	while (tempName.indexOf('%20') != -1)
 	    tempName = tempName.replace("%20", " ");
 	$("#txtTemplateTitle").val(tempName);
+	//if(IsCalledFrom == 3)
+	//{
+	//    panelMode = 2;
+	//}
 	
 }
 function LoadBasicTemplateSettings() {
@@ -206,3 +212,7 @@ function restrictControls() {
     $("#layersPanel").css("visibility", "hidden");
     $("#selectedTab").addClass("restrictedSelectedTab");
 }
+
+var difFound = false;
+var reArrangeAttempted = false;
+var oldPageId = 0;

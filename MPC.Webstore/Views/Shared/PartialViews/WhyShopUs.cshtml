@@ -1,0 +1,30 @@
+﻿@using MPC.Webstore.Common;
+<div class="blueWrapper">
+    <div class="container">
+        <h3>@Html.Raw(Html.GetKeyValueFromResourceFile("whyShopWithUs", UserCookieManager.WBStoreId, "Why shop with us?"))</h3>
+
+        <div class="usp">
+            <i class="fa fa-comment comment-box"></i>
+            <h3>@Html.Raw(Html.GetKeyValueFromResourceFile("lblWeAre", UserCookieManager.WBStoreId, "We are"))<strong>&nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("lblHereToHelp", UserCookieManager.WBStoreId, "here to help"))</strong></h3>
+
+            <p>@Html.Raw(Html.GetKeyValueFromResourceFile("lblPopInOrChat", UserCookieManager.WBStoreId, "Pop in and have a chat with our design team today!"))</p>
+        </div>
+
+        <div class="usp percent-container">
+            <div class="box-percentageTax">@ViewBag.OrderPercentage</div>
+           
+            <h3><strong>@ViewBag.OrderPercentage off</strong>&nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("lblYourFirstOrder", UserCookieManager.WBStoreId, "your first order")) </h3>
+
+            <p>@Html.Raw(Html.GetKeyValueFromResourceFile("lblSpendOver", UserCookieManager.WBStoreId, "Spend over"))&nbsp;@ViewBag.OrderPercentageTotal @Html.Raw(Html.GetKeyValueFromResourceFile("lblAdReceive", UserCookieManager.WBStoreId, "and receive"))&nbsp;@ViewBag.OrderPercentage off!</p>
+        </div>
+
+        <div class="usp">
+            <img src="/Content/Images/Deliver-Icon.png" />
+            <h3><strong>@Html.Raw(Html.GetKeyValueFromResourceFile("lblFreedelivery", UserCookieManager.WBStoreId, "Free delivery"))</strong> @Html.Raw(Html.GetKeyValueFromResourceFile("lblover", UserCookieManager.WBStoreId, "over")) @ViewBag.OrderTotal</h3>
+
+            <p>@Html.Raw(Html.GetKeyValueFromResourceFile("lblSpendOver", UserCookieManager.WBStoreId, "Spend over"))&nbsp;@ViewBag.OrderTotal&nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("lblforfree", UserCookieManager.WBStoreId, "for free delivery in UK"))</p>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+    </div>
+</div>

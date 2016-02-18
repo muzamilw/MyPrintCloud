@@ -94,7 +94,7 @@ namespace MPC.Implementation.WebStoreServices
             oTempItem.PositionY = 10;
             oTempItem.FontName = "Arial";
             oTempItem.FontSize = 10;
-            oTempItem.DisplayOrderPdf = 100;
+            oTempItem.DisplayOrderPdf = -1000;
             oTempItem.ColorC = 0;
             oTempItem.ColorM = 100;
             oTempItem.ColorY = 100;
@@ -117,10 +117,12 @@ namespace MPC.Implementation.WebStoreServices
             oTempItem.IsQuickText = false;
             oTempItem.QuickTextOrder = 0;
             oTempItem.CharSpacing = 0;
+            oTempItem.hasInlineFontFamily = false;
             oTempItem.hasInlineFontStyle = false;
             oTempItem.ColorHex = oColorConv.getColorHex(0, 100, 100, 20);
             oTempItem.originalContentString = oTempItem.ContentString;
             oTempItem.isBulletPoint = false;
+            oTempItem.AutofitImage = true;
             list.Insert(0, oTempItem);
             return list;
         }

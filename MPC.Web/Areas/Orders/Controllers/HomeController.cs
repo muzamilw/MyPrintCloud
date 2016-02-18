@@ -36,11 +36,12 @@ namespace MPC.MIS.Areas.Orders.Controllers
 
         // GET: Orders/Home
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
-        public ActionResult Index(int? id, int? itemId)
+        public ActionResult Index(int? id, int? itemId, string callScreen)
         {
             ViewBag.CallingMethod = (string)TempData["CallingMethod"] != "" ? TempData["CallingMethod"] : "0";
             ViewBag.OrderId = id ?? 0;
             ViewBag.ItemId = itemId ?? 0;
+            ViewBag.CallScreen = callScreen;
             return View();
         }
 
@@ -164,6 +165,79 @@ namespace MPC.MIS.Areas.Orders.Controllers
             {
                 RedirectToAction("Error");
                 
+            }
+            return RedirectToAction("Error");
+
+        }
+
+
+
+        [HttpPost]
+        public ActionResult AttachmentDownload()
+        {
+            string fileType = ".jpg";
+            string fileName = "";
+            string filePath = orderService.DownloadInquiryAttachment(Request.Form["item"] != null ? Convert.ToInt64(Request.Form["item"]) : 0, out fileName, out fileType);
+            string contentType;
+
+            if (fileType == ".pdf")
+            {
+                contentType = "application/pdf";
+            }
+
+            else if (fileType == ".docx")
+            {
+                contentType = "application/docx";
+            }
+            else if (fileType == ".doc")
+            {
+                contentType = "application/docx";
+            }
+            else if (fileType == ".xlsx")
+            {
+                contentType = "application/vnd.ms-excel";
+            }
+            else if (fileType == ".xls")
+            {
+                contentType = "application/vnd.ms-excel";
+            }
+            else if (fileType == ".rtf")
+            {
+                contentType = "application/rtf";
+            }
+            else if (fileType == ".png")
+            {
+                contentType = "image/png";
+            }
+            else if (fileType == ".jpg")
+            {
+                contentType = "image/jpeg";
+            }
+            else if (fileType == ".gif")
+            {
+                contentType = "image/gif";
+            }
+            else if (fileType == ".txt")
+            {
+                contentType = "text/plain";
+            }
+            else
+            {
+                contentType = "image/jpeg";
+
+            }
+            try
+            {
+                if (System.IO.File.Exists(filePath))
+                {
+                    return File(filePath, contentType, fileName);
+                }
+                RedirectToAction("Error");
+            }
+            catch (FileNotFoundException ex)
+            {
+                RedirectToAction("Error");
+
             }
             return RedirectToAction("Error");
 

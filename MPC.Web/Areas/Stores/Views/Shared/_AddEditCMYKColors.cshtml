@@ -14,7 +14,7 @@
                             <label for="txtColorName" class="control-label text-right tooltip-float">Color Name</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" id="txtColorName" data-bind="value:colorName, validationTooltip: colorName ">
+                            <input type="text" class="form-control" id="txtColorName" data-bind="value:spotColor, validationTooltip: spotColor ">
                         </div>
                     </div>
                     <div class="col-lg-6 form-horizontal">
@@ -62,12 +62,18 @@
                                 <label for="txtKCode" class="control-label text-right tooltip-float" style="padding-top:4px;">Is Active</label>
                             </div>
                             <div class="col-lg-6">
-                                <div class="checkbox-nice">
+                                @*<div class="checkbox-nice">
                                     <input type="checkbox" id="enableEmailCompaign" data-bind="checked:isActive">
                                     <label for="enableEmailCompaign">&nbsp;</label>
-                                </div>
+                                </div>*@
 
-                                @*<input type="checkbox" class="form-control" style="width:8%;float:left;" data-bind="checked: isActive" />*@
+                                <div class="onoffswitch" style="margin-right:0px;">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchisActive" data-bind="checked: isActive">
+                                    <label class="onoffswitch-label" for="switchisActive">
+                                        <div class="onoffswitch-inner"></div>
+                                        <div class="onoffswitch-switch"></div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,9 +87,13 @@
             
             <div class="modal-footer" style="padding-left:0;padding-right:0;">
                 <div style="padding-left:3px;padding-right:8px;">
+
+                   
+
                     <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyCMYKColor, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                    @*<button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyCMYKColors, enable: $root.selectedCompanyCMYKColor().colorId() != undefined">Archive</button>*@
                     <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyCMYKColor" style="margin-left: 0px;">Close</button>
-                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyCMYKColors, enable: $root.selectedCompanyCMYKColor().colorId() != undefined">Archive</button>
+                    
                 </div>
             </div>
         </div>
