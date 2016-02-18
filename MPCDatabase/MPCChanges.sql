@@ -9927,3 +9927,5 @@ update deliverycarrier set organisationid = 0 where carrierId in(1,2,3)
 alter table machine add IsPressUseInks bit
 update machine set IsPressUseInks = 1
 alter table template add HideSharedImages bit null
+alter table Widgets add WidgetHtml varchar(max)
+alter table Widgets add OrganisationId bigint

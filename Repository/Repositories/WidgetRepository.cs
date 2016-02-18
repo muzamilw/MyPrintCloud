@@ -42,7 +42,15 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<Widget> GetAll()
         {
-            return DbSet.ToList();
+            return DbSet.Where(o => o.OrganisationId == null).ToList();
+        }
+        public IEnumerable<Widget> GetWidgetsByOrganisation()
+        {
+            return DbSet.Where(o => o.OrganisationId == OrganisationId).ToList();
+        }
+        public Widget GetWidgetById(long widgetId)
+        {
+            return DbSet.FirstOrDefault(o => o.WidgetId == widgetId);
         }
         #endregion
     }

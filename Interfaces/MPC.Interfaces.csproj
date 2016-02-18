@@ -105,6 +105,7 @@
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="MISServices\IPurchaseService.cs" />
     <Compile Include="MISServices\IReportService.cs" />
+    <Compile Include="MISServices\IWidgetService.cs" />
     <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="MISServices\ISystemUserService.cs" />
     <Compile Include="MISServices\SectionReport.cs" />

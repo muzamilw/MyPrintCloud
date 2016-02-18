@@ -3813,9 +3813,10 @@ define("stores/stores.viewModel",
                             var notFound = true;
                             var count = 0;
                             _.each(selectedStore().paymentGateway(), function (item) {
-                                if (selectedPaymentGateway().isActive() && item.paymentGatewayId() != selectedPaymentGateway().paymentGatewayId()) {
-                                    item.isActive(false);
-                                }
+                                //if (selectedPaymentGateway().isActive() && item.paymentGatewayId() != selectedPaymentGateway().paymentGatewayId()) {
+                                //    item.isActive(false);
+                                //}
+                                //Code Commented to allow activation of multiple payment gateways. 20160218
                                 if (notFound && item.paymentGatewayId() == selectedPaymentGateway().paymentGatewayId()) {
                                     selectedStore().paymentGateway.remove(item);
                                     selectedStore().paymentGateway.splice(count, 0, selectedPaymentGateway());
