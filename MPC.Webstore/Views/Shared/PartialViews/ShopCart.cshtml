@@ -427,14 +427,14 @@
                             </div>
                             <div class="clearBoth">
                             </div>
-                            @if (ViewBag.CanPlaceOrder == 1)
-                            {
+                            @*@if (ViewBag.CanPlaceOrder == 1)
+                            {*@
                                 <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="return ifNoAnEnterKay(event);" /><br />
-                            }
+                            @*}
                             else
                             {
                                 <input type="button" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="CantPlaceOrder();" /><br />
-                            }
+                            }*@
                            
                             <button id="btn_ContinueShopping" type="button" onclick="return ContinueShopping(event);" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                             <div class="clearBoth">
