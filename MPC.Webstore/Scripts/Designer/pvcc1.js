@@ -210,8 +210,9 @@ function restrictControls() {
     $("#btnMenuCopy").css("visibility", "hidden");
     $("#btnMenuPaste").css("visibility", "hidden");
     $("#backgrounds").css("visibility", "hidden");
-    $("#layersPanel").css("visibility", "hidden");
+    $("#layersPanel,.btnAUploadFont").css("visibility", "hidden");
     $("#selectedTab").addClass("restrictedSelectedTab");
+
 }
 
 var difFound = false;

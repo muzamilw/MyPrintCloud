@@ -5730,9 +5730,9 @@ h2 + .gallery {
 
 #collapseDesignerMenu {
     margin-top: 0px;
-    left: 425px;
+    left: 366px;
     height: 53px;
-    background: url('assets-v2/back.png');
+    /*background: url('assets-v2/back.png');*/
     background-repeat: no-repeat;
     background-position-x: 14px;
     top: 14px;
@@ -5741,7 +5741,7 @@ h2 + .gallery {
     #collapseDesignerMenu a:hover {
         left: 0px;
         height: 53px;
-        background: url('assets-v2/back-hover.png');
+        /*background: url('assets-v2/back-hover.png');*/
         background-repeat: no-repeat;
         background-position-x: 14px;
     }
