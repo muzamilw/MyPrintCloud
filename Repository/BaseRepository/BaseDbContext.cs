@@ -1291,6 +1291,20 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_ImportProductPriceMatrix", organisationIdParameter, storeIdParameter);
         }
+
+
+        public ObjectResult<usp_ExportInvoice_Result> usp_ExportInvoice(long? InvoiceId)
+        // ReSharper restore InconsistentNaming
+        {
+            var InvoiceIDParameter = InvoiceId.HasValue ?
+                new ObjectParameter("InvoiceId", InvoiceId) :
+                new ObjectParameter("InvoiceId", typeof(long));
+
+
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ExportInvoice_Result>("usp_ExportInvoice", InvoiceIDParameter);
+
+        }
         #endregion
     }
 }

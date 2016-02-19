@@ -340,6 +340,10 @@ namespace MPC.Repository.Repositories
             return DbSet.FirstOrDefault(i => i.InvoiceCode == sInvoiceCode && i.OrganisationId == organisationId);
         }
 
+        public List<usp_ExportInvoice_Result> GetInvoiceDataForExport(long InvoiceId)
+        {
+            return db.usp_ExportInvoice(InvoiceId).ToList();
+        }
         #endregion
     }
 }

@@ -25,5 +25,9 @@ namespace MPC.Interfaces.MISServices
         List<ZapierInvoiceDetail> GetInvoiceDetailForZapierPooling(long organisationId);
         void ArchiveInvoice(int InvoiceId);
         void UpdateInvoiceFromZapier(ZapierInvoiceDetail zapInvoice, long organisationId);
+
+        string ExportInvocie(long InvocieId);
     }
+
+
 }

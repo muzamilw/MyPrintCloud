@@ -34,7 +34,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Tax1
         /// </summary>
-        public int? Tax1 { get; set; }
+        public double? Tax1 { get; set; }
 
         /// <summary>
         /// Status Id

@@ -38,17 +38,17 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Tax1
         /// </summary>
-        public int? Tax1 { get; set; }
+        public double? Tax1 { get; set; }
 
         /// <summary>
         /// Tax2
         /// </summary>
-        public int? Tax2 { get; set; }
+        public double? Tax2 { get; set; }
 
         /// <summary>
         /// Tax3
         /// </summary>
-        public int? Tax3 { get; set; }
+        public double? Tax3 { get; set; }
 
         /// <summary>
         /// Created By
