@@ -721,6 +721,21 @@ namespace MPC.Repository.Repositories
 
             }
         }
+        public long GetReportIdByName(string ReportName)
+        {
+            try
+            {
+                return db.Reports.Where(c => c.Name == ReportName).Select(c => c.ReportId).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        
+        }
+
         // GetReportsByOrganisationID
     }
 }
