@@ -435,6 +435,12 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Get Organisation Widgets
+                    amplify.request.define('getOrganisationWidgets', 'ajax', {
+                        url: ist.siteUrl + '/Api/Widget',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to delete Store
                     amplify.request.define('archiveSpotColor', 'ajax', {
                         url: ist.siteUrl + '/Api/SpotColor',
@@ -1092,6 +1098,15 @@
                     data: params
                 });
             },
+            //Get Organisation Widgets
+            getOrganisationWidgets = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getOrganisationWidgets',
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
+            },
 
         // save Store
         saveStore = function (param, callbacks) {
@@ -1168,7 +1183,8 @@
             updateStoreCss: updateStoreCss,
             getRealEstateCampaigns: getRealEstateCampaigns,
             getCompanyVariableIcons: getCompanyVariableIcons,
-            archiveSpotColor: archiveSpotColor
+            archiveSpotColor: archiveSpotColor,
+            getOrganisationWidgets: getOrganisationWidgets
         };
     })();
 

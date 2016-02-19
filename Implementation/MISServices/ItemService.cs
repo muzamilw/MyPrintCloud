@@ -2676,11 +2676,6 @@ namespace MPC.Implementation.MISServices
             PSV.Append(psv);
 
 
-            //foreach (string column in FileHeader)
-            //{
-            //    //Add the Header row for CSV file.
-            //    csv += column + ',';
-            //}
             foreach (string column in FileHeader)
             {
                 //Add the Header row for CSV file.
@@ -2692,10 +2687,7 @@ namespace MPC.Implementation.MISServices
             CSV.Append(csv);
 
 
-            //  sr.WriteLine(csv);
-
-            //   csv = string.Empty;
-
+           
 
 
             string ProductCode = string.Empty;
@@ -2770,48 +2762,6 @@ namespace MPC.Implementation.MISServices
 
 
 
-                    //string StockLabel1 = string.Empty;
-                    //string Price1 = string.Empty;
-
-                    //string StockLabel2 = string.Empty;
-                    //string Price2 = string.Empty;
-                    //string StockLabel3 = string.Empty;
-                    //string Price3 = string.Empty;
-                    //string StockLabel4 = string.Empty;
-                    //string Price4 = string.Empty;
-                    //string StockLabel5 = string.Empty;
-                    //string Price5 = string.Empty;
-                    //string StockLabel6 = string.Empty;
-                    //string Price6 = string.Empty;
-                    //string StockLabel7 = string.Empty;
-                    //string Price7 = string.Empty;
-                    //string StockLabel8 = string.Empty;
-                    //string Price8 = string.Empty;
-                    //string StockLabel9 = string.Empty;
-                    //string Price9 = string.Empty;
-                    //string Supplier1 = string.Empty;
-                    //string Supplier2 = string.Empty;
-                    //string Supplier3 = string.Empty;
-                    //string Supplier4 = string.Empty;
-                    //string Supplier5 = string.Empty;
-                    //string Supplier6 = string.Empty;
-                    //string Supplier7 = string.Empty;
-                    //string Supplier8 = string.Empty;
-                    //string Supplier9 = string.Empty;
-                    //string JobDescriptionTitle1 = string.Empty;
-                    //string JobDescription1 = string.Empty;
-                    //string JobDescriptionTitle2 = string.Empty;
-                    //string JobDescription2 = string.Empty;
-                    //string JobDescriptionTitle3 = string.Empty;
-                    //string JobDescription3 = string.Empty;
-                    //string JobDescriptionTitle4 = string.Empty;
-                    //string JobDescription4 = string.Empty;
-                    //string JobDescriptionTitle5 = string.Empty;
-                    //string JobDescription5 = string.Empty;
-                    //string JobDescriptionTitle6 = string.Empty;
-                    //string JobDescription6 = string.Empty;
-                    //string JobDescriptionTitle7 = string.Empty;
-                    //string JobDescription7 = string.Empty;
 
                     if (!string.IsNullOrEmpty(item.Category))
                         Category = item.Category;
@@ -3204,6 +3154,6 @@ namespace MPC.Implementation.MISServices
             return true;
         }
 
-
+       
     }
 }

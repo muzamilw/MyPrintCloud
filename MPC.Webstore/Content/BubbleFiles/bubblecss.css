@@ -934,20 +934,20 @@ p.required,
 .error-msg {
     border-color:#c02230;
     background-color:#F5DAD3;
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_msg-error.png);
+    background-image:url(/Content/BubbleImages/i_msg-error.png);
     color:#c02230;
 }
 .success-msg {
     border-color:#296a23;
     background-color:#e9ffca;
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_msg-success.png);
+    background-image:url(/Content/BubbleImages/i_msg-success.png);
     color:#296a23;
 }
 .note-msg,
 .notice-msg {
     border-color:#7c622a;
     background-color:#FDEDA4;
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_msg-note.png);
+    background-image:url(/Content/BubbleImages/i_msg-note.png);
     color:#7c622a;
 }
 .my-account ul.messages li ul li{padding:0;}
@@ -1030,7 +1030,7 @@ p.required,
 .sorter .view-mode a.list:hover {}
 
 /* Sort by */
-.sorter .sort-by { float:left; margin-right:10px; padding-right:3px; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/link-separator.png) right center no-repeat; }
+.sorter .sort-by { float:left; margin-right:10px; padding-right:3px; background:url(/Content/BubbleImages/link-separator.png) right center no-repeat; }
 .sorter .sort-by .category-asc,
 .sorter .sort-by .category-desc {}
 .sorter .sort-by .category-asc {}
@@ -1133,7 +1133,7 @@ p.required,
     
     /* Amount */
     .pager .amount,
-    .sorter .amount { float:left;/* padding-right:10px; margin-right:10px; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/link-separator.png) right center no-repeat;*/ }
+    .sorter .amount { float:left;/* padding-right:10px; margin-right:10px; background:url(/Content/BubbleImages/link-separator.png) right center no-repeat;*/ }
     
     /* Limiter */
     .pager .limiter,
@@ -1195,7 +1195,7 @@ p.required,
 */
 tr.summary-total { cursor:pointer; }
 tr.summary-total td {}
-tr.summary-total .summary-collapse { float:right; text-align:right; padding-left:20px; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
+tr.summary-total .summary-collapse { float:right; text-align:right; padding-left:20px; background:url(/Content/BubbleImages/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
 tr.show-details .summary-collapse { background-position:0 -53px; }
 tr.show-details td {}
 tr.summary-details td { font-size:11px; background-color:#f5f5f5; color:#777; padding:2px 5px !important; }
@@ -1209,7 +1209,7 @@ tr.summary-details-excluded { font-style:italic; }
 .cart-tax-info { display:block; }
 .cart-tax-info,
 .cart-tax-info .cart-price { padding-right:20px; }
-.cart-tax-total { display:block; padding-right:20px; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/bkg_collapse.gif) 100% 4px no-repeat; cursor:pointer; }
+.cart-tax-total { display:block; padding-right:20px; background:url(/Content/BubbleImages/bkg_collapse.gif) 100% 4px no-repeat; cursor:pointer; }
 .cart-tax-info .price,
 .cart-tax-total .price { display:inline !important; font-weight:normal !important; }
 .cart-tax-total-expanded { background-position:100% -53px; }
@@ -1220,8 +1220,8 @@ tr.summary-details-excluded { font-style:italic; }
 */
 .link-cart { font-weight:normal; font-family: 'OpenSansBold'; }
 .link-reorder { font-weight:normal;  font-family: 'OpenSansBold';}
-.link-print { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_print.gif) 0 center no-repeat; padding:0;font-size:0;height:16px;width:16px; margin:0 !important;}
-.link-rss { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_rss.gif) 0 center no-repeat; padding-left:16px; white-space:nowrap; }
+.link-print { background:url(/Content/BubbleImages/images/i_print.gif) 0 center no-repeat; padding:0;font-size:0;height:16px;width:16px; margin:0 !important;}
+.link-rss { background:url(/Content/BubbleImages/i_rss.gif) 0 center no-repeat; padding-left:16px; white-space:nowrap; }
 
 .title-buttons{position:relative;}
 
@@ -1236,7 +1236,7 @@ tr.summary-details-excluded { font-style:italic; }
 /* Global site notices
 -------------------------------------------------------------- */
 .global-site-notice { background:#f5f5f5; color:#333; }
-.global-site-notice .notice-inner { max-width:66%; margin:0 auto; padding:10px 0 10px 80px; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_notice.gif) 20px center no-repeat; text-align:left; }
+.global-site-notice .notice-inner { max-width:66%; margin:0 auto; padding:10px 0 10px 80px; background:url(/Content/BubbleImages/i_notice.gif) 20px center no-repeat; text-align:left; }
 .global-site-notice .notice-inner p { width:80%; margin:0; padding:10px 10px 10px 0; display:inline-block; vertical-align:middle; }
 .global-site-notice .notice-inner .actions { display:inline-block; vertical-align:middle; }
 
@@ -1307,7 +1307,7 @@ ul.disc li { background-image:none; padding-left:0; }
 /* Bullet */
 ul.bullet { list-style:none outside none; }
 ul.bullet li {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/cck/list/bullet.png) 0 0 no-repeat;
+    background:url(/Content/BubbleImages/bullet.png) 0 0 no-repeat;
     padding-left:25px;
     transition:         background-position 150ms ease-out;
     -moz-transition:    background-position 150ms ease-out;
@@ -1317,11 +1317,11 @@ ul.bullet li {
 ul.bullet li:hover { background-position:3px 0; }
 
     /* Different bullets. IMPORTANT: use together with class "bullet" */
-    ul.list1  li { background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/cck/list/list1.png); }
-    ul.list2  li { background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/cck/list/list2.png); }
-    ul.list11 li { background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/cck/list/list11.png); }
-    ul.list12 li { background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/cck/list/list12.png); }
-    ul.list13 li { background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/cck/list/list13.png); }
+    ul.list1  li { background-image:url(/Content/BubbleImages/list1.png); }
+    ul.list2  li { background-image:url(/Content/BubbleImages/list2.png); }
+    ul.list11 li { background-image:url(/Content/BubbleImages/list11.png); }
+    ul.list12 li { background-image:url(/Content/BubbleImages/list12.png); }
+    ul.list13 li { background-image:url(/Content/BubbleImages/list13.png); }
 
 /* Separator */
 ul .separator {
@@ -1335,7 +1335,7 @@ ul .separator {
 ul.bullet ul,
 ul.disc ul { margin-top:0.5em; margin-bottom:0.5em; }
 ul.bullet ul li,
-ul.disc ul li { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/cck/list/bullet-small.png) 0 0 no-repeat; padding-left:1.5em; }
+ul.disc ul li { background:url(/Content/BubbleImages/bullet-small.png) 0 0 no-repeat; padding-left:1.5em; }
 
 
 /* Lists inside ".std"
@@ -1453,7 +1453,7 @@ ul.disc ul li { background:url(http://lbprint.liquidbubblehosting.com/skin/front
     top:0;
     margin:0px;
     padding:0;
-    /*background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png) no-repeat transparent;
+    /*background:url(/Content/BubbleImages/sprite.png) no-repeat transparent;
     background-position:-57px -108px;*/
     color:#ffffff !important;
     width:99px;
@@ -1493,7 +1493,7 @@ ul.disc ul li { background:url(http://lbprint.liquidbubblehosting.com/skin/front
     line-height:28px; /*IE8*/
 }
 .search-wrapper-small .form-search .button span {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png) no-repeat transparent;
+    background:url(/Content/BubbleImages/sprite.png) no-repeat transparent;
     background-position: -61px -111px; /*-59px -109px*/
     width:28px;
     height:28px;
@@ -1726,7 +1726,7 @@ ul.disc ul li { background:url(http://lbprint.liquidbubblehosting.com/skin/front
 .sitecatul li.cat::after,
 .page-sitemap .sitemap li:after 
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/bullet-new.png) no-repeat left top;
+    background:url(/Content/BubbleImages/bullet-new.png) no-repeat left top;
     position:absolute;
     left:0;
     top:10px;
@@ -1750,7 +1750,7 @@ ul.disc ul li { background:url(http://lbprint.liquidbubblehosting.com/skin/front
 .sitecatul li.cat:hover::after,
 .page-sitemap .sitemap li:hover::after
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/bullet-new.png) no-repeat left bottom;
+    background:url(/Content/BubbleImages/bullet-new.png) no-repeat left bottom;
 }
 
 
@@ -2395,8 +2395,8 @@ h3.product-name
 .no-rating { line-height: 15px; margin: 12px 0 7px 0; }
 .ratings strong { float:left; margin:1px 5px 0 0; } /* For backward compatibility */
 
-.rating-box { width:85px; height:17px; font-size:0; line-height:0; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/rating.png) 0 0 repeat-x; text-indent:-999em; overflow:hidden; }
-.rating-box .rating { float:left; height:17px; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/rating.png) 0 100% repeat-x; }
+.rating-box { width:85px; height:17px; font-size:0; line-height:0; background:url(/Content/BubbleImages/rating.png) 0 0 repeat-x; text-indent:-999em; overflow:hidden; }
+.rating-box .rating { float:left; height:17px; background:url(/Content/BubbleImages/rating.png) 0 100% repeat-x; }
 
 .ratings .rating-box,
 .ratings .amount,
@@ -2605,7 +2605,7 @@ span.configurable-price-from-label{display:none;}
     font-size:14px;
     text-transform:uppercase;
     font-family: 'ralewaysemibold'; 
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/price-list.png) left top no-repeat;
+    background:url(/Content/BubbleImages/price-list.png) left top no-repeat;
     display:inline-block;
     padding:0 0 0 38px;
     line-height:37px;
@@ -2650,7 +2650,7 @@ span.configurable-price-from-label{display:none;}
 }
 .mfp-close
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/close-btn.png) center center no-repeat;
+    background:url(/Content/BubbleImages/close-btn.png) center center no-repeat;
     width:28px;
     height:27px;
     display:inline-block;
@@ -2795,7 +2795,7 @@ span.configurable-price-from-label{display:none;}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 .tier-prices { margin:0 0 10px; padding-left: 10px; }
-.tier-prices li { line-height:15px; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/bullet.png) 0 4px no-repeat; padding:0 0 0 11px; margin:3px 0; }
+.tier-prices li { line-height:15px; background:url(/Content/BubbleImages/bullet.png) 0 4px no-repeat; padding:0 0 0 11px; margin:3px 0; }
 .tier-prices .benefit { color:#ee001c; font-weight:normal; }
 
 .tier-prices-grouped li { padding:2px 0; }
@@ -3055,7 +3055,7 @@ form#product_addtocart_form{display:block;}
 .product-type-data .item-options { clear: both; }
 .product-type-data .item-options dt { float:none; margin:0 0 5px; }
 /* The same style as "item-options" in cart */
-.product-type-data .item-options dd { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/bullet.png) 3px 4px no-repeat; padding-left:15px; }
+.product-type-data .item-options dd { background:url(/Content/BubbleImages/bullet.png) 3px 4px no-repeat; padding-left:15px; }
 
 /* Additional information table
 -------------------------------------------------------------- */
@@ -3134,7 +3134,7 @@ form#product_addtocart_form{display:block;}
 .product-view .short-description .std ul li,
 .product-view .box-tabs .std ul li 
 { 
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/tab-li-img.png) left center no-repeat;
+    background:url(/Content/BubbleImages/tab-li-img.png) left center no-repeat;
     padding:2px 0 3px 31px;
     margin:0 0 11px 0; 
     font-family: 'ralewaysemibold';
@@ -3335,7 +3335,7 @@ form#product_addtocart_form{display:block;}
 .page-sitemap .pager .amount{background:none;}
 
 /* RSS */
-.rss-title h1 { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_rss-big.png) 0 center no-repeat; padding-left:30px; }
+.rss-title h1 { background:url(/Content/BubbleImages/i_rss-big.png) 0 center no-repeat; padding-left:30px; }
 .rss-table .link-rss { display:block; }
 
 
@@ -3532,7 +3532,7 @@ Shop Cart Page CSS
     background:#b72119;
     height:54px;
     width:54px;
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/free-next-delivery.png) center center no-repeat #b72119;
+    background:url(/Content/BubbleImages/free-next-delivery.png) center center no-repeat #b72119;
     text-align:center;
     
     -webkit-border-radius: 30px;
@@ -3636,7 +3636,7 @@ Shop Cart Page CSS
 }
 .shop-cart-footer-link-inner ul li
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/footer-link-sep.gif) right center no-repeat;
+    background:url(/Content/BubbleImages/footer-link-sep.gif) right center no-repeat;
     display:inline-block;
     padding: 0 9px;
 }
@@ -3815,7 +3815,7 @@ Shop Cart Page CSS
 .gift-messages-form .item .number { margin:0; font-weight:bold; text-align:center; }
 .gift-messages-form .item .details { margin-left:90px; }
 
-.gift-message-link { display:block; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/bkg_collapse.gif) 0 4px no-repeat; padding-left:20px; }
+.gift-message-link { display:block; background:url(/Content/BubbleImages/bkg_collapse.gif) 0 4px no-repeat; padding-left:20px; }
 .gift-message-link.expanded { background-position:0 -53px; }
 .gift-message-row .btn-close { float:right; padding:0 7px 0px; }
 .gift-message dt strong { font-weight:bold; color:#666; }
@@ -4215,7 +4215,7 @@ Shop Cart Page CSS
 
 
 .page-print h2.h2 { font-size:16px; font-family: 'OpenSansBold'; }
-.page-print .order-date { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/bkg_divider1.gif) 0 100% repeat-x; padding:0 0 10px; margin:0 0 10px; }
+.page-print .order-date { background:url(/Content/BubbleImages/bkg_divider1.gif) 0 100% repeat-x; padding:0 0 10px; margin:0 0 10px; }
 .page-print .col2-set { margin:0 0 10px; }
 /* Price Rewrites */
 .page-print .gift-message-link { display:none; }
@@ -4288,7 +4288,7 @@ Shop Cart Page CSS
 /* Remember Me Popup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
-.window-overlay { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/window_overlay.png) repeat; background:rgba(0, 0, 0, 0.35); position:absolute; top:0; left:0; width:100%; height:100%; z-index:9999; }
+.window-overlay { background:url(/Content/BubbleImages/window_overlay.png) repeat; background:rgba(0, 0, 0, 0.35); position:absolute; top:0; left:0; width:100%; height:100%; z-index:9999; }
 
 .remember-me label { float:none; margin:0 6px; }
 .remember-me-popup { left:50%; top:50%; position:absolute; margin:-85px 0 0 -200px; width:400px; z-index:10000; }
@@ -4355,7 +4355,7 @@ Shop Cart Page CSS
 .footer-container2 { background-repeat:repeat; background-position:center top; background-attachment: scroll; }
 .footer-container
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/footer-bg.jpg) top center no-repeat #000;
+    background:url(/Content/BubbleImages/footer-bg.jpg) top center no-repeat #000;
 }
 .footer 
 {
@@ -4412,7 +4412,7 @@ Shop Cart Page CSS
 
 .con-info ul.add-info li .ic
 {
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/address-icon.png);
+    background-image:url(/Content/BubbleImages/address-icon.png);
     background-repeat: no-repeat;
     float:left;
 	min-width:24px;
@@ -4449,7 +4449,7 @@ Shop Cart Page CSS
     font-size:15px;
     font-family: 'ralewayregular';
     display:inline-block;
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/social-icon-footer.png);
+    background-image:url(/Content/BubbleImages/social-icon-footer.png);
     background-repeat:no-repeat;
     line-height:30px;
     padding:0 0 0 43px;
@@ -4734,7 +4734,7 @@ Get in Touch Css
 
 .footer-btm-link li
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/footer-link-sep.gif) right center no-repeat;
+    background:url(/Content/BubbleImages/footer-link-sep.gif) right center no-repeat;
     display:inline-block;
     padding: 0 9px;
 }
@@ -4822,7 +4822,7 @@ Get in Touch Css
     right: 0;
     top: 0;
     bottom: 0;
-    background: url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/bg_x.png) center no-repeat transparent;
+    background: url(/Content/BubbleImages/images/bg_x.png) center no-repeat transparent;
     z-index: 10;
 }
 .swatch-link.has-image .swatch-label {
@@ -5046,7 +5046,7 @@ Get in Touch Css
     z-index: 2;
 }
 .product-image-gallery:after {
-    background-image: url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/opc-ajax-loader.gif);
+    background-image: url(/Content/BubbleImages/opc-ajax-loader.gif);
     background-repeat: no-repeat;
     background-position: center;
     z-index: 3;
@@ -5226,7 +5226,7 @@ MY CSS
 .header-top-right .links > li span label{display:inline-block;margin:0 4px 0 0;}
 .header-top-right .links > li .fa
 {
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/header-icon.png);
+    background-image:url(/Content/BubbleImages/header-icon.png);
     background-repeat:no-repeat;
     display:inline-block;
     margin:0 10px 0 0px;
@@ -5289,7 +5289,7 @@ minicart css
 }
 .mini-cart .ic-cart-bg
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/cart-icon.png) left top no-repeat;
+    background:url(/Content/BubbleImages/cart-icon.png) left top no-repeat;
     height:31px;    
     width:33px;
     display:inline-block;
@@ -5431,7 +5431,7 @@ Home Page Css
 }
 .go-quickly-inner label:after
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/go-quickly-arrow.png) right center no-repeat;  
+    background:url(/Content/BubbleImages/go-quickly-arrow.png) right center no-repeat;  
     width:12px;
     height:24px;
     display:inline-block;
@@ -5519,7 +5519,7 @@ Sefo CSS
     color:#000000;
     font-size:30px;
     font-family: 'montserratregular';
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/title-bg.jpg) left center repeat-x;
+    background:url(/Content/BubbleImages/title-bg.jpg) left center repeat-x;
     text-align:center;
     margin:0 0 2px 0;
     padding:15px 0;
@@ -5548,7 +5548,7 @@ Sefo CSS
 .sefo-bg
 {
     position:relative;
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sefo-bg.png) top center no-repeat;
+    background:url(/Content/BubbleImages/sefo-bg.png) top center no-repeat;
     background-size:100%;
     height:517px;
     font-family: 'montserratregular';
@@ -5561,7 +5561,7 @@ Sefo CSS
 }
 /*.sefo-bg:hover
 {
-	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sefo-bg-hover.png) top center no-repeat;
+	background:url(/Content/BubbleImages/sefo-bg-hover.png) top center no-repeat;
 	 background-size:100%;
 }*/
 .sefo-bg .step-1{position:absolute;left:7%;top:32%;padding:0;}
@@ -5587,7 +5587,7 @@ Sefo CSS
 
 .green-bg
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/green-bg.jpg) top center no-repeat;
+    background:url(/Content/BubbleImages/green-bg.jpg) top center no-repeat;
     min-height:618px;
 }
 .green-bg .container{background:none;padding:52px 0 66px 0;}
@@ -5615,7 +5615,7 @@ Sefo CSS
 .green-bg .right-sec ul li.last{padding:0;}
 .green-bg .right-sec ul li .ic
 {
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/about-us-icon.png);
+    background-image:url(/Content/BubbleImages/about-us-icon.png);
     background-repeat:no-repeat;
     float:left;
     min-width:50px;
@@ -5671,7 +5671,7 @@ Sefo CSS
     color:#e74c3c;
     font-size:55px;
     font-family: 'montserratregular';
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/counter-sep.jpg) bottom center no-repeat;
+    background:url(/Content/BubbleImages/counter-sep.jpg) bottom center no-repeat;
     padding:0 0 10px 0;
     margin:0 0 26px 0; 
 }
@@ -5684,7 +5684,7 @@ Sefo CSS
 }
 .about-content
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/parallex-bg.jpg) 50% no-repeat fixed;
+    background:url(/Content/BubbleImages/parallex-bg.jpg) 50% no-repeat fixed;
     padding:50px 0;
     text-align:center;
 
@@ -5739,7 +5739,7 @@ Sefo CSS
 .about-item-inner{display:block;margin:0 33px;}
 .about-content ul li .ic .icon
 {
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/about-us-icon1.png);
+    background-image:url(/Content/BubbleImages/about-us-icon1.png);
     background-repeat:no-repeat;
     display:block;
 	height:134px;
@@ -5796,7 +5796,7 @@ Contact Page Css
 }
 .slider_bar
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/slide_bar.png) center center no-repeat;
+    background:url(/Content/BubbleImages/slide_bar.png) center center no-repeat;
     display: block;
     margin: 0 auto 25px;
     padding: 0 0 25px;
@@ -5854,7 +5854,7 @@ Contact Page Css
 *****************************/
 .page-title.thank h1
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_msg-success1.png) 0px center no-repeat;
+    background:url(/Content/BubbleImages/i_msg-success1.png) 0px center no-repeat;
     padding:10px 10px 10px 40px;
     text-align:left;
     margin:0 0 15px 0;
@@ -5910,7 +5910,7 @@ Contact Page Css
 }
 .thkbox .thk-box2 a.print-icon
 {
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/i_print.gif) left top no-repeat;
+    background:url(/Content/BubbleImages/i_print.gif) left top no-repeat;
     font-size:16px;
     height: 16px;
     width:16px;
@@ -6053,7 +6053,7 @@ Contact Page Css
 }
 .errorcontainer .erroricon div.error-icon
 {
-     background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/Remove-icon.png) left top no-repeat;
+     background:url(/Content/BubbleImages/Remove-icon.png) left top no-repeat;
     display:inline-block;
     float: left;
     height: 115px;
@@ -6182,7 +6182,7 @@ Blog Listing Page
 .blog-detail-inner ul.blog-dt-li {padding:0px 0 1px 0;margin-top:-7px;}
 .blog-detail-inner ul.blog-dt-li li 
 { 
-    background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/tab-li-img.png) left center no-repeat;
+    background:url(/Content/BubbleImages/images/tab-li-img.png) left center no-repeat;
     padding:3px 0 3px 25px;
     margin:0 0 7px 0;
 }
@@ -6815,7 +6815,7 @@ a.phone-call{pointer-events:auto;}
 .header-top-right .links > li{padding:0;}
 .header-top-right .links > li span a
 {
-    background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/header-icon-mobile.png);
+    background-image:url(/Content/BubbleImages/header-icon-mobile.png);
     background-repeat:no-repeat;
     display:inline-block;
     margin:0 10px 0 0px;
@@ -6942,7 +6942,7 @@ All Prinr Products CSS
 .title{font-size:18px;}
 
 /**** sefo css *****/
-.sefo-bg{background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sefo-bg-mobile.png) top center no-repeat;max-width:285px;margin:0 auto;}
+.sefo-bg{background:url(/Content/BubbleImages/sefo-bg-mobile.png) top center no-repeat;max-width:285px;margin:0 auto;}
 
 .sefo-bg h4{font-size:20px;}
 .sefo-bg span{font-size:12px;padding:0 5px;}
@@ -6982,7 +6982,7 @@ All Prinr Products CSS
 .about-content p{padding:0;}
 .about-item-inner{margin:0 5px;}
 .about-content ul li .ic{height:110px;width:110px;}
-.about-content ul li .ic .icon{background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/about-us-icon2.png);height:110px;width:110px;}
+.about-content ul li .ic .icon{background-image:url(/Content/BubbleImages/about-us-icon2.png);height:110px;width:110px;}
 .about-content ul li .ic .icon.icon-2{background-position:-110px 0px;}
 .about-content ul li:hover .ic .icon.icon-2{background-position:-110px -110px;}
 .about-content ul li .itm-txt{font-size:12px;}
@@ -7550,13 +7550,13 @@ Thank you PAGE CSS
  */
 /* FONT PATH
  * -------------------------- */
-@font-face {
+/*@font-face {
   font-family: 'FontAwesome';
   src: url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/fontawesome-webfont.eot?v=4.3.0');
   src: url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
-}
+}*/
 .fa {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -9750,7 +9750,7 @@ img.mfp-img {
 .widget-new-products .products-list .product-image { width:85px; height:85px; }
 .widget-new-products .products-list .product-shop { margin-left:100px; }
 .sidebar .widget-new-products .block { font-size:11px; line-height:1.25; }
-.sidebar .widget-new-products .block-title strong { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/base/default/images/widgets/i_widget-new.gif) 0 1px no-repeat; padding-left:21px; color:#dc5033; }
+.sidebar .widget-new-products .block-title strong { background:url(/Content/BubbleImages/i_widget-new.gif) 0 1px no-repeat; padding-left:21px; color:#dc5033; }
 
 /* Widget: Recently Viewed Proructs */
 .widget-viewed { display:block; }
@@ -9759,7 +9759,7 @@ img.mfp-img {
 .widget-viewed .products-list .product-image { width:85px; height:85px; }
 .widget-viewed .products-list .product-shop { margin-left:100px; }
 .sidebar .widget-viewed .block { font-size:11px; line-height:1.25; }
-.sidebar .widget-viewed .block-title strong { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/base/default/images/widgets/i_block-list.gif) 0 0 no-repeat; padding-left:21px; }
+.sidebar .widget-viewed .block-title strong { background:url(/Content/BubbleImages/i_block-list.gif) 0 0 no-repeat; padding-left:21px; }
 
 /* Widget: Recently Compared Proructs */
 .widget-compared { display:block;}
@@ -9783,10 +9783,10 @@ img.mfp-img {
 .widget-product-link-inline { display:inline; }
 
 .col-main .widget-product-link { display:block; text-align:right; margin:7px 0; }
-.col-main .widget-product-link a { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; }
+.col-main .widget-product-link a { background:url(/Content/BubbleImages/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; }
 
 .sidebar .widget-product-link { display:block; margin:0 0 15px; padding:0 10px; }
-.sidebar .widget-product-link a { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; }
+.sidebar .widget-product-link a { background:url(/Content/BubbleImages/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; }
 
 /* Widget: Catalog Category Link */
 .widget-category-link-inline { display:inline; }
@@ -9801,10 +9801,10 @@ img.mfp-img {
 .widget-cms-link-inline { display:inline; }
 
 .col-main .widget-cms-link { display:block; text-align:right; margin:7px 0; }
-.col-main .widget-cms-link a { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; }
+.col-main .widget-cms-link a { background:url(/Content/BubbleImages/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; }
 
 .sidebar .widget-cms-link { display:block; margin:0 0 15px; padding:0 10px; }
-.sidebar .widget-cms-link a { background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; }
+.sidebar .widget-cms-link a { background:url(/Content/BubbleImages/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; }
 /* ======================================================================================= */
 
 /* 
@@ -9875,7 +9875,7 @@ img.mfp-img {
 
 /* mouse grab icon */
 .grabbing { 
-    cursor:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/grabbing.png) 8 8, move;
+    cursor:url(/Content/BubbleImages/_shared/grabbing.png) 8 8, move;
 }
 
 /* fix */
@@ -10057,7 +10057,7 @@ img.mfp-img {
 /* Preloading images */
 .owl-item.loading {
   min-height: 60px;
-  background: url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/ajax-loader.gif) no-repeat center center;
+  background: url(/Content/BubbleImages/ajax-loader.gif) no-repeat center center;
 }
 
 /* Pagination */
@@ -10105,7 +10105,7 @@ img.mfp-img {
 	text-decoration:none;
 	overflow:hidden;
 	text-indent:-9999px;
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/generic-nav/slider-arrows.png);
+	background-image:url(/Content/BubbleImages/slider-arrows.png);
 	background-repeat:no-repeat;
 	background-color:#e5e5e5;
 	transition:			opacity 300ms ease-in-out, background-color 300ms ease-in-out, background-position 300ms ease-in-out;
@@ -10147,7 +10147,7 @@ img.mfp-img {
 	text-decoration:none;
 	overflow:hidden;
 	text-indent:-9999px;
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/generic-nav/slider-arrows.png);
+	background-image:url(/Content/BubbleImages/slider-arrows.png);
 	background-repeat:no-repeat;
 	background-color:#fff;
 	transition:			opacity 300ms ease-in-out, background-color 300ms ease-in-out, background-position 300ms ease-in-out;
@@ -10181,7 +10181,7 @@ img.mfp-img {
 	text-decoration:none;
 	overflow:hidden;
 	text-indent:-9999px;
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/generic-nav/slider-arrows.png);
+	background-image:url(/Content/BubbleImages/slider-arrows.png);
 	background-repeat:no-repeat;
 	background-color:#fff;
 	transition:			opacity 300ms ease-in-out, background-color 300ms ease-in-out, background-position 300ms ease-in-out;
@@ -10450,7 +10450,7 @@ img.mfp-img {
 	width:49px;
 	height:49px;
 	line-height:49px;
-	background: url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener.png) center center no-repeat;
+	background: url(/Content/BubbleImages/opener.png) center center no-repeat;
 }
 .accordion .opener:hover {
 	background-color:rgba(0,0,0, 0.05);
@@ -10458,7 +10458,7 @@ img.mfp-img {
 
 /* Active */
 .accordion li.item-active > .opener {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener-active.png);
+	background-image:url(/accordion/opener-active.png);
 }
 
 
@@ -10498,7 +10498,7 @@ img.mfp-img {
 }
 .accordion-style1 .opener:hover {
 	background-color:rgba(0,0,0, 0.10);
-	background-image: url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener-w.png);
+	background-image: url(/Content/BubbleImages/opener-w.png);
 }
 
 .block-vertnav .accordion-style1 .opener 
@@ -10511,10 +10511,10 @@ img.mfp-img {
 
 /* Active */
 /*.accordion-style1 li.item-active > .opener {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener-small-active.png);
+	background-image:url(/Content/BubbleImages/opener-small-active.png);
 }*/
 .accordion-style1 li.item-active > .opener:hover {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener-active-w.png);
+	background-image:url(/Content/BubbleImages/opener-active-w.png);
 }
 
 
@@ -10556,7 +10556,7 @@ img.mfp-img {
 	height:30px;
 	line-height:30px;
 	
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener.png);
+	background-image:url(/Content/BubbleImages/opener.png);
 	background-position:center center;
 	background-repeat:no-repeat;
 	background-color:#f2f2f2; /*IE*/
@@ -10567,16 +10567,16 @@ img.mfp-img {
 .collapsible .opener:hover {
 	background-color:#e5e5e5; /*IE*/
 	background-color:rgba(0,0,0, 0.1);
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener-w.png);
+	background-image:url(/Content/BubbleImages/opener-w.png);
 }
 .collapsible.active .opener 
 {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener-active.png);
+	background-image:url(/Content/BubbleImages/opener-active.png);
 	background-color:#7cb342 !important;
 	color:#ffffff !important;
 }
 .collapsible.active .opener:hover {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener-active-w.png);
+	background-image:url(/Content/BubbleImages/opener-active-w.png);
 }
 
 /* Mobile collapsible
@@ -10636,7 +10636,7 @@ img.mfp-img {
 {
 	border:none !important;
 	height:auto;
-	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/drop-arrow.png) left top no-repeat;
+	background:url(/Content/BubbleImages/drop-arrow.png) left top no-repeat;
 	width:16px;
 	height:10px;
 }
@@ -11153,7 +11153,7 @@ div.mobnav-trigger-wrapper { display:none; } /* Important: added "div" to select
 	width:30px;
 	height:30px;
 	line-height:30px;
-	background: url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener.png) center center no-repeat;
+	background: url(/Content/BubbleImages/opener.png) center center no-repeat;
 	border:1px solid #696969;
 }
 .acco .opener:hover {
@@ -11162,7 +11162,7 @@ div.mobnav-trigger-wrapper { display:none; } /* Important: added "div" to select
 
 /* Active */
 .acco li.item-active > .opener {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/accordion/opener-active.png);
+	background-image:url(/Content/BubbleImages/opener-active.png);
 }
 /**
  * Main menu dropdown boxes
@@ -11303,7 +11303,7 @@ div.mobnav-trigger-wrapper { display:none; } /* Important: added "div" to select
 -------------------------------------------------------------- */
 /* List bullets */
 .nav-regular .nav-submenu--mega > li > ul > li {
-	background: url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/ultra-megamenu/bullet.png) 3px 6px no-repeat;
+	background: url(/Content/BubbleImages/bullet.png) 3px 6px no-repeat;
 	padding-left: 15px;
 	transition:			background-position 150ms ease-out;
 	-moz-transition:	background-position 150ms ease-out;
@@ -11371,7 +11371,7 @@ div.mobnav-trigger-wrapper { display:none; } /* Important: added "div" to select
 	margin-bottom: 5px;
 }
 .nav-regular .simple > ul > li {
-	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/ultra-megamenu/bullet-mini.png) 3px 5px no-repeat;
+	background:url(/Content/BubbleImages/bullet-mini.png) 3px 5px no-repeat;
 	padding-left:15px;
 	transition:			background-position 150ms ease-out;
 	-moz-transition:	background-position 150ms ease-out;
@@ -11941,7 +11941,7 @@ a:hover .caption.light3 p { background-color:rgba(255,255,255, 1); color:#000; }
 -------------------------------------------------------------- */
 .links-wrapper-separators .links > li { margin-left:-1px; }
 .links-wrapper-separators .links > li > a {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/link-separator.png);
+	background-image:url(/Content/BubbleImages/link-separator.png);
 	background-position:right center;
 	background-repeat:no-repeat;
 }
@@ -11954,7 +11954,7 @@ a:hover .caption.light3 p { background-color:rgba(255,255,255, 1); color:#000; }
 .links-wrapper-separators-left .links > li { /*margin-left:-1px;*/ }
 .links-wrapper-separators-left .links > li > a 
 {
-	/*background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/link-separator.png);
+	/*background-image:url(/Content/BubbleImages/link-separator.png);
 	background-position:left center;
 	background-repeat:no-repeat;*/
 }
@@ -11970,7 +11970,7 @@ a:hover .caption.light3 p { background-color:rgba(255,255,255, 1); color:#000; }
 
 /* Link with an arrow */
 a.go {
-	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/infortis/_shared/cck/bullet.png) 97% 50% no-repeat;
+	background:url(/Content/BubbleImages/bullet.png) 97% 50% no-repeat;
 	padding-right:17px;
 	display:inline !important;
 }
@@ -12866,7 +12866,7 @@ i.ic {
 
 
 
-@font-face {
+/*@font-face {
 	font-family: 'ThemeIcons';
 	src:url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/themeicons/ThemeIcons.eot?387osh');
 	src:url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/themeicons/ThemeIcons.eot?#iefix387osh') format('embedded-opentype'),
@@ -12875,7 +12875,7 @@ i.ic {
 		url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/fonts/themeicons/ThemeIcons.svg?387osh#ThemeIcons') format('svg');
 	font-weight: normal;
 	font-style: normal;
-}
+}*/
 
 
 /* Icon codes
@@ -13196,133 +13196,133 @@ i.ic {
 */
 /* Wishlist */
 .icon.i-wishlist {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-7px -7px;
 }
 .icon.i-wishlist-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-7px -57px;
 }
 
 	/* bw */
 	.icon.i-wishlist-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-7px -7px;
 	}
 	.icon-hover:hover.i-wishlist-bw,
 	.feature-icon-hover:hover .icon.i-wishlist-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-7px -57px;
 	}
 	
 	/* wb */
 	.icon.i-wishlist-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-7px -57px;
 	}
 	.icon-hover:hover.i-wishlist-wb,
 	.feature-icon-hover:hover .icon.i-wishlist-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-7px -7px;
 	}
 
 /* Compare */
 .icon.i-compare {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-57px -7px;
 }
 .icon.i-compare-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-57px -57px;
 }
 
 	/* bw */
 	.icon.i-compare-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-57px -7px;
 	}
 	.icon-hover:hover.i-compare-bw,
 	.feature-icon-hover:hover .icon.i-compare-bw,
 	.open > .dropdown-toggle.cover .icon.i-compare-bw
 	{
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-57px -57px;
 	}
 	
 	/* wb */
 	.icon.i-compare-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-57px -57px;
 	}
 	.icon-hover:hover.i-compare-wb,
 	.feature-icon-hover:hover .icon.i-compare-wb,
 	.open > .dropdown-toggle.cover .icon.i-compare-wb
 	{
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-57px -7px;
 	}
 
 /* Share/recommend */
 .icon.i-recommend {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-107px -7px;
 }
 .icon.i-recommend-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-107px -57px;
 }
 
 	/* bw */
 	.icon.i-recommend-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-107px -7px;
 	}
 	.icon-hover:hover.i-recommend-bw,
 	.feature-icon-hover:hover .icon.i-recommend-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-107px -57px;
 	}
 	
 	/* wb */
 	.icon.i-recommend-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-107px -57px;
 	}
 	.icon-hover:hover.i-recommend-wb,
 	.feature-icon-hover:hover .icon.i-recommend-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-107px -7px;
 	}
 
 /* Low stock */
 .icon.i-lowstock {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-157px -7px;
 }
 .icon.i-lowstock-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-157px -57px;
 }
 
 	/* bw */
 	.icon.i-lowstock-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-157px -7px;
 	}
 	.icon-hover:hover.i-lowstock-bw,
 	.feature-icon-hover:hover .icon.i-lowstock-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-157px -57px;
 	}
 	
 	/* wb */
 	.icon.i-lowstock-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-157px -57px;
 	}
 	.icon-hover:hover.i-lowstock-wb,
 	.feature-icon-hover:hover .icon.i-lowstock-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImagessprite.png);
 		background-position:-157px -7px;
 	}
 
@@ -13330,37 +13330,37 @@ i.ic {
 
 /* Cart */
 .icon.i-cart {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-457px -7px;
 }
 .icon.i-cart-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-457px -57px;
 }
 
 	/* bw */
 	.icon.i-cart-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-457px -7px;
 	}
 	.icon-hover:hover.i-cart-bw,
 	.feature-icon-hover:hover .icon.i-cart-bw,
 	.open > .dropdown-toggle.cover .icon.i-cart-bw
 	{
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-457px -57px;
 	}
 	
 	/* wb */
 	.icon.i-cart-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-457px -57px;
 	}
 	.icon-hover:hover.i-cart-wb,
 	.feature-icon-hover:hover .icon.i-cart-wb,
 	.open > .dropdown-toggle.cover .icon.i-cart-wb
 	{
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImagessprite.png);
 		background-position:-457px -7px;
 	}
 
@@ -13369,161 +13369,161 @@ i.ic {
 
 /* Home */
 .icon.i-home {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-7px -107px;
 }
 .icon.i-home-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-7px -157px;
 }
 
 	/* bw */
 	.icon.i-home-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-7px -107px;
 	}
 	.icon-hover:hover.i-home-bw,
 	.feature-icon-hover:hover .icon.i-home-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-7px -157px;
 	}
 	
 	/* wb */
 	.icon.i-home-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-7px -157px;
 	}
 	.icon-hover:hover.i-home-wb,
 	.feature-icon-hover:hover .icon.i-home-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-7px -107px;
 	}
 
 /* Left */
 .icon.i-left {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-107px -107px;
 }
 .icon.i-left-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-107px -157px;
 }
 
 	/* bw */
 	.icon.i-left-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-107px -107px;
 	}
 	.icon-hover:hover.i-left-bw,
 	.feature-icon-hover:hover .icon.i-left-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-107px -157px;
 	}
 	
 	/* wb */
 	.icon.i-left-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-107px -157px;
 	}
 	.icon-hover:hover.i-left-wb,
 	.feature-icon-hover:hover .icon.i-left-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-107px -107px;
 	}
 
 /* Right */
 .icon.i-right {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-157px -107px;
 }
 .icon.i-right-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-157px -157px;
 }
 
 	/* bw */
 	.icon.i-right-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-157px -107px;
 	}
 	.icon-hover:hover.i-right-bw,
 	.feature-icon-hover:hover .icon.i-right-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-157px -157px;
 	}
 	
 	/* wb */
 	.icon.i-right-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-157px -157px;
 	}
 	.icon-hover:hover.i-right-wb,
 	.feature-icon-hover:hover .icon.i-right-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-157px -107px;
 	}
 
 /* Top */
 .icon.i-top {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-207px -107px;
 }
 .icon.i-top-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-207px -157px;
 }
 
 	/* bw */
 	.icon.i-top-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-207px -107px;
 	}
 	.icon-hover:hover.i-top-bw,
 	.feature-icon-hover:hover .icon.i-top-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-207px -157px;
 	}
 	
 	/* wb */
 	.icon.i-top-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-207px -157px;
 	}
 	.icon-hover:hover.i-top-wb,
 	.feature-icon-hover:hover .icon.i-top-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-207px -107px;
 	}
 
 /* Bottom */
 .icon.i-bottom {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-257px -107px;
 }
 .icon.i-bottom-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+	background-image:url(/Content/BubbleImages/sprite.png);
 	background-position:-257px -157px;
 }
 
 	/* bw */
 	.icon.i-bottom-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-257px -107px;
 	}
 	.icon-hover:hover.i-bottom-bw,
 	.feature-icon-hover:hover .icon.i-bottom-bw {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-257px -157px;
 	}
 	
 	/* wb */
 	.icon.i-bottom-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-257px -157px;
 	}
 	.icon-hover:hover.i-bottom-wb,
 	.feature-icon-hover:hover .icon.i-bottom-wb {
-		background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite.png);
+		background-image:url(/Content/BubbleImages/sprite.png);
 		background-position:-257px -107px;
 	}
 
@@ -13539,51 +13539,51 @@ i.ic {
 */
 /* Phone */
 .icon.i-telephone {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-7px -7px;
 }
 .icon.i-telephone-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-7px -57px;
 }
 
 /* Mobile */
 .icon.i-mobile {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-57px -7px;
 }
 .icon.i-mobile-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-57px -57px;
 }
 
 /* Skype */
 .icon.i-skype {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-107px -7px;
 }
 .icon.i-skype-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-107px -57px;
 }
 
 /* Letter */
 .icon.i-letter {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-157px -7px;
 }
 .icon.i-letter-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-157px -57px;
 }
 
 /* Location */
 .icon.i-location {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-207px -7px;
 }
 .icon.i-location-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-207px -57px;
 }
 
@@ -13592,101 +13592,101 @@ i.ic {
 -------------------------------------------------------------- */
 /* Twitter */
 .icon.i-twitter {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-7px -107px;
 }
 .icon.i-twitter-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-7px -157px;
 }
 
 /* Facebook */
 .icon.i-facebook {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-57px -107px;
 }
 .icon.i-facebook-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-57px -157px;
 }
 
 /* Google plus */
 .icon.i-googleplus {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-107px -107px;
 }
 .icon.i-googleplus-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-107px -157px;
 }
 
 /* Youtube */
 .icon.i-youtube {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-157px -107px;
 }
 .icon.i-youtube-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-157px -157px;
 }
 
 /* Vimeo */
 .icon.i-vimeo {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-207px -107px;
 }
 .icon.i-vimeo-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-207px -157px;
 }
 
 /* Wordpress */
 .icon.i-wordpress {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-257px -107px;
 }
 .icon.i-wordpress-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-257px -157px;
 }
 
 /* Pinterest */
 .icon.i-pinterest {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-307px -107px;
 }
 .icon.i-pinterest-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-307px -157px;
 }
 
 /* Linked in */
 .icon.i-linkedin {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-357px -107px;
 }
 .icon.i-linkedin-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-357px -157px;
 }
 
 /* Blogger */
 .icon.i-blogger {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-407px -107px;
 }
 .icon.i-blogger-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-407px -157px;
 }
 
 /* Envato */
 .icon.i-envato {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-457px -107px;
 }
 .icon.i-envato-w {
-	background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social.png);
+	background-image:url(/Content/BubbleImages/sprite-icons-social.png);
 	background-position:-457px -157px;
 }
 
@@ -14243,7 +14243,7 @@ input.input-text, select, textarea,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 .note-msg.empty-catalog {
-	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/empty-catalog.png) 10px 10px no-repeat transparent !important;
+	background:url(/Content/BubbleImages/empty-catalog.png) 10px 10px no-repeat transparent !important;
 	color:inherit;
 	min-height:70px;
 	padding:40px 20px 40px 160px !important;
@@ -15039,7 +15039,7 @@ only screen and (        min-device-pixel-ratio: 1.5)
 
 	/* Rating */
 	.rating-box,
-	.rating-box .rating { background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/img/rating@2x.png); background-size:14px 43px; }
+	.rating-box .rating { background-image:url(/Content/BubbleImages/rating@2x.png); background-size:14px 43px; }
 
 	/* Icons below are obsolete and will be removed in future releases.
 	   Icons created with image sprites were replaced with font icons.
@@ -15108,7 +15108,7 @@ only screen and (        min-device-pixel-ratio: 1.5)
 	.icon.i-bottom-bw,
 	.icon.i-bottom-wb /* Last selector without trailing coma */
 	
-	{ background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite@2x.png); background-size:500px 200px; }
+	{ background-image:url(/Content/BubbleImages/sprite@2x.png); background-size:500px 200px; }
 	
 	
 	/* All icons from icons-social.css
@@ -15160,7 +15160,7 @@ only screen and (        min-device-pixel-ratio: 1.5)
 	.icon.i-envato,
 	.icon.i-envato-w /* Last selector without trailing coma */
 	
-	{ background-image:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/sprite-icons-social@2x.png); background-size:500px 200px; }
+	{ background-image:url(/Content/BubbleImages/sprite-icons-social@2x.png); background-size:500px 200px; }
 
 } /* end: media query */
 
@@ -17750,7 +17750,7 @@ website:   	http://www.themepunch.com
 -----------------------------------------------------------------------------*/
 
 
-@font-face {
+/*@font-face {
   font-family: 'revicons';
   src: url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/css/nwdthemes/revslider/font/revicons.eot?5510888');
   src: url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/css/nwdthemes/revslider/font/revicons.eot?5510888#iefix') format('embedded-opentype'),
@@ -17759,7 +17759,7 @@ website:   	http://www.themepunch.com
        url('http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/css/nwdthemes/revslider/font/revicons.svg?5510888#revicons') format('svg');
   font-weight: normal;
   font-style: normal;
-}
+}*/
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
 /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
 /*
@@ -18147,11 +18147,11 @@ img.tp-slider-alternative-image    {    width:100%; height:auto;}
 /********************************
 	-	DOTTED OVERLAYS	-
 *********************************/
-.tp-dottedoverlay						{	background-repeat:repeat;width:100%;height:100%;position:absolute;top:0px;left:0px;z-index:3}
+/*.tp-dottedoverlay						{	background-repeat:repeat;width:100%;height:100%;position:absolute;top:0px;left:0px;z-index:3}
 .tp-dottedoverlay.twoxtwo				{	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/gridtile.png)}
 .tp-dottedoverlay.twoxtwowhite			{	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/gridtile_white.png)}
 .tp-dottedoverlay.threexthree			{	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/gridtile_3x3.png)}
-.tp-dottedoverlay.threexthreewhite		{	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/gridtile_3x3_white.png)}
+.tp-dottedoverlay.threexthreewhite		{	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/gridtile_3x3_white.png)}*/
 
 /********************************
 	-	DOTTED OVERLAYS ENDS	-
@@ -18222,9 +18222,9 @@ img.tp-slider-alternative-image    {    width:100%; height:auto;}
         -o-user-select: none;
 	}
 
-.tp-bannershadow.tp-shadow1 {	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/shadow1.png) no-repeat; background-size:100% 100%; width:890px; height:30px; bottom:-30px}
+./*tp-bannershadow.tp-shadow1 {	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/shadow1.png) no-repeat; background-size:100% 100%; width:890px; height:30px; bottom:-30px}
 .tp-bannershadow.tp-shadow2 {	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/shadow2.png) no-repeat; background-size:100% 100%; width:890px; height:60px;bottom:-60px}
-.tp-bannershadow.tp-shadow3 {	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/shadow3.png) no-repeat; background-size:100% 100%; width:890px; height:60px;bottom:-60px}
+.tp-bannershadow.tp-shadow3 {	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/shadow3.png) no-repeat; background-size:100% 100%; width:890px; height:60px;bottom:-60px}*/
 
 
 /******************************
@@ -18239,7 +18239,7 @@ img.tp-slider-alternative-image    {    width:100%; height:auto;}
 			height:30px;
 			cursor:pointer;
 			color:#fff !important; text-shadow:0px 1px 1px rgba(0, 0, 0, 0.6) !important; font-size:15px; line-height:45px !important;
-			background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/css/nwdthemes/revslider/images/gradient/g30.png) repeat-x top; font-family: arial, sans-serif; font-weight: bold; letter-spacing: -1px;
+			background:url(/Content/BubbleImages/g30.png) repeat-x top; font-family: arial, sans-serif; font-weight: bold; letter-spacing: -1px;
 			text-decoration:none;
 		}
 
@@ -18312,7 +18312,7 @@ img.tp-slider-alternative-image    {    width:100%; height:auto;}
 										}
 
 
-.tp-bullets.simplebullets.navbar						{ 	border:1px solid #666; border-bottom:1px solid #444; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/boxed_bgtile.png); height:40px; padding:0px 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px }
+./*tp-bullets.simplebullets.navbar						{ 	border:1px solid #666; border-bottom:1px solid #444; background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/boxed_bgtile.png); height:40px; padding:0px 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px }
 
 .tp-bullets.simplebullets.navbar-old					{ 	 background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/navigdots_bgtile.png); height:35px; padding:0px 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px }
 
@@ -18325,27 +18325,27 @@ img.tp-slider-alternative-image    {    width:100%; height:auto;}
 
 
 /**	SQUARE BULLETS **/
-.tp-bullets.simplebullets.square .bullet				{	cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/bullets2.png) no-repeat bottom left;	width:19px;	height:19px;  margin-right:0px; float:left; margin-top:0px}
-.tp-bullets.simplebullets.square .bullet.last			{	margin-right:0px}
+./*tp-bullets.simplebullets.square .bullet				{	cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/bullets2.png) no-repeat bottom left;	width:19px;	height:19px;  margin-right:0px; float:left; margin-top:0px}
+.tp-bullets.simplebullets.square .bullet.last			{	margin-right:0px}*/
 
 
 /**	SQUARE BULLETS **/
-.tp-bullets.simplebullets.square-old .bullet			{	cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/bullets2.png) no-repeat bottom left;	width:19px;	height:19px;  margin-right:0px; float:left; margin-top:0px}
-.tp-bullets.simplebullets.square-old .bullet.last		{	margin-right:0px}
+./*tp-bullets.simplebullets.square-old .bullet			{	cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/bullets2.png) no-repeat bottom left;	width:19px;	height:19px;  margin-right:0px; float:left; margin-top:0px}
+.tp-bullets.simplebullets.square-old .bullet.last		{	margin-right:0px}*/
 
 
 /** navbar NAVIGATION VERSION **/
-.tp-bullets.simplebullets.navbar .bullet				{	cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/bullet_boxed.png) no-repeat top left;	width:18px;	height:19px;   margin-right:5px; float:left; margin-top:10px}
+/*.tp-bullets.simplebullets.navbar .bullet				{	cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/bullet_boxed.png) no-repeat top left;	width:18px;	height:19px;   margin-right:5px; float:left; margin-top:10px}
 
 .tp-bullets.simplebullets.navbar .bullet.first			{	margin-left:0px !important}
-.tp-bullets.simplebullets.navbar .bullet.last			{	margin-right:0px !important}
+.tp-bullets.simplebullets.navbar .bullet.last			{	margin-right:0px !important}*/
 
 
 
 /** navbar NAVIGATION VERSION **/
-.tp-bullets.simplebullets.navbar-old .bullet			{	cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/navigdots.png) no-repeat bottom left;	width:15px;	height:15px;  margin-left:5px !important; margin-right:5px !important;float:left; margin-top:10px}
+/*.tp-bullets.simplebullets.navbar-old .bullet			{	cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/navigdots.png) no-repeat bottom left;	width:15px;	height:15px;  margin-left:5px !important; margin-right:5px !important;float:left; margin-top:10px}
 .tp-bullets.simplebullets.navbar-old .bullet.first		{	margin-left:0px !important}
-.tp-bullets.simplebullets.navbar-old .bullet.last		{	margin-right:0px !important}
+.tp-bullets.simplebullets.navbar-old .bullet.last		{	margin-right:0px !important}*/
 
 
 .tp-bullets.simplebullets .bullet:hover,
@@ -18381,7 +18381,7 @@ img.tp-slider-alternative-image    {    width:100%; height:auto;}
 															-khtml-opacity: 0;
 															opacity: 0;
 														}
-.tp-leftarrow											{	z-index:100;cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/large_left.png) no-repeat top left;	width:40px;	height:40px;   }
+./*tp-leftarrow											{	z-index:100;cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/large_left.png) no-repeat top left;	width:40px;	height:40px;   }
 .tp-rightarrow											{	z-index:100;cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/large_right.png) no-repeat top left;	width:40px;	height:40px;   }
 
 
@@ -18416,7 +18416,7 @@ img.tp-slider-alternative-image    {    width:100%; height:auto;}
 														}
 .tp-rightarrow.default									{	z-index:100;cursor:pointer; position:relative;	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/next-prev.png) no-repeat right top;	width:49px;	height:69px;
 
-														}
+														}*/
 
 
 
@@ -18996,10 +18996,10 @@ zoom: 1;
 
 
 /*  CAPTION SLIDELINK   **/
-.caption.slidelink a div,
+/*.caption.slidelink a div,
 .tp-caption.slidelink a div {	width:3000px; height:1500px;  background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/coloredbg.png) repeat}
 
-.tp-caption.slidelink a span	{	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/coloredbg.png) repeat}
+.tp-caption.slidelink a span	{	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/coloredbg.png) repeat}*/
 
 
 
@@ -19021,7 +19021,7 @@ zoom: 1;
 .tp-loader.spinner0 {
   width: 40px;
   height: 40px;
-  background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/loader.gif) no-repeat center center;
+  background:url(/Content/BubbleImages/loader.gif) no-repeat center center;
   background-color: #fff;
   box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
   -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
@@ -19052,7 +19052,7 @@ zoom: 1;
 
 
 
-.tp-loader.spinner5 	{	background:url(http://lbprint.liquidbubblehosting.com/skin/frontend/ultimo/default/images/nwdthemes/revslider/assets/loader.gif) no-repeat 10px 10px;
+.tp-loader.spinner5 	{	background:url(/Content/BubbleImages/loader.gif) no-repeat 10px 10px;
 							background-color:#fff;
 							margin:-22px -22px;
 							width:44px;height:44px;
