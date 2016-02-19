@@ -631,7 +631,7 @@
                 }
                 var otherAttachmentLink = "";
                 $.each(GridItems, function (i, IT) {
-                    { debugger;
+                    { 
                         var filePathOfAttachment = "";
                         if(IT.ProductType == 1){
                             if(IT.OtherItemTemplateAttatchments != null){
@@ -639,7 +639,7 @@
                                 if(IT.OtherItemTemplateAttatchments.length > 0){
                                     for(var i=0; i < IT.OtherItemTemplateAttatchments.length; i++)
                                     {
-                                        debugger;
+                                       
                                         filePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
                                           
                                         var OtherfilePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;

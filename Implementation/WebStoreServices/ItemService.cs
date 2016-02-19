@@ -193,6 +193,9 @@ namespace MPC.Implementation.WebStoreServices
 
                 newItem.TemplateType = ActualItem.TemplateType;
 
+                newItem.ItemCreationDateTime = DateTime.Now;
+
+
                 if(PdfTemplateheight > 0 && PdfTemplatewidth > 0)
                 {
                     if (SystemLengthUnit == 1)
@@ -708,6 +711,9 @@ namespace MPC.Implementation.WebStoreServices
                 //        }
                 //    }
                 //}
+
+
+
                 if (CountOfUploads > 0)
                 {
                     clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
@@ -717,13 +723,14 @@ namespace MPC.Implementation.WebStoreServices
 
                 clonedItem.IsOrderedItem = true;
 
+                clonedItem.ItemLastUpdateDateTime = DateTime.Now;
 
 
                 if (isInculdeTax == true)
                 {
                     if (clonedItem.DefaultItemTax != null)
                     {
-                        clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
+                        clonedItem.Tax1 = clonedItem.DefaultItemTax ?? 0;
 
                         //double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
 
@@ -738,7 +745,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     else
                     {
-                        clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+                        clonedItem.Tax1 = TaxRate;
 
                         // double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
 
@@ -753,7 +760,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 else
                 {
-                    clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+                    clonedItem.Tax1 = TaxRate;
 
                     //  netTotal = netTotal - DiscountAmountToApply;
 
@@ -2968,7 +2975,7 @@ namespace MPC.Implementation.WebStoreServices
                             {
                                 isDiscountVoucherApplied += 1;
 
-                                citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+                                citem.Tax1 = StoreTaxRate;
 
                                 double ItemDiscountAmountWhenDiscountIsInMinus = ItemBaseCharge;
 
@@ -3005,7 +3012,7 @@ namespace MPC.Implementation.WebStoreServices
                                 {
                                     isVoucherRemoveOnItemsAlreadyApplied += 1;
 
-                                    citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+                                    citem.Tax1 = StoreTaxRate;
 
                                     ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
 
@@ -3403,7 +3410,7 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
 
-                        citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+                        citem.Tax1 = StoreTaxRate;
 
                         citem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(ItemBaseCharge, StoreTaxRate);
 
@@ -3545,7 +3552,7 @@ namespace MPC.Implementation.WebStoreServices
                                             citem.Qty1CostCentreProfit = DiscountAmountToApply;
                                         }
 
-                                        citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+                                        citem.Tax1 = StoreTaxRate;
 
                                         citem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(ItemBaseCharge, StoreTaxRate);
 
@@ -3567,7 +3574,7 @@ namespace MPC.Implementation.WebStoreServices
                                         if (citem.DiscountVoucherID != null && citem.DiscountVoucherID == voucher.DiscountVoucherId)
                                         {
 
-                                            citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+                                            citem.Tax1 = StoreTaxRate;
 
                                             ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
 
@@ -3620,7 +3627,7 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         if (citem.DiscountVoucherID != null && _DVRepository.isCouponVoucher(Convert.ToInt64(citem.DiscountVoucherID)))
                         {
-                            citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+                            citem.Tax1 = StoreTaxRate;
 
                             ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
 
@@ -3684,7 +3691,7 @@ namespace MPC.Implementation.WebStoreServices
 
                         citem.Qty1CostCentreProfit = ItemBaseCharge;
 
-                        citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+                        citem.Tax1 = StoreTaxRate;
 
                         ItemBaseCharge = 0;
 
