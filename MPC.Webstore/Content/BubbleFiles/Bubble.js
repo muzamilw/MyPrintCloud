@@ -14836,7 +14836,9 @@ if(typeof(console) === 'undefined') {
 if (window.tplogs==true)
 	try {
 		console.groupCollapsed("ThemePunch GreenSocks Logs");
-	} catch(e) { }
+	} catch (e) {
+
+	}
 
 
 oldgs = window.GreenSockGlobals;

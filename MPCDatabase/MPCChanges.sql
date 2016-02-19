@@ -10240,3 +10240,59 @@ alter table items drop DF__tbl_items__Tax3__66B53B20
 GO
 alter table items alter column Tax3 float
 GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ExportInvoice]    Script Date: 2/19/2016 12:33:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create procedure [dbo].[usp_ExportInvoice] --1, 20823
+ @InvoiceId bigint
+AS
+Begin
+
+
+declare @TotalTax as float
+declare @GrandTotal as float
+declare @SubTotal as float
+
+	
+	SELECT     Company.AccountNumber,Invoice.CreationDate,Invoice.InvoiceCode,Invoice.InvoiceDate,Invoice.InvoicePostingDate,tt.ProductCode,tt.ProductName,tt.Qty1NetTotal,tt.Qty1,tt.Qty1NetTotal / tt.Qty1 as UnitPrice,Company.Name,Address.AddressName,
+ isnull(address.Address1, '') + ' ' + isnull(address.Address2, '') + ' ' + CHAR(13) + 
+						(isnull(address.City, '') + ' ' + isnull((select top 1 StateName from State where StateId in (select StateId from address where addressid =  address.AddressId)),'') + ' ' + isnull(address.PostCode, ''))
+						+ ' ' + CHAR(13) + isnull((select top 1 CountryName from country where countryid in (select countryid from address where addressid =  address.AddressId)),'')  AS BAddress1,status.StatusName
+
+FROM         dbo.invoice 
+INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId 
+					  inner join Status on Status.StatusId = Invoice.InvoiceStatus
+					  INNER JOIN
+					  dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID 
+					  --inner JOIN dbo.items ON dbo.invoice.InvoiceId = dbo.items.InvoiceId
+                      left join dbo.state on Address.StateId = dbo.State.StateId
+					  left join dbo.Country on Address.CountryId = dbo.Country.CountryID
+	inner join (
+						select * from (
+						select inv.InvoiceId, i.Qty1NetTotal, i.Qty1Tax1Value, i.Qty1GrossTotal, i.ProductName, i.Qty1,i.ProductCode
+						from invoice inv
+						inner join items i on i.invoiceid = inv.invoiceid
+						union
+						select ind.invoiceid, ind.ItemCharge, ind.ItemTaxValue, ind.ItemGrossTotal, ind.InvoiceTitle, ind.Quantity,i.InvoiceCode
+						from invoicedetail ind
+						inner join invoice i on i.invoiceid = ind.InvoiceId) t
+						where t.InvoiceId = @InvoiceId
+					) tt on tt.InvoiceId = invoice.InvoiceId
+
+					  where dbo.Invoice.InvoiceId = @InvoiceId
+
+end
+
+
+
+
+
+
+
