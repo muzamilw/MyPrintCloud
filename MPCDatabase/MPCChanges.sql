@@ -10228,3 +10228,15 @@ where productid = @TemplateID
 select @NewTemplateID
 	
 END
+
+
+alter table items alter column Tax1 float
+GO
+alter table items drop DF__tbl_items__Tax2__65C116E7
+GO
+alter table items alter column Tax2 float
+GO
+alter table items drop DF__tbl_items__Tax3__66B53B20
+GO
+alter table items alter column Tax3 float
+GO
