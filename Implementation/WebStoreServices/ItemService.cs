@@ -2217,6 +2217,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             else
             {
+
                 if (TemporaryRetailCompanyIdFromCookie == 0 && ModeOfStore == StoreMode.Retail && ContactID == 0)
                 {
                     TemporaryRetailCompanyId = TemporaryRetailCompanyIdFromCookie;

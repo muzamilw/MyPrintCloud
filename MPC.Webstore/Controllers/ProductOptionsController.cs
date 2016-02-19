@@ -134,10 +134,10 @@ namespace MPC.Webstore.Controllers
                         else
                         {
                             // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
-                            clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.WEBOrderId, Convert.ToInt64(ItemId));
+                           // clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.WEBOrderId, Convert.ToInt64(ItemId));
 
-                            if (clonedItem == null)
-                            {
+                            //if (clonedItem == null)
+                            //{
                                 if (ViewToFire == "ProductOptionsAndDetails" && ItemMode == "DesignOrUpload")
                                 {
                                     clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId,0, true);
@@ -147,7 +147,7 @@ namespace MPC.Webstore.Controllers
                                     clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId, 0, true, true);
                                 }
                                 
-                            }
+                            //}
                         }
 
                     }
