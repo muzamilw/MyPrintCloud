@@ -1316,6 +1316,29 @@ define("invoice/invoice.viewModel",
                             confirmation.show();
                             return;
                         },
+
+                         // export Product
+                    exportInvoice = function () {
+                        dataservice.exportInvoice({
+                            InvoiceId: selectedInvoice().id()
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
+                                }
+
+
+                            },
+                            error: function (response) {
+
+                                toastr.error("Error: Failed to Export." + response);
+                            }
+                        });
+                    },
+
+
                         //Initialize method to call in every screen
                         initializeScreen = function (specifiedView) {
                             view = specifiedView;
@@ -1409,7 +1432,8 @@ define("invoice/invoice.viewModel",
                     onDeleteShippingItem: onDeleteShippingItem,
                     getInvoices: getInvoices,
                     onArchiveInvoice: onArchiveInvoice,
-                    onPostInvoice: onPostInvoice
+                    onPostInvoice: onPostInvoice,
+                    exportInvoice: exportInvoice
                     //#endregion
                 };
             })()

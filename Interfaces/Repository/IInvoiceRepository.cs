@@ -31,5 +31,7 @@ namespace MPC.Interfaces.Repository
         void ArchiveInvoice(int InvoiceId);
         Invoice GetInvoiceByCode(string sInvoiceCode, long organisationId);
 
+        List<usp_ExportInvoice_Result> GetInvoiceDataForExport(long InvoiceId);
+
     }
 }
