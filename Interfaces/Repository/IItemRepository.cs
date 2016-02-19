@@ -204,6 +204,8 @@ namespace MPC.Interfaces.Repository
 
         List<usp_ExportStoreProductsAndPrices_Result> getExportedItems(long Companyid);
         List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
+
+        
     }
 
 }

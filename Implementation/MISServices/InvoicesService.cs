@@ -647,7 +647,205 @@ namespace MPC.Implementation.MISServices
 
         }
 
-        
+        public string ExportInvocie(long InvocieId)
+        {
+            List<string> FileHeader = new List<string>();
+            long OrganisationId = 0;
+
+
+            FileHeader = HeaderList(FileHeader, true);
+            List<usp_ExportInvoice_Result> exportInvData = invoiceRepository.GetInvoiceDataForExport(InvocieId);
+
+
+
+
+            StringBuilder PSV = new StringBuilder();
+            StringBuilder CSV = new StringBuilder();
+            string csv = string.Empty;
+            string psv = string.Empty;
+
+          
+
+            foreach (string column in FileHeader)
+            {
+                //Add the Header row for CSV file.
+                csv += column + ',';
+            }
+
+            //Add new line.
+            csv += "\r\n";
+            CSV.Append(csv);
+
+
+            FileHeader.Add("CustomerRef");
+            FileHeader.Add("TxnDate");
+            FileHeader.Add("InvocieID");
+            FileHeader.Add("DueDate");
+            FileHeader.Add("ItemRef");
+            FileHeader.Add("Description");
+            FileHeader.Add("AmountIncTax");
+
+            FileHeader.Add("Qty");
+            FileHeader.Add("UnitPrice");
+            FileHeader.Add("Status");
+            FileHeader.Add("StoreName");
+            FileHeader.Add("AddressName");
+
+            string CustomerRef = string.Empty;
+            string TxnDate = string.Empty;
+            string InvocieID = string.Empty;
+            string DueDate = string.Empty;
+            string ItemRef = string.Empty;
+
+            string Description = string.Empty;
+            string AmountIncTax = string.Empty;
+            string Qty = string.Empty;
+           
+            string UnitPrice = string.Empty;
+            string Status = string.Empty;
+            string StoreName = string.Empty;
+            string AddressName = string.Empty;
+            string Address1 = string.Empty;
+
+
+            if (exportInvData != null && exportInvData.Count() > 0)
+            {
+                foreach (var invRec in exportInvData)
+                {
+                    string cdata = string.Empty;
+                    if (invRec.AccountNumber != null)
+                    {
+                        CustomerRef = invRec.AccountNumber;
+                    }
+
+                    if (invRec.CreationDate != null)
+                    {
+                        TxnDate = Convert.ToString(invRec.CreationDate);
+                    }
+
+                    if (!string.IsNullOrEmpty(invRec.InvoiceCode))
+                        InvocieID = invRec.InvoiceCode;
+
+                    if (invRec.InvoiceDate != null)
+                    {
+                        DueDate = Convert.ToString(invRec.InvoiceDate);
+                    }
+                    if (!string.IsNullOrEmpty(invRec.ProductCode))
+                        ItemRef = invRec.ProductCode;
+
+                    if (!string.IsNullOrEmpty(invRec.ProductName))
+                        Description = invRec.ProductName;
+
+                    if (invRec.Qty1NetTotal != null)
+                    {
+                        AmountIncTax = Convert.ToString(invRec.Qty1NetTotal);
+                    }
+                    if (invRec.Qty1 != null)
+                    {
+                        Qty = Convert.ToString(invRec.Qty1);
+                    }
+                    if (invRec.UnitPrice != null)
+                    {
+                        UnitPrice = Convert.ToString(invRec.UnitPrice);
+                    }
+
+                    if (invRec.StatusName != null)
+                    {
+                        Status = Convert.ToString(invRec.StatusName);
+                    }
+
+                    if (invRec.Name != null)
+                        StoreName = Convert.ToString(invRec.Name);
+
+
+                    if (invRec.AddressName != null)
+                        AddressName = Convert.ToString(invRec.AddressName);
+
+                    if (invRec.BAddress1 != null)
+                        Address1 = Convert.ToString(invRec.BAddress1);
+
+
+
+
+                    cdata = CustomerRef + "," + TxnDate + "," + InvocieID + "," + DueDate + "," + ItemRef + "," + Description + "," + AmountIncTax + "," + Qty + "," + UnitPrice + "," +
+                                       Status + "," + StoreName + "," + AddressName + "," + Address1 +
+                                      "\r\n";
+
+
+                    CSV.Append(cdata);
+
+                }
+            }
+
+
+            string PSVSavePath = string.Empty;
+            string PReturnPath = string.Empty;
+
+            string CSVSavePath = string.Empty;
+            string CReturnPath = string.Empty;
+
+            if (OrganisationId > 0)
+            {
+                //PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
+                //PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyItems.csv";
+
+                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_InvoiceDetail.csv");
+                CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_InvoiceDetail.csv";
+
+
+
+            }
+            else
+            {
+                //PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
+                //PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyItems.csv";
+
+                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "_InvoiceDetail.csv");
+                CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_InvoiceDetail.csv";
+
+            }
+
+            string DirectoryPath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId);
+            if (!Directory.Exists(DirectoryPath))
+            {
+                Directory.CreateDirectory(DirectoryPath);
+            }
+
+
+            //StreamWriter sw = new StreamWriter(PSVSavePath, false, Encoding.UTF8);
+            //sw.Write(PSV);
+            //sw.Close();
+
+            StreamWriter csw = new StreamWriter(CSVSavePath, false, Encoding.UTF8);
+            csw.Write(CSV);
+            csw.Close();
+
+
+            return CReturnPath;
+          
+
+
+        }
+        public List<string> HeaderList(List<string> FileHeader, bool isFromCRM)
+        {
+
+            FileHeader.Add("CustomerRef");
+            FileHeader.Add("TxnDate");
+            FileHeader.Add("InvocieID");
+            FileHeader.Add("DueDate");
+            FileHeader.Add("ItemRef");
+            FileHeader.Add("Description");
+            FileHeader.Add("AmountIncTax");
+
+            FileHeader.Add("Qty");
+            FileHeader.Add("UnitPrice");
+            FileHeader.Add("Status");
+            FileHeader.Add("StoreName");
+            FileHeader.Add("AddressName");
+            FileHeader.Add("Address1");
+            return FileHeader;
+
+        }
         #endregion
 
     }
