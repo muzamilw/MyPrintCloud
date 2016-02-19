@@ -84,6 +84,12 @@
                                 <div class="search-order-clear" style="">
                                     <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
+                                @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID==2)
+                                { 
+                                <div class="search-order-clear" style="">
+                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="DownLoadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="DownLoad Report" />
+                                </div>
+                                }
                                 <div class="clearBoth">
 
                                 </div>
@@ -525,6 +531,28 @@
             }
         });
     }
+
+
+    function DownLoadReport(ReportId,StoreId) {
+        alert(ReportId);
+        ShowLoader();
+
+        var d = { ReportId: ReportId, StoreId:StoreId}
+        $.ajax({
+            type: "GET",
+            url: "/mis/api/DownloadExternalReport/DownloadExternalReport?ReportId="+ReportId+"&StoreId="+StoreId+"",
+            contentType: "application/json; charset=utf-8",
+            //data: JSON.stringify(d),
+            success: function (response) {
+
+            }
+        });
+
+    }
+
+
+
+
 
     function DownLoadArtworkFile(orderId) {
         ShowLoader();
