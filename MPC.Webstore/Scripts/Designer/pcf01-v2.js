@@ -2881,7 +2881,14 @@ function togglePage(pId) {
                         j8(path);
                     }
 
-                   // $(".collapseDesignerMenu").click();
+                    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage0");
+                  
+                    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+                        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+                        //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
+                        $("#FrontBackOptionPanal").css("display", "none");
+                    }
+                    $(".collapseDesignerMenu,.divBtmSticky ").css("display", "none"); $(".CanvasTopHeader").removeClass("stage3Menu");
                 }
             }
         } else {
