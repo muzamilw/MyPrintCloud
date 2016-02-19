@@ -480,16 +480,27 @@
     </table>
 </div>
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
-<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+<link href="/fancybox/css/fancybox/jquery.fancybox-buttons.css" rel="stylesheet" />
+<link href="/fancybox/css/fancybox/jquery.fancybox-thumbs.css" rel="stylesheet" />
+<link href="/fancybox/css/fancybox/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/fancybox/js/fancybox/jquery.easing-1.3.pack.js"></script>
+<script src="~/fancybox/js/fancybox/jquery.fancybox-buttons.js"></script>
+<script src="~/fancybox/js/fancybox/jquery.fancybox-thumbs.js"></script>
+<script src="~/fancybox/js/fancybox/jquery.fancybox.js"></script>
+<script src="~/fancybox/js/fancybox/jquery.fancybox.pack.js"></script>
+<script src="~/fancybox/js/fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
+@*<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 <script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
-<script src="/LightBox/Js/jquery.fancybox.js"></script>
+<script src="/LightBox/Js/jquery.fancybox.js"></script>*@
 
 <script type="text/javascript">
-    //var $=jQuery.noConflict();
-    $(".fancybox").fancybox();
+
     $(document).ready(function () {
 
+       
+           
+      
         $("#txtFromDate").datepicker();
         $("#txtToDate").datepicker();
 
@@ -634,7 +645,7 @@
                                           
                                         var OtherfilePathOfAttachment = otherAttachVal.FilePath;
                                         console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
-                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                            otherAttachmentLink = otherAttachmentLink.concat('<a class="fancybox" rel="chimps" style="display:none;" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a>');
                                         
 
                                     });
@@ -658,7 +669,7 @@
                                             }
 
                                             var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
-                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                            otherAttachmentLink = otherAttachmentLink.concat('<a class="fancybox" style="display:none;" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a>');
                                         }
 
                                     });
@@ -711,7 +722,7 @@
             }
 
         });
-
+        $(".fancybox").fancybox();
     }
     function ShowImage(ImagePath) {
 
