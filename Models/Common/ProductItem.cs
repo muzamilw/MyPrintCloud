@@ -11,9 +11,9 @@ namespace MPC.Models.Common
     {
         private int? _invoiceID;
         private string _title;
-        private int? _tax1;
-        private int? _tax2;
-        private int? _tax3;
+        private double? _tax1;
+        private double? _tax2;
+        private double? _tax3;
         private int? _status;
         private int? _qty1;
         private double? _qty1CostCentreProfit;
@@ -150,13 +150,13 @@ namespace MPC.Models.Common
             set { _title = value; }
         }
 
-        public int? Tax1
+        public double? Tax1
         {
             get { return _tax1; }
             set { _tax1 = value; }
         }
 
-        public int? Tax2
+        public double? Tax2
         {
             get { return _tax2; }
             set { _tax2 = value; }
@@ -167,7 +167,7 @@ namespace MPC.Models.Common
             set { _StockName = value; }
         }
 
-        public int? Tax3
+        public double? Tax3
         {
             get { return _tax3; }
             set { _tax3 = value; }
