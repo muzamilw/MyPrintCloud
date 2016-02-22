@@ -3465,8 +3465,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     WidgetName: widgetName(),
                     WidgetCode: widgetCode(),
                     WidgetControlName: widgetControlName(),
-                    WidgetHtml: widgetHtml(),
-                    widgetCss: widgetCss()
+                    widgetCss: widgetCss(),
+                    WidgetHtml: widgetHtml()
+                    
                 };
             };
       
@@ -3492,10 +3493,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.WidgetName,
              source.WidgetCode,
              source.WidgetControlName,
-             source.WidgetHtml,
              source.WidgetCss,
              source.ThumbnailUrl,
-             source.Description
+             source.Description,
+            source.WidgetHtml
 
             );
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.Models;
@@ -56,9 +57,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public Widget Post(Widget request)
+        public Widget Post(Widget widget)
         {
-            return _widgetService.SaveWidget(request.CreateFrom()).CreateFrom();
+            if (widget == null || !ModelState.IsValid)
+            {
+                //throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+                throw new MPCException("Invalid Data ", 0);
+            }
+            return _widgetService.SaveWidget(widget.CreateFrom()).CreateFrom();
         }
 
 

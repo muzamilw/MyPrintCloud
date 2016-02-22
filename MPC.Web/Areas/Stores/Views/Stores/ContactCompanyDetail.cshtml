@@ -2807,7 +2807,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                 </div>
                                                 <div class="col-lg-8 text-right" style="padding-right:0">
-                                                    <button class="btn btn-primary">
+                                                    <button class="btn btn-primary" data-bind="click: $root.addCustomWidget">
                                                         <i class="fa fa-sm"></i> Add New Widget
                                                     </button>
                                                 </div>
@@ -4035,7 +4035,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <div class="dd-handle-list" style="height:100%;"><i class="fa fa-bars"></i></div>
         <div class="dd-handle" style=" height:auto;">
             <div class="widget-products-layout-image">
-                <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index:1000;" title="Drag widget to add to the right panel"></span>
+                <span data-bind="text: $data.widgetName(),drag: $root.dragged" style="cursor: move;z-index:1000;" title="Drag widget to add to the right panel"></span>
                 <div class="widget-products-frame" data-bind="visible:thumbnailUrl || description " style="position: absolute;top: 0;left: 420px;border: 5px solid #171717;background: gainsboro;z-index:10000">
                     <img data-bind="visible:thumbnailUrl,attr:{ src: '@Url.Content("~/")' + thumbnailUrl() }" style="width:500px;height:auto;">
                     <div style="width:inherit;height:50px;font-family:Arial;padding-top:10px;">
