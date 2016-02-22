@@ -112,15 +112,18 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin.Context">
       <HintPath>..\packages\Owin.Context.0.1.0.3\lib\net45\Owin.Context.dll</HintPath>
     </Reference>
     <Reference Include="PayWayAPI">
       <HintPath>..\MPC.Common\ExternalDlls\PayWayAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Stripe.net">
+      <HintPath>..\packages\Stripe.net.5.3.0\lib\Stripe.net.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>True</Private>
@@ -435,6 +438,7 @@
     <Compile Include="Controllers\OxfordHeaderController.cs" />
     <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\StripeGatewayController.cs" />
     <Compile Include="Controllers\PayWayController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
     <Compile Include="Controllers\PopularProductsController.cs" />
@@ -513,6 +517,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\HeaderController.cs" />
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
+    <Compile Include="ViewModels\StripeViewModel.cs" />
     <Compile Include="ViewModels\NABViewModel.cs" />
     <Compile Include="ViewModels\PaypalViewModel.cs" />
     <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
@@ -768,6 +773,7 @@
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\notFound.svg" />
     <Content Include="Content\Images\olsonReviewImg.PNG" />
+    <Content Include="Content\Images\stripeoutline.png" />
     <Content Include="Content\Images\Page_pdf.png" />
     <Content Include="Content\Images\PDF.png" />
     <Content Include="Content\Images\photoshop.gif" />
@@ -789,6 +795,7 @@
     <Content Include="Content\Images\slider-arrow-l.png" />
     <Content Include="Content\Images\SmartFormCart.png" />
     <Content Include="Content\Images\SocialSprite.png" />
+    <Content Include="Content\Images\stripesolid.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\Images\Telephone-Icon-Blue.png" />
     <Content Include="Content\Images\text.gif" />
@@ -1160,6 +1167,7 @@
     <Content Include="Views\Shared\PartialViews\BubbleQuickLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleSavePercent.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
+    <Content Include="Views\Shared\PartialViews\StripeGateway.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

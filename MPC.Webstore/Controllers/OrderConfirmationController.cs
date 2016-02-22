@@ -352,6 +352,12 @@ namespace MPC.Webstore.Controllers
                                         break;
 
                                     }
+                                case 9:
+                                    {
+                                        Response.Redirect("/StripeGateway/" + OrderId);
+                                        break;
+
+                                    }
                                 default:
                                     break;
                             }
@@ -481,6 +487,14 @@ namespace MPC.Webstore.Controllers
                                         break;
 
                                     }
+                                     case 9:
+                                    {
+                                        Response.Redirect("/StripeGateway/" + OrderId);
+                                        break;
+
+                                    }
+
+                                    
                                 default:
                                     break;
                             }
