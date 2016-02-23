@@ -768,7 +768,7 @@ namespace MPC.Implementation.MISServices
 
 
                     cdata = CustomerRef + "," + TxnDate + "," + InvocieID + "," + DueDate + "," + ItemRef + "," + Description + "," + AmountIncTax + "," + Qty + "," + UnitPrice + "," +
-                                       Status + "," + StoreName + "," + AddressName + "," + Address1 +
+                        Status + "," + StoreName + "," + AddressName + " " + Address1  +
                                       "\r\n";
 
 
@@ -840,9 +840,9 @@ namespace MPC.Implementation.MISServices
             FileHeader.Add("Qty");
             FileHeader.Add("UnitPrice");
             FileHeader.Add("Status");
-            FileHeader.Add("StoreName");
-            FileHeader.Add("AddressName");
-            FileHeader.Add("Address1");
+            FileHeader.Add("CustomerName");
+            FileHeader.Add("Address");
+           
             return FileHeader;
 
         }

@@ -56,5 +56,10 @@ namespace MPC.Repository.Repositories
 
             return widgets.ToList();
         }
+
+        public bool IsCustomWidgetUsed(long widgetId)
+        {
+            return DbSet.ToList().Any(a => a.WidgetId == widgetId);
+        }
     }
 }

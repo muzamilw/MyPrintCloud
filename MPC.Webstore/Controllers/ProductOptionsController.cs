@@ -368,7 +368,7 @@ namespace MPC.Webstore.Controllers
                         ccObject.CostCenterID = addOn.CostCenterId;
 
                         ccObject.Qty1NetTotal = addOn.ActualPrice;
-
+                        ccObject.CostCentreDescription = addOn.Description;
 
                         AddOnPrices += addOn.ActualPrice;
 
@@ -588,7 +588,7 @@ namespace MPC.Webstore.Controllers
                                 MinimumCost = addOn.MinimumCost,
                                 ActualPrice = cItem.Qty1NetTotal ?? 0,
                                 StockOptionId = addOn.ItemStockId,
-                                Description = "",
+                                Description = cItem.Qty1WorkInstructions,
                                 isChecked = 1,
                                 QuantitySourceType = addOn.QuantitySourceType,
                                 TimeSourceType = addOn.TimeSourceType,

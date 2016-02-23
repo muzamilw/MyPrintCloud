@@ -61,7 +61,7 @@ namespace MPC.Implementation.MISServices
         {
             return _IReportRepository.GetReportCategories();
         }
-        public SectionReport GetReport(int iReportID, long itemid, int ComboValue, string DateFrom, string DateTo, string ParamTextBoxValue)
+        public SectionReport GetReport(int iReportID, long itemid, int ComboValue, string DateFrom, string DateTo, string ParamTextBoxValue,int ComboValue2)
         {
             //, long iRecordID, ReportType type, long OrderID
             string sFilePath = string.Empty;
@@ -149,18 +149,26 @@ namespace MPC.Implementation.MISServices
                                 {
                                     if (ReportName == "Order Report By Store") // for retail store orders
                                     {
-                                        if(ComboValue > 0)
+                                        if(param.ComboTableName == "Company") // for two combos
                                         {
-                                            bool isCorporate = ReportRepository.isCorporateCustomer(ComboValue);
-                                            if(isCorporate)
+                                            if (ComboValue > 0)
                                             {
-                                                CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
-                                            }
-                                            else
-                                            {
-                                                CriteriaField = CriteriaField + " and " + "Company.StoreId = " + ComboValue + " ";
+                                                bool isCorporate = ReportRepository.isCorporateCustomer(ComboValue);
+                                                if (isCorporate)
+                                                {
+                                                    CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                                }
+                                                else
+                                                {
+                                                    CriteriaField = CriteriaField + " and " + "Company.StoreId = " + ComboValue + " ";
+                                                }
                                             }
                                         }
+                                        else
+                                        {
+                                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue2 + " ";
+                                        }
+                                       
 
                                     }
                                     else
@@ -556,7 +564,7 @@ namespace MPC.Implementation.MISServices
          
             return Path;
         }
-        public string DownloadExternalReportWebStore(long iReportId, int ComboValue)
+        public string DownloadExternalReportWebStore(long iReportId, int ComboValue, string DateFrom, string DateTo, string ParamTextBoxValue, int? ComboValue2)
         {
             string Path = string.Empty;
 
@@ -571,21 +579,28 @@ namespace MPC.Implementation.MISServices
                 {
                     if (param.ControlType == 1)// means drop down
                     {
-
                         if (ReportName == "Order Report By Store") // for retail store orders
                         {
-                            if (ComboValue > 0)
+                            if (param.ComboTableName == "Company") // for two combos
                             {
-                                bool isCorporate = ReportRepository.isCorporateCustomer(ComboValue);
-                                if (isCorporate)
+                                if (ComboValue > 0)
                                 {
-                                    CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
-                                }
-                                else
-                                {
-                                    CriteriaField = CriteriaField + " and " + "Company.StoreId = " + ComboValue + " ";
+                                    bool isCorporate = ReportRepository.isCorporateCustomer(ComboValue);
+                                    if (isCorporate)
+                                    {
+                                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                    }
+                                    else
+                                    {
+                                        CriteriaField = CriteriaField + " and " + "Company.StoreId = " + ComboValue + " ";
+                                    }
                                 }
                             }
+                            else if (ComboValue2 > 0)
+                            {
+                                CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue2 + " ";
+                            }
+
 
                         }
                         else
@@ -593,29 +608,39 @@ namespace MPC.Implementation.MISServices
                             CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
                         }
 
-                        
                     }
-                    //else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges
-                    //{
+                    else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges
+                    {
 
 
-                    //    if (!string.IsNullOrEmpty(request.DateFrom) && !string.IsNullOrEmpty(request.DateTo))
-                    //    {
-                    //        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + request.DateFrom + "' and '" + request.DateTo + "'";
-                    //    }
+                        if (DateFrom != null && DateTo != null)
+                        {
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + DateFrom + "' and '" + DateTo + "'";
+                            //CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " >= '" +  DateFrom + "' and " + param.ComboIDFieldName + " <= '" + DateTo + "'";
+                        }
+                        else if (DateFrom != null && DateTo == null)
+                        {
+                            DateTo = Convert.ToString(DateTime.Now);
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + DateFrom + "' and '" + DateTo + "'";
+                        }
+                        else if (DateFrom == null && DateTo != null)
+                        {
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " <= '" + DateTo + "'";
+                        }
 
 
-                    //}
-                    //else if (param.ControlType == 3)// means textbox value
-                    //{
-                    //    if (!string.IsNullOrEmpty(request.ParamValue) && request.ParamValue != "undefined")
-                    //    {
-                    //        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " like '%" + request.ParamValue + "%'";
-                    //    }
+                    }
+                    else if (param.ControlType == 3)// means textbox value
+                    {
+                        if (!string.IsNullOrEmpty(ParamTextBoxValue) && ParamTextBoxValue != "undefined")
+                        {
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " like '%" + ParamTextBoxValue + "%'";
+                        }
 
 
 
-                    //}
+                    }
+                   
                 }
             }
 

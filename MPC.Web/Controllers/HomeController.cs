@@ -310,10 +310,10 @@ namespace MPC.MIS.Controllers
             return PartialView();
         }
 
-        public ActionResult Viewer(int? id, int? itemId,int? ComboValue,string Datefrom,string DateTo,string ParamTextValue)
+        public ActionResult Viewer(int? id, int? itemId,int? ComboValue,string Datefrom,string DateTo,string ParamTextValue,int? ComboValue2)
         {
 
-            ReportDescriptor model = new ReportDescriptor() { Id = id ?? 0, ItemId = itemId ?? 0,ComboValue = ComboValue ?? 0,Datefrom = Datefrom,DateTo = DateTo,ParamTextValue = ParamTextValue };
+            ReportDescriptor model = new ReportDescriptor() { Id = id ?? 0, ItemId = itemId ?? 0,ComboValue = ComboValue ?? 0,Datefrom = Datefrom,DateTo = DateTo,ParamTextValue = ParamTextValue, ComboValue2 = ComboValue2 ?? 0 };
 
 
             return View(model);
@@ -324,7 +324,7 @@ namespace MPC.MIS.Controllers
         public ActionResult GetReport(ReportDescriptor req)
         {
 
-            SectionReport report = IReportService.GetReport(req.Id, req.ItemId,req.ComboValue,req.Datefrom,req.DateTo,req.ParamTextValue);
+            SectionReport report = IReportService.GetReport(req.Id, req.ItemId,req.ComboValue,req.Datefrom,req.DateTo,req.ParamTextValue,req.ComboValue2);
            
             
             ViewBag.Report = report;

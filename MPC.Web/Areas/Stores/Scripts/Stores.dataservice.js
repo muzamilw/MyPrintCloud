@@ -441,6 +441,19 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to save Custom Organisation Widget
+                    amplify.request.define('saveMyCustomWidget', 'ajax', {
+                        url: ist.siteUrl + '/Api/Widget',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to Delete Custom Widget
+                    amplify.request.define('deleteCustomWidget', 'ajax', {
+                        url: ist.siteUrl + '/Api/Widget',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
                     // Define request to delete Store
                     amplify.request.define('archiveSpotColor', 'ajax', {
                         url: ist.siteUrl + '/Api/SpotColor',
@@ -1107,8 +1120,26 @@
                     error: callbacks.error
                 });
             },
+            saveCustomWidget = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveMyCustomWidget',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+            deleteCustomWidget = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCustomWidget',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
 
-        // save Store
+        // save Store saveCustomWidget
         saveStore = function (param, callbacks) {
             initialize();
             return amplify.request({
@@ -1184,7 +1215,9 @@
             getRealEstateCampaigns: getRealEstateCampaigns,
             getCompanyVariableIcons: getCompanyVariableIcons,
             archiveSpotColor: archiveSpotColor,
-            getOrganisationWidgets: getOrganisationWidgets
+            getOrganisationWidgets: getOrganisationWidgets,
+            saveCustomWidget: saveCustomWidget,
+            deleteCustomWidget: deleteCustomWidget
         };
     })();
 
