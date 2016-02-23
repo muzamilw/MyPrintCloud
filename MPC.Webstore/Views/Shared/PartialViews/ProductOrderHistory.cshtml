@@ -544,20 +544,20 @@
         var Status=$("#DDOderStatus").val();
         alert(Status);
         var Po=$("#txtOrderRefrence").val();
-        //var data = { name: Name, email: Email, comment: Comment };
-        //$.ajax({
-        //    type:"GET",
-        //    url: "mis/api/DownloadExternalReport?ReportId="+ReportId+"&StoreId="+StoreId+"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status+"",
-        //    contentType: "application/json",
-        //   // data: JSON.stringify(data),
-        //    async: true,
-        //    success: function (response) {
+        var data = { name: Name, email: Email, comment: Comment };
+        $.ajax({
+            type:"GET",
+            url: "mis/api/DownloadExternalReport?ReportId="+ReportId+"&StoreId="+StoreId+"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status+"",
+            contentType: "application/json",
+           // data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
               
-        //    },
-        //    error: function (error) {
+            },
+            error: function (error) {
 
-        //    }
-        //});
+            }
+        });
     }
 
 
