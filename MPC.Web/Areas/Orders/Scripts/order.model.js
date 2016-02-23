@@ -19,7 +19,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
             specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy, specifiedReportSignedBy,
-            specifiedInvoiceStatus,specifiedStoreName,specifiedEstimateDate) {
+            specifiedInvoiceStatus, specifiedStoreName, specifiedEstimateDate, specifiedUserNotes) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -217,6 +217,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : moment().toDate()),
                 // Foot Notes
                 footNotes = ko.observable(specifiedFootNotes || undefined),
+                userNotes = ko.observable(specifiedUserNotes || undefined),
                 //Enqiry Id
                 enquiryId = ko.observable(specifiedEnquiryId || undefined),
                 //Reference Estimate Id
@@ -477,6 +478,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         OrderManagerId: orderManagerId(),
                         SalesPersonId: salesPersonId(),
                         SourceId: sourceId(),
+                        UserNotes : userNotes(),
                         CreditLimitForJob: creditLimitForJob(),
                         CreditLimitSetBy: creditLimitSetBy(),
                         CreditLimitSetOnDateTime: creditLimitSetOnDateTime() ? moment(creditLimitSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
@@ -581,7 +583,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 invoiceStatus: invoiceStatus,
                 hasDeletedItems: hasDeletedItems,
                 hasDeletedPrepayments: hasDeletedPrepayments,
-                hasDeletedDeliverySchedules: hasDeletedDeliverySchedules
+                hasDeletedDeliverySchedules: hasDeletedDeliverySchedules,
+                userNotes: userNotes
             };
         },
 
@@ -845,7 +848,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.OrderCreationDateTime, source.OrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId,
-        source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus,source.StoreName,source.EstimateDate);
+        source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus, source.StoreName, source.EstimateDate, source.UserNotes);
 
         estimate.statusId(source.StatusId);
         estimate.originalStatusId(source.StatusId);

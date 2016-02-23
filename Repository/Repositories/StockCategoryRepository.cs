@@ -52,7 +52,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<StockCategory> GetAll()
         {
-            return DbSet.Where(stockCategory => stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId == 0).ToList();
+           return DbSet.Where(stockCategory => stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId == 0).ToList();
         }
         public List<StockCategory> getDefaulStockCat()
         {

@@ -200,7 +200,54 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public IEnumerable<StockCategory> GetAllStockCategories()
         {
-          return  stockCategoryRepository.GetAll();
+            var categories = stockCategoryRepository.GetAll().Select(c => new
+            {
+                c.CategoryId,
+                c.Code,
+                c.Name,
+                c.ItemColour,
+                c.Description,
+                c.Fixed,
+                c.ItemWeight,
+                c.ItemSizeCustom,
+                c.ItemPaperSize,
+                c.ItemCoatedType,
+                c.ItemCoated,
+                c.ItemExposure,
+                c.ItemCharge,
+                c.RecLock,
+                c.TaxId,
+                c.Flag1,
+                c.Flag2,
+                c.Flag3,
+                c.Flag4,
+                SubCategories =
+                    c.StockSubCategories.Where(s => s.OrganisationId == stockCategoryRepository.OrganisationId).ToList()
+            }).ToList().Select(c => new StockCategory
+            {
+                CategoryId = c.CategoryId,
+                Code = c.Code,
+                Name = c.Name,
+                Description = c.Description,
+                Fixed = c.Fixed,
+                ItemWeight = c.ItemWeight,
+                ItemColour = c.ItemColour,
+                ItemSizeCustom = c.ItemSizeCustom,
+                ItemPaperSize = c.ItemPaperSize,
+                ItemCoatedType = c.ItemCoatedType,
+                ItemCoated = c.ItemCoated,
+                ItemExposure = c.ItemExposure,
+                ItemCharge = c.ItemCharge,
+                RecLock = c.RecLock,
+                TaxId = c.TaxId,
+                Flag1 = c.Flag1,
+                Flag2 = c.Flag2,
+                Flag3 = c.Flag3,
+                Flag4 = c.Flag4,
+                StockSubCategories = c.SubCategories
+            }).ToList();
+
+            return categories; //stockCategoryRepository.GetAll();
         }
     }
 }
