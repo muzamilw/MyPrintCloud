@@ -1811,7 +1811,8 @@
                                     QuestionQueueDBObject.push(UpdatedGlobalQueueArray.QuestionQueues[m]);
 
                                 }
-
+                                console.log("QuestionQueueDBObject.length");
+                                console.log(QuestionQueueDBObject.length);
                                 if (QuestionQueueDBObject.length > 0) {
                                     $("#VMJsonAddOnsQuestionQueue").val(JSON.stringify(QuestionQueueDBObject, null, 2));
                                 }
@@ -1981,16 +1982,20 @@
             } else {//This condition executes when first time a cost centre is selected from landing page
                 ShowLoader();
                 console.log("This condition executes when first time a cost centre is selected from landing page");
+                console.log($("#costCentreQueueItems").val());
                 if ($("#costCentreQueueItems").val() == 'null' || $("#costCentreQueueItems").val() == null) { // This condition will execute when cost centre queue is empty means we are adding cost centre at very first time
                     var isQueueExist = false;
                     var QuestionQueueObject = null;
                     var InputQueueObject = null;
                     var WorkInstructions = null;
+                    console.log("in first cond");
                     $.getJSON("/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=New",
                         function(DT) {
                             QuestionQueueObject = DT[2];
                             InputQueueObject = DT[7];
 
+                            console.log("DT[2]");
+                            console.log(DT[2]);
 
                             WorkInstructions = DT[3][0].WorkInstructions;
 
@@ -2216,6 +2221,7 @@
     function SetCostCentreQueueLabelsOnModify(){
 
         if ("@ViewBag.Mode" == "Modify") {
+            debugger;
             var UpdatedGlobalQueueArrayOnLoad = JSON.parse($("#costCentreQueueItems").val());
             var CostCentreQueueObjectToSetLabels = [];
             var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());

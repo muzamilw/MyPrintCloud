@@ -557,7 +557,15 @@
                         </div>
                         <div id="innerContainerShippTo" class="textAlignLeft AddressesContainer" style="display: none;">
                             <label id="lblShipToAddLin1" class="lbAddressLinesWithPadding">@ShippingAddress.Address1</label>
-                            <label id="lblShipToAddLin2" class="lbAddressLines">@ShippingAddress.Address2</label><br />
+                            @if (ShippingAddress.Address2 != null)
+                            {
+                                <label id="lblShipToAddLin2" class="lbAddressLines">@ShippingAddress.Address2</label><br />
+                            }
+                            else
+                            {
+                                <label id="lblShipToAddLin2" class="lbAddressLines"></label><br />
+                            }
+                            
                             <label id="lblShipToCity" class="lbAddressLinesWithPadding">@ShippingAddress.City</label><br />
                             @if (ShippingAddress.State != null)
                             {
@@ -918,7 +926,11 @@
 
     function ChangeShippToAddLin2() {
         var val = $('#txtShipAddressLine2').val();
-        $('#lblShipToAddLin2').html(val);
+        if(val != null)
+        {
+            $('#lblShipToAddLin2').html(val);
+        }
+
     }
     function ChangeShippToCity() {
         var val = $('#txtShipAddCity').val();
@@ -1271,7 +1283,11 @@
 
 
                     $('#lblShipToAddLin1').text(cAdrres.Address1);
-                    $('#lblShipToAddLin2').text(cAdrres.Address2);
+                    if(cAdrres.Address2 != null)
+                    {
+                        $('#lblShipToAddLin2').text(cAdrres.Address2);
+                    }
+
                     $('#lblShipToCity').text(cAdrres.City);
                     $('#lblShipTostate').text(cAdrres.Tel2);
                     $('#lblShipToCountry').text(cAdrres.FAO);

@@ -108,7 +108,7 @@
 
                         <div id="ShopingCartDisplay" class="get_in_touch_box rounded_corners ">
 
-                            <button id="Button1" style="display:none;" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>
+                            @*<button id="Button1" style="display:none;" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>*@
 
                             <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                 <tbody>
@@ -436,7 +436,7 @@
                                 <input type="button" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="CantPlaceOrder();" /><br />
                             }*@
                            
-                            <button id="btn_ContinueShopping" type="button" onclick="return ContinueShopping(event);" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
+                           <a href="/"><button id="btn_ContinueShopping" type="button" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button></a> 
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
@@ -564,27 +564,30 @@
      <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script type="text/javascript">
-    function EmailProofClick() {
-        if ($('#hfIsUserLoggedIn.ClientID').val() == "true") {
+    //function EmailProofClick() {
+    //    if ($('#hfIsUserLoggedIn.ClientID').val() == "true") {
 
-            $(".opaqueLayer").css("height", $(window).height() + "px");
-            $(".opaqueLayer").css("width", $(window).width() + "px");
-            $(".opaqueLayer").css("display", "block");
-            $("#userEmail1").val($('#hfProofEmail1').val());
-            $("#userEmail2").val($('#hfProofEmail2').val());
-            $("#popupSendProofs").css("display", "block");
-            $('.popupSendProofs').css("left", (($(window).width() - $('.popupSendProofs').width()) / 2) + "px");
-            $('.popupSendProofs').css("top", (($(window).height() - $('.popupSendProofs').height()) / 2) + "px");
-            return false;
-        } else {
-            window.location.href = $('#hfRedirectURL.ClientID').val();
-            return false;
-        }
-    }
+    //        $(".opaqueLayer").css("height", $(window).height() + "px");
+    //        $(".opaqueLayer").css("width", $(window).width() + "px");
+    //        $(".opaqueLayer").css("display", "block");
+    //        $("#userEmail1").val($('#hfProofEmail1').val());
+    //        $("#userEmail2").val($('#hfProofEmail2').val());
+    //        $("#popupSendProofs").css("display", "block");
+    //        $('.popupSendProofs').css("left", (($(window).width() - $('.popupSendProofs').width()) / 2) + "px");
+    //        $('.popupSendProofs').css("top", (($(window).height() - $('.popupSendProofs').height()) / 2) + "px");
+    //        return false;
+    //    } else {
+    //        window.location.href = $('#hfRedirectURL.ClientID').val();
+    //        return false;
+    //    }
+    //}
     function CanCheckOut(sender) {
         if (Page_ClientValidate()) {
+            var numOfRec = 0;
+            if("@ViewBag.NumberOfRecords" != ""){
+                numOfRec = "@ViewBag.NumberOfRecords";
+            }
 
-            var numOfRec = @ViewBag.NumberOfRecords;
 
             if (parseInt(numOfRec) > 0) {
                 $("hfIsCallFrom").val("CheckOut");
@@ -658,12 +661,12 @@
     }
     function ContinueShopping(e)
     {
-        if (e.keyCode == 13) {
-            return false;
-        }else{
-            window.location.href = "/";
-            return true;
-        }
+        //if (e.keyCode == 13) {
+        //    return false;
+        //}else{
+        //    window.location.href = "/";
+        //    return true;
+        //}
     }
     function ApplyVoucherCode(OrderID,DiscountVoucher)
     {
@@ -776,5 +779,5 @@
             return false;
         }
     });
-    </script>
+</script>
 
