@@ -7,10 +7,10 @@ namespace MPC.Webstore
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            
-            //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-            //            "~/Scripts/jquery-1.10.2.js",
-            //            "~/Scripts/jquery-ui.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-1.10.2.js",
+                        "~/Scripts/jquery-ui.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Slider").Include(
                        "~/Scripts/js-image-slider.js",
@@ -21,10 +21,10 @@ namespace MPC.Webstore
             ));
 
 
-            //bundles.Add(
-            //    new ScriptBundle("~/bundles/jqueryval").Include(
-            //            "~/Scripts/jquery.validate*",
-            //            "~/Scripts/input.watermark.js"));
+            bundles.Add(
+                new ScriptBundle("~/bundles/jqueryval").Include(
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/input.watermark.js"));
 
             //bundles.Add(
             //    new ScriptBundle("~/bundles/jqueryval").Include(
