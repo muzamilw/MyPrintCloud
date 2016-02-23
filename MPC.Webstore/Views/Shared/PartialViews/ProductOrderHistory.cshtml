@@ -139,7 +139,7 @@
 
           }
 
-                                                                                      )
+                                                                                               )
 
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
@@ -627,20 +627,29 @@
                             if(IT.OtherItemTemplateAttatchments != null){
 
                                 if(IT.OtherItemTemplateAttatchments.length > 0){
-
-                                    $(IT.OtherItemTemplateAttatchments).each(function(i, otherAttachVal) {
-
-                                        filePathOfAttachment = otherAttachVal.FilePath;
+                                    for(var i=0; i < IT.OtherItemTemplateAttatchments.length; i++)
+                                    {
+                                       
+                                        filePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
                                           
-                                        var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                        var OtherfilePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
                                         console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
-                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
-                                        
+                                        otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
 
-                                    });
+                                    }
+                                    //$(IT.OtherItemTemplateAttatchments).each(function(i, otherAttachVal) {
+
+                                    //    filePathOfAttachment = otherAttachVal.FilePath;
+
+                                    //    var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                    //    console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
+                                    //    otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+
+
+                                    //});
                                 }
                             }
-                          
+
 
                         }else{
                             if(IT.OtherItemAttatchments != null){
@@ -664,7 +673,7 @@
                                     });
                                 }
                             }
-                          
+
                             var AttachFileName = IT.Attatchment._fileName;
                             console.log("AttachFileName" + AttachFileName);
                             if(AttachFileName != "" && AttachFileName != null){
@@ -675,14 +684,14 @@
                             }
                             filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
 
-                       
+
                         }
-                        
 
 
-                        
+
+
                         var proFriendlyName = "";
-                      
+
                         if(IT.ProductFriendlyName != "" && IT.ProductFriendlyName != null){
                             proFriendlyName = IT.ProductFriendlyName;
                         }else{

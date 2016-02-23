@@ -36,12 +36,12 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
         [HttpGet]
-        public HttpResponseMessage DownloadExternalReport(int ReportId, int StoreId)
+        public HttpResponseMessage DownloadExternalReport(int ReportId, int StoreId,string Datefrom,string DateTo,string CustomerPO,int? OrderStatus)
         {
             
             try
             {
-                string path = reportService.DownloadExternalReportWebStore(ReportId, StoreId);
+                string path = reportService.DownloadExternalReportWebStore(ReportId, StoreId, Datefrom, DateTo, CustomerPO, OrderStatus);
                 if (!string.IsNullOrEmpty(path))
                 {
                     string sFilePath = Request.RequestUri.Scheme + "://" + Request.RequestUri.Host + "/" + path;

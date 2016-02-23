@@ -187,8 +187,8 @@
         <div class="col-sm-3 text-right">
             <label class="control-label text-right tooltip-float" data-bind="text: Caption1"></label>
         </div>
-        <div class="col-sm-6">
-            <select class="form-control" data-bind="options: $root.paramComboList, optionsText: 'ComboText', optionsValue: 'ComboId', value: $root.ComboValue"></select>
+        <div class="col-sm-6 comboClass" >
+            <select  class="form-control comboClass" data-bind="options: comboMapper, optionsText: 'ComboText', optionsValue: 'ComboId', value: 'SelectedComboId',attr: { id: 'prefix_' + $index() }"></select>
             <span class="help-block text-right"></span>
         </div>
     </div>

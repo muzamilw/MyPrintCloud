@@ -60,6 +60,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IAssetsRepository _AssestsRepository;
         private readonly IFolderRepository _FolderRepository;
         private readonly ITemplateRepository _templaterepository;
+        private readonly IReportRepository _ReportRepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -79,7 +80,7 @@ namespace MPC.Implementation.WebStoreServices
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
             , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository,
             ICompanyContactRoleRepository _companycontactRoleRepo, ISystemUserRepository _SystemUserRepository, IScopeVariableRepository IScopeVariableRepository
-            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository, IAssetItemsRepository _AssetItemsRepository, ITemplateRepository _templaterepository)
+            , ICompanyDomainRepository companyDomainRepository, IListingRepository _listingRepository, IListingBulletPointsRepository _listingBulletPontRepository, IAssetsRepository _AssestsRepository, IFolderRepository _FolderRepository, IAssetItemsRepository _AssetItemsRepository, ITemplateRepository _templaterepository, IReportRepository _ReportRepository)
         {
             this._listingRepository = _listingRepository;
             this._CompanyRepository = companyRepository;
@@ -114,6 +115,7 @@ namespace MPC.Implementation.WebStoreServices
             this._FolderRepository = _FolderRepository;
             this._AssetItemsRepository = _AssetItemsRepository;
             this._templaterepository = _templaterepository;
+            this._ReportRepository = _ReportRepository;
         }
 
         #endregion
@@ -2041,6 +2043,12 @@ namespace MPC.Implementation.WebStoreServices
                throw ex;
            }
 
+       }
+
+       public long GetReportIdByName(string ReportName)
+       {
+           return _ReportRepository.GetReportIdByName(ReportName);
+       
        }
     }
 }

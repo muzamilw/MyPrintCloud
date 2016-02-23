@@ -1,6 +1,4 @@
-﻿
-
-@using MPC.Webstore.WebGridExtension;
+﻿@using MPC.Webstore.WebGridExtension;
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @{
@@ -16,13 +14,13 @@
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12 ">
             <div class="signin_heading_div float_left_simple ">
-                <label class="sign_in_heading" id="HistryBtn">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitlePendingOrder",UserCookieManager.WBStoreId,"Pending Orders For Approval"))</label>
+                <label class="sign_in_heading" id="HistryBtn">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitlePendingOrder", UserCookieManager.WBStoreId, "Pending Orders For Approval"))</label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
                     <h1>
                         <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                           @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId,"Back to my dashboard"))
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId, "Back to my dashboard"))
                         </a>
                     </h1>
                     <div class="clearBoth"></div>
@@ -75,7 +73,7 @@
 
    }
 
-            )
+                     )
 
 
                         @if (Convert.ToInt32(ViewBag.TotalOrders) > 13)
@@ -103,7 +101,7 @@
                         <tbody>
                             <tr>
                                 <td class="textAlignRight" style="width: 149px">
-                                    <span class="simpleTextBold" id="spnordernum">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNumHeadingTxt", UserCookieManager.WBStoreId,"Order Number")):</span>
+                                    <span class="simpleTextBold" id="spnordernum">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNumHeadingTxt", UserCookieManager.WBStoreId, "Order Number")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<label id="lblOrderNumber" class="txtBold" />*@
@@ -113,7 +111,7 @@
                                     &nbsp;
                                 </td>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderstatus">@Html.Raw(Html.GetKeyValueFromResourceFile("lblStatusHeadingTxt", UserCookieManager.WBStoreId,"Status")):</span>
+                                    <span class="simpleTextBold" id="spnorderstatus">@Html.Raw(Html.GetKeyValueFromResourceFile("lblStatusHeadingTxt", UserCookieManager.WBStoreId, "Status")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText" style="width: 200px">
                                     @*<label id="lblOrderStatus" class="txtBold clrOrderDetail" />*@
@@ -146,7 +144,7 @@
                                 </td>
 
                                 @*</td>*@
-                            
+
                             <tr>
                                 <td class="textAlignRight">
                                     <span class="simpleTextBold" id="Span1">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.WBStoreId, "Placed by:"))</span>
@@ -195,7 +193,7 @@
                                     <tr>
                                         <th colspan="2" style="height: 25px; text-align: left;">
 
-                                            <label id="lblMainControlHeading" class="heading_small" >@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address"))</label>
+                                            <label id="lblMainControlHeading" class="heading_small">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address"))</label>
                                         </th>
                                     </tr>
                                 </thead>
@@ -258,7 +256,7 @@
                                 <thead>
                                     <tr>
                                         <th colspan="2" style="height: 25px; text-align: left;">
-                                            <label id="Label1" class="heading_small" >@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address"))</label>
+                                            <label id="Label1" class="heading_small">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address"))</label>
                                         </th>
                                     </tr>
                                 </thead>
@@ -336,56 +334,56 @@
                 <td>
                     &nbsp;
                 </td>
-               @if (ViewBag.IsShowPrices == true)
-               {
-                <td align="right" valign="top" class="whitebackground">
+                @if (ViewBag.IsShowPrices == true)
+                {
+                    <td align="right" valign="top" class="whitebackground">
 
-                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
-                        <div class="padding10">
-                            <table border="0" cellpadding="3" cellspacing="0" width="200px">
-                                <tr>
-                                    <td align="left">
-                                        <span id="spnsubtotal">
-                                            @Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <label id="lblSubTotal"><span id="subtotal"></span></label>
+                        <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
+                            <div class="padding10">
+                                <table border="0" cellpadding="3" cellspacing="0" width="200px">
+                                    <tr>
+                                        <td align="left">
+                                            <span id="spnsubtotal">
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <label id="lblSubTotal"><span id="subtotal"></span></label>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" style="width: 80%">
-                                        <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldelcost", UserCookieManager.WBStoreId, "Delivery Cost")):</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" style="width: 80%">
-                                        <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVatHeadingText", UserCookieManager.WBStoreId, "VAT")):</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblVatTotal"><span id="Vat"></span></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgrandtotal", UserCookieManager.WBStoreId, "Grand Total")):</span>
-                                    </td>
-                                    <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="width: 80%">
+                                            <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldelcost", UserCookieManager.WBStoreId, "Delivery Cost")):</span>
+                                        </td>
+                                        <td>
+                                            <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="width: 80%">
+                                            <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVatHeadingText", UserCookieManager.WBStoreId, "VAT")):</span>
+                                        </td>
+                                        <td>
+                                            <label id="lblVatTotal"><span id="Vat"></span></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left">
+                                            <span class="CartFonts" id="spngrndtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgrandtotal", UserCookieManager.WBStoreId, "Grand Total")):</span>
+                                        </td>
+                                        <td>
 
-                                        <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
-                                    </td>
-                                </tr>
-                            </table>
+                                            <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
                         </div>
+                    </td>
+                }
 
-                    </div>
-                </td>
-               }
-                
 
             </tr>
         </tbody>
@@ -393,7 +391,7 @@
 </div>
 
 
- 
+
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
@@ -401,268 +399,262 @@
 <script src="/LightBox/Js/jquery.fancybox.js"></script>
 <script type="text/javascript">
 
-        $(".fancybox").fancybox();
-        $(document).ready(function () {
+    $(".fancybox").fancybox();
+    $(document).ready(function () {
 
-            $("#txtFromDate").datepicker();
-            $("#txtToDate").datepicker();
+        $("#txtFromDate").datepicker();
+        $("#txtToDate").datepicker();
+
+    });
+
+    var NewOrderID;
+    var SaveFlag = false;
+
+    function ViewOrder(orderId) {
+        ShowLoader();
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/Order/GetData",
+            contentType: "application/json",
+            data: { orderID: orderId },
+            async: true,
+            success: function (response) {
+
+                $("#Grandtotal").text(response.GrossTotal);
+                $("#subtotal").text(response.SubTotal);
+                $("#Vat").text(response.VAT);
+
+                $("#OrderCode").text(response.OrderCode);
+                $("#OrderStatus").text(response.StatusName);
+                $("#OrderDate").text(response.OrderDateValue);
+                $("#OrderPlaceBy").text(response.PlacedBy + "" + '(' + response.CompanyName + ')');
+                $("#OrderDeliveryDate").text(response.DeliveryDateValue);
+                $("#DelCharge").text(response.DeliveryCostCharges);
+                $("#BillingAddressName").text(response.billingAddress.AddressName);
+                if (response.billingAddress.Address1 != null || response.billingAddress.Address1 != '') {
+                    $("#BillingAddressline1").text(response.billingAddress.Address1);
+                }
+                if (response.billingAddress.Address2 == null) {
+
+                    $("#BillingAddressline2").text('');
+                }
+                else { $("#BillingAddressline2").text(response.billingAddress.Address2); }
+                //if (response.billingAddress.Address2 != 'null') {
+                //    alert(response.billingAddress.Address2);
+                //    $("#BillingAddressline2").text(response.billingAddress.Address2);
+                //}
+                $("#BillingAddressCity").text(response.billingAddress.City);
+                // if ((response.billingAddress.State) != null) {
+
+                if (response.BillingState != '')
+                { $("#BillingAddressState").text(response.BillingState); }
+                //}
+                // if (response.billingAddress.Country!= null)
+                //{
+                if (response.BillingCountry != '') {
+                    $("#BillingAddressCountryName").text(response.BillingCountry);
+                }
+
+                //}
+                $("#BillingAddressPostCode").text(response.billingAddress.PostCode);
+
+                $("#BillingAddressContactNumber").text(response.billingAddress.ContactMobile);
+
+                $("#DeliveryAddressName").text(response.shippingAddress.AddressName);
+
+                if (response.shippingAddress.Address1 == null) {
+                    $("#DeliveryAddressline1").text('');
+                }
+                else {
+                    $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
+                }
+
+                if (response.shippingAddress.Address2 == null) {
+                    $("#DeliveryAddressline2").text('');
+                }
+                else {
+                    $("#DeliveryAddressline2").text(response.shippingAddress.Address2);
+                }
+
+                $("#DeliveryAddressCity").text(response.shippingAddress.City);
+                //  if (response.shippingAddress.State != null) {
+                if (response.ShippingState != '') {
+                    $("#DeliveryAddressState").text(response.ShippingState);
+                }
+
+
+                $("#DeliveryAddressPost").text(response.shippingAddress.PostCode)
+                if (response.ShippingCountry != '') {
+                    $("#DeliveryAddressCountryName").text(response.ShippingCountry);
+                }
+                var GSTLable = "@Html.Raw(Html.GetKeyValueFromResourceFile("lblVatHeadingText", UserCookieManager.WBStoreId, "VAT"))";
+                $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
+                var GridItems = response.CartItemsList;
+                var InnerHtml = ""; //"<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                if ('@ViewBag.IsShowPrices' == "True") {
+                    InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>" + GSTLable + "</th><th>Total</th></tr></thead>";
+
+                }
+                else {
+                    InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th></th><th></th><th></th></tr></thead>";
+
+                }
+                var otherAttachmentLink = "";
+                $.each(GridItems, function (i, IT) {
+                    {
+
+                        var filePathOfAttachment = "";
+                        if (IT.ProductType == 1) {
+                            if (IT.OtherItemTemplateAttatchments != null) {
+
+                                if (IT.OtherItemTemplateAttatchments.length > 0) {
+                                    for (var i = 0; i < IT.OtherItemTemplateAttatchments.length; i++) {
+
+                                        filePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
+
+                                        var OtherfilePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
+                                        console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
+                                        otherAttachmentLink = otherAttachmentLink.concat('<a class="fancybox" rel="chimps" style="display:none;" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a>');
+
+                                    }
+                                    //$(IT.OtherItemTemplateAttatchments).each(function (i, otherAttachVal) {
+
+                                    //    filePathOfAttachment = otherAttachVal.FilePath;
+
+                                    //    var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                    //    otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+
+
+                                    //});
+                                }
+                            }
+
+                        } else {
+
+                            if (IT.OtherItemAttatchments != null) {
+
+                                if (IT.OtherItemAttatchments.length > 0) {
+
+                                    $(IT.OtherItemAttatchments).each(function (i, otherAttachVal) {
+
+                                        if (otherAttachVal.FileName == IT.Attatchment._fileName) {
+                                        } else {
+                                            var OtherAttachFileName = otherAttachVal.FileName;
+                                            while (OtherAttachFileName.indexOf(" ") > 0) {
+                                                OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                            }
+
+                                            var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                        }
+
+                                    });
+                                }
+                            }
+                            var AttachFileName = IT.Attatchment._fileName;
+
+                            if (AttachFileName != "" && AttachFileName != null) {
+                                while (AttachFileName.indexOf(" ") > 0) {
+                                    AttachFileName = AttachFileName.replace(" ", "%20");
+                                }
+                            }
+
+                            //InnerHtml += '<tr>';
+                            filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
+
+
+                        }
+
+
+
+
+
+                        var proFriendlyName = "";
+                        if (IT.ProductFriendlyName != "" && IT.ProductFriendlyName != null) {
+                            proFriendlyName = IT.ProductFriendlyName;
+                        } else {
+                            proFriendlyName = IT.ProductName;
+                        }
+
+                        if ('@ViewBag.IsShowPrices' == "True") {
+
+                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>');
+
+                        }
+                        else {
+
+                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', '', '</label></td> <td><label id="VAT">', "", '</label></td><td><label id="Total">', "", '</label></td></tr>');
+
+                        }
+
+                    }
+                });
+                InnerHtml += '</table>' + otherAttachmentLink;
+                $("#GridTable").html(InnerHtml);
+                var panelHtml = $("#Vorder").html();
+                console.log(panelHtml);
+                ViewOrderPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvieworder", UserCookieManager.WBStoreId, "View Order"))', panelHtml);
+            }
 
         });
 
-        var NewOrderID;
-        var SaveFlag = false;
+    }
+    function ShowImage(ImagePath) {
+        alert(ImagePath);
+    }
+    function ConfirmApprove(OrderID) {
+        ConfirmPopUpForApprove();
+        NewOrderID = OrderID;
 
-        function ViewOrder(orderId) {
-            ShowLoader();
-            $.ajax({
-                type: "GET",
-                url: "/webstoreapi/Order/GetData",
-                contentType: "application/json",
-                data: { orderID: orderId },
-                async: true,
-                success: function (response) {
+    }
+    function ConfirmReject(OrderID) {
+        ConfirmPopUpForReject();
+        NewOrderID = OrderID;
+    }
+    function OrderApprove(OrderID, Po) {
+        var data = { OrderID: OrderID, PO: Po }
+        $.ajax({
+            type: "POST",
+            url: "/ProductPendingOrders/Save",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+                window.location.href = "/ProductPendingOrders";
+            }
+        });
+        HideLoader();
+    }
 
-                    $("#Grandtotal").text(response.GrossTotal);
-                    $("#subtotal").text(response.SubTotal);
-                    $("#Vat").text(response.VAT);
+    //$("#ApproveOk").on('Click',function(){
 
-                    $("#OrderCode").text(response.OrderCode);
-                    $("#OrderStatus").text(response.StatusName);
-                    $("#OrderDate").text(response.OrderDateValue);
-                    $("#OrderPlaceBy").text(response.PlacedBy + "" + '(' + response.CompanyName + ')');
-                    $("#OrderDeliveryDate").text(response.DeliveryDateValue);
-                    $("#DelCharge").text(response.DeliveryCostCharges);
-                    $("#BillingAddressName").text(response.billingAddress.AddressName);
-                    if (response.billingAddress.Address1 != null || response.billingAddress.Address1 != '') {
-                        $("#BillingAddressline1").text(response.billingAddress.Address1);
-                    }
-                    if (response.billingAddress.Address2 == null) {
+    //    SaveFlag=true;
 
-                        $("#BillingAddressline2").text('');
-                    }
-                    else { $("#BillingAddressline2").text(response.billingAddress.Address2); }
-                    //if (response.billingAddress.Address2 != 'null') {
-                    //    alert(response.billingAddress.Address2);
-                    //    $("#BillingAddressline2").text(response.billingAddress.Address2);
-                    //}
-                    $("#BillingAddressCity").text(response.billingAddress.City);
-                    // if ((response.billingAddress.State) != null) {
+    //    ShowPopUpForConfirmApprove();
+    //});
 
-                    if (response.BillingState != '')
-                    { $("#BillingAddressState").text(response.BillingState);}
-                    //}
-                    // if (response.billingAddress.Country!= null)
-                    //{
-                    if (response.BillingCountry!= '')
-                    {
-                        $("#BillingAddressCountryName").text(response.BillingCountry);
-                    }
+    function Show() {
+        OrderApprove(NewOrderID, "");
+        //ShowPopUpForConfirmApprove();
+    }
+    function oKApproveOrder() {
+        var Po = $("#MyPoNo").val();
 
-                    //}
-                    $("#BillingAddressPostCode").text(response.billingAddress.PostCode);
-
-                    $("#BillingAddressContactNumber").text(response.billingAddress.ContactMobile);
-
-                    $("#DeliveryAddressName").text(response.shippingAddress.AddressName);
-
-                    if (response.shippingAddress.Address1 == null)
-                    {
-                        $("#DeliveryAddressline1").text('');
-                    }
-                    else
-                    {
-                        $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
-                    }
-
-                    if (response.shippingAddress.Address2 == null)
-                    {
-                        $("#DeliveryAddressline2").text('');
-                    }
-                    else
-                    {
-                        $("#DeliveryAddressline2").text(response.shippingAddress.Address2);
-                    }
-
-                    $("#DeliveryAddressCity").text(response.shippingAddress.City);
-                    //  if (response.shippingAddress.State != null) {
-                    if (response.ShippingState != '') {
-                        $("#DeliveryAddressState").text(response.ShippingState);
-                    }
-
-
-                    $("#DeliveryAddressPost").text(response.shippingAddress.PostCode)
-                    if (response.ShippingCountry != '') {
-                        $("#DeliveryAddressCountryName").text(response.ShippingCountry);
-                    }
-                    var GSTLable =  "@Html.Raw(Html.GetKeyValueFromResourceFile("lblVatHeadingText", UserCookieManager.WBStoreId, "VAT"))";
-                    $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
-                    var GridItems = response.CartItemsList;
-                    var InnerHtml = ""; //"<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
-                    if ('@ViewBag.IsShowPrices' == "True") {
-                        InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>" + GSTLable + "</th><th>Total</th></tr></thead>";
-
-                    }
-                    else {
-                        InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th></th><th></th><th></th></tr></thead>";
-
-                    }
-                    var otherAttachmentLink = "";
-                    $.each(GridItems, function (i, IT) {
-                        {
-                           
-                            var filePathOfAttachment = "";
-                            if (IT.ProductType == 1) {
-                                if (IT.OtherItemTemplateAttatchments != null) {
-
-                                    if (IT.OtherItemTemplateAttatchments.length > 0) {
-
-                                        $(IT.OtherItemTemplateAttatchments).each(function (i, otherAttachVal) {
-
-                                            filePathOfAttachment = otherAttachVal.FilePath;
-
-                                            var OtherfilePathOfAttachment = otherAttachVal.FilePath;
-                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
-
-
-                                        });
-                                    }
-                                }
-
-                            } else {
-
-                                if (IT.OtherItemAttatchments != null) {
-
-                                    if (IT.OtherItemAttatchments.length > 0) {
-
-                                        $(IT.OtherItemAttatchments).each(function (i, otherAttachVal) {
-
-                                            if (otherAttachVal.FileName == IT.Attatchment._fileName) {
-                                            } else {
-                                                var OtherAttachFileName = otherAttachVal.FileName;
-                                                while (OtherAttachFileName.indexOf(" ") > 0) {
-                                                    OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
-                                                }
-
-                                                var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
-                                                otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
-                                            }
-
-                                        });
-                                    }
-                                }
-                                var AttachFileName = IT.Attatchment._fileName;
-
-                                if (AttachFileName != "" && AttachFileName != null) {
-                                    while (AttachFileName.indexOf(" ") > 0) {
-                                        AttachFileName = AttachFileName.replace(" ", "%20");
-                                    }
-                                }
-
-                                //InnerHtml += '<tr>';
-                                filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
-
-
-                            }
-                          
-
-
-
-                          
-                            var proFriendlyName = "";
-                            if (IT.ProductFriendlyName != "" && IT.ProductFriendlyName != null) {
-                                proFriendlyName = IT.ProductFriendlyName;
-                            } else {
-                                proFriendlyName = IT.ProductName;
-                            }
-
-                            if ('@ViewBag.IsShowPrices' == "True")
-                            {
-
-                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>');
-
-                            }
-                            else
-                            {
-
-                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', '', '</label></td> <td><label id="VAT">', "", '</label></td><td><label id="Total">', "", '</label></td></tr>');
-
-                            }
-
-                        }
-                    });
-                    InnerHtml += '</table>' + otherAttachmentLink;
-                    $("#GridTable").html(InnerHtml);
-                    var panelHtml = $("#Vorder").html();
-                    console.log(panelHtml);
-                    ViewOrderPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvieworder", UserCookieManager.WBStoreId, "View Order"))', panelHtml);
-                }
-
-            });
-
-        }
-        function ShowImage(ImagePath)
-        {
-            alert(ImagePath);
-        }
-        function ConfirmApprove(OrderID)
-        {
-            ConfirmPopUpForApprove();
-            NewOrderID = OrderID;
-
-        }
-        function ConfirmReject(OrderID)
-        {
-            ConfirmPopUpForReject();
-            NewOrderID = OrderID;
-        }
-        function OrderApprove(OrderID,Po)
-        {
-            var data={ OrderID: OrderID, PO: Po}
-            $.ajax({
-                type: "POST",
-                url: "/ProductPendingOrders/Save",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                async: true,
-                success: function (response) {
-                    window.location.href = "/ProductPendingOrders";
-                }
-            });
-            HideLoader();
-        }
-
-        //$("#ApproveOk").on('Click',function(){
-
-        //    SaveFlag=true;
-
-        //    ShowPopUpForConfirmApprove();
-        //});
-
-        function Show()
-        {
-            OrderApprove(NewOrderID, "");
-            //ShowPopUpForConfirmApprove();
-        }
-        function oKApproveOrder()
-        {
-            var Po = $("#MyPoNo").val();
-
-            OrderApprove(NewOrderID, Po);
-        }
-        function RejectOrder()
-        {
-            var data = {OrderID: NewOrderID }
-            $.ajax({
-                type: "POST",
-                url: "/ProductPendingOrders/ApporRejectOrder",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                async: true,
-                success: function (response) {
-                    window.location.href = "/ProductPendingOrders";
-                }
-            });
-            HideLoader();
-        }
+        OrderApprove(NewOrderID, Po);
+    }
+    function RejectOrder() {
+        var data = { OrderID: NewOrderID }
+        $.ajax({
+            type: "POST",
+            url: "/ProductPendingOrders/ApporRejectOrder",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+                window.location.href = "/ProductPendingOrders";
+            }
+        });
+        HideLoader();
+    }
 </script>
 
