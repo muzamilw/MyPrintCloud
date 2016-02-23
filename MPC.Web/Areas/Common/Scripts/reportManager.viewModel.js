@@ -32,11 +32,12 @@
                       CategoryId = ko.observable(),
                      CriteriaParam = ko.observable(),
                       ComboValue = ko.observable(0),
+                       ComboValue2 = ko.observable(0),
                       ParamDateFrom = ko.observable(),
                       ParamDateTo = ko.observable(),
                        ParamValue = ko.observable(),
                      ReportTitle = ko.observable(),
-                    
+                    comboSelectedValues = ko.observableArray([]),
 
                      //SignedBy: CategoryId,
                         //ContactId: IsExternal,
@@ -130,11 +131,19 @@
                                     if (data.length != 0) {
                                         _.each(data, function (item) {
 
-                                            reportParamsList.push(model.ReportParam(item.param));
+                                            var param = model.ReportParam(item.param);
+
+                                           
 
                                             _.each(item.ComboList, function (comb) {
-                                                paramComboList.push(model.ComboMapper(comb));
+                                                param.comboMapper.push(model.ComboMapper(comb));
                                             });
+                                            reportParamsList.push(param);
+                                            //reportParamsList.push(model.ReportParam(item.param));
+
+                                            //_.each(item.ComboList, function (comb) {
+                                            //    paramComboList.push(model.ComboMapper(comb));
+                                            //});
                                         });
 
 
@@ -173,8 +182,24 @@
 
                      OpenReportForParams = function () {
 
+                         //_.each(comboMapper(), function (item) {
 
+                             
+                         //    comboSelectedValues.push(item.SelectedComboId());
+                         //    //reportParamsList.push(model.ReportParam(item.param));
+
+                         //    //_.each(item.ComboList, function (comb) {
+                         //    //    paramComboList.push(model.ComboMapper(comb));
+                         //    //});
+                         //});
                         
+
+                         var comboValue1 = $("#prefix_0").val();
+                         ComboValue(comboValue1);
+
+                         var value = $("#prefix_1").val();
+                         ComboValue2(value);
+
                          if (ParamDateFrom() != undefined)
                          {
                              DateFrom = moment(ParamDateFrom()).format(ist.datePatternUs);
@@ -195,7 +220,7 @@
 
                          if (outputTo() == "preview") {
 
-                             var scr = "/mis/Home/Viewer?id=" + selectedReportId() + "&itemId=" + selectedItemId() + "&ComboValue=" + ComboValue() + "&Datefrom=" + DateFrom + "&DateTo=" + DateTo + "&ParamTextValue=" + ParamValue();
+                             var scr = "/mis/Home/Viewer?id=" + selectedReportId() + "&itemId=" + selectedItemId() + "&ComboValue=" + comboValue1 + "&Datefrom=" + DateFrom + "&DateTo=" + DateTo + "&ParamTextValue=" + ParamValue() + "&ComboValue2=" + value;
                              selectedReportId(selectedReportId());
                              $("#ReportViewerIframid").attr("src", scr);
                              errorList.removeAll();
@@ -537,6 +562,7 @@
                     reportParamsList: reportParamsList,
                     paramComboList: paramComboList,
                     ComboValue: ComboValue,
+                    ComboValue2: ComboValue2,
                     ParamDateFrom: ParamDateFrom,
                     ParamDateTo: ParamDateTo,
                     ParamValue: ParamValue,

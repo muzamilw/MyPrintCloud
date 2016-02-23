@@ -124,12 +124,13 @@
             ControlType = ko.observable(source.ControlType),
             ParmName = ko.observable(source.ParmName),
             Caption1 = ko.observable(source.Caption1)
-
+           
 
         } else {
             ControlType = ko.observable(),
             ParmName = ko.observable(),
             Caption1 = ko.observable()
+           
         }
 
 
@@ -147,6 +148,7 @@
        hasChanges = ko.computed(function () {
            return dirtyFlag.isDirty();
        }),
+      
         // Reset
        reset = function () {
            dirtyFlag.reset();
@@ -173,13 +175,13 @@
         if (source != undefined) {
             ComboId = ko.observable(source.ComboId),
             ComboText = ko.observable(source.ComboText)
-
+           
 
 
         } else {
             ComboId = ko.observable(),
             ComboText = ko.observable()
-
+           
         }
 
 
@@ -272,7 +274,10 @@
             Caption1 = ko.observable(source.Caption1),
             ReportId = ko.observable(source.ReportId),
             ControlType = ko.observable(source.ControlType),
-            Caption2 = ko.observable(source.Caption2)
+            Caption2 = ko.observable(source.Caption2),
+             comboMapper = ko.observableArray([]),
+             SelectedComboId = ko.observable()
+           
         } else {
 
             ParmId = ko.observable(),
@@ -280,7 +285,9 @@
            Caption1 = ko.observable(),
            ReportId = ko.observable(),
            ControlType = ko.observable(),
-           Caption2 = ko.observable()
+           Caption2 = ko.observable(),
+            comboMapper = ko.observableArray([]),
+           SelectedComboId = ko.observable()
         }
 
 
@@ -308,6 +315,8 @@
             ReportId: ReportId(),
             ControlType: ControlType(),
             Caption2: Caption2(),
+            comboMapper: comboMapper(),
+            SelectedComboId: SelectedComboId(),
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,

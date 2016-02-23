@@ -16,7 +16,7 @@ namespace MPC.MIS.Models
         public string DateTo { get; set; }
         public string ParamTextValue { get; set; }
 
-
+        public int ComboValue2 { get; set; }
        
     }
 }
