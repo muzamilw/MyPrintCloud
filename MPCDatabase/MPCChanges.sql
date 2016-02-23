@@ -10230,20 +10230,24 @@ select @NewTemplateID
 END
 
 
+alter table items alter column Tax1 float
+GO
+alter table items drop DF__tbl_items__Tax2__65C116E7
+GO
+alter table items alter column Tax2 float
+GO
+alter table items drop DF__tbl_items__Tax3__66B53B20
+GO
+alter table items alter column Tax3 float
+GO
 
 
-
----------------------------------------------
 
 /****** Object:  StoredProcedure [dbo].[usp_ExportInvoice]    Script Date: 2/19/2016 12:33:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
-
-
-
 
 Create procedure [dbo].[usp_ExportInvoice] --1, 20823
  @InvoiceId bigint
@@ -10285,7 +10289,6 @@ INNER JOIN
 					  where dbo.Invoice.InvoiceId = @InvoiceId
 
 end
-
 
 
 

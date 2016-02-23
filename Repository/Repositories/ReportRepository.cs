@@ -97,6 +97,7 @@ namespace MPC.Repository.Repositories
                     string queryString = string.Empty;
                     if (Id == 519 || ReportName == "Order Report By Store" ) // stock report hard code id because of organisation id check
                     {
+                    
                         if(item.ComboTableName == "Company")
                         {
                             queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName + " " + OrganisationId;
@@ -730,6 +731,21 @@ namespace MPC.Repository.Repositories
 
             }
         }
+        public long GetReportIdByName(string ReportName)
+        {
+            try
+            {
+                return db.Reports.Where(c => c.Name == ReportName).Select(c => c.ReportId).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        
+        }
+
         // GetReportsByOrganisationID
     }
 }

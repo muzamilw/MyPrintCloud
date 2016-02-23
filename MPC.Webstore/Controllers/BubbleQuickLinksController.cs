@@ -122,8 +122,9 @@ namespace MPC.Webstore.Controllers
 
         }
         [HttpPost]
-        public ActionResult Index(string name, string email, string comment)
+        public void SendEmailData(string name, string email, string comment)
         {
+
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
             try
             {
@@ -136,7 +137,6 @@ namespace MPC.Webstore.Controllers
                 string MesgBody = "";
                 if (StoreBaseResopnse.Organisation != null)
                 {
-                    //organisationResponse
                     smtpUser = StoreBaseResopnse.Organisation.SmtpUserName == null ? "" : StoreBaseResopnse.Organisation.SmtpUserName;
                     smtpserver = StoreBaseResopnse.Organisation.SmtpServer;
                     smtpPassword = StoreBaseResopnse.Organisation.SmtpPassword;
@@ -164,13 +164,11 @@ namespace MPC.Webstore.Controllers
                         //txtCompany.Text = "";
                         //txtEnquiry.Text = "";
                         //txtEmail.Text = "";
-                       
                     }
                     else
                     {
                        
                     }
-                 
                 }
                 if (_myClaimHelper.loginContactID() > 0)
                 {
@@ -181,70 +179,12 @@ namespace MPC.Webstore.Controllers
                     ViewBag.IsLogin = 0;
                 }
                 SetDefaultAddress(StoreBaseResopnse);
-                if (StoreBaseResopnse.SecondaryPages != null)
-                {
-                    if (StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Terms & Conditions") && p.isUserDefined == true && p.isEnabled == true).Count() > 0)
-                    {
-                        ViewBag.TermAndCondition = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Terms & Conditions") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
-                    }
-
-                    if (StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).Count() > 0)
-                    {
-                        ViewBag.PrivacyPolicy = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
-                    }
-                }
-                if (StoreBaseResopnse.Company.isDisplaySecondaryPages == true)
-                {
-                    ViewBag.Display = "1";
-
-                    List<PageCategory> oPageCategories = StoreBaseResopnse.PageCategories.ToList();
-                    List<PageCategory> oPageUpdateCategories = new List<PageCategory>();
-                    foreach (PageCategory opageC in oPageCategories)
-                    {
-                        if (StoreBaseResopnse.SecondaryPages != null && StoreBaseResopnse.SecondaryPages.Where(p => p.CategoryId == opageC.CategoryId).ToList().Count() > 0)
-                        {
-                            oPageUpdateCategories.Add(opageC);
-                        }
-                    }
-                    if (oPageCategories != null && oPageCategories.Count() > 1)
-                    {
-                        ViewData["PageCategory"] = oPageUpdateCategories.Take(1).ToList();
-                    }
-                    else
-                    {
-                        ViewData["PageCategory"] = oPageUpdateCategories.ToList();
-                    }
-
-                    ViewData["CmsPage"] = StoreBaseResopnse.SecondaryPages;
-                }
-                else
-                {
-                    throw new Exception("Critcal Error, Store Sales Manager record not available.", null);
-                }
-                
+             
             }
             catch (Exception ex)
             {
                 
             }
-
-            MyCompanyDomainBaseReponse StoreBaseResopnse1 = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-
-            SetDefaultAddress(StoreBaseResopnse1);
-            if (StoreBaseResopnse.SecondaryPages != null)
-            {
-                if (StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Terms & Conditions") && p.isUserDefined == true && p.isEnabled == true).Count() > 0)
-                {
-                    ViewBag.TermAndCondition = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Terms & Conditions") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
-                }
-
-                if (StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).Count() > 0)
-                {
-                    ViewBag.PrivacyPolicy = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
-                }
-            }
-
-            return PartialView("PartialViews/BubbleQuickLinks", StoreBaseResopnse.Company);
         }
     }
 }

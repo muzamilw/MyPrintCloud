@@ -144,8 +144,6 @@
                                 </div>
                                 <div class="form-box">
 
-                                    @using (Html.BeginForm())
-{
                                         <div class="fieldset">
                                             <h3 class="legend">We would like to hear from you</h3>
                                             <ul class="form-list">
@@ -175,9 +173,9 @@
                                         <div class="buttons-set">
                                             <p class="required">* Required Fields</p>
                                             <input type="text" name="hideit" id="hideit" value="" style="display:none !important;">
-                                            <button type="submit" title="Send" class="button"><span><span>Send</span></span></button>
+                                            <button onclick="SendEmailData();" title="Send" class="button"><span><span>Send</span></span></button>
                                         </div>
-}
+
 
                                 </div>
                             </div>
@@ -233,3 +231,80 @@
 <link href="/Content/BubbleFiles/bubbles2.css" rel="stylesheet" media="print" />
 
 <script src="/Content/BubbleFiles/Bubble.js"></script>*@
+
+<script type="text/javascript">
+
+
+    function Validation()
+    {
+        var IsValid = true;
+
+        if ($("#name").val() == '') {
+           
+            $("#name").css("border", "1px solid #ee001c ");
+            IsValid = false;
+        }
+
+        else {
+            //$("#divAddressName").css('display', 'none');
+
+            $("#name").css("border", "1px solid rgb(193, 198, 204)");
+        }
+
+
+
+        if ($("#email").val() == '') {
+            
+            $("#email").css("border", "1px solid #ee001c ");
+            IsValid = false;
+        }
+
+        else {
+
+            $("#email").css("border", "1px solid rgb(193, 198, 204)");
+        }
+
+
+        if ($("#comment").val() == '') {
+            
+            $("#comment").css("border", "1px solid #ee001c");
+            IsValid = false;
+        }
+
+        else {
+            
+            $("#comment").css("border", "1px solid rgb(193, 198, 204)");
+        }
+
+        return IsValid;
+    }
+
+    function SendEmailData()
+    {
+        if (Validation() == true) {
+            var Name = $("#name").val();
+            var Email= $("#email").val();
+            var Comment = $("#comment").val();
+
+            var data = { name: Name, email: Email, comment: Comment };
+            $.ajax({
+                type:"POST",
+                url: "/BubbleQuickLinks/SendEmailData",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                async: true,
+                success: function (response) {
+                    ShowPopUp('Message', 'Your message has been conveyed successfully!');
+                     $("#name").val('');
+                   $("#email").val('');
+                    $("#comment").val('');
+                },
+                error: function (error) {
+
+                }
+            });
+
+        }
+    }
+   
+</script>
