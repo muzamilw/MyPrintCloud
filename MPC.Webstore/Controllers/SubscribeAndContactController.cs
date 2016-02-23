@@ -163,7 +163,7 @@ Utils.GetKeyValueFromResourceFile("ltrllemail", UserCookieManager.WBStoreId, "Em
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
                         ViewBag.Message =
-Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.WBStoreId, "Someone is already subscribed with provided email. Please use a different email.");
+                                Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.WBStoreId, "Someone is already subscribed with provided email. Please use a different email.");
 
                     }
                     else
