@@ -75,6 +75,7 @@ define("stores/stores.viewModel",
                     selectedStore = ko.observable(new model.Store),
                     selectedCategoryName = ko.observable("Products"),
                     selectedStoreCss = ko.observable(),
+                    selectedCustomWidget = ko.observable(),
                     //Selected Company Contact
                     companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
                     selectedCompanyContact = companyContactEditorViewModel.itemForEditing,
@@ -104,6 +105,7 @@ define("stores/stores.viewModel",
                     bannerButtonCaption = ko.observable(),
                     editorHtmlData = ko.observable(),
                     editedWidgetId = ko.observable(),
+                    isCustomWidgetLoad = ko.observable(false),
                     defaultCountryId = ko.observable(),
                     CompanyVariableIconBinary = ko.observable(),
                      CompanyVariableIconName = ko.observable(),
@@ -5583,6 +5585,7 @@ define("stores/stores.viewModel",
                                     pageSkinWidgets.splice(0, 0, newWidget);
                                 }
                                 isLoadingStores(false);
+                                selectedStore().hasChanges(true);
                             },
                             error: function (response) {
                                 isLoadingStores(false);
@@ -5599,6 +5602,7 @@ define("stores/stores.viewModel",
                     },
                     //show Ck Editor Dialog
                     showCkEditorDialog = function (widget) {
+                        isCustomWidgetLoad(false);
                         ckEditorOpenFrom("StoreLayout");
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
                         //widget.cmsSkinPageWidgetParam().editorId("editor" + newAddedWidgetIdCounter());
@@ -5609,16 +5613,24 @@ define("stores/stores.viewModel",
                     },
                     //Save Widget Params That are set in CkEditor
                     onSaveWidgetParamFromCkEditor = function (widgetParams) {
-                        var param = CKEDITOR.instances.content.getData();
-                        _.each(pageSkinWidgets(), function (item) {
-                            if (editedWidgetId() === item.pageWidgetId()) {
-                                //item.htmlData(param);
-                                item.cmsSkinPageWidgetParam().paramValue(param);
-                            }
-                        });
+                        if (isCustomWidgetLoad() === false) {
+                            var param = CKEDITOR.instances.content.getData();
+                            _.each(pageSkinWidgets(), function (item) {
+                                if (editedWidgetId() === item.pageWidgetId()) {
+                                    //item.htmlData(param);
+                                    item.cmsSkinPageWidgetParam().paramValue(param);
+                                }
+                            });
+                            selectedWidget(undefined);
+                            view.hideCkEditorDialogDialog();
+                        } else {
+                            var customHtml = CKEDITOR.instances.content.getData();
+                            selectedCustomWidget().widgetHtml(customHtml);
+                            saveCustomWidget();
+                        }
+                        
                         //selectedStore().storeLayoutChange("change");
-                        selectedWidget(undefined);
-                        view.hideCkEditorDialogDialog();
+                       
                     },
                     //#endregion
 
@@ -7576,9 +7588,60 @@ define("stores/stores.viewModel",
                     openStoreLayoutWidgetsCssDialog();
                 },
                 editCustomWidget = function(widget) {
-                    openStoreLayoutWidgetsCssDialog();
+                    isCustomWidgetLoad(true);
+                    ckEditorOpenFrom("StoreLayout");
+                    editorHtmlData(widget.widgetHtml());
+                    selectedCustomWidget(widget);
+                    view.showCkEditorDialogDialog();
                 },
-                
+                addCustomWidget = function() {
+                    var widget = model.Widget.Create({});
+                    widget.widgetName("New Custom Widget");
+                    widget.widgetCode("WCW");
+                    widget.widgetControlName("default Custom Widget");
+                    editCustomWidget(widget);
+                },
+                deleteCustomWidget = function (widget) {
+                    confirmation.messageText("WARNING - Are you sure you want to delete this widget?");
+                    confirmation.afterProceed(function () {
+                        dataservice.deleteCustomWidget(widget.convertToServerData(), {
+                            success: function (data) {
+                                if (data != null) {
+                                    if (data == true) {
+                                        selectedCustomWidget(undefined);
+                                        organisationWidgets.remove(widget);
+                                        toastr.success("Widget deleted successfully.");
+                                    }
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Widget cannot be deleted as it is in use.", "", ist.toastrOptions);
+                            }
+                        });
+                    });
+                    confirmation.show();
+                },
+                saveCustomWidget = function () {
+                    var updatedWidget = selectedCustomWidget().convertToServerData();
+                    dataservice.saveCustomWidget(updatedWidget, {
+                        success: function (data) {
+                            if (data != null) {
+                                isCustomWidgetLoad(false);
+                                if (selectedCustomWidget().widgetId() == 0 || selectedCustomWidget().widgetId() == undefined) {
+                                    var widget = model.Widget.Create(data);
+                                    organisationWidgets.push(widget);
+                                }
+                                    
+                                selectedCustomWidget(undefined);
+                                view.hideCkEditorDialogDialog();
+                                toastr.success("Widget saved successfully.");
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Error: Failed To save custom widget " + response, "", ist.toastrOptions);
+                        }
+                    });
+                },
                 getOrganisationWidgets = function() {
                     dataservice.getOrganisationWidgets({
                         success: function (data) {
@@ -8097,7 +8160,11 @@ define("stores/stores.viewModel",
                     editedWidgetId: editedWidgetId,
                     organisationWidgets: organisationWidgets,
                     getOrganisationWidgets: getOrganisationWidgets,
-                    editCustomWidget: editCustomWidget
+                    editCustomWidget: editCustomWidget,
+                    selectedCustomWidget: selectedCustomWidget,
+                    addCustomWidget: addCustomWidget,
+                    isCustomWidgetLoad: isCustomWidgetLoad,
+                    deleteCustomWidget: deleteCustomWidget
                     //Show RealEstateCompaign VariableIcons Dialog
                     //showcreateVariableDialog: showcreateVariableDialog
                 };
