@@ -596,7 +596,7 @@ namespace MPC.Implementation.MISServices
                                     }
                                 }
                             }
-                            else
+                            else if (ComboValue2 > 0)
                             {
                                 CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue2 + " ";
                             }
@@ -613,17 +613,17 @@ namespace MPC.Implementation.MISServices
                     {
 
 
-                        if (DateFrom != "undefined" && DateTo != "undefined")
+                        if (DateFrom != null && DateTo != null)
                         {
                             CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + DateFrom + "' and '" + DateTo + "'";
                             //CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " >= '" +  DateFrom + "' and " + param.ComboIDFieldName + " <= '" + DateTo + "'";
                         }
-                        else if (DateFrom != "undefined" && DateTo == "undefined")
+                        else if (DateFrom != null && DateTo == null)
                         {
                             DateTo = Convert.ToString(DateTime.Now);
                             CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + DateFrom + "' and '" + DateTo + "'";
                         }
-                        else if (DateFrom != "undefined" && DateTo == "undefined")
+                        else if (DateFrom == null && DateTo != null)
                         {
                             CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " <= '" + DateTo + "'";
                         }
