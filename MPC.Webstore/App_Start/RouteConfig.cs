@@ -359,6 +359,15 @@ namespace MPC.Webstore
             );
 
             routes.MapRoute(
+                   "SendSubscriptionData",
+                   "NewsletterSubscriber/SendSubsricptionDAta",
+                   new { controller = "NewsletterSubscriber", action = "SendSubsricptionDAta", id = UrlParameter.Optional }
+           );
+
+
+
+
+            routes.MapRoute(
                 "AddAddress",
                 "BillingShippingAddressManager/AddNewAddress",
                 new { controller = "BillingShippingAddressManager", action = "AddNewAddress", id = UrlParameter.Optional }
