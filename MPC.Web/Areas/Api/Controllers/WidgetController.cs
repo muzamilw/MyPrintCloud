@@ -71,9 +71,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public bool Delete(Widget request)
+        public bool Delete(Widget widget)
         {
-            _widgetService.DeleteWidget(request.CreateFrom());
+            _widgetService.DeleteWidget(widget.WidgetId);
             return true;
         }
         #endregion

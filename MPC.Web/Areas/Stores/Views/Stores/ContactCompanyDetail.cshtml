@@ -2813,7 +2813,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                             </div>
                                         </header>
-                                        <div style="border:1px solid #eeeeee;padding-right:5px;padding-left:3px; padding-bottom:20px;min-height:175px; max-height:700px;overflow-y:scroll;" id="widgetDiv">
+                                        <div style="border:1px solid #eeeeee;padding-right:5px;padding-left:3px; padding-bottom:20px;min-height:175px; max-height:200px;overflow-y:scroll;" id="widgetDiv">
                                             <ol class="dd-list" id="mywidgets">
                                                 <!-- ko template: { name: 'mywidgetsTemplate', foreach: $root.organisationWidgets }-->
                                                 <!-- /ko -->
@@ -4046,7 +4046,12 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <div class="nested-links" style="margin-top:-20px;">
                 <i class="fa fa-pencil cursorShape" data-bind="click:$root.editCustomWidget"></i>
                 &nbsp;&nbsp;
-                <a href="#" class="nested-link" title="Add Widget" data-bind="click:$root.addWidgetToPageLayout"><i class="fa fa-plus"></i></a>
+                <a href="#" class="nested-link" title="Delete Widget" data-bind="click:$root.deleteCustomWidget"><i class="glyphicon glyphicon-remove" style="cursor: pointer;margin-right: 10px;margin-top: 3px; color:red; font-weight: bold;"></i></a>
+                @*<span class="glyphicon glyphicon-remove pull-right"  title="Delete" data-bind="click:$root.deleteCustomWidget"></span>*@
+                
+                &nbsp;&nbsp;
+                
+                <a href="#" class="nested-link" title="Add Widget to Page" data-bind="click:$root.addWidgetToPageLayout"><i class="fa fa-plus"></i></a>
             </div>
         </div>
 

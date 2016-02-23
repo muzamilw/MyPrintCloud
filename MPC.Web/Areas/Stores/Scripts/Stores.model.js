@@ -3464,7 +3464,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     WidgetId: widgetId(),
                     WidgetName: widgetName(),
                     WidgetCode: widgetCode(),
-                    WidgetControlName: widgetControlName(),
+                    WidgetControlName: widgetName(),
                     widgetCss: widgetCss(),
                     WidgetHtml: widgetHtml()
                     

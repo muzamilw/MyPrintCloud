@@ -12,6 +12,6 @@ namespace MPC.Interfaces.MISServices
         Widget GetWidgetById(long widgetId);
         IEnumerable<Widget> GetWidgetsByOrganisation();
         Widget SaveWidget(Widget widget);
-        void DeleteWidget(Widget widget);
+        void DeleteWidget(long widgetId);
     }
 }

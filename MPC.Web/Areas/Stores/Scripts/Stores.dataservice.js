@@ -448,6 +448,12 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Delete Custom Widget
+                    amplify.request.define('deleteCustomWidget', 'ajax', {
+                        url: ist.siteUrl + '/Api/Widget',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
                     // Define request to delete Store
                     amplify.request.define('archiveSpotColor', 'ajax', {
                         url: ist.siteUrl + '/Api/SpotColor',
@@ -1123,6 +1129,15 @@
                     data: param
                 });
             },
+            deleteCustomWidget = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCustomWidget',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
 
         // save Store saveCustomWidget
         saveStore = function (param, callbacks) {
@@ -1201,7 +1216,8 @@
             getCompanyVariableIcons: getCompanyVariableIcons,
             archiveSpotColor: archiveSpotColor,
             getOrganisationWidgets: getOrganisationWidgets,
-            saveCustomWidget: saveCustomWidget
+            saveCustomWidget: saveCustomWidget,
+            deleteCustomWidget: deleteCustomWidget
         };
     })();
 

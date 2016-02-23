@@ -5585,6 +5585,7 @@ define("stores/stores.viewModel",
                                     pageSkinWidgets.splice(0, 0, newWidget);
                                 }
                                 isLoadingStores(false);
+                                selectedStore().hasChanges(true);
                             },
                             error: function (response) {
                                 isLoadingStores(false);
@@ -7597,9 +7598,28 @@ define("stores/stores.viewModel",
                     var widget = model.Widget.Create({});
                     widget.widgetName("New Custom Widget");
                     widget.widgetCode("WCW");
-                    widget.widgetControlName("defaultCustomWidget");
-                    organisationWidgets.push(widget);
+                    widget.widgetControlName("default Custom Widget");
                     editCustomWidget(widget);
+                },
+                deleteCustomWidget = function (widget) {
+                    confirmation.messageText("WARNING - Are you sure you want to delete this widget?");
+                    confirmation.afterProceed(function () {
+                        dataservice.deleteCustomWidget(widget.convertToServerData(), {
+                            success: function (data) {
+                                if (data != null) {
+                                    if (data == true) {
+                                        selectedCustomWidget(undefined);
+                                        organisationWidgets.remove(widget);
+                                        toastr.success("Widget deleted successfully.");
+                                    }
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Widget cannot be deleted as it is in use.", "", ist.toastrOptions);
+                            }
+                        });
+                    });
+                    confirmation.show();
                 },
                 saveCustomWidget = function () {
                     var updatedWidget = selectedCustomWidget().convertToServerData();
@@ -7607,6 +7627,11 @@ define("stores/stores.viewModel",
                         success: function (data) {
                             if (data != null) {
                                 isCustomWidgetLoad(false);
+                                if (selectedCustomWidget().widgetId() == 0 || selectedCustomWidget().widgetId() == undefined) {
+                                    var widget = model.Widget.Create(data);
+                                    organisationWidgets.push(widget);
+                                }
+                                    
                                 selectedCustomWidget(undefined);
                                 view.hideCkEditorDialogDialog();
                                 toastr.success("Widget saved successfully.");
@@ -8138,7 +8163,8 @@ define("stores/stores.viewModel",
                     editCustomWidget: editCustomWidget,
                     selectedCustomWidget: selectedCustomWidget,
                     addCustomWidget: addCustomWidget,
-                    isCustomWidgetLoad : isCustomWidgetLoad
+                    isCustomWidgetLoad: isCustomWidgetLoad,
+                    deleteCustomWidget: deleteCustomWidget
                     //Show RealEstateCompaign VariableIcons Dialog
                     //showcreateVariableDialog: showcreateVariableDialog
                 };
