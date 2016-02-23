@@ -4702,7 +4702,7 @@ namespace MPC.Repository.Repositories
                     {
                         ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
 
-                        citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+                        citem.Tax1 = StoreTaxRate;
 
                         citem.Qty1Tax1Value = CalculatePercentage(ItemBaseCharge, StoreTaxRate);
 
@@ -4964,6 +4964,8 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+   
     }
 }
 

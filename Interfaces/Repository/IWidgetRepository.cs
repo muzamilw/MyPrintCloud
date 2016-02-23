@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -7,5 +8,7 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IWidgetRepository : IBaseRepository<Widget, long>
     {
+        IEnumerable<Widget> GetWidgetsByOrganisation();
+        Widget GetWidgetById(long widgetId);
     }
 }

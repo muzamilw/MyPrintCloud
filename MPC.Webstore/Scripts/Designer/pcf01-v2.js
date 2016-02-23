@@ -1098,6 +1098,7 @@ function d5(pageID, isloading) {
     c2_v2();
     c2_v2();
     d5_sub(pageID, isloading);
+  
 }
 function d5_sub(pageID, isloading) {
     SP = pageID;
@@ -1263,6 +1264,21 @@ function d5_sub(pageID, isloading) {
             }
             oldPageId = SP;
             drawSafetyLine();
+            // apply DAM Restriction 
+            if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+                $("#btnFreeImagesEndUser,#btnFreeImgsCorp").text("Shared Images");
+            }
+            if (IsCalledFrom == 4 || IsCalledFrom == 3) {
+                if (Template.HideSharedImages == true) {
+                    $("#btnFreeImagesEndUser").css("display", "none");
+                    $(".ulImagesSecTop a").addClass("width46Percent");
+                }
+            }
+            if (IsCalledFrom == 2) {
+                if (Template.HideSharedImages == true) {
+                    $("#btnFreeImgsCorp").css("display", "none");
+                }
+            }
         }
     });
 }
@@ -2865,7 +2881,14 @@ function togglePage(pId) {
                         j8(path);
                     }
 
-                   // $(".collapseDesignerMenu").click();
+                    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage0");
+                  
+                    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+                        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+                        //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
+                        $("#FrontBackOptionPanal").css("display", "none");
+                    }
+                    $(".collapseDesignerMenu,.divBtmSticky ").css("display", "none"); $(".CanvasTopHeader").removeClass("stage3Menu");
                 }
             }
         } else {
@@ -4720,22 +4743,9 @@ function togglePage(pId) {
 
     }
     function pcL36(mode, arrayControls) {  // panels logic do here 
-        //var notInPanel = " #quickText , #DivPersonalizeTemplate , #DivToolTip , #DivAdvanceColorPanel ,  #divPositioningPanel , #DivControlPanel1 , #divBCMenu , #btnShowMoreOptions , #divPopupUpdateTxt , #divVariableContainer , #PreviewerContainerDesigner , #divPresetEditor ";
         var controls = "";
         controls += ' #DivAlignObjs ,#divTxtPropPanelRetail ,#divImgPropPanelRetail ,#DivColorPickerDraggable ,#DivAdvanceColorPanel';
-        //controls += '#addText , #addImage , #divImageDAM , #divImageEditScreen , #DivLayersPanel , #UploadImage , #ImagePropertyPanel , #ShapePropertyPanel ';
-        //controls += ' , #textPropertPanel , #quickTextFormPanel , #DivUploadFont , #DivColorPallet ';
-        // arrayControls += ', #divEditObj ';
         var closeControls = true;
-        //var p = arrayControls.split(" , ");
-        //$.each(p, function (i, item) {
-        //    if (controls.indexOf(item + " ") != -1) {
-        //        closeControls = true;
-        //    }
-        //});
-        // if (closeControls && mode != "hide") {
-
-        //  }
         if (mode == "show") {
             $(controls).css("display", "none");
             $(controls).css("opacity", "0");
@@ -4755,7 +4765,13 @@ function togglePage(pId) {
                 $(arrayControls).css("opacity", "0");
             }
         }
-
+        //if (arrayControls == "#divImageDAM") {
+        //    if (isImageUploaded && IsCalledFrom == 2) {
+        //        $("#newImageInfoContainer").css("display","block");
+        //    } else {
+        //        $("#newImageInfoContainer").css("display", "none");
+        //    }
+        //}
     }
     function pcl40(xdata) {
         $("#divVarList").html("");

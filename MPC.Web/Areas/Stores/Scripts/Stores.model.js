@@ -3448,17 +3448,27 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region __________________  Widget   ______________________
 
     // ReSharper disable once InconsistentNaming
-    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName, specifiedWidgetCss, specifiedThumbnailUrl, specifiedDescription) {
+    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName, specifiedWidgetCss, specifiedThumbnailUrl, specifiedDescription, specifiedHtml) {
 
         var self,
             widgetId = ko.observable(specifiedWidgetId),
             widgetName = ko.observable(specifiedWidgetName),
             widgetCode = ko.observable(specifiedWidgetCode),
             widgetControlName = ko.observable(specifiedWidgetControlName),
-
             widgetCss = ko.observable(specifiedWidgetCss),
             thumbnailUrl = ko.observable(specifiedThumbnailUrl),
-            description = ko.observable(specifiedDescription)
+            description = ko.observable(specifiedDescription),
+            widgetHtml = ko.observable(specifiedHtml),
+            convertToServerData = function() {
+                return {
+                    WidgetId: widgetId(),
+                    WidgetName: widgetName(),
+                    WidgetCode: widgetCode(),
+                    WidgetControlName: widgetControlName(),
+                    WidgetHtml: widgetHtml(),
+                    widgetCss: widgetCss()
+                };
+            };
       
 
         self = {
@@ -3466,10 +3476,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             widgetName: widgetName,
             widgetCode: widgetCode,
             widgetControlName: widgetControlName,
-
+            widgetHtml : widgetHtml,
             widgetCss: widgetCss,
             thumbnailUrl: thumbnailUrl,
-            description: description
+            description: description,
+            convertToServerData: convertToServerData
 
         };
         return self;
@@ -3481,7 +3492,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.WidgetName,
              source.WidgetCode,
              source.WidgetControlName,
-             
+             source.WidgetHtml,
              source.WidgetCss,
              source.ThumbnailUrl,
              source.Description

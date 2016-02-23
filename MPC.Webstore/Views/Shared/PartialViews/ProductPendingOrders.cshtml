@@ -515,16 +515,24 @@
                                 if (IT.OtherItemTemplateAttatchments != null) {
 
                                     if (IT.OtherItemTemplateAttatchments.length > 0) {
+                                        for (var i = 0; i < IT.OtherItemTemplateAttatchments.length; i++) {
 
-                                        $(IT.OtherItemTemplateAttatchments).each(function (i, otherAttachVal) {
+                                            filePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
 
-                                            filePathOfAttachment = otherAttachVal.FilePath;
+                                            var OtherfilePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
+                                            console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
+                                            otherAttachmentLink = otherAttachmentLink.concat('<a class="fancybox" rel="chimps" style="display:none;" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a>');
 
-                                            var OtherfilePathOfAttachment = otherAttachVal.FilePath;
-                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                        }
+                                        //$(IT.OtherItemTemplateAttatchments).each(function (i, otherAttachVal) {
+
+                                        //    filePathOfAttachment = otherAttachVal.FilePath;
+
+                                        //    var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                        //    otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
 
 
-                                        });
+                                        //});
                                     }
                                 }
 

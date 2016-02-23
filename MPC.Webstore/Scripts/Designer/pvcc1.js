@@ -162,6 +162,7 @@ var selectedPathIndex = 0;
 var conversionRatio = 1; // from points to system unit 
 var conversionUnit = "Points";
 var lastSel = "";
+var isImageUploaded = false;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];
@@ -209,8 +210,9 @@ function restrictControls() {
     $("#btnMenuCopy").css("visibility", "hidden");
     $("#btnMenuPaste").css("visibility", "hidden");
     $("#backgrounds").css("visibility", "hidden");
-    $("#layersPanel").css("visibility", "hidden");
+    $("#layersPanel,.btnAUploadFont").css("visibility", "hidden");
     $("#selectedTab").addClass("restrictedSelectedTab");
+
 }
 
 var difFound = false;

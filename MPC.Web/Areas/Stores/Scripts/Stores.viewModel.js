@@ -28,6 +28,7 @@ define("stores/stores.viewModel",
                     selectedWidget = ko.observable(),
                     // Error List
                     errorList = ko.observableArray([]),
+                    organisationWidgets = ko.observableArray([]),
                     //Active Company Domain
                     selectedCompanyDomainItem = ko.observable(),
                     //New Added fake Id counter
@@ -506,6 +507,7 @@ define("stores/stores.viewModel",
                                 }
                             });
                     },
+                    
                     getStoresByFilter = function() {
                         pager().reset();
                         getStores();
@@ -3813,9 +3815,10 @@ define("stores/stores.viewModel",
                             var notFound = true;
                             var count = 0;
                             _.each(selectedStore().paymentGateway(), function (item) {
-                                if (selectedPaymentGateway().isActive() && item.paymentGatewayId() != selectedPaymentGateway().paymentGatewayId()) {
-                                    item.isActive(false);
-                                }
+                                //if (selectedPaymentGateway().isActive() && item.paymentGatewayId() != selectedPaymentGateway().paymentGatewayId()) {
+                                //    item.isActive(false);
+                                //}
+                                //Code Commented to allow activation of multiple payment gateways. 20160218
                                 if (notFound && item.paymentGatewayId() == selectedPaymentGateway().paymentGatewayId()) {
                                     selectedStore().paymentGateway.remove(item);
                                     selectedStore().paymentGateway.splice(count, 0, selectedPaymentGateway());
@@ -7440,6 +7443,7 @@ define("stores/stores.viewModel",
                     //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
                     pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
                     getStores();
+                    getOrganisationWidgets();
                     getBaseDataFornewCompany();
                     view.initializeForm();
                 },
@@ -7571,8 +7575,27 @@ define("stores/stores.viewModel",
                     widgetCss(widgetcssvariable);
                     openStoreLayoutWidgetsCssDialog();
                 },
+                editCustomWidget = function(widget) {
+                    openStoreLayoutWidgetsCssDialog();
+                },
                 
-
+                getOrganisationWidgets = function() {
+                    dataservice.getOrganisationWidgets({
+                        success: function (data) {
+                            if (data != null) {
+                                organisationWidgets.removeAll();
+                                _.each(data.OrganisationWidgets, function (item) {
+                                    var widget = model.Widget.Create(item);
+                                    organisationWidgets.push(widget);
+                                });
+                               
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Error: Failed To load custom widgets " + response, "", ist.toastrOptions);
+                        }
+                    });
+                },
                 // GET company VariableIcon
                 getCompanyVariableIcons = function () {
                     dataservice.getCompanyVariableIcons({
@@ -8071,7 +8094,10 @@ define("stores/stores.viewModel",
                     CompanyVariableRowCount: CompanyVariableRowCount,
                     onUnArchiveCompanyContact: onUnArchiveCompanyContact,
                     editorHtmlData: editorHtmlData,
-                    editedWidgetId: editedWidgetId
+                    editedWidgetId: editedWidgetId,
+                    organisationWidgets: organisationWidgets,
+                    getOrganisationWidgets: getOrganisationWidgets,
+                    editCustomWidget: editCustomWidget
                     //Show RealEstateCompaign VariableIcons Dialog
                     //showcreateVariableDialog: showcreateVariableDialog
                 };

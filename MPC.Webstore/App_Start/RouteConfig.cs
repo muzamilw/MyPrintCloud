@@ -340,6 +340,13 @@ namespace MPC.Webstore
              );
 
             routes.MapRoute(
+                  "BubbleQuicklinksAjaxCall",
+                  "BubbleQuickLinks/SendEmailData",
+                  new { controller = "BubbleQuickLinks", action = "SendEmailData", id = UrlParameter.Optional }
+             );
+
+
+            routes.MapRoute(
                  "LoadStatesByCountryID",
                  "BillingShippingAddressManager/LoadStatesByCountryID",
                  new { controller = "BillingShippingAddressManager", action = "LoadStatesByCountryID", id = UrlParameter.Optional }
@@ -350,6 +357,15 @@ namespace MPC.Webstore
                     "BillingShippingAddressManager/UpdateAddress",
                     new { controller = "BillingShippingAddressManager", action = "UpdateAddress", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                   "SendSubscriptionData",
+                   "NewsletterSubscriber/SendSubsricptionDAta",
+                   new { controller = "NewsletterSubscriber", action = "SendSubsricptionDAta", id = UrlParameter.Optional }
+           );
+
+
+
 
             routes.MapRoute(
                 "AddAddress",
@@ -653,18 +669,7 @@ namespace MPC.Webstore
          });
 
 
-        routes.MapRoute(
-          "BubbleQuickLinksyyyy"
-        , "BubbleQuickLinks/{name}/{email}/{comment}"
-        , new
-        {
-            controller = "Home",
-            action = "Index",
-            name = UrlParameter.Optional,
-            email = UrlParameter.Optional,
-            comment = UrlParameter.Optional
-        });
-
+       
         routes.MapRoute(
                "ManageTheAssets"
              , "ManageAssets"

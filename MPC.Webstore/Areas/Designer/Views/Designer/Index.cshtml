@@ -26,7 +26,9 @@
             <li id="uploads" class="uploads" style="display: none;"><a>Uploads</a></li>
             <li id="layersPanel" class="layersPanel" style="width:72px;"><a>Objects</a></li>
             <li id="layoutsPanel" class="layoutsPanel" style="display: none;"><a>Layouts</a></li>
-            <li id="collapseDesignerMenu" class="collapseDesignerMenu " style="position:absolute;bottom:10px;" title="Collapse"><a></a></li>
+            <li id="collapseDesignerMenu" class="collapseDesignerMenu " style="position:absolute;bottom:10px;    line-height: 0.3;" title="Collapse">
+                <a style="padding-top: 0px; font-size: 26px;"><i class="fa fa-bars"></i> <span style="font-size:9px;">Collapse</span></a>
+            </li>
             @*<li id="Homebtn" class="Homebtn "   title="Go to home page"><a href="/">Go to store</a></li>*@
 
         </menu>
@@ -239,7 +241,7 @@
                                                 </span>
                                                 <ul class="textControls ulImagesSecTop" style="height: 129px;">
                                                     <li class="userImgControls">
-                                                        <a class=" SampleBtn btntxt btnFreeImgs">Free Images</a>
+                                                        <a class=" SampleBtn btntxt btnFreeImgs" id="btnFreeImagesEndUser">Free Images</a>
                                                         <a class=" SampleBtn btntxt btnIllustrations">My Images</a>
                                                         <a class=" SampleBtn btntxt btnFrames">My Logos</a>
                                                     </li>
@@ -607,6 +609,22 @@
                                     <div id="dropDownTerritories">
                                     </div>
                                 </div>
+                                <div class="" style="margin: 5px; clear: both; text-align: left; display:none;" id="newImageInfoContainer">
+                                    <div class="propertyPanelControlDiv " style=" padding-right: 12px; margin-top: -12px;    padding-top: 12px;">
+                                        <div class="divchkboxAutoFitImage">Leave a copy in shared images</div>
+                                        <div style="float:right;">
+                                            <div class="onoffswitch">
+                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkBoxCopyInSharedImages" checked="">
+                                                <label class="onoffswitch-label" for="chkBoxCopyInSharedImages" id="lblchkBoxCopyInSharedImages">
+                                                    <div class="onoffswitch-inner"></div>
+                                                    <div class="onoffswitch-switch"></div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+
                                 <div class="pnlImgBank" style="text-align: center;">
                                     <button id="btnUpdateImgProp" class="buttonDesigner">Update</button>
                                     <button id="btnDeleteImg" class="buttonDesigner">Delete</button>
@@ -973,7 +991,11 @@
     </section>
 
     <section id="editorControls">
-        <a id="editorLogo" href="#" class="" title="Click to save"><span id="editorLogoImage">Next</span></a>
+        <a id="editorLogo" href="#" class="" title="Click to save">
+            <span id="editorLogoImage">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBtnSaveDesign", UserCookieManager.WBStoreId, "Next")) 
+            </span>
+        </a>
 
         <div id="documentTitleAndMenu" class="">
             <menu id="mainTopMenu" class="documentMenu">
@@ -985,7 +1007,9 @@
                     <button class="buttonDesigner" id="BtnGuides" title="Show / Hide Trim Line"></button>
                 </li>
                 <li id="HomebtnContainer" class="HomebtnContainer">
-                    <button class="buttonDesigner" id="Homebtn2" title="Go to your store">Go to store</button>
+                    <button class="buttonDesigner" id="Homebtn2" title="Go to your store">
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlHomebtnDesigner", UserCookieManager.WBStoreId, "Go to store"))
+                    </button>
                 </li>
             </menu>
 
@@ -1535,7 +1559,7 @@
                     </div>
                 </div>
                 <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
-                    Progress to options
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBtnNextProofing", UserCookieManager.WBStoreId, "Progress to options")) 
                 </button>
             </div>
         </div>

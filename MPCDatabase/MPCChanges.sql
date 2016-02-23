@@ -9927,3 +9927,372 @@ update deliverycarrier set organisationid = 0 where carrierId in(1,2,3)
 alter table machine add IsPressUseInks bit
 update machine set IsPressUseInks = 1
 alter table template add HideSharedImages bit null
+alter table Widgets add WidgetHtml varchar(max)
+alter table Widgets add OrganisationId bigint
+
+GO
+/****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 2/18/2016 11:49:05 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_cloneTemplate] 
+	-- Add the parameters for the stored procedure here
+	@TemplateID bigint,
+	@submittedBy bigint,
+    @submittedByName nvarchar(100)
+AS
+BEGIN
+
+
+      
+	declare @NewTemplateID bigint
+	declare @NewCode nvarchar(10)
+	--DECLARE  @WaterMarkTxt as [dbo].[tbl_company_sites]
+	
+	set @NewCode = ''
+	
+	--INSERT INTO @WaterMarkTxt (CompanySiteName)
+	--Select Top 1 CompanySiteName from tbl_company_sites
+
+	
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	INSERT INTO [dbo].[Template]
+           ([Code]
+           ,[ProductName]
+           ,[Description]
+           ,[ProductCategoryId]
+           ,[Thumbnail]
+           ,[Image]
+           ,[IsDisabled]
+
+           ,[PDFTemplateWidth]
+           ,[PDFTemplateHeight]
+
+           ,[CuttingMargin]
+           ,[MultiPageCount]
+           ,[Orientation]
+           ,[MatchingSetTheme]
+           ,[BaseColorId]
+           ,[SubmittedBy]
+           ,[SubmittedByName]
+           ,[SubmitDate]
+           ,[Status]
+           ,[ApprovedBy]
+           ,[ApprovedByName]
+           ,[UserRating]
+           ,[UsedCount]
+           ,[MPCRating]
+           ,[RejectionReason]
+           ,[ApprovalDate]
+           ,[IsCorporateEditable]
+           ,[MatchingSetId]
+           ,[TempString],[TemplateType],[isSpotTemplate],[isWatermarkText],[isCreatedManual],[contactId],[HideSharedImages]
+          )
+     
+
+
+
+   
+	SELECT 
+      @NewCode
+      ,[ProductName] + ' Copy'
+      ,[Description]
+      ,[ProductCategoryID]
+      
+      ,[Thumbnail]
+      ,[Image]
+      ,[IsDisabled]
+
+      ,[PDFTemplateWidth]
+      ,[PDFTemplateHeight]
+
+
+      ,[CuttingMargin]
+      ,[MultiPageCount]
+      ,[Orientation]
+      ,[MatchingSetTheme]
+      ,[BaseColorId]
+      ,@submittedBy
+      ,@submittedByName
+      ,NULL
+      ,1
+      ,NULL
+      ,NULL
+      ,0
+      ,0
+      ,0
+      ,''
+      ,NULL,IsCorporateEditable,MatchingSetId,'',[TemplateType],isSpotTemplate,isWatermarkText,isCreatedManual,contactId,HideSharedImages
+      
+  FROM [dbo].[Template] where productid = @TemplateID
+	
+	
+	set @NewTemplateID = SCOPE_IDENTITY() 
+	
+	-- updating water mark text 
+	UPDATE [dbo].[Template]
+	SET TempString= (Select Top 1 OrganisationName from organisation)
+	WHERE productid = @NewTemplateID
+	
+	--copying the pages
+	INSERT INTO [dbo].[TemplatePage]
+           ([ProductId]
+           ,[PageNo]
+           ,[PageType]
+           ,[Orientation]
+           ,[BackGroundType]
+           ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+           ,[PageName],[hasOverlayObjects],[Width],[Height])
+
+SELECT 
+      @NewTemplateID
+      ,[PageNo]
+      ,[PageType]
+      ,[Orientation]
+      ,[BackGroundType]
+      ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+      
+      ,[PageName],[hasOverlayObjects],[Width],[Height]
+  FROM [dbo].[TemplatePage]
+where productid = @TemplateID
+
+
+	--copying the objects
+	INSERT INTO [dbo].[TemplateObject]
+           ([ObjectType]
+           ,[Name]
+           ,[IsEditable]
+           ,[IsHidden]
+           ,[IsMandatory]
+           
+           ,[PositionX]
+           ,[PositionY]
+           ,[MaxHeight]
+           ,[MaxWidth]
+           ,[MaxCharacters]
+           ,[RotationAngle]
+           ,[IsFontCustom]
+           ,[IsFontNamePrivate]
+           ,[FontName]
+           ,[FontSize]
+           ,[IsBold]
+           ,[IsItalic]
+           ,[Allignment]
+           ,[VAllignment]
+           ,[Indent]
+           ,[IsUnderlinedText]
+           ,[ColorType]
+ 
+           ,[ColorName]
+           ,[ColorC]
+           ,[ColorM]
+           ,[ColorY]
+           ,[ColorK]
+           ,[Tint]
+           ,[IsSpotColor]
+           ,[SpotColorName]
+           ,[ContentString]
+           ,[ContentCaseType]
+           ,[ProductID]
+           ,[DisplayOrderPdf]
+           ,[DisplayOrderTxtControl]
+           ,[RColor]
+           ,[GColor]
+           ,[BColor]
+           ,[LineSpacing]
+           ,[ProductPageId]
+           ,[ParentId]
+           ,CircleRadiusX
+           ,Opacity
+           ,[ExField1],
+           [IsTextEditable],
+           [IsPositionLocked],
+           [CircleRadiusY]
+          ,[ExField2],
+           ColorHex
+           ,[IsQuickText]
+           ,[QuickTextOrder],
+		   [watermarkText],
+		   [textStyles],[charspacing],[AutoShrinkText],
+		   [IsOverlayObject],[ClippedInfo],[originalContentString],[originalTextStyles],[autoCollapseText]
+           ,[isBulletPoint],[AutofitImage])
+	SELECT 
+      O.[ObjectType]
+      ,O.[Name]
+      ,O.[IsEditable]
+      ,O.[IsHidden]
+      ,O.[IsMandatory]
+      
+      ,O.[PositionX]
+      ,O.[PositionY]
+      ,O.[MaxHeight]
+      ,O.[MaxWidth]
+      ,O.[MaxCharacters]
+      ,O.[RotationAngle]
+      ,O.[IsFontCustom]
+      ,O.[IsFontNamePrivate]
+      ,O.[FontName]
+      ,O.[FontSize]
+      ,O.[IsBold]
+      ,O.[IsItalic]
+      ,O.[Allignment]
+      ,O.[VAllignment]
+      ,O.[Indent]
+      ,O.[IsUnderlinedText]
+      ,O.[ColorType]
+      ,O.[ColorName]
+      ,O.[ColorC]
+      ,O.[ColorM]
+      ,O.[ColorY]
+      ,O.[ColorK]
+      ,O.[Tint]
+      ,O.[IsSpotColor]
+      ,O.[SpotColorName]
+      ,O.[ContentString]
+      ,O.[ContentCaseType]
+      ,@NewTemplateID
+      ,O.[DisplayOrderPdf]
+      ,O.[DisplayOrderTxtControl]
+      ,O.[RColor]
+      ,O.[GColor]
+      ,O.[BColor]
+      ,O.[LineSpacing]
+      ,NP.[ProductPageId]
+      ,O.[ParentId]
+      ,O.CircleRadiusX
+      ,O.Opacity
+      ,O.[ExField1],
+       O.[IsTextEditable],
+       O.[IsPositionLocked],
+       O.[CircleRadiusY]
+      ,O.[ExField2],
+       O.ColorHex
+       ,[IsQuickText]
+        ,[QuickTextOrder],[watermarkText],O.[textStyles],
+		O.[charspacing],O.[AutoShrinkText],O.[IsOverlayObject]
+		,O.[ClippedInfo]
+		,O.[originalContentString],O.[originalTextStyles],O.[autoCollapseText],[isBulletPoint],O.[AutofitImage]
+  FROM [dbo].[TemplateObject] O
+  inner join [dbo].[TemplatePage]  P on o.ProductPageId = p.ProductPageId and o.ProductId = @TemplateID
+  inner join [dbo].[TemplatePage] NP on P.PageName = NP.PageName and P.PageNo = NP.PageNo and NP.ProductId = @NewTemplateID
+  
+	--theme tags
+	--insert into dbo.TemplateThemeTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateThemeTags where ProductID = @TemplateID
+	
+	---- industry tags
+	--insert into dbo.TemplateIndustryTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateIndustryTags where ProductID = @TemplateID
+
+	INSERT INTO [dbo].[TemplateBackgroundImage]
+			   ([ProductId]
+			   ,[ImageName]
+			   ,[Name]
+			   ,[flgPhotobook]
+			   ,[flgCover]
+			   ,[BackgroundImageAbsolutePath]
+			   ,[BackgroundImageRelativePath],
+			   ImageType,
+			   ImageWidth,
+			   ImageHeight
+			   
+			   )
+	SELECT 
+		  @NewTemplateID
+		  ,[ImageName]
+		  ,[Name]
+		  ,[flgPhotobook]
+		  ,[flgCover]
+		  ,[BackgroundImageAbsolutePath]
+		  ,[BackgroundImageRelativePath]
+		  ,ImageType,
+			   ImageWidth,
+			   ImageHeight
+	  FROM [dbo].[TemplateBackgroundImage] where ProductId = @TemplateID
+
+select @NewTemplateID
+	
+END
+
+
+alter table items alter column Tax1 float
+GO
+alter table items drop DF__tbl_items__Tax2__65C116E7
+GO
+alter table items alter column Tax2 float
+GO
+alter table items drop DF__tbl_items__Tax3__66B53B20
+GO
+alter table items alter column Tax3 float
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ExportInvoice]    Script Date: 2/19/2016 12:33:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create procedure [dbo].[usp_ExportInvoice] --1, 20823
+ @InvoiceId bigint
+AS
+Begin
+
+
+declare @TotalTax as float
+declare @GrandTotal as float
+declare @SubTotal as float
+
+	
+	SELECT     Company.AccountNumber,Invoice.CreationDate,Invoice.InvoiceCode,Invoice.InvoiceDate,Invoice.InvoicePostingDate,tt.ProductCode,tt.ProductName,tt.Qty1NetTotal,tt.Qty1,tt.Qty1NetTotal / tt.Qty1 as UnitPrice,Company.Name,Address.AddressName,
+ isnull(address.Address1, '') + ' ' + isnull(address.Address2, '') + ' ' + CHAR(13) + 
+						(isnull(address.City, '') + ' ' + isnull((select top 1 StateName from State where StateId in (select StateId from address where addressid =  address.AddressId)),'') + ' ' + isnull(address.PostCode, ''))
+						+ ' ' + CHAR(13) + isnull((select top 1 CountryName from country where countryid in (select countryid from address where addressid =  address.AddressId)),'')  AS BAddress1,status.StatusName
+
+FROM         dbo.invoice 
+INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId 
+					  inner join Status on Status.StatusId = Invoice.InvoiceStatus
+					  INNER JOIN
+					  dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID 
+					  --inner JOIN dbo.items ON dbo.invoice.InvoiceId = dbo.items.InvoiceId
+                      left join dbo.state on Address.StateId = dbo.State.StateId
+					  left join dbo.Country on Address.CountryId = dbo.Country.CountryID
+	inner join (
+						select * from (
+						select inv.InvoiceId, i.Qty1NetTotal, i.Qty1Tax1Value, i.Qty1GrossTotal, i.ProductName, i.Qty1,i.ProductCode
+						from invoice inv
+						inner join items i on i.invoiceid = inv.invoiceid
+						union
+						select ind.invoiceid, ind.ItemCharge, ind.ItemTaxValue, ind.ItemGrossTotal, ind.InvoiceTitle, ind.Quantity,i.InvoiceCode
+						from invoicedetail ind
+						inner join invoice i on i.invoiceid = ind.InvoiceId) t
+						where t.InvoiceId = @InvoiceId
+					) tt on tt.InvoiceId = invoice.InvoiceId
+
+					  where dbo.Invoice.InvoiceId = @InvoiceId
+
+end
+
+
+
+
+
+
+

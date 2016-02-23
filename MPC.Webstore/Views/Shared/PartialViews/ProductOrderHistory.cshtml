@@ -84,6 +84,12 @@
                                 <div class="search-order-clear" style="">
                                     <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
+                                @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID==2)
+                                { 
+                                <div class="search-order-clear" style="">
+                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="DownLoadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="DownLoad Report" />
+                                </div>
+                                }
                                 <div class="clearBoth">
 
                                 </div>
@@ -479,17 +485,27 @@
         </tbody>
     </table>
 </div>
-<script src="/Scripts/jquery-1.10.1.min.js"></script>
-<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+@*<script src="/Scripts/jquery-1.10.1.min.js"></script>*@
+<link href="/fancybox/css/fancybox/jquery.fancybox-buttons.css" rel="stylesheet" />
+<link href="/fancybox/css/fancybox/jquery.fancybox-thumbs.css" rel="stylesheet" />
+<link href="/fancybox/css/fancybox/jquery.fancybox.css" rel="stylesheet" />
+<script src="/fancybox/js/fancybox/jquery.fancybox.js"></script>
+<script src="/fancybox/js/fancybox/jquery.fancybox-buttons.js"></script>
+<script src="/fancybox/js/fancybox/jquery.fancybox-thumbs.js"></script>
+<script src="/fancybox/js/fancybox/jquery.easing-1.3.pack.js"></script>
+<script src="/fancybox/js/fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
+@*<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 <script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
-<script src="/LightBox/Js/jquery.fancybox.js"></script>
+<script src="/LightBox/Js/jquery.fancybox.js"></script>*@
 
 <script type="text/javascript">
-    //var $=jQuery.noConflict();
-    $(".fancybox").fancybox();
+    $ = jQuery.noConflict();
     $(document).ready(function () {
 
+       
+           
+      
         $("#txtFromDate").datepicker();
         $("#txtToDate").datepicker();
 
@@ -515,6 +531,28 @@
             }
         });
     }
+
+
+    function DownLoadReport(ReportId,StoreId) {
+        alert(ReportId);
+        ShowLoader();
+
+        var d = { ReportId: ReportId, StoreId:StoreId}
+        $.ajax({
+            type: "GET",
+            url: "/mis/api/DownloadExternalReport/DownloadExternalReport?ReportId="+ReportId+"&StoreId="+StoreId+"",
+            contentType: "application/json; charset=utf-8",
+            //data: JSON.stringify(d),
+            success: function (response) {
+
+            }
+        });
+
+    }
+
+
+
+
 
     function DownLoadArtworkFile(orderId) {
         ShowLoader();
@@ -621,23 +659,32 @@
                 }
                 var otherAttachmentLink = "";
                 $.each(GridItems, function (i, IT) {
-                    {
+                    { 
                         var filePathOfAttachment = "";
                         if(IT.ProductType == 1){
                             if(IT.OtherItemTemplateAttatchments != null){
 
                                 if(IT.OtherItemTemplateAttatchments.length > 0){
-
-                                    $(IT.OtherItemTemplateAttatchments).each(function(i, otherAttachVal) {
-
-                                        filePathOfAttachment = otherAttachVal.FilePath;
+                                    for(var i=0; i < IT.OtherItemTemplateAttatchments.length; i++)
+                                    {
+                                       
+                                        filePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
                                           
-                                        var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                        var OtherfilePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
                                         console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
-                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                        otherAttachmentLink = otherAttachmentLink.concat('<a class="fancybox" rel="chimps" style="display:none;" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a>');
+                                        
+                                    }
+                                    //$(IT.OtherItemTemplateAttatchments).each(function(i, otherAttachVal) {
+
+                                    //    filePathOfAttachment = otherAttachVal.FilePath;
+                                          
+                                    //    var OtherfilePathOfAttachment = otherAttachVal.FilePath;
+                                    //    console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
+                                    //        otherAttachmentLink = otherAttachmentLink.concat('<a class="fancybox" rel="chimps" style="display:none;" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a>');
                                         
 
-                                    });
+                                    //});
                                 }
                             }
                           
@@ -658,7 +705,7 @@
                                             }
 
                                             var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
-                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                            otherAttachmentLink = otherAttachmentLink.concat('<a class="fancybox" style="display:none;" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a>');
                                         }
 
                                     });
@@ -711,7 +758,9 @@
             }
 
         });
-
+        $(".fancybox").fancybox({
+        index:3
+        });
     }
     function ShowImage(ImagePath) {
 

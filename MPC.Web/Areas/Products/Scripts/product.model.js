@@ -2341,7 +2341,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Entity
     // ReSharper disable InconsistentNaming
-    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource, specifiedIsAllowCustomSize) {
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource, specifiedIsAllowCustomSize, specifiedHideSharedImages) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2395,6 +2395,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isAllowCustomSize = ko.observable(specifiedIsAllowCustomSize),
             // File Name
             fileName = ko.observable(),
+            hideSharedImages = ko.observable(specifiedHideSharedImages),
             // Template Pages
             templatePages = ko.observableArray([]),
             // Update Template Page Dimensions having 0 or null values
@@ -2509,7 +2510,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isCreatedManual: isCreatedManual,
                 isSpotTemplate: isSpotTemplate,
                 templatePages: templatePages,
-                isAllowCustomSize: isAllowCustomSize
+                isAllowCustomSize: isAllowCustomSize,
+                hideSharedImages : hideSharedImages
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2536,6 +2538,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     FileName: fileName(),
                     FileSource: fileSource(),
                     isAllowCustomSize: isAllowCustomSize(),
+                    HideSharedImages : hideSharedImages(),
                     TemplatePages: templatePages.map(function (templatePage, index) {
                         var templatePageItem = templatePage.convertToServerData();
                         templatePageItem.PageNo = index + 1;
@@ -2556,6 +2559,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canAddTemplatePages: canAddTemplatePages,
             fileSource: fileSource,
             fileName: fileName,
+            hideSharedImages : hideSharedImages,
             isAllowCustomSize: isAllowCustomSize,
             onSelectFile: onSelectFile,
             templatePages: templatePages,

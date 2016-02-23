@@ -2,6 +2,7 @@
 @{
     string thumbname = "Thumb.png";
     string artworkattachmentThumbPath = "mpc_content/Attachments/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Products/";
+    string ItemCreationDate = "";
 }
 @{
     Layout = null;
@@ -52,7 +53,7 @@
                                             }
                                             else
                                             {
-                                                
+
                                                 <img id="imgThumbnail" class="svdDesignImgThumb" src="" />
                                             }
 
@@ -60,6 +61,13 @@
                                         </div>
                                     </div>
                                     <div class="LCLB product_detail_image_heading rounded_corners">
+                                        @{
+                                            if (saveDesign.ItemCreationDateTime != null)
+                                            {
+                                                ItemCreationDate = saveDesign.ItemCreationDateTime.Value.Day + " " + saveDesign.ItemCreationDateTime.Value.ToString("MMMM") +", " + saveDesign.ItemCreationDateTime.Value.Year;
+                                            }
+                                        }
+                                        <label id="lblProductName">@ItemCreationDate</label>
                                         <label id="lblProductName">@saveDesign.ProductName</label>
                                     </div>
                                 </div>

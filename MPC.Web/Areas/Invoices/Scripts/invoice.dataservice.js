@@ -55,6 +55,14 @@ define("invoice/invoice.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
+
+                    // Define request to Download Artwork of the order
+                    amplify.request.define('exportInvoice', 'ajax', {
+                        url: ist.siteUrl + '/Api/ExportInvoice',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -115,7 +123,18 @@ define("invoice/invoice.dataservice", function () {
                    error: callbacks.error,
                    data: param
                });
-           }
+           },
+             // exportInvoice
+        exportInvoice = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'exportInvoice',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        }
+
             
 
         return {
@@ -124,7 +143,8 @@ define("invoice/invoice.dataservice", function () {
             getInvoice: getInvoice,
             getBaseDataForCompany: getBaseDataForCompany,
             saveInvoice: saveInvoice,
-            archiveInvoicePermanently: archiveInvoicePermanently
+            archiveInvoicePermanently: archiveInvoicePermanently,
+            exportInvoice: exportInvoice
         };
     })();
 

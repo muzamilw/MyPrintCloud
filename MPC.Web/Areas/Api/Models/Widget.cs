@@ -13,6 +13,8 @@
         public string WidgetCss { get; set; }
         public string ThumbnailUrl { get; set; }
         public string Description { get; set; }
+        public string WidgetHtml { get; set; }
+        public long? OrganisationId { get; set; }
         
     }
 }

@@ -1118,6 +1118,8 @@ $("#btnNextProofing").click(function (event) {
     }
 });
 $("#btnUpdateImgProp").click(function (event) {
+    isImageUploaded = false;
+    $("#newImageInfoContainer").css("display", "none");
     var title = $("#InputImgTitle").val();
     var desc = $("#InputImgDescription").val();
     var keywords = $("#InputImgKeywords").val();
@@ -1206,7 +1208,12 @@ $("#btnUpdateImgProp").click(function (event) {
 	        StartLoader();
 	        $.getJSON("/designerApi/TemplateBackgroundImage/updateImgTerritories/" + imgSelected + "/" + Territories,
             function (DT) {
-                StopLoader();
+                if (!$("#chkBoxCopyInSharedImages").is(':checked')) {
+                    b8_svc(imgSelected, tID)
+                } else {
+                    StopLoader();
+                }
+             
                 pcL36('show', '#divImageDAM');
             });
 	        // }
@@ -2309,7 +2316,10 @@ $("#btnImagePlaceHolderUser").click(function () {
     d1PlaceHoldToCanvas();
 });
 $("#Homebtn2").click(function () {
-    window.location.href = "/";
+    if (confirm("Are you sure you want to leave? Any changes you have made will be lost.")) {
+        window.location.href = "/";
+    }
+   
 });
 $("#BtnBulletedLstTxt").click(function () {
     pcl43_bullet();
