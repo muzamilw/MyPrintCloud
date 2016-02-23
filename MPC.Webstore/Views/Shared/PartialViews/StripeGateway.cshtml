@@ -33,8 +33,8 @@
                 // Insert the token into the form so it gets submitted to the server
                 $form.append($('<input type="hidden" name="stripeToken" />').val(token));
                 // and re-submit
-                //$form.get(0).submit();
-                alert('all good');
+                $form.get(0).submit();
+                //alert('all good');
             }
         };
 
@@ -149,23 +149,7 @@
 
                         <div class="clearBoth">
                         </div>
-                        <div class="payWayLabels float_left_simple">
-                            @Html.LabelFor(model => model.NameOnCard, new { @class = "payWayLabels float_left_simple" })
-                        </div>
-                        <div class="TTL CCtxtPanel">
-                            @Html.TextBoxFor(model => model.NameOnCard, new { id = "txtNameOnCard", @TabIndex = "4", @class = "payWaytxtBox" })
-
-                        </div>
-
-                        <div class="clearBoth">
-                        </div>
-                        <div class="payWayLabels float_left_simple">
-                            @Html.LabelFor(model => model.EmailAddress, new { @class = "payWayLabels float_left_simple" })
-                        </div>
-                        <div class="TTL CCtxtPanel">
-                            @Html.TextBoxFor(model => model.EmailAddress, new { @TabIndex = "4", @class = "payWaytxtBox" })
-
-                        </div>
+                      
 
                         <div class="clearBoth">
                         </div>
@@ -174,9 +158,6 @@
                         </div>
                         <div class="TTL CCtxtPanel">
                             
-
-                            
-
 
                             <input type="submit" class="start_creating_btn_SApp rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnPay", UserCookieManager.WBStoreId, "Pay"))"  />
                             <input id="cmdReset" class="btn_brown rounded_corners5" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" onclick="BackToShopping('@Model.OrderId');  ShowLoader();" />

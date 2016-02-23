@@ -12,5 +12,7 @@ namespace MPC.Interfaces.WebStoreServices
         void CreatePrePayment(PaymentMethods payMethod, long orderID, int? customerID, long payPalResponseID, string transactionID, double amountReceived, StoreMode Mode, string responsecodeNab = "");
 
         void CreatePrePaymentPayWay(PaymentMethods payMethod, long orderID, int? customerID, long payPalResponseID, string transactionID, double amountReceived);
+
+        void CreatePrePaymentStripe(PaymentMethods payMethod, long orderID, int? customerID, string ReceiptNumber, string transactionID, double amountReceived);
     }
 }

@@ -14,5 +14,7 @@ namespace MPC.Interfaces.Repository
 
         List<PrePayment> GetPrePaymentsByOrganisatioID(long OrderID);
         void CreatePrePaymentPayWay(PaymentMethods payMethod, long orderID, int? customerID, long payPalResponseID, string transactionID, double amountReceived);
+
+        void CreatePrePaymentStripe(PaymentMethods payMethod, long orderID, int? customerID, string ReceiptNumber, string transactionID, double amountReceived);
     }
 }
