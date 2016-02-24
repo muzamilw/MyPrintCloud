@@ -3844,9 +3844,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Is Internal Activity
             isInternalActivity = ko.observable(specifiedIsInternalActivity || false),
             // Is Auto Create Supplier PO
-            isAutoCreateSupplierPo = ko.observable(specifiedIsAutoCreateSupplierPO || true),
+            isAutoCreateSupplierPo = ko.observable(specifiedIsAutoCreateSupplierPO || false),
             // Is Qty Limit
-            isQtyLimit = ko.observable(specifiedIsQtyLimit || true),
+            isQtyLimit = ko.observable(specifiedIsQtyLimit || false),
             // Qty Limit
             qtyLimit = ko.observable(specifiedQtyLimit || undefined),
             // Delivery Time Supplier1
