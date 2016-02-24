@@ -84,6 +84,12 @@
                                 <div class="search-order-clear" style="">
                                     <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
+                                @*@if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
+                                {*@ 
+                                <div class="search-order-clear" style="">
+                                    <input type="button" id="btnDwn_Report" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
+                                </div>
+                                @*}*@
                                 <div class="clearBoth">
 
                                 </div>
@@ -500,6 +506,8 @@
         $("#txtToDate").val("");
         $("#txtOrderRefrence").val("");
     }
+
+
     function ReOrder(orderId) {
         ShowLoader();
         var d = { OrderId: orderId, OrderType: "ReOrder" }
@@ -528,6 +536,30 @@
         });
 
     }
+
+    function DownloadReport(ReportId,StoreId)
+    {
+        var fromDate=$("#txtFromDate").val();
+        var Todate=$("#txtToDate").val();
+        var Status=$("#DDOderStatus").val();
+        alert(Status);
+        var Po=$("#txtOrderRefrence").val();
+        var data = { name: Name, email: Email, comment: Comment };
+        $.ajax({
+            type:"GET",
+            url: "mis/api/DownloadExternalReport?ReportId="+ReportId+"&StoreId="+StoreId+"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status+"",
+            contentType: "application/json",
+           // data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+              
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
 
     function ViewOrder(orderId) {
         ShowLoader();

@@ -1,0 +1,257 @@
+﻿@model MPC.Webstore.ViewModels.StripeViewModel
+@using MPC.Webstore.Common;
+@{
+    Layout = null;
+    ViewBag.Title = "NAB";
+}
+
+
+
+
+    <!-- The required Stripe lib -->
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <!-- jQuery is used only for this example; it isn't required to use Stripe -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        var model = @Html.Raw(Json.Encode(Model));
+        // This identifies your website in the createToken call below
+        Stripe.setPublishableKey(model.PublishableKey);
+
+        var stripeResponseHandler = function (status, response) {
+            var $form = $('form:first');
+
+            if (response.error) {
+                // Show the errors on the form
+                $form.find('.payment-errors').text(response.error.message);
+                $form.find('button').prop('disabled', false);
+            } else {
+                // token contains id, last4, and card type
+                var token = response.id;
+                // Insert the token into the form so it gets submitted to the server
+                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+                // and re-submit
+                $form.get(0).submit();
+                //alert('all good');
+            }
+        };
+
+        jQuery(function ($) {
+            $('form:first').submit(function (e) {
+                var $form = $(this);
+
+                // Disable the submit button to prevent repeated clicks
+                $form.find('button').prop('disabled', true);
+
+                Stripe.card.createToken($form, stripeResponseHandler);
+
+                // Prevent the form from submitting with the default action
+                return false;
+            });
+        });
+</script>
+
+
+
+
+
+
+
+
+@using (Html.BeginForm())
+{
+
+
+
+    <div class="container content_area">
+        <div class="row left_right_padding">
+
+            <div id="messgetodisply" class="paywayError">
+                <div>@ViewBag.ErrorMessage</div>
+                @Html.ValidationSummary("")
+                <span class="payment-errors"></span>
+            </div>
+            <div class="white-container-lightgrey-border rounded_corners">
+                <div class="pad20">
+                    @Html.HiddenFor(model => model.OrderTotal)
+                    @Html.HiddenFor(model => model.Currency)
+                    <div class="headingsAvenior">Please enter your Credit Card details:</div>
+
+                    <div class="payWayBoxCnt">
+                        <div class="payWayLabels float_left_simple">
+                            &nbsp;
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            <img src="/Content/images/visa.gif" border="0" alt="VISA">
+                            <img src="/Content/images/mastercard2.gif" border="0" alt="MASTERCARD">
+                            @*<img src="/Content/images/diners.gif" border="0" alt="Diners">*@
+                            <img src="/Content/images/amex.gif" border="0" alt="Amex">
+                        </div>
+
+                        <div class="clearBoth">
+                            <br />
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            <label class="payWayLabels float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAmountTotal", UserCookieManager.WBStoreId, "Payment Amount"))</label>
+                        </div>
+                        @{
+                            var orderPrice = Utils.FormatDecimalValueToTwoDecimal((Model.OrderTotal).ToString(), Model.Currency);
+
+                        }
+                        <div class="TTL CCtxtPanel">
+                            <label class="payWayLabels float_left_simple" style="text-align:left !important;">@orderPrice</label>
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            <label class="payWayLabels float_left_simple" for="CardNumber">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCardNumber", UserCookieManager.WBStoreId, "Card Number"))</label>
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.TextBoxFor(model => model.CardNumber, new { id = "txtCardNumber", @TabIndex = "1", @class = "payWaytxtBox", @data_stripe = "number", @size = "20" })
+                            
+                        </div>
+
+                        @*<div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            <label class="payWayLabels float_left_simple" for="ddCCType">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCardType", UserCookieManager.WBStoreId, "Card Type"))</label>
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.DropDownListFor(model => model.SelectedCardType, Model.ListCardType, new { id = "ddCCType", @class = "payWaytxtBox" })
+                        </div>*@
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            <label class="payWayLabels float_left_simple" for="tctCCvNumber">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCardVerificationNumber", UserCookieManager.WBStoreId, "Card Verification Number"))</label>
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.TextBoxFor(model => model.CVVNumber, new { id = "tctCCvNumber", @TabIndex = "2", @class = "payWaytxtBox", @data_stripe = "cvc", @size = "4" })
+
+                            
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            @Html.LabelFor(model => model.SelectedDate, new { @class = "payWayLabels float_left_simple" })
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            @Html.DropDownListFor(model => model.SelectedDate, Model.ListDate, new { @class = "payWayExpiryBox payWayExpiryBoxLeft",@data_stripe="exp-month" })
+                            
+                            @Html.DropDownListFor(model => model.SelectedYear, Model.ListYear, new { @class = "payWayExpiryBox",@data_stripe="exp-year" })
+                            
+
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                      
+
+                        <div class="clearBoth">
+                        </div>
+                        <div class="payWayLabels float_left_simple">
+                            &nbsp;
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            
+
+                            <input type="submit" class="start_creating_btn_SApp rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnPay", UserCookieManager.WBStoreId, "Pay"))"  />
+                            <input id="cmdReset" class="btn_brown rounded_corners5" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" onclick="BackToShopping('@Model.OrderId');  ShowLoader();" />
+                            <img src="~/Content/Images/stripesolid.png" id="stripeimgsolid" />
+                            <img src="~/Content/Images/stripeoutline.png" id="stripeimgoutline" />
+                        </div>
+
+                        <div class="clearBoth">
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+}
+
+
+
+<script type="text/javascript">
+    function BackToShopping(OrderId) {
+        window.location.href = "/ShopCart?OrderId=" + OrderId;
+    }
+    function ResetData() {
+
+        $('#txtCardNumber').val();
+        $('#tctCCvNumber').val();
+        $('#txtNameOnCard').val();
+        return false;
+    }
+
+
+    function ValidateData() {
+        var isValid = true;
+        var isDataFilles = 0;
+
+        if ($("select[id=ddCCType] option:selected").index() == 0) {
+            isDataFilles = 1;
+            $("#ddCCType").css("border", "2px solid red");
+        } else {
+            $("#ddCCType").css("border", "1px solid #ccc5b9");
+        }
+
+        if ($("#txtCardNumber").val() == '') {
+            isDataFilles = 1;
+            $('.LEmail').css("display", "block");
+            $("#txtCardNumber").css("border", "2px solid red");
+        } else {
+            $('.LEmail').css("display", "none");
+            $("#txtCardNumber").css("border", "1px solid #ccc5b9");
+        }
+
+        if ($("#tctCCvNumber").val() == '') {
+            isDataFilles = 1;
+            $('.LPass').css("display", "block");
+            $("#tctCCvNumber").css("border", "2px solid red");
+        } else {
+            $('.LPass').css("display", "none");
+            $("#tctCCvNumber").css("border", "1px solid #ccc5b9");
+        }
+
+        if ($("#txtNameOnCard").val() == '') {
+            isDataFilles = 1;
+            $('.LPass').css("display", "block");
+            $("#txtNameOnCard").css("border", "2px solid red");
+        } else {
+            $('.LPass').css("display", "none");
+            $("#txtNameOnCard").css("border", "1px solid #ccc5b9");
+        }
+
+        if (isDataFilles == 1) {
+            return false;
+        } else {
+            if ($('#txtEmailAddress').val() == '') {
+                return true;
+            }
+            else {
+                var IsEmailValid = ValidateEmail($('#txtEmailAddress').val());
+                if (IsEmailValid == true) {
+                    return true;
+                } else {
+                    $("#txtEmailAddress").css("border", "2px solid red");
+                    return false;
+                }
+            }
+
+
+        }
+    }
+</script>
+
