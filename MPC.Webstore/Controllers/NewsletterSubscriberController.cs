@@ -108,7 +108,8 @@ namespace MPC.Webstore.Controllers
                     }
                     string basePath = Request.Url.ToString();
                     string path = basePath.Substring(0, basePath.LastIndexOf('/') + 1);
-                    string subscriptionLink = path + "ConfirmSubscription.aspx?" + "SubscriptionCode=" + subscriptionCode;
+
+                    string subscriptionLink = path + "/Confirmation/"+subscriptionCode;
 
                     CEP.SubscriberID = _myCompanyService.AddSubscriber(subscriber);
                     _campaignService.emailBodyGenerator(SubscriptionCampaign, CEP, Contact, StoreMode.Retail, (int)StoreBaseResopnse.Company.OrganisationId, "", "", SubscriberEmail, EmailOFSM.Email, "", "", null, "", null, "", "", subscriptionLink);
@@ -211,9 +212,10 @@ Utils.GetKeyValueFromResourceFile("ltrlerrorinsubs", UserCookieManager.WBStoreId
                     }
                     string basePath = Request.Url.ToString();
                     string path = basePath.Substring(0, basePath.LastIndexOf('/') + 1);
-                    string subscriptionLink = path + "ConfirmSubscription.aspx?" + "SubscriptionCode=" + subscriptionCode;
+                    string subscriptionLink = path + "/Confirmation/SubscriptionCode=" + subscriptionCode;
 
                     CEP.SubscriberID = _myCompanyService.AddSubscriber(subscriber);
+
                     _campaignService.emailBodyGenerator(SubscriptionCampaign, CEP, Contact, StoreMode.Retail, (int)StoreBaseResopnse.Company.OrganisationId, "", "", SubscriberEmail, EmailOFSM.Email, "", "", null, "", null, "", "", subscriptionLink);
                     string sConfirmation = Utils.GetKeyValueFromResourceFile("ConfirmSubscriptionMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
@@ -224,9 +226,6 @@ Utils.GetKeyValueFromResourceFile("ltrlerrorinsubs", UserCookieManager.WBStoreId
                     {
                         Message = sConfirmation;
                     }
-
-
-
                 }
                 else
                 {
@@ -242,13 +241,11 @@ Utils.GetKeyValueFromResourceFile("ltrlerrorinsubs", UserCookieManager.WBStoreId
                     }
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Message =
-            Utils.GetKeyValueFromResourceFile("ltrlerrorinsubs", UserCookieManager.WBStoreId, "Error in subscription. Please try again.");
-
+                Utils.GetKeyValueFromResourceFile("ltrlerrorinsubs", UserCookieManager.WBStoreId, "Error in subscription. Please try again.");
                 throw ex;
-
             }
             return Json(Message, JsonRequestBehavior.DenyGet);
         }
