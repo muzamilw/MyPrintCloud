@@ -303,6 +303,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <td></td>
                                         </tr>
                                         <!-- /ko -->
                                        @* <!--ko if: $root.selectedPurchaseOrder().isproduct()=== 2-->
@@ -449,16 +450,16 @@
 </script>
 
 <script id="productItemTemplate" type="text/html">
-    <tr style="cursor: pointer" data-bind="click:$root.editPurchaseDetail">
-        <td data-bind="text: itemCode"></td>
-        <td data-bind="text: serviceDetail"></td>
+    <tr style="cursor: pointer">
+        <td data-bind="text: itemCode, click:$root.editPurchaseDetail"></td>
+        <td data-bind="text: serviceDetail, click:$root.editPurchaseDetail"></td>
         <!--ko if: productType() === 2-->
         <td>Service</td>
         <!-- /ko -->
         <!--ko if: productType() === 1-->
         <td>Product</td>
         <!-- /ko -->
-        <td style="text-align:right;" data-bind="text: packqty"></td>
+        <td style="text-align:right;" data-bind="text: packqty, click:$root.editPurchaseDetail"></td>
         <td style="text-align:right;">
             <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price"></span>
         </td>

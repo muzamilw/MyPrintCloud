@@ -183,7 +183,7 @@ namespace MPC.Webstore.Controllers
                     AddressSelectModel.ContactTel = contact.Mobile;
                 else
                     AddressSelectModel.ContactTel = "";
-
+                ViewBag.isStoreModePrivate = 0;
                 // Bind Company Addresses
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
@@ -747,14 +747,23 @@ namespace MPC.Webstore.Controllers
 
                 OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
                 ViewBag.LoginUserContactId = _myClaimHelper.loginContactID();
-                if (StoreBaseResopnse.Company.isStoreModePrivate == true)
+                ViewBag.isStoreModePrivate = 0;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
-                    ViewBag.isStoreModePrivate = 1;
+                    if (_myClaimHelper.loginContactRoleID() == (int)Roles.User)
+                    {
+
+                        if (StoreBaseResopnse.Company.isStoreModePrivate == true)
+                        {
+                            ViewBag.isStoreModePrivate = 1;
+                        }
+                        else
+                        {
+                            ViewBag.isStoreModePrivate = 0;
+                        }
+                    }
                 }
-                else
-                {
-                    ViewBag.isStoreModePrivate = 0;
-                }
+               
                 //int id = model.SelectedDeliveryAddress;
                 string addLine1 = model.ShippingAddress.Address1;
                 string city = model.ShippingAddress.City;

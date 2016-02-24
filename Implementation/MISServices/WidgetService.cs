@@ -14,14 +14,20 @@ namespace MPC.Implementation.MISServices
     {
 
         private readonly IWidgetRepository widgetRepository;
+        private readonly ICmsSkinPageWidgetRepository skinPageWidgetRepository;
 
-        public WidgetService(IWidgetRepository widgetRepository)
+        public WidgetService(IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository skinPageWidgetRepository)
         {
             if (widgetRepository == null)
             {
                 throw new ArgumentNullException("widgetRepository");
             }
+            if (skinPageWidgetRepository == null)
+            {
+                throw new ArgumentNullException("skinPageWidgetRepository");
+            }
             this.widgetRepository = widgetRepository;
+            this.skinPageWidgetRepository = skinPageWidgetRepository;
         }
 
         public Widget GetWidgetById(long widgetId)
@@ -63,12 +69,24 @@ namespace MPC.Implementation.MISServices
             target.WidgetCss = source.WidgetCss;
             target.WidgetHtml = source.WidgetHtml;
             target.WidgetName = source.WidgetName;
+            target.WidgetControlName = source.WidgetControlName;
         }
 
-        public void DeleteWidget(Widget widget)
+        public void DeleteWidget(long widgetId)
         {
-            widgetRepository.Delete(widget);
-            widgetRepository.SaveChanges();
+            if (skinPageWidgetRepository.IsCustomWidgetUsed(widgetId))
+                throw new MPCException("Widget cannot be deleted as it is in use.", widgetRepository.OrganisationId);
+            else
+            {
+                var widgetToDelete = widgetRepository.GetWidgetById(widgetId);
+                if (widgetToDelete != null)
+                {
+                    widgetRepository.Delete(widgetToDelete);
+                    widgetRepository.SaveChanges();
+                }
+                
+            }
+            
         }
     }
 }

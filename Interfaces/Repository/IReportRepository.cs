@@ -12,6 +12,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface IReportRepository : IBaseRepository<Report, long>
     {
+        long GetReportIdByName(string ReportName);
         List<Report> GetReportsByOrganisationID(long OrganisationID);
 
         List<ReportNote> GetReportNotesByOrganisationID(long OrganisationID);

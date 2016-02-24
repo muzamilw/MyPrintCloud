@@ -3,8 +3,21 @@
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+               
             </div>
             <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12" data-bind="visible: $root.isCustomWidgetLoad" style="padding-top: 10px; padding-bottom: 10px;">
+                    <div class="form-group">
+                        <div class="col-lg-2 text-right">
+                            <label for="txtWidgetName" class="control-label text-right tooltip-float" style="padding-top:3px;">Widget Name</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <!-- ko if: $root.selectedCustomWidget() != undefined -->
+                            <input type="text" class="form-control" id="txtWidgetName" placeholder="Enter Widget Name" data-bind="value: $root.selectedCustomWidget().widgetName">
+                            <!-- /ko -->
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="main-box clearfix">
                         <textarea name="html_link_content" id="content" data-bind="editor: $root.editorHtmlData, valueUpdate:'afterkeydown', openFrom:$root.ckEditorOpenFrom">TEXT</textarea>

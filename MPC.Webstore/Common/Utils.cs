@@ -236,6 +236,7 @@ namespace MPC.Webstore.Common
                 value = value.Replace("&#34;", "");
                 value = value.Replace("&", "");
                 value = value.Replace("+", "");
+                value = value.Replace("#", "");
             }
             
             return value;

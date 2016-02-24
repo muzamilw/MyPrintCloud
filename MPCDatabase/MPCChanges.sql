@@ -10291,7 +10291,16 @@ INNER JOIN
 end
 
 
+------------------Executed on All Servers---------------
 
+alter table Organisation add OrderHeadNote nvarchar(1500)
+alter table Organisation add OrderFootNote nvarchar(1500)
+alter table Organisation add InvoiceHeadNote nvarchar(1500)
+alter table Organisation add InvoiceFootNote nvarchar(1500)
+alter table Organisation add DeliveryHeadNote nvarchar(1500)
+alter table Organisation add DeliveryFootNote nvarchar(1500)
+alter table Organisation add PurchaseHeadNote nvarchar(1500)
+alter table Organisation add PurchaseFootNote nvarchar(1500)
 
 
 

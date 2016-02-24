@@ -137,6 +137,42 @@ namespace MPC.Repository.Repositories
                 }
             }
 
+        }
+
+        public void CreatePrePaymentStripe(PaymentMethods payMethod, long orderID, int? customerID, string ReceiptNumber, string transactionID, double amountReceived)
+        {
+            PrePayment tblPrePayment = null;
+
+            try
+            {
+                tblPrePayment = new PrePayment()
+                {
+                    Amount = amountReceived,
+                    CustomerId = customerID,
+                    OrderId = orderID,
+                    PaymentDate = DateTime.Now,
+                    PaymentMethodId = (int)payMethod,
+                    PayPalResponseId = null,
+                    ReferenceCode = transactionID,
+                    PaymentDescription = "Stripe Receipt number" + ReceiptNumber
+                };
+                db.PrePayments.Add(tblPrePayment);
+                db.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString() +
+                       "" + Environment.NewLine + "payMethod :" + payMethod.ToString() + "orderID" + orderID.ToString() + customerID.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+            }
+
         } 
     }
 }

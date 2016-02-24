@@ -36,7 +36,7 @@
                             </a>*@
                         </div>
 
-                        <label for="txtMerchantID" class="control-label text-right tooltip-float">Merchant ID</label>
+                        <label for="txtMerchantID" class="control-label text-right tooltip-float" data-bind="text:$root.isStripeGateway() ? 'Publishable Key' : 'Merchant ID'"></label>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" id="txtMerchantID" data-bind="value: businessEmail, validationTooltip: businessEmail">
@@ -49,34 +49,32 @@
                             e.g. The merchant ID used in your PayPal account.
                             <!--/ko-->
                             <!-- ko if: $root.isAccessCodeSectionVisible() -->
-                            e.g. The merchant ID used in your <label data-bind="text: $root.paymentMethodName"></label> account.
+                            <label data-bind="text: $root.isStripeGateway() ? 'e.g. Publishable key used in your ' + $root.paymentMethodName() : 'e.g. The merchant ID used in your ' + $root.paymentMethodName()"></label> account.
                             <!--/ko-->
                         </div>
                     </div>
 
                 </div>
-                <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
+                <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible() || $root.isStripeGateway()">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
                             @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Access Code" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>*@
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>*@
                         </div>
-
-                        <label for="txtMerchantID" class="control-label text-right tooltip-float">Access Code</label>
+                        <label for="txtMerchantID" class="control-label text-right tooltip-float" data-bind="text:$root.isStripeGateway() ? 'Private Key' : 'Access Code'"></label>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" id="txtMerchantID" data-bind="value: identityToken">
                     </div>
                 </div>
-                <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
+                <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible() && !$root.isStripeGateway()">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
                             @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Secure Hash" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>*@
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>*@
                         </div>
-
                         <label for="txtMerchantID" class="control-label text-right tooltip-float">Secure Hash</label>
                     </div>
                     <div class="col-lg-6">

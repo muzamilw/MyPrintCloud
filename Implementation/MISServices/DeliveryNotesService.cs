@@ -12,6 +12,7 @@ namespace MPC.Implementation.MISServices
 {
     public class DeliveryNotesService : IDeliveryNotesService
     {
+
         #region Private
 
         public readonly IDeliveryNoteRepository deliveryNoteRepository;

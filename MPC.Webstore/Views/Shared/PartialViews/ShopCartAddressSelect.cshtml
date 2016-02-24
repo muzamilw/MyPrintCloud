@@ -557,7 +557,15 @@
                         </div>
                         <div id="innerContainerShippTo" class="textAlignLeft AddressesContainer" style="display: none;">
                             <label id="lblShipToAddLin1" class="lbAddressLinesWithPadding">@ShippingAddress.Address1</label>
-                            <label id="lblShipToAddLin2" class="lbAddressLines">@ShippingAddress.Address2</label><br />
+                            @if (ShippingAddress.Address2 != null)
+                            {
+                                <label id="lblShipToAddLin2" class="lbAddressLines">@ShippingAddress.Address2</label><br />
+                            }
+                            else
+                            {
+                                <label id="lblShipToAddLin2" class="lbAddressLines"></label><br />
+                            }
+                            
                             <label id="lblShipToCity" class="lbAddressLinesWithPadding">@ShippingAddress.City</label><br />
                             @if (ShippingAddress.State != null)
                             {
@@ -918,7 +926,11 @@
 
     function ChangeShippToAddLin2() {
         var val = $('#txtShipAddressLine2').val();
-        $('#lblShipToAddLin2').html(val);
+        if(val != null)
+        {
+            $('#lblShipToAddLin2').html(val);
+        }
+
     }
     function ChangeShippToCity() {
         var val = $('#txtShipAddCity').val();
@@ -1006,89 +1018,91 @@
     }
 
 
-
-
-
     function ValidateShippingAddressCheckout() {
         var isDataFilled = 0;
 
         if ($("#txtInstContactTelNumber").val() == "") {
+          
             isDataFilled = 1;
             $('.EContactTelNo').css("display", "block");
-            $("#txtInstContactTelNumber").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            //$("#txtInstContactTelNumber").css("border", "2px solid red!important;");//.parent().addClass("field-with-errors");
+            $("#txtInstContactTelNumber").css("cssText","border:2px solid red!important;");
+            $("#tabs").css( "height: 650px !important;");
         } else {
             $('.EContactTelNo').css("display", "none");
-            $("#txtInstContactTelNumber").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            //$("#txtInstContactTelNumber").css("border", "1px solid #c1c6cc!important");//.parent().removeClass("field-with-errors");
+
+            $("#txtInstContactTelNumber").css("cssText","border:1px solid #c1c6cc!important;");
         }
 
         if ($("#txtYourRefNumber").val() == "") {
             isDataFilled = 1;
             $('.ECorporateRefNo').css("display", "block");
-            $("#txtYourRefNumber").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtYourRefNumber").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.ECorporateRefNo').css("display", "none");
-            $("#txtYourRefNumber").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtYourRefNumber").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
 
         if ($("#txtShipAddressName").val() == "") {
             isDataFilled = 1;
             $('.EShipAddresNameNo').css("display", "block");
-            $("#txtShipAddressName").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtShipAddressName").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.EShipAddresNameNo').css("display", "none");
-            $("#txtShipAddressName").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtShipAddressName").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
 
         if ($("#txtShipAddLine1").val() == "") {
             isDataFilled = 1;
             $('.EShipAddres1').css("display", "block");
-            $("#txtShipAddLine1").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtShipAddLine1").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.EShipAddres1').css("display", "none");
-            $("#txtShipAddLine1").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtShipAddLine1").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
         if ($("#txtShipAddCity").val() == "") {
             isDataFilled = 1;
             $('.EShipAddresCity').css("display", "block");
-            $("#txtShipAddCity").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtShipAddCity").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.EShipAddresCity').css("display", "none");
-            $("#txtShipAddCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtShipAddCity").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
 
         if ($("#ddShippingCountry").val() == 0) {
             isDataFilled = 1;
-            $("#ddShippingCountry").css("border", "2px solid red");
+            $("#ddShippingCountry").css("cssText","border:2px solid red!important;");
         } else {
-            $("#ddShippingCountry").css("border", "1px solid #c1c6cc");
+            $("#ddShippingCountry").css("cssText","border:1px solid #c1c6cc!important;");
         }
 
 
 
         if ($("#ddlDeliveyCostCenter").val() == 0) {
             isDataFilled = 1;
-            $("#ddlDeliveyCostCenter").css("border", "2px solid red");
+            $("#ddlDeliveyCostCenter").css("cssText","border:2px solid red!important;");
         } else {
-            $("#ddlDeliveyCostCenter").css("border", "1px solid #c1c6cc");
+            $("#ddlDeliveyCostCenter").css("cssText","border:1px solid #c1c6cc!important;");
         }
 
 
 
         if ($("#ddShippingState").val() == 0) {
             isDataFilled = 1;
-            $("#ddShippingState").css("border", "2px solid red");
+            $("#ddShippingState").css("cssText","border:2px solid red!important;");
         } else {
-            $("#ddShippingState").css("border", "1px solid #c1c6cc");
+            $("#ddShippingState").css("cssText","border:1px solid #c1c6cc!important;");
         }
 
 
         if ($("#txtShipPostCode").val() == "") {
             isDataFilled = 1;
             $('.EShipAddresPostCode').css("display", "block");
-            $("#txtShipPostCode").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtShipPostCode").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.EShipAddresPostCode').css("display", "none");
-            $("#txtShipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtShipPostCode").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
 
 
@@ -1101,49 +1115,49 @@
         if ($("#txtBillingName").val() == "") {
             isDataFilled = 1;
             $('.EBillAddresName').css("display", "block");
-            $("#txtBillingName").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtBillingName").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.EBillAddresName').css("display", "none");
-            $("#txtBillingName").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtBillingName").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
 
         if ($("#txtAddressLine1").val() == "") {
             isDataFilled = 1;
             $('.EBillAddres1').css("display", "block");
-            $("#txtAddressLine1").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtAddressLine1").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.EBillAddres1').css("display", "none");
-            $("#txtAddressLine1").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtAddressLine1").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
 
         if ($("#txtCity").val() == "") {
             isDataFilled = 1;
             $('.EBillAddresCity').css("display", "block");
-            $("#txtCity").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtCity").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.EBillAddresCity').css("display", "none");
-            $("#txtCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtCity").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
 
         if ($("#txtZipPostCode").val() == "") {
             isDataFilled = 1;
             $('.EBillAddresZipCode').css("display", "block");
-            $("#txtZipPostCode").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+            $("#txtZipPostCode").css("cssText","border:2px solid red!important;");//.parent().addClass("field-with-errors");
         } else {
             $('.EBillAddresZipCode').css("display", "none");
-            $("#txtZipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtZipPostCode").css("cssText","border:1px solid #c1c6cc!important;");//.parent().removeClass("field-with-errors");
         }
         if ($("#BillingCountryDropDown").val() == 0) {
             isDataFilled = 1;
-            $("#BillingCountryDropDown").css("border", "2px solid red");
+            $("#BillingCountryDropDown").css("cssText","border:2px solid red!important;");
         } else {
-            $("#BillingCountryDropDown").css("border", "1px solid #c1c6cc");
+            $("#BillingCountryDropDown").css("cssText","border:1px solid #c1c6cc!important;");
         }
         if ($("#ddBillingState").val() == 0) {
             isDataFilled = 1;
-            $("#ddBillingState").css("border", "2px solid red");
+            $("#ddBillingState").css("cssText","border:2px solid red!important;");
         } else {
-            $("#ddBillingState").css("border", "1px solid #c1c6cc");
+            $("#ddBillingState").css("cssText","border:1px solid #c1c6cc!important;");
         }
         return isDataFilled;
     }
@@ -1271,7 +1285,11 @@
 
 
                     $('#lblShipToAddLin1').text(cAdrres.Address1);
-                    $('#lblShipToAddLin2').text(cAdrres.Address2);
+                    if(cAdrres.Address2 != null)
+                    {
+                        $('#lblShipToAddLin2').text(cAdrres.Address2);
+                    }
+
                     $('#lblShipToCity').text(cAdrres.City);
                     $('#lblShipTostate').text(cAdrres.Tel2);
                     $('#lblShipToCountry').text(cAdrres.FAO);

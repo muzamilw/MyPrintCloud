@@ -136,7 +136,7 @@
                                                         
                                                         <div class="col-sm-3">
                                                             <div class="col-sm-10">
-                                                                <input type="text" style="" class="form-control text-right" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled,value:tax1">
+                                                                <input type="text" style="" class="form-control text-right" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled, autoNumeric:tax1, settings:{mDec:2}">
                                                             </div>
                                                             <div class="col-sm-1 help-block text-right" style="margin-left: -9%;  margin-top: 8px;">%</div>
                                                         </div>
@@ -204,7 +204,17 @@
                                             <h3 style="color:black;">Descriptions to Appear on Estimates for combined components</h3>
                                         </div>
                                     </div>
+                                    <div class="form-group">
 
+                                        <div class="col-sm-2 text-right">
+                                            <label class="control-label tooltip-float">Notes</label>
+                                        </div>
+                                        <div class="col-sm-8" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="3" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" style="background-color: #FCFBB6;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <div class="col-sm-2">
                                             &nbsp;
@@ -375,17 +385,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                       
-                                        <div class="col-sm-2 text-right">
-                                            <label class="control-label tooltip-float">User Notes</label>
-                                        </div>
-                                        <div class="col-sm-8" style="padding-right:0px;">
-                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
-                                                <textarea class="form-control" rows="3" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" style="background-color: #FCFBB6;"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
 
                                 </div>
                             </div>

@@ -95,9 +95,18 @@ namespace MPC.Repository.Repositories
                 if (item.ControlType == 1)
                 {
                     string queryString = string.Empty;
-                    if (Id == 519 || ReportName == "Order Report By Store") // stock report hard code id because of organisation id check
+                    if (Id == 519 || ReportName == "Order Report By Store" ) // stock report hard code id because of organisation id check
                     {
-                        queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName + " " + OrganisationId;
+                    
+                        if(item.ComboTableName == "Company")
+                        {
+                            queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName + " " + OrganisationId;
+                        }
+                        else
+                        {
+                            queryString = "select * from " + item.ComboTableName + " " + item.CriteriaFieldName;
+                        }
+                       
                     }
                     else
                     {
@@ -114,7 +123,7 @@ namespace MPC.Repository.Repositories
 
                     DataColumnCollection columns = dtrpt.Columns;
 
-
+                    reportpar.ComboList = new List<ReportparamComboCollection>();
                     if (columns.Contains("CompanyId")) // company records
                     {
                         DataColumn colId = dtrpt.Columns["CompanyId"];
@@ -124,6 +133,7 @@ namespace MPC.Repository.Repositories
 
                         foreach (DataRow row in dtrpt.Rows) // Loop over the rows.
                         {
+                            
                             ReportparamComboCollection objCombo = new ReportparamComboCollection();
 
                             objCombo.ComboId = row[colId].ToString();
@@ -721,6 +731,21 @@ namespace MPC.Repository.Repositories
 
             }
         }
+        public long GetReportIdByName(string ReportName)
+        {
+            try
+            {
+                return db.Reports.Where(c => c.Name == ReportName).Select(c => c.ReportId).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        
+        }
+
         // GetReportsByOrganisationID
     }
 }

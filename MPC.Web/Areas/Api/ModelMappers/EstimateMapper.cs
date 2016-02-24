@@ -70,9 +70,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InvoiceStatus = source.InvoiceStatus,
                 IsExtraOrder = source.IsExtraOrder,
                 EstimateDate = source.EstimateDate,
+                UserNotes = source.UserNotes,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).OrderBy(item => item.ProductName).ToList() :
                 new List<OrderItem>(),
-                ItemsCount = source.Items != null ? source.Items.Count : 0,
+                ItemsCount = source.Items != null ? source.Items.Count(i => i.ItemType != 2) : 0,
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).OrderBy(payment => payment.ReferenceCode).ToList() :
                 new List<PrePayment>(),
                 ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()).OrderBy(sc => sc.ItemName).ToList() :
@@ -109,7 +110,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreName = source.Company != null ? source.Company.StoreName : string.Empty,
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
-                ItemsCount = source.Items != null ? source.Items.Count : 0,
+                ItemsCount = source.Items != null ? source.Items.Count(i => i.ItemType != 2) : 0,
                 Status = source.Status != null ? source.Status.StatusId == 4 ? "Confirmed STARTS" : source.Status.StatusName : string.Empty,
                 EstimateTotal = source.Estimate_Total,
                 IsDirectSale = source.isDirectSale,
@@ -171,6 +172,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 isEstimate = source.IsEstimate,
                 Estimate_Total = source.EstimateTotal,
+                UserNotes = source.UserNotes,
                 EstimateDate = source.IsEstimate == true ? source.EstimateDate : null,
                 Order_Date = source.IsEstimate == false ? source.OrderDate : null,
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : new List<DomainModels.PrePayment>(),

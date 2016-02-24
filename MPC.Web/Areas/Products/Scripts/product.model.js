@@ -1278,22 +1278,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     url = "/mis/Content/Images/PNGFile.png";
                     
                 }
-
+                var name = file.name;
+                name = name.replace(/[&\/\\#,+()$~%'":*?<>{}]/g, '');
                 switch (fileType) {
                     case itemFileTypes.thumbnail:
                         thumbnail(data);
                         thumbnailFileSource(data);
-                        thumbnailFileName(file.name);
+                        thumbnailFileName(name);
                         break;
                     case itemFileTypes.grid:
                         gridImage(data);
                         gridImageFileSource(data);
-                        gridImageFileName(file.name);
+                        gridImageFileName(name);
                         break;
                     case itemFileTypes.imagePath:
                         imagePath(data);
                         imagePathFileSource(data);
-                        imagePathFileName(file.name);
+                        imagePathFileName(name);
                         break;
                     case itemFileTypes.file:
                         var availableSlot = getAvailableSlotForTemplateLayoutFile();
@@ -1301,7 +1302,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             case 1:
                                // file1(data);
                                 file1FileSource(data);
-                                file1FileName(file.name);
+                                file1FileName(name);
                                 file1Deleted(false);
                                 file1(url);
                               
@@ -1310,28 +1311,28 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             case 2:
                                 //file2(data);
                                 file2FileSource(data);
-                                file2FileName(file.name);
+                                file2FileName(name);
                                 file2Deleted(false);
                                 file2(url);
                                 break;
                             case 3:
                               //  file3(data);
                                 file3FileSource(data);
-                                file3FileName(file.name);
+                                file3FileName(name);
                                 file3Deleted(false);
                                 file3(url);
                                 break;
                             case 4:
                                // file4(data);
                                 file4FileSource(data);
-                                file4FileName(file.name);
+                                file4FileName(name);
                                 file4Deleted(false);
                                 file4(url);
                                 break;
                             case 5:
                                 //file5(data);
                                 file5FileSource(data);
-                                file5FileName(file.name);
+                                file5FileName(name);
                                 file5Deleted(false);
                                 file5(url);
                                 break;
@@ -3843,9 +3844,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Is Internal Activity
             isInternalActivity = ko.observable(specifiedIsInternalActivity || false),
             // Is Auto Create Supplier PO
-            isAutoCreateSupplierPo = ko.observable(specifiedIsAutoCreateSupplierPO || true),
+            isAutoCreateSupplierPo = ko.observable(specifiedIsAutoCreateSupplierPO || false),
             // Is Qty Limit
-            isQtyLimit = ko.observable(specifiedIsQtyLimit || true),
+            isQtyLimit = ko.observable(specifiedIsQtyLimit || false),
             // Qty Limit
             qtyLimit = ko.observable(specifiedQtyLimit || undefined),
             // Delivery Time Supplier1

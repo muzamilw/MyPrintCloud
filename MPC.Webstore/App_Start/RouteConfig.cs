@@ -346,8 +346,6 @@ namespace MPC.Webstore
              );
 
 
-
-
             routes.MapRoute(
                  "LoadStatesByCountryID",
                  "BillingShippingAddressManager/LoadStatesByCountryID",
@@ -359,6 +357,15 @@ namespace MPC.Webstore
                     "BillingShippingAddressManager/UpdateAddress",
                     new { controller = "BillingShippingAddressManager", action = "UpdateAddress", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                   "SendSubscriptionData",
+                   "NewsletterSubscriber/SendSubsricptionDAta",
+                   new { controller = "NewsletterSubscriber", action = "SendSubsricptionDAta", id = UrlParameter.Optional }
+           );
+
+
+
 
             routes.MapRoute(
                 "AddAddress",
@@ -575,11 +582,18 @@ namespace MPC.Webstore
                 "NabSubmit/{OrderID}",
                 new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
             );
+
             routes.MapRoute(
              "PayWay",
              "PayWay/{OrderID}",
              new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
          );
+
+            routes.MapRoute(
+           "StripeGateway",
+           "StripeGateway/{OrderID}",
+           new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+       );
             //routes.MapRoute(
             //    "ReceiptPlain",
             //    "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",

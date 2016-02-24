@@ -17,5 +17,6 @@ namespace MPC.Interfaces.Repository
         IEnumerable<CmsSkinPageWidget> GetByPageId(long pageId,long companyId);
 
         List<CmsSkinPageWidget> GetDomainWidgetsById2(long companyId);
+        bool IsCustomWidgetUsed(long widgetId);
     }
 }

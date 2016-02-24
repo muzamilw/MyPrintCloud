@@ -395,26 +395,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         if (!dobeforeSave()) {
                             return;
                         }
-                        if (isOpenReport() == true) {
-
-                            savePurchaseOrder();
-                        }
-                        else {
-                            if (selectedPurchaseOrder().id() !== undefined && selectedPurchaseOrder().status() === 31) {
-                                confirmation.messageText("Do you want to Post the Purchase Order?");
-                                confirmation.afterProceed(function () {
-                                    selectedPurchaseOrder().status(32);
-                                    savePurchaseOrder();
-                                });
-                                confirmation.afterCancel(function () {
-                                    savePurchaseOrder();
-                                });
-                                confirmation.show();
-                                return;
-                            } else {
-                                savePurchaseOrder();
-                            }
-                        }
+                        savePurchaseOrder();
                     },
                     // Post PO
                     onPostPurchaseOrder = function (purchase) {
@@ -439,10 +420,6 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     openExternalReportsPurchase = function () {
 
                         reportManager.outputTo("preview");
-
-                        
-
-
                         if (selectedPurchaseOrder().hasChanges()) {
                             isOpenReport(true);
                             isOpenReportEmail(false);
@@ -533,41 +510,39 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         });
                         dataservice.savePurchase(purchaseOrder, {
                             success: function (data) {
+                                var poId = 0;
+                                if (purchaseOrderTypeFilter() === 1 && (currentTab() === 0 || currentTab() === 31)) {
+                                    //For Add New and selected category PO and tab must be ALL or Open
+                                    if (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) {
+                                        purchaseOrders.splice(0, 0, model.PurchaseListView.Create(data));
+                                    } else {
+                                        selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
+                                        selectedPurchaseOrderForListView().flagColor(data.FlagColor);
+                                        selectedPurchaseOrderForListView().refNo(data.RefNo);
+                                        selectedPurchaseOrderForListView().refNo(data.RefNo);
+                                        selectedPurchaseOrderForListView().status(data.Status);
 
+                                        if (currentTab() !== 0 && currentTab() !== data.Status) {
+                                            purchaseOrders.remove(selectedPurchaseOrderForListView());
+                                        }
+                                    }
+                                }
+                               
+                                
                                 if (isOpenReport() == true) {
+                                    poId = (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) ? data.PurchaseId : selectedPurchaseOrder().id();
                                     if (isOpenReportEmail() == true) {
                                        
-                                        reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
-                                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
-                                       
-                                       
+                                        reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), poId, 6, poId, "");
+                                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, poId);
                                     }
                                     else {
-
-                                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
-                                      
+                                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, poId);
                                     }
-                                    getPurchaseOrderById(selectedPurchaseOrder().id());
+                                    getPurchaseOrderById(poId);
                                     isOpenReport(false);
                                 }
                                 else {
-
-                                    //For Add New and selected category PO and tab must be ALL or Open
-                                    if (purchaseOrderTypeFilter() === 1 && (currentTab() === 0 || currentTab() === 31)) {
-                                        if (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) {
-                                            purchaseOrders.splice(0, 0, model.PurchaseListView.Create(data));
-                                        } else {
-                                            selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
-                                            selectedPurchaseOrderForListView().flagColor(data.FlagColor);
-                                            selectedPurchaseOrderForListView().refNo(data.RefNo);
-                                            selectedPurchaseOrderForListView().refNo(data.RefNo);
-                                            selectedPurchaseOrderForListView().status(data.Status);
-
-                                            if (currentTab() !== 0 && currentTab() !== data.Status) {
-                                                purchaseOrders.remove(selectedPurchaseOrderForListView());
-                                            }
-                                        }
-                                    }
 
                                     isEditorVisible(false);
                                     toastr.success("Saved Successfully.");

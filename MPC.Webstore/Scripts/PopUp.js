@@ -292,6 +292,7 @@ var idsToValidate = ""; // This variable contain ids of text boxes and validate 
 var GlobalInputQueueItemsList = null;
 function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType, TaxRate, WorkInstructions) {
     console.log("ShowCostCentrePopup function");
+    console.log(QuestionQueueItems);
     GlobalQuestionQueueItemsList = QuestionQueueItems;
     GlobalInputQueueItemsList = InputQueueObject;
     var innerHtml = "";
@@ -299,7 +300,7 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
     
     if (Mode == "New") { // prompt in case of newly added cost centre
         for (var i = 0; i < QuestionQueueItems.length; i++) {
-          
+            
             if (QuestionQueueItems[i].ItemType == 1) { // text box
                 if (idsToValidate == "") {
                     idsToValidate = 'txtBox' + QuestionQueueItems[i].ID;
@@ -423,7 +424,7 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.left = left + "px";
-    document.getElementById("innerLayer").style.top = "200px";
+    document.getElementById("innerLayer").style.top = "0px";
 
     document.getElementById("innerLayer").style.width = "730px";
     document.getElementById("innerLayer").style.position = "fixed";
@@ -696,7 +697,8 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
             }
         });
-
+        console.log("vlaidta efun");
+        console.log(GlobalQuestionQueueItemsList);
         SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency, true, TaxRate);
 
         idsToValidate = "";
@@ -1200,8 +1202,10 @@ function ViewOrderPopUp(Type, panelHtml) {
             $("#costCentreQueueItems").val(JSON.stringify(InputAndQuestionQueues, null, 2));
 
         }
-
+        console.log("UpdatedGlobalQueueArray");
+        
         var UpdatedGlobalQueueArray = JSON.parse($("#costCentreQueueItems").val());
+        console.log(UpdatedGlobalQueueArray);
         var CostCentreQueueObjectToSaveInDB = [];
 
         var to;
@@ -1258,7 +1262,8 @@ function ViewOrderPopUp(Type, panelHtml) {
                             QuestionQueueDBObject.push(UpdatedGlobalQueueArray.QuestionQueues[m]);
 
                         }
-
+                        console.log("QuestionQueueDBObject.length popup");
+                        console.log(QuestionQueueDBObject.length);
                         if (QuestionQueueDBObject.length > 0) {
                             $("#VMJsonAddOnsQuestionQueue").val(JSON.stringify(QuestionQueueDBObject, null, 2));
                         }
