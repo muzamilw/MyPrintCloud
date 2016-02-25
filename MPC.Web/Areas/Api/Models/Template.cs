@@ -65,6 +65,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsSpotTemplate { get; set; }
         public bool? IsCreatedManual { get; set; }
         public bool? IsEditorChoice { get; set; }
+        public bool? HideSharedImages { get; set; }
         public IEnumerable<TemplatePage> TemplatePages { get; set; }
 
         /// <summary>

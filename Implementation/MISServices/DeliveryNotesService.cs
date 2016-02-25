@@ -21,6 +21,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPrefixRepository prefixRepository;
         private readonly IDeliveryNoteDetailRepository deliveryNoteDetailRepository;
         private readonly IDeliveryCarrierRepository deliveryCarrierRepository;
+        private readonly IOrganisationRepository organisationRepository;
         /// <summary>
         /// Creates New Pre Payment
         /// </summary>
@@ -62,7 +63,7 @@ namespace MPC.Implementation.MISServices
 
         public DeliveryNotesService(IDeliveryNoteRepository deliveryNoteRepository, ISectionFlagRepository sectionFlagRepository,
             ISystemUserRepository systemUserRepository, IPrefixRepository prefixRepository, IDeliveryNoteDetailRepository deliveryNoteDetailRepository,
-            IDeliveryCarrierRepository deliveryCarrierRepository)
+            IDeliveryCarrierRepository deliveryCarrierRepository, IOrganisationRepository organisationRepository)
         {
             this.deliveryNoteRepository = deliveryNoteRepository;
             this.prefixRepository = prefixRepository;
@@ -70,6 +71,7 @@ namespace MPC.Implementation.MISServices
             this.deliveryCarrierRepository = deliveryCarrierRepository;
             this._sectionFlagRepository = sectionFlagRepository;
             this._systemUserRepository = systemUserRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -77,7 +79,11 @@ namespace MPC.Implementation.MISServices
         #region Public
         public GetDeliveryNoteResponse GetDeliveryNotes(DeliveryNotesRequest request)
         {
-            return deliveryNoteRepository.GetDeliveryNotes(request);
+            Organisation org = organisationRepository.GetOrganizatiobByID();
+            var result = deliveryNoteRepository.GetDeliveryNotes(request);
+            result.HeadNote = org != null ? org.DeliveryHeadNote : "";
+            result.FootNote = org != null ? org.DeliveryFootNote : "";
+            return result;
         }
 
         /// <summary>
@@ -111,11 +117,19 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public DeliveryNote SaveDeliveryNote(DeliveryNote deliveryNote)
         {
-
-            deliveryNote.OrganisationId = deliveryNoteRepository.OrganisationId;
+            Organisation org = organisationRepository.GetOrganizatiobByID();
+            deliveryNote.OrganisationId = org.OrganisationId;
             // Get Order if exists else create new
             DeliveryNote deliveryNoteTarget = GetById(deliveryNote.DeliveryNoteId) ?? CreateNewDeliveryNote();
             // Update Order
+            if (deliveryNote.DeliveryNoteId == 0 && deliveryNote.OrderId > 0)
+            {
+                if (string.IsNullOrEmpty(deliveryNote.Comments))
+                    deliveryNote.Comments = org.DeliveryHeadNote;
+                if (string.IsNullOrEmpty(deliveryNote.footnote))
+                    deliveryNote.UserNotes = org.DeliveryFootNote;
+                
+            }
             deliveryNote.UpdateTo(deliveryNoteTarget, new DeliveryNoteMapperAction()
             {
                 CreateDeliveryNoteDetail = CreateDeliveryNoteDetail,

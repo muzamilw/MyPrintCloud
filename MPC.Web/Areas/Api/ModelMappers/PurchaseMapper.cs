@@ -35,6 +35,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new PurchaseResponseModel
             {
                 RowCount = source.TotalCount,
+                HeadNote = source.HeadNote,
+                FootNote = source.FootNote,
                 PurchasesList = source.Purchases.Select(order => order.CreateFromForListView())
             };
         }

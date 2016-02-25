@@ -4306,7 +4306,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Template Factory
     Template.Create = function (source) {
         var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate,
-        source.FileOriginalSource, source.IsAllowCustomSize);
+        source.FileOriginalSource, source.IsAllowCustomSize, source.HideSharedImages);
 
         // Map Template Pages if any
         if (source.TemplatePages != null) {

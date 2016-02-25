@@ -1,5 +1,6 @@
 ﻿using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -31,7 +32,9 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public InvoiceRequestResponseModel SearchInvoices(GetInvoicesRequestModel request)
         {
-            return invoiceRepository.SearchInvoices(request);
+            
+            var result = invoiceRepository.SearchInvoices(request);
+            return result;
         }
         #endregion
     }

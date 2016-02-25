@@ -18,5 +18,7 @@ namespace MPC.Models.ResponseModels
         /// List of Invoices
         /// </summary>
         public IEnumerable<Invoice> Invoices { get; set; }
+        public string HeadNote { get; set; }
+        public string FootNote { get; set; }
     }
 }

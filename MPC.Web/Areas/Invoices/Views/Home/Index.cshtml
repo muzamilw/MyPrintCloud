@@ -11,8 +11,8 @@
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <ol class="breadcrumb" style="padding-left:6px;">
                         <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text: $root.selectedInvoice() != undefined && $root.selectedInvoice().id() ? 'Home': ''"></a></li>
-                        <li data-bind="css:'active' ,click:$root.onCloseInvoiceEditor,visible: isDetailsVisible()" style="cursor:pointer;display: none"><span>Invoices</span></li>
-                        <li data-bind="css:'active', visible:$root.pageCode()!=='',visible: isDetailsVisible()" style="display: none"><span data-bind="text:$root.pageCode"></span></li>
+                        <li data-bind="css:'active' ,click:$root.onCloseInvoiceEditor,visible: isDetailsVisible() && $root.pageCode()!==''" style="cursor:pointer;display: none"><span>Invoices</span></li>
+                        <li data-bind="css:'active', visible:$root.pageCode()!=='',visible: isDetailsVisible() && $root.pageCode()!==''" style="display: none"><span data-bind="text:$root.pageCode"></span></li>
                     </ol>
                     <div class="clearfix">
                         <h1 class="pull-left" style="padding-left:6px;" data-bind="text:$root.pageHeader">Invoices</h1>
@@ -42,12 +42,12 @@
                                 </div>
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
-                                        <ul class="nav nav-tabs">
-                                            <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(0);}">All Invoices</a></li>
-                                            <li><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(19);}">Awaiting</a></li>
-                                            <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(20);}">Posted</a></li>
+                                        <ul class="nav nav-tabs" id="invoiceTabs">
+                                            <li class="active" id="allInvoices"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(0);}">All Invoices</a></li>
+                                            <li id="awaitingInvoices"><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(19);}">Awaiting</a></li>
+                                            <li id="postedInvoices"><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(20);}">Posted</a></li>
                                             @*<li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(21);}">Cancelled</a></li>*@
-                                            <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(22);}">Archived</a></li>
+                                            <li id="archivedInvoices"><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(22);}">Archived</a></li>
                                             @*<li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(30);}">Proforma</a></li>*@
                                         </ul>
                                         <div class="tab-content">

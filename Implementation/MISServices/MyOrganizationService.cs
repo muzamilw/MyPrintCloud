@@ -295,6 +295,15 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.isMailChimpActive = organisation.isMailChimpActive;
             organisationDbVersion.MailChimpListName = organisation.MailChimpListName;
 
+            organisationDbVersion.OrderHeadNote = organisation.OrderHeadNote;
+            organisationDbVersion.OrderFootNote = organisation.OrderFootNote;
+            organisationDbVersion.InvoiceHeadNote = organisation.InvoiceHeadNote;
+            organisationDbVersion.InvoiceFootNote = organisation.InvoiceFootNote;
+            organisationDbVersion.DeliveryHeadNote = organisation.DeliveryHeadNote;
+            organisationDbVersion.DeliveryFootNote = organisation.DeliveryFootNote;
+            organisationDbVersion.PurchaseHeadNote = organisation.PurchaseHeadNote;
+            organisationDbVersion.PurchaseFootNote = organisation.PurchaseFootNote;
+
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;
