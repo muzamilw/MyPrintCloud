@@ -2812,6 +2812,14 @@
           <Property Name="MailChimpApiId" Type="nvarchar" MaxLength="255" />
           <Property Name="isMailChimpActive" Type="bit" />
           <Property Name="MailChimpListName" Type="nvarchar" MaxLength="500" />
+          <Property Name="OrderHeadNote" Type="nvarchar" MaxLength="1500" />
+          <Property Name="OrderFootNote" Type="nvarchar" MaxLength="1500" />
+          <Property Name="InvoiceHeadNote" Type="nvarchar" MaxLength="1500" />
+          <Property Name="InvoiceFootNote" Type="nvarchar" MaxLength="1500" />
+          <Property Name="DeliveryHeadNote" Type="nvarchar" MaxLength="1500" />
+          <Property Name="DeliveryFootNote" Type="nvarchar" MaxLength="1500" />
+          <Property Name="PurchaseHeadNote" Type="nvarchar" MaxLength="1500" />
+          <Property Name="PurchaseFootNote" Type="nvarchar" MaxLength="1500" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -9108,6 +9116,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="MailChimpApiId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="isMailChimpActive" Type="Boolean" />
           <Property Name="MailChimpListName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OrderHeadNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="OrderFootNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceHeadNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceFootNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryHeadNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryFootNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseHeadNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseFootNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -16406,6 +16422,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="PurchaseFootNote" ColumnName="PurchaseFootNote" />
+                <ScalarProperty Name="PurchaseHeadNote" ColumnName="PurchaseHeadNote" />
+                <ScalarProperty Name="DeliveryFootNote" ColumnName="DeliveryFootNote" />
+                <ScalarProperty Name="DeliveryHeadNote" ColumnName="DeliveryHeadNote" />
+                <ScalarProperty Name="InvoiceFootNote" ColumnName="InvoiceFootNote" />
+                <ScalarProperty Name="InvoiceHeadNote" ColumnName="InvoiceHeadNote" />
+                <ScalarProperty Name="OrderFootNote" ColumnName="OrderFootNote" />
+                <ScalarProperty Name="OrderHeadNote" ColumnName="OrderHeadNote" />
                 <ScalarProperty Name="MailChimpListName" ColumnName="MailChimpListName" />
                 <ScalarProperty Name="isMailChimpActive" ColumnName="isMailChimpActive" />
                 <ScalarProperty Name="MailChimpApiId" ColumnName="MailChimpApiId" />
