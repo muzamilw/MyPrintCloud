@@ -6,7 +6,7 @@
     @{
         string currentController = ViewContext.RouteData.Values["controller"].ToString();
     }
-    @if (currentController != "Designer" || currentController != "ProductPendingOrders" || currentController != "BillingShippingAddressManager")
+    @if (currentController != "Designer")
     {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     }
