@@ -212,7 +212,7 @@ function restrictControls() {
     $("#backgrounds").css("visibility", "hidden");
     $("#layersPanel,.btnAUploadFont").css("visibility", "hidden");
     $("#selectedTab").addClass("restrictedSelectedTab");
-
+    $(".btnBackFromImgs").css("visibility", "hidden");
 }
 
 var difFound = false;
