@@ -60,7 +60,8 @@ define("order/order.viewModel",
                     isPreVisible = ko.observable(),
                     isApplyToAll = ko.observable(),
                     isApplyButtonVisible = ko.observable(),
-                    
+                    defaultHeadNote = ko.observable(),
+                    defaultFootNote = ko.observable(),
                     //
                     selectedCompanyTaxRate = ko.observable(),
                     selectedCompanyJobManagerUser = ko.observable(),
@@ -318,9 +319,13 @@ define("order/order.viewModel",
                         selectedOrder().setOfficialOrderSetBy(loggedInUser());
                         if (isEstimateScreen()) {
                             selectedOrder().reportSignedBy(loggedInUser());
+                            selectedOrder().footNotes(footNotes());
+                            selectedOrder().headNotes(headNotes());
+                        } else {
+                            selectedOrder().footNotes(defaultFootNote());
+                            selectedOrder().headNotes(defaultHeadNote());
                         }
-                        selectedOrder().footNotes(footNotes());
-                        selectedOrder().headNotes(headNotes());
+                        
                         view.setOrderState(4); // Pending Order. on 2016 01 18 renamed this status to Confirmed and hide the status Confirmed starts
                         selectedOrder().statusId(4);
                         selectedOrder().status("Open/Draft Estimate");
@@ -1495,9 +1500,19 @@ define("order/order.viewModel",
                                         var actTab = $("#orderTabs li.active");
                                         if (actTab && actTab[0] && actTab[0].id !== "all-orders") {
                                             $("#" + actTab[0].id).removeClass("active");
-                                            $("#" + actTab[0].id).removeClass("active");
+                                            if (actTab[0].id === "pending-orders")
+                                                $("#tab-PendingOrders").removeClass("active");
+                                            else if (actTab[0].id === "in-production")
+                                                $("#tab-InProduction").removeClass("active");
+                                            else if (actTab[0].id === "ready-shipping")
+                                                $("#tab-ReadyForShipping").removeClass("active");
+                                            else if (actTab[0].id === "invoiced")
+                                                $("#tab-Invoiced").removeClass("active");
+                                            else if (actTab[0].id === "cancelled-orders")
+                                                $("#tab-CancelledOrders").removeClass("active");
                                             $("#all-orders").addClass("active");
                                             $("#tab-All").addClass("active");
+                                            getOrders(0);
                                         }
                                     } else {
                                         // Get Order
@@ -1515,7 +1530,7 @@ define("order/order.viewModel",
 
                                         }
                                     }
-                                    if (saveFrom() != "section") {
+                                    if (saveFrom() != "itemJob") {
                                         toastr.success("Saved Successfully.");
                                     }
                                     
@@ -1645,6 +1660,8 @@ define("order/order.viewModel",
                                     mapOrders(data.Orders);
                                     pager().totalCount(data.TotalCount);
                                 }
+                                defaultHeadNote(data.HeadNote);
+                                defaultFootNote(data.FootNote);
                                 isLoadingOrders(false);
                             },
                             error: function (response) {

@@ -3732,6 +3732,7 @@ define("stores/stores.viewModel",
                         newPaymentGatewayId = newPaymentGatewayId - 1;
                     },
                     isAccessCodeSectionVisible = ko.observable(false),
+                    isStripeGateway = ko.observable(false),
                     paymentMethodName = ko.observable(),
                     //Selected Payment Gateway
                     paymentGatewayEditorViewModel = new ist.ViewModel(model.PaymentGateway),
@@ -3843,7 +3844,9 @@ define("stores/stores.viewModel",
 
                                     if (paymentMethod.methodName() == "PayPal" || paymentMethod.methodName() == "Cash" || paymentMethod.methodName() == "") {
                                         isAccessCodeSectionVisible(false);
+                                        isStripeGateway(false);
                                     } else {
+                                        isStripeGateway(paymentMethod.methodName() == "Stripe" ? true: false);
                                         paymentMethodName(paymentMethod.methodName());
                                         isAccessCodeSectionVisible(true);
                                     }
@@ -8164,7 +8167,8 @@ define("stores/stores.viewModel",
                     selectedCustomWidget: selectedCustomWidget,
                     addCustomWidget: addCustomWidget,
                     isCustomWidgetLoad: isCustomWidgetLoad,
-                    deleteCustomWidget: deleteCustomWidget
+                    deleteCustomWidget: deleteCustomWidget,
+                    isStripeGateway: isStripeGateway
                     //Show RealEstateCompaign VariableIcons Dialog
                     //showcreateVariableDialog: showcreateVariableDialog
                 };

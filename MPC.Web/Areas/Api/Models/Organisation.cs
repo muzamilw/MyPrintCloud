@@ -274,6 +274,14 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isMailChimpActive { get; set; }
 
         public string MailChimpListName { get; set; }
+        public string OrderHeadNote { get; set; }
+        public string OrderFootNote { get; set; }
+        public string InvoiceHeadNote { get; set; }
+        public string InvoiceFootNote { get; set; }
+        public string DeliveryHeadNote { get; set; }
+        public string DeliveryFootNote { get; set; }
+        public string PurchaseHeadNote { get; set; }
+        public string PurchaseFootNote { get; set; }
 
         /// <summary>
         /// Image Source

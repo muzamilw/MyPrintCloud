@@ -18,6 +18,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new InvoiceRequestResponseModel
             {
                 RowCount = source.RowCount,
+                HeadNote = source.HeadNote,
+                FootNote = source.FootNote,
                 Invoices = source.Invoices.Select(invoice => invoice.CreateFrom())
             };
         }
@@ -94,7 +96,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             }
             if (source.Items != null)
             {
-                itemsTotal = itemsTotal + source.Items.Count();
+                itemsTotal = itemsTotal + source.Items.Count(i => i.ItemType != 2);
             }
             return new InvoicesListModel
             {
@@ -120,6 +122,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new InvoiceListResponseModel
             {
                 RowCount = source.RowCount,
+                HeadNote = source.HeadNote,
+                FootNote = source.FootNote,
                 Invoices = source.Invoices.Select(invoice => invoice.CreateForList())
             };
 

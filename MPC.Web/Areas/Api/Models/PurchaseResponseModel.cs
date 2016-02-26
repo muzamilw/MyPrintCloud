@@ -13,5 +13,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// List of Purchases
         /// </summary>
         public IEnumerable<PurchaseListView> PurchasesList{ get; set; }
+        public string HeadNote { get; set; }
+        public string FootNote { get; set; }
     }
 }

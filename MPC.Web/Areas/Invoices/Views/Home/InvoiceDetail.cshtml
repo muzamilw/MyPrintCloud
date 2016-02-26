@@ -1,28 +1,28 @@
 ﻿<div class="row" data-bind="visible: isDetailsVisible() && !isItemDetailVisible()" style="display: none">
     <div class="row">
         <div class="col-sm-12 PaddingZero">
-            <div class="col-sm-12 PaddingZero">
+            <div class="col-sm-12 PaddingZero" data-bind="with: selectedInvoice">
                 <div class="col-sm-3">
                     <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px">
                         @*<button type="button" class="btn btn-primary" style="margin-top:-10px;">Actions</button>
-                        <button type="button" style="margin-top:-10px;" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" data-bind="click:$root.openExternalReportsInvoice">Print Invoice</a></li>
-                            <li><a href="#" data-bind="click:$root.openExternalEmailInvoiceReport">Email Invoice</a></li>
-                            <li><a href="#">Archive Invoice</a></li>
-                        </ul>*@
+                    <button type="button" style="margin-top:-10px;" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" data-bind="click:$root.openExternalReportsInvoice">Print Invoice</a></li>
+                        <li><a href="#" data-bind="click:$root.openExternalEmailInvoiceReport">Email Invoice</a></li>
+                        <li><a href="#">Archive Invoice</a></li>
+                    </ul>*@
                         <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;border-radius:5px;" data-bind="click:$root.exportInvoice">Export</button>
                         <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;border-radius:5px;" data-bind="click:$root.openExternalReportsInvoice">Print</button>
                         <button class="btn btn-primary" style="margin-top:-10px;border-radius:5px;" data-bind="click:$root.openExternalEmailInvoiceReport">Email</button>
-                        <button class="btn btn-danger" style="margin-top:-10px;margin-left:5px;border-radius:5px;" data-bind="click:$root.onArchiveInvoice">Archive</button>
+                        <button class="btn btn-danger" style="margin-top:-10px;margin-left:5px;border-radius:5px;" data-bind="click:$root.onArchiveInvoice, visible:invoiceStatus()===19 && id() > 0">Archive</button>
                     </div>
-                   
-                    
+
+
                 </div>
-                <div data-bind="with: selectedInvoice" style="text-align:right; padding-right:19px;margin-bottom:10px;">
+                <div style="text-align:right; padding-right:19px;margin-bottom:10px;">
                     <button class="btn btn-primary" style="margin-top:-10px;" id="btnPost" data-bind="visible:invoiceStatus()===19 && id() > 0,click: $root.onPostInvoice">Post</button>
                     <button class="btn btn-primary" style="margin-top:-10px;" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" style="margin-top:-10px;" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>

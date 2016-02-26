@@ -13,7 +13,8 @@ namespace MPC.MIS.Areas.Api.Models
         /// Row Count
         /// </summary>
         public int RowCount { get; set; }
-
+        public string HeadNote { get; set; }
+        public string FootNote { get; set; }
         /// <summary>
         /// List of Invoices
         /// </summary>

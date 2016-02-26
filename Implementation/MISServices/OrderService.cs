@@ -624,7 +624,10 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public GetOrdersResponse GetAll(GetOrdersRequest request)
         {
+            Organisation org = organisationRepository.GetOrganizatiobByID();
             var result = estimateRepository.GetOrders(request);
+            result.HeadNote = org != null ? org.OrderHeadNote : "";
+            result.FootNote = org != null ? org.OrderFootNote : "";
             return result;
         }
         /// <summary>
@@ -790,6 +793,7 @@ namespace MPC.Implementation.MISServices
 
         private void CreateInvoice(Estimate order)
         {
+            Organisation org = organisationRepository.GetOrganizatiobByID();
             Invoice itemTarget = CreateNewInvoice();
 
             if (order.isDirectSale ?? true)
@@ -810,7 +814,10 @@ namespace MPC.Implementation.MISServices
             {
                 itemTarget.FlagID = 0;
             }
+            itemTarget.HeadNotes = org != null ? org.InvoiceHeadNote : order.HeadNotes;
+            itemTarget.FootNotes = org != null ? org.InvoiceFootNote : order.FootNotes;
             itemTarget.ReportSignedBy = order.ReportSignedBy;
+            itemTarget.CreationDate = DateTime.Now;
             order.AddInvoice(itemTarget);
         }
 
@@ -1125,6 +1132,7 @@ namespace MPC.Implementation.MISServices
 
         public Estimate CloneOrder(Estimate source)
         {
+            Organisation org = organisationRepository.GetOrganizatiobByID();
             Estimate target = CreateNewOrder();
             target.isEstimate = false;
             target.StatusId = (short)OrderStatus.PendingOrder;
@@ -1135,6 +1143,8 @@ namespace MPC.Implementation.MISServices
             target = UpdateEstimeteOnCloning(est_Source, target, source);
             target.RefEstimateId = source.EstimateId;
             target.OrderReportSignedBy = source.ReportSignedBy;
+            target.HeadNotes = org != null ? org.OrderHeadNote : source.HeadNotes;
+            target.FootNotes = org != null ? org.OrderFootNote : source.FootNotes;
 
             estimateRepository.SaveChanges();
 
