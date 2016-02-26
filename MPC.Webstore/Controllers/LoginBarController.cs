@@ -51,7 +51,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
 
-            if (_webstoreclaimHelper.isUserLoggedIn())
+            if (_webstoreclaimHelper.loginContactID() > 0)
             {
                 ViewBag.isUserLoggedIn = true;
                 ViewBag.LoginUserName = UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName;//Response.Cookies["WEBFirstName"].Value; 
