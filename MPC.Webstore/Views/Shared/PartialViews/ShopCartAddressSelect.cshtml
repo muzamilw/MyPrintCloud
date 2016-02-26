@@ -442,10 +442,10 @@
                                                                 AddsOnList = AddsOnList.Where(addon => addon.ItemID == shopcart.ItemID).ToList();
                                                                 foreach (var add in AddsOnList)
                                                                 {
-                                                                    addson = addson + add.AddOnName + ", ";
+                                                                    addson = addson + add.AddOnName + "(" + add.CostCentreDescription + ")"  + ", ";
                                                                 }
                                                             }
-                                                            <span id="lblAddons">addson</span>
+                                                            <span id="lblAddons">@addson</span>
                                                         </td>
                                                         <td class="PaddingToCells" align="left" valign="top">
                                                             <span id="lblTotalItemQuantity" class="Fsize14" style="font-weight:bold;">@shopcart.Qty1</span>

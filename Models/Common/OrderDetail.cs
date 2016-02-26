@@ -49,5 +49,6 @@ namespace MPC.Models.Common
         public long? DeliveryDiscountVoucherId { get; set; }
 
         public CompanyContact CompanyContact { get; set; }
+        public List<AddOnCostsCenter> ItemsSelectedAddonsList { get; set; }
     }
 }

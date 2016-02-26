@@ -12,6 +12,7 @@
     DateTime OrderDateTime = Model.OrderDate ?? DateTime.Now;
     var OrderDate = OrderDateTime.ToString("MMMM dd, yyyy");
     double _DiscountAmountTotal = 0;
+     string itemAddsOn = string.Empty;
 }
 @{
     Layout = null;
@@ -308,22 +309,36 @@
                                             <br>
                                             <br>
                                             <span style="font-size:12px;font-weight:bold;">
-                                            @if (!string.IsNullOrEmpty(item.ProductFriendlyName))
+                                                @if (!string.IsNullOrEmpty(item.ProductFriendlyName))
                                             {
-                                                @item.ProductFriendlyName
+                                                    @item.ProductFriendlyName
                                             }
                                             else
                                             {
-                                                @item.ProductName
-                                            } 
+                                                    @item.ProductName
+                                            }
                                             </span><br>
                                             <div class="papertypecls">
                                                 @if (item.PaperType != null && item.PaperType!=string.Empty)
-                                                { 
-                                                <span style="font-size:12px;">Stock: @item.PaperType</span>
+                                                {
+                                                    <span style="font-size:12px;">Stock: @item.PaperType</span>
                                                 }
                                             </div>
-                                         
+                                            @{
+                                if (Model.ItemsSelectedAddonsList != null)
+                                                    {
+                                                        List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
+                                                                foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == item.ItemID))
+                                                                {
+                                                                    itemAddsOn = itemAddsOn + cost.AddOnName + "(" + cost.CostCentreDescription + ")" + ",";
+                                                                 
+                                                                }
+                                                    }
+                                            }
+                                            <div class="papertypecls">
+                                              <span style="font-size:12px;">@itemAddsOn</span>
+                                                
+                                            </div>
                                             <div class=" spacer5pxbottom hidden-lg hidden-xs">
                                                 <span style="font-size:12px;">@Html.Raw(item.ProductWebDescription)</span>
                                             </div>

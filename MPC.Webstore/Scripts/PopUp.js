@@ -1229,7 +1229,7 @@ function ViewOrderPopUp(Type, panelHtml) {
                         if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                             $(updatedAddOns)[i].ActualPrice = response;
                             $(updatedAddOns)[i].Description = desriptionOfQuestion;
-
+                            $(updatedAddOns)[i].AddOnName =  + $("#" + SelectedCostCentreCheckBoxId).next().html();
                             $(updatedAddOns)[i].Type = CostCentreType;
                             if (CostCentreType == 4) { // question queue
                                 for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {
