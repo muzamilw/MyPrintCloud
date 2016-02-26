@@ -106,10 +106,11 @@ namespace MPC.Webstore.Controllers
 
 
                     }
-                    string basePath = Request.Url.ToString();
-                    string path = basePath.Substring(0, basePath.LastIndexOf('/') + 1);
+                    
+                    
+                    string subscriptionLink = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority+"/Confirmation/"+subscriptionCode;
 
-                    string subscriptionLink = path + "/Confirmation/"+subscriptionCode;
+
 
                     CEP.SubscriberID = _myCompanyService.AddSubscriber(subscriber);
                     _campaignService.emailBodyGenerator(SubscriptionCampaign, CEP, Contact, StoreMode.Retail, (int)StoreBaseResopnse.Company.OrganisationId, "", "", SubscriberEmail, EmailOFSM.Email, "", "", null, "", null, "", "", subscriptionLink);
@@ -212,7 +213,7 @@ Utils.GetKeyValueFromResourceFile("ltrlerrorinsubs", UserCookieManager.WBStoreId
                     }
                     string basePath = Request.Url.ToString();
                     string path = basePath.Substring(0, basePath.LastIndexOf('/') + 1);
-                    string subscriptionLink = path + "/Confirmation/SubscriptionCode=" + subscriptionCode;
+                    string subscriptionLink = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + "/Confirmation/" + subscriptionCode;
 
                     CEP.SubscriberID = _myCompanyService.AddSubscriber(subscriber);
 
