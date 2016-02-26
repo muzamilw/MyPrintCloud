@@ -692,9 +692,9 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 });
             }
             if (desriptionOfCostCentre == "") {
-                desriptionOfCostCentre = $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
+                desriptionOfCostCentre = $(val).parent().prev().children().text() + " = " + $(val).val() + ". ";
             } else {
-                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
+                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + "= " + $(val).val() + ". ";
             }
         });
         console.log("vlaidta efun");
