@@ -925,6 +925,7 @@
     }
 
     function ChangeShippToAddLin2() {
+      
         var val = $('#txtShipAddressLine2').val();
         if(val != null)
         {
@@ -1155,9 +1156,11 @@
         }
         if ($("#ddBillingState").val() == 0) {
             isDataFilled = 1;
-            $("#ddBillingState").css("cssText","border:2px solid red!important;");
-        } else {
             $("#ddBillingState").css("cssText","border:1px solid #c1c6cc!important;");
+        } else {
+            
+
+            $("#ddBillingState").css("cssText","border:2px solid red!important;");
         }
         return isDataFilled;
     }

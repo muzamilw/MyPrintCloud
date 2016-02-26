@@ -34,6 +34,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                      isEditCall = ko.observable(false),
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
+                    defaultHeadNote = ko.observable(),
+                    defaultFootNote = ko.observable(),
                     deliveryNoteEditorHeader = ko.observable(),
                     currentTab = ko.observable(19),
                     // #region Observables
@@ -131,6 +133,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                     errorList.removeAll();
                                     deliveryNoteIdFromOrder(undefined);
                                 }
+                                defaultHeadNote(data.HeadNote);
+                                defaultFootNote(data.FootNote);
                             }
 
                         },
@@ -383,6 +387,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                          var deliveryNotes = model.DeliveryNote();
                          deliveryNotes.isStatus(19);
                          deliveryNotes.raisedBy(loggedInUser());
+                         deliveryNotes.comments(defaultHeadNote());
+                         deliveryNotes.userNotes(defaultFootNote());
                          selectedDeliveryNote(deliveryNotes);
                          
                          deliveryNoteEditorHeader('Add Delivery Notes');

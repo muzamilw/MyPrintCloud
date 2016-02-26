@@ -25,6 +25,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsSpotTemplate = source.isSpotTemplate,
                 FileOriginalBytes = source.FileOriginalBytes,
                 IsAllowCustomSize = source.IsAllowCustomSize,
+                HideSharedImages = source.HideSharedImages,
                 TemplatePages = source.TemplatePages != null ? source.TemplatePages.Select(vdp => vdp.CreateFrom()) : new List<TemplatePage>()
             };
         }
@@ -45,6 +46,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FileName = source.FileName,
                 FileSource = source.FileSource,
                 IsAllowCustomSize = source.IsAllowCustomSize,
+                HideSharedImages = source.HideSharedImages,
                 TemplatePages = source.TemplatePages != null ? source.TemplatePages.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.TemplatePage>()
             };
         }

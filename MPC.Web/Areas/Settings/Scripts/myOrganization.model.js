@@ -78,6 +78,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              mailchimpAPIId = ko.observable(),
              ismailChimpActive = ko.observable(),
              mailchimpListName = ko.observable(),
+             
+             orderHeadNote = ko.observable(),
+             orderFootNote = ko.observable(),
+             invoiceHeadNote = ko.observable(),
+             invoiceFootNote = ko.observable(),
+             deliveryHeadNote = ko.observable(),
+             deliveryFootNote = ko.observable(),
+             purchaseHeadNote = ko.observable(),
+             purchaseFootNote = ko.observable(),
 
             //Language Editor List
             languageEditors = ko.observableArray([]),
@@ -129,7 +138,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  unleashedApiId: unleashedApiId,
                  unleashedApiKey: unleashedApiKey,
                  isUnleashedApiActive: isUnleashedApiActive,
-                 isZapierActive: isZapierActive
+                 isZapierActive: isZapierActive,
+                 orderHeadNote: orderHeadNote,
+                 orderFootNote: orderFootNote,
+                 invoiceHeadNote: invoiceHeadNote,
+                 invoiceFootNote: invoiceFootNote,
+                 deliveryHeadNote: deliveryHeadNote,
+                 deliveryFootNote: deliveryFootNote,
+                 purchaseHeadNote: purchaseHeadNote,
+                 purchaseFootNote: purchaseFootNote
 
              }),
              // Has Changes
@@ -181,7 +198,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              unleashedApiId: unleashedApiId,
              unleashedApiKey: unleashedApiKey,
              isUnleashedApiActive: isUnleashedApiActive,
-             isZapierActive:isZapierActive,
+             isZapierActive: isZapierActive,
+             orderHeadNote: orderHeadNote,
+             orderFootNote: orderFootNote,
+             invoiceHeadNote: invoiceHeadNote,
+             invoiceFootNote: invoiceFootNote,
+             deliveryHeadNote: deliveryHeadNote,
+             deliveryFootNote: deliveryFootNote,
+             purchaseHeadNote: purchaseHeadNote,
+             purchaseFootNote: purchaseFootNote,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -390,6 +415,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.mailchimpAPIId(source.MailChimpApiId);
         companySites.ismailChimpActive(source.isMailChimpActive);
         companySites.mailchimpListName(source.MailChimpListName);
+        
+        companySites.orderHeadNote(source.OrderHeadNote);
+        companySites.orderFootNote(source.OrderFootNote);
+        companySites.invoiceHeadNote(source.InvoiceHeadNote);
+        companySites.invoiceFootNote(source.InvoiceFootNote);
+        companySites.deliveryHeadNote(source.DeliveryHeadNote);
+        companySites.deliveryFootNote(source.DeliveryFootNote);
+        companySites.purchaseHeadNote(source.PurchaseHeadNote);
+        companySites.purchaseFootNote(source.PurchaseFootNote);
+        
         return companySites;
     };
     //Convert Server To Client
@@ -446,6 +481,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.MailChimpApiId = source.mailchimpAPIId() === undefined ? null : source.mailchimpAPIId();
         result.isMailChimpActive = source.ismailChimpActive() === undefined ? null : source.ismailChimpActive();
         result.MailChimpListName = source.mailchimpListName() === undefined ? null : source.mailchimpListName();
+        
+        result.OrderHeadNote = source.orderHeadNote() === undefined ? null : source.orderHeadNote();
+        result.OrderFootNote = source.orderFootNote() === undefined ? null : source.orderFootNote();
+        result.InvoiceHeadNote = source.invoiceHeadNote() === undefined ? null : source.invoiceHeadNote();
+        result.InvoiceFootNote = source.invoiceFootNote() === undefined ? null : source.invoiceFootNote();
+        result.DeliveryHeadNote = source.deliveryHeadNote() === undefined ? null : source.deliveryHeadNote();
+        result.DeliveryFootNote = source.deliveryFootNote() === undefined ? null : source.deliveryFootNote();
+        result.PurchaseHeadNote = source.purchaseHeadNote() === undefined ? null : source.purchaseHeadNote();
+        result.PurchaseFootNote = source.purchaseFootNote() === undefined ? null : source.purchaseFootNote();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

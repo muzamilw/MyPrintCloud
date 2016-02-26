@@ -404,7 +404,8 @@
                     qty1Tax1Value: qty1Tax1Value,
                     qty2Tax1Value: qty2Tax1Value,
                     tax1: tax1,
-                    jobSelectedQty: jobSelectedQty
+                    jobSelectedQty: jobSelectedQty,
+                    itemNotes: itemNotes
                 }),
                 // Item Section Changes
                 itemSectionHasChanges = ko.computed(function () {

@@ -16,6 +16,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new DeliverNotesResposne
             {
                 TotalCount = source.TotalCount,
+                HeadNote = source.HeadNote,
+                FootNote = source.FootNote,
                 DeliveryNotes =
                     source.DeliveryNotes != null ? source.DeliveryNotes.Select(dNote => dNote.CreateFromListView()) : null
             };

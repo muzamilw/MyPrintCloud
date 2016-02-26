@@ -18,7 +18,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new GetOrdersResponse
             {
                 Orders = source.Orders.Select(order => order.CreateFromForListView()).ToList(),
-                TotalCount = source.TotalCount
+                TotalCount = source.TotalCount,
+                HeadNote = source.HeadNote,
+                FootNote = source.FootNote
             };
         }
     }
