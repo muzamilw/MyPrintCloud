@@ -1839,14 +1839,13 @@ define("common/itemDetail.viewModel",
                     },
                     // open report
                     // open job card report
-                    openExternalReportsJob = function() {
-
+                    openExternalReportsJob = function () {
+                        saveFrom("itemJob");
+                        saveOrderFromSection(openJobCardReport);
+                    },
+                    openJobCardReport = function() {
                         reportManager.outputTo("preview");
-
-
                         reportManager.OpenExternalReport(ist.reportCategoryEnums.JobCards, 1, selectedProduct().id());
-
-
                     },
                     // Open Phrase Library
                     openPhraseLibrary = function() {

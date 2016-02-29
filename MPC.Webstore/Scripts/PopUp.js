@@ -692,9 +692,9 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 });
             }
             if (desriptionOfCostCentre == "") {
-                desriptionOfCostCentre = $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
+                desriptionOfCostCentre = $(val).parent().prev().children().text() + " = " + $(val).val() + ". --- ";
             } else {
-                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
+                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + "= " + $(val).val() + ". --- ";
             }
         });
         console.log("vlaidta efun");
@@ -1229,7 +1229,7 @@ function ViewOrderPopUp(Type, panelHtml) {
                         if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                             $(updatedAddOns)[i].ActualPrice = response;
                             $(updatedAddOns)[i].Description = desriptionOfQuestion;
-
+                            $(updatedAddOns)[i].AddOnName =  + $("#" + SelectedCostCentreCheckBoxId).next().html();
                             $(updatedAddOns)[i].Type = CostCentreType;
                             if (CostCentreType == 4) { // question queue
                                 for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {

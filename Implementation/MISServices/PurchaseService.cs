@@ -76,7 +76,11 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel request)
         {
-            return purchaseRepository.GetPurchaseOrders(request);
+            Organisation org = organisationRepository.GetOrganizatiobByID();
+            var response = purchaseRepository.GetPurchaseOrders(request);
+            response.HeadNote = org != null ? org.PurchaseHeadNote : "";
+            response.FootNote = org != null ? org.PurchaseFootNote : "";
+            return response;
         }
 
         /// <summary>

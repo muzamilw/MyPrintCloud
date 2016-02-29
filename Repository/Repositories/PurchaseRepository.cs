@@ -68,6 +68,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel request)
         {
+            
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             bool isStatusSpecified = request.Status == 0;//if true get all then get by status

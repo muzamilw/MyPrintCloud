@@ -16,5 +16,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Total Count
         /// </summary>
         public int TotalCount { get; set; }
+        public string HeadNote { get; set; }
+        public string FootNote { get; set; }
     }
 }

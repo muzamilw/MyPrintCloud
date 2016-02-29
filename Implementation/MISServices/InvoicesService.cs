@@ -292,12 +292,20 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public InvoiceRequestResponseModel GetInvoicesList(InvoicesRequestModel request)
         {
-            return invoiceRepository.GetInvoicesList(request);
+            Organisation org = organisationRepository.GetOrganizatiobByID();
+           var result = invoiceRepository.GetInvoicesList(request);
+            result.HeadNote = org != null ? org.InvoiceHeadNote : "";
+            result.FootNote = org != null ? org.InvoiceFootNote : "";
+            return result;
         }
 
         public InvoiceRequestResponseModel SearchInvoices(GetInvoicesRequestModel request)
         {
-            return invoiceRepository.SearchInvoices(request);
+            Organisation org = organisationRepository.GetOrganizatiobByID();
+            var result = invoiceRepository.SearchInvoices(request);
+            result.HeadNote = org != null ? org.InvoiceHeadNote : "";
+            result.FootNote = org != null ? org.InvoiceFootNote : "";
+            return result;
         }
         public InvoiceBaseResponse GetInvoiceBaseResponse()
         {
@@ -370,6 +378,7 @@ namespace MPC.Implementation.MISServices
             string invoiceCode = prefixRepository.GetNextInvoiceCodePrefix();
             invoice.InvoiceCode = invoiceCode;
             invoice.InvoiceType = 0;
+            invoice.CreationDate = DateTime.Now;
             invoiceRepository.Add(invoice);
             invoiceRepository.SaveChanges();
 
@@ -399,9 +408,14 @@ namespace MPC.Implementation.MISServices
             target.OrderNo = source.OrderNo;
             target.AccountNumber = source.AccountNumber;
             target.ReportSignedBy = source.ReportSignedBy;
-            target.InvoicePostedBy = source.InvoicePostedBy;
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
+            if (source.InvoiceStatus == (short) InvoiceStatuses.Posted)
+            {
+                target.InvoicePostingDate = DateTime.Now;
+                target.InvoicePostedBy = source.InvoicePostedBy;
+            }
+                
         }
 
         public List<ZapierInvoiceDetail> GetZapierInvoiceDetail(long invoiceId)
@@ -650,7 +664,7 @@ namespace MPC.Implementation.MISServices
         public string ExportInvocie(long InvocieId)
         {
             List<string> FileHeader = new List<string>();
-            long OrganisationId = 0;
+            long OrganisationId = invoiceRepository.OrganisationId;
 
 
             FileHeader = HeaderList(FileHeader, true);

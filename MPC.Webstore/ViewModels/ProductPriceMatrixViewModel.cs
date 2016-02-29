@@ -48,5 +48,6 @@ namespace MPC.Webstore.ViewModels
         public int QuantitySourceType { get; set; }
         public int TimeSourceType { get; set; }
         public long ItemStockOptionId { get; set; }
+        public string AddOnName { get; set; }
     }
 }

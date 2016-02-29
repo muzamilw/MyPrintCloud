@@ -1059,6 +1059,12 @@ namespace MPC.Webstore.Controllers
 
         }
 
+        public ActionResult Confirmation(string SubscriptionCode)
+        {
+            _myCompanyService.UpdateSubscriber(SubscriptionCode, SubscriberStatus.Pending);
+              return View("Confirmation");
+        }
+
     }
 
 }

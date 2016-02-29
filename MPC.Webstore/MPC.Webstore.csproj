@@ -1224,7 +1224,7 @@
     <Content Include="Views\Shared\PartialViews\BubbleQuickLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleSavePercent.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
-    <Content Include="Views\Shared\PartialViews\StripeGateway.cshtml" />
+    <Content Include="Views\Home\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

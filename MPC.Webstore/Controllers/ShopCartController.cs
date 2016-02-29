@@ -245,7 +245,7 @@ namespace MPC.Webstore.Controllers
                         sOrderID = Convert.ToInt32(OrderID);
                     }
 
-                    if (_myClaimHelper.isUserLoggedIn())
+                    if (_myClaimHelper.loginContactID() > 0)
                     {
                         string total = Request.Form["hfGrandTotal"].ToString();
                         if (!string.IsNullOrEmpty(total))
@@ -316,10 +316,10 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                        {
-                            ValidateOrderForCorporateLogin(sOrderID, IsPlaceOrder, StoreBaseResopnse, hasWebAccess); // rediret user to the corp login page.
-                        }
+                        //if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        //{
+                        //    ValidateOrderForCorporateLogin(sOrderID, IsPlaceOrder, StoreBaseResopnse, hasWebAccess); // rediret user to the corp login page.
+                        //}
 
                         StoreBaseResopnse = null;
                         Response.Redirect("/Login");
@@ -444,20 +444,20 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        public void ValidateOrderForCorporateLogin(long orderID, bool isPlaceOrder, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse, bool isWebAccess)
-        {
-            long CustomerID = 0;
-            bool result = _OrderService.ValidateOrderForCorporateLogin(orderID, isPlaceOrder, baseResponse.Company.IsCustomer, isWebAccess, out CustomerID);
-            if (result)
-            {
-                RedirectToAction("Login");
-            }
-            else
-            {
-                // nothing
-            }
+        //public bool ValidateOrderForCorporateLogin(long orderID, bool isPlaceOrder, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse, bool isWebAccess)
+        //{
+        //    long CustomerID = 0;
+        //    bool result = _OrderService.ValidateOrderForCorporateLogin(orderID, isPlaceOrder, baseResponse.Company.IsCustomer, isWebAccess, out CustomerID);
+        //    if (result)
+        //    {
+        //        RedirectToAction("Login");
+        //    }
+        //    else
+        //    {
+        //        // nothing
+        //    }
 
-        }
+        //}
 
 
 

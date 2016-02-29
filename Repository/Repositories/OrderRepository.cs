@@ -103,7 +103,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                return (from r in db.Items
+                return (from r in db.Items.Include("ItemSections.SectionCostcentres")
                         where r.EstimateId == OrderId && r.IsOrderedItem == true && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
                         select r).ToList();
             }
@@ -378,6 +378,7 @@ namespace MPC.Repository.Repositories
                 //3. Extract company address if any
                 shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
 
+                shopCart.ItemsSelectedAddonsList = childrenRecordsAllProductItemAddons;
 
                 //4. Set Order Level Fields
                 shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
@@ -639,8 +640,9 @@ namespace MPC.Repository.Repositories
                             {
                                 AddOnCostsCenter addonCostCenter = new AddOnCostsCenter
                                 {
-                                    AddOnName = sectCostCenter.CostCentre != null ? sectCostCenter.CostCentre.Name : "",
+                                    AddOnName = !string.IsNullOrEmpty(sectCostCenter.Name) ? sectCostCenter.Name : sectCostCenter.CostCentreId != null && sectCostCenter.CostCentreId > 0 ? db.CostCentres.Where(c => c.CostCentreId == sectCostCenter.CostCentreId).FirstOrDefault().Name : "",
                                     CostCenterID = (int)sectCostCenter.CostCentreId,
+                                    CostCentreDescription = !string.IsNullOrEmpty(sectCostCenter.Qty1WorkInstructions) ? sectCostCenter.Qty1WorkInstructions : "",
                                     ItemID = (int)tblItemFirstSection.ItemId,
                                     EstimateProductionTime = sectCostCenter.CostCentre != null ? sectCostCenter.CostCentre.EstimateProductionTime ?? 0 : 0
                                 };
@@ -1156,9 +1158,11 @@ namespace MPC.Repository.Repositories
                     ShoppingCart shopCart = this.ExtractShoppingCart(Order);
                     if (shopCart != null)
                     {
+                       
                         userOrder.ProductsList = shopCart.CartItemsList;
                         userOrder.DeliveryCost = shopCart.DeliveryCost;
                         userOrder.DeliveryCostTaxValue = shopCart.DeliveryTaxValue;
+                        userOrder.ItemsSelectedAddonsList = shopCart.ItemsSelectedAddonsList;
                         userOrder.DeliveryDiscountVoucherId = shopCart.DeliveryDiscountVoucherID;
                     }
 

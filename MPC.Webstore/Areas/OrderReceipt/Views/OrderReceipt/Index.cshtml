@@ -17,6 +17,7 @@
     var OrderDate = OrderDateTime.ToString("MMMM dd, yyyy");
     long CookieStoreId = Convert.ToInt64(ViewBag.StoreId);
     double _DiscountAmountTotal = 0;
+    string itemAddsOn = string.Empty;
 }
 <div style="font-family:'Open Sans Condensed', sans-serif; width: 1000px !important; margin: auto; border: 0px solid orange; margin-top: 20px;">
     <div>
@@ -380,7 +381,21 @@
                                                 <span style="font-size:12px;font-family:'Open Sans Condensed', sans-serif;">Stock: @item.PaperType</span>
                                             </div>
                                         }
-                                     
+                                        @{
+                                                if (Model.ItemsSelectedAddonsList != null)
+                                                {
+                                                    List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
+                                                    foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == item.ItemID))
+                                                    {
+                                                        itemAddsOn = itemAddsOn + cost.AddOnName + "<br />" + cost.CostCentreDescription.Replace("---", "<br />");
+                                                                 
+                                                    }
+                                                }
+                                        }
+                                        <div >
+                                            <span style="font-size:12px;font-family:'Open Sans Condensed', sans-serif;">@Html.Raw(itemAddsOn)</span>
+
+                                        </div>
                                         <div class=" spacer5pxbottom">
                                             <span style="font-size:12px;font-family:'Open Sans Condensed', sans-serif;">@Html.Raw(item.ProductWebDescription)</span>
                                         </div>

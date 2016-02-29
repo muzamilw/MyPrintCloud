@@ -86,9 +86,9 @@
                                 </div>
                                 @*@if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
                                 {*@ 
-                                <div class="search-order-clear" style="">
+                                @*<div class="search-order-clear" style="">
                                     <input type="button" id="btnDwn_Report" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
-                                </div>
+                                </div>*@
                                 @*}*@
                                 <div class="clearBoth">
 
@@ -654,6 +654,8 @@
                 var otherAttachmentLink = "";
                 $.each(GridItems, function (i, IT) {
                     {
+                        console.log(response);
+
                         var filePathOfAttachment = "";
                         if(IT.ProductType == 1){
                             if(IT.OtherItemTemplateAttatchments != null){
@@ -729,16 +731,31 @@
                         }else{
                             proFriendlyName = IT.ProductName;
                         }
+
+                        var costcenterString = "";
+                        $.each(response.ItemsSelectedAddonsList, function (i, CCIT) {
+                            if(CCIT.ItemID == IT.ItemID){
+
+                                while(CCIT.CostCentreDescription.indexOf("---") > 0)
+                                {
+                                    CCIT.CostCentreDescription = CCIT.CostCentreDescription.replace("---", "<br />")
+                                }
+
+                                costcenterString = costcenterString+ "<br />" + "<label>" + CCIT.AddOnName + "</label>" + "<br />" + CCIT.CostCentreDescription;
+                            }
+                            
+                        });
+                       
                         //InnerHtml += '<tr>';
                         if("@ViewBag.IsShowPrices" == "True")
                         {
 
-                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
+                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label> '+ costcenterString +'</td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
                         }
                         else
                         {
 
-                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
+                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label> '+ costcenterString +'</td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
                         }
 
                     }

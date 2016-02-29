@@ -55,6 +55,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
+                    defaultHeadNote = ko.observable(),
+                    defaultFootNote = ko.observable(),
                     // Default Status of first tab i-e All Purchased Orders
                     currentTab = ko.observable(0),
                     // #region Observables
@@ -141,6 +143,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                     ko.utils.arrayPushAll(purchaseOrders(), itemList);
                                     purchaseOrders.valueHasMutated();
                                     pager().totalCount(data.RowCount);
+                                    defaultHeadNote(data.HeadNote);
+                                    defaultFootNote(data.FootNote);
                                 }
 
                             },
@@ -384,6 +388,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         resetObservable();
                         var purchase = model.Purchase();
                         purchase.status(31);
+                        purchase.comments(defaultHeadNote());
+                        purchase.footnote(defaultFootNote());
                         selectedPurchaseOrder(purchase);
                         selectedPurchaseOrder().createdBy(loggedInUser());
                         isEditorVisible(true);

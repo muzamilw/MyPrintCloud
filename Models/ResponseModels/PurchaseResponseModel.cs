@@ -14,5 +14,7 @@ namespace MPC.Models.ResponseModels
         /// Total Count
         /// </summary>
         public int TotalCount { get; set; }
+        public string HeadNote { get; set; }
+        public string FootNote { get; set; }
     }
 }

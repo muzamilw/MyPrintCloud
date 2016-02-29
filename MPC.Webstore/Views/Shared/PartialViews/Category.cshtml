@@ -23,7 +23,7 @@
 
     if (!string.IsNullOrEmpty(Model.ImagePath))
     {
-        <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
+        <div id="divbg" style="background:url(@String.Format("{0}://{1}{2}",@Request.Url.Scheme, Request.Url.Authority,Url.Content("~/"))/@Model.ImagePath.Replace("\\","/"))  no-repeat center center" class="categorydivBG">&nbsp;</div>
     }
     <link href="~/Content/Designer/CategoryPageStyles.css" rel="stylesheet" />
     <link href="~/Content/Designer/p103.css" rel="stylesheet" />
