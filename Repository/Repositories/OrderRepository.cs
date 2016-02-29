@@ -378,6 +378,7 @@ namespace MPC.Repository.Repositories
                 //3. Extract company address if any
                 shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
 
+                shopCart.ItemsSelectedAddonsList = childrenRecordsAllProductItemAddons;
 
                 //4. Set Order Level Fields
                 shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
