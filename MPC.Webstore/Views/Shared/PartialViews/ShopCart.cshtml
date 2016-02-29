@@ -250,7 +250,7 @@
                                                         List<AddOnCostsCenter> costcenters = ViewData["selectedItemsAddonsList"] as List<AddOnCostsCenter>;
                                                         foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == prod.ItemID))
                                                         {
-                                                            itemAddsOn = itemAddsOn + cost.AddOnName + "(" + cost.CostCentreDescription + ")" + ",";
+                                                            itemAddsOn = itemAddsOn + cost.AddOnName + "<br />" + cost.CostCentreDescription.Replace("---", "<br />");
                                                             //noOfCostCentreProdDays += cost.EstimateProductionTime;
                                                         }
                                                     }
@@ -267,7 +267,7 @@
                                                     EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
                                                 }
 
-                                                <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
+                                                <span id="lblselectedAddOnList" class="ItemdetailDesc">@Html.Raw(itemAddsOn)</span>
                                                 <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
                                                 <br>
                                                 <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">

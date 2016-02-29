@@ -368,6 +368,11 @@ namespace MPC.Repository.Repositories
                                     {
                                         HtmlDocToResolve = HtmlDocToResolve.Replace(Tag, ITemtypefourHtml);
                                     }
+                                    else if (Tag.Contains("SubscriptionLink"))
+                                    {
+                                        HtmlDocToResolve = HtmlDocToResolve.Replace(Tag, subScriptionPath);
+                                        
+                                    }
                                     else
                                     {
                                         foreach (PropertyInfo propertyInfo in propertyInfos)
@@ -474,13 +479,7 @@ namespace MPC.Repository.Repositories
                                                         tagValue = OrgSMEmail;
 
                                                     }
-                                                    else if (propertyInfo.Name == "SubscriberID")
-                                                    {
-                                                        if (Tag.Contains("SubscriptionLink"))
-                                                        {
-                                                            tagValue = subScriptionPath;
-                                                        }
-                                                    }
+                                                    
                                                     else if (propertyInfo.Name == "MarketingID")
                                                     {
                                                         if (Tag.Contains("MarketingBrief"))

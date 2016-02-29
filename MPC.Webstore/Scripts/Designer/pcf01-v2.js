@@ -1270,8 +1270,10 @@ function d5_sub(pageID, isloading) {
             }
             if (IsCalledFrom == 4 || IsCalledFrom == 3) {
                 if (Template.HideSharedImages == true) {
-                    $("#btnFreeImagesEndUser").css("display", "none");
+                    $("#btnFreeImagesEndUser,.btnFrames ").css("display", "none");
                     $(".ulImagesSecTop a").addClass("width46Percent");
+                    var item = $(".userImgControls").next();
+                    $(".userImgControls").insertAfter(item);
                 }
             }
             if (IsCalledFrom == 2) {

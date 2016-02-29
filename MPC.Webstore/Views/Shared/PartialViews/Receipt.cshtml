@@ -330,13 +330,13 @@
                                                         List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
                                                                 foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == item.ItemID))
                                                                 {
-                                                                    itemAddsOn = itemAddsOn + cost.AddOnName + "(" + cost.CostCentreDescription + ")" + ",";
+                                                                    itemAddsOn = itemAddsOn + cost.AddOnName + "<br />" + cost.CostCentreDescription.Replace("---", "<br />");
                                                                  
                                                                 }
                                                     }
                                             }
                                             <div class="papertypecls">
-                                              <span style="font-size:12px;">@itemAddsOn</span>
+                                              <span style="font-size:12px;">@Html.Raw(itemAddsOn)</span>
                                                 
                                             </div>
                                             <div class=" spacer5pxbottom hidden-lg hidden-xs">
