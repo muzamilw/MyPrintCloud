@@ -309,5 +309,6 @@ namespace MPC.Interfaces.WebStoreServices
         
         bool IsValidNumber(string cardNum);
         int GetCardTypeIdFromNumber(string cardNum);
+        long GetStoreIdByCustomerId(long CustomerId);
     }
 }

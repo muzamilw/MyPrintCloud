@@ -34,15 +34,23 @@ namespace MPC.Webstore
 
             routes.MapRoute("clear"
                  , "clear/{StoreId}"
-                 , new { controller = "Domain", action = "ClearCache", StoreId = UrlParameter.Optional 
-            });
+                 , new
+                 {
+                     controller = "Domain",
+                     action = "ClearCache",
+                     StoreId = UrlParameter.Optional
+                 });
 
 
             routes.MapRoute(
                 "Orderhistory"
               , "ProductOrderHistory"
-              , new { controller = "Home", action = "Index", name = "" 
-            });
+              , new
+              {
+                  controller = "Home",
+                  action = "Index",
+                  name = ""
+              });
 
 
             routes.MapRoute(
@@ -78,7 +86,7 @@ namespace MPC.Webstore
                  name = ""
              });
 
-            
+
 
 
 
@@ -119,17 +127,25 @@ namespace MPC.Webstore
 
 
 
-             routes.MapRoute(
-                "UserManager"
-              , "UserManager"
-              , new { controller = "Home", action = "Index", name = "" 
-            });
+            routes.MapRoute(
+               "UserManager"
+             , "UserManager"
+             , new
+             {
+                 controller = "Home",
+                 action = "Index",
+                 name = ""
+             });
 
-            
-              routes.MapRoute(
-                "BillingShippingAddressManager"
-              , "BillingShippingAddressManager"
-              , new { controller = "Home", action = "Index", name = "" 
+
+            routes.MapRoute(
+              "BillingShippingAddressManager"
+            , "BillingShippingAddressManager"
+            , new
+            {
+                controller = "Home",
+                action = "Index",
+                name = ""
             });
 
 
@@ -192,13 +208,13 @@ namespace MPC.Webstore
             routes.MapRoute(
           "AssetsLoad",
           "CloneItemForManageAsset/{AssetId}",
-          new { controller = "ManageAssets", action = "CloneItemForManageAsset", AssetId = UrlParameter.Optional}
+          new { controller = "ManageAssets", action = "CloneItemForManageAsset", AssetId = UrlParameter.Optional }
       );
 
             routes.MapRoute(
       "FoldersLoad",
       "LoadFoldersOnSearch/{Searchfolder}",
-      new { controller = "ManageAssets", action = "LoadFoldersOnSearch",Searchfolder = UrlParameter.Optional }
+      new { controller = "ManageAssets", action = "LoadFoldersOnSearch", Searchfolder = UrlParameter.Optional }
   );
 
 
@@ -217,7 +233,7 @@ namespace MPC.Webstore
                "UserManager/GetContactsIntellicence",
                new { controller = "UserManager", action = "GetContactsIntellicence", id = UrlParameter.Optional }
            );
-       
+
 
             routes.MapRoute(
               "GetCompanyFlags",
@@ -276,8 +292,12 @@ namespace MPC.Webstore
 
             routes.MapRoute("store"
                  , "store/{name}"
-                 , new { controller = "Domain", action = "Index", name = "" 
-            });
+                 , new
+                 {
+                     controller = "Domain",
+                     action = "Index",
+                     name = ""
+                 });
 
             routes.MapRoute(
                 "ContactDetail",
@@ -319,7 +339,7 @@ namespace MPC.Webstore
                 "Dashboard/GetPassWord",
                 new { controller = "Dashboard", action = "GetPassWord", id = UrlParameter.Optional }
             );
-            
+
             routes.MapRoute(
                 "ContryList",
                 "BillingShippingAddressManager/LoadCountriesList",
@@ -582,18 +602,21 @@ namespace MPC.Webstore
                 "NabSubmit/{OrderID}",
                 new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
             );
-
             routes.MapRoute(
              "PayWay",
              "PayWay/{OrderID}",
              new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
          );
-
             routes.MapRoute(
-           "StripeGateway",
-           "StripeGateway/{OrderID}",
-           new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
-       );
+"StripeGateway",
+"StripeGateway/{OrderID}",
+new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+);
+            routes.MapRoute(
+"Confirmation",
+"Confirmation/{SubscriptionCode}",
+new { controller = "Home", action = "Confirmation", SubscriptionCode = UrlParameter.Optional }
+);
             //routes.MapRoute(
             //    "ReceiptPlain",
             //    "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
@@ -605,11 +628,11 @@ namespace MPC.Webstore
                 "autologin/{C}/{F}/{L}/{E}/{CC}",
                 new { controller = "Home", action = "AutoLoginOrRegister", C = UrlParameter.Optional, F = UrlParameter.Optional, L = UrlParameter.Optional, E = UrlParameter.Optional, CC = UrlParameter.Optional }
             );
-           
+
             routes.MapRoute(
                 "RemoveArtwork",
                 "DeleteArtworkAttachment/{AttachmentID}",
-                new { controller = "ProductOptions", action = "DeleteArtworkAttachment", AttachmentID = UrlParameter.Optional}
+                new { controller = "ProductOptions", action = "DeleteArtworkAttachment", AttachmentID = UrlParameter.Optional }
             );
 
 
@@ -624,7 +647,7 @@ namespace MPC.Webstore
             routes.MapRoute(
              "PaypalIPN",
              "PaypalIPN",
-             new { controller = "Payment", action = "PaypalIPN"}
+             new { controller = "Payment", action = "PaypalIPN" }
             );
 
             routes.MapRoute(
@@ -645,40 +668,40 @@ namespace MPC.Webstore
               "FBAuth",
               new { controller = "Home", action = "FBAuthentication", token = UrlParameter.Optional }
           );
-            
-        routes.MapRoute(
-          "ANZResponse",
-          "ANZResponse",
-          new { controller = "Payment", action = "ANZResponse" }
-         );
 
-        routes.MapRoute(
-         "ApplyDelivery",
-         "ShopCartAddressSelect/AddDeliveryToOrder/{DeliveryMethodId}",
-         new { controller = "ShopCartAddressSelect", action = "AddDeliveryToOrder", DeliveryMethodId = UrlParameter.Optional }
-       );
+            routes.MapRoute(
+              "ANZResponse",
+              "ANZResponse",
+              new { controller = "Payment", action = "ANZResponse" }
+             );
 
-        routes.MapRoute(
-           "BubbleQuickLinks"
-         , "BubbleQuickLinks"
-         , new
-         {
-             controller = "Home",
-             action = "Index",
-             name = ""
-         });
+            routes.MapRoute(
+             "ApplyDelivery",
+             "ShopCartAddressSelect/AddDeliveryToOrder/{DeliveryMethodId}",
+             new { controller = "ShopCartAddressSelect", action = "AddDeliveryToOrder", DeliveryMethodId = UrlParameter.Optional }
+           );
 
-
-       
-        routes.MapRoute(
-               "ManageTheAssets"
-             , "ManageAssets"
+            routes.MapRoute(
+               "BubbleQuickLinks"
+             , "BubbleQuickLinks"
              , new
              {
                  controller = "Home",
                  action = "Index",
                  name = ""
              });
+
+
+
+            routes.MapRoute(
+                   "ManageTheAssets"
+                 , "ManageAssets"
+                 , new
+                 {
+                     controller = "Home",
+                     action = "Index",
+                     name = ""
+                 });
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters
@@ -687,10 +710,10 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                name: "404-PageNotFound",
-                        // This will handle any non-existing urls
+                // This will handle any non-existing urls
                url: "{*url}",
-                        // "Shared" is the name of your error controller, and "Error" is the action/page
-                        // that handles all your custom errors
+                // "Shared" is the name of your error controller, and "Error" is the action/page
+                // that handles all your custom errors
                defaults: new { controller = "Home", action = "NotFound" }
            );
         }

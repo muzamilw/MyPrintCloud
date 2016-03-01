@@ -98,6 +98,7 @@ namespace MPC.Models.DomainModels
 
         [NotMapped]
         public bool IsExtraOrder { get; set; }
+        public string RejectionReason { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }

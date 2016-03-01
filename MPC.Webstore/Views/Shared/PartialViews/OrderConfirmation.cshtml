@@ -269,12 +269,12 @@
                                                             @{
                                                             string itemAddsOn = string.Empty;
                                                             ProductProductionTime = prod.EstimateProductionTime ?? 0;
-                                                            if (ViewData["selectedItemsAddonsList"] != null)
+                                                            if (Model.ItemsSelectedAddonsList != null)
                                                             {
                                                                 List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
                                                                 foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == prod.ItemID))
                                                                 {
-                                                                    itemAddsOn = itemAddsOn + cost.AddOnName + ",";
+                                                                    itemAddsOn = itemAddsOn + cost.AddOnName + "<br />" + cost.CostCentreDescription.Replace("---", "<br />");
                                                                     noOfCostCentreProdDays += cost.EstimateProductionTime;
                                                                 }
                                                             }
@@ -290,7 +290,7 @@
 
                                                             EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
                                                             }
-                                                            <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
+                                                            <span id="lblselectedAddOnList" class="ItemdetailDesc">@Html.Raw(itemAddsOn)</span>
                                                             <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
 
                                                         </td>
@@ -357,7 +357,7 @@
                                                         &nbsp;
                                                     </td>
                                                     <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td1" style="text-align:right;">
-                                                        <span id="spnsubtotal" class="CartFonts ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total")):</span>
+                                                        <span id="spnsubtotal" class="CartFonts ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</span>
                                                     </td>
                                                     <td align="right" class="OCnfmtd4">
                                                         <label id="lblSubTotal" class="Fsize13 colorBlack">@subtotal</label>

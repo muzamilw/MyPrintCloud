@@ -2050,5 +2050,9 @@ namespace MPC.Implementation.WebStoreServices
            return _ReportRepository.GetReportIdByName(ReportName);
        
        }
+       public long GetStoreIdByCustomerId(long CustomerId) 
+       {
+           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
+       }
     }
 }

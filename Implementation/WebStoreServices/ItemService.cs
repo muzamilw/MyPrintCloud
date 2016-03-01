@@ -2186,7 +2186,7 @@ namespace MPC.Implementation.WebStoreServices
                 if (ModeOfStore == StoreMode.Retail)
                 {
                     TemporaryRetailCompanyId = TemporaryRetailCompanyIdFromCookie;
-                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, StoreId, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         itemCloneObj.OrderId = OrderID;
@@ -2200,7 +2200,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 else
                 {
-                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, StoreId, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         itemCloneObj.OrderId = OrderID;
@@ -2231,7 +2231,7 @@ namespace MPC.Implementation.WebStoreServices
 
                     // create new order
 
-                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, StoreId, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         itemCloneObj.OrderId = OrderID;
@@ -2255,13 +2255,13 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
                     {
-                        OrderIdFromCookie = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                        OrderIdFromCookie = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, StoreId, ContactID, ref TemporaryRetailCompanyId);
                         itemCloneObj.OrderId = OrderIdFromCookie;
                     }
                 }
                 else
                 {
-                    OrderIdFromCookie = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    OrderIdFromCookie = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, StoreId, ContactID, ref TemporaryRetailCompanyId);
                     itemCloneObj.OrderId = OrderIdFromCookie;
                 }
 
@@ -2852,6 +2852,7 @@ namespace MPC.Implementation.WebStoreServices
                             SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
                             SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
                             SelectedtblISectionCostCenteres.ItemSectionId = SelectedtblItemSectionOne.ItemSectionId;
+                        
                             //if (!string.IsNullOrEmpty(addonCostCenter.CostCentreDescription))
                             //{
                             //    SelectedtblISectionCostCenteres.Qty2WorkInstructions = addonCostCenter.CostCentreDescription;

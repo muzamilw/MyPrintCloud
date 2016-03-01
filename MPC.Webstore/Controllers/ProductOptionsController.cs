@@ -113,7 +113,7 @@ namespace MPC.Webstore.Controllers
 
                     if (UserCookieManager.WEBOrderId == 0 || _orderService.IsRealCustomerOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID()) == false)
                     {
-                        OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                        OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WBStoreId, _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                         UserCookieManager.WEBOrderId = OrderID;
                         UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
                         clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID, ItemMode);
@@ -126,7 +126,7 @@ namespace MPC.Webstore.Controllers
 
                         if (oCookieOrder != null && oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
                         {
-                            OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                            OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WBStoreId, _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                             UserCookieManager.WEBOrderId = OrderID;
                             UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
                             // clone asset
@@ -369,7 +369,7 @@ namespace MPC.Webstore.Controllers
 
                         ccObject.Qty1NetTotal = addOn.ActualPrice;
                         ccObject.CostCentreDescription = addOn.Description;
-
+                        ccObject.AddOnName = addOn.AddOnName;
                         AddOnPrices += addOn.ActualPrice;
 
                         ccObjectList.Add(ccObject);
@@ -588,7 +588,7 @@ namespace MPC.Webstore.Controllers
                                 MinimumCost = addOn.MinimumCost,
                                 ActualPrice = cItem.Qty1NetTotal ?? 0,
                                 StockOptionId = addOn.ItemStockId,
-                                Description = cItem.Qty1WorkInstructions,
+                                //Description = cItem.Qty1WorkInstructions,
                                 isChecked = 1,
                                 QuantitySourceType = addOn.QuantitySourceType,
                                 TimeSourceType = addOn.TimeSourceType,

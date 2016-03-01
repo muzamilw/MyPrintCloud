@@ -1207,6 +1207,7 @@
           <Property Name="RefEstimateId" Type="bigint" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="RejectionReason" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="FavoriteDesign">
           <Key>
@@ -10849,6 +10850,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="PrePayments" Relationship="DomainModels.FK_tbl_PrePayments_tbl_estimates" FromRole="Estimate" ToRole="PrePayment" />
           <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_Estimate_SectionFlag" FromRole="Estimate" ToRole="SectionFlag" />
           <NavigationProperty Name="ShippingInformations" Relationship="DomainModels.FK_ShippingInformation_Estimate" FromRole="Estimate" ToRole="ShippingInformation" />
+          <Property Name="RejectionReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PaymentGateway">
           <Key>
@@ -17730,6 +17732,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Estimates">
             <EntityTypeMapping TypeName="DomainModels.Estimate">
               <MappingFragment StoreEntitySet="Estimate">
+                <ScalarProperty Name="RejectionReason" ColumnName="RejectionReason" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />

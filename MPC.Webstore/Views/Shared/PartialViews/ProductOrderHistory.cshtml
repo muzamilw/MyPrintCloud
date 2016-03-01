@@ -84,12 +84,12 @@
                                 <div class="search-order-clear" style="">
                                     <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
-                                @*@if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
-                                {*@ 
+                               @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
+                                {
                                 <div class="search-order-clear" style="">
-                                    <input type="button" id="btnDwn_Report" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
+                                    <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
                                 </div>
-                                @*}*@
+                                }
                                 <div class="clearBoth">
 
                                 </div>
@@ -492,6 +492,7 @@
 <script src="/LightBox/Js/jquery.fancybox.js"></script>
 
 <script type="text/javascript">
+    var GlobalItemResponse = null;
     //var $=jQuery.noConflict();
     $(".fancybox").fancybox();
     $(document).ready(function () {
@@ -539,12 +540,15 @@
 
     function DownloadReport(ReportId,StoreId)
     {
+
         var fromDate=$("#txtFromDate").val();
         var Todate=$("#txtToDate").val();
         var Status=$("#DDOderStatus").val();
-        alert(Status);
+       
         var Po=$("#txtOrderRefrence").val();
-        var data = { name: Name, email: Email, comment: Comment };
+
+        
+        //var data = { name: Name, email: Email, comment: Comment };
         $.ajax({
             type:"GET",
             url: "mis/api/DownloadExternalReport?ReportId="+ReportId+"&StoreId="+StoreId+"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status+"",
@@ -654,6 +658,9 @@
                 var otherAttachmentLink = "";
                 $.each(GridItems, function (i, IT) {
                     {
+                        console.log(IT);
+                        GlobalItemResponse = IT;
+                        var ItemAttachId = 0;
                         var filePathOfAttachment = "";
                         if(IT.ProductType == 1){
                             if(IT.OtherItemTemplateAttatchments != null){
@@ -661,24 +668,45 @@
                                 if(IT.OtherItemTemplateAttatchments.length > 0){
                                     for(var i=0; i < IT.OtherItemTemplateAttatchments.length; i++)
                                     {
-                                       
-                                        filePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
+                                        ItemAttachId = IT.TemplateID;
+                                        //if(((IT.OtherItemTemplateAttatchments.length - 1) - i) == 0){
+
+                                        //}else{
+                                            filePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
                                           
-                                        var OtherfilePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
-                                        console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
-                                        otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                            var OtherfilePathOfAttachment = IT.OtherItemTemplateAttatchments[(IT.OtherItemTemplateAttatchments.length - 1) - i].FilePath;
+                                            console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
+                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="" data-id='+ ItemAttachId +' rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"  /></a></div>');
 
+                                        //}
+                                       
                                     }
-                                    //$(IT.OtherItemTemplateAttatchments).each(function(i, otherAttachVal) {
+                                }
+                            }else if(IT.OtherItemAttatchments != null){
 
-                                    //    filePathOfAttachment = otherAttachVal.FilePath;
+                                if(IT.OtherItemAttatchments.length > 0){
 
-                                    //    var OtherfilePathOfAttachment = otherAttachVal.FilePath;
-                                    //    console.log("OtherfilePathOfAttachment" + OtherfilePathOfAttachment);
-                                    //    otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                    $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
+                                        console.log("IT.Attatchment._fileName" + IT.Attatchment._fileName);
+                                        var OtherAttachFileName = otherAttachVal.FileName;
+                                        while (OtherAttachFileName.indexOf(" ") > 0)
+                                        {
+                                            OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                        }
 
+                                        if(ItemAttachId == 0){
+                                            ItemAttachId = IT.OtherItemAttatchments[i].ItemAttachmentId;
+                                            filePathOfAttachment =   "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                        }
+                                        
+                                        //if(otherAttachVal.FileName == IT.Attatchment._fileName){
+                                        //}else{
+                                           
+                                            var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a  class="" data-id='+ ItemAttachId +' rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"   /></a></div>');
+                                        //}
 
-                                    //});
+                                    });
                                 }
                             }
 
@@ -690,32 +718,41 @@
 
                                     $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
                                         console.log("IT.Attatchment._fileName" + IT.Attatchment._fileName);
-                                        if(otherAttachVal.FileName == IT.Attatchment._fileName){
-                                        }else{
-                                            var OtherAttachFileName = otherAttachVal.FileName;
-                                            while (OtherAttachFileName.indexOf(" ") > 0)
-                                            {
-                                                OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
-                                            }
+                                        var OtherAttachFileName = otherAttachVal.FileName;
+                                        while (OtherAttachFileName.indexOf(" ") > 0)
+                                        {
+                                            OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                        }
+                                        if(ItemAttachId == 0){
+                                            ItemAttachId = IT.OtherItemAttatchments[i].ItemAttachmentId;
+                                            filePathOfAttachment =  "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                        }
+                                       
+                                        //if(otherAttachVal.FileName == IT.Attatchment._fileName){
+                                        //}else{
+                                           
 
                                             var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
-                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="fancybox" rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
-                                        }
+                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a  class="" data-id='+ ItemAttachId +' rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"   /></a></div>');
+                                       // }
 
                                     });
                                 }
                             }
-
-                            var AttachFileName = IT.Attatchment._fileName;
-                            console.log("AttachFileName" + AttachFileName);
-                            if(AttachFileName != "" && AttachFileName != null){
-                                while (AttachFileName.indexOf(" ") > 0)
-                                {
-                                    AttachFileName = AttachFileName.replace(" ", "%20");
+                        
+                            if(filePathOfAttachment == ""){
+                                var AttachFileName = IT.ThumbnailPath;
+                                console.log("AttachFileName" + AttachFileName);
+                                if(AttachFileName != "" && AttachFileName != null){
+                                    while (AttachFileName.indexOf(" ") > 0)
+                                    {
+                                        AttachFileName = AttachFileName.replace(" ", "%20");
+                                    }
                                 }
+                                //filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
+                                filePathOfAttachment = "/"  + AttachFileName;
                             }
-                            filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
-
+                          
 
                         }
 
@@ -729,16 +766,31 @@
                         }else{
                             proFriendlyName = IT.ProductName;
                         }
+
+                        var costcenterString = "";
+                        $.each(response.ItemsSelectedAddonsList, function (i, CCIT) {
+                            if(CCIT.ItemID == IT.ItemID){
+
+                                while(CCIT.CostCentreDescription.indexOf("---") > 0)
+                                {
+                                    CCIT.CostCentreDescription = CCIT.CostCentreDescription.replace("---", "<br />")
+                                }
+
+                                costcenterString = costcenterString+ "<br />" + "<label>" + CCIT.AddOnName + "</label>" + "<br />" + CCIT.CostCentreDescription;
+                            }
+                            
+                        });
+                       
                         //InnerHtml += '<tr>';
                         if("@ViewBag.IsShowPrices" == "True")
                         {
 
-                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
+                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" data-id='+ ItemAttachId +' rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png" onclick="DisplayProductImages('+ ItemAttachId +');"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label> '+ costcenterString +'</td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
                         }
                         else
                         {
 
-                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
+                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" data-id='+ ItemAttachId +' rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png" onclick="DisplayProductImages('+  ItemAttachId +');"/></a></div></td> <td><label id="Productname">', proFriendlyName, '</label> '+ costcenterString +'</td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
                         }
 
                     }
@@ -748,14 +800,33 @@
                 var panelHtml = $("#Vorder").html();
 
                 ViewOrderPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvieworder", UserCookieManager.WBStoreId, "View Order"))', panelHtml);
-
+            
             }
 
         });
 
     }
-    function ShowImage(ImagePath) {
-
+    function DisplayProductImages(ItemId) {
+       
+        $('.gallery').each(function(i, val) {
+            var idOfEle = $(val).children().attr('data-id');
+            console.log(idOfEle);
+            console.log(ItemId);
+            if(idOfEle == ItemId){
+                $(val).children().addClass('fancybox');
+                
+                
+            }else{
+                
+                if(idOfEle != null && idOfEle != ItemId){
+                    $(val).children().removeClass('fancybox');
+                    
+                }
+               
+            }
+        });
+       
+       
     }
     function createCookie(name, value, days) {
         if (days) {

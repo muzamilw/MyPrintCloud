@@ -861,6 +861,7 @@
     <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\jquery.lightbox-0.5.css" />
     <Content Include="Content\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Content\LiquidBubble.css" />
     <Content Include="Content\ManageAssets\normalize.css" />
     <Content Include="Content\ManageAssets\style.css" />
     <Content Include="Content\metroboostrap.css" />
@@ -1224,7 +1225,7 @@
     <Content Include="Views\Shared\PartialViews\BubbleQuickLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleSavePercent.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
-    <Content Include="Views\Shared\PartialViews\StripeGateway.cshtml" />
+    <Content Include="Views\Home\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

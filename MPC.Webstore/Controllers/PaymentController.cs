@@ -130,7 +130,15 @@ namespace MPC.Webstore.Controllers
                                 itemsList.Add(prodItem);
                             }
 
-                            opaypal.tax_cart = VATTotal.ToString("#.##");
+                            if (VATTotal == 0)
+                            {
+                                opaypal.tax_cart = "0.00";
+                            }
+                            else 
+                            {
+                                opaypal.tax_cart = VATTotal.ToString("#.##");
+                            }
+                           
                             opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
 
                         }

@@ -33,9 +33,15 @@
 {
     foreach (var widget in Model)
     {
-        if (widget.WidgetId == 14)
+        // this is dynamic html widget control being handled.
+        if (widget.WidgetId == 14 )
         {
                 @Html.Raw(widget.CmsSkinPageWidgetParams.FirstOrDefault().ParamValue)
+               <!--0111111-->
+        }
+        else if (widget.Widget.OrganisationId != null)     //custom store level widget being handled here
+        {
+            @Html.Raw(widget.Widget.WidgetHtml)
                <!--0111111-->
         }
         else
@@ -50,17 +56,17 @@
                     }
                     else
                     {
-                        try
-                        {
+                        //try
+                        //{
 
                             
                             Html.RenderAction("Index", widgetname);
 
-                        }
-                        catch (Exception e)
-                        {
-                            throw new Exception("Widget \""+ widgetname +"\" not available  or path or widget is incorrect ",e);
-                        }
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //    throw new Exception("Widget \""+ widgetname +"\" not available  or path or widget is incorrect ",e);
+                        //}
                     }
 
                 }

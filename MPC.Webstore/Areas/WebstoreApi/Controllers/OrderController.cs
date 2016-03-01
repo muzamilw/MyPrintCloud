@@ -82,6 +82,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 }
             }
             obj.CartItemsList = order.OrderDetails.CartItemsList;
+            obj.ItemsSelectedAddonsList = order.OrderDetails.ItemsSelectedAddonsList;
             obj.OrderCode = order.OrderCode;
             obj.PlacedBy=order.PlacedBy;
             obj.StatusName = order.StatusName;
@@ -208,6 +209,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             public string BillingState;
             public string ShippingCountry;
             public string ShippingState;
+            public List<AddOnCostsCenter> ItemsSelectedAddonsList { get; set; }
         }
        
 
