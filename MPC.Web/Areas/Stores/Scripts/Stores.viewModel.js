@@ -7594,6 +7594,7 @@ define("stores/stores.viewModel",
                     isCustomWidgetLoad(true);
                     ckEditorOpenFrom("StoreLayout");
                     editorHtmlData(widget.widgetHtml());
+                    widget.companyId(selectedStore().companyId());
                     selectedCustomWidget(widget);
                     view.showCkEditorDialogDialog();
                 },

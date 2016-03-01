@@ -3473,8 +3473,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     </a>
                 </script>
                 <script id="itemCompanyCMYKColorTemplate" type="text/html">
-                    <tr data-bind="click: $root.onEditCompanyCMYKColor, css: { selectedRow: $data === $root.selectedRaveReview}" style="cursor: pointer">
-                        <td><a href="#" class="store-user-link" data-bind="text: spotColor"></a></td>
+                    <tr data-bind="css: { selectedRow: $data === $root.selectedRaveReview}">
+                        <td style="cursor: pointer" data-bind="click: $root.onEditCompanyCMYKColor"><a href="#" class="store-user-link" data-bind="text: spotColor"></a></td>
                         <td>
                             <div>
                                 <span data-bind="text: colorC"></span><span> %</span>
@@ -3500,19 +3500,19 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 <span class="label" data-bind="text: isActive() ? 'YES' : 'NO', css: { 'label-success': isActive, 'label-danger': !isActive() }"></span></
                             </div>
                         </td>
-                        @*<td id="actionColumn">
+                        <td id="actionColumn">
                                 <!-- ko template: { name: "actionsCompanyCMYKColorTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                                 <!-- /ko -->
-                            </td>*@
+                            </td>
                     </tr>
                 </script>
                 <script id="actionsCompanyTerritoryTemplate" type="text/html">
-                    <a class="table-link" data-bind="click : $root.onEditCompanyTerritory">
+                    @*<a class="table-link" data-bind="click : $root.onEditCompanyTerritory">
                         <span class="fa-stack">
                             <i class="fa fa-square fa-stack-2x"></i>
                             <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                         </span>
-                    </a>
+                    </a>*@
                     <a href="#" class="table-link danger" data-bind="click : $root.onDeleteCompanyTerritory">
                         <span class="fa-stack">
                             <i class="fa fa-square fa-stack-2x"></i>
@@ -4044,7 +4044,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </div>
             </div>
             <div class="nested-links" style="margin-top:-20px;">
-                <i class="fa fa-pencil cursorShape" data-bind="click:$root.editCustomWidget"></i>
+                <i class="fa fa-pencil cursorShape" title="Edit Widget" data-bind="click:$root.editCustomWidget"></i>
                 &nbsp;&nbsp;
                 <a href="#" class="nested-link" title="Delete Widget" data-bind="click:$root.deleteCustomWidget"><i class="glyphicon glyphicon-remove" style="cursor: pointer;margin-right: 10px;margin-top: 3px; color:red; font-weight: bold;"></i></a>
                 @*<span class="glyphicon glyphicon-remove pull-right"  title="Delete" data-bind="click:$root.deleteCustomWidget"></span>*@
