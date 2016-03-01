@@ -15,6 +15,7 @@
         public string Description { get; set; }
         public string WidgetHtml { get; set; }
         public long? OrganisationId { get; set; }
+        public long? CompanyId { get; set; }
         
     }
 }

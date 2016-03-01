@@ -3459,6 +3459,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             thumbnailUrl = ko.observable(specifiedThumbnailUrl),
             description = ko.observable(specifiedDescription),
             widgetHtml = ko.observable(specifiedHtml),
+            companyId = ko.observable(),
             convertToServerData = function() {
                 return {
                     WidgetId: widgetId(),
@@ -3466,7 +3467,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     WidgetCode: widgetCode(),
                     WidgetControlName: widgetName(),
                     widgetCss: widgetCss(),
-                    WidgetHtml: widgetHtml()
+                    WidgetHtml: widgetHtml(),
+                    CompanyId: companyId()
                     
                 };
             };
@@ -3479,6 +3481,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             widgetControlName: widgetControlName,
             widgetHtml : widgetHtml,
             widgetCss: widgetCss,
+            companyId : companyId,
             thumbnailUrl: thumbnailUrl,
             description: description,
             convertToServerData: convertToServerData

@@ -41,7 +41,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WidgetCss = source.WidgetCss,
                 ThumbnailUrl = source.ThumbnailUrl,
                 Description = source.Description,
-                WidgetHtml = source.WidgetHtml
+                WidgetHtml = source.WidgetHtml,
+                CompanyId = source.CompanyId
 
             };
         }

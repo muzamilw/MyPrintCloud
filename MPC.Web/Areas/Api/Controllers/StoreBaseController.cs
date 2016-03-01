@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -69,7 +70,21 @@ namespace MPC.MIS.Areas.Api.Controllers
                 if (response.Result.IsSuccessStatusCode)
                 {
                     responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                    themes = JsonConvert.DeserializeObject<List<SkinForTheme>>(responsestr);
+                    try
+                    {
+                        themes = JsonConvert.DeserializeObject<List<SkinForTheme>>(responsestr);
+
+                    }
+                    catch (JsonSerializationException ex)
+                    {
+
+
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new MPCException("Failed to load themes.", 1);
+                    }
+                        
                 }
 
             }
