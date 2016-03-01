@@ -147,7 +147,7 @@ define("common/phraseLibrary.viewModel",
 
 
                                selectPhraseField(defaultPhraseFieldOpenSection);
-                               defaultOpenPhraseFieldName(undefined);
+                               //defaultOpenPhraseFieldName(undefined);
                            }
                            else
                            {
