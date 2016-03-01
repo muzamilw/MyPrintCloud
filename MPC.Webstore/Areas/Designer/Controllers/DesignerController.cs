@@ -33,6 +33,15 @@ namespace MPC.Webstore.Areas.Designer.Controllers
         //c=350&cv2=18&t=5747&cm=false&wm=false&CustomerID=12566&ContactID=172348&ItemId=18477
         public ActionResult Index(string designName, int categoryIDV2, long templateID, long itemID, long customerID, long contactID, int isCalledFrom, long organisationId, bool printCropMarks, bool printWaterMarks, bool isEmbedded)
         {
+            if (UserCookieManager.WBStoreId > 0)
+            {
+                ViewBag.StyleSheet = "/mpc_content/Assets/" + organisationId + "/" + UserCookieManager.WBStoreId + "/Site.css";
+            }
+            else 
+            {
+                ViewBag.StyleSheet = "/mpc_content/Assets/" + organisationId + "/" + _myCompanyService.GetStoreIdByCustomerId(customerID) + "/Site.css";
+            }
+            
             return View();
         }
     }
