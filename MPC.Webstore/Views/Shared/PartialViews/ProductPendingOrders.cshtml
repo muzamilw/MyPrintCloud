@@ -708,6 +708,26 @@
         OrderApprove(NewOrderID, Po);
     }
     function RejectOrder() {
+
+        //var data = { OrderID: NewOrderID }
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/ProductPendingOrders/ApporRejectOrder",
+        //    contentType: "application/json",
+        //    data: JSON.stringify(data),
+        //    async: true,
+        //    success: function (response) {
+        //        window.location.href = "/ProductPendingOrders";
+        //    }
+        //});
+        //HideLoader();
+
+        ShowRejectionOrderPopUp('Rejection Reason','');
+    }
+
+    function Rejection()
+    {
+
         var data = { OrderID: NewOrderID }
         $.ajax({
             type: "POST",
@@ -720,6 +740,7 @@
             }
         });
         HideLoader();
+
     }
 </script>
 
