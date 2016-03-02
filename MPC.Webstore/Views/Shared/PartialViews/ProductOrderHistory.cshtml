@@ -560,6 +560,7 @@
         @*$.get("mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status, function (DT) {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         
         //var data = { name: Name, email: Email, comment: Comment };
         $.ajax({
@@ -573,6 +574,10 @@
               
             },
             error: function (error) {
+=======
+            DT = DT.replace("\"","");
+            DT = DT.replace("\"","");
+>>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
 =======
             DT = DT.replace("\"","");
             DT = DT.replace("\"","");
@@ -860,12 +865,15 @@
         });
 
 
+<<<<<<< HEAD
     }
     function Cancel()
     {
         document.getElementById("layer").style.display = "none";
         document.getElementById("innerLayer").style.display = "none";
     
+=======
+>>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
     }
     function createCookie(name, value, days) {
         if (days) {
