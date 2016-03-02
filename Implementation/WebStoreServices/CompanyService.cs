@@ -139,7 +139,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 policy = new CacheItemPolicy();
                 policy.Priority = CacheItemPriority.NotRemovable;
-               
+
                 //policy.SlidingExpiration =
                 //    TimeSpan.FromMinutes(5);
                 policy.RemovedCallback = null;
@@ -175,7 +175,7 @@ namespace MPC.Implementation.WebStoreServices
                         cache.Set(CacheKeyName, stores, policy);
                         return stores[oCompany.CompanyId];
                     }
-                    else 
+                    else
                     {
                         return null;
                     }
@@ -401,7 +401,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        
+
         public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId)
         {
             try
@@ -532,7 +532,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
 
-         }
+        }
         public List<ProductCategory> GetAllCategories(long companyId, long OrganisationId)
         {
             try
@@ -546,11 +546,11 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId,long OrganisationId)
+        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId, long OrganisationId)
         {
             try
             {
-                return _CompanyContactRepository.GetCorporateUser(email, password, companyId,OrganisationId);
+                return _CompanyContactRepository.GetCorporateUser(email, password, companyId, OrganisationId);
             }
             catch (Exception ex)
             {
@@ -1435,10 +1435,10 @@ namespace MPC.Implementation.WebStoreServices
 
             CompanyContact ContactRecord = null;
 
-            if(company.IsCustomer == (int)StoreMode.Corp)
+            if (company.IsCustomer == (int)StoreMode.Corp)
             {
                 ContactRecord = _CompanyContactRepository.GetCorporateContactForAutoLogin(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
-                if(company.isAllowRegistrationFromWeb == true)
+                if (company.isAllowRegistrationFromWeb == true)
                 {
                     if (ContactRecord == null) // contact already exists...
                     {
@@ -1455,7 +1455,7 @@ namespace MPC.Implementation.WebStoreServices
 
                     }
                 }
-                
+
             }
             else if (company.IsCustomer == (int)StoreMode.Retail)
             {
@@ -1472,17 +1472,17 @@ namespace MPC.Implementation.WebStoreServices
 
                     long CompanyID = _CompanyRepository.CreateCustomer(ContactFirstName, true, true, CompanyTypes.SalesCustomer, "", Convert.ToInt64(company.OrganisationId), company.CompanyId, ContactRecord);
                     ContactRecord = _CompanyContactRepository.GetContactsByCompanyId(CompanyID).FirstOrDefault();
-                    
+
 
                 }
             }
-            
-            
+
+
             return ContactRecord;
         }
-        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID,string RejectionReason, string BrokerPO = "")
+        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID,string RejectionMessage, string BrokerPO = "")
         {
-            return _orderrepository.ApproveOrRejectOrder(orderID, loggedInContactID, orderStatus, OrdermangerID, RejectionReason);
+            return _orderrepository.ApproveOrRejectOrder(orderID, loggedInContactID, orderStatus, OrdermangerID, RejectionMessage);
         }
 
         /// <summary>
@@ -1507,7 +1507,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public List<ProductCategory> GetAllCategories()
         {
-           return _productCategoryRepository.GetAllCategories();
+            return _productCategoryRepository.GetAllCategories();
         }
         /// <summary>
         /// 
@@ -1532,38 +1532,38 @@ namespace MPC.Implementation.WebStoreServices
             Doc theDoc = new Doc();
             try
             {
-               
+
 
                 string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
 
                 string FileName = OrderId + "_OrderReceipt.pdf";
                 string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
                 string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
-                
-                    string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
-                    if (AddGeckoKey == "1")
-                    {
-                        theDoc.HtmlOptions.Engine = EngineType.Gecko;
-                    }
 
-                    theDoc.FontSize = 22;
-                    int objid = theDoc.AddImageUrl(URl);
+                string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
+                if (AddGeckoKey == "1")
+                {
+                    theDoc.HtmlOptions.Engine = EngineType.Gecko;
+                }
+
+                theDoc.FontSize = 22;
+                int objid = theDoc.AddImageUrl(URl);
 
 
-                    while (true)
-                    {
-                        theDoc.FrameRect();
-                        if (!theDoc.Chainable(objid))
-                            break;
-                        theDoc.Page = theDoc.AddPage();
-                        objid = theDoc.AddImageToChain(objid);
-                    }
-                    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
-                    if (!Directory.Exists(physicalFolderPath))
-                        Directory.CreateDirectory(physicalFolderPath);
-                    theDoc.Save(FilePath);
-                    theDoc.Clear();
-               
+                while (true)
+                {
+                    theDoc.FrameRect();
+                    if (!theDoc.Chainable(objid))
+                        break;
+                    theDoc.Page = theDoc.AddPage();
+                    objid = theDoc.AddImageToChain(objid);
+                }
+                string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
+                if (!Directory.Exists(physicalFolderPath))
+                    Directory.CreateDirectory(physicalFolderPath);
+                theDoc.Save(FilePath);
+                theDoc.Clear();
+
                 if (System.IO.File.Exists(FilePath))
                     return AttachmentPath;
                 else
@@ -1592,7 +1592,7 @@ namespace MPC.Implementation.WebStoreServices
         public double? GetOrderTotalById(long OrderId)
         {
             return _orderrepository.GetOrderTotalById(OrderId);
-            }
+        }
         public bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId)
         {
             try
@@ -1655,8 +1655,8 @@ namespace MPC.Implementation.WebStoreServices
         }
         public IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId)
         {
-           return  _CompanyTerritoryRepository.GetAllCompanyTerritories(companyId);
-        
+            return _CompanyTerritoryRepository.GetAllCompanyTerritories(companyId);
+
         }
         public IEnumerable<RegistrationQuestion> GetAllQuestions()
         {
@@ -1787,14 +1787,14 @@ namespace MPC.Implementation.WebStoreServices
             _itemRepository.SaveChanges();
         }
 
-        public void AddScopeVariables(long ContactId, long StoreId) 
+        public void AddScopeVariables(long ContactId, long StoreId)
         {
             _IScopeVariableRepository.AddScopeVariables(ContactId, StoreId);
         }
         public long GetOrganisationIdByRequestUrl(string Url)
         {
             CompanyDomain domain = _companyDomainRepository.GetDomainByUrl(Url);
-            if(domain != null)
+            if (domain != null)
             {
                 return _CompanyRepository.GetOrganisationIdByCompanyId(domain.CompanyId);
             }
@@ -1831,9 +1831,9 @@ namespace MPC.Implementation.WebStoreServices
         public List<CompanyContact> GetUsersByCompanyId(long CompanyId)
         {
             return _CompanyContactRepository.GetUsersByCompanyId(CompanyId);
-              
+
         }
-        public List<CompanyContact> GetCorporateUserOnly( long companyId, long OrganisationId)
+        public List<CompanyContact> GetCorporateUserOnly(long companyId, long OrganisationId)
         {
             return _CompanyContactRepository.GetCorporateUserOnly(companyId, OrganisationId);
         }
@@ -1847,7 +1847,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public void UpdateAgent(List<CompanyContact> model)
         {
-             _CompanyContactRepository.UpdateAgent(model);
+            _CompanyContactRepository.UpdateAgent(model);
         }
         public void AddAgent(ListAgentMode model, long ContactCompanyId)
         {
@@ -1865,9 +1865,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             _CompanyContactRepository.UpdateSignleAgent(Agent);
         }
-        public void AddSingleAgent( CompanyContact NewAgent)
+        public void AddSingleAgent(CompanyContact NewAgent)
         {
-            _CompanyContactRepository.AddSingleAgent( NewAgent);
+            _CompanyContactRepository.AddSingleAgent(NewAgent);
         }
         public List<ListingImage> GetAllListingImages(long ListingID)
         {
@@ -1895,7 +1895,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public List<ListingBulletPoint> GetAllListingBulletPoints(long ListingID)
         {
-           return _listingBulletPontRepository.GetAllListingBulletPoints(ListingID);
+            return _listingBulletPontRepository.GetAllListingBulletPoints(ListingID);
         }
         public void DeleteBulletPoint(long BulletPointId, long ListingId)
         {
@@ -1903,7 +1903,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public long AddNewListing(MPC.Models.DomainModels.Listing propertyListing)
         {
-          return  _listingRepository.AddNewListing(propertyListing);
+            return _listingRepository.AddNewListing(propertyListing);
         }
         public bool DeleteLisitngData(long ListingId)
         {
@@ -1925,7 +1925,7 @@ namespace MPC.Implementation.WebStoreServices
         public List<Asset> GetAssetsByCompanyID(long CompanyID)
         {
             return _AssestsRepository.GetAssetsByCompanyID(CompanyID);
-        
+
         }
         public List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID)
         {
@@ -1947,166 +1947,127 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _FolderRepository.AddFolder(NewFolder);
         }
-       public bool UpdateImage(Folder folder)
+        public bool UpdateImage(Folder folder)
         {
             return _FolderRepository.UpdateImage(folder);
         }
-       public Folder GetFolderByFolderId(long FolderID)
-       {
-           return _FolderRepository.GetFolderByFolderId(FolderID);
-       }
-       public List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId)
-       {
-           return _FolderRepository.GetTreeVeiwList(CompanyId, OrganisationId);
-       }
-       public List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId)
-       {
-           return _AssestsRepository.GetAssetsByCompanyIDAndFolderID(CompanyID, FolderId);
-       }
-       public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
-       {
-           return _FolderRepository.GetAllFolders(CompanyID, OrganisationID);
-       }
-       public long AddAsset(Asset Asset)
-       {
-           return _AssestsRepository.AddAsset(Asset);
-       }
-       public void UpdateAssetImage(Asset Asset)
-       {
+        public Folder GetFolderByFolderId(long FolderID)
+        {
+            return _FolderRepository.GetFolderByFolderId(FolderID);
+        }
+        public List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId)
+        {
+            return _FolderRepository.GetTreeVeiwList(CompanyId, OrganisationId);
+        }
+        public List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId)
+        {
+            return _AssestsRepository.GetAssetsByCompanyIDAndFolderID(CompanyID, FolderId);
+        }
+        public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
+        {
+            return _FolderRepository.GetAllFolders(CompanyID, OrganisationID);
+        }
+        public long AddAsset(Asset Asset)
+        {
+            return _AssestsRepository.AddAsset(Asset);
+        }
+        public void UpdateAssetImage(Asset Asset)
+        {
             _AssestsRepository.UpdateAssetImage(Asset);
-       }
-       public bool AddAssetItems(List<AssetItem> AssetItemsList)
-       {
-           return _AssetItemsRepository.AddAssetItems(AssetItemsList);
-          
-       }
-       public Asset GetAsset(long AssetId)
-       {
-           return _AssestsRepository.GetAsset(AssetId);
-       }
-       public void UpdateFolder(Folder Ufolder)
-       {
-           _FolderRepository.UpdateFolder(Ufolder);
-       }
-       public void DeleteFolder(long folderID)
-       {
-           _FolderRepository.DeleteFolder(folderID);
-       }
-       public bool UpdateTemplatePdfDimensions(Template Template)
-       {
-           return _templaterepository.UpdateTemplatePdfDimensions(Template);
-       }
-       public List<AssetItem> GetAssetItemsByAssetID(long AssetID)
-       {
-           return _AssetItemsRepository.GetAssetItemsByAssetID(AssetID);
-       }
-       public void RemoveAssetItem(long AssetID)
-       {
-           _AssetItemsRepository.RemoveAssetItem(AssetID);
-       }
-       public void RemoveAssetItems(List<AssetItem> RemoveAssetItemsIDs)
-       {
-           _AssetItemsRepository.RemoveAssetItems(RemoveAssetItemsIDs);
-       }
-       public string AssetItemFilePath(long AssetItemId)
-       {
-           return _AssetItemsRepository.AssetItemFilePath(AssetItemId);
-       }
-       public double GetTemplateCuttingMargin(long ProductId)
-       {
-           return _templaterepository.GetTemplateCuttingMargin(ProductId);
-       }
-       public ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName)
-       {
-           return _productCategoryRepository.GetlCategorieByName(OrganisationId, CompanyId, CategoryName);
-       }
-       public bool IsValidNumber(string cardNum)
-       {
-           try
-           {
-               return CreditCardManager.IsValidNumber(cardNum);
-           }
-           catch (Exception ex)
-           {
-               throw ex;
-           }
+        }
+        public bool AddAssetItems(List<AssetItem> AssetItemsList)
+        {
+            return _AssetItemsRepository.AddAssetItems(AssetItemsList);
 
-       }
-       public int GetCardTypeIdFromNumber(string cardNum)
-       {
-           try
-           {
-               return CreditCardManager.GetCardTypeIdFromNumber(cardNum);
-           }
-           catch (Exception ex)
-           {
-               throw ex;
-           }
+        }
+        public Asset GetAsset(long AssetId)
+        {
+            return _AssestsRepository.GetAsset(AssetId);
+        }
+        public void UpdateFolder(Folder Ufolder)
+        {
+            _FolderRepository.UpdateFolder(Ufolder);
+        }
+        public void DeleteFolder(long folderID)
+        {
+            _FolderRepository.DeleteFolder(folderID);
+        }
+        public bool UpdateTemplatePdfDimensions(Template Template)
+        {
+            return _templaterepository.UpdateTemplatePdfDimensions(Template);
+        }
+        public List<AssetItem> GetAssetItemsByAssetID(long AssetID)
+        {
+            return _AssetItemsRepository.GetAssetItemsByAssetID(AssetID);
+        }
+        public void RemoveAssetItem(long AssetID)
+        {
+            _AssetItemsRepository.RemoveAssetItem(AssetID);
+        }
+        public void RemoveAssetItems(List<AssetItem> RemoveAssetItemsIDs)
+        {
+            _AssetItemsRepository.RemoveAssetItems(RemoveAssetItemsIDs);
+        }
+        public string AssetItemFilePath(long AssetItemId)
+        {
+            return _AssetItemsRepository.AssetItemFilePath(AssetItemId);
+        }
+        public double GetTemplateCuttingMargin(long ProductId)
+        {
+            return _templaterepository.GetTemplateCuttingMargin(ProductId);
+        }
+        public ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName)
+        {
+            return _productCategoryRepository.GetlCategorieByName(OrganisationId, CompanyId, CategoryName);
+        }
+        public bool IsValidNumber(string cardNum)
+        {
+            try
+            {
+                return CreditCardManager.IsValidNumber(cardNum);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-       }
+        }
+        public int GetCardTypeIdFromNumber(string cardNum)
+        {
+            try
+            {
+                return CreditCardManager.GetCardTypeIdFromNumber(cardNum);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-       public long GetReportIdByName(string ReportName)
-       {
-           return _ReportRepository.GetReportIdByName(ReportName);
-       
-       }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+        }
 
-       public bool UpdateOderStatus(Estimate Estimate)
-       {
-           return _orderrepository.UpdateOderStatus(Estimate);
-       }
-       public bool UpdateItemsStatus(long EstimateId)
-       {
+        public long GetReportIdByName(string ReportName)
+        {
+            return _ReportRepository.GetReportIdByName(ReportName);
 
-           return _itemRepository.UpdateItemsStatus(EstimateId);
-       }
+        }
+        public long GetStoreIdByCustomerId(long CustomerId)
+        {
+            return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
+        }
+        public bool UpdateOderStatus(Estimate Estimate)
+        {
+            return _orderrepository.UpdateOderStatus(Estimate);
+        }
 
-       public bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId)
-       {
-           return _orderrepository.UpdateOrderAndItemsForRejectOrder(OrderId, CartOrderId);
-       
-=======
-       public long GetStoreIdByCustomerId(long CustomerId) 
-       {
-           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
->>>>>>> a185c3b17e3c940bafdf4c45fe8c13df2571d5b4
-=======
-       public long GetStoreIdByCustomerId(long CustomerId) 
-       {
-           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
->>>>>>> a185c3b17e3c940bafdf4c45fe8c13df2571d5b4
-=======
-       public long GetStoreIdByCustomerId(long CustomerId) 
-       {
-           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
->>>>>>> a185c3b17e3c940bafdf4c45fe8c13df2571d5b4
-=======
-       public long GetStoreIdByCustomerId(long CustomerId) 
-       {
-           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
->>>>>>> a185c3b17e3c940bafdf4c45fe8c13df2571d5b4
-=======
-       public long GetStoreIdByCustomerId(long CustomerId) 
-       {
-           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
->>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
-=======
-       public long GetStoreIdByCustomerId(long CustomerId) 
-       {
-           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
->>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
-=======
-       public long GetStoreIdByCustomerId(long CustomerId) 
-       {
-           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
->>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
-       }
+        public bool UpdateItemsStatus(long EstimateId)
+        {
+
+            return _itemRepository.UpdateItemsStatus(EstimateId);
+        }
+
+        public bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId)
+        {
+            return _orderrepository.UpdateOrderAndItemsForRejectOrder(OrderId, CartOrderId);
+        }
     }
 }

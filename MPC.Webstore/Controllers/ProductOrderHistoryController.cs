@@ -129,8 +129,8 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(SearchOrderViewModel model)
         {
             ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+           // {
                 List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(2);
 
                 if (statusList.Count > 0)
@@ -142,12 +142,12 @@ namespace MPC.Webstore.Controllers
                 MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
                 ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
                 return View("PartialViews/ProductOrderHistory", model);
-            }
-            else 
-            {
-                ControllerContext.HttpContext.Response.RedirectToRoute("Orderhistory");
-                return null;
-            }
+            ///}
+            //else 
+           // {
+             //   ControllerContext.HttpContext.Response.RedirectToRoute("Orderhistory");
+              //  return null;
+            //}
            
         }
 

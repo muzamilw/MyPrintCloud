@@ -82,13 +82,13 @@
                                     <input type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lrlGo", UserCookieManager.WBStoreId, "Go"))" id="btnSearchOrders" class="order_history_btn rounded_corners5" />
                                 </div>
                                 <div class="search-order-clear" style="">
-                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
+                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="GoBack();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
-                               @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
+                                @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
                                 {
-                                <div class="search-order-clear" style="">
-                                    <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
-                                </div>
+                                    <div class="search-order-clear" style="">
+                                        <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
+                                    </div>
                                 }
                                 <div class="clearBoth">
 
@@ -127,12 +127,6 @@
     grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs "),
 
     grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs "),
-
-       grid.Column("Rejected Reason", format:@<text>@if(item.StatusID ==35)
-                         {
-        <button id="Rejected_btn" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 24px; border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason','@item.RejectionReason')" />
-                         }
-    </text>),
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
         <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
@@ -143,17 +137,15 @@
 
 
 
-    grid.Column("Reorder", format:@<text>@if(item.ContactUserID == ViewBag.LoginContactId)
+    grid.Column("Reorder", format:@<text>@if (item.ContactUserID == ViewBag.LoginContactId)
     {
         <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ReOrderBtn", UserCookieManager.WBStoreId, "ReOrder"))" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
     }
     </text>),
 
-                      
-
           }
 
-                                                                                )
+                                                                                                        )
 
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
@@ -526,7 +518,7 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(d),
             success: function (response) {
-                
+
                 createCookie("WEBOrderId", response);
                 window.location.href = "/ShopCart";
             }
@@ -555,38 +547,12 @@
 
         var Po=$("#txtOrderRefrence").val();
         window.open(window.location.protocol + "//" + window.location.host + "/mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status);
-       
+
         //window.location.href = "http://staging.myprintcloud.com/mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status;
         @*$.get("mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status, function (DT) {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
-        //var data = { name: Name, email: Email, comment: Comment };
-        $.ajax({
-            type:"GET",
-            url: "mis/api/DownloadExternalReport?ReportId="+ReportId+"&StoreId="+StoreId+"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status+"",
-            contentType: "application/json",
-           // data: JSON.stringify(data),
-            async: true,
-            success: function (response) {
-                alert(response);
-              
-            },
-            error: function (error) {
-=======
             DT = DT.replace("\"","");
             DT = DT.replace("\"","");
->>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
-=======
-            DT = DT.replace("\"","");
-            DT = DT.replace("\"","");
->>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
-=======
-            DT = DT.replace("\"","");
-            DT = DT.replace("\"","");
->>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
 
             window.location.href = DT;
             HideLoader();
@@ -870,18 +836,6 @@
         });
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    }
-    function Cancel()
-    {
-        document.getElementById("layer").style.display = "none";
-        document.getElementById("innerLayer").style.display = "none";
-    
-=======
->>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
-=======
->>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
     }
     function createCookie(name, value, days) {
         if (days) {
@@ -891,5 +845,9 @@
         }
         else var expires = "";
         document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    function GoBack()
+    {
+        window.location.href = "/ProductOrderHistory";
     }
 </script>

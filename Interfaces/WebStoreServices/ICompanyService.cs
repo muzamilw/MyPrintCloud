@@ -13,10 +13,11 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
-
         bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId);
-        bool UpdateItemsStatus(long EstimateId);
         bool UpdateOderStatus(Estimate Estimate);
+
+bool UpdateItemsStatus(long EstimateId);
+
         long GetReportIdByName(string ReportName);
         double GetTemplateCuttingMargin(long ProductId);
         string AssetItemFilePath(long AssetItemId);
@@ -78,7 +79,7 @@ namespace MPC.Interfaces.WebStoreServices
         IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId);
         int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
-        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID,string RejectionReason, string BrokerPO = "");
+        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string RejectionMessage, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId);
         CompanyContact GetContactByEmailID(string Email);
         Country GetCountryByCountryID(long CountryID);
@@ -133,7 +134,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
-        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword,string StoreName, Address address = null);
+        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, string StoreName, Address address = null);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
 
@@ -148,7 +149,7 @@ namespace MPC.Interfaces.WebStoreServices
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 
         double CalculateDiscount(double price, double discountPrecentage);
-        long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId,long StoreId, CompanyContact regContact = null);
+        long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, long StoreId, CompanyContact regContact = null);
         Organisation GetOrganisatonById(long OrganisationId);
         string GetContactMobile(long CID);
 
@@ -171,14 +172,14 @@ namespace MPC.Interfaces.WebStoreServices
 
         State GetStateFromStateID(long StateID);
 
-        
-          /// <summary>
+
+        /// <summary>
         /// gets the name of the country by its id
         /// </summary>
         /// <param name="CountryId"></param>
         /// <returns></returns>
         string GetCountryNameById(long CountryId);
-         /// <summary>
+        /// <summary>
         /// gets the name of the state by its id
         /// </summary>
         /// <param name="CountryId"></param>
@@ -190,7 +191,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="CompanyId"></param>
         /// <returns></returns>
         int GetContactCountByCompanyId(long CompanyId);
-        
+
 
         /// <summary>
         /// Gets favorite design count Of a login user to display on dashboard
@@ -198,14 +199,14 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="contactId"></param>
         /// <returns></returns>
         int GetFavDesignCountByContactId(long contactId);
-         /// <summary>
+        /// <summary>
         /// Gets the contact orders count by Status
         /// </summary>
         /// <param name="contactId"></param>
         /// <param name="statusId"></param>
         /// <returns></returns>
         int GetOrdersCountByStatus(long contactId, OrderStatus statusId);
-           /// <summary>
+        /// <summary>
         /// Gets pending approval orders count
         /// </summary>
         /// <param name="contactId"></param>
@@ -250,8 +251,8 @@ namespace MPC.Interfaces.WebStoreServices
         string GetStateCodeById(long stateId);
 
         string GetCountryCodeById(long countryId);
-        
-         List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
+
+        List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
         /// <summary>
         /// get the contactid 
         /// </summary>
@@ -266,7 +267,7 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyTerritory GetCcompanyByTerritoryID(Int64 ContactId);
         void UpdateCompanyOrderingPolicy(Company Instance);
         bool UpdateCompanyContactForRetail(CompanyContact Instance);
-        bool  UpdateCompanyContactForCorporate(CompanyContact Instance);
+        bool UpdateCompanyContactForCorporate(CompanyContact Instance);
         bool UpdateCompanyName(Company Instance);
 
         bool VerifyHashSha1(string plainText, string compareWithSalt);
@@ -310,7 +311,7 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyDomain GetDomainByCompanyId(long CompanyId);
         List<Asset> GetAssetsByCompanyID(long CompanyID);
         ProductCategory GetlCategorieByName(long OrganisationId, long CompanyId, string CategoryName);
-        
+
         bool IsValidNumber(string cardNum);
         int GetCardTypeIdFromNumber(string cardNum);
         long GetStoreIdByCustomerId(long CustomerId);
