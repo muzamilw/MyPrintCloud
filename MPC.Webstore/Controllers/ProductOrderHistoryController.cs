@@ -54,7 +54,7 @@ namespace MPC.Webstore.Controllers
             ViewBag.StoreID = UserCookieManager.WBStoreId;
 
             ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
-
+            ViewBag.RejectedOrder = OrderStatus.RejectOrder;
             return View("PartialViews/ProductOrderHistory", model);
         }
         public SearchOrderViewModel BindStatusDropdown(int STATUS_TYPE_ID)
@@ -150,13 +150,49 @@ namespace MPC.Webstore.Controllers
 
         [HttpPost]
         public JsonResult OrderResult(long OrderId, string OrderType)
-        {
+            {
+            Estimate Estimate = _orderService.GetOrderByID(OrderId);
+          
             if (OrderType == "ReOrder")
             {
-                long UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
-                UserCookieManager.WEBOrderId = UpdatedOrder;
+                if (Estimate.StatusId == Convert.ToInt16(OrderStatus.RejectOrder))
+                {
 
-                return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);
+                  bool Result=  _CompanyService.UpdateOderStatus(Estimate);
+
+                  if (Result)
+                  {
+
+                      bool ItemResult = _CompanyService.UpdateItemsStatus(OrderId);
+
+
+                      if (ItemResult)
+                      {
+                          if (UserCookieManager.WEBOrderId == 0)
+                          {
+                              if (_myClaimHelper.loginContactID() > 0) // is user logged in
+                              {
+                                  UserCookieManager.WEBOrderId = _orderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                              }
+                          }
+                         bool FinalResult= _CompanyService.UpdateOrderAndItemsForRejectOrder(OrderId, UserCookieManager.WEBOrderId);
+
+                         if (FinalResult)
+                         {
+                             UserCookieManager.WEBOrderId = OrderId;
+                         }
+
+                      }
+                  }
+
+                }
+                else
+                {
+                    long UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                    UserCookieManager.WEBOrderId = UpdatedOrder;
+
+                    return Json(UserCookieManager.WEBOrderId, JsonRequestBehavior.DenyGet);
+                }
             }
 
             if (OrderType == "Download")
@@ -167,7 +203,7 @@ namespace MPC.Webstore.Controllers
                 return Json(DownloadFileLink, JsonRequestBehavior.DenyGet);
 
             }
-            return Json(true, JsonRequestBehavior.DenyGet);
+            return Json(UserCookieManager.WEBOrderId, JsonRequestBehavior.DenyGet);
 
         }
         private ShoppingCart LoadShoppingCart(long orderID)

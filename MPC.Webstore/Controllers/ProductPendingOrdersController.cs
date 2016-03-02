@@ -70,6 +70,7 @@ namespace MPC.Webstore.Controllers
         {
             try 
             {
+                
                 List<Order> ordersList = null;
                 List<Order> ManagerordersList = new List<Order>();
                 ordersList = _CompanyService.GetPendingApprovelOrdersList(ContactID, ApproveOrders, UserCookieManager.WBStoreId);
@@ -150,12 +151,12 @@ namespace MPC.Webstore.Controllers
            
         }
         [HttpPost]
-        public void ApporRejectOrder(long OrderID)
+        public void ApporRejectOrder(long OrderID,string Rejectionreason)
         { 
           
-            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
- 
-            long ID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.RejectOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+             MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+             long ID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.RejectOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value, Rejectionreason);
              approveOrRejectEmailToUser(ID, OrderID, (int)Events.RejectOrder);
              ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
         }

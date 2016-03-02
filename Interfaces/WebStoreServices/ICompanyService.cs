@@ -13,6 +13,10 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+
+        bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId);
+        bool UpdateItemsStatus(long EstimateId);
+        bool UpdateOderStatus(Estimate Estimate);
         long GetReportIdByName(string ReportName);
         double GetTemplateCuttingMargin(long ProductId);
         string AssetItemFilePath(long AssetItemId);
@@ -74,7 +78,7 @@ namespace MPC.Interfaces.WebStoreServices
         IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId);
         int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
-        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
+        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID,string RejectionReason, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId);
         CompanyContact GetContactByEmailID(string Email);
         Country GetCountryByCountryID(long CountryID);

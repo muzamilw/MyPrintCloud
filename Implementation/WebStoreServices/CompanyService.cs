@@ -1480,9 +1480,9 @@ namespace MPC.Implementation.WebStoreServices
             
             return ContactRecord;
         }
-        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "")
+        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID,string RejectionReason, string BrokerPO = "")
         {
-            return _orderrepository.ApproveOrRejectOrder(orderID, loggedInContactID, orderStatus, OrdermangerID);
+            return _orderrepository.ApproveOrRejectOrder(orderID, loggedInContactID, orderStatus, OrdermangerID, RejectionReason);
         }
 
         /// <summary>
@@ -2048,6 +2048,22 @@ namespace MPC.Implementation.WebStoreServices
        public long GetReportIdByName(string ReportName)
        {
            return _ReportRepository.GetReportIdByName(ReportName);
+       
+       }
+
+       public bool UpdateOderStatus(Estimate Estimate)
+       {
+           return _orderrepository.UpdateOderStatus(Estimate);
+       }
+       public bool UpdateItemsStatus(long EstimateId)
+       {
+
+           return _itemRepository.UpdateItemsStatus(EstimateId);
+       }
+
+       public bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId)
+       {
+           return _orderrepository.UpdateOrderAndItemsForRejectOrder(OrderId, CartOrderId);
        
        }
     }

@@ -597,9 +597,6 @@
                         }
 
 
-
-
-
                         var proFriendlyName = "";
                         if (IT.ProductFriendlyName != "" && IT.ProductFriendlyName != null) {
                             proFriendlyName = IT.ProductFriendlyName;
@@ -727,8 +724,12 @@
 
     function Rejection()
     {
+        
+        var RejectReason = $("#RejectionReasoan").val();
 
-        var data = { OrderID: NewOrderID }
+        
+        var data = { OrderID: NewOrderID, Rejectionreason: RejectReason }
+
         $.ajax({
             type: "POST",
             url: "/ProductPendingOrders/ApporRejectOrder",

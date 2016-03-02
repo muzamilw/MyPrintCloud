@@ -127,6 +127,12 @@
     grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs "),
 
     grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs "),
+
+       grid.Column("Rejected Reason", format:@<text>@if(item.StatusID ==35)
+                         {
+        <button id="Rejected_btn" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 24px; border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason','@item.RejectionReason')" />
+                         }
+    </text>),
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
         <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
@@ -137,15 +143,17 @@
 
 
 
-    grid.Column("Reorder", format:@<text>@if (item.ContactUserID == ViewBag.LoginContactId)
+    grid.Column("Reorder", format:@<text>@if(item.ContactUserID == ViewBag.LoginContactId)
     {
         <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ReOrderBtn", UserCookieManager.WBStoreId, "ReOrder"))" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
     }
     </text>),
 
+                      
+
           }
 
-                                                                                               )
+                                                                                )
 
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
@@ -518,7 +526,7 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(d),
             success: function (response) {
-
+                
                 createCookie("WEBOrderId", response);
                 window.location.href = "/ShopCart";
             }
@@ -556,6 +564,7 @@
            // data: JSON.stringify(data),
             async: true,
             success: function (response) {
+                alert(response);
               
             },
             error: function (error) {
@@ -827,6 +836,12 @@
         });
        
        
+    }
+    function Cancel()
+    {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    
     }
     function createCookie(name, value, days) {
         if (days) {
