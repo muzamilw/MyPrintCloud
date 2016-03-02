@@ -1,4 +1,7 @@
-﻿using MPC.ExceptionHandling;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -47,6 +50,21 @@ namespace MPC.Implementation.MISServices
                 Widget targetWidget = GetWidgetById(widget.WidgetId) ?? CreateNewWidget();
                 UpdateWidget(targetWidget, widget);
                 widgetRepository.SaveChanges();
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    string url = "WebstoreApi/StoreCache/Get?id=" + widget.CompanyId;
+                    var response = client.GetAsync(url);
+                    if (!response.Result.IsSuccessStatusCode)
+                    {
+                        //throw new MPCException("Failed to clear store cache", companyRepository.OrganisationId);
+                    }
+                }
+
                 return targetWidget;
             }
             catch (Exception exp)

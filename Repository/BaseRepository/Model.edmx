@@ -564,6 +564,7 @@
           <Property Name="ColorM" Type="varchar" MaxLength="50" />
           <Property Name="ColorY" Type="varchar" MaxLength="50" />
           <Property Name="ColorK" Type="varchar" MaxLength="50" />
+          <Property Name="TerritoryId" Type="bigint" />
         </EntityType>
         <EntityType Name="CompanyContact">
           <Key>
@@ -694,6 +695,7 @@
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="TerritoryCode" Type="varchar" MaxLength="200" />
           <Property Name="isDefault" Type="bit" />
+          <Property Name="IsUseTerritoryColor" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyType">
           <Key>
@@ -3919,6 +3921,7 @@
           <Property Name="ColorHex" Type="nvarchar" MaxLength="30" />
           <Property Name="IsColorActive" Type="bit" />
           <Property Name="CustomerId" Type="bigint" />
+          <Property Name="TerritoryId" Type="bigint" />
         </EntityType>
         <EntityType Name="TemplateFont">
           <Key>
@@ -9620,6 +9623,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" FromRole="CompanyTerritory" ToRole="Company" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories" FromRole="CompanyTerritory" ToRole="CompanyContact" />
           <NavigationProperty Name="Addresses" Relationship="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" FromRole="CompanyTerritory" ToRole="Address" />
+          <Property Name="IsUseTerritoryColor" Type="Boolean" />
         </EntityType>
         <EntityType Name="CompanyType">
           <Key>
@@ -11475,6 +11479,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ColorY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ColorK" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_CompanyCMYKColor_Company" FromRole="CompanyCMYKColor" ToRole="Company" />
+          <Property Name="TerritoryId" Type="Int64" />
         </EntityType>
         <EntityType Name="GetItemsListView">
           <Key>
@@ -12402,6 +12407,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CustomerId" Type="Int64" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_ColorStyles_Products" FromRole="TemplateColorStyle" ToRole="Template" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_TemplateColorStyle_Company" FromRole="TemplateColorStyle" ToRole="Company" />
+          <Property Name="TerritoryId" Type="Int64" />
         </EntityType>
         <Association Name="FK_ColorStyles_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -16831,6 +16837,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="CompanyTerritories">
             <EntityTypeMapping TypeName="DomainModels.CompanyTerritory">
               <MappingFragment StoreEntitySet="CompanyTerritory">
+                <ScalarProperty Name="IsUseTerritoryColor" ColumnName="IsUseTerritoryColor" />
                 <ScalarProperty Name="isDefault" ColumnName="isDefault" />
                 <ScalarProperty Name="TerritoryCode" ColumnName="TerritoryCode" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
@@ -18211,6 +18218,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="CompanyCMYKColors">
             <EntityTypeMapping TypeName="DomainModels.CompanyCMYKColor">
               <MappingFragment StoreEntitySet="CompanyCMYKColor">
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
                 <ScalarProperty Name="ColorK" ColumnName="ColorK" />
                 <ScalarProperty Name="ColorY" ColumnName="ColorY" />
                 <ScalarProperty Name="ColorM" ColumnName="ColorM" />
@@ -18787,6 +18795,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="TemplateColorStyles">
             <EntityTypeMapping TypeName="DomainModels.TemplateColorStyle">
               <MappingFragment StoreEntitySet="TemplateColorStyle">
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="IsColorActive" ColumnName="IsColorActive" />
                 <ScalarProperty Name="ColorHex" ColumnName="ColorHex" />

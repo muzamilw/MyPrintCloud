@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,8 @@ namespace MPC.Models.DomainModels
         public string Description { get; set; }
         public string WidgetHtml { get; set; }
         public long? OrganisationId { get; set; }
-
+        [NotMapped]
+        public long? CompanyId { get; set; }
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
     }
 }

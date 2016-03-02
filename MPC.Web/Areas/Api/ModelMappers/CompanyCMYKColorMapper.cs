@@ -18,7 +18,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ColorC = source.ColorC,
                 ColorM = source.ColorM,
                 ColorY = source.ColorY,
-                ColorK = source.ColorK
+                ColorK = source.ColorK,
+                TerritoryId = source.TerritoryId
             };
         }
         /// <summary>
@@ -37,7 +38,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ColorC = source.ColorC,
                 ColorM = source.ColorM,
                 ColorY = source.ColorY,
-                ColorK = source.ColorK
+                ColorK = source.ColorK,
+                TerritoryId = source.TerritoryId
             };
 
             return companyCMYKColor;
