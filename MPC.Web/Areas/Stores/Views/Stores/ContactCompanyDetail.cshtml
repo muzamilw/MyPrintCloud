@@ -3500,19 +3500,19 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 <span class="label" data-bind="text: isActive() ? 'YES' : 'NO', css: { 'label-success': isActive, 'label-danger': !isActive() }"></span></
                             </div>
                         </td>
-                        <td id="actionColumn">
+                        @*<td id="actionColumn">
                                 <!-- ko template: { name: "actionsCompanyCMYKColorTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                                 <!-- /ko -->
-                            </td>
+                            </td>*@
                     </tr>
                 </script>
                 <script id="actionsCompanyTerritoryTemplate" type="text/html">
-                    @*<a class="table-link" data-bind="click : $root.onEditCompanyTerritory">
+                    <a class="table-link" data-bind="click : $root.onEditCompanyTerritory">
                         <span class="fa-stack">
                             <i class="fa fa-square fa-stack-2x"></i>
                             <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                         </span>
-                    </a>*@
+                    </a>
                     <a href="#" class="table-link danger" data-bind="click : $root.onDeleteCompanyTerritory">
                         <span class="fa-stack">
                             <i class="fa fa-square fa-stack-2x"></i>

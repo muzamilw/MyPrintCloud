@@ -11,6 +11,7 @@ namespace MPC.Models.DomainModels
         public long? CompanyId { get; set; }
         public string TerritoryCode { get; set; }
         public bool? isDefault { get; set; }
+        public bool? IsUseTerritoryColor { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }

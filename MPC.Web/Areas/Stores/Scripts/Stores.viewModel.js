@@ -50,7 +50,7 @@ define("stores/stores.viewModel",
                     // widget section sub header title for Selected
                     productsFilterSubHeadingSelected = ko.observable(),
                     discountVouuchers = ko.observableArray([]),
-
+                    //territorySpotColors = ko.observableArray([]),
                     // for real estate lisitng
                     realEstateCampaigns = ko.observableArray([]),
 
@@ -1240,18 +1240,50 @@ define("stores/stores.viewModel",
                     // ReSharper disable InconsistentNaming
                     selectedCompanyCMYKColor = companyCmykColoreditorViewModel.itemForEditing,
                     isSavingNew = ko.observable(false),
+                    isTerritoryColor = ko.observable(false),
                     // Template Chooser For Company CMYK Color
                     templateToUseCompanyCMYKColors = function(companyCMYKColor) {
                         return (companyCMYKColor === selectedCompanyCMYKColor() ? 'editCompanyCMYKColorTemplate' : 'itemCompanyCMYKColorTemplate');
                     },
-                    //Create Stock Sub Category
+                    //Create CMYK Color
                     onCreateNewCompanyCMYKColor = function() {
                         var companyCMYKColor = new model.CompanyCMYKColor();
                         selectedCompanyCMYKColor(companyCMYKColor);
                         selectedCompanyCMYKColor().isActive(true);
                         view.showCompanyCMYKColorDialog();
                         isSavingNew(true);
+                        isTerritoryColor(false);
                     },
+                    onCreateNewTerritorySpotcolor = function() {
+                        var companyCMYKColor = new model.CompanyCMYKColor();
+                        selectedCompanyCMYKColor(companyCMYKColor);
+                        selectedCompanyCMYKColor().isActive(true);
+                        selectedCompanyCMYKColor().territoryId(selectedCompanyTerritory().territoryId());
+                        view.showCompanyCMYKColorDialog();
+                        isSavingNew(true);
+                        isTerritoryColor(true);
+                        selectedCompanyTerritory().hasChanges(true);
+
+                    },
+                    copyGlobalColorsToTerritory = function () {
+                        confirmation.messageText("WARNING - Are you sure you want to overwrite store spot colors to this territory?");
+                        confirmation.afterProceed(function () {
+                            if (selectedStore().companyCMYKColors().length > 0) {
+                                selectedStore().companyTerritoryColors.removeAll(territorySpotColors());
+                                var copiedColors = [];
+                                _.each(selectedStore().companyCMYKColors(), function (color) {
+                                    var territoryColor = model.CompanyCMYKColor.CopyFromClientModel(color);
+                                    territoryColor.territoryId(selectedCompanyTerritory().territoryId());
+                                    selectedStore().companyTerritoryColors.push(territoryColor);
+                                });
+                                //ko.utils.arrayPushAll(territorySpotColors, copiedColors);
+                                //territorySpotColors.valueHasMutated();
+                                selectedCompanyTerritory().hasChanges(true);
+                            }
+                        });
+                        confirmation.show();
+                    },
+                    
                     // Get Company CMYK Colors By Id
                     getCompanyCMYKColorsByIdFromListView = function(id) {
                         return selectedStore().companyCMYKColors.find(function(color) {
@@ -1271,7 +1303,7 @@ define("stores/stores.viewModel",
                                     if (data != null) {
 
                                         var savedCMYKColor = model.CompanyCMYKColor.Create(data);
-
+                                        selectedCompanyCMYKColor(savedCMYKColor);
 
                                        
                                         if (selectedCompanyCMYKColor().isActive()) {
@@ -1334,7 +1366,13 @@ define("stores/stores.viewModel",
                     //On Edit
                     onEditCompanyCMYKColor = function(companyCMYKColor) {
                         //selectedCompanyCMYKColor(companyCMYKColor);
+                        isTerritoryColor(false);
                         companyCmykColoreditorViewModel.selectItem(companyCMYKColor);
+                        view.showCompanyCMYKColorDialog();
+                    },
+                    onEditTerritoryColor = function (territoryColor) {
+                        isTerritoryColor(true);
+                        companyCmykColoreditorViewModel.selectItem(territoryColor);
                         view.showCompanyCMYKColorDialog();
                     },
                     //On Close
@@ -1343,6 +1381,7 @@ define("stores/stores.viewModel",
                         //companyCmykColoreditorViewModel.revertItem();
                         view.hideCompanyCMYKColorDialog();
                         isSavingNew(false);
+                        isTerritoryColor(false);
                     },
                     //Do Before Save Rave Review
                     doBeforeSaveCompanyCMYKColor = function() {
@@ -1353,15 +1392,26 @@ define("stores/stores.viewModel",
                         }
                         // check to remove dupplicate color name
                         var count = 0;
-                        _.each(selectedStore().companyCMYKColors(), function (color) {
-                            if (color.spotColor() == selectedCompanyCMYKColor().spotColor() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
-                                
-                                toastr.error("Color Name already exist.");
-                                flag = false;
-                                
-                            }
-                            count = count + 1;
-                        });
+                        if (!isTerritoryColor()) {
+                            _.each(selectedStore().companyCMYKColors(), function (color) {
+                                if (color.spotColor() == selectedCompanyCMYKColor().spotColor() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
+
+                                    toastr.error("Color Name already exist.");
+                                    flag = false;
+
+                                }
+                                count = count + 1;
+                            });
+                        } else {
+                            _.each(selectedStore().companyTerritoryColors(), function (color) {
+                                if (color.spotColor() == selectedCompanyCMYKColor().spotColor() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
+                                    toastr.error("Color Name already exist.");
+                                    flag = false;
+                                }
+                                count = count + 1;
+                            });
+                        }
+                        
 
                         return flag;
                     },
@@ -1373,23 +1423,41 @@ define("stores/stores.viewModel",
                             if (isSavingNew() === true) {
                                 selectedCompanyCMYKColor().colorId(newCompanyCmykId);
                                 addNewCompanyCmykId();
-                                selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                                if (!isTerritoryColor()) {
+                                    selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                                } else {
+                                    selectedStore().companyTerritoryColors.splice(0, 0, selectedCompanyCMYKColor());
+                                }
+                                
                                 //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
                                 view.hideCompanyCMYKColorDialog();
                                 isSavingNew(false);
+                                isTerritoryColor(false);
                             }
                             if (isSavingNew() !== true) {
                                 //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
                                 var count = 0;
-                                _.each(selectedStore().companyCMYKColors(), function (color) {
-                                    if (color.colorId() == selectedCompanyCMYKColor().colorId()) {
-                                        selectedStore().companyCMYKColors.remove(color);
-                                        selectedStore().companyCMYKColors.splice(count, 0, selectedCompanyCMYKColor());
-                                    }
-                                    count = count + 1;
-                                });
+                                if (!isTerritoryColor()) {
+                                    _.each(selectedStore().companyCMYKColors(), function (color) {
+                                        if (color.colorId() == selectedCompanyCMYKColor().colorId()) {
+                                            selectedStore().companyCMYKColors.remove(color);
+                                            selectedStore().companyCMYKColors.splice(count, 0, selectedCompanyCMYKColor());
+                                        }
+                                        count = count + 1;
+                                    });
+                                } else {
+                                    _.each(selectedStore().companyTerritoryColors(), function (color) {
+                                        if (color.colorId() == selectedCompanyCMYKColor().colorId()) {
+                                            selectedStore().companyTerritoryColors.remove(color);
+                                            selectedStore().companyTerritoryColors.splice(count, 0, selectedCompanyCMYKColor());
+                                        }
+                                        count = count + 1;
+                                    });
+                                }
+                               
                                 view.hideCompanyCMYKColorDialog();
                                 isSavingNew(false);
+                                isTerritoryColor(false);
                             }
                         }
                        
@@ -7279,6 +7347,29 @@ define("stores/stores.viewModel",
                             return !productCategory.parentCategoryId;
                         });
                     }),
+                    
+                
+                    territorySpotColors = ko.computed(function(){
+
+                        if (selectedStore().companyTerritoryColors().length === 0) {
+                            return [];
+                        }
+                        var territoryId = selectedCompanyTerritory() != undefined ? selectedCompanyTerritory().territoryId() : 0;
+                        return selectedStore().companyTerritoryColors().filter(function (color) {
+                            return color.territoryId() === territoryId;
+                        });
+
+
+                        //colors = [];
+                        //if (selectedStore().companyTerritoryColors().length > 0 && selectedCompanyTerritory() != undefined) {
+                        //    _.each(selectedStore().companyTerritoryColors(), function (color) {
+                        //        if (color.territoryId() == selectedCompanyTerritory().territoryId())
+                        //            colors.push(color);
+                        //    });
+                        //}
+                        //return colors;
+
+                    }),
                    //// Products Date
                    // ProductDate = ko.computed(function () {
                    //     if (!products) {
@@ -8169,7 +8260,11 @@ define("stores/stores.viewModel",
                     addCustomWidget: addCustomWidget,
                     isCustomWidgetLoad: isCustomWidgetLoad,
                     deleteCustomWidget: deleteCustomWidget,
-                    isStripeGateway: isStripeGateway
+                    isStripeGateway: isStripeGateway,
+                    territorySpotColors: territorySpotColors,
+                    onCreateNewTerritorySpotcolor: onCreateNewTerritorySpotcolor,
+                    copyGlobalColorsToTerritory: copyGlobalColorsToTerritory,
+                    onEditTerritoryColor: onEditTerritoryColor
                     //Show RealEstateCompaign VariableIcons Dialog
                     //showcreateVariableDialog: showcreateVariableDialog
                 };

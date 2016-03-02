@@ -21,7 +21,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsColorActive = source.IsColorActive,
                 Name = source.Name,
                 IsSpotColor = source.IsSpotColor,
-                SpotColor = source.SpotColor
+                SpotColor = source.SpotColor,
+                TerritoryId = source.TerritoryId
             };
         }
 
@@ -44,7 +45,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsColorActive = source.IsColorActive,
                 Name = source.Name,
                 IsSpotColor = source.IsSpotColor,
-                SpotColor = source.SpotColor
+                SpotColor = source.SpotColor,
+                TerritoryId = source.TerritoryId
             };
 
             return companyCMYKColor;

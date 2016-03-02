@@ -19,5 +19,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string ColorHex { get; set; }
         public bool? IsColorActive { get; set; }
         public long? CustomerId { get; set; }
+        public long? TerritoryId { get; set; }
     }
 }

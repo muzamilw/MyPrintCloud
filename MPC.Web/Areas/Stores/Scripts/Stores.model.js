@@ -244,6 +244,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             systemPages = ko.observableArray([]),
             // ReSharper disable InconsistentNaming
             companyCMYKColors = ko.observableArray([]),
+            companyTerritoryColors = ko.observableArray([]),
             //Color Palette
             colorPalette = ko.observable(new ColorPalette()),
             //Company Banner Set List
@@ -347,6 +348,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             secondaryPages: secondaryPages,
             systemPages: systemPages,
             companyCMYKColors: companyCMYKColors,
+            companyTerritoryColors : companyTerritoryColors,
             webMasterTag: webMasterTag,
             webAnalyticCode: webAnalyticCode,
             salesAndOrderManagerId1: salesAndOrderManagerId1,
@@ -501,6 +503,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             _.each(source.companyCMYKColors(), function (item) {
                 result.TemplateColorStyles.push(item.convertToServerData());
             });
+            _.each(source.companyTerritoryColors(), function (item) {
+                result.TemplateColorStyles.push(item.convertToServerData());
+            });
+            
             result.CompanyDomains = [];
             _.each(source.companyDomains(), function (item) {
                 result.CompanyDomains.push(item.convertToServerData());
@@ -625,6 +631,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             addresses: addresses,
             users: users,
             companyCMYKColors: companyCMYKColors,
+            companyTerritoryColors : companyTerritoryColors,
             colorPalette: colorPalette,
             companyBannerSets: companyBannerSets,
             secondaryPages: secondaryPages,
@@ -746,6 +753,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         _.each(source.companyCMYKColors, function (item) {
             result.companyCMYKColors.push(CompanyCMYKColor.CreateFromClientModel(item));
         });
+        _.each(source.companyTerritoryColors, function (item) {
+            result.companyTerritoryColors.push(CompanyCMYKColor.CreateFromClientModel(item));
+        });
+        
         _.each(source.users, function (item) {
             result.users.push(CompanyContact.CreateFromClientModel(item));
         });
@@ -887,7 +898,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         }
         if (source.TemplateColorStyles) {
             _.each(source.TemplateColorStyles, function (item) {
-                store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
+                if(item.TerritoryId == null)
+                    store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
+                else {
+                    store.companyTerritoryColors.push(CompanyCMYKColor.Create(item));
+                }
             });
         }
         if (source.CompanyDomains) {
@@ -1178,7 +1193,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // ReSharper disable once InconsistentNaming    
     var CompanyCMYKColor = function (specifiedColorId, specifiedCompanyId, specifiedColorName, specifiedColorC, specifiedColorM, specifiedColorY, specifiedColorK,
-    specifiedIsSpotColor, specifiedSpotColor, specifiedIsActive) {
+    specifiedIsSpotColor, specifiedSpotColor, specifiedIsActive, specifiedTerritoryId) {
         var self,
             colorId = ko.observable(specifiedColorId),
             companyId = ko.observable(specifiedCompanyId),
@@ -1190,6 +1205,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isActive = ko.observable(specifiedIsActive),
             isSpotColor = ko.observable(specifiedIsSpotColor || true),
             spotColor = ko.observable(specifiedSpotColor).extend({ required: true }),
+            territoryId = ko.observable(specifiedTerritoryId),
             // Errors
             errors = ko.validation.group({
                 spotColor: spotColor,
@@ -1215,7 +1231,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 colorK: colorK,
                 isActive: isActive,
                 isSpotColor: isSpotColor,
-                spotColor: spotColor
+                spotColor: spotColor,
+                territoryId: territoryId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1233,7 +1250,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     ColorK: colorK(),
                     SpotColor: spotColor(),
                     IsSpotColor: isSpotColor(),
-                    IsColorActive: isActive()
+                    IsColorActive: isActive(),
+                    TerritoryId: territoryId()
                 };
             },
             // Reset
@@ -1251,6 +1269,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isSpotColor: isSpotColor,
             spotColor: spotColor,
             isActive: isActive,
+            territoryId : territoryId,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1271,7 +1290,23 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.colorK,
             source.isSpotColor,
             source.spotColor,
-            source.isActive
+            source.isActive,
+            source.territoryId
+        );
+    };
+    CompanyCMYKColor.CopyFromClientModel = function (source) {
+        return new CompanyCMYKColor(
+            source.colorId(),
+            source.companyId(),
+            source.colorName(),
+            source.colorC(),
+            source.colorM(),
+            source.colorY(),
+            source.colorK(),
+            source.isSpotColor(),
+            source.spotColor(),
+            source.isActive(),
+            source.territoryId()
         );
     };
     CompanyCMYKColor.Create = function (source) {
@@ -1285,7 +1320,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.ColorK,
             source.IsSpotColor,
             source.SpotColor,
-            source.IsColorActive
+            source.IsColorActive,
+            source.TerritoryId
         );
         return companyCMYKColor;
     };
@@ -1294,7 +1330,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region ______________  C O M P A N Y    T E R R I T O R Y    _________________
 
     // ReSharper disable once InconsistentNaming
-    var CompanyTerritory = function (specifiedTerritoryId, specifiedTerritoryName, specifiedCompanyId, specifiedTerritoryCode, specifiedisDefault) {
+    var CompanyTerritory = function (specifiedTerritoryId, specifiedTerritoryName, specifiedCompanyId, specifiedTerritoryCode, specifiedisDefault, specifiedIsUseTerritoryColor) {
 
         var self,
             territoryId = ko.observable(specifiedTerritoryId),
@@ -1304,6 +1340,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isDefault = ko.observable(specifiedisDefault),
             scopeVariables = ko.observableArray([]),
              isSelected = ko.observable(),
+            isUseTerritoryColor = ko.observable(specifiedIsUseTerritoryColor),
             // Errors
             errors = ko.validation.group({
                 territoryName: territoryName,
@@ -1322,7 +1359,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 companyId: companyId,
                 territoryCode: territoryCode,
                 isDefault: isDefault,
-                isSelected: isSelected
+                isSelected: isSelected,
+                isUseTerritoryColor: isUseTerritoryColor
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1336,6 +1374,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     CompanyId: companyId(),
                     TerritoryCode: territoryCode(),
                     isDefault: isDefault(),
+                    IsUseTerritoryColor : isUseTerritoryColor(),
                     ScopeVariables: []
                 }
             },
@@ -1352,6 +1391,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isSelected: isSelected,
             scopeVariables: scopeVariables,
             isValid: isValid,
+            isUseTerritoryColor : isUseTerritoryColor,
             errors: errors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
@@ -1366,7 +1406,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.territoryName,
             source.companyId,
             source.territoryCode,
-            source.isDefault
+            source.isDefault,
+            source.isUseTerritoryColor
         );
     };
     CompanyTerritory.Create = function (source) {
@@ -1375,7 +1416,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.TerritoryName,
             source.CompanyId,
             source.TerritoryCode,
-            source.isDefault
+            source.isDefault,
+            source.IsUseTerritoryColor
         );
         return companyTerritory;
     };
