@@ -632,7 +632,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             }
         } else {
 
-            $("#CCErrorMesgContainer").html("Please enter in the hightlighted fields.");
+            $("#CCErrorMesgContainer").html("Please enter in the highlighted fields.");
         }
         return;
     } else if (isNotValidInput == 1) {

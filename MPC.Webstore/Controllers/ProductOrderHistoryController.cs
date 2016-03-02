@@ -70,10 +70,12 @@ namespace MPC.Webstore.Controllers
 
 
             BindGrid(0, _myClaimHelper.loginContactID(), SearchOrder);
+            ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
             return SearchOrder;
         }
         public void BindGrid(long statusID, long contactID, SearchOrderViewModel model)
         {
+            ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
             List<Order> ordersList = null;
 
             OrderStatus? status = null;
@@ -126,6 +128,7 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)
         {
+            ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
             if (ModelState.IsValid)
             {
                 List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(2);
