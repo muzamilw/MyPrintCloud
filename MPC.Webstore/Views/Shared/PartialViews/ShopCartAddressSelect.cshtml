@@ -379,7 +379,12 @@
                                                                 @{
                                                     string pdfLinkBtn = string.Empty;
                                                     string imgToShowURL = string.Empty;
-                                                    if (!string.IsNullOrWhiteSpace(shopcart.Attatchment.FileName))
+                                                    if (shopcart.ProductType == (int)ProductType.AssetProduct)
+                                                    {
+                                                        pdfLinkBtn = "/" + shopcart.ThumbnailPath;
+                                                        imgToShowURL = "/" + shopcart.ThumbnailPath;
+                                                    }
+                                                    else if (!string.IsNullOrWhiteSpace(shopcart.Attatchment.FileName))
                                                     {
                                                         string ext = System.IO.Path.GetExtension(shopcart.Attatchment.FileName);
                                                         if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")

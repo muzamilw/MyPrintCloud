@@ -2054,6 +2054,7 @@ namespace MPC.Implementation.WebStoreServices
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
        public bool UpdateOderStatus(Estimate Estimate)
        {
@@ -2089,6 +2090,11 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
 >>>>>>> a185c3b17e3c940bafdf4c45fe8c13df2571d5b4
+=======
+       public long GetStoreIdByCustomerId(long CustomerId) 
+       {
+           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
+>>>>>>> f4c91836302c8f49680ba9b9478d8710b92ab21a
        }
     }
 }

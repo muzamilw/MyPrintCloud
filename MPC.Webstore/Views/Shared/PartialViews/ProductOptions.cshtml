@@ -1699,13 +1699,10 @@
     }
 
     function PromptQuestion(CostCentreId, ControlId, CostCentreType, Mode, QuantitySourceType, TimeSourceType) {
-        console.log("pq");
-        console.log(CostCentreId  + " " + ControlId+ " " + CostCentreType+ " " + Mode + " " + QuantitySourceType + " " + TimeSourceType);
+        
         var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
         if ($("#" + ControlId).is(':checked')) {
-            console.log("checked");
-       
-            console.log("Mode " + Mode);
+            
             var addModifyLinkToCCValue = 0;
 
             if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
@@ -1908,6 +1905,7 @@
             } else if (Mode == 1) {// This condition executes when we modify the selected cost centre
                 ShowLoader();
                 console.log(" This condition executes when we modify the selected cost centre");
+                console.log($("#costCentreQueueItems").val());
                 var to;
                 to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=Modify";
                 var options = {

@@ -13,7 +13,7 @@
     var Manager = ViewBag.Manager;
 
 }
-<div class="container">
+<div class="container" id="all-manageAssets-pg">
     <div class="assetHeadingContainer">
         <div class="float_left_simple manageAssetHeading">
             @Html.Raw(Html.GetKeyValueFromResourceFile("lblManageAsset", UserCookieManager.WBStoreId, "Digital Asset Management"))
@@ -745,6 +745,8 @@
             LoadFoldersForAddAssets();
             $("#AddFolderPanel").css("display", "block");
             $("#attachmentheading").css("display", "none");
+            $("#assetPopupBody").height(560);
+            $('#assetPopupBody').css("overflow-y", "scroll");
             $("#GridTable").css("display", "none");
             $("#GridTable").html("");
         }
@@ -1234,23 +1236,23 @@
 
                     if(Extension=='psd')
                     {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PS" style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
+                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PS" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
                     }
                     else if(Extension=='ai' || Extension=='ait' || Extension=='eps')
                     {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".A1" style="height:48px;width:48px" src="/Content/Images/PS.png"></button></a></div>')
+                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".A1" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
                     }
                     else if(Extension=='indd' || Extension=='ind' || Extension=='idml' || Extension=='indt' || Extension=='inxx')
                     {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".IND"  style="height:48px;width:48px" src="/Content/images/IND.png"></button></a></div>')
+                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".IND"  style="height:38px;width:38px" src="/Content/images/IND.png"></button></a></div>')
                     }
                     else if(Extension=='pdf')
                     {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PDF" style="height:48px;width:48px" src="/Content/images/PDF.png"></button></a></div>')
+                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PDF" style="height:38px;width:38px" src="/Content/images/PDF.png"></button></a></div>')
                     }
                     else
                     {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img title=".'+ Extension.toUpperCase() +'" style="height:48px;width:48px" src="/Content/images/text.gif"></button></a></div>')
+                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img title=".'+ Extension.toUpperCase() +'" style="height:38px;width:38px" src="/Content/images/text.gif"></button></a></div>')
                     }
 
                 }

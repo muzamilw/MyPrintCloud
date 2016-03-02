@@ -2824,7 +2824,7 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
                 SectionCostcentre SelectedtblISectionCostCenteres = null;
-
+                List<SectionCostcentre> CstCentresTobeRemoved = null;
                 if (SelectedtblItemSectionOne != null)
                 {
                     //Set or Update the paper Type stockid in the section #1
@@ -2833,8 +2833,11 @@ namespace MPC.Implementation.WebStoreServices
 
                     if (selectedAddonsList != null)
                     {
+                        CstCentresTobeRemoved = _ItemSectionCostCentreRepository.GetAllSectionCostCentres(SelectedtblItemSectionOne.ItemSectionId).Where(
+                            c =>  c.IsOptionalExtra == 1)
+                            .ToList();
                         // Remove previous Addons
-                        _ItemSectionCostCentreRepository.RemoveCostCentreOfFirstSection(SelectedtblItemSectionOne.ItemSectionId);
+                        //_ItemSectionCostCentreRepository.RemoveCostCentreOfFirstSection(SelectedtblItemSectionOne.ItemSectionId);
                         //db.SectionCostcentres.Where(
                         //    c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1)
                         //    .ToList()
@@ -2849,7 +2852,7 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
 
-                            SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
+                            SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter, CstCentresTobeRemoved);
                             SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
                             SelectedtblISectionCostCenteres.ItemSectionId = SelectedtblItemSectionOne.ItemSectionId;
                         
@@ -2862,6 +2865,11 @@ namespace MPC.Implementation.WebStoreServices
                             // SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
                             _ItemSectionCostCentreRepository.Add(SelectedtblISectionCostCenteres);
                         }
+                        foreach (SectionCostcentre cc in CstCentresTobeRemoved) 
+                        {
+                            _ItemSectionCostCentreRepository.Delete(cc);
+                        }
+                       
                     }
                 }
 
@@ -2889,7 +2897,7 @@ namespace MPC.Implementation.WebStoreServices
 
 
         }
-        private SectionCostcentre PopulateTblSectionCostCenteres(AddOnCostsCenter addOn)
+        private SectionCostcentre PopulateTblSectionCostCenteres(AddOnCostsCenter addOn, List<SectionCostcentre> listOfAlreadyAddedCC)
         {
             try
             {
@@ -2899,11 +2907,26 @@ namespace MPC.Implementation.WebStoreServices
                     IsOptionalExtra = 1,
                     Qty1Charge = addOn.Qty1NetTotal,
                     Qty1NetTotal = addOn.Qty1NetTotal,
-                    Qty1WorkInstructions = addOn.CostCentreDescription,
+                   // Qty1WorkInstructions = addOn.CostCentreDescription,
                     Qty2WorkInstructions = addOn.CostCentreJsonData,
                     Name = addOn.AddOnName
                 };
-
+                if (string.IsNullOrEmpty(addOn.CostCentreDescription)) 
+                {
+                    SectionCostcentre CCAlreadyExist = listOfAlreadyAddedCC.Where(c => c.CostCentreId == addOn.CostCenterID).FirstOrDefault();
+                    if (CCAlreadyExist != null)
+                    {
+                        tblISectionCostCenteres.Qty1WorkInstructions = CCAlreadyExist.Qty1WorkInstructions;
+                    }
+                    else 
+                    {
+                        tblISectionCostCenteres.Qty1WorkInstructions = addOn.CostCentreDescription;
+                    }
+                }
+                else
+                {
+                    tblISectionCostCenteres.Qty1WorkInstructions = addOn.CostCentreDescription;
+                }  
                 return tblISectionCostCenteres;
             }
             catch (Exception ex)
