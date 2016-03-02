@@ -2050,6 +2050,7 @@ namespace MPC.Implementation.WebStoreServices
            return _ReportRepository.GetReportIdByName(ReportName);
        
        }
+<<<<<<< HEAD
 
        public bool UpdateOderStatus(Estimate Estimate)
        {
@@ -2065,6 +2066,11 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _orderrepository.UpdateOrderAndItemsForRejectOrder(OrderId, CartOrderId);
        
+=======
+       public long GetStoreIdByCustomerId(long CustomerId) 
+       {
+           return _CompanyRepository.GetStoreIdByCustomerId(CustomerId);
+>>>>>>> a185c3b17e3c940bafdf4c45fe8c13df2571d5b4
        }
     }
 }

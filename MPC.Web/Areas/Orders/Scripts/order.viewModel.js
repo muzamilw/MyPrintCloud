@@ -1619,7 +1619,7 @@ define("order/order.viewModel",
                     },
                     //Get Order Tab Changed Event
                     getOrdersOnTabChange = function (currentTab) {
-
+                        currentScreen(currentTab);
                         if (isEstimateScreen()) {
 
                             pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
@@ -1643,7 +1643,8 @@ define("order/order.viewModel",
                     // Get Orders
                     getOrders = function (currentTab) {
                         isLoadingOrders(true);
-                        currentScreen(currentTab);
+                        if (currentTab != undefined)
+                            currentScreen(currentTab);
                         dataservice.getOrders({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
@@ -2467,7 +2468,7 @@ define("order/order.viewModel",
                                 var uniqueNotes = [];
                                 _.each(raisedList, function (item) {
                                     var uniqueNote = _.find(uniqueNotes, function (raisedItem) {
-                                        return (raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId());
+                                        return (raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId() && raisedItem.deliveryDate() === item.deliveryDate());
                                     });
                                     if (uniqueNote == undefined) {
                                         item.shippingDetails.push({Description: item.itemName()});
@@ -2485,7 +2486,7 @@ define("order/order.viewModel",
                                 var deliveryNotesList = [];
                                 if (uniqueNotes.length > 0) {
                                     _.each(uniqueNotes, function(note) {
-                                        var dbNotes = createNewDeliveryNote(selectedOrder(), note.carrierId(), note.addressId(), note.consignmentNumber(), note.shippingDetails());
+                                        var dbNotes = createNewDeliveryNote(selectedOrder(), note, note.shippingDetails());
                                         if (dbNotes != undefined)
                                             deliveryNotesList.push(dbNotes);
                                     });
@@ -2538,10 +2539,10 @@ define("order/order.viewModel",
                         
                         
                     },
-                    createNewDeliveryNote = function(order, carrierId, addressId, consignNo, scheduls) {
+                    createNewDeliveryNote = function(order, note, scheduls) {
                         var deliveryNote = {
                             DeliveryNoteId: 0,
-                            DeliveryDate: moment(order.finishDeliveryDate()).format(ist.utcFormat),
+                            DeliveryDate: moment(note.deliveryDate()).format(ist.utcFormat),
                             ContactCompany: order.companyName(),
                             OrderReff: order.orderCode(),
                             IsStatus: 19,
@@ -2549,10 +2550,10 @@ define("order/order.viewModel",
                             CompanyId: order.companyId(),
                             Comments: order.headNotes(),
                             ContactId: order.contactId(),
-                            AddressId: addressId,
-                            SupplierId: carrierId,
+                            AddressId: note.addressId(),
+                            SupplierId: note.carrierId(),
                             OrderId: order.id(),
-                            CsNo: consignNo,
+                            CsNo: note.consignmentNumber(),
                             RaisedBy: loggedInUser(),
                             DeliveryNoteDetails: []
                         };
@@ -2657,7 +2658,8 @@ define("order/order.viewModel",
                     // Get Estimates
                     getEstimates = function (currentTab) {
                         isLoadingOrders(true);
-                        currentScreen(currentTab);
+                        if (currentTab != undefined)
+                            currentScreen(currentTab);
                         dataservice.getEstimates({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
@@ -3405,7 +3407,7 @@ define("order/order.viewModel",
                     //Initialize Estimate
                         initializeEstimate = function (specifiedView) {
                             initializeScreen(specifiedView);
-                            pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
+                            pager(new pagination.Pagination({ PageSize: 10 }, orders, getEstimates));
                             isEstimateScreen(true);
                             var estimateIdFromOrderScreen = $('#OrderId').val();
                             if (estimateIdFromOrderScreen != 0) {

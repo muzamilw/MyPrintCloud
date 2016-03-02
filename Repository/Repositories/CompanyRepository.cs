@@ -7048,8 +7048,37 @@ namespace MPC.Repository.Repositories
 
             }
         }
-      
-        
+
+        public long GetStoreIdByCustomerId(long CustomerId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = true;
+                db.Configuration.ProxyCreationEnabled = true;
+                Company oCompany = db.Companies.Where(c => c.CompanyId == CustomerId).FirstOrDefault();
+                if (oCompany != null && oCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                {
+                    return oCompany.CompanyId;
+                }
+                else if (oCompany != null)
+                {
+                    return oCompany.StoreId ?? 0; 
+                }
+                else 
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+            //db.Configuration.LazyLoadingEnabled = false;
+            //db.Configuration.ProxyCreationEnabled = false;
+            // return db.Companies.Include("CompanyDomains").Include("CmsOffers").Include("MediaLibraries").Include("CompanyBannerSets").Include("CompanyBannerSets.CompanyBanners").Include("CmsPages").Include("RaveReviews").Include("CompanyTerritories").Include("Addresses").Include("CompanyContacts").Include("ProductCategories").Include("Items").Include("Items.ItemSections").Include("Items.ItemSections.SectionCostcentres").Include("Items.ItemSections.SectionCostcentres.SectionCostCentreResources").Include("PaymentGateways").Include("CmsSkinPageWidgets").Include("CompanyCostCentres").Include("CompanyCMYKColors").FirstOrDefault(c => c.CompanyId == companyId);
+
+        }
 
         #region ExportStoreZip
 

@@ -11,6 +11,7 @@ namespace MPC.Models.DomainModels
         public string ColorM { get; set; }
         public string ColorY { get; set; }
         public string ColorK { get; set; }
+        public long? TerritoryId { get; set; }
         public virtual Company Company{ get; set; }
 
 

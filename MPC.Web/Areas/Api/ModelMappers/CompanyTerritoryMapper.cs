@@ -16,7 +16,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TerritoryName = source.TerritoryName,
                 CompanyId = source.CompanyId,
                 TerritoryCode = source.TerritoryCode,
-                isDefault = source.isDefault
+                isDefault = source.isDefault,
+                IsUseTerritoryColor = source.IsUseTerritoryColor
             };
         }
         /// <summary>
@@ -31,6 +32,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 TerritoryCode = source.TerritoryCode,
                 isDefault = source.isDefault,
+                IsUseTerritoryColor = source.IsUseTerritoryColor,
                 ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
             };
 
