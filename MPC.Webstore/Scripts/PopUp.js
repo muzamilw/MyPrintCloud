@@ -26,7 +26,7 @@
    
     document.getElementById("innerLayer").style.height = "116px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -61,7 +61,7 @@
     document.getElementById("innerLayer").style.width = "500px";
     document.getElementById("innerLayer").style.height = "170px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -91,7 +91,7 @@ function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID, CategoryId) {
     document.getElementById("innerLayer").style.width = "500px";
     document.getElementById("innerLayer").style.height = "170px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -127,7 +127,7 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
     
     document.getElementById("innerLayer").style.height = "116px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
     
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -189,7 +189,7 @@ function ShowLoader() {
    // document.getElementById("innerLayer").style.height = "25px";
 
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -256,7 +256,7 @@ function ShowArtWorkPopup(Type, panelHtml) {
     document.getElementById("innerLayer").style.border = "6px solid darkgray";
     
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -428,7 +428,7 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
 
     document.getElementById("innerLayer").style.width = "730px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -511,7 +511,7 @@ function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, S
 
     document.getElementById("innerLayer").style.width = "730px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -735,7 +735,7 @@ function ShowOrderingPolicyPopUp(title, Tvalue) {
     document.getElementById("innerLayer").style.width = "500px";
    // document.getElementById("innerLayer").style.height = "170px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -763,7 +763,7 @@ function ShowRejectionOrderPopUp(title, Tvalue) {
     document.getElementById("innerLayer").style.width = "500px";
     // document.getElementById("innerLayer").style.height = "170px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
 
     document.getElementById("innerLayer").style.height = "280px";
@@ -795,7 +795,7 @@ function ShowRejectionPopUpOrderHistory(title, Tvalue) {
     document.getElementById("innerLayer").style.width = "500px";
     // document.getElementById("innerLayer").style.height = "170px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
 
     document.getElementById("innerLayer").style.height = "280px";
@@ -843,7 +843,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 
 
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "999999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -884,7 +884,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 
 
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -925,7 +925,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 
 
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -963,7 +963,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 
         document.getElementById("innerLayer").style.height = "116px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -991,7 +991,7 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.width = "500px";
         document.getElementById("innerLayer").style.height = "170px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1018,7 +1018,7 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.width = "500px";
         document.getElementById("innerLayer").style.height = "170px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1046,7 +1046,7 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.width = "500px";
         document.getElementById("innerLayer").style.height = "170px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1070,7 +1070,7 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.width = "500px";
         // document.getElementById("innerLayer").style.height = "170px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1098,7 +1098,7 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.width = "500px";
         document.getElementById("innerLayer").style.height = "187px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1123,7 +1123,7 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.width = "500px";
         document.getElementById("innerLayer").style.height = "170px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1149,7 +1149,7 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.height = "50px";
 
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
         document.getElementById("innerLayer").style.borderRadius = "5px";
 
         document.getElementById("layer").style.display = "block";
@@ -1417,7 +1417,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 
         document.getElementById("innerLayer").style.height = "116px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1572,7 +1572,7 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("innerLayer").style.width = "500px";
         document.getElementById("innerLayer").style.height = "170px";
         document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("innerLayer").style.zIndex = "999999";
 
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
