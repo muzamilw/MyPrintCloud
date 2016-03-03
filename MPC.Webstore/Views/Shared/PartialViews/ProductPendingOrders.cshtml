@@ -527,6 +527,27 @@
 
 
                                     //});
+                                } else if (IT.OtherItemAttatchments.length > 0) {
+
+                                    $(IT.OtherItemAttatchments).each(function (i, otherAttachVal) {
+                                        var OtherAttachFileName = otherAttachVal.FileName;
+                                        while (OtherAttachFileName.indexOf(" ") > 0) {
+                                            OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                        }
+                                        if (ItemAttachId == 0) {
+                                            ItemAttachId = IT.OtherItemAttatchments[i].ItemAttachmentId;
+
+                                            filePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                        }
+                                        //if (otherAttachVal.FileName == IT.Attatchment._fileName) {
+                                        //} else {
+
+
+                                        var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                        otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="" data-id=' + ItemAttachId + ' rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                        //}
+
+                                    });
                                 }
                             } else if (IT.OtherItemAttatchments.length > 0) {
 
