@@ -520,7 +520,7 @@
             success: function (response) {
 
                 createCookie("WEBOrderId", response);
-                window.location.href = "/ShopCart";
+                window.location.href = "/ShopCart?Orderid="+response+"";
             }
         });
     }
@@ -547,7 +547,7 @@
 
         var Po=$("#txtOrderRefrence").val();
         window.open(window.location.protocol + "//" + window.location.host + "/mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status);
-
+       
         //window.location.href = "http://staging.myprintcloud.com/mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status;
         @*$.get("mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status, function (DT) {
 
