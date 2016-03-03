@@ -82,13 +82,13 @@
                                     <input type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lrlGo", UserCookieManager.WBStoreId, "Go"))" id="btnSearchOrders" class="order_history_btn rounded_corners5" />
                                 </div>
                                 <div class="search-order-clear" style="">
-                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
+                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="GoBack();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
-                               @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
+                                @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
                                 {
-                                <div class="search-order-clear" style="">
-                                    <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
-                                </div>
+                                    <div class="search-order-clear" style="">
+                                        <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
+                                    </div>
                                 }
                                 <div class="clearBoth">
 
@@ -145,7 +145,7 @@
 
           }
 
-                                                                                               )
+                                                                                                        )
 
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
@@ -520,7 +520,7 @@
             success: function (response) {
 
                 createCookie("WEBOrderId", response);
-                window.location.href = "/ShopCart";
+                window.location.href = "/ShopCart?Orderid="+response+"";
             }
         });
     }
@@ -872,5 +872,9 @@
         }
         else var expires = "";
         document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    function GoBack()
+    {
+        window.location.href = "/ProductOrderHistory";
     }
 </script>

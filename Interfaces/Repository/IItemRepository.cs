@@ -17,6 +17,7 @@ namespace MPC.Interfaces.Repository
         /// Get Items With Details
         /// </summary>
         /// 
+        bool UpdateItemsStatus(long EstimateId);
         bool typeFourItemsStatus(long OrderID);
         long TotalProductTypeFourItems(long OrderId);
         long OtherTheTypeFourItems(long OrderId);
