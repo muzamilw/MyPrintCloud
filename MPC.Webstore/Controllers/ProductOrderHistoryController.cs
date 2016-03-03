@@ -158,44 +158,44 @@ namespace MPC.Webstore.Controllers
           
             if (OrderType == "ReOrder")
             {
-                if (Estimate.StatusId == Convert.ToInt16(OrderStatus.RejectOrder))
-                {
+                //if (Estimate.StatusId == Convert.ToInt16(OrderStatus.RejectOrder))
+                //{
 
-                  bool Result=  _CompanyService.UpdateOderStatus(Estimate);
+                //  bool Result=  _CompanyService.UpdateOderStatus(Estimate);
 
-                  if (Result)
-                  {
+                //  if (Result)
+                //  {
 
-                      bool ItemResult = _CompanyService.UpdateItemsStatus(OrderId);
+                //      bool ItemResult = _CompanyService.UpdateItemsStatus(OrderId);
 
 
-                      if (ItemResult)
-                      {
-                          if (UserCookieManager.WEBOrderId == 0)
-                          {
-                              if (_myClaimHelper.loginContactID() > 0) // is user logged in
-                              {
-                                  UserCookieManager.WEBOrderId = _orderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
-                              }
-                          }
-                         bool FinalResult= _CompanyService.UpdateOrderAndItemsForRejectOrder(OrderId, UserCookieManager.WEBOrderId);
+                //      if (ItemResult)
+                //      {
+                //          if (UserCookieManager.WEBOrderId == 0)
+                //          {
+                //              if (_myClaimHelper.loginContactID() > 0) // is user logged in
+                //              {
+                //                  UserCookieManager.WEBOrderId = _orderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                //              }
+                //          }
+                //         bool FinalResult= _CompanyService.UpdateOrderAndItemsForRejectOrder(OrderId, UserCookieManager.WEBOrderId);
 
-                         if (FinalResult)
-                         {
-                             UserCookieManager.WEBOrderId = OrderId;
-                         }
+                //         if (FinalResult)
+                //         {
+                //             UserCookieManager.WEBOrderId = OrderId;
+                //         }
 
-                      }
-                  }
+                //      }
+                //  }
 
-                }
-                else
-                {
+                //}
+                //else
+                //{
                     long UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                     UserCookieManager.WEBOrderId = UpdatedOrder;
 
                     return Json(UserCookieManager.WEBOrderId, JsonRequestBehavior.DenyGet);
-                }
+              //  }
             }
 
             if (OrderType == "Download")
