@@ -484,10 +484,30 @@
                                                     </div>
                                                     <div class="form-group ">
                                                         <div class="col-lg-4 text-right">
-                                                            <label for="txtBAredd" class="control-label text-right tooltip-float">Address</label>
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
+                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>*@
+
+                                                            <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address 1</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAredd" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined && $root.selectedBussinessAddress().addressName() != undefined ? $root.selectedBussinessAddress().addressName():''">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().address1() != undefined ? $root.selectedShippingAddress().address1():''">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
+                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>*@
+
+                                                            <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address 2</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().address2() != undefined ? $root.selectedShippingAddress().address2():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -506,6 +526,14 @@
                                                             <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().stateName() != undefined ? $root.selectedBussinessAddress().stateNamenCode():''">
                                                         </div>
                                                     </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            <label for="txtBAddState" class="control-label text-right tooltip-float">Country</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().countryName() != undefined ? $root.selectedBussinessAddress().countryName():''">
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-lg-6">
@@ -519,10 +547,30 @@
                                                     </div>
                                                     <div class="form-group ">
                                                         <div class="col-lg-4 text-right">
-                                                            <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address</label>
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
+                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>*@
+
+                                                            <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address 1</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().addressName() != undefined ? $root.selectedShippingAddress().addressName():''">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().address1() != undefined ? $root.selectedShippingAddress().address1():''">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
+                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>*@
+
+                                                            <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address 2</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().address2() != undefined ? $root.selectedShippingAddress().address2():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -539,6 +587,14 @@
                                                         </div>
                                                         <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().stateName() != undefined ? $root.selectedShippingAddress().stateNamenCode():''">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            <label for="txtBAddState" class="control-label text-right tooltip-float">Country</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().countryName() != undefined ? $root.selectedShippingAddress().countryName():''">
                                                         </div>
                                                     </div>
                                                 </div>

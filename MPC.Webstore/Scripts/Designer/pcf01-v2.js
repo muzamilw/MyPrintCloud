@@ -1098,7 +1098,7 @@ function d5(pageID, isloading) {
     c2_v2();
     c2_v2();
     d5_sub(pageID, isloading);
-  
+    removeSelectedPage(pageID);
 }
 function d5_sub(pageID, isloading) {
     SP = pageID;
@@ -2255,14 +2255,6 @@ function fu07(is2ndLoad) {
                 pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">' + ite.PageName + '</a></li>';
             } else {
                 var html = "";
-                //if (false) //!isLandScapeBC
-                //{
-                //     html = '<div class="MultiBackPageLS MultiBackPageLS-type-zoom"> <a class="MultiBackPageLS-hover" '+
-                //        'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPageLS-info"> <div class="headline"> ' +
-                //         ite.PageName + '<div class="line"></div> <div class="date"> </div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPageLS-img">' +
-                //         '<img src="' + baseUrl + 'p'+ite.PageNo+'.png" alt="" class="MultiBackPageLS-ActlImg" /></div> </div>';
-                //} else 
-                //{
                 var textVale = "Disabled";
                 if (ite.IsPrintable == false) {
                     textVale = "Enable";
@@ -2272,7 +2264,6 @@ function fu07(is2ndLoad) {
                         'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPage-info"> <div class="headline"> ' +
                         ite.PageName + '<div class="line"></div> <div class="date"> <button class=" MultiBack-Btn mbButton' + ite.ProductPageID + '" onClick="togglePage(' + ite.ProductPageID + ')">' + textVale + '</button></div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPage-img">' +
                         '<img src="' + baseUrl + 'p' + ite.PageNo + '.jpg" alt="" class="MultiBackPage-ActlImg" id="MbImg' + ite.ProductPageID + '" /></div> </div>';
-                //}
                 $('.multiBackCarouselLayer').append(html);
                     
             }
@@ -2314,7 +2305,41 @@ function fu07(is2ndLoad) {
         }
     });
 
-    $("#documentMenu").css("left",(( $(".canvasPageMenu").width() / 2) -50) + "px");
+    $("#documentMenu").css("left", (($(".canvasPageMenu").width() / 2) - 50) + "px");
+    buildUnReadPages();
+}
+function buildUnReadPages() {
+    $.each(TO, function (i, IT) {
+        if (IT.ObjectType == 8 || IT.ObjectType == 12) {
+            unloadedPageList.push(IT.ProductPageId);
+        }
+    });
+}
+function checkUnreadPages() {
+    if (IsCalledFrom == 2)
+        return false;
+    if (unloadedPageList.length > 0)
+        return true;
+    else
+        return false;
+}
+function reviewUnreadPagesNotification() {
+    var text = "Please review";
+    $.each(unloadedPageList, function (i, page) {
+        $.each(TP, function (i, IT) {
+            if (IT.ProductPageId == page) {
+                text += " " + IT.PageName + ",";
+            }
+        });
+    });
+    text += " in order to continue";
+    toastr.warning(text);
+    d5(unloadedPageList[0],false);
+}
+function removeSelectedPage(page) {
+    unloadedPageList = $.grep(unloadedPageList, function (n, i) {
+        return (n != page);
+    });
 }
 function togglePage(pId) {
     $.each(TP, function (i, IT) {

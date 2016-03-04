@@ -1031,17 +1031,20 @@ $('#btnReplaceImage').click(function () {
 
 });
 $('#editorLogo').click(function () {
-    if (smartFormClicked) {
-        StartLoader("Generating artwork for approval");
-        //   parent.Next(); // webstore caller function
-        fu12("preview", $("#txtTemplateTitle").val());
-        return false;
-    } else 
-    {
-        $(".messageSmartForm").css("display", "block");
-        $("#Quick").click();
-        //alert("Please merge smart form details into template before you continue !");
-        return false;
+    if (!checkUnreadPages()) {
+        if (smartFormClicked) {
+            StartLoader("Generating artwork for approval");
+            //   parent.Next(); // webstore caller function
+            fu12("preview", $("#txtTemplateTitle").val());
+            return false;
+        } else {
+            $(".messageSmartForm").css("display", "block");
+            $("#Quick").click();
+            //alert("Please merge smart form details into template before you continue !");
+            return false;
+        }
+    } else {
+        reviewUnreadPagesNotification();
     }
 });
 //$('.mainLeftMenu li').click(function () {

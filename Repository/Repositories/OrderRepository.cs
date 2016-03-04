@@ -2089,6 +2089,7 @@ namespace MPC.Repository.Repositories
                             DeliveryDate = tblOrd.StartDeliveryDate,
                             YourRef = tblOrd.CustomerPO,
                             ClientStatusID = tblOrd.ClientStatus,
+                            RejectionReason = tblOrd.RejectionReason,
                             // SOrderDate =tblOrd.Order_Date.HasValue?tblOrd.Order_Date.Value.ToString("MMMM dd, yyyy"):string.Empty, // FormatDateValue(tblOrd.Order_Date),
                             // SOrderDeliveryDate = tblOrd.StartDeliveryDate.HasValue? tblOrd.StartDeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty,
                             // ClientStatusName=tblStatuses.StatusName;
@@ -2675,7 +2676,8 @@ namespace MPC.Repository.Repositories
                             YourRef = tblOrd.CustomerPO,
                             CustomerName = tblContacts.FirstName,
                             TerritoryId = tblContacts.TerritoryId ?? 0,
-                            CompanyName = tblcompany.Name
+                            CompanyName = tblcompany.Name,
+                            RejectionReason=tblOrd.RejectionReason
                         };
 
             // filter list by status
@@ -2807,7 +2809,7 @@ namespace MPC.Repository.Repositories
             return ordersList;
         }
 
-        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "")
+        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID,string RejectionReason, string BrokerPO = "")
         {
             long result = 0;
             Estimate tblOrder = null;
@@ -2827,6 +2829,11 @@ namespace MPC.Repository.Repositories
                     tblOrder.StatusId = orderStatusID;
 
                     tblOrder.OrderManagerId = OrdermangerID;
+                    tblOrder.RejectionReason = RejectionReason;
+
+                    db.Estimates.Attach(tblOrder);
+
+                    db.Entry(tblOrder).State = EntityState.Modified;
 
                     if (db.SaveChanges() > 0)
                     {
@@ -7144,7 +7151,53 @@ namespace MPC.Repository.Repositories
                  throw ex;
             }
         }
-       
+
+
+        public bool UpdateOderStatus(Estimate Estimate)
+        {
+
+            bool Result = false;
+
+            Estimate GetOrder = db.Estimates.Where(i => i.EstimateId == Estimate.EstimateId).FirstOrDefault();
+
+            GetOrder.StatusId = (int)OrderStatus.ShoppingCart;
+
+            db.Estimates.Attach(GetOrder);
+
+            db.Entry(GetOrder).State = EntityState.Modified;
+
+            if (db.SaveChanges() > 0)
+            {
+                Result = true;
+            }
+            return Result;
+        }
+
+        public bool UpdateOrderAndItemsForRejectOrder(long OrderId,long CartOrderId)
+        {
+            bool Result = false;
+            List<Item> ItemList = db.Items.Where(i => i.EstimateId == CartOrderId).ToList();
+            if (ItemList.Count > 0)
+            {
+                foreach (Item item in ItemList)
+                {
+                    item.EstimateId = OrderId;
+
+                    db.Items.Attach(item);
+
+                    db.Entry(item).State = EntityState.Modified;
+                    
+                }
+
+                if (db.SaveChanges() > 0)
+                {
+                    Result = true;
+
+                    DeleteOrderById(CartOrderId);
+                }
+            }
+            return Result;
+        }
     }
 }
 
