@@ -218,3 +218,4 @@ function restrictControls() {
 var difFound = false;
 var reArrangeAttempted = false;
 var oldPageId = 0;
+var unloadedPageList = [];
