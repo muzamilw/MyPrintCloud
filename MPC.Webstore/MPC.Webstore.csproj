@@ -632,6 +632,7 @@
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
+    <Content Include="Content\Designer\toastr.min.css" />
     <Content Include="Content\download.png" />
     <Content Include="Content\EazyPrint.css" />
     <Content Include="Content\ErrorPage.css" />
@@ -930,6 +931,7 @@
     <Content Include="Scripts\cbpHorizontalSlideOutMenu.min.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
     <Content Include="Scripts\Designer\p64test-1.4.js" />
+    <Content Include="Scripts\Designer\toastr.min.js" />
     <Content Include="Scripts\eazyresponsive-nav.js" />
     <Content Include="Scripts\FeedEk.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
