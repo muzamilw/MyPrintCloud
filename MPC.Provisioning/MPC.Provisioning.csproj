@@ -289,8 +289,12 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Content\languages\en-US\LanguageResource.resx" />
-    <EmbeddedResource Include="Content\languages\fr-FR\LanguageResource.resx" />
+    <EmbeddedResource Include="Content\languages\en-US\LanguageResource.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\languages\fr-FR\LanguageResource.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

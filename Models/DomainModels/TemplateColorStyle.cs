@@ -19,6 +19,7 @@ namespace MPC.Models.DomainModels
         public string ColorHex { get; set; }
         public bool? IsColorActive { get; set; }
         public long? CustomerId { get; set; }
+        public long? TerritoryId { get; set; }
 
         public virtual Template Template { get; set; }
         public virtual Company Company { get; set; }

@@ -10302,6 +10302,13 @@ alter table Organisation add DeliveryFootNote nvarchar(1500)
 alter table Organisation add PurchaseHeadNote nvarchar(1500)
 alter table Organisation add PurchaseFootNote nvarchar(1500)
 
+alter table estimate add RejectionReason varchar(max)
+
+alter table CompanyCMYKColor add TerritoryId bigint
+alter table TemplateColorStyle add TerritoryId bigint
+
+
+
 
 
 

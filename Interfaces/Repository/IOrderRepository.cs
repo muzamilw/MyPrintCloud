@@ -13,9 +13,11 @@ namespace MPC.Interfaces.Repository
 {
     public interface IOrderRepository : IBaseRepository<Estimate, long>
     {
+        bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId);
+        bool UpdateOderStatus(Estimate Estimate);
         void UpdateOrderForDel(Estimate Order);
         double? GetOrderTotalById(long OrderId);
-        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
+        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID,string RejectionReason, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover, long companyId);
         List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
 

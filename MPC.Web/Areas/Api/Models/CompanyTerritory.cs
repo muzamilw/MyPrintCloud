@@ -9,6 +9,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? CompanyId { get; set; }
         public string TerritoryCode { get; set; }
         public bool? isDefault { get; set; }
+        public bool? IsUseTerritoryColor { get; set; }
         public List<ScopeVariable> ScopeVariables { get; set; }
         //public ICollection<CompanyContact> CompanyContacts { get; set; }
     }

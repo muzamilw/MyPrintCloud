@@ -43,6 +43,7 @@ namespace MPC.Models.Common
         public string SOrderDate { get; set; }
         public string SOrderDeliveryDate { get; set; }
         public long TerritoryId { get; set;}
+        public string RejectionReason { get; set; }
     
     }
 }
