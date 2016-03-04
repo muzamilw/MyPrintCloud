@@ -1550,7 +1550,7 @@ define("common/itemDetail.viewModel",
                         if (!selectedSection().pressId()) {
                             toastr.info("Please Select Side 1 Press in order to get Cost Centers.");
                             return;
-                        } else if (selectedSection().isDoubleSided() && !selectedSection().pressIdSide2()) {
+                        } else if (selectedSection().isDoubleSided() && !selectedSection().pressIdSide2() && !selectedSection().isWorknTurn()) {
                             toastr.info("Please Select Side 2 Press in order to get Cost Centers.");
                             return;
                         } else if (selectedSection().numberUp() <= 0) {
@@ -1561,7 +1561,9 @@ define("common/itemDetail.viewModel",
                             toastr.info("Please select stock.");
                             return;
                         }
-                        
+                        if (selectedSection().isWorknTurn() && selectedSection().pressIdSide2() == undefined)
+                            selectedSection().pressIdSide2(selectedSection().pressId());
+                            
                         var currSec = selectedSection().convertToServerData();
                         if (currSec.SectionInkCoverages == null || currSec.SectionInkCoverages == undefined) {
                             currSec.SectionInkCoverages = [];

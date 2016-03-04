@@ -202,13 +202,13 @@
                             <td data-bind="text: $root.currencySymbol()+ ' ' + costPrice()"></td>
                             <td data-bind="visible: $root.selectedCostCenterCategory() == 1">                                
                                 <!--ko if:  $root.selectedQty() == 1-->
-                                <span data-bind="text: qty1()" />
+                                <span data-bind="text: $root.currencySymbol()+ ' ' + qty1()" />
                                     <!--/ko-->
                                     <!--ko if:  $root.selectedQty() == 2-->
-                                <span data-bind="text: qty2()" />
+                                <span data-bind="text: $root.currencySymbol()+ ' ' + qty2()" />
                                     <!--/ko-->
                                     <!--ko if:  $root.selectedQty() == 3-->
-                                <span data-bind="text: qty3()" />
+                                <span data-bind="text: $root.currencySymbol()+ ' ' + qty3()" />
                                     <!--/ko-->
                             </td>
                             @*<!--ko if:  $root.selectedQty() == 1-->

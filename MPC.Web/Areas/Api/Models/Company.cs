@@ -187,7 +187,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Color Pallete
         /// </summary>
         public List<ColorPallete> ColorPalletes { get; set; }
-
+        
         /// <summary>
         /// Cms Offers
         /// </summary>

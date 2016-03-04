@@ -356,6 +356,7 @@
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportParamController.cs" />
     <Compile Include="Areas\Api\Controllers\SpotColorController.cs" />
+    <Compile Include="Areas\Api\Controllers\TemplateFontController.cs" />
     <Compile Include="Areas\Api\Controllers\WidgetController.cs" />
     <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
@@ -580,6 +581,7 @@
     <Compile Include="Areas\Api\ModelMappers\SmartFormMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StockItemForDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateColorStyleMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\TemplateFontMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\usp_TotalEarnings_ResultMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\VariableExtensionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\VariableOptionMapper.cs" />
@@ -912,6 +914,8 @@
     <Compile Include="Areas\Api\Models\SystemVariablesResponse.cs" />
     <Compile Include="Areas\Api\Models\Template.cs" />
     <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
+    <Compile Include="Areas\Api\Models\TemplateFont.cs" />
+    <Compile Include="Areas\Api\Models\TemplateFontSearchResponse.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
     <Compile Include="Areas\Api\Models\UpdateCssRequest.cs" />
     <Compile Include="Areas\Api\Models\usp_TotalEarnings_Result.cs" />
@@ -2319,6 +2323,7 @@
     <Content Include="Areas\Settings\Views\Home\_MailChimpDetail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_OrderDeliveryNotes.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_Notes.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditTemplateFont.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

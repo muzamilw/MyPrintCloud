@@ -461,6 +461,19 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'Delete'
                     });
+                    // Define request to Get Template Fonts
+                    amplify.request.define('getTemplateFonts', 'ajax', {
+                        url: ist.siteUrl + '/Api/TemplateFont',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to save Template Font
+                    amplify.request.define('saveTemplateFont', 'ajax', {
+                        url: ist.siteUrl + '/Api/TemplateFont',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -1138,6 +1151,27 @@
                     data: param
                 });
             },
+            
+            //Template Fonts Requests
+            //Get Organisation Widgets
+            getTemplateFonts = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getTemplateFonts',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            saveTemplateFont = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveTemplateFont',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
 
         // save Store saveCustomWidget
         saveStore = function (param, callbacks) {
@@ -1217,7 +1251,9 @@
             archiveSpotColor: archiveSpotColor,
             getOrganisationWidgets: getOrganisationWidgets,
             saveCustomWidget: saveCustomWidget,
-            deleteCustomWidget: deleteCustomWidget
+            deleteCustomWidget: deleteCustomWidget,
+            getTemplateFonts : getTemplateFonts,
+            saveTemplateFont: saveTemplateFont
         };
     })();
 

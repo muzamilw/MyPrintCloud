@@ -19,7 +19,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
             specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy, specifiedReportSignedBy,
-            specifiedInvoiceStatus, specifiedStoreName, specifiedEstimateDate, specifiedUserNotes) {
+            specifiedInvoiceStatus, specifiedStoreName, specifiedEstimateDate, specifiedUserNotes, specifiedContactName) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -35,6 +35,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 companyId = ko.observable(specifiedCompanyId || undefined).extend({ required: true }),
                 // Company Name
                 companyName = ko.observable(specifiedCompanyName || undefined),
+                contactName = ko.observable(specifiedContactName || undefined),
                 // Number Of items
                 numberOfItems = ko.observable(specifiedNumberOfItems || 0),
                 // Number of Items UI
@@ -584,7 +585,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 hasDeletedItems: hasDeletedItems,
                 hasDeletedPrepayments: hasDeletedPrepayments,
                 hasDeletedDeliverySchedules: hasDeletedDeliverySchedules,
-                userNotes: userNotes
+                userNotes: userNotes,
+                contactName: contactName
             };
         },
 
@@ -848,7 +850,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.OrderCreationDateTime, source.OrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId,
-        source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus, source.StoreName, source.EstimateDate, source.UserNotes);
+        source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus, source.StoreName, source.EstimateDate, source.UserNotes, source.ContactName);
 
         estimate.statusId(source.StatusId);
         estimate.originalStatusId(source.StatusId);

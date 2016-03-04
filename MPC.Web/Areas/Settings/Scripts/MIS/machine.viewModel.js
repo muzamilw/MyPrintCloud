@@ -137,7 +137,7 @@ define("machine/machine.viewModel",
                                 success: function (data) {
                                     machineList.remove(oMachine);
                                     toastr.success(" Deleted Successfully !");
-
+                                    isEditorVisible(false);
                                 },
                                 error: function (response) {
                                     toastr.error("Failed to Delete Machine" + response);
@@ -355,6 +355,9 @@ define("machine/machine.viewModel",
 
                                 if (pagetype != null) {
                                     if (pagetype == 'press') {
+                                        if (selectedMachine().isPressUseInks() == undefined) {
+                                            selectedMachine().isPressUseInks(true);
+                                        }
 
                                         if(selectedMachine().isSheetFed() == true || selectedMachine().isSheetFed() == "true")
                                         {

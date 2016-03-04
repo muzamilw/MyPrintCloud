@@ -186,6 +186,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
                 CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
                 CompanyCostCentres = source.CompanyCostCentres != null ? (source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre.CostCentreDropDownCreateFrom()).ToList() : null : null) : null
+                //CompanyTemplateFonts = source.CompanyTemplateFonts != null ? source.CompanyTemplateFonts.Select(f => f.CreateFrom()).ToList() : null
             };
         }
         /// <summary>

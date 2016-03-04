@@ -15,7 +15,7 @@ namespace MPC.Implementation.MISServices
         private readonly IScopeVariableRepository scopeVariableRepository;
         private readonly ICompanyContactRepository companyContactRepository;
         private readonly IAddressRepository addressRepository;
-
+        private readonly ITemplateColorStylesRepository cmykColorRepository;
         //#region Private Methods
         private CompanyTerritory Create(CompanyTerritory companyTerritory)
         {
@@ -33,6 +33,15 @@ namespace MPC.Implementation.MISServices
                 }
                 scopeVariableRepository.SaveChanges();
             }
+            if (companyTerritory.TerritorySpotColors != null)
+            {
+                foreach (TemplateColorStyle spotColor in companyTerritory.TerritorySpotColors)
+                {
+                    spotColor.TerritoryId = companyTerritory.TerritoryId;
+                    cmykColorRepository.Add(spotColor);
+                }
+                cmykColorRepository.SaveChanges();
+            }
             return companyTerritory;
         }
 
@@ -44,6 +53,11 @@ namespace MPC.Implementation.MISServices
             if (companyTerritory.ScopeVariables != null)
             {
                 UpdateScopVariables(companyTerritory);
+            }
+            if (companyTerritory.TerritorySpotColors != null)
+            {
+                UpdateTerritorySpotColors(companyTerritory);
+                
             }
             companyTerritoryRepository.SaveChanges();
 
@@ -65,6 +79,32 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
+
+        private void UpdateTerritorySpotColors(CompanyTerritory territory)
+        {
+            foreach (TemplateColorStyle spotColor in territory.TerritorySpotColors)
+            {
+                if (spotColor.PelleteId <= 0)
+                {
+                    cmykColorRepository.Add(spotColor); 
+                }
+                else
+                {
+                    var spotColorDb = cmykColorRepository.Find(spotColor.PelleteId);
+                    if (spotColorDb != null)
+                    {
+                        spotColorDb.ColorC = spotColor.ColorC;
+                        spotColorDb.ColorM = spotColor.ColorM;
+                        spotColorDb.ColorY = spotColor.ColorY;
+                        spotColorDb.ColorK = spotColor.ColorK;
+                        spotColorDb.SpotColor = spotColor.SpotColor;
+                        spotColorDb.Name = spotColor.SpotColor;
+                        spotColorDb.CustomerId = spotColor.CustomerId;
+                    }
+                }
+            }
+            cmykColorRepository.SaveChanges();
+        }
         private void CheckCompanyTerritoryDefualt(CompanyTerritory companyTerritory)
         {
             if (companyTerritory.isDefault != null && companyTerritory.isDefault == true)
@@ -80,8 +120,8 @@ namespace MPC.Implementation.MISServices
         #endregion
         #region Constructor
 
-        public CompanyTerritoryService(ICompanyTerritoryRepository companyTerritoryRepository, IScopeVariableRepository scopeVariableRepository, 
-            ICompanyContactRepository companyContactRepository, IAddressRepository addressRepository)
+        public CompanyTerritoryService(ICompanyTerritoryRepository companyTerritoryRepository, IScopeVariableRepository scopeVariableRepository,
+            ICompanyContactRepository companyContactRepository, IAddressRepository addressRepository, ITemplateColorStylesRepository cmykColorRepository)
         {
             if (companyContactRepository == null)
             {
@@ -91,10 +131,15 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("addressRepository");
             }
+            if (cmykColorRepository == null)
+            {
+                throw new ArgumentNullException("cmykColorRepository");
+            }
             this.companyTerritoryRepository = companyTerritoryRepository;
             this.scopeVariableRepository = scopeVariableRepository;
             this.companyContactRepository = companyContactRepository;
             this.addressRepository = addressRepository;
+            this.cmykColorRepository = cmykColorRepository;
         }
         #endregion
         public CompanyTerritory Save(CompanyTerritory companyTerritory)

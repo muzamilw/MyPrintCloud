@@ -71,7 +71,9 @@ namespace MPC.Implementation.MISServices
                             StatusId = item.JobStatusId,
                             JobEstimatedCompletionDateTime = item.JobEstimatedCompletionDateTime,
                             Qty1NetTotal = item.Qty1NetTotal,
-                            OrderdItemsCount = estimate.Items.Count(i => i.ItemType != 2)
+                            OrderdItemsCount = estimate.Items.Count(i => i.ItemType != 2),
+                            OrderFlagColor = estimate.SectionFlag != null ? estimate.SectionFlag.FlagColor : string.Empty,
+                            OrderFlagTitle = estimate.SectionFlag != null ? estimate.SectionFlag.FlagName : string.Empty
                         };
                         itemForItemJobStatuses.Add(itemForItemJobStatus);
                     }
@@ -109,7 +111,9 @@ namespace MPC.Implementation.MISServices
                                 StatusId = item.JobEstimatedStartDateTime < DateTime.Now ? 1:2,   // 1 -> Late started  2-> Late delivery 
                                 JobEstimatedStartDateTime = item.JobEstimatedStartDateTime,
                                 JobEstimatedCompletionDateTime = item.JobEstimatedCompletionDateTime,
-                                Qty1NetTotal = item.Qty1NetTotal
+                                Qty1NetTotal = item.Qty1NetTotal,
+                                OrderFlagColor = estimate.SectionFlag != null ? estimate.SectionFlag.FlagColor : string.Empty,
+                                OrderFlagTitle = estimate.SectionFlag != null ? estimate.SectionFlag.FlagName : string.Empty
                             };
                             itemForItemJobStatuses.Add(itemForItemJobStatus);   
                         }

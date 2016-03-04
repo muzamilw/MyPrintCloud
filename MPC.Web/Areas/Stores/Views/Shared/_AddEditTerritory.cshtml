@@ -14,6 +14,7 @@
                                 <li class="active"><a href="#tab-TerritoryDetail" data-toggle="tab">Territory Detail</a></li>
                                 <li><a href="#tab-TerritoryVariables" data-toggle="tab">Territory Custom CRM defaults</a></li>
                                 <li><a href="#tab-TerritorySpotColors" data-toggle="tab">Spot Colors</a></li>
+                                <li><a href="#tab-TerritoryFonts" data-toggle="tab">Template Fonts</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="tab-TerritoryDetail">
@@ -94,7 +95,30 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-TerritorySpotColors">
-                                    <div class=" form-horizontal clearfix" style="min-height:175px; max-height:175px;overflow-y:scroll;" id="colorslist">
+                                    <div class="form-group" style="margin-bottom:11px;">
+                                        <div class="col-lg-2 text-right">
+                                            <label class="control-label text-right tooltip-float">Use Sport Colors</label>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <div class="col-lg-12" style="margin-left:-10px;">
+                                                <div class="radio">
+                                                    <input type="radio" name="optionRadioSpotColor" id="optionRadioStore" value="false" data-bind="checked: $root.isUseTerritoryColorUi">
+                                                    <label for="optionRadioStore">
+                                                        Store level
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <input type="radio" name="optionRadioSpotColor" id="optionRadioTerritory" value="true" data-bind="checked: $root.isUseTerritoryColorUi">
+                                                    <label for="optionRadioTerritory">
+                                                        Territory level (All store level spot colors will be overwritten to territory, then can be modified).
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class=" form-horizontal clearfix" style="min-height:175px; max-height:175px;overflow-y:scroll;" id="colorslist" data-bind="visible: isUseTerritoryColor() == 'true'">
                                         <div class="table-responsive">
                                             <table class="table table-striped table-hover">
                                                 <thead>
@@ -115,11 +139,57 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="btn-group" style="float: left; margin-top:10px; margin-bottom: 5px;">
+                                    <div class="btn-group" style="float: left; margin-top:10px; margin-bottom: 5px;" data-bind="visible: isUseTerritoryColor() == 'true'">
                                         <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewTerritorySpotcolor">Add New Spot Color</button>
                                     </div>
-                                    <div class="btn-group" style="float: left;  margin-left: 5px; margin-top:10px;margin-bottom: 5px;">
+                                    @*<div class="btn-group" style="float: left;  margin-left: 5px; margin-top:10px;margin-bottom: 5px;">
                                         <button type="button" class="btn btn-primary" data-bind="click : $root.copyGlobalColorsToTerritory">Overwrite Global Colors</button>
+                                    </div>*@
+                                </div>
+                                <div class="tab-pane fade" id="tab-TerritoryFonts">
+                                    <div class="form-group" style="margin-bottom:11px;">
+                                        <div class="col-lg-2 text-right">
+                                            <label class="control-label text-right tooltip-float">Use Template Fonts</label>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <div class="col-lg-12" style="margin-left:-10px;">
+                                                <div class="radio">
+                                                    <input type="radio" name="optionTemplateFont" id="optionFontStore" value="false" data-bind="checked: $root.isUseTerritoryFontUi">
+                                                    <label for="optionFontStore">
+                                                        Store level
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <input type="radio" name="optionTemplateFont" id="optionFontTerritory" value="true" data-bind="checked: $root.isUseTerritoryFontUi">
+                                                    <label for="optionFontTerritory">
+                                                        Territory level (All store level fonts will be overwritten to territory, then can be modified).
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class=" form-horizontal clearfix" style="min-height:175px; max-height:175px;overflow-y:scroll;" id="fontslist" data-bind="visible: $root.isUseTerritoryFontUi() == 'true'">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-4"><span>Font Name</span></th>
+                                                        <th class="col-lg-2"><span>Font File</span></th>
+                                                        <th class="col-lg-2"><span>Enable</span></th>
+                                                        <th class="col-lg-4"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- ko template: { name: 'fontsTemplateTerritory' , foreach: $root.selectedStore().territoryTemplateFonts } -->
+                                                    <!-- /ko -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group" style="float: left; margin-top:10px; margin-bottom: 5px;" data-bind="visible: $root.isUseTerritoryFontUi() == 'true'">
+                                        <button type="button" class="btn btn-primary">Add New Template Font</button>
                                     </div>
                                 </div>
 
@@ -193,4 +263,17 @@
         </td>
 
     </tr>
+</script>
+<script id="fontsTemplateTerritory" type="text/html">
+    <tr>
+        <td><a href="#" class="store-user-link" data-bind="text: fontName"></a></td>
+        <td data-bind="text:fontFile"></td>
+        <td>
+            <div class="type">
+                <span class="label label-success" data-bind="text: isEnable ? 'YES' : 'NO', css: { 'label-success': isEnable, 'label-danger': !isEnable() }">YES</span>
+            </div>
+        </td>
+        <td></td>
+    </tr>
+
 </script>

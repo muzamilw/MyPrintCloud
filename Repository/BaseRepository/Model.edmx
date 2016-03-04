@@ -696,6 +696,7 @@
           <Property Name="TerritoryCode" Type="varchar" MaxLength="200" />
           <Property Name="isDefault" Type="bit" />
           <Property Name="IsUseTerritoryColor" Type="bit" />
+          <Property Name="IsUserTerritoryFont" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyType">
           <Key>
@@ -3938,6 +3939,7 @@
           <Property Name="FontBytes" Type="image" />
           <Property Name="FontPath" Type="nvarchar(max)" />
           <Property Name="CustomerId" Type="bigint" />
+          <Property Name="TerritoryId" Type="bigint" />
         </EntityType>
         <EntityType Name="TemplateObject">
           <Key>
@@ -9624,6 +9626,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories" FromRole="CompanyTerritory" ToRole="CompanyContact" />
           <NavigationProperty Name="Addresses" Relationship="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" FromRole="CompanyTerritory" ToRole="Address" />
           <Property Name="IsUseTerritoryColor" Type="Boolean" />
+          <Property Name="IsUserTerritoryFont" Type="Boolean" />
         </EntityType>
         <EntityType Name="CompanyType">
           <Key>
@@ -12437,6 +12440,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="FontPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CustomerId" Type="Int64" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_ProductFonts_Products" FromRole="TemplateFont" ToRole="Template" />
+          <Property Name="TerritoryId" Type="Int64" />
         </EntityType>
         <Association Name="FK_ProductFonts_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -16837,6 +16841,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="CompanyTerritories">
             <EntityTypeMapping TypeName="DomainModels.CompanyTerritory">
               <MappingFragment StoreEntitySet="CompanyTerritory">
+                <ScalarProperty Name="IsUserTerritoryFont" ColumnName="IsUserTerritoryFont" />
                 <ScalarProperty Name="IsUseTerritoryColor" ColumnName="IsUseTerritoryColor" />
                 <ScalarProperty Name="isDefault" ColumnName="isDefault" />
                 <ScalarProperty Name="TerritoryCode" ColumnName="TerritoryCode" />
@@ -18815,6 +18820,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="TemplateFonts">
             <EntityTypeMapping TypeName="DomainModels.TemplateFont">
               <MappingFragment StoreEntitySet="TemplateFont">
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="FontPath" ColumnName="FontPath" />
                 <ScalarProperty Name="FontBytes" ColumnName="FontBytes" />

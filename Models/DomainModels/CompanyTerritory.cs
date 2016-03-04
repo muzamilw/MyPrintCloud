@@ -12,6 +12,7 @@ namespace MPC.Models.DomainModels
         public string TerritoryCode { get; set; }
         public bool? isDefault { get; set; }
         public bool? IsUseTerritoryColor { get; set; }
+        public bool? IsUserTerritoryFont { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
@@ -20,6 +21,10 @@ namespace MPC.Models.DomainModels
 
         [NotMapped]
         public IEnumerable<ScopeVariable> ScopeVariables { get; set; }
+        [NotMapped]
+        public List<TemplateColorStyle> TerritorySpotColors { get; set; }
+        [NotMapped]
+        public List<TemplateFont> TerritoryFonts { get; set; }
 
 
         #region public

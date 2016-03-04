@@ -71,6 +71,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsExtraOrder = source.IsExtraOrder,
                 EstimateDate = source.EstimateDate,
                 UserNotes = source.UserNotes,
+                ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : string.Empty,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).OrderBy(item => item.ProductName).ToList() :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count(i => i.ItemType != 2) : 0,
@@ -115,7 +116,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateTotal = source.Estimate_Total,
                 IsDirectSale = source.isDirectSale,
                 SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null,
-                OrderDate = source.Order_Date
+                OrderDate = source.Order_Date,
+                ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : string.Empty
             };
 
             return estimate;

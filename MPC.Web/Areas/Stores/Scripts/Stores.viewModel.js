@@ -1054,7 +1054,7 @@ define("stores/stores.viewModel",
                         return;
                     },
                     onEditCompanyTerritory = function(companyTerritory) {
-                        //selectedCompanyTerritory(companyTerritory);
+                       
                         companyTerritoryEditorViewModel.selectItem(companyTerritory);
                         isSavingNewCompanyTerritory(false);
                         if (selectedCompanyTerritory().territoryId() !== undefined && selectedStore().companyId() !== undefined) {
@@ -1062,13 +1062,28 @@ define("stores/stores.viewModel",
                             getCompanyContactVariableForEditContact(selectedCompanyTerritory().territoryId(), scope);
 
                         }
+                        getTerritoryTemplateFonts();
                         selectedCompanyTerritory().reset();
                         view.showCompanyTerritoryDialog();
                     },
-                    onCloseCompanyTerritory = function() {
-                        selectedCompanyTerritory(undefined);
-                        view.hideCompanyTerritoryDialog();
-                        isSavingNewCompanyTerritory(false);
+                    onCloseCompanyTerritory = function () {
+                        if (selectedCompanyTerritory().hasChanges()) {
+                            confirmation.messageText("WARNING - Do you want to save changes?");
+                            confirmation.afterProceed(function () {
+                                onSaveCompanyTerritory();
+                            });
+                            confirmation.afterCancel(function () {
+                                selectedCompanyTerritory(undefined);
+                                view.hideCompanyTerritoryDialog();
+                                isSavingNewCompanyTerritory(false);
+                            });
+                            confirmation.show();
+                        } else {
+                            selectedCompanyTerritory(undefined);
+                            view.hideCompanyTerritoryDialog();
+                            isSavingNewCompanyTerritory(false);
+                        }
+                        
                     },
                     //Do Before Save Company Territory
                     doBeforeSaveCompanyTerritory = function() {
@@ -1090,6 +1105,9 @@ define("stores/stores.viewModel",
                             _.each(selectedCompanyTerritory().scopeVariables(), function(item) {
                                 territory.ScopeVariables.push(item.convertToServerData(item));
                             });
+                            _.each(territorySpotColors(), function (item) {
+                                territory.TerritorySpotColors.push(item.convertToServerData(item));
+                            });
 
 
                             if (selectedStore().companyId() > 0) {
@@ -1102,6 +1120,14 @@ define("stores/stores.viewModel",
                                         success: function(data) {
                                             if (data) {
                                                 var savedTerritory = model.CompanyTerritory.Create(data);
+                                                if (territorySpotColors().length > 0) {
+                                                    selectedStore().companyTerritoryColors.removeAll(territorySpotColors());
+                                                    _.each(data.TerritorySpotColors, function (color) {
+                                                        var territoryColor = model.CompanyCMYKColor.Create(color);
+                                                        selectedStore().companyTerritoryColors.push(territoryColor);
+                                                    });
+                                                }
+
                                                 if (selectedCompanyTerritory().territoryId() <= 0 || selectedCompanyTerritory().territoryId() == undefined) {
                                                     selectedStore().companyTerritories.splice(0, 0, savedTerritory);
                                                     //Add territory in address drop down to use in saving address
@@ -1241,6 +1267,7 @@ define("stores/stores.viewModel",
                     selectedCompanyCMYKColor = companyCmykColoreditorViewModel.itemForEditing,
                     isSavingNew = ko.observable(false),
                     isTerritoryColor = ko.observable(false),
+                    isTerritoryFont = ko.observable(false),
                     // Template Chooser For Company CMYK Color
                     templateToUseCompanyCMYKColors = function(companyCMYKColor) {
                         return (companyCMYKColor === selectedCompanyCMYKColor() ? 'editCompanyCMYKColorTemplate' : 'itemCompanyCMYKColorTemplate');
@@ -1258,31 +1285,201 @@ define("stores/stores.viewModel",
                         var companyCMYKColor = new model.CompanyCMYKColor();
                         selectedCompanyCMYKColor(companyCMYKColor);
                         selectedCompanyCMYKColor().isActive(true);
+                        selectedCompanyCMYKColor().companyId(selectedStore().companyId());
                         selectedCompanyCMYKColor().territoryId(selectedCompanyTerritory().territoryId());
                         view.showCompanyCMYKColorDialog();
                         isSavingNew(true);
                         isTerritoryColor(true);
-                        selectedCompanyTerritory().hasChanges(true);
+                        selectedCompanyTerritory().hasColorChanges(true);
 
                     },
+                    isUseTerritoryColorUi = ko.computed({
+                        read: function () {
+                            if (selectedCompanyTerritory() == undefined)
+                                return 'false';
+                            return selectedCompanyTerritory().isUseTerritoryColor();
+                        },
+                        write: function (value) {
+                            var newVal = value;
+                            if (newVal === selectedCompanyTerritory().isUseTerritoryColor()) {
+                                return;
+                            }
+                            if (newVal == 'true') {
+                                copyGlobalColorsToTerritory();
+                            }
+                            selectedCompanyTerritory().isUseTerritoryColor(newVal);
+                        }
+                    }),
+                    isUseTerritoryFontUi = ko.computed({
+                        read: function () {
+                            if (selectedCompanyTerritory() == undefined)
+                                return 'false';
+                            return selectedCompanyTerritory().isUseTerritoryFont();
+                        },
+                        write: function (value) {
+                            var newVal = value;
+                            if (newVal === selectedCompanyTerritory().isUseTerritoryFont()) {
+                                return;
+                            }
+                            if (newVal == 'true') {
+                                copyGlobalFontsToTerritory();
+                            }
+                            selectedCompanyTerritory().isUseTerritoryFont(newVal);
+                        }
+                    }),
                     copyGlobalColorsToTerritory = function () {
-                        confirmation.messageText("WARNING - Are you sure you want to overwrite store spot colors to this territory?");
+                        confirmation.messageText("WARNING - Are you sure you want to overwrite store spot colors to the territory?");
                         confirmation.afterProceed(function () {
                             if (selectedStore().companyCMYKColors().length > 0) {
                                 selectedStore().companyTerritoryColors.removeAll(territorySpotColors());
-                                var copiedColors = [];
+                                var counter = -1;
                                 _.each(selectedStore().companyCMYKColors(), function (color) {
                                     var territoryColor = model.CompanyCMYKColor.CopyFromClientModel(color);
                                     territoryColor.territoryId(selectedCompanyTerritory().territoryId());
+                                    territoryColor.colorId(counter);
                                     selectedStore().companyTerritoryColors.push(territoryColor);
+                                    counter--;
                                 });
-                                //ko.utils.arrayPushAll(territorySpotColors, copiedColors);
-                                //territorySpotColors.valueHasMutated();
-                                selectedCompanyTerritory().hasChanges(true);
+                                confirmation.hide();
+                                selectedCompanyTerritory().isUseTerritoryColor('true');
                             }
+                        });
+                        confirmation.afterCancel(function () {
+                            selectedCompanyTerritory().isUseTerritoryColor('false');
                         });
                         confirmation.show();
                     },
+                    copyGlobalFontsToTerritory = function () {
+                        confirmation.messageText("WARNING - Are you sure you want to overwrite store fonts to the territory?");
+                        confirmation.afterProceed(function () {
+                            isTerritoryFont(false);
+                            getTemplateFonts(overwriteFontToTerritory);
+                            
+                        });
+                        confirmation.afterCancel(function () {
+                            selectedCompanyTerritory().isUseTerritoryFont('false');
+                        });
+                        confirmation.show();
+                    },
+                    overwriteFontToTerritory = function() {
+                        if (selectedStore().companyTemplateFonts().length > 0) {
+                            selectedStore().territoryTemplateFonts.removeAll();
+                            var counter = -1;
+                            _.each(selectedStore().companyTemplateFonts(), function (font) {
+                                var territoryFont = model.TemplateFont.CreateFromClient(font);
+                                territoryFont.territoryId(selectedCompanyTerritory().territoryId());
+                                territoryFont.customerId(selectedStore().companyId());
+                                selectedStore().territoryTemplateFonts.push(territoryFont);
+                                counter--;
+                            });
+                            selectedStore().territoryTemplateFonts.valueHasMutated();
+                            confirmation.hide();
+                            selectedCompanyTerritory().isUseTerritoryFont('true');
+                        }
+                    },
+                    
+                    //#region ----------------- Template Font-------------
+                    companyTemplateFontViewModel = new ist.ViewModel(model.TemplateFont),
+                    selectedCompanyTemplateFont = companyTemplateFontViewModel.itemForEditing,
+                    
+                    getStoreTemplateFonts = function() {
+                        isTerritoryFont(false);
+                        getTemplateFonts();
+                    },
+                    getTerritoryTemplateFonts = function () {
+                        isTerritoryFont(true);
+                        getTemplateFonts();
+                    },
+                    getTemplateFonts = function (callback) {
+                        var oId = isTerritoryFont() ? selectedCompanyTerritory().territoryId() : selectedStore().companyId();
+                        dataservice.getTemplateFonts({
+                            id: oId,
+                            isTerritory: isTerritoryFont() ? true : false
+                            },{
+                            success: function (data) {
+                                if (data != null) {
+                                    if (!isTerritoryFont()) {
+                                        selectedStore().companyTemplateFonts.removeAll();
+                                        _.each(data.TemplateFonts, function (item) {
+                                            var templateFont = model.TemplateFont.Create(item);
+                                            selectedStore().companyTemplateFonts.push(templateFont);
+                                        });
+                                    } else {
+                                        selectedStore().territoryTemplateFonts.removeAll();
+                                        _.each(data.TemplateFonts, function (item) {
+                                            var templateFont = model.TemplateFont.Create(item);
+                                            selectedStore().territoryTemplateFonts.push(templateFont);
+                                        });
+                                    }
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    }
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To load template fonts " + response, "", ist.toastrOptions);
+                            }
+                        });
+                    },
+                    onSaveCompanyTemplateFont = function() {
+                       if (dobeforeSaveTemplateFont()) {
+                           dataservice.saveTemplateFont(selectedCompanyTemplateFont().convertToServerData(), {
+                               success: function (data) {
+                                   if (data != null) {
+                                       if (!isTerritoryFont()) {
+                                           var currentFont = selectedStore().companyTemplateFonts.find(function (font) {
+                                               return font.productFontId() === data.ProductFontId;
+                                           });
+                                           if (currentFont != undefined) {
+                                               currentFont.fontName(data.FontName);
+                                               currentFont.isEnable(data.IsEnable);
+                                               currentFont.fontFile(data.FontFile);
+                                           }
+                                               
+                                       } else {
+                                           
+                                       }
+                                       
+                                   }
+                                   view.hideCompanyTemplateFontDialog();
+                               },
+                               error: function (response) {
+                                   toastr.error("Error: Failed to save template font " + response, "", ist.toastrOptions);
+                               }
+                           });
+                       }
+                    },
+                    onCloseCompanyTemplateFont = function () {
+                        view.hideCompanyTemplateFontDialog();
+                    },
+                    dobeforeSaveTemplateFont = function() {
+                        var flag = true;
+                        if (!selectedCompanyTemplateFont().isValid()) {
+                            selectedCompanyCMYKColor().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    uploadTtf = function () {
+                        setFileNameEmpty();
+
+                    },
+                    uploadEot = function () {
+                        setFileNameEmpty();
+                    },
+                    uploadWof = function () {
+                        setFileNameEmpty();
+                    },
+                    setFileNameEmpty = function() {
+                        selectedCompanyTemplateFont().fontFileTtf(undefined);
+                        selectedCompanyTemplateFont().fontNameEot(undefined);
+                        selectedCompanyTemplateFont().fontNameWof(undefined);
+                    },
+                     onEditTemplateFont = function (templateFont) {
+                         isTerritoryFont(false);
+                         companyTemplateFontViewModel.selectItem(templateFont);
+                         view.showCompanyTemplateFontDialog();
+                     },
                     
                     // Get Company CMYK Colors By Id
                     getCompanyCMYKColorsByIdFromListView = function(id) {
@@ -1403,7 +1600,7 @@ define("stores/stores.viewModel",
                                 count = count + 1;
                             });
                         } else {
-                            _.each(selectedStore().companyTerritoryColors(), function (color) {
+                            _.each(territorySpotColors(), function (color) {
                                 if (color.spotColor() == selectedCompanyCMYKColor().spotColor() && color.colorId() != selectedCompanyCMYKColor().colorId()) {
                                     toastr.error("Color Name already exist.");
                                     flag = false;
@@ -1453,6 +1650,7 @@ define("stores/stores.viewModel",
                                         }
                                         count = count + 1;
                                     });
+                                    selectedCompanyTerritory().hasColorChanges(true);
                                 }
                                
                                 view.hideCompanyCMYKColorDialog();
@@ -8264,10 +8462,21 @@ define("stores/stores.viewModel",
                     territorySpotColors: territorySpotColors,
                     onCreateNewTerritorySpotcolor: onCreateNewTerritorySpotcolor,
                     copyGlobalColorsToTerritory: copyGlobalColorsToTerritory,
-                    onEditTerritoryColor: onEditTerritoryColor
-                    //Show RealEstateCompaign VariableIcons Dialog
-                    //showcreateVariableDialog: showcreateVariableDialog
-                };
+                    onEditTerritoryColor: onEditTerritoryColor,
+                    isUseTerritoryColorUi: isUseTerritoryColorUi,
+                    isUseTerritoryFontUi: isUseTerritoryFontUi,
+                    getStoreTemplateFonts: getStoreTemplateFonts,
+                    getTerritoryTemplateFonts: getTerritoryTemplateFonts,
+                    onEditTemplateFont : onEditTemplateFont,
+                    selectedCompanyTemplateFont: selectedCompanyTemplateFont,
+                    onCloseCompanyTemplateFont: onCloseCompanyTemplateFont,
+                    onSaveCompanyTemplateFont: onSaveCompanyTemplateFont,
+                    uploadWof: uploadWof,
+                    uploadEot: uploadEot,
+                    uploadTtf: uploadTtf
+                //Show RealEstateCompaign VariableIcons Dialog
+                //showcreateVariableDialog: showcreateVariableDialog
+            };
                 //#endregion
             })()
         };
