@@ -154,48 +154,53 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public JsonResult OrderResult(long OrderId, string OrderType)
             {
+                long UpdatedOrder = 0;
             Estimate Estimate = _orderService.GetOrderByID(OrderId);
           
             if (OrderType == "ReOrder")
             {
-                //if (Estimate.StatusId == Convert.ToInt16(OrderStatus.RejectOrder))
-                //{
+                if (Estimate.StatusId == Convert.ToInt16(OrderStatus.RejectOrder))
+                {
+                    if (UserCookieManager.WEBOrderId == 0)
+                    {
+                        if (_myClaimHelper.loginContactID() > 0) // is user logged in
+                        {
+                            UserCookieManager.WEBOrderId = _orderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                        }
+                    }
+                  bool Result=  _CompanyService.UpdateOderStatus(Estimate);
 
-                //  bool Result=  _CompanyService.UpdateOderStatus(Estimate);
+                  if (Result)
+                  {
 
-                //  if (Result)
-                //  {
-
-                //      bool ItemResult = _CompanyService.UpdateItemsStatus(OrderId);
+                      bool ItemResult = _CompanyService.UpdateItemsStatus(OrderId);
 
 
-                //      if (ItemResult)
-                //      {
-                //          if (UserCookieManager.WEBOrderId == 0)
-                //          {
-                //              if (_myClaimHelper.loginContactID() > 0) // is user logged in
-                //              {
-                //                  UserCookieManager.WEBOrderId = _orderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
-                //              }
-                //          }
-                //         bool FinalResult= _CompanyService.UpdateOrderAndItemsForRejectOrder(OrderId, UserCookieManager.WEBOrderId);
+                      if (ItemResult)
+                      {
+                         
+                         bool FinalResult= _CompanyService.UpdateOrderAndItemsForRejectOrder(OrderId, UserCookieManager.WEBOrderId);
 
-                //         if (FinalResult)
-                //         {
-                //             UserCookieManager.WEBOrderId = OrderId;
-                //         }
+                         if (FinalResult)
+                         {
+                             UpdatedOrder = OrderId;
+                         }
+                         else
+                         {
+                             UpdatedOrder = OrderId;
+                         }
 
-                //      }
-                //  }
+                      }
+                  }
 
-                //}
-                //else
-                //{
-                    long UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                }
+                else
+                {
+                     UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                     UserCookieManager.WEBOrderId = UpdatedOrder;
 
-                    return Json(UserCookieManager.WEBOrderId, JsonRequestBehavior.DenyGet);
-              //  }
+                    return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);
+                }
             }
 
             if (OrderType == "Download")
@@ -206,7 +211,7 @@ namespace MPC.Webstore.Controllers
                 return Json(DownloadFileLink, JsonRequestBehavior.DenyGet);
 
             }
-            return Json(UserCookieManager.WEBOrderId, JsonRequestBehavior.DenyGet);
+            return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);
 
         }
         private ShoppingCart LoadShoppingCart(long orderID)
