@@ -128,9 +128,9 @@
 
     grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs "),
 
-        grid.Column("Rejected Reason", format:@<text>@if (item.StatusID == 35)
+        grid.Column("View Reason", format:@<text>@if (item.StatusID == 35)
         {
-            <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason','@item.RejectionReason')" />
+            <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/eye_preview.png');" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason','@item.RejectionReason')" />
         }
         </text>),
                         

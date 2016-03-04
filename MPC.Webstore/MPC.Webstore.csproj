@@ -658,6 +658,7 @@
     <Content Include="Content\Images\download-icon.png" />
     <Content Include="Content\Images\download.png" />
     <Content Include="Content\Images\edit.png" />
+    <Content Include="Content\Images\eye_preview.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
     <Content Include="Content\Designer\assets-v2\bold.png" />
