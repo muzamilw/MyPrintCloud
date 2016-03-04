@@ -82,13 +82,13 @@
                                     <input type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lrlGo", UserCookieManager.WBStoreId, "Go"))" id="btnSearchOrders" class="order_history_btn rounded_corners5" />
                                 </div>
                                 <div class="search-order-clear" style="">
-                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
+                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="GoBack();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
-                               @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
+                                @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
                                 {
-                                <div class="search-order-clear" style="">
-                                    <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
-                                </div>
+                                    <div class="search-order-clear" style="">
+                                        <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
+                                    </div>
                                 }
                                 <div class="clearBoth">
 
@@ -127,6 +127,13 @@
     grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs "),
 
     grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs "),
+
+        grid.Column("Rejected Reason", format:@<text>@if (item.StatusID == 35)
+        {
+            <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason','@item.RejectionReason')" />
+        }
+        </text>),
+                        
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
         <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
@@ -145,7 +152,7 @@
 
           }
 
-                                                                                               )
+                                                                                                        )
 
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
@@ -520,11 +527,16 @@
             success: function (response) {
 
                 createCookie("WEBOrderId", response);
-                window.location.href = "/ShopCart";
+                window.location.href = "/ShopCart?Orderid="+response+"";
             }
         });
     }
+    function Cancel()
+    {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
 
+    }
     function DownLoadArtworkFile(orderId) {
         ShowLoader();
         $.get("/mis/api/DownloadArtwork?OrderId=" + orderId + "&OrganisationId=" + @UserCookieManager.WEBOrganisationID, function (DT) {
@@ -690,6 +702,32 @@
                                         //}
 
                                     }
+                                }else if(IT.OtherItemAttatchments != null){
+
+                                    if(IT.OtherItemAttatchments.length > 0){
+
+                                        $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
+                                            console.log("IT.Attatchment._fileName" + IT.Attatchment._fileName);
+                                            var OtherAttachFileName = otherAttachVal.FileName;
+                                            while (OtherAttachFileName.indexOf(" ") > 0)
+                                            {
+                                                OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                            }
+
+                                            if(ItemAttachId == 0){
+                                                ItemAttachId = IT.OtherItemAttatchments[i].ItemAttachmentId;
+                                                filePathOfAttachment =   "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                            }
+
+                                            //if(otherAttachVal.FileName == IT.Attatchment._fileName){
+                                            //}else{
+
+                                            var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                            otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a  class="" data-id='+ ItemAttachId +' rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"   /></a></div>');
+                                            //}
+
+                                        });
+                                    }
                                 }
                             }else if(IT.OtherItemAttatchments != null){
 
@@ -718,7 +756,8 @@
                                     });
                                 }
                             }
-
+                            console.log("IT.OtherItemAttatchments");
+                            console.log(IT.OtherItemAttatchments);
 
                         }else{
                             if(IT.OtherItemAttatchments != null){
@@ -845,5 +884,9 @@
         }
         else var expires = "";
         document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    function GoBack()
+    {
+        window.location.href = "/ProductOrderHistory";
     }
 </script>

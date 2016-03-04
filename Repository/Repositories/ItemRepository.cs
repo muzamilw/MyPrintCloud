@@ -4934,6 +4934,26 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public bool UpdateItemsStatus(long EstimateId)
+        {
+            bool Result = false;
+            List<Item> Items = db.Items.Where(i => i.EstimateId == EstimateId).ToList();
+            foreach (Item item in Items)
+            {
+                item.StatusId = (int)ItemStatuses.ShoppingCart;
+
+                db.Items.Attach(item);
+
+                db.Entry(item).State = EntityState.Modified;
+            }
+            
+            if (db.SaveChanges() > 0)
+            {
+                Result = true;
+            }
+            return Result;
+        }
+
         private string specialCharactersEncoder(string value)
         {
             value = value.Replace("/", "-");
@@ -4965,6 +4985,8 @@ namespace MPC.Repository.Repositories
 
         }
 
+
+      
    
     }
 }

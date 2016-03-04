@@ -527,6 +527,27 @@
 
 
                                     //});
+                                } else if (IT.OtherItemAttatchments.length > 0) {
+
+                                    $(IT.OtherItemAttatchments).each(function (i, otherAttachVal) {
+                                        var OtherAttachFileName = otherAttachVal.FileName;
+                                        while (OtherAttachFileName.indexOf(" ") > 0) {
+                                            OtherAttachFileName = OtherAttachFileName.replace(" ", "%20");
+                                        }
+                                        if (ItemAttachId == 0) {
+                                            ItemAttachId = IT.OtherItemAttatchments[i].ItemAttachmentId;
+
+                                            filePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                        }
+                                        //if (otherAttachVal.FileName == IT.Attatchment._fileName) {
+                                        //} else {
+
+
+                                        var OtherfilePathOfAttachment = "/" + otherAttachVal.FolderPath + "/" + OtherAttachFileName + "Thumb.png";
+                                        otherAttachmentLink = otherAttachmentLink.concat('<div class="gallery" style="display:none;"><a class="" data-id=' + ItemAttachId + ' rel="chimps" href=' + OtherfilePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div>');
+                                        //}
+
+                                    });
                                 }
                             } else if (IT.OtherItemAttatchments.length > 0) {
 
@@ -595,9 +616,6 @@
                           
 
                         }
-
-
-
 
 
                         var proFriendlyName = "";
@@ -708,7 +726,36 @@
         OrderApprove(NewOrderID, Po);
     }
     function RejectOrder() {
-        var data = { OrderID: NewOrderID }
+
+        //var data = { OrderID: NewOrderID }
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/ProductPendingOrders/ApporRejectOrder",
+        //    contentType: "application/json",
+        //    data: JSON.stringify(data),
+        //    async: true,
+        //    success: function (response) {
+        //        window.location.href = "/ProductPendingOrders";
+        //    }
+        //});
+        //HideLoader();
+
+        ShowRejectionOrderPopUp('Rejection Reason','');
+    }
+    function Cancel()
+    {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+
+    }
+    function Rejection()
+    {
+        
+        var RejectReason = $("#RejectionReasoan").val();
+
+        
+        var data = { OrderID: NewOrderID, Rejectionreason: RejectReason }
+
         $.ajax({
             type: "POST",
             url: "/ProductPendingOrders/ApporRejectOrder",
@@ -720,6 +767,7 @@
             }
         });
         HideLoader();
+
     }
 </script>
 
