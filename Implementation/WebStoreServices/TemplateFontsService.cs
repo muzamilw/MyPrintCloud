@@ -24,9 +24,9 @@ namespace MPC.Implementation.WebStoreServices
 
         #region public
         // get fonts list ,called from designer // added by saqib ali
-        public List<TemplateFontResponseModel> GetFontList(long productId, long customerId, long OrganisationID)
+        public List<TemplateFontResponseModel> GetFontList(long productId, long customerId, long OrganisationID, long territoryId)
         {
-            var fonts = _templateFontRepository.GetFontList(productId, customerId);
+            var fonts = _templateFontRepository.GetFontList(productId, customerId,territoryId);
             List<TemplateFontResponseModel> objToReturn = new List<TemplateFontResponseModel>();
             foreach (var objFonts in fonts)
             {
