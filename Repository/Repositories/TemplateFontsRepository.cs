@@ -60,7 +60,7 @@ namespace MPC.Repository.Repositories
         {
             db.Configuration.LazyLoadingEnabled = false;
             List<TemplateFontResponseModel> lFont = new List<TemplateFontResponseModel>();
-            var res = db.sp_GetUsedFontsUpdated(productId, customerId);
+            var res = db.sp_GetUsedFontsUpdated(productId, customerId,territoryId);
             lFont = res.Select(g => new TemplateFontResponseModel
             {
                 FontName = g.FontName,
