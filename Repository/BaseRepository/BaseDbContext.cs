@@ -756,7 +756,7 @@ namespace MPC.Repository.BaseRepository
         /// GetUsedFonts Updated 
         /// </summary>
         // ReSharper disable InconsistentNaming
-        public IEnumerable<sp_GetUsedFontsUpdated_Result> sp_GetUsedFontsUpdated(long? templateID, long? customerID)
+        public IEnumerable<sp_GetUsedFontsUpdated_Result> sp_GetUsedFontsUpdated(long? templateID, long? customerID,long? territoryID)
         // ReSharper restore InconsistentNaming
         {
             var templateIdParameter = templateID.HasValue ?
@@ -767,9 +767,13 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(long));
 
+            var territoryIdParameter = territoryID.HasValue ?
+                new ObjectParameter("TerritoryID", territoryID) :
+                new ObjectParameter("TerritoryID", typeof(long));
+
             ObjectResult<sp_GetUsedFontsUpdated_Result> templateFontsUpdatedResults =
                 ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("BaseDbContext.sp_GetUsedFontsUpdated", templateIdParameter,
-                customerIdParameter);
+                customerIdParameter, territoryIdParameter);
 
             return templateFontsUpdatedResults.ToList();
         }
