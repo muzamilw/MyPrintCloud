@@ -109,7 +109,10 @@
                         <div id="ShopingCartDisplay" class="get_in_touch_box rounded_corners ">
 
                             @*<button id="Button1" style="display:none;" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>*@
-
+                            @*@if (ViewBag.EmailProofButtonVisible==true)
+        {*@
+                            <button id="Button1" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5">Send Email Proof</button>
+                            @*}*@
                             <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
@@ -552,6 +555,7 @@
     <p class="proofSuccess" style="display: none;" id="lbl_EmailSentProofMessage">
         @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSentProofMessage", UserCookieManager.WBStoreId))
     </p>
+    
 </div>
 <div id="RemoveProductDiv1" class="RemoveProductDiv" style="display:none;">
     <div class="md-modal md-effect-7" id="modal-7">
@@ -564,23 +568,12 @@
      <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script type="text/javascript">
-    //function EmailProofClick() {
-    //    if ($('#hfIsUserLoggedIn.ClientID').val() == "true") {
-
-    //        $(".opaqueLayer").css("height", $(window).height() + "px");
-    //        $(".opaqueLayer").css("width", $(window).width() + "px");
-    //        $(".opaqueLayer").css("display", "block");
-    //        $("#userEmail1").val($('#hfProofEmail1').val());
-    //        $("#userEmail2").val($('#hfProofEmail2').val());
-    //        $("#popupSendProofs").css("display", "block");
-    //        $('.popupSendProofs').css("left", (($(window).width() - $('.popupSendProofs').width()) / 2) + "px");
-    //        $('.popupSendProofs').css("top", (($(window).height() - $('.popupSendProofs').height()) / 2) + "px");
-    //        return false;
-    //    } else {
-    //        window.location.href = $('#hfRedirectURL.ClientID').val();
-    //        return false;
-    //    }
-    //}
+    function EmailProofClick() {
+      
+        //var Email1=$("#").val();
+        //var Email2=$("#").val();
+        EmailProofsPopup('Enter the email address(s) to send all proofs');
+    }
     function CanCheckOut(sender) {
         if (Page_ClientValidate()) {
             var numOfRec = 0;

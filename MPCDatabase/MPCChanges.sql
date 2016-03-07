@@ -10306,6 +10306,9 @@ alter table estimate add RejectionReason varchar(max)
 
 alter table CompanyCMYKColor add TerritoryId bigint
 alter table TemplateColorStyle add TerritoryId bigint
+alter table TemplateFont add TerritoryId bigint
+alter table CompanyTerritory add IsUserTerritoryFont bit
+alter table CompanyTerritory add IsUseTerritoryColor bit
 
 
 

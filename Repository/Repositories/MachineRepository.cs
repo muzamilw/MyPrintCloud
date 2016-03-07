@@ -333,6 +333,8 @@ namespace MPC.Repository.Repositories
                 omachine.Passes = machine.Passes;
                 omachine.IsSpotColor = machine.IsSpotColor;
                 omachine.IsDigitalPress = machine.IsDigitalPress;
+                omachine.IsPressUseInks = machine.IsDigitalPress ?? true ? machine.IsPressUseInks : true;
+               
                 if (machine.MachineInkCoverages != null && machine.MachineInkCoverages.Count > 0)
                 {
                     omachine.MachineInkCoverages = new Collection<MachineInkCoverage>();
@@ -628,7 +630,7 @@ namespace MPC.Repository.Repositories
                 omachine.Passes = machine.Passes;
                 omachine.IsSpotColor = machine.IsSpotColor;
                 omachine.IsDigitalPress = machine.IsDigitalPress;
-                omachine.IsPressUseInks = machine.IsPressUseInks;
+                omachine.IsPressUseInks = machine.IsDigitalPress?? true ? machine.IsPressUseInks : true;
                // omachine.LookupMethod.MachineClickChargeZones.ToList().ForEach(a => a = ClickCharge);
 
                 if (type == 0)

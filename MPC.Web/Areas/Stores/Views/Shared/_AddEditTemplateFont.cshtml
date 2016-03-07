@@ -1,0 +1,80 @@
+﻿
+
+<div class="modal fade" id="myTemplateFontModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 750px;" class="modal-dialog">
+        <div class="modal-content" data-bind="with: $root.selectedCompanyTemplateFont">
+            <div class="modal-header" id="dialgHeaderPadding">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add/Edit Template Font</h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                    <div class=" form-group">
+                        <div class="col-lg-3 text-right">
+                            <label for="txtFontName" class="control-label text-right tooltip-float">Font Name</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" id="txtFontName" data-bind="value:fontName, validationTooltip: fontName ">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <label class="control-label text-right tooltip-float" style="padding-top:4px;">Enable</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="onoffswitch" style="margin-right:0;">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchisEnable" data-bind="checked: isEnable">
+                                <label class="onoffswitch-label" for="switchisEnable">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <label for="txtTtf" class="control-label text-right tooltip-float">TTF</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" id="txtTtf" readonly data-bind="value:fontFileTtf">
+                        </div>
+                        <div class="col-lg-3">
+                            <button type="button" class="btn btn-primary" data-bind="click: $root.uploadTtf">Upload</button>
+                        </div>
+                    </div>
+                    <div class=" form-group">
+                        <div class="col-lg-3 text-right">
+                            <label for="txtEot" class="control-label text-right tooltip-float">EOT</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" id="txtEot" readonly data-bind="value:fontNameEot">
+                        </div>
+                        <div class="col-lg-3">
+                            <button type="button" class="btn btn-primary" data-bind="click: $root.uploadEot">Upload</button>
+                        </div>
+                    </div>
+                    <div class=" form-group">
+                        <div class="col-lg-3 text-right">
+                            <label for="txtWof" class="control-label text-right tooltip-float">WOF</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" id="txtWof" readonly data-bind="value:fontNameWof">
+                        </div>
+                        <div class="col-lg-3">
+                            <button type="button" class="btn btn-primary" data-bind="click: $root.uploadWof">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer" style="padding-left:0;padding-right:0;">
+                <div style="padding-left:3px;padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTemplateFont, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                    <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyTemplateFont" style="margin-left: 0;">Close</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -245,6 +245,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // ReSharper disable InconsistentNaming
             companyCMYKColors = ko.observableArray([]),
             companyTerritoryColors = ko.observableArray([]),
+            companyTemplateFonts = ko.observableArray([]),
+            territoryTemplateFonts = ko.observableArray([]),
+
             //Color Palette
             colorPalette = ko.observable(new ColorPalette()),
             //Company Banner Set List
@@ -690,7 +693,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWidgetItemsChange: isWidgetItemsChange,
             marketingBriefRecipientEmail: marketingBriefRecipientEmail,
             isNewThemeApplied: isNewThemeApplied,
-            isEmailChange: isEmailChange
+            isEmailChange: isEmailChange,
+            companyTemplateFonts: companyTemplateFonts,
+            territoryTemplateFonts: territoryTemplateFonts
 
         //#endregion
     };
@@ -905,6 +910,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 }
             });
         }
+        //if (source.CompanyTemplateFonts) {
+        //    _.each(source.CompanyTemplateFonts, function (item) {
+        //        if (item.TerritoryId == null)
+        //            store.companyTemplateFonts.push(TemplateFont.Create(item));
+        //        else {
+        //            store.territoryTemplateFonts.push(TemplateFont.Create(item));
+        //        }
+        //    });
+        //}
         if (source.CompanyDomains) {
             var temp = [];
             _.each(source.CompanyDomains, function (item) {
@@ -1243,7 +1257,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 return {
                     PelleteId: colorId(),
                     CustomerId: companyId(),
-                    Name: colorName(),
+                    Name: spotColor(),
                     ColorC: colorC(),
                     ColorM: colorM(),
                     ColorY: colorY(),
@@ -1296,7 +1310,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     CompanyCMYKColor.CopyFromClientModel = function (source) {
         return new CompanyCMYKColor(
-            source.colorId(),
+            0,
             source.companyId(),
             source.colorName(),
             source.colorC(),
@@ -1330,7 +1344,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region ______________  C O M P A N Y    T E R R I T O R Y    _________________
 
     // ReSharper disable once InconsistentNaming
-    var CompanyTerritory = function (specifiedTerritoryId, specifiedTerritoryName, specifiedCompanyId, specifiedTerritoryCode, specifiedisDefault, specifiedIsUseTerritoryColor) {
+    var CompanyTerritory = function (specifiedTerritoryId, specifiedTerritoryName, specifiedCompanyId, specifiedTerritoryCode, specifiedisDefault, specifiedIsUseTerritoryColor,
+    specifiedIsUseTerritoryFont) {
 
         var self,
             territoryId = ko.observable(specifiedTerritoryId),
@@ -1339,8 +1354,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             territoryCode = ko.observable(specifiedTerritoryCode).extend({ required: true }),
             isDefault = ko.observable(specifiedisDefault),
             scopeVariables = ko.observableArray([]),
+            spotColors = ko.observableArray([]),
              isSelected = ko.observable(),
-            isUseTerritoryColor = ko.observable(specifiedIsUseTerritoryColor),
+            isUseTerritoryColor = ko.observable(specifiedIsUseTerritoryColor == true || specifiedIsUseTerritoryColor == 'true' ? 'true' : 'false'),
+            isUseTerritoryFont = ko.observable(specifiedIsUseTerritoryFont == true || specifiedIsUseTerritoryFont == 'true' ? 'true' : 'false'),
+            hasColorChanges = ko.observable(),
             // Errors
             errors = ko.validation.group({
                 territoryName: territoryName,
@@ -1360,7 +1378,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 territoryCode: territoryCode,
                 isDefault: isDefault,
                 isSelected: isSelected,
-                isUseTerritoryColor: isUseTerritoryColor
+                isUseTerritoryColor: isUseTerritoryColor,
+                isUseTerritoryFont : isUseTerritoryFont,
+                hasColorChanges: hasColorChanges
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1374,8 +1394,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     CompanyId: companyId(),
                     TerritoryCode: territoryCode(),
                     isDefault: isDefault(),
-                    IsUseTerritoryColor : isUseTerritoryColor(),
-                    ScopeVariables: []
+                    IsUseTerritoryColor: isUseTerritoryColor() != undefined && isUseTerritoryColor() == 'true' ? true : false,
+                    IsUserTerritoryFont: isUseTerritoryFont() != undefined && isUseTerritoryFont() == 'true' ? true : false,
+                    ScopeVariables: [],
+                    TerritorySpotColors: [],
+                    TerritoryFonts: []
                 }
             },
             // Reset
@@ -1390,8 +1413,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isDefault: isDefault,
             isSelected: isSelected,
             scopeVariables: scopeVariables,
+            spotColors : spotColors,
             isValid: isValid,
-            isUseTerritoryColor : isUseTerritoryColor,
+            hasColorChanges : hasColorChanges,
+            isUseTerritoryColor: isUseTerritoryColor,
+            isUseTerritoryFont : isUseTerritoryFont,
             errors: errors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
@@ -1407,7 +1433,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.companyId,
             source.territoryCode,
             source.isDefault,
-            source.isUseTerritoryColor
+            source.isUseTerritoryColor,
+            source.isUseTerritoryFont
         );
     };
     CompanyTerritory.Create = function (source) {
@@ -1417,7 +1444,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CompanyId,
             source.TerritoryCode,
             source.isDefault,
-            source.IsUseTerritoryColor
+            source.IsUseTerritoryColor,
+            source.IsUserTerritoryFont
         );
         return companyTerritory;
     };
@@ -5699,6 +5727,123 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
 
     // #endregion ______________  Store CSS   _________________
+    // #region ______________  Template Font Model _________________
+    var TemplateFont = function (specifiedFontId, specifiedfontName, specifiedfontFile,
+        specifieddisplayIndex, specifiedisEnable, specifiedfontPath, specifiedcustomerId, specifiedterritoryId) {
+        var self,
+            productFontId = ko.observable(specifiedFontId),
+            fontName = ko.observable(specifiedfontName).extend({ required: true }),
+            fontFile = ko.observable(specifiedfontFile),
+            displayIndex = ko.observable(specifieddisplayIndex),
+            isEnable = ko.observable(specifiedisEnable),
+            fontPath = ko.observable(specifiedfontPath),
+            customerId = ko.observable(specifiedcustomerId),
+            fontFileTtf = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".ttf" : ""),
+            fontNameEot = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".eot" : ""),
+            fontNameWof = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".wof" : ""),
+            territoryId = ko.observable(specifiedterritoryId),
+            dirtyFlag = new ko.dirtyFlag({
+                productFontId: productFontId,
+                fontName: fontName,
+                fontFile: fontFile,
+                isEnable: isEnable,
+                customerId: customerId,
+                territoryId: territoryId,
+                fontPath: fontPath,
+                displayIndex: displayIndex,
+                fontFileTtf: fontFileTtf,
+                fontNameEot: fontNameEot,
+                fontNameWof: fontNameWof
+            }),
+             errors = ko.validation.group({
+                 fontName: fontName,
+             }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+            // True If Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset Dirty State
+            reset = function () {
+                dirtyFlag.reset();
+            },
+
+            convertToServerData = function () {
+                return {
+                    ProductFontId: productFontId(),
+                    FontName: fontName(),
+                    FontDisplayName: fontName(),
+                    FontFile: fontFile(),
+                    IsEnable: isEnable(),
+                    CustomerId: customerId(),
+                    TerritoryId: territoryId(),
+                    FontPath: fontPath(),
+                    DisplayIndex: displayIndex()
+                };
+            };
+
+        self = {
+            productFontId: productFontId,
+            fontName: fontName,
+            fontFile: fontFile,
+            isEnable: isEnable,
+            customerId: customerId,
+            territoryId: territoryId,
+            fontPath: fontPath,
+            displayIndex: displayIndex,
+            fontFileTtf: fontFileTtf,
+            fontNameEot: fontNameEot,
+            fontNameWof: fontNameWof,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            isValid: isValid,
+            errors : errors,
+            convertToServerData: convertToServerData
+
+        };
+        return self;
+    };
+    TemplateFont.CreateFromClient = function (source) {
+        return new TemplateFont(
+            source.productFontId(),
+             source.fontName(),
+             source.fontFile(),
+             source.displayIndex(),
+             source.isEnable(),
+            source.fontPath(),
+            source.customerId(),
+            source.territoryId()
+            );
+    };
+    TemplateFont.CreateFromClientModel = function (source) {
+        return new TemplateFont(
+                source.productFontId,
+                source.fontName,
+                source.fontFile,
+                source.displayIndex,
+                source.isEnable,
+                source.fontPath,
+                source.customerId,
+                source.territoryId
+            );
+    };
+    TemplateFont.Create = function (source) {
+        return new TemplateFont(
+            source.ProductFontId,
+             source.FontName,
+             source.FontFile,
+             source.DisplayIndex,
+             source.IsEnable,
+            source.FontPath,
+            source.CustomerId,
+            source.TerritoryId
+            );
+    };
+    // #endregion ______________  Template Font   _________________
 
     //#region ______________ R E T U R N ______________
     return {
@@ -5754,7 +5899,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         ProductCategoryVoucher: ProductCategoryVoucher,
         ItemsVouchers: ItemsVouchers,
         StoreCss: StoreCss,
-        companyVariableIcons: companyVariableIcons
+        companyVariableIcons: companyVariableIcons,
+        TemplateFont: TemplateFont
        
     };
     // #endregion 

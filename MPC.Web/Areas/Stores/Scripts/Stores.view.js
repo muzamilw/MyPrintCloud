@@ -199,7 +199,15 @@ define("stores/stores.view",
                 hideStoreLayoutWidgetCss = function () {
                     $("#myreadonlyStoreLayoutWidgetCss").modal("hide");
                 },
-
+                showCompanyTemplateFontDialog = function () {
+                    $("#myTemplateFontModal").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Activity the dialog
+                // ReSharper disable once InconsistentNaming
+                hideCompanyTemplateFontDialog = function () {
+                    $("#myTemplateFontModal").modal("hide");
+                },
                
 
                    
@@ -608,7 +616,9 @@ define("stores/stores.view",
                 hideCssDialog: hideCssDialog,
                 //Show RealEstateCompaign VariableIcon Dialog
                 showVariableIconDialog: showVariableIconDialog,
-                showStoreLayoutWidgetCss: showStoreLayoutWidgetCss
+                showStoreLayoutWidgetCss: showStoreLayoutWidgetCss,
+                showCompanyTemplateFontDialog: showCompanyTemplateFontDialog,
+                hideCompanyTemplateFontDialog: hideCompanyTemplateFontDialog
             };
         })(storesViewModel);
 

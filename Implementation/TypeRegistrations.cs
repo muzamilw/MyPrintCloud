@@ -99,6 +99,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IDiscountVoucherService, DiscountVoucherService>();
             unityContainer.RegisterType<IListingBulletPointsService, ListingBulletPointsService>();
             unityContainer.RegisterType<IWidgetService, WidgetService>();
+            unityContainer.RegisterType<ITemplateFontService, TemplateFontService>();
 
         }
     }

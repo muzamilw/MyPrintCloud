@@ -59,5 +59,8 @@ namespace MPC.Models.ResponseModels
 
         public DateTime? JobEstimatedStartDateTime { get; set; }
         public int? OrderdItemsCount { get; set; }
+
+        public string OrderFlagColor { get; set; }
+        public string OrderFlagTitle { get; set; }
     }
 }

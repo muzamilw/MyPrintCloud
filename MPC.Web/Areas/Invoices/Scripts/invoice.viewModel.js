@@ -398,25 +398,7 @@ define("invoice/invoice.viewModel",
                     }
                     else
                     {
-                        var istatus = selectedInvoice().invoiceStatus();
-                        if (istatus == 19 && selectedInvoice().id() !== 0 && selectedInvoice().id() !== undefined) //Awaiting Invoice
-                        {
-                            confirmation.messageText("Do you want to post the invoice.");
-
-                            confirmation.afterProceed(function () {
-                                selectedInvoice().invoiceStatus(20); //Posted Invoice                              
-                                selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
-                                saveInvoice(closeInvoiceEditor, navigateCallback);
-                            });
-                            confirmation.afterCancel(function () {
-                                saveInvoice(closeInvoiceEditor, navigateCallback);
-                            });
-                            confirmation.show();
-                            return;
-                        } else {
-                            saveInvoice(closeInvoiceEditor, navigateCallback);
-                        }
-
+                        saveInvoice(closeInvoiceEditor, navigateCallback);
                     }
 
                     
@@ -832,7 +814,7 @@ define("invoice/invoice.viewModel",
                         invoiceListViewItem.companyName(data.CompanyName);
                         invoiceListViewItem.invoiceDate(data.InvoiceDate);
                         invoiceListViewItem.status(selectedInvoice().invoiceStatusText());
-                        invoiceListViewItem.isDirectSale(selectedInvoice().isDirectSale());
+                        //invoiceListViewItem.isDirectSale(selectedInvoice().isDirectSale());
                         //invoiceListViewItem.status(selectedInvoice().statusName() || '');
                         var sectionFlagItem = _.find(sectionFlags(), function (sFlag) {
                             return sFlag.SectionFlagId === parseInt(data.FlagId);
