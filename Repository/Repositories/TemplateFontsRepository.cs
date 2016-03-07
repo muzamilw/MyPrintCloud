@@ -56,7 +56,7 @@ namespace MPC.Repository.Repositories
         /// <param name="productID"></param>
         /// <returns></returns>
         /// 
-        public List<TemplateFontResponseModel> GetFontList(long productId, long customerId)
+        public List<TemplateFontResponseModel> GetFontList(long productId, long customerId, long territoryId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             List<TemplateFontResponseModel> lFont = new List<TemplateFontResponseModel>();

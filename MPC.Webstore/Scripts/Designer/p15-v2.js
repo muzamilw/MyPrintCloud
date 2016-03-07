@@ -360,7 +360,7 @@ function fu05_Clload() {
     if (IsCalledFrom == 2 || IsCalledFrom == 4) {
         Cid = CustomerID;
     }
-    $.getJSON("/designerapi/TemplateColorStyles/GetColorStyle/" + tID + "/" + Cid,
+    $.getJSON("/designerapi/TemplateColorStyles/GetColorStyle/" + tID + "/" + Cid + "/" + userTerritoryId,
        function (DT) {
            fu05_svcCall(DT);
        });
@@ -434,7 +434,7 @@ function fu06(mode) {
         fname = 'BtnSelectFonts';
     }
     $('#' + fname).html(str);
-    $.getJSON("/designerapi/TemplateFonts/GetFontsList/" + tID + "/" + CustomerID + "/" + organisationId,
+    $.getJSON("/designerapi/TemplateFonts/GetFontsList/" + tID + "/" + CustomerID + "/" + organisationId + "/" + userTerritoryId,
         function (DT) {
             fu06_SvcCallback(DT, fname,mode);
         });
