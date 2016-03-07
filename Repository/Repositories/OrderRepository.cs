@@ -2697,6 +2697,7 @@ namespace MPC.Repository.Repositories
             if (actualFromDate != null && actualToDate != null)
             {
                 resultData = resultData.Where(date => date.OrderDate >= actualFromDate && date.OrderDate <= actualToDate).ToList();
+               
             }
             else if (actualFromDate != null)
             {
