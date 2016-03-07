@@ -2768,7 +2768,13 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch (Exception ex)
             {
-                throw ex;
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.InnerException + "<br/>");
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
             }
 
             return shopCartOrder.EstimateId;
