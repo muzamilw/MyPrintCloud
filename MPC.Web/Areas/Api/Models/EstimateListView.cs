@@ -29,6 +29,7 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? OrderDate { get; set; }
         public string CurrencySymbol { get; set; }
         public DateTime? EstimateDate { get; set; }
+        public string ContactName { get; set; }
 
     }
 }

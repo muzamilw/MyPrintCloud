@@ -138,9 +138,7 @@
                         @* List View Template *@
                         <script id="orderListViewTemplate" type="text/html">
                             <tr data-bind=" click: $root.editOrder" style="cursor:pointer;">
-                                <td>
-                                    &nbsp;
-                                </td>
+                                
                                 <td>
                                     <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
@@ -148,6 +146,9 @@
                                         <span data-bind="text: ' '"></span>
                                         <span data-bind="text: noOfItemsUi"></span>
                                     </span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: contactName"></span>
                                 </td>
                                 <td>
                                     <!--ko if: $root.currentScreen() != 8-->
@@ -219,8 +220,8 @@
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-sm-1">&nbsp;</th>
                                                 <th class="col-sm-3"><span>Customer</span></th>
+                                                <th class="col-sm-1"><span>Contact</span></th>
                                                 <th class="col-sm-2">
                                                     <!--ko if: $root.currentScreen() != 8-->
                                                     <span>Estimate Code</span>

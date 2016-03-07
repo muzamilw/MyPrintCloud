@@ -16,7 +16,7 @@
         public byte[] FontBytes { get; set; }
         public string FontPath { get; set; }
         public long? CustomerId { get; set; }
-
+        public long? TerritoryId { get; set; }
         public virtual Template Template { get; set; }
     }
 }

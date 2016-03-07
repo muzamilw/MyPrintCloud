@@ -129,6 +129,14 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public TemplateFont GetTemplateFontById(long id)
+        {
+            return DbSet.FirstOrDefault(t => t.ProductFontId == id);
+        }
+        public List<TemplateFont> GetTemplateFontsByTerritory(long territoryId)
+        {
+            return DbSet.Where(t => t.TerritoryId == territoryId).ToList();
+        }
         #endregion
     }
 }

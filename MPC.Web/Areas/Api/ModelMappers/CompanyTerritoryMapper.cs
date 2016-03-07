@@ -17,7 +17,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 TerritoryCode = source.TerritoryCode,
                 isDefault = source.isDefault,
-                IsUseTerritoryColor = source.IsUseTerritoryColor
+                TerritorySpotColors = source.TerritorySpotColors != null ? source.TerritorySpotColors.Select(sp => sp.CreateFrom()).ToList() : null,
+                TerritoryFonts = source.TerritoryFonts != null ? source.TerritoryFonts.Select(sp => sp.CreateFrom()).ToList() : null,
+                IsUseTerritoryColor = source.IsUseTerritoryColor,
+                IsUserTerritoryFont = source.IsUserTerritoryFont
             };
         }
         /// <summary>
@@ -33,7 +36,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TerritoryCode = source.TerritoryCode,
                 isDefault = source.isDefault,
                 IsUseTerritoryColor = source.IsUseTerritoryColor,
-                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
+                IsUserTerritoryFont = source.IsUserTerritoryFont,
+                TerritorySpotColors = source.TerritorySpotColors != null ? source.TerritorySpotColors.Select(sp => sp.CreateFrom()).ToList() : null,
+                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null,
+                TerritoryFonts = source.TerritoryFonts != null ? source.TerritoryFonts.Select(sp => sp.CreateFrom()).ToList() : null
             };
 
             return companyTerritory;

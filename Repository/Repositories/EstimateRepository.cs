@@ -93,7 +93,9 @@ namespace MPC.Repository.Repositories
                 item =>
                     ((
                     string.IsNullOrEmpty(request.SearchString) ||
-                    ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.Order_Code.Contains(request.SearchString)) ||
+                    ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.CompanyContact != null && item.CompanyContact.FirstName.Contains(request.SearchString)) ||
+                    (item.CompanyContact != null && item.CompanyContact.LastName.Contains(request.SearchString)) ||
+                    (item.Order_Code.Contains(request.SearchString)) ||
                     (item.Estimate_Name.Contains(request.SearchString)) || (item.Items.Any(product => product.ProductName.Contains(request.SearchString)))
                     )) &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
@@ -150,7 +152,9 @@ namespace MPC.Repository.Repositories
             bool orderTypeFilterSpecified = request.OrderTypeFilter == 2;
             Expression<Func<Estimate, bool>> query =
                 item =>
-                    ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
+                    ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))
+                    || (item.CompanyContact != null && item.CompanyContact.FirstName.Contains(request.SearchString)) ||
+                    (item.CompanyContact != null && item.CompanyContact.LastName.Contains(request.SearchString)) || (item.Estimate_Code.Contains(request.SearchString))) &&
                     (item.isEstimate.HasValue && item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
                     item.OrganisationId == OrganisationId);
