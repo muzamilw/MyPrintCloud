@@ -7,8 +7,10 @@ using MPC.Webstore.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http.Formatting;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -95,6 +97,16 @@ namespace MPC.Webstore.Controllers
                 ordersList = _orderService.GetOrdersListByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
             }
 
+            if (ordersList.Count > 0)
+            {
+                foreach (var order in ordersList)
+                {
+                    if (order.RejectionReason != string.Empty && order.RejectionReason!=null)
+                    {
+                        order.RejectionReason = Regex.Replace(order.RejectionReason, @"\s+", " ");
+                    }
+                }
+            }
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
                 ViewBag.res = null;
@@ -197,6 +209,7 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                      UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                     
                     UserCookieManager.WEBOrderId = UpdatedOrder;
 
                     return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);

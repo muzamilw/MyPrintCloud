@@ -46,6 +46,8 @@ namespace MPC.Webstore.Controllers
             string ANZError = Request.QueryString["Error"];
             string ANZErrorMes = Request.QueryString["ErrorMessage"];
             string voucherAppliedMesg = Request.QueryString["VCId"];
+             int TemplatedItemCount = 0;
+
             long OrderId = 0;
             ShoppingCart shopCart = null;
           
@@ -142,6 +144,23 @@ namespace MPC.Webstore.Controllers
                 }
 
                 shopCart = LoadShoppingCart(OrderId);
+
+                foreach (var item in shopCart.CartItemsList)
+                {
+                    if (item.TemplateID > 0)
+                    {
+                        TemplatedItemCount += 1;
+                    }
+                }
+
+                if (TemplatedItemCount > 0)
+                {
+                    ViewBag.EmailProofButtonVisible = true;
+                }
+                else
+                {
+                    ViewBag.EmailProofButtonVisible = false;
+                }
 
                 if (shopCart != null)
                 {
@@ -705,5 +724,8 @@ namespace MPC.Webstore.Controllers
             }
 
         }
+
+
+
     }
 }

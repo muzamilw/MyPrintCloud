@@ -130,7 +130,12 @@
 
         grid.Column("View Reason", format:@<text>@if (item.StatusID == 35)
         {
-            <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/eye_preview.png');" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason','@item.RejectionReason')" />
+            string reason = item.RejectionReason;
+            reason.Trim();
+                                                
+                                                         
+            <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason',' @reason')" />
+           
         }
         </text>),
                         
@@ -525,7 +530,7 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(d),
             success: function (response) {
-
+             
                 createCookie("WEBOrderId", response);
                 window.location.href = "/ShopCart?Orderid="+response+"";
             }
