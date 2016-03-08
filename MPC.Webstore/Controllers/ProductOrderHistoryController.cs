@@ -148,7 +148,10 @@ namespace MPC.Webstore.Controllers
                 {
                     model.DDOderStatus = new SelectList(statusList, "StatusId", "StatusName");
                 }
-
+                ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
+                ViewBag.RejectedOrder = OrderStatus.RejectOrder;
+                ViewBag.ReporTID = _CompanyService.GetReportIdByName("Order Report By Store");
+                ViewBag.StoreID = UserCookieManager.WBStoreId;
                 BindGrid(model.SelectedOrder, _myClaimHelper.loginContactID(), model);
                 MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
                 ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);

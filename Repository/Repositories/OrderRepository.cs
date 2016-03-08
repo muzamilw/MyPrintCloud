@@ -2097,6 +2097,38 @@ namespace MPC.Repository.Repositories
             //query.ToList().ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             //query.ToList().ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             ordersList = query.ToList<Order>();
+
+            if (orderStatusID > 0)
+            {
+                ordersList = ordersList.Where(st => st.StatusID == orderStatusID).ToList();
+            }
+            // filter list by PO
+            if (!string.IsNullOrEmpty(orderRefNumber))
+            {
+                ordersList = ordersList.Where(po => po.YourRef != null && po.YourRef.Contains(orderRefNumber)).ToList();
+                // resultData = resultData.Where(po => po.YourRef == null ? po.YourRef != orderRefNumber : po.YourRef.Contains(orderRefNumber)).ToList();
+            }
+
+            if (actualFromDate != null && actualToDate != null)
+            {
+                //   DateTime actualFrommDate =Convert.ToDateTime(actualFromDate).AddHours(11).AddMinutes(59);
+
+                DateTime actualtooDate = Convert.ToDateTime(actualToDate).AddHours(23).AddMinutes(59);
+
+                ordersList = ordersList.Where(date => date.OrderDate >= actualFromDate && date.OrderDate <= actualtooDate).ToList();
+
+            }
+            else if (actualFromDate != null)
+            {
+                ordersList = ordersList.Where(fromdate => fromdate.OrderDate >= actualFromDate).ToList();
+            }
+            else if (actualToDate != null)
+            {
+                ordersList = ordersList.Where(todate => todate.OrderDate <= actualToDate).ToList();
+            }
+
+
+
             ordersList.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             ordersList.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             return ordersList;
@@ -2696,7 +2728,11 @@ namespace MPC.Repository.Repositories
 
             if (actualFromDate != null && actualToDate != null)
             {
-                resultData = resultData.Where(date => date.OrderDate >= actualFromDate && date.OrderDate <= actualToDate).ToList();
+             //   DateTime actualFrommDate =Convert.ToDateTime(actualFromDate).AddHours(11).AddMinutes(59);
+
+                DateTime actualtooDate = Convert.ToDateTime(actualToDate).AddHours(23).AddMinutes(59);
+
+                resultData = resultData.Where(date => date.OrderDate >= actualFromDate && date.OrderDate <= actualtooDate).ToList();
                
             }
             else if (actualFromDate != null)
@@ -2708,17 +2744,7 @@ namespace MPC.Repository.Repositories
                 resultData = resultData.Where(todate => todate.OrderDate <= actualToDate).ToList();
             }
 
-            //resultsCount = resultData.Count();
-            //if (resultsCount > 0 && resultsCount > pageSize)
-            //{
-            //    startIndex = OrderManager.GetStartPageIndex(pageNumber, pageSize);
-            //    ordersList = resultData.Skip(startIndex).Take(pageSize).ToList(); //all records
-            //}
-            //else
-            //{
-            //    ordersList = resultData;
-            //}
-
+        
             resultData.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             resultData.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             if (IsManager == true)
