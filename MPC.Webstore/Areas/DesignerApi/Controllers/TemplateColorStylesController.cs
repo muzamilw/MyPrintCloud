@@ -45,10 +45,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, colors, formatter);
         }
-        public HttpResponseMessage GetColorStyle(long parameter1, long parameter2)
+        public HttpResponseMessage GetColorStyle(long parameter1, long parameter2, long parameter3)
         {
-            //parameter1 = template id and parameter 2 = CustomerID
-            var colors = templateColorStylesService.GetColorStyle(parameter1, parameter2);
+            //parameter1 = template id and parameter 2 = CustomerID and parameter3 = terriotryID
+            var colors = templateColorStylesService.GetColorStyle(parameter1, parameter2, parameter3);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

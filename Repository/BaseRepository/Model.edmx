@@ -6533,6 +6533,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="sp_GetUsedFontsUpdated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="CustomerID" Type="bigint" Mode="In" />
+          <Parameter Name="TerritoryID" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_ChartEstimateToOrderConversion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
@@ -8201,10 +8202,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Template" EntitySet="Templates" />
             <End Role="TemplateFont" EntitySet="TemplateFonts" />
           </AssociationSet>
-          <FunctionImport Name="sp_GetUsedFontsUpdated" ReturnType="Collection(DomainModels.sp_GetUsedFontsUpdated_Result)">
-            <Parameter Name="TemplateID" Mode="In" Type="Int64" />
-            <Parameter Name="CustomerID" Mode="In" Type="Int64" />
-          </FunctionImport>
           <AssociationSet Name="FK_ItemProductDetail_Items" Association="DomainModels.FK_ItemProductDetail_Items">
             <End Role="Item" EntitySet="Items" />
             <End Role="ItemProductDetail" EntitySet="ItemProductDetails" />
@@ -8809,6 +8806,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </FunctionImport>
           <FunctionImport Name="usp_ExportInvoice" ReturnType="Collection(DomainModels.usp_ExportInvoice_Result)">
           <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetUsedFontsUpdated" ReturnType="Collection(DomainModels.sp_GetUsedFontsUpdated_Result)">
+            <Parameter Name="TemplateID" Mode="In" Type="Int64" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int64" />
+            <Parameter Name="TerritoryID" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
@@ -12454,19 +12456,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_GetUsedFontsUpdated_Result">
-          <Property Type="Int64" Name="ProductFontId" Nullable="false" />
-          <Property Type="Int64" Name="ProductId" Nullable="true" />
-          <Property Type="String" Name="FontName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="FontDisplayName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="FontFile" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="DisplayIndex" Nullable="true" />
-          <Property Type="Boolean" Name="IsPrivateFont" Nullable="false" />
-          <Property Type="Boolean" Name="IsEnable" Nullable="true" />
-          <Property Type="Int64" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="FontPath" Nullable="true" />
-          <Property Type="Int32" Name="FontBytes" Nullable="true" />
-        </ComplexType>
         <Association Name="FK_ItemProductDetail_Items">
           <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
           <End Type="DomainModels.ItemProductDetail" Role="ItemProductDetail" Multiplicity="*" />
@@ -16211,6 +16200,19 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="BAddress1" Nullable="true" MaxLength="797" />
           <Property Type="String" Name="StatusName" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <ComplexType Name="sp_GetUsedFontsUpdated_Result">
+          <Property Type="Int64" Name="ProductFontId" Nullable="false" />
+          <Property Type="Int64" Name="ProductId" Nullable="true" />
+          <Property Type="String" Name="FontName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FontDisplayName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FontFile" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DisplayIndex" Nullable="true" />
+          <Property Type="Boolean" Name="IsPrivateFont" Nullable="false" />
+          <Property Type="Boolean" Name="IsEnable" Nullable="true" />
+          <Property Type="Int64" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="FontPath" Nullable="true" />
+          <Property Type="Int32" Name="FontBytes" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18835,23 +18837,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetUsedFontsUpdated" FunctionName="DomainModels.Store.sp_GetUsedFontsUpdated">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DomainModels.sp_GetUsedFontsUpdated_Result">
-                <ScalarProperty Name="ProductFontId" ColumnName="ProductFontId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="FontName" ColumnName="FontName" />
-                <ScalarProperty Name="FontDisplayName" ColumnName="FontDisplayName" />
-                <ScalarProperty Name="FontFile" ColumnName="FontFile" />
-                <ScalarProperty Name="DisplayIndex" ColumnName="DisplayIndex" />
-                <ScalarProperty Name="IsPrivateFont" ColumnName="IsPrivateFont" />
-                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="FontPath" ColumnName="FontPath" />
-                <ScalarProperty Name="FontBytes" ColumnName="FontBytes" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="ProductCategoriesViews">
             <EntityTypeMapping TypeName="DomainModels.ProductCategoriesView">
               <MappingFragment StoreEntitySet="ProductCategoriesView">
@@ -21516,6 +21501,23 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="AddressName" ColumnName="AddressName" />
                 <ScalarProperty Name="BAddress1" ColumnName="BAddress1" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetUsedFontsUpdated" FunctionName="DomainModels.Store.sp_GetUsedFontsUpdated">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.sp_GetUsedFontsUpdated_Result">
+                <ScalarProperty Name="ProductFontId" ColumnName="ProductFontId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="FontName" ColumnName="FontName" />
+                <ScalarProperty Name="FontDisplayName" ColumnName="FontDisplayName" />
+                <ScalarProperty Name="FontFile" ColumnName="FontFile" />
+                <ScalarProperty Name="DisplayIndex" ColumnName="DisplayIndex" />
+                <ScalarProperty Name="IsPrivateFont" ColumnName="IsPrivateFont" />
+                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="FontPath" ColumnName="FontPath" />
+                <ScalarProperty Name="FontBytes" ColumnName="FontBytes" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

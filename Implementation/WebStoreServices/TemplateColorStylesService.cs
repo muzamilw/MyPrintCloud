@@ -23,9 +23,9 @@ namespace MPC.Implementation.WebStoreServices
 
         #region public
         // get list of color styles based on product ID and customer ID , called from designer // added by saqib ali
-        public List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerID)
+        public List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerID, long territoryId)
         {
-            var colors= _templateColorStyleRepository.GetColorStyle(ProductId,CustomerID);
+            var colors= _templateColorStyleRepository.GetColorStyle(ProductId,CustomerID,territoryId);
             return colors;
         }
         // get list of color styles based on product id , called from designer // added by saqib ali
