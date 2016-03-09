@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Template Font Domain Model
@@ -17,6 +19,12 @@
         public string FontPath { get; set; }
         public long? CustomerId { get; set; }
         public long? TerritoryId { get; set; }
+        [NotMapped]
+        public string TtFFileBytes { get; set; }
+        [NotMapped]
+        public string EotFileBytes { get; set; }
+        [NotMapped]
+        public string WofFileBytes { get; set; }
         public virtual Template Template { get; set; }
     }
 }

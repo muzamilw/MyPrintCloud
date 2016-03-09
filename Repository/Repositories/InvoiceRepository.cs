@@ -104,8 +104,9 @@ namespace MPC.Repository.Repositories
 
             Expression<Func<Invoice, bool>> query =
                 invoice => (!isStringSpecified
-                    || invoice.Company.Name.Contains(request.SearchString) || invoice.InvoiceCode.Contains(request.SearchString))
-
+                    || invoice.Company.Name.Contains(request.SearchString) || invoice.InvoiceCode.Contains(request.SearchString)
+                    || (invoice.CompanyContact != null && invoice.CompanyContact.FirstName.Contains(request.SearchString))
+                    || (invoice.CompanyContact != null && invoice.CompanyContact.LastName.Contains(request.SearchString)))
                     &&
                     (!isSectionFlagZero || invoice.FlagID==request.FilterFlag)
                      &&

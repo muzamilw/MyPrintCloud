@@ -812,6 +812,7 @@ define("invoice/invoice.viewModel",
                         invoiceListViewItem.code(data.InvoiceCode);
                         invoiceListViewItem.type(data.InvoiceType);
                         invoiceListViewItem.companyName(data.CompanyName);
+                        invoiceListViewItem.contactName(data.ContactName);
                         invoiceListViewItem.invoiceDate(data.InvoiceDate);
                         invoiceListViewItem.status(selectedInvoice().invoiceStatusText());
                         //invoiceListViewItem.isDirectSale(selectedInvoice().isDirectSale());

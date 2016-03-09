@@ -4311,7 +4311,10 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCentre.Qty1NetTotal = oItemSectionCostCentre.Qty1Charge + oItemSectionCostCentre.Qty1MarkUpValue;
 
                 oItemSectionCostCentre.Qty1EstimatedStockCost = dblTotalCost[0];
-                
+                if (oJobCardOptionsDTO.IsDefaultInkColorUsed == true)
+                {
+                    oItemSectionCostCentre.Qty1WorkInstructions = InksDescription;
+                }
                 if (dblTotalPrice[0] < dblMinCharge)
                 {
                     oItemSectionCostCentre.Qty1WorkInstructions += Environment.NewLine + "Minimum charges applied";
@@ -4325,10 +4328,13 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCentre.Qty2NetTotal = oItemSectionCostCentre.Qty2Charge + oItemSectionCostCentre.Qty2MarkUpValue;
 
                 oItemSectionCostCentre.Qty2EstimatedStockCost = dblTotalCost[1];
-                
+                if (oJobCardOptionsDTO.IsDefaultInkColorUsed == true)
+                {
+                    oItemSectionCostCentre.Qty2WorkInstructions = InksDescription;
+                }
                 if (dblTotalPrice[1] < dblMinCharge)
                 {
-                    oItemSectionCostCentre.Qty1WorkInstructions += Environment.NewLine + "Minimum charges applied";
+                    oItemSectionCostCentre.Qty2WorkInstructions += Environment.NewLine + "Minimum charges applied";
                 }
             }
 
@@ -4340,10 +4346,13 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCentre.Qty3NetTotal = oItemSectionCostCentre.Qty3Charge + oItemSectionCostCentre.Qty3MarkUpValue;
                 oItemSectionCostCentre.Qty3EstimatedStockCost = dblTotalCost[2];
 
-                
+                if (oJobCardOptionsDTO.IsDefaultInkColorUsed == true)
+                {
+                    oItemSectionCostCentre.Qty3WorkInstructions = InksDescription;
+                }
                 if (dblTotalPrice[2] < dblMinCharge)
                 {
-                    oItemSectionCostCentre.Qty1WorkInstructions += Environment.NewLine + "Minimum charges applied";
+                    oItemSectionCostCentre.Qty3WorkInstructions += Environment.NewLine + "Minimum charges applied";
                 }
             }
 

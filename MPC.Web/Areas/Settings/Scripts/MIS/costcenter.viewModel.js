@@ -46,8 +46,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //{ Id: 1, Text: 'Cost Centers' },
             QuestionVariableType = ko.observableArray([
             { Id: 1, Text: 'General' },
-            { Id: 2, Text: 'Yes/No' },
-            { Id: 3, Text: 'Multiple Options' }            
+            { Id: 3, Text: 'Yes/No' },
+            { Id: 2, Text: 'Multiple Options' }            
             ]),
             RowscolCountList = ko.observableArray([
             //{ Id: 1, Text: '1' },

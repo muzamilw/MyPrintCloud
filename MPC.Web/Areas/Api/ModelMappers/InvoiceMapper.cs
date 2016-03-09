@@ -114,6 +114,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemsCount = itemsTotal,
                 InvoiceType = source.InvoiceType,
                 isDirectSale = source.InvoiceType == 1 ? false : true,
+                ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " "  + source.CompanyContact.LastName  : string.Empty
             };
         }
 

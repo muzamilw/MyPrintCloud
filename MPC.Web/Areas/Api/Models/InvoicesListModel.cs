@@ -21,5 +21,6 @@ namespace MPC.MIS.Areas.Api.Models
         public bool isDirectSale { get; set; }
         public string OrderNo{ get; set; }
         public string Status{ get; set; }
+        public string ContactName { get; set; }
     }
 }

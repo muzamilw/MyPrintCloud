@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.IdentityModel.Protocols.WSFederation;
 using MPC.MIS.Areas.Api.Models;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -42,7 +43,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsEnable = source.IsEnable,
                 FontPath = source.FontPath,
                 CustomerId = source.CustomerId,
-                TerritoryId = source.TerritoryId
+                TerritoryId = source.TerritoryId,
+                TtFFileBytes = source.TtFFileBytes,
+                EotFileBytes = source.EotFileBytes,
+                WofFileBytes = source.WofFileBytes
             };
 
             return templateFont;

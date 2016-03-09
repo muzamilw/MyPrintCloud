@@ -5738,9 +5738,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isEnable = ko.observable(specifiedisEnable),
             fontPath = ko.observable(specifiedfontPath),
             customerId = ko.observable(specifiedcustomerId),
-            fontFileTtf = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".ttf" : ""),
-            fontNameEot = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".eot" : ""),
-            fontNameWof = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".wof" : ""),
+            fontFileTtf = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".ttf" : "").extend({required : true}),
+            fontNameEot = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".eot" : "").extend({ required: true }),
+            fontNameWof = ko.observable(specifiedfontFile != undefined ? specifiedfontFile + ".wof" : "").extend({ required: true }),
+            ttfFileSource = ko.observable(),
+            eotFileSource = ko.observable(),
+            wofFileSource = ko.observable(),
+        
             territoryId = ko.observable(specifiedterritoryId),
             dirtyFlag = new ko.dirtyFlag({
                 productFontId: productFontId,
@@ -5757,6 +5761,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             }),
              errors = ko.validation.group({
                  fontName: fontName,
+                 fontFileTtf: fontFileTtf,
+                 fontNameEot: fontNameEot,
+                 fontNameWof: fontNameWof
              }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -5781,7 +5788,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     CustomerId: customerId(),
                     TerritoryId: territoryId(),
                     FontPath: fontPath(),
-                    DisplayIndex: displayIndex()
+                    DisplayIndex: displayIndex(),
+                    TtFFileBytes: ttfFileSource(),
+                    EotFileBytes: eotFileSource(),
+                    WofFileBytes: wofFileSource()
                 };
             };
 
@@ -5797,6 +5807,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             fontFileTtf: fontFileTtf,
             fontNameEot: fontNameEot,
             fontNameWof: fontNameWof,
+            ttfFileSource: ttfFileSource,
+            eotFileSource: eotFileSource,
+            wofFileSource : wofFileSource,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
