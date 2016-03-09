@@ -22,5 +22,10 @@ namespace MPC.Models.DomainModels
         public string AddressName { get; set; }
         public string BAddress1 { get; set; }
         public string StatusName { get; set; }
+
+        public string OrderNo { get; set; }
+
+        public string InvoiceDescription { get; set; }
+
     }
 }
