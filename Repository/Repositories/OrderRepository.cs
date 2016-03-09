@@ -7225,6 +7225,15 @@ namespace MPC.Repository.Repositories
             }
             return Result;
         }
+
+        public List<Item> GetTemplateItemsByOrderID(long orderId)
+        {
+            //db.Configuration.LazyLoadingEnabled = false;
+            return db.Items.Include("Templates").Where(i => i.EstimateId == orderId && i.TemplateId > 0 && i.IsOrderedItem == true && i.ProductType == 1).ToList();
+            
+        }
+
+       
     }
 }
 
