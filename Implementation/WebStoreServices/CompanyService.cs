@@ -2069,5 +2069,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _orderrepository.UpdateOrderAndItemsForRejectOrder(OrderId, CartOrderId);
         }
+        public List<Item> GetTemplateItemsByOrderID(long orderId)
+        {
+            return _orderrepository.GetTemplateItemsByOrderID(orderId);
+        }
+      
     }
 }

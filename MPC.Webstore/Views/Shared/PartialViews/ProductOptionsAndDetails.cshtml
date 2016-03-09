@@ -2028,7 +2028,7 @@
                             checkedPriceTotal = checkedPriceTotal + parseFloat(ActualPriceIncludeVat);
 
                         } else if (selectedCheckBox.Type == 4) {*@ // gets the value from the label
-
+                    console.log("isChecked");
                     if ($(val).next().next().children(':first').text() == "") {
 
                     } else {
@@ -2565,8 +2565,10 @@
                                         isQueueExist = true;
                                         ShowCostCentrePopup(QuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, InputQueueObject.Items, CostCentreType, @ViewBag.TaxRate, WorkInstructions);
                                     }
-                                    if(InputQueueObject.Items.length == 3){ // do not process the queue for prompting values
-                                        isQueueExist = true;
+                                    if(InputQueueObject != null && InputQueueObject.Items != null){ // do not process the queue for prompting values
+                                        if(InputQueueObject.Items.length == 3){ // do not process the queue for prompting values
+                                            isQueueExist = true;
+                                        }
                                     }
                                 }else if(isQueueExist == false){ // process the question queue and prompt for values
                                     isQueueExist = true;

@@ -1581,7 +1581,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 
     function EmailProofsPopup(title) {
 
-        var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"><input type="text" id="Email1"  class="rounded_corners5 text_box" ></input><br/><br/><input type="text" id="Email2"  class="rounded_corners5 text_box" ></input><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Rejection()">Save</button><button type="button" id="Close" class="btn btn-primary" onclick="Cancel()">Close</button></div></div>';
+        var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"><input type="text" id="Email1"  class="rounded_corners5 text_box" ></input><br/><br/><input type="text" id="Email2"  class="rounded_corners5 text_box" ></input><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="SendProofs()">Save</button><button type="button" id="Close" class="btn btn-primary" onclick="Cancel()">Close</button></div></div>';
 
         
         var bws = getBrowserHeight();

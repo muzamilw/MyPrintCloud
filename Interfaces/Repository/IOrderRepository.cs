@@ -13,6 +13,9 @@ namespace MPC.Interfaces.Repository
 {
     public interface IOrderRepository : IBaseRepository<Estimate, long>
     {
+        List<Item> GetTemplateItemsByOrderID(long orderId);
+        
+      
         bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId);
         bool UpdateOderStatus(Estimate Estimate);
         void UpdateOrderForDel(Estimate Order);
