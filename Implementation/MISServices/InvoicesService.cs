@@ -691,20 +691,7 @@ namespace MPC.Implementation.MISServices
             CSV.Append(csv);
 
 
-            FileHeader.Add("CustomerRef");
-            FileHeader.Add("TxnDate");
-            FileHeader.Add("InvocieID");
-            FileHeader.Add("DueDate");
-            FileHeader.Add("ItemRef");
-            FileHeader.Add("Description");
-            FileHeader.Add("AmountIncTax");
-
-            FileHeader.Add("Qty");
-            FileHeader.Add("UnitPrice");
-            FileHeader.Add("Status");
-            FileHeader.Add("StoreName");
-            FileHeader.Add("AddressName");
-
+        
             string CustomerRef = string.Empty;
             string TxnDate = string.Empty;
             string InvocieID = string.Empty;
@@ -720,6 +707,7 @@ namespace MPC.Implementation.MISServices
             string StoreName = string.Empty;
             string AddressName = string.Empty;
             string Address1 = string.Empty;
+            string InvoiceDescription = string.Empty;
 
 
             if (exportInvData != null && exportInvData.Count() > 0)
@@ -727,9 +715,9 @@ namespace MPC.Implementation.MISServices
                 foreach (var invRec in exportInvData)
                 {
                     string cdata = string.Empty;
-                    if (invRec.AccountNumber != null)
+                    if (invRec.OrderNo != null)
                     {
-                        CustomerRef = invRec.AccountNumber;
+                        CustomerRef = invRec.OrderNo;
                     }
 
                     if (invRec.CreationDate != null)
@@ -778,11 +766,14 @@ namespace MPC.Implementation.MISServices
                     if (invRec.BAddress1 != null)
                         Address1 = Convert.ToString(invRec.BAddress1);
 
+                    if (invRec.InvoiceDescription != null)
+                        InvoiceDescription = Convert.ToString(invRec.InvoiceDescription);
+
 
 
 
                     cdata = CustomerRef + "," + TxnDate + "," + InvocieID + "," + DueDate + "," + ItemRef + "," + Description + "," + AmountIncTax + "," + Qty + "," + UnitPrice + "," +
-                        Status + "," + StoreName + "," + AddressName + " " + Address1  +
+                        Status + "," + StoreName + "," + AddressName + " " + Address1  + "," + InvoiceDescription +
                                       "\r\n";
 
 
@@ -856,6 +847,7 @@ namespace MPC.Implementation.MISServices
             FileHeader.Add("Status");
             FileHeader.Add("CustomerName");
             FileHeader.Add("Address");
+            FileHeader.Add("Invoice Description");
            
             return FileHeader;
 
