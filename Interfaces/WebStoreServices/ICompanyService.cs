@@ -13,11 +13,10 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        List<Item> GetTemplateItemsByOrderID(long orderId);
         bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId);
         bool UpdateOderStatus(Estimate Estimate);
-
-bool UpdateItemsStatus(long EstimateId);
-
+        bool UpdateItemsStatus(long EstimateId);
         long GetReportIdByName(string ReportName);
         double GetTemplateCuttingMargin(long ProductId);
         string AssetItemFilePath(long AssetItemId);

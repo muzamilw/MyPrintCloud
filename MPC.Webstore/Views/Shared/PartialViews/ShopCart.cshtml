@@ -524,7 +524,7 @@
     <table class="normalTextStyle" width="400" cellpadding="2">
         <tr>
             <td align="right">
-                <label id="lbl_Email1AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email1AddressSendProofs", UserCookieManager.WBStoreId))</label>
+                @*<label  id="lbl_Email1AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email1AddressSendProofs", UserCookieManager.WBStoreId))</label>*@
             </td>
             <td class="tdtextbox">
                 <input type="email" name="userEmail1" id="userEmail1" class="text_box200 rounded_corners5">
@@ -574,7 +574,85 @@
         //var Email1=$("#").val();
         //var Email2=$("#").val();
         EmailProofsPopup('Enter the email address(s) to send all proofs');
+    }   
+    function SendProofs()
+    {
+    
+       
+           // if(EmailValidation()==true)
+           // {
+                var ModeOfStore = '@ViewBag.StoreMode';
+            
+                var email1 = $("#Email1").val();
+                var email2 = $("#Email2").val();
+
+                var orderID ='@ViewBag.OrderId';
+                var ContactID = '@ViewBag.ContactID';
+                var ComapanyID ='@ViewBag.StoreId';
+         
+
+               // var data = {orderID:orderID,Email1:email1,Email2:email2,ContactID:ContactID,ContactCompanyID:ComapanyID,StoreMode:ModeOfStore}
+                $.ajax({
+                    type:"POST",
+                    url:"/webstoreapi/ContactImageUploader/SendEmails?orderID="+orderID+"&Email1="+email1+"&Email2="+email2+"&ContactID="+ContactID+"&ContactCompanyID="+ComapanyID+"&StoreMode="+ModeOfStore+"",
+                    contentType: "application/json",
+                    //data: data,
+                    async: true,
+                    success: function (response) {
+                        
+                    }
+                });
+
+
+           // }
+            
     }
+        function EmailValidation(email1,email2)
+        {
+            var Result=false;
+            if (email1 != "") {
+                if (!ValidateEmail(email1)) {
+                    alert("Please enter a valid email address in address 1");
+                    
+                }
+                else
+                {
+                    Result=true;
+                }
+            }
+            if (email2 != "") {
+                if (!ValidateEmail(email2)) {
+                    alert("Please enter a valid email address in address 2");
+                   
+                }
+                else
+                {
+                    Result=true;
+                }
+            }
+            if (email2 == "" && email1 == "") {
+                alert("Please enter atleast one email address");
+                Result=false;
+            }
+            return Result;
+        }
+        function ValidateEmail(email) {
+            var isValid = true;
+            if (email == '') {
+
+                isValid = false;
+            }
+            else {
+                var re = new RegExp("^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$");
+                if (!re.test(email)) {
+
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+
     function CanCheckOut(sender) {
         if (Page_ClientValidate()) {
             var numOfRec = 0;
