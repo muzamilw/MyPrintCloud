@@ -7228,8 +7228,8 @@ namespace MPC.Repository.Repositories
 
         public List<Item> GetTemplateItemsByOrderID(long orderId)
         {
-            //db.Configuration.LazyLoadingEnabled = false;
-            return db.Items.Include("Templates").Where(i => i.EstimateId == orderId && i.TemplateId > 0 && i.IsOrderedItem == true && i.ProductType == 1).ToList();
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.Items.Include("Template.TemplatePages").Where(i => i.EstimateId == orderId && i.TemplateId > 0 && i.IsOrderedItem == true && i.ProductType == 1).ToList();
             
         }
 
