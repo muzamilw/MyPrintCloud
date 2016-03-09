@@ -138,14 +138,17 @@
                         @* List View Template *@
                         <script id="orderListViewTemplate" type="text/html">
                             <tr data-bind=" click: $root.editOrder" style="cursor:pointer;">
-                                
+                                <td>&nbsp;</td>
                                 <td>
-                                    <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
-                                    <span class="user-subhead">
-                                        <span data-bind="text: name"></span>
-                                        <span data-bind="text: ' '"></span>
-                                        <span data-bind="text: noOfItemsUi"></span>
-                                    </span>
+                                    <div style="float:left;display:inline;">
+                                        <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
+                                        <span class="user-subhead">
+                                            <span data-bind="text: name"></span>
+                                            <span data-bind="text: ' '"></span>
+                                            <span data-bind="text: noOfItemsUi"></span>
+                                        </span>
+                                    </div>
+                                    
                                 </td>
                                 <td>
                                     <span data-bind="text: contactName"></span>
@@ -167,7 +170,7 @@
                                 </td>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 || $root.currentScreen() == 1 || $root.currentScreen() == undefined-->
-                                <td class="col-sm-2"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></td>
+                                <td class="col-sm-2"><span style="margin-right: 0; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></td>
                                 <!--/ko-->
                                 
                             </tr>
@@ -220,20 +223,21 @@
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-sm-3"><span>Customer</span></th>
-                                                <th class="col-sm-1"><span>Contact</span></th>
-                                                <th class="col-sm-2">
+                                                <th></th>
+                                                <th data-bind="css: { 'col-sm-3':  $root.currentScreen() == 0, 'col-sm-4' : $root.currentScreen() !== 0 }"><span>Customer</span></th>
+                                                <th class="col-sm-2"><span>Contact</span></th>
+                                                <th class="col-sm-1">
                                                     <!--ko if: $root.currentScreen() != 8-->
-                                                    <span>Estimate Code</span>
+                                                    <span>Code</span>
                                                     <!--/ko-->
                                                 </th>
                                                 <th class="col-sm-2"><span>Estimate Date</span></th>
-                                                <th class="col-sm-2"><span>Flag</span></th>
+                                                <th class="col-sm-1"><span>Flag</span></th>
                                                 <!--ko if: $root.currentScreen() == 0-->
                                                 <th class="col-sm-2"><span>Status</span></th>
                                                 <!--/ko-->
                                                 <!--ko if: $root.currentScreen() == 0  || $root.currentScreen() == 1  || $root.currentScreen() == undefined-->
-                                                <th class="col-sm-2" style="text-align:right;"><span>Estimate Total</span></th>
+                                                <th class="col-sm-2" style="text-align:right;"><span>Total</span></th>
                                                 <!--/ko-->
                                                 
                                             </tr>
@@ -269,8 +273,8 @@
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-sm-1">&nbsp;</th>
-                                                <th class="col-sm-3"><span>Customer</span></th>
+                                                <th>&nbsp;</th>
+                                                <th class="col-sm-4"><span>Customer</span></th>
                                                 <th class="col-sm-2"><span>Require By Date</span></th>
                                                 <th class="col-sm-2"><span>Flag</span></th>
                                                 <th class="col-sm-2">Status</th>

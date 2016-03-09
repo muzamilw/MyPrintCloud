@@ -176,9 +176,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="col-lg-4"><span>Font Name</span></th>
-                                                        <th class="col-lg-2"><span>Font File</span></th>
+                                                        <th class="col-lg-3"><span>Font File</span></th>
                                                         <th class="col-lg-2"><span>Enable</span></th>
-                                                        <th class="col-lg-4"></th>
+                                                        <th class="col-lg-3"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -189,7 +189,7 @@
                                         </div>
                                     </div>
                                     <div class="btn-group" style="float: left; margin-top:10px; margin-bottom: 5px;" data-bind="visible: $root.isUseTerritoryFontUi() == 'true'">
-                                        <button type="button" class="btn btn-primary">Add New Template Font</button>
+                                        <button type="button" class="btn btn-primary" data-bind="click: $root.onAddTerritoryTemplateFont">Add New Template Font</button>
                                     </div>
                                 </div>
 
@@ -266,7 +266,7 @@
 </script>
 <script id="fontsTemplateTerritory" type="text/html">
     <tr>
-        <td><a href="#" class="store-user-link" data-bind="text: fontName"></a></td>
+        <td><a href="#" class="store-user-link" data-bind="text: fontName, click:$root.onEditTerritoryTemplateFont"></a></td>
         <td data-bind="text:fontFile"></td>
         <td>
             <div class="type">

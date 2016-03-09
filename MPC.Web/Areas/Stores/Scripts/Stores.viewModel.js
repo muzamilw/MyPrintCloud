@@ -1108,6 +1108,9 @@ define("stores/stores.viewModel",
                             _.each(territorySpotColors(), function (item) {
                                 territory.TerritorySpotColors.push(item.convertToServerData(item));
                             });
+                            _.each(selectedStore().territoryTemplateFonts(), function (item) {
+                                territory.TerritoryFonts.push(item.convertToServerData(item));
+                            });
 
 
                             if (selectedStore().companyId() > 0) {
@@ -1369,6 +1372,7 @@ define("stores/stores.viewModel",
                                 var territoryFont = model.TemplateFont.CreateFromClient(font);
                                 territoryFont.territoryId(selectedCompanyTerritory().territoryId());
                                 territoryFont.customerId(selectedStore().companyId());
+                                territoryFont.productFontId(counter);
                                 selectedStore().territoryTemplateFonts.push(territoryFont);
                                 counter--;
                             });
@@ -1421,25 +1425,42 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
-                    onSaveCompanyTemplateFont = function() {
+                    onSaveCompanyTemplateFont = function () {
+                        selectedCompanyTemplateFont().fontFile(getFileNameOrExtension(selectedCompanyTemplateFont().fontFileTtf(), false));
                        if (dobeforeSaveTemplateFont()) {
                            dataservice.saveTemplateFont(selectedCompanyTemplateFont().convertToServerData(), {
                                success: function (data) {
                                    if (data != null) {
+                                       var savedFont = model.TemplateFont.Create(data);
                                        if (!isTerritoryFont()) {
-                                           var currentFont = selectedStore().companyTemplateFonts.find(function (font) {
-                                               return font.productFontId() === data.ProductFontId;
-                                           });
-                                           if (currentFont != undefined) {
-                                               currentFont.fontName(data.FontName);
-                                               currentFont.isEnable(data.IsEnable);
-                                               currentFont.fontFile(data.FontFile);
+                                           if (selectedCompanyTemplateFont().productFontId() == 0 || selectedCompanyTemplateFont().productFontId() == undefined)
+                                               selectedStore().companyTemplateFonts.splice(0, 0, savedFont);
+                                           else {
+                                               var currentFont = selectedStore().companyTemplateFonts.find(function (font) {
+                                                   return font.productFontId() === data.ProductFontId;
+                                               });
+                                               if (currentFont != undefined) {
+                                                   currentFont.fontName(data.FontName);
+                                                   currentFont.isEnable(data.IsEnable);
+                                                   currentFont.fontFile(data.FontFile);
+                                               }
                                            }
                                                
                                        } else {
-                                           
+                                           if (selectedCompanyTemplateFont().productFontId() <= 0 || selectedCompanyTemplateFont().productFontId() == undefined)
+                                               selectedStore().territoryTemplateFonts.splice(0, 0, savedFont);
+                                           else {
+                                               var territoryFont = selectedStore().territoryTemplateFonts.find(function (font) {
+                                                   return font.productFontId() === data.ProductFontId;
+                                               });
+                                               if (territoryFont != undefined) {
+                                                   territoryFont.fontName(data.FontName);
+                                                   territoryFont.isEnable(data.IsEnable);
+                                                   territoryFont.fontFile(data.FontFile);
+                                               }
+                                           }
                                        }
-                                       
+                                       isTerritoryFont(false);
                                    }
                                    view.hideCompanyTemplateFontDialog();
                                },
@@ -1455,32 +1476,123 @@ define("stores/stores.viewModel",
                     dobeforeSaveTemplateFont = function() {
                         var flag = true;
                         if (!selectedCompanyTemplateFont().isValid()) {
-                            selectedCompanyCMYKColor().errors.showAllMessages();
+                            selectedCompanyTemplateFont().errors.showAllMessages();
+                            flag = false;
+                        }
+                        else if (getValidFileName("ttf") != getValidFileName("eot") || getValidFileName("ttf") != getValidFileName("woff")) {
+                            toastr.error("Please upload files with same name.");
                             flag = false;
                         }
                         return flag;
                     },
-                    uploadTtf = function () {
-                        setFileNameEmpty();
+                    uploadTtf = function (file, data) {
+                      
+                        if (!validateFontFileUploaded(file.name, "ttf")) {
+                            selectedCompanyTemplateFont().fontFileTtf(undefined);
+                            return;
+                        }
+                        selectedCompanyTemplateFont().fontFileTtf(file.name);
+                        selectedCompanyTemplateFont().ttfFileSource(data);
+                        if (selectedCompanyTemplateFont().eotFileSource() == undefined) {
+                            selectedCompanyTemplateFont().fontNameEot(undefined);
+                        }
+                        if (selectedCompanyTemplateFont().wofFileSource() == undefined) {
+                            selectedCompanyTemplateFont().fontNameWof(undefined);
+                        }
+                    },
+                     
+                    uploadEot = function (file, data) {
+                        if (!validateFontFileUploaded(file.name, "eot")) {
+                            selectedCompanyTemplateFont().fontNameEot(undefined);
+                            return;
+                        }
+                        selectedCompanyTemplateFont().fontNameEot(file.name);
+                        selectedCompanyTemplateFont().eotFileSource(data);
+                        if (selectedCompanyTemplateFont().ttfFileSource() == undefined) {
+                            selectedCompanyTemplateFont().fontFileTtf(undefined);
+                        }
+                        if (selectedCompanyTemplateFont().wofFileSource() == undefined) {
+                            selectedCompanyTemplateFont().fontNameWof(undefined);
+                        }
+                    },
+                    uploadWof = function (file, data) {
+                        if (!validateFontFileUploaded(file.name, "woff")) {
+                            selectedCompanyTemplateFont().fontNameWof(undefined);
+                            return;
+                        }
+                        selectedCompanyTemplateFont().fontNameWof(file.name);
+                        selectedCompanyTemplateFont().wofFileSource(data);
+                        if (selectedCompanyTemplateFont().eotFileSource() == undefined) {
+                            selectedCompanyTemplateFont().fontNameEot(undefined);
+                        }
+                        if (selectedCompanyTemplateFont().ttfFileSource() == undefined) {
+                            selectedCompanyTemplateFont().fontFileTtf(undefined);
+                        }
+                    },
+                    getFileNameOrExtension = function(filename, isExtension) {
+                        if(isExtension)
+                            return filename.substring(filename.indexOf('.') + 1, filename.length);
+                        else {
+                            return filename.substring(0, filename.indexOf('.'));
+                        }
+                    },
+                    validateFontFileUploaded = function(filename, fileType) {
+                        var isValidFile = true;
+                        var currFileName = getFileNameOrExtension(filename, false);
+                        var fileExtenion = getFileNameOrExtension(filename, true);
+                        if (fileType == "ttf" && fileExtenion != "ttf") {
+                            toastr.error("Please upload ttf file.");
+                            isValidFile = false;
+                        }
+                        else if (fileType == "eot" && fileExtenion != "eot") {
+                            toastr.error("Please upload eot file.");
+                            isValidFile = false;
+                        }
+                        else if (fileType == "woff" && fileExtenion != "woff") {
+                            toastr.error("Please upload woff file.");
+                            isValidFile = false;
+                        }
 
+                        return isValidFile;
                     },
-                    uploadEot = function () {
-                        setFileNameEmpty();
+                    getValidFileName = function (fileType) {
+                        
+                        if (fileType == "eot") {
+                            return getFileNameOrExtension(selectedCompanyTemplateFont().fontNameEot(), false);
+                        } else if (fileType == "woff") {
+                            return getFileNameOrExtension(selectedCompanyTemplateFont().fontNameWof(), false);
+                        } else {
+                           return getFileNameOrExtension(selectedCompanyTemplateFont().fontFileTtf(), false);
+                        }
                     },
-                    uploadWof = function () {
-                        setFileNameEmpty();
-                    },
-                    setFileNameEmpty = function() {
-                        selectedCompanyTemplateFont().fontFileTtf(undefined);
-                        selectedCompanyTemplateFont().fontNameEot(undefined);
-                        selectedCompanyTemplateFont().fontNameWof(undefined);
-                    },
+               
                      onEditTemplateFont = function (templateFont) {
                          isTerritoryFont(false);
                          companyTemplateFontViewModel.selectItem(templateFont);
                          view.showCompanyTemplateFontDialog();
                      },
-                    
+                    onEditTerritoryTemplateFont = function (templateFont) {
+                        isTerritoryFont(true);
+                        companyTemplateFontViewModel.selectItem(templateFont);
+                        view.showCompanyTemplateFontDialog();
+                    },
+                    onAddTemplateFont = function() {
+                        var templateFont = model.TemplateFont.Create({});
+                        templateFont.customerId(selectedStore().companyId());
+                        templateFont.isEnable(true);
+                        isTerritoryFont(false);
+                        companyTemplateFontViewModel.selectItem(templateFont);
+                        view.showCompanyTemplateFontDialog();
+                    },
+                    onAddTerritoryTemplateFont = function () {
+                        var templateFont = model.TemplateFont.Create({});
+                        templateFont.customerId(selectedStore().companyId());
+                        templateFont.territoryId(selectedCompanyTerritory().territoryId());
+                        templateFont.isEnable(true);
+                        isTerritoryFont(true);
+                        companyTemplateFontViewModel.selectItem(templateFont);
+                        view.showCompanyTemplateFontDialog();
+                    },
                     // Get Company CMYK Colors By Id
                     getCompanyCMYKColorsByIdFromListView = function(id) {
                         return selectedStore().companyCMYKColors.find(function(color) {
@@ -8473,7 +8585,10 @@ define("stores/stores.viewModel",
                     onSaveCompanyTemplateFont: onSaveCompanyTemplateFont,
                     uploadWof: uploadWof,
                     uploadEot: uploadEot,
-                    uploadTtf: uploadTtf
+                    uploadTtf: uploadTtf,
+                    onAddTemplateFont: onAddTemplateFont,
+                    onAddTerritoryTemplateFont : onAddTerritoryTemplateFont,
+                    onEditTerritoryTemplateFont: onEditTerritoryTemplateFont
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog
             };

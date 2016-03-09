@@ -19,5 +19,10 @@ namespace MPC.MIS.Areas.Api.Models
         public string FontPath { get; set; }
         public long? CustomerId { get; set; }
         public long? TerritoryId { get; set; }
+        public string TtFFileBytes { get; set; }
+        public string EotFileBytes { get; set; }
+        public string WofFileBytes { get; set; }
+
+        
     }
 }
