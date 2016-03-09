@@ -3281,23 +3281,15 @@ define("order/order.viewModel",
                     },
                     onDeletePermanent = function () {
 
-                        //if (selectedStore().isStoreSetLive()) {
-                        //    confirmation.headingText("Alert");
-                        //    confirmation.yesBtnText("OK");
-                        //    confirmation.noBtnText("Cancel");
-                        //    confirmation.IsCancelVisible(false);
-                        //    confirmation.messageText("Important !! Store is live if u want to delete it please make it offline.");
-
-                        //    confirmation.show();
-                        //}
-                        //else {
+                        if (selectedOrder().statusId() == 9)
+                        {
 
                             confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(function () {
 
                                 confirmation.hide();
                                 var sMessage = "Please enter reason to delete an order.";
-                                confirmation.messageText("Important !! " + sMessage);
+                                confirmation.deletemessageText("Important !! " + sMessage);
                                 confirmation.afterActionProceed(function () {
                                     //confirmation.hideActionPopup();
                                     var coment = confirmation.comment() + " " + "RandomNumber : " + confirmation.UserRandomNum();
@@ -3310,7 +3302,23 @@ define("order/order.viewModel",
 
                             });
                             confirmation.show();
-                       // }
+
+                          
+                        }
+                        else
+                        {
+                            confirmation.headingText("Alert");
+                            confirmation.yesBtnText("OK");
+                            confirmation.noBtnText("Cancel");
+                            confirmation.IsCancelVisible(false);
+                            confirmation.messageText("Important !! Please cancle the order to delete it.");
+
+                            confirmation.show();
+                        }
+                     
+
+                          
+                       
 
                     },
 

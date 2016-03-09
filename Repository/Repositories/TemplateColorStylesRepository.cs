@@ -45,18 +45,21 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
         // get color styles list based on product id and customer id(corporate store id) // added by saqib ali
-        public List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerId)
+        public List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerId, long territoryId)
         {
           
             db.Configuration.LazyLoadingEnabled = false;
             List<TemplateColorStyle> oStyles = null;
+            long? territory = null;
+            if (territoryId != 0)
+                territory = territoryId;
             if (CustomerId == 0)
             {
-                oStyles = db.TemplateColorStyles.Where(g => (g.ProductId == ProductId || g.ProductId == null) && g.CustomerId == null).ToList();
+                oStyles = db.TemplateColorStyles.Where(g => (g.ProductId == ProductId || g.ProductId == null) && g.CustomerId == null && g.TerritoryId == null).ToList();
             }
             else
             {
-                oStyles = db.TemplateColorStyles.Where(g => g.CustomerId == CustomerId).ToList();
+                oStyles = db.TemplateColorStyles.Where(g => g.CustomerId == CustomerId && g.TerritoryId == territory).ToList();
             }
             return oStyles;
         }
@@ -66,7 +69,7 @@ namespace MPC.Repository.Repositories
 
             db.Configuration.LazyLoadingEnabled = false;
             List<TemplateColorStyle> oStyles = null;
-            oStyles = db.TemplateColorStyles.Where(g => g.ProductId == ProductId || g.ProductId == null).ToList();
+            oStyles = db.TemplateColorStyles.Where(g => (g.ProductId == ProductId || g.ProductId == null) && g.TerritoryId == null).ToList();
             return oStyles;
         }
         // add new corporate color // added by saqib ali

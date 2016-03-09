@@ -46,6 +46,8 @@ namespace MPC.Webstore.Controllers
             string ANZError = Request.QueryString["Error"];
             string ANZErrorMes = Request.QueryString["ErrorMessage"];
             string voucherAppliedMesg = Request.QueryString["VCId"];
+             int TemplatedItemCount = 0;
+
             long OrderId = 0;
             ShoppingCart shopCart = null;
           
@@ -143,6 +145,23 @@ namespace MPC.Webstore.Controllers
 
                 shopCart = LoadShoppingCart(OrderId);
 
+                foreach (var item in shopCart.CartItemsList)
+                {
+                    if (item.TemplateID > 0)
+                    {
+                        TemplatedItemCount += 1;
+                    }
+                }
+
+                if (TemplatedItemCount > 0)
+                {
+                    ViewBag.EmailProofButtonVisible = true;
+                }
+                else
+                {
+                    ViewBag.EmailProofButtonVisible = false;
+                }
+
                 if (shopCart != null)
                 {
                     BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false, OrderId);
@@ -214,6 +233,11 @@ namespace MPC.Webstore.Controllers
                 ViewBag.CanPlaceOrder = 1;
             }
             StoreBaseResopnse = null;
+            ViewBag.StoreMode = UserCookieManager.WEBStoreMode;
+            ViewBag.OrderId = UserCookieManager.WEBOrderId;
+            ViewBag.StoreId = UserCookieManager.WBStoreId;
+            ViewBag.OrganisationId = UserCookieManager.WEBOrganisationID;
+            ViewBag.ContactID = _myClaimHelper.loginContactID();
             return View("PartialViews/ShopCart", shopCart);
         }
         [HttpPost]
@@ -412,6 +436,11 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.CanPlaceOrder = 1;
                     }
+                    ViewBag.StoreMode = UserCookieManager.WEBStoreMode;
+                    ViewBag.OrderId = UserCookieManager.WEBOrderId;
+                    ViewBag.StoreId = UserCookieManager.WBStoreId;
+                    ViewBag.OrganisationId = UserCookieManager.WEBOrganisationID;
+                    ViewBag.ContactID = _myClaimHelper.loginContactID();
                     return View("PartialViews/ShopCart", shopCart);
                 
                 
@@ -705,5 +734,72 @@ namespace MPC.Webstore.Controllers
             }
 
         }
+
+        [HttpPost]
+        public bool SendEmails(string orderID, string Email1, string Email2, string ContactID, string ContactCompanyID, int StoreMode)
+        {
+
+
+            string virtualDesTfolderPath = System.Web.HttpContext.Current.Server.MapPath("/mpc_content/EmailAttachments");
+
+            int oID = Convert.ToInt32(orderID);
+
+            List<string> Attachments = new List<string>();
+
+            List<Item> OrderItemsList = _myCompanyService.GetTemplateItemsByOrderID(oID);
+            foreach(Item itm in OrderItemsList)
+            {
+                if (itm.Template != null) 
+                {
+                    int count = 1;
+                    string virtualNewFilePath = "";
+                    foreach (TemplatePage itmP in itm.Template.TemplatePages)
+                    {
+                        string FilePath = "/mpc_content/Designer/Organisation" + UserCookieManager.WEBOrganisationID + "/Templates/" + itm.TemplateId + "/" + "p" + count + ".jpg";
+                        virtualNewFilePath = virtualDesTfolderPath + itm.TemplateId + "/" + "p" + count + ".jpg";
+                        count++;
+                        Attachments.Add(virtualNewFilePath);
+                        System.IO.File.Copy(System.Web.HttpContext.Current.Server.MapPath(FilePath), virtualNewFilePath, true);
+                    }
+                }
+            }
+            
+            //MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+            //Campaign oCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
+
+
+
+            
+            //CEP.ContactCompanyID = Convert.ToInt32(ContactCompanyID);
+            //CEP.StoreID = Convert.ToInt32(ContactCompanyID);
+            //CEP.ContactID = Convert.ToInt32(ContactID);
+            //CEP.CompanySiteID = 1;
+            //CEP.SalesManagerContactID = Convert.ToInt32(ContactID);
+
+            //CEP.EstimateID = oID;
+             
+
+            //    if (Email1 == "")
+            //    {
+            //        if (Email2 != null)
+            //        {
+            //            Email1 = Email2;
+            //            Email2 = "";
+            //        }
+            //    }
+            //    if (StoreMode == (int)Web2Print.BLL.StoreMode.Broker)
+            //    {
+            //        oEmailManager.emailBodyGenerator(oCampaign, oCompanyRecord, CEP, null, Web2Print.BLL.StoreMode.Broker, "", "", "", "", "", Email2, Attachments, "", null, "", "", null, "", "", Email1);
+            //    }
+            //    else
+            //    {
+            //        oEmailManager.emailBodyGenerator(oCampaign, oCompanyRecord, CEP, null, Web2Print.BLL.StoreMode.Retail, "", "", "", EmailOFSM.Email, "", Email2, Attachments, "", null, "", "", null, "", "", Email1);
+            //    }
+
+            
+            return true;
+        }
+
     }
 }

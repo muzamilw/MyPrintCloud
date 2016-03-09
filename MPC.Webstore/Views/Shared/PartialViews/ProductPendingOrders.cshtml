@@ -750,23 +750,45 @@
     }
     function Rejection()
     {
-        
-        var RejectReason = $("#RejectionReasoan").val();
+        $("#RejectionReasoan").css("border", "1px solid #c1c6cc");
+       
+        if (BValidation() == true) {
 
-        
-        var data = { OrderID: NewOrderID, Rejectionreason: RejectReason }
+            var RejectReason = $("#RejectionReasoan").val();
 
-        $.ajax({
-            type: "POST",
-            url: "/ProductPendingOrders/ApporRejectOrder",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            async: true,
-            success: function (response) {
-                window.location.href = "/ProductPendingOrders";
-            }
-        });
-        HideLoader();
+
+            var data = { OrderID: NewOrderID, Rejectionreason: RejectReason }
+
+            $.ajax({
+                type: "POST",
+                url: "/ProductPendingOrders/ApporRejectOrder",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                async: true,
+                success: function (response) {
+                    window.location.href = "/ProductPendingOrders";
+                }
+            });
+            HideLoader();
+        }
+    }
+    
+    function BValidation() {
+
+        var IsValid = true;
+
+
+        if ($("#RejectionReasoan").val() == '') {
+         
+            $("#RejectionReasoan").css("border", "2px solid red");
+            IsValid = false;
+        }
+        else {
+           
+            $("#RejectionReasoan").css("border", "1px solid #c1c6cc");
+        }
+
+        return IsValid;
 
     }
 </script>

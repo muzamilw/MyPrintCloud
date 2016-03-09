@@ -85,11 +85,11 @@
                                     <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="GoBack();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
                                 @*@if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
-                                {
-                                    <div class="search-order-clear" style="">
-                                        <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
-                                    </div>
-                                }*@
+                                    {
+                                        <div class="search-order-clear" style="">
+                                            <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
+                                        </div>
+                                    }*@
                                 <div class="clearBoth">
 
                                 </div>
@@ -130,10 +130,19 @@
 
         grid.Column("View Reason", format:@<text>@if (item.StatusID == 35)
         {
-            <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/eye_preview.png');" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason','@item.RejectionReason')" />
+            string reason = item.RejectionReason;
+            if (!string.IsNullOrEmpty(reason))
+            {
+                reason.Trim();
+                                                     }
+            
+
+
+            <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('/Content/Images/eye_preview.png'); background-size:100%;" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason',' @reason')" />
+
         }
         </text>),
-                        
+
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
         <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
@@ -559,7 +568,7 @@
 
         var Po=$("#txtOrderRefrence").val();
         window.open(window.location.protocol + "//" + window.location.host + "/mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status);
-       
+
         //window.location.href = "http://staging.myprintcloud.com/mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status;
         @*$.get("mis/api/DownloadExternalReport?ReportId=" + ReportId + "&StoreId=" + @UserCookieManager.WBStoreId +"&Datefrom="+fromDate+"&DateTo="+Todate+"&CustomerPO="+Po+"&OrderStatus="+Status, function (DT) {
 
@@ -885,6 +894,8 @@
         else var expires = "";
         document.cookie = name + "=" + value + expires + "; path=/";
     }
+
+  
     function GoBack()
     {
         window.location.href = "/ProductOrderHistory";

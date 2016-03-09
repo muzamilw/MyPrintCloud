@@ -154,6 +154,13 @@ namespace MPC.Webstore
                 "BillingShippingAddressManager/FillAddresses",
                 new { controller = "BillingShippingAddressManager", action = "FillAddresses", id = UrlParameter.Optional }
            );
+
+            routes.MapRoute(
+                "SendEmails",
+                "ShopCart/SendEmails",
+                new { controller = "ShopCart", action = "SendEmails", id = UrlParameter.Optional }
+           );
+
             routes.MapRoute(
                 "LoadFolders",
                 "ManageAssets/GetFolders",

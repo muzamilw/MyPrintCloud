@@ -1577,3 +1577,29 @@ function ViewOrderPopUp(Type, panelHtml) {
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
     }
+
+
+    function EmailProofsPopup(title) {
+
+        var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"><input type="text" id="Email1"  class="rounded_corners5 text_box" ></input><br/><br/><input type="text" id="Email2"  class="rounded_corners5 text_box" ></input><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="SendProofs()">Save</button><button type="button" id="Close" class="btn btn-primary" onclick="Cancel()">Close</button></div></div>';
+
+        
+        var bws = getBrowserHeight();
+        var shadow = document.getElementById("innerLayer");
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+
+        var left = parseInt((bws.width - 500) / 2);
+        var top = parseInt((bws.height - 170) / 2);
+
+        document.getElementById("innerLayer").innerHTML = container;
+        document.getElementById("innerLayer").style.top = top + "px";
+        document.getElementById("innerLayer").style.left = left + "px";
+        document.getElementById("innerLayer").style.width = "500px";
+        // document.getElementById("innerLayer").style.height = "170px";
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "999999";
+        document.getElementById("innerLayer").style.height = "280px";
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+    }

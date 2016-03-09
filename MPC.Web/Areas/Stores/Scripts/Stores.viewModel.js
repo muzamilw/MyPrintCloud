@@ -7884,7 +7884,7 @@ define("stores/stores.viewModel",
 
                             confirmation.hide();
                             var sMessage = "Please enter reason to delete a store.";
-                            confirmation.messageText("Important !! " + sMessage);
+                            confirmation.deletemessageText("Important !! " + sMessage);
                             confirmation.afterActionProceed(function () {
                                 //confirmation.hideActionPopup();
                                 var coment = confirmation.comment() + " " + "RandomNumber : " + confirmation.UserRandomNum();
