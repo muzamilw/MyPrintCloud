@@ -10,5 +10,7 @@ namespace MPC.Interfaces.MISServices
     {
         bool Update(System.Guid Id, string Email, string FullName, int OrganizationId, int status, string EmailSignature, string EstimateHeadNotes, string EstimateFootNotes);
         bool Add(System.Guid Id, string Email, string FullName, int OrganizationId);
+        void UpdateEmailSignature(string signature);
+        string GetEmailSignature();
     }
 }

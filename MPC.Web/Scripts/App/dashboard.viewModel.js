@@ -2,8 +2,8 @@
     Module with the view model for the Dashboard
 */
 define("dashboard.viewModel",
-    ["jquery", "amplify", "ko", "dashboard.dataservice", "dashboard.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVm) {
+    ["jquery", "amplify", "ko", "dashboard.dataservice", "dashboard.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel", "common/systemUser.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVm, systemUserVm) {
         var ist = window.ist || {};
         ist.dashboard = {
             viewModel: (function () {
@@ -499,8 +499,8 @@ define("dashboard.viewModel",
                             currencySymbol(data.CurrencySymbol);
                             roiRegisteredUsersCount(data.RegisteredUsersCount);
                             roiOrdersProcessedCount(data.OrdersProcessedCount);
-                            roiDirectOrdersTotal(data.DirectOrdersTotal);
-                            roiOnlineOrdersTotal(data.OnlineOrdersTotal);
+                            roiDirectOrdersTotal(data.DirectOrdersTotal.toFixed(2));
+                            roiOnlineOrdersTotal(data.OnlineOrdersTotal.toFixed(2));
                             // totalEarning
                             totalEarnings.removeAll();
                             ko.utils.arrayPushAll(totalEarnings(), data.TotalEarningResult);
@@ -584,10 +584,15 @@ define("dashboard.viewModel",
             goToCustomer = function (customerId) {
                 view.goToCustomer(customerId);
             },
+            getUserEmailSignature = function() {
+                systemUserVm.getSystemUserSignature();
+            },
                 //Initialize
             initialize = function (specifiedView) {
                 view = specifiedView;
                 ko.applyBindings(view.viewModel, view.bindingRoot);
+                ko.cleanNode(view.bindingHeader);
+                ko.applyBindings(view.viewModel, view.bindingHeader);
                 getDashboardData();
                 getTotalEarnings();
                 //  pager(new pagination.Pagination({ PageSize: 5 }, companyContactsForListView, getCompanyContacts));
@@ -633,7 +638,8 @@ define("dashboard.viewModel",
                     roiOrdersProcessedCount: roiOrdersProcessedCount,
                     roiDirectOrdersTotal: roiDirectOrdersTotal,
                     roiOnlineOrdersTotal: roiOnlineOrdersTotal,
-                    logoUrl: logoUrl
+                    logoUrl: logoUrl,
+                    getUserEmailSignature: getUserEmailSignature
                     // xLabelFormat: xLabelFormat
                 };
             })()

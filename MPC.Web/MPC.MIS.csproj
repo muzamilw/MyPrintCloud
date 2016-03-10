@@ -356,6 +356,7 @@
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportParamController.cs" />
     <Compile Include="Areas\Api\Controllers\SpotColorController.cs" />
+    <Compile Include="Areas\Api\Controllers\SystemUserForMisController.cs" />
     <Compile Include="Areas\Api\Controllers\TemplateFontController.cs" />
     <Compile Include="Areas\Api\Controllers\WidgetController.cs" />
     <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
@@ -1025,6 +1026,10 @@
     <Content Include="Areas\Common\Scripts\itemDetail.model.js" />
     <Content Include="Areas\Common\Scripts\itemDetail.view.js" />
     <Content Include="Areas\Common\Scripts\itemDetail.viewModel.js" />
+    <Content Include="Areas\Common\Scripts\systemUser.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\systemUser.model.js" />
+    <Content Include="Areas\Common\Scripts\systemUser.view.js" />
+    <Content Include="Areas\Common\Scripts\systemUser.viewModel.js" />
     <Content Include="Areas\Common\Scripts\reportManager.dataservice.js" />
     <Content Include="Areas\Common\Scripts\reportManager.model.js" />
     <Content Include="Areas\Common\Scripts\reportManager.view.js" />
@@ -2324,6 +2329,7 @@
     <Content Include="Areas\Orders\Views\Home\_OrderDeliveryNotes.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_Notes.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AddEditTemplateFont.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_EmailSignatureDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
