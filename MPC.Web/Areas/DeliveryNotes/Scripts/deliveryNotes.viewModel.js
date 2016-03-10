@@ -513,6 +513,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                         selectedDeliveryNoteForListView().flagId(data.FlagId);
                                         selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
                                         selectedDeliveryNoteForListView().companyName(data.CompanyName);
+                                        selectedDeliveryNoteForListView().contactName(data.ContactName);
                                         selectedDeliveryNoteForListView().flagColor(data.FlagColor);
                                         selectedDeliveryNoteForListView().orderReff(data.OrderReff);
                                         selectedDeliveryNoteForListView().itemsCount(data.DeliveryNoteDetails != null ? data.DeliveryNoteDetails.length : 0);

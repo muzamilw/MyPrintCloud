@@ -58,6 +58,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDateTime = source.CreationDateTime,
                 OrganisationId = source.OrganisationId,
                 OrderId = source.OrderId,
+                ContactName = string.IsNullOrEmpty(source.ContactName) ? GetContactName(source) : source.ContactName,
                 DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null
             };
         }
@@ -91,6 +92,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierTelNo = source.SupplierTelNo,
                 UserNotes = source.UserNotes,
                 OrderId = source.OrderId,
+                ContactName = string.IsNullOrEmpty(source.ContactName) ? GetContactName(source) : source.ContactName,
                 DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null,
             };
         }
@@ -123,6 +125,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrderId = source.OrderId,
                 DeliveryNoteDetails = source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.Select(dNotesDetail => dNotesDetail.CreateFrom()).ToList() : null,
             };
+        }
+
+        private static string GetContactName(DomainModel.DeliveryNote note)
+        {
+            var contact = note.Company.CompanyContacts.FirstOrDefault(c => c.ContactId == note.ContactId);
+            return contact != null ? contact.FirstName + " " + contact.LastName : string.Empty;
         }
     }
 }

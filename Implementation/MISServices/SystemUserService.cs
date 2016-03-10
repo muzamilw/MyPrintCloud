@@ -33,6 +33,16 @@ namespace MPC.Implementation.MISServices
             return systemUserRepository.Add(Id, Email, FullName, OrganizationId);
         }
 
+        public string GetEmailSignature()
+        {
+            var user = systemUserRepository.GetUserrById(systemUserRepository.LoggedInUserId);
+                return user != null ? user.EmailSignature : string.Empty;
+        }
+
+        public void UpdateEmailSignature(string signature)
+        {
+            systemUserRepository.UpdateEmailSignature(signature);
+        }
 
     }
 }

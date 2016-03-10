@@ -767,7 +767,7 @@ namespace MPC.Implementation.MISServices
                         Address1 = Convert.ToString(invRec.BAddress1);
 
                     if (invRec.InvoiceDescription != null)
-                        InvoiceDescription = Convert.ToString(invRec.InvoiceDescription);
+                        InvoiceDescription = Convert.ToString(invRec.InvoiceDescription.Replace("\n", " "));
 
 
 
