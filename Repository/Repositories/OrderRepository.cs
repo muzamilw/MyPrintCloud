@@ -2128,8 +2128,6 @@ namespace MPC.Repository.Repositories
                 ordersList = ordersList.Where(todate => todate.OrderDate <= actualtooDate).ToList();
             }
 
-
-
             ordersList.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             ordersList.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             return ordersList;
