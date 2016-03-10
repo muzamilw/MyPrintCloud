@@ -151,7 +151,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                return db.Addesses.Where(a => a.ContactId == contactID).ToList();
+                return db.Addesses.Where(a => a.ContactId == contactID && (a.isArchived == null || a.isArchived == false)).ToList();
 
             }
             catch (Exception ex)
@@ -164,7 +164,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isPrivate == null || a.isPrivate == false)).OrderBy(ad => ad.AddressName).ToList();
+                return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isPrivate == null || a.isPrivate == false) && (a.isArchived == null || a.isArchived == false)).OrderBy(ad => ad.AddressName).ToList();
 
             }
             catch (Exception ex)
