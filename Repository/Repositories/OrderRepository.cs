@@ -2124,7 +2124,8 @@ namespace MPC.Repository.Repositories
             }
             else if (actualToDate != null)
             {
-                ordersList = ordersList.Where(todate => todate.OrderDate <= actualToDate).ToList();
+                DateTime actualtooDate = Convert.ToDateTime(actualToDate).AddHours(23).AddMinutes(59);
+                ordersList = ordersList.Where(todate => todate.OrderDate <= actualtooDate).ToList();
             }
 
 
@@ -2741,7 +2742,8 @@ namespace MPC.Repository.Repositories
             }
             else if (actualToDate != null)
             {
-                resultData = resultData.Where(todate => todate.OrderDate <= actualToDate).ToList();
+                DateTime actualtooDate = Convert.ToDateTime(actualToDate).AddHours(23).AddMinutes(59);
+                resultData = resultData.Where(todate => todate.OrderDate <= actualtooDate).ToList();
             }
 
         
