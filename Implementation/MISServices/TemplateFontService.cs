@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,8 @@ namespace MPC.Implementation.MISServices
             {
                 TemplateFont targetFont = GetTemplateFontById(templateFont.ProductFontId) ?? CreateNewFont();
                 UpdateFont(targetFont, templateFont);
+                if (templateFont.TtFFileBytes != null || templateFont.EotFileBytes != null || templateFont.WofFileBytes != null)
+                    UploadFontFiles(targetFont, templateFont);
                 _templateFontsRepository.SaveChanges();
 
                 return targetFont;
@@ -61,8 +64,53 @@ namespace MPC.Implementation.MISServices
         private static void UpdateFont(TemplateFont target, TemplateFont source)
         {
             target.FontName = source.FontName;
-            //target.FontFile = source.FontFile;
+            target.FontDisplayName = source.FontName;
             target.IsEnable = source.IsEnable;
+            target.IsPrivateFont = true;
+            target.CustomerId = source.CustomerId;
+            target.TerritoryId = source.TerritoryId;
+
+        }
+
+        private void UploadFontFiles(TemplateFont target, TemplateFont source)
+        {
+            string drUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + _templateFontsRepository.OrganisationId + "/WebFonts/" + source.CustomerId);
+            if (!System.IO.Directory.Exists(drUrl))
+            {
+                System.IO.Directory.CreateDirectory(drUrl);
+                
+            }
+            target.FontFile = source.FontFile;
+            //int indexOf = drUrl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+            target.FontPath = "Organisation" + _templateFontsRepository.OrganisationId + "/WebFonts/" + source.CustomerId + "/";
+            
+            if (source.EotFileBytes != null)
+            {
+                byte[] data = GetBytesFromString(source.EotFileBytes);
+
+                string savePath = drUrl + "\\" + source.FontFile + ".eot";
+                File.WriteAllBytes(savePath, data);
+            }
+            if (source.TtFFileBytes != null)
+            {
+                byte[] data = GetBytesFromString(source.TtFFileBytes);
+                string savePath = drUrl + "\\" + source.FontFile + ".ttf";
+                File.WriteAllBytes(savePath, data);
+            }
+            if (source.WofFileBytes != null)
+            {
+                byte[] data = GetBytesFromString(source.WofFileBytes);
+                string savePath = drUrl + "\\" + source.FontFile + ".woff";
+                File.WriteAllBytes(savePath, data);
+            }
+        }
+
+        private static byte[] GetBytesFromString(string sBytesData)
+        {
+            string base64 = sBytesData.Substring(sBytesData.IndexOf(',') + 1);
+            base64 = base64.Trim('\0');
+            byte[] data = Convert.FromBase64String(base64);
+            return data;
         }
     }
 }

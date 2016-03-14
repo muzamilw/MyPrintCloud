@@ -812,6 +812,7 @@ define("invoice/invoice.viewModel",
                         invoiceListViewItem.code(data.InvoiceCode);
                         invoiceListViewItem.type(data.InvoiceType);
                         invoiceListViewItem.companyName(data.CompanyName);
+                        invoiceListViewItem.contactName(data.ContactName);
                         invoiceListViewItem.invoiceDate(data.InvoiceDate);
                         invoiceListViewItem.status(selectedInvoice().invoiceStatusText());
                         //invoiceListViewItem.isDirectSale(selectedInvoice().isDirectSale());
@@ -1338,7 +1339,9 @@ define("invoice/invoice.viewModel",
                             toastr.error("Please add items in invoice to export.");
                             return;
                         }
+                        removeItemSectionWithAddFlagTrue();
                         if (selectedInvoice().hasChanges()) {
+                            
                             if (!doBeforeSave()) {
                                 return;
                             }

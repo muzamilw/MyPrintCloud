@@ -13,6 +13,7 @@ namespace MPC.Interfaces.Repository
         bool Add(System.Guid Id, string Email, string FullName, int OrganizationId);
 
         SystemUser GetFirstSystemUser();
-        
+        void UpdateEmailSignature(string signature);
+
     }
 }

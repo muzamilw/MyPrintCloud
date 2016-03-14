@@ -6,7 +6,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // #region __________________  Delivery Note List View   ______________________
         deliverNoteListView = function (specifieddeliveryNoteId, specifiedcode, specifieddeliveryDate, specifiedflagId, specifiedcontactCompany,
-            specifiedOrderReff, specifiedCreationDateTime, specifiedCompanyName, specifiedFlagColor, specifiedCount) {
+            specifiedOrderReff, specifiedCreationDateTime, specifiedCompanyName, specifiedFlagColor, specifiedCount, specifiedContactName) {
 
             var self,
                 deliveryNoteId = ko.observable(specifieddeliveryNoteId),
@@ -18,6 +18,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 orderReff = ko.observable(specifiedOrderReff),
                 flagColor = ko.observable(specifiedFlagColor),
                 itemsCount = ko.observable(specifiedCount),
+                contactName = ko.observable(specifiedContactName),
                 creationDateTime = ko.observable(specifiedCreationDateTime !== null ? moment(specifiedCreationDateTime).toDate() : undefined),
 
                 convertToServerData = function () {
@@ -37,7 +38,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 orderReff: orderReff,
                 itemsCount : itemsCount,
                 creationDateTime: creationDateTime,
-                convertToServerData: convertToServerData
+                convertToServerData: convertToServerData,
+                contactName: contactName
             };
             return self;
         },
@@ -69,7 +71,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         DeliveryNote = function (specifieddeliveryNoteId, specifiedcode, specifieddeliveryDate, specifiedflagId, specifiedcontactCompany,
             specifiedOrderReff, specifiedCreationDateTime, spcCompanyId, spcFootnote, spcComments, spcLockedBy, spcIsStatus, spcContactId, spcCustomerOrderReff, spcAddressId,
             spcCreatedBy, spcSupplierId, spcSupplierTelNo, spcSupplierURL, spcEstimateId, spcJobId, spcInvoiceId, spcOrderId, spcUserNotes,
-            spcNotesUpdateDateTime, spcNotesUpdatedByUserId, spcSystemSiteId, spcIsRead, spcIsPrinted, spcCsNo, spcRaisedBy) {
+            spcNotesUpdateDateTime, spcNotesUpdatedByUserId, spcSystemSiteId, spcIsRead, spcIsPrinted, spcCsNo, spcRaisedBy, spcContactName) {
 
             var self,
                 deliveryNoteId = ko.observable(specifieddeliveryNoteId),
@@ -104,6 +106,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isRead = ko.observable(spcIsRead),
                 isPrinted = ko.observable(spcIsPrinted),
                 companyName = ko.observable(undefined),
+                contactName = ko.observable(spcContactName),
                 csNo = ko.observable(spcCsNo),
                 raisedBy = ko.observable(spcRaisedBy),
                 deliveryNoteDetails = ko.observableArray([]),
@@ -220,6 +223,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 dirtyFlag: dirtyFlag,
                 hasChanges: hasChanges,
                 reset: reset,
+                contactName: contactName
             };
             return self;
         },
@@ -284,7 +288,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Delivery Notes List View Factory
     deliverNoteListView.Create = function (source) {
         return new deliverNoteListView(source.DeliveryNoteId, source.Code, source.DeliveryDate, source.FlagId, source.ContactCompany, source.OrderReff,
-            source.CreationDateTime, source.CompanyName, source.FlagColor, source.DeliveryNoteDetails != null? source.DeliveryNoteDetails.length : 0);
+            source.CreationDateTime, source.CompanyName, source.FlagColor, source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.length : 0, source.ContactName);
     };
 
     // Delivery Notes Factory

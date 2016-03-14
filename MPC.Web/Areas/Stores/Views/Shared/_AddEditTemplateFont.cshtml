@@ -14,7 +14,7 @@
                             <label for="txtFontName" class="control-label text-right tooltip-float">Font Name</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" id="txtFontName" data-bind="value:fontName, validationTooltip: fontName ">
+                            <input type="text" class="form-control" id="txtFontName" data-bind="value:fontName, validationTooltip: fontName">
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,10 +36,15 @@
                             <label for="txtTtf" class="control-label text-right tooltip-float">TTF</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" id="txtTtf" readonly data-bind="value:fontFileTtf">
+                            <input type="text" class="form-control" id="txtTtf" readonly data-bind="value:fontFileTtf, validationTooltip: fontFileTtf">
                         </div>
                         <div class="col-lg-3">
-                            <button type="button" class="btn btn-primary" data-bind="click: $root.uploadTtf">Upload</button>
+                            <div class="fileUpload btn btn-primary">
+
+                                <span>Upload</span>
+                                <input type="file" class="upload" id="ttf_files" accept=".ttf" data-bind="files: { onLoaded: $root.uploadTtf}">
+                            </div>
+                           
                         </div>
                     </div>
                     <div class=" form-group">
@@ -47,10 +52,14 @@
                             <label for="txtEot" class="control-label text-right tooltip-float">EOT</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" id="txtEot" readonly data-bind="value:fontNameEot">
+                            <input type="text" class="form-control" id="txtEot" readonly data-bind="value:fontNameEot, validationTooltip: fontNameEot">
                         </div>
                         <div class="col-lg-3">
-                            <button type="button" class="btn btn-primary" data-bind="click: $root.uploadEot">Upload</button>
+                            <div class="fileUpload btn btn-primary">
+                                <span>Upload</span>
+                                <input type="file" class="upload" id="eot_files" accept=".eot" data-bind="files: { onLoaded: $root.uploadEot}">
+                            </div>
+                            
                         </div>
                     </div>
                     <div class=" form-group">
@@ -58,10 +67,14 @@
                             <label for="txtWof" class="control-label text-right tooltip-float">WOF</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" id="txtWof" readonly data-bind="value:fontNameWof">
+                            <input type="text" class="form-control" id="txtWof" readonly data-bind="value:fontNameWof, validationTooltip: fontNameWof">
                         </div>
                         <div class="col-lg-3">
-                            <button type="button" class="btn btn-primary" data-bind="click: $root.uploadWof">Upload</button>
+                            <div class="fileUpload btn btn-primary">
+                                <span>Upload</span>
+                                <input type="file" class="upload" id="wof_files" accept=".woff" data-bind="files: { onLoaded: $root.uploadWof}">
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

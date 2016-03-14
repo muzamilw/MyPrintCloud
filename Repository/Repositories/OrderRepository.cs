@@ -2124,10 +2124,9 @@ namespace MPC.Repository.Repositories
             }
             else if (actualToDate != null)
             {
-                ordersList = ordersList.Where(todate => todate.OrderDate <= actualToDate).ToList();
+                DateTime actualtooDate = Convert.ToDateTime(actualToDate).AddHours(23).AddMinutes(59);
+                ordersList = ordersList.Where(todate => todate.OrderDate <= actualtooDate).ToList();
             }
-
-
 
             ordersList.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             ordersList.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
@@ -2741,7 +2740,8 @@ namespace MPC.Repository.Repositories
             }
             else if (actualToDate != null)
             {
-                resultData = resultData.Where(todate => todate.OrderDate <= actualToDate).ToList();
+                DateTime actualtooDate = Convert.ToDateTime(actualToDate).AddHours(23).AddMinutes(59);
+                resultData = resultData.Where(todate => todate.OrderDate <= actualtooDate).ToList();
             }
 
         
@@ -7225,6 +7225,15 @@ namespace MPC.Repository.Repositories
             }
             return Result;
         }
+
+        public List<Item> GetTemplateItemsByOrderID(long orderId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.Items.Include("Template.TemplatePages").Where(i => i.EstimateId == orderId && i.TemplateId > 0 && i.IsOrderedItem == true && i.ProductType == 1).ToList();
+            
+        }
+
+       
     }
 }
 

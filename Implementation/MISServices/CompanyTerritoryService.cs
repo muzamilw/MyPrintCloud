@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -16,6 +17,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyContactRepository companyContactRepository;
         private readonly IAddressRepository addressRepository;
         private readonly ITemplateColorStylesRepository cmykColorRepository;
+        private readonly ITemplateFontsRepository _templateFontsRepository;
         //#region Private Methods
         private CompanyTerritory Create(CompanyTerritory companyTerritory)
         {
@@ -59,6 +61,11 @@ namespace MPC.Implementation.MISServices
                 UpdateTerritorySpotColors(companyTerritory);
                 
             }
+            if (companyTerritory.TerritoryFonts != null)
+            {
+                UpdateTerritoryTemplateFonts(companyTerritory);
+
+            }
             companyTerritoryRepository.SaveChanges();
 
             return companyTerritory;
@@ -82,6 +89,8 @@ namespace MPC.Implementation.MISServices
 
         private void UpdateTerritorySpotColors(CompanyTerritory territory)
         {
+            List<TemplateColorStyle> allTerritoryColors =
+                cmykColorRepository.GetAll().Where(c => c.TerritoryId == territory.TerritoryId).ToList();
             foreach (TemplateColorStyle spotColor in territory.TerritorySpotColors)
             {
                 if (spotColor.PelleteId <= 0)
@@ -103,7 +112,50 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
+            List<TemplateColorStyle> linesToBeRemoved =allTerritoryColors.Where(
+               vdp => !IsNewColor(vdp) && territory.TerritorySpotColors.All(sourceVdp => sourceVdp.PelleteId != vdp.PelleteId))
+                 .ToList();
+            linesToBeRemoved.ForEach(line => cmykColorRepository.Delete(line));
             cmykColorRepository.SaveChanges();
+        }
+        private void UpdateTerritoryTemplateFonts(CompanyTerritory territory)
+        {
+            var allTerritoryFonts = _templateFontsRepository.GetTemplateFontsByTerritory(territory.TerritoryId).ToList();
+            foreach (TemplateFont font in territory.TerritoryFonts)
+            {
+                if (font.ProductFontId <= 0)
+                {
+                    font.IsPrivateFont = true;
+                    if (font.FontPath.Length > 0)
+                    {
+                       font.FontFile = CopyFontFiles(font);
+                    }
+                    _templateFontsRepository.Add(font);
+                }
+                else
+                {
+                    var templateFont = _templateFontsRepository.Find(font.ProductFontId);
+                    if (templateFont != null)
+                    {
+                        templateFont.FontName = font.FontName;
+                        templateFont.FontDisplayName = font.FontDisplayName;
+                        templateFont.IsEnable = font.IsEnable;
+                        templateFont.IsPrivateFont = font.IsPrivateFont;
+                        templateFont.CustomerId = font.CustomerId;
+                        templateFont.TerritoryId = font.TerritoryId;
+                    }
+                }
+            }
+            List<TemplateFont> linesToBeRemoved = allTerritoryFonts.Where(
+               vdp => !IsNewFont(vdp) && territory.TerritoryFonts.All(sourceVdp => sourceVdp.ProductFontId != vdp.ProductFontId))
+                 .ToList();
+            
+            foreach (var templateFont in linesToBeRemoved)
+            {
+                DeleteFontFiles(templateFont);
+            }
+            linesToBeRemoved.ForEach(line => _templateFontsRepository.Delete(line));
+            _templateFontsRepository.SaveChanges();
         }
         private void CheckCompanyTerritoryDefualt(CompanyTerritory companyTerritory)
         {
@@ -121,7 +173,8 @@ namespace MPC.Implementation.MISServices
         #region Constructor
 
         public CompanyTerritoryService(ICompanyTerritoryRepository companyTerritoryRepository, IScopeVariableRepository scopeVariableRepository,
-            ICompanyContactRepository companyContactRepository, IAddressRepository addressRepository, ITemplateColorStylesRepository cmykColorRepository)
+            ICompanyContactRepository companyContactRepository, IAddressRepository addressRepository, ITemplateColorStylesRepository cmykColorRepository,
+            ITemplateFontsRepository templateFontsRepository)
         {
             if (companyContactRepository == null)
             {
@@ -135,11 +188,16 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("cmykColorRepository");
             }
+            if (templateFontsRepository == null)
+            {
+                throw new ArgumentNullException("templateFontsRepository");
+            }
             this.companyTerritoryRepository = companyTerritoryRepository;
             this.scopeVariableRepository = scopeVariableRepository;
             this.companyContactRepository = companyContactRepository;
             this.addressRepository = addressRepository;
             this.cmykColorRepository = cmykColorRepository;
+            this._templateFontsRepository = templateFontsRepository;
         }
         #endregion
         public CompanyTerritory Save(CompanyTerritory companyTerritory)
@@ -202,6 +260,59 @@ namespace MPC.Implementation.MISServices
                 return null;
             }
             return null;
+        }
+        private static bool IsNewColor(TemplateColorStyle sourceItem)
+        {
+            return sourceItem.PelleteId <= 0;
+        }
+        private static bool IsNewFont(TemplateFont sourceItem)
+        {
+            return sourceItem.ProductFontId <= 0;
+        }
+
+        private string CopyFontFiles(TemplateFont font)
+        {
+            string drUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + companyTerritoryRepository.OrganisationId + "/WebFonts/" + font.CustomerId);
+            if (!System.IO.Directory.Exists(drUrl))
+            {
+                System.IO.Directory.CreateDirectory(drUrl);
+
+            }
+            string sFileNewUrl = drUrl + "\\" + font.TerritoryId + "_" + font.FontFile;
+            if (File.Exists(drUrl + "\\" + font.FontFile + ".ttf"))
+            {
+                byte[] data = File.ReadAllBytes(drUrl + "\\" + font.FontFile + ".ttf");
+                File.WriteAllBytes(sFileNewUrl + ".ttf", data);
+            }
+            if (File.Exists(drUrl + "\\" + font.FontFile + ".eot"))
+            {
+                byte[] data = File.ReadAllBytes(drUrl + "\\" + font.FontFile + ".eot");
+                File.WriteAllBytes(sFileNewUrl + ".eot", data);
+            }
+            if (File.Exists(drUrl + "\\" + font.FontFile + ".woff"))
+            {
+                byte[] data = File.ReadAllBytes(drUrl + "\\" + font.FontFile + ".woff");
+                File.WriteAllBytes(sFileNewUrl + ".woff", data);
+            }
+            return font.TerritoryId + "_" + font.FontFile;
+        }
+
+        private void DeleteFontFiles(TemplateFont font)
+        {
+            string drUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + companyTerritoryRepository.OrganisationId + "/WebFonts/" + font.CustomerId);
+            
+            if (File.Exists(drUrl + "\\" + font.FontFile + ".ttf"))
+            {
+                File.Delete(drUrl + "\\" + font.FontFile + ".ttf");
+            }
+            if (File.Exists(drUrl + "\\" + font.FontFile + ".eot"))
+            {
+                File.Delete(drUrl + "\\" + font.FontFile + ".eot");
+            }
+            if (File.Exists(drUrl + "\\" + font.FontFile + ".woff"))
+            {
+                File.Delete(drUrl + "\\" + font.FontFile + ".woff");
+            }
         }
     }
 }

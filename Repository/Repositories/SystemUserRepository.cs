@@ -113,6 +113,15 @@ namespace MPC.Repository.Repositories
            }
             return OrgID;
         }
+        public void UpdateEmailSignature(string signature)
+        {
+            SystemUser currSystemUser = GetUserrById(LoggedInUserId);
+            if (currSystemUser != null)
+            {
+                currSystemUser.EmailSignature = signature;
+                SaveChanges();
+            }
+        }
         #endregion
     }
 }

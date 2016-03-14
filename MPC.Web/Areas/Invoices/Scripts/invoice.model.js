@@ -8,7 +8,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedStatus, specifiedTotal, specifiedInvoiceDate, specifiedAccountNo, specifiedTerms, specifiedAddressId, specifiedIsArchive,
             specifiedTaxValue, specifiedGrandTotal, specifiedFlagId, specifiedNotes, specifiedEstimateId,
             specifiedIsProforma, specifiedIsPrinted, specifiedSignedBy, specifiedHeadNotes, specifiedFootNotes, specifiedPostingDate, specifiedXeroAccessCode,
-            specifiedStatusName, specifiedInvoicePostedBy) {
+            specifiedStatusName, specifiedInvoicePostedBy, specifiedContactName) {
           // ReSharper restore InconsistentNaming
           var // Unique key
               id = ko.observable(specifiedId || 0),
@@ -21,6 +21,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               companyId = ko.observable(specifiedCompanyId || undefined).extend({ required: true }),
               // Company Name
               companyName = ko.observable(specifiedCompanyName),
+              contactName = ko.observable(specifiedContactName || undefined),
               // store Id
               storeId = ko.observable(),
               // Number Of items
@@ -259,7 +260,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               convertToServerData: convertToServerData,
               isPostedInvoice: isPostedInvoice,
               taxRate: taxRate,
-              items: items
+              items: items,
+              contactName: contactName
 
           };
       };
@@ -412,7 +414,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             source.Terms, source.AddressId, source.IsArchive,
             source.TaxValue, source.GrandTotal, source.FlagId, source.UserNotes, source.EstimateId,
             source.IsProformaInvoice, source.IsPrinted, source.ReportSignedBy, source.HeadNotes, source.FootNotes,
-            source.InvoicePostingDate, source.XeroAccessCode, source.Status, source.InvoicePostedBy);
+            source.InvoicePostingDate, source.XeroAccessCode, source.Status, source.InvoicePostedBy, source.ContactName);
 
         var items = [];
         // Map invoice items if Any
@@ -436,7 +438,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
 
     InvoicesListView = function (specifiedId, specifiedName, specifiedType, specifiedCode, specifiedCompanyName, specifiedInvoiceDate, specifiedItemsCount,
-                            specifiedFlagColor, specifiedInvoiceTotal, specifiedisDirectSale, specifiedStatus) {
+                            specifiedFlagColor, specifiedInvoiceTotal, specifiedisDirectSale, specifiedStatus, specifiedContactName) {
         var
             self,
             //Unique ID
@@ -447,6 +449,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             type = ko.observable(specifiedType),
             code = ko.observable(specifiedCode),
             companyName = ko.observable(specifiedCompanyName),
+            contactName = ko.observable(specifiedContactName),
             invoiceDate = ko.observable(specifiedInvoiceDate),
             itemsCount = ko.observable(specifiedItemsCount),
             flagColor = ko.observable(specifiedFlagColor),
@@ -475,14 +478,15 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             invoiceTotal: invoiceTotal,
             convertToServerData: convertToServerData,
             isDirectSale: isDirectSale,
-            noOfItemsUi: noOfItemsUi
+            noOfItemsUi: noOfItemsUi,
+            contactName: contactName
         };
         return self;
     };
 
     InvoicesListView.Create = function (source) {
         return new InvoicesListView(source.InvoiceId, source.InvoiceName, source.InvoiceType, source.InvoiceCode,
-            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.InvoiceTotal, source.isDirectSale, source.Status);
+            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.InvoiceTotal, source.isDirectSale, source.Status, source.ContactName);
     };
 
     return {

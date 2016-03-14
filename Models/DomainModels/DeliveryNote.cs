@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,8 @@ namespace MPC.Models.DomainModels
         public int? SystemSiteId { get; set; }
         public bool? IsRead { get; set; }
         public bool? IsPrinted { get; set; }
-        
+       [NotMapped]
+        public string ContactName { get; set; }
         public long? OrganisationId { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }

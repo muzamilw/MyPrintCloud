@@ -16,7 +16,7 @@ using System.Net.Http.Formatting;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
-
+using MPC.Models.Common;
 namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 {
     public class ContactImageUploaderController : ApiController
@@ -759,6 +759,70 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
           _companyService.DeleteFolder(folderID);
       }
+
+      [HttpPost]
+      public void SendEmails(string orderID, string Email1, string Email2, string ContactID, string ContactCompanyID, string StoreModee)
+      {
+
+          string virtualDesTfolderPath = System.Web.HttpContext.Current.Server.MapPath("/mpc_content/EmailAttachments");
+
+          int oID = Convert.ToInt32(orderID);
+          int storeMode = Convert.ToInt32(StoreModee);
+          List<string> Attachments = new List<string>();
+          
+          List<Item> OrderItemsList = _companyService.GetTemplateItemsByOrderID(oID);
+          foreach (Item itm in OrderItemsList)
+          {
+              if (itm.Template != null)
+              {
+                  int count = 1;
+                  string virtualNewFilePath = "";
+                  foreach (TemplatePage itmP in itm.Template.TemplatePages)
+                  {
+                      string FilePath = "/mpc_content/Designer/Organisation" + UserCookieManager.WEBOrganisationID + "/Templates/" + itm.TemplateId + "/" + "p" + count + ".jpg";
+                      virtualNewFilePath = virtualDesTfolderPath + "/" +itm.TemplateId  + "p" + count + "Copy.jpg";
+                      count++;
+                      Attachments.Add(virtualNewFilePath);
+                      System.IO.File.Copy(System.Web.HttpContext.Current.Server.MapPath(FilePath), virtualNewFilePath, true);
+                  }
+              }
+          }
+        //  CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+         // MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+          MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+          Campaign oCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.ProofArtWorkByEmail, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
+
+          SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+
+          CampaignEmailParams cep = new CampaignEmailParams();
+
+          cep.CompanyId = Convert.ToInt32(ContactCompanyID);
+          cep.StoreId = Convert.ToInt32(ContactCompanyID);
+          cep.ContactId = Convert.ToInt32(ContactID);
+          
+          cep.SalesManagerContactID = Convert.ToInt32(ContactID);
+
+          cep.EstimateId = oID;
+
+
+          if (Email1 == "")
+          {
+              if (Email2 != null)
+              {
+                  Email1 = Email2;
+                  Email2 = "";
+              }
+          }
+
+          _campaignService.emailBodyGenerator(oCampaign, cep, null,StoreMode.Corp,Convert.ToInt32(UserCookieManager.WEBOrganisationID), "", "", "", EmailOFSM.Email, "",Email2, Attachments, "",null,"","","","",Email1);
+
+
+          //oEmailManager.emailBodyGenerator(oCampaign, oCompanyRecord, CEP, null, Web2Print.BLL.StoreMode.Retail, "", "", "", EmailOFSM.Email, "", Email2, Attachments, "", null, "", "", null, "", "", Email1);
+
+
+      }
+
     }
     public class AssetDeposit
     {

@@ -18,6 +18,8 @@ define("common/confirmation.viewModel",
                     defaultConfirmationText = "Do you want to proceed with the request?",
                     // Message Text
                     messageText = ko.observable(defaultConfirmationText),
+                     //Delete Message Text
+                    deletemessageText = ko.observable(),
 
                     defaultButtonTextYes = "Yes",
                     yesBtnText = ko.observable(defaultButtonTextYes),
@@ -211,7 +213,8 @@ define("common/confirmation.viewModel",
                     comment: comment,
                     ActionPopupCancel: ActionPopupCancel,
                     //errors: errors,
-                    UserRandomNum: UserRandomNum
+                    UserRandomNum: UserRandomNum,
+                    deletemessageText: deletemessageText
                 };
             })()
         };

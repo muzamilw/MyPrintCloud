@@ -219,6 +219,7 @@
                                 <li><a href="http://myprintcloud.com/FAQs" target="_blank">Billing and Licensing FAQs</a></li>
                                 @*<li><a href="https://myprintcloud.zendesk.com/hc/en-us/requests/new" target="_blank">Log a support Ticket</a></li>*@
                                 <li><a href="https://myprintcloud.com/dashboard">Change your Plan</a></li>
+                                <li id="liEmailSignature" style="display: none"><a id="btnChangeSignature" data-bind="click:$root.getUserEmailSignature">Email Signature</a></li>
                                 <li><a href="https://myprintcloud.com/Dashboard/EditProfile"><i class="fa fa-user"></i>Profile</a></li>
 
                                 <li><a href="~/Home/Logout"><i class="fa fa-power-off"></i>Logout</a></li>
@@ -566,6 +567,7 @@
     <script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>
     @Scripts.Render("~/Bundle/CentaurusLibs")
     <script>
+        
         $(document).ready(function () {
             $("#make-small-nav").click(function () {
                 $("#header-logo").toggle();
@@ -577,6 +579,7 @@
     </script>
 
     @RenderSection("scripts", required: false)
+   
 
 </body>
 </html>

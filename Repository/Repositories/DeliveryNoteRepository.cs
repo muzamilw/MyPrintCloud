@@ -52,7 +52,9 @@ namespace MPC.Repository.Repositories
             Expression<Func<DeliveryNote, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) ||
-                      item.CustomerOrderReff.Contains(request.SearchString) || (item.Company.Name.Contains(request.SearchString)) || (item.Code.Contains(request.SearchString)) || (item.OrderReff.Contains(request.SearchString))) && item.IsStatus == request.Status && item.OrganisationId == OrganisationId);
+                      item.CustomerOrderReff.Contains(request.SearchString) || (item.Company.Name.Contains(request.SearchString)) ||
+                      (item.Code.Contains(request.SearchString)) || (item.OrderReff.Contains(request.SearchString))) 
+                      && item.IsStatus == request.Status && item.OrganisationId == OrganisationId);
             IEnumerable<DeliveryNote> deliveryNotes = request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(_deliveryNoteByClause[request.ItemOrderBy])
@@ -64,6 +66,8 @@ namespace MPC.Repository.Repositories
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
+            deliveryNotes.ToList().ForEach(a => a.ContactName = GetContactName(a));
+            
 
             return new GetDeliveryNoteResponse { DeliveryNotes = deliveryNotes, TotalCount = DbSet.Count(query) };
         }
@@ -71,6 +75,14 @@ namespace MPC.Repository.Repositories
         public List<DeliveryNote> GetDeliveryNotesByOrderId(long orderId)
         {
             return DbSet.Include("SectionFlag").Where(d => d.OrderId == orderId).ToList();
-        } 
+        }
+
+        private string GetContactName(DeliveryNote deliveryNote)
+        {
+            var contact = deliveryNote.Company.CompanyContacts.FirstOrDefault(c => c.ContactId == deliveryNote.ContactId);
+            return contact != null ? contact.FirstName + " " + contact.LastName : string.Empty;
+        }
+
+        
     }
 }
