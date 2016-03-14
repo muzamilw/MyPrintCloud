@@ -58,6 +58,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ISectionInkCoverageRepository _SectionInkCoverageRepository;
         private readonly ICompanyVoucherRedeemRepository _CompanyVoucherRedeemRepository;
         private readonly IMarketingBriefHistoryRepository _marketingBriefHistoryRepository;
+        private readonly ICompanyTerritoryRepository _CompanyTerritoryRepository;
+        public readonly ICompanyContactRepository _CompanyContactRepository;
         #region Constructor
 
         /// <summary>
@@ -76,7 +78,9 @@ namespace MPC.Implementation.WebStoreServices
             , ICurrencyRepository currencyRepository, IProductCategoryVoucherRepository productCategoryVoucherRepository
             , ISectionInkCoverageRepository SectionInkCoverageRepository
             , ICompanyVoucherRedeemRepository CompanyVoucherRedeemRepository
-            , IMarketingBriefHistoryRepository marketingBriefHistoryRepository)
+            , IMarketingBriefHistoryRepository marketingBriefHistoryRepository
+            , ICompanyTerritoryRepository CompanyTerritoryRepository
+            , ICompanyContactRepository companyContactRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -113,6 +117,8 @@ namespace MPC.Implementation.WebStoreServices
             this._SectionInkCoverageRepository = SectionInkCoverageRepository;
             this._CompanyVoucherRedeemRepository = CompanyVoucherRedeemRepository;
             this._marketingBriefHistoryRepository = marketingBriefHistoryRepository;
+            this._CompanyTerritoryRepository = CompanyTerritoryRepository;
+            this._CompanyContactRepository = companyContactRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -2167,6 +2173,7 @@ namespace MPC.Implementation.WebStoreServices
             long ItemID = 0;
             long TemplateID = 0;
             bool isCorp = true;
+            long ContactTerritoryId = 0;
             if (ModeOfStore == StoreMode.Corp)
                 isCorp = true;
             else
@@ -2276,6 +2283,7 @@ namespace MPC.Implementation.WebStoreServices
                     ProductName = specialCharactersEncoder(item.ProductName);
                 }
             }
+
             itemCloneObj.ItemId = ItemID;
             int isCalledFrom = 0;
             if (ModeOfStore == StoreMode.Corp)
@@ -2299,13 +2307,25 @@ namespace MPC.Implementation.WebStoreServices
 
             bool printCropMarks = true;
 
+            if (ModeOfStore == StoreMode.Corp)
+            {
+                CompanyContact loggedInUserContact = _CompanyContactRepository.GetContactByContactId(ContactIdFromClaim);
+                if (loggedInUserContact != null && loggedInUserContact.TerritoryId != null)
+                {
+                    if (_CompanyTerritoryRepository.IsUseUserFont(Convert.ToInt64(loggedInUserContact.TerritoryId)))
+                    {
+                        ContactTerritoryId = Convert.ToInt64(loggedInUserContact.TerritoryId);
+                    }
+                }
+            }
+
             if (item != null && item.TemplateType == 3)
             {
-                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId;
             }
             else
             {
-                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/0/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/0/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId;
             }
             return itemCloneObj;
         }

@@ -74,6 +74,26 @@ namespace MPC.Repository.Repositories
             }
 
         }
+        public bool IsUseUserFont(long territoryId)
+        {
+            try
+            {
+                CompanyTerritory oCompnyTerritory = db.CompanyTerritories.Where(c => c.TerritoryId == territoryId).FirstOrDefault();
+                if (oCompnyTerritory != null && oCompnyTerritory.IsUserTerritoryFont == true)
+                {
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         
     }
 }
