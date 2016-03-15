@@ -2312,7 +2312,13 @@ function fu07(is2ndLoad) {
 function buildUnReadPages() {
     $.each(TO, function (i, IT) {
         if (IT.ObjectType == 8 || IT.ObjectType == 12) {
-            unloadedPageList.push(IT.ProductPageId);
+            var hasindex = false;
+            $.each(unloadedPageList, function (i, page) {
+                if (page == IT.ProductPageId)
+                    hasindex = true;
+            });
+            if (!hasindex)
+                unloadedPageList.push(IT.ProductPageId);
         }
     });
 }
