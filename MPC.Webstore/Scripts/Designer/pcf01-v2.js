@@ -628,11 +628,11 @@ function c9(cCanvas, RO) {
     return ROL;
 }
 function d1SvgOl(cCanvas, IO) {
+  
     TIC += 1;
     if (IO.ContentString.indexOf("MPC_Content"))
         IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
     fabric.loadSVGFromURL("/MPC_Content/" + IO.ContentString, function (objects, options) {
-
         var loadedObject = fabric.util.groupSVGElements(objects, options);
         loadedObject.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
@@ -734,6 +734,7 @@ function d1SvgOl(cCanvas, IO) {
     });
 }
 function d1Svg(cCanvas, IO, isCenter) {
+  
     TIC += 1;
     if (IO.MaxWidth == 0) {
         IO.MaxWidth = 50;
@@ -807,7 +808,7 @@ function d1Svg(cCanvas, IO, isCenter) {
        
         if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
             clr = (loadedObject.get('fill'));
-            if (loadedObject.paths.length > 1)
+            if (loadedObject.paths.length >= 1)
                 clr = loadedObject.paths[0].get('fill');
             var objClr = {
                 OriginalColor: clr,
@@ -2311,7 +2312,13 @@ function fu07(is2ndLoad) {
 function buildUnReadPages() {
     $.each(TO, function (i, IT) {
         if (IT.ObjectType == 8 || IT.ObjectType == 12) {
-            unloadedPageList.push(IT.ProductPageId);
+            var hasindex = false;
+            $.each(unloadedPageList, function (i, page) {
+                if (page == IT.ProductPageId)
+                    hasindex = true;
+            });
+            if (!hasindex)
+                unloadedPageList.push(IT.ProductPageId);
         }
     });
 }

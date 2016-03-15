@@ -1151,6 +1151,17 @@ namespace MPC.Webstore.Controllers
 
                 objTemplate.printCropMarks = true;
                 objTemplate.isTemplateDesignMode = isTemplateDesignMode;
+                objTemplate.TerritoryId = 0;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    CompanyContact loggedInUserContact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+                    if (_myItemService.IsTerritoryUseUserFonts(Convert.ToInt64(loggedInUserContact.TerritoryId)))
+                    {
+                       
+                            objTemplate.TerritoryId = Convert.ToInt64(loggedInUserContact.TerritoryId);
+                        
+                    }
+                }
                 Templates.Add(objTemplate);
             }
 

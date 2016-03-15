@@ -49,7 +49,7 @@ namespace MPC.Webstore.Controllers
             
             if (Company.isStoreModePrivate == true)
             {
-
+                ViewBag.isStoreModePrivate = 1;
                 if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
                 {
                     addresses = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
@@ -69,8 +69,25 @@ namespace MPC.Webstore.Controllers
                 else if (_myClaimHelper.loginContactRoleID() == (int)Roles.User)
                 {
 
+                    CompanyContact contact = _companyService.GetContactByID(_myClaimHelper.loginContactID());
 
                     addresses = _companyService.GetAdressesByContactID(_myClaimHelper.loginContactID());
+                    if (contact.TerritoryId != null)
+                    {
+                        List<int> TerritoryDefaultAddress = new List<int>();
+                        // get territory of contact
+                        CompanyTerritory ContactTerritory = _companyService.GetTerritoryById(contact.TerritoryId ?? 0);
+                        if (ContactTerritory != null)
+                        {
+                            List<Address> TerritoryAddress = _companyService.GetBillingAndShippingAddresses(ContactTerritory.TerritoryId);
+
+                            if (TerritoryAddress != null && TerritoryAddress.Count > 0)
+                            {
+                                addresses.AddRange(TerritoryAddress);
+                            }
+                        }
+                    }
+                    addresses = addresses.Distinct().ToList();
                     return addresses;
 
                 }
@@ -81,7 +98,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-
+                ViewBag.isStoreModePrivate = 0;
                 addresses = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
                 return addresses;
             }

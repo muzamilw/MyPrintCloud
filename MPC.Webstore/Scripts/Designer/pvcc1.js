@@ -165,7 +165,7 @@ var lastSel = "";
 var isImageUploaded = false;
 var userTerritoryId = 0;
 function buildParams() {
-    locVars.push(0); // handle null terriotry 
+   // locVars.push(0); // handle null terriotry 
     userTerritoryId = locVars[locVars.length - 1];
 	printCropMarks = locVars[locVars.length - 4];
 	printWaterMarks = locVars[locVars.length - 3];

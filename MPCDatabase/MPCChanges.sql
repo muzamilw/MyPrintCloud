@@ -10386,14 +10386,22 @@ BEGIN
      
 		) Templ
 END
+<<<<<<< HEAD
 
 
 --------------------
 
+=======
+-----------------------------------------------------
+USE [MPCLive]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_GetUsedFontsUpdated]    Script Date: 3/15/2016 10:33:15 AM ******/
+>>>>>>> fa5192b4e2975fd71841a94e891739405379202f
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+<<<<<<< HEAD
 
 --exec [usp_ExportPurchaseOrder]9106
 create procedure [dbo].[usp_ExportPurchaseOrder] 
@@ -10416,3 +10424,73 @@ Begin
 		where p.purchaseid = @PurchaseId
 
 end
+=======
+ALTER PROCEDURE [dbo].[sp_GetUsedFontsUpdated] 
+ -- Add the parameters for the stored procedure here
+ @TemplateID bigint = 0, 
+ @CustomerID bigint = 0,
+ @TerritoryID bigint = 0
+AS
+BEGIN
+ -- SET NOCOUNT ON added to prevent extra result sets from
+ -- interfering with SELECT statements.
+ SET NOCOUNT ON;
+ IF(@TerritoryID = 0 ) 
+ BEGIN
+	 set @TerritoryID = null
+ END	
+    -- Insert statements for procedure here
+ --SELECT @TemplateID, @CustomerID
+  select *, null as FontBytes from (
+ SELECT [ProductFontId]
+      ,[ProductId]
+      ,[FontName]
+      ,[FontDisplayName]
+      ,[FontFile]
+      ,[DisplayIndex]
+      ,[IsPrivateFont]
+      ,[IsEnable]
+      ,[CustomerID]
+   ,[FontPath]
+  FROM [dbo].[TemplateFont]
+  where isprivatefont = 0
+ union
+  SELECT [ProductFontId]
+    ,[ProductId]
+    ,[FontName]
+    ,[FontDisplayName]
+    ,[FontFile]
+    ,[DisplayIndex]
+    ,[IsPrivateFont]
+    ,[IsEnable]
+    ,[CustomerID]
+    ,[FontPath]
+     FROM templatefont
+  where fontname in (
+
+  select fontname from dbo.TemplateObject
+  where productid = @TemplateID)
+  
+ union
+  SELECT [ProductFontId]
+    ,[ProductId]
+    ,[FontName]
+    ,[FontDisplayName]
+    ,[FontFile]
+    ,[DisplayIndex]
+    ,[IsPrivateFont]
+    ,[IsEnable]
+    ,[CustomerID]
+    ,[FontPath]
+  FROM [dbo].[TemplateFont]
+  where CustomerID = @CustomerID 
+  --(TerritoryId is null OR TerritoryId = @TerritoryID)
+  --case
+  --TerritoryId = (CASE WHEN @TerritoryID > 0 THEN @TerritoryID ELSE  is null
+    and  @TerritoryID is null or TerritoryId = @TerritoryID 
+  ) Templ
+END
+
+
+
+>>>>>>> fa5192b4e2975fd71841a94e891739405379202f

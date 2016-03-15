@@ -10,5 +10,6 @@ namespace MPC.Interfaces.Repository
         CompanyTerritoryResponse GetCompanyTerritory(CompanyTerritoryRequestModel request);
         IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId);
         CompanyTerritory GetTerritoryById(long territoryId);
+        bool IsUseUserFont(long territoryId);
     }
 }

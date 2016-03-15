@@ -259,7 +259,7 @@ namespace MPC.Webstore.Models
         public bool printWaterMark { get; set; }
         public bool isEmbedded { get; set; }
         public int isTemplateDesignMode { get; set; }
-        
+        public long TerritoryId { get; set; }
     }
 
     public class ItemViewModel
