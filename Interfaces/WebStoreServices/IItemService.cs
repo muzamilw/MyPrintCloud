@@ -242,5 +242,6 @@ namespace MPC.Interfaces.WebStoreServices
         void SaveMarketingBriefHistory(MarketingBriefHistory model);
         List<TemplatePage> GetTemplatePagesByItemId(long clonedItemId);
         List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
+        bool IsTerritoryUseUserFonts(long TerritoryId);
     }
 }

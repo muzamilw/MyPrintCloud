@@ -198,15 +198,15 @@
                                                     string imgToShowURL = string.Empty;
                                                     if (prod.ProductType == (int)ProductType.AssetProduct)
                                                     {
-                                                        pdfLinkBtn = "/" + prod.ThumbnailPath;
-                                                        imgToShowURL = "/" + prod.ThumbnailPath;
+                                                        pdfLinkBtn = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
+                                                        imgToShowURL = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
                                                     }
                                                     else if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
                                                     {
                                                         string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
                                                         if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
                                                         {
-                                                            string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                            string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath + "?" + DateTime.Now;
                                                             pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                             imgToShowURL = completeImgPath;
                                                         }
@@ -223,11 +223,11 @@
                                                             pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
                                                             if (FolderPathOfAttachment[0] == '/')
                                                             {
-                                                                imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                                imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;// completeImgPath;
                                                             }
                                                             else
                                                             {
-                                                                imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                                imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;// completeImgPath;
                                                             }
 
                                                         }
@@ -236,7 +236,7 @@
                                                     {
                                                         if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                                         {
-                                                            string completeImgPath = "/" + prod.ThumbnailPath;
+                                                            string completeImgPath = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
                                                             pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                             imgToShowURL = completeImgPath;
                                                         }

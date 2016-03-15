@@ -3997,6 +3997,12 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
+        public bool IsTerritoryUseUserFonts(long TerritoryId)
+        {
+
+            return _CompanyTerritoryRepository.IsUseUserFont(TerritoryId);
+            
+        }
         #endregion
     }
 }

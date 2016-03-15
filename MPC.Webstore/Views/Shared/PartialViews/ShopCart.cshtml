@@ -166,22 +166,22 @@
                                                  {
                                                      if (FolderPathOfAttachment[0] == '/')
                                                      {
-                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType+".png" ;// completeImgPath;
+                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + ".png?" + DateTime.Now;// completeImgPath;
                                                      }
                                                      else
                                                      {
-                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + ".png";// completeImgPath;
+                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + ".png?" + DateTime.Now;// completeImgPath;
                                                      }
                                                  }
                                                  else
                                                  {
                                                      if (FolderPathOfAttachment[0] == '/')
                                                      {
-                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;// completeImgPath;
                                                      }
                                                      else
                                                      {
-                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;// completeImgPath;
                                                      }
                                                  }
                                              }
@@ -195,25 +195,25 @@
                                                  {
                                                      if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
                                                      {
-                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType;
+                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + "?" + DateTime.Now;
                                                      }
                                                      else
                                                      {
-                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString;
+                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;
                                                      }
 
                                                  }
                                                  else
                                                  {
-                                                     completeImgPath = "/" + prod.ThumbnailPath;
+                                                     completeImgPath = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
                                                  }
                                                  pdfLinkBtn = completeImgPath;
                                                  imgToShowURL = completeImgPath;
                                              }
                                              else
                                              {
-                                                 pdfLinkBtn = "/" + prod.ThumbnailPath;
-                                                 imgToShowURL = "/" + prod.ThumbnailPath;
+                                                 pdfLinkBtn = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
+                                                 imgToShowURL = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
                                              }
                                          }
                                                     }
