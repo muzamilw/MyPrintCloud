@@ -780,7 +780,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
           try
           {
-              string virtualDesTfolderPath = System.Web.HttpContext.Current.Server.MapPath("/mpc_content/EmailAttachments");
+              string virtualDesTfolderPath = "/mpc_content/EmailAttachments";
 
               int oID = Convert.ToInt32(orderID);
               int storeMode = Convert.ToInt32(StoreModee);

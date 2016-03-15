@@ -256,19 +256,20 @@
 
 
     <div id="popupoverlayForConfirmPopup" class="popupOverlay" style="display:none;z-index:999999;">
+
         <div class="basketWindow" id="basketWindowConfirmPopup">
             <div class="md-modal md-effect-7" id="modal-7">
 
                 <div class="md-content">
                     <div class="modal-header">
-                        <button class="md-close close" onclick=CloseConfirmationwindow();>&times;</button>
+                        <button class="md-close close" onclick=CloseConfirma();>&times;</button>
                         <h4 class="modal-title">Alert!</h4>
                     </div>
                     <div class="modal-body">
                         Are you sure you want to remove folder?
                         <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
                             <input type="button" id="ApproveOk" class="btn btn-primary" value="Yes" onclick="DeleteFolder()" />
-                            <input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="No()">
+                            <input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="Cancelf()">
                         </div>
                     </div>
                 </div>
@@ -280,8 +281,8 @@
         </div>
     </div>
 
-    <div id="popupoverlayForConfirmPopupForDeleteAsset" class="popupOverlay" style="display:none;z-index:999999;">
-        <div class="basketWindow" id="basketWindowConfirmPopup">
+    <div id="popupoverlayForConfirmPopupForDeleteAsset" class="popupOverlay"  style="display:none;z-index:999999;">
+        <div class="basketWindow" id="basketWindowConfirmPopupAssets">
             <div class="md-modal md-effect-7" id="modal-7">
 
                 <div class="md-content">
@@ -356,13 +357,17 @@
             $("#popupoverlayForConfirmPopup").css("display", "none");
         }
 
-
+        function CloseConfirma()
+        {
+            $("#popupoverlayForConfirmPopup").css("display", "none");
+        }
 
 
         $("#DeleteFolder").click(function(){
             var deleteFolderLeft = parseInt((bws.width - 500) / 2);
             $("#popupoverlayForConfirmPopup").css("display", "block");
             $("#basketWindowConfirmPopup").css("left", deleteFolderLeft + "px");
+            HideLoader();
         });
 
         function SetTreeState(id)
@@ -1420,7 +1425,11 @@
 
         function DeleteAssettt()
         {
+            var deleteFolderLeft = parseInt((bws.width - 500) / 2);
             $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "block");
+            $("#basketWindowConfirmPopupAssets").css("left", deleteFolderLeft + "px");
+
+           
             HideLoader();
         }
 
@@ -1543,13 +1552,17 @@
 
         }
 
-        function No()
+        function No(deleteAssetID)
         {
             $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
-        
         }
 
-        function CloseConfirmationwindow()
+        function Cancelf(deleteAssetID)
+        {
+            $("#popupoverlayForConfirmPopup").css("display", "none");
+        }
+
+        function CloseConfirmationwindow(DeleteFolderID)
         {
             $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
         }
