@@ -43,63 +43,98 @@ namespace MPC.Repository.Repositories
 
         public void  DeleteAsset(long AssetID)
         {
-            List<AssetItem> Items = db.AssetItems.Where(i => i.AssetId == AssetID).ToList();
-            foreach (var item in Items)
+            try
             {
-                db.AssetItems.Remove(item);
+                List<AssetItem> Items = db.AssetItems.Where(i => i.AssetId == AssetID).ToList();
+                foreach (var item in Items)
+                {
+                    db.AssetItems.Remove(item);
+                }
+                Asset Asset = db.Assets.Where(i => i.AssetId == AssetID).FirstOrDefault();
+                db.Assets.Remove(Asset);
+                db.SaveChanges();
             }
-            Asset Asset = db.Assets.Where(i => i.AssetId == AssetID).FirstOrDefault();
-            db.Assets.Remove(Asset);
-            db.SaveChanges();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void UpdateAsset(Asset UpdatedAsset)
         {
-            Asset Asset = db.Assets.Where(i => i.AssetId == UpdatedAsset.AssetId).FirstOrDefault();
-            Asset.AssetName = UpdatedAsset.AssetName;
-            Asset.Description = UpdatedAsset.Description;
-            Asset.FolderId = UpdatedAsset.FolderId;
-            if (UpdatedAsset.ImagePath != null && UpdatedAsset.ImagePath != string.Empty)
+            try
             {
-                Asset.ImagePath = UpdatedAsset.ImagePath;
+                Asset Asset = db.Assets.Where(i => i.AssetId == UpdatedAsset.AssetId).FirstOrDefault();
+                Asset.AssetName = UpdatedAsset.AssetName;
+                Asset.Description = UpdatedAsset.Description;
+                Asset.FolderId = UpdatedAsset.FolderId;
+                if (UpdatedAsset.ImagePath != null && UpdatedAsset.ImagePath != string.Empty)
+                {
+                    Asset.ImagePath = UpdatedAsset.ImagePath;
+                }
+                Asset.Keywords = UpdatedAsset.Keywords;
+                Asset.Price = UpdatedAsset.Price;
+                Asset.Quantity = UpdatedAsset.Quantity;
+                db.Assets.Attach(Asset);
+                db.Entry(Asset).State = EntityState.Modified;
+                db.SaveChanges();
             }
-            Asset.Keywords = UpdatedAsset.Keywords;
-            Asset.Price = UpdatedAsset.Price;
-            Asset.Quantity = UpdatedAsset.Quantity;
-            db.Assets.Attach(Asset);
-            db.Entry(Asset).State = EntityState.Modified;
-            db.SaveChanges();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public long AddAsset(Asset Asset)
         {
-            long AssetID = 0;
-            Asset As = new Asset();
-            As.AssetName = Asset.AssetName;
-            As.CompanyId = Asset.CompanyId;
-            As.Description = Asset.Description;
-            As.CreationDateTime = System.DateTime.Now.Date;
-            As.FolderId = Asset.FolderId;
-            As.Price = Asset.Price;
-            As.Quantity = Asset.Quantity;
-            As.Keywords = Asset.Keywords;
-            db.Assets.Add(As);
-            if (db.SaveChanges()> 0)
+            try
             {
-                AssetID = As.AssetId;
+                long AssetID = 0;
+                Asset As = new Asset();
+                As.AssetName = Asset.AssetName;
+                As.CompanyId = Asset.CompanyId;
+                As.Description = Asset.Description;
+                As.CreationDateTime = System.DateTime.Now.Date;
+                As.FolderId = Asset.FolderId;
+                As.Price = Asset.Price;
+                As.Quantity = Asset.Quantity;
+                As.Keywords = Asset.Keywords;
+                db.Assets.Add(As);
+                if (db.SaveChanges() > 0)
+                {
+                    AssetID = As.AssetId;
+                }
+                return AssetID;
             }
-            return AssetID;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void UpdateAssetImage(Asset Asset)
         {
-            Asset getAsset = db.Assets.Where(i => i.AssetId == Asset.AssetId).FirstOrDefault();
-            getAsset.ImagePath = Asset.ImagePath;
-            db.Assets.Attach(getAsset);
-            db.Entry(getAsset).State = EntityState.Modified;
-            db.SaveChanges();
+            try
+            {
+                Asset getAsset = db.Assets.Where(i => i.AssetId == Asset.AssetId).FirstOrDefault();
+                getAsset.ImagePath = Asset.ImagePath;
+                db.Assets.Attach(getAsset);
+                db.Entry(getAsset).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public Asset GetAsset(long AssetId)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.Assets.Where(i => i.AssetId == AssetId).FirstOrDefault();
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.Assets.Where(i => i.AssetId == AssetId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

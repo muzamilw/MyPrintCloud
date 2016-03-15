@@ -520,6 +520,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
       [HttpPost]
       public HttpResponseMessage SaveAsset(string AssetName, string Description, string Keywords, long? FolderId, int? Quantity, double? Price)
       {
+          
           string message = string.Empty;
           var httpPostedFile = HttpContext.Current.Request.Files["UploadedImageAsset"];
           Asset Asset = new Asset();
@@ -746,80 +747,98 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
       [System.Web.Http.HttpGet]
       public HttpResponseMessage GetFolderByFolderId(long folderId)
       {
-          Folder folder = _companyService.GetFolderByFolderId(folderId);
-          var formatterr = new JsonMediaTypeFormatter();
-          var jsons = formatterr.SerializerSettings;
-          jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
-          jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-          return Request.CreateResponse(HttpStatusCode.OK, folder, formatterr);
+          try
+          {
+              Folder folder = _companyService.GetFolderByFolderId(folderId);
+              var formatterr = new JsonMediaTypeFormatter();
+              var jsons = formatterr.SerializerSettings;
+              jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+              jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+              return Request.CreateResponse(HttpStatusCode.OK, folder, formatterr);
+          }
+          catch (Exception ex)
+          {
+              throw ex;
+          }
       }
       [HttpPost]
       public void DeleteFolder( long folderID)
       {
-
-          _companyService.DeleteFolder(folderID);
+          try
+          {
+              _companyService.DeleteFolder(folderID);
+          }
+          catch (Exception ex)
+          {
+              throw ex;
+          }
       }
 
       [HttpPost]
       public void SendEmails(string orderID, string Email1, string Email2, string ContactID, string ContactCompanyID, string StoreModee)
       {
 
-          string virtualDesTfolderPath = System.Web.HttpContext.Current.Server.MapPath("/mpc_content/EmailAttachments");
-
-          int oID = Convert.ToInt32(orderID);
-          int storeMode = Convert.ToInt32(StoreModee);
-          List<string> Attachments = new List<string>();
-          
-          List<Item> OrderItemsList = _companyService.GetTemplateItemsByOrderID(oID);
-          foreach (Item itm in OrderItemsList)
+          try
           {
-              if (itm.Template != null)
+              string virtualDesTfolderPath = "/mpc_content/EmailAttachments";
+
+              int oID = Convert.ToInt32(orderID);
+              int storeMode = Convert.ToInt32(StoreModee);
+              List<string> Attachments = new List<string>();
+
+              List<Item> OrderItemsList = _companyService.GetTemplateItemsByOrderID(oID);
+              foreach (Item itm in OrderItemsList)
               {
-                  int count = 1;
-                  string virtualNewFilePath = "";
-                  foreach (TemplatePage itmP in itm.Template.TemplatePages)
+                  if (itm.Template != null)
                   {
-                      string FilePath = "/mpc_content/Designer/Organisation" + UserCookieManager.WEBOrganisationID + "/Templates/" + itm.TemplateId + "/" + "p" + count + ".jpg";
-                      virtualNewFilePath = virtualDesTfolderPath + "/" +itm.TemplateId  + "p" + count + "Copy.jpg";
-                      count++;
-                      Attachments.Add(virtualNewFilePath);
-                      System.IO.File.Copy(System.Web.HttpContext.Current.Server.MapPath(FilePath), virtualNewFilePath, true);
+                      int count = 1;
+                      string virtualNewFilePath = "";
+                      foreach (TemplatePage itmP in itm.Template.TemplatePages)
+                      {
+                          string FilePath = "/mpc_content/Designer/Organisation" + UserCookieManager.WEBOrganisationID + "/Templates/" + itm.TemplateId + "/" + "p" + count + ".jpg";
+                          virtualNewFilePath = virtualDesTfolderPath + "/" + itm.TemplateId + "p" + count + "Copy.jpg";
+                          count++;
+                          Attachments.Add(virtualNewFilePath);
+                          System.IO.File.Copy(System.Web.HttpContext.Current.Server.MapPath(FilePath), virtualNewFilePath, true);
+                      }
                   }
               }
-          }
-        //  CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
-         // MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
-          MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+              //  CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+              // MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+              MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-          Campaign oCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.ProofArtWorkByEmail, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
+              Campaign oCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.ProofArtWorkByEmail, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
-          SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+              SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
-          CampaignEmailParams cep = new CampaignEmailParams();
+              CampaignEmailParams cep = new CampaignEmailParams();
 
-          cep.CompanyId = Convert.ToInt32(ContactCompanyID);
-          cep.StoreId = Convert.ToInt32(ContactCompanyID);
-          cep.ContactId = Convert.ToInt32(ContactID);
-          
-          cep.SalesManagerContactID = Convert.ToInt32(ContactID);
+              cep.CompanyId = Convert.ToInt32(ContactCompanyID);
+              cep.StoreId = Convert.ToInt32(ContactCompanyID);
+              cep.ContactId = Convert.ToInt32(ContactID);
 
-          cep.EstimateId = oID;
+              cep.SalesManagerContactID = Convert.ToInt32(ContactID);
 
+              cep.EstimateId = oID;
 
-          if (Email1 == "")
-          {
-              if (Email2 != null)
+              if (Email1 == "")
               {
-                  Email1 = Email2;
-                  Email2 = "";
+                  if (Email2 != null)
+                  {
+                      Email1 = Email2;
+                      Email2 = "";
+                  }
               }
+
+              _campaignService.emailBodyGenerator(oCampaign, cep, null, StoreMode.Corp, Convert.ToInt32(UserCookieManager.WEBOrganisationID), "", "", "", EmailOFSM.Email, "", Email2, Attachments, "", null, "", "", "", "", Email1);
+
+
+              //oEmailManager.emailBodyGenerator(oCampaign, oCompanyRecord, CEP, null, Web2Print.BLL.StoreMode.Retail, "", "", "", EmailOFSM.Email, "", Email2, Attachments, "", null, "", "", null, "", "", Email1);
           }
-
-          _campaignService.emailBodyGenerator(oCampaign, cep, null,StoreMode.Corp,Convert.ToInt32(UserCookieManager.WEBOrganisationID), "", "", "", EmailOFSM.Email, "",Email2, Attachments, "",null,"","","","",Email1);
-
-
-          //oEmailManager.emailBodyGenerator(oCampaign, oCompanyRecord, CEP, null, Web2Print.BLL.StoreMode.Retail, "", "", "", EmailOFSM.Email, "", Email2, Attachments, "", null, "", "", null, "", "", Email1);
-
+          catch (Exception ex)
+          {
+              throw ex;
+          }
 
       }
 
