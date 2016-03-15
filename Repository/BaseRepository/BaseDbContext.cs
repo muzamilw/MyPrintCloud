@@ -1309,6 +1309,18 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ExportInvoice_Result>("usp_ExportInvoice", InvoiceIDParameter);
 
         }
+        public ObjectResult<usp_ExportPurchaseOrder_Result> usp_ExportPurchaseOrder(long? purchaseId)
+        // ReSharper restore InconsistentNaming
+        {
+            var purchaseIdParameter = purchaseId.HasValue ?
+                new ObjectParameter("PurchaseId", purchaseId) :
+                new ObjectParameter("PurchaseId", typeof(long));
+
+
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ExportPurchaseOrder_Result>("usp_ExportPurchaseOrder", purchaseIdParameter);
+
+        }
         #endregion
     }
 }

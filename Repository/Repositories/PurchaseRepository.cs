@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -162,7 +163,17 @@ namespace MPC.Repository.Repositories
             }
         }
 
-
+        public List<usp_ExportPurchaseOrder_Result> GetPurchaseOrderForExport(long purchaseId)
+        {
+            try
+            {
+                return db.usp_ExportPurchaseOrder(purchaseId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException("Failed to load purchase order data for export", OrganisationId);
+            }
+        }
       
     }
 }
