@@ -509,7 +509,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         });
                     },
                     // Save Purchase Order
-                    savePurchaseOrder = function () {
+                    savePurchaseOrder = function (callback) {
                         var purchaseOrder = selectedPurchaseOrder().convertToServerData();
                         _.each(selectedPurchaseOrder().purchaseDetails(), function (item) {
                             purchaseOrder.PurchaseDetails.push(item.convertToServerData(item));
@@ -550,9 +550,14 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 }
                                 else {
 
-                                    isEditorVisible(false);
-                                    toastr.success("Saved Successfully.");
-                                    view.initializeLabelPopovers();
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    } else {
+                                        isEditorVisible(false);
+                                        toastr.success("Saved Successfully.");
+                                        view.initializeLabelPopovers();
+                                    }
+                                    
                                 }
                                
                             },
@@ -926,6 +931,36 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         }
                         return;
                     },
+                    onExportPurchaseOrder = function () {
+                        if (selectedPurchaseOrder().hasChanges()) {
+                            errorList.removeAll();
+                            if (!dobeforeSave()) {
+                                return;
+                            }
+                            savePurchaseOrder(exportPurchaseOrder);
+                        } else {
+                            exportPurchaseOrder();
+                        }
+                        
+                    },
+                    exportPurchaseOrder = function () {
+                        
+                        //var purchaseId = selectedPurchaseOrder().id();
+                        dataservice.exportPurchaseOrder({ purchaseId: selectedPurchaseOrder().id()}, {
+                            success: function(data) {
+                                if (data != null) {
+                                    selectedPurchaseOrder().reset();
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
+                                }
+                            },
+                            error: function(response) {
+
+                                toastr.error("Error: Failed to Export." + response);
+                            }
+                        });
+                    },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -998,7 +1033,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     openExternalEmailPurchaseReport: openExternalEmailPurchaseReport,
                     formatSelection: formatSelection,
                     formatResult: formatResult,
-                    loggedInUser: loggedInUser
+                    loggedInUser: loggedInUser,
+                    onExportPurchaseOrder: onExportPurchaseOrder
                 };
             })()
         };

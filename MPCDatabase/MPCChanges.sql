@@ -10316,8 +10316,7 @@ alter table CompanyTerritory add IsUseTerritoryColor bit
 
 
 --------------------------------------- 07-03-2016
-USE [MPCLive]
-GO
+
 /****** Object:  StoredProcedure [dbo].[sp_GetUsedFontsUpdated]    Script Date: 3/7/2016 2:24:51 PM ******/
 SET ANSI_NULLS ON
 GO
@@ -10387,3 +10386,33 @@ BEGIN
      
 		) Templ
 END
+
+
+--------------------
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+--exec [usp_ExportPurchaseOrder]9106
+create procedure [dbo].[usp_ExportPurchaseOrder] 
+ @PurchaseId bigint
+AS
+Begin
+
+		select p.PurchaseId, p.Code, date_purchase as PurchaseDate, RefNo, pd.ItemCode, pd.ItemName, pd.PackQty, pd.Quantity, 
+		pd.Price, pd.TaxValue, pd.TotalPrice, c.Name, (cc.FirstName + ' ' + cc.LastName) as ContactName, p.Comments,
+		 (a.AddressName + ' ' + isnull(a.Address1, '') + ' ' + isnull(a.Address2, '') + ' '+ isnull(a.PostCode, '') +
+		 ' '+ isnull(a.City, '') + ' '+
+		 st.statename + ' '+ ct.countryName) as Address
+		from purchase p
+		inner join purchasedetail pd on p.purchaseid = pd.purchaseid
+		inner join company c on c.companyid = p.supplierId
+		inner join companycontact cc on cc.contactid = p.contactId
+		inner join address a on a.addressid = p.suppliercontactaddressid
+		left join country ct on ct.countryid = a.countryid
+		left join state st on st.stateid = a.stateid
+		where p.purchaseid = @PurchaseId
+
+end
