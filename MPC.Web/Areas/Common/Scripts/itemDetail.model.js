@@ -296,7 +296,7 @@
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
-                    return errors().length === 0 &&
+                    return errors().length === 0 || productType() == 4 && // 4 is Asset Type Product from Web Store
                         itemSections.filter(function (itemSection) {
                             return !itemSection.isValid() && !itemSection.flagForAdd();
                         }).length === 0;
@@ -1378,7 +1378,7 @@
                 qty1 = ko.observable(specifiedQty1),
                 qty2 = ko.observable(specifiedQty2),
                 qty3 = ko.observable(specifiedQty3),
-                costPrice = ko.observable(specifiedCostPrice),
+                costPrice = ko.observable(specifiedCostPrice != null ? specifiedCostPrice.toFixed(2) : 0),
                 actualQtyUsed = ko.observable(specifiedActualQtyUsed),
                 stockName = ko.observable(specifiedStockName),
                 supplier = ko.observable(specifiedSupplier),

@@ -1,0 +1,38 @@
+﻿
+<div class="modal fade my-modal" id="systemUserDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width:400px;" class="modal-dialog" data-bind="with:$root.selectedSystemUser">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Email Signature</h4>
+            </div>
+            <div class="row" style="padding: 10px; height: 300px;">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <textarea class="form-control textAreaHeight" rows="5" id="content" data-bind="value: signature"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:$root.saveSignature, css: { 'btn-warning': hasChanges }, enable: hasChanges()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0;margin-right: 5px;">Close</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

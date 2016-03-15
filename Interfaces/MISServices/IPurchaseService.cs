@@ -41,6 +41,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         void DeletePurchaseOrder(int purchaseId);
 
+        string ExportPurchaseOrderToCsv(long purchaseId);
+
 
     }
 }

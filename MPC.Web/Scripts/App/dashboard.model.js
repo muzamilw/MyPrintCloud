@@ -461,6 +461,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return estimate;
     };
+    
     // #endregion 
 
 
@@ -469,5 +470,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         TotalEarnings: TotalEarnings,
         RegisteredUser:RegisteredUser,
         customerViewListModel: customerViewListModel
+        
     };
 });

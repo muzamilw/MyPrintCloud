@@ -1,4 +1,6 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System.Linq;
+using System.Text;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -277,6 +279,135 @@ namespace MPC.Implementation.MISServices
         {
 
             purchaseRepository.DeletePO(OrderID);
+
+        }
+
+        public string ExportPurchaseOrderToCsv(long purchaseId)
+        {
+            List<string> fileHeader = new List<string>();
+            long organisationId = purchaseRepository.OrganisationId;
+
+
+            fileHeader = HeaderList(fileHeader);
+            List<usp_ExportPurchaseOrder_Result> exportPoData = purchaseRepository.GetPurchaseOrderForExport(purchaseId);
+            StringBuilder sbCSV = new StringBuilder();
+            string csv = string.Empty;
+            
+            fileHeader.ToList().ForEach(column => csv += column + ',');
+            
+            //Add new line.
+            csv += "\r\n";
+            sbCSV.Append(csv);
+
+            fileHeader.Add("Purchase Code");
+            fileHeader.Add("Purchase Date");
+            fileHeader.Add("Refrence No");
+            fileHeader.Add("Product Code");
+            fileHeader.Add("Product Name");
+            fileHeader.Add("Pack Quantity");
+            fileHeader.Add("Required Quantity");
+            fileHeader.Add("UnitPrice");
+            fileHeader.Add("Tax Value");
+            fileHeader.Add("Total Price");
+            fileHeader.Add("Comments");
+            fileHeader.Add("Supplier Name");
+            fileHeader.Add("Supplier Contact Name");
+            fileHeader.Add("Supplier Address");
+
+            string poCode = string.Empty;
+            string poDate = string.Empty;
+            string refNo = string.Empty;
+            string productCode = string.Empty;
+            string productName = string.Empty;
+            string packQty = string.Empty;
+            string requiredQty = string.Empty;
+            string unitPrice = string.Empty;
+            string taxValue = string.Empty;
+            string totalPrice = string.Empty;
+            string comments = string.Empty;
+            string supplierName = string.Empty;
+            string supplierContact = string.Empty;
+            string supplierAddress = string.Empty;
+
+
+            if (exportPoData != null && exportPoData.Count() > 0)
+            {
+                foreach (var poRec in exportPoData)
+                {
+                    string cdata = string.Empty;
+                    poCode = poRec.Code;
+                    if (poRec.PurchaseDate != null)
+                    {
+                        poDate = Convert.ToString(poRec.PurchaseDate);
+                    }
+                    refNo = poRec.RefNo;
+                    productCode = poRec.ItemCode;
+                    productName = poRec.ItemName;
+                    packQty = Convert.ToString(poRec.PackQty ?? 0);
+                    requiredQty = Convert.ToString(poRec.Quantity ?? 0);
+                    unitPrice = Convert.ToString(poRec.Price ?? 0);
+                    taxValue = Convert.ToString(poRec.TaxValue ?? 0);
+                    totalPrice = Convert.ToString(poRec.TotalPrice ?? 0);
+                    comments = poRec.Comments;
+                    supplierName = poRec.Name;
+                    supplierContact = poRec.ContactName;
+                    supplierAddress = poRec.Address;
+
+                    cdata = poCode + "," + poDate + "," + refNo + "," + productCode + "," + productName + "," + packQty + "," + requiredQty + "," + unitPrice + "," + taxValue + "," +
+                        totalPrice + "," + comments + "," + supplierName + "," + supplierContact + "," + supplierAddress +
+                                      "\r\n";
+                    sbCSV.Append(cdata);
+                }
+            }
+            
+            string CSVSavePath = string.Empty;
+            string CReturnPath = string.Empty;
+
+            if (organisationId > 0)
+            {
+                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + organisationId + "/" + organisationId + "_POExport.csv");
+                CReturnPath = "/MPC_Content/Reports/" + organisationId + "/" + organisationId + "_POExport.csv";
+            }
+            else
+            {
+                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + organisationId + "_POExport.csv");
+                CReturnPath = "/MPC_Content/Reports/" + organisationId + "_POExport.csv";
+
+            }
+
+            string DirectoryPath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + organisationId);
+            if (!Directory.Exists(DirectoryPath))
+            {
+                Directory.CreateDirectory(DirectoryPath);
+            }
+
+            StreamWriter csw = new StreamWriter(CSVSavePath, false, Encoding.UTF8);
+            csw.Write(sbCSV);
+            csw.Close();
+            
+            return CReturnPath;
+
+        }
+        public List<string> HeaderList(List<string> fileHeader)
+        {
+
+            
+            fileHeader.Add("Purchase Code");
+            fileHeader.Add("Purchase Date");
+            fileHeader.Add("Refrence No");
+            fileHeader.Add("Product Code");
+            fileHeader.Add("Product Name");
+            fileHeader.Add("Pack Quantity");
+            fileHeader.Add("Required Quantity");
+            fileHeader.Add("UnitPrice");
+            fileHeader.Add("Tax Value");
+            fileHeader.Add("Total Price");
+            fileHeader.Add("Comments");
+            fileHeader.Add("Supplier Name");
+            fileHeader.Add("Supplier Contact Name");
+            fileHeader.Add("Supplier Address");
+
+            return fileHeader;
 
         }
         #endregion

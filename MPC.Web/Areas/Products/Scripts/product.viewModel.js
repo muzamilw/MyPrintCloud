@@ -80,6 +80,7 @@ define("product/product.viewModel",
                     magnetaCStockItem = ko.observable(),
                     // Presses
                     presses = ko.observableArray([]),
+                    allPresses = ko.observableArray([]),
                     itemPlan = ko.observable(),
                     side1Image = ko.observable(),
                     side2Image = ko.observable(),
@@ -534,6 +535,7 @@ define("product/product.viewModel",
                     editSectionSignature = function (itemSection) {
                         selectedProduct().selectItemSection(itemSection);
                         selectedSection(itemSection);
+                        //filterPresses(selectedSection().printingTypeUi());
                         // Subscribe Section Changes
                         subscribeSectionChanges();
                         openSignatureDialog();
@@ -947,7 +949,8 @@ define("product/product.viewModel",
                                 SectionId: selectedProduct().activeItemSection().id(),
                                 Side: 1,
                                 InkOrder: i + 1,
-                                InkId: defaultInkId
+                                InkId: defaultInkId,
+                                CoverageRate: 30
                             }));
                         }
                     },
@@ -1110,7 +1113,8 @@ define("product/product.viewModel",
                                     SectionId: selectedProduct().activeItemSection().id(),
                                     Side: 2,
                                     InkOrder: i + 1,
-                                    InkId: defaultInkId
+                                    InkId: defaultInkId,
+                                    CoverageRate: 30
                                 }));
                             }
                         });
@@ -2078,7 +2082,38 @@ define("product/product.viewModel",
                             }
                         });
                     },
-                    // Delete Product
+                    onSectionInkCoverageSave = function () {
+                        view.hideInksDialog();
+                    },
+                    filterPresses = function(printType) {
+
+                        if (printType == undefined)
+                            printType = selectedSection().printingTypeUi();
+                        // Filter Roll Fed Presses
+                        if (allPresses) {
+                            presses.removeAll();
+                            var list = [];
+                            if (printType == 2) {
+                                _.each(allPresses(), function(item) {
+                                    if (item.isSheetFed == false)
+                                        list.push(item);
+                                });
+                                // Push to Original Array
+                                ko.utils.arrayPushAll(presses(), list);
+                                presses.valueHasMutated();
+                            } else {
+                                _.each(allPresses(), function(item) {
+                                    if (item.isSheetFed == true)
+                                        list.push(item);
+                                });
+                                // Push to Original Array
+                                ko.utils.arrayPushAll(presses(), list);
+                                presses.valueHasMutated();
+                            }
+
+                        }
+                    },
+                // Delete Product
                     deleteProduct = function (id) {
                         dataservice.deleteItem({ ItemId: id }, {
                             success: function () {
@@ -2211,7 +2246,8 @@ define("product/product.viewModel",
                     onSelectSubCategory: onSelectSubCategory,
                     editSubCategory: editSubCategory,
                     exportProduct: exportProduct,
-                    selectedCsvFileForProduct: selectedCsvFileForProduct
+                    selectedCsvFileForProduct: selectedCsvFileForProduct,
+                    onSectionInkCoverageSave: onSectionInkCoverageSave
                     // For Store
                     // Utility Methods
                 };

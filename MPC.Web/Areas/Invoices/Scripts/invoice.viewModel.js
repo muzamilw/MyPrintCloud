@@ -1339,7 +1339,9 @@ define("invoice/invoice.viewModel",
                             toastr.error("Please add items in invoice to export.");
                             return;
                         }
+                        removeItemSectionWithAddFlagTrue();
                         if (selectedInvoice().hasChanges()) {
+                            
                             if (!doBeforeSave()) {
                                 return;
                             }

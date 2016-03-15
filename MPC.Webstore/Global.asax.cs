@@ -30,6 +30,7 @@ using FluentScheduler;
 using System.Collections.Generic;
 using System.Runtime.Caching;
 using MPC.Webstore.Controllers;
+using System.IO;
 namespace MPC.Webstore
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -42,6 +43,7 @@ namespace MPC.Webstore
         private ICampaignService campaignService;
         private MPC.Interfaces.MISServices.IListingService listingService;
         private IUserManagerService userManagerService;
+        private IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
         /// <summary>
         /// Configure Logger
         /// </summary>
@@ -146,7 +148,7 @@ namespace MPC.Webstore
         //}
         protected void Session_Start(object sender, EventArgs e)
         {
-
+            _webstoreAuthorizationChecker = container.Resolve<IWebstoreClaimsHelperService>();
             string sessionId = Session.SessionID;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -198,12 +200,16 @@ namespace MPC.Webstore
 
                         // checking autologin if auto login then do not redirect as he redirection will be handle by the auto login action
                         if(!Request.Url.AbsolutePath.ToLower().Contains("autologin"))
-                        {
+                        {                            
                             if (StoreBaseResopnse.Company.IsCustomer == 3) // corporate customer
                             {
                                 if (!Convert.ToString(HttpContext.Current.Request.Url).Contains("OrderReceipt/"))
                                 {
-                                    Response.Redirect("/Login");
+                                    if (_webstoreAuthorizationChecker.loginContactID() == 0 && _webstoreAuthorizationChecker.loginContactCompanyID() == 0) 
+                                    {
+
+                                        Response.Redirect("/Login");
+                                    }
                                 }
                             }
                         }

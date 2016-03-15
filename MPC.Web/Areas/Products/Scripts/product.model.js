@@ -3310,7 +3310,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Machine Entity        
     Machine = function (specifiedId, specifiedName, specifiedDefaultPageId, specifiedMaxSheetHeight, specifiedMaxSheetWeight, specifiedMaxSheetWidth,
-        specifiedMinSheetHeight, specifiedMinSheetWidth, specifiedMachineCatId, specifiedColourHeads, specifiedIsSpotColor) {
+        specifiedMinSheetHeight, specifiedMinSheetWidth, specifiedMachineCatId, specifiedColourHeads, specifiedIsSpotColor, specifiedType) {
         return {
             id: specifiedId,
             name: specifiedName,
@@ -3322,7 +3322,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             minSheetWidth: specifiedMinSheetWidth,
             minSheetHeight: specifiedMaxSheetHeight,
             colourHeads: specifiedColourHeads,
-            isSpotColor: specifiedIsSpotColor
+            isSpotColor: specifiedIsSpotColor,
+            isSheetFed: specifiedType
         };
     },
 
@@ -4215,7 +4216,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Section Ink Coverage Entity
-    SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+    SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide, specifiedRate) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -4229,6 +4230,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             coverageGroupId = ko.observable(specifiedCoverageGroupId),
             //Side
             side = ko.observable(specifiedSide),
+            coverageRate = ko.observable(specifiedRate).extend({ number: true, min: 0, max: 100, message: 'Max value can be 100' }),
             // Errors
             errors = ko.validation.group({
 
@@ -4245,7 +4247,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 inkOrder: inkOrder,
                 inkId: inkId,
                 coverageGroupId: coverageGroupId,
-                side: side
+                side: side,
+                coverageRate: coverageRate
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -4263,7 +4266,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     InkOrder: inkOrder(),
                     InkId: inkId(),
                     CoverageGroupId: coverageGroupId(),
-                    Side: side()
+                    Side: side(),
+                    CoverageRate: coverageRate()
                 };
             };
 
@@ -4279,6 +4283,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
+            coverageRate : coverageRate,
             convertToServerData: convertToServerData
         };
     };
@@ -4676,7 +4681,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Machine Factory
     Machine.Create = function (source) {
         return new Machine(source.MachineId, source.MachineName, source.DefaultPageId, source.Maximumsheetheight, source.Maximumsheetweight,
-        source.Maximumsheetwidth, source.Minimumsheetheight, source.Minimumsheetweight, source.MachineCatId, source.ColourHeads, source.IsSpotColor);
+        source.Maximumsheetwidth, source.Minimumsheetheight, source.Minimumsheetweight, source.MachineCatId, source.ColourHeads, source.IsSpotColor, source.isSheetFed);
     };
 
     // Paper Size Factory
@@ -4713,7 +4718,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Section Ink Coverage Factory
     SectionInkCoverage.Create = function (source) {
-        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
+        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side, source.CoverageRate);
     };
 
     return {

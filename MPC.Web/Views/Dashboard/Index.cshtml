@@ -236,7 +236,7 @@
                         <div class="main-box">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <h2 class="graphheaderleft">Top 5 Performing Stores</h2>
+                                    <h2 class="graphheaderleft" style="cursor: pointer" data-bind="click:$root.getUserEmailSignature">Top 5 Performing Stores</h2>
                                     <div class="form-group" style="margin-left:10px">
                                         <div class="graph-box lightgray-bg">
                                             <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.topPerformingStores, xkey: 'Name', ykeys:['CurrentMonthEarning', 'LastMonthEarning'], labels: ['Current Month Earning', 'Last Month Earning'],gridTextColor: 'gray',horizontal: true}"></div>
@@ -608,6 +608,7 @@
                 </div>
             </div>
         </div>
+       
         <script id="itemOrderTemplate" type="text/html">
             <tr data-bind="click: $root.goToOrder.bind($data.id(), $data.id())" style="cursor: pointer">
 
@@ -648,6 +649,7 @@
 
     </div>
 </div>
+@Html.Partial("~/Areas/Common/Views/Shared/_EmailSignatureDialog.cshtml")
 @section Scripts {
     @*<script src="~/Scripts/Script/jquery.foggy.js"></script>
         <script src="~/Scripts/Script/jquery.foggy.min.js"></script>*@
@@ -1315,10 +1317,10 @@
     </script>
 
     <script>
-        require(["dashboard.view", "common/confirmation.view"]);
+        require(["dashboard.view", "common/confirmation.view", "common/systemUser.view"]);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $(document).ready(function () {
-
+            $("#liEmailSignature").css("display", "block");
             //min/max slider
             $('[data-toggle="popover"]').popover();
         });

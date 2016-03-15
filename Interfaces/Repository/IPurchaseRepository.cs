@@ -26,6 +26,8 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
 
-       
+        List<usp_ExportPurchaseOrder_Result> GetPurchaseOrderForExport(long purchaseId);
+
+
     }
 }

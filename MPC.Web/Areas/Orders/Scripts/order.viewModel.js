@@ -3311,7 +3311,7 @@ define("order/order.viewModel",
                             confirmation.yesBtnText("OK");
                             confirmation.noBtnText("Cancel");
                             confirmation.IsCancelVisible(false);
-                            confirmation.messageText("Important !! Please cancle the order to delete it.");
+                            confirmation.messageText("Important !! Please cancel the order to delete it.");
 
                             confirmation.show();
                         }

@@ -151,10 +151,8 @@ namespace MPC.Webstore.Controllers
             if (StoreBaseResopnse != null)
             {
                 string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
-
-
-                if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                
+                if (_webstoreAuthorizationChecker.loginContactID() == 0)
                 {
                     if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
                     {
