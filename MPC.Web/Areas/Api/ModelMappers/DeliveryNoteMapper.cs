@@ -129,7 +129,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         private static string GetContactName(DomainModel.DeliveryNote note)
         {
-            var contact = note.Company.CompanyContacts.FirstOrDefault(c => c.ContactId == note.ContactId);
+            var contact = note.Company != null && note.Company.CompanyContacts != null ? note.Company.CompanyContacts.FirstOrDefault(c => c.ContactId == note.ContactId) : null;
             return contact != null ? contact.FirstName + " " + contact.LastName : string.Empty;
         }
     }

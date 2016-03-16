@@ -22,8 +22,8 @@
                                         <th><span>Company Name</span></th>
                                         <!-- /ko -->
                                         <!-- ko if: isOpenedFromOrder -->
-                                        <th><span>Contact Name</span></th>
                                         <th><span>Company Name</span></th>
+                                        <th><span>Contact Name</span></th>
                                         <th><span>Store Name</span></th>
                                         <!-- /ko -->
                                     </tr>
@@ -84,12 +84,13 @@
     <tr data-bind="click: $root.onSelectCompany" style="cursor:pointer;">
         <td>
             <a class="user-link font20px">
-                <span data-bind="text: name"></span>
+                <span data-bind="text: companyName"></span>
             </a>
         </td>
         <td>
-            <span data-bind="text: companyName"></span>
+            <span data-bind="text: name"></span>
         </td>
+
         <td>
             <span data-bind="text: storeName"></span>
         </td>

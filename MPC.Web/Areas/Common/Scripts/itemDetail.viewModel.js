@@ -1796,7 +1796,10 @@ define("common/itemDetail.viewModel",
                         selectedSection(selectedSectionParam);
 
                     },
-                    showSectionDetailEditor = function(section) {
+                    showSectionDetailEditor = function (section) {
+                        if (selectedProduct().productType() == 4) {
+                            return;
+                        }
                         errorList.removeAll();
                         filterPresses(section.printingTypeUi(), section.pressId(), section.pressIdSide2());
                         selectedSection(section);
@@ -1905,7 +1908,10 @@ define("common/itemDetail.viewModel",
                     },
                     counter = 0,
                     // Create new Item Section
-                    createNewItemSection = function() {
+                    createNewItemSection = function () {
+                        if (selectedProduct().productType() == 4) {
+                            return;
+                        }
                         //var section = defaultSection() ? defaultSection() : {}; commented by Naveed to set Copy of first section if it is blank product
                         var section = selectedProduct().itemSections().length > 0 ? selectedProduct().itemSections()[0] : null;
                         var itemSection = section != null ? model.ItemSection.Create(section.convertToServerData()) : model.ItemSection.Create({});

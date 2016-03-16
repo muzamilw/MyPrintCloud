@@ -278,7 +278,7 @@ define("machine/machine.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     lookupMethodViewModel.CurrencySymbol(data.CurrencySymbol);
-                                    lookupMethodViewModel.WeightUnit(data.WeightUnit);
+                                    lookupMethodViewModel.WeightUnit(data.WeightUnit == "kg" ? "gsm" : data.WeightUnit);
                                     lookupMethodViewModel.LengthUnit(data.LengthUnit);
                                     
                                     selectedMachine(model.newMachineClientMapper(data, onCalculationMethodChange));

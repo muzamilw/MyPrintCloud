@@ -353,6 +353,7 @@
     <Compile Include="Areas\Api\Controllers\DownloadExternalReportController.cs" />
     <Compile Include="Areas\Api\Controllers\ExportInvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\ExportItemController.cs" />
+    <Compile Include="Areas\Api\Controllers\ExportPurchaseOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\ListingPropertyController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportParamController.cs" />
     <Compile Include="Areas\Api\Controllers\SpotColorController.cs" />

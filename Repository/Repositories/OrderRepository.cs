@@ -4974,9 +4974,14 @@ namespace MPC.Repository.Repositories
 
         public Item GetItemById(long itemID)
         {
-
-            return db.Items.Include("itemSections.sectioncostcentres").Where(i => i.ItemId == itemID).FirstOrDefault();
-
+            try
+            {
+                return db.Items.Include("itemSections.sectioncostcentres").Where(i => i.ItemId == itemID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public bool CreateUploadYourArtWork(long itemID, long customerID, List<ArtWorkAttatchment> yourDesignList)
@@ -7120,7 +7125,14 @@ namespace MPC.Repository.Repositories
         }
         public double? GetOrderTotalById(long OrderId)
         {
+            try
+            {
                 return db.Estimates.Where(e => e.EstimateId == OrderId).Select(t => t.Estimate_Total).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<long> GetOrdersForBillingCycle(DateTime billingDate, bool isDirectOrder)
@@ -7135,35 +7147,48 @@ namespace MPC.Repository.Repositories
 
         public bool IsExtradOrderForBillingCycle(DateTime billingDate, bool isDirectOrder, int licensedCount, long orderId, long organisationId)
         {
-            DateTime lastMonth = billingDate.AddMonths(-1);
-            List<long> ordersList = DbSet.Where(
-                    o =>
-                        o.isEstimate == false && o.isDirectSale == isDirectOrder && o.StatusId != 3 && o.OrganisationId == organisationId &&
-                        o.CreationDate >= lastMonth && o.CreationDate <= billingDate).OrderBy(o => o.CreationDate).Select(o => o.EstimateId).Take(licensedCount).ToList();
+            try
+            {
+                DateTime lastMonth = billingDate.AddMonths(-1);
+                List<long> ordersList = DbSet.Where(
+                        o =>
+                            o.isEstimate == false && o.isDirectSale == isDirectOrder && o.StatusId != 3 && o.OrganisationId == organisationId &&
+                            o.CreationDate >= lastMonth && o.CreationDate <= billingDate).OrderBy(o => o.CreationDate).Select(o => o.EstimateId).Take(licensedCount).ToList();
 
-            if (ordersList.Count < licensedCount)
-            {
-                return false;
+                if (ordersList.Count < licensedCount)
+                {
+                    return false;
+                }
+                else if (ordersList.Contains(orderId))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
             }
-            else if (ordersList.Contains(orderId))
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
-            else
-            {
-                return true;
-            }
-           
-                
             
         }
 
         public void UpdateOrderForDel(Estimate Order)
         {
-            db.Estimates.Attach(Order);
+            try
+            {
+                db.Estimates.Attach(Order);
 
-            db.Entry(Order).State = EntityState.Modified;
-            db.SaveChanges();
+                db.Entry(Order).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void DeleteOrderById(long OrderId)
@@ -7182,58 +7207,77 @@ namespace MPC.Repository.Repositories
 
         public bool UpdateOderStatus(Estimate Estimate)
         {
-
-            bool Result = false;
-
-            Estimate GetOrder = db.Estimates.Where(i => i.EstimateId == Estimate.EstimateId).FirstOrDefault();
-
-            GetOrder.StatusId = (int)OrderStatus.ShoppingCart;
-
-            db.Estimates.Attach(GetOrder);
-
-            db.Entry(GetOrder).State = EntityState.Modified;
-
-            if (db.SaveChanges() > 0)
+            try
             {
-                Result = true;
-            }
-            return Result;
-        }
+                bool Result = false;
 
-        public bool UpdateOrderAndItemsForRejectOrder(long OrderId,long CartOrderId)
-        {
-            bool Result = false;
-            List<Item> ItemList = db.Items.Where(i => i.EstimateId == CartOrderId).ToList();
-            if (ItemList.Count > 0)
-            {
-                foreach (Item item in ItemList)
-                {
-                    item.EstimateId = OrderId;
+                Estimate GetOrder = db.Estimates.Where(i => i.EstimateId == Estimate.EstimateId).FirstOrDefault();
 
-                    db.Items.Attach(item);
+                GetOrder.StatusId = (int)OrderStatus.ShoppingCart;
 
-                    db.Entry(item).State = EntityState.Modified;
-                    
-                }
+                db.Estimates.Attach(GetOrder);
+
+                db.Entry(GetOrder).State = EntityState.Modified;
 
                 if (db.SaveChanges() > 0)
                 {
                     Result = true;
-
-                    DeleteOrderById(CartOrderId);
                 }
+                return Result;
             }
-            return Result;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool UpdateOrderAndItemsForRejectOrder(long OrderId,long CartOrderId)
+        {
+            try
+            {
+                bool Result = false;
+                List<Item> ItemList = db.Items.Where(i => i.EstimateId == CartOrderId).ToList();
+                if (ItemList.Count > 0)
+                {
+                    foreach (Item item in ItemList)
+                    {
+                        item.EstimateId = OrderId;
+
+                        db.Items.Attach(item);
+
+                        db.Entry(item).State = EntityState.Modified;
+
+                    }
+
+                    if (db.SaveChanges() > 0)
+                    {
+                        Result = true;
+
+                        DeleteOrderById(CartOrderId);
+                    }
+                }
+                return Result;
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
         }
 
         public List<Item> GetTemplateItemsByOrderID(long orderId)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.Items.Include("Template.TemplatePages").Where(i => i.EstimateId == orderId && i.TemplateId > 0 && i.IsOrderedItem == true && i.ProductType == 1).ToList();
-            
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.Items.Include("Template.TemplatePages").Where(i => i.EstimateId == orderId && i.TemplateId > 0 && i.IsOrderedItem == true && i.ProductType == 1).ToList();
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
         }
 
-       
+        
     }
 }
 

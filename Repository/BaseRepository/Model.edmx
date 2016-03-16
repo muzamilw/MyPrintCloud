@@ -6607,6 +6607,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_ExportInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InvoiceId" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_ExportPurchaseOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PurchaseId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_ExportStoreProductsAndPrices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Organisationid" Type="bigint" Mode="In" />
           <Parameter Name="StoreId" Type="bigint" Mode="In" />
@@ -8810,7 +8813,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="TerritoryID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_ExportInvoice" ReturnType="Collection(DomainModels.usp_ExportInvoice_Result)">
-            <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
+          <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ExportPurchaseOrder" ReturnType="Collection(DomainModels.usp_ExportPurchaseOrder_Result)">
+            <Parameter Name="PurchaseId" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
@@ -16215,6 +16221,23 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="BAddress1" Nullable="false" MaxLength="795" />
           <Property Type="String" Name="StatusName" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <ComplexType Name="usp_ExportPurchaseOrder_Result">
+          <Property Type="Int32" Name="PurchaseId" Nullable="false" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="PurchaseDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="RefNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ItemName" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="PackQty" Nullable="true" />
+          <Property Type="Double" Name="Quantity" Nullable="true" />
+          <Property Type="Double" Name="Price" Nullable="true" />
+          <Property Type="Double" Name="TaxValue" Nullable="true" />
+          <Property Type="Double" Name="TotalPrice" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="101" />
+          <Property Type="String" Name="Comments" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="896" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -21522,6 +21545,27 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="AddressName" ColumnName="AddressName" />
                 <ScalarProperty Name="BAddress1" ColumnName="BAddress1" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ExportPurchaseOrder" FunctionName="DomainModels.Store.usp_ExportPurchaseOrder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_ExportPurchaseOrder_Result">
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="RefNo" ColumnName="RefNo" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="PackQty" ColumnName="PackQty" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

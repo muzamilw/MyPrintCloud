@@ -659,7 +659,7 @@
         }
         
         omachine.CurrencySymbol(source.CurrencySymbol);
-        omachine.WeightUnit(source.WeightUnit);
+        omachine.WeightUnit(source.WeightUnit == "kg" ? "gsm" : source.WeightUnit);
         omachine.LengthUnit(source.LengthUnit);
        
         omachine.maximumsheetweight(source.machine.maximumsheetweight);

@@ -145,15 +145,20 @@ namespace MPC.Webstore.Controllers
 
                 shopCart = LoadShoppingCart(OrderId);
 
-                foreach (var item in shopCart.CartItemsList)
-                {
-                    if (item.TemplateID > 0)
-                    {
-                        TemplatedItemCount += 1;
-                    }
-                }
 
-                if (TemplatedItemCount > 0)
+                long CartItems = shopCart.CartItemsList.Where(i => i.ProductType == 1 && i.TemplateID > 0).ToList().Count;
+
+                //foreach (var item in shopCart.CartItemsList)
+                //{
+                //    if (item.TemplateID > 0)
+                //    {
+                        
+                //        TemplatedItemCount += 1;
+                //    }
+
+                //}
+
+                if (CartItems > 0)
                 {
                     ViewBag.EmailProofButtonVisible = true;
                 }

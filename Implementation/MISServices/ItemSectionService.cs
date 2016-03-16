@@ -4030,6 +4030,10 @@ namespace MPC.Implementation.MISServices
             if (oSectionAllInks != null && oSectionAllInks.Count > 0)
                 NoofInks = oSectionAllInks.Count;
 
+            if (oItemSection.IsPortrait == true && Convert.ToInt32(oItemSection.PrintViewLayoutPortrait) <= 0)
+                oItemSection.PrintViewLayoutPortrait = 1;
+            if (oItemSection.IsPortrait == false && Convert.ToInt32(oItemSection.PrintViewLayoutLandScape) <= 0)
+                oItemSection.PrintViewLayoutLandScape = 1;
             
             if (oItemSection.IsPortrait == true)
             {
@@ -5227,10 +5231,11 @@ namespace MPC.Implementation.MISServices
                     {
                         //'Guillotine Charge for 2nd Trim
                         dblBundle = (intPrintSheetQty[j] / dblCut);
-                        if (string.Compare("1", dblBundle.ToString()) > 0)
-                        {
-                            dblBundle = Math.Round(dblBundle, 0);
-                        }
+                        //if (string.Compare("1", dblBundle.ToString()) > 0)
+                        //{
+                            dblBundle = Math.Ceiling(dblBundle);
+                        //}
+                       
                         //To Understand the logic
                         //if (Strings.InStr(1, Convert.ToString(dblBundle), ".", Constants.vbTextCompare) > 0)
                         //{
@@ -5331,6 +5336,7 @@ namespace MPC.Implementation.MISServices
 
                         if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsDefaultGuilotine == true)
                         {
+                            int qty1TotalCuts = TotalCutsFirstTrim[0] + TotalCutsSecondTrim[0];
                             if (oJobCardOptionsDTO.IsGuilotineWorkingSize == true)
                             {
                                 oItemSectionCostCenter.Qty1WorkInstructions = "Working Size:=" + oItemSection.SectionSizeHeight + "mm x " + oItemSection.SectionSizeWidth + "mm " + Environment.NewLine;
@@ -5342,10 +5348,12 @@ namespace MPC.Implementation.MISServices
                             if (oJobCardOptionsDTO.IsNoOfTrims == true)
                             {
                                 oItemSectionCostCenter.Qty1WorkInstructions += "First Trim:=" + Convert.ToString((oItemSection.IsFirstTrim == false ? "No: " : "Yes: ")) + intFirstTrimCut + " cuts  Second Trim:= " + Convert.ToString((oItemSection.IsSecondTrim == false ? "No :" : "Yes : ")) + intSecondTrimCut + " cuts " + Environment.NewLine;
+                                oItemSectionCostCenter.Qty1WorkInstructions += "First Trim Bundles:=" + int1stBundles[0] + "  Second Trim Bundles:= " + int2ndBundles[0] + " " + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNoOfCuts == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += "Total Number of Cuts:= " + TotalCutsFirstTrim[0].ToString() + TotalCutsSecondTrim[0].ToString() + Environment.NewLine;
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Total Number of Cuts:= " + qty1TotalCuts + Environment.NewLine;
+                                
                             }
 
                             if (oJobCardOptionsDTO.IsGuillotineEstTime == true)
@@ -5357,6 +5365,7 @@ namespace MPC.Implementation.MISServices
 
                     if (oItemSection.Qty2 > 0)
                     {
+                        int qty2TotalCuts = TotalCutsFirstTrim[1] + TotalCutsSecondTrim[1];
                         if (dblFirstTrimPrice[1] + dblSecondTrimPrice[1] + oModelGuillotine.SetupCharge > dblGuillMinCharge)
                         {
                             oItemSectionCostCenter.Qty2Charge = dblFirstTrimPrice[1] + dblSecondTrimPrice[1] + oModelGuillotine.SetupCharge;
@@ -5397,10 +5406,11 @@ namespace MPC.Implementation.MISServices
                             if (oJobCardOptionsDTO.IsNoOfTrims == true)
                             {
                                 oItemSectionCostCenter.Qty2WorkInstructions += "First Trim:=" + Convert.ToString((oItemSection.IsFirstTrim == false ? "No: " : "Yes: ")) + intFirstTrimCut + " cuts  Second Trim:= " + Convert.ToString((oItemSection.IsSecondTrim == false ? "No :" : "Yes : ")) + intSecondTrimCut + " cuts " + Environment.NewLine;
+                                oItemSectionCostCenter.Qty2WorkInstructions += "First Trim Bundles:=" + int1stBundles[1] + "  Second Trim Bundles:= " + int2ndBundles[1] + " " + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNoOfCuts == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions += "Total Number of Cuts:= " + TotalCutsFirstTrim[1].ToString() + TotalCutsSecondTrim[2].ToString() + Environment.NewLine;
+                                oItemSectionCostCenter.Qty2WorkInstructions += "Total Number of Cuts:= " + qty2TotalCuts + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsGuillotineEstTime == true)
                             {
@@ -5411,6 +5421,7 @@ namespace MPC.Implementation.MISServices
 
                     if (oItemSection.Qty3 > 0)
                     {
+                        int qty3TotalCuts = TotalCutsFirstTrim[2] + TotalCutsSecondTrim[2];
                         //IIf(dblFirstTrim(2) + dblSecondTrim(2) + oModelGuillotine.SetUpCharge > dblGuillMinCharge, oItemSectionCostCenter.Qty3Charge = dblFirstTrim(2) + dblSecondTrim(2) + oModelGuillotine.SetUpCharge, oItemSectionCostCenter.Qty3Charge = dblGuillMinCharge)
                         if (dblFirstTrimPrice[2] + dblSecondTrimPrice[2] + oModelGuillotine.SetupCharge > dblGuillMinCharge)
                         {
@@ -5451,10 +5462,11 @@ namespace MPC.Implementation.MISServices
                             if (oJobCardOptionsDTO.IsNoOfTrims == true)
                             {
                                 oItemSectionCostCenter.Qty3WorkInstructions += "First Trim:=" + Convert.ToString((oItemSection.IsFirstTrim == false ? "No: " : "Yes: ")) + intFirstTrimCut + " cuts  Second Trim:= " + Convert.ToString((oItemSection.IsSecondTrim == false ? "No :" : "Yes : ")) + intSecondTrimCut + " cuts " + Environment.NewLine;
+                                oItemSectionCostCenter.Qty3WorkInstructions += "First Trim Bundles:=" + int1stBundles[2] + "  Second Trim Bundles:= " + int2ndBundles[2] + " " + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNoOfCuts == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += "Total Number of Cuts:= " + TotalCutsFirstTrim[2].ToString() + TotalCutsSecondTrim[2].ToString() + Environment.NewLine;
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Total Number of Cuts:= " + qty3TotalCuts + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsGuillotineEstTime == true)
                             {

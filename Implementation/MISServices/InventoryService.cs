@@ -260,6 +260,7 @@ namespace MPC.Implementation.MISServices
 
             bool isImperical = organisationRepository.GetImpericalFlagbyOrganisationId();
             stockItem.IsImperical = isImperical;
+            stockItem.PlateRunLength = stockItem.PlateRunLength == null || stockItem.PlateRunLength == 0 ? 1 : stockItem.PlateRunLength;
             stockItemRepository.Add(stockItem);
             stockItemRepository.SaveChanges();
             //After save item content for list view
@@ -308,7 +309,7 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.isAllowBackOrder = stockItem.isAllowBackOrder;
             stockItemDbVersion.ThresholdLevel = stockItem.ThresholdLevel;
             stockItemDbVersion.inStock = stockItem.inStock;
-            stockItemDbVersion.PlateRunLength = stockItem.PlateRunLength;
+            stockItemDbVersion.PlateRunLength = stockItem.PlateRunLength == null || stockItem.PlateRunLength == 0 ? 1 : stockItem.PlateRunLength;
             stockItemDbVersion.ChargePerSquareUnit = stockItem.ChargePerSquareUnit;
 
             UpdateItemStockUpdateHistories(stockItem, stockItemDbVersion);
