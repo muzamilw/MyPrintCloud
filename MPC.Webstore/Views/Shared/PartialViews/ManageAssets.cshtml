@@ -199,7 +199,7 @@
                 <label id="Keywords">Keywords</label>
                 <textarea placeholder="Enter keywords..." class="folder_desc_txtarea txtBoxLoginPage" id="keywords" cols="20" rows="4"></textarea>
                 <h5 style="display:none;" id="attachmentheading">Asset file types:</h5>
-                <div id="GridTable" style="display:none;"></div>
+                <div id="GridTable" style="display:none;position:relative;"></div>
             </div>
 
             <div class="clearBoth">
@@ -207,7 +207,7 @@
             </div>
 
 
-            <button style="display:none;float:right;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
+            <button style="display:none;float:right;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="OpenAsset();">Save</button>
             <div class="clearBoth">
 
             </div>
@@ -305,6 +305,31 @@
             </div>
         </div>
     </div>
+
+    <div id="popupoverlayForConfirmPopupForUpdateAsset" class="popupOverlay" style="display:none;z-index:999999;">
+        <div class="basketWindow" id="basketUpdatePopupAssets">
+            <div class="md-modal md-effect-7" id="modal-7">
+
+                <div class="md-content">
+                    <div class="modal-header">
+                        <button class="md-close close" onclick=CloseConfirmationUpdatewindow();>&times;</button>
+                        <h4 class="modal-title">Alert!</h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to save changes?
+                        <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
+                            <input type="button" id="ApproveOk" class="btn btn-primary" value="Yes" onclick="ActionAsset()" />
+                            <input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="No()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearBoth">
+
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/Content/TreeView/jquery-1.10.2.min.js"></script>
 
     <script src="/Scripts/jquery.MultiFile.js"></script>
@@ -331,6 +356,8 @@
         var AssetIdd=0;
         var thisFlag='';
         var bws = getBrowserHeight();
+        var AssetImagePath='';
+        var FolderImagePath='';
         $('#treeDemo').jstree();
         //   this.toggle_node(e.target);
         $(document).ready(function () {
@@ -513,7 +540,6 @@
             {
                 UpdateAssset(AsssetsID,RemovedID);
             }
-
 
         }
 
@@ -846,6 +872,7 @@
             LoadFolders();
 
         }
+       
 
         function buidPopup() {
             //assetPopupBody
@@ -1122,7 +1149,16 @@
                 success: function (response) {
 
                     SetSelectedFolder(response.Asset.FolderId,false);
-                    $('#AddFoldImg').attr("src",response.Asset.ImagePath);
+
+                    if(response.Asset.ImagePath!=null&&response.Asset.ImagePath!='')
+                    {
+                        $('#AddFoldImg').attr("src",response.Asset.ImagePath);
+                    }
+                    else
+                    {
+                        $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+
+                    }
                     $("#ImageUploader").val('');
                     //  $("#folderDropDown").val();
                     $("#FolderName").val(response.Asset.AssetName);
@@ -1171,7 +1207,15 @@
                 //data:Data,
                 success: function (response) {
                     SetSelectedFolder(response.ParentFolderId,true);
-                    $('#AddFoldImg').attr("src",response.ImagePath);
+                    if(response.ImagePath!=null&&response.ImagePath!='')
+                    {
+                        $('#AddFoldImg').attr("src",response.ImagePath);
+                    }
+                    else
+                    {
+                        $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+
+                    }
                     $("#ImageUploader").val('');
                     //  $("#folderDropDown").val();
                     $("#FolderName").val(response.FolderName);
@@ -1189,8 +1233,8 @@
                 async: true,
 
                 success: function (response) {
-                    window.location.href = "/ManageAssets";
 
+                    window.location.reload();
                 }
             });
         }
@@ -1231,6 +1275,7 @@
             ImgUrl=imagpath;
             AsssetsID=AssetID;
             UpdateAsset=true;
+            AssetImagePath=imagpath;
             if(@ContactRole==1||@ContactRole==2)
             {
                 Edit(AssetID);
@@ -1381,6 +1426,7 @@
             ImgUrl=imagpath;
             UpdateStatusFolder=true;
             FolderIDD=FolderId;
+            FolderImagePath=imagpath;
 
             if(@ContactRole==1||@ContactRole==2)
             {
@@ -1432,7 +1478,28 @@
            
             HideLoader();
         }
+        function OpenAsset()
+        {
+            if(UpdateAsset==true)
+            {
 
+                var deleteFolderLeft = parseInt((bws.width - 500) / 2);
+                $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "block");
+                $("#popupoverlayForConfirmPopupForUpdateAsset").css("left", deleteFolderLeft + "px");
+
+           
+                HideLoader();
+            }
+            else
+            {
+                ActionAsset();
+            }
+        
+        }
+        function CloseConfirmationUpdatewindow()
+        {
+            $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "none");
+        }
         function ShowDownloadWindow(imagpath, Assetid)
         {
             AssetIdd=Assetid;
@@ -1552,20 +1619,46 @@
 
         }
 
-        function No(deleteAssetID)
+        function No()
         {
+            //  AsssetsID
+
             $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
+            if(AssetImagePath!=null&&AssetImagePath!='')
+            {
+                Action(AsssetsID,AssetImagePath);
+            }
+            else
+            {
+               
+                AssetImagePath="/Content/Images/imgPlc.png";
+
+                Action(AsssetsID,AssetImagePath);
+            }
         }
 
-        function Cancelf(deleteAssetID)
+        function Cancelf()
         {
             $("#popupoverlayForConfirmPopup").css("display", "none");
+
+            if(FolderImagePath!=null&&FolderImagePath!='')
+            {
+                ActionForFolder(FolderIDD,FolderImagePath);
+            }
+            else
+            {
+                FolderImagePath="/Content/Images/imgPlc.png";
+
+                ActionForFolder(FolderIDD,FolderImagePath);
+            }
         }
 
         function CloseConfirmationwindow(DeleteFolderID)
         {
             $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
         }
+
+
         function getBrowserHeight() {
             var intH = 0;
             var intW = 0;
