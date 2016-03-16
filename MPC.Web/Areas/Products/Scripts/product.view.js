@@ -454,7 +454,7 @@ define("product/product.view",
                     var templateId = product.template() && product.template().id() ? product.template().id() : product.templateId();
                     var uri = encodeURI("http://" + host + "/Designer/" + productfinal + "/0/" + templateId + "/" + product.id() +
                         "/" + product.companyId() + "/" + 0 + "/2/" + product.organisationId() + "/" + product.printCropMarks() + "/" + product.drawWatermarkText()
-                        + "/false");
+                        + "/false/0");
                     openUrlInNewWindow(uri);
                 },
                 // Open url in new window

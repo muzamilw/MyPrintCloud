@@ -1278,6 +1278,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     url = "/mis/Content/Images/PNGFile.png";
                     
                 }
+                else if (ext == "doc" || ext == "docx") {
+                    url = "/mis/Content/Images/icons/icoMsWord128x128.png";
+                }
+                else if (ext == "xls" || ext == "xlsx") {
+                    url = "/mis/Content/Images/icons/icoMsExcel128x128.png";
+                }
+                else if (ext == "ppt" || ext == "pptx") {
+                    url = "/mis/Content/Images/icons/icoMsPowerPoint128x128.png";
+                }
+                else if (ext == "pub" || ext == "pubx") {
+                    url = "/mis/Content/Images/icons/icoMsPublisher128x128.png";
+                }
                 var name = file.name;
                 name = name.replace(/[&\/\\#,+()$~%'":*?<>{}]/g, '');
                 switch (fileType) {
