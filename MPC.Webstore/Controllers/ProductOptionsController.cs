@@ -278,6 +278,7 @@ namespace MPC.Webstore.Controllers
                             if (_myClaimHelper.loginContactID() > 0)
                             {
                                 long UserTerritoryId = 0;
+                                long UserTerritoryColorId = 0;
                                 CompanyContact loggedInUserContact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
                                 if (_myItemService.IsTerritoryUseUserFonts(Convert.ToInt64(loggedInUserContact.TerritoryId)))
                                 {
@@ -285,13 +286,20 @@ namespace MPC.Webstore.Controllers
                                     UserTerritoryId = Convert.ToInt64(loggedInUserContact.TerritoryId);
 
                                 }
+                                if (_myItemService.IsTerritoryUseColors(Convert.ToInt64(loggedInUserContact.TerritoryId)))
+                                {
+
+                                    UserTerritoryColorId = Convert.ToInt64(loggedInUserContact.TerritoryId);
+
+                                }
                                 if (clonedItem != null && clonedItem.TemplateType == 3)
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId;
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId + "/" + UserTerritoryColorId; 
+
                                 }
                                 else
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId;
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId + "/" + UserTerritoryColorId;
 
                                 }
                             }
@@ -302,11 +310,11 @@ namespace MPC.Webstore.Controllers
                             {
                                 if (clonedItem != null && clonedItem.TemplateType == 3)
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0";
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0";
                                 }
                                 else
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0";
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0";
 
                                 }
                             }
@@ -315,11 +323,11 @@ namespace MPC.Webstore.Controllers
                                 long temporaryContactID = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
                                 if (clonedItem != null && clonedItem.TemplateType == 3)
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0";
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0";
                                 }
                                 else
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0";
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0";
 
                                 }
                             }
@@ -1176,6 +1184,7 @@ namespace MPC.Webstore.Controllers
                 objTemplate.printCropMarks = true;
                 objTemplate.isTemplateDesignMode = isTemplateDesignMode;
                 objTemplate.TerritoryId = 0;
+                objTemplate.ColorTerritoryId = 0;
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
                     CompanyContact loggedInUserContact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
@@ -1184,6 +1193,12 @@ namespace MPC.Webstore.Controllers
                        
                             objTemplate.TerritoryId = Convert.ToInt64(loggedInUserContact.TerritoryId);
                         
+                    }
+                    if (_myItemService.IsTerritoryUseColors(Convert.ToInt64(loggedInUserContact.TerritoryId)))
+                    {
+
+                        objTemplate.ColorTerritoryId = Convert.ToInt64(loggedInUserContact.TerritoryId);
+
                     }
                 }
                 Templates.Add(objTemplate);
