@@ -272,35 +272,59 @@ namespace MPC.Webstore.Controllers
                         else
                             isCalledFrom = 3;
 
-                        if (_myClaimHelper.loginContactID() > 0)
-                        {
-                            if (clonedItem != null && clonedItem.TemplateType == 3)
-                            {
-                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
-                            }
-                            else
-                            {
-                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
 
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (_myClaimHelper.loginContactID() > 0)
+                            {
+                                long UserTerritoryId = 0;
+                                CompanyContact loggedInUserContact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
+                                if (_myItemService.IsTerritoryUseUserFonts(Convert.ToInt64(loggedInUserContact.TerritoryId)))
+                                {
+
+                                    UserTerritoryId = Convert.ToInt64(loggedInUserContact.TerritoryId);
+
+                                }
+                                if (clonedItem != null && clonedItem.TemplateType == 3)
+                                {
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId;
+                                }
+                                else
+                                {
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId;
+
+                                }
                             }
                         }
                         else 
                         {
-                            long temporaryContactID = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
-                            if (clonedItem != null && clonedItem.TemplateType == 3)
+                            if (_myClaimHelper.loginContactID() > 0)
                             {
-                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+                                if (clonedItem != null && clonedItem.TemplateType == 3)
+                                {
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0";
+                                }
+                                else
+                                {
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0";
+
+                                }
                             }
                             else
                             {
-                                ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true";
+                                long temporaryContactID = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
+                                if (clonedItem != null && clonedItem.TemplateType == 3)
+                                {
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0";
+                                }
+                                else
+                                {
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0";
 
+                                }
                             }
-                        }
-
                         
-                       
-
+                        }
                     }
                 }
                 
