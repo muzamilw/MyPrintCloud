@@ -11,5 +11,6 @@ namespace MPC.Interfaces.Repository
         IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId);
         CompanyTerritory GetTerritoryById(long territoryId);
         bool IsUseUserFont(long territoryId);
+        bool IsUseUserColors(long territoryId);
     }
 }

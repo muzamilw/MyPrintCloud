@@ -164,24 +164,27 @@ var conversionUnit = "Points";
 var lastSel = "";
 var isImageUploaded = false;
 var userTerritoryId = 0;
+var userColorTerritoryId = 0;
 function buildParams() {
-   // locVars.push(0); // handle null terriotry 
-    userTerritoryId = locVars[locVars.length - 1];
-	printCropMarks = locVars[locVars.length - 4];
-	printWaterMarks = locVars[locVars.length - 3];
-	CustomerName =parseInt(  locVars[locVars.length - 8]);
-	tID = parseInt(locVars[locVars.length - 10]);
-	IsCalledFrom =parseInt(  locVars[locVars.length - 6]);
-	IsEmbedded = locVars[locVars.length - 2];
-	CustomerID = parseInt( locVars[locVars.length - 8]);
-	ContactID =parseInt(  locVars[locVars.length - 7]);
-	organisationId = parseInt( locVars[locVars.length - 5]);
-	cIDv2 =parseInt( locVars[locVars.length - 11]);
+    // locVars.push(0); // handle null terriotry 
+    userColorTerritoryId = locVars[locVars.length - 1];
+    userTerritoryId = locVars[locVars.length - 2];
+
+	printCropMarks = locVars[locVars.length - 5];
+	printWaterMarks = locVars[locVars.length - 4];
+	CustomerName =parseInt(  locVars[locVars.length - 9]);
+	tID = parseInt(locVars[locVars.length - 11]);
+	IsCalledFrom =parseInt(  locVars[locVars.length - 7]);
+	IsEmbedded = locVars[locVars.length - 3];
+	CustomerID = parseInt( locVars[locVars.length - 9]);
+	ContactID =parseInt(  locVars[locVars.length - 8]);
+	organisationId = parseInt( locVars[locVars.length - 6]);
+	cIDv2 =parseInt( locVars[locVars.length - 12]);
 	productionFolderPath = "Organisation" + organisationId + "/Templates/";
-	ItemId = parseInt(locVars[locVars.length - 9]);
+	ItemId = parseInt(locVars[locVars.length - 10]);
     //alert(ItemId);
 	LoadBasicTemplateSettings();
-	var tempName = locVars[locVars.length - 12];
+	var tempName = locVars[locVars.length - 13];
 	while (tempName.indexOf('%20') != -1)
 	    tempName = tempName.replace("%20", " ");
 	$("#txtTemplateTitle").val(tempName);

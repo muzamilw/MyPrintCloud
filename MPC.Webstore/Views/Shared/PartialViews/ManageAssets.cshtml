@@ -11,6 +11,7 @@
 
     var Admin = ViewBag.Admin;
     var Manager = ViewBag.Manager;
+    //ContactRole = 3;
 
 }
 <div class="container" id="all-manageAssets-pg">
@@ -74,7 +75,7 @@
                     }
                 </div>
             </div>
-            <div class="assetRightPanelWithSubFolAsst float_right">
+            <div class="assetRightPanelWithSubFolAsst float_left">
                 @if (countOfAllItems == 0)
                 {
                     <div>No records found.</div>
@@ -86,29 +87,29 @@
                         <div class="assetCategoryInnerCnt">
                             <div class="assetImgCnt">
                                @if (ParentFolder.ImagePath != null && ParentFolder.ImagePath != string.Empty)
-                               { 
-                                <a href="@RedirectUrl"><img src="@ParentFolder.ImagePath"></a>
+                               {
+                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName')"><img src="@ParentFolder.ImagePath"></a>
                                }
                                else
                                {
-                                <a href="@RedirectUrl">
-                                    <img src="/Content/Images/imgPlc.png">
+                                <a >
+                                    <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName')" src="/Content/Images/imgPlc.png">
                                 </a>
                                     }
 </div>
                             <div class="assetNameCnt">
-                                <a href="@RedirectUrl" class="catAssetName">@ParentFolder.FolderName</a>
+                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName')" class="catAssetName">@ParentFolder.FolderName</a>
                             </div>
 
 
                         </div>
-                        @if (ContactRole != 3)
+                        @*@if (ContactRole != 3)
                         {
                             <div class="editBtnCnt">
-                                <a onclick="ActionForFolder(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this)" class="catButton icon basket"><span>Edit Folder</span></a>
+                                <a  class="catButton icon basket"><span>Edit Folder</span></a>
                             </div>
 
-                        }
+                        }*@
 
                     </div>
 
@@ -123,32 +124,72 @@
                                     <a>
                                      @if (assets.ImagePath != null && assets.ImagePath != string.Empty)
                                      {
-                                        <img src="@assets.ImagePath" onclick="Action(@assets.AssetId,'@assets.ImagePath')">
+                                        <img src="@assets.ImagePath" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName')">
                                      }
                                      else
                                      {
-                                        <img src="/Content/Images/imgPlc.png" onclick="Action(@assets.AssetId,'@assets.ImagePath')">
+                                        <img src="/Content/Images/imgPlc.png" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName')">
                                      }
                                     </a>
                                 </div>
                                 <div class="assetNameCnt">
-                                    <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catAssetName">@assets.AssetName</a>
+                                    <a onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName')" class="catAssetName">@assets.AssetName</a>
                                 </div>
 
 
 
                             </div>
                             <div>
-                                @if (ContactRole != 3)
+                                @*@if (ContactRole != 3)
                                 {
-                                    <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catButton icon basket"><span>Edit Asset</span></a>
-                                }
+                                    <a onclick="Action(@assets.AssetId,'@assets.ImagePath')" class="catButton icon basket"><span id="Edit_Asset">Edit Asset</span></a>
+                                }*@
                             </div>
                         </div>
 
                     }
                 }
                 <div class="clearBoth"></div>
+            </div>
+
+            <div class="assetRightPanelDescription float_left">
+                
+                <div class="assetSearchPanel PreviewPanel" style="display:none;">
+                    <div id="Prev_img">
+                        <img id="Img_prevDisplay" class="PreviewImage" src="/Content/Images/imgPlc.png" />
+                    </div>
+                    <br />
+                    
+                    <div style="padding-left:32px;">
+                      @if (ContactRole != 3)
+                      {                         <div style="float:left;">
+                            <button class="PrevButtons" onclick="NavigateToFolderID()">Preview</button>
+                        </div>
+                      }
+                       @if (ContactRole == 3)
+                        {
+                        <div style="float:left;">
+                            <button style="width:126px!important;" class="PrevButtons" onclick="NavigatetoBasketWindow()">Preview/DownLoad</button>
+                        </div>
+                       }
+                        @if (ContactRole != 3)
+                        {
+                        <div style="float:left;">
+                            <button class="PrevButtons" onclick="Toogle()">Edit</button>
+                        </div>
+                         }
+                        <div class="clearBoth">
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div id="Div_Right_AssetDescription" style="text-align:left;display:none;">
+                    <h6 id="assetNameUser_side" style="margin-bottom: 0px;">ABC</h6>
+                    <p id="assetCatNameUser_side" style="margin-bottom: 0px;">Category:test</p>
+                    <p id="assetupdated_side" style="margin-bottom: 0px;">Asset Updated:16/03/2016</p>
+                </div>
+
             </div>
             <div class="clearBoth"></div>
         </div>
@@ -199,7 +240,7 @@
                 <label id="Keywords">Keywords</label>
                 <textarea placeholder="Enter keywords..." class="folder_desc_txtarea txtBoxLoginPage" id="keywords" cols="20" rows="4"></textarea>
                 <h5 style="display:none;" id="attachmentheading">Asset file types:</h5>
-                <div id="GridTable" style="display:none;"></div>
+                <div id="GridTable" style="display:none;position:relative;"></div>
             </div>
 
             <div class="clearBoth">
@@ -207,7 +248,7 @@
             </div>
 
 
-            <button style="display:none;float:right;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="ActionAsset();">Save</button>
+            <button style="display:none;float:right;" id="SaveAsset" class="shareButton" value="Save" type="submit" onclick="OpenAsset();">Save</button>
             <div class="clearBoth">
 
             </div>
@@ -305,6 +346,31 @@
             </div>
         </div>
     </div>
+
+    <div id="popupoverlayForConfirmPopupForUpdateAsset" class="popupOverlay" style="display:none;z-index:999999;">
+        <div class="basketWindow" id="basketUpdatePopupAssets">
+            <div class="md-modal md-effect-7" id="modal-7">
+
+                <div class="md-content">
+                    <div class="modal-header">
+                        <button class="md-close close" onclick=CloseConfirmationUpdatewindow();>&times;</button>
+                        <h4 class="modal-title">Alert!</h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to save changes?
+                        <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
+                            <input type="button" id="ApproveOk" class="btn btn-primary" value="Yes" onclick="ActionAssetForUpdateCase()" />
+                            <input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="Back()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearBoth">
+
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/Content/TreeView/jquery-1.10.2.min.js"></script>
 
     <script src="/Scripts/jquery.MultiFile.js"></script>
@@ -317,36 +383,159 @@
     <script type="text/javascript">
 
 
-        var  UpdateAsset=false;
-        var UpdateStatusFolder=false;
-        var AsssetsID=0;
-        var mbImagesFiles = new FormData();
-        var ImgUrl;
-        var FolderIDD=0;
-        var removedFiles = [];
-        var RemovedID='';
-        var SelectedTreeID='@ViewBag.SelectedTreeID';
-        var GlobalImagePAth='';
-        var browserleft = 0;
-        var AssetIdd=0;
-        var thisFlag='';
-        var bws = getBrowserHeight();
-        $('#treeDemo').jstree();
-        //   this.toggle_node(e.target);
-        $(document).ready(function () {
-            buidPopup();
-            $("#assetPopupBody").append($("#AddFolderPanel"));
-            document.getElementById("layer").style.display = "none";
-            document.getElementById("innerLayer").style.display = "none";
-            $('#treeDemo>ul>li>i').each(function(i, obj) {
+    var  UpdateAsset=false;
+    var UpdateStatusFolder=false;
+    var AsssetsID=0;
+    var mbImagesFiles = new FormData();
+    var ImgUrl;
+    var FolderIDD=0;
+    var removedFiles = [];
+    var RemovedID='';
+    var SelectedTreeID='@ViewBag.SelectedTreeID';
+    var GlobalImagePAth='';
+    var browserleft = 0;
+    var AssetIdd=0;
+    var thisFlag='';
+    var bws = getBrowserHeight();
+    var AssetImagePath='';
+    var FolderImagePath='';
+    $('#treeDemo').jstree();
 
-                $(this).trigger('click');
+    var SwitchtoFolder=false;
+    //   this.toggle_node(e.target);
 
-            });
-            SetTreeState(SelectedTreeID);
 
+    $(document).ready(function () {
+
+        buidPopup();
+        $("#assetPopupBody").append($("#AddFolderPanel"));
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+        $('#treeDemo>ul>li>i').each(function(i, obj) {
+
+            $(this).trigger('click');
 
         });
+        var filterheight;
+        SetTreeState(SelectedTreeID);
+        currentHeight = $('.assetRightPanelWithSubFolAsst').outerHeight();
+        var Folders='@Folder.Count';
+        
+      
+       
+
+        var height= 'height:'+currentHeight+'px!important';
+        
+        $(".assetLeftPanelWithSearchBar").css("cssText",height);
+        $(".assetRightPanelDescription").css("cssText",height);
+    });
+    $("#Edit Asset").on("click", function (e) {
+
+        // Id of the element that was clicked
+        var elementId = $(this).attr("id");
+
+    });
+    function ShowFolderPreview(folderId,Imagepath,tt,folderName)
+    {
+        var RoleId='@ContactRole';
+        SwitchtoFolder=true;
+            if(RoleId!=3)
+            {
+                $(".PreviewPanel").css("display","block");
+                FolderIDD=folderId;
+                FolderImagePath=Imagepath;
+                if(FolderImagePath!=null&&FolderImagePath!='')
+                {
+                    $('#Img_prevDisplay').attr("src",FolderImagePath);
+                }
+                else
+                {
+                    FolderImagePath='/Content/Images/imgPlc.png';
+                    $('#Img_prevDisplay').attr("src",FolderImagePath);
+                }
+                
+                $('#assetNameUser_side').text(folderName);
+                $('#Div_Right_AssetDescription').css("display","block");
+                $('#assetCatNameUser_side').css("display","none");
+                $('#assetupdated_side').css("display","none");
+            }
+        }
+
+
+
+        function ShowAssetPreview(AssetId,ImagePath,AssetName)
+        {
+            SwitchtoFolder=false;
+            var RoleId='@ContactRole';
+            if(RoleId==3)
+            {
+                GeTAssetDescription(ImagePath,AssetId);
+
+            }
+           
+                $(".PreviewPanel").css("display","block");
+                AsssetsID=AssetId;
+                AssetImagePath=ImagePath;
+                if(AssetImagePath!=null&&AssetImagePath!='')
+                {
+
+                    $('#Img_prevDisplay').attr("src",AssetImagePath);
+                }
+                else
+                {
+
+                    AssetImagePath='/Content/Images/imgPlc.png';
+                    $('#Img_prevDisplay').attr("src",AssetImagePath);
+                }
+                if(RoleId!=3)
+                {
+                    $('#assetNameUser_side').text(AssetName);
+                    $('#Div_Right_AssetDescription').css("display","block");
+                    $('#assetCatNameUser_side').css("display","none");
+                    $('#assetupdated_side').css("display","none");
+
+                }
+                
+        }
+        function Toogle()
+        {
+            var TotalAssets='@Assets.Count';
+            var TotalFolders='@Folder.Count';
+           
+            if(SwitchtoFolder==true)
+            {
+                ActionForFolder(FolderIDD, FolderImagePath);
+            }
+            else
+            {
+                Action(AsssetsID,AssetImagePath);
+            }
+        }
+
+        function NavigateToFolderID()
+        {
+
+            var emtystring='';
+            window.location.href = "/ManageAssets?folderId="+FolderIDD+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
+
+        }
+
+
+        function SetScroll()
+        {
+            if(UpdateAsset==true)
+            {
+                $(".popUpRightContent").css("cssText","height:432px!important;");
+                $(".popUpRightContent ").css("cssText","overflow-y:scroll!important;");
+            }
+            else
+            {
+                $(".popUpRightContent").css("cssText","height:Inherit!important;");
+                $(".popUpRightContent").css("cssText","overflow-y:hidden!important;");
+            }
+
+        }
+
 
         function No()
         {
@@ -361,7 +550,10 @@
         {
             $("#popupoverlayForConfirmPopup").css("display", "none");
         }
-
+        function Back()
+        {
+            $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "none");
+        }
 
         $("#DeleteFolder").click(function(){
             var deleteFolderLeft = parseInt((bws.width - 500) / 2);
@@ -496,11 +688,13 @@
 
         function ActionAsset()
         {
+
             $("#FolderName").css("border", "1px solid #c1c6cc");
             $("#imgloader").css("border", "1px solid #c1c6cc");
             $("#Qty").css("border", "1px solid #c1c6cc");
             $("#price").css("border", "1px solid #c1c6cc");
             $("#uploadfiesss").css("border", "1px solid #c1c6cc");
+
 
             if(UpdateAsset==false)
             {
@@ -513,9 +707,50 @@
             {
                 UpdateAssset(AsssetsID,RemovedID);
             }
+            return AssetsValidation()
+        }
 
+        function ActionAssetForUpdateCase()
+        {
+
+            $("#FolderName").css("border", "1px solid #c1c6cc");
+            $("#imgloader").css("border", "1px solid #c1c6cc");
+            $("#Qty").css("border", "1px solid #c1c6cc");
+            $("#price").css("border", "1px solid #c1c6cc");
+            $("#uploadfiesss").css("border", "1px solid #c1c6cc");
+
+
+            //if(UpdateAsset==false)
+            //{
+            //    alert("hsjadhkajshdkahsdjashdkj");
+            //  //  if(AssetsValidation()==true)
+            //   // {
+            //        SaveAsset();
+            //    //}
+
+            //}
+            //else
+            //{
+
+            UpdateAssset(AsssetsID,RemovedID);
+            //}
+            return AssetsValidation()
+        }
+
+
+        function FinalCall()
+        {
+            if(ActionAsset()==false)
+            {
+                if(ValidateOnlyName()==false)
+                {
+                    Action(AsssetsID,AssetImagePath);
+                }
+
+            }
 
         }
+
 
         function ActionFolder()
         {
@@ -611,6 +846,7 @@
             //    $("#price").css("border", "1px solid #c1c6cc");
             //}
 
+
             if($("#selectedFiles").html()=='')
             {
                 $("#uploadfiesss").css("border", "2px solid red");
@@ -621,6 +857,45 @@
                 $("#uploadfiesss").css("border", "1px solid #c1c6cc");
             }
 
+            return result;
+        }
+
+        function AssetsValidationForUpdateCase()
+        {
+
+
+            var result=true;
+            if($("#FolderName").val()=='')
+            {
+
+                $("#FolderName").css("border", "2px solid red");
+                result=false;
+            }
+            else
+            {
+                $("#FolderName").css("border", "1px solid #c1c6cc");
+            }
+
+            return result;
+
+        }
+
+
+
+
+        function ValidateOnlyName()
+        {
+            var result=true;
+            if($("#FolderName").val()=='')
+            {
+
+                $("#FolderName").css("border", "2px solid red");
+                result=false;
+            }
+            else
+            {
+                $("#FolderName").css("border", "1px solid #c1c6cc");
+            }
             return result;
         }
 
@@ -733,9 +1008,27 @@
 
         });
         function HideMessagePopUpCustom() {
-            document.getElementById("layer").style.display = "none";
-            document.getElementById("innerLayer").style.display = "none";
-            $("#AddFolderPanel").css("display", "none");
+
+
+            if(UpdateAsset==true)
+            {
+
+                if(AssetsValidationForUpdateCase()==true)
+                {
+                    var deleteFolderLeft = parseInt((bws.width - 500) / 2);
+                    $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "block");
+                    $("#popupoverlayForConfirmPopupForUpdateAsset").css("left", deleteFolderLeft + "px");
+                    HideLoader();
+                    UpdateAsset=false;
+                }
+            }
+            else
+            {
+
+                document.getElementById("layer").style.display = "none";
+                document.getElementById("innerLayer").style.display = "none";
+                $("#AddFolderPanel").css("display", "none");
+            }
         }
         function ShowPreview(input) {
             if (input.files && input.files[0]) {
@@ -797,6 +1090,7 @@
             $('#assetPopupBody').css("overflow-y", "scroll");
             $("#GridTable").css("display", "none");
             $("#GridTable").html("");
+            $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
         }
         function AddFolder()
         {
@@ -844,8 +1138,14 @@
             UpdateStatusFolder=false;
             clearTextboxes();
             LoadFolders();
+            $(".popUpRightContent").css("cssText","height:Inherit!important;");
+            $(".popUpRightContent").css("overflow-y","hidden!important;");
+
+
+
 
         }
+
 
         function buidPopup() {
             //assetPopupBody
@@ -1122,7 +1422,16 @@
                 success: function (response) {
 
                     SetSelectedFolder(response.Asset.FolderId,false);
-                    $('#AddFoldImg').attr("src",response.Asset.ImagePath);
+
+                    if(response.Asset.ImagePath!=null&&response.Asset.ImagePath!='')
+                    {
+                        $('#AddFoldImg').attr("src",response.Asset.ImagePath);
+                    }
+                    else
+                    {
+                        $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+
+                    }
                     $("#ImageUploader").val('');
                     //  $("#folderDropDown").val();
                     $("#FolderName").val(response.Asset.AssetName);
@@ -1171,7 +1480,15 @@
                 //data:Data,
                 success: function (response) {
                     SetSelectedFolder(response.ParentFolderId,true);
-                    $('#AddFoldImg').attr("src",response.ImagePath);
+                    if(response.ImagePath!=null&&response.ImagePath!='')
+                    {
+                        $('#AddFoldImg').attr("src",response.ImagePath);
+                    }
+                    else
+                    {
+                        $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+
+                    }
                     $("#ImageUploader").val('');
                     //  $("#folderDropDown").val();
                     $("#FolderName").val(response.FolderName);
@@ -1189,8 +1506,8 @@
                 async: true,
 
                 success: function (response) {
-                    window.location.href = "/ManageAssets";
 
+                    window.location.reload();
                 }
             });
         }
@@ -1231,6 +1548,7 @@
             ImgUrl=imagpath;
             AsssetsID=AssetID;
             UpdateAsset=true;
+            AssetImagePath=imagpath;
             if(@ContactRole==1||@ContactRole==2)
             {
                 Edit(AssetID);
@@ -1255,6 +1573,10 @@
                 $("#AssetsItems").css("display", "block");
                 $("#AddFolderPanel").css("display", "block");
 
+                $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
+                //$(".popUpRightContent").css("cssText","height:432px;");
+
+                $("#uploadfiesss").css("border", "1px solid #c1c6cc");
             }
             else
             {
@@ -1381,6 +1703,7 @@
             ImgUrl=imagpath;
             UpdateStatusFolder=true;
             FolderIDD=FolderId;
+            FolderImagePath=imagpath;
 
             if(@ContactRole==1||@ContactRole==2)
             {
@@ -1412,13 +1735,14 @@
             $("#attachmentheading").css("display", "none");
             $("#GridTable").css("display", "none");
             $("#GridTable").html("");
+            $(".popUpRightContent").css("cssText","overflow-y:hidden!important;height:inherit!important;");
         }
 
 
-       
+
 
         //$("#DeleteFolder").click(function(){
-            
+
         //    $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "block");
 
         //});
@@ -1429,10 +1753,36 @@
             $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "block");
             $("#basketWindowConfirmPopupAssets").css("left", deleteFolderLeft + "px");
 
-           
+
             HideLoader();
         }
+        function OpenAsset()
+        {
+            ActionAsset();
 
+        }
+
+        function UpdateAssetPop()
+        {
+
+            if(UpdateAsset==true)
+            {
+
+                var deleteFolderLeft = parseInt((bws.width - 500) / 2);
+                $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "block");
+                $("#popupoverlayForConfirmPopupForUpdateAsset").css("left", deleteFolderLeft + "px");
+
+                HideLoader();
+            }
+            else
+            {
+                ActionAsset();
+            }
+        }
+        function CloseConfirmationUpdatewindow()
+        {
+            $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "none");
+        }
         function ShowDownloadWindow(imagpath, Assetid)
         {
             AssetIdd=Assetid;
@@ -1452,6 +1802,7 @@
                     $("#assetNameUser").text(response.Asset.AssetName);
                     $("#assetCatNameUser").text("Category:"+response.AssetFolder.FolderName);
 
+                   
                     var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
@@ -1467,6 +1818,41 @@
             });
 
         }
+
+        function GeTAssetDescription(imagpath, Assetid)
+        {
+            
+
+            var url= "/CloneItemForManageAsset/"+Assetid+"";
+
+            $("#basketId").attr("href",url);
+
+            var Data = { AssetId: Assetid };
+            $.ajax({
+                type: "GET",
+                url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+                contentType: "application/json",
+                async: true,
+                data:Data,
+                success: function (response) {
+                    $("#assetNameUser_side").text(response.Asset.AssetName);
+                    $("#assetCatNameUser_side").text("Category:"+response.AssetFolder.FolderName);
+
+                    
+                    var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+                    var changedate=newDate.split("-");
+                    var getd=changedate[2].split("T");
+
+                    $("#assetupdated_side").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+                    BindFileItems(response.Asset.AssetItems,true);
+                    $("#Div_Right_AssetDescription").css("display", "block");
+                    $(".shareIcons").css("display", "none");
+                    
+                }
+            });
+        
+        }
+
 
         function removeAtt(name, t) {
 
@@ -1505,7 +1891,7 @@
                     var lastIndex = fileext.length;
                     var extname = fileext[lastIndex - 1];
                     if (files[i].size != null && files[i].size > 52428800) {
-                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 10 MB are allowed only !");
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 50 MB are allowed only !");
                         isAddfile = 0;
                     }
                     @*if (extname != "png" && extname != "jpg" && extname != "jpeg" && extname != "pdf" && extname != "gif") {
@@ -1552,20 +1938,58 @@
 
         }
 
-        function No(deleteAssetID)
+        function No()
         {
+            //  AsssetsID
+
             $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
+            if(AssetImagePath!=null&&AssetImagePath!='')
+            {
+                Action(AsssetsID,AssetImagePath);
+            }
+            else
+            {
+
+                AssetImagePath="/Content/Images/imgPlc.png";
+
+                Action(AsssetsID,AssetImagePath);
+            }
         }
 
-        function Cancelf(deleteAssetID)
+        function Cancelf()
         {
             $("#popupoverlayForConfirmPopup").css("display", "none");
+
+            if(FolderImagePath!=null&&FolderImagePath!='')
+            {
+                ActionForFolder(FolderIDD,FolderImagePath);
+            }
+            else
+            {
+                FolderImagePath="/Content/Images/imgPlc.png";
+
+                ActionForFolder(FolderIDD,FolderImagePath);
+            }
         }
 
         function CloseConfirmationwindow(DeleteFolderID)
         {
             $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
         }
+        function NavigatetoBasketWindow()
+        {
+            var RoleId='@ContactRole';
+            if(RoleId==3)
+            {
+                
+                if(AsssetsID!=null&&AsssetsID!=''&&AsssetsID!=0)
+                {
+                    ShowDownloadWindow(AssetImagePath,AsssetsID);
+                }
+            }
+
+        }
+
         function getBrowserHeight() {
             var intH = 0;
             var intW = 0;

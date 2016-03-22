@@ -243,5 +243,6 @@ namespace MPC.Interfaces.WebStoreServices
         List<TemplatePage> GetTemplatePagesByItemId(long clonedItemId);
         List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
         bool IsTerritoryUseUserFonts(long TerritoryId);
+        bool IsTerritoryUseColors(long TerritoryId);
     }
 }

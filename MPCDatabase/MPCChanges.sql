@@ -10319,7 +10319,7 @@ alter table CompanyTerritory add IsUseTerritoryColor bit
 
 -----------------------------------------------------
 
-/****** Object:  StoredProcedure [dbo].[sp_GetUsedFontsUpdated]    Script Date: 3/15/2016 10:33:15 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_GetUsedFontsUpdated]    Script Date: 3/16/2016 11:04:47 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -10368,7 +10368,7 @@ BEGIN
   where fontname in (
 
   select fontname from dbo.TemplateObject
-  where productid = @TemplateID)
+  where productid = @TemplateID) and  CustomerID = @CustomerID 
   
  union
   SELECT [ProductFontId]
@@ -10419,4 +10419,3 @@ Begin
 		where p.purchaseid = @PurchaseId
 
 end
-
