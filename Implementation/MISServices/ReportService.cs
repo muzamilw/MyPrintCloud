@@ -515,7 +515,7 @@ namespace MPC.Implementation.MISServices
             string Path = string.Empty;
 
             List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(request.Reportid);
-
+            string ReportName = ReportRepository.GetReportName(request.Reportid);
             string CriteriaField = string.Empty;
 
             if (reportParams != null && reportParams.Count > 0)
@@ -524,7 +524,37 @@ namespace MPC.Implementation.MISServices
                 {
                     if (param.ControlType == 1)// means drop down
                     {
-                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + request.ComboValue + " ";
+                        if (ReportName == "Order Report By Store") // for retail store orders
+                        {
+                            if (param.ComboTableName == "Company") // for two combos
+                            {
+                                int combVal = Convert.ToInt32(request.ComboValue);
+                                if (combVal > 0)
+                                {
+                                    bool isCorporate = ReportRepository.isCorporateCustomer(combVal);
+                                    if (isCorporate)
+                                    {
+                                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + combVal + " ";
+                                    }
+                                    else
+                                    {
+                                        CriteriaField = CriteriaField + " and " + "Company.StoreId = " + combVal + " ";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + request.ComboValue2 + " ";
+                            }
+
+
+                        }
+                        else
+                        {
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + request.ComboValue + " ";
+                        }
+                         
+                        
                     }
                     else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges
                     {
@@ -534,7 +564,16 @@ namespace MPC.Implementation.MISServices
                         {
                             CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + request.DateFrom + "' and '" + request.DateTo + "'";
                         }
-
+                        else if (request.DateFrom != null && request.DateTo == null)
+                        {
+                            request.DateTo = Convert.ToString(DateTime.Now);
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " BETWEEN '" + request.DateFrom + "' and '" + request.DateTo + "'";
+                        }
+                        else if (request.DateFrom == null && request.DateTo != null)
+                        {
+                            request.DateTo = (Convert.ToDateTime(request.DateTo).AddHours(24)).ToString("MM/dd/yyyy");
+                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " <= '" + request.DateTo + "'";
+                        }
 
                     }
                     else if (param.ControlType == 3)// means textbox value
@@ -625,6 +664,7 @@ namespace MPC.Implementation.MISServices
                         }
                         else if (DateFrom == null && DateTo != null)
                         {
+                            DateTo = (Convert.ToDateTime(DateTo).AddHours(24)).ToString("MM/dd/yyyy");
                             CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " <= '" + DateTo + "'";
                         }
 

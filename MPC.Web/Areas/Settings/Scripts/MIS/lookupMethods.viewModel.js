@@ -606,7 +606,8 @@
                     }
                     else if (MachineType == 4) {//  Type for Speed Weight Calculation
                         
-                        selectedSpeedWeight(model.SpeedWeightLookup(lookup[0]));
+                        // selectedSpeedWeight(model.SpeedWeightLookup(lookup[0]));
+                        selectedSpeedWeight(lookup[0]);
                         sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
 
 

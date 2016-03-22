@@ -1378,7 +1378,7 @@
                 qty1 = ko.observable(specifiedQty1),
                 qty2 = ko.observable(specifiedQty2),
                 qty3 = ko.observable(specifiedQty3),
-                costPrice = ko.observable(specifiedCostPrice != null ? specifiedCostPrice.toFixed(2) : 0),
+                costPrice = ko.observable(specifiedCostPrice),
                 actualQtyUsed = ko.observable(specifiedActualQtyUsed),
                 stockName = ko.observable(specifiedStockName),
                 supplier = ko.observable(specifiedSupplier),

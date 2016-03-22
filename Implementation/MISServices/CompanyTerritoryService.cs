@@ -109,6 +109,7 @@ namespace MPC.Implementation.MISServices
                         spotColorDb.SpotColor = spotColor.SpotColor;
                         spotColorDb.Name = spotColor.SpotColor;
                         spotColorDb.CustomerId = spotColor.CustomerId;
+                        spotColorDb.IsColorActive = spotColor.IsColorActive;
                     }
                 }
             }
@@ -140,7 +141,7 @@ namespace MPC.Implementation.MISServices
                         templateFont.FontName = font.FontName;
                         templateFont.FontDisplayName = font.FontDisplayName;
                         templateFont.IsEnable = font.IsEnable;
-                        templateFont.IsPrivateFont = font.IsPrivateFont;
+                        templateFont.IsPrivateFont = true;
                         templateFont.CustomerId = font.CustomerId;
                         templateFont.TerritoryId = font.TerritoryId;
                     }

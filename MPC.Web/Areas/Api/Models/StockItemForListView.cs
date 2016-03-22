@@ -100,6 +100,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         public double? ActualCost { get; set; }
         public double? ActualPackCost { get; set; }
+        public double? InkChargePerSquare { get; set; }
 
         /// <summary>
         /// 

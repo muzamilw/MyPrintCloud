@@ -62,7 +62,7 @@ define("machine/machine.viewModel",
                                        if (selectedMachine().isSheetFed() == true || selectedMachine().isSheetFed() == "true") {
                                            
                                            if (MachineType() == 4) {
-                                               if (lookupMethodViewModel.selectedSpeedWeight()) {
+                                               if (lookupMethodViewModel.selectedSpeedWeight() && lookupMethodViewModel.selectedSpeedWeight().Id() != undefined) {
                                                    isSpeedWeightChange = lookupMethodViewModel.selectedSpeedWeight().hasChanges();
                                                }
                                            } else {
@@ -448,8 +448,8 @@ define("machine/machine.viewModel",
                         var guillotine = lookupMethodViewModel.oGuillotineZone();
                         var speedWeightLookup = null;
                         if (MachineType() == 4) {
-                            speedWeightLookup = lookupMethodViewModel.selectedSpeedWeight();
-                            speedWeightLookup = model.speedWeightconvertToServerData(speedWeightLookup);
+                            var speedWeight = lookupMethodViewModel.selectedSpeedWeight();
+                            speedWeightLookup = model.speedWeightconvertToServerData(speedWeight);
                         }
                         
 
@@ -593,7 +593,10 @@ define("machine/machine.viewModel",
                                                 } else { //Speed Weight applied
                                                     MachineType(4);
                                                     selectedMachine().isClickChargezone("false");
-                                                    lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineSpeedWeightLookups, 4, null);
+                                                    var lookupArr = [];
+                                                    var speedWeightLookup = model.SpeedWeightLookup(data.machine.LookupMethod.MachineSpeedWeightLookups[0]);
+                                                    lookupArr.push(speedWeightLookup);
+                                                    lookupMethodViewModel.SetLookupMethod(lookupArr, 4, null);
                                                     currentSpeedWeight.push(lookupMethodViewModel.selectedSpeedWeight());
                                                 }
                                                 

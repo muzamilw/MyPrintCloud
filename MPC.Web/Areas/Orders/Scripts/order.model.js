@@ -55,7 +55,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Is Estimate
                 isEstimate = ko.observable(specifiedIsEstimate || false),
                 // Contact Id
-                contactId = ko.observable(specifiedContactId || undefined),
+                contactId = ko.observable(specifiedContactId || undefined).extend({ required: true }),
                 // Address Id
                 addressId = ko.observable(specifiedAddressId || undefined),
                 // Is Direct Sale
@@ -311,6 +311,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Errors
                 errors = ko.validation.group({
                     name: name,
+                    contactId : contactId,
                     companyId: companyId,
                     sectionFlagId: sectionFlagId
                 }),

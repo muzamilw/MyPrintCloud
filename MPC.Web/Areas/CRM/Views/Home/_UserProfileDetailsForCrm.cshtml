@@ -546,7 +546,7 @@
                                                 <div class="col-lg-6">
                                                    <div class="form-group ">
                                                         <div class="col-lg-4 text-right">
-                                                            <label for="ddbussinessAddress" class="control-label">Business Address</label>
+                                                            <label for="ddbussinessAddress" class="control-label">Billing Address</label>
 
                                                         </div>
                                                         <div class="col-lg-7">
@@ -556,11 +556,26 @@
                                                     </div>
                                                     <div class="form-group ">
                                                         <div class="col-lg-4 text-right">
-
-                                                            <label for="txtBAredd" class="control-label text-right tooltip-float">Address</label>
+                                                            <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address 1</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAredd" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined && $root.selectedBussinessAddress().addressName() != undefined ? $root.selectedBussinessAddress().addressName():''">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined && $root.selectedBussinessAddress().address1() != undefined ? $root.selectedBussinessAddress().address1():''">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address 2</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined && $root.selectedBussinessAddress().address2() != undefined ? $root.selectedBussinessAddress().address2():''">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            <label for="txtPO" class="control-label text-right tooltip-float">Post Code</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtPO" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined ? $root.selectedBussinessAddress().postCode():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -577,6 +592,14 @@
                                                         </div>
                                                         <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().stateName() != undefined ? $root.selectedBussinessAddress().stateNamenCode():''">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            <label for="txtBAddState" class="control-label text-right tooltip-float">Country</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().countryName() != undefined ? $root.selectedBussinessAddress().countryName():''">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -632,6 +655,14 @@
                                                         </div>
                                                         <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().stateName() != undefined ? $root.selectedShippingAddress().stateNamenCode():''">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            <label for="txtBShipAddCountry" class="control-label text-right tooltip-float">Country</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtBShipAddCountry" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().countryName() != undefined ? $root.selectedShippingAddress().countryName():''">
                                                         </div>
                                                     </div>
                                                 </div>

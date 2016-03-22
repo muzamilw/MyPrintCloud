@@ -516,6 +516,7 @@ define("inventory/inventory.viewModel",
                                     selectedInventoryCopy().fullCategoryName(data.FullCategoryName);
                                     selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
                                     selectedInventoryCopy().packCostPrice(data.PackCostPrice || '');
+                                    selectedInventoryCopy().inkChargePerSquare(data.InkChargePerSquare || '');
                                 }
                                 isInventoryEditorVisible(false);
                                 sharedNavigationVM.reset();

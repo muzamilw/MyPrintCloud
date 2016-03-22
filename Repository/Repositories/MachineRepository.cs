@@ -243,7 +243,7 @@ namespace MPC.Repository.Repositories
                 else if (oType == 4)
                 {
                     oLookupMethod.Name = "Speed Weight Lookup";
-                    oLookupMethod.Type = 4;
+                    oLookupMethod.Type = 3;
                 }
 
                 oLookupMethod.OrganisationId = Convert.ToInt32(OrganisationId);

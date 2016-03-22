@@ -110,7 +110,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CostPrice = obj != null ? obj.CostPrice : 0,
                 ActualCost = objCost != null? objCost.CostPrice : 0,
                 ActualPackCost = objCost != null ? (objCost.CostPrice / source.PerQtyQty) * source.PackageQty : 0,
-                SupplierCode = source.BarCode
+                SupplierCode = source.BarCode,
+                InkChargePerSquare = source.ChargePerSquareUnit ?? 0.00
             };
 
         }

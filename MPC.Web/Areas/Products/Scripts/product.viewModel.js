@@ -643,6 +643,23 @@ define("product/product.viewModel",
                         // ReSharper disable Html.IdNotResolved
                         $("#idheadingPhraseLibrary").html("Select a phrase");
                         // ReSharper restore Html.IdNotResolved
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[1].id);
+                        if (selectedJobDescription() === 'txtDescription1')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[0].name);
+                        else if (selectedJobDescription() === 'txtDescription2')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[1].name);
+                        else if (selectedJobDescription() === 'txtDescription3')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[2].name);
+                        else if (selectedJobDescription() === 'txtDescription4')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[3].name);
+                        else if (selectedJobDescription() === 'txtDescription5')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[4].name);
+                        else if (selectedJobDescription() === 'txtDescription6')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[5].name);
+                        else if (selectedJobDescription() === 'txtDescription7')
+                            phraseLibrary.defaultOpenPhraseFieldName(ist.JobProductionPhraseFieldsEnum[6].name);
+
+
                         phraseLibrary.show(function (phrase) {
                             updateJobDescription(phrase);
                         });
