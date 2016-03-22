@@ -360,7 +360,7 @@ function fu05_Clload() {
     if (IsCalledFrom == 2 || IsCalledFrom == 4) {
         Cid = CustomerID;
     }
-    $.getJSON("/designerapi/TemplateColorStyles/GetColorStyle/" + tID + "/" + Cid + "/" + userTerritoryId,
+    $.getJSON("/designerapi/TemplateColorStyles/GetColorStyle/" + tID + "/" + Cid + "/" + userColorTerritoryId,
        function (DT) {
            fu05_svcCall(DT);
        });

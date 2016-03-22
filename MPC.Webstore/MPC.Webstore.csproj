@@ -873,6 +873,7 @@
     <Content Include="Content\owl.carousel.css" />
     <Content Include="Content\oxfordtestimonial.css" />
     <Content Include="Content\PosterBanner.css" />
+    <Content Include="Content\RAndW.css" />
     <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />
     <Content Include="Content\RealEstateSlider\images\arrow-left.png" />
     <Content Include="Content\RealEstateSlider\images\arrow-right.png" />

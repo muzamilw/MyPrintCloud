@@ -94,6 +94,26 @@ namespace MPC.Repository.Repositories
             }
 
         }
+        public bool IsUseUserColors(long territoryId)
+        {
+            try
+            {
+                CompanyTerritory oCompnyTerritory = db.CompanyTerritories.Where(c => c.TerritoryId == territoryId).FirstOrDefault();
+                if (oCompnyTerritory != null && oCompnyTerritory.IsUseTerritoryColor == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         
     }
 }

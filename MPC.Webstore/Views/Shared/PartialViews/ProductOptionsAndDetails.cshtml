@@ -1220,7 +1220,7 @@
                                     {
                                                 <div class="modify_button_container">
                                                     <div>
-                                                        <input type="button" class="modify_template_btn" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId, @templateItem.TerritoryId);" />
+                                                        <input type="button" class="modify_template_btn" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId, @templateItem.TerritoryId, @templateItem.ColorTerritoryId);" />
                                                     </div>
                                                 </div>
                                     }
@@ -2275,10 +2275,10 @@
     }
 
 
-    function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID, TerritoryId) {
+    function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID, TerritoryId, ColorTerritoryId) {
 
         ShowLoader();
-        var URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + TerritoryId;
+        var URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + TerritoryId + "/" + ColorTerritoryId;
         window.location.href = URL;
     }
 
@@ -2736,7 +2736,7 @@
     }
 
     function LoadCostCentersByStockId(StockId, isCalledOnPageLoad) {
-        debugger;
+    
         var noRefiningOpt = 1;
         mandatoryRefiningOptIds = "";
         $(".CostCenterItems").each(function(i, val) {
