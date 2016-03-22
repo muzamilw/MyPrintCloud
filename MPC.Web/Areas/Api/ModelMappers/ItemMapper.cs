@@ -238,6 +238,27 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 url = "/mis/Content/Images/PNGFile.png";
 
             }
+            else if (Path.Contains(".xls"))
+            {
+                url = "/mis/Content/Images/icons/icoMsExcel128x128.png";
+
+            }
+            else if (Path.Contains(".ppt"))
+            {
+                url = "/mis/Content/Images/icons/icoMsPowerPoint128x128.png";
+
+            }
+            else if (Path.Contains(".pub"))
+            {
+                url = "/mis/Content/Images/icons/icoMsPublisher128x128.png";
+
+            }
+            else if (Path.Contains(".doc"))
+            {
+                url = "/mis/Content/Images/icons/icoMsWord128x128.png";
+
+            }
+           
 
             return url;
         }

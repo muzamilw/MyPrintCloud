@@ -401,6 +401,8 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public double MinPrice { get; set; }
 
+        public bool? IsSavedDesign { get; set; }
+
         /// <summary>
         /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
         /// existing template object else removes
