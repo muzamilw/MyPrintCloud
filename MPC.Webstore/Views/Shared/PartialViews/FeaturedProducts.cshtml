@@ -15,7 +15,7 @@
 {
 
     <div class="parentCatsContainer" id="all-popularPro-pg">
-        <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
+        <div class="container content_area clearBoth ">
             <div class=" row PopularProductsSub">
                 <div class="feature_product_main_heading">
                     <label id="ltrlFeaturedProducts">Featured Products</label>
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="topcat_desc displayNone_TLS5">
 
-                                    From only  @Utils.FormatDecimalValueToTwoDecimal(Product.MinPrice.ToString(), ViewBag.CurrencySymbol)
+                                    from <br /> <span class="spn_minprice">@Utils.FormatDecimalValueToTwoDecimal(Product.MinPrice.ToString(), ViewBag.CurrencySymbol)</span>
                                 </div>
                                 <div style="margin:auto;">
                                     <a id="ShopNowFuture" href="@NavigateUrl" style="display:none;text-align:center;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNow", UserCookieManager.WBStoreId, "Order Now")) </a>
