@@ -40,8 +40,8 @@
 
                                             <!-- Mobile logo -->
                                             <div class="logo-wrapper--mobile">
-                                                <a class="logo logo--mobile" href="@ViewBag.DefaultUrl" title="Liquid Bubble Print">
-                                                    <img id="logoImageee" src="/@Model.Image" alt="Liquid Bubble Print">
+                                                <a class="logo logo--mobile" href="@ViewBag.DefaultUrl" title="">
+                                                    <img id="logoImageee" src="/@Model.Image" alt="">
                                                 </a>
                                             </div>
                                             <div class="clearer after-mobile-logo"></div>
@@ -54,7 +54,7 @@
                                             <div class="hp-block h-left regular-logo">
 
                                                 <div class="logo-wrapper logo-wrapper--regular">
-                                                    <h1 class="logo logo--regular"><strong>@ViewBag.CompanyName</strong><a href="@ViewBag.DefaultUrl" title="Liquid Bubble Print"><img id="logoImageee" src="/@Model.Image" alt="Liquid Bubble Print"></a></h1>
+                                                    <h1 class="logo logo--regular"><strong>@ViewBag.CompanyName</strong><a href="@ViewBag.DefaultUrl" title=""><img id="logoImageee" src="/@Model.Image" alt=""></a></h1>
                                                 </div>
 
                                             </div>
@@ -92,11 +92,11 @@
                                                     </div>
                                                     <ul class="links custom">
                                                         <li class="first">
-                                                            <a href="/" title="Liquid Bubble" target="_blank">Main Site</a>
+                                                            <a href="/" title="" target="_blank">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMainSite", UserCookieManager.WBStoreId, "Main Site"))</a>
                                                         </li>
                                                         <li class="phn-num">
                                                             <span>
-                                                                <i class="fa phn-num"></i><label>Order Hotline</label><a class="phone-call" title="0208 900 1191" href="tel:0208 900 1191">@ViewBag.Phone</a>
+                                                                <i class="fa phn-num"></i><label>Order Hotline</label><a class="phone-call" title="" href="">@ViewBag.Phone</a>
                                                             </span>
                                                         </li>
                                                         <li class="e-mail">
@@ -119,7 +119,7 @@
 
                                                     <div class="hp-block high-quality-moblie">
                                                         <div class="high-quality">
-                                                            <p>High Quality Digital<br>&amp; Litho Printers</p>
+                                                            <p>@Html.Raw(Html.GetKeyValueFromResourceFile("lblHighQualityDigital", UserCookieManager.WBStoreId, "High Quality Digital"))<br>@Html.Raw(Html.GetKeyValueFromResourceFile("lblLithoPrinters", UserCookieManager.WBStoreId, "&amp; Litho Printers"))</p>
                                                         </div>
                                                     </div>
                                                     <a href="#header-nav" class="skip-link skip-nav">
@@ -140,7 +140,7 @@
 
                                                     <div class="hp-block high-quality-desktop">
                                                         <div class="high-quality">
-                                                            <p>High Quality Digital<br>&amp; Litho Printers</p>
+                                                            <p>@Html.Raw(Html.GetKeyValueFromResourceFile("lblHighQualityDigital", UserCookieManager.WBStoreId, "High Quality Digital"))<br>@Html.Raw(Html.GetKeyValueFromResourceFile("lblLithoPrinters", UserCookieManager.WBStoreId, "&amp; Litho Printers"))</p>
                                                         </div>
                                                     </div>
                                                     <div id="header-account" class="top-links links-wrapper-separators-left skip-content skip-content--style btm-account">
