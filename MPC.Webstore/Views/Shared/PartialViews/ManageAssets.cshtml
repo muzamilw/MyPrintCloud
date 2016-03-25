@@ -11,7 +11,7 @@
 
     var Admin = ViewBag.Admin;
     var Manager = ViewBag.Manager;
-    ContactRole = 1;
+    
 
 }
 <div class="container" id="all-manageAssets-pg">
@@ -88,17 +88,17 @@
                             <div class="assetImgCnt">
                                @if (ParentFolder.ImagePath != null && ParentFolder.ImagePath != string.Empty)
                                {
-                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description')"><img src="@ParentFolder.ImagePath"></a>
+                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description','@ParentFolder.ParentFolderId')"><img src="@ParentFolder.ImagePath"></a>
                                }
                                else
                                {
                                 <a >
-                                    <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description')" src="/Content/Images/imgPlc.png">
+                                    <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description','@ParentFolder.ParentFolderId')" src="/Content/Images/imgPlc.png">
                                 </a>
                                     }
 </div>
                             <div class="assetNameCnt">
-                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description')" class="catAssetName">@ParentFolder.FolderName</a>
+                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description','@ParentFolder.ParentFolderId')" class="catAssetName">@ParentFolder.FolderName</a>
                             </div>
 
 
@@ -184,9 +184,12 @@
                 <br />
                 <div id="Div_Right_AssetDescription" style="text-align:left;display:none;">
                     <h6 id="assetNameUser_side" style="margin-bottom: 0px;"></h6>
-                    <p id="assetCatNameUser_side" style="margin-bottom: 0px;"></p>
-                    <p id="AssetDescription_side" style="margin-bottom: 0px;"></p>
-                    <p id="assetupdated_side" style="margin-bottom: 0px;"></p>
+                    
+                    <br />
+                    <p><span id="assetCatNameUser_side_label" style="font-weight:bold;font-size:12px;">Category:</span><span id="assetCatNameUser_side" style="margin-bottom: 0px;font-size:12px;"></span></p>
+                    <p><span id="AssetDescription_side_label" style="font-weight:bold;font-size:12px;">Description:</span><span id="AssetDescription_side" style="margin-bottom: 0px;font-size:12px;"></span></p>
+                    <p><span id="assetupdated_side_label" style="font-weight:bold;font-size:12px;">Asset Updated:</span><span id="assetupdated_side" style="margin-bottom: 0px;font-size:12px;"></span></p>
+                    <div  class="clearBoth"></div>
                     <div id="AssetFiles_side"></div>
                 </div>
 
@@ -399,7 +402,8 @@
     var bws = getBrowserHeight();
     var AssetImagePath='';
     var FolderImagePath='';
-        var AssetItemsList='';
+    var AssetItemsList='';
+    var folderNAme='';
     $('#treeDemo').jstree();
 
     var SwitchtoFolder=false;
@@ -407,7 +411,7 @@
 
 
     $(document).ready(function () {
-
+        
         buidPopup();
         $("#assetPopupBody").append($("#AddFolderPanel"));
         document.getElementById("layer").style.display = "none";
@@ -436,9 +440,10 @@
         var elementId = $(this).attr("id");
 
     });
-    function ShowFolderPreview(folderId,Imagepath,tt,folderName,FolderDescription)
+    function ShowFolderPreview(folderId,Imagepath,tt,folderName,FolderDescription,ParentFolderId)
     {
         var RoleId='@ContactRole';
+        folderNAme= GetfolderName(ParentFolderId)
         SwitchtoFolder=true;
           //  if(RoleId!=3)
           //  {
@@ -457,10 +462,15 @@
                 
                 $('#assetNameUser_side').text(folderName);
                 $('#Div_Right_AssetDescription').css("display","block");
-                $('#assetCatNameUser_side').css("display","none");
+                $('#assetCatNameUser_side').css("display","block");
                 $('#assetupdated_side').css("display","none");
+                $('#assetupdated_side_label').css("display","none");
                 $('#AssetDescription_side').css("display","block");
-                $('#AssetDescription_side').text('Description:'+FolderDescription);
+                $('#AssetDescription_side').text(FolderDescription);
+                if(folderNAme!=null&&folderNAme!='')
+                {
+                    $("#assetCatNameUser_side").text(response.AssetFolder.FolderName);
+                }
            // }
         }
 
@@ -512,7 +522,7 @@
         
             var InnerHtml = "";
            
-
+            
             InnerHtml = "<div>";
             $.each(GridItems, function (i, IT) {
                 
@@ -520,14 +530,21 @@
                     var url=(IT.FileUrl).split("/");
 
                     var getExt=(IT.FileUrl).split(".");
-                    var Extension='.'+getExt[1];
+                    var Extension=getExt[1].toUpperCase();
                     if(i==0)
                     {
-                        InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;" class="float_left">FileType(s): '+Extension+'</div>')
+                        InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;;font-size:12px;" class="float_left"><span style="font-weight:bold;font-size:12px;">FileType(s):</span>'+Extension+',</div>')
                     }
                     else
                     {
-                        InnerHtml = InnerHtml.concat('<div class="float_left">'+Extension+'</div>')
+                        if(GridItems.length==i+1)
+                        {
+                            InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">'+Extension+'</div>')
+                        }
+                        else
+                        {
+                            InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">'+Extension+',</div>')
+                        }
                     }
                 }
                 );
@@ -555,7 +572,7 @@
                 data:Data,
                 success: function (response) {
                     $("#assetNameUser_side").text(response.Asset.AssetName);
-                    $("#assetCatNameUser_side").text("Category:"+response.AssetFolder.FolderName);
+                    $("#assetCatNameUser_side").text(response.AssetFolder.FolderName);
 
                     
                     var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
@@ -563,7 +580,7 @@
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
 
-                    $("#assetupdated_side").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+                    $("#assetupdated_side").text(getd[0]+"/"+changedate[1]+"/"+changedate[0]);
                    // BindFileItems(response.Asset.AssetItems,true);
                     $("#Div_Right_AssetDescription").css("display", "block");
                     $(".shareIcons").css("display", "none");
@@ -571,11 +588,11 @@
                     
                     if(response.Asset.Description!=null&&response.Asset.Description!='')
                     {
-                        $('#AssetDescription_side').text('Description:'+response.Asset.Description);
+                        $('#AssetDescription_side').text(response.Asset.Description);
                     }
                     else
                     {
-                        $('#AssetDescription_side').text('Description:'+'');
+                        $('#AssetDescription_side').text();
                     }
                     AssetItemsList=response.Asset.AssetItems;
                     BindPreviewItems(response.Asset.AssetItems);
@@ -600,10 +617,16 @@
 
         function NavigateToFolderID()
         {
+            if(SwitchtoFolder==true)
+            {
+                var emtystring='';
+                window.location.href = "/ManageAssets?folderId="+FolderIDD+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
+            }
+            else
+            {
+                ShowDownloadWindow(AssetImagePath,AsssetsID);
 
-            var emtystring='';
-            window.location.href = "/ManageAssets?folderId="+FolderIDD+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
-
+            }
         }
 
 
@@ -737,7 +760,7 @@
                     RebindGrid();
                 }
                 else {
-                    window.location.href = "/ManageAssets?folderId=0&&Searchfolder="+val+"";
+                    window.location.href = "/ManageAssets?folderId="+FolderIDD+"&&Searchfolder="+val+"";
                 }
 
 
@@ -1582,6 +1605,38 @@
                 }
             });
         }
+
+        function GetfolderName(FolderID)
+        {
+            if(FolderID!=null&&FolderID!='')
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "/webstoreapi/ContactImageUploader/GetFolderByFolderId?folderId="+FolderID+"",
+                    contentType: "application/json",
+                    async: true,
+                    //data:Data,
+                    success: function (response) {
+                        //SetSelectedFolder(response.ParentFolderId,true);
+                        //if(response.ImagePath!=null&&response.ImagePath!='')
+                        //{
+                        //    $('#AddFoldImg').attr("src",response.ImagePath);
+                        //}
+                        //else
+                        //{
+                        //    $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+
+                        //}
+                        //$("#ImageUploader").val('');
+                        ////  $("#folderDropDown").val();
+                        //$("#FolderName").val(response.FolderName);
+                        //$("#FoldDescription").val(response.Description);
+                        folderNAme=  response.FolderName;
+                    }
+                });
+        
+            }
+        }
         function DeleteAsset()
         {
             // var Data = { AssetID: AsssetsID };
@@ -1892,7 +1947,7 @@
 
                    
                     var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
-                    alert(newDate);
+                    
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
 
@@ -1929,7 +1984,7 @@
 
                     
                     var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
-                    alert(newDate);
+                   
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
 
@@ -2050,7 +2105,6 @@
                         result=true;
                     }
                    
-                    
                 });
                 if(result==true)
                 {
