@@ -611,8 +611,10 @@
         {
             if(UpdateAsset==true)
             {
-                $(".popUpRightContent").css("cssText","height:432px!important;");
-                $(".popUpRightContent ").css("cssText","overflow-y:scroll!important;");
+                $(".popUpRightContent").css("cssText","height:490px !important;");
+                $(".popUpRightContent ").css("cssText","overflow-y:scroll !important;");
+                $(".popUpRightContent ").css("cssText","  padding-right: 10px;");
+              
             }
             else
             {
@@ -1173,7 +1175,7 @@
             $("#AddFolderPanel").css("display", "block");
             $("#attachmentheading").css("display", "none");
             $("#assetPopupBody").height(560);
-            $('#assetPopupBody').css("overflow-y", "scroll");
+            $('#assetPopupBody').css("overflow-y", "hidden");
             $("#GridTable").css("display", "none");
             $("#GridTable").html("");
             $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
@@ -1529,7 +1531,7 @@
                 }
             });
             $("#assetPopupBody").height(564);
-            jQuery('#assetPopupBody').css("overflow-y", "scroll");
+            jQuery('#assetPopupBody').css("overflow-y", "hidden");
             $("#AddFolderPanel").css("display", "block");
         }
 
