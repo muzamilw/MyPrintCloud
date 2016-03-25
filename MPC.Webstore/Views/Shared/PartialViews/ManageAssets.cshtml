@@ -462,10 +462,10 @@
                 
                 $('#assetNameUser_side').text(folderName);
                 $('#Div_Right_AssetDescription').css("display","block");
-                $('#assetCatNameUser_side').css("display","block");
+                //$('#assetCatNameUser_side').css("display","block");
                 $('#assetupdated_side').css("display","none");
                 $('#assetupdated_side_label').css("display","none");
-                $('#AssetDescription_side').css("display","block");
+                //$('#AssetDescription_side').css("display","block");
                 $('#AssetDescription_side').text(FolderDescription);
                 if(folderNAme!=null&&folderNAme!='')
                 {
@@ -1634,6 +1634,7 @@
                         //$("#FolderName").val(response.FolderName);
                         //$("#FoldDescription").val(response.Description);
                         folderNAme=  response.FolderName;
+                        alert(folderNAme);
                     }
                 });
         
