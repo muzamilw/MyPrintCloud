@@ -11,7 +11,7 @@
 
     var Admin = ViewBag.Admin;
     var Manager = ViewBag.Manager;
-    //ContactRole = 3;
+    ContactRole = 1;
 
 }
 <div class="container" id="all-manageAssets-pg">
@@ -88,17 +88,17 @@
                             <div class="assetImgCnt">
                                @if (ParentFolder.ImagePath != null && ParentFolder.ImagePath != string.Empty)
                                {
-                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName')"><img src="@ParentFolder.ImagePath"></a>
+                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description')"><img src="@ParentFolder.ImagePath"></a>
                                }
                                else
                                {
                                 <a >
-                                    <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName')" src="/Content/Images/imgPlc.png">
+                                    <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description')" src="/Content/Images/imgPlc.png">
                                 </a>
                                     }
 </div>
                             <div class="assetNameCnt">
-                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName')" class="catAssetName">@ParentFolder.FolderName</a>
+                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description')" class="catAssetName">@ParentFolder.FolderName</a>
                             </div>
 
 
@@ -124,19 +124,17 @@
                                     <a>
                                      @if (assets.ImagePath != null && assets.ImagePath != string.Empty)
                                      {
-                                        <img src="@assets.ImagePath" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName')">
+                                        <img src="@assets.ImagePath" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')">
                                      }
                                      else
                                      {
-                                        <img src="/Content/Images/imgPlc.png" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName')">
+                                        <img src="/Content/Images/imgPlc.png" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')">
                                      }
                                     </a>
                                 </div>
                                 <div class="assetNameCnt">
-                                    <a onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName')" class="catAssetName">@assets.AssetName</a>
+                                    <a onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')" class="catAssetName">@assets.AssetName</a>
                                 </div>
-
-
 
                             </div>
                             <div>
@@ -185,9 +183,11 @@
                 </div>
                 <br />
                 <div id="Div_Right_AssetDescription" style="text-align:left;display:none;">
-                    <h6 id="assetNameUser_side" style="margin-bottom: 0px;">ABC</h6>
-                    <p id="assetCatNameUser_side" style="margin-bottom: 0px;">Category:test</p>
-                    <p id="assetupdated_side" style="margin-bottom: 0px;">Asset Updated:16/03/2016</p>
+                    <h6 id="assetNameUser_side" style="margin-bottom: 0px;"></h6>
+                    <p id="assetCatNameUser_side" style="margin-bottom: 0px;"></p>
+                    <p id="AssetDescription_side" style="margin-bottom: 0px;"></p>
+                    <p id="assetupdated_side" style="margin-bottom: 0px;"></p>
+                    <div id="AssetFiles_side"></div>
                 </div>
 
             </div>
@@ -216,7 +216,7 @@
                 <label id="AssetsItems">Asset Item(s):</label>
 
                 <input id="uploadfiesss" value="Upload Files" type="button" class="uploderFikes" />
-
+                <p id="file_added" style="font-size:12px;color:red!important;display:none;">sorry,this file is already added</p>
                 <div id="selectedFiles"></div>
                 <button style="display:none;" id="DeleteAsset" class="shareButton" value="Save" type="submit" onclick="DeleteAssettt();" >Delete Asset</button>
             </div>
@@ -239,7 +239,7 @@
 
                 <label id="Keywords">Keywords</label>
                 <textarea placeholder="Enter keywords..." class="folder_desc_txtarea txtBoxLoginPage" id="keywords" cols="20" rows="4"></textarea>
-                <h5 style="display:none;" id="attachmentheading">Asset file types:</h5>
+                <h5 style="display:none;" id="attachmentheading">Asset file type(s):</h5>
                 <div id="GridTable" style="display:none;position:relative;"></div>
             </div>
 
@@ -399,6 +399,7 @@
     var bws = getBrowserHeight();
     var AssetImagePath='';
     var FolderImagePath='';
+        var AssetItemsList='';
     $('#treeDemo').jstree();
 
     var SwitchtoFolder=false;
@@ -435,12 +436,12 @@
         var elementId = $(this).attr("id");
 
     });
-    function ShowFolderPreview(folderId,Imagepath,tt,folderName)
+    function ShowFolderPreview(folderId,Imagepath,tt,folderName,FolderDescription)
     {
         var RoleId='@ContactRole';
         SwitchtoFolder=true;
-            if(RoleId!=3)
-            {
+          //  if(RoleId!=3)
+          //  {
                 $(".PreviewPanel").css("display","block");
                 FolderIDD=folderId;
                 FolderImagePath=Imagepath;
@@ -458,15 +459,18 @@
                 $('#Div_Right_AssetDescription').css("display","block");
                 $('#assetCatNameUser_side').css("display","none");
                 $('#assetupdated_side').css("display","none");
-            }
+                $('#AssetDescription_side').css("display","block");
+                $('#AssetDescription_side').text('Description:'+FolderDescription);
+           // }
         }
 
 
 
-        function ShowAssetPreview(AssetId,ImagePath,AssetName)
+        function ShowAssetPreview(AssetId,ImagePath,AssetName,AssetCreationDate)
         {
             SwitchtoFolder=false;
             var RoleId='@ContactRole';
+
             if(RoleId==3)
             {
                 GeTAssetDescription(ImagePath,AssetId);
@@ -483,24 +487,105 @@
                 }
                 else
                 {
-
                     AssetImagePath='/Content/Images/imgPlc.png';
                     $('#Img_prevDisplay').attr("src",AssetImagePath);
                 }
                 if(RoleId!=3)
                 {
-                    $('#assetNameUser_side').text(AssetName);
-                    $('#Div_Right_AssetDescription').css("display","block");
-                    $('#assetCatNameUser_side').css("display","none");
-                    $('#assetupdated_side').css("display","none");
-
+                    //$('#assetNameUser_side').text(AssetName);
+                    //$('#Div_Right_AssetDescription').css("display","block");
+                    //$('#assetCatNameUser_side').css("display","none");
+                    //$('#assetupdated_side').css("display","block");
+                    
+                    //getDateForAssetPreview(AssetCreationDate);
+                    //var newDate = Date.toString('dd-MM-yy');
+                    
+                    //var changedate=newDate.split("-");
+                    //var getd=changedate[2].split("T");
+                    //$("#assetupdated").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+                   PreviewAssetDes(ImagePath,AssetId);
                 }
                 
         }
+        function BindPreviewItems(GridItems)
+        {
+        
+            var InnerHtml = "";
+           
+
+            InnerHtml = "<div>";
+            $.each(GridItems, function (i, IT) {
+                
+                    var fullFileUrl=IT.FileUrl;
+                    var url=(IT.FileUrl).split("/");
+
+                    var getExt=(IT.FileUrl).split(".");
+                    var Extension='.'+getExt[1];
+                    if(i==0)
+                    {
+                        InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;" class="float_left">FileType(s): '+Extension+'</div>')
+                    }
+                    else
+                    {
+                        InnerHtml = InnerHtml.concat('<div class="float_left">'+Extension+'</div>')
+                    }
+                }
+                );
+                InnerHtml += "</div>";
+
+                $("#AssetFiles_side").css("display", "block");
+
+                $("#AssetFiles_side").html(InnerHtml);
+
+        }
+        function PreviewAssetDes(imagpath, Assetid)
+        {
+            
+
+            var url= "/CloneItemForManageAsset/"+Assetid+"";
+
+            $("#basketId").attr("href",url);
+
+            var Data = { AssetId: Assetid };
+            $.ajax({
+                type: "GET",
+                url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+                contentType: "application/json",
+                async: true,
+                data:Data,
+                success: function (response) {
+                    $("#assetNameUser_side").text(response.Asset.AssetName);
+                    $("#assetCatNameUser_side").text("Category:"+response.AssetFolder.FolderName);
+
+                    
+                    var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+                    
+                    var changedate=newDate.split("-");
+                    var getd=changedate[2].split("T");
+
+                    $("#assetupdated_side").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+                   // BindFileItems(response.Asset.AssetItems,true);
+                    $("#Div_Right_AssetDescription").css("display", "block");
+                    $(".shareIcons").css("display", "none");
+                    $('#Div_Right_AssetDescription').css("display","block");
+                    
+                    if(response.Asset.Description!=null&&response.Asset.Description!='')
+                    {
+                        $('#AssetDescription_side').text('Description:'+response.Asset.Description);
+                    }
+                    else
+                    {
+                        $('#AssetDescription_side').text('Description:'+'');
+                    }
+                    AssetItemsList=response.Asset.AssetItems;
+                    BindPreviewItems(response.Asset.AssetItems);
+                }
+            });
+        
+        }
+      
         function Toogle()
         {
-            var TotalAssets='@Assets.Count';
-            var TotalFolders='@Folder.Count';
            
             if(SwitchtoFolder==true)
             {
@@ -508,6 +593,7 @@
             }
             else
             {
+                
                 Action(AsssetsID,AssetImagePath);
             }
         }
@@ -1551,6 +1637,7 @@
             AssetImagePath=imagpath;
             if(@ContactRole==1||@ContactRole==2)
             {
+
                 Edit(AssetID);
                 $("#selectedFiles").html('');
 
@@ -1575,7 +1662,8 @@
 
                 $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
                 //$(".popUpRightContent").css("cssText","height:432px;");
-
+                
+                $(".shareIcons").css("display", "block");
                 $("#uploadfiesss").css("border", "1px solid #c1c6cc");
             }
             else
@@ -1804,6 +1892,7 @@
 
                    
                     var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+                    alert(newDate);
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
 
@@ -1840,6 +1929,7 @@
 
                     
                     var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+                    alert(newDate);
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
 
@@ -1847,11 +1937,14 @@
                     BindFileItems(response.Asset.AssetItems,true);
                     $("#Div_Right_AssetDescription").css("display", "block");
                     $(".shareIcons").css("display", "none");
-                    
+                    AssetItemsList=response.Asset.AssetItems;
                 }
             });
         
         }
+
+
+        
 
 
         function removeAtt(name, t) {
@@ -1870,6 +1963,7 @@
             });
 
         }
+        
         var postedFiles = [];
         function doReCreate() {
             selDiv = document.querySelector("#selectedFiles");
@@ -1913,13 +2007,17 @@
                             postedFiles.push({ fname: files[i].name, fObj: files[i] });
                             // formData.append("file" + i, files[i]);
                             mbImagesFiles.append("UploadedFile" + i, files[i]);
+                            var res= GetImageName(AssetItemsList,files[i].name);
+                            
+                            if(res==false)
+                            {
+                                selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
+                                FileName = files[i].name;
+                                while (files[i].name.indexOf('/') != -1)
+                                    FileName = files[i].name.replace("/", "__")
 
-                            selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
-                            FileName = files[i].name;
-                            while (files[i].name.indexOf('/') != -1)
-                                FileName = files[i].name.replace("/", "__")
-
-                            storedFiles.push(FileName);
+                                storedFiles.push(FileName);
+                            }
                         }
                     }
                 }
@@ -1930,6 +2028,40 @@
             if (postedFiles.length > (3 + removedFiles.length)) {
                 $("#FilesUploader").css("display", "none");
             }
+        }
+        function GetImageName(AssetItemsList,filename)
+        {
+            var result=false;
+            if(AssetItemsList!=null&&AssetItemsList!='')
+            {
+                $.each(AssetItemsList, function (i, IT) {
+                
+                    var fullFileUrl=IT.FileUrl;
+                    var url=(IT.FileUrl).split("/");
+
+                    //var getExt=(IT.FileUrl).split(".");
+                    //var Extension=getExt[0];
+                    var img=url[5];
+                  
+                    s = img.replace(/\d/g, "");
+
+                    if(s==filename)
+                    {
+                        result=true;
+                    }
+                   
+                    
+                });
+                if(result==true)
+                {
+                    $("#file_added").css("display", "block");
+                }
+                else
+                {
+                    $("#file_added").css("display", "none");
+                }
+            }
+            return result;
         }
 
         function RedirectToGUrl(url,id){
@@ -1979,12 +2111,19 @@
         function NavigatetoBasketWindow()
         {
             var RoleId='@ContactRole';
+            
             if(RoleId==3)
             {
                 
                 if(AsssetsID!=null&&AsssetsID!=''&&AsssetsID!=0)
                 {
                     ShowDownloadWindow(AssetImagePath,AsssetsID);
+                }
+                else
+                {
+                   
+                    var emtystring='';
+                    window.location.href = "/ManageAssets?folderId="+FolderIDD+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
                 }
             }
 

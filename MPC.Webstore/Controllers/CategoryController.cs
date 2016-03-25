@@ -371,7 +371,6 @@ namespace MPC.Webstore.Controllers
             {
                 ViewData["ProductCategory"] = null;
             }
-
         }
 
         public ActionResult UpdateTemplateDimensions(double PDFTemplateWidth, double PDFTemplateHeight, long ItemId, bool Check)
