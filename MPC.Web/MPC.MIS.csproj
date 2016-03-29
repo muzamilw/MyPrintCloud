@@ -338,11 +338,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\CustomRazorViewEngine.cs" />
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Properties\App_Start\BundleConfig.cs" />
+    <Compile Include="Properties\App_Start\CustomRazorViewEngine.cs" />
+    <Compile Include="Properties\App_Start\FilterConfig.cs" />
+    <Compile Include="Properties\App_Start\RouteConfig.cs" />
+    <Compile Include="Properties\App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AgileCRMContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />

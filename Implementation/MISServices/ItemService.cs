@@ -460,11 +460,11 @@ namespace MPC.Implementation.MISServices
                     itemTarget.Template.CuttingMargin =
                     lengthConversionService.ConvertLengthFromSystemUnitToPoints(organisation.BleedAreaSize??0, organisation.LengthUnit);
             }
-            //else
-            //{
-            //    itemTarget.Template.CuttingMargin =
-            //        lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.CuttingMargin.Value, organisation.LengthUnit);
-            //}
+            else
+            {
+                itemTarget.Template.CuttingMargin =
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.CuttingMargin.Value, organisation.LengthUnit);
+            }
 
             // Convert Template Pages length to Points
             if (itemTarget.Template.TemplatePages == null)
