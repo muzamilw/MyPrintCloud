@@ -361,10 +361,10 @@
                         <h4 class="modal-title">Alert!</h4>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to save changes?
+                        Are you sure you want to quit without saving changes?
                         <div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">
-                            <input type="button" id="ApproveOk" class="btn btn-primary" value="Yes" onclick="ActionAssetForUpdateCase()" />
-                            <input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="Back()">
+                            <input type="button" id="ApproveOk" class="btn btn-primary" value="Yes" onclick="Back()" />
+                            <input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="ActionAssetForUpdateCase()">
                         </div>
                     </div>
                 </div>
@@ -1200,9 +1200,10 @@
 
             if(AssetsValidationForUpdateCase()==true)
             {
+                console.log("showModel");
                 var deleteFolderLeft = parseInt((bws.width - 500) / 2);
                 $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "block");
-                $("#popupoverlayForConfirmPopupForUpdateAsset").css("left", deleteFolderLeft + "px");
+              $("#popupoverlayForConfirmPopupForUpdateAsset").children().css("left", deleteFolderLeft + "px");
                 HideLoader();
                 UpdateAsset=false;
             }
@@ -1299,11 +1300,11 @@
         LoadFoldersForAddAssets();
         $("#AddFolderPanel").css("display", "block");
         $("#attachmentheading").css("display", "none");
-        $("#assetPopupBody").height(560);
+        //$("#assetPopupBody").height(560);
             $('#assetPopupBody').css("overflow-y", "hidden");
         $("#GridTable").css("display", "none");
         $("#GridTable").html("");
-        $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
+        $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:480px;");
     }
     function AddFolder()
     {
@@ -1652,7 +1653,7 @@
                 BindFileItems(response.Asset.AssetItems,false);
             }
         });
-        $("#assetPopupBody").height(564);
+        //$("#assetPopupBody").height(564);
             jQuery('#assetPopupBody').css("overflow-y", "hidden");
         $("#AddFolderPanel").css("display", "block");
     }
@@ -1679,7 +1680,7 @@
         $("#DeleteFolder").css("display", "block");
         clearTextboxes();
         UpdateStatusFolder=true;
-        $("#assetPopupBody").css("height", "inherit")
+        //$("#assetPopupBody").css("height", "inherit")
 
         //var Data = { folderId: FolderID };
         $.ajax({
@@ -1823,7 +1824,7 @@
             $("#AssetsItems").css("display", "block");
             $("#AddFolderPanel").css("display", "block");
 
-            $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
+            $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:480px;");
             //$(".popUpRightContent").css("cssText","height:432px;");
 
             $(".shareIcons").css("display", "block");
