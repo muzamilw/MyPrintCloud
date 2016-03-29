@@ -63,6 +63,7 @@ namespace MPC.Webstore.Controllers
             if (_myClaimHelper.loginContactID() > 0)
             {
                 List<SaveDesignView> designs = _ItemService.GetSavedDesigns(_myClaimHelper.loginContactID());
+                
                 if (designs != null && designs.Count > 0)
                 {
                     ViewData["SaveDesignView"] = designs;

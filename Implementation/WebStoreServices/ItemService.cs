@@ -233,6 +233,9 @@ namespace MPC.Implementation.WebStoreServices
                         newItem.TemplateId = null;
                     }
                 }
+                else {
+                    newItem.IsSavedDesign = false;
+                }
 
                 if (isCopyProduct)
                 {

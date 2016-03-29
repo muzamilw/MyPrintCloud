@@ -10,7 +10,7 @@
             <li>
                 <a href="@RedirectUrl" id="@treeNode.FolderId" onclick="RedirectToGUrl('@RedirectUrl',@treeNode.FolderId);" class="FolderElements">
 
-                    @treeNode.FolderName
+                   <span style="    margin-top: 3px;    position: absolute;">@treeNode.FolderName</span> 
                 </a>
                 @if (treeNode.ChildNode.Count > 0)
                 {

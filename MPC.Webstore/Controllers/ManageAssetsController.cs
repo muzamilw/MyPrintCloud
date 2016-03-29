@@ -49,8 +49,9 @@ namespace MPC.Webstore.Controllers
                     {
 
                         GetFolder = _myCompanyService.GetChildFolders(RequiredFolder.FolderId);
-
+                        ViewBag.SelectedTreeID = RequiredFolder.FolderId;
                     }
+
                     GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, RequiredFolder.FolderId);
                 }
                 else
