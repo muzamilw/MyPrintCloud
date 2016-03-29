@@ -11,7 +11,7 @@
 
     var Admin = ViewBag.Admin;
     var Manager = ViewBag.Manager;
-    ContactRole = 1;
+    
 
 }
 <div class="container" id="all-manageAssets-pg">
@@ -1280,8 +1280,8 @@
         $("#SaveAsset").css("display", "block");
         $("#SaveFolder").css("display", "none");
         $("#FilesUploader").css("display", "block");
-
-
+        
+        $(".shareIcons").css("display", "block");
         $("#selectedFiles").html('');
 
 
@@ -1298,6 +1298,7 @@
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
         LoadFoldersForAddAssets();
+
         $("#AddFolderPanel").css("display", "block");
         $("#attachmentheading").css("display", "none");
         //$("#assetPopupBody").height(560);
