@@ -43,6 +43,7 @@ namespace MPC.Models.ModelMappers
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
             target.isEstimate = source.isEstimate;
+            target.UserNotes = source.UserNotes;
 
             target.Estimate_Total = source.Estimate_Total;
 
@@ -969,8 +970,8 @@ namespace MPC.Models.ModelMappers
             target.AccountNumber = source.AccountNumber;
             target.ReportSignedBy = source.OrderReportSignedBy;
             //target.InvoicePostedBy = source.OrderReportSignedBy;
-            target.HeadNotes = source.HeadNotes;
-            target.FootNotes = source.FootNotes;
+            //target.HeadNotes = source.HeadNotes;
+            //target.FootNotes = source.FootNotes;
         }
         #endregion
     }
