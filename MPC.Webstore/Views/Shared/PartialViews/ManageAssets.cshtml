@@ -11,7 +11,7 @@
 
     var Admin = ViewBag.Admin;
     var Manager = ViewBag.Manager;
-    
+    ContactRole = 1;
 
 }
 <div class="container" id="all-manageAssets-pg">
@@ -191,6 +191,7 @@
                     <p><span id="assetupdated_side_label" style="font-weight:bold;font-size:12px;">Asset Updated:</span><span id="assetupdated_side" style="margin-bottom: 0px;font-size:12px;"></span></p>
                     <div  class="clearBoth"></div>
                     <div id="AssetFiles_side"></div>
+
                 </div>
 
             </div>
@@ -350,7 +351,7 @@
         </div>
     </div>
 
-    <div id="popupoverlayForConfirmPopupForUpdateAsset" class="popupOverlay" style="display:none;z-index:999999;">
+    <div id="popupoverlayForConfirmPopupForUpdateAsset" class="popupOverlay" style="display:none;z-index:999999">
         <div class="basketWindow" id="basketUpdatePopupAssets">
             <div class="md-modal md-effect-7" id="modal-7">
 
@@ -404,6 +405,9 @@
     var FolderImagePath='';
     var AssetItemsList='';
     var folderNAme='';
+    var FilesArray=[];
+    var storedFiles = [];
+    var inputfiles=[];
     $('#treeDemo').jstree();
 
     var SwitchtoFolder=false;
@@ -411,7 +415,7 @@
 
 
     $(document).ready(function () {
-        
+
         buidPopup();
         $("#assetPopupBody").append($("#AddFolderPanel"));
         document.getElementById("layer").style.display = "none";
@@ -426,13 +430,30 @@
         currentHeight = $('.assetRightPanelWithSubFolAsst').outerHeight();
         var Folders='@Folder.Count';
         
-      
-       
 
         var height= 'height:'+currentHeight+'px!important';
-        
+
         $(".assetLeftPanelWithSearchBar").css("cssText",height);
         $(".assetRightPanelDescription").css("cssText",height);
+
+        if(@Tree.Count == 0)
+        {
+            
+            $('.assetRightPanelDescription').css("cssText","background:transparent!important;");
+        }
+        if(@countOfAllItems == 0)
+        {
+            
+            $('.assetRightPanelDescription').css("cssText","background:transparent!important;");
+        
+        }
+        if(@Tree.Count == 0 && @countOfAllItems == 0)
+        {
+           
+            $('.assetRightPanelDescription').css("cssText","background:transparent!important;");
+
+        }
+           
     });
     $("#Edit Asset").on("click", function (e) {
 
@@ -442,954 +463,1074 @@
     });
     function ShowFolderPreview(folderId,Imagepath,tt,folderName,FolderDescription,ParentFolderId)
     {
+        ClearFields();
         var RoleId='@ContactRole';
-        folderNAme= GetfolderName(ParentFolderId)
+        if(ParentFolderId==0)
+        {
+            $("#assetCatNameUser_side").text('Parent');
+        }
+        else
+        {
+            folderNAme= GetfolderName(ParentFolderId);
+        }
         SwitchtoFolder=true;
-          //  if(RoleId!=3)
-          //  {
-                $(".PreviewPanel").css("display","block");
-                FolderIDD=folderId;
-                FolderImagePath=Imagepath;
-                if(FolderImagePath!=null&&FolderImagePath!='')
+        //  if(RoleId!=3)
+        //  {
+        $(".PreviewPanel").css("display","block");
+        FolderIDD=folderId;
+        FolderImagePath=Imagepath;
+
+        if(FolderImagePath!=null&&FolderImagePath!='')
+        {
+            $('#Img_prevDisplay').attr("src",FolderImagePath);
+        }
+        else
+        {
+            FolderImagePath='/Content/Images/imgPlc.png';
+            $('#Img_prevDisplay').attr("src",FolderImagePath);
+        }
+
+
+        $('#assetNameUser_side').text(folderName);
+        $('#Div_Right_AssetDescription').css("display","block");
+        //$('#assetCatNameUser_side').css("display","block");
+        $('#assetupdated_side').css("display","none");
+        $('#assetupdated_side_label').css("display","none");
+        //$('#AssetDescription_side').css("display","block");
+        $('#AssetDescription_side').text(' '+FolderDescription);
+
+        if(folderNAme!=null&&folderNAme!='')
+        {
+            $("#assetCatNameUser_side").text(' '+response.AssetFolder.FolderName);
+        }
+
+
+        // }
+    }
+
+
+
+    function ShowAssetPreview(AssetId,ImagePath,AssetName,AssetCreationDate)
+    {
+        ClearFields();
+        SwitchtoFolder=false;
+        var RoleId='@ContactRole';
+
+        if(RoleId==3)
+        {
+            GeTAssetDescription(ImagePath,AssetId);
+
+        }
+
+        $(".PreviewPanel").css("display","block");
+        AsssetsID=AssetId;
+        AssetImagePath=ImagePath;
+
+        if(AssetImagePath!=null&&AssetImagePath!='')
+        {
+
+            $('#Img_prevDisplay').attr("src",AssetImagePath);
+        }
+        else
+        {
+            AssetImagePath='/Content/Images/imgPlc.png';
+            $('#Img_prevDisplay').attr("src",AssetImagePath);
+        }
+        if(RoleId!=3)
+        {
+            //$('#assetNameUser_side').text(AssetName);
+            //$('#Div_Right_AssetDescription').css("display","block");
+            //$('#assetCatNameUser_side').css("display","none");
+            //$('#assetupdated_side').css("display","block");
+
+            //getDateForAssetPreview(AssetCreationDate);
+            //var newDate = Date.toString('dd-MM-yy');
+
+            //var changedate=newDate.split("-");
+            //var getd=changedate[2].split("T");
+            //$("#assetupdated").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+            PreviewAssetDes(ImagePath,AssetId);
+        }
+
+    }
+    function BindPreviewItems(GridItems)
+    {
+
+        var InnerHtml = "";
+
+
+        InnerHtml = "<div>";
+        var temp='';
+        $.each(ReturnDistinctValues(GridItems), function (i, IT) {
+
+            //var fullFileUrl=IT.FileUrl;
+            //var url=(IT.FileUrl).split("/");
+
+            //var getExt=(IT.FileUrl).split(".");
+            //var Extension=getExt[1].toUpperCase();
+
+            if(ReturnDistinctValues(GridItems).length==1)
+            {
+                InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;;font-size:12px;" class="float_left"><span style="font-weight:bold;font-size:12px;">FileType(s): </span>'+IT+'</div>')
+            }
+            else
+            {
+                if(i==0)
                 {
-                    $('#Img_prevDisplay').attr("src",FolderImagePath);
+                    InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;;font-size:12px;" class="float_left"><span style="font-weight:bold;font-size:12px;">FileType(s): </span>'+IT+' ,</div>')
                 }
                 else
                 {
-                    FolderImagePath='/Content/Images/imgPlc.png';
-                    $('#Img_prevDisplay').attr("src",FolderImagePath);
+                    if(ReturnDistinctValues(GridItems).length==i+1)
+                    {
+                        InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">'+IT+'</div>')
+                    }
+                    else
+                    {
+                        InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">'+IT+' ,</div>')
+                    }
                 }
-                
-                $('#assetNameUser_side').text(folderName);
+            }
+        }
+            );
+        InnerHtml += "</div>";
+
+        $("#AssetFiles_side").css("display", "block");
+
+        $("#AssetFiles_side").html(InnerHtml);
+
+    }
+
+    function ClearFields()
+    {
+        $("#AssetDescription_side").text('');
+        $("#assetCatNameUser_side").text('');
+        $("#assetupdated_side").text('');
+        $("#AssetFiles_side").html('');
+
+    }
+
+    function ReturnDistinctValues(GridItems)
+    {
+
+        var tempArray=[];
+        $.each(GridItems, function (i, IT) {
+            var fullFileUrl=IT.FileUrl;
+            var url=(IT.FileUrl).split("/");
+
+            var getExt=(IT.FileUrl).split(".");
+            var Extension=getExt[1].toUpperCase();
+            tempArray.push(Extension);
+        });
+        var unique=tempArray.filter(function(itm,i,a){
+            return i==a.indexOf(itm);
+        });
+
+        return unique;
+    }
+
+    function PreviewAssetDes(imagpath, Assetid)
+    {
+
+
+        var url= "/CloneItemForManageAsset/"+Assetid+"";
+
+        $("#basketId").attr("href",url);
+
+        var Data = { AssetId: Assetid };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+                $("#assetNameUser_side").text(response.Asset.AssetName);
+                $("#assetCatNameUser_side").text(' '+response.AssetFolder.FolderName);
+
+
+                var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+
+                var changedate=newDate.split("-");
+                var getd=changedate[2].split("T");
+
+                $("#assetupdated_side").text(' '+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+                // BindFileItems(response.Asset.AssetItems,true);
+                $("#Div_Right_AssetDescription").css("display", "block");
+                $(".shareIcons").css("display", "none");
                 $('#Div_Right_AssetDescription').css("display","block");
-                //$('#assetCatNameUser_side').css("display","block");
-                $('#assetupdated_side').css("display","none");
-                $('#assetupdated_side_label').css("display","none");
-                //$('#AssetDescription_side').css("display","block");
-                $('#AssetDescription_side').text(FolderDescription);
-                if(folderNAme!=null&&folderNAme!='')
+
+                if(response.Asset.Description!=null&&response.Asset.Description!='')
                 {
-                    $("#assetCatNameUser_side").text(response.AssetFolder.FolderName);
-                }
-           // }
-        }
-
-
-
-        function ShowAssetPreview(AssetId,ImagePath,AssetName,AssetCreationDate)
-        {
-            SwitchtoFolder=false;
-            var RoleId='@ContactRole';
-
-            if(RoleId==3)
-            {
-                GeTAssetDescription(ImagePath,AssetId);
-
-            }
-           
-                $(".PreviewPanel").css("display","block");
-                AsssetsID=AssetId;
-                AssetImagePath=ImagePath;
-                if(AssetImagePath!=null&&AssetImagePath!='')
-                {
-
-                    $('#Img_prevDisplay').attr("src",AssetImagePath);
+                    $('#AssetDescription_side').text(' '+response.Asset.Description);
                 }
                 else
                 {
-                    AssetImagePath='/Content/Images/imgPlc.png';
-                    $('#Img_prevDisplay').attr("src",AssetImagePath);
+                    $('#AssetDescription_side').text();
                 }
-                if(RoleId!=3)
-                {
-                    //$('#assetNameUser_side').text(AssetName);
-                    //$('#Div_Right_AssetDescription').css("display","block");
-                    //$('#assetCatNameUser_side').css("display","none");
-                    //$('#assetupdated_side').css("display","block");
-                    
-                    //getDateForAssetPreview(AssetCreationDate);
-                    //var newDate = Date.toString('dd-MM-yy');
-                    
-                    //var changedate=newDate.split("-");
-                    //var getd=changedate[2].split("T");
-                    //$("#assetupdated").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
-                   PreviewAssetDes(ImagePath,AssetId);
-                }
-                
-        }
-        function BindPreviewItems(GridItems)
-        {
-        
-            var InnerHtml = "";
-           
-            
-            InnerHtml = "<div>";
-            $.each(GridItems, function (i, IT) {
-                
-                    var fullFileUrl=IT.FileUrl;
-                    var url=(IT.FileUrl).split("/");
-
-                    var getExt=(IT.FileUrl).split(".");
-                    var Extension=getExt[1].toUpperCase();
-                    if(i==0)
-                    {
-                        InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;;font-size:12px;" class="float_left"><span style="font-weight:bold;font-size:12px;">FileType(s):</span>'+Extension+',</div>')
-                    }
-                    else
-                    {
-                        if(GridItems.length==i+1)
-                        {
-                            InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">'+Extension+'</div>')
-                        }
-                        else
-                        {
-                            InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">'+Extension+',</div>')
-                        }
-                    }
-                }
-                );
-                InnerHtml += "</div>";
-
-                $("#AssetFiles_side").css("display", "block");
-
-                $("#AssetFiles_side").html(InnerHtml);
-
-        }
-        function PreviewAssetDes(imagpath, Assetid)
-        {
-            
-
-            var url= "/CloneItemForManageAsset/"+Assetid+"";
-
-            $("#basketId").attr("href",url);
-
-            var Data = { AssetId: Assetid };
-            $.ajax({
-                type: "GET",
-                url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
-                contentType: "application/json",
-                async: true,
-                data:Data,
-                success: function (response) {
-                    $("#assetNameUser_side").text(response.Asset.AssetName);
-                    $("#assetCatNameUser_side").text(response.AssetFolder.FolderName);
-
-                    
-                    var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
-                    
-                    var changedate=newDate.split("-");
-                    var getd=changedate[2].split("T");
-
-                    $("#assetupdated_side").text(getd[0]+"/"+changedate[1]+"/"+changedate[0]);
-                   // BindFileItems(response.Asset.AssetItems,true);
-                    $("#Div_Right_AssetDescription").css("display", "block");
-                    $(".shareIcons").css("display", "none");
-                    $('#Div_Right_AssetDescription').css("display","block");
-                    
-                    if(response.Asset.Description!=null&&response.Asset.Description!='')
-                    {
-                        $('#AssetDescription_side').text(response.Asset.Description);
-                    }
-                    else
-                    {
-                        $('#AssetDescription_side').text();
-                    }
-                    AssetItemsList=response.Asset.AssetItems;
-                    BindPreviewItems(response.Asset.AssetItems);
-                }
-            });
-        
-        }
-      
-        function Toogle()
-        {
-           
-            if(SwitchtoFolder==true)
-            {
-                ActionForFolder(FolderIDD, FolderImagePath);
+                AssetItemsList=response.Asset.AssetItems;
+                BindPreviewItems(response.Asset.AssetItems);
             }
-            else
-            {
-                
-                Action(AsssetsID,AssetImagePath);
-            }
-        }
+        });
 
-        function NavigateToFolderID()
+    }
+
+    function Toogle()
+    {
+        $('#file_added').css("display","none");
+        if(SwitchtoFolder==true)
         {
-            if(SwitchtoFolder==true)
-            {
-                var emtystring='';
-                window.location.href = "/ManageAssets?folderId="+FolderIDD+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
-            }
-            else
-            {
-                ShowDownloadWindow(AssetImagePath,AsssetsID);
-
-            }
+            ActionForFolder(FolderIDD, FolderImagePath);
         }
-
-
-        function SetScroll()
+        else
         {
-            if(UpdateAsset==true)
-            {
+
+            Action(AsssetsID,AssetImagePath);
+        }
+    }
+
+    function NavigateToFolderID()
+    {
+        if(SwitchtoFolder==true)
+        {
+            var emtystring='';
+            window.location.href = "/ManageAssets?folderId="+FolderIDD+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
+        }
+        else
+        {
+            ShowDownloadWindow(AssetImagePath,AsssetsID);
+
+        }
+    }
+
+
+    function SetScroll()
+    {
+        if(UpdateAsset==true)
+        {
                 $(".popUpRightContent").css("cssText","height:490px !important;");
                 $(".popUpRightContent ").css("cssText","overflow-y:scroll !important;");
                 $(".popUpRightContent ").css("cssText","  padding-right: 10px;");
               
-            }
-            else
-            {
-                $(".popUpRightContent").css("cssText","height:Inherit!important;");
-                $(".popUpRightContent").css("cssText","overflow-y:hidden!important;");
-            }
-
         }
-
-
-        function No()
+        else
         {
-            $("#popupoverlayForConfirmPopup").css("display", "none");
-        }
-        function CloseConfirmationwindow()
-        {
-            $("#popupoverlayForConfirmPopup").css("display", "none");
-        }
-
-        function CloseConfirma()
-        {
-            $("#popupoverlayForConfirmPopup").css("display", "none");
-        }
-        function Back()
-        {
-            $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "none");
-        }
-
-        $("#DeleteFolder").click(function(){
-            var deleteFolderLeft = parseInt((bws.width - 500) / 2);
-            $("#popupoverlayForConfirmPopup").css("display", "block");
-            $("#basketWindowConfirmPopup").css("left", deleteFolderLeft + "px");
-            HideLoader();
-        });
-
-        function SetTreeState(id)
-        {
-
-            if(id!=null&&id!='')
-            {
-
-                if($('.jstree-last').trigger('click'))
-                {
-                    var SelID="#"+id;
-                    if($(SelID).parent().parent().parent().hasClass("jstree-last"))
-                        $(SelID).parent().parent().parent().children("i").trigger('click');
-                    else
-                        $(SelID).parent().parent().children("i").trigger('click');
-                    $(SelID).css("color", "#5c7890");
-
-                    if($(SelID).parent().hasClass('jstree-leaf')){
-                        $(SelID).parent().removeClass("jstree-closed").addClass("jstree-expaned");
-                        $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
-                    }else{
-                        $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
-                    }
-
-                    if(id > 0){
-                        var parent = $(SelID).parent();
-                        var parentNotFound = true;
-                        while(parentNotFound) {
-
-                            if(parent.attr("id") == "treeDemo")
-                                parentNotFound = false;
-                            if(parent.hasClass("jstree-last"))
-                                parent.removeClass("jstree-closed").addClass("jstree-expaned").addClass("jstree-open");
-                            parent = parent.parent();
-                        }
-                    }
-                }
-
-            }
-        }
-
-
-        function CloseDownloadPopUp()
-        {
-            $("#popupoverlaybasketWindow").css("display", "none");
-
-        }
-        $("#Searchfolder").keypress(function (event) {
-            if (event.keyCode == 13) {
-                if ($("#txtsearch").val() == '') {
-                    RebindGrid();
-                    event.preventDefault();
-                    return false;
-
-                }
-            }
-
-        });
-        $("#Searchfolder").autocomplete({autoFocus: true,
-            source: function (request, response) {
-                // your ajax code
-                $.ajax({
-                    url: "/ManageAssets/GetFolderIntellisenseData",
-                    data: "{ 'prefixText': '" + request.term + "' }",
-                    dataType: "json",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        response(data.split(":"))
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-
-                    }
-                });
-            },
-            select: function (event, ui) {
-            },
-            minLength: 1,
-            change: function (event, ui) {
-
-
-                var val=$("#Searchfolder").val();
-
-                while (val.indexOf(' ') != -1)
-                    val = val.replace(" ", "___");
-
-
-                if ($("#Searchfolder").val() == '') {
-                    RebindGrid();
-                }
-                else {
-                    window.location.href = "/ManageAssets?folderId="+FolderIDD+"&&Searchfolder="+val+"";
-                }
-
-
-            }
-
-
-
-        });
-
-        function RebindGrid() {
-
-            window.location.href = "/ManageAssets";
-        }
-
-        $('#imgloader').click(function(){
-            $('#ImageUploader').click();
-            return false;
-        });
-
-        $('#uploadfiesss').click(function(){
-            $("#selectedFiles").css("display", "block");
-
-            $('#FilesUploader').click();
-
-            return false;
-        });
-        function GoToDownload(ImgUrl)
-        {
-            window.location.href = ImgUrl;
-        }
-        function HideBasketWindow(){
-            $("#popupoverlaybasketWindow").css("display", "none");
-        }
-
-        function ActionAsset()
-        {
-
-            $("#FolderName").css("border", "1px solid #c1c6cc");
-            $("#imgloader").css("border", "1px solid #c1c6cc");
-            $("#Qty").css("border", "1px solid #c1c6cc");
-            $("#price").css("border", "1px solid #c1c6cc");
-            $("#uploadfiesss").css("border", "1px solid #c1c6cc");
-
-
-            if(UpdateAsset==false)
-            {
-                if(AssetsValidation()==true)
-                {
-                    SaveAsset();
-                }
-            }
-            else
-            {
-                UpdateAssset(AsssetsID,RemovedID);
-            }
-            return AssetsValidation()
-        }
-
-        function ActionAssetForUpdateCase()
-        {
-
-            $("#FolderName").css("border", "1px solid #c1c6cc");
-            $("#imgloader").css("border", "1px solid #c1c6cc");
-            $("#Qty").css("border", "1px solid #c1c6cc");
-            $("#price").css("border", "1px solid #c1c6cc");
-            $("#uploadfiesss").css("border", "1px solid #c1c6cc");
-
-
-            //if(UpdateAsset==false)
-            //{
-            //    alert("hsjadhkajshdkahsdjashdkj");
-            //  //  if(AssetsValidation()==true)
-            //   // {
-            //        SaveAsset();
-            //    //}
-
-            //}
-            //else
-            //{
-
-            UpdateAssset(AsssetsID,RemovedID);
-            //}
-            return AssetsValidation()
-        }
-
-
-        function FinalCall()
-        {
-            if(ActionAsset()==false)
-            {
-                if(ValidateOnlyName()==false)
-                {
-                    Action(AsssetsID,AssetImagePath);
-                }
-
-            }
-
-        }
-
-
-        function ActionFolder()
-        {
-            $("#FolderName").css("border", "1px solid #c1c6cc");
-
-
-
-            if(UpdateStatusFolder==false)
-            {
-
-                if(FolderValidation()==true)
-                {
-
-                    SaveFolder();
-                }
-            }
-            else
-            {
-
-                UpdateFolder(FolderIDD);
-            }
-
-
-        }
-        function FolderValidation()
-        {
-            var result=true;
-            //if($("#ImageUploader").val()=='')
-            //{
-            //    $("#imgloader").css("border", "2px solid red");
-            //    result=false;
-            //}
-            //else
-            //{
-            //    $("#imgloader").css("border", "1px solid #c1c6cc");
-
-            //}
-
-            if($("#FolderName").val()=='')
-            {
-                result=false;
-                $("#FolderName").css("border", "2px solid red");
-            }
-            else
-            {
-                $("#FolderName").css("border", "1px solid #c1c6cc");
-            }
-            return result;
-
-        }
-        function AssetsValidation()
-        {
-            var result=true;
-            if($("#FolderName").val()=='')
-            {
-
-                $("#FolderName").css("border", "2px solid red");
-                result=false;
-            }
-            else
-            {
-                $("#FolderName").css("border", "1px solid #c1c6cc");
-            }
-
-            //if($("#ImageUploader").val()=='')
-            //{
-            //    $("#imgloader").css("border", "2px solid red");
-            //    result=false;
-            //}
-            //else
-            //{
-            //    $("#imgloader").css("border", "1px solid #c1c6cc");
-
-            //}
-
-            //if($("#Qty").val()=='')
-            //{
-            //    $("#Qty").css("border", "2px solid red");
-            //    result=false;
-            //}
-            //else
-            //{
-            //    $("#Qty").css("border", "1px solid #c1c6cc");
-            //}
-
-            //if($("#price").val()=='')
-            //{
-            //    $("#price").css("border", "2px solid red");
-            //    result=false;
-            //}
-            //else
-            //{
-            //    $("#price").css("border", "1px solid #c1c6cc");
-            //}
-
-
-            if($("#selectedFiles").html()=='')
-            {
-                $("#uploadfiesss").css("border", "2px solid red");
-                result=false;
-            }
-            else
-            {
-                $("#uploadfiesss").css("border", "1px solid #c1c6cc");
-            }
-
-            return result;
-        }
-
-        function AssetsValidationForUpdateCase()
-        {
-
-
-            var result=true;
-            if($("#FolderName").val()=='')
-            {
-
-                $("#FolderName").css("border", "2px solid red");
-                result=false;
-            }
-            else
-            {
-                $("#FolderName").css("border", "1px solid #c1c6cc");
-            }
-
-            return result;
-
-        }
-
-
-
-
-        function ValidateOnlyName()
-        {
-            var result=true;
-            if($("#FolderName").val()=='')
-            {
-
-                $("#FolderName").css("border", "2px solid red");
-                result=false;
-            }
-            else
-            {
-                $("#FolderName").css("border", "1px solid #c1c6cc");
-            }
-            return result;
-        }
-
-        function clearTextboxes()
-        {
-            $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
-            $("#ImageUploader").val('');
-            $("#folderDropDown").val('');
-            $("#FolderName").val('');
-            $("#keywords").val('');
-            $("#FoldDescription").val('');
-            $("#Qty").val('');
-            $("#price").val('');
-            $("#keywords").val('');
-        }
-        function LoadFolders() {
-            $.ajax({
-                type: "GET",
-                url: "/ManageAssets/GetFolders",
-                contentType: "application/json",
-                async: true,
-                success: function (response) {
-                    var CountriesDD = $("#folderDropDown");
-                    CountriesDD.html('');
-                    CountriesDD.append($('<option></option>').val(0).html('Set as parent'));
-                    $.each(response.Folders, function (id, option) {
-                        CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
-                    });
-                }
-            });
-        }
-        function LoadFoldersForAddAssets() {
-            $.ajax({
-                type: "GET",
-                url: "/ManageAssets/GetFolders",
-                contentType: "application/json",
-                async: true,
-                success: function (response) {
-                    var CountriesDD = $("#folderDropDown");
-                    CountriesDD.html('');
-
-                    $.each(response.Folders, function (id, option) {
-
-                        CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
-                    });
-                }
-            });
-        }
-        function LaodChildFolders(FolderId)
-        {
-            var Data = { FolderId: FolderId };
-            $.ajax({
-                type: "GET",
-                url: "/ManageAssets/GetChildFolders",
-                contentType: "application/json",
-                async: true,
-                data:Data,
-                success: function (response) {
-
-                    var CountriesDD = $("#folderDropDown");
-                    CountriesDD.html('');
-                    if (response.Folders == null) {
-                        CountriesDD.append($('<option></option>').val(0).html('have no subfolders'));
-                    }
-                    else {
-                        CountriesDD.append($('<option></option>').val(0).html(''));
-                    }
-                    $.each(response.Folders, function (id, option) {
-
-                        CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
-                    });
-                }
-            });
-        }
-
-        function SetSelectedFolder(FolderID,flag)
-        {
-            var CountriesDD = $("#folderDropDown");
-            CountriesDD.html('');
-            $.ajax({
-                type: "GET",
-                url: "/ManageAssets/GetFolders",
-                contentType: "application/json",
-                async: true,
-                success: function (response) {
-
-                    if(flag)
-                    {
-                        CountriesDD.append($('<option></option>').val(0).html('Set as parent'));
-                    }
-                    $.each(response.Folders, function (id, option) {
-
-                        CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
-                    });
-
-                    if(flag)
-                    {
-                        SetSelectedFolderrr(response.Folders,FolderID,1);
-                    }
-                    else{
-                        SetSelectedFolderrr(response.Folders,FolderID,0);
-                    }
-                }
-            });
-        }
-
-
-        $(document).on('change', '#folderDropDown', function () {
-            var ChildFoldrId = $(this).val();
-
-        });
-        function HideMessagePopUpCustom() {
-
-
-            if(UpdateAsset==true)
-            {
-
-                if(AssetsValidationForUpdateCase()==true)
-                {
-                    var deleteFolderLeft = parseInt((bws.width - 500) / 2);
-                    $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "block");
-                    $("#popupoverlayForConfirmPopupForUpdateAsset").css("left", deleteFolderLeft + "px");
-                    HideLoader();
-                    UpdateAsset=false;
-                }
-            }
-            else
-            {
-
-                document.getElementById("layer").style.display = "none";
-                document.getElementById("innerLayer").style.display = "none";
-                $("#AddFolderPanel").css("display", "none");
-            }
-        }
-        function ShowPreview(input) {
-            if (input.files && input.files[0]) {
-                var ImageDir = new FileReader();
-                ImageDir.onload = function (e) {
-                    $("#AddFoldImg").attr('src', e.target.result);
-                }
-                ImageDir.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $("input[id^='FilesUploader']").change(function (e) {
-            removedFiles = [];
-            doReCreate();
-        });
-        function AddAsset()
-        {
-            $("#FolderName").css("border", "1px solid #c1c6cc");
-            $("#imgloader").css("border", "1px solid #c1c6cc");
-            $("#Qty").css("border", "1px solid #c1c6cc");
-            $("#price").css("border", "1px solid #c1c6cc");
-            $("#uploadfiesss").css("border", "1px solid #c1c6cc");
-            $("#FolderName").css("border", "1px solid #c1c6cc");
-            UpdateAsset=false;
-            $("#innerLayer").width(515);
-            browserleft = parseInt((bws.width - 515) / 2);
-
-            $("#innerLayer").css("left", browserleft + "px");
-            $("#modelTitle").text('Add Asset');
-            clearTextboxes();
-            $("#imgloader").val("Upload Asset Image");
-            $("#Qty").css("display", "block");
-            $("#price").css("display", "block");
-            $("#keywords").css("display", "block");
-            $("#SaveAsset").css("display", "block");
-            $("#SaveFolder").css("display", "none");
-            $("#FilesUploader").css("display", "block");
-
-
-            $("#selectedFiles").html('');
-
-
-            $("#Quantity").css("display", "block");
-            $("#Qty").css("display", "block");
-            $("#Price").css("display", "block");
-            $("#Keywords").css("display", "block");
-            $("#AssetsItems").css("display", "block");
-            $("#uploadfiesss").css("display", "block");
-            $("#FilesUploader").css("display", "none");
-            $("#DeleteFolder").css("display", "none");
-            $("#DeleteAsset").css("display", "none");
-            //SaveAsset
-            document.getElementById("layer").style.display = "block";
-            document.getElementById("innerLayer").style.display = "block";
-            LoadFoldersForAddAssets();
-            $("#AddFolderPanel").css("display", "block");
-            $("#attachmentheading").css("display", "none");
-            $("#assetPopupBody").height(560);
-            $('#assetPopupBody').css("overflow-y", "hidden");
-            $("#GridTable").css("display", "none");
-            $("#GridTable").html("");
-            $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
-        }
-        function AddFolder()
-        {
-
-            $("#modelTitle").text('Add Folder');
-            document.getElementById("layer").style.display = "block";
-            document.getElementById("innerLayer").style.display = "block";
-            $("#folderDropDown").css("display", "block");
-            $("#SaveAsset").css("display", "none");
-            $("#imgloader").val("Upload Folder Image");
-
-            $("#uploadfiesss").css("display", "none");
-
-
-
-            $("#selectedFiles").html('');
-            $("#Qty").css("display", "none");
-            $("#price").css("display", "none");
-            $("#keywords").css("display", "none");
-            $("#SaveAsset").css("display", "none");
-            $("#SaveFolder").css("display", "block");
-            $("#DeleteAsset").css("display", "none");
-            $("#FilesUploader").css("display", "none");
-            $("#uploadfiesss").html('');
-
-            $("#FolderName").css("border", "1px solid #c1c6cc");
-            $("#imgloader").css("border", "1px solid #c1c6cc");
-
-            $("#innerLayer").width(495);
-            browserleft = parseInt((bws.width - 495) / 2);
-
-            $("#innerLayer").css("left", browserleft + "px");
-            $("#Quantity").css("display", "none");
-            $("#Qty").css("display", "none");
-            $("#Price").css("display", "none");
-            $("#Keywords").css("display", "none");
-            $("#AssetsItems").css("display", "none");
-            $("#DeleteFolder").css("display", "none");
-            $("#AddFolderPanel").css("display", "block");
-            $("#attachmentheading").css("display", "none");
-            $("#assetPopupBody").css("height", "inherit");
-
-            $("#GridTable").css("display", "none");
-            $("#GridTable").html("");
-            UpdateStatusFolder=false;
-            clearTextboxes();
-            LoadFolders();
             $(".popUpRightContent").css("cssText","height:Inherit!important;");
-            $(".popUpRightContent").css("overflow-y","hidden!important;");
-
-
-
-
+            $(".popUpRightContent").css("cssText","overflow-y:hidden!important;");
         }
 
+    }
 
-        function buidPopup() {
-            //assetPopupBody
-            //modelTitle
-            var bws = getBrowserHeight();
 
-            var shadow = document.getElementById("innerLayer");
+    function No()
+    {
+        $("#popupoverlayForConfirmPopup").css("display", "none");
+    }
+    function CloseConfirmationwindow()
+    {
+        $("#popupoverlayForConfirmPopup").css("display", "none");
+    }
 
-            document.getElementById("layer").style.width = bws.width + "px";
-            document.getElementById("layer").style.height = bws.height + "px";
-            var left = 0;
-            var container = "";
-            if (bws.width < 700 && bws.width > 640) {
-                //left = parseInt((bws.width) / 2);
-                document.getElementById("innerLayer").style.width = (bws.width) + "px";
-                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="assetPopupBody" style="min-height:340px;"></div></div>';
+    function CloseConfirma()
+    {
+        $("#popupoverlayForConfirmPopup").css("display", "none");
+    }
+    function Back()
+    {
+        $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "none");
+    }
+
+    $("#DeleteFolder").click(function(){
+        var deleteFolderLeft = parseInt((bws.width - 500) / 2);
+        $("#popupoverlayForConfirmPopup").css("display", "block");
+        $("#basketWindowConfirmPopup").css("left", deleteFolderLeft + "px");
+        HideLoader();
+    });
+
+    function SetTreeState(id)
+    {
+
+        if(id!=null&&id!='')
+        {
+
+            if($('.jstree-last').trigger('click'))
+            {
+                var SelID="#"+id;
+                if($(SelID).parent().parent().parent().hasClass("jstree-last"))
+                    $(SelID).parent().parent().parent().children("i").trigger('click');
+                else
+                    $(SelID).parent().parent().children("i").trigger('click');
+                $(SelID).css("color", "#5c7890");
+
+                if($(SelID).parent().hasClass('jstree-leaf')){
+                    $(SelID).parent().removeClass("jstree-closed").addClass("jstree-expaned");
+                    $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
+                }else{
+                    $("#treeDemo ul").children().first().removeClass("jstree-closed").addClass("jstree-expaned");
+                }
+
+                if(id > 0){
+                    var parent = $(SelID).parent();
+                    var parentNotFound = true;
+                    while(parentNotFound) {
+
+                        if(parent.attr("id") == "treeDemo")
+                            parentNotFound = false;
+                        if(parent.hasClass("jstree-last"))
+                            parent.removeClass("jstree-closed").addClass("jstree-expaned").addClass("jstree-open");
+                        parent = parent.parent();
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    function CloseDownloadPopUp()
+    {
+        $("#popupoverlaybasketWindow").css("display", "none");
+
+    }
+    $("#Searchfolder").keypress(function (event) {
+        if (event.keyCode == 13) {
+            if ($("#txtsearch").val() == '') {
+                RebindGrid();
+                event.preventDefault();
+                return false;
 
             }
-            else if (bws.width == 640) {
-                //left = parseInt((bws.width) / 2);
-                document.getElementById("innerLayer").style.width = (bws.width) + "px";
-                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:340px;"></div></div>';
+        }
 
-            }
-            else if (bws.width < 640 && bws.width > 600) {
-                //left = parseInt((bws.width) / 2);
-                document.getElementById("innerLayer").style.width = (bws.width) + "px";
-                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:550px;"></div></div>';
+    });
+    $("#Searchfolder").autocomplete({autoFocus: true,
+        source: function (request, response) {
+            // your ajax code
+            $.ajax({
+                url: "/ManageAssets/GetFolderIntellisenseData",
+                data: "{ 'prefixText': '" + request.term + "' }",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    response(data.split(":"))
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
 
-            }
-            else if (bws.width < 600 && bws.width > 500) {
-                //left = parseInt((bws.width) / 2);
-                document.getElementById("innerLayer").style.width = (bws.width) + "px";
-                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:350px;"></div></div>';
+                }
+            });
+        },
+        select: function (event, ui) {
+        },
+        minLength: 1,
+        change: function (event, ui) {
 
-            } else if (bws.width < 500) {
-                //left = parseInt((bws.width) / 2);
-                document.getElementById("innerLayer").style.width = (bws.width) + "px";
-                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:300px;"></div></div>';
+
+            var val=$("#Searchfolder").val();
+
+            while (val.indexOf(' ') != -1)
+                val = val.replace(" ", "___");
+
+
+            if ($("#Searchfolder").val() == '') {
+                RebindGrid();
             }
             else {
-
-                left = parseInt((bws.width - 730) / 2);
-                document.getElementById("innerLayer").style.width = "730px";
-                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:340px;" ></div></div>';
+                window.location.href = "/ManageAssets?folderId="+FolderIDD+"&&Searchfolder="+val+"";
             }
 
 
+        }
 
-            // document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            document.getElementById("innerLayer").innerHTML = container;
 
-            document.getElementById("innerLayer").style.top = "0px";
 
-            document.getElementById("innerLayer").style.position = "fixed";
-            document.getElementById("innerLayer").style.zIndex = "999999";
+    });
 
+    function RebindGrid() {
+
+        window.location.href = "/ManageAssets";
+    }
+
+    $('#imgloader').click(function(){
+        $('#ImageUploader').click();
+        return false;
+    });
+
+    $('#uploadfiesss').click(function(){
+        $("#selectedFiles").css("display", "block");
+
+        $('#FilesUploader').click();
+
+        return false;
+    });
+    function GoToDownload(ImgUrl)
+    {
+        window.location.href = ImgUrl;
+    }
+    function HideBasketWindow(){
+        $("#popupoverlaybasketWindow").css("display", "none");
+    }
+
+    function ActionAsset()
+    {
+
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        $("#imgloader").css("border", "1px solid #c1c6cc");
+        $("#Qty").css("border", "1px solid #c1c6cc");
+        $("#price").css("border", "1px solid #c1c6cc");
+        $("#uploadfiesss").css("border", "1px solid #c1c6cc");
+
+
+        if(UpdateAsset==false)
+        {
+            if(AssetsValidation()==true)
+            {
+                SaveAsset();
+            }
+        }
+        else
+        {
+            UpdateAssset(AsssetsID,RemovedID);
+        }
+        return AssetsValidation()
+    }
+
+    function ActionAssetForUpdateCase()
+    {
+
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        $("#imgloader").css("border", "1px solid #c1c6cc");
+        $("#Qty").css("border", "1px solid #c1c6cc");
+        $("#price").css("border", "1px solid #c1c6cc");
+        $("#uploadfiesss").css("border", "1px solid #c1c6cc");
+
+
+        //if(UpdateAsset==false)
+        //{
+        //    alert("hsjadhkajshdkahsdjashdkj");
+        //  //  if(AssetsValidation()==true)
+        //   // {
+        //        SaveAsset();
+        //    //}
+
+        //}
+        //else
+        //{
+
+        UpdateAssset(AsssetsID,RemovedID);
+        //}
+        return AssetsValidation()
+    }
+
+
+    function FinalCall()
+    {
+        if(ActionAsset()==false)
+        {
+            if(ValidateOnlyName()==false)
+            {
+                Action(AsssetsID,AssetImagePath);
+            }
+
+        }
+
+    }
+
+
+    function ActionFolder()
+    {
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+
+
+
+        if(UpdateStatusFolder==false)
+        {
+
+            if(FolderValidation()==true)
+            {
+
+                SaveFolder();
+            }
+        }
+        else
+        {
+
+            UpdateFolder(FolderIDD);
+        }
+
+
+    }
+    function FolderValidation()
+    {
+        var result=true;
+        //if($("#ImageUploader").val()=='')
+        //{
+        //    $("#imgloader").css("border", "2px solid red");
+        //    result=false;
+        //}
+        //else
+        //{
+        //    $("#imgloader").css("border", "1px solid #c1c6cc");
+
+        //}
+
+        if($("#FolderName").val()=='')
+        {
+            result=false;
+            $("#FolderName").css("border", "2px solid red");
+        }
+        else
+        {
+            $("#FolderName").css("border", "1px solid #c1c6cc");
+        }
+        return result;
+
+    }
+    function AssetsValidation()
+    {
+        var result=true;
+        if($("#FolderName").val()=='')
+        {
+
+            $("#FolderName").css("border", "2px solid red");
+            result=false;
+        }
+        else
+        {
+            $("#FolderName").css("border", "1px solid #c1c6cc");
+        }
+
+        //if($("#ImageUploader").val()=='')
+        //{
+        //    $("#imgloader").css("border", "2px solid red");
+        //    result=false;
+        //}
+        //else
+        //{
+        //    $("#imgloader").css("border", "1px solid #c1c6cc");
+
+        //}
+
+        //if($("#Qty").val()=='')
+        //{
+        //    $("#Qty").css("border", "2px solid red");
+        //    result=false;
+        //}
+        //else
+        //{
+        //    $("#Qty").css("border", "1px solid #c1c6cc");
+        //}
+
+        //if($("#price").val()=='')
+        //{
+        //    $("#price").css("border", "2px solid red");
+        //    result=false;
+        //}
+        //else
+        //{
+        //    $("#price").css("border", "1px solid #c1c6cc");
+        //}
+
+
+        if($("#selectedFiles").html()=='')
+        {
+            $("#uploadfiesss").css("border", "2px solid red");
+            result=false;
+        }
+        else
+        {
+            $("#uploadfiesss").css("border", "1px solid #c1c6cc");
+        }
+
+        return result;
+    }
+
+    function AssetsValidationForUpdateCase()
+    {
+
+
+        var result=true;
+        if($("#FolderName").val()=='')
+        {
+
+            $("#FolderName").css("border", "2px solid red");
+            result=false;
+        }
+        else
+        {
+            $("#FolderName").css("border", "1px solid #c1c6cc");
+        }
+
+        return result;
+
+    }
+
+
+
+
+    function ValidateOnlyName()
+    {
+        var result=true;
+        if($("#FolderName").val()=='')
+        {
+
+            $("#FolderName").css("border", "2px solid red");
+            result=false;
+        }
+        else
+        {
+            $("#FolderName").css("border", "1px solid #c1c6cc");
+        }
+        return result;
+    }
+
+    function clearTextboxes()
+    {
+        $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+        $("#ImageUploader").val('');
+        $("#folderDropDown").val('');
+        $("#FolderName").val('');
+        $("#keywords").val('');
+        $("#FoldDescription").val('');
+        $("#Qty").val('');
+        $("#price").val('');
+        $("#keywords").val('');
+    }
+    function LoadFolders() {
+        $.ajax({
+            type: "GET",
+            url: "/ManageAssets/GetFolders",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                var CountriesDD = $("#folderDropDown");
+                CountriesDD.html('');
+                CountriesDD.append($('<option></option>').val(0).html('Set as parent'));
+                $.each(response.Folders, function (id, option) {
+                    CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                });
+            }
+        });
+    }
+    function LoadFoldersForAddAssets() {
+        $.ajax({
+            type: "GET",
+            url: "/ManageAssets/GetFolders",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                var CountriesDD = $("#folderDropDown");
+                CountriesDD.html('');
+
+                $.each(response.Folders, function (id, option) {
+
+                    CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                });
+            }
+        });
+    }
+    function LaodChildFolders(FolderId)
+    {
+        var Data = { FolderId: FolderId };
+        $.ajax({
+            type: "GET",
+            url: "/ManageAssets/GetChildFolders",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+
+                var CountriesDD = $("#folderDropDown");
+                CountriesDD.html('');
+                if (response.Folders == null) {
+                    CountriesDD.append($('<option></option>').val(0).html('have no subfolders'));
+                }
+                else {
+                    CountriesDD.append($('<option></option>').val(0).html(''));
+                }
+                $.each(response.Folders, function (id, option) {
+
+                    CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                });
+            }
+        });
+    }
+
+    function SetSelectedFolder(FolderID,flag)
+    {
+        var CountriesDD = $("#folderDropDown");
+        CountriesDD.html('');
+        $.ajax({
+            type: "GET",
+            url: "/ManageAssets/GetFolders",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+
+                if(flag)
+                {
+                    CountriesDD.append($('<option></option>').val(0).html('Set as parent'));
+                }
+                $.each(response.Folders, function (id, option) {
+
+                    CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                });
+
+                if(flag)
+                {
+                    SetSelectedFolderrr(response.Folders,FolderID,1);
+                }
+                else{
+                    SetSelectedFolderrr(response.Folders,FolderID,0);
+                }
+            }
+        });
+    }
+
+
+    $(document).on('change', '#folderDropDown', function () {
+        var ChildFoldrId = $(this).val();
+
+    });
+    function HideMessagePopUpCustom() {
+
+
+        if(UpdateAsset==true)
+        {
+
+            if(AssetsValidationForUpdateCase()==true)
+            {
+                var deleteFolderLeft = parseInt((bws.width - 500) / 2);
+                $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "block");
+                $("#popupoverlayForConfirmPopupForUpdateAsset").css("left", deleteFolderLeft + "px");
+                HideLoader();
+                UpdateAsset=false;
+            }
+        }
+        else
+        {
 
             document.getElementById("layer").style.display = "none";
             document.getElementById("innerLayer").style.display = "none";
+            $("#AddFolderPanel").css("display", "none");
         }
-        function SaveFolder()
-        {
-
-            var FolderName = $("#FolderName").val();
-            var FolderDescription = $("#FoldDescription").val();
-            var ParentFolderId = $("#folderDropDown").val();
-
-            var data = new FormData();
-            var files = $("#ImageUploader").get(0).files;
-
-            // Add the uploaded image content to the form data collection
-            if (files.length > 0) {
-                data.append("UploadedImage", files[0]);
+    }
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $("#AddFoldImg").attr('src', e.target.result);
             }
-            ShowLoader();
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+    //var $f1 = $("input[id^='FilesUploader']");
+
+    //function FChange() {
+    //    alert("f1 changed");
+    
+    //    $(this).attr("value", "");
+    //}
+
+    //$f1.change(FChange);
+    $("input[id^='FilesUploader']").change(function (e) {
+
+
+        removedFiles = [];
+        var filename = $("input[id^='FilesUploader']").val().replace(/C:\\fakepath\\/i, '');
+        
+
+
+        if(postedFiles.length>0)
+        {
+            
+            if(IsvalidFile(postedFiles,filename)==false)
+            {
+               
+               doReCreate();
+            }
+        }
+        else
+        {
+          
+            doReCreate();
+        }
+        $("input[id^='FilesUploader']").val('');
+    });
+    function AddAsset()
+    {
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        $("#imgloader").css("border", "1px solid #c1c6cc");
+        $("#Qty").css("border", "1px solid #c1c6cc");
+        $("#price").css("border", "1px solid #c1c6cc");
+        $("#uploadfiesss").css("border", "1px solid #c1c6cc");
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        UpdateAsset=false;
+        $("#innerLayer").width(515);
+        browserleft = parseInt((bws.width - 515) / 2);
+
+        $("#innerLayer").css("left", browserleft + "px");
+        $("#modelTitle").text('Add Asset');
+        clearTextboxes();
+        $("#imgloader").val("Upload Asset Image");
+        $("#Qty").css("display", "block");
+        $("#price").css("display", "block");
+        $("#keywords").css("display", "block");
+        $("#SaveAsset").css("display", "block");
+        $("#SaveFolder").css("display", "none");
+        $("#FilesUploader").css("display", "block");
+
+
+        $("#selectedFiles").html('');
+
+
+        $("#Quantity").css("display", "block");
+        $("#Qty").css("display", "block");
+        $("#Price").css("display", "block");
+        $("#Keywords").css("display", "block");
+        $("#AssetsItems").css("display", "block");
+        $("#uploadfiesss").css("display", "block");
+        $("#FilesUploader").css("display", "none");
+        $("#DeleteFolder").css("display", "none");
+        $("#DeleteAsset").css("display", "none");
+        //SaveAsset
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        LoadFoldersForAddAssets();
+        $("#AddFolderPanel").css("display", "block");
+        $("#attachmentheading").css("display", "none");
+        $("#assetPopupBody").height(560);
+            $('#assetPopupBody').css("overflow-y", "hidden");
+        $("#GridTable").css("display", "none");
+        $("#GridTable").html("");
+        $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
+    }
+    function AddFolder()
+    {
+
+        $("#modelTitle").text('Add Folder');
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $("#folderDropDown").css("display", "block");
+        $("#SaveAsset").css("display", "none");
+        $("#imgloader").val("Upload Folder Image");
+
+        $("#uploadfiesss").css("display", "none");
+
+
+
+        $("#selectedFiles").html('');
+        $("#Qty").css("display", "none");
+        $("#price").css("display", "none");
+        $("#keywords").css("display", "none");
+        $("#SaveAsset").css("display", "none");
+        $("#SaveFolder").css("display", "block");
+        $("#DeleteAsset").css("display", "none");
+        $("#FilesUploader").css("display", "none");
+        $("#uploadfiesss").html('');
+
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        $("#imgloader").css("border", "1px solid #c1c6cc");
+
+        $("#innerLayer").width(495);
+        browserleft = parseInt((bws.width - 495) / 2);
+
+        $("#innerLayer").css("left", browserleft + "px");
+        $("#Quantity").css("display", "none");
+        $("#Qty").css("display", "none");
+        $("#Price").css("display", "none");
+        $("#Keywords").css("display", "none");
+        $("#AssetsItems").css("display", "none");
+        $("#DeleteFolder").css("display", "none");
+        $("#AddFolderPanel").css("display", "block");
+        $("#attachmentheading").css("display", "none");
+        $("#assetPopupBody").css("height", "inherit");
+
+        $("#GridTable").css("display", "none");
+        $("#GridTable").html("");
+        UpdateStatusFolder=false;
+        clearTextboxes();
+        LoadFolders();
+        $(".popUpRightContent").css("cssText","height:Inherit!important;");
+        $(".popUpRightContent").css("overflow-y","hidden!important;");
+
+    }
+
+
+    function buidPopup() {
+        //assetPopupBody
+        //modelTitle
+        var bws = getBrowserHeight();
+
+        var shadow = document.getElementById("innerLayer");
+
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+        var left = 0;
+        var container = "";
+        if (bws.width < 700 && bws.width > 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="assetPopupBody" style="min-height:340px;"></div></div>';
+
+        }
+        else if (bws.width == 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:340px;"></div></div>';
+
+        }
+        else if (bws.width < 640 && bws.width > 600) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:550px;"></div></div>';
+
+        }
+        else if (bws.width < 600 && bws.width > 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:350px;"></div></div>';
+
+        } else if (bws.width < 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:300px;"></div></div>';
+        }
+        else {
+
+            left = parseInt((bws.width - 730) / 2);
+            document.getElementById("innerLayer").style.width = "730px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="assetPopupBody" style="min-height:340px;" ></div></div>';
+        }
+
+
+
+        // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.top = "0px";
+
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "999999";
+
+
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function SaveFolder()
+    {
+
+        var FolderName = $("#FolderName").val();
+        var FolderDescription = $("#FoldDescription").val();
+        var ParentFolderId = $("#folderDropDown").val();
+
+        var data = new FormData();
+        var files = $("#ImageUploader").get(0).files;
+
+        // Add the uploaded image content to the form data collection
+        if (files.length > 0) {
+            data.append("UploadedImage", files[0]);
+        }
+        ShowLoader();
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddFolderData?FolderName=" + FolderName + "&Description=" + FolderDescription + "&ParentFolderId=" + ParentFolderId + "",
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+
+                var emtystring='';
+                window.location.href = "/ManageAssets?folderId="+ParentFolderId+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+    function AddAssetAttachments(AssetId,folderid)
+    {
+        var data = new FormData();
+
+
+        if (AssetId != null && AssetId != '') {
+
+            var formData = new FormData();
+
+            // formData.append("file" + i, files[i]);
+            for (i = 0; i < postedFiles.length; i++) {
+                var isRemovedFile = false;
+                for (var d = 0; d < removedFiles.length; d++) {
+                    if (postedFiles[i].fname == removedFiles[d])
+                        isRemovedFile = true;
+                }
+                if (!isRemovedFile) {
+                    formData.append("file" + i, postedFiles[i].fObj);
+                }
+            }
             $.ajax({
                 type: "POST",
-                url: "/webstoreapi/ContactImageUploader/AddFolderData?FolderName=" + FolderName + "&Description=" + FolderDescription + "&ParentFolderId=" + ParentFolderId + "",
+                url: "/webstoreapi/ContactImageUploader/AddAssetAttachments?AssetID=" + AssetId + "",
                 contentType: false,
-                data: data,
+                data: formData,
                 async: true,
                 processData: false,
                 success: function (response) {
-
                     var emtystring='';
-                    window.location.href = "/ManageAssets?folderId="+ParentFolderId+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
+                    window.location.href = "/ManageAssets?folderId="+folderid+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
                 },
                 error: function (error) {
-
                 }
             });
         }
-        function AddAssetAttachments(AssetId,folderid)
-        {
-            var data = new FormData();
+    }
 
 
-            if (AssetId != null && AssetId != '') {
+    function SaveAsset() {
 
-                var formData = new FormData();
+        var FolderName = $("#FolderName").val();
+        var FolderDescription = $("#FoldDescription").val();
+        var Quantity = $("#Qty").val();
 
-                // formData.append("file" + i, files[i]);
-                for (i = 0; i < postedFiles.length; i++) {
-                    var isRemovedFile = false;
-                    for (var d = 0; d < removedFiles.length; d++) {
-                        if (postedFiles[i].fname == removedFiles[d])
-                            isRemovedFile = true;
-                    }
-                    if (!isRemovedFile) {
-                        formData.append("file" + i, postedFiles[i].fObj);
-                    }
-                }
-                $.ajax({
-                    type: "POST",
-                    url: "/webstoreapi/ContactImageUploader/AddAssetAttachments?AssetID=" + AssetId + "",
-                    contentType: false,
-                    data: formData,
-                    async: true,
-                    processData: false,
-                    success: function (response) {
-                        var emtystring='';
-                        window.location.href = "/ManageAssets?folderId="+folderid+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
-                    },
-                    error: function (error) {
-                    }
-                });
-            }
+        var Price = $("#price").val();
+        var Keywords = $("#keywords").val();
+        var Folderid = $("#folderDropDown").val();
+
+        var data = new FormData();
+        var files = $("#ImageUploader").get(0).files;
+
+        // Add the uploaded image content to the form data collection
+        if (files.length > 0) {
+            data.append("UploadedImageAsset", files[0]);
         }
 
 
-        function SaveAsset() {
+        ShowLoader();
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/SaveAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "",
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
 
+                // window.location.href = "/ManageAssets";
+                AddAssetAttachments(response,Folderid);
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
+
+
+    function UpdateAssset(AssetId,RemovedIDs)
+    {
+        if(AssetId>0)
+        {
             var FolderName = $("#FolderName").val();
             var FolderDescription = $("#FoldDescription").val();
             var Quantity = $("#Qty").val();
@@ -1405,20 +1546,58 @@
             if (files.length > 0) {
                 data.append("UploadedImageAsset", files[0]);
             }
-
-
             ShowLoader();
             $.ajax({
                 type: "POST",
-                url: "/webstoreapi/ContactImageUploader/SaveAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "",
+                url: "/webstoreapi/ContactImageUploader/UpdateAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "&AssetId="+AssetId+"&RemovedItemsIDs="+RemovedIDs+"",
+                contentType: false,
+                data: data,
+                async: true,
+                processData: false,
+                success: function (response) {
+                    //var emtystring='';
+                    // window.location.href = "/ManageAssets?folderId="+Folderid+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
+
+                    AddAssetAttachments(AssetId,Folderid);
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+    }
+
+
+    function UpdateFolder(FolderId)
+    {
+        var ParentFolderId=$("#folderDropDown").val();
+        // $('#dvLoading').fadeOut(6000);
+        $("#SaveFolder").css("display", "block");
+        if(FolderId>0)
+        {
+            var FolderName = $("#FolderName").val();
+            var FolderDescription = $("#FoldDescription").val();
+
+            var data = new FormData();
+            var files = $("#ImageUploader").get(0).files;
+
+            // Add the uploaded image content to the form data collection
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+            ShowLoader();
+            UpdateFolder
+            $.ajax({
+                type: "POST",
+                url: "/webstoreapi/ContactImageUploader/UpdateFolder?FolderName=" + FolderName + "&Description=" + FolderDescription + "&FolderId="+FolderId+"&ParentFolderId="+ParentFolderId+"",
                 contentType: false,
                 data: data,
                 async: true,
                 processData: false,
                 success: function (response) {
 
-                    // window.location.href = "/ManageAssets";
-                    AddAssetAttachments(response,Folderid);
+                    window.location.href = "/ManageAssets";
+
                 },
                 error: function (error) {
 
@@ -1427,162 +1606,111 @@
         }
 
 
+    }
+    function Edit(AssetId)
+    {
 
-        function UpdateAssset(AssetId,RemovedIDs)
-        {
-            if(AssetId>0)
-            {
-                var FolderName = $("#FolderName").val();
-                var FolderDescription = $("#FoldDescription").val();
-                var Quantity = $("#Qty").val();
+        $("#modelTitle").text('Update Asset');
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $("#DeleteAsset").css("display", "block");
+        $("#SaveFolder").css("display", "none");
 
-                var Price = $("#price").val();
-                var Keywords = $("#keywords").val();
-                var Folderid = $("#folderDropDown").val();
+        $("#SaveAsset").css("display", "block");
 
-                var data = new FormData();
-                var files = $("#ImageUploader").get(0).files;
+        clearTextboxes();
+        UpdateAsset=true;
+        AsssetsID=AssetId;
 
-                // Add the uploaded image content to the form data collection
-                if (files.length > 0) {
-                    data.append("UploadedImageAsset", files[0]);
+        var Data = { AssetId: AssetId };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+
+                SetSelectedFolder(response.Asset.FolderId,false);
+
+                if(response.Asset.ImagePath!=null&&response.Asset.ImagePath!='')
+                {
+                    $('#AddFoldImg').attr("src",response.Asset.ImagePath);
                 }
-                ShowLoader();
-                $.ajax({
-                    type: "POST",
-                    url: "/webstoreapi/ContactImageUploader/UpdateAsset?AssetName=" + FolderName + "&Description=" + FolderDescription + "&Keywords=" + Keywords + "+&FolderId=" + Folderid + "&Quantity=" + Quantity + "&Price=" + Price + "&AssetId="+AssetId+"&RemovedItemsIDs="+RemovedIDs+"",
-                    contentType: false,
-                    data: data,
-                    async: true,
-                    processData: false,
-                    success: function (response) {
-                        //var emtystring='';
-                        // window.location.href = "/ManageAssets?folderId="+Folderid+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
+                else
+                {
+                    $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
 
-                        AddAssetAttachments(AssetId,Folderid);
-                    },
-                    error: function (error) {
-
-                    }
-                });
+                }
+                $("#ImageUploader").val('');
+                //  $("#folderDropDown").val();
+                $("#FolderName").val(response.Asset.AssetName);
+                $("#keywords").val(response.Asset.Keywords);
+                $("#FoldDescription").val(response.Asset.Description);
+                $("#Qty").val(response.Asset.Quantity);
+                $("#price").val(response.Asset.Price);
+                BindFileItems(response.Asset.AssetItems,false);
             }
-        }
-
-
-        function UpdateFolder(FolderId)
-        {
-            var ParentFolderId=$("#folderDropDown").val();
-            // $('#dvLoading').fadeOut(6000);
-            $("#SaveFolder").css("display", "block");
-            if(FolderId>0)
-            {
-                var FolderName = $("#FolderName").val();
-                var FolderDescription = $("#FoldDescription").val();
-
-                var data = new FormData();
-                var files = $("#ImageUploader").get(0).files;
-
-                // Add the uploaded image content to the form data collection
-                if (files.length > 0) {
-                    data.append("UploadedImage", files[0]);
-                }
-                ShowLoader();
-                UpdateFolder
-                $.ajax({
-                    type: "POST",
-                    url: "/webstoreapi/ContactImageUploader/UpdateFolder?FolderName=" + FolderName + "&Description=" + FolderDescription + "&FolderId="+FolderId+"&ParentFolderId="+ParentFolderId+"",
-                    contentType: false,
-                    data: data,
-                    async: true,
-                    processData: false,
-                    success: function (response) {
-
-                        window.location.href = "/ManageAssets";
-
-                    },
-                    error: function (error) {
-
-                    }
-                });
-            }
-
-
-        }
-        function Edit(AssetId)
-        {
-
-            $("#modelTitle").text('Update Asset');
-            document.getElementById("layer").style.display = "block";
-            document.getElementById("innerLayer").style.display = "block";
-            $("#DeleteAsset").css("display", "block");
-            $("#SaveFolder").css("display", "none");
-
-            $("#SaveAsset").css("display", "block");
-
-            clearTextboxes();
-            UpdateAsset=true;
-            AsssetsID=AssetId;
-
-            var Data = { AssetId: AssetId };
-            $.ajax({
-                type: "GET",
-                url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
-                contentType: "application/json",
-                async: true,
-                data:Data,
-                success: function (response) {
-
-                    SetSelectedFolder(response.Asset.FolderId,false);
-
-                    if(response.Asset.ImagePath!=null&&response.Asset.ImagePath!='')
-                    {
-                        $('#AddFoldImg').attr("src",response.Asset.ImagePath);
-                    }
-                    else
-                    {
-                        $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
-
-                    }
-                    $("#ImageUploader").val('');
-                    //  $("#folderDropDown").val();
-                    $("#FolderName").val(response.Asset.AssetName);
-                    $("#keywords").val(response.Asset.Keywords);
-                    $("#FoldDescription").val(response.Asset.Description);
-                    $("#Qty").val(response.Asset.Quantity);
-                    $("#price").val(response.Asset.Price);
-                    BindFileItems(response.Asset.AssetItems,false);
-                }
-            });
-            $("#assetPopupBody").height(564);
+        });
+        $("#assetPopupBody").height(564);
             jQuery('#assetPopupBody').css("overflow-y", "hidden");
-            $("#AddFolderPanel").css("display", "block");
-        }
+        $("#AddFolderPanel").css("display", "block");
+    }
 
-        function EditFolder(FolderID)
+    function EditFolder(FolderID)
+    {
+
+        $("#modelTitle").text('Update Folder');
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $("#DeleteAsset").css("display", "none");
+        $("#SaveFolder").css("display", "none");
+
+        $("#SaveAsset").css("display", "none");
+        $("#SaveFolder").css("display", "block");
+        $("#Qty").css("display", "none");
+        $("#price").css("display", "none");
+        $("#keywords").css("display", "none");
+        $("#SaveAsset").css("display", "none");
+        $("#SaveFolder").css("display", "block");
+        $("#DeleteAsset").css("display", "none");
+        $("#FilesUploader").css("display", "none");
+        $("#AddFolderPanel").css("display", "block");
+        $("#DeleteFolder").css("display", "block");
+        clearTextboxes();
+        UpdateStatusFolder=true;
+        $("#assetPopupBody").css("height", "inherit")
+
+        //var Data = { folderId: FolderID };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetFolderByFolderId?folderId="+FolderID+"",
+            contentType: "application/json",
+            async: true,
+            //data:Data,
+            success: function (response) {
+                SetSelectedFolder(response.ParentFolderId,true);
+                if(response.ImagePath!=null&&response.ImagePath!='')
+                {
+                    $('#AddFoldImg').attr("src",response.ImagePath);
+                }
+                else
+                {
+                    $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+
+                }
+                $("#ImageUploader").val('');
+                //  $("#folderDropDown").val();
+                $("#FolderName").val(response.FolderName);
+                $("#FoldDescription").val(response.Description);
+            }
+        });
+    }
+
+    function GetfolderName(FolderID)
+    {
+        if(FolderID!=null&&FolderID!='')
         {
-
-            $("#modelTitle").text('Update Folder');
-            document.getElementById("layer").style.display = "block";
-            document.getElementById("innerLayer").style.display = "block";
-            $("#DeleteAsset").css("display", "none");
-            $("#SaveFolder").css("display", "none");
-
-            $("#SaveAsset").css("display", "none");
-            $("#SaveFolder").css("display", "block");
-            $("#Qty").css("display", "none");
-            $("#price").css("display", "none");
-            $("#keywords").css("display", "none");
-            $("#SaveAsset").css("display", "none");
-            $("#SaveFolder").css("display", "block");
-            $("#DeleteAsset").css("display", "none");
-            $("#FilesUploader").css("display", "none");
-            $("#AddFolderPanel").css("display", "block");
-            $("#DeleteFolder").css("display", "block");
-            clearTextboxes();
-            UpdateStatusFolder=true;
-            $("#assetPopupBody").css("height", "inherit")
-
-            //var Data = { folderId: FolderID };
             $.ajax({
                 type: "GET",
                 url: "/webstoreapi/ContactImageUploader/GetFolderByFolderId?folderId="+FolderID+"",
@@ -1590,619 +1718,659 @@
                 async: true,
                 //data:Data,
                 success: function (response) {
-                    SetSelectedFolder(response.ParentFolderId,true);
-                    if(response.ImagePath!=null&&response.ImagePath!='')
-                    {
-                        $('#AddFoldImg').attr("src",response.ImagePath);
-                    }
-                    else
-                    {
-                        $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+                    //SetSelectedFolder(response.ParentFolderId,true);
+                    //if(response.ImagePath!=null&&response.ImagePath!='')
+                    //{
+                    //    $('#AddFoldImg').attr("src",response.ImagePath);
+                    //}
+                    //else
+                    //{
+                    //    $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
 
+                    //}
+                    //$("#ImageUploader").val('');
+                    ////  $("#folderDropDown").val();
+                    //$("#FolderName").val(response.FolderName);
+                    //$("#FoldDescription").val(response.Description);
+                    folderNAme=  response.FolderName;
+
+                    if(folderNAme!=null&&folderNAme!='')
+                    {
+                        $("#assetCatNameUser_side").text(' '+folderNAme);
                     }
-                    $("#ImageUploader").val('');
-                    //  $("#folderDropDown").val();
-                    $("#FolderName").val(response.FolderName);
-                    $("#FoldDescription").val(response.Description);
+
                 }
             });
+
         }
 
-        function GetfolderName(FolderID)
-        {
-            if(FolderID!=null&&FolderID!='')
-            {
-                $.ajax({
-                    type: "GET",
-                    url: "/webstoreapi/ContactImageUploader/GetFolderByFolderId?folderId="+FolderID+"",
-                    contentType: "application/json",
-                    async: true,
-                    //data:Data,
-                    success: function (response) {
-                        //SetSelectedFolder(response.ParentFolderId,true);
-                        //if(response.ImagePath!=null&&response.ImagePath!='')
-                        //{
-                        //    $('#AddFoldImg').attr("src",response.ImagePath);
-                        //}
-                        //else
-                        //{
-                        //    $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
+    }
+    function DeleteAsset()
+    {
+        // var Data = { AssetID: AsssetsID };
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/DeleteAsset?AssetID="+AsssetsID+"",
+            contentType: "application/json",
+            async: true,
 
-                        //}
-                        //$("#ImageUploader").val('');
-                        ////  $("#folderDropDown").val();
-                        //$("#FolderName").val(response.FolderName);
-                        //$("#FoldDescription").val(response.Description);
-                        folderNAme=  response.FolderName;
-                        alert(folderNAme);
-                    }
-                });
-        
+            success: function (response) {
+
+                window.location.reload();
             }
-        }
-        function DeleteAsset()
-        {
-            // var Data = { AssetID: AsssetsID };
-            $.ajax({
-                type: "POST",
-                url: "/webstoreapi/ContactImageUploader/DeleteAsset?AssetID="+AsssetsID+"",
-                contentType: "application/json",
-                async: true,
+        });
+    }
+    function DeleteFolder()
+    {
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/DeleteFolder?folderID="+FolderIDD+"",
+            contentType: "application/json",
+            async: true,
+            //data:Data,
+            success: function (response) {
+                window.location.href = "/ManageAssets";
 
-                success: function (response) {
-
-                    window.location.reload();
-                }
-            });
-        }
-        function DeleteFolder()
-        {
-            $.ajax({
-                type: "POST",
-                url: "/webstoreapi/ContactImageUploader/DeleteFolder?folderID="+FolderIDD+"",
-                contentType: "application/json",
-                async: true,
-                //data:Data,
-                success: function (response) {
-                    window.location.href = "/ManageAssets";
-
-                }
-            });
-        }
-        function SetSelectedFolderrr(obj, FolderId,Index) {
-
-            var index = Index;
-
-
-            $.each(obj, function (id, option) {
-
-                if (option.FolderId==FolderId) {
-
-                    $("#folderDropDown")[0].selectedIndex = index;
-                }
-                index++;
-            });
-        }
-
-
-
-
-        function Action(AssetID,imagpath)
-        {
-            ImgUrl=imagpath;
-            AsssetsID=AssetID;
-            UpdateAsset=true;
-            AssetImagePath=imagpath;
-            if(@ContactRole==1||@ContactRole==2)
-            {
-
-                Edit(AssetID);
-                $("#selectedFiles").html('');
-
-                $("#innerLayer").width(515);
-                $("#imgloader").val("Update Asset Image");
-                browserleft = parseInt((bws.width - 515) / 2);
-                $("#innerLayer").css("left", browserleft + "px");
-                $("#DeleteFolder").css("display", "none");
-                $("#AssetsItems").css("display", "block");
-                $("#Quantity").css("display", "block");
-                $("#Price").css("display", "block");
-                $("#Keywords").css("display", "block");
-
-                $("#FoldDescription").css("display", "block");
-                $("#Qty").css("display", "block");
-                $("#price").css("display", "block");
-                $("#keywords").css("display", "block");
-                $("#FolderName").css("border", "1px solid #c1c6cc");
-                $("#uploadfiesss").css("display", "block");
-                $("#AssetsItems").css("display", "block");
-                $("#AddFolderPanel").css("display", "block");
-
-                $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
-                //$(".popUpRightContent").css("cssText","height:432px;");
-                
-                $(".shareIcons").css("display", "block");
-                $("#uploadfiesss").css("border", "1px solid #c1c6cc");
             }
-            else
-            {
-                ShowDownloadWindow(imagpath,AssetID);
-            }
+        });
+    }
+    function SetSelectedFolderrr(obj, FolderId,Index) {
 
+        var index = Index;
+
+
+        $.each(obj, function (id, option) {
+
+            if (option.FolderId==FolderId) {
+
+                $("#folderDropDown")[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+
+
+
+
+    function Action(AssetID,imagpath)
+    {
+        ImgUrl=imagpath;
+        AsssetsID=AssetID;
+        UpdateAsset=true;
+        AssetImagePath=imagpath;
+        if(@ContactRole==1||@ContactRole==2)
+        {
+
+            Edit(AssetID);
+            $("#selectedFiles").html('');
+
+            $("#innerLayer").width(515);
+            $("#imgloader").val("Update Asset Image");
+            browserleft = parseInt((bws.width - 515) / 2);
+            $("#innerLayer").css("left", browserleft + "px");
+            $("#DeleteFolder").css("display", "none");
+            $("#AssetsItems").css("display", "block");
+            $("#Quantity").css("display", "block");
+            $("#Price").css("display", "block");
+            $("#Keywords").css("display", "block");
+
+            $("#FoldDescription").css("display", "block");
+            $("#Qty").css("display", "block");
+            $("#price").css("display", "block");
+            $("#keywords").css("display", "block");
+            $("#FolderName").css("border", "1px solid #c1c6cc");
+            $("#uploadfiesss").css("display", "block");
+            $("#AssetsItems").css("display", "block");
+            $("#AddFolderPanel").css("display", "block");
+
+            $(".popUpRightContent").css("cssText","overflow-y:scroll!important;height:432px;");
+            //$(".popUpRightContent").css("cssText","height:432px;");
+
+            $(".shareIcons").css("display", "block");
+            $("#uploadfiesss").css("border", "1px solid #c1c6cc");
+        }
+        else
+        {
+            ShowDownloadWindow(imagpath,AssetID);
         }
 
-        function BindFileItems(Items,isdownloadWindow)
+    }
+
+    function BindFileItems(Items,isdownloadWindow)
+    {
+        var GridItems = Items;
+        var InnerHtml = "";
+
+
+        if(isdownloadWindow)
         {
-            var GridItems = Items;
-            var InnerHtml = "";
+            InnerHtml = "<div>";
+            $.each(GridItems, function (i, IT) {
+                var fullFileUrl=IT.FileUrl;
+                var url=(IT.FileUrl).split("/");
 
-
-            if(isdownloadWindow)
-            {
-                InnerHtml = "<div>";
-                $.each(GridItems, function (i, IT) {
-                    var fullFileUrl=IT.FileUrl;
-                    var url=(IT.FileUrl).split("/");
-
-                    var getExt=(IT.FileUrl).split(".");
-                    var Extension=getExt[1];
+                var getExt=(IT.FileUrl).split(".");
+                var Extension=getExt[1];
 
 
 
-                    if(Extension=='psd')
-                    {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PS" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
-                    }
-                    else if(Extension=='ai' || Extension=='ait' || Extension=='eps')
-                    {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".A1" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
-                    }
-                    else if(Extension=='indd' || Extension=='ind' || Extension=='idml' || Extension=='indt' || Extension=='inxx')
-                    {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".IND"  style="height:38px;width:38px" src="/Content/images/IND.png"></button></a></div>')
-                    }
-                    else if(Extension=='pdf')
-                    {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PDF" style="height:38px;width:38px" src="/Content/images/PDF.png"></button></a></div>')
-                    }
-                    else
-                    {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img title=".'+ Extension.toUpperCase() +'" style="height:38px;width:38px" src="/Content/images/text.gif"></button></a></div>')
-                    }
-
+                if(Extension=='psd')
+                {
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PS" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
                 }
-                );
-                InnerHtml += "</div>";
+                else if(Extension=='ai' || Extension=='ait' || Extension=='eps')
+                {
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".A1" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
+                }
+                else if(Extension=='indd' || Extension=='ind' || Extension=='idml' || Extension=='indt' || Extension=='inxx')
+                {
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".IND"  style="height:38px;width:38px" src="/Content/images/IND.png"></button></a></div>')
+                }
+                else if(Extension=='pdf')
+                {
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button  class="fileButtons"><img title=".PDF" style="height:38px;width:38px" src="/Content/images/PDF.png"></button></a></div>')
+                }
+                else
+                {
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+'  target="_blank"><button  class="fileButtons"><img title=".'+ Extension.toUpperCase() +'" style="height:38px;width:38px" src="/Content/images/text.gif"></button></a></div>')
+                }
 
-                $("#assetFilesUser").css("display", "block");
+            }
+            );
+            InnerHtml += "</div>";
 
-                $("#assetFilesUser").html(InnerHtml);
+            $("#assetFilesUser").css("display", "block");
+
+            $("#assetFilesUser").html(InnerHtml);
+        }
+        else
+        {
+
+            if(GridItems!=''&&GridItems!=null)
+            {
+
+                $("#attachmentheading").css("display", "block");
             }
             else
             {
 
-                if(GridItems!=''&&GridItems!=null)
+                $("#attachmentheading").css("display", "none");
+            }
+            InnerHtml = "<div>";
+
+            $.each(GridItems, function (i, IT) {
+                var url=(IT.FileUrl).split("/");
+                var fullFileUrl = IT.FileUrl;
+                var getExt=(IT.FileUrl).split(".");
+                var Extension=getExt[1];
+
+                if(Extension=='psd')
+                {
+                    InnerHtml += '<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".PS" style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" cursor onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>'
+                }
+                else if(Extension=='ai' || Extension=='ait' || Extension=='eps')
+                {
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".A1" style="height:32px;width:32px" src="/Content/Images/P1.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                }
+                else if(Extension=='indd' || Extension=='ind' || Extension=='idml' || Extension=='indt' || Extension=='inxx')
                 {
 
-                    $("#attachmentheading").css("display", "block");
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".IND" style="height:32px;width:32px" src="/Content/Images/IND.png"></button></a><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
+                }
+                else if(Extension=='pdf')
+                {
+
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".PDF" style="height:32px;width:32px" src="/Content/Images/PDF.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                 }
                 else
                 {
 
-                    $("#attachmentheading").css("display", "none");
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".'+ Extension.toUpperCase() +'" style="height:32px;width:32px" src="/Content/Images/text.gif"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
                 }
-                InnerHtml = "<div>";
-
-                $.each(GridItems, function (i, IT) {
-                    var url=(IT.FileUrl).split("/");
-                    var fullFileUrl = IT.FileUrl;
-                    var getExt=(IT.FileUrl).split(".");
-                    var Extension=getExt[1];
-
-                    if(Extension=='psd')
-                    {
-                        InnerHtml += '<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".PS" style="height:32px;width:32px" src="/Content/Images/PS.png"></button></a><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" cursor onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>'
-                    }
-                    else if(Extension=='ai' || Extension=='ait' || Extension=='eps')
-                    {
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".A1" style="height:32px;width:32px" src="/Content/Images/P1.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
-                    }
-                    else if(Extension=='indd' || Extension=='ind' || Extension=='idml' || Extension=='indt' || Extension=='inxx')
-                    {
-
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".IND" style="height:32px;width:32px" src="/Content/Images/IND.png"></button></a><i style="font-size: 15px; cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
-                    }
-                    else if(Extension=='pdf')
-                    {
-
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".PDF" style="height:32px;width:32px" src="/Content/Images/PDF.png"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
-                    }
-                    else
-                    {
-
-                        InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' target="_blank"><button class="fileButtons"><img title=".'+ Extension.toUpperCase() +'" style="height:32px;width:32px" src="/Content/Images/text.gif"></button></a><i style="font-size: 15px;cursor:pointer;position: absolute;margin-left: -12px;margin-top: -5px; color: red;" id="ImageDel" title="Delete" class="fa fa-times" onclick="DeleteItem('+url[4]+',this,'+IT.AssetItemId+')"></i></div>')
-                    }
-
-                }
-                );
-                InnerHtml += "</div>";
-                $("#GridTable").css("display", "block");
-
-                $("#GridTable").html(InnerHtml);
 
             }
-        }
-        function DeleteItem(AssetID,btndel,AssestItemId)
-        {
-            if (typeof(btndel) == "object") {
-                $(btndel).closest("div").remove();
-            } else {
-                return false;
-            }
+            );
+            InnerHtml += "</div>";
+            $("#GridTable").css("display", "block");
 
-            RemovedID+='/'+AssestItemId;
+            $("#GridTable").html(InnerHtml);
 
         }
-        function ActionForFolder(FolderId,imagpath,thisflagPointer)
-        {
-            thisFlag=thisflagPointer;
-            ImgUrl=imagpath;
-            UpdateStatusFolder=true;
-            FolderIDD=FolderId;
-            FolderImagePath=imagpath;
-
-            if(@ContactRole==1||@ContactRole==2)
-            {
-                EditFolder(FolderId);
-            }
-            else
-            {
-                ShowDownloadWindow(imagpath);
-            }
-            $("#imgloader").val("Update Folder Image");
-            $("#uploadfiesss").css("display", "none");
-            $("#AssetsItems").css("display", "none");
-            $("#Quantity").css("display", "none");
-            $("#Price").css("display", "none");
-            $("#Keywords").css("display", "none");
-
-            $("#selectedFiles").html('');
-
-
-            $("#innerLayer").width(495);
-            browserleft = parseInt((bws.width - 495) / 2);
-
-            $("#innerLayer").css("left", browserleft + "px");
-            $("#FolderName").css("border", "1px solid #c1c6cc");
-            $("#DeleteFolder").css("display", "block");
-            $("#AddFolderPanel").css("display", "block");
-
-            $(".shareIcons").css("display", "block");
-            $("#attachmentheading").css("display", "none");
-            $("#GridTable").css("display", "none");
-            $("#GridTable").html("");
-            $(".popUpRightContent").css("cssText","overflow-y:hidden!important;height:inherit!important;");
+    }
+    function DeleteItem(AssetID,btndel,AssestItemId)
+    {
+        if (typeof(btndel) == "object") {
+            $(btndel).closest("div").remove();
+        } else {
+            return false;
         }
 
+        RemovedID+='/'+AssestItemId;
 
+    }
+    function ActionForFolder(FolderId,imagpath,thisflagPointer)
+    {
+        thisFlag=thisflagPointer;
+        ImgUrl=imagpath;
+        UpdateStatusFolder=true;
+        FolderIDD=FolderId;
+        FolderImagePath=imagpath;
 
-
-        //$("#DeleteFolder").click(function(){
-
-        //    $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "block");
-
-        //});
-
-        function DeleteAssettt()
+        if(@ContactRole==1||@ContactRole==2)
         {
+            EditFolder(FolderId);
+        }
+        else
+        {
+            ShowDownloadWindow(imagpath);
+        }
+        $("#imgloader").val("Update Folder Image");
+        $("#uploadfiesss").css("display", "none");
+        $("#AssetsItems").css("display", "none");
+        $("#Quantity").css("display", "none");
+        $("#Price").css("display", "none");
+        $("#Keywords").css("display", "none");
+
+        $("#selectedFiles").html('');
+
+
+        $("#innerLayer").width(495);
+        browserleft = parseInt((bws.width - 495) / 2);
+
+        $("#innerLayer").css("left", browserleft + "px");
+        $("#FolderName").css("border", "1px solid #c1c6cc");
+        $("#DeleteFolder").css("display", "block");
+        $("#AddFolderPanel").css("display", "block");
+
+        $(".shareIcons").css("display", "block");
+        $("#attachmentheading").css("display", "none");
+        $("#GridTable").css("display", "none");
+        $("#GridTable").html("");
+        $(".popUpRightContent").css("cssText","overflow-y:hidden!important;height:inherit!important;");
+    }
+
+
+
+
+    //$("#DeleteFolder").click(function(){
+
+    //    $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "block");
+
+    //});
+
+    function DeleteAssettt()
+    {
+        var deleteFolderLeft = parseInt((bws.width - 500) / 2);
+        $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "block");
+        $("#basketWindowConfirmPopupAssets").css("left", deleteFolderLeft + "px");
+
+
+        HideLoader();
+    }
+    function OpenAsset()
+    {
+        ActionAsset();
+
+    }
+
+    function UpdateAssetPop()
+    {
+
+        if(UpdateAsset==true)
+        {
+
             var deleteFolderLeft = parseInt((bws.width - 500) / 2);
-            $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "block");
-            $("#basketWindowConfirmPopupAssets").css("left", deleteFolderLeft + "px");
-
+            $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "block");
+            $("#popupoverlayForConfirmPopupForUpdateAsset").css("left", deleteFolderLeft + "px");
 
             HideLoader();
         }
-        function OpenAsset()
+        else
         {
             ActionAsset();
-
         }
+    }
+    function CloseConfirmationUpdatewindow()
+    {
+        $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "none");
+    }
+    function ShowDownloadWindow(imagpath, Assetid)
+    {
+        AssetIdd=Assetid;
 
-        function UpdateAssetPop()
-        {
+        var url= "/CloneItemForManageAsset/"+Assetid+"";
 
-            if(UpdateAsset==true)
-            {
+        $("#basketId").attr("href",url);
 
-                var deleteFolderLeft = parseInt((bws.width - 500) / 2);
-                $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "block");
-                $("#popupoverlayForConfirmPopupForUpdateAsset").css("left", deleteFolderLeft + "px");
+        var Data = { AssetId: Assetid };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+                $("#assetNameUser").text(response.Asset.AssetName);
+                $("#assetCatNameUser").text("Category:"+response.AssetFolder.FolderName);
 
-                HideLoader();
+
+                var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+
+                var changedate=newDate.split("-");
+                var getd=changedate[2].split("T");
+
+                $("#assetupdated").text(getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+                BindFileItems(response.Asset.AssetItems,true);
+                $("#popupoverlaybasketWindow").css("display", "block");
+                $(".shareIcons").css("display", "none");
+                var userbasketLeft = parseInt((bws.width - 500) / 2);
+
+                $("#basketWindow").css("left", userbasketLeft + "px");
             }
-            else
-            {
-                ActionAsset();
+        });
+
+    }
+
+    function GeTAssetDescription(imagpath, Assetid)
+    {
+
+
+        var url= "/CloneItemForManageAsset/"+Assetid+"";
+
+        $("#basketId").attr("href",url);
+
+        var Data = { AssetId: Assetid };
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
+            contentType: "application/json",
+            async: true,
+            data:Data,
+            success: function (response) {
+                ClearFields();
+                $("#assetNameUser_side").text(response.Asset.AssetName);
+                $("#assetCatNameUser_side").text(' '+response.AssetFolder.FolderName);
+                if(response.AssetFolder.Description!=null&&response.AssetFolder.Description!='')
+                {
+                    $("#AssetDescription_side").text(' '+response.AssetFolder.Description);
+                }
+                else
+                {
+                    $("#AssetDescription_side").text(' ');
+                }
+                AssetItemsList=response.Asset.AssetItems;
+                BindPreviewItems(response.Asset.AssetItems);
+
+
+                var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+
+                var changedate=newDate.split("-");
+                var getd=changedate[2].split("T");
+
+                $("#assetupdated_side").text(' '+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
+                BindFileItems(response.Asset.AssetItems,true);
+                $("#Div_Right_AssetDescription").css("display", "block");
+                $("#assetupdated_side").css("display", "inline");
+                $("#assetupdated_side_label").css("display", "inline");
+                $(".shareIcons").css("display", "none");
+                AssetItemsList=response.Asset.AssetItems;
             }
-        }
-        function CloseConfirmationUpdatewindow()
-        {
-            $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "none");
-        }
-        function ShowDownloadWindow(imagpath, Assetid)
-        {
-            AssetIdd=Assetid;
+        });
 
-            var url= "/CloneItemForManageAsset/"+Assetid+"";
-
-            $("#basketId").attr("href",url);
-
-            var Data = { AssetId: Assetid };
-            $.ajax({
-                type: "GET",
-                url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
-                contentType: "application/json",
-                async: true,
-                data:Data,
-                success: function (response) {
-                    $("#assetNameUser").text(response.Asset.AssetName);
-                    $("#assetCatNameUser").text("Category:"+response.AssetFolder.FolderName);
-
-                   
-                    var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
-                    
-                    var changedate=newDate.split("-");
-                    var getd=changedate[2].split("T");
-
-                    $("#assetupdated").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
-                    BindFileItems(response.Asset.AssetItems,true);
-                    $("#popupoverlaybasketWindow").css("display", "block");
-                    $(".shareIcons").css("display", "none");
-                    var userbasketLeft = parseInt((bws.width - 500) / 2);
-
-                    $("#basketWindow").css("left", userbasketLeft + "px");
-                }
-            });
-
-        }
-
-        function GeTAssetDescription(imagpath, Assetid)
-        {
-            
-
-            var url= "/CloneItemForManageAsset/"+Assetid+"";
-
-            $("#basketId").attr("href",url);
-
-            var Data = { AssetId: Assetid };
-            $.ajax({
-                type: "GET",
-                url: "/webstoreapi/ContactImageUploader/GetAssetByAssetID",
-                contentType: "application/json",
-                async: true,
-                data:Data,
-                success: function (response) {
-                    $("#assetNameUser_side").text(response.Asset.AssetName);
-                    $("#assetCatNameUser_side").text("Category:"+response.AssetFolder.FolderName);
-
-                    
-                    var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
-                   
-                    var changedate=newDate.split("-");
-                    var getd=changedate[2].split("T");
-
-                    $("#assetupdated_side").text("Asset Updated:"+getd[0]+"/"+changedate[1]+"/"+changedate[0]);
-                    BindFileItems(response.Asset.AssetItems,true);
-                    $("#Div_Right_AssetDescription").css("display", "block");
-                    $(".shareIcons").css("display", "none");
-                    AssetItemsList=response.Asset.AssetItems;
-                }
-            });
-        
-        }
+    }
 
 
-        
 
 
-        function removeAtt(name, t) {
 
-            removedFiles.push(name);
-            storedFiles = $.grep(storedFiles, function (n, i) {
+    function removeAtt(name, t) {
 
-                return (n != name);
-            });
+        removedFiles.push(name);
+        storedFiles = $.grep(storedFiles, function (n, i) {
 
-            $(t).parent().remove();
+            return (n != name);
+        });
 
-            var postedFiles = $.grep(postedFiles, function (e) {
-                return e.fname != name;
+        $(t).parent().remove();
 
-            });
+        var postedFiles = $.grep(postedFiles, function (e) {
+            return e.fname != name;
 
-        }
-        
-        var postedFiles = [];
-        function doReCreate() {
-            selDiv = document.querySelector("#selectedFiles");
+        });
 
-            storedFiles = [];
-            var FileName = "";
-            var files = $("#FilesUploader").get(0).files;
+    }
 
-            if (files.length > 0) {
-                @*console.log(postedFiles.length < (4 + removedFiles.length));
+    var postedFiles = [];
+    function doReCreate() {
+
+
+        selDiv = document.querySelector("#selectedFiles");
+
+
+        var FileName = "";
+        var files = $("#FilesUploader").get(0).files;
+
+
+        if (files.length > 0) {
+            @*console.log(postedFiles.length < (4 + removedFiles.length));
             if (files.length > 4) {
                 ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
             } else {*@
 
-                var isAddfile = 1;
-                for (i = 0; i < files.length; i++) {
+            var isAddfile = 1;
+            for (i = 0; i < files.length; i++) {
 
-                    var fileext = files[i].name.split('.');
-                    var lastIndex = fileext.length;
-                    var extname = fileext[lastIndex - 1];
-                    if (files[i].size != null && files[i].size > 52428800) {
-                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 50 MB are allowed only !");
-                        isAddfile = 0;
-                    }
-                    @*if (extname != "png" && extname != "jpg" && extname != "jpeg" && extname != "pdf" && extname != "gif") {
+                var fileext = files[i].name.split('.');
+                var lastIndex = fileext.length;
+                var extname = fileext[lastIndex - 1];
+                if (files[i].size != null && files[i].size > 52428800) {
+                    ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 50 MB are allowed only !");
+                    isAddfile = 0;
+                }
+                @*if (extname != "png" && extname != "jpg" && extname != "jpeg" && extname != "pdf" && extname != "gif") {
                         ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "File format is not allowed!");
                         isAddfile = 0;
                     } else {*@
-                    isAddfile = 1;
-                    //}
-                }
-                if (isAddfile == 1) {
+                isAddfile = 1;
+                //}
+            }
+            if (isAddfile == 1) {
 
-                    for (i = 0; i < files.length; i++) {
-                        var isRemovedFile = false;
-                        for (var d = 0; d < removedFiles.length; d++) {
+                for (i = 0; i < files.length; i++) {
+                    var isRemovedFile = false;
+                    for (var d = 0; d < removedFiles.length; d++) {
 
-                            isRemovedFile = true;
+                        isRemovedFile = true;
+                    }
+                    if (!isRemovedFile) {
+
+                        // formData.append("file" + i, files[i]);
+                        mbImagesFiles.append("UploadedFile" + i, files[i]);
+                        var res= GetImageName(AssetItemsList,files[i].name);
+                        postedFiles.push({ fname: files[i].name, fObj: files[i] });
+
+                        // if(IsvalidFile(postedFiles,files[i].name)==false)
+                        // {
+                        if(res==false)
+                        {
+                            selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
+                            FileName = files[i].name;
+                            while (files[i].name.indexOf('/') != -1)
+                                FileName = files[i].name.replace("/", "__")
+                            storedFiles.push(FileName);
+
                         }
-                        if (!isRemovedFile) {
-                            postedFiles.push({ fname: files[i].name, fObj: files[i] });
-                            // formData.append("file" + i, files[i]);
-                            mbImagesFiles.append("UploadedFile" + i, files[i]);
-                            var res= GetImageName(AssetItemsList,files[i].name);
-                            
-                            if(res==false)
-                            {
-                                selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
-                                FileName = files[i].name;
-                                while (files[i].name.indexOf('/') != -1)
-                                    FileName = files[i].name.replace("/", "__")
 
-                                storedFiles.push(FileName);
-                            }
-                        }
+                        //}
+
                     }
                 }
-
-                // }
-
             }
-            if (postedFiles.length > (3 + removedFiles.length)) {
-                $("#FilesUploader").css("display", "none");
-            }
+
+            // }
+
         }
-        function GetImageName(AssetItemsList,filename)
+        if (postedFiles.length > (3 + removedFiles.length)) {
+            $("#FilesUploader").css("display", "none");
+        }
+
+    }
+
+    function IsvalidFile(postedFiles,file)
+    {
+        var result=false;
+
+        //  if(postedFiles.length>1)
+        //  {
+        if(postedFiles!=null&&postedFiles!='')
         {
-            var result=false;
-            if(AssetItemsList!=null&&AssetItemsList!='')
+
+            $.each(postedFiles, function (i, IT) {
+
+                //var fullFileUrl=IT.FileUrl;
+                //var url=(IT.FileUrl).split("/");
+
+                ////var getExt=(IT.FileUrl).split(".");
+                ////var Extension=getExt[0];
+                //var img=url[5];
+
+                //s = img.replace(/\d/g, "");
+
+                if(IT.fObj.name==file)
+                {
+                    result=true;
+                }
+
+            });
+            if(result==true)
             {
-                $.each(AssetItemsList, function (i, IT) {
-                
-                    var fullFileUrl=IT.FileUrl;
-                    var url=(IT.FileUrl).split("/");
-
-                    //var getExt=(IT.FileUrl).split(".");
-                    //var Extension=getExt[0];
-                    var img=url[5];
-                  
-                    s = img.replace(/\d/g, "");
-
-                    if(s==filename)
-                    {
-                        result=true;
-                    }
-                   
-                });
-                if(result==true)
-                {
-                    $("#file_added").css("display", "block");
-                }
-                else
-                {
-                    $("#file_added").css("display", "none");
-                }
+                $("#file_added").css("display", "block");
             }
-            return result;
-        }
-
-        function RedirectToGUrl(url,id){
-            $("#SelectedTreeID").val(id);
-            window.location.href = url;
-
-        }
-
-        function No()
-        {
-            //  AsssetsID
-
-            $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
-            if(AssetImagePath!=null&&AssetImagePath!='')
+            else
             {
-                Action(AsssetsID,AssetImagePath);
+                $("#file_added").css("display", "none");
+            }
+        }
+        // }
+        return result;
+    }
+    function GetImageName(AssetItemsList,filename)
+    {
+
+        var result=false;
+        if(AssetItemsList!=null&&AssetItemsList!='')
+        {
+            $.each(AssetItemsList, function (i, IT) {
+
+                var fullFileUrl=IT.FileUrl;
+                var url=(IT.FileUrl).split("/");
+
+                //var getExt=(IT.FileUrl).split(".");
+                //var Extension=getExt[0];
+                var img=url[5];
+
+                s = img.replace(/\d/g, "");
+
+                if(s==filename)
+                {
+                    result=true;
+                }
+
+            });
+            if(result==true)
+            {
+                $("#file_added").css("display", "block");
+            }
+            else
+            {
+                $("#file_added").css("display", "none");
+            }
+        }
+        return result;
+    }
+
+    function RedirectToGUrl(url,id){
+        $("#SelectedTreeID").val(id);
+        window.location.href = url;
+
+    }
+
+    function No()
+    {
+        //  AsssetsID
+
+        $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
+        if(AssetImagePath!=null&&AssetImagePath!='')
+        {
+            Action(AsssetsID,AssetImagePath);
+        }
+        else
+        {
+
+            AssetImagePath="/Content/Images/imgPlc.png";
+
+            Action(AsssetsID,AssetImagePath);
+        }
+    }
+
+    function Cancelf()
+    {
+        $("#popupoverlayForConfirmPopup").css("display", "none");
+
+        if(FolderImagePath!=null&&FolderImagePath!='')
+        {
+            ActionForFolder(FolderIDD,FolderImagePath);
+        }
+        else
+        {
+            FolderImagePath="/Content/Images/imgPlc.png";
+
+            ActionForFolder(FolderIDD,FolderImagePath);
+        }
+    }
+
+    function CloseConfirmationwindow(DeleteFolderID)
+    {
+        $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
+    }
+    function NavigatetoBasketWindow()
+    {
+        var RoleId='@ContactRole';
+
+        if(RoleId==3)
+        {
+
+            if(AsssetsID!=null&&AsssetsID!=''&&AsssetsID!=0)
+            {
+                ShowDownloadWindow(AssetImagePath,AsssetsID);
             }
             else
             {
 
-                AssetImagePath="/Content/Images/imgPlc.png";
-
-                Action(AsssetsID,AssetImagePath);
+                var emtystring='';
+                window.location.href = "/ManageAssets?folderId="+FolderIDD+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
             }
         }
 
-        function Cancelf()
-        {
-            $("#popupoverlayForConfirmPopup").css("display", "none");
+    }
 
-            if(FolderImagePath!=null&&FolderImagePath!='')
-            {
-                ActionForFolder(FolderIDD,FolderImagePath);
-            }
-            else
-            {
-                FolderImagePath="/Content/Images/imgPlc.png";
-
-                ActionForFolder(FolderIDD,FolderImagePath);
-            }
+    function getBrowserHeight() {
+        var intH = 0;
+        var intW = 0;
+        if (typeof window.innerWidth == 'number') {
+            intH = window.innerHeight;
+            intW = window.innerWidth;
         }
-
-        function CloseConfirmationwindow(DeleteFolderID)
-        {
-            $("#popupoverlayForConfirmPopupForDeleteAsset").css("display", "none");
+        else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+            intH = document.documentElement.clientHeight;
+            intW = document.documentElement.clientWidth;
         }
-        function NavigatetoBasketWindow()
-        {
-            var RoleId='@ContactRole';
-            
-            if(RoleId==3)
-            {
-                
-                if(AsssetsID!=null&&AsssetsID!=''&&AsssetsID!=0)
-                {
-                    ShowDownloadWindow(AssetImagePath,AsssetsID);
-                }
-                else
-                {
-                   
-                    var emtystring='';
-                    window.location.href = "/ManageAssets?folderId="+FolderIDD+"&Searchfolder="+emtystring+"&SelectedTreeID="+emtystring+"";
-                }
-            }
-
+        else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
+            intH = document.body.clientHeight;
+            intW = document.body.clientWidth;
         }
-
-        function getBrowserHeight() {
-            var intH = 0;
-            var intW = 0;
-            if (typeof window.innerWidth == 'number') {
-                intH = window.innerHeight;
-                intW = window.innerWidth;
-            }
-            else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
-                intH = document.documentElement.clientHeight;
-                intW = document.documentElement.clientWidth;
-            }
-            else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
-                intH = document.body.clientHeight;
-                intW = document.body.clientWidth;
-            }
-            return { width: parseInt(intW), height: parseInt(intH) };
-        }
+        return { width: parseInt(intW), height: parseInt(intH) };
+    }
     </script>
 
 
