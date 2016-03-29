@@ -653,6 +653,8 @@
     <Content Include="Content\Images\bugzy.PNG" />
     <Content Include="Content\Images\Clock-Icon-Blue.png" />
     <Content Include="Content\Images\costcentreLoader.gif" />
+    <Content Include="Content\Images\DAM_folder_ico.png" />
+    <Content Include="Content\Images\DAM_folder_ico_sm.png" />
     <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\Deliver-Icon.png" />
     <Content Include="Content\Images\diners.gif" />

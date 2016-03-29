@@ -216,7 +216,7 @@ namespace MPC.Implementation.MISServices
                     sCostPlant += sCodeString;
 
                     sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine; 
-                    sCodeString += "QuotedPlantPrice =  "  + Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity )";
+                    sCodeString += "QuotedPlantPrice =  ("  + Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity )";
                     sPricePlant += sCodeString;
 
                     sCodeString = "EstimatedTime =  " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"6\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity )";
@@ -1541,3 +1541,8 @@ namespace MPC.Implementation.MISServices
 
     }
 }
+
+
+
+
+    

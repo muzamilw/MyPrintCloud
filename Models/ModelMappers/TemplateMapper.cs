@@ -33,6 +33,7 @@ namespace MPC.Models.ModelMappers
             target.FileName = source.FileName;
             target.IsAllowCustomSize = source.IsAllowCustomSize;
             target.HideSharedImages = source.HideSharedImages;
+            target.CuttingMargin = source.CuttingMargin;
         }
 
         #endregion

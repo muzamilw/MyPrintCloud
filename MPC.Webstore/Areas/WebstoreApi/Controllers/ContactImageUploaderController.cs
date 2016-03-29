@@ -796,10 +796,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                       foreach (TemplatePage itmP in itm.Template.TemplatePages)
                       {
                           string FilePath = "/mpc_content/Designer/Organisation" + UserCookieManager.WEBOrganisationID + "/Templates/" + itm.TemplateId + "/" + "p" + count + ".jpg";
-                          virtualNewFilePath = virtualDesTfolderPath + "/" + itm.TemplateId + "p" + count + "Copy.jpg";
+                          virtualNewFilePath = virtualDesTfolderPath + "/" + itm.TemplateId + "p" + count + ".jpg";
                           count++;
                           Attachments.Add(virtualNewFilePath);
-                          System.IO.File.Copy(System.Web.HttpContext.Current.Server.MapPath(FilePath), virtualNewFilePath, true);
+                          System.IO.File.Copy(System.Web.HttpContext.Current.Server.MapPath(FilePath), System.Web.HttpContext.Current.Server.MapPath(virtualNewFilePath), true);
                       }
                   }
               }

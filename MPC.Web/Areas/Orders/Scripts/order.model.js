@@ -405,7 +405,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     sectionFlagId: sectionFlagId,
                     invoiceStatus:invoiceStatus,
                     statusId: statusId,
-                    estimteDate: estimteDate
+                    estimteDate: estimteDate,
+                    userNotes: userNotes
                 }),
                 // Item Has Changes
                 itemHasChanges = function () {
