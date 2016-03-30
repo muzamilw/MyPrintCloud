@@ -2214,7 +2214,22 @@
                                                 <input type="text" style="text-align:right;" class="form-control" data-bind="value: $parent.scalar" placeholder="Enter Scale Factor">
                                             </div>
                                         </div>
-                                        
+                                        <div class="form-group" data-bind="visible: $parent.templateTypeUi() === '1' || $parent.templateTypeUi() === '2'">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Set cutting margin to apply for the out put template." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Cutting Margin</label>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <input type="text" style="text-align:right;" class="form-control" data-bind="value: cuttingMargin" placeholder="Enter Cutting Margin">
+                                            </div>
+                                            <div class="col-lg-2" style="margin-top:0; margin-left:-5px">
+                                                ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
+                                            </div>
+                                        </div>
 
 
                                         <div class="form-group" data-bind="visible: $parent.templateTypeUi() === '1' || $parent.canStartDesignerEmpty">

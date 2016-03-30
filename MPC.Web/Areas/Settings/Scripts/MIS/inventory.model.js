@@ -2,7 +2,7 @@
     var
     InventoryListView = function (specifiedStockItemId, specifiedName, specifiedWeight, specifiedPerQtyQty, specifiedSizecolour, specifiedCategoryName,
                             specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName, specifiedSupplierCompanyName
-                            , specifiedRegion) {
+                            , specifiedRegion, specifiedInkCharge) {
         var
             self,
             //Unique ID
@@ -23,6 +23,7 @@
             subCategoryName = ko.observable(specifiedSubCategoryName),
             //Selected Unit Name
             weightUnitName = ko.observable(specifiedWeightUnitName),
+            inkChargePerSquare = ko.observable(specifiedInkCharge),
             //category + Sub Category Name
             fullCategoryName = ko.observable(specifiedFullCategoryName),
             // Per pack Cost within current date
@@ -45,6 +46,7 @@
             weightUnitName: weightUnitName,
             packCostPrice: packCostPrice,
             fullCategoryName: fullCategoryName,
+            inkChargePerSquare : inkChargePerSquare,
             supplierCompanyName: supplierCompanyName,
             convertToServerData: convertToServerData,
         };
@@ -349,9 +351,9 @@
             //Pack Cost Price
             packCostPrice = ko.observable(specifiedPackCostPrice),
              //To Date 
-            toDate = ko.observable((specifiedToDate === null || specifiedToDate === undefined) ? moment().add('days', 1).toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
+            toDate = ko.observable((specifiedToDate === null || specifiedToDate === undefined) ? moment().add('years', 1).toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
             //From Date
-            fromDate = ko.observable((specifiedFromDate === null || specifiedFromDate == undefined) ? moment().toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
+            fromDate = ko.observable((specifiedFromDate === null || specifiedFromDate == undefined) ? moment().add('days',-1).toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
                 //Cost Or Price Identifier
             costOrPriceIdentifier = ko.observable(specifiedCostOrPriceIdentifier),
             // Formatted From Date
@@ -514,7 +516,7 @@
     //Create Factory 
     InventoryListView.Create = function (source) {
         var obj = new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
-                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
+                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region, source.InkChargePerSquare);
         obj.packCostPrice(source.PackCostPrice);
         return obj;
     };

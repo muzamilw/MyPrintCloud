@@ -460,6 +460,11 @@ namespace MPC.Implementation.MISServices
                     itemTarget.Template.CuttingMargin =
                     lengthConversionService.ConvertLengthFromSystemUnitToPoints(organisation.BleedAreaSize??0, organisation.LengthUnit);
             }
+            else
+            {
+                itemTarget.Template.CuttingMargin =
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.CuttingMargin.Value, organisation.LengthUnit);
+            }
 
             // Convert Template Pages length to Points
             if (itemTarget.Template.TemplatePages == null)
@@ -518,6 +523,11 @@ namespace MPC.Implementation.MISServices
             {
                 itemTarget.Template.PDFTemplateWidth = 
                     lengthConversionService.ConvertLengthFromPointsToSystemUnit(itemTarget.Template.PDFTemplateWidth.Value, organisation.LengthUnit);
+            }
+            if (itemTarget.Template.CuttingMargin.HasValue && itemTarget.Template.CuttingMargin.Value > 0)
+            {
+                itemTarget.Template.CuttingMargin =
+                    lengthConversionService.ConvertLengthFromPointsToSystemUnit(itemTarget.Template.CuttingMargin.Value, organisation.LengthUnit);
             }
 
             // Convert Template Pages length to Points

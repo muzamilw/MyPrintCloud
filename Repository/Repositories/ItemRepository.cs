@@ -3141,9 +3141,11 @@ namespace MPC.Repository.Repositories
 
                 var Item = db.Items.Where(i => i.ItemId == itemID).FirstOrDefault();
                 // save template if item doesnot contain templateId
+                 Item.IsSavedDesign = true;
                 if (Item.TemplateId == null || Item.TemplateId == 0)
                 {
                     Item.TemplateId = templateID;
+                   
                     db.SaveChanges();
                 }
                 var Order =

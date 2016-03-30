@@ -45,10 +45,25 @@
             <table style="  width: 100%;">
                 <tr>
                     <td>
-                        <div class="contact_us_heading">
-                            <label id="lbl_ShoppingCart" class="">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</label>
-                        </div>
+                        @if (ViewBag.EmailProofButtonVisible == true)
+                        {
+                            <div class="contact_us_heading float_left_simple">
+                                <label id="lbl_ShoppingCart" class="">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</label>
+                            </div>
+                            <div class="float_right">
+                                <input id="prof_btn" style="" type="button" onclick="return EmailProofClick()" class="btn_brown float_right rounded_corners5" value="Send Email Proof" />
+                            </div>
+                            <div class="clearBoth">
 
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="contact_us_heading ">
+                                <label id="lbl_ShoppingCart" class="">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</label>
+                            </div>
+                        }
+                     
                     </td>
 
                 </tr>
@@ -109,12 +124,6 @@
 
                         <div id="ShopingCartDisplay" class="get_in_touch_box rounded_corners ">
 
-                            @*<button id="Button1" style="display:none;" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>*@
-                            @*@if (ViewBag.EmailProofButtonVisible==true)
-        {*@
-                            
-                            @*}*@
-                            
                             <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                
                                 <tbody>
@@ -129,9 +138,9 @@
                                         
                                      
                                        
-                                        @*<th align="left" scope="col" style="color: white !important; border: none; background-color: white">&nbsp;</th>*@
+                                        @*<th align="left" scope="col" style="color: white !important; border: none; background-color: white"></th>*@
                                     </tr>
-                                    <input id="prof_btn" style="position:absolute;left:10.6%" type="button" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5" value="Send Email Proof" />
+                                  
                                     @{ foreach (var prod in ViewData["ProductItemList"] as List<MPC.Models.Common.ProductItem>)
                                      {
                                         <tr class="gridViewRowStyle" align="top">
@@ -609,7 +618,11 @@
                 //data: data,
                 async: true,
                 success: function (response) {
-                    HideLoader();
+                    $("#proofMesges").css("display", "block");
+                    $("#proofMesges").html("Email has been sent to the below email address(es)");
+                },
+                error: function(reponse){
+                    alert(reponse);
                 }
             });
         }
@@ -627,9 +640,9 @@
 
             if (ValidateEmail(email1)==false) {
 
-                alert("Please enter a valid email address in address 1");
                 $("#Email1").css("border", "2px solid red");
-
+                $("#proofMesges").css("display", "block");
+                $("#proofMesges").html("Please enter a valid email address in address 1");
             }
             else
             {
@@ -639,8 +652,9 @@
         }
         if (email2 != "") {
             if (ValidateEmail(email2)==false) {
-
-                alert("Please enter a valid email address in address 2");
+                $("#proofMesges").css("display", "block");
+                $("#proofMesges").html("<br/>Please enter a valid email address in address 2");
+              
                 $("#Email2").css("border", "2px solid red");
             }
             else

@@ -653,6 +653,8 @@
     <Content Include="Content\Images\bugzy.PNG" />
     <Content Include="Content\Images\Clock-Icon-Blue.png" />
     <Content Include="Content\Images\costcentreLoader.gif" />
+    <Content Include="Content\Images\DAM_folder_ico.png" />
+    <Content Include="Content\Images\DAM_folder_ico_sm.png" />
     <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\Deliver-Icon.png" />
     <Content Include="Content\Images\diners.gif" />
@@ -873,6 +875,7 @@
     <Content Include="Content\owl.carousel.css" />
     <Content Include="Content\oxfordtestimonial.css" />
     <Content Include="Content\PosterBanner.css" />
+    <Content Include="Content\RAndW.css" />
     <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />
     <Content Include="Content\RealEstateSlider\images\arrow-left.png" />
     <Content Include="Content\RealEstateSlider\images\arrow-right.png" />
@@ -892,6 +895,7 @@
     <Content Include="Content\TFEHotels.css" />
     <Content Include="Content\TreeView\d.png" />
     <Content Include="Content\TreeView\dots_rtl.gif" />
+    <Content Include="Content\TreeView\folder-icon.png" />
     <Content Include="Content\TreeView\jquery-1.10.2.min.js" />
     <Content Include="Content\TreeView\jstree.js" />
     <Content Include="Content\TreeView\style.css" />

@@ -437,6 +437,8 @@
                                 DateTo: DateTo,
                                 ParamValue: ParamValue(),
                                 Mode: true,
+                                ComboValue2: ComboValue2()
+                                
                             }, {
                                 success: function (data) {
                                     if (data != null) {
@@ -469,7 +471,8 @@
                                  DateFrom: DateFrom,
                                  DateTo: DateTo,
                                  ParamValue: ParamValue(),
-                                 Mode: false
+                                 Mode: false,
+                                 ComboValue2: ComboValue2()
                              }, {
                                  success: function (data) {
                                      if (data != null) {

@@ -10419,3 +10419,55 @@ Begin
 		where p.purchaseid = @PurchaseId
 
 end
+
+------------------------3-29-2016 updated on europe
+
+/* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.Items ADD
+	IsSavedDesign bit NULL
+GO
+ALTER TABLE dbo.Items SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+
+------------------------3-29-2016
+/****** Object:  Table [dbo].[FolderTerritory]    Script Date: 3/29/2016 11:57:03 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[FolderTerritory](
+	[FolderTerritoryId] [bigint] NOT NULL,
+	[FolderId] [bigint] NULL,
+	[TerritoryId] [bigint] NULL,
+	[CompanyId] [bigint] NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_FolderTerritory] PRIMARY KEY CLUSTERED 
+(
+	[FolderTerritoryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[FolderTerritory]  WITH CHECK ADD  CONSTRAINT [FK_FolderTerritory_Folder] FOREIGN KEY([FolderId])
+REFERENCES [dbo].[Folder] ([FolderId])
+GO
+
+ALTER TABLE [dbo].[FolderTerritory] CHECK CONSTRAINT [FK_FolderTerritory_Folder]
+GO
+

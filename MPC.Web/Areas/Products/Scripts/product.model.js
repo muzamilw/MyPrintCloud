@@ -2354,7 +2354,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Entity
     // ReSharper disable InconsistentNaming
-    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource, specifiedIsAllowCustomSize, specifiedHideSharedImages) {
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource, specifiedIsAllowCustomSize,
+        specifiedHideSharedImages, specifiedCuttingMargin) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2404,7 +2405,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }
             }),
-
+            cuttingMargin = ko.observable(specifiedCuttingMargin),
             isAllowCustomSize = ko.observable(specifiedIsAllowCustomSize),
             // File Name
             fileName = ko.observable(),
@@ -2524,7 +2525,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isSpotTemplate: isSpotTemplate,
                 templatePages: templatePages,
                 isAllowCustomSize: isAllowCustomSize,
-                hideSharedImages : hideSharedImages
+                hideSharedImages: hideSharedImages,
+                cuttingMargin: cuttingMargin
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2551,7 +2553,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     FileName: fileName(),
                     FileSource: fileSource(),
                     isAllowCustomSize: isAllowCustomSize(),
-                    HideSharedImages : hideSharedImages(),
+                    HideSharedImages: hideSharedImages(),
+                    CuttingMargin: cuttingMargin(),
                     TemplatePages: templatePages.map(function (templatePage, index) {
                         var templatePageItem = templatePage.convertToServerData();
                         templatePageItem.PageNo = index + 1;
@@ -2586,7 +2589,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            cuttingMargin: cuttingMargin
         };
     },
 
@@ -4323,7 +4327,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Template Factory
     Template.Create = function (source) {
         var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate,
-        source.FileOriginalSource, source.IsAllowCustomSize, source.HideSharedImages);
+        source.FileOriginalSource, source.IsAllowCustomSize, source.HideSharedImages, source.CuttingMargin);
 
         // Map Template Pages if any
         if (source.TemplatePages != null) {

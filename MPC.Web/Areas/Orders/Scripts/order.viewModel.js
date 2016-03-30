@@ -1434,7 +1434,10 @@ define("order/order.viewModel",
                             selectedOrder().statusId(estimatesStatus.draftEstimate); // Draft Estimate
                         }
                        
-                        if (saveFrom() == "section") {
+                        if (saveFrom() == "itemJob") {
+                            if (!doBeforeSave()) {
+                                return;
+                            }
                             removeItemSectionWithAddFlagTrue();
                         }
                         var order = selectedOrder().convertToServerData();

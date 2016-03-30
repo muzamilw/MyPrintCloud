@@ -33,6 +33,8 @@ namespace MPC.Models.RequestModels
         public string ParamValue { get; set; }
 
         public bool Mode { get; set; }
+
+        public string ComboValue2 { get; set; }
        
     }
 }

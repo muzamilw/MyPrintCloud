@@ -31,7 +31,7 @@
 
         </div>
 
-        <div id="CategoryDisplay responsivePad15">
+        <div id="CategoryDisplay" class="responsivePad15">
 
             <div class="rounded_corners clearBoth col-md-12 col-lg-12 col-xs-12">
 
@@ -72,10 +72,10 @@
             }
             <img id="imgThumbnail" src="@ImagSrc" style="height:120px;width:170px;" />
         }
-}
+    }
 
-                        
-                        </text>,style:"WebGridPadding Width360 setpadding"),
+
+    </text>,style:"WebGridPadding Width360 setpadding"),
 
 
     grid.Column("Name",format:@<p>@item.PropertyName</p>,style:"hidden-xs hidden-sm"),
@@ -83,13 +83,13 @@
 
     grid.Column("Edit", format:@<text>@{
         var ProductUrl = "/RealEstateSmartForm/" + item.ListingId;
-                        }
-                        <a href="@ProductUrl"><i class="fa fa-pencil edit-address"></i></a>
+    }
+    <a href="@ProductUrl"><i class="fa fa-pencil edit-address"></i></a>
 
 
     </text>)}
 
-                                     )
+                                              )
                         @if (Convert.ToInt32(Listings.Count) > 3)
                         {
                             <div id="footerr" class="pagination pagination-small pagination-right">
@@ -97,9 +97,9 @@
                             </div>
                         }
                         <div>
-                            
+
                         </div>
-                       
+
                     </div>
 
 
