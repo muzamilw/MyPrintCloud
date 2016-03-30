@@ -1599,8 +1599,7 @@
                 async: true,
                 processData: false,
                 success: function (response) {
-
-                    window.location.href = "/ManageAssets";
+                    window.location.reload();
 
                 },
                 error: function (error) {
@@ -1772,8 +1771,7 @@
             async: true,
             //data:Data,
             success: function (response) {
-                window.location.href = "/ManageAssets";
-
+                window.location.reload();
             }
         });
     }
