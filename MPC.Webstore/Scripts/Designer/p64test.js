@@ -20466,7 +20466,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             
             if (txtOverflow)
                 this.textPaddingTop = 0;
-            if (this.AutoShrinkText && txtOverflow == true) {
+            if (this.AutoShrinkText && txtOverflow == true && IsCalledFrom != 2) {
 
                 if (this != undefined && this.fontSize > 4) {
                     this.fontSize = this.fontSize - 0.667;
