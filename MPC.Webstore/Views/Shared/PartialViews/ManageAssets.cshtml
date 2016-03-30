@@ -668,6 +668,8 @@
                 {
                     $('#AssetDescription_side').text();
                 }
+                $("#assetupdated_side_label").css("display", "inline");
+                $("#assetupdated_side").css("display", "inline");
                 AssetItemsList=response.Asset.AssetItems;
                 BindPreviewItems(response.Asset.AssetItems);
             }
@@ -1361,7 +1363,7 @@
 
     function buidPopup() {
         //assetPopupBody
-        //modelTitle
+        //modelTitleq
         var bws = getBrowserHeight();
 
         var shadow = document.getElementById("innerLayer");
