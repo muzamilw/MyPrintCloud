@@ -1641,23 +1641,14 @@ function fu02UI() {
         helper: 'clone',
         appendTo: "body",
         cursor: 'move', cancel: false
-    });
+    }); 
+    $(".divBtmSticky").draggable({ axis: "x" });
     $("#canvas").droppable({
         activeClass: "custom-state-active",
         accept: function (dropElem) {
             var draggable = dropElem.attr('id');
             if (draggable == "BtnAddNewText") {
-                //if ($("#IsQuickTxtCHK").is(':checked')) {
-                //    var val1 = $("#txtQTitleChk").val();
-                //    if (val1 == "") {
-                //        return false;
-                //    } else {
-                //        return true;
-                //    }
-                //} else {
-                //    return true;
-                //}
-
+    
             } else if (dropElem.attr('src')) {
                 var D1AO = canvas.getActiveObject();
                 if (D1AO) {
@@ -1701,8 +1692,8 @@ function fu02UI() {
                         }
                     }
                 }
-            }
-            else if (ui.draggable.attr('class') == "ui-state-default ui-sortable-helper" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "sortableLayers" || ui.draggable.attr('id') == "DivLayersPanel" || ui.draggable.attr('id') == "divLayersPanelRetail" || ui.draggable.attr('id') == "ImagePropertyPanel" || ui.draggable.attr('id') == "DivColorPickerDraggable" || ui.draggable.attr('id') == "quickTextFormPanel" || ui.draggable.attr('id') == "AddTextDragable" || ui.draggable.attr('id') == "addImage" || ui.draggable.attr('id') == "divImageDAM" || ui.draggable.attr('id') == "divImageEditScreen" || ui.draggable.attr('id') == "DivControlPanelDraggable" || ui.draggable.attr('id') == "DivAlignObjs" || ui.draggable.attr('id') == "divPositioningPanel" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "LayerObjectsContainerRetail") {
+            } //
+            else if (ui.draggable.attr('class') == "ui-state-default ui-sortable-helper" || ui.draggable.attr('class') == "divBtmSticky" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "sortableLayers" || ui.draggable.attr('id') == "DivLayersPanel" || ui.draggable.attr('id') == "divLayersPanelRetail" || ui.draggable.attr('id') == "ImagePropertyPanel" || ui.draggable.attr('id') == "DivColorPickerDraggable" || ui.draggable.attr('id') == "quickTextFormPanel" || ui.draggable.attr('id') == "AddTextDragable" || ui.draggable.attr('id') == "addImage" || ui.draggable.attr('id') == "divImageDAM" || ui.draggable.attr('id') == "divImageEditScreen" || ui.draggable.attr('id') == "DivControlPanelDraggable" || ui.draggable.attr('id') == "DivAlignObjs" || ui.draggable.attr('id') == "divPositioningPanel" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "LayerObjectsContainerRetail") {
                 //l4
             } else {
                 var pos = canvas.getPointer(event);
