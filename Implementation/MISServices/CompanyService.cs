@@ -116,6 +116,7 @@ namespace MPC.Implementation.MISServices
         private readonly IReportNoteRepository reportNoteRepository;
         private readonly IVariableExtensionRespository variableExtensionRespository;
         private readonly ICurrencyRepository currencySymbol;
+        private readonly ISectionRepository _sectionRepository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -3013,7 +3014,8 @@ namespace MPC.Implementation.MISServices
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
-            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository, ICurrencyRepository currencySymbol)
+            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository, ICurrencyRepository currencySymbol,
+            ISectionRepository sectionRepository)
         {
             if (bannerSetRepository == null)
             {
@@ -3097,7 +3099,7 @@ namespace MPC.Implementation.MISServices
             this.reportNoteRepository = reportNoteRepository;
             this.variableExtensionRespository = variableExtensionRespository;
             this.currencySymbol = currencySymbol;
-
+            this._sectionRepository = sectionRepository;
 
         }
         #endregion
@@ -10121,6 +10123,17 @@ namespace MPC.Implementation.MISServices
             stagingImportCompanyContactRepository.RunCRMProcedure();
 
             return true;
+        }
+
+        public EmailsResponse GetOrganisationCampaigns()
+        {
+            return new EmailsResponse
+            {
+                EmailEvents = emailEventRepository.GetAll(),
+                OrganisationEmails = campaignRepository.GetOrganisationCampaigns(),
+                CampaignSections = _sectionRepository.GetCampaignSections().ToList()
+
+            };
         }
     }
 }

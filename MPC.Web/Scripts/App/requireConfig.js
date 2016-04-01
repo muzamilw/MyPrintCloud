@@ -34,6 +34,7 @@
             "lookupMethods": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "sectionflags": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "deliverycarrier": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "emails": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "invoice": ist.siteUrl + "/Areas/Invoices/Scripts",
             "reportBanner": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "deliveryNotes": ist.siteUrl + "/Areas/DeliveryNotes/Scripts",

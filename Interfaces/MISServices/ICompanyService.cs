@@ -197,6 +197,6 @@ namespace MPC.Interfaces.MISServices
         bool ImportStoreZip(long OrganisationId, string SubDomain);
         #endregion
 
-
+        EmailsResponse GetOrganisationCampaigns();
     }
 }

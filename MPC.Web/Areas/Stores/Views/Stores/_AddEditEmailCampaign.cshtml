@@ -245,6 +245,14 @@
                                 <div class="tab-pane fade" id="tab-dataSource1">
                                     <div class="col-lg-12 form-horizontal">
                                         <div class="col-lg-8">
+                                            <div class="form-group" data-bind="visible:$root.isMisEmail">
+                                                <div class="col-lg-3 text-right">
+                                                    <label for="txtMailTo" class="control-label text-right tooltip-float">Email To</label>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" id="txtMailTo" data-bind="value:notificationEmailIds, validationTooltip:notificationEmailTo">
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     @*<div class="bs-example-tooltips tooltip-float-width">
@@ -410,7 +418,7 @@
             <div class="modal-footer" style="padding-left:0;padding-right:0;">
                 <div style="padding-left:3px;padding-right:8px;">
                     <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEmail, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                    <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCampaignEditor" style="margin-left: 0px;">Close</button>
                     <button type="button" class="btn btn-danger archiveButton" data-bind="visible:campaignType() !== 1,click:$root.onDeleteEmail, enable: $root.selectedEmail().id() != undefined">Archive</button>
                 </div>
             </div>

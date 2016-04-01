@@ -522,6 +522,7 @@
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
     <Compile Include="ResponseModels\CrmContactResponse.cs" />
     <Compile Include="ResponseModels\DeliveryNoteBaseResponse.cs" />
+    <Compile Include="ResponseModels\EmailsResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />

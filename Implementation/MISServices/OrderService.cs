@@ -781,6 +781,27 @@ namespace MPC.Implementation.MISServices
                 {
                     throw new MPCException("Saved Sucessfully but failed to create Invoice. Error: " + exp.Message, estimateRepository.OrganisationId);
                 }
+
+                if (isOrderReverted(Convert.ToInt16(OldstatusId), Convert.ToInt16(estimate.StatusId)))
+                {
+                    campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderStatusReverted), estimate);
+                }
+                else
+                {
+                    if (OldstatusId != estimate.StatusId)
+                    {
+                        if (estimate.StatusId == (int)OrderStatus.InProduction)
+                            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderMovedToProduction), estimate);
+                        else if (estimate.StatusId == (int)OrderStatus.Completed_NotShipped)
+                            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderMovedToShipping), estimate);
+                        else if (estimate.StatusId == (int)OrderStatus.Invoice)
+                            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderInvoiced), estimate);
+                        else
+                            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderCancelled), estimate);
+                    } 
+                }
+
+                
             }
 
 
@@ -789,6 +810,33 @@ namespace MPC.Implementation.MISServices
 
             // Return 
             return order;
+        }
+
+        private bool isOrderReverted(short oldStatus , short newStatus)
+        {
+            bool isReverted = false;
+            if (oldStatus != newStatus)
+            {
+                //Invoied to any other status
+                isReverted = oldStatus == (int)OrderStatus.Invoice && (newStatus == (int)OrderStatus.Completed_NotShipped ||
+                        newStatus == (int) OrderStatus.InProduction ||
+                        newStatus == (int) OrderStatus.ConfirmedOrder)
+                    ? true
+                    : false;
+                //Ready for shipping to any other status
+                isReverted = !isReverted && oldStatus == (int)OrderStatus.Completed_NotShipped && (newStatus == (int)OrderStatus.InProduction ||
+                        newStatus == (int)OrderStatus.ConfirmedOrder)
+                    ? true
+                    : false;
+                //In production to conirmed starts
+                isReverted = !isReverted && oldStatus == (int)OrderStatus.InProduction && (newStatus == (int)OrderStatus.ConfirmedOrder)
+                    ? true
+                    : false;
+
+
+
+            }
+           return isReverted;
         }
 
         private void CreateInvoice(Estimate order)
@@ -1151,6 +1199,7 @@ namespace MPC.Implementation.MISServices
 
             est_Source.RefEstimateId = target.EstimateId;
             estimateRepository.SaveChanges();
+            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.EstimateProgressedToOrder), source);
 
             return target;
         }

@@ -340,7 +340,7 @@ namespace MPC.Implementation.WebStoreServices
                         path = pFont.FontPath;
                     }
                     if (System.IO.File.Exists(Font + path + pFont.FontFile + ".ttf"))
-                        FontID = oPdf.EmbedFont(Font + path + pFont.FontFile + ".ttf");
+                        FontID = oPdf.EmbedFont(Font + path + pFont.FontFile + ".ttf", LanguageType.Unicode,false,true,true);
                 }
 
                 oPdf.Font = FontID;
@@ -1446,6 +1446,7 @@ namespace MPC.Implementation.WebStoreServices
                 // int RowCount = 0;
 
 
+                doc.HtmlOptions.FontProtection = false;
 
 
                 List<TemplateObject> oParentObjects = null;
