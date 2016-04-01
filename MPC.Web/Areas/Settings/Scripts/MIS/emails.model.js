@@ -6,7 +6,7 @@
         , specifiedIncludeCustomers, specifiedIncludeSuppliers, specifiedIncludeProspects, specifiedIncludeNewsLetterSubscribers, specifiedIncludeFlag, specifiedFlagIDs,
         specifiedCustomerTypeIDs, specifiedGroupIDs, specifiedSubjectA, specifiedHTMLMessageA, specifiedFromName, specifiedFromAddress, specifiedReturnPathAddress,
         specifiedReplyToAddress, specifiedEmailLogFileAddress2, specifiedEmailEvent, specifiedEventName, specifiedSendEmailAfterDays, specifiedIncludeType,
-        specifiedIncludeCorporateCustomers, specifiedEnableLogFiles, specifiedEmailLogFileAddress3) {
+        specifiedIncludeCorporateCustomers, specifiedEnableLogFiles, specifiedEmailLogFileAddress3, specifiedNotificationIds) {
         var self,
             id = ko.observable(specifiedCampaignId),
             campaignName = ko.observable(specifiedCampaignName).extend({ required: true }),
@@ -45,6 +45,7 @@
         enableLogFiles = ko.observable(specifiedEnableLogFiles),
         isEditorDirty = ko.observable(),
         emailLogFileAddress3 = ko.observable(specifiedEmailLogFileAddress3).extend({ email: true }),
+            notificationEmailIds = ko.observable(specifiedNotificationIds),
         // Errors
         errors = ko.validation.group({
             campaignName: campaignName,
@@ -70,7 +71,8 @@
             emailLogFileAddress2: emailLogFileAddress2,
             emailEventId: emailEventId,
             campaignImages: campaignImages,
-            isEditorDirty: isEditorDirty
+            isEditorDirty: isEditorDirty,
+            notificationEmailIds: notificationEmailIds
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -106,6 +108,7 @@
             result.IncludeCorporateCustomers = source.includeCorporateCustomers() === undefined ? false : source.includeCorporateCustomers();
             result.EnableLogFiles = source.enableLogFiles() === undefined ? false : source.enableLogFiles();
             result.EmailLogFileAddress3 = source.emailLogFileAddress3() === undefined ? null : source.emailLogFileAddress3();
+            result.NotificationEmailIds = source.notificationEmailIds() === undefined ? null : source.notificationEmailIds();
             result.CampaignImages = [];
             return result;
         },
@@ -149,7 +152,8 @@
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
-            reset: reset
+            reset: reset,
+            notificationEmailIds: notificationEmailIds
         };
         return self;
     };
@@ -183,7 +187,8 @@
             source.IncludeType,
             source.IncludeCorporateCustomers,
             source.EnableLogFiles,
-            source.EmailLogFileAddress3
+            source.EmailLogFileAddress3,
+            source.NotificationEmailIds
       );
     };
     // #region ______________ Campaign Section _________________
