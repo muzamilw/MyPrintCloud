@@ -66,7 +66,7 @@ namespace MPC.Repository.Repositories
                 string smtpUserName = null;
                 string mailPassword = null;
                 string HtmlText = null;
-
+                List<string> notificationEmails = null;
                 HttpContext oHttpContext = HttpContext.Current;
 
                 bool result = false;
@@ -177,26 +177,57 @@ namespace MPC.Repository.Repositories
                         else
                         {
 
-
-                            userRecord = GetContactByID(Convert.ToInt32(variablValues.ContactId));
-                            if (userRecord != null)
+                            if (!string.IsNullOrEmpty(oCampaign.NotificationEmailIds))
                             {
-                                To = userRecord.Email;
-                                ToName = userRecord.FirstName + " " + userRecord.LastName;
+                                notificationEmails = oCampaign.NotificationEmailIds.Split(',').ToList();
                             }
+                            else 
+                            {
+                                userRecord = GetContactByID(Convert.ToInt32(variablValues.ContactId));
+                                if (userRecord != null)
+                                {
+                                    To = userRecord.Email;
+                                    ToName = userRecord.FirstName + " " + userRecord.LastName;
+                                }
+                            }
+                           
                         }
 
-                        //if (string.IsNullOrEmpty(To) || string.IsNullOrEmpty(smtpUserName) || string.IsNullOrEmpty(smtpServer))
-                        //{
-                        //    if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
-                        //    {
-                        //        CountOfEmailsFailed += 1;
-                        //    }
-                        //    return false;
-                        //}
-                        //else
-                        //{
+                        if (notificationEmails != null && notificationEmails.Count > 0)
+                        {
+                            foreach (string val in notificationEmails) 
+                            {
+                                if (ValidatEmail(val))
+                                {
 
+                                    if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
+                                    {
+                                        result = AddMsgToTblQueue(To, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId));
+                                    }
+                                    else
+                                    {
+                                        result = AddMsgToTblQueue(To, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0);
+                                    }
+
+                                    if (oCampaign.EmailEvent == (int)Events.OnlineOrder)
+                                    {
+                                        if (result)
+                                        {
+                                            UpdateEstimateRecord(variablValues.EstimateId);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
+                                    {
+                                        CountOfEmailsFailed += 1;
+                                    }
+                                }
+                            }
+                        }
+                        else 
+                        {
                             if (ValidatEmail(To))
                             {
 
@@ -224,9 +255,9 @@ namespace MPC.Repository.Repositories
                                     CountOfEmailsFailed += 1;
                                 }
                             }
-
-                            return result;
-                        //}
+                        }
+                        return result;
+                        
                     }
                 }
                 else
