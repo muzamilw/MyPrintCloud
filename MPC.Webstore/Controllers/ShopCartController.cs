@@ -146,19 +146,7 @@ namespace MPC.Webstore.Controllers
                 shopCart = LoadShoppingCart(OrderId);
 
 
-                long CartItems = shopCart.CartItemsList.Where(i => i.ProductType == 1 && i.TemplateID > 0).ToList().Count;
-
-                //foreach (var item in shopCart.CartItemsList)
-                //{
-                //    if (item.TemplateID > 0)
-                //    {
-                        
-                //        TemplatedItemCount += 1;
-                //    }
-
-                //}
-
-                if (CartItems > 0)
+                if (shopCart.CartItemsList.Where(i => i.ProductType == 1 && i.TemplateID > 0).ToList().Count > 0)
                 {
                     ViewBag.EmailProofButtonVisible = true;
                 }
@@ -239,7 +227,7 @@ namespace MPC.Webstore.Controllers
             }
             StoreBaseResopnse = null;
             ViewBag.StoreMode = UserCookieManager.WEBStoreMode;
-            ViewBag.OrderId = UserCookieManager.WEBOrderId;
+            ViewBag.OrderId = OrderId;
             ViewBag.StoreId = UserCookieManager.WBStoreId;
             ViewBag.OrganisationId = UserCookieManager.WEBOrganisationID;
             ViewBag.ContactID = _myClaimHelper.loginContactID();
