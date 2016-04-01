@@ -223,6 +223,7 @@
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="UnsubscribeEmailAddress" Type="varchar" MaxLength="255" />
+          <Property Name="NotificationEmailIds" Type="nvarchar" MaxLength="1500" />
         </EntityType>
         <EntityType Name="CampaignEmailQueue">
           <Key>
@@ -1255,6 +1256,16 @@
           <Property Name="ImagePath" Type="nvarchar" MaxLength="400" />
           <Property Name="DisplayOrder" Type="int" />
           <Property Name="ParentFolderId" Type="bigint" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="FolderTerritory">
+          <Key>
+            <PropertyRef Name="FolderTerritoryId" />
+          </Key>
+          <Property Name="FolderTerritoryId" Type="bigint" Nullable="false" />
+          <Property Name="FolderId" Type="bigint" />
+          <Property Name="TerritoryId" Type="bigint" />
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
@@ -4973,6 +4984,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_FolderTerritory_Folder">
+          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
+          <End Role="FolderTerritory" Type="Self.FolderTerritory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="FolderId" />
+            </Principal>
+            <Dependent Role="FolderTerritory">
+              <PropertyRef Name="FolderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GoodsReceivedNote_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="GoodsReceivedNote" Type="Self.GoodsReceivedNote" Multiplicity="*" />
@@ -6713,6 +6736,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="FavoriteDesign" EntityType="Self.FavoriteDesign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FieldVariable" EntityType="Self.FieldVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Folder" EntityType="Self.Folder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FolderTerritory" EntityType="Self.FolderTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceivedNote" EntityType="Self.GoodsReceivedNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceivedNoteDetail" EntityType="Self.GoodsReceivedNoteDetail" Schema="dbo" store:Type="Tables" />
@@ -7305,6 +7329,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_Folder_Folder" Association="Self.FK_Folder_Folder">
             <End Role="Company" EntitySet="Company" />
             <End Role="Folder" EntitySet="Folder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FolderTerritory_Folder" Association="Self.FK_FolderTerritory_Folder">
+            <End Role="Folder" EntitySet="Folder" />
+            <End Role="FolderTerritory" EntitySet="FolderTerritory" />
           </AssociationSet>
           <AssociationSet Name="FK_GoodsReceivedNote_Company" Association="Self.FK_GoodsReceivedNote_Company">
             <End Role="Company" EntitySet="Company" />
@@ -8738,18 +8766,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="DeliveryID" Mode="In" Type="Int64" />
           </FunctionImport>
           <EntitySet Name="Assets" EntityType="DomainModels.Asset" />
-          <EntitySet Name="Folders" EntityType="DomainModels.Folder" />
           <AssociationSet Name="FK_Assets_Company" Association="DomainModels.FK_Assets_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="Asset" EntitySet="Assets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Assets_Folder" Association="DomainModels.FK_Assets_Folder">
-            <End Role="Folder" EntitySet="Folders" />
-            <End Role="Asset" EntitySet="Assets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Folder_Folder" Association="DomainModels.FK_Folder_Folder">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Folder" EntitySet="Folders" />
           </AssociationSet>
           <EntitySet Name="AssetItems" EntityType="DomainModels.AssetItem" />
           <AssociationSet Name="FK_AssetItem_Assets" Association="DomainModels.FK_AssetItem_Assets">
@@ -8819,6 +8838,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <FunctionImport Name="usp_ExportPurchaseOrder" ReturnType="Collection(DomainModels.usp_ExportPurchaseOrder_Result)">
           <Parameter Name="PurchaseId" Mode="In" Type="Int64" />
           </FunctionImport>
+          <EntitySet Name="Folders" EntityType="DomainModels.Folder" />
+          <EntitySet Name="FolderTerritories" EntityType="DomainModels.FolderTerritory" />
+          <AssociationSet Name="FK_Assets_Folder" Association="DomainModels.FK_Assets_Folder">
+            <End Role="Folder" EntitySet="Folders" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Folder_Folder" Association="DomainModels.FK_Folder_Folder">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Folder" EntitySet="Folders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FolderTerritory_Folder" Association="DomainModels.FK_FolderTerritory_Folder">
+            <End Role="Folder" EntitySet="Folders" />
+            <End Role="FolderTerritory" EntitySet="FolderTerritories" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8964,9 +8997,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRegisterPlaceOrderWithoutApproval" Type="Boolean" />
           <Property Name="IsAllowRequestaQuote" Type="Boolean" />
           <NavigationProperty Name="Assets" Relationship="DomainModels.FK_Assets_Company" FromRole="Company" ToRole="Asset" />
-          <NavigationProperty Name="Folders" Relationship="DomainModels.FK_Folder_Folder" FromRole="Company" ToRole="Folder" />
           <Property Name="IsEnableDataAsset" Type="Boolean" />
           <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_StockItem_Company" FromRole="Company" ToRole="StockItem" />
+          <NavigationProperty Name="Folders" Relationship="DomainModels.FK_Folder_Folder" FromRole="Company" ToRole="Folder" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -11374,6 +11407,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Company_Campaign" FromRole="Campaign" ToRole="Company" />
           <NavigationProperty Name="CampaignEmailEvent" Relationship="DomainModels.FK_EventEmail_Campaign" FromRole="Campaign" ToRole="EmailEvent" />
           <Property Name="IncludeNewsLetterSubscribers" Type="Boolean" />
+          <Property Name="NotificationEmailIds" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CampaignEmailVariable">
           <Key>
@@ -15576,23 +15610,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="FolderId" Type="Int64" />
           <Property Name="CompanyId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Assets_Company" FromRole="Asset" ToRole="Company" />
-          <NavigationProperty Name="Folder" Relationship="DomainModels.FK_Assets_Folder" FromRole="Asset" ToRole="Folder" />
           <NavigationProperty Name="AssetItems" Relationship="DomainModels.FK_AssetItem_Assets" FromRole="Asset" ToRole="AssetItem" />
-        </EntityType>
-        <EntityType Name="Folder">
-          <Key>
-            <PropertyRef Name="FolderId" />
-          </Key>
-          <Property Name="FolderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FolderName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="DisplayOrder" Type="Int32" />
-          <Property Name="ParentFolderId" Type="Int64" />
-          <Property Name="CompanyId" Type="Int64" />
-          <Property Name="OrganisationId" Type="Int64" />
-          <NavigationProperty Name="Assets" Relationship="DomainModels.FK_Assets_Folder" FromRole="Folder" ToRole="Asset" />
-          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Folder_Folder" FromRole="Folder" ToRole="Company" />
+          <NavigationProperty Name="Folder" Relationship="DomainModels.FK_Assets_Folder" FromRole="Asset" ToRole="Folder" />
         </EntityType>
         <Association Name="FK_Assets_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -15602,30 +15621,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               <PropertyRef Name="CompanyId" />
             </Principal>
             <Dependent Role="Asset">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Assets_Folder">
-          <End Type="DomainModels.Folder" Role="Folder" Multiplicity="0..1" />
-          <End Type="DomainModels.Asset" Role="Asset" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Folder">
-              <PropertyRef Name="FolderId" />
-            </Principal>
-            <Dependent Role="Asset">
-              <PropertyRef Name="FolderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Folder_Folder">
-          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
-          <End Type="DomainModels.Folder" Role="Folder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="Folder">
               <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -16240,6 +16235,69 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="Comments" Nullable="true" MaxLength="2000" />
           <Property Type="String" Name="Address" Nullable="true" MaxLength="896" />
         </ComplexType>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Name="FolderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FolderName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayOrder" Type="Int32" />
+          <Property Name="ParentFolderId" Type="Int64" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Assets" Relationship="DomainModels.FK_Assets_Folder" FromRole="Folder" ToRole="Asset" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Folder_Folder" FromRole="Folder" ToRole="Company" />
+          <NavigationProperty Name="FolderTerritories" Relationship="DomainModels.FK_FolderTerritory_Folder" FromRole="Folder" ToRole="FolderTerritory" />
+        </EntityType>
+        <EntityType Name="FolderTerritory">
+          <Key>
+            <PropertyRef Name="FolderTerritoryId" />
+          </Key>
+          <Property Name="FolderTerritoryId" Type="Int64" Nullable="false" />
+          <Property Name="FolderId" Type="Int64" />
+          <Property Name="TerritoryId" Type="Int64" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Folder" Relationship="DomainModels.FK_FolderTerritory_Folder" FromRole="FolderTerritory" ToRole="Folder" />
+        </EntityType>
+        <Association Name="FK_Assets_Folder">
+          <End Type="DomainModels.Folder" Role="Folder" Multiplicity="0..1" />
+          <End Type="DomainModels.Asset" Role="Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="FolderId" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="FolderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Folder_Folder">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Folder" Role="Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Folder">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FolderTerritory_Folder">
+          <End Type="DomainModels.Folder" Role="Folder" Multiplicity="0..1" />
+          <End Type="DomainModels.FolderTerritory" Role="FolderTerritory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="FolderId" />
+            </Principal>
+            <Dependent Role="FolderTerritory">
+              <PropertyRef Name="FolderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18071,6 +18129,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Campaigns">
             <EntityTypeMapping TypeName="DomainModels.Campaign">
               <MappingFragment StoreEntitySet="Campaign">
+                <ScalarProperty Name="NotificationEmailIds" ColumnName="NotificationEmailIds" />
                 <ScalarProperty Name="IncludeNewsLetterSubscribers" ColumnName="IncludeNewsLetterSubscribers" />
                 <ScalarProperty Name="UnsubscribeEmailAddress" ColumnName="UnsubscribeEmailAddress" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
@@ -21054,20 +21113,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Folders">
-            <EntityTypeMapping TypeName="DomainModels.Folder">
-              <MappingFragment StoreEntitySet="Folder">
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="ParentFolderId" ColumnName="ParentFolderId" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
-                <ScalarProperty Name="FolderId" ColumnName="FolderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AssetItems">
             <EntityTypeMapping TypeName="DomainModels.AssetItem">
               <MappingFragment StoreEntitySet="AssetItem">
@@ -21572,6 +21617,31 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Folders">
+            <EntityTypeMapping TypeName="DomainModels.Folder">
+              <MappingFragment StoreEntitySet="Folder">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ParentFolderId" ColumnName="ParentFolderId" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="FolderId" ColumnName="FolderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FolderTerritories">
+            <EntityTypeMapping TypeName="DomainModels.FolderTerritory">
+              <MappingFragment StoreEntitySet="FolderTerritory">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+                <ScalarProperty Name="FolderId" ColumnName="FolderId" />
+                <ScalarProperty Name="FolderTerritoryId" ColumnName="FolderTerritoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
