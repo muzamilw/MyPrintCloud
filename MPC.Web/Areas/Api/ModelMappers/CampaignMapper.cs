@@ -117,6 +117,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CampaignSections = source.CampaignSections.Select(g => g.CreateFromCampaign()).ToList()
             };
         }
+
+        public static EmailsResponse CreateFrom(this ResponseModels.EmailsResponse source)
+        {
+            return new EmailsResponse
+            {
+                OrganisationEmails = source.OrganisationEmails.Select(ct => ct.CreateFrom()).ToList(),
+                EmailEvents = source.EmailEvents.Select(g => g.CreateFrom()).ToList(),
+                CampaignSections = source.CampaignSections.Select(g => g.CreateFromCampaign()).ToList()
+            };
+        }
         #endregion
     }
 }

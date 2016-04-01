@@ -50,6 +50,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        
 
 
         public bool emailBodyGenerator(Campaign oCampaign, Organisation SeverSettings, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0,string ITemtypefourHtml="")
@@ -1395,6 +1396,59 @@ namespace MPC.Repository.Repositories
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        public List<Campaign> GetOrganisationCampaigns()
+        {
+           var campaign =
+                DbSet.Include(c => c.CampaignEmailEvent)
+                    .Include(c => c.CampaignImages)
+                    .Where(c => c.OrganisationId == OrganisationId && c.CompanyId == null)
+                    .Select(c => new
+                    {
+                        c.CampaignId,
+                        c.CampaignName,
+                        c.CampaignImages,
+                        c.CampaignEmailEvent
+                    }).ToList().Select(c => new Campaign
+                    {
+                        CampaignId = c.CampaignId,
+                        CampaignImages = c.CampaignImages,
+                        CampaignName = c.CampaignName,
+                        CampaignEmailEvent = c.CampaignEmailEvent
+                    }).ToList();
+            return campaign;
+        }
+
+        public void OrderProcessingNotificationEmail(long eventId, Estimate order)
+        {
+            CampaignEmailParams cempaignEmailParams = new CampaignEmailParams
+            {
+                EstimateId = order.EstimateId,
+                CompanyId = order.CompanyId,
+                ContactId = order.ContactId ?? 0,
+                StoreId = order.Company != null ? order.Company.StoreId??0 : 0,
+                OrganisationId = OrganisationId,
+                AddressId = order.AddressId
+            };
+            Campaign evetCampaign = GetMisCampaignEmailByEvent(eventId);
+            Organisation organisation = db.Organisations.FirstOrDefault(o => o.OrganisationId == OrganisationId);
+
+            emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "","", "", "", null);
+        }
+        public Campaign GetMisCampaignEmailByEvent(long emailEvent)
+        {
+            try
+            {
+                return
+                    DbSet.FirstOrDefault(
+                        c => c.EmailEvent == emailEvent && c.OrganisationId == OrganisationId && c.CompanyId == null);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

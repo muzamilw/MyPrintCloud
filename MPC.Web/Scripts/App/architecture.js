@@ -379,18 +379,29 @@ require(["ko", "knockout-validation"], function (ko) {
                
              
                 function handleAfterCommandExec(event) {
-                    if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
-                        if (instance.getData() === ist.stores.viewModel.selectedSecondaryPage().pageHTML()) {
-                            return;
+                    if (ist.stores != undefined) {
+                        if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
+                            if (instance.getData() === ist.stores.viewModel.selectedSecondaryPage().pageHTML()) {
+                                return;
+                            }
+                            ist.stores.viewModel.selectedSecondaryPage().isEditorDirty(new Date());
                         }
-                        ist.stores.viewModel.selectedSecondaryPage().isEditorDirty(new Date());
-                    }
-                    if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
-                        if (instance.getData() === ist.stores.viewModel.selectedEmail().hTMLMessageA()) {
-                            return;
+                        if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
+                            if (instance.getData() === ist.stores.viewModel.selectedEmail().hTMLMessageA()) {
+                                return;
+                            }
+                            ist.stores.viewModel.selectedEmail().isEditorDirty(new Date());
                         }
-                        ist.stores.viewModel.selectedEmail().isEditorDirty(new Date());
                     }
+                    if (ist.emails != undefined) {
+                        if (ist.emails.viewModel.selectedEmail() !== undefined && ist.emails.viewModel.selectedEmail() !== null) {
+                            if (instance.getData() === ist.emails.viewModel.selectedEmail().hTMLMessageA()) {
+                                return;
+                            }
+                            ist.emails.viewModel.selectedEmail().isEditorDirty(new Date());
+                        }
+                    }
+                    
                 }
 
                 // Handles styling changes 

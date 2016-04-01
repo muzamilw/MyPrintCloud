@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Notification Emails";
+}
+<div class="row" id="emailsBinding">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">&nbsp;</a></li>
+                </ol>
+                <h1 style="padding-left:0;">Emails</h1>
+            </div>
+        </div>
+        <div class="col-lg-12" style="padding-right:0px;">
+            <div class="pull-right" style="margin-bottom:8px;">
+                <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 5px;">Close</a>
+            </div>
+        </div>
+        
+        <div class="row" id="user-profile">
+            <div class="col-lg-12 form-horizontal ">
+                <div class="main-box no-header clearfix" style="padding-top:0px;">
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <div class="tabsdescriptions">
+                                <span class="group-header-description">Notification emails used to communicate with managers while order processing.</span>
+                            </div>
+                         
+                       
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 435px"><span>Title</span></th>
+                                        <th style="width: 432px"><span>Event</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ko template: { name: 'listEmailsTemplate' , foreach: $root.emailsList } -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("~/Areas/Stores/Views/Stores/_AddEditEmailCampaign.cshtml")
+    <!-- ko stopBinding: true -->
+    @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+    <!-- /ko -->
+</div>
+
+<script id="listEmailsTemplate" type="text/html">
+    <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
+        <td><a href="#" class="store-user-link" data-bind="text: campaignName"></a></td>
+        <td data-bind="text:eventName"></td>       
+    </tr>
+</script>
+
+
+
+@section Scripts {
+     
+    <script type="text/javascript">
+        require(["emails/emails.view", "common/confirmation.view"]);
+    </script>
+    
+}
