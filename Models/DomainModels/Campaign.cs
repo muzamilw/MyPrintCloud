@@ -107,6 +107,7 @@ namespace MPC.Models.DomainModels
         public long? CompanyId { get; set; }
         public string UnsubscribeEmailAddress { get; set; }
 
+        public string NotificationEmailIds { get; set; }
         public virtual Company Company { get; set; }
         public virtual EmailEvent CampaignEmailEvent { get; set; }
         public virtual ICollection<CampaignImage> CampaignImages { get; set; }
