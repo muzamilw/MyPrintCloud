@@ -781,29 +781,25 @@ namespace MPC.Implementation.MISServices
                 {
                     throw new MPCException("Saved Sucessfully but failed to create Invoice. Error: " + exp.Message, estimateRepository.OrganisationId);
                 }
-
-                if (isOrderReverted(Convert.ToInt16(OldstatusId), Convert.ToInt16(estimate.StatusId)))
-                {
-                    campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderStatusReverted), estimate);
-                }
-                else
-                {
-                    if (OldstatusId != estimate.StatusId)
-                    {
-                        if (estimate.StatusId == (int)OrderStatus.InProduction)
-                            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderMovedToProduction), estimate);
-                        else if (estimate.StatusId == (int)OrderStatus.Completed_NotShipped)
-                            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderMovedToShipping), estimate);
-                        else if (estimate.StatusId == (int)OrderStatus.Invoice)
-                            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderInvoiced), estimate);
-                        else
-                            campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderCancelled), estimate);
-                    } 
-                }
-
-                
             }
-
+            if (isOrderReverted(Convert.ToInt16(OldstatusId), Convert.ToInt16(estimate.StatusId)))
+            {
+                campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderStatusReverted), estimate);
+            }
+            else
+            {
+                if (OldstatusId != estimate.StatusId)
+                {
+                    if (estimate.StatusId == (int)OrderStatus.InProduction)
+                        campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderMovedToProduction), estimate);
+                    else if (estimate.StatusId == (int)OrderStatus.Completed_NotShipped)
+                        campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderMovedToShipping), estimate);
+                    else if (estimate.StatusId == (int)OrderStatus.Invoice)
+                        campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderInvoiced), estimate);
+                    else
+                        campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderCancelled), estimate);
+                }
+            }
 
             // Load Status
             estimateRepository.LoadProperty(order, () => order.Status);

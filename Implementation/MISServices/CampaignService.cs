@@ -81,6 +81,7 @@ namespace MPC.Implementation.MISServices
                 dbCampaign.IncludeCorporateCustomers = campaign.IncludeCorporateCustomers;
                 dbCampaign.EnableLogFiles = campaign.EnableLogFiles;
                 dbCampaign.EmailLogFileAddress3 = campaign.EmailLogFileAddress3;
+                dbCampaign.NotificationEmailIds = campaign.NotificationEmailIds;
 
                 if (campaign.CampaignImages != null)
                 {
