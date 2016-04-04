@@ -202,11 +202,11 @@ namespace MPC.Repository.Repositories
 
                                     if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
                                     {
-                                        result = AddMsgToTblQueue(To, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId));
+                                        result = AddMsgToTblQueue(val, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId));
                                     }
                                     else
                                     {
-                                        result = AddMsgToTblQueue(To, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0);
+                                        result = AddMsgToTblQueue(val, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0);
                                     }
 
                                     if (oCampaign.EmailEvent == (int)Events.OnlineOrder)
