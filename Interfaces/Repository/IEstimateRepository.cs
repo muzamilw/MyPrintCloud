@@ -68,5 +68,6 @@ namespace MPC.Interfaces.Repository
         /// Get Total Earnings For Dashboard
         /// </summary>
         DashBoardChartsResponse GetChartsForDashboard();
+        void GetTotalOrderByCustomer();
     }
 }
