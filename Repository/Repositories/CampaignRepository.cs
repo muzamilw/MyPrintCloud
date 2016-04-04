@@ -1461,14 +1461,16 @@ namespace MPC.Repository.Repositories
                 ContactId = order.ContactId ?? 0,
                 StoreId = order.Company != null ? order.Company.StoreId??0 : 0,
                 OrganisationId = OrganisationId,
-                AddressId = order.AddressId
+                AddressId = order.AddressId,
+                SalesManagerContactID = 1
             };
             Campaign evetCampaign = GetMisCampaignEmailByEvent(eventId);
+            SystemUser SalesManager = db.SystemUsers.FirstOrDefault(c => c.SystemUserId == order.SalesPersonId);
             
             if (evetCampaign != null && evetCampaign.IsEnabled == true)
             {
                 Organisation organisation = db.Organisations.FirstOrDefault(o => o.OrganisationId == OrganisationId);
-                emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "", "", "", "", null);
+                emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "", SalesManager != null? SalesManager.Email : "", "", "", null);
             }
             
         }
