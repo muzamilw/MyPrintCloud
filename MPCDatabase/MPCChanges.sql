@@ -10471,3 +10471,20 @@ GO
 ALTER TABLE [dbo].[FolderTerritory] CHECK CONSTRAINT [FK_FolderTerritory_Folder]
 GO
 
+----------------------
+alter table Campaign Add NotificationEmailIds nvarchar(1500)
+
+set identity_insert emailevent ON
+insert into emailevent (emaileventid, eventname, description, eventType)
+values(37,'Estimate Progressed To Order','Estimate Progressed To Order',1)
+insert into emailevent (emaileventid, eventname, description, eventType)
+values(38,'Order Moved to Production','Order Moved to Production',1)
+insert into emailevent (emaileventid, eventname, description, eventType)
+values(39,'Order Moved to Shipping','Order Moved to Shipping',1)
+insert into emailevent (emaileventid, eventname, description, eventType)
+values(40,'Order Invoiced','Order Invoiced',1)
+insert into emailevent (emaileventid, eventname, description, eventType)
+values(41,'Order Cancelled','Order Cancelled',1)
+insert into emailevent (emaileventid, eventname, description, eventType)
+values(42,'Order Reverted','Order Reverted',1)
+set identity_insert emailevent OFF

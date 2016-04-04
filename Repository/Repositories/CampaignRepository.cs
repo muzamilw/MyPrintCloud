@@ -1464,9 +1464,13 @@ namespace MPC.Repository.Repositories
                 AddressId = order.AddressId
             };
             Campaign evetCampaign = GetMisCampaignEmailByEvent(eventId);
-            Organisation organisation = db.Organisations.FirstOrDefault(o => o.OrganisationId == OrganisationId);
-
-            emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "","", "", "", null);
+            
+            if (evetCampaign != null && evetCampaign.IsEnabled == true)
+            {
+                Organisation organisation = db.Organisations.FirstOrDefault(o => o.OrganisationId == OrganisationId);
+                emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "", "", "", "", null);
+            }
+            
         }
         public Campaign GetMisCampaignEmailByEvent(long emailEvent)
         {
