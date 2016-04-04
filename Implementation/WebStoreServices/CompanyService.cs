@@ -134,7 +134,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             try
             {
-                _IEstimateRepository.GetTotalOrderByCustomer();
+               // _IEstimateRepository.GetTotalOrderByCustomer();
                 string CacheKeyName = "CompanyBaseResponse";
                 ObjectCache cache = MemoryCache.Default;
                 CacheItemPolicy policy = null;
