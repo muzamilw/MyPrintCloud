@@ -133,7 +133,10 @@
             string reason = item.RejectionReason;
             if (!string.IsNullOrEmpty(reason))
             {
-                reason.Trim();
+              reason=  reason.Replace("'", " ").Trim();
+              //  reason.Replace("&#39;", " ");
+                
+              
                                                      }
             
 
