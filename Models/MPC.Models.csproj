@@ -198,6 +198,7 @@
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVoucherRedeem.cs" />
     <Compile Include="DomainModels\Folder.cs" />
+    <Compile Include="DomainModels\FolderTerritory.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />
@@ -521,6 +522,7 @@
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
     <Compile Include="ResponseModels\CrmContactResponse.cs" />
     <Compile Include="ResponseModels\DeliveryNoteBaseResponse.cs" />
+    <Compile Include="ResponseModels\EmailsResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />

@@ -52,7 +52,8 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public bool emailBodyGenerator(Campaign oCampaign, Organisation SeverSettings, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0,string ITemtypefourHtml="")
+
+        public bool emailBodyGenerator(Campaign oCampaign, Organisation SeverSettings, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0, string ITemtypefourHtml = "")
         {
             try
             {
@@ -65,7 +66,7 @@ namespace MPC.Repository.Repositories
                 string smtpUserName = null;
                 string mailPassword = null;
                 string HtmlText = null;
-
+                List<string> notificationEmails = null;
                 HttpContext oHttpContext = HttpContext.Current;
 
                 bool result = false;
@@ -151,51 +152,82 @@ namespace MPC.Repository.Repositories
                         {
                             mesgBody += shopReceiptHtml;
                         }
-                        if (userRecord != null)
+                        if (!string.IsNullOrEmpty(oCampaign.NotificationEmailIds))
                         {
-                            To = userRecord.Email;
-                            ToName = userRecord.FirstName + " " + userRecord.LastName;
-                        }
-                        else if (!string.IsNullOrEmpty(Email1) && userRecord == null)
-                        {
-                            To = Email1;
-                            ToName = Email1;
-                        }
-                        else if (!string.IsNullOrEmpty(emailOfSubscribedUsers))// order information will be sent to the subscribed users
-                        {
-                            To = emailOfSubscribedUsers;
-                            ToName = ReceiverName;
-                        }
-                        else if (!string.IsNullOrEmpty(emailOfSalesManager))
-                        {
-                            // order information will be sent to the sales manager
-
-                            To = emailOfSalesManager;
-                            ToName = ReceiverName;
+                            notificationEmails = oCampaign.NotificationEmailIds.Split(',').ToList();
                         }
                         else
                         {
-
-
-                            userRecord = GetContactByID(Convert.ToInt32(variablValues.ContactId));
                             if (userRecord != null)
                             {
                                 To = userRecord.Email;
                                 ToName = userRecord.FirstName + " " + userRecord.LastName;
                             }
+                            else if (!string.IsNullOrEmpty(Email1) && userRecord == null)
+                            {
+                                To = Email1;
+                                ToName = Email1;
+                            }
+                            else if (!string.IsNullOrEmpty(emailOfSubscribedUsers))// order information will be sent to the subscribed users
+                            {
+                                To = emailOfSubscribedUsers;
+                                ToName = ReceiverName;
+                            }
+                            else if (!string.IsNullOrEmpty(emailOfSalesManager))
+                            {
+                                // order information will be sent to the sales manager
+
+                                To = emailOfSalesManager;
+                                ToName = ReceiverName;
+                            }
+                            else
+                            {
+
+                                userRecord = GetContactByID(Convert.ToInt32(variablValues.ContactId));
+                                if (userRecord != null)
+                                {
+                                    To = userRecord.Email;
+                                    ToName = userRecord.FirstName + " " + userRecord.LastName;
+                                }
+                            }
                         }
+                       
 
-                        //if (string.IsNullOrEmpty(To) || string.IsNullOrEmpty(smtpUserName) || string.IsNullOrEmpty(smtpServer))
-                        //{
-                        //    if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
-                        //    {
-                        //        CountOfEmailsFailed += 1;
-                        //    }
-                        //    return false;
-                        //}
-                        //else
-                        //{
+                        if (notificationEmails != null && notificationEmails.Count > 0)
+                        {
+                            foreach (string val in notificationEmails)
+                            {
+                                if (ValidatEmail(val))
+                                {
 
+                                    if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
+                                    {
+                                        result = AddMsgToTblQueue(val, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId));
+                                    }
+                                    else
+                                    {
+                                        result = AddMsgToTblQueue(val, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0);
+                                    }
+
+                                    if (oCampaign.EmailEvent == (int)Events.OnlineOrder)
+                                    {
+                                        if (result)
+                                        {
+                                            UpdateEstimateRecord(variablValues.EstimateId);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
+                                    {
+                                        CountOfEmailsFailed += 1;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
                             if (ValidatEmail(To))
                             {
 
@@ -223,9 +255,9 @@ namespace MPC.Repository.Repositories
                                     CountOfEmailsFailed += 1;
                                 }
                             }
+                        }
+                        return result;
 
-                            return result;
-                        //}
                     }
                 }
                 else
@@ -264,7 +296,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 List<CompanyContact> listOfApprovers = new List<CompanyContact>();
-                
+
                 if (SalesManager != null)
                 {
                     Campaign EventCampaign = GetCampaignRecordByEmailEvent(Event, OrganisationId, StoreId);
@@ -277,7 +309,7 @@ namespace MPC.Repository.Repositories
                     EmailParams.InquiryId = RFQId;
                     EmailParams.StoreId = StoreId;
                     EmailParams.SalesManagerContactID = ContactId;
-                  
+
                     if (CorporateManagerID > 0)
                     {
                         EmailParams.CorporateManagerID = CorporateManagerID;
@@ -296,9 +328,9 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName,"", null, "", null, "", NameOfComp);
+                        emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName, "", null, "", null, "", NameOfComp);
                     }
-                    
+
                 }
             }
             catch (Exception ex)
@@ -371,7 +403,7 @@ namespace MPC.Repository.Repositories
                                     else if (Tag.Contains("SubscriptionLink"))
                                     {
                                         HtmlDocToResolve = HtmlDocToResolve.Replace(Tag, subScriptionPath);
-                                        
+
                                     }
                                     else
                                     {
@@ -414,8 +446,8 @@ namespace MPC.Repository.Repositories
                                                         //}
                                                         //else
                                                         //{
-                                                       tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
-                                                       // }
+                                                        tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                        // }
                                                     }
                                                     else if (propertyInfo.Name == "AddressId")
                                                     {
@@ -479,7 +511,7 @@ namespace MPC.Repository.Repositories
                                                         tagValue = OrgSMEmail;
 
                                                     }
-                                                    
+
                                                     else if (propertyInfo.Name == "MarketingID")
                                                     {
                                                         if (Tag.Contains("MarketingBrief"))
@@ -556,12 +588,12 @@ namespace MPC.Repository.Repositories
                                                         }
                                                         if (Tag.Contains("DeliveryDate") || Tag.Contains("CreationDate"))
                                                         {
-                                                            if(!string.IsNullOrEmpty(tagValue))
+                                                            if (!string.IsNullOrEmpty(tagValue))
                                                             {
                                                                 DateTime tagDate = Convert.ToDateTime(tagValue);
                                                                 tagValue = tagDate.Day + "/" + tagDate.Month + "/" + tagDate.Year;
                                                             }
-                                                            
+
                                                         }
                                                         HtmlDocToResolve = HtmlDocToResolve.Replace(Tag, tagValue);
                                                     }
@@ -801,7 +833,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                if (smtpUserName != null && ServerName != null && ServerPass != null) 
+                if (smtpUserName != null && ServerName != null && ServerPass != null)
                 {
                     CampaignEmailQueue emailQueue = new CampaignEmailQueue();
 
@@ -831,7 +863,7 @@ namespace MPC.Repository.Repositories
 
                     db.CampaignEmailQueues.Add(emailQueue);
                     db.SaveChanges();
-                  
+
                 }
                 return true;
             }
@@ -930,7 +962,7 @@ namespace MPC.Repository.Repositories
                                 record.AttemptCount++;
                                 db.SaveChanges();
                             }
-                            else 
+                            else
                             {
                                 if (SendEmail(record, hcontext, out ErrorMsg))
                                 {
@@ -962,7 +994,7 @@ namespace MPC.Repository.Repositories
                                     db.SaveChanges();
                                 }
                             }
-                           
+
                         }
                         else
                         {
@@ -975,7 +1007,7 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-               throw ex;
+                throw ex;
             }
         }
 
@@ -1036,7 +1068,7 @@ namespace MPC.Repository.Repositories
                                 disposition.FileName = fname;
                                 objMail.Attachments.Add(data);
                             }
-                            else 
+                            else
                             {
                                 isFileExists = false;
                             }
@@ -1076,12 +1108,12 @@ namespace MPC.Repository.Repositories
 
                     return retVal;
                 }
-                else 
+                else
                 {
                     ErrorMsg = "Attachment not found.";
                     return false;
                 }
-             
+
 
             }
             catch (Exception ex)
@@ -1196,45 +1228,45 @@ namespace MPC.Repository.Repositories
                 int Manager = Convert.ToInt32(Roles.Manager);
                 CampaignEmailParams obj = new CampaignEmailParams();
                 List<CompanyContact> listOfApprovers = new List<CompanyContact>();
-              
-                    long ContactCompnyID = (from c in db.CompanyContacts
-                                           where c.ContactId == contactID
-                                           select c.CompanyId).FirstOrDefault();
 
-                    listOfApprovers = (from c in db.CompanyContacts
-                                       join cc in db.Companies on ContactCompnyID equals cc.CompanyId
-                                       where (c.ContactRoleId == admin || 
-                                       (c.ContactRoleId == Manager && c.TerritoryId == loggedinTerritoryId)) 
-                                       && (cc.IsCustomer == (int)CustomerTypes.Corporate) 
-                                       && c.CompanyId == ContactCompnyID
-                                       select c).Distinct().ToList();
-                    if (listOfApprovers.Count() > 0)
+                long ContactCompnyID = (from c in db.CompanyContacts
+                                        where c.ContactId == contactID
+                                        select c.CompanyId).FirstOrDefault();
+
+                listOfApprovers = (from c in db.CompanyContacts
+                                   join cc in db.Companies on ContactCompnyID equals cc.CompanyId
+                                   where (c.ContactRoleId == admin ||
+                                   (c.ContactRoleId == Manager && c.TerritoryId == loggedinTerritoryId))
+                                   && (cc.IsCustomer == (int)CustomerTypes.Corporate)
+                                   && c.CompanyId == ContactCompnyID
+                                   select c).Distinct().ToList();
+                if (listOfApprovers.Count() > 0)
+                {
+                    Campaign CorporateOrderForApprovalCampaign = GetCampaignRecordByEmailEvent((int)Events.CorporateOrderForApproval, serverSettings.OrganisationId, StoreId);
+
+                    foreach (CompanyContact corpRec in listOfApprovers)
                     {
-                        Campaign CorporateOrderForApprovalCampaign = GetCampaignRecordByEmailEvent((int)Events.CorporateOrderForApproval, serverSettings.OrganisationId, StoreId);
-
-                        foreach (CompanyContact corpRec in listOfApprovers)
-                        {
-                            obj.ApprovarID = (int)corpRec.ContactId;
-                            obj.ContactId = contactID;
-                            obj.EstimateId = orderID;
-                            obj.SalesManagerContactID = corpRec.ContactId;
-                            obj.StoreId = StoreId;
-                            obj.AddressId = ContactCompnyID;
-                            obj.CompanyId = ContactCompnyID;
-                            obj.OrganisationId = serverSettings.OrganisationId;
-                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore, "", "", "", SalesManagerEmail, "");
-                        }
+                        obj.ApprovarID = (int)corpRec.ContactId;
+                        obj.ContactId = contactID;
+                        obj.EstimateId = orderID;
+                        obj.SalesManagerContactID = corpRec.ContactId;
+                        obj.StoreId = StoreId;
+                        obj.AddressId = ContactCompnyID;
+                        obj.CompanyId = ContactCompnyID;
+                        obj.OrganisationId = serverSettings.OrganisationId;
+                        emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore, "", "", "", SalesManagerEmail, "");
                     }
-                
+                }
+
             }
             catch (Exception e)
             {
-               
+
             }
         }
 
 
-        public void POEmailToSalesManager(long orderID, long companyID, long contactID, int reportNotesID, long supplierCompanyID, string AttachmentListStr,Company objCompany)
+        public void POEmailToSalesManager(long orderID, long companyID, long contactID, int reportNotesID, long supplierCompanyID, string AttachmentListStr, Company objCompany)
         {
             Guid saleManagerId = new Guid();
             List<string> AttachmentList = new List<string>();
@@ -1251,7 +1283,7 @@ namespace MPC.Repository.Repositories
 
             db.Configuration.LazyLoadingEnabled = false;
 
-            if(objCompany.IsCustomer == 3)// corporate
+            if (objCompany.IsCustomer == 3)// corporate
             {
                 saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
             }
@@ -1261,11 +1293,11 @@ namespace MPC.Repository.Repositories
                 var manageriD = db.Companies.Where(c => c.CompanyId == objCompany.StoreId).Select(c => c.SalesAndOrderManagerId1).FirstOrDefault();
                 saleManagerId = manageriD ?? Guid.NewGuid();
             }
-            
+
             SalesManager = db.SystemUsers.Where(c => c.SystemUserId == saleManagerId).FirstOrDefault();
             if (SalesManager != null)
             {
-                
+
                 CampaignEmailParams CEP = new CampaignEmailParams();
                 Campaign EventCampaign = GetCampaignRecordByEmailEvent((long)Events.PO_Notification_To_SalesManager, OrganisationId, companyID);
                 CEP.EstimateId = orderID;
@@ -1289,12 +1321,12 @@ namespace MPC.Repository.Repositories
                     emailBodyGenerator(EventCampaign, ServerSettings, CEP, null, StoreMode.Retail, "", "", "", SalesManager.Email, "", "", AttachmentList);
                 }
 
-                
+
             }
         }
         public void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany, bool isCancellation)
         {
-             Guid saleManagerId  = new Guid();
+            Guid saleManagerId = new Guid();
             List<string> AttachmentList = new List<string>();
             string[] objs = AttachmentListStr.Split('|');
             foreach (string item in objs)
@@ -1322,7 +1354,7 @@ namespace MPC.Repository.Repositories
             }
 
             SalesManager = db.SystemUsers.Where(c => c.SystemUserId == saleManagerId).FirstOrDefault();
-            if(SalesManager != null)
+            if (SalesManager != null)
             {
                 if (supplieruser != null)
                 {
@@ -1350,7 +1382,7 @@ namespace MPC.Repository.Repositories
                     if (objCompany.IsCustomer == 3)
                     {
 
-                        emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Corp, "", "", "", SalesManager.Email,"", "", AttachmentList);
+                        emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser, StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList);
 
                     }
                     else
@@ -1360,7 +1392,7 @@ namespace MPC.Repository.Repositories
 
                 }
             }
-           
+
         }
         public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid, long StockItemId, long OrderId)
         {
@@ -1395,6 +1427,65 @@ namespace MPC.Repository.Repositories
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        public List<Campaign> GetOrganisationCampaigns()
+        {
+            var campaign =
+                 DbSet.Include(c => c.CampaignEmailEvent)
+                     .Include(c => c.CampaignImages)
+                     .Where(c => c.OrganisationId == OrganisationId && c.CompanyId == null)
+                     .Select(c => new
+                     {
+                         c.CampaignId,
+                         c.CampaignName,
+                         c.CampaignImages,
+                         c.CampaignEmailEvent
+                     }).ToList().Select(c => new Campaign
+                     {
+                         CampaignId = c.CampaignId,
+                         CampaignImages = c.CampaignImages,
+                         CampaignName = c.CampaignName,
+                         CampaignEmailEvent = c.CampaignEmailEvent
+                     }).ToList();
+            return campaign;
+        }
+
+        public void OrderProcessingNotificationEmail(long eventId, Estimate order)
+        {
+            CampaignEmailParams cempaignEmailParams = new CampaignEmailParams
+            {
+                EstimateId = order.EstimateId,
+                CompanyId = order.CompanyId,
+                ContactId = order.ContactId ?? 0,
+                StoreId = order.Company != null ? order.Company.StoreId ?? 0 : 0,
+                OrganisationId = OrganisationId,
+                AddressId = order.AddressId,
+                SalesManagerContactID = 1
+            };
+            Campaign evetCampaign = GetMisCampaignEmailByEvent(eventId);
+            SystemUser SalesManager = db.SystemUsers.FirstOrDefault(c => c.SystemUserId == order.SalesPersonId);
+
+            if (evetCampaign != null && evetCampaign.IsEnabled == true)
+            {
+                Organisation organisation = db.Organisations.FirstOrDefault(o => o.OrganisationId == OrganisationId);
+                emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "", SalesManager != null ? SalesManager.Email : "", "", "", null);
+            }
+
+        }
+        public Campaign GetMisCampaignEmailByEvent(long emailEvent)
+        {
+            try
+            {
+                return
+                    DbSet.FirstOrDefault(
+                        c => c.EmailEvent == emailEvent && c.OrganisationId == OrganisationId && c.CompanyId == null);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

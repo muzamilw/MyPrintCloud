@@ -21,6 +21,7 @@ namespace MPC.Models.DomainModels
         public virtual Company Company { get; set; }
 
 
+        public virtual ICollection<FolderTerritory> FolderTerritories { get; set; }
 
     }
 }

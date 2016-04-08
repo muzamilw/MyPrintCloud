@@ -1,8 +1,7 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function(ko) {
     var ReportNote = function (specifiedId,specifiedCompanyId,specifiedOrganisationId, specifiedHeadNote, specifiedFootNote, AdvertitorialNote, specifiedCategoryId, specifiedReportBanner, specifiedTitle, specifiedEstimateBannerBytes,specifiedOrderBannerBytes, specifiedInvoiceBannerBytes, specifiedPurchaseBannerBytes, specifiedeliveryBannerBytes) {
 
-        var
-            self,
+        var self,
             id = ko.observable(specifiedId || 0),
             companyId = ko.observable(specifiedCompanyId || 0),
             organisationid = ko.observable(specifiedOrganisationId || 0),
@@ -17,44 +16,41 @@
             invoiceBannerBytes = ko.observable(specifiedInvoiceBannerBytes),
             purchaseBannerBytes = ko.observable(specifiedPurchaseBannerBytes),
             deliveryBannerBytes = ko.observable(specifiedeliveryBannerBytes),
-
-            errors = ko.validation.group({
+            errors = ko.validation.group({               
                 
-               
             }),
             isValid = ko.computed(function() {
-                return errors().length === 0 ? true : false;;
+                return errors().length === 0 ? true : false;
+                ;
             }),
             dirtyFlag = new ko.dirtyFlag({
                 reportBanner: reportBanner,
-                estimateBannerBytes: estimateBannerBytes
-                
+                estimateBannerBytes: estimateBannerBytes                
             }),
             hasChanges = ko.computed(function() {
                 return dirtyFlag.isDirty();
-            }),
-            
+            }),            
             reset = function() {
                 dirtyFlag.reset();
             },
-        convertToServerData = function () {
-            return {
-                Id: id(),
-                companyId: companyId(),
-                organisationid: organisationid(),
-                HeadNotes: headNote(),
-                AdvertitorialNotes: advertitorialNote(),
-                ReportCategoryId: categoryId(),
-                ReportBanner: reportBanner(),
-                ReportTitle: title(),   
-                FootNote: footnote(),
-                EstimateBannerBytes: estimateBannerBytes(),
-                OrderBannerBytes: orderBannerBytes(),
-                InvoiceBannerBytes: invoiceBannerBytes(),
-                PurchaseBannerBytes: purchaseBannerBytes(),
-                DeliveryBannerBytes: deliveryBannerBytes()
+            convertToServerData = function() {
+                return {
+                    Id: id(),
+                    companyId: companyId(),
+                    organisationid: organisationid(),
+                    HeadNotes: headNote(),
+                    AdvertitorialNotes: advertitorialNote(),
+                    ReportCategoryId: categoryId(),
+                    ReportBanner: reportBanner(),
+                    ReportTitle: title(),
+                    FootNote: footnote(),
+                    EstimateBannerBytes: estimateBannerBytes(),
+                    OrderBannerBytes: orderBannerBytes(),
+                    InvoiceBannerBytes: invoiceBannerBytes(),
+                    PurchaseBannerBytes: purchaseBannerBytes(),
+                    DeliveryBannerBytes: deliveryBannerBytes()
+                };
             };
-        };
         self = {
             id: id,
             companyId: companyId,

@@ -1986,7 +1986,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         , specifiedIncludeCustomers, specifiedIncludeSuppliers, specifiedIncludeProspects, specifiedIncludeNewsLetterSubscribers, specifiedIncludeFlag, specifiedFlagIDs,
         specifiedCustomerTypeIDs, specifiedGroupIDs, specifiedSubjectA, specifiedHTMLMessageA, specifiedFromName, specifiedFromAddress, specifiedReturnPathAddress,
         specifiedReplyToAddress, specifiedEmailLogFileAddress2, specifiedEmailEvent, specifiedEventName, specifiedSendEmailAfterDays, specifiedIncludeType,
-        specifiedIncludeCorporateCustomers, specifiedEnableLogFiles, specifiedEmailLogFileAddress3
+        specifiedIncludeCorporateCustomers, specifiedEnableLogFiles, specifiedEmailLogFileAddress3,specifiedNotificationIds
         ) {
         var self,
             id = ko.observable(specifiedCampaignId),
@@ -2026,7 +2026,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         enableLogFiles = ko.observable(specifiedEnableLogFiles),
         isEditorDirty = ko.observable(),
         emailLogFileAddress3 = ko.observable(specifiedEmailLogFileAddress3).extend({ email: true }),
-
+        notificationEmailIds = ko.observable(specifiedNotificationIds),
         // Errors
         errors = ko.validation.group({
             campaignName: campaignName,
@@ -2149,7 +2149,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
-            reset: reset
+            reset: reset,
+            notificationEmailIds: notificationEmailIds
         };
         return self;
     };
