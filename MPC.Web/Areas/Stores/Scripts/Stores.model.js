@@ -1552,7 +1552,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             address1 = ko.observable(specifiedAddress1).extend({ required: true }),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
-            city = ko.observable(specifiedCity).extend({ required: true }),
+            city = ko.observable(specifiedCity),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),

@@ -78,14 +78,16 @@ define("order/order.view",
                     $("#orderSectionDetailDialog").modal('hide');
                 },
                 
-               // Show Cost Centers Quantity the dialog
+               // Show Cost Centers Quantity dialog
                 showCostCentersQuantityDialog = function () {
                     $("#orderCostCentersQuanity").modal("show");
                 },
-               // Hide Cost Centers Quantity the dialog
+               // Hide Cost Centers Quantity dialog
                 hideCostCentersQuantityDialog = function () {
                     $("#orderCostCentersQuanity").modal("hide");
                 },
+                
+                
                 setOrderState = function (state, isFromEstimate) {
                     orderstate(state == 4 ? 5 : state);
                     $(function () {
@@ -157,7 +159,14 @@ define("order/order.view",
                 hideOrderStatusProgressToJobDialog = function () {
                     $("#orderStatusProgressToJobModal").modal("hide");
                 },
-
+                // Show Shipping Charge dialog
+                showShippingChargeDialog = function () {
+                    $("#customShippingDialog").modal("show");
+                },
+               // Hide Shipping Charge dialog
+                hideShippingChargeDialog = function () {
+                    $("#customShippingDialog").modal("hide");
+                },
                 //#endregion
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
@@ -200,7 +209,10 @@ define("order/order.view",
                 showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
                 showOrderStatusProgressToJobDialog: showOrderStatusProgressToJobDialog,
-                hideOrderStatusProgressToJobDialog: hideOrderStatusProgressToJobDialog
+                hideOrderStatusProgressToJobDialog: hideOrderStatusProgressToJobDialog,
+                showShippingChargeDialog: showShippingChargeDialog,
+                hideShippingChargeDialog: hideShippingChargeDialog
+                
             };
         })(orderViewModel);
 
