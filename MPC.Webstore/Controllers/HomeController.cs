@@ -107,6 +107,7 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.ContactCanEditProfile = UserCookieManager.ContactCanEditProfile;
                     UserCookieManager.ShowPriceOnWebstore = UserCookieManager.ShowPriceOnWebstore;
                     UserCookieManager.WEBEmail = UserCookieManager.WEBEmail;
+                    UserCookieManager.isRegisterClaims = 1;
                     UserCookieManager.PerformAutoLogin = false;
                 }
 
@@ -148,8 +149,12 @@ namespace MPC.Webstore.Controllers
         {
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(StoreId);
 
+         
             if (StoreBaseResopnse != null)
             {
+                
+                
+      
                 string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
                 
                 if (_webstoreAuthorizationChecker.loginContactID() == 0)
@@ -901,6 +906,8 @@ namespace MPC.Webstore.Controllers
                                     // var action = new HomeController().Index();
                                     //return null;// View();
                                     UserCookieManager.PerformAutoLogin = true;
+
+                                   
                                     if (!string.IsNullOrEmpty(CC))
                                     {
                                         ProductCategory selectedCategory = _myCompanyService.GetlCategorieByName(OrganisationId, StoreBaseResopnse.Company.CompanyId, CC);
