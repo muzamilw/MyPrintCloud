@@ -312,6 +312,22 @@ define("invoice/invoice.viewModel",
                     });
                     confirmation.show();
                 },
+                onUnPostInvoice = function() {
+                    if (!doBeforeSave()) {
+                        return;
+                    } 
+                    removeItemSectionWithAddFlagTrue();
+                    confirmation.messageText("Are you sure you want to revert Posted invoice to Awaiting.");
+                    confirmation.afterProceed(function () {
+                        selectedInvoice().invoiceStatus(19); //Awaiting Invoice                              
+                        selectedInvoice().invoicePostedBy(undefined);
+                        saveInvoice(closeInvoiceEditor);
+                    });
+                    confirmation.afterCancel(function () {
+                        //Do Nothing on Cancel
+                    });
+                    confirmation.show();
+                },
                 // On Archive
                 onArchiveInvoice = function () {
                     confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
@@ -786,6 +802,16 @@ define("invoice/invoice.viewModel",
                                         if(selectedInvoice().id() == 0)
                                             getInvoiceById(data.InvoiceId);
                                     }
+                                    // If Status of Invoice is changed then remove it from current tab if it is not "All Invoices"
+                                    if (selectedInvoice().invoiceStatus() !== selectedInvoice().origintalStatus()) {
+                                        var activeInvoiceTab = $("#invoiceTabs li.active");
+                                        if (activeInvoiceTab && activeInvoiceTab[0] && activeInvoiceTab[0].id !== "tab-All") {
+                                            var listViewInvoice = getInvoiceFromList(selectedInvoice().id());
+                                            if (listViewInvoice) {
+                                                invoices.remove(listViewInvoice);
+                                            }
+                                        }
+                                    }
 
                                     if (callback && typeof callback === "function") {
                                         callback();
@@ -802,7 +828,7 @@ define("invoice/invoice.viewModel",
 
                             },
                             error: function (response) {
-                                toastr.error("Failed to Save Order. Error: " + response);
+                                toastr.error("Failed to Save Invoice. Error: " + response);
                             }
                         });
                     },
@@ -1464,6 +1490,7 @@ define("invoice/invoice.viewModel",
                     getInvoices: getInvoices,
                     onArchiveInvoice: onArchiveInvoice,
                     onPostInvoice: onPostInvoice,
+                    onUnPostInvoice : onUnPostInvoice,
                     exportInvoice: exportInvoice
                     //#endregion
                 };

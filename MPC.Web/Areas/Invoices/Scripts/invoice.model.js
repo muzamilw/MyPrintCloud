@@ -47,6 +47,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               addressId = ko.observable(specifiedAddressId || undefined),
               orderNo = ko.observable(specifiedOrderNo || "N/A"),
               invoiceStatus = ko.observable(specifiedStatus),
+              origintalStatus = ko.observable(undefined),
               invoiceStatusText = ko.computed(function () {
                   return ((invoiceStatus === undefined || invoiceStatus() === null || invoiceStatus() === 19) ? "Awaiting" : "Posted");
               }),
@@ -250,6 +251,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               storeId: storeId,
               estimateTotal: estimateTotal,
               statusId: statusId,
+              origintalStatus : origintalStatus,
               errors: errors,
               isValid: isValid,
               showAllErrors: showAllErrors,
@@ -415,7 +417,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             source.TaxValue, source.GrandTotal, source.FlagId, source.UserNotes, source.EstimateId,
             source.IsProformaInvoice, source.IsPrinted, source.ReportSignedBy, source.HeadNotes, source.FootNotes,
             source.InvoicePostingDate, source.XeroAccessCode, source.Status, source.InvoicePostedBy, source.ContactName);
-
+        invoice.origintalStatus(source.InvoiceStatus);
         var items = [];
         // Map invoice items if Any
         if (source.InvoiceDetails && source.InvoiceDetails.length > 0) {

@@ -1473,7 +1473,8 @@ namespace MPC.Repository.Repositories
                 SalesManagerContactID = 1
             };
             Campaign evetCampaign = GetMisCampaignEmailByEvent(eventId);
-            SystemUser SalesManager = db.SystemUsers.FirstOrDefault(c => c.SystemUserId == order.SalesPersonId);
+
+            SystemUser SalesManager = order.OrderManagerId != null ? db.SystemUsers.FirstOrDefault(c => c.SystemUserId == order.OrderManagerId) : db.SystemUsers.FirstOrDefault(o => o.OrganizationId == OrganisationId);
 
             if (evetCampaign != null && evetCampaign.IsEnabled == true)
             {

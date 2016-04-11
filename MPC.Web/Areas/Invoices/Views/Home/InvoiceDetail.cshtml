@@ -24,6 +24,7 @@
                 </div>
                 <div style="text-align:right; padding-right:19px;margin-bottom:10px;">
                     <button class="btn btn-primary" style="margin-top:-10px;" id="btnPost" data-bind="visible:invoiceStatus()===19 && id() > 0,click: $root.onPostInvoice">Post</button>
+                    <button class="btn btn-primary" style="margin-top:-10px;" id="btnPost" data-bind="visible:invoiceStatus()===20 && id() > 0,click: $root.onUnPostInvoice">Revert to Awaiting</button>
                     <button class="btn btn-primary" style="margin-top:-10px;" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" style="margin-top:-10px;" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>
@@ -169,27 +170,13 @@
                                                 <input type="text" style="height: 60px;" data-bind="value: code" readonly class="form-control font24px" id="code" />
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <div class="col-sm-4 text-right">
-                                                <label class="control-label text-right tooltip-float">&nbsp;</label>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
-                                                    <span class="help-block text-right"></span>*@
-                                                <select style="width: 100% !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
-                                                    <option style="width: 100% !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
-                                                </select>
-                                                <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
-                                            </div>
-                                        </div>
                                         <div>
                                             <div class="row" style=" margin-top: -10px;">
                                                 <div class=" col-sm-4 text-right">
-                                                    <label class="control-label text-right">Invoice Status</label>
+                                                    <label class="control-label text-right"></label>
                                                 </div>
                                                 <div class="col-sm-6 text-left" style="margin-bottom: -8px;">
-                                                    <label class="control-label" data-bind="text:invoiceStatusText"></label>
+                                                    <label class="control-label font24px" data-bind="text:invoiceStatusText"></label>
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 12px">
@@ -201,18 +188,28 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @*<div class="form-group">
-                                                <div>
-                                                    <div class=" col-sm-4 text-right">
-                                                        <label class="control-label text-right tooltip-float">Invoice Status</label>
-                                                    </div>
-                                                    <div class="col-sm-6 text-left" style="margin-bottom: -8px;">
-                                                        <label class="control-label" data-bind="text:invoiceStatusText"></label>
-                                                    </div>
-                                                </div>
-                                            </div>*@
+                                        <div class="form-group" style="margin-bottom: 0; padding-bottom:0;">
+                                            <div class="col-sm-4 text-right">
+                                                <label class="control-label text-right tooltip-float">&nbsp;</label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                               <select style="width: 100% !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
+                                                    <option style="width: 100% !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                                                </select>
+                                                <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group" style="margin-bottom: 0; padding-bottom:15px;">
+                                            <div class=" col-sm-4 text-right">
+                                                <label class="control-label text-right tooltip-float">Customer PO Ref.</label>
+                                            </div>
+                                            <div class="col-sm-6 text-left">
+                                                <input type="text" class="form-control" id="txtCustomerPO" data-bind="value: orderNo">
+                                            </div>
+                                        </div>
 
-                                        <div class="form-group" style="margin-top:-11px">
+                                        <div class="form-group">
                                             <div class="col-sm-4 text-right" style="padding-top: 10px;">
                                                 <label class="control-label text-right tooltip-float">Invoice Date</label>
                                             </div>
