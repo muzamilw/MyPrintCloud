@@ -2310,8 +2310,10 @@ namespace MPC.Implementation.WebStoreServices
                                     objPage.PageName = "Back";
                                 }
                                 objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
+                                objPage.Width = theDoc.MediaBox.Width;
+                                objPage.Height = theDoc.MediaBox.Height;
                                 listNewTemplatePages.Add(objPage);
-                               
+                            
                                 // save pdf 
                                 Doc singlePagePdf = new Doc();
                                 try
@@ -2439,6 +2441,8 @@ namespace MPC.Implementation.WebStoreServices
                             {
                                 objPage.PageName = "Back";
                             }
+                            objPage.Width = theDoc.MediaBox.Width;
+                            objPage.Height = theDoc.MediaBox.Height;
                             objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
                             listPages.Add(objPage);
                             //int templatePage = SaveTemplatePage(i, TemplateID, "Front", TemplateID + "/Side" + (i).ToString() + ".pdf");
