@@ -758,7 +758,7 @@
         result.SystemTypeId = source.systemTypeId();
         result.FlagId = source.flagId();
         result.IsScheduleable = source.isScheduleable();
-        result.IsPrintOnJobCard = source.isPrintOnJobCard();
+        result.IsPrintOnJobCard = source.isPrintOnJobCard() === true ? 1 : 0;
         result.WebStoreDesc = source.webStoreDesc();
         result.isPublished = source.isPublished();
         result.EstimateProductionTime = source.estimateProductionTime();

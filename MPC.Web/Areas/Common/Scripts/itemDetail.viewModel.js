@@ -1945,6 +1945,37 @@ define("common/itemDetail.viewModel",
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
+                    createBlankItemSection = function () {
+                        if (selectedProduct().productType() == 4) {
+                            return;
+                        }
+                        var section = model.ItemSection.Create({});
+                        counter = counter - 1;
+                        section.id(counter);
+                        section.itemId(selectedProduct().id());
+                        section.name("Text Sheet");
+                        if (selectedProduct().itemSections().length > 0) {
+                            selectedProduct().itemSections.splice(-1, 0, section);
+                        } else {
+                            selectedProduct().itemSections.push(section);
+                        }
+
+                        selectedSection(section);
+                        subscribeSectionChanges();
+                        showSectionDetail(true);
+                    },
+                    onCreateNewItemSection = function () {
+                        // Ask for confirmation
+                        confirmation.messageText("Do you want to copy first section?");
+                        confirmation.afterProceed(function () {
+                            createNewItemSection();
+                        });
+                        confirmation.afterCancel(function () {
+                            createBlankItemSection();
+                        });
+                        confirmation.show();
+                        return;
+                    },
                     // Delete Section Cost Center
                     onDeleteSectionCostCenter = function(costCenter) {
                         // Ask for confirmation
@@ -2311,7 +2342,8 @@ define("common/itemDetail.viewModel",
                     filterPresses: filterPresses,
                     selectedPressInstructions: selectedPressInstructions,
                     onSectionInkCoverageSave: onSectionInkCoverageSave,
-                    selectedCostCenterCategory: selectedCostCenterCategory
+                    selectedCostCenterCategory: selectedCostCenterCategory,
+                    onCreateNewItemSection: onCreateNewItemSection
                     //#endregion
                 };
             })()

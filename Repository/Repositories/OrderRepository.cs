@@ -466,6 +466,7 @@ namespace MPC.Repository.Repositories
 
         private List<ItemTemplatePage> GetTemplatePagesWithURL(long TemplateId, long OrganisationId) 
         {
+            bool allFileExist = true;
             if (TemplateId > 0)
             {
                 var query = from tmp in db.TemplatePages
@@ -480,9 +481,21 @@ namespace MPC.Repository.Repositories
                 foreach (ItemTemplatePage itm in temPages)
                 {
                     itm.FilePath = itm.FilePath + "p" + count + ".jpg";
+                    if (!File.Exists(System.Web.HttpContext.Current.Server.MapPath(itm.FilePath))) {
+                        allFileExist = false;
+                    }
                     count++;
                 }
-                return temPages;
+
+                if (allFileExist == false)
+                {
+                    return null;
+                }
+                else 
+                {
+                    return temPages;
+                }
+              
             }
             else 
             {
@@ -1454,7 +1467,13 @@ namespace MPC.Repository.Repositories
         }
         private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode, Organisation org, List<Guid> MgrIds)
         {
+            long NewOrderIdForUnOrderedItems = 0;
+            long countOfUnordereditems = tblOrder.Items.Where(i => i.IsOrderedItem == false && i.TemplateId != null && i.TemplateId != 0 && i.ProductType == (int)ProductType.PrintProduct).ToList().Count;
+            if (countOfUnordereditems > 0) 
+            {
+                NewOrderIdForUnOrderedItems = CreateNewOrder(tblOrder.CompanyId, tblOrder.ContactId ?? 0, org.OrganisationId, "");
 
+            }
             tblOrder.Items.ToList().ForEach(item =>
             {
                 if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value == true)
@@ -1478,22 +1497,30 @@ namespace MPC.Repository.Repositories
                 }
                 else
                 {
-                    //Delete the non included items
-                    bool result = false;
-                    List<ArtWorkAttatchment> itemAttatchments = null;
-                    Template clonedTempldateFiles = null;
-
-                    result = RemoveCloneItem(item.ItemId, out itemAttatchments, out clonedTempldateFiles);
-                    if (result)
+                    if (item.ProductType == (int)ProductType.PrintProduct && item.TemplateId != null && item.TemplateId > 0)
                     {
+                        item.EstimateId = NewOrderIdForUnOrderedItems;
+                    }
+                    else 
+                    {
+                        //Delete the non included items
+                        bool result = false;
+                        List<ArtWorkAttatchment> itemAttatchments = null;
+                        Template clonedTempldateFiles = null;
+
+                        result = RemoveCloneItem(item.ItemId, out itemAttatchments, out clonedTempldateFiles);
+                        if (result)
+                        {
 
 
-                        RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
-                        if (clonedTempldateFiles != null)
-                            DeleteTemplateFiles(clonedTempldateFiles.ProductId, org.OrganisationId); // file removing
+                            RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
+                            if (clonedTempldateFiles != null)
+                                DeleteTemplateFiles(clonedTempldateFiles.ProductId, org.OrganisationId); // file removing
+                        }
                     }
                 }
             });
+
         }
 
 

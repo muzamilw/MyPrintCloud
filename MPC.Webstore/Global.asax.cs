@@ -207,7 +207,13 @@ namespace MPC.Webstore
                                 {
                                     if (_webstoreAuthorizationChecker.loginContactID() == 0 && _webstoreAuthorizationChecker.loginContactCompanyID() == 0) 
                                     {
+                                        string virtualFolderPth = HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
 
+                                        using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                                        {
+                                            writer.WriteLine("Message :" + "in global " + UserCookieManager.WBStoreId + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                                            writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                                        }
                                         Response.Redirect("/Login");
                                     }
                                 }
