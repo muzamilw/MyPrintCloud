@@ -2237,10 +2237,7 @@
 
             $(t).parent().remove();
             
-            var postedFiles = $.grep(postedFiles, function (e) {
-                return e.fname != name;
-
-            });
+            $("#file_added").css("display", "none");
 
         }
 
