@@ -1,4 +1,5 @@
-﻿using MPC.Common;
+﻿using System.Collections.ObjectModel;
+using MPC.Common;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
@@ -498,7 +499,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                             
       }
       [HttpPost]
-      public void AddFolderData(string FolderName, string Description,long ParentFolderId )
+      public void AddFolderData(string FolderName, string Description, long ParentFolderId, string folderTerritories)
       {
           var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
           Folder NewFolder = new Folder();
@@ -508,6 +509,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           NewFolder.ParentFolderId = ParentFolderId;
           NewFolder.CompanyId = UserCookieManager.WBStoreId;
           NewFolder.OrganisationId = UserCookieManager.WEBOrganisationID;
+          NewFolder.FolderTerritories = SetFolderTerritories(folderTerritories);
           long FolderId= _companyService.AddFolder(NewFolder);
           if (FolderId > 0)
           {
@@ -697,7 +699,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           _companyService.UpdateAsset(Asset);
       }
        [HttpPost]
-      public void UpdateFolder(string FolderName, string Description,long FolderId,long ParentFolderId)
+      public void UpdateFolder(string FolderName, string Description,long FolderId,long ParentFolderId, string folderTerritories)
       { 
           var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
           Folder NewFolder = new Folder();
@@ -705,6 +707,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           NewFolder.Description = Description;
           NewFolder.FolderId = FolderId;
           NewFolder.ParentFolderId = ParentFolderId;
+          NewFolder.FolderTerritories = SetFolderTerritories(folderTerritories);
+           
+           
 
           if (httpPostedFile != null)
           {
@@ -841,6 +846,26 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           }
 
       }
+
+      private List<FolderTerritory> SetFolderTerritories(string folderTerritories)
+        {
+          List<FolderTerritory> list = new List<FolderTerritory>();  
+          if (!string.IsNullOrEmpty(folderTerritories))
+            {
+                if (folderTerritories.EndsWith(","))
+                {
+                    folderTerritories = folderTerritories.Substring(0, folderTerritories.Length - 1);
+                }
+                var territories = folderTerritories.Split(',').ToList();
+                //NewFolder.FolderTerritories = new Collection<FolderTerritory>();
+                territories.ForEach(t => list.Add(new FolderTerritory
+                {
+                    TerritoryId = Convert.ToInt64(t)
+                }));
+
+            }
+          return list;
+        }
 
     }
     public class AssetDeposit

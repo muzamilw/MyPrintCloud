@@ -1263,7 +1263,7 @@
           <Key>
             <PropertyRef Name="FolderTerritoryId" />
           </Key>
-          <Property Name="FolderTerritoryId" Type="bigint" Nullable="false" />
+          <Property Name="FolderTerritoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FolderId" Type="bigint" />
           <Property Name="TerritoryId" Type="bigint" />
           <Property Name="CompanyId" Type="bigint" />

@@ -25,7 +25,8 @@ namespace MPC.Models.DomainModels
         public List<TemplateColorStyle> TerritorySpotColors { get; set; }
         [NotMapped]
         public List<TemplateFont> TerritoryFonts { get; set; }
-
+        [NotMapped]
+        public bool IsSelectedInFolder { get; set; }
 
         #region public
 

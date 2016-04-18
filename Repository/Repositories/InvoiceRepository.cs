@@ -198,6 +198,7 @@ namespace MPC.Repository.Repositories
                     InvoiceDate = inv.InvoiceDate ?? DateTime.Now,
                     InvoiceId = inv.InvoiceId,
                     ContactId = inv.CompanyContact != null ? inv.CompanyContact.ContactId : 0,
+                    InvoiceStatus = inv.OrderNo,
                     InvoiceItems = inv.Items.Select(p => new ZapierInvoiceItem
                     {
                         ProductCode = p.ProductCode,
@@ -207,10 +208,26 @@ namespace MPC.Repository.Repositories
                         TaxValue = p.Qty1Tax1Value ?? 0,
                         GrossTotal = p.Qty1GrossTotal ?? 0,
                         ProductName = p.ProductName,
-                        PricePerUnit = ((p.Qty1GrossTotal ?? 0) / (p.Qty1 ?? 0))
+                        PricePerUnit = ((p.Qty1NetTotal ?? 0) / (p.Qty1 ?? 1))
 
                     }).ToList()
+
                 });
+                if (inv.InvoiceDetails != null && lstInvoiceDetails.Count > 0)
+                {
+                    inv.InvoiceDetails.ToList()
+                        .ForEach(id => lstInvoiceDetails[0].InvoiceItems.Add(new ZapierInvoiceItem
+                        {
+                            ProductCode = Convert.ToString(id.InvoiceDetailId),
+                            ProductDescription = id.Description,
+                            Quantity = Convert.ToInt32(id.Quantity),
+                            NetTotal = id.ItemCharge,
+                            TaxValue = id.TaxValue ?? 0,
+                            GrossTotal = id.ItemGrossTotal ?? 0,
+                            ProductName = id.InvoiceTitle,
+                            PricePerUnit = ((id.ItemCharge) / (id.Quantity))
+                        }));
+                }
             }
             return lstInvoiceDetails;    
             
